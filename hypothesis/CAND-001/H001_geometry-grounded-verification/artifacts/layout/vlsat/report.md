@@ -1,6 +1,6 @@
 # VL-SAT Layout Check
 
-Generated: 2026-05-02T16:52:48+00:00
+Generated: 2026-05-02T17:10:48+00:00
 
 ## Verdict
 
@@ -21,9 +21,6 @@ Generated: 2026-05-02T16:52:48+00:00
 
 ## Blockers
 
-- missing VL-SAT config relation label file: local_dataset/3DSSG_subset/relations.txt
-- missing train_scans.txt required by VL-SAT dataset loader
-- missing validation_scans.txt required by VL-SAT dataset loader
 - aligned PLY missing for at least one local scan
 - multi_view features missing for at least one local scan while VL-SAT default uses 2D features
 
@@ -33,11 +30,11 @@ Generated: 2026-05-02T16:52:48+00:00
 - no downloaded local scan payload currently belongs to official validation split
 - only one local 3RScan scan payload is available; multi-scan evaluation remains blocked
 
-## Missing Generated Annotation Files
+## Generated Annotation Files
 
-- `local_dataset/3DSSG_subset/relations.txt`: missing
-- `local_dataset/3DSSG_subset/train_scans.txt`: missing
-- `local_dataset/3DSSG_subset/validation_scans.txt`: missing
+- `hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/layout/vlsat/generated/3DSSG_subset/relations.txt`: present
+- `hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/layout/vlsat/generated/3DSSG_subset/train_scans.txt`: present
+- `hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/layout/vlsat/generated/3DSSG_subset/validation_scans.txt`: present
 
 ## Local Scan Coverage
 
@@ -45,6 +42,6 @@ Generated: 2026-05-02T16:52:48+00:00
 
 ## Next
 
-1. Generate or stage `relations.txt`, `train_scans.txt`, and `validation_scans.txt` outside source dataset mutation.
+1. Keep the generated annotation files staged outside source dataset mutation.
 2. Decide faithful aligned+`multi_view` route vs 3D-only plumbing route.
-3. Download selected H001-Mini scan payloads before prediction-level evaluation.
+3. Download selected H001-Mini validation scan payloads before prediction-level evaluation.

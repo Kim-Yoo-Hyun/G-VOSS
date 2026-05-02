@@ -149,5 +149,6 @@ Result:
 
 - default `VL-SAT` layout status: blocked;
 - H001 one-scan geometry-ready scan dirs: 1;
-- blockers: missing `relations.txt`, `train_scans.txt`, `validation_scans.txt`, aligned PLY, and `multi_view`;
+- generated annotation files staged: `relations.txt`, `train_scans.txt`, `validation_scans.txt`;
+- remaining blockers: aligned PLY and `multi_view`;
 - warnings: local 3RScan path convention mismatch, no downloaded validation split scan, and only one local scan payload.

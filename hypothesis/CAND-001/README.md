@@ -36,6 +36,7 @@ Given object instances and candidate semantic relations in a 3D indoor scene, co
 - `19_schema.md`: prediction JSONL schema and adapter contract
 - `20_layout.md`: VL-SAT local layout compatibility check
 - `tools/check_layout.py`: VL-SAT layout checker
+- `tools/prep_layout.py`: VL-SAT generated annotation staging
 - `artifacts/layout/vlsat/`: latest layout checker output
 
 ## Candidate-Level Assumptions

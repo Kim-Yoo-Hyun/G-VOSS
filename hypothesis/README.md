@@ -8,7 +8,7 @@ Last updated: 2026-05-03
 
 - `CAND-001: Geometry-Grounded Open-Vocabulary Relation Graph`
 - Source: `literature/CAND-001.md`
-- Status: hypothesis workflow initialized; Phase A evidence export completed; Phase B verifier smoke test completed; manual review completed; `ply_points_v1` support/contact extractor completed; comparison report completed; `tools/apply_rules_v1.py` completed; v1 review queue triage completed; visual inspection completed; support/contact subtype decision completed; verifier v2 contract written; `tools/apply_verifier_v2.py` implemented; v2 one-scan smoke test passed; probabilistic calibration design written; violation/recall evaluation protocol written; official `3DSSG_subset`-based multi-scan/subset strategy decided; prediction-level baseline selected as `VL-SAT` / `vlsat_closed_set`; prediction JSONL schema written; VL-SAT local layout compatibility checked; `tools/check_layout.py` implemented and run; old stage docs consolidated into `07_stage_log.md`
+- Status: hypothesis workflow initialized; Phase A evidence export completed; Phase B verifier smoke test completed; manual review completed; `ply_points_v1` support/contact extractor completed; comparison report completed; `tools/apply_rules_v1.py` completed; v1 review queue triage completed; visual inspection completed; support/contact subtype decision completed; verifier v2 contract written; `tools/apply_verifier_v2.py` implemented; v2 one-scan smoke test passed; probabilistic calibration design written; violation/recall evaluation protocol written; official `3DSSG_subset`-based multi-scan/subset strategy decided; prediction-level baseline selected as `VL-SAT` / `vlsat_closed_set`; prediction JSONL schema written; VL-SAT local layout compatibility checked; `tools/check_layout.py` implemented and run; `tools/prep_layout.py` staged generated annotation files; old stage docs consolidated into `07_stage_log.md`
 
 ## Hypothesis Registry
 
@@ -18,7 +18,7 @@ Last updated: 2026-05-03
 
 ## Current Gate
 
-Local dataset validation is passed for one sample scan. The `VL-SAT` local layout checker is implemented and reports default-layout `blocked`. The current gate is the minimal `VL-SAT` eval path decision.
+Local dataset validation is passed for one sample scan. The `VL-SAT` local layout checker is implemented and generated annotation files are staged. The default layout remains `blocked` by aligned PLY and `multi_view`. The current gate is the minimal `VL-SAT` eval path decision.
 
 Confirmed:
 
@@ -60,6 +60,7 @@ Current artifact:
 - Prediction schema: `hypothesis/CAND-001/H001_geometry-grounded-verification/19_schema.md`
 - Layout compatibility: `hypothesis/CAND-001/H001_geometry-grounded-verification/20_layout.md`
 - Layout checker script: `hypothesis/CAND-001/H001_geometry-grounded-verification/tools/check_layout.py`
+- Layout prep script: `hypothesis/CAND-001/H001_geometry-grounded-verification/tools/prep_layout.py`
 - Layout checker output: `hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/layout/vlsat/`
 - Calibration implementation status: not started; blocked by calibration table schema, counterfactual negatives, and additional scan payloads.
 

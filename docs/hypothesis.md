@@ -52,6 +52,8 @@ hypothesis/
       18_baseline.md
       19_schema.md
       20_layout.md
+      tools/check_layout.py
+      tools/prep_layout.py
 ```
 
 폴더명 규칙:
@@ -373,7 +375,7 @@ Hypothesis 작업은 현재 아래 단계로 수행한다. 단계 수는 고정�
    - baseline reproduction 전에 local dataset layout이 baseline code의 expected layout과 맞는지 확인한다.
    - source dataset 파일을 조용히 바꾸지 않는다.
    - missing file, path mismatch, faithful route, plumbing-only route를 분리해서 기록한다.
-   - checker script는 `tools/` 아래에 두고, `summary.json`, `prep_manifest.json`, `report.md`를 `artifacts/layout/<baseline-name>/`에 남긴다.
+   - checker/prep script는 `tools/` 아래에 두고, `summary.json`, `prep_manifest.json`, `generated_manifest.json`, `report.md`를 `artifacts/layout/<baseline-name>/`에 남긴다.
    - full baseline 실행은 layout prep과 minimal eval path가 고정된 뒤로 미룬다.
 
 ## Evidence Rules

@@ -17,6 +17,7 @@ H001_ROOT = SCRIPT_PATH.parents[1]
 REPO_ROOT = SCRIPT_PATH.parents[4]
 DEFAULT_DATASET_ROOT = REPO_ROOT / "local_dataset"
 DEFAULT_OUTPUT_DIR = H001_ROOT / "artifacts" / "layout" / "vlsat"
+DEFAULT_GENERATED_SUBSET_ROOT = DEFAULT_OUTPUT_DIR / "generated" / "3DSSG_subset"
 
 SUBSET_FILES = {
     "classes": "classes.txt",
@@ -47,6 +48,12 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--dataset-root", type=Path, default=DEFAULT_DATASET_ROOT)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
+    parser.add_argument(
+        "--generated-subset-root",
+        type=Path,
+        default=DEFAULT_GENERATED_SUBSET_ROOT,
+        help="Generated 3DSSG_subset staging root for relations.txt and scan list files.",
+    )
     parser.add_argument(
         "--fail-on-blockers",
         action="store_true",
@@ -115,6 +122,15 @@ def file_record(path: Path, required_for: str) -> dict[str, Any]:
         "exists": path.exists(),
         "required_for": required_for,
     }
+
+
+def resolved_subset_file(subset_root: Path, generated_subset_root: Path, key: str) -> Path:
+    filename = SUBSET_FILES[key]
+    generated_keys = {"relations_alias", "train_scans", "validation_scans"}
+    generated_path = generated_subset_root / filename
+    if key in generated_keys and generated_path.exists():
+        return generated_path
+    return subset_root / filename
 
 
 def compare_scan_list_file(path: Path, expected_scan_ids: list[str]) -> dict[str, Any]:
@@ -192,7 +208,7 @@ def build_report(summary: dict[str, Any]) -> str:
     lines.extend(
         [
             "",
-            "## Missing Generated Annotation Files",
+            "## Generated Annotation Files",
             "",
         ]
     )
@@ -222,9 +238,9 @@ def build_report(summary: dict[str, Any]) -> str:
             "",
             "## Next",
             "",
-            "1. Generate or stage `relations.txt`, `train_scans.txt`, and `validation_scans.txt` outside source dataset mutation.",
+            "1. Keep the generated annotation files staged outside source dataset mutation.",
             "2. Decide faithful aligned+`multi_view` route vs 3D-only plumbing route.",
-            "3. Download selected H001-Mini scan payloads before prediction-level evaluation.",
+            "3. Download selected H001-Mini validation scan payloads before prediction-level evaluation.",
             "",
         ]
     )
@@ -234,13 +250,14 @@ def build_report(summary: dict[str, Any]) -> str:
 def main() -> int:
     args = parse_args()
     dataset_root = args.dataset_root.resolve()
+    generated_subset_root = args.generated_subset_root.resolve()
     subset_root = dataset_root / "3DSSG_subset"
     rscan_root = dataset_root / "3RScan"
     local_scan_root = rscan_root / "scans"
 
     subset_files = {
-        key: file_record(subset_root / filename, "vlsat_layout")
-        for key, filename in SUBSET_FILES.items()
+        key: file_record(resolved_subset_file(subset_root, generated_subset_root, key), "vlsat_layout")
+        for key in SUBSET_FILES
     }
 
     train_json = subset_root / SUBSET_FILES["relationships_train"]
@@ -251,13 +268,17 @@ def main() -> int:
     all_scans = scan_ids_from_subset_json(all_json)
     overlap = sorted(set(train_scans) & set(validation_scans))
 
-    train_scan_list = compare_scan_list_file(subset_root / "train_scans.txt", train_scans)
+    train_scan_list = compare_scan_list_file(
+        resolved_subset_file(subset_root, generated_subset_root, "train_scans"),
+        train_scans,
+    )
     validation_scan_list = compare_scan_list_file(
-        subset_root / "validation_scans.txt", validation_scans
+        resolved_subset_file(subset_root, generated_subset_root, "validation_scans"),
+        validation_scans,
     )
 
     relationships_txt = subset_root / "relationships.txt"
-    relations_txt = subset_root / "relations.txt"
+    relations_txt = resolved_subset_file(subset_root, generated_subset_root, "relations_alias")
     relation_alias_matches = None
     if relationships_txt.exists() and relations_txt.exists():
         relation_alias_matches = read_lines(relationships_txt) == read_lines(relations_txt)
@@ -283,7 +304,7 @@ def main() -> int:
             blockers.append(f"missing required subset file: {subset_files[key]['path']}")
 
     if not subset_files["relations_alias"]["exists"]:
-        blockers.append("missing VL-SAT config relation label file: local_dataset/3DSSG_subset/relations.txt")
+        blockers.append(f"missing VL-SAT config relation label file: {subset_files['relations_alias']['path']}")
     elif relation_alias_matches is False:
         blockers.append("relations.txt exists but does not match relationships.txt ordering")
 
@@ -326,20 +347,20 @@ def main() -> int:
         "generated_annotation_files": {
             "relations.txt": {
                 "source": rel(relationships_txt),
-                "target": rel(relations_txt),
+                "target": rel(generated_subset_root / "relations.txt"),
                 "action": "copy_or_stage_exact_contents",
                 "needed": not relations_txt.exists() or relation_alias_matches is False,
             },
             "train_scans.txt": {
                 "source": rel(train_json),
-                "target": rel(subset_root / "train_scans.txt"),
+                "target": rel(generated_subset_root / "train_scans.txt"),
                 "action": "write_sorted_unique_scan_ids_from_relationships_train_json",
                 "count": len(train_scans),
                 "needed": not train_scan_list["matches_expected"],
             },
             "validation_scans.txt": {
                 "source": rel(validation_json),
-                "target": rel(subset_root / "validation_scans.txt"),
+                "target": rel(generated_subset_root / "validation_scans.txt"),
                 "action": "write_sorted_unique_scan_ids_from_relationships_validation_json",
                 "count": len(validation_scans),
                 "needed": not validation_scan_list["matches_expected"],
@@ -354,6 +375,7 @@ def main() -> int:
         "generated_at": now_iso(),
         "checker_version": "vlsat-layout-check-v1",
         "dataset_root": str(dataset_root),
+        "generated_subset_root": str(generated_subset_root),
         "output_dir": str(args.output_dir.resolve()),
         "status": status,
         "default_vlsat_ready": default_vlsat_ready,

@@ -128,6 +128,7 @@ Hypothesis smoke-test artifact는 hypothesis 폴더 내부에만 둔다.
 - Visual inspection files should live under `visual_inspection/` with short names such as `labels.jsonl`, `report.md`, `projections.png`.
 - Versioned verifier outputs may use a short subfolder such as `v2/` and short filenames such as `decisions.jsonl`, `summary.json`, `report.md`.
 - Layout checker outputs should use short filenames such as `summary.json`, `prep_manifest.json`, and `report.md`.
+- Layout prep outputs should use short filenames such as `generated_manifest.json`, and generated baseline files should stay under `artifacts/layout/<baseline-name>/generated/`.
 - 중간 산출물이 더 구체적인 review/report artifact로 대체되면 오래된 queue 파일은 유지하지 않는다.
 
 에이전트는 작업 전후로 `TODO.md`도 갱신한다.

@@ -4,9 +4,6 @@
   ],
   "available_validation_scan_ids": [],
   "blockers": [
-    "missing VL-SAT config relation label file: local_dataset/3DSSG_subset/relations.txt",
-    "missing train_scans.txt required by VL-SAT dataset loader",
-    "missing validation_scans.txt required by VL-SAT dataset loader",
     "aligned PLY missing for at least one local scan",
     "multi_view features missing for at least one local scan while VL-SAT default uses 2D features"
   ],
@@ -29,7 +26,8 @@
   },
   "dataset_root": "/home/yoohyun/research/local_dataset",
   "default_vlsat_ready": false,
-  "generated_at": "2026-05-02T16:52:48+00:00",
+  "generated_at": "2026-05-02T17:10:48+00:00",
+  "generated_subset_root": "/home/yoohyun/research/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/layout/vlsat/generated/3DSSG_subset",
   "output_dir": "/home/yoohyun/research/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/layout/vlsat",
   "prep_manifest": {
     "aligned_ply_needed": true,
@@ -37,29 +35,29 @@
     "generated_annotation_files": {
       "relations.txt": {
         "action": "copy_or_stage_exact_contents",
-        "needed": true,
+        "needed": false,
         "source": "local_dataset/3DSSG_subset/relationships.txt",
-        "target": "local_dataset/3DSSG_subset/relations.txt"
+        "target": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/layout/vlsat/generated/3DSSG_subset/relations.txt"
       },
       "train_scans.txt": {
         "action": "write_sorted_unique_scan_ids_from_relationships_train_json",
         "count": 1178,
-        "needed": true,
+        "needed": false,
         "source": "local_dataset/3DSSG_subset/relationships_train.json",
-        "target": "local_dataset/3DSSG_subset/train_scans.txt"
+        "target": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/layout/vlsat/generated/3DSSG_subset/train_scans.txt"
       },
       "validation_scans.txt": {
         "action": "write_sorted_unique_scan_ids_from_relationships_validation_json",
         "count": 157,
-        "needed": true,
+        "needed": false,
         "source": "local_dataset/3DSSG_subset/relationships_validation.json",
-        "target": "local_dataset/3DSSG_subset/validation_scans.txt"
+        "target": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/layout/vlsat/generated/3DSSG_subset/validation_scans.txt"
       }
     },
     "multi_view_needed": true,
     "path_strategy_needed": true
   },
-  "relation_alias_matches": null,
+  "relation_alias_matches": true,
   "scan_checks": [
     {
       "direct_vlsat_root_style": false,
@@ -87,8 +85,8 @@
       "required_for": "vlsat_layout"
     },
     "relations_alias": {
-      "exists": false,
-      "path": "local_dataset/3DSSG_subset/relations.txt",
+      "exists": true,
+      "path": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/layout/vlsat/generated/3DSSG_subset/relations.txt",
       "required_for": "vlsat_layout"
     },
     "relationships": {
@@ -112,75 +110,33 @@
       "required_for": "vlsat_layout"
     },
     "train_scans": {
-      "exists": false,
-      "path": "local_dataset/3DSSG_subset/train_scans.txt",
+      "exists": true,
+      "path": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/layout/vlsat/generated/3DSSG_subset/train_scans.txt",
       "required_for": "vlsat_layout"
     },
     "validation_scans": {
-      "exists": false,
-      "path": "local_dataset/3DSSG_subset/validation_scans.txt",
+      "exists": true,
+      "path": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/layout/vlsat/generated/3DSSG_subset/validation_scans.txt",
       "required_for": "vlsat_layout"
     }
   },
   "train_scan_list": {
-    "actual_count": 0,
-    "exists": false,
+    "actual_count": 1178,
+    "exists": true,
     "expected_count": 1178,
     "extra_in_file": [],
-    "matches_expected": false,
-    "missing_from_file": [
-      "02b33df9-be2b-2d54-9062-1253be3ce186",
-      "02b33dfb-be2b-2d54-92d2-cd012b2b3c40",
-      "02b33dfd-be2b-2d54-91d2-55454852009e",
-      "02b33e01-be2b-2d54-93fb-4145a709cec5",
-      "02b33e03-be2b-2d54-9129-5d28efdd68fa",
-      "05c6ede7-2e69-23b1-8b27-c1cb868f1938",
-      "09582205-e2c2-2de1-9475-1cdac7639e60",
-      "09582207-e2c2-2de1-972c-225d968c2ab4",
-      "09582209-e2c2-2de1-9610-08baed932919",
-      "0958220b-e2c2-2de1-96bc-739f09c1e8f8",
-      "0958220d-e2c2-2de1-9710-c37018da1883",
-      "09582212-e2c2-2de1-9700-fa44b14fbded",
-      "09582214-e2c2-2de1-956a-64d8da4ba7cc",
-      "09582216-e2c2-2de1-97de-efcab1ef9c43",
-      "09582219-e2c2-2de1-9534-519142703037",
-      "0958221b-e2c2-2de1-96b1-6233099811a0",
-      "09582223-e2c2-2de1-94b6-750684b4f80a",
-      "09582225-e2c2-2de1-9564-f6681ef5e511",
-      "09582228-e2c2-2de1-953d-f6f1ee4b3699",
-      "0958222a-e2c2-2de1-9474-35e601b3682a"
-    ],
-    "path": "local_dataset/3DSSG_subset/train_scans.txt"
+    "matches_expected": true,
+    "missing_from_file": [],
+    "path": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/layout/vlsat/generated/3DSSG_subset/train_scans.txt"
   },
   "validation_scan_list": {
-    "actual_count": 0,
-    "exists": false,
+    "actual_count": 157,
+    "exists": true,
     "expected_count": 157,
     "extra_in_file": [],
-    "matches_expected": false,
-    "missing_from_file": [
-      "095821f7-e2c2-2de1-9568-b9ce59920e29",
-      "095821f9-e2c2-2de1-9707-8f735cd1c148",
-      "095821fb-e2c2-2de1-94df-20f2cb423bcb",
-      "0988ea72-eb32-2e61-8344-99e2283c2728",
-      "0cac7532-8d6f-2d13-8cea-1e70d5ae4856",
-      "0cac7534-8d6f-2d13-8de7-8a915ed90050",
-      "0cac7540-8d6f-2d13-8eee-36ba2a428e3f",
-      "0cac7582-8d6f-2d13-8d4b-e4041cb166c4",
-      "0cac7584-8d6f-2d13-8df8-c05e4307b418",
-      "0cac75b7-8d6f-2d13-8cb2-0b4e06913140",
-      "0cac75dc-8d6f-2d13-8d08-9c497bd6acdc",
-      "0cac75de-8d6f-2d13-8e1a-b574569c3885",
-      "0cac75e8-8d6f-2d13-8fc4-acdbf00437c8",
-      "0cac75ea-8d6f-2d13-8e50-c5faf0159e32",
-      "0cac7619-8d6f-2d13-8f36-ac562ec9a4de",
-      "0cac761b-8d6f-2d13-8f16-23a7d73c54fe",
-      "0cac7676-8d6f-2d13-8f3a-d7bf7f03e721",
-      "10b1792a-3938-2467-8b4e-a93da27a0985",
-      "10b1792e-3938-2467-8bb3-172148ae5a67",
-      "10b1793e-3938-2467-8b92-f56541e7ef9e"
-    ],
-    "path": "local_dataset/3DSSG_subset/validation_scans.txt"
+    "matches_expected": true,
+    "missing_from_file": [],
+    "path": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/layout/vlsat/generated/3DSSG_subset/validation_scans.txt"
   },
   "warnings": [
     "local 3RScan root uses local_dataset/3RScan/scans/<scan_id>, not direct 3RScan/<scan_id>",

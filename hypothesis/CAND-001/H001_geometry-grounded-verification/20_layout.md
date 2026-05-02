@@ -129,6 +129,7 @@ The H001-internal layout checker is implemented:
 
 ```text
 tools/check_layout.py
+tools/prep_layout.py
 ```
 
 Latest output:
@@ -137,6 +138,8 @@ Latest output:
 artifacts/layout/vlsat/report.md
 artifacts/layout/vlsat/summary.json
 artifacts/layout/vlsat/prep_manifest.json
+artifacts/layout/vlsat/generated_manifest.json
+artifacts/layout/vlsat/generated/3DSSG_subset/
 ```
 
 Latest checker result:
@@ -144,7 +147,8 @@ Latest checker result:
 - status: `blocked`;
 - default `VL-SAT` ready: `false`;
 - H001 one-scan geometry-ready scan dirs: 1;
-- blockers: missing `relations.txt`, `train_scans.txt`, `validation_scans.txt`, aligned PLY, and `multi_view`;
+- generated annotation files staged: `relations.txt`, `train_scans.txt`, `validation_scans.txt`;
+- remaining blockers: aligned PLY and `multi_view`;
 - warnings: local 3RScan root convention mismatch, no downloaded validation split scan, and only one local scan payload.
 
 Next implementation should use the checker output to decide a minimal eval path that:
