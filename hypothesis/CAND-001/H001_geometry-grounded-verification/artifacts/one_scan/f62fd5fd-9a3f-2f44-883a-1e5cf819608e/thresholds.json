@@ -1,0 +1,13 @@
+{
+  "frame_assumption": "scene_xyz_v0",
+  "geometry_score_pass_min": 0.6,
+  "near_distance_norm_max": 1.5,
+  "relative_xy_margin_norm": 0.1,
+  "relative_z_margin_norm": 0.1,
+  "rule_version": "h001-rules-v0",
+  "xy_overlap_object_min": 0.01,
+  "xy_overlap_subject_min": 0.05,
+  "z_axis_assumption": "scene_z_up_v0",
+  "z_gap_abs_max_m": 0.1,
+  "z_order_margin_m": 0.02
+}

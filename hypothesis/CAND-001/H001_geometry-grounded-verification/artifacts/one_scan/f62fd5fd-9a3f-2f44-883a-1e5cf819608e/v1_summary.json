@@ -1,0 +1,113 @@
+{
+  "artifact_dir": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/one_scan/f62fd5fd-9a3f-2f44-883a-1e5cf819608e",
+  "counts": {
+    "all_edge_count": 772,
+    "floor_support_edge_count": 16,
+    "floor_support_satisfied_count": 13,
+    "input_edge_count": 772,
+    "point_evidence_available_count": 32,
+    "point_evidence_missing_count": 0,
+    "point_evidence_records": 32,
+    "primary_metric_denominator": 141,
+    "support_contact_edge_count": 32,
+    "v1_review_queue_count": 13
+  },
+  "created_at": "2026-04-30T03:09:53.056243+00:00",
+  "family_status_counts": {
+    "attachment_deferred": {
+      "unsupported": 19
+    },
+    "proximity": {
+      "satisfied": 68
+    },
+    "relative_horizontal": {
+      "uncertain": 342
+    },
+    "relative_vertical": {
+      "satisfied": 40,
+      "uncertain": 6,
+      "violated": 2
+    },
+    "size_comparison_deferred": {
+      "unsupported": 14
+    },
+    "support_contact": {
+      "satisfied": 19,
+      "uncertain": 1,
+      "violated": 12
+    },
+    "unsupported_first_pass": {
+      "unsupported": 249
+    }
+  },
+  "output_paths": {
+    "comparison": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/one_scan/f62fd5fd-9a3f-2f44-883a-1e5cf819608e/v1_comparison.jsonl",
+    "decisions": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/one_scan/f62fd5fd-9a3f-2f44-883a-1e5cf819608e/v1_decisions.jsonl",
+    "report": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/one_scan/f62fd5fd-9a3f-2f44-883a-1e5cf819608e/v1_report.md",
+    "review_queue": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/one_scan/f62fd5fd-9a3f-2f44-883a-1e5cf819608e/v1_review_queue.jsonl",
+    "summary": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/one_scan/f62fd5fd-9a3f-2f44-883a-1e5cf819608e/v1_summary.json"
+  },
+  "phase": "Phase D: h001-rules-v1 support/contact smoke test",
+  "previous_rule_version": "h001-rules-v0",
+  "rule_version": "h001-rules-v1",
+  "scan_id": "f62fd5fd-9a3f-2f44-883a-1e5cf819608e",
+  "script_name": "apply_rules_v1.py",
+  "status_counts": {
+    "satisfied": 127,
+    "uncertain": 349,
+    "unsupported": 282,
+    "violated": 14
+  },
+  "support_contact_v0_to_v1_transition_counts": {
+    "v0_uncertain_to_v1_satisfied": 10,
+    "v0_uncertain_to_v1_violated": 3,
+    "v0_violated_to_v1_satisfied": 9,
+    "v0_violated_to_v1_uncertain": 1,
+    "v0_violated_to_v1_violated": 9
+  },
+  "support_contact_v1_status_counts": {
+    "satisfied": 19,
+    "uncertain": 1,
+    "violated": 12
+  },
+  "threshold_config": {
+    "point_threshold_config": {
+      "local_vertical_gap_abs_max_m": 0.1,
+      "local_vertical_gap_abs_relaxed_m": 0.15,
+      "max_expansion_for_primary_m": 0.1,
+      "min_support_points_under_subject": 10,
+      "point_rule_version": "ply_points_v1",
+      "xy_expansion_steps_m": [
+        0.0,
+        0.05,
+        0.1,
+        0.2
+      ]
+    },
+    "previous_rule_version": "h001-rules-v0",
+    "rule_version": "h001-rules-v1",
+    "source_threshold_config": {
+      "frame_assumption": "scene_xyz_v0",
+      "geometry_score_pass_min": 0.6,
+      "near_distance_norm_max": 1.5,
+      "relative_xy_margin_norm": 0.1,
+      "relative_z_margin_norm": 0.1,
+      "rule_version": "h001-rules-v0",
+      "xy_overlap_object_min": 0.01,
+      "xy_overlap_subject_min": 0.05,
+      "z_axis_assumption": "scene_z_up_v0",
+      "z_gap_abs_max_m": 0.1,
+      "z_order_margin_m": 0.02
+    }
+  },
+  "validation": {
+    "errors": [],
+    "passed": true,
+    "warnings": [
+      "h001_rules_v1_smoke_test_only_not_benchmark_evidence",
+      "support_contact_uncertain_edges:1",
+      "support_contact_violated_edges:12",
+      "floor_support_violated_edges:3"
+    ]
+  }
+}

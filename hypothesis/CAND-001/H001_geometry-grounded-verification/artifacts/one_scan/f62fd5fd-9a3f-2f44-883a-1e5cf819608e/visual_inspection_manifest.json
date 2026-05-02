@@ -1,0 +1,60 @@
+{
+  "created_at": "2026-04-30",
+  "phase": "minimal visual inspection pass preparation",
+  "scan_id": "f62fd5fd-9a3f-2f44-883a-1e5cf819608e",
+  "role": "Prepare representative v1 support/contact review cases for manual 3D visual inspection.",
+  "scope": {
+    "selected_case_count": 7,
+    "source_review_queue_count": 13,
+    "benchmark_claim": false,
+    "multi_scan_replication_ready": false
+  },
+  "input_artifacts": {
+    "v1_review_queue": "v1_review_queue.jsonl",
+    "v1_review_labels": "v1_review_labels.jsonl",
+    "point_evidence": "point_evidence.jsonl",
+    "v1_summary": "v1_summary.json",
+    "v1_review_report": "v1_review_report.md"
+  },
+  "source_scene_files": {
+    "ply": "local_dataset/3RScan/scans/f62fd5fd-9a3f-2f44-883a-1e5cf819608e/labels.instances.annotated.v2.ply",
+    "semseg": "local_dataset/3RScan/scans/f62fd5fd-9a3f-2f44-883a-1e5cf819608e/semseg.v2.json",
+    "segments": "local_dataset/3RScan/scans/f62fd5fd-9a3f-2f44-883a-1e5cf819608e/mesh.refined.0.010000.segs.v2.json"
+  },
+  "selection_policy": {
+    "floor_support": "Include all three remaining floor support cases because they test whether legged support is missed by robust bottom percentiles.",
+    "soft_support": "Include one borderline pillow-on-sofa case and one large negative-gap pillow-on-sofa case.",
+    "counter_support": "Include both kitchen counter cases because they test local support-surface ambiguity."
+  },
+  "inspection_questions": [
+    "Is the relation visually plausible in the 3D scene?",
+    "Does the local point evidence select the intended support surface?",
+    "Is the failure caused by segmentation or instance geometry?",
+    "Does this relation need a separate rule subtype?"
+  ],
+  "recommended_output": {
+    "path": "visual_inspection/labels.jsonl",
+    "required_fields": [
+      "inspection_id",
+      "edge_id",
+      "relation_visually_plausible",
+      "local_surface_correct",
+      "segmentation_or_instance_issue",
+      "rule_subtype_needed",
+      "inspection_label",
+      "note"
+    ],
+    "allowed_inspection_labels": [
+      "rule_too_strict",
+      "local_surface_estimator_issue",
+      "segmentation_or_instance_issue",
+      "likely_real_relation_inconsistency",
+      "ambiguous_needs_viewer_or_more_scans"
+    ]
+  },
+  "decision_policy_after_inspection": {
+    "multi_scan_replication": "Start only if representative cases can be interpreted without unresolved geometry-source ambiguity.",
+    "rule_revision": "Revise support/contact subtype rules first if most selected cases are visually plausible but fail because of rule strictness.",
+    "data_issue": "Do not treat v1 violations as annotation errors if the point evidence or instance segmentation is visually ambiguous."
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "aligned_ply_needed": true,
+  "do_not_mutate_source_dataset_by_default": true,
+  "generated_annotation_files": {
+    "relations.txt": {
+      "action": "copy_or_stage_exact_contents",
+      "needed": true,
+      "source": "local_dataset/3DSSG_subset/relationships.txt",
+      "target": "local_dataset/3DSSG_subset/relations.txt"
+    },
+    "train_scans.txt": {
+      "action": "write_sorted_unique_scan_ids_from_relationships_train_json",
+      "count": 1178,
+      "needed": true,
+      "source": "local_dataset/3DSSG_subset/relationships_train.json",
+      "target": "local_dataset/3DSSG_subset/train_scans.txt"
+    },
+    "validation_scans.txt": {
+      "action": "write_sorted_unique_scan_ids_from_relationships_validation_json",
+      "count": 157,
+      "needed": true,
+      "source": "local_dataset/3DSSG_subset/relationships_validation.json",
+      "target": "local_dataset/3DSSG_subset/validation_scans.txt"
+    }
+  },
+  "multi_view_needed": true,
+  "path_strategy_needed": true
+}
