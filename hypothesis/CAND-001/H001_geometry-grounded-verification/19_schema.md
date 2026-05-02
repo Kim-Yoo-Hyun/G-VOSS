@@ -412,5 +412,5 @@ The verifier must preserve every prediction row and attach verification status; 
 
 1. Use `20_layout.md` as the local layout compatibility result.
 2. Use `artifacts/layout/vlsat/report.md` as the latest checker output.
-3. Decide whether the first adapter patch should run inside a temporary `VL-SAT` checkout or a local H001 wrapper script.
+3. Use `21_eval_path.md` as the faithful eval path decision.
 4. Do not implement calibration until prediction export and geometry join are validated.

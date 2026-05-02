@@ -2,7 +2,7 @@
 
 이 저장소는 3D Scene Graph 석사 연구를 위한 작업 공간이다.
 
-현재 단계는 CAND-001 hypothesis prep과 CAND-003 literature survey를 병렬로 추적하는 단계다. CAND-001은 `Geometry-Grounded Open-Vocabulary Relation Graph` 방향에서 one-scan verifier smoke test, visual inspection, support/contact subtype decision, subtype-aware verifier v2 구현 및 검증, probabilistic calibration 설계, violation/recall evaluation protocol, official `3DSSG_subset` 기반 multi-scan/subset strategy 결정, prediction-level baseline 선택, `vlsat_closed_set` prediction schema 정의, VL-SAT local layout compatibility check, H001-internal VL-SAT layout checker 구현/실행, generated annotation staging까지 진행했다. 첫 prediction baseline은 `VL-SAT` / `vlsat_closed_set`으로 정했다. Probabilistic calibration은 설계 단계까지이며, `p_geom_valid` 구현/학습/검증은 아직 시작하지 않았다. CAND-003은 `Geometry-Aware Refinement of LLM/VLM Task Reasoning on 3DSG`의 근거 문헌과 feasibility boundary를 2026-04-30 P1 intake까지 정리했다.
+현재 단계는 CAND-001 hypothesis prep과 CAND-003 literature survey를 병렬로 추적하는 단계다. CAND-001은 `Geometry-Grounded Open-Vocabulary Relation Graph` 방향에서 one-scan verifier smoke test, visual inspection, support/contact subtype decision, subtype-aware verifier v2 구현 및 검증, probabilistic calibration 설계, violation/recall evaluation protocol, official `3DSSG_subset` 기반 multi-scan/subset strategy 결정, prediction-level baseline 선택, `vlsat_closed_set` prediction schema 정의, VL-SAT local layout compatibility check, H001-internal VL-SAT layout checker 구현/실행, generated annotation staging, faithful VL-SAT eval path decision까지 진행했다. 첫 prediction baseline은 `VL-SAT` / `vlsat_closed_set`으로 정했다. Probabilistic calibration은 설계 단계까지이며, `p_geom_valid` 구현/학습/검증은 아직 시작하지 않았다. CAND-003은 `Geometry-Aware Refinement of LLM/VLM Task Reasoning on 3DSG`의 근거 문헌과 feasibility boundary를 2026-04-30 P1 intake까지 정리했다.
 
 ## Current Focus
 
@@ -37,6 +37,7 @@
 - `20_layout.md` 작성 완료: local `3DSSG_subset` / 3RScan layout과 `VL-SAT` expected layout compatibility 확인
 - `tools/check_layout.py` 구현 및 실행 완료: default VL-SAT layout blocked, H001 one-scan geometry-ready scan 1개 확인
 - `tools/prep_layout.py` 구현 및 실행 완료: `relations.txt`, `train_scans.txt`, `validation_scans.txt`를 source dataset mutation 없이 staged artifact로 생성
+- `21_eval_path.md` 작성 완료: reportable baseline은 faithful aligned PLY + faithful `multi_view` route로 고정
 - stage 문서 정리 완료: 07~12 상세 문서를 `07_stage_log.md`로 병합
 - full baseline reproduction 전에 geometry evidence와 verifier의 최소 신호 확인
 - CAND-003 literature survey pass 완료: 3DSG+LLM/VLM task reasoning, geometry-aware refinement, hallucination mitigation, object search/navigation benchmark 축 정리
@@ -92,7 +93,7 @@ Current survey verdict:
 
 ## Current Blocker
 
-Local dataset validation is passed for one sample scan. The current CAND-001 gate is deciding the minimal `VL-SAT` eval path.
+Local dataset validation is passed for one sample scan. The current CAND-001 gate is writing the faithful `VL-SAT` layout prep policy.
 
 `/home/yoohyun/research/local_dataset` contains 3DSSG annotation files, official `3DSSG_subset` files, 3RScan metadata/split files, the 3RScan download script, and one validated sample scan payload.
 
@@ -129,6 +130,7 @@ Current `VL-SAT` layout finding:
 - `relations.txt`, `train_scans.txt`, and `validation_scans.txt` are staged under `artifacts/layout/vlsat/generated/3DSSG_subset/`.
 - local 3RScan files are under `local_dataset/3RScan/scans/<scan_id>/`, while `VL-SAT` expects a configured 3RScan root with scan folders directly below it.
 - aligned PLY files and `multi_view/` features are missing.
+- reportable `VL-SAT` evaluation will use the faithful aligned PLY + faithful `multi_view` route.
 - checker output is stored at `hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/layout/vlsat/`.
 - full baseline reproduction remains blocked until layout prep and a minimal eval path are fixed.
 

@@ -151,13 +151,19 @@ Latest checker result:
 - remaining blockers: aligned PLY and `multi_view`;
 - warnings: local 3RScan root convention mismatch, no downloaded validation split scan, and only one local scan payload.
 
-Next implementation should use the checker output to decide a minimal eval path that:
+`21_eval_path.md` decides the reportable path:
+
+```text
+faithful aligned PLY + faithful multi_view
+```
+
+Next implementation should write a layout prep policy that:
 
 - does not silently mutate `local_dataset`;
 - keeps any generated baseline-prep outputs separate from source dataset files.
 
 ## Next
 
-1. Decide between a faithful aligned+`multi_view` route and a 3D-only plumbing route.
-2. Write the layout prep staging policy.
+1. Write the faithful layout prep staging policy.
+2. Specify staged 3RScan root and config patch boundaries.
 3. Keep calibration fitting blocked until prediction export and geometry join are validated.

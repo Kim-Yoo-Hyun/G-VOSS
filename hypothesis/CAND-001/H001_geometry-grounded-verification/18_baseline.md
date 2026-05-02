@@ -180,5 +180,6 @@ If `VL-SAT` cannot produce prediction JSONL within reasonable setup effort:
 1. Use `19_schema.md` as the prediction JSONL schema and adapter contract for `vlsat_closed_set`.
 2. Use `20_layout.md` as the local `3DSSG_subset` / 3RScan layout compatibility result.
 3. Use `artifacts/layout/vlsat/report.md` as the latest checker output.
-4. Decide the minimal eval path.
-5. Do not start full training or broad experiment infrastructure until the local layout prep and minimal eval path are fixed.
+4. Use `21_eval_path.md` as the faithful eval path decision.
+5. Write the faithful layout prep staging policy.
+6. Do not start full training or broad experiment infrastructure until the local layout prep and minimal eval path are fixed.

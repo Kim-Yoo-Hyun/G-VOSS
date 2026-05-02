@@ -116,6 +116,7 @@ Hypothesis 작업을 수행한 에이전트는 `hypothesis/` 아래에 결과를
 - `hypothesis/CAND-<number>/H<number>_<short-title>/18_baseline.md`: prediction-level baseline decision
 - `hypothesis/CAND-<number>/H<number>_<short-title>/19_schema.md`: prediction JSONL schema and adapter contract
 - `hypothesis/CAND-<number>/H<number>_<short-title>/20_layout.md`: baseline layout compatibility check
+- `hypothesis/CAND-<number>/H<number>_<short-title>/21_eval_path.md`: reportable baseline evaluation path decision
 - `hypothesis/CAND-<number>/H<number>_<short-title>/tools/`: hypothesis-stage smoke-test scripts
 
 Hypothesis smoke-test artifact는 hypothesis 폴더 내부에만 둔다.

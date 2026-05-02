@@ -148,4 +148,4 @@ Do not report one-scan results as benchmark performance.
 
 ## Next
 
-Use `16_evaluation.md` as the prediction-level protocol, `17_subset.md` as the subset strategy, `18_baseline.md` as the baseline decision, `19_schema.md` as the prediction JSONL contract, `20_layout.md` as the layout compatibility result, and `artifacts/layout/vlsat/report.md` as the latest checker output. Decide the minimal `VL-SAT` eval path before fitting a calibrator or reproducing a full baseline.
+Use `16_evaluation.md` as the prediction-level protocol, `17_subset.md` as the subset strategy, `18_baseline.md` as the baseline decision, `19_schema.md` as the prediction JSONL contract, `20_layout.md` as the layout compatibility result, `21_eval_path.md` as the faithful eval path decision, and `artifacts/layout/vlsat/report.md` as the latest checker output. Write the faithful `VL-SAT` layout prep policy before fitting a calibrator or reproducing a full baseline.

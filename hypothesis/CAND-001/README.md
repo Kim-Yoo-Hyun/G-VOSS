@@ -16,7 +16,7 @@ Given object instances and candidate semantic relations in a 3D indoor scene, co
 
 | ID | Title | Folder | Status |
 | --- | --- | --- | --- |
-| H001 | Geometry-grounded verification of open-vocabulary 3DSSG relations | `H001_geometry-grounded-verification/` | layout checker run |
+| H001 | Geometry-grounded verification of open-vocabulary 3DSSG relations | `H001_geometry-grounded-verification/` | faithful eval path decided |
 
 ## H001 Files
 
@@ -35,6 +35,7 @@ Given object instances and candidate semantic relations in a 3D indoor scene, co
 - `18_baseline.md`: prediction-level baseline decision
 - `19_schema.md`: prediction JSONL schema and adapter contract
 - `20_layout.md`: VL-SAT local layout compatibility check
+- `21_eval_path.md`: faithful VL-SAT eval path decision
 - `tools/check_layout.py`: VL-SAT layout checker
 - `tools/prep_layout.py`: VL-SAT generated annotation staging
 - `artifacts/layout/vlsat/`: latest layout checker output
@@ -69,4 +70,4 @@ Calibration implementation requires:
 
 ## Next Gate
 
-Decide the minimal `VL-SAT` eval path before implementing prediction-level evaluation.
+Write the faithful `VL-SAT` layout prep staging policy before implementing prediction-level evaluation.

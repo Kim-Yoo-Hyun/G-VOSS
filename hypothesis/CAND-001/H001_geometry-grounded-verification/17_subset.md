@@ -366,7 +366,7 @@ full 3DSSG annotation for coverage checks and counterfactual construction
 Immediate next action:
 
 ```text
-decide VL-SAT minimal eval path
+write faithful VL-SAT layout prep staging policy
 ```
 
 Reason:
@@ -379,7 +379,7 @@ Reason:
 
 ## Next
 
-1. Decide the minimal `VL-SAT` eval path.
+1. Use `21_eval_path.md` as the faithful eval path decision.
 2. Write layout prep staging policy.
 3. Write calibration table schema.
 4. Generate H001-Mini manifest only when downloading/running multi-scan payloads.

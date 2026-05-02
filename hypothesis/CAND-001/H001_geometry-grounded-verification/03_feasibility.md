@@ -6,7 +6,7 @@ Last updated: 2026-05-03
 
 H001 is feasible as a one-scan hypothesis smoke test.
 
-The current gate is no longer dataset access, baseline selection, prediction schema definition, layout compatibility, or layout checker implementation. The current gate is selecting a minimal `VL-SAT` eval path.
+The current gate is no longer dataset access, baseline selection, prediction schema definition, layout compatibility, layout checker implementation, or minimal eval path decision. The current gate is writing the faithful `VL-SAT` layout prep policy.
 
 Current gate:
 
@@ -18,6 +18,7 @@ prediction-level baseline: VL-SAT selected
 prediction schema: written
 layout compatibility: checked
 layout checker: implemented and run
+eval path: faithful aligned PLY + faithful multi_view
 multi-scan evaluation: pending
 prediction-level evaluation: pending
 baseline reproduction: deferred
@@ -123,8 +124,8 @@ Visual inspection:
 
 Still pending:
 
-- minimal `VL-SAT` eval path decision;
-- layout prep staging policy;
+- faithful `VL-SAT` layout prep staging policy;
+- H001-Mini validation scan payload selection;
 - calibration table schema and counterfactual negative generation;
 - prediction-level validation with model outputs;
 - horizontal coordinate-frame validation.
@@ -152,3 +153,11 @@ Result:
 - generated annotation files staged: `relations.txt`, `train_scans.txt`, `validation_scans.txt`;
 - remaining blockers: aligned PLY and `multi_view`;
 - warnings: local 3RScan path convention mismatch, no downloaded validation split scan, and only one local scan payload.
+
+## Eval Path Decision
+
+Use the faithful `VL-SAT` route for reportable baseline results:
+
+- generate aligned PLY rather than substituting unaligned PLY;
+- generate `multi_view` features rather than disabling `MODEL.use_2d_feats`;
+- keep 3D-only plumbing as non-reportable adapter smoke testing only.

@@ -309,7 +309,7 @@ Use `17_subset.md` as the official `3DSSG_subset`-based multi-scan/subset strate
 Next gate:
 
 ```text
-VL-SAT minimal eval path decision
+faithful VL-SAT layout prep staging policy
 ```
 
 Do not treat these one-scan results as benchmark evidence.

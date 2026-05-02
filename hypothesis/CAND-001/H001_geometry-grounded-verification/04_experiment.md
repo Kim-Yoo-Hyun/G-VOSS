@@ -133,4 +133,4 @@ horizontal evidence: blocked by coordinate-frame ambiguity.
 
 ## Next
 
-Use `20_layout.md` and `artifacts/layout/vlsat/report.md` as the local layout compatibility result. Next, decide the minimal `VL-SAT` eval path before prediction-level evaluation.
+Use `20_layout.md`, `21_eval_path.md`, and `artifacts/layout/vlsat/report.md` as the local layout compatibility and eval path result. Next, write the faithful `VL-SAT` layout prep staging policy before prediction-level evaluation.
