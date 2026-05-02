@@ -75,7 +75,7 @@ Calibration cannot be implemented meaningfully on the current one-scan v2 artifa
 Therefore calibration should wait until the subset strategy is fixed and the next implementation inputs exist. As of 2026-05-03, the official `3DSSG_subset` strategy is fixed in `17_subset.md`, and the `VL-SAT` layout checker is implemented in `tools/check_layout.py`; the remaining gates are:
 
 ```text
-faithful VL-SAT layout prep staging policy
+H001-Mini validation scan payload selection
 calibration table schema
 counterfactual negative generation
 additional scan payloads
@@ -395,7 +395,8 @@ Before implementing a calibrator:
 2. Use `17_subset.md` as the subset strategy.
 3. Use `artifacts/layout/vlsat/report.md` as the current layout blocker record.
 4. Use `21_eval_path.md` as the faithful eval path decision.
-5. Write the faithful `VL-SAT` layout prep staging policy.
-6. Define a calibration table schema.
-7. Export a calibration table from v2-style artifacts.
-8. Generate high-margin counterfactual negatives.
+5. Use `22_prep.md` as the faithful layout prep policy.
+6. Select H001-Mini validation scan payloads.
+7. Define a calibration table schema.
+8. Export a calibration table from v2-style artifacts.
+9. Generate high-margin counterfactual negatives.

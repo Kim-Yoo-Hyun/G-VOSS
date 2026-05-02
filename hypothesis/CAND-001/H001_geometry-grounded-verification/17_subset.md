@@ -366,7 +366,7 @@ full 3DSSG annotation for coverage checks and counterfactual construction
 Immediate next action:
 
 ```text
-write faithful VL-SAT layout prep staging policy
+select H001-Mini validation scan payloads
 ```
 
 Reason:
@@ -380,7 +380,8 @@ Reason:
 ## Next
 
 1. Use `21_eval_path.md` as the faithful eval path decision.
-2. Write layout prep staging policy.
-3. Write calibration table schema.
-4. Generate H001-Mini manifest only when downloading/running multi-scan payloads.
-5. Implement calibration only after scan payloads and counterfactual negatives exist.
+2. Use `22_prep.md` as the faithful layout prep policy.
+3. Select H001-Mini validation scan payloads.
+4. Write calibration table schema.
+5. Generate H001-Mini manifest only when downloading/running multi-scan payloads.
+6. Implement calibration only after scan payloads and counterfactual negatives exist.

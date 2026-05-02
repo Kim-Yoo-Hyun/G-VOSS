@@ -157,13 +157,15 @@ Latest checker result:
 faithful aligned PLY + faithful multi_view
 ```
 
-Next implementation should write a layout prep policy that:
+`22_prep.md` fixes the layout prep policy:
 
-- does not silently mutate `local_dataset`;
-- keeps any generated baseline-prep outputs separate from source dataset files.
+- do not silently mutate `local_dataset`;
+- keep large runtime files under ignored `local_dataset/VLSAT_staged/`;
+- keep small generated annotation files under H001 layout artifacts;
+- use faithful aligned PLY and faithful `multi_view` for reportable results.
 
 ## Next
 
-1. Write the faithful layout prep staging policy.
-2. Specify staged 3RScan root and config patch boundaries.
+1. Select H001-Mini validation scan payloads with support/contact coverage.
+2. Implement staged-root prep for selected scans.
 3. Keep calibration fitting blocked until prediction export and geometry join are validated.

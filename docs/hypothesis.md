@@ -53,6 +53,7 @@ hypothesis/
       19_schema.md
       20_layout.md
       21_eval_path.md
+      22_prep.md
       tools/check_layout.py
       tools/prep_layout.py
 ```
@@ -317,6 +318,20 @@ Prediction-level baseline의 reportable route를 결정한다.
 - validation scan requirement
 - non-reportable plumbing boundary
 
+### `22_prep.md` / Prep
+
+Prediction-level baseline 실행 전에 faithful staged runtime layout을 어떻게 준비할지 고정한다.
+
+포함할 내용:
+
+- source dataset과 staged runtime root 분리
+- generated annotation staging policy
+- `references.txt` / `rescans.txt` 생성 policy
+- aligned PLY route
+- `multi_view` route
+- allowed path-only config boundary
+- H001-Mini validation payload requirement
+
 ## Workflow
 
 Hypothesis 작업은 현재 아래 단계로 수행한다. 단계 수는 고정된 논문 구조가 아니라 agent가 결정을 잃지 않도록 돕는 연구 추적 구조다.
@@ -397,6 +412,12 @@ Hypothesis 작업은 현재 아래 단계로 수행한다. 단계 수는 고정�
    - top-tier paper claim에 쓰는 baseline은 가능한 official assumption을 유지한다.
    - baseline deviation이 필요하면 main result가 아니라 adapter smoke test나 ablation으로만 둔다.
 
+16. Prep Policy
+   - source dataset 파일과 generated baseline-prep 파일을 분리한다.
+   - large/runtime 파일은 ignored staged root에 두고, 작은 generated annotation만 H001 artifact로 추적한다.
+   - aligned PLY와 `multi_view`는 reportable baseline을 위해 faithful route로 준비한다.
+   - validation scan payload selection 전에는 full prediction-level run을 시작하지 않는다.
+
 ## Evidence Rules
 
 - 문헌 근거는 `literature/`에 있는 paper card와 CAND 문서를 우선 참조한다.
@@ -425,4 +446,4 @@ Hypothesis 문서를 갱신한 에이전트는 아래를 함께 확인한다.
 
 - Candidate: `CAND-001`
 - Hypothesis: `H001 Geometry-grounded verification of open-vocabulary 3DSSG relations`
-- Status: Drafted; one-scan Phase A/B/C, `h001-rules-v1`, visual inspection, support/contact subtype decision, stage doc consolidation, `h001-verifier-v2` implementation, `15_calibration.md`, `16_evaluation.md`, official `3DSSG_subset`-based `17_subset.md`, `18_baseline.md`, `19_schema.md`, `20_layout.md`, `tools/check_layout.py`, `tools/prep_layout.py`, and `21_eval_path.md` completed; faithful `VL-SAT` layout prep staging policy next
+- Status: Drafted; one-scan Phase A/B/C, `h001-rules-v1`, visual inspection, support/contact subtype decision, stage doc consolidation, `h001-verifier-v2` implementation, `15_calibration.md`, `16_evaluation.md`, official `3DSSG_subset`-based `17_subset.md`, `18_baseline.md`, `19_schema.md`, `20_layout.md`, `tools/check_layout.py`, `tools/prep_layout.py`, `21_eval_path.md`, and `22_prep.md` completed; H001-Mini validation scan selection next

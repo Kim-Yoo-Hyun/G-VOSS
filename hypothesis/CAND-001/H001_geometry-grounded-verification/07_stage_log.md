@@ -306,10 +306,20 @@ Use `16_evaluation.md` as the prediction-level violation/recall evaluation proto
 
 Use `17_subset.md` as the official `3DSSG_subset`-based multi-scan/subset strategy decision.
 
+Use `18_baseline.md` as the prediction-level baseline decision.
+
+Use `19_schema.md` as the `vlsat_closed_set` prediction schema.
+
+Use `20_layout.md` as the local `VL-SAT` layout compatibility record.
+
+Use `21_eval_path.md` as the faithful eval path decision.
+
+Use `22_prep.md` as the faithful staged layout prep policy.
+
 Next gate:
 
 ```text
-faithful VL-SAT layout prep staging policy
+H001-Mini validation scan payload selection
 ```
 
 Do not treat these one-scan results as benchmark evidence.

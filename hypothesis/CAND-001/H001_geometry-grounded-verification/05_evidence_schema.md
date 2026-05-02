@@ -162,6 +162,7 @@ Subtype-specific evidence:
 | layout compatibility | `20_layout.md` | checked |
 | layout checker | `tools/check_layout.py` / `artifacts/layout/vlsat/` | implemented |
 | eval path | `21_eval_path.md` | faithful route decided |
+| prep policy | `22_prep.md` | written |
 
 ## Open Decisions
 

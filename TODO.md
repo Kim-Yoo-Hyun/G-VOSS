@@ -8,7 +8,7 @@ Last updated: 2026-05-03
 
 Parallel candidate tracking.
 
-CAND-001은 hypothesis prep / verifier implementation 트랙이다. 현재까지의 literature pass는 CAND-001을 석사 연구 후보로 좁히는 데 충분하다. Hypothesis workflow와 H001 초안은 생성되었다. 2026-04-28 재확인 결과, `/home/yoohyun/research/local_dataset`에 3DSSG annotation, 3RScan metadata/download script, sample scan payload 1개가 존재한다. 2026-05-03 기준 Phase A/B/C, `h001-rules-v1`, visual inspection, support/contact subtype decision, `h001-verifier-v2` 구현 및 one-scan artifact 검증, probabilistic geometry consistency calibration 설계, violation/recall evaluation protocol, official `3DSSG_subset` 기반 multi-scan/subset strategy 결정, prediction-level baseline 선택, `vlsat_closed_set` prediction schema 정의, VL-SAT local layout compatibility check, H001-internal VL-SAT layout checker 구현/실행, generated annotation staging, faithful VL-SAT eval path decision까지 완료했다. 첫 baseline은 `VL-SAT` / `vlsat_closed_set`이다. Checker 결과 default VL-SAT layout은 여전히 blocked이지만, annotation blocker 3개는 staging으로 해결했고 남은 blocker는 aligned PLY와 `multi_view`다. Minimal eval path는 논문 방어력을 위해 faithful aligned PLY + faithful `multi_view`로 고정했다. Probabilistic calibration의 설계는 완료했지만, `p_geom_valid` 학습/보정/검증 구현은 아직 하지 않았다.
+CAND-001은 hypothesis prep / verifier implementation 트랙이다. 현재까지의 literature pass는 CAND-001을 석사 연구 후보로 좁히는 데 충분하다. Hypothesis workflow와 H001 초안은 생성되었다. 2026-04-28 재확인 결과, `/home/yoohyun/research/local_dataset`에 3DSSG annotation, 3RScan metadata/download script, sample scan payload 1개가 존재한다. 2026-05-03 기준 Phase A/B/C, `h001-rules-v1`, visual inspection, support/contact subtype decision, `h001-verifier-v2` 구현 및 one-scan artifact 검증, probabilistic geometry consistency calibration 설계, violation/recall evaluation protocol, official `3DSSG_subset` 기반 multi-scan/subset strategy 결정, prediction-level baseline 선택, `vlsat_closed_set` prediction schema 정의, VL-SAT local layout compatibility check, H001-internal VL-SAT layout checker 구현/실행, generated annotation staging, faithful VL-SAT eval path decision, faithful layout prep staging policy까지 완료했다. 첫 baseline은 `VL-SAT` / `vlsat_closed_set`이다. Checker 결과 default VL-SAT layout은 여전히 blocked이지만, annotation blocker 3개는 staging으로 해결했고 남은 blocker는 aligned PLY와 `multi_view`다. Minimal eval path는 논문 방어력을 위해 faithful aligned PLY + faithful `multi_view`로 고정했다. Probabilistic calibration의 설계는 완료했지만, `p_geom_valid` 학습/보정/검증 구현은 아직 하지 않았다.
 
 CAND-003은 literature survey 트랙이다. 2026-04-30 기준으로 LLM/VLM task reasoning on 3DSG, geometry-aware refinement, object placement/search/navigation decision evaluation을 primary source 중심으로 재확인했고, `literature/CAND-003.md`에 survey pass와 P1 intake 결과를 작성했다. P0 paper intake는 `RieMind`, `3D-VCD`, `SayPlan`, `SG-Nav`, `SCOUT/SymSearch`까지 완료했고, P1 paper intake는 `3DGraphLLM`, `3D-Mem`까지 완료했다. 다음 CAND-003 단계는 사용자가 hypothesis workflow 승격 여부를 판단하는 것이다.
 
@@ -21,7 +21,7 @@ CAND-003은 literature survey 트랙이다. 2026-04-30 기준으로 LLM/VLM task
 
 ### CAND-001
 
-- [ ] VL-SAT faithful layout prep staging policy 작성: path strategy, aligned PLY, multi_view
+- [ ] H001-Mini validation scan payload selection: support/contact coverage 중심
 
 ### CAND-003
 
@@ -31,7 +31,8 @@ CAND-003은 literature survey 트랙이다. 2026-04-30 기준으로 LLM/VLM task
 
 ### CAND-001
 
-- [ ] H001-Mini validation scan payload selection: support/contact coverage 중심
+- [ ] VL-SAT faithful staging script 구현: staged root, references/rescans, aligned PLY prep
+- [ ] VL-SAT `multi_view` generation route 구현: selected validation scans 대상
 - [ ] Calibration table schema와 counterfactual negative export 설계
 - [ ] Probabilistic calibration smoke implementation: `p_geom_valid` fitting/evaluation
 - [ ] Relative horizontal coordinate-frame validation은 support/contact 보완 이후 필요 시 진행
@@ -42,6 +43,7 @@ CAND-003은 literature survey 트랙이다. 2026-04-30 기준으로 LLM/VLM task
 
 ## Recently Completed
 
+- [x] VL-SAT faithful layout prep staging policy 작성: `22_prep.md`
 - [x] VL-SAT minimal eval path decision: faithful aligned PLY + faithful `multi_view`, `21_eval_path.md`
 - [x] VL-SAT generated annotation files staging 완료: `tools/prep_layout.py`, `generated/3DSSG_subset/relations.txt`, `train_scans.txt`, `validation_scans.txt`
 - [x] H001-internal VL-SAT layout checker 구현 및 실행: `tools/check_layout.py`, `artifacts/layout/vlsat/report.md`

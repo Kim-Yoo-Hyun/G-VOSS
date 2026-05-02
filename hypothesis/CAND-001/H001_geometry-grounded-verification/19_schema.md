@@ -413,4 +413,5 @@ The verifier must preserve every prediction row and attach verification status; 
 1. Use `20_layout.md` as the local layout compatibility result.
 2. Use `artifacts/layout/vlsat/report.md` as the latest checker output.
 3. Use `21_eval_path.md` as the faithful eval path decision.
-4. Do not implement calibration until prediction export and geometry join are validated.
+4. Use `22_prep.md` as the faithful layout prep policy.
+5. Do not implement calibration until prediction export and geometry join are validated.

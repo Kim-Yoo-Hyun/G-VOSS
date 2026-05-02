@@ -181,5 +181,6 @@ If `VL-SAT` cannot produce prediction JSONL within reasonable setup effort:
 2. Use `20_layout.md` as the local `3DSSG_subset` / 3RScan layout compatibility result.
 3. Use `artifacts/layout/vlsat/report.md` as the latest checker output.
 4. Use `21_eval_path.md` as the faithful eval path decision.
-5. Write the faithful layout prep staging policy.
-6. Do not start full training or broad experiment infrastructure until the local layout prep and minimal eval path are fixed.
+5. Use `22_prep.md` as the faithful layout prep policy.
+6. Select H001-Mini validation scan payloads.
+7. Do not start full training or broad experiment infrastructure until selected payloads, aligned PLY, and `multi_view` are staged.

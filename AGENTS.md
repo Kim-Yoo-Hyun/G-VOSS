@@ -117,6 +117,7 @@ Hypothesis 작업을 수행한 에이전트는 `hypothesis/` 아래에 결과를
 - `hypothesis/CAND-<number>/H<number>_<short-title>/19_schema.md`: prediction JSONL schema and adapter contract
 - `hypothesis/CAND-<number>/H<number>_<short-title>/20_layout.md`: baseline layout compatibility check
 - `hypothesis/CAND-<number>/H<number>_<short-title>/21_eval_path.md`: reportable baseline evaluation path decision
+- `hypothesis/CAND-<number>/H<number>_<short-title>/22_prep.md`: faithful baseline layout prep staging policy
 - `hypothesis/CAND-<number>/H<number>_<short-title>/tools/`: hypothesis-stage smoke-test scripts
 
 Hypothesis smoke-test artifact는 hypothesis 폴더 내부에만 둔다.
@@ -130,6 +131,7 @@ Hypothesis smoke-test artifact는 hypothesis 폴더 내부에만 둔다.
 - Versioned verifier outputs may use a short subfolder such as `v2/` and short filenames such as `decisions.jsonl`, `summary.json`, `report.md`.
 - Layout checker outputs should use short filenames such as `summary.json`, `prep_manifest.json`, and `report.md`.
 - Layout prep outputs should use short filenames such as `generated_manifest.json`, and generated baseline files should stay under `artifacts/layout/<baseline-name>/generated/`.
+- Large baseline runtime files should stay under an ignored staged dataset root such as `local_dataset/VLSAT_staged/`, not under tracked hypothesis artifacts.
 - 중간 산출물이 더 구체적인 review/report artifact로 대체되면 오래된 queue 파일은 유지하지 않는다.
 
 에이전트는 작업 전후로 `TODO.md`도 갱신한다.

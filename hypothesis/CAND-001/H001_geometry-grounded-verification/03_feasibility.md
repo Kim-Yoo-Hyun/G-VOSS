@@ -6,7 +6,7 @@ Last updated: 2026-05-03
 
 H001 is feasible as a one-scan hypothesis smoke test.
 
-The current gate is no longer dataset access, baseline selection, prediction schema definition, layout compatibility, layout checker implementation, or minimal eval path decision. The current gate is writing the faithful `VL-SAT` layout prep policy.
+The current gate is no longer dataset access, baseline selection, prediction schema definition, layout compatibility, layout checker implementation, minimal eval path decision, or layout prep policy. The current gate is selecting H001-Mini validation scan payloads with support/contact coverage.
 
 Current gate:
 
@@ -124,8 +124,10 @@ Visual inspection:
 
 Still pending:
 
-- faithful `VL-SAT` layout prep staging policy;
 - H001-Mini validation scan payload selection;
+- staged-root `VL-SAT` prep implementation;
+- faithful aligned PLY generation for selected scans;
+- faithful `multi_view` generation for selected scans;
 - calibration table schema and counterfactual negative generation;
 - prediction-level validation with model outputs;
 - horizontal coordinate-frame validation.
@@ -134,7 +136,7 @@ Still pending:
 
 Proceed inside the hypothesis folder.
 
-Do not start full baseline reproduction or broader experiment infrastructure until local `VL-SAT` layout prep and a minimal eval path are selected.
+Do not start full baseline reproduction or broader experiment infrastructure until H001-Mini validation payloads, aligned PLY, and `multi_view` are staged.
 
 ## Layout Checker Result
 

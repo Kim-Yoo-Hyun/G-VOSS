@@ -174,8 +174,8 @@ It must not be used for:
 
 ## Next
 
-1. Write the faithful layout prep staging policy.
-2. Specify staged 3RScan root and config patch boundaries.
-3. Identify the exact data needed for aligned PLY and `multi_view`.
-4. Download or stage H001-Mini validation scan payloads.
+1. Use `22_prep.md` as the faithful layout prep staging policy.
+2. Select H001-Mini validation scan payloads with support/contact coverage.
+3. Implement staged-root prep for selected scans.
+4. Generate aligned PLY and `multi_view`.
 5. Keep calibration blocked until faithful prediction export and geometry join pass.
