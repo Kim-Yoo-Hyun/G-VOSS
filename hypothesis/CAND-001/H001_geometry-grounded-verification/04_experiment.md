@@ -133,4 +133,4 @@ horizontal evidence: blocked by coordinate-frame ambiguity.
 
 ## Next
 
-Use `20_layout.md`, `21_eval_path.md`, `22_prep.md`, and `artifacts/layout/vlsat/report.md` as the local layout compatibility and eval path result. Next, select H001-Mini validation scan payloads before staged `VL-SAT` prep implementation and prediction-level evaluation.
+Use `20_layout.md`, `21_eval_path.md`, `22_prep.md`, `23_mini.md`, and `artifacts/layout/vlsat/report.md` as the local layout compatibility and eval path result. Next, implement faithful staged `VL-SAT` prep before prediction-level evaluation.

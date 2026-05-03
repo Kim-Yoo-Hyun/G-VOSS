@@ -118,12 +118,14 @@ Hypothesis 작업을 수행한 에이전트는 `hypothesis/` 아래에 결과를
 - `hypothesis/CAND-<number>/H<number>_<short-title>/20_layout.md`: baseline layout compatibility check
 - `hypothesis/CAND-<number>/H<number>_<short-title>/21_eval_path.md`: reportable baseline evaluation path decision
 - `hypothesis/CAND-<number>/H<number>_<short-title>/22_prep.md`: faithful baseline layout prep staging policy
+- `hypothesis/CAND-<number>/H<number>_<short-title>/23_mini.md`: mini validation scan selection
 - `hypothesis/CAND-<number>/H<number>_<short-title>/tools/`: hypothesis-stage smoke-test scripts
 
 Hypothesis smoke-test artifact는 hypothesis 폴더 내부에만 둔다.
 
 - one-scan artifact root: `hypothesis/CAND-<number>/H<number>_<short-title>/artifacts/one_scan/<scan-id>/`
 - baseline layout checker artifact root: `hypothesis/CAND-<number>/H<number>_<short-title>/artifacts/layout/<baseline-name>/`
+- subset selection artifact root: `hypothesis/CAND-<number>/H<number>_<short-title>/artifacts/subset/<subset-name>/`
 - Phase A files: `edges.jsonl`, `export_summary.json`, `export_report.md`, `thresholds.json`
 - Phase B files: `decisions.jsonl`, `rules_summary.json`, `rules_report.md`, `review_queue.jsonl`, `review_labels.jsonl`, `review_report.md`
 - Phase C files: `point_evidence.jsonl`, `point_comparison.jsonl`, `point_summary.json`, `point_report.md`, `comparison_report.md`
@@ -131,6 +133,7 @@ Hypothesis smoke-test artifact는 hypothesis 폴더 내부에만 둔다.
 - Versioned verifier outputs may use a short subfolder such as `v2/` and short filenames such as `decisions.jsonl`, `summary.json`, `report.md`.
 - Layout checker outputs should use short filenames such as `summary.json`, `prep_manifest.json`, and `report.md`.
 - Layout prep outputs should use short filenames such as `generated_manifest.json`, and generated baseline files should stay under `artifacts/layout/<baseline-name>/generated/`.
+- Subset selection outputs should use short filenames such as `manifest.json`, `scans.txt`, `candidates.jsonl`, `subgraphs.jsonl`, and `report.md`.
 - Large baseline runtime files should stay under an ignored staged dataset root such as `local_dataset/VLSAT_staged/`, not under tracked hypothesis artifacts.
 - 중간 산출물이 더 구체적인 review/report artifact로 대체되면 오래된 queue 파일은 유지하지 않는다.
 

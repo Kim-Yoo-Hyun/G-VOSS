@@ -16,7 +16,7 @@ Given object instances and candidate semantic relations in a 3D indoor scene, co
 
 | ID | Title | Folder | Status |
 | --- | --- | --- | --- |
-| H001 | Geometry-grounded verification of open-vocabulary 3DSSG relations | `H001_geometry-grounded-verification/` | faithful prep policy written |
+| H001 | Geometry-grounded verification of open-vocabulary 3DSSG relations | `H001_geometry-grounded-verification/` | H001-Mini selected |
 
 ## H001 Files
 
@@ -37,9 +37,12 @@ Given object instances and candidate semantic relations in a 3D indoor scene, co
 - `20_layout.md`: VL-SAT local layout compatibility check
 - `21_eval_path.md`: faithful VL-SAT eval path decision
 - `22_prep.md`: faithful VL-SAT layout prep staging policy
+- `23_mini.md`: H001-Mini validation scan selection
 - `tools/check_layout.py`: VL-SAT layout checker
 - `tools/prep_layout.py`: VL-SAT generated annotation staging
+- `tools/select_mini.py`: H001-Mini scan selector
 - `artifacts/layout/vlsat/`: latest layout checker output
+- `artifacts/subset/h001_mini/`: selected H001-Mini scan list and report
 
 ## Candidate-Level Assumptions
 
@@ -71,4 +74,4 @@ Calibration implementation requires:
 
 ## Next Gate
 
-Select H001-Mini validation scan payloads with support/contact coverage before implementing staged `VL-SAT` prep scripts or prediction-level evaluation.
+Implement faithful staged `VL-SAT` prep for selected H001-Mini scan files, `3DSSG_subset` annotations, `references.txt`, `rescans.txt`, and aligned PLY before prediction-level evaluation.

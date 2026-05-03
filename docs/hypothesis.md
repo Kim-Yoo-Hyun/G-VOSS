@@ -54,8 +54,10 @@ hypothesis/
       20_layout.md
       21_eval_path.md
       22_prep.md
+      23_mini.md
       tools/check_layout.py
       tools/prep_layout.py
+      tools/select_mini.py
 ```
 
 폴더명 규칙:
@@ -67,6 +69,7 @@ hypothesis/
 - 아직 실험을 시작하지 않았으면 `experiments/` 폴더를 만들지 않는다.
 - one-scan smoke-test artifact는 `artifacts/one_scan/<scan-id>/` 아래에 둔다.
 - baseline layout checker artifact는 `artifacts/layout/<baseline-name>/` 아래에 둔다.
+- subset selection artifact는 `artifacts/subset/<subset-name>/` 아래에 둔다.
 - artifact 파일명은 짧은 역할명으로 쓴다. 예: `edges.jsonl`, `decisions.jsonl`, `review_report.md`, `point_comparison.jsonl`, `comparison_report.md`.
 - 중간 queue가 더 구체적인 review artifact로 대체되면 오래된 queue 파일은 유지하지 않는다.
 
@@ -332,6 +335,20 @@ Prediction-level baseline 실행 전에 faithful staged runtime layout을 어떻
 - allowed path-only config boundary
 - H001-Mini validation payload requirement
 
+### `23_mini.md` / Mini
+
+Prediction-level validation 전에 H001-Mini scan selection을 고정한다.
+
+포함할 내용:
+
+- official validation split source
+- selection score and filters
+- selected scan ids
+- relation-family coverage
+- reference/rescan group duplicate control
+- required payload list
+- generated artifact paths
+
 ## Workflow
 
 Hypothesis 작업은 현재 아래 단계로 수행한다. 단계 수는 고정된 논문 구조가 아니라 agent가 결정을 잃지 않도록 돕는 연구 추적 구조다.
@@ -418,6 +435,13 @@ Hypothesis 작업은 현재 아래 단계로 수행한다. 단계 수는 고정�
    - aligned PLY와 `multi_view`는 reportable baseline을 위해 faithful route로 준비한다.
    - validation scan payload selection 전에는 full prediction-level run을 시작하지 않는다.
 
+17. Mini Selection
+   - prediction failure를 보기 전에 validation scan selection을 고정한다.
+   - official validation split에서 support/contact coverage를 우선한다.
+   - proximity와 relative vertical coverage를 보조 신호로 사용한다.
+   - 3RScan reference/rescan group 중복 선택을 피한다.
+   - scan selection artifact는 `artifacts/subset/<subset-name>/`에 둔다.
+
 ## Evidence Rules
 
 - 문헌 근거는 `literature/`에 있는 paper card와 CAND 문서를 우선 참조한다.
@@ -446,4 +470,4 @@ Hypothesis 문서를 갱신한 에이전트는 아래를 함께 확인한다.
 
 - Candidate: `CAND-001`
 - Hypothesis: `H001 Geometry-grounded verification of open-vocabulary 3DSSG relations`
-- Status: Drafted; one-scan Phase A/B/C, `h001-rules-v1`, visual inspection, support/contact subtype decision, stage doc consolidation, `h001-verifier-v2` implementation, `15_calibration.md`, `16_evaluation.md`, official `3DSSG_subset`-based `17_subset.md`, `18_baseline.md`, `19_schema.md`, `20_layout.md`, `tools/check_layout.py`, `tools/prep_layout.py`, `21_eval_path.md`, and `22_prep.md` completed; H001-Mini validation scan selection next
+- Status: Drafted; one-scan Phase A/B/C, `h001-rules-v1`, visual inspection, support/contact subtype decision, stage doc consolidation, `h001-verifier-v2` implementation, `15_calibration.md`, `16_evaluation.md`, official `3DSSG_subset`-based `17_subset.md`, `18_baseline.md`, `19_schema.md`, `20_layout.md`, `tools/check_layout.py`, `tools/prep_layout.py`, `21_eval_path.md`, `22_prep.md`, `tools/select_mini.py`, and `23_mini.md` completed; faithful staged-root prep next

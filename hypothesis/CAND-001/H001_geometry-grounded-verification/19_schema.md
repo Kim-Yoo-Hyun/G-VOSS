@@ -414,4 +414,5 @@ The verifier must preserve every prediction row and attach verification status; 
 2. Use `artifacts/layout/vlsat/report.md` as the latest checker output.
 3. Use `21_eval_path.md` as the faithful eval path decision.
 4. Use `22_prep.md` as the faithful layout prep policy.
-5. Do not implement calibration until prediction export and geometry join are validated.
+5. Use `23_mini.md` as the selected H001-Mini validation scan set.
+6. Do not implement calibration until prediction export and geometry join are validated.

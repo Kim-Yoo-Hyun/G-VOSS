@@ -480,6 +480,7 @@ Before implementation:
 4. Use `20_layout.md` and `artifacts/layout/vlsat/report.md` as the local `VL-SAT` layout compatibility result.
 5. Use `21_eval_path.md` as the faithful `VL-SAT` eval path decision.
 6. Use `22_prep.md` as the faithful layout prep policy.
-7. Select H001-Mini validation scan payloads.
-8. Define the calibration table schema.
-9. Implement counterfactual negative export only after scan split is fixed.
+7. Use `23_mini.md` as the selected validation scan set.
+8. Implement faithful staged-root prep for selected scans.
+9. Define the calibration table schema.
+10. Implement counterfactual negative export only after scan split is fixed.

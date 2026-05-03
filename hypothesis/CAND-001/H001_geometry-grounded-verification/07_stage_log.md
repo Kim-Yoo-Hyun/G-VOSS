@@ -316,10 +316,12 @@ Use `21_eval_path.md` as the faithful eval path decision.
 
 Use `22_prep.md` as the faithful staged layout prep policy.
 
+Use `23_mini.md` as the H001-Mini validation scan selection record.
+
 Next gate:
 
 ```text
-H001-Mini validation scan payload selection
+faithful VL-SAT staged-root prep
 ```
 
 Do not treat these one-scan results as benchmark evidence.

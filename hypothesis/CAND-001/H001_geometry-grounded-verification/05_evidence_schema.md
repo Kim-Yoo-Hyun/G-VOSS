@@ -163,6 +163,7 @@ Subtype-specific evidence:
 | layout checker | `tools/check_layout.py` / `artifacts/layout/vlsat/` | implemented |
 | eval path | `21_eval_path.md` | faithful route decided |
 | prep policy | `22_prep.md` | written |
+| H001-Mini selection | `23_mini.md` / `artifacts/subset/h001_mini/` | fixed |
 
 ## Open Decisions
 

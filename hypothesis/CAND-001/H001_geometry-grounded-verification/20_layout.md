@@ -166,6 +166,6 @@ faithful aligned PLY + faithful multi_view
 
 ## Next
 
-1. Select H001-Mini validation scan payloads with support/contact coverage.
+1. Use `23_mini.md` as the selected H001-Mini validation scan set.
 2. Implement staged-root prep for selected scans.
 3. Keep calibration fitting blocked until prediction export and geometry join are validated.

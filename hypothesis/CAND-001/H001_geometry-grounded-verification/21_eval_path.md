@@ -175,7 +175,7 @@ It must not be used for:
 ## Next
 
 1. Use `22_prep.md` as the faithful layout prep staging policy.
-2. Select H001-Mini validation scan payloads with support/contact coverage.
+2. Use `23_mini.md` as the selected H001-Mini validation scan set.
 3. Implement staged-root prep for selected scans.
 4. Generate aligned PLY and `multi_view`.
 5. Keep calibration blocked until faithful prediction export and geometry join pass.

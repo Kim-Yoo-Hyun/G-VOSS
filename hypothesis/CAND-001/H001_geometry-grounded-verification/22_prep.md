@@ -285,9 +285,10 @@ This still does not prove H001. It only makes faithful `VL-SAT` prediction expor
 
 ## Next
 
-1. Select H001-Mini validation scan payloads with support/contact coverage.
+1. Use `23_mini.md` as the selected H001-Mini validation scan set.
 2. Implement a staged-root prep script for annotations, scan files, `references.txt`, and `rescans.txt`.
-3. Generate aligned PLY for selected validation scans.
-4. Generate `multi_view` features for selected validation scans.
-5. Re-run `tools/check_layout.py` against the staged root.
-6. Keep calibration blocked until faithful prediction export and geometry join pass.
+3. Download or stage required payloads for selected validation scans.
+4. Generate aligned PLY for selected validation scans.
+5. Generate `multi_view` features for selected validation scans.
+6. Re-run `tools/check_layout.py` against the staged root.
+7. Keep calibration blocked until faithful prediction export and geometry join pass.
