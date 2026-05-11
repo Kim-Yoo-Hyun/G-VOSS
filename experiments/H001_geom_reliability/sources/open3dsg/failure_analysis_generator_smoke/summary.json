@@ -1,0 +1,36 @@
+{
+  "by_claim_use": {
+    "caveat_only": 1,
+    "exclude_from_h001_family_claim": 1,
+    "exclude_until_fixed": 1,
+    "include_metric": 1,
+    "main_h001_failure": 1,
+    "positive_evidence": 1
+  },
+  "by_predicate_family": {
+    "attachment_deferred": 1,
+    "proximity": 1,
+    "relative_vertical": 2,
+    "support_contact": 2
+  },
+  "by_primary_category": {
+    "adapter_or_identity_error": 1,
+    "predicate_family_ambiguity": 1,
+    "rank_only_failure": 1,
+    "semantic_and_geometry_failure": 1,
+    "true_positive_supported": 1,
+    "unsupported_family_out_of_scope": 1
+  },
+  "by_topk_transition": {
+    "demoted_out_of_top50": 1,
+    "not_computed": 2,
+    "promoted_into_top50": 1,
+    "stayed_in_topk": 2
+  },
+  "metric_eligible_count": 4,
+  "row_count": 6,
+  "schema_version": "h001_open3dsg_failure_analysis_summary_v1",
+  "source": "synthetic_smoke_fixtures",
+  "status": "failure_analysis_generator_smoke_ready_no_metric_inspection",
+  "visual_audit_queue_count": 1
+}

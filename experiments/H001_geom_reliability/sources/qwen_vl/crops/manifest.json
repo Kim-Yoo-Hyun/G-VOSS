@@ -1,0 +1,46 @@
+{
+  "counts": {
+    "family_counts": {
+      "proximity": 10,
+      "relative_vertical": 10,
+      "support_contact": 10
+    },
+    "input_rows": 30,
+    "missing_image": 0,
+    "no_shared_view": 0,
+    "rendered_crops": 30,
+    "updated_input_rows": 30
+  },
+  "created_at": "2026-05-08T06:30:17+00:00",
+  "input_sha256": {
+    "after": "00e5628f5d23fc950ac7007b145bf33bcff60247f6959a7c1fc7704b7e61f5c0",
+    "before": "301118a1d114d18cab575523eca54eb2f44ebd670ba28820917e75b7ce4da3dc",
+    "changed": true
+  },
+  "inputs": {
+    "input_jsonl": "experiments/H001_geom_reliability/sources/qwen_vl/tiny_pilot/input.jsonl",
+    "rscan_root": "local_dataset/3RScan/scans",
+    "tiny_pilot_dir": "experiments/H001_geom_reliability/sources/qwen_vl/tiny_pilot",
+    "views_dir": "local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/views"
+  },
+  "next_action": "Run qwen_vl_tiny_pilot_validator and qwen_vl_runtime_plan after rendering.",
+  "outputs": {
+    "crop_root": "local_dataset/qwen_vl_crops/tiny_pilot",
+    "manifest": "experiments/H001_geom_reliability/sources/qwen_vl/crops/manifest.json",
+    "records_jsonl": "experiments/H001_geom_reliability/sources/qwen_vl/crops/records.jsonl",
+    "report": "experiments/H001_geom_reliability/sources/qwen_vl/crops/report.md",
+    "updated_input_jsonl": "experiments/H001_geom_reliability/sources/qwen_vl/tiny_pilot/input.jsonl"
+  },
+  "rendering_policy": {
+    "annotation": "subject red box, object blue box; no text labels added to image",
+    "pair_crop": "union of subject/object 2D boxes with fixed padding",
+    "view_selection": "choose shared frame maximizing subject/object visibility ratio and visible pixels"
+  },
+  "runtime_policy": "no_model_download_no_inference",
+  "schema_version": "h001_qwen_vl_pair_crops_v1",
+  "status": "pair_crops_rendered_no_model_download_no_inference",
+  "validation": {
+    "errors": [],
+    "warnings": []
+  }
+}

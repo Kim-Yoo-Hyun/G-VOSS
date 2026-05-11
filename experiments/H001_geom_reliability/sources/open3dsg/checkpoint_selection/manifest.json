@@ -1,0 +1,55 @@
+{
+  "blockers": [
+    "no_checkpoint_candidates",
+    "official_feature_audit_not_ready:blocked"
+  ],
+  "candidate_checkpoints": [],
+  "candidate_count": 0,
+  "checkpoint_dir": "local_dataset/Open3DSG_staged/training_repro/output/checkpoints",
+  "claim_boundary": "This artifact freezes provenance and selection policy only. It is not a checkpoint, not Open3DSG metric evidence, and not permission to select a checkpoint using H001 held-out metrics.",
+  "created_at": "2026-05-09T15:44:01+00:00",
+  "feature_audit_status": "blocked",
+  "next_action_after_checkpoint": "Fill a checkpoint provenance record before raw dump/eval; then run eval_preflight with the selected checkpoint.",
+  "record_template": "record_template.json",
+  "schema_version": "h001_open3dsg_checkpoint_selection_v1",
+  "selection_policy": "selection_policy.json",
+  "source_artifacts": [
+    {
+      "exists": true,
+      "name": "feature_audit_manifest",
+      "path": "experiments/H001_geom_reliability/sources/open3dsg/dump_features/manifest.json",
+      "sha256": "b3a59e9d3053e2b6b98c63e377bcf2b52f24d287aabd19be95d0aa4642a3a5a6"
+    },
+    {
+      "exists": true,
+      "name": "train_filter_manifest",
+      "path": "experiments/H001_geom_reliability/sources/open3dsg/train_preprocess_filter/manifest.json",
+      "sha256": "42c010a515a97ccccd125ffe42f4fbf92ab7fbef36996551f67d107d348a274f"
+    },
+    {
+      "exists": true,
+      "name": "validation_filter_manifest",
+      "path": "experiments/H001_geom_reliability/sources/open3dsg/validation_preprocess_filter/manifest.json",
+      "sha256": "4714b26165594cff1d508f5de4e98550903db663ccb4e8846b8c664e3145be04"
+    },
+    {
+      "exists": true,
+      "name": "env_check_report",
+      "path": "experiments/H001_geom_reliability/sources/open3dsg/env_check.md",
+      "sha256": "0cf8f7d1e0e1e64884b019a3b87695161cd1472f656fe567a0e10e793d64c5a2"
+    },
+    {
+      "exists": true,
+      "name": "cache_preflight_manifest",
+      "path": "experiments/H001_geom_reliability/sources/open3dsg/cache_preflight/manifest.json",
+      "sha256": "14d5719c008f14622453813fbe72c23eb7076cd046938992ddb11e2a89fd6a05"
+    }
+  ],
+  "source_statuses": {
+    "cache_preflight": "ready_with_cache_warnings",
+    "feature_audit": "blocked",
+    "train_filter": "filter_applied",
+    "validation_filter": "filter_applied"
+  },
+  "status": "checkpoint_selection_template_ready_checkpoint_missing"
+}

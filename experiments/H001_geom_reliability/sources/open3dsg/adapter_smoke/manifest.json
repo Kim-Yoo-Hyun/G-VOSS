@@ -1,0 +1,32 @@
+{
+  "adapter": {
+    "name": "open3dsg_to_h001_predictions",
+    "version": "v0"
+  },
+  "baseline_name": "open3dsg_ov",
+  "counts": {
+    "contexts": 388,
+    "prediction_rows": 2,
+    "raw_rows": 1
+  },
+  "created_at": "2026-05-07T12:30:39.099609+00:00",
+  "inputs": {
+    "raw_dump_jsonl": "experiments/H001_geom_reliability/sources/open3dsg/adapter_smoke/raw_smoke.jsonl",
+    "relationships_file": "local_dataset/3DSSG_subset/relationships.txt",
+    "selected_scans": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_validation_hardened/scans.txt",
+    "smoke_test": true,
+    "subset_json": "local_dataset/3DSSG_subset/relationships_validation.json"
+  },
+  "next_action": "Run Open3DSG identity-preserving raw dump, then rerun this adapter without --contract-only.",
+  "outputs": {
+    "predictions_jsonl": "experiments/H001_geom_reliability/sources/open3dsg/adapter_smoke/predictions.jsonl",
+    "raw_schema_example": "experiments/H001_geom_reliability/sources/open3dsg/adapter_smoke/raw_schema_example.json",
+    "raw_smoke_jsonl": "experiments/H001_geom_reliability/sources/open3dsg/adapter_smoke/raw_smoke.jsonl"
+  },
+  "schema_version": "h001_open3dsg_prediction_adapter_manifest_v1",
+  "status": "ready",
+  "validation": {
+    "errors": [],
+    "warnings": []
+  }
+}

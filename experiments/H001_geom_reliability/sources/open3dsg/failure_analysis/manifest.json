@@ -1,0 +1,39 @@
+{
+  "counts": {
+    "aggregation_tables": 6,
+    "example_rows": 2,
+    "primary_categories": 14
+  },
+  "created_at": "2026-05-08T07:29:22+00:00",
+  "inputs": {
+    "geometry_join_jsonl": "pending: Open3DSG predictions joined with H001 verifier outputs",
+    "ground_truth_jsonl": "pending: H001 held-out GT export",
+    "prediction_jsonl": "pending: experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl",
+    "vlsat_comparison": "optional: vlsat_closed_set hardened rows"
+  },
+  "next_action": "After Open3DSG prediction metrics exist, implement a generator that emits rows conforming to schema.json without changing taxonomy.json.",
+  "outputs": {
+    "aggregation_plan_json": "experiments/H001_geom_reliability/sources/open3dsg/failure_analysis/aggregation_plan.json",
+    "example_jsonl": "experiments/H001_geom_reliability/sources/open3dsg/failure_analysis/example.jsonl",
+    "manifest": "experiments/H001_geom_reliability/sources/open3dsg/failure_analysis/manifest.json",
+    "report": "experiments/H001_geom_reliability/sources/open3dsg/failure_analysis/report.md",
+    "schema_json": "experiments/H001_geom_reliability/sources/open3dsg/failure_analysis/schema.json",
+    "taxonomy_json": "experiments/H001_geom_reliability/sources/open3dsg/failure_analysis/taxonomy.json"
+  },
+  "runtime_policy": "schema_design_only_no_open3dsg_metric_run",
+  "schema_version": "h001_open3dsg_failure_analysis_manifest_v1",
+  "status": "failure_analysis_schema_ready_no_metric_run",
+  "target": {
+    "baseline_name": "open3dsg_ov",
+    "predicate_families": [
+      "support_contact",
+      "proximity",
+      "relative_vertical"
+    ],
+    "split_name": "h001_validation_hardened"
+  },
+  "validation": {
+    "errors": [],
+    "warnings": []
+  }
+}

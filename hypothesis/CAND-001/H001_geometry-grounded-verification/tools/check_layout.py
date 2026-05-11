@@ -49,6 +49,24 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--dataset-root", type=Path, default=DEFAULT_DATASET_ROOT)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
     parser.add_argument(
+        "--subset-root",
+        type=Path,
+        default=None,
+        help="3DSSG_subset root. Defaults to <dataset-root>/3DSSG_subset.",
+    )
+    parser.add_argument(
+        "--scan-root",
+        type=Path,
+        default=None,
+        help="3RScan scan root. Defaults to <dataset-root>/3RScan/scans.",
+    )
+    parser.add_argument(
+        "--expected-vlsat-scan-root",
+        type=Path,
+        default=None,
+        help="Expected direct VL-SAT scan root for path convention checks.",
+    )
+    parser.add_argument(
         "--generated-subset-root",
         type=Path,
         default=DEFAULT_GENERATED_SUBSET_ROOT,
@@ -148,7 +166,7 @@ def compare_scan_list_file(path: Path, expected_scan_ids: list[str]) -> dict[str
     }
 
 
-def inspect_scan(scan_dir: Path, dataset_root: Path) -> dict[str, Any]:
+def inspect_scan(scan_dir: Path, expected_vlsat_scan_root: Path) -> dict[str, Any]:
     h001_files = {name: (scan_dir / name).exists() for name in H001_SCAN_FILES}
     aligned_candidates = {name: (scan_dir / name).exists() for name in VLSAT_SCAN_FILES}
     return {
@@ -159,7 +177,7 @@ def inspect_scan(scan_dir: Path, dataset_root: Path) -> dict[str, Any]:
         "vlsat_aligned_ply_ready": any(aligned_candidates.values()),
         "vlsat_aligned_ply_candidates": aligned_candidates,
         "multi_view_ready": (scan_dir / "multi_view").is_dir(),
-        "direct_vlsat_root_style": (dataset_root / "3RScan" / scan_dir.name).is_dir(),
+        "direct_vlsat_root_style": scan_dir.parent.resolve() == expected_vlsat_scan_root.resolve(),
     }
 
 
@@ -178,7 +196,9 @@ def build_report(summary: dict[str, Any]) -> str:
         "",
         f"- status: `{status}`",
         f"- default VL-SAT ready: `{str(summary['default_vlsat_ready']).lower()}`",
-        f"- H001 one-scan geometry ready scans: `{counts['h001_ready_scan_dirs']}`",
+        f"- H001 geometry ready scans: `{counts['h001_ready_scan_dirs']}`",
+        f"- subset root: `{summary['subset_root']}`",
+        f"- scan root: `{summary['scan_root']}`",
         "",
         "## Counts",
         "",
@@ -239,8 +259,8 @@ def build_report(summary: dict[str, Any]) -> str:
             "## Next",
             "",
             "1. Keep the generated annotation files staged outside source dataset mutation.",
-            "2. Decide faithful aligned+`multi_view` route vs 3D-only plumbing route.",
-            "3. Download selected H001-Mini validation scan payloads before prediction-level evaluation.",
+            "2. Resolve any blockers or warnings listed above.",
+            "3. If status is `ready`, use this report as the staged layout readiness record.",
             "",
         ]
     )
@@ -251,9 +271,14 @@ def main() -> int:
     args = parse_args()
     dataset_root = args.dataset_root.resolve()
     generated_subset_root = args.generated_subset_root.resolve()
-    subset_root = dataset_root / "3DSSG_subset"
-    rscan_root = dataset_root / "3RScan"
-    local_scan_root = rscan_root / "scans"
+    subset_root = args.subset_root.resolve() if args.subset_root else dataset_root / "3DSSG_subset"
+    local_scan_root = args.scan_root.resolve() if args.scan_root else dataset_root / "3RScan" / "scans"
+    if args.expected_vlsat_scan_root:
+        expected_vlsat_scan_root = args.expected_vlsat_scan_root.resolve()
+    elif args.scan_root:
+        expected_vlsat_scan_root = local_scan_root
+    else:
+        expected_vlsat_scan_root = dataset_root / "3RScan"
 
     subset_files = {
         key: file_record(resolved_subset_file(subset_root, generated_subset_root, key), "vlsat_layout")
@@ -284,7 +309,7 @@ def main() -> int:
         relation_alias_matches = read_lines(relationships_txt) == read_lines(relations_txt)
 
     scan_dirs = sorted(p for p in local_scan_root.iterdir() if p.is_dir()) if local_scan_root.exists() else []
-    scan_checks = [inspect_scan(scan_dir, dataset_root) for scan_dir in scan_dirs]
+    scan_checks = [inspect_scan(scan_dir, expected_vlsat_scan_root) for scan_dir in scan_dirs]
     scan_counter = Counter()
     for scan in scan_checks:
         scan_counter["h001_ready"] += int(scan["h001_ready"])
@@ -322,16 +347,21 @@ def main() -> int:
         blockers.append(f"train/validation scan overlap detected: {len(overlap)} scans")
 
     if not scan_dirs:
-        blockers.append("no local 3RScan scan payload directories found under local_dataset/3RScan/scans")
+        blockers.append(f"no 3RScan scan payload directories found under {rel(local_scan_root)}")
+
+    if scan_counter["h001_ready"] < len(scan_checks):
+        blockers.append("raw 3RScan geometry payload missing for at least one scan")
 
     if scan_counter["aligned_ply_ready"] < len(scan_checks):
-        blockers.append("aligned PLY missing for at least one local scan")
+        blockers.append("aligned PLY missing for at least one scan")
 
     if scan_counter["multi_view_ready"] < len(scan_checks):
-        blockers.append("multi_view features missing for at least one local scan while VL-SAT default uses 2D features")
+        blockers.append("multi_view features missing for at least one scan while VL-SAT default uses 2D features")
 
     if scan_counter["direct_vlsat_root_style"] < len(scan_checks):
-        warnings.append("local 3RScan root uses local_dataset/3RScan/scans/<scan_id>, not direct 3RScan/<scan_id>")
+        warnings.append(
+            f"scan root {rel(local_scan_root)} is not the expected direct VL-SAT scan root {rel(expected_vlsat_scan_root)}"
+        )
 
     if not available_validation_scan_ids:
         warnings.append("no downloaded local scan payload currently belongs to official validation split")
@@ -375,6 +405,9 @@ def main() -> int:
         "generated_at": now_iso(),
         "checker_version": "vlsat-layout-check-v1",
         "dataset_root": str(dataset_root),
+        "subset_root": str(subset_root),
+        "scan_root": str(local_scan_root),
+        "expected_vlsat_scan_root": str(expected_vlsat_scan_root),
         "generated_subset_root": str(generated_subset_root),
         "output_dir": str(args.output_dir.resolve()),
         "status": status,

@@ -1,0 +1,158 @@
+ Container open3dsg-dump_features_3rscan-run-f256f6f6d3ed Creating 
+ Container open3dsg-dump_features_3rscan-run-f256f6f6d3ed Created 
+
+==========
+== CUDA ==
+==========
+
+CUDA Version 12.8.1
+
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/lightning_fabric/__init__.py:40: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/transformers/utils/hub.py:128: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+2026-05-08 02:08:27.472395: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-05-08 02:08:27.489533: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2026-05-08 02:08:27.590135: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2026-05-08 02:08:28.093386: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+{"blockers": [], "mode": "dump_features", "status": "ready"}
+{"blockers": [], "status": "ready"}
+Defaulting to user installation because normal site-packages is not writeable
+Obtaining file:///workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: open3dsg
+  Building editable for open3dsg (pyproject.toml): started
+  Building editable for open3dsg (pyproject.toml): finished with status 'done'
+  Created wheel for open3dsg: filename=open3dsg-0.0.1-0.editable-py3-none-any.whl size=18321 sha256=480d8b31ca860948e62a69e606f5e5e17b725fba245eb2b1aacd430e07f90f61
+  Stored in directory: /tmp/pip-ephem-wheel-cache-0ur7rql5/wheels/f6/f4/48/e79d972da195275afaf83301f54818e0ba9b351c2e72890e90
+Successfully built open3dsg
+Installing collected packages: open3dsg
+  Attempting uninstall: open3dsg
+    Found existing installation: open3dsg 0.0.1
+    Uninstalling open3dsg-0.0.1:
+      Successfully uninstalled open3dsg-0.0.1
+Successfully installed open3dsg-0.0.1
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/lightning_fabric/__init__.py:40: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/transformers/utils/hub.py:128: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+2026-05-08 02:08:34.566442: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-05-08 02:08:34.567787: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2026-05-08 02:08:34.588294: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2026-05-08 02:08:34.922899: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+Experimental: No LLava model present in your system
+2026-05-08 02:08:35.947519: I tensorflow/compiler/xla/stream_executor/cuda/cuda_gpu_executor.cc:996] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero. See more at https://github.com/torvalds/linux/blob/v6.0/Documentation/ABI/testing/sysfs-bus-pci#L344-L355
+2026-05-08 02:08:35.951038: W tensorflow/core/common_runtime/gpu/gpu_device.cc:1956] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.
+Skipping registering GPU devices...
+CUDA device name: NVIDIA GeForce RTX 5090
+/workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow
+2026/05/08 02:08:36 WARNING mlflow.tracking.context.registry: Encountered unexpected error during resolving tags: 'getpwuid(): uid not found: 1001'
+363094050435167554
+91c216bbaea042dc8877f2101ebe23b7
+Seed set to 42
+Args: Namespace(gpus=1, workers=1, seed=42, run_name='optimistic-cave-1228', mixed_precision=False, accumulate_grad_batches=1, epochs=50, batch_size=1, lr=0.0001, lr_scheduler='reduce', wd=0.01, bn_momentum=0.9, bn_decay=0.5, decay_step=100000.0, w_obj=1.0, w_rel=1.0, use_rgb=False, gnn_layers=4, graph_backbone='message', gconv_dim=512, hidden_dim=1024, max_nodes=9, max_edges=72, dataset='3rscan', mini_dataset=False, augment=False, top_k_frames=5, scales=3, dump_features=True, load_features=None, clip_model='OpenSeg', node_model='ViT-L/14@336px', edge_model=None, blip=True, avg_blip_emb=False, blip_proj_layers=3, llava=False, avg_llava_emb=False, pointnet2=False, clean_pointnet=False, supervised_edges=False, test=False, checkpoint=None, weight_2d=0.5, n_beams=5, gt_objects=False, vis_graphs=False, predict_materials=False, test_scans_3rscan=False, predict_from_2d=False, quick_eval=False, object_context=False, update_hparams=False, manual_mapping=False)
+HParams: {'gpus': 1, 'workers': 1, 'seed': 42, 'run_name': 'optimistic-cave-1228', 'mixed_precision': False, 'accumulate_grad_batches': 1, 'epochs': 50, 'batch_size': 1, 'lr': 0.0001, 'lr_scheduler': 'reduce', 'wd': 0.01, 'bn_momentum': 0.9, 'bn_decay': 0.5, 'decay_step': 100000.0, 'w_obj': 1.0, 'w_rel': 1.0, 'use_rgb': False, 'gnn_layers': 4, 'graph_backbone': 'message', 'gconv_dim': 512, 'hidden_dim': 1024, 'max_nodes': 9, 'max_edges': 72, 'dataset': '3rscan', 'mini_dataset': False, 'augment': False, 'top_k_frames': 5, 'scales': 3, 'dump_features': True, 'load_features': None, 'clip_model': 'OpenSeg', 'node_model': 'ViT-L/14@336px', 'edge_model': None, 'blip': True, 'avg_blip_emb': False, 'blip_proj_layers': 3, 'llava': False, 'avg_llava_emb': False, 'pointnet2': False, 'clean_pointnet': False, 'supervised_edges': False, 'test': False, 'checkpoint': None, 'weight_2d': 0.5, 'n_beams': 5, 'gt_objects': False, 'vis_graphs': False, 'predict_materials': False, 'test_scans_3rscan': False, 'predict_from_2d': False, 'quick_eval': False, 'object_context': False, 'update_hparams': False, 'manual_mapping': False}
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+[rank: 0] Seed set to 42
+Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/1
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 1 processes
+----------------------------------------------------------------------------------------------------
+
+You are using a CUDA device ('NVIDIA GeForce RTX 5090') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user. 
+  warnings.warn(  # warn only once
+Downloading shards:   0%|          | 0/4 [00:00<?, ?it/s]Downloading shards: 100%|██████████| 4/4 [00:00<00:00, 9597.95it/s]
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:01<00:05,  1.94s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:01,  1.04it/s]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:02<00:00,  1.59it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:02<00:00,  2.12it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:02<00:00,  1.49it/s]
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/pytorch_lightning/core/optimizer.py:375: Found unsupported keys in the optimizer configuration: {'interval'}
+
+  | Name      | Type             | Params
+-----------------------------------------------
+0 | model     | SGPN             | 1.5 B 
+1 | cosSim1   | CosineSimilarity | 0     
+2 | cosSim2   | CosineSimilarity | 0     
+3 | transform | PclAugmenter     | 0     
+-----------------------------------------------
+1.5 B     Trainable params
+0         Non-trainable params
+1.5 B     Total params
+6,098.337 Total estimated model params size (MB)
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:441: The 'train_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=19` in the `DataLoader` to improve performance.
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:441: The 'val_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=19` in the `DataLoader` to improve performance.
+Training: |          | 0/? [00:00<?, ?it/s][Errno 2] No such file or directory: '/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_ScanNet/preprocessed/55551095-36f1-29c0-8832-90e4ea43176b/data_dict_2.pkl' /workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_ScanNet/preprocessed/55551095-36f1-29c0-8832-90e4ea43176b/data_dict_2.pkl
+[Errno 2] No such file or directory: '/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_ScanNet/preprocessed/0958223d-e2c2-2de1-9683-a76a4276d84c/data_dict_1.pkl' /workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_ScanNet/preprocessed/0958223d-e2c2-2de1-9683-a76a4276d84c/data_dict_1.pkl
+Training:   0%|          | 0/3744 [00:00<?, ?it/s]Epoch 0:   0%|          | 0/3744 [00:00<?, ?it/s] [Errno 2] No such file or directory: '/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_ScanNet/preprocessed/569d8f0b-72aa-2f24-8bfb-8159cfb5e7f4/data_dict_1.pkl' /workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_ScanNet/preprocessed/569d8f0b-72aa-2f24-8bfb-8159cfb5e7f4/data_dict_1.pkl
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source/open3dsg/scripts/run.py", line 224, in <module>
+[rank0]:     trainer.fit(model)
+[rank0]:   File "/opt/conda/envs/open3dsg/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 544, in fit
+[rank0]:     call._call_and_handle_interrupt(
+[rank0]:   File "/opt/conda/envs/open3dsg/lib/python3.9/site-packages/pytorch_lightning/trainer/call.py", line 43, in _call_and_handle_interrupt
+[rank0]:     return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
+[rank0]:   File "/opt/conda/envs/open3dsg/lib/python3.9/site-packages/pytorch_lightning/strategies/launchers/subprocess_script.py", line 102, in launch
+[rank0]:     return function(*args, **kwargs)
+[rank0]:   File "/opt/conda/envs/open3dsg/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 580, in _fit_impl
+[rank0]:     self._run(model, ckpt_path=ckpt_path)
+[rank0]:   File "/opt/conda/envs/open3dsg/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 989, in _run
+[rank0]:     results = self._run_stage()
+[rank0]:   File "/opt/conda/envs/open3dsg/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1035, in _run_stage
+[rank0]:     self.fit_loop.run()
+[rank0]:   File "/opt/conda/envs/open3dsg/lib/python3.9/site-packages/pytorch_lightning/loops/fit_loop.py", line 202, in run
+[rank0]:     self.advance()
+[rank0]:   File "/opt/conda/envs/open3dsg/lib/python3.9/site-packages/pytorch_lightning/loops/fit_loop.py", line 359, in advance
+[rank0]:     self.epoch_loop.run(self._data_fetcher)
+[rank0]:   File "/opt/conda/envs/open3dsg/lib/python3.9/site-packages/pytorch_lightning/loops/training_epoch_loop.py", line 136, in run
+[rank0]:     self.advance(data_fetcher)
+[rank0]:   File "/opt/conda/envs/open3dsg/lib/python3.9/site-packages/pytorch_lightning/loops/training_epoch_loop.py", line 202, in advance
+[rank0]:     batch, _, __ = next(data_fetcher)
+[rank0]:   File "/opt/conda/envs/open3dsg/lib/python3.9/site-packages/pytorch_lightning/loops/fetchers.py", line 127, in __next__
+[rank0]:     batch = super().__next__()
+[rank0]:   File "/opt/conda/envs/open3dsg/lib/python3.9/site-packages/pytorch_lightning/loops/fetchers.py", line 56, in __next__
+[rank0]:     batch = next(self.iterator)
+[rank0]:   File "/opt/conda/envs/open3dsg/lib/python3.9/site-packages/pytorch_lightning/utilities/combined_loader.py", line 326, in __next__
+[rank0]:     out = next(self._iterator)
+[rank0]:   File "/opt/conda/envs/open3dsg/lib/python3.9/site-packages/pytorch_lightning/utilities/combined_loader.py", line 74, in __next__
+[rank0]:     out[i] = next(self.iterators[i])
+[rank0]:   File "/opt/conda/envs/open3dsg/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 734, in __next__
+[rank0]:     data = self._next_data()
+[rank0]:   File "/opt/conda/envs/open3dsg/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 1516, in _next_data
+[rank0]:     return self._process_data(data, worker_id)
+[rank0]:   File "/opt/conda/envs/open3dsg/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 1551, in _process_data
+[rank0]:     data.reraise()
+[rank0]:   File "/opt/conda/envs/open3dsg/lib/python3.9/site-packages/torch/_utils.py", line 769, in reraise
+[rank0]:     raise exception
+[rank0]: RuntimeError: Caught RuntimeError in DataLoader worker process 0.
+[rank0]: Original Traceback (most recent call last):
+[rank0]:   File "/opt/conda/envs/open3dsg/lib/python3.9/site-packages/torch/utils/data/_utils/worker.py", line 349, in _worker_loop
+[rank0]:     data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+[rank0]:   File "/opt/conda/envs/open3dsg/lib/python3.9/site-packages/torch/utils/data/_utils/fetch.py", line 52, in fetch
+[rank0]:     data = [self.dataset[idx] for idx in possibly_batched_index]
+[rank0]:   File "/opt/conda/envs/open3dsg/lib/python3.9/site-packages/torch/utils/data/_utils/fetch.py", line 52, in <listcomp>
+[rank0]:     data = [self.dataset[idx] for idx in possibly_batched_index]
+[rank0]:   File "/workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source/open3dsg/data/open_dataset.py", line 626, in __getitem__
+[rank0]:     raise RuntimeError(f"Failed to lazy-load Open3DSG sample: {relationship}")
+[rank0]: RuntimeError: Failed to lazy-load Open3DSG sample: {'objects': {'1': 'floor', '14': 'sink', '15': 'bath cabinet', '16': 'toilet', '17': 'window', '19': 'bath cabinet', '33': 'windowsill', '4': 'door', '9': 'wall'}, 'relationships': [[9, 1, 14, 'attached to'], [14, 15, 22, 'build in'], [15, 1, 15, 'standing on'], [16, 1, 15, 'standing on'], [19, 9, 14, 'attached to'], [15, 16, 2, 'left'], [16, 15, 3, 'right'], [17, 33, 3, 'right'], [17, 33, 6, 'close by'], [33, 17, 6, 'close by'], [33, 17, 2, 'left']], 'scan': '55551095-36f1-29c0-8832-90e4ea43176b', 'split': 2}
+
+Epoch 0:   0%|          | 0/3744 [00:02<?, ?it/s]
+[rank0]:[W508 02:08:53.952123607 ProcessGroupNCCL.cpp:1538] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+

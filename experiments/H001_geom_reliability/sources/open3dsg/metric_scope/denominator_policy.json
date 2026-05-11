@@ -1,0 +1,95 @@
+{
+  "coverage_rule": {
+    "full_h001_denominator_preferred": "Use 127 scans / 388 contexts / 2,545 in-scope GT rows if raw dump covers the fixed H001 identity scope.",
+    "if_open3dsg_raw_dump_has_missing_contexts": "Report covered_contexts, covered_gt_rows, excluded_contexts, and exclusion reasons. Do not silently treat missing Open3DSG contexts as model negatives or as full-denominator evidence.",
+    "intersection_claim_boundary": "If Open3DSG coverage is filtered below the fixed H001 scope, Table 6 is an Open3DSG-covered-scope comparison, not a full H001-scope cross-source result."
+  },
+  "filtered_training_caveat": {
+    "paper_wording": "Open3DSG checkpoint reproduction uses an explicitly filtered preprocessed-ready runtime split. Report retained and removed train/train-dev subgraphs and relations; do not describe it as full official train preprocessing.",
+    "train": {
+      "filtered": {
+        "relations": 79704,
+        "subgraphs": 3744,
+        "unique_scans": 1158
+      },
+      "original": {
+        "relations": 81190,
+        "subgraphs": 3852,
+        "unique_scans": 1178
+      },
+      "removed": {
+        "object_count_histogram": {
+          "2": 8,
+          "3": 4,
+          "4": 3,
+          "5": 36,
+          "6": 6,
+          "7": 7,
+          "8": 4,
+          "9": 40
+        },
+        "relations": 1486,
+        "removed_only_scans": 20,
+        "subgraphs": 108,
+        "unique_scans": 101
+      },
+      "status": "filter_applied"
+    },
+    "validation_train_dev": {
+      "filtered": {
+        "relations": 3696,
+        "subgraphs": 156,
+        "unique_scans": 30
+      },
+      "original": {
+        "relations": 3749,
+        "subgraphs": 160,
+        "unique_scans": 30
+      },
+      "removed": {
+        "object_count_histogram": {
+          "6": 1,
+          "8": 1,
+          "9": 2
+        },
+        "relations": 53,
+        "removed_only_scans": 0,
+        "subgraphs": 4,
+        "unique_scans": 3
+      },
+      "status": "filter_applied"
+    }
+  },
+  "h001_eval_preprocess_caveat": {
+    "caveat": "Plan-level eval preprocess readiness is not the final metric denominator. Final Open3DSG coverage must be recomputed from raw dump identity audit and adapter export.",
+    "expected_contexts": 388,
+    "ready_contexts": 377,
+    "status": "preprocess_partial_ready"
+  },
+  "metric_denominator": {
+    "excluded_family_counts": {
+      "attachment_deferred": 967,
+      "relative_horizontal": 3570,
+      "unsupported_first_pass": 423
+    },
+    "fixed_gt_rows": 7505,
+    "fixed_h001_eval_scope": {
+      "contexts": 388,
+      "directed_pairs": 25916,
+      "scans": 127
+    },
+    "h001_geometry_checkable_gt_denominator": 2545,
+    "target_family_counts": {
+      "proximity": 1128,
+      "relative_vertical": 218,
+      "support_contact": 1199
+    }
+  },
+  "prediction_scope_rule": {
+    "candidate_predictions": "Open3DSG prediction JSONL may contain all exported predicates except `none`.",
+    "metric_excluded_predictions": "Rows in relative_horizontal, attachment_deferred, background_none, or unsupported_first_pass.",
+    "metric_in_scope_predictions": "Rows whose predicate_family is support_contact, proximity, or relative_vertical.",
+    "topk_rule": "Top-k metrics must be computed after applying the same H001 family scope used for VL-SAT."
+  },
+  "schema_version": "h001_open3dsg_metric_scope_v1"
+}

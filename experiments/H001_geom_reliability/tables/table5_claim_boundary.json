@@ -1,0 +1,26 @@
+[
+  {
+    "allowed_claim": "scoped geometry-consistency reliability-layer result",
+    "blocked_extension": "not baseline-agnostic by itself",
+    "source_or_claim": "VL-SAT / vlsat_closed_set",
+    "status": "ready"
+  },
+  {
+    "allowed_claim": "none until Docker checkpoint reproduction and metric run exist",
+    "blocked_extension": "cross-predictor claim blocked",
+    "source_or_claim": "Open3DSG",
+    "status": "selected_second_source_blocked"
+  },
+  {
+    "allowed_claim": "future support/contact smoke only",
+    "blocked_extension": "not full-family evidence",
+    "source_or_claim": "FROSS",
+    "status": "runtime_blocked_support_contact_only"
+  },
+  {
+    "allowed_claim": "not allowed from current evidence",
+    "blocked_extension": "requires measured second-source/open-vocabulary evidence",
+    "source_or_claim": "Broad open-vocabulary 3DSSG improvement",
+    "status": "blocked"
+  }
+]

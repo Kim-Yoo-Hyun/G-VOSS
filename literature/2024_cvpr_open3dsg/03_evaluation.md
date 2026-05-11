@@ -31,7 +31,7 @@ On closed-vocabulary 3DSSG evaluation:
 
 ## Reproducibility Notes
 
-- Code is public but archived read-only as of 2026-02-19.
+- Code is public but archived/read-only as confirmed on 2026-05-06; inspected source snapshot commit `a568358d6bb718929aa9ff67b2dfdecc4a4c3261`.
 - The GitHub README reports requirements around 3RScan, 3DSSG, ScanNet, OpenSeg checkpoints, BLIP2 positional embeddings, PointNet/PointNet2 weights, and large precomputed 2D features.
 - Precomputing VLM features can require substantial storage, reported around 300GB per dataset.
 
@@ -40,4 +40,3 @@ On closed-vocabulary 3DSSG evaluation:
 - Open-vocabulary relation text is evaluated by mapping to a fixed set of 3DSSG predicates, which does not fully measure open-set relation quality.
 - Metrics do not directly check whether semantic relations are geometrically consistent.
 - Standard recall metrics do not separate language hallucination from geometric inconsistency.
-

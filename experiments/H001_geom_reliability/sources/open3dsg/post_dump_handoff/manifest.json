@@ -1,0 +1,173 @@
+{
+  "claim_boundary": {
+    "current_artifact": "post-dump command/gate handoff only",
+    "not_evidence": [
+      "Open3DSG checkpoint quality",
+      "Open3DSG metric result",
+      "real failure-analysis labels"
+    ],
+    "paper_claim_unblocked_after": [
+      "official feature_audit ready",
+      "Docker checkpoint reproduction",
+      "identity-preserving raw dump",
+      "prediction JSONL export",
+      "geometry join and H001 metrics",
+      "locked-schema real failure-analysis rows"
+    ]
+  },
+  "commands": {
+    "adapter_raw_dump": "sg docker -c 'env UID=$(id -u) GID=$(id -g) OPEN3DSG_RAW_DUMP_JSONL=/workspace/experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_adapter_raw_dump'",
+    "eval_h001_gt_objects": "sg docker -c 'env UID=$(id -u) GID=$(id -g) OPEN3DSG_CHECKPOINT=/workspace/local_dataset/Open3DSG_staged/training_repro/output/checkpoints/<checkpoint>.ckpt docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm eval_h001_gt_objects'",
+    "eval_preflight": "sg docker -c 'env UID=$(id -u) GID=$(id -g) OPEN3DSG_CHECKPOINT=/workspace/local_dataset/Open3DSG_staged/training_repro/output/checkpoints/<checkpoint>.ckpt docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm eval_preflight'",
+    "failure_analysis_real_guard": "# blocked: add/run the real Open3DSG failure-analysis generator only after prediction JSONL, GT join, geometry join, and metrics exist; the current Docker smoke service in experiments/H001_geom_reliability/compose.yaml is not metric evidence",
+    "feature_audit": "sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm feature_audit'",
+    "train_full": "sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm train_full'",
+    "train_pilot": "sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm train_pilot'"
+  },
+  "created_at": "2026-05-10T15:57:57+00:00",
+  "feature_progress": {
+    "blockers": [
+      "object_embeddings:1932/3900",
+      "object_valids:1932/3900",
+      "relation_embeddings:1932/3900",
+      "complete_all_roles:1932/3900"
+    ],
+    "by_role": {
+      "object_embeddings": 1932,
+      "object_valids": 1932,
+      "relation_embeddings": 1932
+    },
+    "complete_all_roles": 1932,
+    "complete_sample": [
+      "02b33df9-be2b-2d54-9062-1253be3ce186-3",
+      "02b33dfb-be2b-2d54-92d2-cd012b2b3c40-1",
+      "02b33dfb-be2b-2d54-92d2-cd012b2b3c40-2",
+      "02b33dfd-be2b-2d54-91d2-55454852009e-1",
+      "02b33dfd-be2b-2d54-91d2-55454852009e-2",
+      "02b33dfd-be2b-2d54-91d2-55454852009e-3",
+      "02b33e01-be2b-2d54-93fb-4145a709cec5-1",
+      "02b33e01-be2b-2d54-93fb-4145a709cec5-2",
+      "02b33e01-be2b-2d54-93fb-4145a709cec5-3",
+      "02b33e03-be2b-2d54-9129-5d28efdd68fa-1",
+      "02b33e03-be2b-2d54-9129-5d28efdd68fa-3",
+      "05c6ede7-2e69-23b1-8b27-c1cb868f1938-1",
+      "05c6ede7-2e69-23b1-8b27-c1cb868f1938-3",
+      "05c6ede7-2e69-23b1-8b27-c1cb868f1938-4",
+      "09582205-e2c2-2de1-9475-1cdac7639e60-1",
+      "09582205-e2c2-2de1-9475-1cdac7639e60-2",
+      "0958220b-e2c2-2de1-96bc-739f09c1e8f8-1",
+      "0958220d-e2c2-2de1-9710-c37018da1883-1",
+      "0958220d-e2c2-2de1-9710-c37018da1883-2",
+      "09582214-e2c2-2de1-956a-64d8da4ba7cc-1"
+    ],
+    "expected_total": 3900,
+    "expected_train": 3744,
+    "expected_validation": 156,
+    "feature_run_dir_exists": true,
+    "missing_by_role": {
+      "object_embeddings": 1968,
+      "object_valids": 1968,
+      "relation_embeddings": 1968
+    },
+    "missing_complete_all_roles": 1968,
+    "progress_fraction": 0.49538461538461537,
+    "progress_percent": 49.5385,
+    "subdirs": [
+      {
+        "name": "export_obj_clip_emb_clip_OpenSeg_Topk_5_scales_3_vis_crit_0.19999999999999998_vis_crit_mask_0.1",
+        "pt_files": 1932,
+        "role": "object_embeddings",
+        "sample_ids": [
+          "02b33df9-be2b-2d54-9062-1253be3ce186-3",
+          "02b33dfb-be2b-2d54-92d2-cd012b2b3c40-1",
+          "02b33dfb-be2b-2d54-92d2-cd012b2b3c40-2",
+          "02b33dfd-be2b-2d54-91d2-55454852009e-1",
+          "02b33dfd-be2b-2d54-91d2-55454852009e-2"
+        ]
+      },
+      {
+        "name": "export_obj_clip_valids",
+        "pt_files": 1932,
+        "role": "object_valids",
+        "sample_ids": [
+          "02b33df9-be2b-2d54-9062-1253be3ce186-3",
+          "02b33dfb-be2b-2d54-92d2-cd012b2b3c40-1",
+          "02b33dfb-be2b-2d54-92d2-cd012b2b3c40-2",
+          "02b33dfd-be2b-2d54-91d2-55454852009e-1",
+          "02b33dfd-be2b-2d54-91d2-55454852009e-2"
+        ]
+      },
+      {
+        "name": "export_rel_clip_emb_clip_BLIP_Topk_5_scales_3_vis_crit_0.19999999999999998",
+        "pt_files": 1932,
+        "role": "relation_embeddings",
+        "sample_ids": [
+          "02b33df9-be2b-2d54-9062-1253be3ce186-3",
+          "02b33dfb-be2b-2d54-92d2-cd012b2b3c40-1",
+          "02b33dfb-be2b-2d54-92d2-cd012b2b3c40-2",
+          "02b33dfd-be2b-2d54-91d2-55454852009e-1",
+          "02b33dfd-be2b-2d54-91d2-55454852009e-2"
+        ]
+      }
+    ],
+    "unknown_subdirs": []
+  },
+  "gates": {
+    "adapter_ready": {
+      "passed": false,
+      "requires": "open3dsg_adapter_raw_dump converts the raw dump to H001 prediction JSONL with zero errors",
+      "status": "adapter_contract_ready_raw_dump_missing"
+    },
+    "checkpoint_available": {
+      "checkpoint_count": 0,
+      "passed": false,
+      "requires": "train_pilot/full produces a checkpoint with explicit path recorded before eval",
+      "sample_checkpoints": []
+    },
+    "feature_dump_complete": {
+      "blockers": [
+        "object_embeddings:1932/3900",
+        "object_valids:1932/3900",
+        "relation_embeddings:1932/3900",
+        "complete_all_roles:1932/3900"
+      ],
+      "passed": false,
+      "requires": "complete ids across object_valids, object_embeddings, relation_embeddings equal expected train+validation total"
+    },
+    "metrics_ready": {
+      "metrics_json": "experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json",
+      "passed": false,
+      "requires": "Open3DSG prediction JSONL, GT join, geometry join, and H001 metric suite complete"
+    },
+    "official_feature_audit": {
+      "manifest": "experiments/H001_geom_reliability/sources/open3dsg/dump_features/manifest.json",
+      "passed": false,
+      "requires": "Docker feature_audit manifest selected_run_audit.status == ready",
+      "status": "blocked"
+    },
+    "raw_dump_available": {
+      "passed": false,
+      "raw_dump_jsonl": "experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl",
+      "requires": "identity-preserving Open3DSG raw dump with scan/subgraph/object-pair ids"
+    }
+  },
+  "handoff_order": [
+    "feature_audit",
+    "train_pilot",
+    "train_full",
+    "eval_preflight",
+    "eval_h001_gt_objects",
+    "adapter_raw_dump",
+    "failure_analysis_real_guard"
+  ],
+  "inputs": {
+    "adapter_manifest": "experiments/H001_geom_reliability/sources/open3dsg/adapter/manifest.json",
+    "checkpoint_dir": "local_dataset/Open3DSG_staged/training_repro/output/checkpoints",
+    "feature_audit_manifest": "experiments/H001_geom_reliability/sources/open3dsg/dump_features/manifest.json",
+    "feature_run_dir": "local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3",
+    "metrics_json": "experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json",
+    "raw_dump_jsonl": "experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl"
+  },
+  "schema_version": "h001_open3dsg_post_dump_handoff_v1",
+  "status": "waiting_for_feature_dump_completion"
+}

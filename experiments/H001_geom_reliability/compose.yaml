@@ -1,0 +1,401 @@
+services:
+  table_builder:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability
+
+  open3dsg_plan:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/plan_open3dsg_checkpoint.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg
+
+  open3dsg_train_root:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/stage_open3dsg_train_root.py
+    command:
+      - --repo-root
+      - /workspace
+      - --staged-root
+      - /workspace/local_dataset/Open3DSG_staged/training_repro
+      - --source-runtime-root
+      - /workspace/local_dataset/Open3DSG_staged/h001_runtime
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/training_repro
+
+  open3dsg_payload:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/stage_3rscan_payload.py
+
+  open3dsg_train_handoff:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/prepare_open3dsg_training.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/training_handoff
+
+  open3dsg_post_dump_handoff:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/plan_open3dsg_post_dump_handoff.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/post_dump_handoff
+
+  open3dsg_checkpoint_selection:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/prepare_open3dsg_checkpoint_selection.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/checkpoint_selection
+
+  open3dsg_raw_dump_identity:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/prepare_open3dsg_raw_dump_identity.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/raw_dump_identity
+
+  open3dsg_metric_scope:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/prepare_open3dsg_metric_scope.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/metric_scope
+
+  open3dsg_metric_join_contract:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/prepare_open3dsg_metric_join.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/metric_join_contract
+
+  open3dsg_adapter_contract:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/export_open3dsg_predictions.py
+    command:
+      - --repo-root
+      - /workspace
+      - --contract-only
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/adapter
+
+  open3dsg_adapter_smoke:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/export_open3dsg_predictions.py
+    command:
+      - --repo-root
+      - /workspace
+      - --smoke-test
+      - --baseline-run-id
+      - open3dsg_adapter_smoke
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/adapter_smoke
+
+  open3dsg_adapter_raw_dump:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/export_open3dsg_predictions.py
+    command:
+      - --repo-root
+      - /workspace
+      - --raw-dump-jsonl
+      - ${OPEN3DSG_RAW_DUMP_JSONL:-/workspace/experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl}
+      - --baseline-run-id
+      - ${OPEN3DSG_BASELINE_RUN_ID:-open3dsg_repro}
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/adapter
+
+  open3dsg_failure_schema:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/design_open3dsg_failure_analysis.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/failure_analysis
+
+  open3dsg_failure_generator_smoke:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/generate_open3dsg_failure_analysis.py
+    command:
+      - --repo-root
+      - /workspace
+      - --schema-dir
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/failure_analysis
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/failure_analysis_generator_smoke
+      - --smoke-test
+
+  qwen_vl_adapter_contract:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/prepare_qwen_vl_adapter.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl
+
+  qwen_vl_contract_validator:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/validate_qwen_vl_contract.py
+    command:
+      - --repo-root
+      - /workspace
+      - --contract-dir
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/validation
+
+  qwen_vl_tiny_pilot_scope:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/select_qwen_vl_tiny_pilot.py
+    command:
+      - --repo-root
+      - /workspace
+      - --contract-dir
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/tiny_pilot
+
+  qwen_vl_tiny_pilot_validator:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/validate_qwen_vl_contract.py
+    command:
+      - --repo-root
+      - /workspace
+      - --contract-dir
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl
+      - --input-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/tiny_pilot/input.jsonl
+      - --raw-response-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/tiny_pilot/raw_response_template.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/tiny_pilot/validation
+
+  qwen_vl_runtime_plan:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/plan_qwen_vl_runtime.py
+    command:
+      - --repo-root
+      - /workspace
+      - --tiny-pilot-dir
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/tiny_pilot
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/runtime_plan
+
+  qwen_vl_pair_crop_render:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/render_qwen_vl_pair_crops.py
+    command:
+      - --repo-root
+      - /workspace
+      - --tiny-pilot-dir
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/tiny_pilot
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/crops
+      - --crop-root
+      - /workspace/local_dataset/qwen_vl_crops/tiny_pilot

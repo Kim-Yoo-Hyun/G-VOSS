@@ -1,0 +1,58 @@
+[
+  {
+    "condition": "semantic_only",
+    "delta_r100_vs_semantic": 0.0,
+    "delta_r50_vs_semantic": 0.0,
+    "delta_violation100_vs_semantic": 0.0,
+    "delta_violation50_vs_semantic": 0.0,
+    "r100": 0.9893909626719057,
+    "r50": 0.9599214145383104,
+    "relative_violation_reduction100": 0.0,
+    "relative_violation_reduction50": 0.0,
+    "role": "reproduced VL-SAT semantic ranking",
+    "violation100": 0.046881443298969074,
+    "violation50": 0.024742268041237112
+  },
+  {
+    "condition": "probabilistic_recalibrated",
+    "delta_r100_vs_semantic": 0.002750491159135504,
+    "delta_r50_vs_semantic": 0.0043222003929273,
+    "delta_violation100_vs_semantic": -0.007809278350515467,
+    "delta_violation50_vs_semantic": -0.0013917525773195875,
+    "r100": 0.9921414538310412,
+    "r50": 0.9642436149312377,
+    "relative_violation_reduction100": 0.1665750412314459,
+    "relative_violation_reduction50": 0.05625,
+    "role": "main recall-first H001 condition",
+    "violation100": 0.03907216494845361,
+    "violation50": 0.023350515463917525
+  },
+  {
+    "condition": "rule_verified_point_subtype",
+    "delta_r100_vs_semantic": -0.00039292730844797674,
+    "delta_r50_vs_semantic": -0.0011787819253438192,
+    "delta_violation100_vs_semantic": -0.046881443298969074,
+    "delta_violation50_vs_semantic": -0.024742268041237112,
+    "r100": 0.9889980353634578,
+    "r50": 0.9587426326129665,
+    "relative_violation_reduction100": 1.0,
+    "relative_violation_reduction50": 1.0,
+    "role": "hard-filter zero-violation diagnostic",
+    "violation100": 0.0,
+    "violation50": 0.0
+  },
+  {
+    "condition": "family_specific_p_geom_valid",
+    "delta_r100_vs_semantic": 0.0019646365422396617,
+    "delta_r50_vs_semantic": 0.0019646365422397727,
+    "delta_violation100_vs_semantic": -0.01585051546391753,
+    "delta_violation50_vs_semantic": -0.0043814432989690705,
+    "r100": 0.9913555992141454,
+    "r50": 0.9618860510805501,
+    "relative_violation_reduction100": 0.3380978559648159,
+    "relative_violation_reduction50": 0.1770833333333333,
+    "role": "stricter violation-first operating point",
+    "violation100": 0.031030927835051545,
+    "violation50": 0.020360824742268042
+  }
+]

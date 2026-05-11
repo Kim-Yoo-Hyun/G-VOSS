@@ -1,0 +1,42 @@
+[
+  {
+    "metric": "strict invalid-only precision",
+    "note": "non-independent structured audit",
+    "rows": 250,
+    "source": "structured_audit",
+    "status": "ready",
+    "value": 0.7133333333333334
+  },
+  {
+    "metric": "quality-issue precision",
+    "note": "invalid, too coarse, scan-missing, or annotation-noise labels",
+    "rows": 250,
+    "source": "structured_audit",
+    "status": "ready",
+    "value": 0.8933333333333333
+  },
+  {
+    "metric": "target-bucket quality-issue rate",
+    "note": "reduced 50-row visual sanity check, reviewer yhkim",
+    "rows": 50,
+    "source": "visual_spotcheck",
+    "status": "ready_sanity_pass",
+    "value": 0.9333333333333333
+  },
+  {
+    "metric": "target-bucket contradiction rate",
+    "note": "valid/verifier-error contradiction among target buckets",
+    "rows": 50,
+    "source": "visual_spotcheck",
+    "status": "ready_sanity_pass",
+    "value": 0.03333333333333333
+  },
+  {
+    "metric": "private-reference exact match rate",
+    "note": "provenance caveat: Codex transcribed reviewer-confirmed labels",
+    "rows": 50,
+    "source": "visual_spotcheck",
+    "status": "ready_sanity_pass",
+    "value": 1.0
+  }
+]

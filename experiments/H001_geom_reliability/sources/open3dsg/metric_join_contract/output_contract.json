@@ -1,0 +1,147 @@
+{
+  "metrics_schema_version": "h001_open3dsg_metrics_v1",
+  "required_outputs": {
+    "joined_manifest_json": "input hashes, row counts, join counts, missing geometry rows, and blocked reasons",
+    "metrics_json": {
+      "conditions": {
+        "open3dsg_family_specific_p_geom_valid": {
+          "recall": {
+            "by_k": {
+              "100": {
+                "correct": "integer",
+                "recall": "number|null",
+                "selected_predictions": "integer"
+              },
+              "50": {
+                "correct": "integer",
+                "recall": "number|null",
+                "selected_predictions": "integer"
+              }
+            }
+          },
+          "violation_rate": {
+            "by_k": {
+              "100": {
+                "selected_predictions": "integer",
+                "violation_rate": "number|null",
+                "violations": "integer"
+              },
+              "50": {
+                "selected_predictions": "integer",
+                "violation_rate": "number|null",
+                "violations": "integer"
+              }
+            }
+          }
+        },
+        "open3dsg_probabilistic_recalibrated": {
+          "recall": {
+            "by_k": {
+              "100": {
+                "correct": "integer",
+                "recall": "number|null",
+                "selected_predictions": "integer"
+              },
+              "50": {
+                "correct": "integer",
+                "recall": "number|null",
+                "selected_predictions": "integer"
+              }
+            }
+          },
+          "violation_rate": {
+            "by_k": {
+              "100": {
+                "selected_predictions": "integer",
+                "violation_rate": "number|null",
+                "violations": "integer"
+              },
+              "50": {
+                "selected_predictions": "integer",
+                "violation_rate": "number|null",
+                "violations": "integer"
+              }
+            }
+          }
+        },
+        "open3dsg_rule_verified_point_subtype": {
+          "recall": {
+            "by_k": {
+              "100": {
+                "correct": "integer",
+                "recall": "number|null",
+                "selected_predictions": "integer"
+              },
+              "50": {
+                "correct": "integer",
+                "recall": "number|null",
+                "selected_predictions": "integer"
+              }
+            }
+          },
+          "violation_rate": {
+            "by_k": {
+              "100": {
+                "selected_predictions": "integer",
+                "violation_rate": "number|null",
+                "violations": "integer"
+              },
+              "50": {
+                "selected_predictions": "integer",
+                "violation_rate": "number|null",
+                "violations": "integer"
+              }
+            }
+          }
+        },
+        "open3dsg_semantic_only": {
+          "recall": {
+            "by_k": {
+              "100": {
+                "correct": "integer",
+                "recall": "number|null",
+                "selected_predictions": "integer"
+              },
+              "50": {
+                "correct": "integer",
+                "recall": "number|null",
+                "selected_predictions": "integer"
+              }
+            }
+          },
+          "violation_rate": {
+            "by_k": {
+              "100": {
+                "selected_predictions": "integer",
+                "violation_rate": "number|null",
+                "violations": "integer"
+              },
+              "50": {
+                "selected_predictions": "integer",
+                "violation_rate": "number|null",
+                "violations": "integer"
+              }
+            }
+          }
+        }
+      },
+      "required_top_level_fields": [
+        "schema_version",
+        "status",
+        "baseline_name",
+        "split_name",
+        "counts",
+        "conditions",
+        "blocked",
+        "claim_boundary"
+      ]
+    },
+    "report_md": "human-readable summary that separates Fact, Inference, and Claim boundary"
+  },
+  "schema_version": "h001_open3dsg_metric_join_contract_v1",
+  "table_builder_hook": {
+    "allowed_claim_after_ready": "cross-predictor trend within measured H001 families only",
+    "blocked_until": "Open3DSG metrics_json status is ready",
+    "table": "Table 6"
+  }
+}

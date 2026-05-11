@@ -1,6 +1,6 @@
 # Paper Registry
 
-Last updated: 2026-04-30
+Last updated: 2026-05-11
 
 이 파일은 3D Scene Graph literature pass에서 추적하는 논문 목록과 reading queue를 관리한다. 논문별 상세 정리는 각 paper folder에 둔다.
 
@@ -15,6 +15,7 @@ Last updated: 2026-04-30
 | [Hydra](https://arxiv.org/abs/2201.13360) | RSS 2022 | TBD | Candidate | real-time hierarchical 3DSG; ESDF, topology, room/object hierarchy, graph optimization |
 | [OpenScene](https://openaccess.thecvf.com/content/CVPR2023/papers/Peng_OpenScene_3D_Scene_Understanding_With_Open_Vocabularies_CVPR_2023_paper.pdf) | CVPR 2023 | TBD | Related | CLIP-aligned dense 3D features; open-vocabulary object/material/affordance query의 upstream 근거 |
 | [VL-SAT](https://cvpr.thecvf.com/virtual/2023/poster/22846) | CVPR 2023 Highlight | `literature/2023_cvpr_vl-sat/` | Read | visual-language semantics와 3D geometry를 3DSSG training에 결합; long-tail relation 보강 |
+| [SGAligner: 3D Scene Alignment with Scene Graphs](https://openaccess.thecvf.com/content/ICCV2023/papers/Sarkar_SGAligner_3D_Scene_Alignment_with_Scene_Graphs_ICCV_2023_paper.pdf) | ICCV 2023 | TBD | Related / positioning | 3D scene graph를 partial-overlap scene alignment와 registration에 사용하는 downstream 근거; CAND-001의 direct baseline은 아님 |
 | [3D Spatial Multimodal Knowledge Accumulation for Scene Graph Prediction in Point Cloud](https://openaccess.thecvf.com/content/CVPR2023/html/Feng_3D_Spatial_Multimodal_Knowledge_Accumulation_for_Scene_Graph_Prediction_in_CVPR_2023_paper.html) | CVPR 2023 | `literature/2023_cvpr_smka/` | Read | 3D spatial hierarchy와 symbolic/text knowledge를 3DSSG relation prediction에 결합; CAND-001의 spatial-knowledge closed-set baseline |
 | [Incremental 3D Semantic Scene Graph Prediction From RGB Sequences](https://openaccess.thecvf.com/content/CVPR2023/papers/Wu_Incremental_3D_Semantic_Scene_Graph_Prediction_From_RGB_Sequences_CVPR_2023_paper.pdf) | CVPR 2023 | TBD | Candidate | RGB sequence에서 sparse geometry, geometric feature, edge feature로 online 3D SSG 추정 |
 | [OpenMask3D](https://openmask3d.github.io/) | NeurIPS 2023 | TBD | Related | open-vocabulary 3D instance segmentation; CAND-001의 object-node proposal upstream |
@@ -23,6 +24,7 @@ Last updated: 2026-04-30
 | [SGRec3D](https://openaccess.thecvf.com/content/WACV2024/html/Koch_SGRec3D_Self-Supervised_3D_Scene_Graph_Learning_via_Object-Level_Scene_Reconstruction_WACV_2024_paper.html) | WACV 2024 | `literature/2024_wacv_sgrec3d/` | Read | graph bottleneck reconstruction으로 3DSG representation pretraining |
 | [Open3DSG](https://arxiv.org/abs/2402.12259) | CVPR 2024 | `literature/2024_cvpr_open3dsg/` | Read | open-vocabulary object와 open-set relation을 LLM/VLM feature로 예측 |
 | [CCL-3DSGG](https://openaccess.thecvf.com/content/CVPR2024/html/Chen_CLIP-Driven_Open-Vocabulary_3D_Scene_Graph_Generation_via_Cross-Modality_Contrastive_Learning_CVPR_2024_paper.html) | CVPR 2024 | `literature/2024_cvpr_ccl-3dsgg/` | Read | CLIP 기반 cross-modality contrastive learning으로 novel object/predicate 처리 |
+| [SG-PGM: Partial Graph Matching Network with Semantic Geometric Fusion for 3D Scene Graph Alignment and Its Downstream Tasks](https://openaccess.thecvf.com/content/CVPR2024/papers/Xie_SG-PGM_Partial_Graph_Matching_Network_with_Semantic_Geometric_Fusion_for_CVPR_2024_paper.pdf) | CVPR 2024 | TBD | Related / positioning | partial graph matching, semantic-geometric fusion, point-matching rescoring; H001의 re-ranking framing과 가깝지만 목표는 scene graph alignment/registration |
 | [ConceptGraphs](https://concept-graphs.github.io/) | ICRA 2024 | TBD | CAND-003 P1 | 2D foundation model 출력을 3D graph로 융합하고 LLM/VLM으로 inter-object relation 생성 |
 | [HOV-SG](https://www.roboticsproceedings.org/rss20/p077.html) | RSS 2024 | TBD | CAND-003 P1 | dense open-vocabulary maps를 floor-room-object hierarchy와 navigation graph로 압축 |
 | [EgoSG](https://openaccess.thecvf.com/content/CVPR2024W/SG2RL/html/Zhang_EgoSG_Learning_3D_Scene_Graphs_from_Egocentric_RGB-D_Sequences_CVPRW_2024_paper.html) | CVPRW 2024 | TBD | Candidate | camera pose/reconstruction 없이 egocentric RGB-D sequence에서 3DSG 추정 |
@@ -58,6 +60,22 @@ Date checked: 2026-04-28
 | Geometry-grounding anchor | SGGpoint, SMKA, SGRec3D, FirePlace, GREAT, Octree-Graph | Geometry/edge attributes and support hierarchy can constrain semantic relations, affordances, support/contact-like reasoning, and spatial relation usability |
 | LLM/VLM grounding and hallucination anchor | Open3DSG, 3D-GRAND, 3DGraphLLM, 3D-Mem, SayPlan | LLM/VLM reasoning over 3D needs structured grounding; hallucination and restrictive textual relations are explicit evaluation concerns |
 | Upstream object-node proposal anchor | OpenScene, OpenMask3D, LangSplat | Open-vocabulary object/region features can supply nodes, but relation-edge grounding remains under-specified |
+| Downstream alignment / registration motivation | SGAligner, SG-PGM | 3D scene graphs are used as structured inputs for scene alignment, registration, mosaicking, overlap checking, and navigation; this supports why relation reliability matters, but these are not direct relation-prediction baselines for H001 |
+
+## CAND-001 Alignment/Downstream Positioning Note
+
+Date checked: 2026-05-11
+
+| Paper | Fit to H001 | What it supports | Boundary |
+| --- | --- | --- | --- |
+| SGAligner | Medium problem fit, high positioning fit | Uses 3D scene graphs for partial-overlap scene alignment and downstream point-cloud registration; good evidence that 3DSG quality matters beyond label recall | It aligns existing scene graphs rather than improving predicate-level relation reliability; do not use as H001 main baseline |
+| SG-PGM | Medium-high method fit, high positioning fit | Treats 3D scene graph alignment as partial graph matching and fuses semantic/geometric features; its point-matching rescoring is conceptually close to H001's calibrated re-ranking framing | Its target is graph/node/point matching and registration, not relation-edge calibration; avoid implying H001 must solve downstream alignment unless adding a separate optional experiment |
+
+Inference:
+
+- These papers strengthen the motivation that 3D scene graph edges should be geometrically reliable before they are reused for alignment, registration, navigation, or mapping.
+- They should appear in related work under `3D scene graph downstream use / alignment / semantic-geometric fusion`, not under direct 3DSSG relation-prediction baselines.
+- If H001 later adds a downstream sanity check, the clean question is whether geometry-consistency-filtered or re-ranked relation edges improve alignment robustness. This should remain optional until Open3DSG second-source relation evidence is complete.
 
 ## CAND-003 Evidence View
 
@@ -130,6 +148,7 @@ Goal: CAND-001을 `geometry-grounded verification and representation of open-voc
 | P0 | 3DSSG / 3RScan 계열 | 기본 dataset과 closed-set 3DSG 문제 설정 파악 | Read |
 | P0 | Open3DSG + CCL-3DSGG | open-vocabulary relation prediction이 semantic reasoning 쪽 핵심축 | Read |
 | P0 | VL-SAT | visual-language semantics와 3D geometry를 3DSSG training에 결합하는 방식 확인 | Read |
+| P1 | SGAligner + SG-PGM | 3D scene graph alignment, semantic-geometric fusion, and rescoring as downstream motivation for relation reliability | Surveyed for positioning; not main H001 baseline |
 | P0 | SGGpoint | edge-oriented reasoning과 multi-dimensional edge feature 확인 | Read |
 | P0 | 3D Spatial Multimodal Knowledge Accumulation | 3D spatial knowledge와 symbolic/text knowledge가 relation prediction에 어떻게 쓰이는지 확인 | Read |
 | P0 | SGRec3D + ToLL | geometry/topology-aware representation learning 축 확인 | SGRec3D read; ToLL selected |

@@ -1,0 +1,46 @@
+{
+  "claim_boundary": "Table 6 may report Open3DSG numbers only after metrics.json has status ready, nonempty condition metrics, no blockers, and metric_scope policy is ready.",
+  "metric_contract": {
+    "blocked": [
+      "predictions_jsonl:missing_required:experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl",
+      "geometry_jsonl:missing_required:experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl"
+    ],
+    "counts": {
+      "geometry": null,
+      "ground_truth": 7505,
+      "in_scope_gt_denominator": null,
+      "predictions": null
+    },
+    "input_statuses": {
+      "calibration_model_json": "present",
+      "family_calibration_model_json": "present",
+      "geometry_jsonl": "missing_required",
+      "ground_truth_jsonl": "present",
+      "predictions_jsonl": "missing_required"
+    },
+    "manifest_exists": true,
+    "manifest_path": "sources/open3dsg/metric_join_contract/manifest.json",
+    "manifest_status": "blocked_runtime_inputs_missing",
+    "metrics_exists": true,
+    "metrics_path": "sources/open3dsg/metric_join_contract/metrics.json",
+    "metrics_status": "blocked_runtime_inputs_missing"
+  },
+  "metric_scope": {
+    "exists": true,
+    "in_scope_gt_denominator": 2545,
+    "path": "sources/open3dsg/metric_scope/manifest.json",
+    "status": "metric_scope_policy_ready_no_metric_execution"
+  },
+  "ready_gate": {
+    "contract_only_statuses_are_blocked": [
+      "blocked_runtime_inputs_missing",
+      "ready_runtime_inputs_present_contract_only"
+    ],
+    "required_metrics_status": "ready",
+    "requires_empty_blocked_list": true,
+    "requires_metric_scope_policy_ready": true,
+    "requires_nonempty_conditions": true
+  },
+  "schema_version": "h001_open3dsg_table6_hook_v1",
+  "status": "blocked_until_open3dsg_metrics_ready"
+}

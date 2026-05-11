@@ -1,0 +1,24 @@
+{
+  "baseline_name": "open3dsg_ov",
+  "blocked": [
+    "predictions_jsonl:missing_required:experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl",
+    "geometry_jsonl:missing_required:experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl"
+  ],
+  "claim_boundary": "This is a contract/blocked-input artifact only. It is not Open3DSG metric evidence until reproduced checkpoint predictions, geometry join, and metric calculations exist.",
+  "conditions": {},
+  "contract_schema_version": "h001_open3dsg_metric_join_contract_v1",
+  "counts": {
+    "geometry": null,
+    "ground_truth": 7505,
+    "in_scope_gt_denominator": null,
+    "predictions": null
+  },
+  "schema_version": "h001_open3dsg_metrics_v1",
+  "split_name": "h001_validation_hardened",
+  "status": "blocked_runtime_inputs_missing",
+  "target_families": [
+    "support_contact",
+    "proximity",
+    "relative_vertical"
+  ]
+}

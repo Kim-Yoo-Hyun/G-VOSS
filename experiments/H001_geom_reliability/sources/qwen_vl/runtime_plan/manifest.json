@@ -1,0 +1,91 @@
+{
+  "created_at": "2026-05-08T06:30:19+00:00",
+  "crop_preflight": {
+    "context_frames_existing": 30,
+    "crop_rendering_started": false,
+    "family_counts": {
+      "proximity": 10,
+      "relative_vertical": 10,
+      "support_contact": 10
+    },
+    "input_rows": 30,
+    "object2image_metadata_existing": 30,
+    "pair_crops_existing": 30,
+    "pair_crops_missing": 0
+  },
+  "inputs": {
+    "model_cache_root": "local_dataset/model_cache/huggingface/qwen_vl",
+    "tiny_pilot_dir": "experiments/H001_geom_reliability/sources/qwen_vl/tiny_pilot",
+    "views_dir": "local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/views"
+  },
+  "model_recommendation": {
+    "checked_at": "2026-05-08",
+    "decision": "Use Qwen3-VL-4B-Instruct first; fall back to Qwen2.5-VL-3B-Instruct if Qwen3 runtime support blocks progress.",
+    "method": "Hugging Face official pages plus git ls-remote refs/heads/main; no model files downloaded.",
+    "models": [
+      {
+        "container_local_dir": "/workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17",
+        "download_status": "not_started",
+        "local_dir": "local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17",
+        "local_name": "Qwen3-VL-4B-Instruct",
+        "model_id": "Qwen/Qwen3-VL-4B-Instruct",
+        "reason": "Most trend-aligned small dense Qwen3-VL target; use first for tiny pilot if crop rendering passes.",
+        "revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
+        "revision_lock_source": "git ls-remote refs/heads/main checked on 2026-05-08",
+        "role": "recommended_tiny_pilot_and_first_main",
+        "source": "https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct"
+      },
+      {
+        "container_local_dir": "/workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen2.5-VL-3B-Instruct/66285546d2b821cf421d4f5eb2576359d3770cd3",
+        "download_status": "not_started",
+        "local_dir": "local_dataset/model_cache/huggingface/qwen_vl/Qwen2.5-VL-3B-Instruct/66285546d2b821cf421d4f5eb2576359d3770cd3",
+        "local_name": "Qwen2.5-VL-3B-Instruct",
+        "model_id": "Qwen/Qwen2.5-VL-3B-Instruct",
+        "reason": "Stable smaller Qwen2.5-VL fallback if Qwen3-VL package/runtime friction blocks progress.",
+        "revision": "66285546d2b821cf421d4f5eb2576359d3770cd3",
+        "revision_lock_source": "git ls-remote refs/heads/main checked on 2026-05-08",
+        "role": "stable_small_fallback",
+        "source": "https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct"
+      },
+      {
+        "container_local_dir": "/workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-2B-Instruct/89644892e4d85e24eaac8bacfd4f463576704203",
+        "download_status": "not_started",
+        "local_dir": "local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-2B-Instruct/89644892e4d85e24eaac8bacfd4f463576704203",
+        "local_name": "Qwen3-VL-2B-Instruct",
+        "model_id": "Qwen/Qwen3-VL-2B-Instruct",
+        "reason": "Lowest-cost parser/runtime smoke candidate; not preferred for paper-quality evidence.",
+        "revision": "89644892e4d85e24eaac8bacfd4f463576704203",
+        "revision_lock_source": "git ls-remote refs/heads/main checked on 2026-05-08",
+        "role": "lowest_cost_parser_smoke",
+        "source": "https://huggingface.co/Qwen/Qwen3-VL-2B-Instruct"
+      },
+      {
+        "container_local_dir": "/workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-8B-Instruct/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+        "download_status": "not_started",
+        "local_dir": "local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-8B-Instruct/0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+        "local_name": "Qwen3-VL-8B-Instruct",
+        "model_id": "Qwen/Qwen3-VL-8B-Instruct",
+        "reason": "Quality follow-up after the 4B path is stable and runtime budget permits.",
+        "revision": "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+        "revision_lock_source": "git ls-remote refs/heads/main checked on 2026-05-08",
+        "role": "quality_followup_after_4b_pass",
+        "source": "https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct"
+      }
+    ]
+  },
+  "next_action": "Render tiny-pilot pair crops before any Qwen model download/runtime smoke.",
+  "outputs": {
+    "commands_md": "experiments/H001_geom_reliability/sources/qwen_vl/runtime_plan/commands.md",
+    "crop_plan_jsonl": "experiments/H001_geom_reliability/sources/qwen_vl/runtime_plan/crop_plan.jsonl",
+    "manifest": "experiments/H001_geom_reliability/sources/qwen_vl/runtime_plan/manifest.json",
+    "model_recommendation_json": "experiments/H001_geom_reliability/sources/qwen_vl/runtime_plan/model_recommendation.json",
+    "report": "experiments/H001_geom_reliability/sources/qwen_vl/runtime_plan/report.md"
+  },
+  "runtime_policy": "no_crop_render_no_model_download_no_inference",
+  "schema_version": "h001_qwen_vl_runtime_plan_v1",
+  "status": "runtime_plan_ready_no_model_download_no_inference",
+  "validation": {
+    "errors": [],
+    "warnings": []
+  }
+}

@@ -1,0 +1,52 @@
+[
+  {
+    "condition": "control_p_geom_valid_only",
+    "delta_r50_vs_main": -0.7614931237721021,
+    "delta_violation50_vs_main": 0.04087628865979382,
+    "purpose": "geometry-only ranking control",
+    "r100": 0.5049115913555993,
+    "r50": 0.20275049115913557,
+    "violation100": 0.07007731958762886,
+    "violation50": 0.06422680412371135
+  },
+  {
+    "condition": "control_distance_only",
+    "delta_r50_vs_main": -0.580746561886051,
+    "delta_violation50_vs_main": 0.0497938144329897,
+    "purpose": "simple distance heuristic control",
+    "r100": 0.5642436149312378,
+    "r50": 0.38349705304518666,
+    "violation100": 0.09927835051546392,
+    "violation50": 0.07314432989690722
+  },
+  {
+    "condition": "control_shuffled_geometry",
+    "delta_r50_vs_main": -0.0345776031434184,
+    "delta_violation50_vs_main": 0.00556701030927835,
+    "purpose": "breaks geometry identity while preserving distribution",
+    "r100": 0.9787819253438114,
+    "r50": 0.9296660117878193,
+    "violation100": 0.055927835051546394,
+    "violation50": 0.028917525773195875
+  },
+  {
+    "condition": "control_wrong_pair_geometry",
+    "delta_r50_vs_main": -0.04007858546168952,
+    "delta_violation50_vs_main": 0.0068556701030927855,
+    "purpose": "tests object-pair identity",
+    "r100": 0.9787819253438114,
+    "r50": 0.9241650294695481,
+    "violation100": 0.05814432989690722,
+    "violation50": 0.03020618556701031
+  },
+  {
+    "condition": "control_family_specific_p_geom_valid",
+    "delta_r50_vs_main": -0.0023575638506875274,
+    "delta_violation50_vs_main": -0.002989690721649483,
+    "purpose": "stricter family-specific calibration",
+    "r100": 0.9913555992141454,
+    "r50": 0.9618860510805501,
+    "violation100": 0.031030927835051545,
+    "violation50": 0.020360824742268042
+  }
+]

@@ -4,8 +4,10 @@
 
 ## Current Scope
 
-- 현재 하네스는 `literature` 조사에서 `hypothesis` 준비 단계로 확장되었다.
-- 실험, 논문 작성 워크플로우는 아직 만들지 않는다.
+- 현재 하네스는 `literature` 조사에서 `hypothesis` 준비 및 scoped experiment 단계로 확장되었다.
+- 논문 본문용 실제 experiment 구현은 Docker 기반으로 진행한다.
+- 현재 active experiment root는 `experiments/H001_geom_reliability/`이다.
+- 연구 목표와 방향성은 AI, ML, CV, Robotics top-tier journal/conference를 타겟으로 판단한다.
 - `docs/hypothesis.md`는 hypothesis workflow와 작성 규칙을 관리한다.
 - `docs/literature.md`는 literature workflow와 작성 규칙을 관리한다.
 - 실제 문헌 조사 결과는 루트의 `literature/` 폴더에 저장한다.
@@ -42,12 +44,33 @@
 - 논문 제목, 방법명, 데이터셋명, metric, benchmark 이름은 영어 원문을 유지한다.
 - "사실", "논문 주장", "에이전트 추론", "사용자 판단 필요"를 섞지 말고 구분한다.
 
+## Long-running and Background Tasks
+
+Dataset/model/checkpoint downloads, Docker pulls/builds, decompression, indexing, preprocessing, and other long-running I/O-heavy jobs must not keep Codex blocked.
+
+- Launch long jobs in a separate `tmux` session, `nohup` process, or background job, then return to the main research task.
+- Prefer resumable commands: `aria2c`, `wget -c`, `rsync --partial`, or `huggingface-cli download` with a fixed cache/local-dir.
+- Always write logs under `logs/` with a timestamped filename.
+- Record the exact command, working directory, output path, expected files, and verification command.
+- Check progress only when explicitly requested or when a dependent task needs the result.
+- Never scan or print huge logs; inspect only `tail`, `head`, or targeted `grep` errors.
+- Verify completion with file counts, expected directory layout, checksums when available, or a lightweight sanity script.
+- Update `TODO.md` or the relevant hypothesis README with job status: `launched`, `running`, `completed`, `failed`, or `needs_verification`.
+
+Template:
+
+```bash
+mkdir -p logs
+ts=$(date +%Y%m%d_%H%M%S)
+tmux new-session -d -s <job_name> "cd <workdir> && <resumable command> > logs/<job_name>_${ts}.log 2>&1"
+```
+
 ## Naming Rules
 
 - 파일명과 문서 제목은 직관적이고 핵심 단어 기반으로 짧게 작성한다.
 - 부모 폴더나 workflow 이름을 파일명에 반복하지 않는다. 예: `visual_inspection/labels.jsonl`처럼 쓴다.
 - 불필요한 긴 접두사, 중복된 candidate/hypothesis 이름, 설명문 형태의 파일명은 피한다.
-- 번호가 필요한 workflow 문서는 기존 순서를 유지하되 제목은 짧게 둔다. 예: `01_problem.md`, `14_verifier_v2.md`.
+- 번호가 필요한 workflow 문서는 기존 순서를 유지하되 제목은 짧게 둔다. 예: `01_overview.md`, `02_method.md`.
 - 중복된 stage 문서는 하나의 짧은 stage log로 병합한다. 이미 병합한 오래된 번호 파일을 다시 만들지 않는다.
 
 ## Evidence Rules
@@ -101,24 +124,13 @@ Hypothesis 작업을 수행한 에이전트는 `hypothesis/` 아래에 결과를
 
 - `hypothesis/README.md`: hypothesis index와 active gate
 - `hypothesis/CAND-<number>/README.md`: candidate-level hypothesis 묶음
-- `hypothesis/CAND-<number>/H<number>_<short-title>/01_problem.md`: 문제 정의
-- `hypothesis/CAND-<number>/H<number>_<short-title>/02_hypothesis.md`: 검증 가능한 가설
-- `hypothesis/CAND-<number>/H<number>_<short-title>/03_feasibility.md`: dataset/baseline/metric gate
-- `hypothesis/CAND-<number>/H<number>_<short-title>/04_experiment.md`: 첫 실험 형태
-- `hypothesis/CAND-<number>/H<number>_<short-title>/05_evidence_schema.md`: evidence schema
-- `hypothesis/CAND-<number>/H<number>_<short-title>/06_rule_verifier.md`: verifier design
-- `hypothesis/CAND-<number>/H<number>_<short-title>/07_stage_log.md`: merged execution and stage log
-- `hypothesis/CAND-<number>/H<number>_<short-title>/13_subtypes.md`: support/contact subtype decision
-- `hypothesis/CAND-<number>/H<number>_<short-title>/14_verifier_v2.md`: subtype-aware verifier contract and one-scan result summary
-- `hypothesis/CAND-<number>/H<number>_<short-title>/15_calibration.md`: probabilistic geometry consistency calibration design
-- `hypothesis/CAND-<number>/H<number>_<short-title>/16_evaluation.md`: prediction-level violation/recall evaluation protocol
-- `hypothesis/CAND-<number>/H<number>_<short-title>/17_subset.md`: multi-scan/subset strategy decision
-- `hypothesis/CAND-<number>/H<number>_<short-title>/18_baseline.md`: prediction-level baseline decision
-- `hypothesis/CAND-<number>/H<number>_<short-title>/19_schema.md`: prediction JSONL schema and adapter contract
-- `hypothesis/CAND-<number>/H<number>_<short-title>/20_layout.md`: baseline layout compatibility check
-- `hypothesis/CAND-<number>/H<number>_<short-title>/21_eval_path.md`: reportable baseline evaluation path decision
-- `hypothesis/CAND-<number>/H<number>_<short-title>/22_prep.md`: faithful baseline layout prep staging policy
-- `hypothesis/CAND-<number>/H<number>_<short-title>/23_mini.md`: mini validation scan selection
+- `hypothesis/CAND-<number>/H<number>_<short-title>/01_overview.md`: problem, hypothesis, feasibility, claim boundary, transition gate
+- `hypothesis/CAND-<number>/H<number>_<short-title>/02_method.md`: evidence schema, verifier, calibration, prediction-row join, evaluation protocol
+- `hypothesis/CAND-<number>/H<number>_<short-title>/03_data_baseline.md`: dataset, baseline layout, fixed scope, staged payload readiness
+- `hypothesis/CAND-<number>/H<number>_<short-title>/04_results.md`: mini/hardened metrics, controls, evidence lock, GT-based verifier evaluation
+- `hypothesis/CAND-<number>/H<number>_<short-title>/05_audit.md`: structured audit, visual sanity check, provenance and wording limits
+- `hypothesis/CAND-<number>/H<number>_<short-title>/06_second_source.md`: FROSS/Open3DSG source/runtime feasibility and claim boundary
+- `hypothesis/CAND-<number>/H<number>_<short-title>/07_experiment_spec.md`: scoped main experiment implementation spec and Docker experiment-transition gate
 - `hypothesis/CAND-<number>/H<number>_<short-title>/tools/`: hypothesis-stage smoke-test scripts
 
 Hypothesis smoke-test artifact는 hypothesis 폴더 내부에만 둔다.
@@ -126,6 +138,7 @@ Hypothesis smoke-test artifact는 hypothesis 폴더 내부에만 둔다.
 - one-scan artifact root: `hypothesis/CAND-<number>/H<number>_<short-title>/artifacts/one_scan/<scan-id>/`
 - baseline layout checker artifact root: `hypothesis/CAND-<number>/H<number>_<short-title>/artifacts/layout/<baseline-name>/`
 - subset selection artifact root: `hypothesis/CAND-<number>/H<number>_<short-title>/artifacts/subset/<subset-name>/`
+- prediction/evaluation artifact root: `hypothesis/CAND-<number>/H<number>_<short-title>/artifacts/evaluation/<baseline-name>/<split-name>/`
 - Phase A files: `edges.jsonl`, `export_summary.json`, `export_report.md`, `thresholds.json`
 - Phase B files: `decisions.jsonl`, `rules_summary.json`, `rules_report.md`, `review_queue.jsonl`, `review_labels.jsonl`, `review_report.md`
 - Phase C files: `point_evidence.jsonl`, `point_comparison.jsonl`, `point_summary.json`, `point_report.md`, `comparison_report.md`
@@ -134,8 +147,30 @@ Hypothesis smoke-test artifact는 hypothesis 폴더 내부에만 둔다.
 - Layout checker outputs should use short filenames such as `summary.json`, `prep_manifest.json`, and `report.md`.
 - Layout prep outputs should use short filenames such as `generated_manifest.json`, and generated baseline files should stay under `artifacts/layout/<baseline-name>/generated/`.
 - Subset selection outputs should use short filenames such as `manifest.json`, `scans.txt`, `candidates.jsonl`, `subgraphs.jsonl`, and `report.md`.
-- Large baseline runtime files should stay under an ignored staged dataset root such as `local_dataset/VLSAT_staged/`, not under tracked hypothesis artifacts.
+- Hardened payload readiness outputs may live under the fixed subset root with short names such as `payload_manifest.json` and `payload_report.md`.
+- Hardened aligned PLY outputs may live under the baseline layout root with short names such as `aligned_manifest.json` and `aligned_report.md`.
+- Calibration outputs should live under `artifacts/calibration/<split-name>/` and use short filenames such as `manifest.json`, `table.jsonl`, `negatives.jsonl`, and `report.md`.
+- Prediction/evaluation outputs should use short filenames such as `raw.jsonl`, `predictions.jsonl`, `ground_truth.jsonl`, `manifest.json`, `metrics.json`, and `report.md`.
+- Open3DSG runtime planning outputs should live under `artifacts/evaluation/open3dsg_ov/runtime_plan/` and use short filenames such as `manifest.json`, `checklist.json`, `commands.md`, and `report.md`.
+- Open3DSG staged-root prep outputs should live under `artifacts/evaluation/open3dsg_ov/staged_root/` and use short filenames such as `manifest.json`, `config_paths.json`, and `report.md`.
+- Open3DSG mesh/texture acquisition outputs should live under `artifacts/evaluation/open3dsg_ov/mesh_texture/` and use short filenames such as `manifest.json`, `records.jsonl`, and `report.md`.
+- Open3DSG view pickle generation outputs should live under `artifacts/evaluation/open3dsg_ov/views/` and use short filenames such as `manifest.json`, `records.jsonl`, `report.md`, and `config_patch.diff`.
+- Open3DSG preprocess generation outputs should live under `artifacts/evaluation/open3dsg_ov/preprocess/` and use short filenames such as `manifest.json`, `records.jsonl`, `report.md`, and `config_patch.diff`.
+- Open3DSG model artifact audit outputs should live under `artifacts/evaluation/open3dsg_ov/model_artifacts/` and use short filenames such as `manifest.json` and `report.md`.
+- Open3DSG training route preflight outputs should live under `artifacts/evaluation/open3dsg_ov/training_route/` and use short filenames such as `manifest.json` and `report.md`.
+- Independent visual spot-check outputs should live under `artifacts/evaluation/vlsat_closed_set/hardened/human_audit/visual_spotcheck/` and use short filenames such as `manifest.json`, `queue.jsonl`, `labels.jsonl`, `reference.jsonl`, `guide.md`, `summary.json`, `summary.md`, and `report.md`.
+- Evidence-lock outputs should live under `artifacts/evaluation/vlsat_closed_set/hardened/evidence_lock/` and use short filenames such as `manifest.json` and `report.md`.
+- GT-based verifier evaluation outputs should live under `artifacts/evaluation/vlsat_closed_set/hardened/gt_eval/` and use short filenames such as `gt_positive.jsonl`, `counterfactuals.jsonl`, `metrics.json`, `manifest.json`, and `report.md`.
+- Large baseline runtime files should stay under an ignored staged dataset root such as `local_dataset/VLSAT_staged/` or `local_dataset/Open3DSG_staged/`, not under tracked hypothesis artifacts.
 - 중간 산출물이 더 구체적인 review/report artifact로 대체되면 오래된 queue 파일은 유지하지 않는다.
+
+Experiment implementation rule:
+
+- 논문 본문에 들어갈 실제 experiment 구현은 Docker 기반으로만 진행한다.
+- Host 환경에서 직접 패키지를 설치하거나 host-only script로 paper experiment를 확정하지 않는다.
+- Experiment root를 만들 때는 Dockerfile 또는 compose file, pinned dependency record, mounted dataset/cache path, command entrypoint, and output manifest를 함께 둔다.
+- `local_dataset/` 같은 큰 runtime/data root는 container에 mount하고 tracked artifact로 복사하지 않는다.
+- Hypothesis-stage smoke test와 문서 검증은 기존 방식으로 가능하지만, paper experiment 결과로 승격하려면 Docker command로 재현 가능해야 한다.
 
 에이전트는 작업 전후로 `TODO.md`도 갱신한다.
 
@@ -157,7 +192,9 @@ Hypothesis smoke-test artifact는 hypothesis 폴더 내부에만 둔다.
 ## Do Not Over-Structure
 
 - 빈 paper folder를 미리 많이 만들지 않는다.
-- `experiments/`, `paper/`, `decisions/`는 아직 만들지 않는다.
+- 추가 `experiments/` root를 미리 만들지 않는다.
+- `paper/`, `decisions/`는 아직 만들지 않는다.
+- `experiments/`는 Docker 재현성을 전제로 최소 구조부터 만든다.
 - hypothesis는 루트의 `hypothesis/` 폴더에서만 관리한다.
 - 해당 단계가 실제로 필요해지면 먼저 새 workflow 문서 하나에서 시작한다.
 - 구조는 연구가 커질 때 따라오게 한다.

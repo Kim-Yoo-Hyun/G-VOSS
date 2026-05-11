@@ -32,3 +32,11 @@ venv/
 # Downloaded paper PDFs are documented by metadata links, not committed.
 literature/**/paper.pdf
 literature/**/*.pdf
+
+artifacts/
+**/artifacts/
+**/evaluation/
+**/predictions.jsonl
+**/verification.jsonl
+**/raw.jsonl
+*.jsonl

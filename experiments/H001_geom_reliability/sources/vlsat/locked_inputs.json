@@ -1,0 +1,62 @@
+[
+  {
+    "exists": true,
+    "name": "hardened_manifest",
+    "path": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/manifest.json",
+    "sha256": "7404e463bf8bdfa9473e2c30043c21ac8f4c8b9607830cc975b1ec95fc338fca"
+  },
+  {
+    "exists": true,
+    "name": "hardened_metrics",
+    "path": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened_metrics/metrics.json",
+    "sha256": "481feefded09c01f2604f1ecbf9debf351b612aa114fd8a92e85c5252b538d05"
+  },
+  {
+    "exists": true,
+    "name": "hardened_g3",
+    "path": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened_g3/metrics.json",
+    "sha256": "bf6e171134fc0d4eb5f1dafdbec3f5e6bb36890d773739977c47df601c062fd6"
+  },
+  {
+    "exists": true,
+    "name": "gt_metrics",
+    "path": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/gt_eval/metrics.json",
+    "sha256": "7334b9fdaace62a0471067cdccef18a80a2da48b86497d96fa690e821801e307"
+  },
+  {
+    "exists": true,
+    "name": "audit_summary",
+    "path": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/human_audit/label_summary.json",
+    "sha256": "f53fe1b2e27dc6c18a24f29ab46d41cdc48e2279239ec478826803738ad54705"
+  },
+  {
+    "exists": true,
+    "name": "visual_summary",
+    "path": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/human_audit/visual_spotcheck/summary.json",
+    "sha256": "82be84437afd84f7527282b1860e7f6379b148bdf27dda5f7a3203c0060d3f25"
+  },
+  {
+    "exists": true,
+    "name": "evidence_lock",
+    "path": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/evidence_lock/manifest.json",
+    "sha256": "3eed300acbfb0b8900c6a8f5841c0785eb2b86b71143d9e044ca05c29cdd0adf"
+  },
+  {
+    "exists": true,
+    "name": "predictions_jsonl",
+    "path": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/predictions.jsonl",
+    "row_count": 673816
+  },
+  {
+    "exists": true,
+    "name": "ground_truth_jsonl",
+    "path": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl",
+    "row_count": 7505
+  },
+  {
+    "exists": true,
+    "name": "verification_jsonl",
+    "path": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened_geometry/verification.jsonl",
+    "row_count": 673816
+  }
+]

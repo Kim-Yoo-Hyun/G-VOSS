@@ -1,0 +1,167 @@
+{
+  "adapter_rule": "`none` is not exported as a relation prediction; unsupported/out-of-scope labels may remain in prediction JSONL but are excluded from H001 geometry-checkable metric denominator.",
+  "family_rows": [
+    {
+      "claim_use": "geometry-checkable H001 metric family",
+      "family": "support_contact",
+      "in_h001_metric_denominator": true,
+      "predicate_labels": [
+        "standing on",
+        "lying on",
+        "supported by"
+      ]
+    },
+    {
+      "claim_use": "geometry-checkable H001 metric family",
+      "family": "proximity",
+      "in_h001_metric_denominator": true,
+      "predicate_labels": [
+        "close by"
+      ]
+    },
+    {
+      "claim_use": "geometry-checkable H001 metric family",
+      "family": "relative_vertical",
+      "in_h001_metric_denominator": true,
+      "predicate_labels": [
+        "higher than",
+        "lower than"
+      ]
+    },
+    {
+      "claim_use": "reported as excluded/caveat only",
+      "family": "relative_horizontal",
+      "in_h001_metric_denominator": false,
+      "predicate_labels": [
+        "left",
+        "right",
+        "front",
+        "behind",
+        "in front of"
+      ]
+    },
+    {
+      "claim_use": "reported as excluded/caveat only",
+      "family": "attachment_deferred",
+      "in_h001_metric_denominator": false,
+      "predicate_labels": [
+        "attached to",
+        "hanging on",
+        "mounted on",
+        "connected to"
+      ]
+    },
+    {
+      "claim_use": "reported as excluded/caveat only",
+      "family": "background_none",
+      "in_h001_metric_denominator": false,
+      "predicate_labels": [
+        "none"
+      ]
+    },
+    {
+      "claim_use": "reported as excluded/caveat only",
+      "family": "unsupported_first_pass",
+      "in_h001_metric_denominator": false,
+      "predicate_labels": [
+        "inside",
+        "bigger than",
+        "smaller than",
+        "same symmetry as",
+        "same as",
+        "leaning against",
+        "part of",
+        "belonging to",
+        "build in",
+        "standing in",
+        "cover",
+        "lying in",
+        "hanging in"
+      ]
+    }
+  ],
+  "labels_missing_mapping": [],
+  "mapped_labels_not_in_file": [],
+  "official_relationship_labels": [
+    "none",
+    "supported by",
+    "left",
+    "right",
+    "front",
+    "behind",
+    "close by",
+    "inside",
+    "bigger than",
+    "smaller than",
+    "higher than",
+    "lower than",
+    "same symmetry as",
+    "same as",
+    "attached to",
+    "standing on",
+    "lying on",
+    "hanging on",
+    "connected to",
+    "leaning against",
+    "part of",
+    "belonging to",
+    "build in",
+    "standing in",
+    "cover",
+    "lying in",
+    "hanging in"
+  ],
+  "predicate_family_map": {
+    "attachment_deferred": [
+      "attached to",
+      "hanging on",
+      "mounted on",
+      "connected to"
+    ],
+    "background_none": [
+      "none"
+    ],
+    "proximity": [
+      "close by"
+    ],
+    "relative_horizontal": [
+      "left",
+      "right",
+      "front",
+      "behind",
+      "in front of"
+    ],
+    "relative_vertical": [
+      "higher than",
+      "lower than"
+    ],
+    "support_contact": [
+      "standing on",
+      "lying on",
+      "supported by"
+    ],
+    "unsupported_first_pass": [
+      "inside",
+      "bigger than",
+      "smaller than",
+      "same symmetry as",
+      "same as",
+      "leaning against",
+      "part of",
+      "belonging to",
+      "build in",
+      "standing in",
+      "cover",
+      "lying in",
+      "hanging in"
+    ]
+  },
+  "recall_rule": "Recall matching remains predicate-label exact; family grouping is for verifier/violation reporting, not label collapsing.",
+  "relationships_file": "local_dataset/3DSSG_subset/relationships.txt",
+  "schema_version": "h001_open3dsg_metric_scope_v1",
+  "target_families": [
+    "support_contact",
+    "proximity",
+    "relative_vertical"
+  ]
+}

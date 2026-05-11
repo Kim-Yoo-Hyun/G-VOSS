@@ -1,0 +1,153 @@
+{
+  "claim_boundary": {
+    "allowed_now": "VL-SAT-centered geometry reliability result only",
+    "blocked_until_metric": "cross-predictor reliability-layer claim",
+    "upgrade_condition": "Open3DSG checkpoint, identity-preserving raw dump, prediction JSONL, geometry join, and metric table exist"
+  },
+  "commands": {
+    "cache_preflight": "docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm cache_preflight",
+    "dump_features": "docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm dump_features_3rscan",
+    "env_check": "docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm env_check",
+    "eval_after_checkpoint": "docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm eval_h001_gt_objects",
+    "eval_preflight": "docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm eval_preflight",
+    "full_train": "docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm train_full",
+    "pilot_train": "docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm train_pilot",
+    "stage_train_root": "docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_train_root",
+    "train_preprocess_full": "docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm train_preprocess_full",
+    "train_preprocess_smoke": "docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm train_preprocess_smoke",
+    "train_views_audit": "docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm train_views_audit",
+    "train_views_full": "docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm train_views_full",
+    "train_views_smoke": "docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm train_views_smoke"
+  },
+  "created_at_utc": "2026-05-07T15:35:45.373151+00:00",
+  "current_readiness": {
+    "docker_gpu_smoke": "target: NVIDIA GeForce RTX 5090 requires CUDA 12.8-compatible PyTorch wheels; the previous cu118 image reached Open3DSG execution but failed on sm_120.",
+    "h001_eval_preprocess": "preprocess_partial_ready",
+    "h001_eval_preprocessed_expected": 388,
+    "h001_eval_preprocessed_ready": 377,
+    "h001_eval_scan_symlinks": 127,
+    "h001_eval_staged_root": "staged_metadata_root_ready_mesh_texture_ready_external_artifacts_missing",
+    "h001_eval_views": "views_ready",
+    "model_artifacts": "model_artifacts_partial_ready",
+    "model_blockers": [
+      "missing_model:open3dsg_checkpoint"
+    ],
+    "previous_blockers": [
+      "empty_staged_train_split",
+      "missing_full_train_preprocessed:0/3852",
+      "missing_full_train_views:0/1178",
+      "missing_full_train_scan_dirs:33/1178",
+      "missing_training_python_modules:open3d,pytorch_lightning,tensorflow,transformers",
+      "compute_below_official_example_gpus:1/4"
+    ],
+    "training_repro_blockers": [],
+    "training_repro_status": "training_repro_staged_root_ready_for_view_preprocess",
+    "training_route_previous_status": "training_route_not_immediate"
+  },
+  "decision": "Generate the Open3DSG checkpoint ourselves through Dockerized reproduction, then run raw dump, JSONL export, geometry join, and H001 metrics.",
+  "docker": {
+    "base_image": "nvidia/cuda:12.8.1-cudnn-devel-ubuntu22.04",
+    "compose_file": "experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml",
+    "core_pins": {
+      "numpy": "1.23.3",
+      "pytorch-lightning": "2.1.1",
+      "sentencepiece": "latest",
+      "tensorflow": "2.12.0",
+      "torch-geometric": "2.5.0",
+      "transformers": "4.46.3"
+    },
+    "dockerfile": "experiments/H001_geom_reliability/sources/open3dsg/Dockerfile.repro",
+    "image": "h001-open3dsg-repro:cu128",
+    "pyg_wheels": "torch-scatter/sparse/cluster/spline-conv from https://data.pyg.org/whl/torch-2.8.0+cu128.html",
+    "python": "3.9 via Miniforge",
+    "torch": "torch==2.8.0 torchvision==0.23.0 torchaudio==2.8.0 with CUDA 12.8 wheels"
+  },
+  "execution_sequence": [
+    "Build h001-open3dsg-repro:cu128 image.",
+    "Run env_check and cache_preflight; require imports, CUDA, writable cache dirs, local model files, and disk budget.",
+    "Create local_dataset/Open3DSG_staged/training_repro from official 3DSSG_subset train split and full 3RScan payloads.",
+    "Generate train views and preprocessed pickles for 1178 train scans / 3852 train subgraphs.",
+    "Optionally dump OpenSeg+BLIP features to a mounted cache; budget about 300GB per README.",
+    "Run 1-epoch pilot with single GPU, batch_size=1, accumulate_grad_batches=4, mixed precision.",
+    "Run full training only if the pilot creates a checkpoint and train/eval row counts match the plan.",
+    "Run eval_preflight, then H001 eval raw dump with GT objects on hardened validation/test subset.",
+    "Export Open3DSG prediction JSONL, run geometry join, and build cross-source Table 6."
+  ],
+  "failure_budget": {
+    "environment_build_attempts": 2,
+    "fallback": "If Dockerized Open3DSG reproduction exceeds budget, keep VL-SAT-only reliability-layer claim and report second-source blocker.",
+    "full_train_attempts": 1,
+    "minimum_free_disk_gb_before_feature_dump": 450,
+    "minimum_train_preprocess_coverage": "3852/3852",
+    "minimum_train_scan_coverage": "1178/1178",
+    "pilot_success_criterion": "at least one Lightning checkpoint and no held-out-scope mutation",
+    "pilot_train_attempts": 2,
+    "preprocess_attempts": 2,
+    "train_data_staging_attempts": 2
+  },
+  "mounts": {
+    "h001_eval_root": "/workspace/local_dataset/Open3DSG_staged/h001_runtime",
+    "hf_cache": "/workspace/local_dataset/model_cache/huggingface",
+    "home_cache": "/workspace/local_dataset/model_cache/home",
+    "official_3dssg_subset": "/workspace/local_dataset/3DSSG_subset",
+    "open3dsg_cache": "/workspace/local_dataset/Open3DSG_staged/cache",
+    "raw_3rscan": "/workspace/local_dataset/3RScan",
+    "repo": "/workspace",
+    "torch_cache": "/workspace/local_dataset/model_cache/torch",
+    "training_repro_root": "/workspace/local_dataset/Open3DSG_staged/training_repro",
+    "xdg_cache": "/workspace/local_dataset/model_cache/xdg"
+  },
+  "next_outputs_required": [
+    "Docker env-check log",
+    "training_repro staged-root manifest",
+    "full train payload/view/preprocess manifests",
+    "pilot checkpoint path",
+    "full checkpoint path or explicit failed-budget report",
+    "Open3DSG raw dump",
+    "open3dsg_ov prediction JSONL",
+    "Open3DSG geometry join",
+    "Open3DSG metric table"
+  ],
+  "schema_version": "h001_open3dsg_checkpoint_reproduction_plan_v1",
+  "source": {
+    "config_strategy": "use env-driven config.py already staged in source snapshot",
+    "repo_snapshot": "local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source",
+    "run_script": "open3dsg/scripts/run.py",
+    "source_exists": true
+  },
+  "split_policy": {
+    "current_staged_train_status": {
+      "reason": "current H001 staged root was inference-only; a separate training_repro root is required",
+      "relations": 0,
+      "subgraphs": 0,
+      "unique_scans": 0
+    },
+    "eval_relations": 7505,
+    "eval_source": "H001 hardened validation/test subset",
+    "eval_subgraphs": 388,
+    "eval_unique_scans": 127,
+    "leakage_guard": "Do not train on H001 hardened validation/test scans used for second-source evaluation.",
+    "train_relations": 81190,
+    "train_source": "local_dataset/3DSSG_subset/relationships_train.json",
+    "train_subgraphs": 3852,
+    "train_unique_scans": 1178,
+    "training_repro_status": {
+      "h001_overlap_train": 0,
+      "h001_overlap_train_dev": 0,
+      "official_train": {
+        "relations": 81190,
+        "subgraphs": 3852,
+        "unique_scans": 1178
+      },
+      "status": "training_repro_staged_root_ready_for_view_preprocess",
+      "train_dev_without_h001": {
+        "relations": 3749,
+        "subgraphs": 160,
+        "unique_scans": 30
+      },
+      "train_scan_dirs_expected": 1178,
+      "train_scan_dirs_ready": 1178
+    }
+  },
+  "status": "plan_ready_training_not_started"
+}

@@ -1,6 +1,6 @@
 # Hypothesis Workflow
 
-Last updated: 2026-05-03
+Last updated: 2026-05-07
 
 이 문서는 연구 후보를 검증 가능한 hypothesis로 바꾸는 에이전트 workflow와 작성 규칙을 정의한다. 실제 hypothesis 내용은 루트의 `hypothesis/` 폴더에 저장한다.
 
@@ -14,7 +14,7 @@ Hypothesis 관련 산출물은 루트의 `hypothesis/` 폴더에 저장한다.
 - 개별 hypothesis: `hypothesis/CAND-<number>/H<number>_<short-title>/`
 - 작업 계획과 진행 상태: `TODO.md`
 
-`docs/hypothesis.md`는 절차와 기준만 관리한다. 문제 정의, hypothesis, feasibility gate, first experiment shape는 `hypothesis/` 아래에 기록한다.
+`docs/hypothesis.md`는 절차와 기준만 관리한다. 문제 정의, hypothesis, feasibility gate, method, data/baseline, result, audit, second-source boundary, experiment spec은 `hypothesis/` 아래에 기록한다.
 
 ## Entry Context
 
@@ -37,41 +37,25 @@ hypothesis/
   CAND-001/
     README.md
     H001_geometry-grounded-verification/
-      01_problem.md
-      02_hypothesis.md
-      03_feasibility.md
-      04_experiment.md
-      05_evidence_schema.md
-      06_rule_verifier.md
-      07_stage_log.md
-      13_subtypes.md
-      14_verifier_v2.md
-      15_calibration.md
-      16_evaluation.md
-      17_subset.md
-      18_baseline.md
-      19_schema.md
-      20_layout.md
-      21_eval_path.md
-      22_prep.md
-      23_mini.md
-      tools/check_layout.py
-      tools/prep_layout.py
-      tools/select_mini.py
+      01_overview.md
+      02_method.md
+      03_data_baseline.md
+      04_results.md
+      05_audit.md
+      06_second_source.md
+      07_experiment_spec.md
+      tools/
+      artifacts/
 ```
 
 폴더명 규칙:
 
 - candidate 폴더는 `CAND-<number>` 형식을 사용한다.
 - hypothesis 폴더는 `H<number>_<short-title>` 형식을 사용한다.
-- 파일은 읽는 순서가 드러나도록 `01_`, `02_` prefix를 사용한다.
-- 오래된 stage별 문서가 중복되면 하나의 짧은 stage log로 합친다. 이미 병합된 번호를 다시 만들지 않는다.
+- 번호가 필요한 workflow 문서는 기존 순서를 유지하되 제목은 짧게 둔다.
+- 중복된 stage 문서는 하나의 짧은 canonical 문서로 병합한다. 이미 병합한 오래된 번호 파일을 다시 만들지 않는다.
 - 아직 실험을 시작하지 않았으면 `experiments/` 폴더를 만들지 않는다.
-- one-scan smoke-test artifact는 `artifacts/one_scan/<scan-id>/` 아래에 둔다.
-- baseline layout checker artifact는 `artifacts/layout/<baseline-name>/` 아래에 둔다.
-- subset selection artifact는 `artifacts/subset/<subset-name>/` 아래에 둔다.
-- artifact 파일명은 짧은 역할명으로 쓴다. 예: `edges.jsonl`, `decisions.jsonl`, `review_report.md`, `point_comparison.jsonl`, `comparison_report.md`.
-- 중간 queue가 더 구체적인 review artifact로 대체되면 오래된 queue 파일은 유지하지 않는다.
+- 논문 본문용 실제 experiment 구현은 Docker 기반으로만 진행한다. Host-only 실행 결과는 paper experiment 결과로 승격하지 않는다.
 
 ## File Roles
 
@@ -84,7 +68,7 @@ hypothesis/
 - active candidate
 - active hypothesis
 - hypothesis registry
-- next validation gate
+- current gate
 - blocked items
 
 ### `hypothesis/CAND-<number>/README.md`
@@ -96,258 +80,51 @@ candidate 단위의 hypothesis 묶음을 관리한다.
 - source candidate
 - research direction
 - active hypothesis list
-- candidate-level assumptions
-- candidate-level open risks
+- canonical file map
+- candidate-level assumptions and risks
+- next gate
 
-### `01_problem.md` / Problem
+### `01_overview.md` / Overview
 
-문제를 검증 가능한 형태로 좁힌다.
+문제 정의, hypothesis, feasibility, claim boundary, transition gate를 관리한다.
 
-포함할 내용:
+### `02_method.md` / Method
 
-- problem statement
-- what this is not
-- current evidence
-- target users / research value
-- assumptions
-- out-of-scope
+Geometry evidence schema, deterministic verifier, subtype-aware support/contact rule, calibration design, prediction-row geometry join, evaluation protocol을 관리한다.
 
-### `02_hypothesis.md` / Hypothesis
+### `03_data_baseline.md` / Data And Baseline
 
-검증 가능한 hypothesis를 작성한다.
+`3DSSG` / `3RScan` / `3DSSG_subset` / `VL-SAT` layout, fixed validation scope, staged payload readiness, baseline input counts를 관리한다.
 
-포함할 내용:
+### `04_results.md` / Results
 
-- hypothesis statement
-- independent variable
-- dependent variables
-- expected effect
-- falsification condition
-- alternative explanations
-- success criteria
+H001-Mini result, hardened `VL-SAT` result, G3 controls, final scoped evidence lock, GT-positive/counterfactual verifier evaluation을 관리한다.
 
-### `03_feasibility.md` / Feasibility
+### `05_audit.md` / Audit
 
-실험으로 넘어가기 전 gate를 관리한다.
+Structured audit, reduced visual sanity check, reviewer/provenance caveat, paper-claim audit wording limits를 관리한다.
 
-포함할 내용:
+### `06_second_source.md` / Second Source
 
-- dataset gate
-- baseline gate
-- implementation gate
-- metric gate
-- go / no-go decision
-- what to check next
+FROSS and Open3DSG source/runtime feasibility, family coverage, checkpoint/runtime blockers, second-source claim boundary를 관리한다.
 
-### `04_experiment.md` / Experiment
+### `07_experiment_spec.md` / Experiment Spec
 
-첫 실험의 형태를 설계한다. 실제 실험 로그나 결과는 여기에 길게 쓰지 않는다.
+Scoped main experiment implementation spec과 Docker 기반 experiment transition gate를 관리한다. Fixed input counts, allowed claim, required metrics/tables/figures, acceptance criteria, Docker command reproducibility, proposed experiment root를 고정한다.
 
-포함할 내용:
+## Artifact Rules
 
-- minimal viable experiment
-- input / output
-- predicate subset
-- geometry evidence fields
-- verifier baseline
-- metrics
-- expected failure modes
+Hypothesis smoke-test artifact는 hypothesis 폴더 내부에만 둔다.
 
-### `05_evidence_schema.md` / Evidence Schema
-
-relation-edge geometry evidence schema를 기록한다.
-
-포함할 내용:
-
-- input assumptions
-- output edge record schema
-- predicate family mapping
-- evidence fields
-- missing data policy
-- quality checks
-- active evidence sources
-
-### `06_rule_verifier.md` / Rule Verifier
-
-geometry evidence를 사용해 relation edge를 규칙 기반으로 검증하는 baseline과 현재 point-aware support/contact 방향을 기록한다.
-
-포함할 내용:
-
-- verifier role
-- predicate family scope
-- verification status schema
-- rule constraints
-- threshold policy
-- geometry score
-- reporting format
-- open decisions
-
-### `07_stage_log.md` / Stage Log
-
-실행 순서, stage별 결과, decision trail을 짧게 합쳐 기록한다.
-
-포함할 내용:
-
-- merged source files if any
-- scan and artifact root
-- Phase A/B/C/D summaries
-- visual inspection summary
-- current decision and next gate
-
-### `13_subtypes.md` / Subtypes
-
-Visual inspection 기반 support/contact subtype decision을 기록한다.
-
-포함할 내용:
-
-- why one hard support/contact rule is insufficient
-- visual inspection evidence
-- subtype set
-- subtype-specific evidence needs
-- probabilistic/soft score direction
-- evaluation implication
-
-### `14_verifier_v2.md` / Verifier v2
-
-Subtype-aware verifier contract와 one-scan result summary를 기록한다.
-
-포함할 내용:
-
-- input/output artifact contract
-- subtype assignment policy
-- subtype-specific evidence fields
-- soft consistency score contract
-- status mapping
-- reason codes
-- metrics and validation checks
-- implementation scope
-
-### `15_calibration.md` / Calibration
-
-Rule-based consistency score를 probabilistic geometry validity score로 확장하는 설계를 기록한다.
-
-포함할 내용:
-
-- calibration target
-- label source
-- counterfactual negative construction
-- feature set
-- calibration model stages
-- calibration metrics
-- scan-level split policy
-- acceptance criteria
-
-### `16_evaluation.md` / Evaluation
-
-Prediction-level violation/recall evaluation protocol과 benchmark contribution boundary를 기록한다.
-
-포함할 내용:
-
-- compared conditions
-- prediction-level inputs
-- predicate scope
-- evaluation levels
-- ranking policies
-- core metrics
-- reporting slices
-- baseline choices
-- benchmark artifact boundary
-- generalization evidence
-
-### `17_subset.md` / Subset
-
-Multi-scan replication 또는 `3DSSG_subset` 전략 결정을 기록한다.
-
-포함할 내용:
-
-- local dataset availability
-- official split usage
-- derived subset policy
-- train/dev/test scan-level split policy
-- candidate scan criteria
-- required scan payloads
-- leakage controls
-
-### `18_baseline.md` / Baseline
-
-Prediction-level baseline 선택과 baseline adapter의 다음 gate를 기록한다.
-
-포함할 내용:
-
-- selected baseline
-- selection criteria
-- candidate comparison
-- expected prediction fields
-- adapter policy
-- fallback policy
-
-### `19_schema.md` / Schema
-
-Prediction-level baseline output을 H001 verifier/evaluation이 소비할 수 있는 JSONL 계약으로 정의한다.
-
-포함할 내용:
-
-- prediction unit
-- prediction JSONL fields
-- ground-truth JSONL fields
-- manifest fields
-- predicate index policy
-- adapter join policy
-- validation checks
-
-### `20_layout.md` / Layout
-
-Prediction-level baseline 실행 전에 local dataset layout과 baseline expected layout의 차이를 기록한다.
-
-포함할 내용:
-
-- checked baseline source
-- local annotation file compatibility
-- local 3RScan payload compatibility
-- missing files and path mismatches
-- faithful route vs plumbing route decision boundary
-- next layout prep action
-
-### `21_eval_path.md` / Eval Path
-
-Prediction-level baseline의 reportable route를 결정한다.
-
-포함할 내용:
-
-- faithful route vs plumbing route decision
-- top-tier paper defensibility rationale
-- aligned PLY route
-- `multi_view` route
-- validation scan requirement
-- non-reportable plumbing boundary
-
-### `22_prep.md` / Prep
-
-Prediction-level baseline 실행 전에 faithful staged runtime layout을 어떻게 준비할지 고정한다.
-
-포함할 내용:
-
-- source dataset과 staged runtime root 분리
-- generated annotation staging policy
-- `references.txt` / `rescans.txt` 생성 policy
-- aligned PLY route
-- `multi_view` route
-- allowed path-only config boundary
-- H001-Mini validation payload requirement
-
-### `23_mini.md` / Mini
-
-Prediction-level validation 전에 H001-Mini scan selection을 고정한다.
-
-포함할 내용:
-
-- official validation split source
-- selection score and filters
-- selected scan ids
-- relation-family coverage
-- reference/rescan group duplicate control
-- required payload list
-- generated artifact paths
+- one-scan artifact root: `artifacts/one_scan/<scan-id>/`
+- baseline layout checker artifact root: `artifacts/layout/<baseline-name>/`
+- subset selection artifact root: `artifacts/subset/<subset-name>/`
+- calibration artifact root: `artifacts/calibration/<split-name>/`
+- prediction/evaluation artifact root: `artifacts/evaluation/<baseline-name>/<split-name>/`
+- visual inspection and audit outputs use short names such as `labels.jsonl`, `summary.json`, `report.md`
+- Open3DSG readiness outputs live under `artifacts/evaluation/open3dsg_ov/<stage-name>/`
+- Large runtime files stay under ignored staged dataset roots such as `local_dataset/VLSAT_staged/` or `local_dataset/Open3DSG_staged/`
+- 중간 산출물이 더 구체적인 review/report artifact로 대체되면 오래된 queue 파일은 유지하지 않는다.
 
 ## Workflow
 
@@ -367,80 +144,38 @@ Hypothesis 작업은 현재 아래 단계로 수행한다. 단계 수는 고정�
    - gate를 통과하기 전에는 full experiment workflow를 만들지 않는다.
    - local dataset path나 sample payload가 없으면 dataset gate는 pending으로 둔다.
 
-4. Experiment
-   - 최소 실험을 정의한다.
-   - baseline reproduction보다 verifier sanity check를 먼저 둘 수 있다.
-   - 실험 결과가 생기면 별도 experiment workflow를 만들지 판단한다.
-
-5. Rule Verifier
-   - geometry evidence를 해석하는 가장 단순한 deterministic baseline을 정의한다.
-   - 학습 모델이 아니라 sanity check이므로 threshold와 rule version을 명시한다.
-   - unsupported relation을 실패로 세지 않는다.
-
-6. Stage Log
-   - 실행한 smoke-test stage와 결과를 한 파일에 짧게 남긴다.
-   - stage별 오래된 contract/decision 문서가 반복되면 `07_stage_log.md`로 병합한다.
-   - artifact 상세 내용은 artifact 폴더에 두고, hypothesis 문서에는 결론과 다음 gate만 남긴다.
-
-7. Subtype Decision
-   - visual/manual inspection 결과가 쌓이면 relation family를 subtype으로 나눌지 결정한다.
-   - 단순 threshold tuning인지, evidence model 자체를 바꿔야 하는지 구분한다.
-
-8. Verifier Contract
-   - 구현 전에 next verifier의 입력, 출력, status mapping, score, validation을 고정한다.
-   - contract 없이 바로 script를 만들지 않는다.
-   - implementation scope와 out-of-scope를 명시한다.
-
-9. Calibration Design
-   - rule score를 calibrated probability로 주장하지 않는다.
-   - `p_geom_valid` target, label source, negative construction, scan split, metric을 분리해 정의한다.
-   - calibration 구현 전에 violation/recall evaluation protocol을 먼저 작성한다.
-
-10. Evaluation Protocol
-   - prediction-level baseline에 verifier/recalibration을 적용하는 비교 조건을 정의한다.
-   - violation rate, consistency-filtered recall, recall retention, calibration metric을 분리한다.
-   - benchmark contribution은 새 dataset claim이 아니라 3DSSG/3RScan 위의 geometry-consistency evaluation layer로 제한한다.
-
-11. Subset Strategy
-   - calibration과 prediction-level evaluation 전에 scan-level split 전략을 고정한다.
-   - official `3DSSG_subset`이 있으면 primary split/relation-subgraph source로 사용한다.
-   - official subset이 없을 때만 full annotation과 official 3RScan train/val split에서 H001-controlled subset을 만든다.
-   - split strategy만으로 artifact directory를 만들지 않는다.
-
-12. Baseline Selection
-   - prediction-level evaluation 전에 첫 baseline과 adapter 방향을 고정한다.
-   - baseline 선택은 SOTA 여부보다 prediction output 확보 가능성과 official subset 호환성을 우선한다.
-   - full training이나 experiment artifact 생성은 prediction schema가 고정된 뒤에 한다.
-
-13. Prediction Schema
-   - baseline별 raw output을 직접 evaluator에 물리지 않고, H001 prediction JSONL로 먼저 정규화한다.
+4. Method Contract
+   - geometry evidence, verifier status, subtype policy, calibration target, prediction JSONL schema를 고정한다.
    - semantic score, geometry score, calibrated probability는 서로 다른 필드로 보존한다.
    - scan/subgraph/object-pair identity를 잃는 aggregate metric 파일만으로는 H001 prediction evaluation을 진행하지 않는다.
 
-14. Layout Compatibility
+5. Dataset And Baseline Prep
    - baseline reproduction 전에 local dataset layout이 baseline code의 expected layout과 맞는지 확인한다.
    - source dataset 파일을 조용히 바꾸지 않는다.
-   - missing file, path mismatch, faithful route, plumbing-only route를 분리해서 기록한다.
-   - checker/prep script는 `tools/` 아래에 두고, `summary.json`, `prep_manifest.json`, `generated_manifest.json`, `report.md`를 `artifacts/layout/<baseline-name>/`에 남긴다.
-   - full baseline 실행은 layout prep과 minimal eval path가 고정된 뒤로 미룬다.
-
-15. Eval Path Decision
-   - reportable baseline과 non-reportable plumbing check를 분리한다.
-   - top-tier paper claim에 쓰는 baseline은 가능한 official assumption을 유지한다.
-   - baseline deviation이 필요하면 main result가 아니라 adapter smoke test나 ablation으로만 둔다.
-
-16. Prep Policy
-   - source dataset 파일과 generated baseline-prep 파일을 분리한다.
-   - large/runtime 파일은 ignored staged root에 두고, 작은 generated annotation만 H001 artifact로 추적한다.
-   - aligned PLY와 `multi_view`는 reportable baseline을 위해 faithful route로 준비한다.
+   - large/runtime 파일은 ignored staged root에 두고, 작은 generated annotation과 manifest만 H001 artifact로 추적한다.
    - validation scan payload selection 전에는 full prediction-level run을 시작하지 않는다.
 
-17. Mini Selection
-   - prediction failure를 보기 전에 validation scan selection을 고정한다.
-   - official validation split에서 support/contact coverage를 우선한다.
-   - proximity와 relative vertical coverage를 보조 신호로 사용한다.
-   - 3RScan reference/rescan group 중복 선택을 피한다.
-   - scan selection artifact는 `artifacts/subset/<subset-name>/`에 둔다.
+6. Calibration And Evaluation
+   - calibration fitting 전에 scan-level split과 calibration row schema를 고정한다.
+   - final prediction-level evaluation은 predictions, geometry join, and frozen calibrator output이 모두 존재할 때만 실행한다.
+   - violation rate, consistency-filtered recall, recall retention, and calibration metrics를 분리한다.
+   - 좋은 metric 결과도 ablation/control과 audit 전에는 final paper claim으로 승격하지 않는다.
+
+7. Audit And Reportability
+   - verifier decision audit queue는 hardened metric과 controls가 ready인 뒤 만든다.
+   - Codex structured audit은 non-independent structured review로 기록할 수 있다.
+   - Reference-aligned label을 Codex가 전사한 경우 provenance를 남기고 strictly blinded audit wording을 피한다.
+   - GT-based verifier evaluation은 audit 부담을 줄이지만 visual sanity check를 완전히 대체하지 않는다.
+
+8. Second Source Boundary
+   - `VL-SAT` 하나만으로 baseline-agnostic claim을 하지 않는다.
+   - FROSS, Open3DSG 같은 second-source track은 source contract, runtime blocker, adapter feasibility, family coverage를 분리해 기록한다.
+   - Runtime artifact나 trusted checkpoint가 없으면 metric claim을 하지 않는다.
+
+9. Experiment Transition
+   - 사용자가 experiment phase 진입을 명시하면 `07_experiment_spec.md`가 제안한 scoped root부터 만든다.
+   - paper-body experiment implementation은 Docker 기반으로만 진행한다.
+   - Host-only outputs are debugging/smoke evidence only.
 
 ## Evidence Rules
 
@@ -448,6 +183,7 @@ Hypothesis 작업은 현재 아래 단계로 수행한다. 단계 수는 고정�
 - 새 논문이나 최신 코드 상태를 말할 때는 primary source를 확인한다.
 - "Fact", "Inference", "User judgment needed"를 구분한다.
 - hypothesis 문서는 논문 요약을 반복하지 않는다. 논문 근거는 짧게 연결하고, 검증 문제에 집중한다.
+- 연구 목표와 방향성은 AI, ML, CV, Robotics top-tier journal/conference를 타겟으로 판단한다.
 
 ## Update Protocol
 
@@ -459,9 +195,22 @@ Hypothesis 문서를 갱신한 에이전트는 아래를 함께 확인한다.
 - `hypothesis/CAND-<number>/README.md`: candidate-level 상태 갱신
 - 필요 시 `literature/CAND-<number>.md`: literature-derived feasibility 판단만 갱신
 
+## Experiment Transition Rule
+
+사용자가 hypothesis에서 experiment phase로 넘기겠다고 명시하면 아래 규칙을 따른다.
+
+- 논문 본문용 실제 experiment 구현은 Docker 기반으로만 만든다.
+- 첫 experiment root는 active hypothesis spec이 제안한 구조를 따른다.
+- Dockerfile 또는 compose file, pinned dependency record, mounted dataset/cache path, command entrypoint, output manifest를 함께 만든다.
+- `local_dataset/` 같은 큰 runtime/data root는 container mount로 사용하고 tracked experiment artifact로 복사하지 않는다.
+- Host 환경에서 직접 패키지를 설치하거나 host-only command로 얻은 결과는 debugging/smoke evidence로만 취급한다.
+- Paper table/report 결과는 Docker command로 재생성 가능해야 한다.
+
 ## Do Not Over-Structure
 
-- 아직 `experiments/`, `paper/`, `decisions/` 폴더를 만들지 않는다.
+- `experiments/` 폴더는 active hypothesis spec이 명시하고 사용자가 experiment phase 진입을 요청한 뒤 만든다.
+- `experiments/` 폴더를 만들 때는 Docker 재현성 구조를 같이 만든다.
+- 아직 `paper/`, `decisions/` 폴더를 만들지 않는다.
 - 하나의 candidate에 여러 hypothesis를 미리 만들지 않는다.
 - evaluation protocol과 subset strategy 전에는 full baseline reproduction plan을 확정하지 않는다.
 - hypothesis 문서는 연구 방향을 좁히는 도구이지 최종 논문 초안이 아니다.
@@ -470,4 +219,4 @@ Hypothesis 문서를 갱신한 에이전트는 아래를 함께 확인한다.
 
 - Candidate: `CAND-001`
 - Hypothesis: `H001 Geometry-grounded verification of open-vocabulary 3DSSG relations`
-- Status: Drafted; one-scan Phase A/B/C, `h001-rules-v1`, visual inspection, support/contact subtype decision, stage doc consolidation, `h001-verifier-v2` implementation, `15_calibration.md`, `16_evaluation.md`, official `3DSSG_subset`-based `17_subset.md`, `18_baseline.md`, `19_schema.md`, `20_layout.md`, `tools/check_layout.py`, `tools/prep_layout.py`, `21_eval_path.md`, `22_prep.md`, `tools/select_mini.py`, and `23_mini.md` completed; faithful staged-root prep next
+- Status: H001 hypothesis-stage evidence, scoped main experiment spec, and Docker `VL-SAT` table/report reproduction are complete; active notes are consolidated into `01_overview.md` through `07_experiment_spec.md`; active experiment root is `experiments/H001_geom_reliability/`; current gate is Dockerized Open3DSG official feature dump restart/monitoring under the hardened resume policy before checkpoint reproduction.

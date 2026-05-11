@@ -1,0 +1,179 @@
+{
+  "$id": "h001_qwen_vl_prediction_v2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "baseline_name": {
+      "const": "qwen_vl_semantic_source"
+    },
+    "baseline_run_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "decoding": {
+      "additionalProperties": true,
+      "properties": {
+        "max_new_tokens": {
+          "type": "integer"
+        },
+        "seed": {
+          "type": "integer"
+        },
+        "temperature": {
+          "type": "number"
+        },
+        "top_p": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "temperature",
+        "top_p",
+        "max_new_tokens",
+        "seed"
+      ],
+      "type": "object"
+    },
+    "input_record_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "model_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "model_revision": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "object_id": {
+      "type": [
+        "integer",
+        "string"
+      ]
+    },
+    "parser_status": {
+      "enum": [
+        "parsed",
+        "parsed_with_warning",
+        "unparseable",
+        "refused",
+        "runtime_error"
+      ],
+      "type": "string"
+    },
+    "predicate_family": {
+      "enum": [
+        "proximity",
+        "relative_vertical",
+        "support_contact"
+      ],
+      "type": "string"
+    },
+    "predictions": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "answer_is_visible": {
+            "type": "boolean"
+          },
+          "predicate": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "rank": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "rationale_short": {
+            "type": "string"
+          },
+          "semantic_score": {
+            "maximum": 1,
+            "minimum": 0,
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "predicate",
+          "rank",
+          "semantic_score",
+          "answer_is_visible",
+          "rationale_short"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "prompt_version": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "raw_response": {
+      "type": "string"
+    },
+    "record_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "scan_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "h001_qwen_vl_prediction_v2"
+    },
+    "split": {
+      "enum": [
+        "train",
+        "validation",
+        "held_out",
+        "pilot",
+        "smoke"
+      ],
+      "type": "string"
+    },
+    "subgraph_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "subject_id": {
+      "type": [
+        "integer",
+        "string"
+      ]
+    },
+    "warnings": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "record_id",
+    "scan_id",
+    "subgraph_id",
+    "split",
+    "subject_id",
+    "object_id",
+    "predicate_family",
+    "baseline_name",
+    "baseline_run_id",
+    "model_id",
+    "model_revision",
+    "prompt_version",
+    "input_record_sha256",
+    "decoding",
+    "raw_response",
+    "parser_status",
+    "predictions",
+    "warnings"
+  ],
+  "title": "H001 Qwen-VL output JSONL row",
+  "type": "object"
+}
