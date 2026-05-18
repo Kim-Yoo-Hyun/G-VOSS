@@ -1,0 +1,25 @@
+{
+  "blockers": [],
+  "counts": {
+    "linked_scans": 127,
+    "selected_scans": 127,
+    "sequence_ready_scans": 127,
+    "target_scans": 127,
+    "validation_contexts": 388,
+    "validation_scan_ids": 127
+  },
+  "created_at": "2026-05-17T23:49:36+00:00",
+  "link_status_counts": {
+    "ready_symlink": 127
+  },
+  "next_action": "Run dump_features_h001_eval after status is ready.",
+  "paths": {
+    "raw_scans_root": "local_dataset/3RScan/scans",
+    "records": "experiments/H001_geom_reliability/sources/open3dsg/h001_eval_payload/records.jsonl",
+    "relationships_validation": "local_dataset/Open3DSG_staged/h001_runtime/data/3RScan/3DSSG_subset/relationships_validation.json",
+    "runtime_r3scan_root": "local_dataset/Open3DSG_staged/h001_runtime/data/3RScan",
+    "selected_scans": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_validation_hardened/scans.txt"
+  },
+  "schema_version": "h001_open3dsg_eval_payload_stage_v1",
+  "status": "ready"
+}

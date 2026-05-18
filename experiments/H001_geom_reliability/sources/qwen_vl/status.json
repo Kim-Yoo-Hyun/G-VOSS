@@ -1,4 +1,23 @@
 {
   "created_at": "2026-05-08T06:35:07+00:00",
-  "status": "io_contract_frozen_model_runtime_not_started"
+  "model_cache_job": {
+    "cache_manifest": "experiments/H001_geom_reliability/sources/qwen_vl/runtime_smoke/cache/manifest.json",
+    "exit_file": "logs/qwen_vl_model_download_20260512_082830.exit",
+    "launched_at": "2026-05-12T08:28:44+09:00",
+    "local_dir": "local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17",
+    "log": "logs/qwen_vl_model_download_20260512_082830.log",
+    "model_id": "Qwen/Qwen3-VL-4B-Instruct",
+    "revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
+    "status": "completed_cache_ready"
+  },
+  "promotion_rule": {
+    "paper_metric": false,
+    "replacement_for_open3dsg_anchor": false,
+    "role": "modern_vlm_semantic_source_extension_smoke"
+  },
+  "runtime_gpu_smoke": {
+    "preflight_manifest": "experiments/H001_geom_reliability/sources/qwen_vl/runtime_smoke/preflight/manifest.json",
+    "status": "blocked_gpu_busy_open3dsg_dump_active"
+  },
+  "status": "model_cache_ready_runtime_preflight_blocked_gpu_busy"
 }

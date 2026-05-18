@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Any
 
 
-SCHEMA_VERSION = "h001_open3dsg_training_preflight_v5"
+SCHEMA_VERSION = "h001_open3dsg_training_preflight_v6"
 
 
 def parse_args() -> argparse.Namespace:
@@ -381,6 +381,10 @@ def check_imports(enabled: bool) -> dict[str, Any]:
             "required_arch": required_arch,
             "supported_arch_list": arch_list,
         }
+        if cuda["is_available"] and cuda["device_count"] > 0:
+            free_bytes, total_bytes = torch_module.cuda.mem_get_info(0)
+            cuda["free_memory_mb"] = int(free_bytes // (1024 * 1024))
+            cuda["total_memory_mb"] = int(total_bytes // (1024 * 1024))
         if not cuda["is_available"]:
             blockers.append("cuda_unavailable")
         if cuda["device_count"] <= 0:
@@ -399,9 +403,31 @@ def check_imports(enabled: bool) -> dict[str, Any]:
     }
 
 
+def gpu_memory_gate(mode: str, import_gate: dict[str, Any]) -> dict[str, Any]:
+    threshold_mb = int(os.environ.get("OPEN3DSG_MIN_GPU_FREE_MB", "0"))
+    cuda = import_gate.get("cuda", {})
+    free_mb = cuda.get("free_memory_mb")
+    blockers: list[str] = []
+    enabled = threshold_mb > 0 and mode in {"train_pilot", "train_full"}
+    if enabled:
+        if free_mb is None:
+            blockers.append("gpu_free_memory_unknown")
+        elif int(free_mb) < threshold_mb:
+            blockers.append(f"gpu_free_memory_below_threshold:{free_mb}/{threshold_mb}MB")
+    return {
+        "passed": not blockers,
+        "enabled": enabled,
+        "threshold_mb": threshold_mb,
+        "free_memory_mb": free_mb,
+        "total_memory_mb": cuda.get("total_memory_mb"),
+        "blockers": blockers,
+    }
+
+
 def make_report(payload: dict[str, Any]) -> str:
     path_gate_result = payload["gates"]["paths"]
     import_gate_result = payload["gates"]["imports"]
+    gpu_memory_gate_result = payload["gates"]["gpu_memory"]
     runtime_gate_result = payload["gates"]["runtime_stage"]
     source_entrypoint = path_gate_result.get("paths", {}).get("open3dsg_run_script")
     cuda = import_gate_result.get("cuda", {})
@@ -419,6 +445,7 @@ def make_report(payload: dict[str, Any]) -> str:
         f"- runtime stage: `{payload['gates']['runtime_stage']['passed']}`",
         f"- paths: `{payload['gates']['paths']['passed']}`",
         f"- imports: `{payload['gates']['imports']['passed']}`",
+        f"- gpu memory: `{payload['gates']['gpu_memory']['passed']}`",
         "",
         "## Payload",
         "",
@@ -462,6 +489,9 @@ def make_report(payload: dict[str, Any]) -> str:
             f"- CUDA device: `{cuda.get('device_name')}`",
             f"- required CUDA arch: `{cuda.get('required_arch')}`",
             f"- torch supported arch list: `{', '.join(cuda.get('supported_arch_list', []))}`",
+            f"- GPU free memory: `{gpu_memory_gate_result.get('free_memory_mb')}` MB",
+            f"- GPU total memory: `{gpu_memory_gate_result.get('total_memory_mb')}` MB",
+            f"- GPU free-memory threshold: `{gpu_memory_gate_result.get('threshold_mb')}` MB",
         ]
     )
     for name in ("torch", "pytorch_lightning", "tensorflow", "open3d", "transformers"):
@@ -495,10 +525,12 @@ def main() -> int:
     path_gate = check_paths(repo_root=repo_root, mode=args.mode, ensure_dirs=args.ensure_dirs)
     runtime_stage = runtime_stage_gate(repo_root=repo_root, mode=args.mode)
     import_gate = check_imports(enabled=args.check_imports)
+    gpu_memory = gpu_memory_gate(mode=args.mode, import_gate=import_gate)
     blockers.extend(payload.get("blockers", []))
     blockers.extend(runtime_stage.get("blockers", []))
     blockers.extend(path_gate.get("blockers", []))
     blockers.extend(import_gate.get("blockers", []))
+    blockers.extend(gpu_memory.get("blockers", []))
 
     status = "ready" if not blockers else "blocked"
     result = {
@@ -515,6 +547,7 @@ def main() -> int:
             "runtime_stage": runtime_stage,
             "paths": path_gate,
             "imports": import_gate,
+            "gpu_memory": gpu_memory,
         },
         "blockers": blockers,
         "next_action": (

@@ -1,20 +1,20 @@
 # Open3DSG Eval Preflight
 
-Created at: `2026-05-07T15:34:46.142511+00:00`
-Status: `blocked`
+Created at: `2026-05-18T03:08:31.097537+00:00`
+Status: `ready`
 
 ## Gates
 
-- checkpoint: `False`
+- checkpoint: `True`
 - runtime: `True`
 - scope: `True`
 - imports: `True`
 
 ## Checkpoint
 
-- path: `None`
-- exists: `False`
-- bytes: `0`
+- path: `local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt`
+- exists: `True`
+- bytes: `419735447`
 
 ## Scope
 
@@ -39,7 +39,3 @@ Status: `blocked`
 - CUDA available: `True`
 - CUDA device count: `1`
 - torch: `2.8.0+cu128`
-
-## Blockers
-
-- `missing_checkpoint_env:OPEN3DSG_CHECKPOINT`

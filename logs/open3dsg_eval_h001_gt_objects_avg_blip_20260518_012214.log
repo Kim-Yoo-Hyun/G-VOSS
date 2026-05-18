@@ -1,0 +1,487 @@
+started_at=2026-05-18T01:23:08+09:00
+cwd=/home/yoohyun/research
+checkpoint=local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt
+raw_dump=experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl
+command=sg docker -c env UID=1001 GID=1001 OPEN3DSG_CHECKPOINT=/workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt OPEN3DSG_RAW_DUMP_JSONL=/workspace/experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl OPEN3DSG_BASELINE_RUN_ID=open3dsg_avg_blip_epoch13_step13104 OPEN3DSG_MODEL_SOURCE_STAGE=avg_blip_full_variant docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm eval_h001_gt_objects
+ Container open3dsg-eval_h001_gt_objects-run-8472df332089 Creating 
+ Container open3dsg-eval_h001_gt_objects-run-8472df332089 Created 
+
+==========
+== CUDA ==
+==========
+
+CUDA Version 12.8.1
+
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/lightning_fabric/__init__.py:40: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/transformers/utils/hub.py:128: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+2026-05-17 16:23:15.106366: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-05-17 16:23:15.157555: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2026-05-17 16:23:15.382851: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2026-05-17 16:23:16.450883: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+{"blockers": [], "out": "experiments/H001_geom_reliability/sources/open3dsg/eval_preflight", "status": "ready"}
+{"blockers": [], "status": "ready"}
+Defaulting to user installation because normal site-packages is not writeable
+Obtaining file:///workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: open3dsg
+  Building editable for open3dsg (pyproject.toml): started
+  Building editable for open3dsg (pyproject.toml): finished with status 'done'
+  Created wheel for open3dsg: filename=open3dsg-0.0.1-0.editable-py3-none-any.whl size=18321 sha256=9709bb5f9e17a985b69fe06ef6a9f0d5732258e72162024d539fd637c1ec0a8b
+  Stored in directory: /tmp/pip-ephem-wheel-cache-xg7rg_wn/wheels/f6/f4/48/e79d972da195275afaf83301f54818e0ba9b351c2e72890e90
+Successfully built open3dsg
+Installing collected packages: open3dsg
+  Attempting uninstall: open3dsg
+    Found existing installation: open3dsg 0.0.1
+    Uninstalling open3dsg-0.0.1:
+      Successfully uninstalled open3dsg-0.0.1
+Successfully installed open3dsg-0.0.1
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/lightning_fabric/__init__.py:40: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/transformers/utils/hub.py:128: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+2026-05-17 16:23:30.547765: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-05-17 16:23:30.593134: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2026-05-17 16:23:30.795954: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2026-05-17 16:23:31.564423: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+Experimental: No LLava model present in your system
+2026-05-17 16:23:33.827958: I tensorflow/compiler/xla/stream_executor/cuda/cuda_gpu_executor.cc:996] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero. See more at https://github.com/torvalds/linux/blob/v6.0/Documentation/ABI/testing/sysfs-bus-pci#L344-L355
+2026-05-17 16:23:33.835618: W tensorflow/core/common_runtime/gpu/gpu_device.cc:1956] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.
+Skipping registering GPU devices...
+CUDA device name: NVIDIA GeForce RTX 5090
+Seed set to 42
+checkpoint: /workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt
+Args: Namespace(gpus=1, workers=8, seed=42, run_name='', mixed_precision=False, accumulate_grad_batches=1, epochs=50, batch_size=1, lr=0.0001, lr_scheduler='reduce', wd=0.01, bn_momentum=0.9, bn_decay=0.5, decay_step=100000.0, w_obj=1.0, w_rel=1.0, use_rgb=False, gnn_layers=4, graph_backbone='message', gconv_dim=512, hidden_dim=1024, max_nodes=9, max_edges=72, dataset='3rscan', mini_dataset=False, augment=False, top_k_frames=5, scales=3, dump_features=False, load_features='/workspace/local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3', clip_model='OpenSeg', node_model='ViT-L/14@336px', edge_model=None, blip=True, avg_blip_emb=True, blip_proj_layers=3, llava=False, avg_llava_emb=False, pointnet2=False, clean_pointnet=False, supervised_edges=False, test=True, checkpoint='/workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt', weight_2d=0.5, n_beams=5, gt_objects=True, vis_graphs=False, predict_materials=False, test_scans_3rscan=False, predict_from_2d=False, quick_eval=False, object_context=False, update_hparams=False, manual_mapping=False)
+HParams: {'gpus': 1, 'workers': 8, 'seed': 42, 'run_name': '', 'mixed_precision': False, 'accumulate_grad_batches': 1, 'epochs': 50, 'batch_size': 1, 'lr': 0.0001, 'lr_scheduler': 'reduce', 'wd': 0.01, 'bn_momentum': 0.9, 'bn_decay': 0.5, 'decay_step': 100000.0, 'w_obj': 1.0, 'w_rel': 1.0, 'use_rgb': False, 'gnn_layers': 4, 'graph_backbone': 'message', 'gconv_dim': 512, 'hidden_dim': 1024, 'max_nodes': 9, 'max_edges': 72, 'dataset': '3rscan', 'mini_dataset': False, 'augment': False, 'top_k_frames': 5, 'scales': 3, 'dump_features': False, 'load_features': '/workspace/local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3', 'clip_model': 'OpenSeg', 'node_model': 'ViT-L/14@336px', 'edge_model': None, 'blip': True, 'avg_blip_emb': True, 'blip_proj_layers': 3, 'llava': False, 'avg_llava_emb': False, 'pointnet2': False, 'clean_pointnet': False, 'supervised_edges': False, 'test': True, 'checkpoint': '/workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt', 'weight_2d': 0.5, 'n_beams': 5, 'gt_objects': True, 'vis_graphs': False, 'predict_materials': False, 'test_scans_3rscan': False, 'predict_from_2d': False, 'quick_eval': False, 'object_context': False, 'update_hparams': False, 'manual_mapping': False}
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+[rank: 0] Seed set to 42
+Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/1
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 1 processes
+----------------------------------------------------------------------------------------------------
+
+You are using a CUDA device ('NVIDIA GeForce RTX 5090') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+A new version of the following files was downloaded from https://huggingface.co/jinaai/jina-bert-implementation:
+- configuration_bert.py
+. Make sure to double-check they do not contain any added malicious code. To avoid downloading new versions of the code file, you can pin a revision.
+A new version of the following files was downloaded from https://huggingface.co/jinaai/jina-bert-implementation:
+- modeling_bert.py
+. Make sure to double-check they do not contain any added malicious code. To avoid downloading new versions of the code file, you can pin a revision.
+  0%|          | 0/388 [00:00<?, ?it/s]No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/ab835faa-54c6-29a1-9b55-1a5217fcba19/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/ab835faa-54c6-29a1-9b55-1a5217fcba19/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/ab835faa-54c6-29a1-9b55-1a5217fcba19/data_dict_3.pkl
+  1%|          | 3/388 [00:00<01:07,  5.72it/s]No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/6e67e550-1209-2cd0-8294-7cc2564cf82c/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/6e67e550-1209-2cd0-8294-7cc2564cf82c/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/6e67e550-1209-2cd0-8294-7cc2564cf82c/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c2d99345-1947-2fbf-818d-90ea82acef29/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c2d99345-1947-2fbf-818d-90ea82acef29/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/742e8f17-be0a-294e-9dd3-52492d308e2b/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/742e8f17-be0a-294e-9dd3-52492d308e2b/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/742e8f17-be0a-294e-9dd3-52492d308e2b/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/20c993b3-698f-29c5-859c-dca8ddecf220/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/20c993b3-698f-29c5-859c-dca8ddecf220/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b17963-3938-2467-8a48-0d4af350ce92/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b17963-3938-2467-8a48-0d4af350ce92/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/1d233fe8-e280-2b1a-8fac-c3646a1cd64a/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/1d233fe8-e280-2b1a-8fac-c3646a1cd64a/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c7895f63-339c-2d13-81a3-0b07b1eb23b4/data_dict_1.pkl
+[Errno 2] No such file or directory: '/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c7895f63-339c-2d13-81a3-0b07b1eb23b4/data_dict_2.pkl' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c7895f63-339c-2d13-81a3-0b07b1eb23b4/data_dict_2.pkl
+  6%|▌         | 24/388 [00:00<00:09, 38.99it/s]No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c7895f63-339c-2d13-81a3-0b07b1eb23b4/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/43b8cadf-6678-2e38-9920-064144c99406/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/43b8cadf-6678-2e38-9920-064144c99406/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/43b8cadf-6678-2e38-9920-064144c99406/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7676-8d6f-2d13-8f3a-d7bf7f03e721/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7676-8d6f-2d13-8f3a-d7bf7f03e721/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7676-8d6f-2d13-8f3a-d7bf7f03e721/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7676-8d6f-2d13-8f3a-d7bf7f03e721/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7676-8d6f-2d13-8f3a-d7bf7f03e721/data_dict_5.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/1d234022-e280-2b1a-8cec-e9787bb0d7b2/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/1d234022-e280-2b1a-8cec-e9787bb0d7b2/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/1d234022-e280-2b1a-8cec-e9787bb0d7b2/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/1d234024-e280-2b1a-8c28-2743fefed020/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/1d234024-e280-2b1a-8c28-2743fefed020/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/1d234024-e280-2b1a-8c28-2743fefed020/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/095821f7-e2c2-2de1-9568-b9ce59920e29/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac761b-8d6f-2d13-8f16-23a7d73c54fe/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac761b-8d6f-2d13-8f16-23a7d73c54fe/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7272e17c-a01b-20f6-8b2f-e659331ae41a/data_dict_1.pkl
+ 11%|█         | 42/388 [00:00<00:06, 53.26it/s]No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7272e17c-a01b-20f6-8b2f-e659331ae41a/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7272e17c-a01b-20f6-8b2f-e659331ae41a/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7584-8d6f-2d13-8df8-c05e4307b418/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7584-8d6f-2d13-8df8-c05e4307b418/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7584-8d6f-2d13-8df8-c05e4307b418/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7584-8d6f-2d13-8df8-c05e4307b418/data_dict_4.pkl
+[Errno 2] No such file or directory: '/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7584-8d6f-2d13-8df8-c05e4307b418/data_dict_5.pkl' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7584-8d6f-2d13-8df8-c05e4307b418/data_dict_5.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/5341b79f-8a66-2cdd-84d5-6dba6525dd75/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/5341b79f-8a66-2cdd-84d5-6dba6525dd75/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/5341b79f-8a66-2cdd-84d5-6dba6525dd75/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/68bae75f-3567-2f7c-829d-7422117729f3/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/68bae75f-3567-2f7c-829d-7422117729f3/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/68bae75f-3567-2f7c-829d-7422117729f3/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0988ea72-eb32-2e61-8344-99e2283c2728/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0988ea72-eb32-2e61-8344-99e2283c2728/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0988ea72-eb32-2e61-8344-99e2283c2728/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0988ea72-eb32-2e61-8344-99e2283c2728/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/b05fdd96-fca0-2d4f-88c3-d9dfda85c00e/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/b05fdd96-fca0-2d4f-88c3-d9dfda85c00e/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac75ea-8d6f-2d13-8e50-c5faf0159e32/data_dict_1.pkl
+ 16%|█▌        | 63/388 [00:01<00:04, 67.07it/s]No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac75ea-8d6f-2d13-8e50-c5faf0159e32/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b1792a-3938-2467-8b4e-a93da27a0985/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b1792a-3938-2467-8b4e-a93da27a0985/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b1792a-3938-2467-8b4e-a93da27a0985/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b1792a-3938-2467-8b4e-a93da27a0985/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b1792a-3938-2467-8b4e-a93da27a0985/data_dict_5.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/9766cbe5-6321-2e2f-8040-4e5b7a5d8ba1/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/9766cbe5-6321-2e2f-8040-4e5b7a5d8ba1/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/9766cbe5-6321-2e2f-8040-4e5b7a5d8ba1/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/9766cbe5-6321-2e2f-8040-4e5b7a5d8ba1/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/9766cbe5-6321-2e2f-8040-4e5b7a5d8ba1/data_dict_5.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/6bde60cd-9162-246f-8fad-fca80b4d6ad8/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c2d99343-1947-2fbf-808f-92dbb7d47aa5/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4138582f-a238-2435-8332-6902542c2823/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4138582f-a238-2435-8332-6902542c2823/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4138582f-a238-2435-8332-6902542c2823/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7272e16c-a01b-20f6-8961-a0927b4a7629/data_dict_1.pkl
+ 21%|██        | 80/388 [00:01<00:04, 71.32it/s]No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7272e16c-a01b-20f6-8961-a0927b4a7629/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/6e67e55f-1209-2cd0-8194-8c6278434c80/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/6e67e55f-1209-2cd0-8194-8c6278434c80/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/f2c76ff1-2239-29d0-87f5-8a0346584384/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/f2c76ff1-2239-29d0-87f5-8a0346584384/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/f2c76ff1-2239-29d0-87f5-8a0346584384/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/f2c76ff1-2239-29d0-87f5-8a0346584384/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/6bde607b-9162-246f-8e65-76e3ef265504/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/6bde607b-9162-246f-8e65-76e3ef265504/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7747a510-9431-24e8-8705-907ee78be2a2/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7747a510-9431-24e8-8705-907ee78be2a2/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7747a510-9431-24e8-8705-907ee78be2a2/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7747a510-9431-24e8-8705-907ee78be2a2/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7747a510-9431-24e8-8705-907ee78be2a2/data_dict_5.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7747a510-9431-24e8-8705-907ee78be2a2/data_dict_6.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7747a510-9431-24e8-8705-907ee78be2a2/data_dict_7.pkl
+ 25%|██▍       | 96/388 [00:01<00:03, 73.13it/s]No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/43b8cae1-6678-2e38-9865-c19c07c25015/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/43b8cae1-6678-2e38-9865-c19c07c25015/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/43b8cae1-6678-2e38-9865-c19c07c25015/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4d3d82b0-8cf4-2e04-80a8-c955ea964c2f/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4d3d82b0-8cf4-2e04-80a8-c955ea964c2f/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4d3d82b0-8cf4-2e04-80a8-c955ea964c2f/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c92fb5b7-f771-2064-87a9-31c819832405/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c92fb5b7-f771-2064-87a9-31c819832405/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c92fb5b7-f771-2064-87a9-31c819832405/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c92fb5b7-f771-2064-87a9-31c819832405/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/9766cbf7-6321-2e2f-81e1-2b46533c64dd/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/9766cbf7-6321-2e2f-81e1-2b46533c64dd/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/9766cbf7-6321-2e2f-81e1-2b46533c64dd/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/9766cbf7-6321-2e2f-81e1-2b46533c64dd/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4d3d82ae-8cf4-2e04-80de-20f96c814d9c/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4d3d82ae-8cf4-2e04-80de-20f96c814d9c/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/fcf66d7b-622d-291c-86b8-7db96aebcee3/data_dict_1.pkl
+ 29%|██▉       | 113/388 [00:01<00:03, 73.56it/s]No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/fcf66d7b-622d-291c-86b8-7db96aebcee3/data_dict_2.pkl
+[Errno 2] No such file or directory: '/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/fcf66d7b-622d-291c-86b8-7db96aebcee3/data_dict_3.pkl' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/fcf66d7b-622d-291c-86b8-7db96aebcee3/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/20c993bf-698f-29c5-8549-a69fd169c1e1/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/ba6fdaaa-a4c1-2dca-8163-a52b18bf6b64/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/ba6fdaaa-a4c1-2dca-8163-a52b18bf6b64/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/ba6fdaaa-a4c1-2dca-8163-a52b18bf6b64/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/ba6fdaaa-a4c1-2dca-8163-a52b18bf6b64/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/ba6fdaaa-a4c1-2dca-8163-a52b18bf6b64/data_dict_5.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/8eabc445-5af7-2f32-85ae-90deb8eb1b0b/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/8eabc445-5af7-2f32-85ae-90deb8eb1b0b/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/8eabc445-5af7-2f32-85ae-90deb8eb1b0b/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4a9a43d4-7736-2874-87a6-0c3089281af8/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4a9a43d4-7736-2874-87a6-0c3089281af8/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4a9a43d4-7736-2874-87a6-0c3089281af8/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4a9a43d4-7736-2874-87a6-0c3089281af8/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4a9a43d4-7736-2874-87a6-0c3089281af8/data_dict_5.pkl
+ 33%|███▎      | 128/388 [00:02<00:03, 72.81it/s]No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4a9a43d4-7736-2874-87a6-0c3089281af8/data_dict_6.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4a9a43d4-7736-2874-87a6-0c3089281af8/data_dict_7.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4a9a43d4-7736-2874-87a6-0c3089281af8/data_dict_8.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4fbad331-465b-2a5d-8488-852fcda9513c/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4fbad331-465b-2a5d-8488-852fcda9513c/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4fbad331-465b-2a5d-8488-852fcda9513c/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4fbad331-465b-2a5d-8488-852fcda9513c/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4fbad331-465b-2a5d-8488-852fcda9513c/data_dict_5.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/095821fb-e2c2-2de1-94df-20f2cb423bcb/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/20c993bd-698f-29c5-8494-5556ba7d3fe9/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/137a8158-1db5-2cc0-8003-31c12610471e/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/137a8158-1db5-2cc0-8003-31c12610471e/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/137a8158-1db5-2cc0-8003-31c12610471e/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/137a8158-1db5-2cc0-8003-31c12610471e/data_dict_4.pkl
+ 37%|███▋      | 143/388 [00:02<00:03, 70.50it/s]No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/137a8158-1db5-2cc0-8003-31c12610471e/data_dict_5.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/137a8158-1db5-2cc0-8003-31c12610471e/data_dict_6.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/cdcaf5bd-ddd8-2ed6-97c3-489e105e4dde/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/cdcaf5bd-ddd8-2ed6-97c3-489e105e4dde/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/cdcaf5bd-ddd8-2ed6-97c3-489e105e4dde/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/5630cfe7-12bf-2860-8710-52729dc36cc6/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/5630cfe7-12bf-2860-8710-52729dc36cc6/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/9af05c68-5794-2e19-8c5a-979f448da545/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/9af05c68-5794-2e19-8c5a-979f448da545/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/9af05c68-5794-2e19-8c5a-979f448da545/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/9af05c68-5794-2e19-8c5a-979f448da545/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/9af05c68-5794-2e19-8c5a-979f448da545/data_dict_5.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/d7d40d4c-7a5d-2b36-95c1-5f6c9147caf0/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/d7d40d4c-7a5d-2b36-95c1-5f6c9147caf0/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/5630cfcf-12bf-2860-8784-83d28a611a83/data_dict_1.pkl
+ 40%|████      | 157/388 [00:02<00:03, 68.68it/s]No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/5630cfcf-12bf-2860-8784-83d28a611a83/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/5630cfcf-12bf-2860-8784-83d28a611a83/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/6bde6081-9162-246f-8c4e-ffaf709d17b1/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/6bde6081-9162-246f-8c4e-ffaf709d17b1/data_dict_2.pkl
+[Errno 2] No such file or directory: '/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7582-8d6f-2d13-8d4b-e4041cb166c4/data_dict_1.pkl' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7582-8d6f-2d13-8d4b-e4041cb166c4/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7582-8d6f-2d13-8d4b-e4041cb166c4/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7582-8d6f-2d13-8d4b-e4041cb166c4/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7582-8d6f-2d13-8d4b-e4041cb166c4/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/f2c76fe7-2239-29d0-84f5-144c30fd7451/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/f2c76fe7-2239-29d0-84f5-144c30fd7451/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/f2c76fe7-2239-29d0-84f5-144c30fd7451/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/d7d40d50-7a5d-2b36-9446-7d636174329f/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/d7d40d50-7a5d-2b36-9446-7d636174329f/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7532-8d6f-2d13-8cea-1e70d5ae4856/data_dict_1.pkl
+[Errno 2] No such file or directory: '/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7532-8d6f-2d13-8cea-1e70d5ae4856/data_dict_2.pkl' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7532-8d6f-2d13-8cea-1e70d5ae4856/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/5630cfd3-12bf-2860-8749-9dacb499fb14/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/5630cfd3-12bf-2860-8749-9dacb499fb14/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4a9a43d2-7736-2874-874d-d0fad0570e19/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4a9a43d2-7736-2874-874d-d0fad0570e19/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4a9a43d2-7736-2874-874d-d0fad0570e19/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4a9a43d2-7736-2874-874d-d0fad0570e19/data_dict_4.pkl
+ 46%|████▌     | 178/388 [00:02<00:02, 76.81it/s]No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4a9a43d2-7736-2874-874d-d0fad0570e19/data_dict_5.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4a9a43d2-7736-2874-874d-d0fad0570e19/data_dict_6.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4a9a43d2-7736-2874-874d-d0fad0570e19/data_dict_7.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4a9a43d2-7736-2874-874d-d0fad0570e19/data_dict_8.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/321c8680-a5a8-2a84-85c2-816a26d59516/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/321c8680-a5a8-2a84-85c2-816a26d59516/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/321c8680-a5a8-2a84-85c2-816a26d59516/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/5630cfde-12bf-2860-8563-d68bdd98fab0/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/5630cfde-12bf-2860-8563-d68bdd98fab0/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bcb0fe04-4f39-2c70-9f03-d0eec592de24/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bcb0fe04-4f39-2c70-9f03-d0eec592de24/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bcb0fe04-4f39-2c70-9f03-d0eec592de24/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c2d99341-1947-2fbf-817a-5aa9b44f724f/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c2d99341-1947-2fbf-817a-5aa9b44f724f/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/787ed58c-9d98-2c97-83b9-b48a609ace15/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/787ed58c-9d98-2c97-83b9-b48a609ace15/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/787ed58c-9d98-2c97-83b9-b48a609ace15/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/742e8f19-be0a-294e-9eb6-50dc474b110e/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/742e8f19-be0a-294e-9eb6-50dc474b110e/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/742e8f19-be0a-294e-9eb6-50dc474b110e/data_dict_3.pkl
+ 51%|█████▏    | 199/388 [00:02<00:02, 82.32it/s]No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b1794e-3938-2467-89a7-ebc89e84cf88/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b1794e-3938-2467-89a7-ebc89e84cf88/data_dict_2.pkl
+[Errno 2] No such file or directory: '/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b1794e-3938-2467-89a7-ebc89e84cf88/data_dict_3.pkl' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b1794e-3938-2467-89a7-ebc89e84cf88/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b17940-3938-2467-8a7a-958300ba83d3/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b17940-3938-2467-8a7a-958300ba83d3/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b17940-3938-2467-8a7a-958300ba83d3/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c2d99347-1947-2fbf-834b-f95790c125dd/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c2d99347-1947-2fbf-834b-f95790c125dd/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4fbad31e-465b-2a5d-84b7-c0ddea978db4/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4fbad31e-465b-2a5d-84b7-c0ddea978db4/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4fbad31e-465b-2a5d-84b7-c0ddea978db4/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4fbad31e-465b-2a5d-84b7-c0ddea978db4/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4fbad31e-465b-2a5d-84b7-c0ddea978db4/data_dict_5.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4fbad31e-465b-2a5d-84b7-c0ddea978db4/data_dict_6.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/5341b7a5-8a66-2cdd-8751-70b98263cb8d/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4138585b-a238-2435-810b-9728fc989b2f/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4138585b-a238-2435-810b-9728fc989b2f/data_dict_2.pkl
+ 56%|█████▌    | 216/388 [00:03<00:02, 81.20it/s]No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4138585b-a238-2435-810b-9728fc989b2f/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c2d99349-1947-2fbf-837e-a0bd5e027c52/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c2d99349-1947-2fbf-837e-a0bd5e027c52/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c2d99349-1947-2fbf-837e-a0bd5e027c52/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/1d233fe6-e280-2b1a-8caf-eb0d13a59ad6/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/1d233fe6-e280-2b1a-8caf-eb0d13a59ad6/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/77361fd4-d054-2a22-88c4-b5b404f904ca/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac75e8-8d6f-2d13-8fc4-acdbf00437c8/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac75e8-8d6f-2d13-8fc4-acdbf00437c8/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac75e8-8d6f-2d13-8fc4-acdbf00437c8/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7534-8d6f-2d13-8de7-8a915ed90050/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7534-8d6f-2d13-8de7-8a915ed90050/data_dict_2.pkl
+[Errno 2] No such file or directory: '/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7534-8d6f-2d13-8de7-8a915ed90050/data_dict_3.pkl' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7534-8d6f-2d13-8de7-8a915ed90050/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac75dc-8d6f-2d13-8d08-9c497bd6acdc/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac75dc-8d6f-2d13-8d08-9c497bd6acdc/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac75dc-8d6f-2d13-8d08-9c497bd6acdc/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac75dc-8d6f-2d13-8d08-9c497bd6acdc/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac75dc-8d6f-2d13-8d08-9c497bd6acdc/data_dict_5.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/6bde60cf-9162-246f-8f98-6355d75494c2/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4238490c-60a7-271e-9f38-3c651e3b3912/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4238490c-60a7-271e-9f38-3c651e3b3912/data_dict_2.pkl
+ 61%|██████    | 237/388 [00:03<00:01, 78.03it/s]No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c2d9933f-1947-2fbf-807f-c44bc1aed269/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c2d9933f-1947-2fbf-807f-c44bc1aed269/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/742e8f15-be0a-294e-9ebb-6c72dbcb9662/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/742e8f15-be0a-294e-9ebb-6c72dbcb9662/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/742e8f15-be0a-294e-9ebb-6c72dbcb9662/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bf9a3de9-45a5-2e80-8022-277108d67404/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bf9a3de9-45a5-2e80-8022-277108d67404/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bf9a3de9-45a5-2e80-8022-277108d67404/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bf9a3de9-45a5-2e80-8022-277108d67404/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/5341b7e3-8a66-2cdd-8709-66a2159f0017/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/5341b7e3-8a66-2cdd-8709-66a2159f0017/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/5341b7e3-8a66-2cdd-8709-66a2159f0017/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/6bde6083-9162-246f-8c9c-e170212059b2/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/6bde6083-9162-246f-8c9c-e170212059b2/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/f2c76fe5-2239-29d0-8593-1a2555125595/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/f2c76fe5-2239-29d0-8593-1a2555125595/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/f2c76fe5-2239-29d0-8593-1a2555125595/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/5630cfd1-12bf-2860-86b2-e7a96bc32c19/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/5630cfd1-12bf-2860-86b2-e7a96bc32c19/data_dict_2.pkl
+ 66%|██████▌   | 256/388 [00:03<00:01, 78.18it/s]No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/5630cfd1-12bf-2860-86b2-e7a96bc32c19/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/42384908-60a7-271e-9c46-01e562c8974c/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/42384908-60a7-271e-9c46-01e562c8974c/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/6bde60cb-9162-246f-8cf5-d04f7426e56f/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4fbad32f-465b-2a5d-8408-146ab1d72808/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4fbad32f-465b-2a5d-8408-146ab1d72808/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4fbad32f-465b-2a5d-8408-146ab1d72808/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4fbad32f-465b-2a5d-8408-146ab1d72808/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4fbad32f-465b-2a5d-8408-146ab1d72808/data_dict_5.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/422885c5-192d-25fc-85e6-12a3d65c8e7b/data_dict_1.pkl
+[Errno 2] No such file or directory: '/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/422885c5-192d-25fc-85e6-12a3d65c8e7b/data_dict_2.pkl' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/422885c5-192d-25fc-85e6-12a3d65c8e7b/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b1793e-3938-2467-8b92-f56541e7ef9e/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b1793e-3938-2467-8b92-f56541e7ef9e/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7747a4ec-9431-24e8-848f-897279a1e9fe/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7747a4ec-9431-24e8-848f-897279a1e9fe/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7747a4ec-9431-24e8-848f-897279a1e9fe/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7747a4ec-9431-24e8-848f-897279a1e9fe/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7747a4ec-9431-24e8-848f-897279a1e9fe/data_dict_5.pkl
+ 71%|███████   | 274/388 [00:03<00:01, 76.61it/s]No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7747a4ec-9431-24e8-848f-897279a1e9fe/data_dict_6.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7747a4ec-9431-24e8-848f-897279a1e9fe/data_dict_7.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/ab835fae-54c6-29a1-995e-b06cfc555786/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/ab835fae-54c6-29a1-995e-b06cfc555786/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/ab835fae-54c6-29a1-995e-b06cfc555786/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/ab835fae-54c6-29a1-995e-b06cfc555786/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/d04eb40f-1d53-27ea-8a41-47892bde7017/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/d04eb40f-1d53-27ea-8a41-47892bde7017/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/321c867e-a5a8-2a84-851a-818df115be05/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/321c867e-a5a8-2a84-851a-818df115be05/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/d7dc987e-a34a-2794-85c8-f75389b27532/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/d7dc987e-a34a-2794-85c8-f75389b27532/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/d7dc987e-a34a-2794-85c8-f75389b27532/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/6bde607d-9162-246f-8f84-98cf7ac2374c/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/6bde607d-9162-246f-8f84-98cf7ac2374c/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bf9a3da2-45a5-2e80-8219-1f0a216399fe/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bf9a3da2-45a5-2e80-8219-1f0a216399fe/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bf9a3da2-45a5-2e80-8219-1f0a216399fe/data_dict_3.pkl
+ 75%|███████▌  | 291/388 [00:04<00:01, 75.25it/s]No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bf9a3ddf-45a5-2e80-8007-8e9e7f323e52/data_dict_1.pkl
+[Errno 2] No such file or directory: '/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bf9a3ddf-45a5-2e80-8007-8e9e7f323e52/data_dict_2.pkl' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bf9a3ddf-45a5-2e80-8007-8e9e7f323e52/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7540-8d6f-2d13-8eee-36ba2a428e3f/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7540-8d6f-2d13-8eee-36ba2a428e3f/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7540-8d6f-2d13-8eee-36ba2a428e3f/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/f2c76feb-2239-29d0-8418-72b6051fc144/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/f2c76feb-2239-29d0-8418-72b6051fc144/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/f2c76feb-2239-29d0-8418-72b6051fc144/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/f2c76feb-2239-29d0-8418-72b6051fc144/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/f2c76feb-2239-29d0-8418-72b6051fc144/data_dict_5.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bf9a3ddd-45a5-2e80-80bc-647365c7ca08/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bf9a3ddd-45a5-2e80-80bc-647365c7ca08/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bf9a3ddd-45a5-2e80-80bc-647365c7ca08/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bf9a3dd9-45a5-2e80-817c-f918e193231b/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bf9a3dd9-45a5-2e80-817c-f918e193231b/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bf9a3dd9-45a5-2e80-817c-f918e193231b/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bf9a3dd9-45a5-2e80-817c-f918e193231b/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7747a50c-9431-24e8-877d-e60c3a341cc2/data_dict_1.pkl
+ 80%|███████▉  | 310/388 [00:04<00:00, 78.56it/s]No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7747a50c-9431-24e8-877d-e60c3a341cc2/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7747a50c-9431-24e8-877d-e60c3a341cc2/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7747a50c-9431-24e8-877d-e60c3a341cc2/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7747a50c-9431-24e8-877d-e60c3a341cc2/data_dict_5.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7747a50c-9431-24e8-877d-e60c3a341cc2/data_dict_6.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7747a50c-9431-24e8-877d-e60c3a341cc2/data_dict_7.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/7747a50c-9431-24e8-877d-e60c3a341cc2/data_dict_8.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/e61b0e04-bada-2f31-82d6-72831a602ba7/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/e61b0e04-bada-2f31-82d6-72831a602ba7/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/e61b0e04-bada-2f31-82d6-72831a602ba7/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/e61b0e04-bada-2f31-82d6-72831a602ba7/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/e61b0e04-bada-2f31-82d6-72831a602ba7/data_dict_5.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/e61b0e04-bada-2f31-82d6-72831a602ba7/data_dict_6.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/e61b0e04-bada-2f31-82d6-72831a602ba7/data_dict_7.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/d7d40d4e-7a5d-2b36-97e7-34324c52ac42/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/d7d40d4e-7a5d-2b36-97e7-34324c52ac42/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bf9a3d9e-45a5-2e80-83c6-4e427c5586a2/data_dict_1.pkl
+ 84%|████████▍ | 326/388 [00:04<00:00, 77.62it/s]No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bf9a3d9e-45a5-2e80-83c6-4e427c5586a2/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bf9a3d9e-45a5-2e80-83c6-4e427c5586a2/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/b05fdd8a-fca0-2d4f-8ac5-f6ae697787f5/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/b05fdd8a-fca0-2d4f-8ac5-f6ae697787f5/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/b05fdd8a-fca0-2d4f-8ac5-f6ae697787f5/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/20c993b7-698f-29c5-847d-c8cb8a685f5a/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/20c993b7-698f-29c5-847d-c8cb8a685f5a/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/2e369567-e133-204c-909a-c5da44bb58df/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b1792e-3938-2467-8bb3-172148ae5a67/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b1792e-3938-2467-8bb3-172148ae5a67/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b1792e-3938-2467-8bb3-172148ae5a67/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/e61b0e02-bada-2f31-82d0-80fc5c70bd6f/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/e61b0e02-bada-2f31-82d0-80fc5c70bd6f/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/e61b0e02-bada-2f31-82d0-80fc5c70bd6f/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/e61b0e02-bada-2f31-82d0-80fc5c70bd6f/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/e61b0e02-bada-2f31-82d0-80fc5c70bd6f/data_dict_5.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/e61b0e02-bada-2f31-82d0-80fc5c70bd6f/data_dict_6.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/e61b0e02-bada-2f31-82d0-80fc5c70bd6f/data_dict_7.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/b1f23308-d255-2761-94da-981d962c6bf8/data_dict_1.pkl
+ 89%|████████▉ | 345/388 [00:04<00:00, 80.40it/s]No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b17944-3938-2467-8bac-5552375e4467/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b17944-3938-2467-8bac-5552375e4467/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b17944-3938-2467-8bac-5552375e4467/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c2d9933d-1947-2fbf-81fa-c8a7f9625eea/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c2d9933d-1947-2fbf-81fa-c8a7f9625eea/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c92fb5b5-f771-2064-8570-dbe16cb33764/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c92fb5b5-f771-2064-8570-dbe16cb33764/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c92fb5b5-f771-2064-8570-dbe16cb33764/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/f2c76fed-2239-29d0-8598-9ed42cec9dc5/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/f2c76fed-2239-29d0-8598-9ed42cec9dc5/data_dict_2.pkl
+[Errno 2] No such file or directory: '/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/422885b3-192d-25fc-84c9-9b80eea1752d/data_dict_1.pkl' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/422885b3-192d-25fc-84c9-9b80eea1752d/data_dict_1.pkl
+[Errno 2] No such file or directory: '/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/422885b3-192d-25fc-84c9-9b80eea1752d/data_dict_2.pkl' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/422885b3-192d-25fc-84c9-9b80eea1752d/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/43b8cae3-6678-2e38-9b67-5905de29f6d7/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/43b8cae3-6678-2e38-9b67-5905de29f6d7/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/43b8cae3-6678-2e38-9b67-5905de29f6d7/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/ba6fdaac-a4c1-2dca-8380-f16765679fd7/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/ba6fdaac-a4c1-2dca-8380-f16765679fd7/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/ba6fdaac-a4c1-2dca-8380-f16765679fd7/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/ba6fdaac-a4c1-2dca-8380-f16765679fd7/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/ba6fdaac-a4c1-2dca-8380-f16765679fd7/data_dict_5.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7619-8d6f-2d13-8f36-ac562ec9a4de/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7619-8d6f-2d13-8f36-ac562ec9a4de/data_dict_2.pkl
+ 95%|█████████▍| 368/388 [00:05<00:00, 87.89it/s]No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/9766cbf5-6321-2e2f-8131-78c4e204635d/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/9766cbf5-6321-2e2f-8131-78c4e204635d/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/9766cbf5-6321-2e2f-8131-78c4e204635d/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/9766cbf5-6321-2e2f-8131-78c4e204635d/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/9766cbf5-6321-2e2f-8131-78c4e204635d/data_dict_5.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4238490a-60a7-271e-9c04-3846221dc354/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4238490a-60a7-271e-9c04-3846221dc354/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/8e0f1c28-9e28-2339-8584-ff06ff93c341/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/8e0f1c28-9e28-2339-8584-ff06ff93c341/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac75de-8d6f-2d13-8e1a-b574569c3885/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac75de-8d6f-2d13-8e1a-b574569c3885/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac75de-8d6f-2d13-8e1a-b574569c3885/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac75de-8d6f-2d13-8e1a-b574569c3885/data_dict_4.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac75de-8d6f-2d13-8e1a-b574569c3885/data_dict_5.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/f2c76fe9-2239-29d0-87ec-f2c7ced812c1/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/f2c76fe9-2239-29d0-87ec-f2c7ced812c1/data_dict_2.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/f2c76fe9-2239-29d0-87ec-f2c7ced812c1/data_dict_3.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/095821f9-e2c2-2de1-9707-8f735cd1c148/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/1d234026-e280-2b1a-8fe1-713e28269f4d/data_dict_1.pkl
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/1d234026-e280-2b1a-8fe1-713e28269f4d/data_dict_2.pkl
+100%|██████████| 388/388 [00:05<00:00, 75.82it/s]
+No module named 'numpy._core' /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/1d234026-e280-2b1a-8fe1-713e28269f4d/data_dict_3.pkl
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user. 
+  warnings.warn(  # warn only once
+Downloading shards:   0%|          | 0/4 [00:00<?, ?it/s]Downloading shards: 100%|██████████| 4/4 [00:00<00:00, 5667.98it/s]
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:04<00:12,  4.24s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:06<00:06,  3.26s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:09<00:02,  2.97s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:10<00:00,  2.04s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:10<00:00,  2.51s/it]
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/pytorch_lightning/utilities/data.py:104: Total length of `DataLoader` across ranks is zero. Please make sure this was your intention.
+[rank0]:[W517 16:24:50.779928287 ProcessGroupNCCL.cpp:1538] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+finished_at=2026-05-18T01:24:53+09:00
+exit_code=0

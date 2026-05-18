@@ -1,7 +1,7 @@
 # Open3DSG Post-Dump Handoff Commands
 
 Status: `waiting_for_feature_dump_completion`
-Created at: `2026-05-10T15:57:57+00:00`
+Created at: `2026-05-11T15:27:01+00:00`
 
 Run from the repository root.
 

@@ -133,6 +133,43 @@ This creates:
 - `sources/open3dsg/checkpoint_selection/commands.md`
 - `sources/open3dsg/checkpoint_selection/report.md`
 
+## Open3DSG H001 Eval Features
+
+Stage H001 held-out scan symlinks under the `h001_runtime` root:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm h001_eval_payload'
+```
+
+Generate H001 held-out eval features under the `h001_runtime` root before raw dump:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) OPEN3DSG_CHECKPOINT=/workspace/<selected-ckpt> docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm dump_features_h001_eval'
+```
+
+Resumable shard command for the current H001 eval feature cache. This keeps the full eval denominator for later metric runs, but limits this feature-cache job to missing ids only:
+
+```bash
+mkdir -p logs
+ts=$(date +%Y%m%d_%H%M%S)
+tmux new-session -d -s h001_open3dsg_dump_features_h001_eval_shard "cd /home/yoohyun/research && bash -lc 'set -o pipefail; env UID=\$(id -u) GID=\$(id -g) OPEN3DSG_CHECKPOINT=/workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt OPEN3DSG_FEATURE_SHARD_ONLY_MISSING=1 OPEN3DSG_FEATURE_SHARD_MAX_NEW_IDS=5 OPEN3DSG_BLIP_EMBED_CHUNK_SIZE=1 OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE=1 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True,max_split_size_mb:64 docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm dump_features_h001_eval; rc=\$?; echo \"finished_at=\$(date -Is)\"; echo \"exit_code=\$rc\"; printf \"%s\n\" \"\$rc\" > logs/open3dsg_dump_features_h001_eval_shard_${ts}.exit; exit \$rc' > logs/open3dsg_dump_features_h001_eval_shard_${ts}.log 2>&1"
+```
+
+Audit the generated H001 eval feature run:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm feature_audit_h001_eval'
+```
+
+This creates or checks:
+
+- `sources/open3dsg/h001_eval_payload/manifest.json`
+- `sources/open3dsg/h001_eval_payload/records.jsonl`
+- `sources/open3dsg/h001_eval_payload/report.md`
+- `local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3/`
+- `sources/open3dsg/dump_features_h001_eval/manifest.json`
+- `sources/open3dsg/dump_features_h001_eval/report.md`
+
 ## Open3DSG Raw-Dump Identity
 
 Freeze the raw-dump identity audit checklist before raw dump conversion:
@@ -292,3 +329,42 @@ After rendering, rerun validation and runtime preflight:
 sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_tiny_pilot_validator'
 sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_runtime_plan'
 ```
+
+## Qwen-VL Runtime Smoke
+
+Build the Qwen-VL runtime image and download the locked primary model in a
+background session:
+
+```bash
+mkdir -p logs
+ts=$(date +%Y%m%d_%H%M%S)
+tmux new-session -d -s h001_qwen_vl_model_download \
+  "cd /home/yoohyun/research && bash -lc 'set -o pipefail; sg docker -c '\''env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml build qwen_vl_model_download && env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_model_download && env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_cache_verify'\''; rc=$?; printf \"%s\n\" \"$rc\" > logs/qwen_vl_model_download_${ts}.exit; exit $rc' > logs/qwen_vl_model_download_${ts}.log 2>&1"
+```
+
+After the download job completes, verify the cache:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_cache_verify'
+```
+
+Run GPU-dependent smoke only after the model cache is complete and the GPU is
+not occupied by the Open3DSG feature dump:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_runtime_preflight'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_tiny_inference_smoke'
+```
+
+These commands create or update:
+
+- `sources/qwen_vl/model_cache/download_<timestamp>.md`
+- `sources/qwen_vl/runtime_smoke/cache/manifest.json`
+- `sources/qwen_vl/runtime_smoke/cache/report.md`
+- `sources/qwen_vl/runtime_smoke/preflight/manifest.json`
+- `sources/qwen_vl/runtime_smoke/preflight/report.md`
+- `sources/qwen_vl/runtime_smoke/tiny_inference/raw_response.jsonl` after tiny inference
+- `sources/qwen_vl/runtime_smoke/tiny_inference/predictions.jsonl` after tiny inference
+
+Qwen-VL runtime smoke is not paper metric evidence and does not replace the
+Open3DSG reproduction anchor.

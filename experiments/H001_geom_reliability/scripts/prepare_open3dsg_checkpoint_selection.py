@@ -1,19 +1,21 @@
 #!/usr/bin/env python3
-"""Freeze Open3DSG checkpoint provenance and selection policy before training outputs exist."""
+"""Freeze Open3DSG checkpoint provenance and selection policy."""
 
 from __future__ import annotations
 
 import argparse
 import hashlib
 import json
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 
-SCHEMA_VERSION = "h001_open3dsg_checkpoint_selection_v1"
+SCHEMA_VERSION = "h001_open3dsg_checkpoint_selection_v3"
 STATUS_READY_MISSING = "checkpoint_selection_template_ready_checkpoint_missing"
 STATUS_READY_WITH_CANDIDATES = "checkpoint_selection_template_ready_candidates_present"
+STATUS_READY_SELECTED_VARIANT = "checkpoint_selection_ready_labeled_avg_blip_variant"
 
 
 def parse_args() -> argparse.Namespace:
@@ -22,7 +24,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--checkpoint-dir",
         type=Path,
-        default=Path("local_dataset/Open3DSG_staged/training_repro/output/checkpoints"),
+        default=Path("local_dataset/Open3DSG_staged/training_repro"),
     )
     parser.add_argument(
         "--feature-audit-manifest",
@@ -96,17 +98,198 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def read_text_if_exists(path: Path) -> str | None:
+    if not path.is_file():
+        return None
+    return path.read_text(encoding="utf-8").strip()
+
+
+def read_tail_lines_if_exists(path: Path, max_lines: int = 5) -> str | None:
+    text = read_text_if_exists(path)
+    if text is None:
+        return None
+    return "\n".join(text.splitlines()[-max_lines:])
+
+
+def read_metric_series(path: Path) -> list[dict[str, int | float]]:
+    text = read_text_if_exists(path)
+    if text is None:
+        return []
+    series: list[dict[str, int | float]] = []
+    for line in text.splitlines():
+        parts = line.split()
+        if len(parts) < 3:
+            continue
+        try:
+            timestamp = int(parts[0])
+            value = float(parts[1])
+            step = int(parts[2])
+        except ValueError:
+            continue
+        series.append({"timestamp": timestamp, "value": value, "step": step})
+    return series
+
+
+def checkpoint_step(filename: str) -> int | None:
+    match = re.search(r"step=(\d+)", filename)
+    if not match:
+        return None
+    return int(match.group(1))
+
+
+def matched_val_loss(filename: str, val_loss_series: list[dict[str, int | float]]) -> dict[str, int | float] | None:
+    if not val_loss_series:
+        return None
+    step = checkpoint_step(filename)
+    if step is None:
+        return val_loss_series[-1] if filename == "last.ckpt" else None
+    target_steps = {step, step - 1, step + 1}
+    for record in val_loss_series:
+        if int(record["step"]) in target_steps:
+            return record
+    return None
+
+
+def infer_mlflow_run(path: Path, repo_root: Path) -> dict[str, Any]:
+    run_root = path.parent.parent if path.parent.name == "checkpoints" else None
+    if run_root is None or not (run_root / "meta.yaml").is_file():
+        return {}
+    params_dir = run_root / "params"
+    metrics_dir = run_root / "metrics"
+    val_loss_series = read_metric_series(metrics_dir / "val/loss")
+    params = {
+        name: read_text_if_exists(params_dir / name)
+        for name in (
+            "run_name",
+            "epochs",
+            "blip",
+            "avg_blip_emb",
+            "clip_model",
+            "load_features",
+            "mini_dataset",
+            "mixed_precision",
+            "accumulate_grad_batches",
+        )
+    }
+    best_val_loss = min(val_loss_series, key=lambda item: float(item["value"])) if val_loss_series else None
+    metrics = {
+        "val_loss_series": val_loss_series,
+        "val_loss_best": best_val_loss,
+        "val_loss_last": val_loss_series[-1] if val_loss_series else None,
+        "train_loss_tail": read_tail_lines_if_exists(metrics_dir / "train/loss", max_lines=5),
+    }
+    try:
+        experiment_id = run_root.parent.name
+        run_id = run_root.name
+    except IndexError:
+        experiment_id = None
+        run_id = None
+    return {
+        "mlflow_run_root": relpath(repo_root, run_root),
+        "mlflow_experiment_id": experiment_id,
+        "mlflow_run_id": run_id,
+        "mlflow_params": params,
+        "mlflow_metrics": metrics,
+    }
+
+
+def infer_route(mlflow: dict[str, Any]) -> dict[str, Any]:
+    params = mlflow.get("mlflow_params", {})
+    avg_blip = params.get("avg_blip_emb") == "True"
+    blip = params.get("blip") == "True"
+    mini_dataset = params.get("mini_dataset") == "True"
+    epochs = params.get("epochs")
+    try:
+        epoch_count = int(epochs) if epochs is not None else None
+    except ValueError:
+        epoch_count = None
+
+    if mini_dataset:
+        source_stage = "reduced_smoke"
+        paper_result_eligible = False
+        selection_role = "smoke_only"
+    elif blip and avg_blip and epoch_count == 1:
+        source_stage = "avg_blip_pilot"
+        paper_result_eligible = False
+        selection_role = "pilot_debug"
+    elif blip and avg_blip:
+        source_stage = "avg_blip_full_variant"
+        paper_result_eligible = "labeled_variant_only"
+        selection_role = "labeled_second_source_variant_candidate"
+    elif blip and epoch_count == 1:
+        source_stage = "official_non_avg_blip_pilot"
+        paper_result_eligible = False
+        selection_role = "pilot_debug"
+    elif blip:
+        source_stage = "official_non_avg_blip_full"
+        paper_result_eligible = True
+        selection_role = "primary_candidate"
+    else:
+        source_stage = "unknown"
+        paper_result_eligible = "unknown_until_policy_gate_passes"
+        selection_role = "needs_review"
+
+    return {
+        "source_stage": source_stage,
+        "paper_result_eligible": paper_result_eligible,
+        "selection_role": selection_role,
+    }
+
+
 def inspect_checkpoint(path: Path, repo_root: Path) -> dict[str, Any]:
     stat = path.stat()
+    mlflow = infer_mlflow_run(path, repo_root)
+    route = infer_route(mlflow)
+    val_loss_record = matched_val_loss(path.name, mlflow.get("mlflow_metrics", {}).get("val_loss_series", []))
     return {
         "checkpoint_path": relpath(repo_root, path),
         "filename": path.name,
         "size_bytes": stat.st_size,
         "mtime_utc": datetime.fromtimestamp(stat.st_mtime, timezone.utc).replace(microsecond=0).isoformat(),
         "sha256": sha256_file(path),
-        "source_stage": "unknown_until_record_filled",
-        "paper_result_eligible": "unknown_until_policy_gate_passes",
+        "training_internal_val_loss": val_loss_record,
+        "selection_metric_source": (
+            "mlflow val/loss from Open3DSG train-dev validation only; no H001 held-out metric, "
+            "raw dump, failure taxonomy, or visual inspection used"
+        )
+        if val_loss_record
+        else None,
+        **route,
+        **mlflow,
     }
+
+
+def select_predeclared_checkpoint(candidates: list[dict[str, Any]]) -> dict[str, Any] | None:
+    official = [candidate for candidate in candidates if candidate.get("paper_result_eligible") is True]
+    if official:
+        pool = official
+    else:
+        pool = [
+            candidate
+            for candidate in candidates
+            if candidate.get("source_stage") == "avg_blip_full_variant"
+            and candidate.get("paper_result_eligible") == "labeled_variant_only"
+            and candidate.get("filename") != "last.ckpt"
+        ]
+    if not pool:
+        return None
+
+    def sort_key(candidate: dict[str, Any]) -> tuple[float, str]:
+        val_loss = candidate.get("training_internal_val_loss")
+        if isinstance(val_loss, dict) and isinstance(val_loss.get("value"), (int, float)):
+            return (float(val_loss["value"]), str(candidate.get("checkpoint_path")))
+        return (float("inf"), str(candidate.get("checkpoint_path")))
+
+    selected = min(pool, key=sort_key)
+    selected = dict(selected)
+    selected["selection_reason"] = (
+        "predeclared official full-route checkpoint selected by Open3DSG train-dev val/loss"
+        if selected.get("paper_result_eligible") is True
+        else "documented lower-memory avg-BLIP full variant selected by Open3DSG train-dev val/loss after non-averaged BLIP route produced no checkpoint"
+    )
+    selected["h001_eval_metric_seen_before_selection"] = False
+    selected["selected_before_raw_dump_or_metric"] = True
+    return selected
 
 
 def record_template() -> dict[str, Any]:
@@ -120,6 +303,7 @@ def record_template() -> dict[str, Any]:
             "checkpoint_size_bytes": "file size in bytes",
             "source_stage": "pilot | full | reduced_smoke",
             "paper_result_eligible": "true only for official BLIP TopK5/scales3 full-route checkpoints",
+            "labeled_variant_only": "allowed only for explicitly labeled averaged-BLIP Open3DSG variant tables",
             "selection_role": "primary | fallback | smoke_only | rejected",
             "selection_reason": "predeclared reason, not based on H001 held-out metrics",
             "created_by_command": "exact Docker command that produced the checkpoint",
@@ -173,6 +357,16 @@ def selection_policy() -> dict[str, Any]:
                 "rule": "primary checkpoint if full route completes after official BLIP TopK5/scales3 feature audit pass",
             },
             {
+                "route": "avg_blip_full_variant",
+                "eligibility": "labeled_variant_only",
+                "rule": "select only as an explicitly labeled averaged-BLIP Open3DSG variant after full-route training completes and the non-averaged route has no checkpoint",
+            },
+            {
+                "route": "avg_blip_pilot",
+                "eligibility": "pilot_evidence_only",
+                "rule": "valid checkpoint-smoke evidence and provenance seed; not final paper-result evidence",
+            },
+            {
                 "route": "official_pilot",
                 "eligibility": "pilot_evidence_only",
                 "rule": "fallback for debugging/reporting progress; not final paper result unless full route is explicitly abandoned and claim is downgraded",
@@ -185,8 +379,11 @@ def selection_policy() -> dict[str, Any]:
         ],
         "primary_selection_rule": (
             "Select the first policy-eligible full-route checkpoint that satisfies provenance, "
-            "feature-audit, Docker preflight, and no-held-out-selection gates. "
-            "Do not choose among checkpoints using H001 held-out metric results."
+            "feature-audit, Docker preflight, and no-held-out-selection gates. If the exact "
+            "non-averaged BLIP route has documented OOM failures and no checkpoint, select the "
+            "best full avg-BLIP variant by Open3DSG train-dev val/loss and label every downstream "
+            "table as an averaged-BLIP Open3DSG variant. Do not choose among checkpoints using "
+            "H001 held-out metric results."
         ),
         "reselection_rule": (
             "Changing the primary checkpoint after H001 held-out metric inspection requires a "
@@ -228,6 +425,7 @@ def source_statuses(paths: dict[str, Path]) -> dict[str, str | None]:
 
 
 def build_report(payload: dict[str, Any]) -> str:
+    selected = payload.get("selected_checkpoint")
     lines = [
         "# Open3DSG Checkpoint Selection",
         "",
@@ -236,8 +434,8 @@ def build_report(payload: dict[str, Any]) -> str:
         "",
         "## Fact",
         "",
-        "- The checkpoint provenance schema and selection policy are frozen before Open3DSG checkpoint outputs are inspected.",
-        "- This artifact does not train Open3DSG, inspect held-out predictions, compute metrics, or select a real checkpoint.",
+        "- The checkpoint provenance schema and selection policy are refreshed before any H001 held-out Open3DSG metric inspection.",
+        "- This artifact does not train Open3DSG, inspect held-out predictions, or compute metrics.",
         "- Reduced-route checkpoints are smoke-only unless the paper claim is explicitly downgraded.",
         "",
         "## Selection Gate",
@@ -250,10 +448,30 @@ def build_report(payload: dict[str, Any]) -> str:
         "",
         f"- checkpoint dir: `{payload['checkpoint_dir']}`",
         f"- candidate checkpoints: `{payload['candidate_count']}`",
+        f"- paper-result eligible candidates: `{payload['paper_result_eligible_candidate_count']}`",
+        f"- labeled avg-BLIP variant candidates: `{payload['labeled_variant_candidate_count']}`",
         f"- official feature audit status: `{payload['source_statuses']['feature_audit']}`",
         f"- train filter status: `{payload['source_statuses']['train_filter']}`",
         f"- validation filter status: `{payload['source_statuses']['validation_filter']}`",
     ]
+    if selected:
+        val_loss = selected.get("training_internal_val_loss") or {}
+        lines.extend(
+            [
+                "",
+                "## Selected Checkpoint",
+                "",
+                f"- path: `{selected['checkpoint_path']}`",
+                f"- source stage: `{selected['source_stage']}`",
+                f"- selection role: `{selected['selection_role']}`",
+                f"- selection reason: `{selected['selection_reason']}`",
+                f"- train-dev val/loss: `{val_loss.get('value')}` at step `{val_loss.get('step')}`",
+                "- H001 held-out metrics seen before selection: `False`",
+            ]
+        )
+    if payload.get("claim_limitations"):
+        lines.extend(["", "## Claim Limitations", ""])
+        lines.extend(f"- `{limitation}`" for limitation in payload["claim_limitations"])
     if payload["blockers"]:
         lines.extend(["", "## Blockers", ""])
         lines.extend(f"- `{blocker}`" for blocker in payload["blockers"])
@@ -300,12 +518,17 @@ def main() -> int:
     }
 
     out_dir.mkdir(parents=True, exist_ok=True)
-    candidates = [inspect_checkpoint(path, repo_root) for path in sorted(checkpoint_dir.glob("*.ckpt"))] if checkpoint_dir.is_dir() else []
+    candidates = [inspect_checkpoint(path, repo_root) for path in sorted(checkpoint_dir.rglob("*.ckpt"))] if checkpoint_dir.is_dir() else []
+    paper_result_eligible_count = sum(candidate.get("paper_result_eligible") is True for candidate in candidates)
+    labeled_variant_count = sum(candidate.get("paper_result_eligible") == "labeled_variant_only" for candidate in candidates)
+    selected_checkpoint = select_predeclared_checkpoint(candidates)
     blockers: list[str] = []
     if not checkpoint_dir.is_dir():
         blockers.append(f"missing_checkpoint_dir:{relpath(repo_root, checkpoint_dir)}")
     if not candidates:
         blockers.append("no_checkpoint_candidates")
+    if candidates and selected_checkpoint is None:
+        blockers.append("no_selectable_checkpoint_candidates")
 
     statuses = source_statuses(source_paths)
     if statuses["feature_audit"] != "ready":
@@ -317,25 +540,45 @@ def main() -> int:
 
     policy = selection_policy()
     template = record_template()
+    claim_limitations: list[str] = []
+    if paper_result_eligible_count == 0 and labeled_variant_count:
+        claim_limitations.extend(
+            [
+                "no_exact_official_non_avg_blip_checkpoint_after_documented_oom_attempts",
+                "selected_checkpoint_is_averaged_blip_open3dsg_variant_not_exact_non_avg_open3dsg",
+                "downstream_table_must_label_open3dsg_source_as_avg_blip_variant",
+            ]
+        )
+    status = STATUS_READY_MISSING
+    if candidates:
+        status = STATUS_READY_WITH_CANDIDATES
+    if selected_checkpoint and selected_checkpoint.get("paper_result_eligible") == "labeled_variant_only" and not blockers:
+        status = STATUS_READY_SELECTED_VARIANT
     manifest = {
         "schema_version": SCHEMA_VERSION,
         "created_at": utc_now(),
-        "status": STATUS_READY_WITH_CANDIDATES if candidates else STATUS_READY_MISSING,
+        "status": status,
         "checkpoint_dir": relpath(repo_root, checkpoint_dir),
         "candidate_count": len(candidates),
+        "paper_result_eligible_candidate_count": paper_result_eligible_count,
+        "labeled_variant_candidate_count": labeled_variant_count,
         "candidate_checkpoints": candidates,
+        "selected_checkpoint": selected_checkpoint,
         "source_statuses": statuses,
         "feature_audit_status": statuses["feature_audit"],
         "source_artifacts": artifact_records(repo_root, source_paths),
         "selection_policy": "selection_policy.json",
         "record_template": "record_template.json",
         "blockers": blockers,
+        "claim_limitations": claim_limitations,
         "claim_boundary": (
-            "This artifact freezes provenance and selection policy only. It is not a checkpoint, "
-            "not Open3DSG metric evidence, and not permission to select a checkpoint using H001 held-out metrics."
+            "This artifact freezes provenance and selection policy only. It is not Open3DSG metric "
+            "evidence and it is not permission to select a checkpoint using H001 held-out metrics. "
+            "If the selected checkpoint is avg-BLIP, downstream evidence must be labeled as an "
+            "averaged-BLIP Open3DSG variant."
         ),
         "next_action_after_checkpoint": (
-            "Fill a checkpoint provenance record before raw dump/eval; then run eval_preflight with the selected checkpoint."
+            "Run eval_preflight with the selected checkpoint before raw dump/eval."
         ),
     }
 
@@ -350,6 +593,8 @@ def main() -> int:
             {
                 "status": manifest["status"],
                 "candidate_count": manifest["candidate_count"],
+                "selected_checkpoint": manifest["selected_checkpoint"]["checkpoint_path"] if manifest["selected_checkpoint"] else None,
+                "blockers": manifest["blockers"],
                 "out": relpath(repo_root, out_dir),
             },
             sort_keys=True,

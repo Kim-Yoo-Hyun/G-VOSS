@@ -1,17 +1,13 @@
 {
-  "blockers": [
-    "missing_checkpoint_env:OPEN3DSG_CHECKPOINT"
-  ],
-  "created_at": "2026-05-07T15:34:46.142511+00:00",
+  "blockers": [],
+  "created_at": "2026-05-18T03:08:31.097537+00:00",
   "gates": {
     "checkpoint": {
-      "blockers": [
-        "missing_checkpoint_env:OPEN3DSG_CHECKPOINT"
-      ],
-      "bytes": 0,
-      "checkpoint": null,
-      "exists": false,
-      "passed": false
+      "blockers": [],
+      "bytes": 419735447,
+      "checkpoint": "local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt",
+      "exists": true,
+      "passed": true
     },
     "imports": {
       "blockers": [],
@@ -91,7 +87,7 @@
       "subset_json": "local_dataset/3DSSG_subset/relationships_validation.json"
     }
   },
-  "next_action": "Provide a valid OPEN3DSG_CHECKPOINT and fix blockers before running Open3DSG eval.",
+  "next_action": "Run eval_h001_gt_objects or raw-dump hook with this checkpoint.",
   "raw_dump_contract": {
     "adapter_command": "sg docker -c 'env UID=$(id -u) GID=$(id -g) OPEN3DSG_RAW_DUMP_JSONL=/workspace/experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_adapter_raw_dump'",
     "claim_boundary": "This contract is not second-source metric evidence until the raw dump exists, converts to prediction JSONL, joins with geometry, and evaluates.",
@@ -115,5 +111,5 @@
   "repo_root": "/workspace",
   "runtime_root": "local_dataset/Open3DSG_staged/h001_runtime",
   "schema_version": "h001_open3dsg_eval_preflight_v1",
-  "status": "blocked"
+  "status": "ready"
 }

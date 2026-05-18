@@ -1,13 +1,17 @@
 {
-  "blockers": [
-    "train_views:2/1178",
-    "train_preprocessed:7/3852",
-    "missing_feature_outputs:/workspace/local_dataset/Open3DSG_staged/training_repro/output/features"
-  ],
+  "blockers": [],
   "check_imports": true,
-  "created_at": "2026-05-07T15:34:13.135574+00:00",
+  "created_at": "2026-05-15T07:14:32.174168+00:00",
   "ensure_dirs": true,
   "gates": {
+    "gpu_memory": {
+      "blockers": [],
+      "enabled": true,
+      "free_memory_mb": 30605,
+      "passed": true,
+      "threshold_mb": 18000,
+      "total_memory_mb": 32100
+    },
     "imports": {
       "blockers": [],
       "cuda": {
@@ -17,6 +21,7 @@
         ],
         "device_count": 1,
         "device_name": "NVIDIA GeForce RTX 5090",
+        "free_memory_mb": 30605,
         "is_available": true,
         "required_arch": "sm_120",
         "supported_arch_list": [
@@ -28,7 +33,8 @@
           "sm_100",
           "sm_120"
         ],
-        "torch_version": "2.8.0+cu128"
+        "torch_version": "2.8.0+cu128",
+        "total_memory_mb": 32100
       },
       "enabled": true,
       "modules": {
@@ -56,17 +62,17 @@
       "passed": true
     },
     "paths": {
-      "blockers": [
-        "missing_feature_outputs:/workspace/local_dataset/Open3DSG_staged/training_repro/output/features"
-      ],
-      "passed": false,
+      "blockers": [],
+      "passed": true,
       "paths": {
         "base_open3dsg_helpers_adjectives": "/workspace/local_dataset/Open3DSG_staged/training_repro/open3dsg/helpers/nature_adjectives.txt",
         "base_open3dsg_helpers_words": "/workspace/local_dataset/Open3DSG_staged/training_repro/open3dsg/helpers/nature_words.txt",
         "checkpoint_dir": "/workspace/local_dataset/Open3DSG_staged/training_repro/output/checkpoints",
         "clip_cache_dir": "/workspace/local_dataset/model_cache/home/.cache/clip",
         "data_dir": "/workspace/local_dataset/Open3DSG_staged/training_repro/data",
-        "feature_dir": "/workspace/local_dataset/Open3DSG_staged/training_repro/output/features",
+        "feature_load_dir": "/workspace/local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3",
+        "feature_root": "/workspace/local_dataset/Open3DSG_staged/training_repro/output/features",
+        "feature_run_dir": "/workspace/local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3",
         "hf_home": "/workspace/local_dataset/model_cache/huggingface",
         "home_dir": "/workspace/local_dataset/model_cache/home",
         "open3dsg_run_script": "/workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source/open3dsg/scripts/run.py",
@@ -85,52 +91,39 @@
       "train_mesh_texture_min": 1178,
       "train_raw_files_min": 1178,
       "train_scan_dirs": 1178,
-      "train_sequence_min": 1178
+      "train_sequence_min": 1178,
+      "validation_expected_scans": 30,
+      "validation_mesh_texture_min": 30,
+      "validation_raw_files_min": 30,
+      "validation_scan_dirs": 30,
+      "validation_sequence_min": 30
     },
     "runtime_stage": {
-      "blockers": [
-        "train_views:2/1178",
-        "train_preprocessed:7/3852"
-      ],
-      "expected_train_scans": 1178,
-      "expected_train_subgraphs": 3852,
-      "missing_preprocessed_examples": [
-        "/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/preprocessed/6a36053f-fa53-2915-9579-3938283bc154/data_dict_1.pkl",
-        "/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/preprocessed/6a36053f-fa53-2915-9579-3938283bc154/data_dict_2.pkl",
-        "/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/preprocessed/6a36053f-fa53-2915-9579-3938283bc154/data_dict_3.pkl",
-        "/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/preprocessed/baf0a8fb-26d4-2033-8a28-2001356bbb9a/data_dict_1.pkl",
-        "/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/preprocessed/baf0a8fb-26d4-2033-8a28-2001356bbb9a/data_dict_2.pkl",
-        "/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/preprocessed/baf0a8fb-26d4-2033-8a28-2001356bbb9a/data_dict_3.pkl",
-        "/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/preprocessed/422885e0-192d-25fc-844a-62e395291839/data_dict_1.pkl",
-        "/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/preprocessed/422885e0-192d-25fc-844a-62e395291839/data_dict_2.pkl",
-        "/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/preprocessed/422885e0-192d-25fc-844a-62e395291839/data_dict_3.pkl",
-        "/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/preprocessed/422885e0-192d-25fc-844a-62e395291839/data_dict_4.pkl"
-      ],
-      "missing_view_examples": [
-        "/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/views/02b33dfb-be2b-2d54-92d2-cd012b2b3c40_object2image.pkl",
-        "/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/views/02b33dfd-be2b-2d54-91d2-55454852009e_object2image.pkl",
-        "/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/views/02b33e01-be2b-2d54-93fb-4145a709cec5_object2image.pkl",
-        "/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/views/02b33e03-be2b-2d54-9129-5d28efdd68fa_object2image.pkl",
-        "/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/views/05c6ede7-2e69-23b1-8b27-c1cb868f1938_object2image.pkl",
-        "/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/views/09582205-e2c2-2de1-9475-1cdac7639e60_object2image.pkl",
-        "/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/views/09582207-e2c2-2de1-972c-225d968c2ab4_object2image.pkl",
-        "/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/views/09582209-e2c2-2de1-9610-08baed932919_object2image.pkl",
-        "/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/views/0958220b-e2c2-2de1-96bc-739f09c1e8f8_object2image.pkl",
-        "/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/views/0958220d-e2c2-2de1-9710-c37018da1883_object2image.pkl"
-      ],
-      "passed": false,
+      "blockers": [],
+      "expected_train_scans": 1158,
+      "expected_train_subgraphs": 3744,
+      "expected_validation_scans": 30,
+      "expected_validation_subgraphs": 156,
+      "missing_train_preprocessed_examples": [],
+      "missing_train_view_examples": [],
+      "missing_validation_preprocessed_examples": [],
+      "missing_validation_view_examples": [],
+      "passed": true,
       "preprocessed_root": "/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/preprocessed",
-      "ready_train_preprocessed": 7,
-      "ready_train_views": 2,
+      "ready_train_preprocessed": 3744,
+      "ready_train_views": 1158,
+      "ready_validation_preprocessed": 156,
+      "ready_validation_views": 30,
       "relationships_train": "/workspace/local_dataset/Open3DSG_staged/training_repro/data/3RScan/3DSSG_subset/relationships_train.json",
+      "relationships_validation": "/workspace/local_dataset/Open3DSG_staged/training_repro/data/3RScan/3DSSG_subset/relationships_validation.json",
       "training_root": "/workspace/local_dataset/Open3DSG_staged/training_repro",
       "views_root": "/workspace/local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/views"
     }
   },
   "mode": "train_pilot",
-  "next_action": "Generate train view/preprocessed pickles or fix missing/writable runtime directories before running heavy Open3DSG commands.",
+  "next_action": "Run the protected Open3DSG command.",
   "repo_root": "/workspace",
-  "schema_version": "h001_open3dsg_training_preflight_v3",
-  "status": "blocked",
+  "schema_version": "h001_open3dsg_training_preflight_v6",
+  "status": "ready",
   "training_manifest": "experiments/H001_geom_reliability/sources/open3dsg/training_repro/manifest.json"
 }

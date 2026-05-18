@@ -1,6 +1,6 @@
 # H001 Geometry Reliability Experiment
 
-Last updated: 2026-05-10
+Last updated: 2026-05-18
 
 This is the first paper-body experiment workflow for H001. It is Docker-based by rule.
 
@@ -12,8 +12,8 @@ Current executable source:
 
 Selected top-tier expansion:
 
-- Open3DSG second-source adapter result after Dockerized checkpoint reproduction; checkpoint plan, `training_repro` metadata/split staging, full payload staging, train/validation views, explicit train/validation preprocess filtering, protected feature-dump hardening, post-dump handoff gates, checkpoint provenance/selection template, raw-dump identity checklist, predicate-family/denominator metric-scope policy, pre-metric failure-analysis schema, synthetic failure row-generator smoke, metric/join blocked-input contract, and Table 6 blocked hook are ready. Official BLIP TopK5/scales3 feature dump has partial feature files and is hardened for restart with pre-forward skip-existing resume and explicit one-epoch execution.
-- Qwen-VL modern semantic-source extension contract is ready under `sources/qwen_vl/`; recommended small model ladder is Qwen3-VL-4B first, Qwen2.5-VL-3B stable fallback, and Qwen3-VL-2B parser-smoke candidate. Frozen input JSON Schema, output JSONL contract, contract-only validator/parser skeleton, non-held-out tiny pilot scope, runtime model-lock plan, and tiny-pilot pair-crop rendering path are recorded before any model download or inference. This is not a replacement for Open3DSG reproduction evidence.
+- Open3DSG second-source adapter result after Dockerized checkpoint reproduction; checkpoint plan, `training_repro` metadata/split staging, full payload staging, train/validation views, explicit train/validation preprocess filtering, official BLIP TopK5/scales3 feature dump, Docker feature audit, avg-BLIP checkpoint reproduction, checkpoint selection, eval preflight, raw-dump identity checklist, predicate-family/denominator metric-scope policy, pre-metric failure-analysis schema, synthetic failure row-generator smoke, metric/join blocked-input contract, and Table 6 blocked hook are ready. Current active step is H001 held-out eval feature dumping under the `h001_runtime` root, before rerunning the selected averaged-BLIP Open3DSG raw dump.
+- Qwen-VL modern semantic-source extension contract is ready under `sources/qwen_vl/`; recommended small model ladder is Qwen3-VL-4B first, Qwen2.5-VL-3B stable fallback, and Qwen3-VL-2B parser-smoke candidate. Frozen input JSON Schema, output JSONL contract, contract-only validator/parser skeleton, non-held-out tiny pilot scope, runtime model-lock plan, and tiny-pilot pair-crop rendering path are recorded. The locked Qwen3-VL-4B model-cache download completed and cache verification is ready; runtime preflight is currently blocked by Open3DSG GPU occupancy, so tiny inference smoke has not started. This is not a replacement for Open3DSG reproduction evidence.
 
 Current method framing:
 
@@ -23,7 +23,7 @@ calibrated geometry-consistency evaluation and re-ranking framework
 
 ## What This Stage Does
 
-This stage does not retrain or retune a predictor. It reads locked hypothesis artifacts, validates fixed counts, records input hashes/row counts, generates paper-facing tables/report files, records the Dockerized Open3DSG checkpoint reproduction plan, and stages the Open3DSG `training_repro` metadata/split root.
+This stage reads locked hypothesis artifacts, validates fixed counts, records input hashes/row counts, generates paper-facing tables/report files, records the Dockerized Open3DSG checkpoint reproduction plan, stages the Open3DSG `training_repro` metadata/split root, and tracks the Dockerized Open3DSG second-source reproduction pipeline. Paper-facing metric promotion remains blocked until raw-dump identity, adapter export, geometry join, and Open3DSG metrics pass.
 
 Generated outputs:
 
@@ -116,7 +116,7 @@ Cross-predictor baseline-agnostic reliability-layer claim.
 Current Open3DSG blocker:
 
 ```text
-official BLIP TopK5/scales3 feature dump must be restarted/completed under the hardened runtime policy; reduced/pilot TopK1/scales1 route is allowed only for checkpoint smoke, not paper-result evidence.
+H001 eval feature dump is blocked on repeated exit 137 at the first post-resume missing feature id. The first raw dump run exited 0 but produced no raw_dump/raw.jsonl because numpy._core unpickle errors collapsed the test DataLoader to length 0. Source patch schema h001_open3dsg_source_patch_v7 recovered 377/388 H001 eval contexts; the NumPy retry then failed because H001 held-out eval feature ids were not present in the official training_repro feature dump. Source patch schema h001_open3dsg_source_patch_v8 added a test-mode dump-feature return guard. Docker h001_eval_payload staged 127/127 held-out scan symlinks and sequence-ready scans after the first H001 eval feature dump attempt found missing sequence payload under h001_runtime. The payload retry exited 137 after 194/377 complete feature ids; source patch schema h001_open3dsg_source_patch_v9 adds test-step pre-forward skip-existing, but the v9 resume also exited 137 after skipping to 194/377 without writing new feature ids. Next mitigation is a lower-memory resume, likely `OPEN3DSG_BLIP_EMBED_CHUNK_SIZE=1`.
 ```
 
 Current Open3DSG metric/join blocker:
@@ -128,7 +128,7 @@ metric/join contract is frozen, but real Open3DSG predictions and geometry verif
 Current Open3DSG checkpoint-selection blocker:
 
 ```text
-checkpoint provenance/selection policy is frozen before checkpoint inspection; current status is checkpoint_selection_template_ready_checkpoint_missing because no checkpoint candidate exists and official feature audit is still blocked.
+checkpoint selection is ready for the explicitly labeled averaged-BLIP variant. Selected checkpoint: epoch=13-step=13104.ckpt by train-dev val/loss 0.32881081104278564 at step 13103, before H001 held-out raw dump/metrics/failure analysis/visual inspection. Exact non-averaged BLIP route remains OOM-blocked and must be reported as a limitation.
 ```
 
 Current Open3DSG raw-dump identity blocker:

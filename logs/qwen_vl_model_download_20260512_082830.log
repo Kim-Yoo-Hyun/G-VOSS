@@ -1,0 +1,174 @@
+started_at=2026-05-12T08:28:44+09:00
+cwd=/home/yoohyun/research
+command=sg docker -c env UID=1001 GID=1001 docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml build qwen_vl_model_download && env UID=1001 GID=1001 docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_model_download && env UID=1001 GID=1001 docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_cache_verify
+ Image h001-qwen-vl-runtime:cu128 Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 611B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.qwen
+#2 transferring dockerfile: 571B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/h001-open3dsg-repro:cu128
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 92.01kB done
+#5 DONE 0.0s
+
+#6 [1/4] FROM docker.io/library/h001-open3dsg-repro:cu128@sha256:da40c5db6ab9c8ce30506ccf3b59214d35412fb6eb241b83565b33217b3d3d79
+#6 resolve docker.io/library/h001-open3dsg-repro:cu128@sha256:da40c5db6ab9c8ce30506ccf3b59214d35412fb6eb241b83565b33217b3d3d79 0.0s done
+#6 DONE 0.2s
+
+#7 [2/4] WORKDIR /workspace
+#7 DONE 0.1s
+
+#8 [3/4] RUN python -m pip install --no-cache-dir     "transformers>=4.57.0"     "accelerate>=1.10.0"     "huggingface_hub[cli]>=0.35.0"     "qwen-vl-utils>=0.0.14"     "sentencepiece>=0.2.0"     "safetensors>=0.5.0"
+#8 1.189 Collecting transformers>=4.57.0
+#8 1.209   Downloading transformers-4.57.6-py3-none-any.whl.metadata (43 kB)
+#8 1.333 Collecting accelerate>=1.10.0
+#8 1.342   Downloading accelerate-1.10.1-py3-none-any.whl.metadata (19 kB)
+#8 1.364 Requirement already satisfied: huggingface_hub>=0.35.0 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from huggingface_hub[cli]>=0.35.0) (0.36.2)
+#8 1.378 Collecting qwen-vl-utils>=0.0.14
+#8 1.383   Downloading qwen_vl_utils-0.0.14-py3-none-any.whl.metadata (9.0 kB)
+#8 1.386 Requirement already satisfied: sentencepiece>=0.2.0 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (0.2.1)
+#8 1.387 Requirement already satisfied: safetensors>=0.5.0 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (0.7.0)
+#8 1.389 Requirement already satisfied: filelock in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from transformers>=4.57.0) (3.19.1)
+#8 1.390 Requirement already satisfied: numpy>=1.17 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from transformers>=4.57.0) (1.23.3)
+#8 1.390 Requirement already satisfied: packaging>=20.0 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from transformers>=4.57.0) (25.0)
+#8 1.391 Requirement already satisfied: pyyaml>=5.1 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from transformers>=4.57.0) (6.0.3)
+#8 1.391 Requirement already satisfied: regex!=2019.12.17 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from transformers>=4.57.0) (2026.1.15)
+#8 1.391 Requirement already satisfied: requests in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from transformers>=4.57.0) (2.32.5)
+#8 1.506 Collecting tokenizers<=0.23.0,>=0.22.0 (from transformers>=4.57.0)
+#8 1.514   Downloading tokenizers-0.22.2-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (7.3 kB)
+#8 1.522 Requirement already satisfied: tqdm>=4.27 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from transformers>=4.57.0) (4.67.3)
+#8 1.548 Requirement already satisfied: fsspec>=2023.5.0 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from huggingface_hub>=0.35.0->huggingface_hub[cli]>=0.35.0) (2025.10.0)
+#8 1.549 Requirement already satisfied: hf-xet<2.0.0,>=1.1.3 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from huggingface_hub>=0.35.0->huggingface_hub[cli]>=0.35.0) (1.5.0)
+#8 1.550 Requirement already satisfied: typing-extensions>=3.7.4.3 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from huggingface_hub>=0.35.0->huggingface_hub[cli]>=0.35.0) (4.15.0)
+#8 1.555 Requirement already satisfied: psutil in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from accelerate>=1.10.0) (7.2.2)
+#8 1.555 Requirement already satisfied: torch>=2.0.0 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from accelerate>=1.10.0) (2.8.0+cu128)
+#8 1.582 Collecting av (from qwen-vl-utils>=0.0.14)
+#8 1.587   Downloading av-15.1.0-cp39-cp39-manylinux_2_28_x86_64.whl.metadata (4.6 kB)
+#8 1.588 Requirement already satisfied: pillow in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from qwen-vl-utils>=0.0.14) (11.3.0)
+#8 1.623 Collecting InquirerPy==0.3.4 (from huggingface_hub[cli]>=0.35.0)
+#8 1.631   Downloading InquirerPy-0.3.4-py3-none-any.whl.metadata (8.1 kB)
+#8 1.644 Collecting pfzy<0.4.0,>=0.3.1 (from InquirerPy==0.3.4->huggingface_hub[cli]>=0.35.0)
+#8 1.648   Downloading pfzy-0.3.4-py3-none-any.whl.metadata (4.9 kB)
+#8 1.651 Requirement already satisfied: prompt-toolkit<4.0.0,>=3.0.1 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from InquirerPy==0.3.4->huggingface_hub[cli]>=0.35.0) (3.0.52)
+#8 1.655 Requirement already satisfied: wcwidth in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from prompt-toolkit<4.0.0,>=3.0.1->InquirerPy==0.3.4->huggingface_hub[cli]>=0.35.0) (0.7.0)
+#8 1.660 Requirement already satisfied: sympy>=1.13.3 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from torch>=2.0.0->accelerate>=1.10.0) (1.14.0)
+#8 1.661 Requirement already satisfied: networkx in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from torch>=2.0.0->accelerate>=1.10.0) (3.2.1)
+#8 1.661 Requirement already satisfied: jinja2 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from torch>=2.0.0->accelerate>=1.10.0) (3.1.6)
+#8 1.661 Requirement already satisfied: nvidia-cuda-nvrtc-cu12==12.8.93 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from torch>=2.0.0->accelerate>=1.10.0) (12.8.93)
+#8 1.663 Requirement already satisfied: nvidia-cuda-runtime-cu12==12.8.90 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from torch>=2.0.0->accelerate>=1.10.0) (12.8.90)
+#8 1.663 Requirement already satisfied: nvidia-cuda-cupti-cu12==12.8.90 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from torch>=2.0.0->accelerate>=1.10.0) (12.8.90)
+#8 1.663 Requirement already satisfied: nvidia-cudnn-cu12==9.10.2.21 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from torch>=2.0.0->accelerate>=1.10.0) (9.10.2.21)
+#8 1.663 Requirement already satisfied: nvidia-cublas-cu12==12.8.4.1 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from torch>=2.0.0->accelerate>=1.10.0) (12.8.4.1)
+#8 1.663 Requirement already satisfied: nvidia-cufft-cu12==11.3.3.83 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from torch>=2.0.0->accelerate>=1.10.0) (11.3.3.83)
+#8 1.664 Requirement already satisfied: nvidia-curand-cu12==10.3.9.90 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from torch>=2.0.0->accelerate>=1.10.0) (10.3.9.90)
+#8 1.664 Requirement already satisfied: nvidia-cusolver-cu12==11.7.3.90 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from torch>=2.0.0->accelerate>=1.10.0) (11.7.3.90)
+#8 1.664 Requirement already satisfied: nvidia-cusparse-cu12==12.5.8.93 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from torch>=2.0.0->accelerate>=1.10.0) (12.5.8.93)
+#8 1.665 Requirement already satisfied: nvidia-cusparselt-cu12==0.7.1 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from torch>=2.0.0->accelerate>=1.10.0) (0.7.1)
+#8 1.665 Requirement already satisfied: nvidia-nccl-cu12==2.27.3 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from torch>=2.0.0->accelerate>=1.10.0) (2.27.3)
+#8 1.665 Requirement already satisfied: nvidia-nvtx-cu12==12.8.90 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from torch>=2.0.0->accelerate>=1.10.0) (12.8.90)
+#8 1.666 Requirement already satisfied: nvidia-nvjitlink-cu12==12.8.93 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from torch>=2.0.0->accelerate>=1.10.0) (12.8.93)
+#8 1.666 Requirement already satisfied: nvidia-cufile-cu12==1.13.1.3 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from torch>=2.0.0->accelerate>=1.10.0) (1.13.1.3)
+#8 1.667 Requirement already satisfied: triton==3.4.0 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from torch>=2.0.0->accelerate>=1.10.0) (3.4.0)
+#8 1.685 Requirement already satisfied: setuptools>=40.8.0 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from triton==3.4.0->torch>=2.0.0->accelerate>=1.10.0) (80.9.0)
+#8 1.685 Requirement already satisfied: importlib-metadata in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from triton==3.4.0->torch>=2.0.0->accelerate>=1.10.0) (7.1.0)
+#8 1.693 Requirement already satisfied: mpmath<1.4,>=1.1.0 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from sympy>=1.13.3->torch>=2.0.0->accelerate>=1.10.0) (1.3.0)
+#8 1.702 Requirement already satisfied: zipp>=0.5 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from importlib-metadata->triton==3.4.0->torch>=2.0.0->accelerate>=1.10.0) (3.19.2)
+#8 1.706 Requirement already satisfied: MarkupSafe>=2.0 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from jinja2->torch>=2.0.0->accelerate>=1.10.0) (3.0.2)
+#8 1.718 Requirement already satisfied: charset_normalizer<4,>=2 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from requests->transformers>=4.57.0) (3.4.7)
+#8 1.719 Requirement already satisfied: idna<4,>=2.5 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from requests->transformers>=4.57.0) (3.13)
+#8 1.719 Requirement already satisfied: urllib3<3,>=1.21.1 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from requests->transformers>=4.57.0) (2.6.3)
+#8 1.719 Requirement already satisfied: certifi>=2017.4.17 in /opt/conda/envs/open3dsg/lib/python3.9/site-packages (from requests->transformers>=4.57.0) (2026.4.22)
+#8 1.730 Downloading transformers-4.57.6-py3-none-any.whl (12.0 MB)
+#8 1.934    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 12.0/12.0 MB 59.9 MB/s  0:00:00
+#8 1.937 Downloading tokenizers-0.22.2-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.3 MB)
+#8 1.988    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.3/3.3 MB 67.5 MB/s  0:00:00
+#8 1.992 Downloading accelerate-1.10.1-py3-none-any.whl (374 kB)
+#8 2.001 Downloading qwen_vl_utils-0.0.14-py3-none-any.whl (8.1 kB)
+#8 2.003 Downloading InquirerPy-0.3.4-py3-none-any.whl (67 kB)
+#8 2.006 Downloading pfzy-0.3.4-py3-none-any.whl (8.5 kB)
+#8 2.010 Downloading av-15.1.0-cp39-cp39-manylinux_2_28_x86_64.whl (39.1 MB)
+#8 3.478    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 39.1/39.1 MB 26.6 MB/s  0:00:01
+#8 4.104 Installing collected packages: pfzy, av, qwen-vl-utils, InquirerPy, tokenizers, transformers, accelerate
+#8 4.718   Attempting uninstall: tokenizers
+#8 4.718     Found existing installation: tokenizers 0.20.3
+#8 4.723     Uninstalling tokenizers-0.20.3:
+#8 4.848       Successfully uninstalled tokenizers-0.20.3
+#8 4.910   Attempting uninstall: transformers
+#8 4.912     Found existing installation: transformers 4.46.3
+#8 5.083     Uninstalling transformers-4.46.3:
+#8 9.874       Successfully uninstalled transformers-4.46.3
+#8 13.61 
+#8 13.62 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#8 13.62 Successfully installed InquirerPy-0.3.4 accelerate-1.10.1 av-15.1.0 pfzy-0.3.4 qwen-vl-utils-0.0.14 tokenizers-0.22.2 transformers-4.57.6
+#8 DONE 13.9s
+
+#9 [4/4] COPY experiments/H001_geom_reliability/scripts/ /opt/h001/scripts/
+#9 DONE 0.1s
+
+#10 exporting to image
+#10 exporting layers
+#10 exporting layers 6.0s done
+#10 exporting manifest sha256:a4332ca7887f1d8979029e79ac41c65a01ea9545452c60fa24b78cdafb9120c0 0.0s done
+#10 exporting config sha256:43b08af0c54b4a25f1ea4201aa76a71d0ad61216fe8c73255de344e3b2ee50c6 0.0s done
+#10 exporting attestation manifest sha256:df37d116eaaec1264c48fe7bf4c643088f11a4b8d04d1d51c6a70c16b8f91b5a
+#10 exporting attestation manifest sha256:df37d116eaaec1264c48fe7bf4c643088f11a4b8d04d1d51c6a70c16b8f91b5a 0.1s done
+#10 exporting manifest list sha256:f3ec54971df8c30610cff07ae80d82ade54eb613ef2f9bffd20ad87c828608f7 0.0s done
+#10 naming to docker.io/library/h001-qwen-vl-runtime:cu128 done
+#10 unpacking to docker.io/library/h001-qwen-vl-runtime:cu128
+#10 unpacking to docker.io/library/h001-qwen-vl-runtime:cu128 1.4s done
+#10 DONE 7.7s
+
+#11 resolving provenance for metadata file
+#11 DONE 0.0s
+ Image h001-qwen-vl-runtime:cu128 Built 
+ Network qwen_vl_default Creating 
+ Network qwen_vl_default Created 
+ Container qwen_vl-qwen_vl_model_download-run-f55401187568 Creating 
+ Container qwen_vl-qwen_vl_model_download-run-f55401187568 Created 
+[33m⚠️  Warning: 'huggingface-cli download' is deprecated. Use 'hf download' instead.[0m
+Fetching 14 files:   0%|          | 0/14 [00:00<?, ?it/s]Downloading 'config.json' to '/workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/.cache/huggingface/download/8_PA_wEVGiVa2goH2H4KQOQpvVY=.22be8bb79043d39840ca5e70d7a2dab80311602c.incomplete'
+Downloading 'model-00002-of-00002.safetensors' to '/workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/.cache/huggingface/download/Dr_lZJDwE1cnGAQMwA77jJEQIk8=.046296a2a387efb43b0c997d5833c789604d168834f6e0d3064bf7bb13d002a6.incomplete'
+Downloading 'model-00001-of-00002.safetensors' to '/workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/.cache/huggingface/download/aoe4E07IMh7reFyUkVoVk040mQk=.30a01a0556622645a3cce87b655bbbbbc1f170c196099f1b666c93202c3339a9.incomplete'
+Downloading 'merges.txt' to '/workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/.cache/huggingface/download/PtHk0z_I45atnj23IIRhTExwT3w=.20024bfe7c83998e9aeaf98a0cd6a2ce6306c2f0.incomplete'
+Downloading '.gitattributes' to '/workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/.cache/huggingface/download/wPaCkH-WbT7GsmxMKKrNZTV4nSM=.a6344aac8c09253b3b630fb776ae94478aa0275b.incomplete'
+Downloading 'generation_config.json' to '/workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/.cache/huggingface/download/3EVKVggOldJcKSsGjSdoUCN1AyQ=.e116347d7ef42621c7a5957f82c015c38d939c1f.incomplete'
+Download complete. Moving file to /workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/config.json
+Downloading 'README.md' to '/workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/.cache/huggingface/download/Xn7B-BWUGOee2Y6hCZtEhtFu4BE=.542417095b66d3fc13be22bbf6722928787b8ef4.incomplete'
+Downloading 'chat_template.json' to '/workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/.cache/huggingface/download/BqEbVjUtvDkrcHAfaoo906xJg7Y=.e49e75bdda104c8de941eb20e0b3765184fb27bc.incomplete'
+Download complete. Moving file to /workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/README.md
+Download complete. Moving file to /workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/generation_config.json
+Download complete. Moving file to /workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/.gitattributes
+Fetching 14 files:   7%|▋         | 1/14 [00:00<00:03,  3.39it/s]Download complete. Moving file to /workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/chat_template.json
+Download complete. Moving file to /workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/merges.txt
+Downloading 'preprocessor_config.json' to '/workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/.cache/huggingface/download/PYH5dHjks7Ei0Yd3X0Z8xIwsCNQ=.2ea84a437d448ff71b08df68fdd949d5cc4ebb64.incomplete'
+Downloading 'tokenizer_config.json' to '/workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/.cache/huggingface/download/vzaExXFZNBay89bvlQv-ZcI6BTg=.d3d3763207692c78780f4bf42d4dadf49a5c8012.incomplete'
+Downloading 'video_preprocessor_config.json' to '/workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/.cache/huggingface/download/7uK9jxGLvsg8Gxgsd_3Bi0MthgM=.3ba673a5ad7d4d13f54155ecd38b2a94a6dac8fe.incomplete'
+Downloading 'model.safetensors.index.json' to '/workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/.cache/huggingface/download/yVzAsSxRSINSz-tQbpx-TLpfkLU=.3b52de97496e2f4501dfa92a87642f60db3e22a1.incomplete'
+Download complete. Moving file to /workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/preprocessor_config.json
+Download complete. Moving file to /workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/model.safetensors.index.json
+Download complete. Moving file to /workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/tokenizer_config.json
+Download complete. Moving file to /workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/video_preprocessor_config.json
+Downloading 'tokenizer.json' to '/workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/.cache/huggingface/download/HgM_lKo9sdSCfRtVg7MMFS7EKqo=.c6cc1014128b19d1fc46b1d30a23e3b1d35db421.incomplete'
+Downloading 'vocab.json' to '/workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/.cache/huggingface/download/j3m-Hy6QvBddw8RXA1uSWl1AJ0c=.4783fe10ac3adce15ac8f358ef5462739852c569.incomplete'
+Download complete. Moving file to /workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/vocab.json
+Download complete. Moving file to /workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/tokenizer.json
+Download complete. Moving file to /workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/model-00002-of-00002.safetensors
+Download complete. Moving file to /workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/model-00001-of-00002.safetensors
+Fetching 14 files:  50%|█████     | 7/14 [01:07<01:10, 10.13s/it]Fetching 14 files: 100%|██████████| 14/14 [01:07<00:00,  4.85s/it]
+/workspace/local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17
+ Container qwen_vl-qwen_vl_cache_verify-run-76f97862c1eb Creating 
+ Container qwen_vl-qwen_vl_cache_verify-run-76f97862c1eb Created 
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+finished_at=2026-05-12T08:30:22+09:00
+exit_code=0

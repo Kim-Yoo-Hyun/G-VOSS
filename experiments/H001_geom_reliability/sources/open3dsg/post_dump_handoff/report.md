@@ -1,19 +1,19 @@
 # Open3DSG Post-Dump Handoff
 
 Status: `waiting_for_feature_dump_completion`
-Created at: `2026-05-10T15:57:57+00:00`
+Created at: `2026-05-11T15:27:01+00:00`
 
 ## Feature Progress
 
 - feature run: `local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3`
-- complete feature ids: `1932/3900`
-- progress: `49.54%`
-- missing complete ids: `1968`
+- complete feature ids: `2412/3900`
+- progress: `61.85%`
+- missing complete ids: `1488`
 
 ## Gates
 
 - `feature_dump_complete`: `False`
-  blockers: `object_embeddings:1932/3900, object_valids:1932/3900, relation_embeddings:1932/3900, complete_all_roles:1932/3900`
+  blockers: `object_embeddings:2412/3900, object_valids:2412/3900, relation_embeddings:2412/3900, complete_all_roles:2412/3900`
 - `official_feature_audit`: `False`
 - `checkpoint_available`: `False`
 - `raw_dump_available`: `False`

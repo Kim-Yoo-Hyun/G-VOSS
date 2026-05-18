@@ -1,6 +1,6 @@
 {
   "blockers": [],
-  "created_at": "2026-05-08T02:45:42.572644+00:00",
+  "created_at": "2026-05-18T03:08:31.989087+00:00",
   "records": [
     {
       "file": "open3dsg/models/sgpn.py",
@@ -51,8 +51,28 @@
       "status": "already_patched"
     },
     {
+      "file": "open3dsg/data/open_dataset.py",
+      "patch": "numpy_core_pickle_compat",
+      "status": "already_patched"
+    },
+    {
       "file": "open3dsg/scripts/trainer.py",
       "patch": "resumable_feature_dump",
+      "status": "already_patched"
+    },
+    {
+      "file": "open3dsg/scripts/trainer.py",
+      "patch": "h001_raw_dump_export",
+      "status": "already_patched"
+    },
+    {
+      "file": "open3dsg/models/sgpn.py",
+      "patch": "chunked_blip_embedding",
+      "status": "already_patched"
+    },
+    {
+      "file": "open3dsg/models/sgpn.py",
+      "patch": "chunked_blip_projector",
       "status": "already_patched"
     },
     {
@@ -61,7 +81,7 @@
       "status": "already_patched"
     }
   ],
-  "schema_version": "h001_open3dsg_source_patch_v3",
+  "schema_version": "h001_open3dsg_source_patch_v10",
   "source_root": "local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source",
   "status": "ready",
   "trust_boundary": "The patched loads target local Open3DSG model checkpoints/features staged for this Docker reproduction."

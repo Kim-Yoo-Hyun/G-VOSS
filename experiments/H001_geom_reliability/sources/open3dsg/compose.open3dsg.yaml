@@ -21,6 +21,9 @@ services:
       OPEN3DSG_FEATURE_RUN_DIR: ${OPEN3DSG_FEATURE_RUN_DIR:-/workspace/local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3}
       OPEN3DSG_FEATURE_LOAD_DIR: ${OPEN3DSG_FEATURE_LOAD_DIR:-/workspace/local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3}
       OPEN3DSG_FEATURE_SKIP_EXISTING: ${OPEN3DSG_FEATURE_SKIP_EXISTING:-1}
+      OPEN3DSG_BLIP_EMBED_CHUNK_SIZE: ${OPEN3DSG_BLIP_EMBED_CHUNK_SIZE:-4}
+      OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE: ${OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE:-16}
+      OPEN3DSG_MIN_GPU_FREE_MB: ${OPEN3DSG_MIN_GPU_FREE_MB:-18000}
       PYTORCH_CUDA_ALLOC_CONF: ${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}
     volumes:
       - ../../../..:/workspace
@@ -156,6 +159,57 @@ services:
       --output-dir /workspace/experiments/H001_geom_reliability/sources/open3dsg/dump_features_pilot
       --write"
 
+  h001_eval_payload:
+    <<: *open3dsg_base
+    command: >
+      bash -lc "python /workspace/experiments/H001_geom_reliability/scripts/stage_open3dsg_h001_eval_payload.py
+      --repo-root /workspace --write"
+
+  dump_features_h001_eval:
+    <<: *open3dsg_base
+    working_dir: /workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source
+    environment:
+      OPEN3DSG_HOME: /workspace
+      OPEN3DSG_BASE: /workspace/local_dataset/Open3DSG_staged/h001_runtime
+      OPEN3DSG_DATA: /workspace/local_dataset/Open3DSG_staged/h001_runtime/data
+      OPEN3DSG_DATA_OUT: /workspace/local_dataset/Open3DSG_staged/h001_runtime/output
+      HF_HOME: /workspace/local_dataset/model_cache/huggingface
+      TORCH_HOME: /workspace/local_dataset/model_cache/torch
+      TRANSFORMERS_CACHE: /workspace/local_dataset/model_cache/huggingface
+      HOME: /workspace/local_dataset/model_cache/home
+      XDG_CACHE_HOME: /workspace/local_dataset/model_cache/xdg
+      OPEN3DSG_DATASET_LOAD_WORKERS: ${OPEN3DSG_DATASET_LOAD_WORKERS:-1}
+      OPEN3DSG_LAZY_DATASET: ${OPEN3DSG_LAZY_DATASET:-1}
+      OPEN3DSG_CHECKPOINT: ${OPEN3DSG_CHECKPOINT:-}
+      OPEN3DSG_FEATURE_RUN_DIR: ${OPEN3DSG_FEATURE_RUN_DIR:-/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3}
+      OPEN3DSG_FEATURE_SKIP_EXISTING: ${OPEN3DSG_FEATURE_SKIP_EXISTING:-1}
+      OPEN3DSG_FEATURE_SHARD_ONLY_MISSING: ${OPEN3DSG_FEATURE_SHARD_ONLY_MISSING:-0}
+      OPEN3DSG_FEATURE_SHARD_MAX_NEW_IDS: ${OPEN3DSG_FEATURE_SHARD_MAX_NEW_IDS:-0}
+      OPEN3DSG_BLIP_EMBED_CHUNK_SIZE: ${OPEN3DSG_BLIP_EMBED_CHUNK_SIZE:-4}
+      OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE: ${OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE:-16}
+      PYTORCH_CUDA_ALLOC_CONF: ${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}
+    command: >
+      bash -lc "python /workspace/experiments/H001_geom_reliability/scripts/open3dsg_eval_preflight.py
+      --repo-root /workspace --ensure-dirs --check-imports &&
+      python /workspace/experiments/H001_geom_reliability/scripts/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source &&
+      pip install -e . &&
+      python open3dsg/scripts/run.py --test --dump_features --dataset 3rscan --checkpoint "$${OPEN3DSG_CHECKPOINT}"
+      --epochs 1 --gpus 1 --workers ${OPEN3DSG_DUMP_WORKERS:-0}
+      --scales ${OPEN3DSG_DUMP_SCALES:-3} --top_k_frames ${OPEN3DSG_DUMP_TOP_K_FRAMES:-5}
+      --clip_model OpenSeg --blip --avg_blip_emb"
+
+  feature_audit_h001_eval:
+    <<: *open3dsg_base
+    command: >
+      bash -lc "python /workspace/experiments/H001_geom_reliability/scripts/audit_open3dsg_features.py
+      --repo-root /workspace
+      --feature-root /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/features
+      --preprocessed-root /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed
+      --relationships-root /workspace/local_dataset/Open3DSG_staged/h001_runtime/data/3RScan/3DSSG_subset
+      --run-dir /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3
+      --output-dir /workspace/experiments/H001_geom_reliability/sources/open3dsg/dump_features_h001_eval
+      --write"
+
   train_pilot:
     <<: *open3dsg_base
     working_dir: /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source
@@ -182,6 +236,19 @@ services:
       --load_features "$${OPEN3DSG_FEATURE_LOAD_DIR}" --mini_dataset
       --run_name h001_open3dsg_pilot_reduced"
 
+  train_pilot_avg_blip:
+    <<: *open3dsg_base
+    working_dir: /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source
+    command: >
+      bash -lc "export OPEN3DSG_FEATURE_LOAD_DIR=$${OPEN3DSG_FEATURE_LOAD_DIR:-$${OPEN3DSG_FEATURE_RUN_DIR}} &&
+      python /workspace/experiments/H001_geom_reliability/scripts/open3dsg_training_preflight.py --repo-root /workspace --mode train_pilot --ensure-dirs --check-imports &&
+      python /workspace/experiments/H001_geom_reliability/scripts/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source &&
+      pip install -e . &&
+      python open3dsg/scripts/run.py --epochs 1 --batch_size 1 --gpus 1 --workers ${OPEN3DSG_TRAIN_WORKERS:-0} --use_rgb
+      --dataset 3rscan --clip_model OpenSeg --blip --avg_blip_emb --mixed_precision --accumulate_grad_batches 4
+      --load_features "$${OPEN3DSG_FEATURE_LOAD_DIR}"
+      --run_name h001_open3dsg_pilot_avg_blip"
+
   train_full:
     <<: *open3dsg_base
     working_dir: /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source
@@ -194,6 +261,19 @@ services:
       --dataset 3rscan --clip_model OpenSeg --blip --mixed_precision --accumulate_grad_batches 4
       --load_features "$${OPEN3DSG_FEATURE_LOAD_DIR}"
       --run_name h001_open3dsg_full"
+
+  train_full_avg_blip:
+    <<: *open3dsg_base
+    working_dir: /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source
+    command: >
+      bash -lc "export OPEN3DSG_FEATURE_LOAD_DIR=$${OPEN3DSG_FEATURE_LOAD_DIR:-$${OPEN3DSG_FEATURE_RUN_DIR}} &&
+      python /workspace/experiments/H001_geom_reliability/scripts/open3dsg_training_preflight.py --repo-root /workspace --mode train_full --ensure-dirs --check-imports &&
+      python /workspace/experiments/H001_geom_reliability/scripts/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source &&
+      pip install -e . &&
+      python open3dsg/scripts/run.py --epochs 100 --batch_size 1 --gpus 1 --workers ${OPEN3DSG_TRAIN_WORKERS:-0} --use_rgb
+      --dataset 3rscan --clip_model OpenSeg --blip --avg_blip_emb --mixed_precision --accumulate_grad_batches 4
+      --load_features "$${OPEN3DSG_FEATURE_LOAD_DIR}"
+      --run_name h001_open3dsg_full_avg_blip"
 
   eval_preflight:
     <<: *open3dsg_base
@@ -227,10 +307,15 @@ services:
       HOME: /workspace/local_dataset/model_cache/home
       XDG_CACHE_HOME: /workspace/local_dataset/model_cache/xdg
       OPEN3DSG_CHECKPOINT: ${OPEN3DSG_CHECKPOINT:-}
+      OPEN3DSG_FEATURE_LOAD_DIR: ${OPEN3DSG_FEATURE_LOAD_DIR:-/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3}
+      OPEN3DSG_RAW_DUMP_JSONL: ${OPEN3DSG_RAW_DUMP_JSONL:-/workspace/experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl}
+      OPEN3DSG_BASELINE_RUN_ID: ${OPEN3DSG_BASELINE_RUN_ID:-open3dsg_avg_blip_epoch13_step13104}
+      OPEN3DSG_MODEL_SOURCE_STAGE: ${OPEN3DSG_MODEL_SOURCE_STAGE:-avg_blip_full_variant}
     command: >
       bash -lc "python /workspace/experiments/H001_geom_reliability/scripts/open3dsg_eval_preflight.py
       --repo-root /workspace --ensure-dirs --check-imports &&
       python /workspace/experiments/H001_geom_reliability/scripts/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source &&
       pip install -e . &&
       python open3dsg/scripts/run.py --test --dataset 3rscan --checkpoint "$${OPEN3DSG_CHECKPOINT}"
-      --n_beams 5 --weight_2d 0.5 --clip_model OpenSeg --node_model ViT-L/14@336px --blip --gt_objects"
+      --n_beams 5 --weight_2d 0.5 --clip_model OpenSeg --node_model ViT-L/14@336px --blip --avg_blip_emb --gt_objects
+      --load_features "$${OPEN3DSG_FEATURE_LOAD_DIR}""

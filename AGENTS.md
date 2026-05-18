@@ -10,6 +10,7 @@
 - 연구 목표와 방향성은 AI, ML, CV, Robotics top-tier journal/conference를 타겟으로 판단한다.
 - `docs/hypothesis.md`는 hypothesis workflow와 작성 규칙을 관리한다.
 - `docs/literature.md`는 literature workflow와 작성 규칙을 관리한다.
+- `docs/paper.md`는 top-tier paper framing, novelty standard, reviewer-defense rule을 관리한다.
 - 실제 문헌 조사 결과는 루트의 `literature/` 폴더에 저장한다.
 - 실제 hypothesis 산출물은 루트의 `hypothesis/` 폴더에 저장한다.
 - 논문 하나는 `literature/<paper-folder>/` 하나로 관리한다.
@@ -23,14 +24,16 @@
 3. `docs/index.md`
 4. `docs/literature.md`
 5. `docs/hypothesis.md`
-6. `literature/README.md`
-7. `literature/PAPER.md`
-8. `literature/Contribution Candidates.md`
-9. `literature/CAND-001.md`
-10. `hypothesis/README.md`
+6. `docs/paper.md`
+7. `literature/README.md`
+8. `literature/PAPER.md`
+9. `literature/Contribution Candidates.md`
+10. `literature/CAND-001.md`
+11. `hypothesis/README.md`
 
 `docs/literature.md`는 literature workflow의 핵심 문맥이다.
 `docs/hypothesis.md`는 hypothesis workflow의 핵심 문맥이다.
+`docs/paper.md`는 paper framing과 novelty/reviewer-defense 기준이다.
 `literature/README.md`는 cross-paper synthesis다.
 `literature/PAPER.md`는 paper registry와 reading queue다.
 `literature/Contribution Candidates.md`는 기여 후보 목록이다.
@@ -43,6 +46,18 @@
 - 사용자에게는 한국어로 답한다.
 - 논문 제목, 방법명, 데이터셋명, metric, benchmark 이름은 영어 원문을 유지한다.
 - "사실", "논문 주장", "에이전트 추론", "사용자 판단 필요"를 섞지 말고 구분한다.
+
+## Paper Novelty Standard
+
+H001/CAND를 논문으로 정리할 때 motivation만으로 novelty를 주장하지 않는다. Top-tier 기준에서는 "기존 방법이 안 된다"가 아니라, "왜 안 되는가"와 "그 원인 때문에 왜 이 방법 형태가 필요해지는가"가 핵심이다.
+
+- Top-tier claim은 기존 3DSSG/3D Scene Graph relation method의 구체적 failure mode를 정의하고, 그 failure가 실제라는 증거를 보이고, 원인 mechanism/assumption을 설명하고, 그 원인을 직접 바꾸는 method를 제안해야 한다.
+- Novelty를 "geometry를 추가했다", "semantic과 geometry를 결합했다", "VLM을 사용했다", "verifier를 만들었다", "중요한 task다"로 쓰지 않는다. 이 표현들은 failure cause와 design necessity에 연결되지 않으면 motivation 또는 implementation detail이다.
+- H001의 선호 claim pattern은 다음과 같다: existing relation predictors can produce semantically plausible but geometrically inconsistent 3D scene graph relations because semantic confidence is not calibrated to relation-level physical consistency; H001 introduces calibrated geometry-consistency evaluation/re-ranking to expose, quantify, and reduce this failure while tracking recall tradeoffs.
+- 모든 paper claim은 falsifiable evidence를 가져야 한다: semantic-only vs geometry re-ranking, calibration variants, family-specific controls, wrong-pair/shuffled-geometry controls, Open3DSG second-source evidence, qualitative failure taxonomy.
+- Method contribution은 `verifier script`가 아니라 calibrated geometry-consistency evaluation/re-ranking framework로 명명한다. Verifier, calibration, metric, failure-analysis schema는 이 framework를 구성하는 요소로 둔다.
+- Evidence가 single source의 scoped reliability에 머물면 claim도 scoped reliability로 제한한다. Broad open-vocabulary 3DSSG improvement 주장은 second-source metrics, denominator caveat, failure analysis가 완료되기 전에는 사용하지 않는다.
+- Reviewer가 물을 "왜 더 단순한 방법으로 안 되는가?", "왜 이 relation family인가?", "왜 이 geometry rule/calibration인가?", "recall tradeoff는 무엇인가?"에 대한 답을 table, ablation, error taxonomy 중 하나로 연결한다.
 
 ## Long-running and Background Tasks
 
@@ -119,6 +134,8 @@ tmux new-session -d -s <job_name> "cd <workdir> && <resumable command> > logs/<j
 - `literature/<paper-folder>/04_insights.md`: 내 연구와의 연결, 추론, 기여 가능성
 
 갱신할 때는 날짜를 남긴다. 현재 날짜 기준으로 작성한다.
+
+Paper framing 작업은 `docs/paper.md`에 저장한다. 이 문서는 paper-level claim, novelty one-liner, reviewer-risk checklist, table/ablation/failure-analysis requirements를 관리하며, hypothesis 결과나 experiment artifact를 복사해 길게 중복하지 않는다.
 
 Hypothesis 작업을 수행한 에이전트는 `hypothesis/` 아래에 결과를 저장한다.
 

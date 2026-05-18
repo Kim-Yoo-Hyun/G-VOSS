@@ -13,6 +13,7 @@
     "feature_audit_manifest": "feature audit manifest path and hash",
     "feature_run_dir": "feature directory used by training",
     "h001_eval_metric_seen_before_selection": "must be false for paper-result eligibility",
+    "labeled_variant_only": "allowed only for explicitly labeled averaged-BLIP Open3DSG variant tables",
     "notes": "free text for non-selection operational details",
     "open3dsg_source_path": "source snapshot path",
     "paper_result_eligible": "true only for official BLIP TopK5/scales3 full-route checkpoints",
@@ -24,5 +25,5 @@
     "training_log_path": "log path under logs/ or Open3DSG output dir",
     "validation_split_manifest": "filtered validation split/preprocess manifest path and hash"
   },
-  "schema_version": "h001_open3dsg_checkpoint_selection_v1"
+  "schema_version": "h001_open3dsg_checkpoint_selection_v3"
 }

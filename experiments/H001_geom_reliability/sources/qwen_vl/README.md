@@ -1,6 +1,6 @@
 # Qwen-VL Semantic-Source Adapter
 
-Status: `io_contract_frozen_model_runtime_not_started`
+Status: `model_cache_ready_runtime_preflight_blocked_gpu_busy`
 Created at: `2026-05-08T06:35:07+00:00`
 
 ## Role
@@ -17,6 +17,8 @@ It is not a replacement for the Open3DSG reproduction anchor and is not an end-t
 
 ## Contract Files
 
+- `Dockerfile.qwen`: Docker runtime image for Qwen-VL cache/runtime smoke
+- `compose.qwen.yaml`: Docker services for model download, cache verify, runtime preflight, and tiny inference smoke
 - `adapter_contract.json`: model candidates, schemas, pilot plan, and claim boundary
 - `input_schema.json`: frozen input JSON Schema
 - `input_schema_example.json`: example input JSONL row
@@ -31,8 +33,23 @@ It is not a replacement for the Open3DSG reproduction anchor and is not an end-t
 - `tiny_pilot/`: non-held-out 30-row pilot input scope and validator outputs
 - `runtime_plan/`: crop-rendering preflight and recommended model id/revision/local-dir
 - `crops/`: pair-crop rendering records/manifest/report; crop images stay under ignored `local_dataset/qwen_vl_crops/`
+- `model_cache/`: timestamped long-running model-cache job records
+- `runtime_smoke/`: cache/preflight/tiny-inference smoke outputs after the relevant Docker services run
+
+## Current Runtime State
+
+- model-cache job: completed, exit code `0`
+- log: `logs/qwen_vl_model_download_20260512_082830.log`
+- exit file: `logs/qwen_vl_model_download_20260512_082830.exit`
+- model id: `Qwen/Qwen3-VL-4B-Instruct`
+- revision: `ebb281ec70b05090aa6165b016eac8ec08e71b17`
+- local dir: `local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17`
+- cache verification: `model_cache_ready`, 43 files, 8.277 GB, 3 weight/index files
+- runtime preflight: `blocked_runtime_preflight` because the GPU is still busy with Open3DSG feature dump
 
 ## Next Gate
 
-Before any model download or inference, render and validate tiny-pilot pair crops, then run the input/output JSONL validator and parser skeleton against these frozen contracts.
-Docker cache/runtime smoke is a later optional gate after an explicit model choice; prefer `Qwen/Qwen3-VL-4B-Instruct` and fall back to `Qwen/Qwen2.5-VL-3B-Instruct` if Qwen3-VL runtime friction blocks progress.
+After GPU availability, rerun `qwen_vl_runtime_preflight`, then run
+`qwen_vl_tiny_inference_smoke` on 1-3 crops. These outputs are runtime smoke
+evidence only, not paper metric evidence, and they do not replace the Open3DSG
+reproduction anchor.
