@@ -1,13 +1,13 @@
 # Open3DSG Prediction Adapter
 
-Created at: `2026-05-07T12:30:54.696536+00:00`
-Status: `adapter_contract_ready_raw_dump_missing`
-Raw dump: `None`
+Created at: `2026-05-18T08:56:40.272878+00:00`
+Status: `ready`
+Raw dump: `experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl`
 Smoke test: `False`
 
 ## Outputs
 
-- predictions: `None`
+- predictions: `experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl`
 - raw smoke: `None`
 - raw schema example: `experiments/H001_geom_reliability/sources/open3dsg/adapter/raw_schema_example.json`
 - manifest: `manifest.json`
@@ -15,11 +15,12 @@ Smoke test: `False`
 ## Counts
 
 - contexts: `388`
-- raw rows: `0`
-- prediction rows: `0`
+- raw rows: `19162`
+- raw rows filtered outside H001 context: `62`
+- prediction rows: `496600`
 - errors: `0`
-- warnings: `0`
+- warnings: `62`
 
 ## Claim Boundary
 
-This artifact fixes the Open3DSG-to-H001 prediction contract only. It is not second-source metric evidence until a reproduced checkpoint raw dump is exported, joined with geometry, and evaluated.
+This artifact fixes the Open3DSG-to-H001 prediction contract only. Raw rows outside the fixed H001 object context are filtered and counted before metric execution. It is not second-source metric evidence until predictions are joined with geometry and evaluated.

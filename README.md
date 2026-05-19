@@ -2,15 +2,16 @@
 
 이 저장소는 3D Scene Graph 석사 연구를 위한 작업 공간이다.
 
-현재 단계는 CAND-001 hypothesis prep과 CAND-003 literature survey를 병렬로 추적하는 단계다. CAND-001은 `Geometry-Grounded Open-Vocabulary Relation Graph` 방향에서 H001 hypothesis-stage evidence lock과 scoped main experiment spec까지 완료했다. H001 문서는 `hypothesis/CAND-001/H001_geometry-grounded-verification/` 아래 7개 canonical 파일로 정리되어 있다.
+현재 단계는 CAND-001 H001의 Docker-based scoped experiment와 CAND-003 literature survey를 병렬로 추적하는 단계다. CAND-001은 `Geometry-Grounded Open-Vocabulary Relation Graph` 방향에서 hypothesis-stage evidence lock, scoped main experiment spec, `VL-SAT` locked result, Open3DSG second-source metric evidence, real failure-analysis rows, and qualitative case inspection까지 완료했다. H001 문서는 `hypothesis/CAND-001/H001_geometry-grounded-verification/` 아래 7개 canonical 파일로 정리되어 있다.
 
 ## Current Focus
 
-- CAND-001: `experiments/H001_geom_reliability/`에서 Docker-based `VL-SAT` table/report reproduction, Dockerized Open3DSG checkpoint reproduction plan, Open3DSG `training_repro` full payload staging, cu128 env/cache preflight, train/validation view staging, explicit train/validation preprocess filtering, and protected `dump_features_3rscan` runtime-policy hardening 진행
-- CAND-001 next gate: restart/monitor official BLIP TopK5/scales3 `dump_features_3rscan` with hardened resume policy; reduced TopK1/scales1 route is checkpoint-smoke-only
-- CAND-001 experiment rule: 논문 본문용 실제 experiment 구현은 Docker 기반으로만 진행하고 host-only output은 paper result로 승격하지 않는다
-- Research target rule: 연구 목표와 방향성은 AI, ML, CV, Robotics top-tier journal/conference를 타겟으로 판단한다
-- CAND-003: `Geometry-Aware Refinement of LLM/VLM Task Reasoning on 3DSG` literature survey / feasibility boundary 정리 완료, hypothesis workflow 승격 여부 판단 대기
+- CAND-001: `experiments/H001_geom_reliability/`에서 Docker-generated `VL-SAT` tables, Open3DSG avg-BLIP checkpoint reproduction, raw-dump identity, adapter export, geometry join, metric eval, Table 6, real failure-analysis rows, qualitative failure-case inspection, and paper caveat wording are ready.
+- CAND-001 next gate: decide whether to move from scoped experiment artifacts toward paper/experiment writing, or add optional extension evidence first.
+- CAND-001 optional extension: Qwen-VL cache is ready; runtime preflight/tiny inference smoke can run only after GPU/RAM pressure is cleared, and remains non-metric extension evidence.
+- CAND-001 experiment rule: 논문 본문용 실제 experiment 구현은 Docker 기반으로만 진행하고 host-only output은 paper result로 승격하지 않는다.
+- Research target rule: 연구 목표와 방향성은 AI, ML, CV, Robotics top-tier journal/conference를 타겟으로 판단한다.
+- CAND-003: `Geometry-Aware Refinement of LLM/VLM Task Reasoning on 3DSG` literature survey / feasibility boundary 정리 완료, hypothesis workflow 승격 여부 판단 대기.
 
 ## H001 Status
 
@@ -25,9 +26,9 @@ Facts:
 - Structured audit: 250/250 labels, strict invalid-only precision 0.7133, quality-issue precision 0.8933.
 - Reduced visual sanity check: 50/50 labels, reviewer id `yhkim`, status `ready_sanity_pass`, target quality-issue rate 0.9333, contradiction rate 0.0333.
 - FROSS is runtime-blocked and does not cover `proximity` / `relative_vertical`.
-- Open3DSG covers `support_contact`, `proximity`, and `relative_vertical` at source-contract level; the selected top-tier expansion is to generate the Open3DSG checkpoint ourselves through Dockerized reproduction.
-- Docker experiment root `experiments/H001_geom_reliability/` has generated Table 1-6, `manifest.lock.json`, `report.md`, and figure specs from locked artifacts.
-- Qwen-VL is staged only as an optional modern semantic-source extension: input/output contract, parser skeleton, 30-row non-held-out tiny pilot, model-lock plan, and 30/30 pair crops are ready; no Qwen model download or inference has started.
+- Open3DSG covers `support_contact`, `proximity`, and `relative_vertical` and now provides second-source metric evidence within measured H001 families.
+- Docker experiment root `experiments/H001_geom_reliability/` has generated Table 1-6, `manifest.lock.json`, `report.md`, figure specs, Open3DSG metric artifacts, real failure rows, qualitative case queue, and qualitative inspection.
+- Qwen-VL is staged only as an optional modern semantic-source extension: input/output contract, parser skeleton, 30-row non-held-out tiny pilot, model-lock plan, 30/30 pair crops, and Qwen3-VL-4B cache verification are ready; runtime preflight/inference has not started.
 - Dockerized Open3DSG checkpoint reproduction plan is ready under `experiments/H001_geom_reliability/sources/open3dsg/`: official train split 1178 scans / 3852 subgraphs / 81,190 relations, H001 eval split 127 scans / 388 subgraphs / 7,505 relations, dependency pins, dataset/cache mounts, train/eval commands, and failure budget.
 - Open3DSG `training_repro` metadata/split staging is ready with H001 held-out overlap 0/0: official train 1178 scans / 3852 subgraphs / 81,190 relations and train-dev without H001 30 scans / 160 subgraphs / 3,749 relations.
 - Open3DSG full train payload staging is complete: train scan dirs, raw files, Open3DSG mesh/texture, and sequence files are 1178/1178; train-dev payload is 30/30; `open3dsg_train_handoff` status is `ready_for_open3dsg_env_check`.
@@ -36,14 +37,20 @@ Facts:
 - Open3DSG validation view/preprocess guard is complete: validation views 30/30 and runtime validation split 30 scans / 156 subgraphs / 3,696 relations after filtering 4 non-recoverable preprocess drops.
 - Open3DSG train preprocess recoverability audit is complete: all 108 missing outputs match the source-level `too few visible objects` drop, and a representative Docker retry did not recover the sampled missing targets.
 - Open3DSG runtime train split is explicitly filtered to preprocessed-ready rows: 1158 scans / 3744 subgraphs / 79,704 relations retained from the official 1178 scans / 3852 subgraphs / 81,190 relations. The 108 removed subgraphs / 1,486 relations are recorded under `train_preprocess_filter/`, and `.unfiltered` backups exist in the staged runtime split.
-- Protected `dump_features_3rscan` preflight reports `ready`; official feature dump reaches feature writing. Docker partial audit before restart recorded 5/3900 complete feature ids, and the hardened restart has confirmed additional feature writing. The restart policy uses lazy dataset loading, pre-forward skip-existing resume, deterministic no-shuffle dump iteration, no-grad feature dump, explicit `--epochs 1`, `workers=0`, and `PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True`. Open3DSG model training has not started.
+- Open3DSG official BLIP TopK5/scales3 feature dump is complete and Docker `feature_audit` passed with 3900/3900 complete feature ids.
+- Open3DSG avg-BLIP full training completed. The selected checkpoint is `epoch=13-step=13104.ckpt`, chosen by train-dev `val/loss` 0.32881081104278564 before H001 held-out inspection.
+- Open3DSG H001 eval feature cache is complete for the covered loadable scope: 377/377 complete feature ids, with `validation_missing_preprocessed:11` retained as a caveat.
+- Open3DSG raw dump `raw_dump/raw.jsonl` has 19,162 rows and passed Docker raw-dump identity. Clean v14 streaming same-path resume completed with exit `0`, wrote 377/377 completed batches and 19,162 rows, and its SHA256 matches `raw_dump/raw.jsonl`; earlier exit-137 attempts remain historical run records.
+- Open3DSG adapter, geometry join, metric eval, and Table 6 are ready: 496,600 prediction rows, 496,600 geometry rows, 114,600 geometry-checkable rows, and no metric blockers.
+- Open3DSG key metrics: semantic_only R@50/R@100 0.3945/0.4963, Violation@50/@100 0.1326/0.1195; probabilistic_recalibrated R@50/R@100 0.3843/0.5580, Violation@50/@100 0.0575/0.0803; rule_verified_point_subtype R@50/R@100 0.4149/0.5238, Violation@50/@100 0.0/0.0; family_specific control R@50/R@100 0.4530/0.5984, Violation@50/@100 0.0228/0.0311.
+- Open3DSG qualitative inspection is ready: 36 selected cases, 23 demoted by geometry-aware reranking, 13 promoted or retained, 10 rule-violated cases with `p_geom_valid > 0.9`, and no taxonomy change. This is reviewer-defense evidence, not a representative visual audit.
+- Open3DSG paper caveat wording is ready: filtered train 3,744/3,852 subgraphs, train-dev validation 156/160 subgraphs, H001 covered loadable scope 377/388 contexts with `validation_missing_preprocessed:11`, averaged-BLIP variant, exact-label 2,545-row H001-family denominator, and residual calibration risk are fixed in `paper_caveats/`.
 
 Inference:
 
 - H001 is promising as a scoped top-tier direction.
-- Current evidence supports a `VL-SAT`-centered geometry-consistency reliability claim as a fallback.
-- For the main top-tier path, second-source adapter evidence is preferred over a single-baseline-only justification.
-- Baseline-agnostic and broad open-vocabulary 3DSSG improvement claims remain blocked until Open3DSG filtered-train feature dump, checkpoint reproduction, adapter export, geometry join, and metric evidence exist. The train/validation filtering and any reduced/pilot-only route must be reported as scope limitations, not hidden as full official-train preprocessing.
+- Current evidence supports a cross-source reliability-layer claim within measured H001 families across `VL-SAT` and Open3DSG.
+- Broad open-vocabulary 3DSSG improvement claims remain blocked beyond the measured H001-family scope. The train/validation filtering, averaged-BLIP route, covered loadable scope, residual calibration risk, `validation_missing_preprocessed:11`, and any reduced/pilot-only route are fixed as scope limitations.
 
 ## H001 Canonical Files
 
@@ -88,6 +95,8 @@ Current survey verdict:
 - `docs/index.md`: 현재 연구 상태 대시보드
 - `docs/literature.md`: literature workflow와 작성 규칙
 - `docs/hypothesis.md`: hypothesis workflow와 작성 규칙
+- `docs/paper.md`: paper framing과 novelty/reviewer-defense 기준
+- `docs/reproducibility.md`: H001 데이터, checkpoint, Docker, 재현 명령, artifact/evaluation 요약
 - `literature/README.md`: field map, trend synthesis, cross-paper insights
 - `literature/PAPER.md`: paper registry와 reading queue
 - `literature/Contribution Candidates.md`: 기여 후보 목록
@@ -104,8 +113,8 @@ Current survey verdict:
 현재 만든 experiment 구조:
 
 - `experiments/H001_geom_reliability/`
+- `paper/preview.md`: paper writing phase 직전의 현재 결과 총정리와 재시작 시 필수 파일 목록
 
 아직 만들지 않는 구조:
 
-- `paper/`
 - `decisions/`

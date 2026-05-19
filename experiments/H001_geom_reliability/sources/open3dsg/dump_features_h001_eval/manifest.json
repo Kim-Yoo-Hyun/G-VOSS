@@ -1,0 +1,327 @@
+{
+  "feature_root": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/features",
+  "feature_runs": [
+    {
+      "mtime": 1779036579.4625013,
+      "name": "clip_features_h001_eval_blip_top5_scales3",
+      "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3",
+      "pt_files": 1131,
+      "subdirs": [
+        "export_obj_clip_emb_clip_OpenSeg_Topk_5_scales_3_vis_crit_0.19999999999999998_vis_crit_mask_0.1",
+        "export_obj_clip_valids",
+        "export_rel_clip_emb_clip_BLIP_Topk_5_scales_3_vis_crit_0.19999999999999998"
+      ]
+    }
+  ],
+  "generated_at": "2026-05-18T08:01:09+00:00",
+  "id_strategy": "relationship_scan_split_suffix",
+  "preprocessed_root": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed",
+  "relationships_root": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/data/3RScan/3DSSG_subset",
+  "repo_root": "/workspace",
+  "schema_version": "h001_open3dsg_feature_audit_v1",
+  "selected_run_audit": {
+    "blockers": [
+      "validation_missing_preprocessed:11"
+    ],
+    "complete_all_roles_total": 377,
+    "expected_unique_total": 377,
+    "extras_by_role": {
+      "object_embeddings": 0,
+      "object_valids": 0,
+      "relation_embeddings": 0
+    },
+    "extras_by_role_sample": {},
+    "missing_complete_sample": [],
+    "missing_complete_total": 0,
+    "required_roles": [
+      "object_embeddings",
+      "object_valids",
+      "relation_embeddings"
+    ],
+    "run_dir": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3",
+    "split_coverage": {
+      "train": {
+        "complete_all_roles": 0,
+        "duplicate_expected_ids": {},
+        "expected_unique": 0,
+        "missing_by_role": {
+          "object_embeddings": 0,
+          "object_valids": 0,
+          "relation_embeddings": 0
+        },
+        "missing_by_role_sample": {},
+        "missing_complete": 0,
+        "missing_complete_sample": [],
+        "missing_preprocessed": 0,
+        "missing_preprocessed_sample": [],
+        "pickle_fallback_sample": [],
+        "pickle_fallbacks": 0
+      },
+      "validation": {
+        "complete_all_roles": 377,
+        "duplicate_expected_ids": {},
+        "expected_unique": 377,
+        "missing_by_role": {
+          "object_embeddings": 0,
+          "object_valids": 0,
+          "relation_embeddings": 0
+        },
+        "missing_by_role_sample": {},
+        "missing_complete": 0,
+        "missing_complete_sample": [],
+        "missing_preprocessed": 11,
+        "missing_preprocessed_sample": [
+          {
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c7895f63-339c-2d13-81a3-0b07b1eb23b4/data_dict_2.pkl",
+            "reason": "missing_preprocessed_pickle",
+            "scan": "c7895f63-339c-2d13-81a3-0b07b1eb23b4",
+            "split": 2
+          },
+          {
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7584-8d6f-2d13-8df8-c05e4307b418/data_dict_5.pkl",
+            "reason": "missing_preprocessed_pickle",
+            "scan": "0cac7584-8d6f-2d13-8df8-c05e4307b418",
+            "split": 5
+          },
+          {
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/fcf66d7b-622d-291c-86b8-7db96aebcee3/data_dict_3.pkl",
+            "reason": "missing_preprocessed_pickle",
+            "scan": "fcf66d7b-622d-291c-86b8-7db96aebcee3",
+            "split": 3
+          },
+          {
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7582-8d6f-2d13-8d4b-e4041cb166c4/data_dict_1.pkl",
+            "reason": "missing_preprocessed_pickle",
+            "scan": "0cac7582-8d6f-2d13-8d4b-e4041cb166c4",
+            "split": 1
+          },
+          {
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7532-8d6f-2d13-8cea-1e70d5ae4856/data_dict_2.pkl",
+            "reason": "missing_preprocessed_pickle",
+            "scan": "0cac7532-8d6f-2d13-8cea-1e70d5ae4856",
+            "split": 2
+          },
+          {
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b1794e-3938-2467-89a7-ebc89e84cf88/data_dict_3.pkl",
+            "reason": "missing_preprocessed_pickle",
+            "scan": "10b1794e-3938-2467-89a7-ebc89e84cf88",
+            "split": 3
+          },
+          {
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7534-8d6f-2d13-8de7-8a915ed90050/data_dict_3.pkl",
+            "reason": "missing_preprocessed_pickle",
+            "scan": "0cac7534-8d6f-2d13-8de7-8a915ed90050",
+            "split": 3
+          },
+          {
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/422885c5-192d-25fc-85e6-12a3d65c8e7b/data_dict_2.pkl",
+            "reason": "missing_preprocessed_pickle",
+            "scan": "422885c5-192d-25fc-85e6-12a3d65c8e7b",
+            "split": 2
+          },
+          {
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bf9a3ddf-45a5-2e80-8007-8e9e7f323e52/data_dict_2.pkl",
+            "reason": "missing_preprocessed_pickle",
+            "scan": "bf9a3ddf-45a5-2e80-8007-8e9e7f323e52",
+            "split": 2
+          },
+          {
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/422885b3-192d-25fc-84c9-9b80eea1752d/data_dict_1.pkl",
+            "reason": "missing_preprocessed_pickle",
+            "scan": "422885b3-192d-25fc-84c9-9b80eea1752d",
+            "split": 1
+          },
+          {
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/422885b3-192d-25fc-84c9-9b80eea1752d/data_dict_2.pkl",
+            "reason": "missing_preprocessed_pickle",
+            "scan": "422885b3-192d-25fc-84c9-9b80eea1752d",
+            "split": 2
+          }
+        ],
+        "pickle_fallback_sample": [
+          {
+            "fallback_feature_id": "ab835faa-54c6-29a1-9b55-1a5217fcba19-1",
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/ab835faa-54c6-29a1-9b55-1a5217fcba19/data_dict_1.pkl",
+            "reason": "metadata_derived_without_pickle_load",
+            "scan": "ab835faa-54c6-29a1-9b55-1a5217fcba19",
+            "split": 1
+          },
+          {
+            "fallback_feature_id": "ab835faa-54c6-29a1-9b55-1a5217fcba19-2",
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/ab835faa-54c6-29a1-9b55-1a5217fcba19/data_dict_2.pkl",
+            "reason": "metadata_derived_without_pickle_load",
+            "scan": "ab835faa-54c6-29a1-9b55-1a5217fcba19",
+            "split": 2
+          },
+          {
+            "fallback_feature_id": "ab835faa-54c6-29a1-9b55-1a5217fcba19-3",
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/ab835faa-54c6-29a1-9b55-1a5217fcba19/data_dict_3.pkl",
+            "reason": "metadata_derived_without_pickle_load",
+            "scan": "ab835faa-54c6-29a1-9b55-1a5217fcba19",
+            "split": 3
+          },
+          {
+            "fallback_feature_id": "6e67e550-1209-2cd0-8294-7cc2564cf82c-1",
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/6e67e550-1209-2cd0-8294-7cc2564cf82c/data_dict_1.pkl",
+            "reason": "metadata_derived_without_pickle_load",
+            "scan": "6e67e550-1209-2cd0-8294-7cc2564cf82c",
+            "split": 1
+          },
+          {
+            "fallback_feature_id": "6e67e550-1209-2cd0-8294-7cc2564cf82c-2",
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/6e67e550-1209-2cd0-8294-7cc2564cf82c/data_dict_2.pkl",
+            "reason": "metadata_derived_without_pickle_load",
+            "scan": "6e67e550-1209-2cd0-8294-7cc2564cf82c",
+            "split": 2
+          },
+          {
+            "fallback_feature_id": "6e67e550-1209-2cd0-8294-7cc2564cf82c-3",
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/6e67e550-1209-2cd0-8294-7cc2564cf82c/data_dict_3.pkl",
+            "reason": "metadata_derived_without_pickle_load",
+            "scan": "6e67e550-1209-2cd0-8294-7cc2564cf82c",
+            "split": 3
+          },
+          {
+            "fallback_feature_id": "bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8-1",
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8/data_dict_1.pkl",
+            "reason": "metadata_derived_without_pickle_load",
+            "scan": "bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8",
+            "split": 1
+          },
+          {
+            "fallback_feature_id": "bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8-2",
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8/data_dict_2.pkl",
+            "reason": "metadata_derived_without_pickle_load",
+            "scan": "bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8",
+            "split": 2
+          },
+          {
+            "fallback_feature_id": "bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8-3",
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8/data_dict_3.pkl",
+            "reason": "metadata_derived_without_pickle_load",
+            "scan": "bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8",
+            "split": 3
+          },
+          {
+            "fallback_feature_id": "bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8-4",
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8/data_dict_4.pkl",
+            "reason": "metadata_derived_without_pickle_load",
+            "scan": "bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8",
+            "split": 4
+          },
+          {
+            "fallback_feature_id": "c2d99345-1947-2fbf-818d-90ea82acef29-1",
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c2d99345-1947-2fbf-818d-90ea82acef29/data_dict_1.pkl",
+            "reason": "metadata_derived_without_pickle_load",
+            "scan": "c2d99345-1947-2fbf-818d-90ea82acef29",
+            "split": 1
+          },
+          {
+            "fallback_feature_id": "c2d99345-1947-2fbf-818d-90ea82acef29-2",
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c2d99345-1947-2fbf-818d-90ea82acef29/data_dict_2.pkl",
+            "reason": "metadata_derived_without_pickle_load",
+            "scan": "c2d99345-1947-2fbf-818d-90ea82acef29",
+            "split": 2
+          },
+          {
+            "fallback_feature_id": "742e8f17-be0a-294e-9dd3-52492d308e2b-1",
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/742e8f17-be0a-294e-9dd3-52492d308e2b/data_dict_1.pkl",
+            "reason": "metadata_derived_without_pickle_load",
+            "scan": "742e8f17-be0a-294e-9dd3-52492d308e2b",
+            "split": 1
+          },
+          {
+            "fallback_feature_id": "742e8f17-be0a-294e-9dd3-52492d308e2b-2",
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/742e8f17-be0a-294e-9dd3-52492d308e2b/data_dict_2.pkl",
+            "reason": "metadata_derived_without_pickle_load",
+            "scan": "742e8f17-be0a-294e-9dd3-52492d308e2b",
+            "split": 2
+          },
+          {
+            "fallback_feature_id": "742e8f17-be0a-294e-9dd3-52492d308e2b-3",
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/742e8f17-be0a-294e-9dd3-52492d308e2b/data_dict_3.pkl",
+            "reason": "metadata_derived_without_pickle_load",
+            "scan": "742e8f17-be0a-294e-9dd3-52492d308e2b",
+            "split": 3
+          },
+          {
+            "fallback_feature_id": "20c993b3-698f-29c5-859c-dca8ddecf220-1",
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/20c993b3-698f-29c5-859c-dca8ddecf220/data_dict_1.pkl",
+            "reason": "metadata_derived_without_pickle_load",
+            "scan": "20c993b3-698f-29c5-859c-dca8ddecf220",
+            "split": 1
+          },
+          {
+            "fallback_feature_id": "20c993b3-698f-29c5-859c-dca8ddecf220-2",
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/20c993b3-698f-29c5-859c-dca8ddecf220/data_dict_2.pkl",
+            "reason": "metadata_derived_without_pickle_load",
+            "scan": "20c993b3-698f-29c5-859c-dca8ddecf220",
+            "split": 2
+          },
+          {
+            "fallback_feature_id": "10b17963-3938-2467-8a48-0d4af350ce92-1",
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b17963-3938-2467-8a48-0d4af350ce92/data_dict_1.pkl",
+            "reason": "metadata_derived_without_pickle_load",
+            "scan": "10b17963-3938-2467-8a48-0d4af350ce92",
+            "split": 1
+          },
+          {
+            "fallback_feature_id": "10b17963-3938-2467-8a48-0d4af350ce92-2",
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b17963-3938-2467-8a48-0d4af350ce92/data_dict_2.pkl",
+            "reason": "metadata_derived_without_pickle_load",
+            "scan": "10b17963-3938-2467-8a48-0d4af350ce92",
+            "split": 2
+          },
+          {
+            "fallback_feature_id": "1d233fe8-e280-2b1a-8fac-c3646a1cd64a-1",
+            "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/1d233fe8-e280-2b1a-8fac-c3646a1cd64a/data_dict_1.pkl",
+            "reason": "metadata_derived_without_pickle_load",
+            "scan": "1d233fe8-e280-2b1a-8fac-c3646a1cd64a",
+            "split": 1
+          }
+        ],
+        "pickle_fallbacks": 377
+      }
+    },
+    "status": "blocked",
+    "subdirs": [
+      {
+        "name": "export_obj_clip_emb_clip_OpenSeg_Topk_5_scales_3_vis_crit_0.19999999999999998_vis_crit_mask_0.1",
+        "pt_files": 377,
+        "role": "object_embeddings",
+        "sample_ids": [
+          "095821f7-e2c2-2de1-9568-b9ce59920e29-1",
+          "095821f9-e2c2-2de1-9707-8f735cd1c148-1",
+          "095821fb-e2c2-2de1-94df-20f2cb423bcb-1",
+          "0988ea72-eb32-2e61-8344-99e2283c2728-1",
+          "0988ea72-eb32-2e61-8344-99e2283c2728-2"
+        ]
+      },
+      {
+        "name": "export_obj_clip_valids",
+        "pt_files": 377,
+        "role": "object_valids",
+        "sample_ids": [
+          "095821f7-e2c2-2de1-9568-b9ce59920e29-1",
+          "095821f9-e2c2-2de1-9707-8f735cd1c148-1",
+          "095821fb-e2c2-2de1-94df-20f2cb423bcb-1",
+          "0988ea72-eb32-2e61-8344-99e2283c2728-1",
+          "0988ea72-eb32-2e61-8344-99e2283c2728-2"
+        ]
+      },
+      {
+        "name": "export_rel_clip_emb_clip_BLIP_Topk_5_scales_3_vis_crit_0.19999999999999998",
+        "pt_files": 377,
+        "role": "relation_embeddings",
+        "sample_ids": [
+          "095821f7-e2c2-2de1-9568-b9ce59920e29-1",
+          "095821f9-e2c2-2de1-9707-8f735cd1c148-1",
+          "095821fb-e2c2-2de1-94df-20f2cb423bcb-1",
+          "0988ea72-eb32-2e61-8344-99e2283c2728-1",
+          "0988ea72-eb32-2e61-8344-99e2283c2728-2"
+        ]
+      }
+    ],
+    "unknown_dirs": []
+  }
+}

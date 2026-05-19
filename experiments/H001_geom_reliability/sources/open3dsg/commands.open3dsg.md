@@ -100,4 +100,4 @@ tmux new-session -d -s h001_open3dsg_dump_features_h001_eval_shard "cd /home/yoo
 sg docker -c 'env UID=$(id -u) GID=$(id -g) OPEN3DSG_CHECKPOINT=/workspace/local_dataset/Open3DSG_staged/training_repro/output/checkpoints/<checkpoint>.ckpt docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm eval_h001_gt_objects'
 ```
 
-`eval_h001_gt_objects` is protected by `open3dsg_eval_preflight.py` and stops before Open3DSG execution if checkpoint/runtime/scope/import gates fail.
+`eval_h001_gt_objects` is protected by `open3dsg_eval_preflight.py` and stops before Open3DSG execution if checkpoint/runtime/scope/import gates fail. It defaults to `OPEN3DSG_EVAL_WORKERS=0` and `OPEN3DSG_SHM_SIZE=16gb` because the feature-ready raw-dump run reached the full context load but failed during worker/shared-memory cleanup before writing `raw_dump/raw.jsonl`. Source patch schema `h001_open3dsg_source_patch_v12` also aligns avg-BLIP relationship image embeddings to the loaded BLIP model dtype and switches BLIP generation from legacy `max_length` to `max_new_tokens`.

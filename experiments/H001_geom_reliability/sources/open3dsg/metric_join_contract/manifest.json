@@ -1,10 +1,7 @@
 {
   "baseline_name": "open3dsg_ov",
-  "blocked": [
-    "predictions_jsonl:missing_required:experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl",
-    "geometry_jsonl:missing_required:experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl"
-  ],
-  "created_at": "2026-05-09T15:11:11+00:00",
+  "blocked": [],
+  "created_at": "2026-05-18T09:00:16+00:00",
   "inputs": {
     "calibration_model_json": {
       "exists": true,
@@ -49,13 +46,34 @@
       "status": "present"
     },
     "geometry_jsonl": {
-      "exists": false,
-      "line_count": null,
+      "exists": true,
+      "line_count": 496600,
       "name": "geometry_jsonl",
       "path": "experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl",
       "required": true,
-      "sample_keys": [],
-      "status": "missing_required"
+      "sample_keys": [
+        "baseline_name",
+        "baseline_run_id",
+        "calibration",
+        "consistency_score",
+        "edge",
+        "geometry",
+        "predicate",
+        "prediction_id",
+        "provenance",
+        "quality",
+        "record_type",
+        "scan_id",
+        "schema_version",
+        "semantic",
+        "split_name",
+        "subgraph_id",
+        "subset_split_id",
+        "verification",
+        "verification_status",
+        "verification_variants"
+      ],
+      "status": "present"
     },
     "ground_truth_jsonl": {
       "exists": true,
@@ -85,13 +103,30 @@
       "status": "present"
     },
     "predictions_jsonl": {
-      "exists": false,
-      "line_count": null,
+      "exists": true,
+      "line_count": 496600,
       "name": "predictions_jsonl",
       "path": "experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl",
       "required": true,
-      "sample_keys": [],
-      "status": "missing_required"
+      "sample_keys": [
+        "adapter",
+        "baseline_name",
+        "baseline_run_id",
+        "edge",
+        "predicate",
+        "prediction_id",
+        "ranks",
+        "record_type",
+        "scan_id",
+        "schema_version",
+        "scores",
+        "split_name",
+        "subgraph_id",
+        "subset_source",
+        "subset_split_id",
+        "task_mode"
+      ],
+      "status": "present"
     }
   },
   "next_action": "After Open3DSG prediction JSONL and geometry join exist, replace blocked metrics with real H001 metric calculation without changing the frozen input/output contract.",
@@ -105,7 +140,7 @@
   },
   "schema_version": "h001_open3dsg_metric_join_contract_v1",
   "split_name": "h001_validation_hardened",
-  "status": "blocked_runtime_inputs_missing",
+  "status": "ready_runtime_inputs_present_contract_only",
   "target_families": [
     "support_contact",
     "proximity",

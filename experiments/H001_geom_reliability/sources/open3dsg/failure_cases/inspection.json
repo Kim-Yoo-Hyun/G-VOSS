@@ -1,0 +1,670 @@
+{
+  "claim_boundary": "qualitative reviewer-defense artifact only; not a new metric, not a visual audit, and not evidence beyond measured H001-family scope",
+  "counts": {
+    "by_category": {
+      "geometry_contradiction": 14,
+      "semantic_and_geometry_failure": 22
+    },
+    "by_family": {
+      "proximity": 8,
+      "relative_vertical": 18,
+      "support_contact": 10
+    },
+    "by_gt_match_status": {
+      "family_match": 2,
+      "no_gt_for_pair": 22,
+      "pair_has_other_predicate": 12
+    },
+    "by_reason_code": {
+      "far_in_normalized_xy": 8,
+      "horizontal_plane_found": 3,
+      "plane_gap_large": 3,
+      "point_subtype_delegated_to_obb_for_family": 26,
+      "positive_float_gap_large": 7,
+      "subtype_rigid_object_on_furniture": 3,
+      "subtype_soft_support_contact": 7,
+      "vertical_order_contradicts_predicate": 18
+    },
+    "by_topk_transition": {
+      "demoted_out_of_top100": 6,
+      "demoted_out_of_top50": 14,
+      "promoted_into_top100": 6,
+      "promoted_into_top50": 4,
+      "stayed_in_topk": 6
+    },
+    "demoted_by_geometry": 23,
+    "geometry_rank_max": 432,
+    "geometry_rank_min": 5,
+    "p_geom_valid_max": 0.9994424488013512,
+    "p_geom_valid_min": 8.946880630967058e-08,
+    "promoted_or_retained_by_geometry": 13,
+    "selected_cases": 36,
+    "semantic_rank_max": 426,
+    "semantic_rank_min": 1,
+    "violated_with_p_geom_valid_gt_0_9": 10
+  },
+  "created_at": "2026-05-19T03:34:02.622536+00:00",
+  "inputs": {
+    "queue_jsonl": "experiments/H001_geom_reliability/sources/open3dsg/failure_cases/queue.jsonl",
+    "sample_manifest_json": "experiments/H001_geom_reliability/sources/open3dsg/failure_cases/manifest.json"
+  },
+  "observations": [
+    {
+      "evidence": "23 of 36 selected cases are demoted by geometry-aware reranking. Several have semantic top-50 ranks but low p_geom_valid or explicit geometry reason codes.",
+      "name": "semantic_plausibility_can_conflict_with_geometry"
+    },
+    {
+      "evidence": "proximity failures concentrate in far_in_normalized_xy; relative_vertical failures concentrate in vertical_order_contradicts_predicate; support_contact failures expose float-gap or support-plane contradictions.",
+      "name": "failure_is_family_structured"
+    },
+    {
+      "evidence": "13 selected cases are promoted or retained by geometry-aware ranking. These are useful for explaining why the paper must report recall and violation jointly.",
+      "name": "reranking_has_recall_tradeoff_cases"
+    },
+    {
+      "evidence": "10 selected cases are rule-violated but have p_geom_valid > 0.9. These residual cases justify reporting rule-verified, probabilistic, and family-specific variants separately.",
+      "name": "calibration_is_not_equivalent_to_hard_rule_validity"
+    },
+    {
+      "evidence": "The queue is deterministic diagnostic evidence from prediction/GT/geometry joins. It should guide figure selection and failure narratives, not be reported as a representative visual audit.",
+      "name": "qualitative_queue_is_not_a_human_audit"
+    }
+  ],
+  "outputs": {
+    "inspection_json": "experiments/H001_geom_reliability/sources/open3dsg/failure_cases/inspection.json",
+    "inspection_md": "experiments/H001_geom_reliability/sources/open3dsg/failure_cases/inspection.md"
+  },
+  "paper_use": {
+    "allowed": [
+      "Use as qualitative failure-mechanism examples tied to Table 6 and the locked taxonomy.",
+      "Use demoted cases to show semantically plausible but physically inconsistent relations.",
+      "Use promoted or retained cases to explain recall/violation tradeoffs.",
+      "Use high-p but rule-violated cases to disclose residual calibration risk.",
+      "Use family-specific reason codes to justify family-specific controls and denominator reporting."
+    ],
+    "not_allowed": [
+      "Do not report the 36-case queue as a representative human audit.",
+      "Do not change the locked taxonomy based on this inspection without a schema version bump.",
+      "Do not claim broad open-vocabulary 3DSSG improvement from these qualitative cases alone."
+    ]
+  },
+  "representative_cases": {
+    "family_mechanism_examples": [
+      {
+        "case_id": "open3dsg_case_001",
+        "category": "geometry_contradiction",
+        "delta_rank": 246,
+        "family": "proximity",
+        "geometry_rank": 263,
+        "gt_match_status": "pair_has_other_predicate",
+        "matched_predicates": [
+          "right"
+        ],
+        "p_geom_valid": 0.23039389635021132,
+        "pair": "heater -> trash can",
+        "predicate": "close by",
+        "reason_codes": [
+          "far_in_normalized_xy",
+          "point_subtype_delegated_to_obb_for_family"
+        ],
+        "semantic_rank": 17,
+        "topk_transition": "demoted_out_of_top50"
+      },
+      {
+        "case_id": "open3dsg_case_005",
+        "category": "geometry_contradiction",
+        "delta_rank": 397,
+        "family": "relative_vertical",
+        "geometry_rank": 422,
+        "gt_match_status": "pair_has_other_predicate",
+        "matched_predicates": [
+          "left"
+        ],
+        "p_geom_valid": 0.0019154382549911775,
+        "pair": "desk -> lamp",
+        "predicate": "higher than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 25,
+        "topk_transition": "demoted_out_of_top50"
+      },
+      {
+        "case_id": "open3dsg_case_010",
+        "category": "geometry_contradiction",
+        "delta_rank": 380,
+        "family": "support_contact",
+        "geometry_rank": 401,
+        "gt_match_status": "pair_has_other_predicate",
+        "matched_predicates": [
+          "right",
+          "front"
+        ],
+        "p_geom_valid": 0.02478513981292485,
+        "pair": "lamp -> side table",
+        "predicate": "lying on",
+        "reason_codes": [
+          "positive_float_gap_large",
+          "subtype_soft_support_contact"
+        ],
+        "semantic_rank": 21,
+        "topk_transition": "demoted_out_of_top50"
+      },
+      {
+        "case_id": "open3dsg_case_019",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": 431,
+        "family": "relative_vertical",
+        "geometry_rank": 432,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.001602840597415198,
+        "pair": "floor -> curtain",
+        "predicate": "higher than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 1,
+        "topk_transition": "demoted_out_of_top50"
+      },
+      {
+        "case_id": "open3dsg_case_026",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": -250,
+        "family": "support_contact",
+        "geometry_rank": 36,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.9979662380121128,
+        "pair": "door -> floor",
+        "predicate": "lying on",
+        "reason_codes": [
+          "positive_float_gap_large",
+          "subtype_soft_support_contact"
+        ],
+        "semantic_rank": 286,
+        "topk_transition": "promoted_into_top50"
+      },
+      {
+        "case_id": "open3dsg_case_030",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": 431,
+        "family": "relative_vertical",
+        "geometry_rank": 432,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 8.946880630967058e-08,
+        "pair": "floor -> ceiling",
+        "predicate": "higher than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 1,
+        "topk_transition": "demoted_out_of_top50"
+      }
+    ],
+    "geometry_promoted_or_retained_tradeoff": [
+      {
+        "case_id": "open3dsg_case_022",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": -345,
+        "family": "relative_vertical",
+        "geometry_rank": 55,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.9969174870655043,
+        "pair": "radiator -> floor",
+        "predicate": "lower than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 400,
+        "topk_transition": "promoted_into_top100"
+      },
+      {
+        "case_id": "open3dsg_case_008",
+        "category": "geometry_contradiction",
+        "delta_rank": -335,
+        "family": "relative_vertical",
+        "geometry_rank": 91,
+        "gt_match_status": "pair_has_other_predicate",
+        "matched_predicates": [
+          "lying in"
+        ],
+        "p_geom_valid": 0.9973383405051874,
+        "pair": "object -> cabinet",
+        "predicate": "lower than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 426,
+        "topk_transition": "promoted_into_top100"
+      },
+      {
+        "case_id": "open3dsg_case_021",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": -305,
+        "family": "relative_vertical",
+        "geometry_rank": 47,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.9987124156896936,
+        "pair": "doorframe -> floor",
+        "predicate": "lower than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 352,
+        "topk_transition": "promoted_into_top50"
+      },
+      {
+        "case_id": "open3dsg_case_027",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": -299,
+        "family": "support_contact",
+        "geometry_rank": 92,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.9578076101488148,
+        "pair": "pack -> floor",
+        "predicate": "lying on",
+        "reason_codes": [
+          "positive_float_gap_large",
+          "subtype_soft_support_contact"
+        ],
+        "semantic_rank": 391,
+        "topk_transition": "promoted_into_top100"
+      },
+      {
+        "case_id": "open3dsg_case_007",
+        "category": "geometry_contradiction",
+        "delta_rank": -289,
+        "family": "relative_vertical",
+        "geometry_rank": 50,
+        "gt_match_status": "pair_has_other_predicate",
+        "matched_predicates": [
+          "standing on"
+        ],
+        "p_geom_valid": 0.9994424488013512,
+        "pair": "chair -> floor",
+        "predicate": "lower than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 339,
+        "topk_transition": "promoted_into_top50"
+      },
+      {
+        "case_id": "open3dsg_case_013",
+        "category": "geometry_contradiction",
+        "delta_rank": -282,
+        "family": "support_contact",
+        "geometry_rank": 84,
+        "gt_match_status": "pair_has_other_predicate",
+        "matched_predicates": [
+          "lying in"
+        ],
+        "p_geom_valid": 0.9974526867400898,
+        "pair": "box -> wardrobe",
+        "predicate": "supported by",
+        "reason_codes": [
+          "horizontal_plane_found",
+          "plane_gap_large",
+          "subtype_rigid_object_on_furniture"
+        ],
+        "semantic_rank": 366,
+        "topk_transition": "promoted_into_top100"
+      },
+      {
+        "case_id": "open3dsg_case_026",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": -250,
+        "family": "support_contact",
+        "geometry_rank": 36,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.9979662380121128,
+        "pair": "door -> floor",
+        "predicate": "lying on",
+        "reason_codes": [
+          "positive_float_gap_large",
+          "subtype_soft_support_contact"
+        ],
+        "semantic_rank": 286,
+        "topk_transition": "promoted_into_top50"
+      },
+      {
+        "case_id": "open3dsg_case_012",
+        "category": "geometry_contradiction",
+        "delta_rank": -212,
+        "family": "support_contact",
+        "geometry_rank": 46,
+        "gt_match_status": "family_match",
+        "matched_predicates": [
+          "standing on"
+        ],
+        "p_geom_valid": 0.9964276497517885,
+        "pair": "item -> refrigerator",
+        "predicate": "supported by",
+        "reason_codes": [
+          "horizontal_plane_found",
+          "plane_gap_large",
+          "subtype_rigid_object_on_furniture"
+        ],
+        "semantic_rank": 258,
+        "topk_transition": "promoted_into_top50"
+      }
+    ],
+    "residual_calibration_risk": [
+      {
+        "case_id": "open3dsg_case_007",
+        "category": "geometry_contradiction",
+        "delta_rank": -289,
+        "family": "relative_vertical",
+        "geometry_rank": 50,
+        "gt_match_status": "pair_has_other_predicate",
+        "matched_predicates": [
+          "standing on"
+        ],
+        "p_geom_valid": 0.9994424488013512,
+        "pair": "chair -> floor",
+        "predicate": "lower than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 339,
+        "topk_transition": "promoted_into_top50"
+      },
+      {
+        "case_id": "open3dsg_case_009",
+        "category": "geometry_contradiction",
+        "delta_rank": -40,
+        "family": "relative_vertical",
+        "geometry_rank": 5,
+        "gt_match_status": "pair_has_other_predicate",
+        "matched_predicates": [
+          "standing on"
+        ],
+        "p_geom_valid": 0.9992693804518507,
+        "pair": "doorframe -> floor",
+        "predicate": "lower than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 45,
+        "topk_transition": "stayed_in_topk"
+      },
+      {
+        "case_id": "open3dsg_case_028",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": -43,
+        "family": "support_contact",
+        "geometry_rank": 6,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.9987880028079892,
+        "pair": "vase -> floor",
+        "predicate": "lying on",
+        "reason_codes": [
+          "positive_float_gap_large",
+          "subtype_soft_support_contact"
+        ],
+        "semantic_rank": 49,
+        "topk_transition": "stayed_in_topk"
+      },
+      {
+        "case_id": "open3dsg_case_021",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": -305,
+        "family": "relative_vertical",
+        "geometry_rank": 47,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.9987124156896936,
+        "pair": "doorframe -> floor",
+        "predicate": "lower than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 352,
+        "topk_transition": "promoted_into_top50"
+      },
+      {
+        "case_id": "open3dsg_case_026",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": -250,
+        "family": "support_contact",
+        "geometry_rank": 36,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.9979662380121128,
+        "pair": "door -> floor",
+        "predicate": "lying on",
+        "reason_codes": [
+          "positive_float_gap_large",
+          "subtype_soft_support_contact"
+        ],
+        "semantic_rank": 286,
+        "topk_transition": "promoted_into_top50"
+      },
+      {
+        "case_id": "open3dsg_case_013",
+        "category": "geometry_contradiction",
+        "delta_rank": -282,
+        "family": "support_contact",
+        "geometry_rank": 84,
+        "gt_match_status": "pair_has_other_predicate",
+        "matched_predicates": [
+          "lying in"
+        ],
+        "p_geom_valid": 0.9974526867400898,
+        "pair": "box -> wardrobe",
+        "predicate": "supported by",
+        "reason_codes": [
+          "horizontal_plane_found",
+          "plane_gap_large",
+          "subtype_rigid_object_on_furniture"
+        ],
+        "semantic_rank": 366,
+        "topk_transition": "promoted_into_top100"
+      },
+      {
+        "case_id": "open3dsg_case_008",
+        "category": "geometry_contradiction",
+        "delta_rank": -335,
+        "family": "relative_vertical",
+        "geometry_rank": 91,
+        "gt_match_status": "pair_has_other_predicate",
+        "matched_predicates": [
+          "lying in"
+        ],
+        "p_geom_valid": 0.9973383405051874,
+        "pair": "object -> cabinet",
+        "predicate": "lower than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 426,
+        "topk_transition": "promoted_into_top100"
+      },
+      {
+        "case_id": "open3dsg_case_022",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": -345,
+        "family": "relative_vertical",
+        "geometry_rank": 55,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.9969174870655043,
+        "pair": "radiator -> floor",
+        "predicate": "lower than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 400,
+        "topk_transition": "promoted_into_top100"
+      }
+    ],
+    "semantic_high_geometry_demoted": [
+      {
+        "case_id": "open3dsg_case_019",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": 431,
+        "family": "relative_vertical",
+        "geometry_rank": 432,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.001602840597415198,
+        "pair": "floor -> curtain",
+        "predicate": "higher than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 1,
+        "topk_transition": "demoted_out_of_top50"
+      },
+      {
+        "case_id": "open3dsg_case_029",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": 431,
+        "family": "relative_vertical",
+        "geometry_rank": 432,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.0006029244130536111,
+        "pair": "floor -> window",
+        "predicate": "higher than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 1,
+        "topk_transition": "demoted_out_of_top50"
+      },
+      {
+        "case_id": "open3dsg_case_030",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": 431,
+        "family": "relative_vertical",
+        "geometry_rank": 432,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 8.946880630967058e-08,
+        "pair": "floor -> ceiling",
+        "predicate": "higher than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 1,
+        "topk_transition": "demoted_out_of_top50"
+      },
+      {
+        "case_id": "open3dsg_case_031",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": 431,
+        "family": "relative_vertical",
+        "geometry_rank": 432,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 5.164019866767173e-05,
+        "pair": "floor -> ceiling",
+        "predicate": "higher than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 1,
+        "topk_transition": "demoted_out_of_top50"
+      },
+      {
+        "case_id": "open3dsg_case_032",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": 430,
+        "family": "relative_vertical",
+        "geometry_rank": 432,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 1.3408387973657462e-07,
+        "pair": "floor -> ceiling",
+        "predicate": "higher than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 2,
+        "topk_transition": "demoted_out_of_top50"
+      },
+      {
+        "case_id": "open3dsg_case_033",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": 430,
+        "family": "relative_vertical",
+        "geometry_rank": 431,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 3.199655717221098e-07,
+        "pair": "floor -> ceiling",
+        "predicate": "higher than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 1,
+        "topk_transition": "demoted_out_of_top50"
+      },
+      {
+        "case_id": "open3dsg_case_034",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": 430,
+        "family": "relative_vertical",
+        "geometry_rank": 432,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 5.399312348635649e-06,
+        "pair": "floor -> pipe",
+        "predicate": "higher than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 2,
+        "topk_transition": "demoted_out_of_top50"
+      },
+      {
+        "case_id": "open3dsg_case_035",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": 430,
+        "family": "relative_vertical",
+        "geometry_rank": 432,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 8.716469068356356e-06,
+        "pair": "floor -> ceiling",
+        "predicate": "higher than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 2,
+        "topk_transition": "demoted_out_of_top50"
+      }
+    ]
+  },
+  "sample_status": "failure_case_sample_ready",
+  "schema_version": "h001_open3dsg_failure_case_inspection_v1",
+  "status": "qualitative_case_inspection_ready"
+}

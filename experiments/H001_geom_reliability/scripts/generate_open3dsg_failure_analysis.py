@@ -61,7 +61,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--ground-truth-jsonl",
         type=Path,
-        default=Path("experiments/H001_geom_reliability/sources/open3dsg/ground_truth/ground_truth.jsonl"),
+        default=Path(
+            "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/"
+            "vlsat_closed_set/hardened/ground_truth.jsonl"
+        ),
     )
     parser.add_argument(
         "--metrics-json",
@@ -75,6 +78,8 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--split-name", default="h001_validation_hardened")
     parser.add_argument("--baseline-run-id", default="open3dsg_failure_generator_smoke")
+    parser.add_argument("--semantic-top-k", type=int, default=100)
+    parser.add_argument("--geometry-top-k", type=int, default=100)
     parser.add_argument("--smoke-test", action="store_true")
     return parser.parse_args()
 
@@ -110,6 +115,30 @@ def write_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:
         for row in rows:
             handle.write(json.dumps(row, sort_keys=True, separators=(",", ":"), ensure_ascii=False))
             handle.write("\n")
+
+
+def iter_jsonl(path: Path):
+    with path.open("r", encoding="utf-8") as handle:
+        for line_no, line in enumerate(handle, 1):
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                yield line_no, json.loads(line)
+            except json.JSONDecodeError as exc:
+                raise ValueError(f"invalid_jsonl:{path}:{line_no}") from exc
+
+
+def finite_float(value: Any) -> float | None:
+    if value is None:
+        return None
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return None
+    if not math.isfinite(number):
+        return None
+    return number
 
 
 def json_type(value: Any) -> str:
@@ -457,7 +486,13 @@ def assign_category(fixture: dict[str, Any]) -> tuple[str, str, list[str], str, 
     )
 
 
-def build_row(fixture: dict[str, Any]) -> dict[str, Any]:
+def build_row(
+    fixture: dict[str, Any],
+    *,
+    analysis_prefix: str = "smoke",
+    provenance_inputs: dict[str, str] | None = None,
+    provenance_notes: list[str] | None = None,
+) -> dict[str, Any]:
     category, severity, secondaries, assignment_rule, note = assign_category(fixture)
     predicate_label = str(fixture["predicate_label"])
     prediction_id = (
@@ -480,7 +515,7 @@ def build_row(fixture: dict[str, Any]) -> dict[str, Any]:
     return {
         "schema_version": SCHEMA_VERSION,
         "record_type": RECORD_TYPE,
-        "analysis_id": f"smoke:{prediction_id.replace(' ', '_')}",
+        "analysis_id": f"{analysis_prefix}:{prediction_id.replace(' ', '_')}",
         "source_prediction": {
             "prediction_id": prediction_id,
             "baseline_name": BASELINE_NAME,
@@ -550,13 +585,268 @@ def build_row(fixture: dict[str, Any]) -> dict[str, Any]:
                 "prediction_jsonl": "synthetic_smoke_fixture",
                 "geometry_jsonl": "synthetic_smoke_fixture",
                 "ground_truth_jsonl": "synthetic_smoke_fixture",
+                **(provenance_inputs or {}),
             },
-            "notes": [
+            "notes": (
+                provenance_notes + [note]
+                if provenance_notes is not None
+                else [
                 "Synthetic smoke row only; not metric evidence.",
                 note,
-            ],
+                ]
+            ),
         },
     }
+
+
+def prediction_family(row: dict[str, Any]) -> str:
+    return str(row.get("predicate", {}).get("predicate_family") or "unsupported_first_pass")
+
+
+def prediction_label(row: dict[str, Any]) -> str:
+    return str(row.get("predicate", {}).get("predicate_label") or "")
+
+
+def prediction_edge(row: dict[str, Any]) -> tuple[int, int]:
+    edge = row.get("edge", {})
+    return int(edge["subject_id"]), int(edge["object_id"])
+
+
+def gt_key(row: dict[str, Any]) -> tuple[str, int, int, int, str]:
+    return (
+        str(row["scan_id"]),
+        int(row["subset_split_id"]),
+        int(row["subject_id"]),
+        int(row["object_id"]),
+        str(row["predicate_label"]),
+    )
+
+
+def prediction_key(row: dict[str, Any]) -> tuple[str, int, int, int, str]:
+    subject_id, object_id = prediction_edge(row)
+    return (
+        str(row["scan_id"]),
+        int(row["subset_split_id"]),
+        subject_id,
+        object_id,
+        prediction_label(row),
+    )
+
+
+def pair_key(row: dict[str, Any]) -> tuple[str, int, int, int]:
+    subject_id, object_id = prediction_edge(row)
+    return (str(row["scan_id"]), int(row["subset_split_id"]), subject_id, object_id)
+
+
+def load_ground_truth(path: Path) -> dict[str, Any]:
+    exact: dict[tuple[str, int, int, int, str], list[str]] = {}
+    by_pair: dict[tuple[str, int, int, int], list[dict[str, Any]]] = {}
+    for _, row in iter_jsonl(path):
+        key = gt_key(row)
+        exact.setdefault(key, []).append(str(row.get("gt_id") or ""))
+        pair = (key[0], key[1], key[2], key[3])
+        by_pair.setdefault(pair, []).append(row)
+    return {"exact": exact, "by_pair": by_pair}
+
+
+def load_geometry(path: Path) -> dict[str, dict[str, Any]]:
+    records: dict[str, dict[str, Any]] = {}
+    for _, row in iter_jsonl(path):
+        prediction_id = str(row["prediction_id"])
+        calibration = row.get("calibration", {})
+        verification = row.get("verification", {})
+        records[prediction_id] = {
+            "verification_status": str(row.get("verification_status") or verification.get("verification_status")),
+            "p_geom_valid": finite_float(calibration.get("p_geom_valid")),
+            "consistency_score": finite_float(row.get("consistency_score")),
+            "reason_codes": [str(item) for item in verification.get("reason_codes", [])],
+            "geometry_available": bool(row.get("geometry", {}).get("geometry_available")),
+            "geometry_checkable": bool(verification.get("is_geometry_checkable")),
+            "geometry_source": verification.get("geometry_source") or row.get("geometry", {}).get("geometry_source"),
+        }
+    return records
+
+
+def match_ground_truth(prediction: dict[str, Any], gt: dict[str, Any]) -> tuple[str, list[str], list[str]]:
+    key = prediction_key(prediction)
+    exact_ids = gt["exact"].get(key, [])
+    if exact_ids:
+        return "exact_match", exact_ids, [key[4]]
+
+    pair_rows = gt["by_pair"].get(pair_key(prediction), [])
+    if not pair_rows:
+        return "no_gt_for_pair", [], []
+
+    family = prediction_family(prediction)
+    family_rows = [row for row in pair_rows if str(row.get("predicate_family")) == family]
+    if family_rows:
+        return (
+            "family_match",
+            [str(row.get("gt_id") or "") for row in family_rows],
+            [str(row.get("predicate_label")) for row in family_rows],
+        )
+    return (
+        "pair_has_other_predicate",
+        [str(row.get("gt_id") or "") for row in pair_rows],
+        [str(row.get("predicate_label")) for row in pair_rows],
+    )
+
+
+def topk_transition(semantic_rank: int | None, geometry_rank: int | None) -> str:
+    if semantic_rank is None or geometry_rank is None:
+        return "not_computed"
+    semantic50 = semantic_rank <= 50
+    geometry50 = geometry_rank <= 50
+    semantic100 = semantic_rank <= 100
+    geometry100 = geometry_rank <= 100
+    if semantic50 and geometry50:
+        return "stayed_in_topk"
+    if semantic50 and not geometry50:
+        return "demoted_out_of_top50"
+    if (not semantic50) and geometry50:
+        return "promoted_into_top50"
+    if semantic100 and geometry100:
+        return "stayed_in_topk"
+    if semantic100 and not geometry100:
+        return "demoted_out_of_top100"
+    if (not semantic100) and geometry100:
+        return "promoted_into_top100"
+    return "unchanged_outside_topk"
+
+
+def load_ranked_real_fixtures(
+    *,
+    predictions_path: Path,
+    geometry_path: Path,
+    ground_truth_path: Path,
+    split_name: str,
+    semantic_top_k: int,
+    geometry_top_k: int,
+) -> tuple[list[dict[str, Any]], dict[str, int], list[str]]:
+    geometry = load_geometry(geometry_path)
+    gt = load_ground_truth(ground_truth_path)
+    warnings: list[str] = []
+    groups: dict[str, list[dict[str, Any]]] = {}
+    total_predictions = 0
+    in_scope_predictions = 0
+    missing_geometry = 0
+
+    for _, row in iter_jsonl(predictions_path):
+        total_predictions += 1
+        family = prediction_family(row)
+        if family not in TARGET_FAMILIES:
+            continue
+        in_scope_predictions += 1
+        prediction_id = str(row["prediction_id"])
+        geom = geometry.get(prediction_id)
+        if geom is None:
+            missing_geometry += 1
+            continue
+        semantic_score = finite_float(row.get("scores", {}).get("ranking_score"))
+        if semantic_score is None:
+            semantic_score = finite_float(row.get("scores", {}).get("predicate_score"))
+        if semantic_score is None:
+            warnings.append(f"missing_semantic_score:{prediction_id}")
+            continue
+        p_geom_valid = geom.get("p_geom_valid")
+        geometry_score = semantic_score * p_geom_valid if p_geom_valid is not None else semantic_score
+        record = {
+            "prediction": row,
+            "geometry": geom,
+            "semantic_score": semantic_score,
+            "geometry_score": geometry_score,
+            "semantic_rank": None,
+            "geometry_rank": None,
+        }
+        groups.setdefault(str(row["subgraph_id"]), []).append(record)
+
+    selected: dict[str, dict[str, Any]] = {}
+    for subgraph_id, rows in groups.items():
+        rows.sort(
+            key=lambda item: (
+                -float(item["semantic_score"]),
+                int(item["prediction"]["edge"]["subject_id"]),
+                int(item["prediction"]["edge"]["object_id"]),
+                prediction_label(item["prediction"]),
+            )
+        )
+        for rank, item in enumerate(rows, 1):
+            item["semantic_rank"] = rank
+            if rank <= semantic_top_k:
+                selected[str(item["prediction"]["prediction_id"])] = item
+        rows.sort(
+            key=lambda item: (
+                -float(item["geometry_score"]),
+                int(item["prediction"]["edge"]["subject_id"]),
+                int(item["prediction"]["edge"]["object_id"]),
+                prediction_label(item["prediction"]),
+            )
+        )
+        for rank, item in enumerate(rows, 1):
+            item["geometry_rank"] = rank
+            if rank <= geometry_top_k:
+                selected[str(item["prediction"]["prediction_id"])] = item
+        if not rows:
+            warnings.append(f"empty_in_scope_subgraph:{subgraph_id}")
+
+    fixtures: list[dict[str, Any]] = []
+    for prediction_id in sorted(selected):
+        item = selected[prediction_id]
+        prediction = item["prediction"]
+        geom = item["geometry"]
+        subject_id, object_id = prediction_edge(prediction)
+        match_status, matched_gt_ids, matched_predicates = match_ground_truth(prediction, gt)
+        edge = prediction.get("edge", {})
+        semantic_rank = int(item["semantic_rank"])
+        geometry_rank = int(item["geometry_rank"])
+        fixtures.append(
+            {
+                "baseline_name": BASELINE_NAME,
+                "baseline_run_id": str(prediction.get("baseline_run_id") or ""),
+                "split_name": split_name,
+                "scan_id": str(prediction["scan_id"]),
+                "subgraph_id": str(prediction["subgraph_id"]),
+                "subject_id": subject_id,
+                "object_id": object_id,
+                "subject_label": edge.get("subject_label"),
+                "object_label": edge.get("object_label"),
+                "predicate_label": prediction_label(prediction),
+                "predicate_family": prediction_family(prediction),
+                "semantic_score": item["semantic_score"],
+                "semantic_rank_in_subgraph": semantic_rank,
+                "predicate_rank_for_pair": prediction.get("ranks", {}).get("predicate_rank_for_pair"),
+                "match_status": match_status,
+                "matched_gt_ids": matched_gt_ids,
+                "matched_predicates": matched_predicates,
+                "in_h001_denominator": True,
+                "geometry_source": geom.get("geometry_source"),
+                "geometry_available": bool(geom.get("geometry_available")),
+                "geometry_checkable": bool(geom.get("geometry_checkable")),
+                "verification_status": geom.get("verification_status") or "missing_geometry",
+                "p_geom_valid": geom.get("p_geom_valid"),
+                "consistency_score": geom.get("consistency_score"),
+                "reason_codes": geom.get("reason_codes") or [],
+                "semantic_rank": semantic_rank,
+                "geometry_rank": geometry_rank,
+                "delta_rank": geometry_rank - semantic_rank,
+                "topk_transition": topk_transition(semantic_rank, geometry_rank),
+                "vlsat_same_pair_status": "not_joined",
+                "vlsat_prediction_id": None,
+                "heldout_leakage_guard": True,
+                "identity_preserved": True,
+                "metric_eligible": True,
+                "preprocessing_limitation": False,
+            }
+        )
+
+    counts = {
+        "total_predictions": total_predictions,
+        "in_scope_predictions": in_scope_predictions,
+        "missing_geometry_for_in_scope": missing_geometry,
+        "selected_rows": len(fixtures),
+        "selected_subgraphs": len(groups),
+    }
+    return fixtures, counts, sorted(set(warnings))
 
 
 def validate_rows(rows: list[dict[str, Any]], schema: dict[str, Any], taxonomy: dict[str, Any]) -> list[str]:
@@ -580,7 +870,7 @@ def validate_rows(rows: list[dict[str, Any]], schema: dict[str, Any], taxonomy: 
     return errors
 
 
-def summarize(rows: list[dict[str, Any]], status: str) -> dict[str, Any]:
+def summarize(rows: list[dict[str, Any]], status: str, source: str = "synthetic_smoke_fixtures") -> dict[str, Any]:
     by_primary = Counter(row["failure_taxonomy"]["primary_category"] for row in rows)
     by_claim = Counter(row["failure_taxonomy"]["claim_use"] for row in rows)
     by_family = Counter(row["source_prediction"]["predicate_family"] for row in rows)
@@ -590,7 +880,7 @@ def summarize(rows: list[dict[str, Any]], status: str) -> dict[str, Any]:
     return {
         "schema_version": SUMMARY_SCHEMA_VERSION,
         "status": status,
-        "source": "synthetic_smoke_fixtures",
+        "source": source,
         "row_count": len(rows),
         "metric_eligible_count": eligible_count,
         "visual_audit_queue_count": audit_count,
@@ -655,7 +945,7 @@ def render_report(manifest: dict[str, Any], summary: dict[str, Any]) -> str:
             ]
         )
     else:
-        lines.append("Real generation is blocked until all runtime inputs exist.")
+        lines.append("Rows are generated from real Open3DSG prediction, GT, geometry, and metric artifacts.")
     lines.extend(
         [
             "",
@@ -679,7 +969,11 @@ def render_report(manifest: dict[str, Any], summary: dict[str, Any]) -> str:
             "",
             "## Claim Boundary",
             "",
-            "These rows are contract/implementation smoke evidence only until regenerated from a reproduced Open3DSG checkpoint, identity-preserving raw dump, H001 prediction JSONL, geometry join, and metric run.",
+            (
+                "These rows are diagnostic evidence from reproduced Open3DSG outputs. They support failure taxonomy and qualitative sampling, not a broader claim beyond the measured H001-family metric scope."
+                if manifest["mode"] != "synthetic_smoke"
+                else "These rows are contract/implementation smoke evidence only until regenerated from a reproduced Open3DSG checkpoint, identity-preserving raw dump, H001 prediction JSONL, geometry join, and metric run."
+            ),
             "",
         ]
     )
@@ -735,11 +1029,77 @@ def main() -> int:
             blocked_outputs(repo_root, out_dir, schema_dir, resolved_inputs, missing_inputs, created_at)
             print(json.dumps({"status": BLOCKED_STATUS, "missing_inputs": missing_inputs}, sort_keys=True))
             return 1
-        status = "blocked_real_generation_not_implemented"
-        errors = ["real_generation_requires_explicit_join_contract_freeze_after_open3dsg_metrics_exist"]
-        blocked_outputs(repo_root, out_dir, schema_dir, resolved_inputs, errors, created_at, status=status)
-        print(json.dumps({"status": status, "errors": errors}, sort_keys=True))
-        return 1
+        metrics = load_json(resolved_inputs["metrics_json"])
+        if metrics.get("status") != "ready" or metrics.get("blocked"):
+            errors = [f"metrics_not_ready:{metrics.get('status')}:{metrics.get('blocked')}"]
+            blocked_outputs(repo_root, out_dir, schema_dir, resolved_inputs, errors, created_at, status="blocked_metrics_not_ready")
+            print(json.dumps({"status": "blocked_metrics_not_ready", "errors": errors}, sort_keys=True))
+            return 1
+        fixtures, real_counts, warnings = load_ranked_real_fixtures(
+            predictions_path=resolved_inputs["predictions_jsonl"],
+            geometry_path=resolved_inputs["geometry_jsonl"],
+            ground_truth_path=resolved_inputs["ground_truth_jsonl"],
+            split_name=args.split_name,
+            semantic_top_k=args.semantic_top_k,
+            geometry_top_k=args.geometry_top_k,
+        )
+        provenance_inputs = {
+            "prediction_jsonl": relpath(repo_root, resolved_inputs["predictions_jsonl"]) or "",
+            "geometry_jsonl": relpath(repo_root, resolved_inputs["geometry_jsonl"]) or "",
+            "ground_truth_jsonl": relpath(repo_root, resolved_inputs["ground_truth_jsonl"]) or "",
+            "metrics_json": relpath(repo_root, resolved_inputs["metrics_json"]) or "",
+        }
+        provenance_notes = [
+            "Real Open3DSG row generated after metric eval status ready.",
+            "Rows are selected from semantic top-k or geometry-reranked top-k candidates per subgraph.",
+        ]
+        rows = [
+            build_row(
+                fixture,
+                analysis_prefix="open3dsg_real",
+                provenance_inputs=provenance_inputs,
+                provenance_notes=provenance_notes,
+            )
+            for fixture in fixtures
+        ]
+        errors = validate_rows(rows, schema, taxonomy)
+        status = "failure_analysis_real_ready" if not errors else "blocked_failure_analysis_real_validation_errors"
+        summary = summarize(rows, status, source="real_open3dsg_metric_joins")
+        outputs = {
+            "rows_jsonl": relpath(repo_root, out_dir / "rows.jsonl"),
+            "summary_json": relpath(repo_root, out_dir / "summary.json"),
+            "manifest_json": relpath(repo_root, out_dir / "manifest.json"),
+            "report_md": relpath(repo_root, out_dir / "report.md"),
+        }
+        manifest = {
+            "schema_version": MANIFEST_SCHEMA_VERSION,
+            "created_at": created_at,
+            "status": status,
+            "mode": "runtime_generation",
+            "runtime_policy": "real rows from frozen Open3DSG prediction/GT/geometry/metric artifacts; taxonomy unchanged",
+            "schema_dir": relpath(repo_root, schema_dir),
+            "inputs": {name: relpath(repo_root, path) for name, path in resolved_inputs.items()},
+            "outputs": outputs,
+            "selection": {
+                "semantic_top_k": args.semantic_top_k,
+                "geometry_top_k": args.geometry_top_k,
+                "policy": "union of semantic top-k and probabilistic geometry-reranked top-k per subgraph",
+            },
+            "counts": {
+                **real_counts,
+                "locked_primary_categories": len(taxonomy_categories(taxonomy)),
+                "real_primary_categories": len(summary["by_primary_category"]),
+            },
+            "summary": summary,
+            "validation": {"errors": errors, "warnings": warnings},
+            "next_action": "Sample representative qualitative cases from rows with needs_visual_audit=true and high-severity categories.",
+        }
+        write_jsonl(out_dir / "rows.jsonl", rows)
+        write_json(out_dir / "summary.json", summary)
+        write_json(out_dir / "manifest.json", manifest)
+        (out_dir / "report.md").write_text(render_report(manifest, summary), encoding="utf-8")
+        print(json.dumps({"status": status, "out": relpath(repo_root, out_dir), "rows": len(rows), "errors": len(errors)}, sort_keys=True))
+        return 0 if not errors else 1
 
     rows = [build_row(fixture) for fixture in smoke_fixtures(args.split_name, args.baseline_run_id)]
     errors = validate_rows(rows, schema, taxonomy)

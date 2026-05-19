@@ -219,4 +219,4 @@ Hypothesis 문서를 갱신한 에이전트는 아래를 함께 확인한다.
 
 - Candidate: `CAND-001`
 - Hypothesis: `H001 Geometry-grounded verification of open-vocabulary 3DSSG relations`
-- Status: H001 hypothesis-stage evidence, scoped main experiment spec, and Docker `VL-SAT` table/report reproduction are complete; active notes are consolidated into `01_overview.md` through `07_experiment_spec.md`; active experiment root is `experiments/H001_geom_reliability/`; current gate is Dockerized Open3DSG official feature dump restart/monitoring under the hardened resume policy before checkpoint reproduction.
+- Status: H001 hypothesis-stage evidence, scoped main experiment spec, Docker `VL-SAT` table/report reproduction, Docker-reproduced Open3DSG second-source metrics, clean v14 Open3DSG streaming raw-dump provenance, Open3DSG qualitative case inspection, and Open3DSG paper caveat wording are complete; active notes are consolidated into `01_overview.md` through `07_experiment_spec.md`; active experiment root is `experiments/H001_geom_reliability/`; current gate is user decision to proceed toward paper/experiment writing or add optional extension evidence first.

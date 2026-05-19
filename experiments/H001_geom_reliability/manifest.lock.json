@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-05-10T08:03:16.913356+00:00",
+  "created_at_utc": "2026-05-19T04:01:41.900025+00:00",
   "expected_counts": {
     "directed_pairs": 25916,
     "ground_truth_rows": 7505,
@@ -98,18 +98,15 @@
   "method_framing": "calibrated geometry-consistency evaluation and re-ranking framework",
   "schema_version": "h001_geom_reliability_experiment_v1",
   "source_status": {
-    "open3dsg": "blocked_until_open3dsg_metrics_ready",
+    "open3dsg": "ready",
     "vlsat": "ready_locked_artifact_reproduction"
   },
   "status": "ready",
   "table6_hook": {
-    "blocked": [
-      "predictions_jsonl:missing_required:experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl",
-      "geometry_jsonl:missing_required:experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl"
-    ],
+    "blocked": [],
     "in_scope_gt_denominator": 2545,
-    "metric_contract_status": "blocked_runtime_inputs_missing",
+    "metric_contract_status": "ready",
     "metric_scope_status": "metric_scope_policy_ready_no_metric_execution",
-    "open3dsg_status": "blocked_until_open3dsg_metrics_ready"
+    "open3dsg_status": "ready"
   }
 }

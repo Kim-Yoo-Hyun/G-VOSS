@@ -1,6 +1,6 @@
 # Experiment Spec
 
-Last updated: 2026-05-10
+Last updated: 2026-05-19
 
 ## Role
 
@@ -27,20 +27,21 @@ Fact:
   validation scope.
 - G3 controls, structured audit, reduced visual sanity check, and GT-based
   verifier evaluation are complete.
-- Baseline-agnostic and broad open-vocabulary claims remain blocked.
-- The selected top-tier reproduction path is Open3DSG second-source adapter
-  evidence from a Docker-reproduced checkpoint.
+- Arbitrary-baseline and broad open-vocabulary generation claims remain
+  blocked beyond measured `VL-SAT` + Open3DSG H001-family evidence.
+- The selected top-tier reproduction path produced Open3DSG second-source
+  adapter evidence from a Docker-reproduced checkpoint.
 - The Open3DSG failure-analysis taxonomy is locked before metric/failure
   inspection and must not be changed after seeing Open3DSG failures without a
   schema version bump.
 - The Open3DSG failure-analysis row generator skeleton has a Docker synthetic
   smoke output with 6 rows, 6 primary categories, and 0 validation errors. This
   is contract evidence only, not Open3DSG metric evidence.
-- The Open3DSG metric/join runner contract has a Docker blocked-input output
-  with `input_contract.json`, `output_contract.json`, `metrics.json`,
-  `manifest.json`, `commands.md`, and `report.md`. Current status is
-  `blocked_runtime_inputs_missing` because real Open3DSG prediction JSONL and
-  geometry verification JSONL are missing; H001 GT JSONL is present.
+- The Open3DSG metric/join runner contract has Docker outputs with
+  `input_contract.json`, `output_contract.json`, `metrics.json`,
+  `manifest.json`, `commands.md`, and `report.md`. Real Open3DSG prediction
+  JSONL, H001 GT JSONL, and geometry verification JSONL are now present; real
+  metrics are stored under `experiments/H001_geom_reliability/sources/open3dsg/metrics/`.
 - The Open3DSG checkpoint provenance/selection policy has a Docker template
   output under `checkpoint_selection/`. It freezes the primary-selection rule
   before checkpoint inspection and forbids using H001 held-out metrics,
@@ -53,9 +54,9 @@ Fact:
   It freezes predicate-family mapping, exact-label recall matching, the 2,545
   row in-scope GT denominator, and filtered-train/covered-scope caveats before
   real metric execution.
-- Docker table builder has a Table 6 hook that reads this contract and keeps
-  Open3DSG Table 6 blocked until `metrics.json` status is `ready`, condition
-  metrics are nonempty, and blockers are empty.
+- Docker table builder has a Table 6 hook that reads the real Open3DSG metrics
+  and now marks Table 6 ready with no blockers, scoped to measured H001
+  families.
 - A modern-VLM semantic-source extension using `Qwen2.5-VL` or `Qwen3-VL` is
   allowed as an additional trend-aligned experiment track, not as a replacement
   for the Open3DSG reproduction anchor.
@@ -64,8 +65,8 @@ Fact:
   `ebb281ec70b05090aa6165b016eac8ec08e71b17`, with local-dir
   `local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17`.
 - The Qwen-VL tiny pilot has 30/30 rendered pair crops after shared-view
-  selection gating. This is a runtime-input artifact only; no Qwen model
-  download or inference has started.
+  selection gating. This is a runtime-input artifact only; Qwen3-VL-4B model
+  cache verification is ready, but runtime preflight/inference has not started.
 - Robotics/functionality benchmarks such as `SceneFun3D` and `FunGraph3D` are
   relevant expansion targets for functional 3D scene graph reliability, but
   they change the claim from spatial relation reliability to functional or
@@ -73,11 +74,11 @@ Fact:
 
 Inference:
 
-- H001 can enter an experiment implementation phase if scoped as a
-  `VL-SAT`-centered geometry-consistency reliability layer.
-- Stopping at the scoped claim is acceptable as a fallback, but the preferred
-  top-tier path is to add second-source evidence rather than rely only on a
-  single-baseline justification.
+- H001 has entered the Docker experiment implementation phase with measured
+  `VL-SAT` + Open3DSG evidence.
+- The preferred top-tier claim should be cross-source but scoped: measured
+  H001-family geometry-consistency reliability, not broad open-vocabulary 3DSSG
+  generation improvement.
 
 ## Paper Experiment Strategy
 
@@ -86,7 +87,7 @@ The paper strategy is layered, not a single benchmark replacement.
 | Layer | Role | Benchmark / Source | Claim enabled |
 | --- | --- | --- | --- |
 | Main anchor | 3DSSG relation reliability | `3DSSG` / 3RScan with `VL-SAT` | scoped reliability-layer result |
-| Reproduction anchor | cross-predictor 3DSSG evidence | Docker-reproduced `Open3DSG` on `3DSSG` / 3RScan | baseline-agnostic trend within measured 3DSSG relation families |
+| Reproduction anchor | cross-source 3DSSG evidence | Docker-reproduced `Open3DSG` on `3DSSG` / 3RScan | measured reliability trend within H001 relation families |
 | Modern semantic source | trend-aligned VLM evidence | `Qwen2.5-VL` or `Qwen3-VL` object-pair adapter | modern open-vocabulary semantic-source reliability |
 | Robotics/functionality expansion | optional broader application | `SceneFun3D` / `FunGraph3D` | functional or affordance relation reliability |
 
@@ -112,15 +113,14 @@ reducing geometry-inconsistent top-k predictions while preserving or improving
 useful recall.
 ```
 
-Required caveat:
+Fallback caveat:
 
 ```text
-This is a VL-SAT-centered reliability-layer result with a reduced 50-row visual
-sanity check, not a final baseline-agnostic or broad open-vocabulary 3DSSG
-claim.
+The VL-SAT-only result is a fallback reliability-layer result with a reduced
+50-row visual sanity check, not a broad open-vocabulary 3DSSG claim.
 ```
 
-Preferred top-tier claim after second-source validation:
+Preferred current top-tier claim:
 
 ```text
 Across reproduced VL-SAT and Open3DSG prediction sources, calibrated
@@ -128,9 +128,16 @@ geometry-consistency re-ranking improves relation reliability for
 geometry-checkable 3DSSG families while preserving useful recall.
 ```
 
-This upgraded claim is blocked until Open3DSG checkpoint reproduction, raw dump,
-JSONL export, geometry verification JSONL, metric evaluation, and locked-schema
-failure-analysis rows are complete.
+This upgraded claim is now enabled only within the measured H001 families and
+closed-set/GT-object setting because Open3DSG checkpoint reproduction, raw
+dump, JSONL export, geometry verification JSONL, metric evaluation, and
+locked-schema failure-analysis rows are complete. It must retain filtered-train,
+averaged-BLIP, covered-scope, exact-label denominator, residual calibration
+risk, and `validation_missing_preprocessed:11` caveats.
+Clean v14 streaming raw-dump provenance is available; earlier exit-137 attempts
+remain historical run records.
+The paper-facing Open3DSG caveat wording is frozen under
+`experiments/H001_geom_reliability/sources/open3dsg/paper_caveats/`.
 
 Preferred modern-VLM extension claim after Qwen-VL validation:
 
@@ -298,7 +305,7 @@ Audit metrics:
 | Table 3 | GT-based verifier evaluation |
 | Table 4 | structured audit and reduced visual sanity check |
 | Table 5 | source-specific claim boundary and blocked extensions |
-| Table 6 | cross-source result, currently blocked by the Open3DSG metric-contract hook until real Open3DSG metric evidence exists |
+| Table 6 | cross-source result; Open3DSG hook is now ready for measured H001-family evidence, with broader claims still blocked |
 | Table 7 | optional modern-VLM semantic-source result, added only after Qwen-VL adapter metric evidence exists |
 | Table 8 | optional functional/robotics benchmark result, added only after SceneFun3D/FunGraph3D protocol evidence exists |
 
@@ -398,7 +405,8 @@ E4 experiment report:
 
 - separate `Fact`, `Inference`, and `Claim boundary`;
 - include exact commands and artifact paths;
-- state that the experiment is scoped to `VL-SAT`.
+- state that the experiment is scoped to measured H001 families across `VL-SAT`
+  and Open3DSG, not broad open-vocabulary 3DSSG generation.
 
 E5 optional extension gate:
 
@@ -407,13 +415,10 @@ E5 optional extension gate:
   requires cross-predictor evidence;
 - use the pre-locked Open3DSG failure-analysis schema under
   `experiments/H001_geom_reliability/sources/open3dsg/failure_analysis/`;
-- after a checkpoint exists, run identity-preserving raw dump, prediction JSONL
-  export, geometry join, and the same metric suite;
-- after metrics exist, generate failure-analysis rows conforming to
-  `schema.json` without changing `taxonomy.json`;
-- the current `open3dsg_failure_generator_smoke` output is synthetic-only and
-  should be replaced by real prediction/GT/geometry/metric joins after the
-  Open3DSG checkpoint path exists;
+- Open3DSG checkpoint, identity-preserving raw dump, prediction JSONL export,
+  geometry join, metric suite, real failure-analysis rows, and qualitative case
+  queue are now ready;
+- retain the frozen Open3DSG caveat wording from `paper_caveats/`;
 - keep FROSS as a support/contact-only fallback smoke source, not the main
   second-source path.
 
@@ -421,11 +426,12 @@ E6 optional modern-VLM semantic-source gate:
 
 - Qwen-VL is an additional trend-aligned semantic-source track, not the
   Open3DSG reproduction anchor;
-- current contract-only status: frozen input JSON Schema, output JSONL
+- current contract/cache status: frozen input JSON Schema, output JSONL
   contract, Docker validator/parser skeleton, 30-row non-held-out tiny pilot
   scope, and 30/30 rendered pair crops are ready under
-  `experiments/H001_geom_reliability/sources/qwen_vl/`; no model download,
-  inference, or metric evidence exists yet;
+  `experiments/H001_geom_reliability/sources/qwen_vl/`; Qwen3-VL-4B model
+  cache verification is ready; runtime preflight, inference, and metric
+  evidence do not exist yet;
 - current runtime plan status is
   `runtime_plan_ready_no_model_download_no_inference`; context frames,
   object2image metadata, and pair crops exist for 30/30 tiny pilot rows;
@@ -469,18 +475,19 @@ The scoped experiment phase is ready for paper drafting only if:
 - all required tables are generated from locked artifacts;
 - qualitative examples have traceable source rows;
 - report wording stays within the allowed scoped claim;
-- baseline-agnostic and broad open-vocabulary blockers remain explicit unless
-  new second-source metric evidence is added.
+- broad open-vocabulary generation blockers remain explicit unless new
+  metric-bearing source/task evidence is added.
 
 The preferred top-tier phase is ready only if, in addition:
 
-- Open3DSG checkpoint reproduction is Docker-documented or replaced by a
-  trusted externally supplied checkpoint with provenance;
+- Open3DSG checkpoint reproduction is Docker-documented;
 - Open3DSG raw outputs preserve scan/subgraph/object-pair identity;
 - Open3DSG prediction JSONL, geometry join, and metric tables are generated by
   documented Docker commands;
 - Open3DSG failure-analysis rows are generated from the locked schema and
   taxonomy designed before metric inspection;
+- filtered-train, averaged-BLIP, covered-scope, residual calibration risk, and
+  `validation_missing_preprocessed:11` caveats are visible through `paper_caveats/`;
 - cross-predictor claims are limited to measured predicate families.
 
 The optional modern-VLM phase is ready only if, in addition:
@@ -509,9 +516,8 @@ The optional robotics/functionality phase is ready only if, in addition:
 User judgment needed:
 
 ```text
-Enter Docker-based H001 experiment workflow with VL-SAT table reproduction
-first, then add Dockerized Open3DSG checkpoint reproduction as the selected
-second-source expansion.
+Proceed toward paper drafting with the Docker-generated VL-SAT and Open3DSG
+measured H001-family evidence, after final Open3DSG caveat wording.
 ```
 
 Optional follow-up judgment:

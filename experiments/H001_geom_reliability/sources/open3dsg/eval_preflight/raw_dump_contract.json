@@ -16,5 +16,5 @@
     "predicate_scores[].score"
   ],
   "schema_version": "h001_open3dsg_raw_dump_v1",
-  "status": "contract_ready_raw_dump_missing"
+  "status": "raw_dump_present"
 }

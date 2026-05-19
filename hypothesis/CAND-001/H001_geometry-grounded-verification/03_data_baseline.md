@@ -1,6 +1,6 @@
 # Data And Baseline
 
-Last updated: 2026-05-07
+Last updated: 2026-05-19
 
 ## Role
 
@@ -53,7 +53,9 @@ Reason:
 Claim boundary:
 
 ```text
-VL-SAT-centered reliability evidence, not baseline-agnostic evidence.
+VL-SAT is the primary locked source. Open3DSG now provides measured second-source
+evidence for H001 families, but broad open-vocabulary 3DSSG generation claims
+remain out of scope.
 ```
 
 ## Staged Runtime Roots

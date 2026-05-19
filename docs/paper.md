@@ -1,6 +1,6 @@
 # Paper Workflow
 
-Last updated: 2026-05-14
+Last updated: 2026-05-19
 
 This document manages paper-level framing for H001/CAND-001: novelty, contribution boundary, reviewer-defense logic, and the minimum experiment evidence needed before paper writing. It does not replace `docs/hypothesis.md`, `07_experiment_spec.md`, or Docker experiment artifacts.
 
@@ -29,7 +29,7 @@ Draft:
 
 > Semantic relation predictors can rank plausible 3D Scene Graph relations without calibrating them to relation-level physical consistency; calibrated geometry-consistency scoring exposes this failure mode and re-ranks predictions to reduce geometric violations while making recall tradeoffs measurable.
 
-This is the preferred direction because it contains both cause diagnosis and method principle. The wording should still be tightened after Open3DSG second-source metrics are available.
+This is the preferred direction because it contains both cause diagnosis and method principle. Open3DSG second-source metrics are now available, so the paper wording should stay scoped to measured H001 families rather than broaden to full open-vocabulary 3DSSG generation.
 
 ## H001 Fit To Top-Tier Pattern
 
@@ -37,14 +37,17 @@ Facts:
 
 - H001 already has a concrete failure target: geometry-checkable relation families such as `support_contact`, `proximity`, and `relative_vertical`.
 - Hypothesis-stage `VL-SAT` evidence includes semantic-only vs calibrated geometry variants, family-specific controls, evidence lock, GT-based verifier evaluation, and a reduced visual sanity check.
-- The Open3DSG path is in progress as second-source evidence. Full Open3DSG metrics, checkpoint provenance, raw-dump identity checks, and failure-analysis tables are not complete yet.
+- The Open3DSG path is now second-source evidence: Docker checkpoint reproduction, raw-dump identity, adapter export, geometry join, metric eval, Table 6, real failure rows, qualitative case queue, and deterministic qualitative inspection are ready.
+- Open3DSG qualitative inspection shows both support and limits: 23/36 sampled cases are demoted by geometry-aware reranking, while 10/36 are rule-violated but still have `p_geom_valid > 0.9`. This must be framed as residual calibration risk, not hidden.
+- Open3DSG has clean raw-dump source-process provenance via v14 streaming same-path resume. It remains caveated by filtered train split, averaged-BLIP variant, covered loadable scope, and `validation_missing_preprocessed:11`; earlier exit-137 attempts are historical run records, not final raw-dump provenance caveats.
+- Open3DSG paper caveat wording is frozen in `experiments/H001_geom_reliability/sources/open3dsg/paper_caveats/`: filtered train 3,744/3,852 subgraphs, train-dev validation 156/160 subgraphs, H001 covered loadable scope 377/388 contexts, averaged-BLIP variant, exact-label 2,545-row denominator, and residual calibration risk.
 - Qwen-VL is currently an optional modern semantic-source extension, not the main baseline replacement.
 
 Inference:
 
 - The direction is aligned with the top-tier pattern if the paper is framed around failure mechanism plus calibrated geometry-consistency, not around a verifier script.
 - The current evidence is stronger than a motivation-only project because it already has scoped metrics, controls, and audit artifacts.
-- The top-tier risk remains real until second-source Open3DSG results and failure taxonomy are completed. Without them, the paper may be attacked as a single-baseline reliability tool rather than a general 3DSSG contribution.
+- The top-tier risk has shifted from "single-baseline only" to claim scope and denominator transparency: reviewers may accept measured cross-source reliability evidence, but can still attack broad open-vocabulary wording, filtered denominator handling, averaged-BLIP route, and covered-scope caveats.
 
 User judgment needed:
 
@@ -71,6 +74,7 @@ Required defense:
 - Report recall and violation metrics together.
 - Keep denominator and filtered-split caveats visible in every table using Open3DSG.
 - Use Open3DSG as second-source evidence before broad claims.
+- Report residual calibration-risk cases separately from rule-verified results.
 - Treat Qwen-VL as optional semantic-source extension unless it receives the same Docker, metric, and audit treatment.
 
 ## Main Paper Evidence Checklist
@@ -94,13 +98,13 @@ Do not claim these until evidence exists:
 - Baseline-agnostic improvement across arbitrary relation predictors.
 - Qwen-VL as a replacement main baseline.
 - Geometry rules as universally correct relation semantics.
-- Full Open3DSG reproducibility until checkpoint, feature dump, metric join, and raw identity checks pass.
+- Full open-vocabulary 3DSSG improvement beyond measured H001 families.
+- Exact non-averaged BLIP Open3DSG route; current evidence uses an explicitly labeled averaged-BLIP variant.
 
 ## Next Paper-Framing Step
 
-After Open3DSG feature dump and training/metric transition finish, update this document with:
-
-- The final H001 one-liner.
-- The exact Open3DSG second-source table status.
-- Which reviewer attacks are resolved by evidence and which remain as limitations.
-- Whether the paper should target a scoped reliability-layer claim or a broader open-vocabulary 3DSSG improvement claim.
+- Use `paper/preview.md` as the paper-writing handoff.
+- Draft the paper outline and contribution statements from the measured cross-source reliability claim.
+- Use the frozen Open3DSG caveat wording in Table 6 and failure-analysis text.
+- Keep clean v14 streaming source-process provenance separate from historical exit-137 run records in reproducibility wording.
+- Keep Qwen-VL as optional extension evidence unless it receives the same Docker, metric, and audit treatment.

@@ -1,6 +1,6 @@
 # Overview
 
-Last updated: 2026-05-07
+Last updated: 2026-05-19
 
 ## Role
 
@@ -94,17 +94,19 @@ Facts:
 
 Inference:
 
-- H001 is ready to enter a scoped `VL-SAT`-centered experiment phase if the user
-  chooses to proceed.
-- The preferred top-tier path is not a single-baseline-only justification; it is
-  to add Open3DSG as a second prediction source after Dockerized checkpoint
-  reproduction.
-- It is not ready for baseline-agnostic or broad open-vocabulary claims until
-  Open3DSG raw dump, JSONL export, geometry join, and metric evidence exist.
+- H001 has entered the Docker experiment phase and now has measured cross-source
+  evidence from `VL-SAT` and Open3DSG within H001 families.
+- The preferred top-tier path is no longer single-baseline-only; Open3DSG
+  second-source metric and failure-analysis evidence exists, with clean v14
+  streaming raw-dump provenance and frozen paper caveats for filtered-train,
+  averaged-BLIP, covered-scope, residual calibration risk, and
+  `validation_missing_preprocessed:11`.
+- It is not ready for broad open-vocabulary 3DSSG generation claims beyond the
+  measured H001-family closed-set/GT-object setting.
 
 ## Allowed Claim
 
-Allowed scoped claim:
+Allowed scoped fallback claim:
 
 ```text
 On reproduced VL-SAT 3DSSG predictions, geometry-calibrated relation
@@ -116,17 +118,26 @@ useful recall.
 Required caveat:
 
 ```text
-This is a VL-SAT-centered reliability-layer result with a reduced 50-row visual
-sanity check, not a final baseline-agnostic or broad open-vocabulary 3DSSG
-claim.
+The VL-SAT-only result is a fallback reliability-layer result with a reduced
+50-row visual sanity check, not a broad open-vocabulary 3DSSG claim.
 ```
 
-Preferred upgraded claim after second-source evidence:
+Preferred current claim:
 
 ```text
 Across reproduced VL-SAT and Open3DSG prediction sources, calibrated
 geometry-consistency re-ranking improves relation reliability for
 geometry-checkable 3DSSG families while preserving useful recall.
+```
+
+Required current caveat:
+
+```text
+This cross-source claim is limited to measured H001 families and closed-set /
+GT-object evaluation, with the frozen Open3DSG paper caveats for filtered-train,
+averaged-BLIP, covered-scope, residual calibration risk, and
+validation_missing_preprocessed:11. Earlier exit-137 attempts are historical
+run records, not final raw-dump provenance caveats.
 ```
 
 Not allowed:
@@ -146,13 +157,12 @@ The method is already baseline-agnostic across 3DSSG predictors.
 User decision needed:
 
 ```text
-Enter Docker-based H001 experiment workflow with VL-SAT table reproduction
-first, then add Dockerized Open3DSG checkpoint reproduction as the selected
-second-source expansion.
+Proceed from Docker-generated VL-SAT and Open3DSG measured H001-family
+evidence toward paper drafting, or add optional extension evidence first.
 ```
 
-If the experiment phase is entered, paper-body experiment implementation must
-be Docker-based and should start from the root proposed in `07_experiment_spec.md`:
+Paper-body experiment implementation must stay Docker-based and remain under
+the active root proposed in `07_experiment_spec.md`:
 
 ```text
 experiments/H001_geom_reliability/

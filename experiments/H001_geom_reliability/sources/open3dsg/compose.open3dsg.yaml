@@ -6,6 +6,7 @@ services:
     image: h001-open3dsg-repro:cu128
     working_dir: /workspace
     user: "${UID:-1000}:${GID:-1000}"
+    shm_size: "${OPEN3DSG_SHM_SIZE:-16gb}"
     environment:
       OPEN3DSG_HOME: /workspace
       OPEN3DSG_BASE: /workspace/local_dataset/Open3DSG_staged/training_repro
@@ -309,8 +310,15 @@ services:
       OPEN3DSG_CHECKPOINT: ${OPEN3DSG_CHECKPOINT:-}
       OPEN3DSG_FEATURE_LOAD_DIR: ${OPEN3DSG_FEATURE_LOAD_DIR:-/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3}
       OPEN3DSG_RAW_DUMP_JSONL: ${OPEN3DSG_RAW_DUMP_JSONL:-/workspace/experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl}
+      OPEN3DSG_RAW_DUMP_EXIT_AFTER_WRITE: ${OPEN3DSG_RAW_DUMP_EXIT_AFTER_WRITE:-0}
+      OPEN3DSG_RAW_DUMP_STREAM_BATCHES: ${OPEN3DSG_RAW_DUMP_STREAM_BATCHES:-0}
+      OPEN3DSG_RAW_DUMP_RESUME: ${OPEN3DSG_RAW_DUMP_RESUME:-0}
+      OPEN3DSG_RAW_DUMP_COMPLETED_JSONL: ${OPEN3DSG_RAW_DUMP_COMPLETED_JSONL:-}
+      OPEN3DSG_RAW_DUMP_MANIFEST_JSON: ${OPEN3DSG_RAW_DUMP_MANIFEST_JSON:-}
       OPEN3DSG_BASELINE_RUN_ID: ${OPEN3DSG_BASELINE_RUN_ID:-open3dsg_avg_blip_epoch13_step13104}
       OPEN3DSG_MODEL_SOURCE_STAGE: ${OPEN3DSG_MODEL_SOURCE_STAGE:-avg_blip_full_variant}
+      OPEN3DSG_EVAL_WORKERS: ${OPEN3DSG_EVAL_WORKERS:-0}
+      OPEN3DSG_BLIP_GENERATE_MAX_NEW_TOKENS: ${OPEN3DSG_BLIP_GENERATE_MAX_NEW_TOKENS:-20}
     command: >
       bash -lc "python /workspace/experiments/H001_geom_reliability/scripts/open3dsg_eval_preflight.py
       --repo-root /workspace --ensure-dirs --check-imports &&
@@ -318,4 +326,5 @@ services:
       pip install -e . &&
       python open3dsg/scripts/run.py --test --dataset 3rscan --checkpoint "$${OPEN3DSG_CHECKPOINT}"
       --n_beams 5 --weight_2d 0.5 --clip_model OpenSeg --node_model ViT-L/14@336px --blip --avg_blip_emb --gt_objects
+      --workers "$${OPEN3DSG_EVAL_WORKERS}"
       --load_features "$${OPEN3DSG_FEATURE_LOAD_DIR}""

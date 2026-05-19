@@ -1,7 +1,7 @@
 # Open3DSG Raw-Dump Identity Audit
 
-Status: `raw_dump_identity_checklist_ready_raw_dump_missing`
-Created at: `2026-05-10T05:32:09+00:00`
+Status: `raw_dump_identity_audit_ready`
+Created at: `2026-05-18T08:49:55+00:00`
 
 ## Fact
 
@@ -18,12 +18,8 @@ Created at: `2026-05-10T05:32:09+00:00`
 ## Raw Dump
 
 - path: `experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl`
-- status: `raw_dump_missing`
-- rows: `0`
-
-## Blockers
-
-- `missing_raw_dump:experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl`
+- status: `raw_dump_identity_audit_ready`
+- rows: `19162`
 
 ## Claim Boundary
 

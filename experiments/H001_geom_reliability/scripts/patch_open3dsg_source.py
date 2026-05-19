@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any
 
 
-SCHEMA_VERSION = "h001_open3dsg_source_patch_v10"
+SCHEMA_VERSION = "h001_open3dsg_source_patch_v14"
 
 OPEN_DATASET_NUMPY_IMPORT = "import numpy as np\n"
 
@@ -351,6 +351,27 @@ TEST_STEP_RESUMABLE = """    def test_step(self, data_dict, batch_ixd):
             return
 """
 
+RAW_DUMP_WRITE_PRINT = """        print(f"H001 raw dump wrote {rows_written} rows to {raw_dump_jsonl}")
+"""
+
+RAW_DUMP_WRITE_EXIT_AFTER_WRITE = """        print(f"H001 raw dump wrote {rows_written} rows to {raw_dump_jsonl}")
+        if os.environ.get("OPEN3DSG_RAW_DUMP_EXIT_AFTER_WRITE", "0") == "1":
+            print(f"H001 raw dump exit-after-write requested for {raw_dump_jsonl}")
+            raise SystemExit(0)
+"""
+
+TEST_STEP_APPEND_ORIGINAL = """        self.test_step_outputs.append(eval_dict)
+        return None
+"""
+
+TEST_STEP_APPEND_STREAMING = """        if os.environ.get("OPEN3DSG_RAW_DUMP_STREAM_BATCHES", "0") == "1":
+            self._h001_export_raw_dump_stream_batch(eval_dict)
+            return None
+
+        self.test_step_outputs.append(eval_dict)
+        return None
+"""
+
 RAW_DUMP_HELPERS = """    def _h001_json_value(self, value):
         if hasattr(value, "item"):
             value = value.item()
@@ -460,6 +481,243 @@ RAW_DUMP_HELPERS = """    def _h001_json_value(self, value):
                         handle.write("\\n")
                         rows_written += 1
         print(f"H001 raw dump wrote {rows_written} rows to {raw_dump_jsonl}")
+        if os.environ.get("OPEN3DSG_RAW_DUMP_EXIT_AFTER_WRITE", "0") == "1":
+            print(f"H001 raw dump exit-after-write requested for {raw_dump_jsonl}")
+            raise SystemExit(0)
+
+"""
+
+RAW_DUMP_STREAM_HELPERS = """    def _h001_raw_dump_batch_key(self, eval_dict, bidx):
+        scan_values = eval_dict.get("scan_id", [])
+        scan_value = scan_values[bidx] if isinstance(scan_values, (list, tuple)) else scan_values
+        scan_id, subset_split_id, raw_scan_id = self._h001_scan_parts(scan_value)
+        subgraph_id = f"{scan_id}_{subset_split_id}" if subset_split_id is not None else raw_scan_id
+        return raw_scan_id, subgraph_id
+
+    def _h001_raw_dump_completion_path(self, raw_dump_jsonl):
+        return os.environ.get("OPEN3DSG_RAW_DUMP_COMPLETED_JSONL", raw_dump_jsonl + ".completed.jsonl")
+
+    def _h001_raw_dump_manifest_path(self, raw_dump_jsonl):
+        return os.environ.get("OPEN3DSG_RAW_DUMP_MANIFEST_JSON", raw_dump_jsonl + ".manifest.json")
+
+    def _h001_raw_dump_read_completed_keys(self, completed_jsonl):
+        completed = set()
+        if not os.path.exists(completed_jsonl):
+            return completed
+        with open(completed_jsonl, "r", encoding="utf-8") as handle:
+            for line in handle:
+                if not line.strip():
+                    continue
+                try:
+                    record = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                raw_scan_id = record.get("raw_scan_id")
+                if raw_scan_id is not None:
+                    completed.add(str(raw_scan_id))
+        return completed
+
+    def _h001_raw_dump_repair_partial_rows(self, raw_dump_jsonl, completed_keys):
+        if not os.path.exists(raw_dump_jsonl):
+            return 0, 0, 0
+        kept_lines = []
+        total_lines = 0
+        dropped_lines = 0
+        invalid_lines = 0
+        with open(raw_dump_jsonl, "r", encoding="utf-8") as handle:
+            for line in handle:
+                if not line.strip():
+                    continue
+                total_lines += 1
+                try:
+                    record = json.loads(line)
+                except json.JSONDecodeError:
+                    invalid_lines += 1
+                    dropped_lines += 1
+                    continue
+                raw_scan_id = str(record.get("raw_scan_id"))
+                if raw_scan_id in completed_keys:
+                    kept_lines.append(line)
+                else:
+                    dropped_lines += 1
+        if dropped_lines:
+            tmp_path = raw_dump_jsonl + ".tmp"
+            with open(tmp_path, "w", encoding="utf-8") as handle:
+                handle.writelines(kept_lines)
+            os.replace(tmp_path, raw_dump_jsonl)
+        return len(kept_lines), dropped_lines, invalid_lines
+
+    def _h001_prepare_raw_dump_stream(self):
+        if getattr(self, "_h001_raw_dump_stream_initialized", False):
+            return
+        raw_dump_jsonl = os.environ.get("OPEN3DSG_RAW_DUMP_JSONL")
+        self._h001_raw_dump_stream_initialized = True
+        self._h001_raw_dump_stream_path = raw_dump_jsonl
+        self._h001_raw_dump_rows_written = 0
+        self._h001_raw_dump_completed_keys = set()
+        self._h001_raw_dump_completed_path = None
+        self._h001_raw_dump_manifest_path_value = None
+        self._h001_raw_dump_dropped_partial_rows = 0
+        self._h001_raw_dump_invalid_partial_rows = 0
+        if not raw_dump_jsonl:
+            return
+        os.makedirs(os.path.dirname(raw_dump_jsonl), exist_ok=True)
+        completed_jsonl = self._h001_raw_dump_completion_path(raw_dump_jsonl)
+        manifest_json = self._h001_raw_dump_manifest_path(raw_dump_jsonl)
+        self._h001_raw_dump_completed_path = completed_jsonl
+        self._h001_raw_dump_manifest_path_value = manifest_json
+        resume = os.environ.get("OPEN3DSG_RAW_DUMP_RESUME", "0") == "1"
+        if not resume or not os.path.exists(raw_dump_jsonl):
+            open(raw_dump_jsonl, "w", encoding="utf-8").close()
+            open(completed_jsonl, "w", encoding="utf-8").close()
+            print(f"H001 raw dump stream initialized new output {raw_dump_jsonl}")
+            return
+        completed_keys = self._h001_raw_dump_read_completed_keys(completed_jsonl)
+        rows_kept, rows_dropped, invalid_rows = self._h001_raw_dump_repair_partial_rows(raw_dump_jsonl, completed_keys)
+        self._h001_raw_dump_completed_keys = completed_keys
+        self._h001_raw_dump_rows_written = rows_kept
+        self._h001_raw_dump_dropped_partial_rows = rows_dropped
+        self._h001_raw_dump_invalid_partial_rows = invalid_rows
+        print(
+            "H001 raw dump stream resumed "
+            f"raw_dump={raw_dump_jsonl} completed_batches={len(completed_keys)} "
+            f"rows_kept={rows_kept} rows_dropped={rows_dropped} invalid_rows={invalid_rows}"
+        )
+
+    def _h001_raw_dump_records_for_eval_dict(self, eval_dict, bidx, start_edge_index):
+        scan_values = eval_dict.get("scan_id", [])
+        scan_value = scan_values[bidx] if isinstance(scan_values, (list, tuple)) else scan_values
+        scan_id, subset_split_id, raw_scan_id = self._h001_scan_parts(scan_value)
+        subgraph_id = f"{scan_id}_{subset_split_id}" if subset_split_id is not None else raw_scan_id
+        baseline_run_id = os.environ.get("OPEN3DSG_BASELINE_RUN_ID", self.hparams.get("run_name", "open3dsg"))
+        checkpoint_path = os.environ.get("OPEN3DSG_CHECKPOINT")
+        model_source_stage = os.environ.get("OPEN3DSG_MODEL_SOURCE_STAGE", "open3dsg")
+        object_count = self._h001_int(eval_dict["objects_count"][bidx])
+        relation_count = self._h001_int(eval_dict["predicate_count"][bidx])
+        object_ids = [self._h001_int(value) for value in eval_dict["objects_id"][bidx][:object_count].tolist()]
+        id2name = eval_dict.get("id2name")
+        if isinstance(id2name, (list, tuple)) and len(id2name) > bidx:
+            id2name = id2name[bidx]
+        edges = eval_dict["edges"][bidx][:relation_count].tolist()
+        score_tensor = eval_dict["predicates_mapped_probs"][bidx][:relation_count]
+        if hasattr(score_tensor, "detach"):
+            scores = score_tensor.detach().cpu().float().numpy()
+        else:
+            scores = np.array(score_tensor, dtype=float)
+        records = []
+        rows_written = 0
+        for edge_index, edge in enumerate(edges):
+            subject_node_index = int(edge[0])
+            object_node_index = int(edge[1])
+            if subject_node_index >= len(object_ids) or object_node_index >= len(object_ids):
+                continue
+            subject_id = object_ids[subject_node_index]
+            object_id = object_ids[object_node_index]
+            predicate_scores = []
+            score_count = min(len(self.pred_class_dict_orig), scores.shape[-1])
+            for predicate_index in range(score_count):
+                score = float(scores[edge_index][predicate_index])
+                if not np.isfinite(score):
+                    continue
+                predicate_scores.append({
+                    "predicate_label": self.pred_class_dict_orig[predicate_index],
+                    "score": score,
+                    "score_type": "open3dsg_relation_score",
+                    "raw_3dssg_predicate_id": predicate_index,
+                    "open3dsg_predicate_index": predicate_index,
+                    "predicate_vocab": "3DSSG_subset_relationships",
+                })
+            records.append({
+                "schema_version": "h001_open3dsg_raw_dump_v1",
+                "record_type": "open3dsg_raw_prediction",
+                "baseline_run_id": baseline_run_id,
+                "checkpoint_path": checkpoint_path,
+                "model_source_stage": model_source_stage,
+                "scan_id": scan_id,
+                "subset_split_id": subset_split_id,
+                "subgraph_id": subgraph_id,
+                "raw_scan_id": raw_scan_id,
+                "edge_index": start_edge_index + rows_written,
+                "edge": {
+                    "subject_id": subject_id,
+                    "object_id": object_id,
+                    "subject_node_index": subject_node_index,
+                    "object_node_index": object_node_index,
+                    "subject_label": self._h001_label(id2name, subject_id),
+                    "object_label": self._h001_label(id2name, object_id),
+                },
+                "predicate_scores": predicate_scores,
+            })
+            rows_written += 1
+        return records
+
+    def _h001_export_raw_dump_stream_batch(self, eval_dict):
+        self._h001_prepare_raw_dump_stream()
+        raw_dump_jsonl = getattr(self, "_h001_raw_dump_stream_path", None)
+        if not raw_dump_jsonl:
+            return
+        completed_jsonl = self._h001_raw_dump_completed_path
+        scan_values = eval_dict.get("scan_id", [])
+        batch_size = len(scan_values) if isinstance(scan_values, (list, tuple)) else 1
+        with open(raw_dump_jsonl, "a", encoding="utf-8") as raw_handle, open(completed_jsonl, "a", encoding="utf-8") as completed_handle:
+            for bidx in range(batch_size):
+                raw_scan_id, subgraph_id = self._h001_raw_dump_batch_key(eval_dict, bidx)
+                if raw_scan_id in self._h001_raw_dump_completed_keys:
+                    continue
+                start_row = self._h001_raw_dump_rows_written
+                records = self._h001_raw_dump_records_for_eval_dict(eval_dict, bidx, start_row)
+                for record in records:
+                    raw_handle.write(json.dumps(record, sort_keys=True))
+                    raw_handle.write("\\n")
+                    self._h001_raw_dump_rows_written += 1
+                raw_handle.flush()
+                os.fsync(raw_handle.fileno())
+                completion = {
+                    "schema_version": "h001_open3dsg_raw_dump_stream_completion_v1",
+                    "raw_scan_id": raw_scan_id,
+                    "subgraph_id": subgraph_id,
+                    "rows_start": start_row,
+                    "rows_end": self._h001_raw_dump_rows_written,
+                    "rows_written": self._h001_raw_dump_rows_written - start_row,
+                    "completed_at": datetime.utcnow().isoformat() + "Z",
+                }
+                completed_handle.write(json.dumps(completion, sort_keys=True))
+                completed_handle.write("\\n")
+                completed_handle.flush()
+                os.fsync(completed_handle.fileno())
+                self._h001_raw_dump_completed_keys.add(raw_scan_id)
+                print(
+                    "H001 raw dump stream wrote batch "
+                    f"raw_scan_id={raw_scan_id} rows={completion['rows_written']} "
+                    f"total_rows={self._h001_raw_dump_rows_written} "
+                    f"completed_batches={len(self._h001_raw_dump_completed_keys)}"
+                )
+
+    def _h001_finalize_raw_dump_stream(self):
+        self._h001_prepare_raw_dump_stream()
+        raw_dump_jsonl = getattr(self, "_h001_raw_dump_stream_path", None)
+        if not raw_dump_jsonl:
+            return
+        manifest_json = self._h001_raw_dump_manifest_path_value
+        manifest = {
+            "schema_version": "h001_open3dsg_raw_dump_stream_manifest_v1",
+            "status": "raw_dump_stream_complete",
+            "raw_dump_jsonl": raw_dump_jsonl,
+            "completed_jsonl": self._h001_raw_dump_completed_path,
+            "rows_written": self._h001_raw_dump_rows_written,
+            "completed_batches": len(self._h001_raw_dump_completed_keys),
+            "dropped_partial_rows_on_resume": self._h001_raw_dump_dropped_partial_rows,
+            "invalid_partial_rows_on_resume": self._h001_raw_dump_invalid_partial_rows,
+            "created_at": datetime.utcnow().isoformat() + "Z",
+        }
+        with open(manifest_json, "w", encoding="utf-8") as handle:
+            json.dump(manifest, handle, indent=2, sort_keys=True)
+            handle.write("\\n")
+        print(
+            "H001 raw dump stream finalized "
+            f"raw_dump={raw_dump_jsonl} rows={self._h001_raw_dump_rows_written} "
+            f"completed_batches={len(self._h001_raw_dump_completed_keys)}"
+        )
 
 """
 
@@ -478,12 +736,29 @@ ON_TEST_EPOCH_END_RAW_DUMP = """    @torch.no_grad()
         self._h001_export_raw_dump(outputs)
 """
 
-ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN = """    @torch.no_grad()
+ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN_V13 = """    @torch.no_grad()
     def on_test_epoch_end(self,):
         if not self.hparams.get('dataset') == '3rscan':
             return
         outputs = self.test_step_outputs
         self._h001_export_raw_dump(outputs)
+        if self.hparams.get('dump_features'):
+            return
+"""
+
+ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN = """    @torch.no_grad()
+    def on_test_epoch_end(self,):
+        if not self.hparams.get('dataset') == '3rscan':
+            return
+        if os.environ.get("OPEN3DSG_RAW_DUMP_STREAM_BATCHES", "0") == "1":
+            self._h001_finalize_raw_dump_stream()
+            if os.environ.get("OPEN3DSG_RAW_DUMP_EXIT_AFTER_WRITE", "0") == "1":
+                print("H001 raw dump stream exit-after-write requested")
+                raise SystemExit(0)
+            outputs = self.test_step_outputs
+        else:
+            outputs = self.test_step_outputs
+            self._h001_export_raw_dump(outputs)
         if self.hparams.get('dump_features'):
             return
 """
@@ -567,6 +842,41 @@ BLIP_PROJECTOR_CHUNKED = """            pred_encoding_pos = pred_encoding.view(-
             last_hidden_state = torch.cat(projector_hidden_states, dim=0)
             last_hidden_state = self.blip_layernorm(last_hidden_state)
             pred_encoding = last_hidden_state.view((*pred_encoding.shape[:2], *last_hidden_state.shape[1:]))
+"""
+
+BLIP_PREDICT_DTYPE_ORIGINAL = """        for batch in range(0, len(rel_img_embeddings), batch_size):
+            img_embeds = rel_img_embeddings[batch:batch+batch_size]
+            qs = list(queries[batch:batch+batch_size])
+            inputs_batch = self.PROCESSOR(images=None, text=qs, return_tensors="pt", padding=True).to(self.clip_device)
+"""
+
+BLIP_PREDICT_DTYPE_PATCHED = """        for batch in range(0, len(rel_img_embeddings), batch_size):
+            img_embeds = rel_img_embeddings[batch:batch+batch_size]
+            if self.BLIP is not None:
+                img_embeds = img_embeds.to(dtype=next(self.BLIP.parameters()).dtype)
+            qs = list(queries[batch:batch+batch_size])
+            inputs_batch = self.PROCESSOR(images=None, text=qs, return_tensors="pt", padding=True).to(self.clip_device)
+"""
+
+BLIP_GENERATE_LENGTH_ORIGINAL = """            outputs = self.BLIP.generate_caption(img_embeds, **inputs_batch,
+                                                 do_sample=False,
+                                                 num_beams=self.hparams.get('n_beams', 5),
+                                                 max_length=20,
+                                                 min_length=15,
+                                                 repetition_penalty=1.5,
+                                                 length_penalty=0.7,
+                                                 temperature=1,
+                                                 )
+"""
+
+BLIP_GENERATE_LENGTH_PATCHED = """            outputs = self.BLIP.generate_caption(img_embeds, **inputs_batch,
+                                                 do_sample=False,
+                                                 num_beams=self.hparams.get('n_beams', 5),
+                                                 max_new_tokens=int(os.environ.get("OPEN3DSG_BLIP_GENERATE_MAX_NEW_TOKENS", "20")),
+                                                 repetition_penalty=1.5,
+                                                 length_penalty=0.7,
+                                                 temperature=1,
+                                                 )
 """
 
 REPLACEMENTS = (
@@ -866,6 +1176,17 @@ def apply_trainer_raw_dump_patch(source_root: Path) -> dict[str, Any]:
     changed = False
     missing_patterns: list[str] = []
 
+    if "OPEN3DSG_RAW_DUMP_EXIT_AFTER_WRITE" not in text and RAW_DUMP_WRITE_PRINT in text:
+        text = text.replace(RAW_DUMP_WRITE_PRINT, RAW_DUMP_WRITE_EXIT_AFTER_WRITE, 1)
+        changed = True
+
+    if TEST_STEP_APPEND_STREAMING not in text:
+        if TEST_STEP_APPEND_ORIGINAL in text:
+            text = text.replace(TEST_STEP_APPEND_ORIGINAL, TEST_STEP_APPEND_STREAMING, 1)
+            changed = True
+        else:
+            missing_patterns.append("test_step_append_streaming")
+
     if RAW_DUMP_HELPERS not in text:
         if ON_TEST_EPOCH_END_MARKER in text:
             text = text.replace(ON_TEST_EPOCH_END_MARKER, RAW_DUMP_HELPERS + ON_TEST_EPOCH_END_MARKER, 1)
@@ -876,7 +1197,24 @@ def apply_trainer_raw_dump_patch(source_root: Path) -> dict[str, Any]:
         else:
             missing_patterns.append("on_test_epoch_end_marker")
 
-    if ON_TEST_EPOCH_END_RAW_DUMP not in text:
+    if RAW_DUMP_STREAM_HELPERS not in text:
+        if ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN_V13 in text:
+            text = text.replace(ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN_V13, RAW_DUMP_STREAM_HELPERS + ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN_V13, 1)
+            changed = True
+        elif ON_TEST_EPOCH_END_RAW_DUMP in text:
+            text = text.replace(ON_TEST_EPOCH_END_RAW_DUMP, RAW_DUMP_STREAM_HELPERS + ON_TEST_EPOCH_END_RAW_DUMP, 1)
+            changed = True
+        elif ON_TEST_EPOCH_END_MARKER in text:
+            text = text.replace(ON_TEST_EPOCH_END_MARKER, RAW_DUMP_STREAM_HELPERS + ON_TEST_EPOCH_END_MARKER, 1)
+            changed = True
+        else:
+            missing_patterns.append("raw_dump_stream_helper_marker")
+
+    if (
+        ON_TEST_EPOCH_END_RAW_DUMP not in text
+        and ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN_V13 not in text
+        and ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN not in text
+    ):
         if ON_TEST_EPOCH_END_MARKER in text:
             text = text.replace(ON_TEST_EPOCH_END_MARKER, ON_TEST_EPOCH_END_RAW_DUMP, 1)
             changed = True
@@ -884,7 +1222,10 @@ def apply_trainer_raw_dump_patch(source_root: Path) -> dict[str, Any]:
             missing_patterns.append("on_test_epoch_end_call")
 
     if ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN not in text:
-        if ON_TEST_EPOCH_END_RAW_DUMP in text:
+        if ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN_V13 in text:
+            text = text.replace(ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN_V13, ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN, 1)
+            changed = True
+        elif ON_TEST_EPOCH_END_RAW_DUMP in text:
             text = text.replace(ON_TEST_EPOCH_END_RAW_DUMP, ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN, 1)
             changed = True
         else:
@@ -947,6 +1288,50 @@ def apply_sgpn_blip_projector_chunk_patch(source_root: Path) -> dict[str, Any]:
     return record
 
 
+def apply_sgpn_blip_predict_dtype_patch(source_root: Path) -> dict[str, Any]:
+    rel_file = "open3dsg/models/sgpn.py"
+    path = source_root / rel_file
+    record: dict[str, Any] = {"file": rel_file, "patch": "blip_predict_relationship_dtype"}
+    if not path.is_file():
+        record["status"] = "missing_file"
+        return record
+
+    text = path.read_text(encoding="utf-8")
+    if BLIP_PREDICT_DTYPE_PATCHED in text:
+        record["status"] = "already_patched"
+        return record
+    if BLIP_PREDICT_DTYPE_ORIGINAL not in text:
+        record["status"] = "pattern_missing"
+        record["missing_pattern"] = "blip_predict_relationship_img_embeds"
+        return record
+
+    path.write_text(text.replace(BLIP_PREDICT_DTYPE_ORIGINAL, BLIP_PREDICT_DTYPE_PATCHED, 1), encoding="utf-8")
+    record["status"] = "patched"
+    return record
+
+
+def apply_sgpn_blip_generate_length_patch(source_root: Path) -> dict[str, Any]:
+    rel_file = "open3dsg/models/sgpn.py"
+    path = source_root / rel_file
+    record: dict[str, Any] = {"file": rel_file, "patch": "blip_generate_max_new_tokens"}
+    if not path.is_file():
+        record["status"] = "missing_file"
+        return record
+
+    text = path.read_text(encoding="utf-8")
+    if BLIP_GENERATE_LENGTH_PATCHED in text:
+        record["status"] = "already_patched"
+        return record
+    if BLIP_GENERATE_LENGTH_ORIGINAL not in text:
+        record["status"] = "pattern_missing"
+        record["missing_pattern"] = "blip_generate_caption_length_kwargs"
+        return record
+
+    path.write_text(text.replace(BLIP_GENERATE_LENGTH_ORIGINAL, BLIP_GENERATE_LENGTH_PATCHED, 1), encoding="utf-8")
+    record["status"] = "patched"
+    return record
+
+
 def render_report(payload: dict[str, Any]) -> str:
     lines = [
         "# Open3DSG Source Patch",
@@ -957,7 +1342,7 @@ def render_report(payload: dict[str, Any]) -> str:
         "",
         "## Purpose",
         "",
-        "Apply explicit `weights_only=False` to trusted local Open3DSG checkpoint/feature loads required by PyTorch 2.6+, install a NumPy pickle compatibility alias for staged preprocess artifacts, enable env-controlled lazy dataset loading to avoid full-train preload OOM, make train/validation/test feature dumping resumable before expensive forward passes, support H001 eval feature-dump sharding over remaining missing ids, skip eval-only relation mapper allocation during feature dumping, keep test-mode feature dumping from falling through into metric evaluation, chunk BLIP image embedding/projector forwards to reduce peak GPU memory, and export H001 identity-preserving raw prediction JSONL during Open3DSG test.",
+        "Apply explicit `weights_only=False` to trusted local Open3DSG checkpoint/feature loads required by PyTorch 2.6+, install a NumPy pickle compatibility alias for staged preprocess artifacts, enable env-controlled lazy dataset loading to avoid full-train preload OOM, make train/validation/test feature dumping resumable before expensive forward passes, support H001 eval feature-dump sharding over remaining missing ids, skip eval-only relation mapper allocation during feature dumping, keep test-mode feature dumping from falling through into metric evaluation, chunk BLIP image embedding/projector forwards to reduce peak GPU memory, align avg-BLIP relationship image embedding dtype with the loaded BLIP model dtype, switch BLIP generation to `max_new_tokens` for current Transformers compatibility, and export H001 identity-preserving raw prediction JSONL during Open3DSG test.",
         "",
         "## Records",
         "",
@@ -984,6 +1369,8 @@ def main() -> int:
     records.append(apply_trainer_raw_dump_patch(source_root))
     records.append(apply_sgpn_blip_chunk_patch(source_root))
     records.append(apply_sgpn_blip_projector_chunk_patch(source_root))
+    records.append(apply_sgpn_blip_predict_dtype_patch(source_root))
+    records.append(apply_sgpn_blip_generate_length_patch(source_root))
     records.append(apply_open_dataset_lazy_patch(source_root))
     blockers = [
         f"{record['file']}:{record['status']}"

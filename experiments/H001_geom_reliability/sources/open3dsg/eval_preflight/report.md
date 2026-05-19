@@ -1,6 +1,6 @@
 # Open3DSG Eval Preflight
 
-Created at: `2026-05-18T03:08:31.097537+00:00`
+Created at: `2026-05-19T01:32:34.942186+00:00`
 Status: `ready`
 
 ## Gates
@@ -23,7 +23,7 @@ Status: `ready`
 
 ## Raw Dump Contract
 
-- status: `contract_ready_raw_dump_missing`
+- status: `raw_dump_present`
 - raw dump JSONL: `experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl`
 - schema version: `h001_open3dsg_raw_dump_v1`
 

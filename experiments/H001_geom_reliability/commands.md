@@ -1,6 +1,6 @@
 # Commands
 
-Last updated: 2026-05-10
+Last updated: 2026-05-19
 
 Run from the repository root.
 
@@ -28,7 +28,7 @@ Expected completion line:
 {"out": "/workspace/experiments/H001_geom_reliability", "status": "ready"}
 ```
 
-The table builder also writes `sources/open3dsg/table6_hook.json`; Open3DSG rows in Table 6 stay blocked until the Open3DSG metric contract reports real ready metrics.
+The table builder also writes `sources/open3dsg/table6_hook.json`; Open3DSG rows in Table 6 are now ready when `sources/open3dsg/metrics/metrics.json` reports status `ready`.
 
 ## Direct Docker Equivalent
 
@@ -86,6 +86,25 @@ This creates:
 - `sources/open3dsg/failure_analysis_generator_smoke/summary.json`
 - `sources/open3dsg/failure_analysis_generator_smoke/manifest.json`
 - `sources/open3dsg/failure_analysis_generator_smoke/report.md`
+
+Generate real failure rows and qualitative case inspection after Open3DSG metrics exist:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_failure_generator_real'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_failure_case_sampler'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_failure_case_inspection'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_paper_caveats'
+```
+
+This creates:
+
+- `sources/open3dsg/failure_rows/rows.jsonl`
+- `sources/open3dsg/failure_rows/summary.json`
+- `sources/open3dsg/failure_cases/queue.jsonl`
+- `sources/open3dsg/failure_cases/inspection.json`
+- `sources/open3dsg/failure_cases/inspection.md`
+- `sources/open3dsg/paper_caveats/manifest.json`
+- `sources/open3dsg/paper_caveats/report.md`
 
 ## Open3DSG Training Repro Root
 

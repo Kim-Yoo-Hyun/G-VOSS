@@ -8,11 +8,11 @@
     "prediction_source": "VL-SAT / vlsat_closed_set"
   },
   {
-    "blockers": "predictions_jsonl:missing_required:experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl; geometry_jsonl:missing_required:experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl",
-    "claim_use": "required before cross-source claim",
-    "contract_status": "blocked_runtime_inputs_missing",
-    "evidence_artifact": "sources/open3dsg/metric_join_contract/metrics.json",
-    "metric_status": "blocked",
+    "blockers": "none",
+    "claim_use": "cross-source claim enabled within measured H001 families",
+    "contract_status": "ready",
+    "evidence_artifact": "sources/open3dsg/metrics/metrics.json",
+    "metric_status": "ready",
     "prediction_source": "Open3DSG"
   }
 ]

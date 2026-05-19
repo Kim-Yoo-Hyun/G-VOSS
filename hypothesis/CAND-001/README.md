@@ -1,6 +1,6 @@
 # CAND-001 Hypotheses
 
-Last updated: 2026-05-10
+Last updated: 2026-05-19
 
 ## Source Candidate
 
@@ -57,19 +57,19 @@ Given object instances and candidate semantic relations in a 3D indoor scene, co
 - Official `3DSSG_subset` is the primary split and relation-subgraph source.
 - `VL-SAT` / `vlsat_closed_set` is the first prediction-level learned baseline.
 - The first reportable claim remains scoped to geometry-consistency reliability for geometry-checkable relation families.
-- Baseline-agnostic and broad open-vocabulary 3DSSG improvement claims require second-source adapter evidence.
+- Baseline-agnostic and broad open-vocabulary 3DSSG improvement claims require evidence beyond the current measured H001-family cross-source result.
 - For the top-tier main path, second-source adapter evidence from Open3DSG is preferred over single-baseline-only justification.
 - `Qwen2.5-VL` or `Qwen3-VL` is allowed as an additional modern-VLM semantic-source extension, but not as a replacement for the Open3DSG reproduction anchor.
-- Qwen-VL contract-only input/output JSONL schema, parser skeleton, 30-row non-held-out tiny pilot scope, model-lock plan, and 30/30 rendered pair crops are ready under `experiments/H001_geom_reliability/sources/qwen_vl/`; no Qwen model download or inference has started.
+- Qwen-VL contract-only input/output JSONL schema, parser skeleton, 30-row non-held-out tiny pilot scope, model-lock plan, 30/30 rendered pair crops, and Qwen3-VL-4B cache verification are ready under `experiments/H001_geom_reliability/sources/qwen_vl/`; runtime preflight and inference have not started.
 - `SceneFun3D` / `FunGraph3D` is allowed only as an optional robotics/functionality expansion with a separate verifier contract and claim boundary.
 - Dockerized Open3DSG checkpoint reproduction plan is ready under `experiments/H001_geom_reliability/sources/open3dsg/`, with official train split counts, H001 eval counts, dependency pins, dataset/cache mounts, training/evaluation commands, and failure budget.
-- Open3DSG failure-analysis schema is locked before metric inspection under `experiments/H001_geom_reliability/sources/open3dsg/failure_analysis/`; the taxonomy has 14 primary categories and 6 aggregation table specs. Docker `open3dsg_failure_generator_smoke` generated 6 synthetic rows with 0 validation errors under `experiments/H001_geom_reliability/sources/open3dsg/failure_analysis_generator_smoke/`. Real failure rows are blocked until Open3DSG prediction JSONL, GT join, geometry join, and metric outputs exist.
+- Open3DSG failure-analysis schema is locked before metric inspection under `experiments/H001_geom_reliability/sources/open3dsg/failure_analysis/`; the taxonomy has 14 primary categories and 6 aggregation table specs. Docker `open3dsg_failure_generator_smoke` generated 6 synthetic rows with 0 validation errors under `experiments/H001_geom_reliability/sources/open3dsg/failure_analysis_generator_smoke/`. Docker `open3dsg_failure_generator_real` generated 57,736 real rows with 0 validation errors under `experiments/H001_geom_reliability/sources/open3dsg/failure_rows/`. Docker `open3dsg_failure_case_inspection` generated 36-case qualitative inspection with no taxonomy change and identified 10 rule-violated high-`p_geom_valid` residual calibration-risk cases. Docker `open3dsg_paper_caveats` froze filtered-train, averaged-BLIP, covered-scope, denominator, `validation_missing_preprocessed:11`, and residual calibration-risk wording.
 - Open3DSG `training_repro` metadata/split and full payload staging are complete with H001 held-out overlap 0/0. Runtime train/validation splits are explicitly filtered to preprocessed-ready rows.
-- Protected Open3DSG feature dump reaches feature writing. Docker `open3dsg_post_dump_handoff` last recorded 1131/3900 complete feature ids, 29.00%, and status `waiting_for_feature_dump_completion`; it also freezes `feature_audit -> train_pilot -> train_full -> eval/raw dump -> adapter/metric/failure-analysis` gates. Restart policy uses lazy dataset loading, pre-forward skip-existing resume, deterministic no-shuffle dump iteration, no-grad dump, explicit `--epochs 1`, `workers=0`, and a stable official feature run dir. Reduced TopK1/scales1 route is checkpoint-smoke-only.
-- Open3DSG checkpoint provenance/selection template is frozen under `experiments/H001_geom_reliability/sources/open3dsg/checkpoint_selection/`; current status is `checkpoint_selection_template_ready_checkpoint_missing` with blockers `no_checkpoint_candidates` and `official_feature_audit_not_ready:blocked`. It forbids primary checkpoint selection using H001 held-out metrics or failure inspection.
-- Open3DSG raw-dump identity checklist is frozen under `experiments/H001_geom_reliability/sources/open3dsg/raw_dump_identity/`; current status is `raw_dump_identity_checklist_ready_raw_dump_missing`, with fixed identity scope 127 scans / 388 contexts / 25,916 directed pairs and blocker `missing_raw_dump`.
+- Protected Open3DSG feature dump and H001 eval feature-cache generation are complete; H001 eval feature shard loop reached 377/377 covered loadable feature ids. Reduced TopK1/scales1 route remains checkpoint-smoke-only.
+- Open3DSG checkpoint provenance/selection is ready under `experiments/H001_geom_reliability/sources/open3dsg/checkpoint_selection/`; selected checkpoint is `epoch=13-step=13104.ckpt`, chosen by train-dev `val/loss` before H001 held-out metrics/failure/visual inspection. It forbids primary checkpoint selection using H001 held-out metrics or failure inspection.
+- Open3DSG raw-dump identity audit is ready under `experiments/H001_geom_reliability/sources/open3dsg/raw_dump_identity/`; fixed identity scope is 127 scans / 388 contexts / 25,916 directed pairs. `raw_dump/raw.jsonl` has 19,162 rows, and clean v14 streaming same-path resume completed with exit `0` and matching SHA256, so source-process provenance is available. Historical exit-137 attempts stay as run records.
 - Open3DSG metric-scope policy is frozen under `experiments/H001_geom_reliability/sources/open3dsg/metric_scope/`; current status is `metric_scope_policy_ready_no_metric_execution`, with in-scope GT denominator 2,545 rows across support_contact 1,199 / proximity 1,128 / relative_vertical 218. Recall matching remains predicate-label exact; filtered-train and covered-scope caveats are fixed before metric execution.
-- Open3DSG metric/join contract is frozen under `experiments/H001_geom_reliability/sources/open3dsg/metric_join_contract/`; current status is `blocked_runtime_inputs_missing` because real Open3DSG prediction JSONL and geometry verification JSONL are missing. H001 GT JSONL is present with 7,505 rows. Docker table builder now writes `sources/open3dsg/table6_hook.json` and keeps Open3DSG Table 6 blocked until real ready metrics exist. This is contract evidence only, not metric evidence.
+- Open3DSG adapter, geometry join, metric eval, and Table 6 hook are ready. Docker `open3dsg_adapter_raw_dump` exported 496,600 prediction rows, Docker `open3dsg_geometry_join` preserved 496,600/496,600 rows and scored 114,600 geometry-checkable rows, Docker `open3dsg_metric_eval` generated `sources/open3dsg/metrics/metrics.json` with status `ready`, and Docker `table_builder` marks Open3DSG Table 6 `ready`. Claims remain scoped to measured H001 families and closed-set/GT-object setting.
 
 ## Candidate-Level Risks
 
@@ -81,11 +81,11 @@ Given object instances and candidate semantic relations in a 3D indoor scene, co
 
 ## Next Gate
 
-- Restart/monitor Open3DSG `dump_features_3rscan` official BLIP TopK5/scales3 run under the hardened resume policy.
 - `VL-SAT` table/report reproduction is complete in `experiments/H001_geom_reliability/`.
-- Add Open3DSG checkpoint reproduction and second-source adapter metrics after official feature dump/audit pass. The metric/join contract and Table 6 hook are already frozen; real metric execution remains blocked until prediction JSONL and geometry verification JSONL exist. Reduced route is allowed only for checkpoint smoke and not for paper-result evidence.
-- Convert the synthetic Open3DSG failure-analysis generator to real rows only after Open3DSG predictions, GT join, geometry join, and metrics exist; do not change the locked taxonomy without schema version bump.
-- Optional modern extension: Qwen-VL prompt schema, prediction JSONL contract, parser skeleton, tiny pilot scope, model id/revision/local-dir recommendation, and pair-crop rendering are fixed; only add Docker runtime smoke after explicit model-cache/download decision, then export identity-preserving prediction JSONL and metric evidence.
+- Use the completed Open3DSG second-source metrics for measured H001-family cross-source evidence; report the frozen `paper_caveats/` wording for filtered-train, covered-scope, averaged-BLIP, `validation_missing_preprocessed:11`, exact-label denominator, and residual calibration-risk caveats. Keep historical exit-137 attempts in run records, not final raw-dump caveat wording.
+- Decide whether to transition from scoped experiment artifacts toward paper/experiment writing, or add optional extension evidence first; do not change the locked taxonomy without schema version bump.
+- Keep the clean v14 streaming raw-dump provenance and earlier exit-137 attempts separated in reproducibility wording.
+- Optional modern extension: Qwen-VL prompt schema, prediction JSONL contract, parser skeleton, tiny pilot scope, model id/revision/local-dir recommendation, pair-crop rendering, and model cache are fixed; only add Docker runtime smoke after GPU/RAM pressure is cleared, then export identity-preserving prediction JSONL and metric evidence if the extension becomes part of the paper.
 - Optional robotics/functionality expansion: add SceneFun3D/FunGraph3D only if scope expands from spatial relation reliability to functional/affordance relation reliability.
 - Do not create additional `experiments/` roots, `paper/`, or `decisions/` yet.
 - Continue using Docker-based reproduction as the paper-body experiment rule.

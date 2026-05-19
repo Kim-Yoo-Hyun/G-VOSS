@@ -1,6 +1,6 @@
 # Second Source
 
-Last updated: 2026-05-07
+Last updated: 2026-05-19
 
 ## Role
 
@@ -21,7 +21,7 @@ Merged former files:
 Current executable evidence:
 
 ```text
-VL-SAT-centered only
+VL-SAT and Docker-reproduced Open3DSG within measured H001 families
 ```
 
 Selected top-tier expansion:
@@ -32,12 +32,11 @@ Open3DSG second-source adapter result from a Docker-reproduced checkpoint
 
 Blocked claims:
 
-- baseline-agnostic 3DSSG reliability-layer claim;
+- arbitrary-baseline 3DSSG reliability-layer claim beyond measured `VL-SAT` and Open3DSG sources;
 - broad open-vocabulary 3DSSG improvement claim.
 
 Remaining blockers:
 
-- `second_source_metric_missing_for_baseline_agnostic_claim`
 - `open_vocab_adapter_metric_missing_for_broad_open_vocabulary_claim`
 
 ## Baseline Matrix Decision
@@ -51,11 +50,14 @@ Fact:
 
 Inference:
 
-- A second source is not required before entering the first scoped
-  `VL-SAT`-centered experiment phase.
-- A second source is required before claiming baseline-agnostic transfer.
-- For a top-tier main paper target, second-source adapter evidence is preferred
-  over relying only on a single-baseline reliability-layer justification.
+- A second source is now available for measured H001-family reliability claims.
+- The remaining question is not whether Open3DSG evidence exists, but how
+  tightly to word the claim around denominator, averaged-BLIP, covered-scope,
+  and `validation_missing_preprocessed:11` caveats.
+- Open3DSG satisfies the second-source requirement for a measured cross-source
+  H001-family claim, but not for arbitrary-baseline transfer.
+- For a top-tier main paper target, keep using second-source evidence instead
+  of reverting to single-baseline-only justification.
 
 ## FROSS Track
 
@@ -96,10 +98,10 @@ Use:
 
 ## Open3DSG Track
 
-Source-contract status:
+Current status:
 
 ```text
-source_contract_ready_runtime_blocked
+second_source_metrics_ready_with_provenance_caveats
 ```
 
 Coverage:
@@ -110,17 +112,25 @@ Coverage:
 | `proximity` | ready |
 | `relative_vertical` | ready |
 
-Adapter status:
+Adapter / metric status:
 
 ```text
-adapter_feasibility_ready_runtime_blocked
+adapter_geometry_metrics_failure_rows_ready
 ```
 
 Adapter facts:
 
-- generated `dump_patch.diff` applies cleanly to `/tmp/open3dsg_source`;
-- raw schema and H001 adapter mapping are fixed;
-- no Open3DSG metric claim exists yet.
+- selected checkpoint: `epoch=13-step=13104.ckpt`, chosen by train-dev
+  `val/loss` before H001 held-out inspection;
+- raw dump: `raw_dump/raw.jsonl`, 19,162 rows, identity-audited;
+- adapter export: 496,600 prediction rows, with 62 raw rows filtered outside
+  fixed H001 object context;
+- geometry join: 496,600/496,600 rows preserved, 114,600 geometry-checkable
+  rows scored;
+- metric eval: ready, Table 6 ready;
+- real failure rows: 57,736 rows, 0 validation errors, 6,162 visual-audit queue
+  rows, 36 qualitative case candidates, deterministic qualitative inspection
+  with residual calibration-risk cases, and frozen paper caveat wording.
 
 Runtime readiness:
 
@@ -136,46 +146,48 @@ Runtime readiness:
 | OpenSeg SavedModel | ready |
 | PointNet weights | ready |
 | PointNet2 weights | ready |
-| trained Open3DSG checkpoint | missing |
+| official BLIP TopK5/scales3 feature dump | 3900 / 3900 complete |
+| H001 held-out eval feature cache | 377 / 377 covered loadable ids |
+| trained Open3DSG checkpoint | ready, averaged-BLIP variant |
 
-Training route preflight:
+Current limitations:
 
 ```text
-training_route_not_immediate
+filtered_train_split; averaged_blip_variant; covered_loadable_scope; validation_missing_preprocessed_11
 ```
 
-Reason:
+Frozen caveat wording:
 
-- staged train subgraphs are not ready;
-- full-train views/preprocessed pickles/scan dirs are incomplete;
-- local environment lacks required dependencies;
-- local compute is below the official README example.
+```text
+open3dsg_paper_caveats_ready
+```
 
 Superseded decision:
 
 ```text
 The earlier checkpoint-waiting branch is superseded because the top-tier target
-now justifies a Dockerized Open3DSG reproduction budget.
+justified a Dockerized Open3DSG reproduction budget. That reproduction has now
+produced the avg-BLIP checkpoint and H001 metrics.
 ```
 
-Updated direction:
+Current direction:
 
 ```text
-Generate the Open3DSG checkpoint ourselves through a Dockerized reproduction
-track, then use the trained checkpoint for identity-preserving raw dump,
-prediction JSONL export, geometry join, and second-source metric evaluation.
+Use the Docker-reproduced Open3DSG outputs as measured H001-family second-source
+evidence. Clean v14 streaming raw-dump provenance, qualitative case inspection,
+and frozen paper caveat wording are available; earlier exit-137 attempts remain
+historical run records.
 ```
 
 Rationale:
 
-- second-source evidence is the stronger path for a top-tier target than
-  defending H001 as a single-baseline reliability layer;
+- second-source evidence is stronger than defending H001 as a single-baseline
+  reliability layer;
 - Open3DSG covers all H001 target families at source-contract level;
 - generating the checkpoint ourselves avoids relying on an unavailable official
   trained checkpoint;
-- the checkpoint reproduction must be treated as paper experiment work and
-  therefore must be Docker-based, with mounted dataset/cache roots and recorded
-  commands.
+- all paper-facing experiment work remains Docker-based, with mounted
+  dataset/cache roots and recorded commands.
 
 Single-baseline fallback:
 
@@ -186,16 +198,17 @@ Open3DSG checkpoint reproduction is infeasible within the research budget.
 
 ## Next Source Conditions
 
-Start second-source metric work only if one of these becomes true:
+Open3DSG second-source metric work has completed for measured H001 families.
+Start additional source work only if one of these becomes true:
 
-- user chooses baseline-agnostic or stronger top-tier claim before final paper
-  framing;
-- Dockerized Open3DSG checkpoint reproduction is started;
-- a trusted external Open3DSG checkpoint is supplied;
+- the paper claim expands beyond measured `VL-SAT` + Open3DSG H001-family
+  reliability;
+- Qwen-VL is promoted from optional runtime smoke to a metric-bearing modern
+  semantic-source extension;
 - FROSS-compatible prediction pickle or staged root is supplied;
 - a new identity-preserving proposal source becomes locally executable.
 
-Acceptance for second-source evidence:
+Acceptance for any additional second-source evidence:
 
 - object-pair identity preserved;
 - prediction JSONL export exists;
@@ -236,8 +249,9 @@ geometry join, and the same H001 metric suite.
 E5:
 
 ```text
-Upgrade the claim from VL-SAT-centered to cross-predictor reliability-layer
-only if the Open3DSG metric result is valid.
+Use the completed Open3DSG metric result to support a measured cross-source
+reliability-layer claim, but do not broaden it to arbitrary baselines or broad
+open-vocabulary 3DSSG generation.
 ```
 
 ## Canonical Artifacts

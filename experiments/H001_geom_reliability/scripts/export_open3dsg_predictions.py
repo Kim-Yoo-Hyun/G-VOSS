@@ -17,7 +17,7 @@ MANIFEST_SCHEMA_VERSION = "h001_open3dsg_prediction_adapter_manifest_v1"
 RAW_SCHEMA_VERSION = "h001_open3dsg_raw_dump_v1"
 BASELINE_NAME = "open3dsg_ov"
 ADAPTER_NAME = "open3dsg_to_h001_predictions"
-ADAPTER_VERSION = "v0"
+ADAPTER_VERSION = "v1"
 TASK_MODE = "predcls_relation_gt_objects"
 
 
@@ -194,10 +194,11 @@ def convert_rows(
     relationship_ids: dict[str, int],
     split_name: str,
     baseline_run_id: str,
-) -> tuple[list[dict[str, Any]], list[str], list[str]]:
+) -> tuple[list[dict[str, Any]], list[str], list[str], dict[str, int]]:
     rows: list[dict[str, Any]] = []
     warnings: list[str] = []
     errors: list[str] = []
+    stats: Counter[str] = Counter()
     for raw_index, raw in enumerate(raw_rows):
         if raw.get("schema_version") != RAW_SCHEMA_VERSION:
             errors.append(f"bad_raw_schema:{raw_index}:{raw.get('schema_version')}")
@@ -219,10 +220,12 @@ def convert_rows(
             continue
         if subject_id == object_id:
             warnings.append(f"same_endpoint_skipped:{subgraph_id}:{subject_id}")
+            stats["same_endpoint_skipped"] += 1
             continue
         objects = context["objects"]
         if subject_id not in objects or object_id not in objects:
-            errors.append(f"edge_object_not_in_context:{subgraph_id}:{subject_id}:{object_id}")
+            warnings.append(f"raw_edge_outside_h001_context_filtered:{subgraph_id}:{subject_id}:{object_id}")
+            stats["raw_rows_filtered_outside_h001_context"] += 1
             continue
         for entry in score_entries(raw):
             predicate_label = str(entry.get("predicate_label"))
@@ -283,7 +286,7 @@ def convert_rows(
             )
     assign_ranks(rows)
     errors.extend(validate_rows(rows))
-    return rows, warnings, errors
+    return rows, warnings, errors, dict(stats)
 
 
 def assign_ranks(rows: list[dict[str, Any]]) -> None:
@@ -399,6 +402,7 @@ def make_smoke_raw_rows(
 
 
 def make_report(manifest: dict[str, Any]) -> str:
+    filtered_outside_context = manifest["counts"].get("raw_rows_filtered_outside_h001_context", 0)
     lines = [
         "# Open3DSG Prediction Adapter",
         "",
@@ -418,13 +422,14 @@ def make_report(manifest: dict[str, Any]) -> str:
         "",
         f"- contexts: `{manifest['counts']['contexts']}`",
         f"- raw rows: `{manifest['counts']['raw_rows']}`",
+        f"- raw rows filtered outside H001 context: `{filtered_outside_context}`",
         f"- prediction rows: `{manifest['counts']['prediction_rows']}`",
         f"- errors: `{len(manifest['validation']['errors'])}`",
         f"- warnings: `{len(manifest['validation']['warnings'])}`",
         "",
         "## Claim Boundary",
         "",
-        "This artifact fixes the Open3DSG-to-H001 prediction contract only. It is not second-source metric evidence until a reproduced checkpoint raw dump is exported, joined with geometry, and evaluated.",
+        "This artifact fixes the Open3DSG-to-H001 prediction contract only. Raw rows outside the fixed H001 object context are filtered and counted before metric execution. It is not second-source metric evidence until predictions are joined with geometry and evaluated.",
         "",
     ]
     return "\n".join(lines)
@@ -447,6 +452,7 @@ def main() -> int:
     relationship_ids: dict[str, int] = {}
     rows: list[dict[str, Any]] = []
     raw_rows: list[dict[str, Any]] = []
+    conversion_stats: dict[str, int] = {}
 
     if subset_path is None or not subset_path.exists():
         errors.append(f"missing_subset_json:{relpath(repo_root, subset_path)}")
@@ -473,7 +479,7 @@ def main() -> int:
     else:
         if not raw_rows:
             raw_rows = load_jsonl(raw_path)
-        rows, warnings, conversion_errors = convert_rows(
+        rows, warnings, conversion_errors, conversion_stats = convert_rows(
             raw_rows, contexts, relationship_ids, args.split_name, args.baseline_run_id
         )
         errors.extend(conversion_errors)
@@ -481,6 +487,11 @@ def main() -> int:
         status = "ready" if not errors else "blocked_conversion_errors"
 
     write_json(output_dir / "raw_schema_example.json", raw_schema_example())
+    next_action = (
+        "Run Open3DSG metric/join with the adapter predictions, GT denominator, and geometry decisions."
+        if status == "ready"
+        else "Run Open3DSG identity-preserving raw dump, then rerun this adapter without --contract-only."
+    )
     manifest = {
         "schema_version": MANIFEST_SCHEMA_VERSION,
         "created_at": datetime.now(timezone.utc).isoformat(),
@@ -505,9 +516,13 @@ def main() -> int:
             "contexts": len(contexts),
             "raw_rows": len(raw_rows),
             "prediction_rows": len(rows),
+            "raw_rows_filtered_outside_h001_context": conversion_stats.get(
+                "raw_rows_filtered_outside_h001_context", 0
+            ),
+            "same_endpoint_skipped": conversion_stats.get("same_endpoint_skipped", 0),
         },
         "validation": {"errors": errors, "warnings": warnings},
-        "next_action": "Run Open3DSG identity-preserving raw dump, then rerun this adapter without --contract-only.",
+        "next_action": next_action,
     }
     write_json(output_dir / "manifest.json", manifest)
     (output_dir / "report.md").write_text(make_report(manifest), encoding="utf-8")

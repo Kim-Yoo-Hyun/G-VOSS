@@ -175,6 +175,75 @@ services:
       - --out
       - /workspace/experiments/H001_geom_reliability/sources/open3dsg/metric_join_contract
 
+  open3dsg_geometry_join:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/tools/join_predictions.py
+    command:
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl
+      - --dataset-root
+      - /workspace/local_dataset
+      - --model-json
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_smoke/model.json
+      - --selected-scans
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_validation_hardened/scans.txt
+      - --verification-policy
+      - point_subtype
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/geometry
+
+  open3dsg_metric_eval:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/tools/evaluate_predictions.py
+    command:
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl
+      - --ground-truth-jsonl
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl
+      - --verification-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/metrics
+      - --families
+      - support_contact
+      - proximity
+      - relative_vertical
+      - --ks
+      - "50"
+      - "100"
+      - --policy
+      - filter_safe
+      - --rule-variants
+      - obb_only
+      - point_subtype
+      - point_subtype_no_soft_support
+      - --ablation-controls
+      - p_geom_valid_only
+      - distance_only
+      - family_specific_p_geom_valid
+      - shuffled_geometry
+      - wrong_pair_geometry
+      - --family-specific-model-json
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json
+
   open3dsg_adapter_contract:
     build:
       context: ../..
@@ -275,6 +344,100 @@ services:
       - --out
       - /workspace/experiments/H001_geom_reliability/sources/open3dsg/failure_analysis_generator_smoke
       - --smoke-test
+
+  open3dsg_failure_generator_real:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/generate_open3dsg_failure_analysis.py
+    command:
+      - --repo-root
+      - /workspace
+      - --schema-dir
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/failure_analysis
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl
+      - --geometry-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl
+      - --ground-truth-jsonl
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl
+      - --metrics-json
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/failure_rows
+
+  open3dsg_failure_case_sampler:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/sample_open3dsg_failure_cases.py
+    command:
+      - --repo-root
+      - /workspace
+      - --failure-rows
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/failure_rows/rows.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/failure_cases
+      - --limit
+      - "36"
+      - --per-bucket
+      - "1"
+      - --max-per-subgraph
+      - "2"
+
+  open3dsg_failure_case_inspection:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/inspect_open3dsg_failure_cases.py
+    command:
+      - --repo-root
+      - /workspace
+      - --queue-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/failure_cases/queue.jsonl
+      - --manifest-json
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/failure_cases/manifest.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/failure_cases
+
+  open3dsg_paper_caveats:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/prepare_open3dsg_paper_caveats.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/paper_caveats
 
   qwen_vl_adapter_contract:
     build:

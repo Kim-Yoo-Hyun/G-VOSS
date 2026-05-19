@@ -1,6 +1,6 @@
 # Qwen-VL Semantic-Source Adapter
 
-Status: `model_cache_ready_runtime_preflight_blocked_gpu_busy`
+Status: `model_cache_ready_runtime_preflight_pending_resource_pressure`
 Created at: `2026-05-08T06:35:07+00:00`
 
 ## Role
@@ -45,11 +45,11 @@ It is not a replacement for the Open3DSG reproduction anchor and is not an end-t
 - revision: `ebb281ec70b05090aa6165b016eac8ec08e71b17`
 - local dir: `local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17`
 - cache verification: `model_cache_ready`, 43 files, 8.277 GB, 3 weight/index files
-- runtime preflight: `blocked_runtime_preflight` because the GPU is still busy with Open3DSG feature dump
+- runtime preflight: pending; no Open3DSG Docker job is active, but an unrelated `ipykernel_launcher` process is using GPU memory and host RAM/swap pressure is high as of 2026-05-18 21:37 KST
 
 ## Next Gate
 
-After GPU availability, rerun `qwen_vl_runtime_preflight`, then run
+After GPU/RAM pressure is cleared, rerun `qwen_vl_runtime_preflight`, then run
 `qwen_vl_tiny_inference_smoke` on 1-3 crops. These outputs are runtime smoke
 evidence only, not paper metric evidence, and they do not replace the Open3DSG
 reproduction anchor.

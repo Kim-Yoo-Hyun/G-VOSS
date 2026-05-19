@@ -353,7 +353,8 @@ def build_table4(audit: dict[str, Any], visual: dict[str, Any]) -> tuple[list[di
     return rows, md_rows
 
 
-def build_table5() -> tuple[list[dict[str, Any]], list[list[str]]]:
+def build_table5(open3dsg_hook: dict[str, Any] | None = None) -> tuple[list[dict[str, Any]], list[list[str]]]:
+    open3dsg_ready = bool(open3dsg_hook and open3dsg_hook.get("status") == "ready")
     rows = [
         {
             "source_or_claim": "VL-SAT / vlsat_closed_set",
@@ -363,9 +364,17 @@ def build_table5() -> tuple[list[dict[str, Any]], list[list[str]]]:
         },
         {
             "source_or_claim": "Open3DSG",
-            "status": "selected_second_source_blocked",
-            "allowed_claim": "none until Docker checkpoint reproduction and metric run exist",
-            "blocked_extension": "cross-predictor claim blocked",
+            "status": "second_source_metric_ready" if open3dsg_ready else "selected_second_source_blocked",
+            "allowed_claim": (
+                "cross-source reliability-layer evidence within measured H001 families"
+                if open3dsg_ready
+                else "none until Docker checkpoint reproduction and metric run exist"
+            ),
+            "blocked_extension": (
+                "not broad open-vocabulary improvement by itself"
+                if open3dsg_ready
+                else "cross-predictor claim blocked"
+            ),
         },
         {
             "source_or_claim": "FROSS",
@@ -385,18 +394,26 @@ def build_table5() -> tuple[list[dict[str, Any]], list[list[str]]]:
 
 
 def build_open3dsg_table6_hook(out_root: Path) -> dict[str, Any]:
-    metrics_path = out_root / "sources/open3dsg/metric_join_contract/metrics.json"
+    metrics_path = out_root / "sources/open3dsg/metrics/metrics.json"
+    contract_metrics_path = out_root / "sources/open3dsg/metric_join_contract/metrics.json"
     manifest_path = out_root / "sources/open3dsg/metric_join_contract/manifest.json"
     metric_scope_path = out_root / "sources/open3dsg/metric_scope/manifest.json"
     metrics, metrics_error = load_optional_json(metrics_path)
+    contract_metrics, contract_metrics_error = load_optional_json(contract_metrics_path)
     manifest, manifest_error = load_optional_json(manifest_path)
     metric_scope, metric_scope_error = load_optional_json(metric_scope_path)
 
-    metric_status = "missing_metric_contract"
+    metric_status = "missing_open3dsg_metrics"
     if metrics is not None:
         metric_status = str(metrics.get("status", "status_missing"))
     elif metrics_error:
-        metric_status = "unreadable_metric_contract"
+        metric_status = "unreadable_open3dsg_metrics"
+
+    contract_metric_status = None
+    if contract_metrics is not None:
+        contract_metric_status = str(contract_metrics.get("status", "status_missing"))
+    elif contract_metrics_error:
+        contract_metric_status = "unreadable_metric_contract"
 
     manifest_status = None
     if manifest is not None:
@@ -442,6 +459,21 @@ def build_open3dsg_table6_hook(out_root: Path) -> dict[str, Any]:
         and not metric_scope.get("blockers")
     )
 
+    def condition_summary(condition: str) -> dict[str, Any] | None:
+        if metrics is None:
+            return None
+        payload = metrics.get("conditions", {}).get(condition)
+        if not payload:
+            return None
+        recall = payload.get("recall", {}).get("by_k", {})
+        violation = payload.get("violation_rate", {}).get("by_k", {})
+        return {
+            "r50": recall.get("50", {}).get("recall"),
+            "r100": recall.get("100", {}).get("recall"),
+            "violation50": violation.get("50", {}).get("violation_rate"),
+            "violation100": violation.get("100", {}).get("violation_rate"),
+        }
+
     input_statuses = {}
     if manifest is not None:
         input_statuses = {
@@ -465,14 +497,25 @@ def build_open3dsg_table6_hook(out_root: Path) -> dict[str, Any]:
         },
         "metric_contract": {
             "metrics_path": str(metrics_path.relative_to(out_root)),
+            "contract_metrics_path": str(contract_metrics_path.relative_to(out_root)),
             "manifest_path": str(manifest_path.relative_to(out_root)),
             "metrics_exists": metrics_path.exists(),
+            "contract_metrics_exists": contract_metrics_path.exists(),
             "manifest_exists": manifest_path.exists(),
             "metrics_status": metric_status,
+            "contract_metrics_status": contract_metric_status,
             "manifest_status": manifest_status,
             "counts": metrics.get("counts", {}) if metrics else {},
             "input_statuses": input_statuses,
             "blocked": deduped_blocked,
+        },
+        "key_metrics": {
+            "semantic_only": condition_summary("semantic_only"),
+            "probabilistic_recalibrated": condition_summary("probabilistic_recalibrated"),
+            "rule_verified_point_subtype": condition_summary("rule_verified_point_subtype"),
+            "control_family_specific_p_geom_valid": condition_summary(
+                "control_family_specific_p_geom_valid"
+            ),
         },
         "metric_scope": {
             "path": str(metric_scope_path.relative_to(out_root)),
@@ -558,8 +601,8 @@ def write_outputs(repo_root: Path, out_root: Path) -> dict[str, Any]:
     table2, table2_md = build_table2(payloads["hardened_g3"])
     table3, table3_md = build_table3(payloads["gt_metrics"])
     table4, table4_md = build_table4(payloads["audit_summary"], payloads["visual_summary"])
-    table5, table5_md = build_table5()
     open3dsg_table6_hook = build_open3dsg_table6_hook(out_root)
+    table5, table5_md = build_table5(open3dsg_table6_hook)
     table6, table6_md = build_table6(open3dsg_table6_hook)
 
     table_specs = [
@@ -621,17 +664,29 @@ def write_outputs(repo_root: Path, out_root: Path) -> dict[str, Any]:
 
     write_json(out_root / "sources/open3dsg/table6_hook.json", open3dsg_table6_hook)
 
+    open3dsg_ready = open3dsg_table6_hook["status"] == "ready"
     open3dsg_status = {
         "status": open3dsg_table6_hook["status"],
-        "required_next_outputs": [
-            "trained Open3DSG checkpoint",
-            "identity-preserving raw dump",
-            "open3dsg_ov prediction JSONL",
-            "geometry verification JSONL",
-            "metric table using the H001 suite",
-        ],
+        "required_next_outputs": (
+            [
+                "real Open3DSG failure-analysis rows from prediction/GT/geometry/metric joins",
+                "qualitative inspection of representative Open3DSG failure cases",
+            ]
+            if open3dsg_ready
+            else [
+                "trained Open3DSG checkpoint",
+                "identity-preserving raw dump",
+                "open3dsg_ov prediction JSONL",
+                "geometry verification JSONL",
+                "metric table using the H001 suite",
+            ]
+        ),
         "table6_hook": open3dsg_table6_hook,
-        "claim_boundary": "No cross-source claim until these outputs exist.",
+        "claim_boundary": (
+            "Cross-source reliability-layer claim is enabled only within measured H001 families and closed-set/GT-object scope."
+            if open3dsg_ready
+            else "No cross-source claim until these outputs exist."
+        ),
     }
     write_json(out_root / "sources/open3dsg/status.json", open3dsg_status)
 
@@ -679,6 +734,38 @@ def build_report(
     gt_auprc = next(row for row in table3 if row["metric"] == "p_geom_valid AUPRC")
     visual_quality = next(row for row in table4 if row["metric"] == "target-bucket quality-issue rate")
     visual_contra = next(row for row in table4 if row["metric"] == "target-bucket contradiction rate")
+    open3dsg_ready = open3dsg_hook.get("status") == "ready"
+    open3dsg_metrics = open3dsg_hook.get("key_metrics", {})
+    open3dsg_semantic = open3dsg_metrics.get("semantic_only") or {}
+    open3dsg_prob = open3dsg_metrics.get("probabilistic_recalibrated") or {}
+    open3dsg_fact = (
+        "- Open3DSG second-source metrics are ready: semantic_only R@50/R@100 "
+        f"{pct(open3dsg_semantic.get('r50'))}/{pct(open3dsg_semantic.get('r100'))}; "
+        "probabilistic_recalibrated R@50/R@100 "
+        f"{pct(open3dsg_prob.get('r50'))}/{pct(open3dsg_prob.get('r100'))}; "
+        "Violation@50/@100 "
+        f"{pct(open3dsg_prob.get('violation50'))}/{pct(open3dsg_prob.get('violation100'))}."
+        if open3dsg_ready
+        else "- Open3DSG numbers are blocked until feature dump, checkpoint reproduction, raw dump, adapter export, geometry join, and metric execution are complete."
+    )
+    open3dsg_inference = (
+        "- Open3DSG now provides second-source metric evidence for the same H001 geometry-checkable families; claims should still stay scoped to the measured closed-set/GT-object setting."
+        if open3dsg_ready
+        else "- The current result should be treated as single-source evidence until Open3DSG reproduction and metrics are complete."
+    )
+    open3dsg_boundary = (
+        "- Allowed now: cross-source VL-SAT + Open3DSG reliability-layer evidence within measured H001 families.\n"
+        "- Blocked now: broad open-vocabulary 3DSSG improvement claim without additional source/task evidence."
+        if open3dsg_ready
+        else "- Allowed now: scoped VL-SAT-centered reliability-layer result for geometry-checkable families.\n"
+        "- Preferred top-tier upgrade: cross-source VL-SAT + Open3DSG reliability-layer result.\n"
+        "- Blocked now: baseline-agnostic or broad open-vocabulary 3DSSG improvement claim."
+    )
+    open3dsg_completion = (
+        "- Open3DSG second-source defense is now stronger because feature audit, checkpoint reproduction, clean raw-dump source provenance, adapter export, geometry join, metric eval, real failure-analysis rows, qualitative case queue, deterministic qualitative case inspection, and paper-facing caveat wording all exist. The remaining paper risk is claim discipline: keep Open3DSG wording scoped to the measured H001-family, averaged-BLIP, covered-loadable setting."
+        if open3dsg_ready
+        else "- Completion of the background Open3DSG feature dump helps the defense mainly by enabling second-source checkpoint reproduction and metrics. It does not by itself answer reviewer concerns; the stronger defense comes only after feature audit, checkpoint reproduction, raw dump identity pass, adapter export, geometry join, metric tables, and real failure-analysis rows are completed."
+    )
 
     return f"""# H001 Geometry Reliability Experiment Report
 
@@ -703,21 +790,22 @@ Generated by Docker-oriented table builder from locked hypothesis artifacts.
 ## Inference
 
 - The locked VL-SAT result supports a scoped geometry-consistency reliability-layer claim.
-- The current result should be treated as single-source evidence until Open3DSG reproduction and metrics are complete.
+{open3dsg_inference}
 
 ## Claim Boundary
 
-- Allowed now: scoped VL-SAT-centered reliability-layer result for geometry-checkable families.
-- Preferred top-tier upgrade: cross-source VL-SAT + Open3DSG reliability-layer result.
-- Blocked now: baseline-agnostic or broad open-vocabulary 3DSSG improvement claim.
+{open3dsg_boundary}
 
 ## Reviewer-Risk Defense Checklist
 
 Fact:
 
-- Current reproduced evidence is still single-source `VL-SAT`; Open3DSG numbers are blocked until feature dump, checkpoint reproduction, raw dump, adapter export, geometry join, and metric execution are complete.
+{open3dsg_fact}
 - The Open3DSG predicate-family mapping and denominator policy are frozen before metric inspection; in-scope GT denominator is 2,545 rows across support_contact 1,199 / proximity 1,128 / relative_vertical 218.
 - Recall matching for Open3DSG remains exact predicate-label matching. Family grouping is used for reliability and violation reporting, not for collapsing recall labels.
+- Open3DSG real failure-analysis rows and qualitative inspection are ready: 57,736 rows, 0 validation errors, 6,162 visual-audit queue rows, 36 qualitative case candidates, 23/36 demoted by geometry-aware reranking, and 10/36 rule-violated cases with p_geom_valid > 0.9.
+- Open3DSG raw dump has clean source-process provenance via v14 streaming same-path resume: exit `0`, 377/377 completed batches, 19,162 rows, dropped/invalid partial rows 0/0, and SHA256 matching the identity-audited canonical `raw_dump/raw.jsonl`. Historical v12/v13/v14 exit-137 attempts are retained as run records, not final raw-dump provenance caveats.
+- Open3DSG paper caveats are frozen: filtered train split 3,744/3,852 subgraphs, train-dev validation split 156/160 subgraphs, H001 covered loadable scope 377/388 contexts, averaged-BLIP checkpoint variant, exact-label 2,545-row H001-family denominator, and residual calibration risk.
 - The reduced 50-row visual sanity check is provenance-limited and must not be described as a large-scale or strictly blinded human audit.
 
 Likely reviewer attacks:
@@ -733,14 +821,14 @@ Required defenses:
 
 - Frame the method as a calibrated geometry-consistency evaluation and re-ranking framework, not as a standalone verifier script.
 - Report semantic-only, rule-only, calibrated global, family-specific, and score-preserving/control variants with R@K, Violation@K, recall retention, and Pareto-style tradeoff.
-- Keep all claim wording scoped to geometry-checkable relation reliability unless Open3DSG second-source evidence supports a broader statement.
+- Keep all claim wording scoped to measured geometry-checkable relation reliability; do not upgrade to broad open-vocabulary 3DSSG generation improvement.
 - Report denominator transparency: in-scope rows, excluded rows, filtered train/validation counts, covered Open3DSG contexts, and missing-context caveats.
-- Convert the locked Open3DSG failure-analysis schema from synthetic smoke rows to real prediction/GT/geometry/metric joins only after metrics exist.
+- Use the real Open3DSG failure-analysis rows and qualitative queue to explain failure mechanisms without changing the locked taxonomy.
 - Treat Qwen-VL and SceneFun3D/FunGraph3D as optional extensions with separate claim boundaries, not as replacements for the Open3DSG second-source anchor.
 
 Inference:
 
-- Completion of the background Open3DSG feature dump helps the defense mainly by enabling second-source checkpoint reproduction and metrics. It does not by itself answer reviewer concerns; the stronger defense comes only after feature audit, checkpoint reproduction, raw dump identity pass, adapter export, geometry join, metric tables, and real failure-analysis rows are completed.
+{open3dsg_completion}
 
 ## Generated Outputs
 

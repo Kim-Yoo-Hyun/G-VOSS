@@ -1,7 +1,7 @@
 # Open3DSG Metric/Join Contract
 
-Status: `blocked_runtime_inputs_missing`
-Created at: `2026-05-09T15:11:11+00:00`
+Status: `ready_runtime_inputs_present_contract_only`
+Created at: `2026-05-18T09:00:16+00:00`
 
 ## Fact
 
@@ -11,16 +11,15 @@ Created at: `2026-05-09T15:11:11+00:00`
 
 ## Runtime Inputs
 
-- `predictions_jsonl`: status `missing_required`, rows `None`, path `experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl`
+- `predictions_jsonl`: status `present`, rows `496600`, path `experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl`
 - `ground_truth_jsonl`: status `present`, rows `7505`, path `hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl`
-- `geometry_jsonl`: status `missing_required`, rows `None`, path `experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl`
+- `geometry_jsonl`: status `present`, rows `496600`, path `experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl`
 - `calibration_model_json`: status `present`, rows `199`, path `hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_smoke/model.json`
 - `family_calibration_model_json`: status `present`, rows `744`, path `hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json`
 
 ## Blocked
 
-- `predictions_jsonl:missing_required:experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl`
-- `geometry_jsonl:missing_required:experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl`
+- none
 
 ## Output Contract
 
