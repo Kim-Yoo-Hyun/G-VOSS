@@ -1,6 +1,6 @@
 # CAND-001 Hypotheses
 
-Last updated: 2026-05-19
+Last updated: 2026-05-21
 
 ## Source Candidate
 
@@ -83,9 +83,9 @@ Given object instances and candidate semantic relations in a 3D indoor scene, co
 
 - `VL-SAT` table/report reproduction is complete in `experiments/H001_geom_reliability/`.
 - Use the completed Open3DSG second-source metrics for measured H001-family cross-source evidence; report the frozen `paper_caveats/` wording for filtered-train, covered-scope, averaged-BLIP, `validation_missing_preprocessed:11`, exact-label denominator, and residual calibration-risk caveats. Keep historical exit-137 attempts in run records, not final raw-dump caveat wording.
-- Decide whether to transition from scoped experiment artifacts toward paper/experiment writing, or add optional extension evidence first; do not change the locked taxonomy without schema version bump.
+- Paper handoff is ready in `paper/preview.md` and bilingual `paper/outline.md`; title candidates, three contribution statements, abstract skeleton, Introduction logic, table/figure caption drafts, claim-consistency review, related-work positioning, problem/method formalization, Figure 1-3 asset plan, table/appendix placement, and limitation/reviewer-defense prose skeletons are now fixed, with cross-source results/failure analysis treated as empirical validation. The next drafting step is first-pass manuscript prose from the outline. Table 6/Open3DSG caveat compression is deferred until the paper-body logic is readable end to end. Do not change the locked taxonomy without schema version bump.
 - Keep the clean v14 streaming raw-dump provenance and earlier exit-137 attempts separated in reproducibility wording.
 - Optional modern extension: Qwen-VL prompt schema, prediction JSONL contract, parser skeleton, tiny pilot scope, model id/revision/local-dir recommendation, pair-crop rendering, and model cache are fixed; only add Docker runtime smoke after GPU/RAM pressure is cleared, then export identity-preserving prediction JSONL and metric evidence if the extension becomes part of the paper.
 - Optional robotics/functionality expansion: add SceneFun3D/FunGraph3D only if scope expands from spatial relation reliability to functional/affordance relation reliability.
-- Do not create additional `experiments/` roots, `paper/`, or `decisions/` yet.
+- Do not create additional `experiments/` roots or `decisions/` yet. Keep `paper/` limited to handoff/draft-planning files until manuscript drafting needs a larger structure.
 - Continue using Docker-based reproduction as the paper-body experiment rule.

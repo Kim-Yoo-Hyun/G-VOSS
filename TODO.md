@@ -1,6 +1,6 @@
 # TODO
 
-Last updated: 2026-05-19
+Last updated: 2026-05-21
 
 이 파일은 에이전트가 다음 작업 계획과 진행 상태를 관리하는 루트 작업판이다. 자세한 문헌 조사 내용은 `literature/`에 기록하고, 자세한 hypothesis 근거는 `hypothesis/`에 기록한다.
 
@@ -18,7 +18,9 @@ CAND-001은 hypothesis prep / verifier implementation 트랙이다. H001 hypothe
 - `06_second_source.md`
 - `07_experiment_spec.md`
 
-Docker-based scoped H001 experiment workflow entry는 완료했다. `experiments/H001_geom_reliability/`에서 Docker build/run으로 locked `VL-SAT` artifact를 검증하고 Table 1-6, figure specs, locked input manifest, report를 생성했다. Method contribution은 verifier script가 아니라 calibrated geometry-consistency evaluation/re-ranking framework로 정리한다. Top-tier main path는 single-baseline-only justification보다 Open3DSG second-source adapter evidence를 우선한다. Qwen2.5-VL/Qwen3-VL은 Open3DSG reproduction anchor를 대체하지 않는 modern-VLM semantic-source extension으로 허용한다. Open3DSG `training_repro` metadata/split/full payload, official BLIP TopK5/scales3 feature dump, avg-BLIP full training, checkpoint selection, eval preflight, H001 held-out eval feature-cache generation, raw-dump identity audit, clean v14 streaming raw-dump source provenance, adapter export, geometry join, metric eval, and Table 6 regeneration are complete. 논문 본문용 실제 experiment 구현은 계속 Docker 기반으로 진행한다. Host-only outputs must not be promoted to paper experiment results.
+Docker-based scoped H001 experiment workflow entry는 완료했다. `experiments/H001_geom_reliability/`에서 Docker build/run으로 locked `VL-SAT` artifact를 검증하고 Table 1-6, figure specs, locked input manifest, report를 생성했다. Method contribution은 verifier script가 아니라 calibrated geometry-consistency evaluation/re-ranking framework로 정리한다. Top-tier main path는 single-baseline-only justification보다 Open3DSG second-source adapter evidence를 우선한다. Qwen2.5-VL/Qwen3-VL은 Open3DSG reproduction anchor를 대체하지 않는 modern-VLM semantic-source extension으로 허용한다. Open3DSG `training_repro` metadata/split/full payload, official BLIP TopK5/scales3 feature dump, avg-BLIP full training, checkpoint selection, eval preflight, H001 held-out eval feature-cache generation, raw-dump identity audit, clean v14 streaming raw-dump source provenance, adapter export, geometry join, metric eval, Table 6 regeneration, paper claim-consistency review, and paper-body content block planning are complete. 논문 본문용 실제 experiment 구현은 계속 Docker 기반으로 진행한다. Host-only outputs must not be promoted to paper experiment results.
+
+Reproducibility/GitHub portability status: `docs/reproducibility.md` is updated for 2026-05-21 and records the `.gitignore` audit. Core runbooks, Dockerfiles, compose files, scripts, reports, compact manifests, paper planning docs, and metric summaries can be committed. Large datasets, checkpoints, features, raw dumps, prediction/verification/failure JSONL rows, and model caches are intentionally ignored and must be rebuilt/downloaded or transferred separately on another computer.
 
 Latest H001 Open3DSG status, 2026-05-19 12:57 KST: H001 eval feature shard loop completed with exit `0` and `377/377` covered loadable feature ids. Clean v14 streaming raw-dump same-path resume completed with exit `0`; stream manifest status is `raw_dump_stream_complete`, `377/377` completed batches, `19162` rows, dropped/invalid partial rows `0/0`, and SHA256 matches existing `raw_dump/raw.jsonl` exactly (`7072c77939a84f8739671025534cf09d5b834c507efad22fec3e3172e46ed2c2`). Docker adapter `v1` exports `496600` prediction rows, filtering `62` raw rows outside the fixed H001 object context. Docker geometry join preserves `496600/496600` rows and scores `114600` geometry-checkable rows. Docker metric eval status is `ready` with no blockers; Table 6 hook is `ready`. Docker real failure-analysis rows status is `failure_analysis_real_ready` with 57,736 rows and 0 validation errors. Docker qualitative inspection status is `qualitative_case_inspection_ready`: 36 cases, 23 demoted by geometry-aware reranking, 13 promoted/retained, 10 rule-violated cases with `p_geom_valid > 0.9`, and no taxonomy change. Docker paper caveat wording status is `open3dsg_paper_caveats_ready`: filtered train 3,744/3,852 subgraphs, train-dev validation 156/160 subgraphs, H001 covered loadable scope 377/388 contexts with `validation_missing_preprocessed:11`, averaged-BLIP variant, exact-label 2,545-row H001-family denominator, and residual calibration-risk caveat. Key Open3DSG metrics: semantic_only R@50/R@100 `0.3945/0.4963`, Violation@50/@100 `0.1326/0.1195`; probabilistic_recalibrated R@50/R@100 `0.3843/0.5580`, Violation@50/@100 `0.0575/0.0803`; rule_verified_point_subtype R@50/R@100 `0.4149/0.5238`, Violation@50/@100 `0.0/0.0`; family_specific control R@50/R@100 `0.4530/0.5984`, Violation@50/@100 `0.0228/0.0311`.
 
@@ -42,7 +44,7 @@ Data-dependent:
 
 Non-data:
 
-- [ ] Draft paper outline and contribution statements from `paper/preview.md`
+- [ ] Draft first-pass manuscript prose from `paper/outline.md`: Related Work, Problem Formulation, Method, Results/Discussion, Limitations
 - [ ] Rerun Docker `qwen_vl_runtime_preflight` after clearing current GPU/RAM/swap pressure; Qwen smoke remains optional/non-metric
 - [ ] After runtime preflight passes, run Docker `qwen_vl_tiny_inference_smoke` on 1-3 crops and validate JSONL contract; do not promote smoke output to paper metric evidence
 
@@ -54,10 +56,13 @@ Non-data:
 
 ### CAND-001 Data-Dependent Order
 
-- [ ] User decision: proceed from scoped experiment artifacts toward paper/experiment writing phase, or add optional extension evidence first
+- [ ] No active data-dependent Open3DSG blocker.
 
 ### CAND-001 Non-Data Order
 
+- [ ] Draft first-pass manuscript prose from `paper/outline.md`: Related Work, Problem Formulation, Method, Results/Discussion, Limitations
+- [ ] Add figure-generation TODOs only after prose confirms the exact Figure 1-3 claims
+- [ ] Defer Table 6/Open3DSG caption compression until paper content is locked; keep caveats explicit for now
 - [ ] Qwen-VL GPU runtime preflight after GPU/RAM pressure is cleared: `qwen_vl_runtime_preflight`
 - [ ] Qwen-VL tiny inference smoke after runtime preflight: `qwen_vl_tiny_inference_smoke` with 1-3 crops; keep as modern-VLM semantic-source extension smoke only
 - [ ] Optional reduced checkpoint smoke only if the official route is intentionally paused or declared too slow: `dump_features_3rscan_pilot` -> `feature_audit_pilot` -> `train_pilot_reduced`; do not promote to paper-result evidence
@@ -72,6 +77,17 @@ Non-data:
 
 ## Recently Completed
 
+- [x] H001 reproducibility runbook 및 `.gitignore` portability audit 업데이트 완료: `docs/reproducibility.md`에 2026-05-21 상태, paper planning handoff, runtime pressure check rule, GitHub에 올릴 수 있는 재현 파일, 의도적으로 ignored 되는 대형 데이터/checkpoint/raw JSONL/model cache, and other-computer transfer/rebuild requirement를 정리했다. `.gitignore` 자체는 수정하지 않았다.
+- [x] H001 paper-body content blocks 확보 완료: `paper/outline.md`에 related-work positioning map, formal problem/method notation, re-ranking algorithm skeleton, Results/controls/Open3DSG prose skeleton, failure-analysis prose skeleton, limitation prose skeleton, Figure 1-3 asset plan, and table/main-vs-appendix placement을 추가했다.
+- [x] H001 paper-writing priority reset 완료: camera-ready caption compression은 현재 단계에서 너무 이르므로, 다음 우선순위를 paper-body content completeness로 변경했다. `paper/outline.md`에 paper content coverage checklist를 추가하고 secured content와 missing blocks를 구분했다.
+- [x] H001 paper claim-consistency review 완료: `paper/outline.md`에서 title, contribution, abstract, Introduction, Figure 1-3 captions, Table 1-6 captions를 scoped relation-reliability claim 기준으로 점검했고, broad open-vocabulary/SOTA, baseline-agnostic, verifier-script, Qwen-main-evidence, exact non-averaged Open3DSG reproduction overclaim을 금지 표현으로 고정했다. 다음 priority는 문장 polish가 아니라 paper-body content completeness다.
+- [x] H001 table/figure manuscript-ready caption draft 완료: `paper/outline.md`에 Figure 1-3 caption drafts, Table 1-6 caption drafts, reviewer-defense role, Korean caption notes를 추가했다.
+- [x] H001 Introduction section logic 확장 완료: `paper/outline.md`에 영어/한국어 6문단 Introduction flow, draft paragraph skeleton, 금지 표현, 필수 inclusion checklist를 추가했다.
+- [x] H001 abstract skeleton 작성 완료: `paper/outline.md`에 full/short English abstract skeleton, 한국어 초록 skeleton, optional quantitative abstract numbers, and abstract wording constraints를 추가했다.
+- [x] H001 contribution statements 3개 구성으로 정리 완료: `paper/outline.md`에서 cross-source evidence/failure analysis를 4번째 contribution이 아니라 Results/Failure Analysis의 empirical validation으로 이동하고, contribution은 failure mechanism / method framework / evaluation protocol 3개로 고정했다.
+- [x] H001 title candidates and contribution statements 작성 완료: `paper/outline.md`에 recommended primary title, 8개 대안 title, 피해야 할 title pattern, 3개 contribution statements, Introduction용 compact contribution version, and 한국어 병기 contribution wording을 추가했다.
+- [x] H001 paper outline 한국어 병기 완료: `paper/outline.md`에 기존 영어 outline을 유지하면서 한국어 작성 지침, section별 역할, reviewer-defense, Open3DSG caveat, figure/table plan을 추가했다.
+- [x] H001 paper outline 생성 완료: `paper/outline.md`에 paper skeleton, section별 evidence placement, Open3DSG caveat placement, reviewer-defense map, figure/table plan, and next drafting tasks를 정리했다.
 - [x] H001 paper preview handoff 생성 완료: `paper/preview.md`에 현재까지의 `VL-SAT` / Open3DSG metric evidence, controls, GT verifier, audit, failure analysis, Open3DSG caveats, reviewer-defense map, optional extension boundary, and 새 컴퓨터/데이터셋 손실 시 반드시 읽을 파일 목록을 정리했다.
 - [x] H001 Open3DSG paper caveat wording 완료: Docker `open3dsg_paper_caveats` generated `sources/open3dsg/paper_caveats/{manifest.json,report.md}` with status `open3dsg_paper_caveats_ready`; fixed wording covers filtered-train `3744/3852`, train-dev validation `156/160`, H001 covered loadable scope `377/388`, `validation_missing_preprocessed:11`, averaged-BLIP variant, exact-label 2,545-row H001-family denominator, and residual calibration risk.
 - [x] H001 Open3DSG qualitative failure-case inspection 완료: Docker `open3dsg_failure_case_inspection` generated `sources/open3dsg/failure_cases/{inspection.json,inspection.md}` with status `qualitative_case_inspection_ready`; 36 cases inspected, 23/36 demoted by geometry-aware reranking, 13/36 promoted or retained, 10/36 rule-violated cases with `p_geom_valid > 0.9`, no taxonomy change, and explicit non-visual-audit claim boundary.

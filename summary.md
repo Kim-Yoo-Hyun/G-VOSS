@@ -1,6 +1,6 @@
 # H001 Research Summary
 
-Last updated: 2026-05-19 KST
+Last updated: 2026-05-21 KST
 
 이 문서는 CAND-001 / H001의 현재 연구 정의, 필요성, 가설, metric,
 비교군, 실험 세팅, contribution, 구현 방향, baseline 재현 가능성을 한곳에
@@ -516,10 +516,36 @@ Current data/runtime status:
   averaged-BLIP variant, exact-label 2,545-row H001-family denominator, and
   residual calibration-risk wording.
 
-Next required decision:
+Current paper handoff:
 
-1. Decide whether to move from scoped experiment artifacts toward paper/experiment writing,
-   or add optional extension evidence first.
+- `paper/preview.md` is ready and summarizes current results, caveats,
+  reviewer-defense map, optional extension boundary, and recovery files.
+- `paper/outline.md` is ready with English/Korean paper skeleton, section-level
+  evidence placement, recommended title, title alternatives, three contribution
+  statements, abstract skeleton, Introduction logic, Open3DSG caveat placement,
+  reviewer-defense plan, manuscript-ready table/figure caption drafts, and
+  claim-consistency review across title, contribution, abstract, Introduction,
+  table captions, and figure captions. Cross-source results and failure
+  analysis are empirical validation, not a fourth contribution.
+
+Next required drafting step:
+
+1. Draft first-pass manuscript prose from `paper/outline.md`: Related Work,
+   Problem Formulation, Method, Results/Discussion, and Limitations.
+2. Defer Table 6/Open3DSG caveat compression until the paper-body logic is
+   readable end to end;
+   keep averaged-BLIP, filtered-train/dev, covered-scope, exact-label denominator,
+   `validation_missing_preprocessed:11`, and residual calibration-risk caveats
+   explicit for now.
+
+Reproducibility/GitHub portability note:
+
+- `docs/reproducibility.md` records the 2026-05-21 `.gitignore` audit.
+- GitHub can carry the runbooks, Docker setup, scripts, reports, compact
+  manifests, tables/metric summaries, and paper planning docs.
+- Large datasets, checkpoints, features, raw dumps, prediction/verification/
+  failure JSONL rows, and model caches remain intentionally ignored and must be
+  rebuilt/downloaded or transferred separately on another computer.
 
 Optional extension sequence:
 

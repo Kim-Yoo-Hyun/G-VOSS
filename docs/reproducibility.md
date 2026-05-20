@@ -1,6 +1,6 @@
 # H001 Reproducibility Runbook
 
-Last updated: 2026-05-19 KST
+Last updated: 2026-05-21 KST
 
 This document consolidates dataset, checkpoint, environment, Docker, reproduction,
 and evaluation-summary information for `experiments/H001_geom_reliability/`.
@@ -14,13 +14,22 @@ Facts:
 - Paper-body experiment outputs must be generated through Docker.
 - `VL-SAT` locked artifacts, Open3DSG second-source metrics, Open3DSG real
   failure rows, and Table 6 are ready.
+- Paper handoff and planning are ready: `paper/preview.md` and
+  `paper/outline.md` contain the current claim boundary, paper skeleton,
+  contribution wording, related-work positioning, method/problem formalization,
+  Figure 1-3 asset plan, table/appendix placement, and limitation/reviewer
+  defense prose skeletons.
+- Next paper task: draft first-pass manuscript prose from `paper/outline.md`
+  for Related Work, Problem Formulation, Method, Results/Discussion, and
+  Limitations.
 - Qwen-VL is an optional modern semantic-source smoke path. The locked
   Qwen3-VL-4B cache is ready, but runtime inference is not paper metric
   evidence.
-- As of 2026-05-18 21:37 KST, no H001/Open3DSG/Qwen Docker container is
-  running. A non-Open3DSG `ipykernel_launcher` process is using about 9.7 GB GPU
-  memory, 41 GiB host RAM is used, and swap usage is about 7.0/8.0 GiB. Do not
-  start another heavy Open3DSG/Qwen run until GPU/RAM pressure is cleared.
+- Runtime spot check on 2026-05-21 KST found an `h001-open3dsg-repro:cu128`
+  container active, GPU memory around 20.9/32.6 GiB used, host memory around
+  40/62 GiB used, and swap nearly full. Treat runtime pressure as volatile:
+  check `docker ps`, `tmux ls`, `nvidia-smi`, and `free -h` before launching
+  heavy Open3DSG or Qwen jobs.
 
 ## Data Locations
 
@@ -36,12 +45,64 @@ Large runtime data is intentionally under ignored local roots:
 | Qwen-VL model cache | `local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/` |
 | Qwen-VL tiny crops | `local_dataset/qwen_vl_crops/tiny_pilot/` |
 
-Tracked experiment artifacts live under:
+Tracked experiment artifacts and runbooks live under:
 
 ```text
 experiments/H001_geom_reliability/
-hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/
+docs/reproducibility.md
+paper/preview.md
+paper/outline.md
 ```
+
+Hypothesis-stage smoke artifacts may exist under ignored `artifacts/` or
+`**/evaluation/` paths. They are not the preferred cross-machine source of
+truth; use the tracked reports, manifests, Docker commands, and locked tables
+under `experiments/H001_geom_reliability/`.
+
+## GitHub Portability And `.gitignore` Audit
+
+Checked on 2026-05-21 KST with `git check-ignore` and `git ls-files`.
+
+Can be committed to GitHub:
+
+- Root workflow docs: `README.md`, `TODO.md`, `AGENTS.md`, `summary.md`.
+- Reproducibility docs: `docs/reproducibility.md`, `docs/index.md`,
+  `docs/paper.md`, `docs/hypothesis.md`, `docs/literature.md`.
+- Paper planning docs: `paper/preview.md` and `paper/outline.md`.
+  `paper/outline.md` is not ignored, but is currently untracked and must be
+  added explicitly before a push.
+- Docker/reproduction source files:
+  `experiments/H001_geom_reliability/Dockerfile`,
+  `experiments/H001_geom_reliability/compose.yaml`,
+  `experiments/H001_geom_reliability/commands.md`,
+  Open3DSG/Qwen Dockerfiles and compose files, and all experiment scripts under
+  `experiments/H001_geom_reliability/scripts/`.
+- Reproduction summaries and compact results: `manifest*.json`, `report.md`,
+  table `.md`/`.json`, figure specs, Open3DSG metric JSON, paper caveat reports,
+  adapter/geometry/failure summary manifests, and Qwen contract/runtime-plan
+  manifests.
+
+Intentionally not committed because of `.gitignore`:
+
+- Large local datasets and caches under `local_dataset/`.
+- Downloaded or generated model/checkpoint/feature files such as `*.ckpt`,
+  `*.pth`, `*.pt`, `*.npy`, `*.npz`, archives, and scan/mesh binaries.
+- Large row-level runtime outputs such as Open3DSG `raw_dump/raw.jsonl`,
+  adapter `predictions.jsonl`, geometry `verification.jsonl`, failure
+  `rows.jsonl`, and queue/record JSONL files.
+- Ignored hypothesis/runtime roots such as `artifacts/`, `**/artifacts/`, and
+  `**/evaluation/`.
+
+Implication for another computer:
+
+- The GitHub repo can carry the exact commands, Docker setup, paper/research
+  state, compact manifests, and metric summaries.
+- Another machine must either rebuild/download the ignored runtime payloads
+  using the commands in this file, or receive a separate data bundle containing
+  `local_dataset/`, Open3DSG checkpoint/features/raw JSONL, VL-SAT checkpoints,
+  and the Qwen-VL model cache.
+- Do not rely on GitHub alone to carry the trained Open3DSG checkpoint or large
+  raw row outputs; they are intentionally excluded.
 
 ## Environment And Docker
 

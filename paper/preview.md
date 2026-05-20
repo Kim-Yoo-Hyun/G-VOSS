@@ -1,6 +1,6 @@
 # H001 Paper Preview
 
-Last updated: 2026-05-19 KST
+Last updated: 2026-05-21 KST
 
 이 문서는 H001을 paper/experiment writing phase로 넘기기 직전에 현재까지의 연구 결과, 주장 범위, 실험 근거, caveat, 그리고 재시작 시 반드시 읽어야 할 파일을 한곳에 고정한 preview다. 최종 manuscript가 아니라 paper draft를 쓰기 위한 handoff 문서다.
 
@@ -222,6 +222,7 @@ Read these first:
 7. `docs/reproducibility.md`
 8. `summary.md`
 9. `paper/preview.md`
+10. `paper/outline.md`
 
 ### Must-Read Hypothesis Files
 
@@ -299,6 +300,8 @@ Recovery rule:
 
 Recommended next action:
 
-1. Start paper writing from this preview.
-2. Draft the paper outline and contribution statements before adding optional Qwen-VL evidence.
-3. Keep Qwen-VL runtime smoke as optional extension only, unless the paper outline reveals a concrete reviewer-defense gap that needs it.
+1. Use `paper/outline.md` as the active paper-writing skeleton.
+2. Treat the claim-consistency review in `paper/outline.md` as the current paper guardrail: title, contributions, abstract, Introduction, table captions, and figure captions must stay within the scoped relation-reliability claim.
+3. Draft first-pass manuscript prose from the secured outline blocks: Related Work, Problem Formulation, Method, Results/Discussion, and Limitations.
+4. Keep Table 6/Open3DSG caveats explicit for now; caption compression is a later writing-polish task after paper-body logic is readable end to end.
+5. Keep Qwen-VL runtime smoke as optional extension only, unless it receives the same Docker, metric, denominator, and audit treatment as paper evidence.

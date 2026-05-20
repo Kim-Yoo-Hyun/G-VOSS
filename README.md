@@ -2,12 +2,14 @@
 
 이 저장소는 3D Scene Graph 석사 연구를 위한 작업 공간이다.
 
-현재 단계는 CAND-001 H001의 Docker-based scoped experiment와 CAND-003 literature survey를 병렬로 추적하는 단계다. CAND-001은 `Geometry-Grounded Open-Vocabulary Relation Graph` 방향에서 hypothesis-stage evidence lock, scoped main experiment spec, `VL-SAT` locked result, Open3DSG second-source metric evidence, real failure-analysis rows, and qualitative case inspection까지 완료했다. H001 문서는 `hypothesis/CAND-001/H001_geometry-grounded-verification/` 아래 7개 canonical 파일로 정리되어 있다.
+현재 단계는 CAND-001 H001의 Docker-based scoped experiment 결과를 paper writing phase로 전환하는 단계와 CAND-003 literature survey를 병렬로 추적하는 단계다. CAND-001은 `Geometry-Grounded Open-Vocabulary Relation Graph` 방향에서 hypothesis-stage evidence lock, scoped main experiment spec, `VL-SAT` locked result, Open3DSG second-source metric evidence, real failure-analysis rows, qualitative case inspection, paper preview, and bilingual paper outline까지 완료했다. H001 문서는 `hypothesis/CAND-001/H001_geometry-grounded-verification/` 아래 7개 canonical 파일로 정리되어 있다.
 
 ## Current Focus
 
 - CAND-001: `experiments/H001_geom_reliability/`에서 Docker-generated `VL-SAT` tables, Open3DSG avg-BLIP checkpoint reproduction, raw-dump identity, adapter export, geometry join, metric eval, Table 6, real failure-analysis rows, qualitative failure-case inspection, and paper caveat wording are ready.
-- CAND-001 next gate: decide whether to move from scoped experiment artifacts toward paper/experiment writing, or add optional extension evidence first.
+- CAND-001 paper handoff: `paper/preview.md` and bilingual `paper/outline.md` are ready, including claim-consistency review, related-work positioning, method/problem formalization, Figure 1-3 asset plan, table/appendix placement, and limitation/reviewer-defense prose skeletons.
+- CAND-001 next gate: draft first-pass manuscript prose from `paper/outline.md` for Related Work, Problem Formulation, Method, Results/Discussion, and Limitations. Table 6/Open3DSG caveat compression is deferred until the paper-body logic is readable end to end.
+- CAND-001 reproducibility handoff: `docs/reproducibility.md` is updated with the 2026-05-21 `.gitignore` portability audit. GitHub can carry runbooks, Docker setup, scripts, reports, compact manifests, and metric summaries; large datasets/checkpoints/features/raw JSONL/model caches must be rebuilt/downloaded or transferred separately.
 - CAND-001 optional extension: Qwen-VL cache is ready; runtime preflight/tiny inference smoke can run only after GPU/RAM pressure is cleared, and remains non-metric extension evidence.
 - CAND-001 experiment rule: 논문 본문용 실제 experiment 구현은 Docker 기반으로만 진행하고 host-only output은 paper result로 승격하지 않는다.
 - Research target rule: 연구 목표와 방향성은 AI, ML, CV, Robotics top-tier journal/conference를 타겟으로 판단한다.
@@ -45,6 +47,7 @@ Facts:
 - Open3DSG key metrics: semantic_only R@50/R@100 0.3945/0.4963, Violation@50/@100 0.1326/0.1195; probabilistic_recalibrated R@50/R@100 0.3843/0.5580, Violation@50/@100 0.0575/0.0803; rule_verified_point_subtype R@50/R@100 0.4149/0.5238, Violation@50/@100 0.0/0.0; family_specific control R@50/R@100 0.4530/0.5984, Violation@50/@100 0.0228/0.0311.
 - Open3DSG qualitative inspection is ready: 36 selected cases, 23 demoted by geometry-aware reranking, 13 promoted or retained, 10 rule-violated cases with `p_geom_valid > 0.9`, and no taxonomy change. This is reviewer-defense evidence, not a representative visual audit.
 - Open3DSG paper caveat wording is ready: filtered train 3,744/3,852 subgraphs, train-dev validation 156/160 subgraphs, H001 covered loadable scope 377/388 contexts with `validation_missing_preprocessed:11`, averaged-BLIP variant, exact-label 2,545-row H001-family denominator, and residual calibration risk are fixed in `paper_caveats/`.
+- Paper preview and outline are ready: `paper/preview.md` summarizes current results and recovery files, and `paper/outline.md` fixes the English/Korean paper skeleton, recommended title, title alternatives, three contribution statements, abstract skeleton, Introduction logic, evidence placement, reviewer-defense map, caveat placement, and manuscript-ready table/figure caption drafts. Cross-source results and failure analysis are empirical validation, not a fourth contribution.
 
 Inference:
 
@@ -105,6 +108,8 @@ Current survey verdict:
 - `hypothesis/README.md`: hypothesis index
 - `hypothesis/CAND-001/README.md`: CAND-001 hypothesis index
 - `hypothesis/CAND-001/H001_geometry-grounded-verification/`: active H001 canonical files, tools, and artifacts
+- `paper/preview.md`: paper writing phase 직전의 현재 결과 총정리와 재시작 시 필수 파일 목록
+- `paper/outline.md`: 영어/한국어 paper skeleton, section별 evidence placement, reviewer-defense, figure/table plan
 
 ## Working Principle
 
@@ -114,6 +119,7 @@ Current survey verdict:
 
 - `experiments/H001_geom_reliability/`
 - `paper/preview.md`: paper writing phase 직전의 현재 결과 총정리와 재시작 시 필수 파일 목록
+- `paper/outline.md`: paper skeleton과 한국어 병기 outline
 
 아직 만들지 않는 구조:
 

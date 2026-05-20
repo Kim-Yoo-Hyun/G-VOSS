@@ -1,6 +1,6 @@
 # Paper Workflow
 
-Last updated: 2026-05-19
+Last updated: 2026-05-21
 
 This document manages paper-level framing for H001/CAND-001: novelty, contribution boundary, reviewer-defense logic, and the minimum experiment evidence needed before paper writing. It does not replace `docs/hypothesis.md`, `07_experiment_spec.md`, or Docker experiment artifacts.
 
@@ -30,6 +30,11 @@ Draft:
 > Semantic relation predictors can rank plausible 3D Scene Graph relations without calibrating them to relation-level physical consistency; calibrated geometry-consistency scoring exposes this failure mode and re-ranks predictions to reduce geometric violations while making recall tradeoffs measurable.
 
 This is the preferred direction because it contains both cause diagnosis and method principle. Open3DSG second-source metrics are now available, so the paper wording should stay scoped to measured H001 families rather than broaden to full open-vocabulary 3DSSG generation.
+
+Current paper handoff:
+
+- `paper/preview.md` summarizes current evidence, caveats, reviewer-defense map, optional extension boundary, and recovery files.
+- `paper/outline.md` provides the English/Korean paper skeleton, recommended title, title alternatives, three contribution statements, abstract skeleton, section-level evidence placement, Open3DSG caveat placement, reviewer-defense plan, and table/figure plan. Cross-source results and failure analysis are treated as empirical validation, not a separate fourth contribution.
 
 ## H001 Fit To Top-Tier Pattern
 
@@ -88,7 +93,8 @@ Minimum table/figure set before paper writing:
 - Table 5: control experiments such as wrong-pair and shuffled-geometry.
 - Table 6: Open3DSG second-source metrics with exact scope and blocked/filtered sample accounting.
 - Figure 1: failure mechanism and framework overview.
-- Figure 2: qualitative failure taxonomy with examples where semantic plausibility and physical consistency diverge.
+- Figure 2: recall-violation tradeoff across semantic-only, probabilistic calibrated, rule-verified, and family-specific operating points.
+- Figure 3: qualitative failure taxonomy with examples where semantic plausibility and physical consistency diverge.
 
 ## Non-Claims
 
@@ -103,8 +109,10 @@ Do not claim these until evidence exists:
 
 ## Next Paper-Framing Step
 
-- Use `paper/preview.md` as the paper-writing handoff.
-- Draft the paper outline and contribution statements from the measured cross-source reliability claim.
+- Claim-consistency review is complete in `paper/outline.md`: title, contribution statements, abstract, Introduction, Figure 1-3 captions, and Table 1-6 captions preserve the scoped relation-reliability claim.
+- Paper-body content blocks are secured in `paper/outline.md`: related-work positioning, problem/method formalization, re-ranking algorithm skeleton, Results/controls/Open3DSG prose skeleton, failure-analysis prose skeleton, limitation prose, Figure 1-3 asset plan, and table/appendix placement.
+- Next, draft first-pass manuscript prose from those blocks before polishing captions or generating final figures.
+- Keep Table 6/Open3DSG caveats explicit until content is locked; later compression must retain averaged-BLIP, filtered-train/dev, covered loadable scope, exact-label denominator, `validation_missing_preprocessed:11`, and residual calibration-risk caveats.
 - Use the frozen Open3DSG caveat wording in Table 6 and failure-analysis text.
 - Keep clean v14 streaming source-process provenance separate from historical exit-137 run records in reproducibility wording.
 - Keep Qwen-VL as optional extension evidence unless it receives the same Docker, metric, and audit treatment.
