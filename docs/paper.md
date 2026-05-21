@@ -35,6 +35,7 @@ Current paper handoff:
 
 - `paper/preview.md` summarizes current evidence, caveats, reviewer-defense map, optional extension boundary, and recovery files.
 - `paper/outline.md` provides the English/Korean paper skeleton, recommended title, title alternatives, three contribution statements, abstract skeleton, section-level evidence placement, Open3DSG caveat placement, reviewer-defense plan, and table/figure plan. Cross-source results and failure analysis are treated as empirical validation, not a separate fourth contribution.
+- `paper/draft.md` provides first-pass manuscript prose for Related Work, Problem Formulation, Method, Experimental Setup, Results/Discussion, and Limitations. It has passed claim-scope/evidence-link review, still contains citation placeholders, and now needs Figure 1-3 source-locking before drawing.
 
 ## H001 Fit To Top-Tier Pattern
 
@@ -111,7 +112,8 @@ Do not claim these until evidence exists:
 
 - Claim-consistency review is complete in `paper/outline.md`: title, contribution statements, abstract, Introduction, Figure 1-3 captions, and Table 1-6 captions preserve the scoped relation-reliability claim.
 - Paper-body content blocks are secured in `paper/outline.md`: related-work positioning, problem/method formalization, re-ranking algorithm skeleton, Results/controls/Open3DSG prose skeleton, failure-analysis prose skeleton, limitation prose, Figure 1-3 asset plan, and table/appendix placement.
-- Next, draft first-pass manuscript prose from those blocks before polishing captions or generating final figures.
+- First-pass manuscript prose is drafted and claim-scope/evidence-link reviewed in `paper/draft.md`.
+- Next, source-lock Figure 1-3 claims/assets before drawing: Figure 1 from the method framework, Figure 2 from Table 1 with optional Table 6 cross-source overlay, and Figure 3 from traceable qualitative failure rows.
 - Keep Table 6/Open3DSG caveats explicit until content is locked; later compression must retain averaged-BLIP, filtered-train/dev, covered loadable scope, exact-label denominator, `validation_missing_preprocessed:11`, and residual calibration-risk caveats.
 - Use the frozen Open3DSG caveat wording in Table 6 and failure-analysis text.
 - Keep clean v14 streaming source-process provenance separate from historical exit-137 run records in reproducibility wording.

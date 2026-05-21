@@ -735,8 +735,8 @@ Space-risk fallback:
 
 ## Next Drafting Tasks
 
-1. Convert the secured content blocks into first-pass manuscript prose for Related Work, Problem Formulation, Method, Results, and Limitations.
-2. Keep the first prose draft scoped and evidence-linked; do not polish captions before the paper-body logic is readable end to end.
+1. Source-lock Figure 1-3 claims/assets before drawing.
+2. Do not polish captions or generate final figures before source rows and caveat wording are fixed.
 3. Keep Qwen-VL as optional appendix/future-work material unless it is promoted with full Docker metric, denominator, and audit treatment.
 
 ## Korean Outline
@@ -1299,7 +1299,7 @@ Korean review note:
 
 ## Paper Content Coverage Checklist
 
-Status: `content_blocks_secured_prose_draft_next`
+Status: `content_blocks_secured_draft_reviewed_source_lock_next`
 
 Purpose:
 
@@ -1334,13 +1334,12 @@ Content blocks secured in this outline pass:
 
 Priority:
 
-1. Draft Related Work and Method prose from the secured blocks.
-2. Draft Results/Discussion prose that ties each reviewer attack to a table, control, or limitation.
-3. Generate figures only after prose confirms exactly what each figure must prove.
-4. Polish captions, including Table 6 wording, only after the paper-body draft is coherent.
+1. Source-lock Figure 1-3 claims/assets before drawing.
+2. Generate figures only after source rows and caveat wording are fixed.
+3. Polish captions, including Table 6 wording, only after the paper-body draft is coherent.
 
 ### 다음 Drafting Task
 
-1. 확보된 content block을 Related Work, Problem Formulation, Method, Results, Limitations의 1차 prose draft로 전환한다.
-2. 각 주장마다 연결되는 table/control/limitation이 보이도록 쓴다.
-3. Figure 생성과 caption polish는 paper-body draft가 한 번 연결된 뒤 진행한다.
+1. Figure 1-3의 claim, source artifact, source row를 고정한다.
+2. Figure 2에 Table 6 cross-source overlay를 넣을지, VL-SAT Table 1 tradeoff만 사용할지 결정한다.
+3. Figure 3는 Open3DSG qualitative inspection row를 기본 source로 두고, VL-SAT visual sanity example을 섞을 경우 caption에서 provenance를 분리한다.

@@ -18,7 +18,7 @@ CAND-001은 hypothesis prep / verifier implementation 트랙이다. H001 hypothe
 - `06_second_source.md`
 - `07_experiment_spec.md`
 
-Docker-based scoped H001 experiment workflow entry는 완료했다. `experiments/H001_geom_reliability/`에서 Docker build/run으로 locked `VL-SAT` artifact를 검증하고 Table 1-6, figure specs, locked input manifest, report를 생성했다. Method contribution은 verifier script가 아니라 calibrated geometry-consistency evaluation/re-ranking framework로 정리한다. Top-tier main path는 single-baseline-only justification보다 Open3DSG second-source adapter evidence를 우선한다. Qwen2.5-VL/Qwen3-VL은 Open3DSG reproduction anchor를 대체하지 않는 modern-VLM semantic-source extension으로 허용한다. Open3DSG `training_repro` metadata/split/full payload, official BLIP TopK5/scales3 feature dump, avg-BLIP full training, checkpoint selection, eval preflight, H001 held-out eval feature-cache generation, raw-dump identity audit, clean v14 streaming raw-dump source provenance, adapter export, geometry join, metric eval, Table 6 regeneration, paper claim-consistency review, and paper-body content block planning are complete. 논문 본문용 실제 experiment 구현은 계속 Docker 기반으로 진행한다. Host-only outputs must not be promoted to paper experiment results.
+Docker-based scoped H001 experiment workflow entry는 완료했다. `experiments/H001_geom_reliability/`에서 Docker build/run으로 locked `VL-SAT` artifact를 검증하고 Table 1-6, figure specs, locked input manifest, report를 생성했다. Method contribution은 verifier script가 아니라 calibrated geometry-consistency evaluation/re-ranking framework로 정리한다. Top-tier main path는 single-baseline-only justification보다 Open3DSG second-source adapter evidence를 우선한다. Qwen2.5-VL/Qwen3-VL은 Open3DSG reproduction anchor를 대체하지 않는 modern-VLM semantic-source extension으로 허용한다. Open3DSG `training_repro` metadata/split/full payload, official BLIP TopK5/scales3 feature dump, avg-BLIP full training, checkpoint selection, eval preflight, H001 held-out eval feature-cache generation, raw-dump identity audit, clean v14 streaming raw-dump source provenance, adapter export, geometry join, metric eval, Table 6 regeneration, paper claim-consistency review, paper-body content block planning, first-pass manuscript prose draft, and draft claim/evidence review are complete. 논문 본문용 실제 experiment 구현은 계속 Docker 기반으로 진행한다. Host-only outputs must not be promoted to paper experiment results.
 
 Reproducibility/GitHub portability status: `docs/reproducibility.md` is updated for 2026-05-21 and records the `.gitignore` audit. Core runbooks, Dockerfiles, compose files, scripts, reports, compact manifests, paper planning docs, and metric summaries can be committed. Large datasets, checkpoints, features, raw dumps, prediction/verification/failure JSONL rows, and model caches are intentionally ignored and must be rebuilt/downloaded or transferred separately on another computer.
 
@@ -44,7 +44,7 @@ Data-dependent:
 
 Non-data:
 
-- [ ] Draft first-pass manuscript prose from `paper/outline.md`: Related Work, Problem Formulation, Method, Results/Discussion, Limitations
+- [ ] Source-lock Figure 1-3 claims/assets before drawing: Figure 1 method framework, Figure 2 recall-violation tradeoff, Figure 3 qualitative failure taxonomy
 - [ ] Rerun Docker `qwen_vl_runtime_preflight` after clearing current GPU/RAM/swap pressure; Qwen smoke remains optional/non-metric
 - [ ] After runtime preflight passes, run Docker `qwen_vl_tiny_inference_smoke` on 1-3 crops and validate JSONL contract; do not promote smoke output to paper metric evidence
 
@@ -60,8 +60,8 @@ Non-data:
 
 ### CAND-001 Non-Data Order
 
-- [ ] Draft first-pass manuscript prose from `paper/outline.md`: Related Work, Problem Formulation, Method, Results/Discussion, Limitations
-- [ ] Add figure-generation TODOs only after prose confirms the exact Figure 1-3 claims
+- [ ] Source-lock Figure 1-3 claims/assets before drawing: Figure 1 method framework, Figure 2 recall-violation tradeoff, Figure 3 qualitative failure taxonomy
+- [ ] Generate draft Figure 1-3 only after source-lock review fixes source rows and caveat wording
 - [ ] Defer Table 6/Open3DSG caption compression until paper content is locked; keep caveats explicit for now
 - [ ] Qwen-VL GPU runtime preflight after GPU/RAM pressure is cleared: `qwen_vl_runtime_preflight`
 - [ ] Qwen-VL tiny inference smoke after runtime preflight: `qwen_vl_tiny_inference_smoke` with 1-3 crops; keep as modern-VLM semantic-source extension smoke only
@@ -77,6 +77,9 @@ Non-data:
 
 ## Recently Completed
 
+- [x] H001 first-pass draft claim/evidence review 완료: `paper/draft.md` status를 `first_pass_reviewed_source_lock_next`로 갱신하고 claim-scope pass, citation placeholder follow-up, table/evidence links, Open3DSG caveat pass, and Figure 1-3 source-lock follow-up을 기록했다. Results prose now points to Table 1/2/3/5/6 and source artifacts.
+- [x] H001 first-pass manuscript prose draft 완료: `paper/draft.md`에 Related Work, Problem Formulation, Method, Experimental Setup, Results/Discussion, Limitations의 1차 prose를 작성했다. Citation placeholder, Figure 1-3 generation, Table 6 caveat compression은 draft review 이후 처리한다.
+- [x] H001 Open3DSG feature `.pt` regeneration route 문서화 완료: `docs/reproducibility.md`에 train/dev official BLIP TopK5/scales3 feature cache와 H001 eval feature cache 재생성 전제조건, tmux/resume/shard 명령, audit 명령, expected ids, output paths, and high-cost warning을 추가했다. 결론: 재생성 가능하지만 train/dev 131GB + multi-day급, H001 eval 13GB + shard-loop급 비용이 크다.
 - [x] H001 reproducibility runbook 및 `.gitignore` portability audit 업데이트 완료: `docs/reproducibility.md`에 2026-05-21 상태, paper planning handoff, runtime pressure check rule, GitHub에 올릴 수 있는 재현 파일, 의도적으로 ignored 되는 대형 데이터/checkpoint/raw JSONL/model cache, and other-computer transfer/rebuild requirement를 정리했다. `.gitignore` 자체는 수정하지 않았다.
 - [x] H001 paper-body content blocks 확보 완료: `paper/outline.md`에 related-work positioning map, formal problem/method notation, re-ranking algorithm skeleton, Results/controls/Open3DSG prose skeleton, failure-analysis prose skeleton, limitation prose skeleton, Figure 1-3 asset plan, and table/main-vs-appendix placement을 추가했다.
 - [x] H001 paper-writing priority reset 완료: camera-ready caption compression은 현재 단계에서 너무 이르므로, 다음 우선순위를 paper-body content completeness로 변경했다. `paper/outline.md`에 paper content coverage checklist를 추가하고 secured content와 missing blocks를 구분했다.

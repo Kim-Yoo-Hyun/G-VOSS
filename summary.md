@@ -527,16 +527,23 @@ Current paper handoff:
   claim-consistency review across title, contribution, abstract, Introduction,
   table captions, and figure captions. Cross-source results and failure
   analysis are empirical validation, not a fourth contribution.
+- `paper/draft.md` is ready as reviewed first-pass manuscript prose covering Related
+  Work, Problem Formulation, Method, Experimental Setup, Results/Discussion,
+  and Limitations. It still needs citation replacement and Figure 1-3
+  source-locking before drawing.
 
 Next required drafting step:
 
-1. Draft first-pass manuscript prose from `paper/outline.md`: Related Work,
-   Problem Formulation, Method, Results/Discussion, and Limitations.
+1. Source-lock Figure 1-3 claims/assets before drawing: Figure 1 method
+   framework, Figure 2 recall-violation tradeoff, Figure 3 qualitative failure
+   taxonomy.
 2. Defer Table 6/Open3DSG caveat compression until the paper-body logic is
    readable end to end;
    keep averaged-BLIP, filtered-train/dev, covered-scope, exact-label denominator,
    `validation_missing_preprocessed:11`, and residual calibration-risk caveats
    explicit for now.
+3. Generate Figure 1-3 only after the source-lock pass fixes the exact figure
+   claims, source rows, and caveat wording.
 
 Reproducibility/GitHub portability note:
 

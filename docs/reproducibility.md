@@ -103,6 +103,13 @@ Implication for another computer:
   and the Qwen-VL model cache.
 - Do not rely on GitHub alone to carry the trained Open3DSG checkpoint or large
   raw row outputs; they are intentionally excluded.
+- Open3DSG feature `.pt` files are regenerable, but the cost is high. The
+  current train/dev feature cache is about 131 GB and the H001 eval feature
+  cache is about 13 GB. The previous official TopK5/scales3 train/dev feature
+  dump required multiple resumable tmux runs over several days on the local RTX
+  5090 setup, while the H001 eval feature cache required a bounded shard loop.
+  Prefer transferring these feature directories if fast setup matters; regenerate
+  only when storage transfer is impractical or provenance needs to be rebuilt.
 
 ## Environment And Docker
 
@@ -177,6 +184,152 @@ Stage H001 held-out eval scan symlinks:
 ```bash
 sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm h001_eval_payload'
 ```
+
+## Open3DSG Feature `.pt` Regeneration
+
+Feature regeneration is possible and Docker-scripted, but it is one of the most
+expensive parts of the reproduction. It requires the Open3DSG payload, view
+pickles, preprocessing, model caches, and GPU runtime to be ready.
+
+Current feature caches:
+
+| Feature cache | Path | Current size | Expected complete ids |
+| --- | --- | ---: | ---: |
+| train/dev official BLIP TopK5/scales3 | `local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3/` | about 131 GB | 3,900 |
+| H001 eval BLIP TopK5/scales3 | `local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3/` | about 13 GB | 377 loadable ids |
+
+Expected role directories inside each cache:
+
+```text
+export_obj_clip_valids/
+export_obj_clip_emb_clip_OpenSeg_Topk_5_scales_3_vis_crit_0.19999999999999998_vis_crit_mask_0.1/
+export_rel_clip_emb_clip_BLIP_Topk_5_scales_3_vis_crit_0.19999999999999998/
+```
+
+### Preconditions
+
+Build and check the Open3DSG image/cache first:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml build'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm env_check'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm cache_preflight'
+```
+
+Stage train/dev views and preprocessed-ready splits if starting from raw data:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_train_root'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm train_views_full'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm train_preprocess_full'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm train_preprocess_filter'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm validation_views_full'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm validation_preprocess_full'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm validation_preprocess_filter'
+```
+
+Check runtime pressure before launching feature dumps:
+
+```bash
+tmux ls || true
+docker ps --format '{{.Names}}\t{{.Image}}\t{{.Status}}'
+nvidia-smi
+free -h
+```
+
+### Regenerate Train/Dev Feature Cache
+
+This command regenerates or resumes the official H001 Open3DSG train/dev
+feature cache. It uses skip-existing behavior, so it can resume a partially
+complete output directory.
+
+```bash
+mkdir -p logs
+ts=$(date +%Y%m%d_%H%M%S)
+tmux new-session -d -s h001_open3dsg_dump_features \
+  "cd /home/yoohyun/research && bash -lc 'set -o pipefail; echo \"started_at=\$(date -Is)\"; echo \"cwd=\$(pwd)\"; nvidia-smi --query-gpu=timestamp,index,name,memory.total,memory.used,memory.free,utilization.gpu --format=csv,noheader,nounits || true; sg docker -c '\''env UID=\$(id -u) GID=\$(id -g) OPEN3DSG_DUMP_WORKERS=0 OPEN3DSG_BLIP_EMBED_CHUNK_SIZE=2 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True,max_split_size_mb:128 docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm dump_features_3rscan'\''; rc=\$?; echo \"finished_at=\$(date -Is)\"; echo \"exit_code=\$rc\"; printf \"%s\n\" \"\$rc\" > logs/open3dsg_dump_features_regen_${ts}.exit; exit \$rc' > logs/open3dsg_dump_features_regen_${ts}.log 2>&1"
+```
+
+Verify train/dev feature completion:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm feature_audit'
+```
+
+Expected verification result:
+
+```text
+Status: ready
+Complete ids: 3900/3900
+Split coverage: train 3744/3744, validation 156/156
+```
+
+Lightweight progress check without scanning logs:
+
+```bash
+find local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3 -type f -name '*.pt' -printf '%f\n' \
+  | sed 's/\.[^.]*$//' | sort | uniq -c | awk '$1==3{c++} END{print c+0}'
+```
+
+### Regenerate H001 Eval Feature Cache
+
+The H001 eval feature cache depends on a selected Open3DSG checkpoint. If the
+checkpoint is not transferred, regenerate the checkpoint first through the
+Open3DSG training route before running this step.
+
+Selected checkpoint path used by H001:
+
+```text
+local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt
+```
+
+Stage held-out eval payload:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm h001_eval_payload'
+```
+
+Run the bounded shard loop. This is the preferred route because the full H001
+eval feature dump had partial exit-137 failures before the shard loop was added.
+
+```bash
+mkdir -p logs
+ts=$(date +%Y%m%d_%H%M%S)
+tmux new-session -d -s h001_open3dsg_dump_features_h001_eval_shard_loop \
+  "cd /home/yoohyun/research && bash -lc 'set -o pipefail; python experiments/H001_geom_reliability/scripts/run_open3dsg_h001_eval_feature_shards.py --repo-root /home/yoohyun/research --max-new-ids 5; rc=\$?; echo \"finished_at=\$(date -Is)\"; echo \"exit_code=\$rc\"; printf \"%s\n\" \"\$rc\" > logs/open3dsg_dump_features_h001_eval_shard_loop_${ts}.exit; exit \$rc' > logs/open3dsg_dump_features_h001_eval_shard_loop_${ts}.log 2>&1"
+```
+
+Verify H001 eval feature completion:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm feature_audit_h001_eval'
+```
+
+Expected verification result:
+
+```text
+Complete covered loadable ids: 377/377
+Missing complete ids: 0
+Known caveat: validation_missing_preprocessed:11
+```
+
+Lightweight progress check:
+
+```bash
+find local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3 -type f -name '*.pt' -printf '%f\n' \
+  | sed 's/\.[^.]*$//' | sort | uniq -c | awk '$1==3{c++} END{print c+0}'
+```
+
+Cost warning:
+
+- Train/dev feature regeneration is very expensive: about 131 GB output and
+  past H001 runs required multiple resumable tmux sessions over several days.
+- H001 eval feature regeneration is smaller but still expensive: about 13 GB
+  output, 377 complete loadable ids, and prior successful completion required a
+  shard loop after partial failures.
+- If moving to another computer for writing or metric regeneration only,
+  transferring the feature directories is faster. If transferring is not
+  practical, the commands above can regenerate them from raw/staged data.
 
 ## Checkpoints And Model Downloads
 

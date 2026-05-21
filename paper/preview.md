@@ -159,6 +159,9 @@ Interpretation:
 
 Fact:
 
+- First-pass manuscript prose and claim/evidence review are recorded in
+  `paper/draft.md`; figure generation should wait until Figure 1-3 source rows
+  and caveat wording are locked.
 - Table 1: `VL-SAT` semantic-only vs calibrated/rule/family-specific conditions.
 - Table 2: nontriviality controls, including geometry-only, distance-only, shuffled-geometry, and wrong-pair geometry.
 - Table 3: GT-based verifier evaluation.
@@ -223,6 +226,7 @@ Read these first:
 8. `summary.md`
 9. `paper/preview.md`
 10. `paper/outline.md`
+11. `paper/draft.md`
 
 ### Must-Read Hypothesis Files
 
@@ -300,8 +304,8 @@ Recovery rule:
 
 Recommended next action:
 
-1. Use `paper/outline.md` as the active paper-writing skeleton.
+1. Use `paper/draft.md` as the active reviewed first-pass manuscript prose.
 2. Treat the claim-consistency review in `paper/outline.md` as the current paper guardrail: title, contributions, abstract, Introduction, table captions, and figure captions must stay within the scoped relation-reliability claim.
-3. Draft first-pass manuscript prose from the secured outline blocks: Related Work, Problem Formulation, Method, Results/Discussion, and Limitations.
-4. Keep Table 6/Open3DSG caveats explicit for now; caption compression is a later writing-polish task after paper-body logic is readable end to end.
+3. Source-lock Figure 1-3 claims/assets before drawing.
+4. Keep Table 6/Open3DSG caveats explicit for now; caption compression is a later writing-polish task after paper-body logic is stable.
 5. Keep Qwen-VL runtime smoke as optional extension only, unless it receives the same Docker, metric, denominator, and audit treatment as paper evidence.
