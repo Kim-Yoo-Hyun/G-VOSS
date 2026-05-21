@@ -2,7 +2,7 @@
 
 Last updated: 2026-05-21 KST
 
-Status: `first_pass_reviewed_source_lock_next`
+Status: `first_pass_reviewed_figures_layout_reviewed`
 
 This is a first-pass manuscript prose draft derived from `paper/outline.md`.
 It is not camera-ready text. The purpose is to make the paper-body logic
@@ -353,14 +353,13 @@ reasoning.
 - Replace citation placeholders with final BibTeX keys.
 - Decide whether Section 5 should remain in this draft or be merged into a
   shorter Experimental Setup section after venue page limits are known.
-- Source-lock Figure 1-3 before drawing: Figure 1 from the method contract,
-  Figure 2 from Table 1 plus optional Table 6 cross-source overlay, and Figure 3
-  from traceable qualitative case rows.
+- Keep a later optional figure-improvement TODO for rendered/crop Figure 3
+  evidence if a deterministic rendering path is added.
 - Keep Table 6/Open3DSG caveats visible until the paper-body logic is stable.
 
 ## Draft Review
 
-Status: `passed_claim_scope_with_source_lock_followup`
+Status: `passed_claim_scope_figures_layout_reviewed`
 
 Reviewed on: 2026-05-21 KST
 
@@ -374,7 +373,7 @@ Review result:
 | Qwen-VL boundary | pass | Qwen-VL remains optional extension evidence and is not used as a main metric result. |
 | Citation placeholders | needs follow-up | Related Work still uses placeholder citation keys and needs final BibTeX replacement. |
 | Evidence links | patched | Results prose now points to Table 1, Table 2, Table 3, Table 5, and Table 6. |
-| Figure readiness | source-lock needed | Figure claims are ready conceptually, but source rows/assets must be fixed before drawing final figures. |
+| Figure readiness | generated and verified | Draft SVGs are generated under `paper/generated/figures/` and validation passed. |
 
 Evidence map:
 
@@ -389,15 +388,15 @@ Evidence map:
 | Failure mechanism and residual calibration risk | `experiments/H001_geom_reliability/sources/open3dsg/failure_cases/inspection.md` |
 | Docker reproducibility and artifact portability | `docs/reproducibility.md` |
 
-Figure source-lock decision before drawing:
+Figure source-lock decision:
 
-- Figure 1 should be a method/framework diagram sourced from Sections 3-4,
+- Figure 1 is a method/framework diagram sourced from Sections 3-4,
   `hypothesis/CAND-001/H001_geometry-grounded-verification/02_method.md`, and
   `experiments/H001_geom_reliability/manifest.lock.json`.
-- Figure 2 should be a recall-violation tradeoff plot. The safest first version
-  uses Table 1 only; a cross-source variant can add Table 6 if the caption keeps
-  Open3DSG caveats visible.
-- Figure 3 should use traceable qualitative rows from
-  `experiments/H001_geom_reliability/sources/open3dsg/failure_cases/inspection.md`;
-  if VL-SAT visual spot-check examples are mixed in, the caption must separate
-  visual sanity evidence from Open3DSG deterministic qualitative inspection.
+- Figure 2 is a two-panel `R@100` / `Violation@100` tradeoff plot using Table 1
+  for VL-SAT and Open3DSG `metrics.json` with paper caveats.
+- Figure 3 uses traceable Open3DSG qualitative rows
+  `open3dsg_case_001`, `open3dsg_case_005`, `open3dsg_case_010`, and
+  `open3dsg_case_007`.
+- The authoritative source-lock file is `paper/figures.md`.
+- Generated draft SVGs are `paper/generated/figures/figure1_framework.svg`, `paper/generated/figures/figure2_tradeoff.svg`, and `paper/generated/figures/figure3_failure_cases.svg`.

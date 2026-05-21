@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="660" viewBox="0 0 1280 660">
+<rect width="1280" height="660" fill="#ffffff"/>
+<text x="55.0" y="45.0" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#111827" text-anchor="start">Figure 3. Family-structured failure cases and residual calibration risk</text>
+<text x="55.0" y="72.0" font-family="Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">Draft row-card panels from traceable Open3DSG qualitative inspection rows; not a representative human audit.</text>
+<rect x="60" y="120" width="540" height="205" rx="8" fill="#eff6ff" stroke="#94a3b8" stroke-width="1.2"/>
+<text x="80.0" y="150.0" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#111827" text-anchor="start">A. Proximity demotion</text>
+<text x="80.0" y="178.0" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#4b5563" text-anchor="start">open3dsg_case_001</text>
+<text x="80.0" y="206.0" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#111827" text-anchor="start">Family: proximity    Predicate: close by</text>
+<text x="80.0" y="233.0" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#111827" text-anchor="start">Pair: heater -&gt; trash can</text>
+<text x="80.0" y="273.0" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#111827" text-anchor="start">Semantic -&gt; geometry rank: 17 -&gt; 263</text>
+<text x="370.0" y="273.0" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#111827" text-anchor="start">p_geom_valid: 0.2304</text>
+<text x="80.0" y="298.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">Reason: far_in_normalized_xy,</text>
+<text x="80.0" y="315.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">point_subtype_delegated_to_obb_for_family</text>
+<rect x="660" y="120" width="540" height="205" rx="8" fill="#fef3c7" stroke="#94a3b8" stroke-width="1.2"/>
+<text x="680.0" y="150.0" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#111827" text-anchor="start">B. Vertical demotion</text>
+<text x="680.0" y="178.0" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#4b5563" text-anchor="start">open3dsg_case_005</text>
+<text x="680.0" y="206.0" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#111827" text-anchor="start">Family: relative_vertical    Predicate: higher than</text>
+<text x="680.0" y="233.0" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#111827" text-anchor="start">Pair: desk -&gt; lamp</text>
+<text x="680.0" y="273.0" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#111827" text-anchor="start">Semantic -&gt; geometry rank: 25 -&gt; 422</text>
+<text x="970.0" y="273.0" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#111827" text-anchor="start">p_geom_valid: 0.0019</text>
+<text x="680.0" y="298.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">Reason: point_subtype_delegated_to_obb_for_family,</text>
+<text x="680.0" y="315.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">vertical_order_contradicts_predicate</text>
+<rect x="60" y="365" width="540" height="205" rx="8" fill="#ecfdf5" stroke="#94a3b8" stroke-width="1.2"/>
+<text x="80.0" y="395.0" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#111827" text-anchor="start">C. Support/contact demotion</text>
+<text x="80.0" y="423.0" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#4b5563" text-anchor="start">open3dsg_case_010</text>
+<text x="80.0" y="451.0" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#111827" text-anchor="start">Family: support_contact    Predicate: lying on</text>
+<text x="80.0" y="478.0" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#111827" text-anchor="start">Pair: lamp -&gt; side table</text>
+<text x="80.0" y="518.0" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#111827" text-anchor="start">Semantic -&gt; geometry rank: 21 -&gt; 401</text>
+<text x="370.0" y="518.0" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#111827" text-anchor="start">p_geom_valid: 0.0248</text>
+<text x="80.0" y="543.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">Reason: positive_float_gap_large, subtype_soft_support_contact</text>
+<rect x="660" y="365" width="540" height="205" rx="8" fill="#fff1f2" stroke="#94a3b8" stroke-width="1.2"/>
+<text x="680.0" y="395.0" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#111827" text-anchor="start">D. Residual calibration risk</text>
+<text x="680.0" y="423.0" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#4b5563" text-anchor="start">open3dsg_case_007</text>
+<text x="680.0" y="451.0" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#111827" text-anchor="start">Family: relative_vertical    Predicate: lower than</text>
+<text x="680.0" y="478.0" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#111827" text-anchor="start">Pair: chair -&gt; floor</text>
+<text x="680.0" y="518.0" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#111827" text-anchor="start">Semantic -&gt; geometry rank: 339 -&gt; 50</text>
+<text x="970.0" y="518.0" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#111827" text-anchor="start">p_geom_valid: 0.9994</text>
+<text x="680.0" y="543.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">Reason: point_subtype_delegated_to_obb_for_family,</text>
+<text x="680.0" y="560.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">vertical_order_contradicts_predicate</text>
+<text x="60.0" y="620.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#6b7280" text-anchor="start">Caption guard: qualitative reviewer-defense evidence only; 10/36 sampled rule-violated cases have p_geom_valid &gt; 0.9.</text>
+</svg>

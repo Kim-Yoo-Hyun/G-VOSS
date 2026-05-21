@@ -529,21 +529,31 @@ Current paper handoff:
   analysis are empirical validation, not a fourth contribution.
 - `paper/draft.md` is ready as reviewed first-pass manuscript prose covering Related
   Work, Problem Formulation, Method, Experimental Setup, Results/Discussion,
-  and Limitations. It still needs citation replacement and Figure 1-3
-  source-locking before drawing.
+  and Limitations. It still needs citation replacement.
+- `paper/figures.md` is ready and locks Figure 1-3 claims/assets before drawing:
+  Figure 1 method framework, Figure 2 two-panel R@100/Violation@100 tradeoff,
+  and Figure 3 Open3DSG qualitative case panels.
+- `paper/generated/figures/` is ready with verified draft SVGs:
+  `figure1_framework.svg`, `figure2_tradeoff.svg`, and
+  `figure3_failure_cases.svg`. Validation passed for locked Figure 2 values,
+  Figure 3 case IDs, and SVG XML parsing.
+- `paper/generated/figures/layout_review.md` is ready. Figure 1 was revised to
+  foreground failure mechanism -> cause -> design necessity; Figure 2 is kept
+  as the strongest recall/violation evidence; Figure 3 is accepted as a draft
+  row-card placeholder with a later rendered/crop upgrade recommended for final
+  top-tier presentation.
 
 Next required drafting step:
 
-1. Source-lock Figure 1-3 claims/assets before drawing: Figure 1 method
-   framework, Figure 2 recall-violation tradeoff, Figure 3 qualitative failure
-   taxonomy.
+1. Replace Related Work citation placeholders in `paper/draft.md` with final
+   BibTeX-style keys.
 2. Defer Table 6/Open3DSG caveat compression until the paper-body logic is
    readable end to end;
    keep averaged-BLIP, filtered-train/dev, covered-scope, exact-label denominator,
    `validation_missing_preprocessed:11`, and residual calibration-risk caveats
    explicit for now.
-3. Generate Figure 1-3 only after the source-lock pass fixes the exact figure
-   claims, source rows, and caveat wording.
+3. Keep a later optional figure-upgrade task for rendered/crop Figure 3
+   evidence if a deterministic path is added.
 
 Reproducibility/GitHub portability note:
 

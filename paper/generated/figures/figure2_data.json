@@ -1,0 +1,54 @@
+{
+  "Open3DSG": [
+    {
+      "condition": "semantic_only",
+      "r100": 0.4962671905697446,
+      "source": "Open3DSG",
+      "violation100": 0.11949380721593969
+    },
+    {
+      "condition": "probabilistic_recalibrated",
+      "r100": 0.5579567779960707,
+      "source": "Open3DSG",
+      "violation100": 0.0803177167474421
+    },
+    {
+      "condition": "family_specific_p_geom_valid",
+      "r100": 0.5984282907662083,
+      "source": "Open3DSG",
+      "violation100": 0.031071620893914915
+    },
+    {
+      "condition": "rule_verified_point_subtype",
+      "r100": 0.5237721021611002,
+      "source": "Open3DSG",
+      "violation100": 0.0
+    }
+  ],
+  "VL-SAT": [
+    {
+      "condition": "semantic_only",
+      "r100": 0.9893909626719057,
+      "source": "VL-SAT",
+      "violation100": 0.046881443298969074
+    },
+    {
+      "condition": "probabilistic_recalibrated",
+      "r100": 0.9921414538310412,
+      "source": "VL-SAT",
+      "violation100": 0.03907216494845361
+    },
+    {
+      "condition": "family_specific_p_geom_valid",
+      "r100": 0.9913555992141454,
+      "source": "VL-SAT",
+      "violation100": 0.031030927835051545
+    },
+    {
+      "condition": "rule_verified_point_subtype",
+      "r100": 0.9889980353634578,
+      "source": "VL-SAT",
+      "violation100": 0.0
+    }
+  ]
+}

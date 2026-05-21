@@ -1,0 +1,10 @@
+{
+  "checks": {
+    "figure2_locked_values": "passed",
+    "figure3_case_ids": "passed",
+    "svg_xml_parse": "checked_by_external_command"
+  },
+  "errors": [],
+  "status": "passed",
+  "tolerance": 0.0005
+}

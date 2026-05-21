@@ -7,8 +7,8 @@
 ## Current Focus
 
 - CAND-001: `experiments/H001_geom_reliability/`에서 Docker-generated `VL-SAT` tables, Open3DSG avg-BLIP checkpoint reproduction, raw-dump identity, adapter export, geometry join, metric eval, Table 6, real failure-analysis rows, qualitative failure-case inspection, and paper caveat wording are ready.
-- CAND-001 paper handoff: `paper/preview.md`, bilingual `paper/outline.md`, and reviewed first-pass `paper/draft.md` are ready. The draft covers Related Work, Problem Formulation, Method, Experimental Setup, Results/Discussion, and Limitations.
-- CAND-001 next gate: source-lock Figure 1-3 claims/assets before drawing. Table 6/Open3DSG caveat compression is deferred until the paper-body logic is stable.
+- CAND-001 paper handoff: `paper/preview.md`, bilingual `paper/outline.md`, reviewed first-pass `paper/draft.md`, figure source lock `paper/figures.md`, and verified/layout-reviewed draft Figure 1-3 under `paper/generated/figures/` are ready. The draft covers Related Work, Problem Formulation, Method, Experimental Setup, Results/Discussion, and Limitations.
+- CAND-001 next gate: replace Related Work citation placeholders in `paper/draft.md` with final BibTeX-style keys. Table 6/Open3DSG caveat compression is deferred until the paper-body logic is stable.
 - CAND-001 reproducibility handoff: `docs/reproducibility.md` is updated with the 2026-05-21 `.gitignore` portability audit. GitHub can carry runbooks, Docker setup, scripts, reports, compact manifests, and metric summaries; large datasets/checkpoints/features/raw JSONL/model caches must be rebuilt/downloaded or transferred separately.
 - CAND-001 optional extension: Qwen-VL cache is ready; runtime preflight/tiny inference smoke can run only after GPU/RAM pressure is cleared, and remains non-metric extension evidence.
 - CAND-001 experiment rule: 논문 본문용 실제 experiment 구현은 Docker 기반으로만 진행하고 host-only output은 paper result로 승격하지 않는다.
@@ -111,6 +111,8 @@ Current survey verdict:
 - `paper/preview.md`: paper writing phase 직전의 현재 결과 총정리와 재시작 시 필수 파일 목록
 - `paper/outline.md`: 영어/한국어 paper skeleton, section별 evidence placement, reviewer-defense, figure/table plan
 - `paper/draft.md`: Related Work through Limitations first-pass manuscript prose
+- `paper/figures.md`: Figure 1-3 source lock, exact values, case IDs, and caption constraints
+- `paper/generated/figures/`: verified draft Figure 1-3 SVGs and generation manifest
 
 ## Working Principle
 
@@ -122,6 +124,8 @@ Current survey verdict:
 - `paper/preview.md`: paper writing phase 직전의 현재 결과 총정리와 재시작 시 필수 파일 목록
 - `paper/outline.md`: paper skeleton과 한국어 병기 outline
 - `paper/draft.md`: first-pass manuscript prose
+- `paper/figures.md`: Figure 1-3 source lock
+- `paper/generated/figures/`: draft Figure 1-3 SVGs
 
 아직 만들지 않는 구조:
 

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="650" viewBox="0 0 1280 650">
+<rect width="1280" height="650" fill="#ffffff"/>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#374151"/></marker></defs>
+<text x="50.0" y="50.0" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#111827" text-anchor="start">Figure 1. Calibrated geometry-consistency evaluation and re-ranking framework</text>
+<text x="50.0" y="78.0" font-family="Arial, sans-serif" font-size="14" font-weight="400" fill="#4b5563" text-anchor="start">Top-tier claim: a concrete failure mechanism motivates the framework form.</text>
+<rect x="50" y="105" width="360" height="80" rx="8" fill="#fff7ed" stroke="#fb923c" stroke-width="1.4"/>
+<text x="70.0" y="132.0" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#9a3412" text-anchor="start">Failure mechanism</text>
+<text x="70.0" y="158.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#7c2d12" text-anchor="start">Semantic scores can rank plausible relations</text>
+<text x="70.0" y="174.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#7c2d12" text-anchor="start">that conflict with object-pair geometry.</text>
+<rect x="470" y="105" width="330" height="80" rx="8" fill="#fef2f2" stroke="#f87171" stroke-width="1.4"/>
+<text x="490.0" y="132.0" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#991b1b" text-anchor="start">Cause</text>
+<text x="490.0" y="158.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#7f1d1d" text-anchor="start">Semantic confidence is not calibrated to</text>
+<text x="490.0" y="174.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#7f1d1d" text-anchor="start">relation-level physical consistency.</text>
+<rect x="860" y="105" width="360" height="80" rx="8" fill="#eff6ff" stroke="#60a5fa" stroke-width="1.4"/>
+<text x="880.0" y="132.0" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#1d4ed8" text-anchor="start">Design necessity</text>
+<text x="880.0" y="158.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#1e3a8a" text-anchor="start">Preserve identity, join geometry, calibrate</text>
+<text x="880.0" y="174.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#1e3a8a" text-anchor="start">validity, then report recall and violations</text>
+<text x="880.0" y="190.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#1e3a8a" text-anchor="start">together.</text>
+<line x1="410" y1="145" x2="470" y2="145" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="800" y1="145" x2="860" y2="145" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="50.0" y="207.0" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#374151" text-anchor="start">Framework instantiated by this failure-to-design link</text>
+<rect x="50" y="220" width="160" height="115" rx="7" fill="#ffffff" stroke="#94a3b8" stroke-width="1.4"/>
+<text x="66.0" y="246.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Relation source</text>
+<text x="66.0" y="272.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">VL-SAT / Open3DSG scored</text>
+<text x="66.0" y="289.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">predicate rows</text>
+<rect x="250" y="220" width="170" height="115" rx="7" fill="#ffffff" stroke="#94a3b8" stroke-width="1.4"/>
+<text x="266.0" y="246.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Row contract</text>
+<text x="266.0" y="272.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">scan, subgraph, subject,</text>
+<text x="266.0" y="289.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">object, predicate, score</text>
+<rect x="460" y="220" width="170" height="115" rx="7" fill="#ffffff" stroke="#94a3b8" stroke-width="1.4"/>
+<text x="476.0" y="246.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Geometry join</text>
+<text x="476.0" y="272.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">identity-preserving</text>
+<text x="476.0" y="289.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">object-pair evidence</text>
+<rect x="670" y="220" width="170" height="115" rx="7" fill="#ffffff" stroke="#94a3b8" stroke-width="1.4"/>
+<text x="686.0" y="246.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Verifier</text>
+<text x="686.0" y="272.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">family-specific</text>
+<text x="686.0" y="289.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">satisfied / uncertain /</text>
+<text x="686.0" y="306.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">violated</text>
+<rect x="880" y="220" width="170" height="115" rx="7" fill="#ffffff" stroke="#94a3b8" stroke-width="1.4"/>
+<text x="896.0" y="246.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Calibration</text>
+<text x="896.0" y="272.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">estimate p_geom_valid</text>
+<text x="896.0" y="289.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">from frozen geometry</text>
+<text x="896.0" y="306.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">features</text>
+<rect x="1090" y="220" width="150" height="115" rx="7" fill="#ffffff" stroke="#94a3b8" stroke-width="1.4"/>
+<text x="1106.0" y="246.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Evaluation</text>
+<text x="1106.0" y="272.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">R@K and Violation@K</text>
+<text x="1106.0" y="289.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">reported together</text>
+<line x1="218.0" y1="277.5" x2="242.0" y2="277.5" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="428.0" y1="277.5" x2="452.0" y2="277.5" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="638.0" y1="277.5" x2="662.0" y2="277.5" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="848.0" y1="277.5" x2="872.0" y2="277.5" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+<line x1="1058.0" y1="277.5" x2="1082.0" y2="277.5" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="55.0" y="405.0" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#111827" text-anchor="start">Operating points</text>
+<rect x="55" y="427" width="245" height="90" rx="7" fill="#eff6ff" stroke="#94a3b8" stroke-width="1.4"/>
+<text x="71.0" y="453.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Probabilistic</text>
+<text x="71.0" y="479.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">score_sem *</text>
+<text x="71.0" y="496.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">p_geom_valid;</text>
+<text x="71.0" y="513.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">recall-first re-ranking</text>
+<rect x="330" y="427" width="245" height="90" rx="7" fill="#fff1f2" stroke="#94a3b8" stroke-width="1.4"/>
+<text x="346.0" y="453.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Rule-verified</text>
+<text x="346.0" y="479.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">remove hard violations;</text>
+<text x="346.0" y="496.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">zero-violation</text>
+<text x="346.0" y="513.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">diagnostic</text>
+<rect x="605" y="427" width="245" height="90" rx="7" fill="#ecfdf5" stroke="#94a3b8" stroke-width="1.4"/>
+<text x="621.0" y="453.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Family-specific</text>
+<text x="621.0" y="479.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">stricter calibration for</text>
+<text x="621.0" y="496.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">violation-first</text>
+<text x="621.0" y="513.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">operation</text>
+<rect x="880" y="427" width="310" height="90" rx="7" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.4"/>
+<text x="896.0" y="453.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Controls</text>
+<text x="896.0" y="479.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">geometry-only,</text>
+<text x="896.0" y="496.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">distance-only, shuffled</text>
+<text x="896.0" y="513.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">geometry, wrong-pair</text>
+<text x="896.0" y="530.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">geometry</text>
+<text x="55.0" y="588.0" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#6b7280" text-anchor="start">Caption guard: describe this as a framework, not a verifier script or broad open-vocabulary generation method.</text>
+</svg>
