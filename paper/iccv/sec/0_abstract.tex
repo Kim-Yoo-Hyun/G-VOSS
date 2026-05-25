@@ -1,0 +1,24 @@
+\begin{abstract}
+3D Scene Graphs represent objects and relations in a form useful for spatial
+reasoning, but relation predictions can remain unreliable even when predicted
+predicates appear semantically plausible. We study a relation-level failure
+mode: semantic relation confidence is not necessarily calibrated to the 3D
+geometry of the same object pair, so a predictor can rank physically
+inconsistent relations highly. To expose and reduce this failure, we introduce
+a \method{} framework for geometry-checkable relation families. The framework
+standardizes prediction rows across relation sources, preserves subject-object
+identity, joins explicit 3D evidence, estimates \pgeom{}, and reports
+probabilistic, rule-verified, and family-specific operating points under a
+recall-violation protocol. On the reproduced VL-SAT source, probabilistic
+re-ranking improves \rAt{50}/\rAt{100} from 0.9599/0.9894 to 0.9642/0.9921
+while reducing \vAt{100} from 0.0469 to 0.0391; the family-specific operating
+point further reduces \vAt{100} to 0.0310. GT positive/counterfactual checks
+separate valid and invalid geometry with AUROC/AUPRC of 0.9779/0.9737, and
+controls rule out geometry-only, distance-only, shuffled-geometry, and
+wrong-pair explanations. On Open3DSG, a Docker-reproduced averaged-BLIP variant
+provides second-source evidence that geometry-consistency reduces violations
+under explicit recall tradeoffs. These results support a scoped
+relation-reliability claim for measured geometry-checkable 3D Scene Graph
+relations, not a broad open-vocabulary graph generation claim.
+\end{abstract}
+

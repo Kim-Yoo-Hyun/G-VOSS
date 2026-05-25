@@ -1,0 +1,28 @@
+\section{Experimental Setup}
+
+This section fixes the experimental scope before reporting results, because
+H001's claim depends on denominator transparency as much as on metric values.
+The primary source is the reproduced VL-SAT closed-set relation prediction
+setting on the fixed H001 held-out scope. The scope contains 127 scans, 388
+subgraphs, 25,916 directed pairs, 673,816 prediction rows, 7,505 ground-truth
+rows, and 2,545 in-scope GT relation instances across the measured
+geometry-checkable families. These counts are the fixed denominator for the
+VL-SAT result in Table~\ref{tab:vlsat-main}.
+
+Open3DSG provides second-source evidence within the same H001-family metric
+scope. The Open3DSG result is reported as a Docker-reproduced averaged-BLIP
+variant. The selected checkpoint is \texttt{epoch=13-step=13104.ckpt}, chosen
+by train-dev validation loss before H001 held-out inspection. The Open3DSG
+runtime uses a filtered preprocessed-ready train split of 3,744/3,852
+subgraphs, a train-dev validation split of 156/160 subgraphs, and an H001
+covered loadable evaluation scope of 377/388 contexts with
+\texttt{validation\_missing\_preprocessed:11} reported as a caveat. These
+caveats remain visible wherever Open3DSG is used as second-source evidence.
+
+All paper-body experiment results are generated through Docker under
+\texttt{experiments/H001\_geom\_reliability/}. The paper reports exact-label
+\rAt{50} and \rAt{100}, \vAt{50} and \vAt{100}, GT-positive/counterfactual
+verifier evaluation, nontriviality controls, Open3DSG second-source metrics,
+and qualitative failure analysis. Host-only outputs are not promoted to paper
+evidence.
+

@@ -1,6 +1,6 @@
 # H001 Paper Outline
 
-Last updated: 2026-05-21 KST
+Last updated: 2026-05-25 KST
 
 This outline turns `paper/preview.md` into a paper-writing skeleton. It is not the final manuscript. It fixes the section logic, evidence placement, reviewer-defense responsibilities, title candidates, and contribution statements before drafting the abstract and manuscript sections.
 
@@ -452,6 +452,9 @@ Method wording rule:
 Main job:
 
 - Describe datasets, prediction sources, splits, Docker reproduction, and evaluation protocol.
+- Keep the title as `Experimental Setup`; explain fixed scope, denominator,
+  filtered splits, and Docker-result boundaries in the section body rather than
+  in the heading.
 
 Subsections:
 
@@ -679,7 +682,7 @@ Reviewer-defense role:
 Figure 3 caption draft:
 
 ```text
-Qualitative failure patterns where semantic plausibility diverges from physical consistency. The selected cases illustrate relations that are plausible from object semantics but contradicted by contact, proximity, or vertical arrangement in 3D. Geometry-aware re-ranking demotes many such cases, while residual high-confidence but rule-violated examples reveal calibration risk and motivate separate reporting of probabilistic and rule-verified outputs.
+Geometry-backed qualitative failure patterns where semantic plausibility diverges from physical consistency. The selected Open3DSG cases use the same locked inspection rows and preprocessed object point clouds to illustrate relations that are plausible from object semantics but contradicted by contact, proximity, or vertical arrangement in 3D. Geometry-aware re-ranking demotes many such cases, while residual high-confidence but rule-violated examples reveal calibration risk and motivate separate reporting of probabilistic and rule-verified outputs.
 ```
 
 Reviewer-defense role:
@@ -735,9 +738,12 @@ Space-risk fallback:
 
 ## Next Drafting Tasks
 
-1. Replace Related Work citation placeholders in `paper/draft.md` with final BibTeX-style keys.
-2. Keep Figure 3 rendered/crop upgrade as a later optional improvement if deterministic rendering is added.
-3. Keep Qwen-VL as optional appendix/future-work material unless it is promoted with full Docker metric, denominator, and audit treatment.
+1. Complete the `paper/iccv/` manuscript-content pass before PDF build: section prose, table/figure callouts, captions, Open3DSG caveats, and limitations must be fully filled and claim-consistent.
+2. Convert Figure 1-3 SVGs to PDF/PNG for the ICCV source or update the figure include paths to the chosen output format.
+3. Verify/build `paper/iccv/` after manuscript content and figure assets are ready.
+4. Run an ICCV-style layout/compression pass after build works; prioritize Results/Table 6 wording and Related Work.
+5. Use the generated geometry-backed Figure 3 panel as the preferred draft; keep rendered scene crops only as optional final polish if deterministic rendering is added.
+6. Keep Qwen-VL as optional appendix/future-work material unless it is promoted with full Docker metric, denominator, and audit treatment.
 
 ## Korean Outline
 
@@ -1042,6 +1048,8 @@ reviewer 방어:
 주요 역할:
 
 - dataset, prediction source, split, Docker reproduction, evaluation protocol을 설명한다.
+- 제목은 `Experimental Setup`으로 유지하고, fixed scope, denominator,
+  filtered split, Docker-result boundary는 제목이 아니라 본문에서 명시한다.
 
 하위 섹션:
 
@@ -1299,7 +1307,7 @@ Korean review note:
 
 ## Paper Content Coverage Checklist
 
-Status: `content_blocks_secured_draft_figures_layout_reviewed`
+Status: `content_blocks_secured_draft_figures_layout_reviewed_iccv_source_converted`
 
 Purpose:
 
@@ -1334,11 +1342,13 @@ Content blocks secured in this outline pass:
 
 Priority:
 
-1. Replace citation placeholders in `paper/draft.md`.
-2. Keep Figure 3 rendered/crop upgrade as an optional later improvement.
-3. Polish captions, including Table 6 wording, only after the paper-body draft is coherent.
+1. Complete the `paper/iccv/` manuscript-content pass before PDF build; current host lacks `pdflatex`, `bibtex`, `latexmk`, `rsvg-convert`, and `inkscape`, but build tooling is not the immediate blocker.
+2. Keep only optional final Figure 3 scene-crop polish if deterministic rendering is added; the geometry-backed panel is already generated.
+3. Polish captions, including Table 6 wording, only after the paper-body draft is coherent and the ICCV layout is visible.
 
 ### 다음 Drafting Task
 
-1. `paper/draft.md`의 Related Work citation placeholder를 final BibTeX-style key로 교체한다.
-2. Figure 3 row-card는 draft insertion에는 사용 가능하지만, 최종 top-tier 제출 전 deterministic rendered/crop evidence로 강화할 수 있으면 강화한다.
+1. PDF build 전에 `paper/iccv/` 본문 내용을 먼저 완성한다. Section prose, table/figure callout, caption, Open3DSG caveat, limitation wording이 모두 claim과 맞아야 한다.
+2. Figure 1-3 SVG를 PDF/PNG로 변환하거나 LaTeX include path를 선택한 포맷에 맞춘다.
+3. 그 다음 `paper/iccv/`를 build 검증한다.
+4. Figure 3은 현재 geometry-backed point-cloud panel을 preferred draft로 사용한다. Scene crop은 같은 locked case ID를 보존하는 deterministic rendering path가 추가될 때만 final polish로 고려한다.

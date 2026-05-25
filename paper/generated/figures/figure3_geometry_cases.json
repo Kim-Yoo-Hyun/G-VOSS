@@ -1,0 +1,299 @@
+[
+  {
+    "case_id": "open3dsg_case_001",
+    "geometry_rank": 263,
+    "ground_truth_match_status": "pair_has_other_predicate",
+    "matched_gt_predicates": [
+      "right"
+    ],
+    "measurements": {
+      "object_top_minus_subject_bottom": 1.39224,
+      "subject_bottom_minus_object_top": -1.39224,
+      "subject_top_minus_object_top": 0.0,
+      "xy_center_distance": 4.329476,
+      "z_center_delta_subject_minus_object": 0.10247
+    },
+    "object_geometry": {
+      "center": [
+        0.064108,
+        1.273705,
+        -1.215692
+      ],
+      "max": [
+        0.29,
+        1.48598,
+        0.0
+      ],
+      "min": [
+        -0.095635,
+        0.0,
+        -1.39484
+      ]
+    },
+    "object_id": 24,
+    "object_label": "trash can",
+    "p_geom_valid": 0.23039389635021132,
+    "panel": "A",
+    "plot_bounds": {
+      "x_max": 4.288563,
+      "x_min": -0.494198,
+      "y_max": 1.95016,
+      "y_min": -3.62
+    },
+    "predicate_family": "proximity",
+    "predicate_label": "close by",
+    "preprocessed_path": "local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4fbad32f-465b-2a5d-8408-146ab1d72808/data_dict_2.pkl",
+    "reason_codes": [
+      "far_in_normalized_xy",
+      "point_subtype_delegated_to_obb_for_family"
+    ],
+    "role": "proximity demotion",
+    "scan_id": "4fbad32f-465b-2a5d-8408-146ab1d72808",
+    "semantic_rank": 17,
+    "subgraph_id": "4fbad32f-465b-2a5d-8408-146ab1d72808_2",
+    "subject_geometry": {
+      "center": [
+        3.339991,
+        -1.55701,
+        -1.113221
+      ],
+      "max": [
+        3.89,
+        0.342309,
+        0.0
+      ],
+      "min": [
+        0.0,
+        -3.15582,
+        -1.39224
+      ]
+    },
+    "subject_id": 14,
+    "subject_label": "heater",
+    "verification_status": "violated",
+    "view": "top-down XY"
+  },
+  {
+    "case_id": "open3dsg_case_005",
+    "geometry_rank": 422,
+    "ground_truth_match_status": "pair_has_other_predicate",
+    "matched_gt_predicates": [
+      "left"
+    ],
+    "measurements": {
+      "object_top_minus_subject_bottom": 1.88357,
+      "subject_bottom_minus_object_top": -1.88357,
+      "subject_top_minus_object_top": 0.74859,
+      "xy_center_distance": 1.035216,
+      "z_center_delta_subject_minus_object": -0.914507
+    },
+    "object_geometry": {
+      "center": [
+        2.820559,
+        4.998847,
+        0.349003
+      ],
+      "max": [
+        2.92161,
+        5.15,
+        0.51
+      ],
+      "min": [
+        0.0,
+        0.0,
+        -0.35
+      ]
+    },
+    "object_id": 9,
+    "object_label": "lamp",
+    "p_geom_valid": 0.0019154382549911775,
+    "panel": "B",
+    "plot_bounds": {
+      "x_max": 3.370771,
+      "x_min": -2.019161,
+      "y_max": 1.521806,
+      "y_min": -1.636786
+    },
+    "predicate_family": "relative_vertical",
+    "predicate_label": "higher than",
+    "preprocessed_path": "local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/ba6fdaaa-a4c1-2dca-8163-a52b18bf6b64/data_dict_1.pkl",
+    "reason_codes": [
+      "point_subtype_delegated_to_obb_for_family",
+      "vertical_order_contradicts_predicate"
+    ],
+    "role": "vertical demotion",
+    "scan_id": "ba6fdaaa-a4c1-2dca-8163-a52b18bf6b64",
+    "semantic_rank": 25,
+    "subgraph_id": "ba6fdaaa-a4c1-2dca-8163-a52b18bf6b64_1",
+    "subject_geometry": {
+      "center": [
+        1.958354,
+        4.425893,
+        -0.565505
+      ],
+      "max": [
+        2.85946,
+        6.57,
+        1.25859
+      ],
+      "min": [
+        -1.57,
+        -2.23458,
+        -1.37357
+      ]
+    },
+    "subject_id": 38,
+    "subject_label": "desk",
+    "verification_status": "violated",
+    "view": "elevation x-Z"
+  },
+  {
+    "case_id": "open3dsg_case_010",
+    "geometry_rank": 401,
+    "ground_truth_match_status": "pair_has_other_predicate",
+    "matched_gt_predicates": [
+      "right",
+      "front"
+    ],
+    "measurements": {
+      "object_top_minus_subject_bottom": 0.268054,
+      "subject_bottom_minus_object_top": -0.268054,
+      "subject_top_minus_object_top": 0.077855,
+      "xy_center_distance": 0.587571,
+      "z_center_delta_subject_minus_object": 0.937625
+    },
+    "object_geometry": {
+      "center": [
+        2.505183,
+        2.12653,
+        -1.021811
+      ],
+      "max": [
+        2.83256,
+        2.35816,
+        0.0
+      ],
+      "min": [
+        0.0,
+        0.0,
+        -1.15221
+      ]
+    },
+    "object_id": 9,
+    "object_label": "side table",
+    "p_geom_valid": 0.02478513981292485,
+    "panel": "C",
+    "plot_bounds": {
+      "x_max": 2.593976,
+      "x_min": -0.235816,
+      "y_max": 0.200862,
+      "y_min": -1.275217
+    },
+    "predicate_family": "support_contact",
+    "predicate_label": "lying on",
+    "preprocessed_path": "local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4138582f-a238-2435-8332-6902542c2823/data_dict_1.pkl",
+    "reason_codes": [
+      "positive_float_gap_large",
+      "subtype_soft_support_contact"
+    ],
+    "role": "support/contact demotion",
+    "scan_id": "4138582f-a238-2435-8332-6902542c2823",
+    "semantic_rank": 21,
+    "subgraph_id": "4138582f-a238-2435-8332-6902542c2823_1",
+    "subject_geometry": {
+      "center": [
+        2.736145,
+        1.586256,
+        -0.084185
+      ],
+      "max": [
+        2.91,
+        1.7575,
+        0.077855
+      ],
+      "min": [
+        0.0,
+        0.0,
+        -0.268054
+      ]
+    },
+    "subject_id": 6,
+    "subject_label": "lamp",
+    "verification_status": "violated",
+    "view": "elevation y-Z"
+  },
+  {
+    "case_id": "open3dsg_case_007",
+    "geometry_rank": 50,
+    "ground_truth_match_status": "pair_has_other_predicate",
+    "matched_gt_predicates": [
+      "standing on"
+    ],
+    "measurements": {
+      "object_top_minus_subject_bottom": 0.01705,
+      "subject_bottom_minus_object_top": -0.01705,
+      "subject_top_minus_object_top": 0.99,
+      "xy_center_distance": 1.41853,
+      "z_center_delta_subject_minus_object": 0.664704
+    },
+    "object_geometry": {
+      "center": [
+        0.518914,
+        0.336531,
+        -1.405556
+      ],
+      "max": [
+        3.19554,
+        2.31066,
+        -0.99
+      ],
+      "min": [
+        -1.81055,
+        -1.35,
+        -1.53
+      ]
+    },
+    "object_id": 1,
+    "object_label": "floor",
+    "p_geom_valid": 0.9994424488013512,
+    "panel": "D",
+    "plot_bounds": {
+      "x_max": 2.676726,
+      "x_min": -1.716066,
+      "y_max": 0.153,
+      "y_min": -1.683
+    },
+    "predicate_family": "relative_vertical",
+    "predicate_label": "lower than",
+    "preprocessed_path": "local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c2d99349-1947-2fbf-837e-a0bd5e027c52/data_dict_2.pkl",
+    "reason_codes": [
+      "point_subtype_delegated_to_obb_for_family",
+      "vertical_order_contradicts_predicate"
+    ],
+    "role": "residual calibration risk",
+    "scan_id": "c2d99349-1947-2fbf-837e-a0bd5e027c52",
+    "semantic_rank": 339,
+    "subgraph_id": "c2d99349-1947-2fbf-837e-a0bd5e027c52_2",
+    "subject_geometry": {
+      "center": [
+        1.458065,
+        1.39965,
+        -0.740851
+      ],
+      "max": [
+        1.69,
+        1.57879,
+        0.0
+      ],
+      "min": [
+        0.0,
+        0.0,
+        -1.00705
+      ]
+    },
+    "subject_id": 23,
+    "subject_label": "chair",
+    "verification_status": "violated",
+    "view": "elevation y-Z"
+  }
+]

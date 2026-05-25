@@ -1,6 +1,6 @@
 # Paper Workflow
 
-Last updated: 2026-05-22
+Last updated: 2026-05-25
 
 This document manages paper-level framing for H001/CAND-001: novelty, contribution boundary, reviewer-defense logic, and the minimum experiment evidence needed before paper writing. It does not replace `docs/hypothesis.md`, `07_experiment_spec.md`, or Docker experiment artifacts.
 
@@ -34,8 +34,10 @@ This is the preferred direction because it contains both cause diagnosis and met
 Current paper handoff:
 
 - `paper/preview.md` summarizes current evidence, caveats, reviewer-defense map, optional extension boundary, and recovery files.
+- `paper/progress.md` records why each hypothesis/experiment stage was run, why the next stage was needed, and how the key results should be interpreted.
 - `paper/outline.md` provides the English/Korean paper skeleton, recommended title, title alternatives, three contribution statements, abstract skeleton, section-level evidence placement, Open3DSG caveat placement, reviewer-defense plan, and table/figure plan. Cross-source results and failure analysis are treated as empirical validation, not a separate fourth contribution.
-- `paper/draft.md` provides first-pass manuscript prose for Related Work, Problem Formulation, Method, Experimental Setup, Results/Discussion, and Limitations. It has passed claim-scope/evidence-link review and still contains citation placeholders.
+- `paper/draft.md` provides ICCV-style first-pass manuscript prose for Title, Abstract, Introduction, Related Work, Problem Formulation, Method, Experimental Setup, Results/Discussion, Limitations, and Conclusion. It has passed claim-scope/evidence-link review and now uses BibTeX-style citation keys in Related Work.
+- `paper/iccv/` provides the first ICCV-style LaTeX manuscript source conversion using the official ICCV/CVF author-kit route. It vendors `iccv.sty` and `ieeenat_fullname.bst`, splits the draft into `main.tex` plus `sec/*.tex`, and points bibliography to `paper/references.bib`. Build is pending because this host currently lacks TeX and figure-conversion tools.
 - `paper/figures.md` locks Figure 1-3 source claims, exact values, case IDs, artifacts, and caption constraints; draft SVGs are generated, verified, and layout-reviewed under `paper/generated/figures/`.
 
 ## H001 Fit To Top-Tier Pattern
@@ -49,6 +51,7 @@ Facts:
 - Open3DSG has clean raw-dump source-process provenance via v14 streaming same-path resume. It remains caveated by filtered train split, averaged-BLIP variant, covered loadable scope, and `validation_missing_preprocessed:11`; earlier exit-137 attempts are historical run records, not final raw-dump provenance caveats.
 - Open3DSG paper caveat wording is frozen in `experiments/H001_geom_reliability/sources/open3dsg/paper_caveats/`: filtered train 3,744/3,852 subgraphs, train-dev validation 156/160 subgraphs, H001 covered loadable scope 377/388 contexts, averaged-BLIP variant, exact-label 2,545-row denominator, and residual calibration risk.
 - Qwen-VL is currently an optional modern semantic-source extension, not the main baseline replacement.
+- The 2026-05-23 RelWitness full-PDF skim identified a stronger direct novelty threat: RelWitness uses visual-geometric relation witnesses, calibrated witness quality, witness-guided positive-unlabeled learning, and witness-consistent decoding. Its v2 numerical tables are simulated planning values, so it should sharpen H001 wording rather than replace H001's reproduced evidence.
 
 Inference:
 
@@ -83,6 +86,7 @@ Required defense:
 - Use Open3DSG as second-source evidence before broad claims.
 - Report residual calibration-risk cases separately from rule-verified results.
 - Treat Qwen-VL as optional semantic-source extension unless it receives the same Docker, metric, and audit treatment.
+- Treat RelWitness-style "relation witness" and "calibrated witness quality" wording as prior-art-adjacent. H001 should claim reproduced calibrated reliability evaluation/re-ranking, source-adapter protocol, recall/violation operating points, and controls, not the mere existence of visual-geometric evidence or calibration.
 
 ## Main Paper Evidence Checklist
 
@@ -96,7 +100,7 @@ Minimum table/figure set before paper writing:
 - Table 6: Open3DSG second-source metrics with exact scope and blocked/filtered sample accounting.
 - Figure 1: failure mechanism and framework overview.
 - Figure 2: recall-violation tradeoff across semantic-only, probabilistic calibrated, rule-verified, and family-specific operating points.
-- Figure 3: qualitative failure taxonomy with examples where semantic plausibility and physical consistency diverge.
+- Figure 3: qualitative failure taxonomy with geometry-backed examples where semantic plausibility and physical consistency diverge.
 
 ## Non-Claims
 
@@ -113,12 +117,24 @@ Do not claim these until evidence exists:
 
 - Claim-consistency review is complete in `paper/outline.md`: title, contribution statements, abstract, Introduction, Figure 1-3 captions, and Table 1-6 captions preserve the scoped relation-reliability claim.
 - Paper-body content blocks are secured in `paper/outline.md`: related-work positioning, problem/method formalization, re-ranking algorithm skeleton, Results/controls/Open3DSG prose skeleton, failure-analysis prose skeleton, limitation prose, Figure 1-3 asset plan, and table/appendix placement.
-- First-pass manuscript prose is drafted and claim-scope/evidence-link reviewed in `paper/draft.md`.
+- First-pass manuscript prose is drafted and claim-scope/evidence-link reviewed in `paper/draft.md`; Title, quantitative Abstract, and Introduction are now filled before Related Work.
 - Figure 1-3 source lock is complete in `paper/figures.md`: Figure 1 method framework, Figure 2 two-panel R@100/Violation@100 tradeoff, and Figure 3 Open3DSG qualitative case panels.
-- Draft Figure 1-3 generation and top-tier novelty/layout review are complete under `paper/generated/figures/`; validation passed for locked values, case IDs, and SVG XML parsing.
-- Next, replace Related Work citation placeholders in `paper/draft.md` with final BibTeX-style keys.
-- Keep Figure 3 row-card panels as draft manuscript placeholders; upgrade to rendered/crop evidence later if a deterministic rendering path is added.
+- Draft Figure 1-3 generation, top-tier novelty/layout review, and Figure 3 geometry-backed panel upgrade are complete under `paper/generated/figures/`; validation passed for locked values, case IDs, geometry case IDs, and SVG XML parsing.
+- Recent 2025-2026 Related Work roles are decided: RelWitness is a required direct novelty-threat citation, VIZOR is a required spatial-relation/viewpoint-boundary citation, ZING-3D is a VLM/incremental 3DSG trend citation, Open-World 3DSG-RAG is a broad open-world/RAG boundary citation, and View-on-Graph is a downstream grounding-motivation citation.
+- Section structure is locked: keep Section 5 as a short standalone `Experimental Setup` section. Do not merge it into Results because denominator, filtered-split, covered-scope, Open3DSG variant, and Docker-result boundaries are part of the reviewer defense.
+- Section-title rule: use standard paper headings such as `Experiments`, `Experimental Setup`, `Evaluation Setup`, `Datasets`, `Evaluation Metrics`, and `Implementation Details`. Do not put `Scope` in the heading unless the target venue/template makes it necessary; H001's scope and denominator discipline should be stated in the first paragraph and tables.
+- Section-title reference check, 2026-05-23: Open3DSG uses `4 Experiments` / `4.1 Experimental Setup`; OpenFunGraph uses `6 Experiments` / `6.1 Experimental Setup`; FROSS uses `4 Experimental Results` / `4.1 Evaluation Setup` with dataset/metric/implementation subsections; VIZOR uses `4 Experiments` / `4.1 Datasets` and separates `5 Failure Analysis`. This supports the H001 decision to use the standard heading `Experimental Setup` while keeping scope/caveat details in text and tables.
+- Target venue direction is ICCV-style main conference writing. Content stability comes before template/build work.
+- `paper/draft.md` Title/Abstract/Introduction quick review is complete; front matter is about 701 words excluding title, with a 201-word abstract and 500-word Introduction before final compression.
+- Paper-body gap review patch is complete: Figure 1-3 callouts, Table 4 audit/sanity prose, and Conclusion are now in `paper/draft.md`.
+- Paper-body budget review is complete: Title-through-Conclusion prose is about 3,507 words; recommended main tables are Table 1, compact Table 2, compact Table 3 if space allows, and Table 6. Table 4 and full Table 5 should move to appendix/prose fallback if page budget is tight.
+- ICCV-style source conversion is complete under `paper/iccv/` using the official ICCV/CVF author-kit route. Update the style files when the exact target-year kit is fixed.
+- Next, complete the `paper/iccv/` manuscript-content pass before PDF build: fill/verify all main-section prose, table callouts, figure callouts, captions, Open3DSG caveats, and limitation wording against the scoped H001 claim.
+- After manuscript content is complete, convert Figure 1-3 assets and verify/build `paper/iccv/`; then run the ICCV-style layout/compression pass.
+- Draft bibliography scaffold is complete in `paper/references.bib`; citation keys used by `paper/iccv/sec/*.tex` match the bibliography entries, but final formatting still needs a successful ICCV-style build.
+- Use `paper/generated/figures/figure3_geometry_panels.svg` as the preferred Figure 3 draft; keep `figure3_failure_cases.svg` as the traceable row-card fallback. A rendered scene-crop upgrade is optional only if a deterministic crop/render path is added.
 - Keep Table 6/Open3DSG caveats explicit until content is locked; later compression must retain averaged-BLIP, filtered-train/dev, covered loadable scope, exact-label denominator, `validation_missing_preprocessed:11`, and residual calibration-risk caveats.
 - Use the frozen Open3DSG caveat wording in Table 6 and failure-analysis text.
 - Keep clean v14 streaming source-process provenance separate from historical exit-137 run records in reproducibility wording.
 - Keep Qwen-VL as optional extension evidence unless it receives the same Docker, metric, and audit treatment.
+- RelWitness full-PDF skim is complete for v2. Before submission, check whether a newer RelWitness version adds reproduced results, code, arbitrary-source adapters, `Violation@K`, or wrong-pair/shuffled-geometry controls.

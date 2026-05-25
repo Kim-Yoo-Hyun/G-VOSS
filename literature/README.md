@@ -1,12 +1,12 @@
 # Literature Index
 
-Last updated: 2026-04-30
+Last updated: 2026-05-23
 
 이 폴더는 3D Scene Graph 문헌 조사 결과를 저장한다. workflow와 작성 규칙은 `docs/literature.md`를 따른다.
 
 논문별 폴더에는 가능한 경우 원문 PDF를 `paper.pdf`로 저장한다.
 
-Latest check: 2026-04-30, focused on CAND-003 evidence for LLM/VLM task reasoning on 3DSG across CVPR, ICCV, NeurIPS, RSS, ICRA, CoRL, PMLR, OpenReview, arXiv, official project pages, and official code repositories.
+Latest check: 2026-05-23, focused on H001/CAND-001 novelty-threat expansion for relation-level visual-geometric evidence, open-world/open-vocabulary 3DSG, VLM-based zero-shot/incremental graph generation, and graph-mediated 3D grounding. Primary sources checked in this pass include arXiv, AAAI proceedings, and CVF Open Access.
 
 ## Files
 
@@ -86,6 +86,34 @@ Latest check: 2026-04-30, focused on CAND-003 evidence for LLM/VLM task reasonin
 - Why it matters: This makes CAND-001 timely, but also raises the novelty bar. A thesis cannot simply claim "open-vocabulary 3D scene graph" because that is now an active line with multiple top-tier papers.
 - What remains unsolved: Relation edges are still often represented as predicted/captioned text, fixed predicate labels, or coarse spatial edges. Explicit evidence provenance and geometry-consistency evaluation for each semantic relation remains under-standardized.
 - Possible thesis angle: edge-level relation verification: relation proposal from semantic models, verification/refinement from 3D geometric evidence, and evaluation by relation recall plus violation/grounding metrics.
+
+### Trend: Visual-geometric relation evidence is becoming explicit prior art
+
+- Date checked: 2026-05-22
+- Evidence: RelWitness, Open3DSG, CCL-3DSGG, FROSS, OpenFunGraph, Open-Vocabulary Octree-Graph, ZING-3D, VIZOR.
+- What is changing: Recent 3DSSG work increasingly treats relations as open-vocabulary, VLM-mediated, incomplete-supervision, or zero-shot outputs, and several papers now expose geometry-related edge attributes or relation evidence rather than only predicate labels.
+- Why it matters: H001 can no longer safely claim novelty as "visual-geometric relation witnesses", "geometry evidence on relation edges", or "verification with geometry" by itself.
+- What remains unsolved: A reproduced, source-agnostic reliability evaluation/re-ranking protocol with identity-preserving geometry joins, calibrated `p_geom_valid`, recall/violation operating points, source-transfer evidence, wrong-pair/shuffled-geometry controls, and denominator-transparent caveats is still a defensible narrower contribution. RelWitness has calibrated witness quality, so H001 should not claim calibration novelty by itself.
+- Possible thesis angle: position H001 as a calibrated relation reliability layer and evaluation protocol, not as a new open-vocabulary 3DSG generator.
+- Confidence: Medium-High. RelWitness is very direct; full-PDF skim confirms the method overlap is real, but v2 numerical tables are simulated planning values rather than reproduced results.
+
+### Trend: Recent open-world/VLM graph systems widen the field but sharpen H001's boundary
+
+- Date checked: 2026-05-22
+- Evidence: ZING-3D, Open-World 3D Scene Graph Generation for Retrieval-Augmented Reasoning, View-on-Graph, VIZOR, SGR3, RieMind, 3DGraphLLM, 3D-Mem.
+- What is changing: 3D scene graphs are increasingly used as VLM input/output, incremental scene memory, retrieval substrate, or graph-reasoning interface for grounding, QA, planning, and object search.
+- Why it matters: These papers make "open-world 3D scene graph for reasoning" too broad as an H001 contribution.
+- What remains unsolved: Many systems still need relation-level reliability accounting: which relation edge is geometrically valid, which source produced it, whether re-ranking reduces contradictions, and how much recall is lost.
+- Possible thesis angle: keep H001 as a paper about relation-source reliability under geometry-checkable families; treat Qwen-VL and downstream task reasoning as optional extension evidence only after the core claim is stable.
+- Confidence: Medium.
+
+### Insight: Recent 2025-2026 papers should enter H001 Related Work with separated roles
+
+- Date: 2026-05-23
+- Based on: RelWitness, VIZOR, ZING-3D, Open-World 3DSG-RAG, View-on-Graph.
+- Facts: RelWitness directly overlaps relation-level visual-geometric evidence and calibrated witness quality. VIZOR directly targets viewpoint-invariant zero-shot 3D scene graph generation and object-centric spatial relations. ZING-3D targets zero-shot incremental VLM-based 3DSG with depth grounding and distance-bearing edges. Open-World 3DSG-RAG broadens 3DSG to retrieval-augmented reasoning across QA/grounding/retrieval/planning. View-on-Graph uses scene graphs as the interface for zero-shot 3D visual grounding.
+- Inference: All five should remain in final H001 Related Work, but not as equivalent baselines. They should be grouped as direct novelty threat, spatial-relation boundary, VLM/incremental trend, open-world/RAG boundary, and downstream grounding motivation.
+- Confidence: High.
 
 ## Cross-Paper Insights
 
@@ -222,6 +250,22 @@ Latest check: 2026-04-30, focused on CAND-003 evidence for LLM/VLM task reasonin
 - Recommended thesis cut: promote CAND-003 only as an offline verifier/refiner that uses CAND-001-style relation evidence to diagnose object-reference, spatial-relation, and geometry-constraint failures.
 - Confidence: High.
 
+### Insight: RelWitness is a direct method-wording threat, not yet a reproduced-baseline replacement
+
+- Date: 2026-05-23
+- Based on: RelWitness arXiv v2 PDF.
+- Facts: RelWitness introduces visual-geometric relation witnesses for open-vocabulary 3DSSG under incomplete relation supervision. It includes a calibrated witness quality `Q`, family-dependent thresholds, a three-stage positive-unlabeled learning schedule, witness-consistent decoding, and an RGB-D missing-relation audit protocol. It also states that numerical results are simulated manuscript-planning values.
+- Inference: H001 must cite/track RelWitness as the nearest very recent overlap. The defense is narrower than before: H001's contribution is not relation witnesses or calibration alone, but reproduced calibrated geometry-consistency evaluation/re-ranking over existing relation-source outputs with identity-preserving joins, `Violation@K`, controls, and denominator discipline.
+- Confidence: Medium-High.
+
+### Insight: The current H001 reference set needs expansion before serious submission
+
+- Date: 2026-05-22
+- Based on: `paper/draft.md` citation-key count and the 2025-2026 registry expansion.
+- Facts: The current draft cites the core H001 baselines and several positioning papers, but recent 2025-2026 work now includes additional open-world, zero-shot, graph-reasoning, and visual-geometric relation-evidence papers.
+- Inference: For a top-tier target, Related Work should separate four groups: direct 3DSSG relation predictors, open-vocabulary/open-world 3DSG generators, geometry/witness/reliability methods, and graph-mediated downstream reasoning. H001 must explicitly state which group it competes with and which groups are only motivation/boundary.
+- Confidence: High.
+
 ## Open Questions
 
 1. 3D Scene Graph 연구는 최근 어떤 방향으로 이동하고 있는가?
@@ -231,3 +275,5 @@ Latest check: 2026-04-30, focused on CAND-003 evidence for LLM/VLM task reasonin
 5. semantic reasoning relation과 geometry-derived relation을 edge에서 어떻게 함께 표현해야 하는가?
 6. CAND-003을 CAND-001의 downstream extension으로 둘 것인가, 아니면 독립 thesis 후보로 키울 것인가?
 7. LLM/VLM task output의 오류를 semantic hallucination, missing perception, graph relation error, geometry violation으로 어떻게 분해해 측정할 것인가?
+8. RelWitness future version에서 reproduced results, code, arbitrary-source adapters, `Violation@K`, or wrong-pair/shuffled-geometry controls가 추가되는지 추적해야 한다.
+9. Final Related Work에 들어간 recent boundary papers가 H001을 broad open-world generation/RAG/downstream grounding paper처럼 보이게 만들지 않도록 citation sentence를 계속 통제해야 한다.

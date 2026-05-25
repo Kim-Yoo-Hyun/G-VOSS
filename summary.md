@@ -1,6 +1,6 @@
 # H001 Research Summary
 
-Last updated: 2026-05-21 KST
+Last updated: 2026-05-25 KST
 
 이 문서는 CAND-001 / H001의 현재 연구 정의, 필요성, 가설, metric,
 비교군, 실험 세팅, contribution, 구현 방향, baseline 재현 가능성을 한곳에
@@ -42,6 +42,21 @@ Out of first-scope:
 - online RGB-D graph generation
 - robotics navigation
 - broad open-vocabulary 3DSSG generation improvement
+
+Recent novelty-threat update:
+
+- 2026-05-23 RelWitness full-PDF skim identified `RelWitness` as the closest
+  wording/method threat because it explicitly uses visual-geometric relation
+  witnesses, calibrated witness quality, and witness-consistent decoding for
+  open-vocabulary 3DSSG under incomplete relation supervision.
+- This does not replace H001's reproduced evidence because the checked arXiv v2
+  PDF states its numerical tables are simulated manuscript-planning values, but
+  it does mean H001 should not claim novelty as "relation witnesses",
+  "geometry evidence", or "calibrated witness quality" alone.
+- The current defensible difference remains calibrated geometry-consistency
+  evaluation/re-ranking over existing relation-source outputs, with reproduced
+  `VL-SAT` and Open3DSG metrics, controls, denominator accounting, and failure
+  analysis.
 
 ## Why This Research Is Needed
 
@@ -324,7 +339,7 @@ Required figures:
 | --- | --- |
 | Figure 1 | framework pipeline: prediction rows, geometry evidence, verifier, `p_geom_valid`, reranking/filtering |
 | Figure 2 | reliability-recall tradeoff across operating points |
-| Figure 3 | traceable qualitative cases from audit / visual sanity-check artifacts |
+| Figure 3 | traceable Open3DSG qualitative cases with geometry-backed point-cloud panels |
 
 ## Main Baselines And Reproducibility
 
@@ -520,6 +535,9 @@ Current paper handoff:
 
 - `paper/preview.md` is ready and summarizes current results, caveats,
   reviewer-defense map, optional extension boundary, and recovery files.
+- `paper/progress.md` is ready and records the hypothesis-to-experiment
+  progression rationale: why each experiment was run, why the next stage was
+  needed, and how key results should be interpreted.
 - `paper/outline.md` is ready with English/Korean paper skeleton, section-level
   evidence placement, recommended title, title alternatives, three contribution
   statements, abstract skeleton, Introduction logic, Open3DSG caveat placement,
@@ -527,33 +545,69 @@ Current paper handoff:
   claim-consistency review across title, contribution, abstract, Introduction,
   table captions, and figure captions. Cross-source results and failure
   analysis are empirical validation, not a fourth contribution.
-- `paper/draft.md` is ready as reviewed first-pass manuscript prose covering Related
-  Work, Problem Formulation, Method, Experimental Setup, Results/Discussion,
-  and Limitations. It still needs citation replacement.
+- `paper/draft.md` is ready as ICCV-style first-pass manuscript prose covering
+  Title, Abstract, Introduction, Related Work, Problem Formulation, Method,
+  Experimental Setup, Results/Discussion, Limitations, and Conclusion. Related
+  Work now uses BibTeX-style citation keys and `paper/references.bib` scaffolds
+  all inserted keys.
+- `paper/iccv/` is ready as the first ICCV-style LaTeX source conversion. It
+  uses the official ICCV/CVF author-kit route, vendors `iccv.sty` and
+  `ieeenat_fullname.bst`, splits the manuscript into `main.tex` plus
+  `sec/*.tex`, and points the bibliography to `paper/references.bib`. Build is
+  pending because the current host lacks TeX and figure-conversion tools.
 - `paper/figures.md` is ready and locks Figure 1-3 claims/assets before drawing:
   Figure 1 method framework, Figure 2 two-panel R@100/Violation@100 tradeoff,
   and Figure 3 Open3DSG qualitative case panels.
 - `paper/generated/figures/` is ready with verified draft SVGs:
   `figure1_framework.svg`, `figure2_tradeoff.svg`, and
-  `figure3_failure_cases.svg`. Validation passed for locked Figure 2 values,
-  Figure 3 case IDs, and SVG XML parsing.
+  `figure3_failure_cases.svg`, plus the preferred geometry-backed Figure 3
+  upgrade `figure3_geometry_panels.svg`. Validation passed for locked Figure 2
+  values, Figure 3 case IDs, geometry case IDs, and SVG XML parsing.
 - `paper/generated/figures/layout_review.md` is ready. Figure 1 was revised to
   foreground failure mechanism -> cause -> design necessity; Figure 2 is kept
-  as the strongest recall/violation evidence; Figure 3 is accepted as a draft
-  row-card placeholder with a later rendered/crop upgrade recommended for final
-  top-tier presentation.
+  as the strongest recall/violation evidence; Figure 3 now uses deterministic
+  preprocessed object point-cloud geometry panels for the same locked cases.
 
 Next required drafting step:
 
-1. Replace Related Work citation placeholders in `paper/draft.md` with final
-   BibTeX-style keys.
-2. Defer Table 6/Open3DSG caveat compression until the paper-body logic is
+1. Complete the `paper/iccv/` manuscript-content pass before PDF build: verify
+   all main-section prose, table callouts, figure callouts, captions, Open3DSG
+   caveats, and limitation wording against the scoped H001 claim.
+2. Convert Figure 1-3 SVGs to PDF/PNG for the ICCV build or update the
+   `\figmaybe{...}` paths to the chosen figure format.
+3. Verify/build `paper/iccv/` after manuscript content and figure assets are
+   ready. The current host lacks `pdflatex`, `bibtex`, `latexmk`,
+   `rsvg-convert`, and `inkscape`.
+4. Verify bibliography and citation formatting in the final ICCV-style
+   manuscript build. Citation keys used by `paper/iccv/sec/*.tex` currently
+   match `paper/references.bib`.
+5. Defer Table 6/Open3DSG caveat compression until the paper-body logic is
    readable end to end;
    keep averaged-BLIP, filtered-train/dev, covered-scope, exact-label denominator,
    `validation_missing_preprocessed:11`, and residual calibration-risk caveats
    explicit for now.
-3. Keep a later optional figure-upgrade task for rendered/crop Figure 3
-   evidence if a deterministic path is added.
+6. Keep only an optional final-polish task for rendered scene-crop Figure 3
+   evidence if a deterministic path is added; the geometry-backed panel is
+   already sufficient for manuscript planning.
+
+Recent Related Work decision:
+
+- Keep `RelWitness` as required direct novelty-threat citation.
+- Keep `VIZOR` as required spatial-relation / viewpoint-boundary citation.
+- Keep `ZING-3D` as VLM/incremental 3DSG trend citation.
+- Keep `Open-World 3DSG-RAG` as broad open-world/RAG boundary citation.
+- Keep `View-on-Graph` as downstream grounding-motivation citation.
+
+Section-structure decision:
+
+- Keep Section 5 as a short standalone `Experimental Setup` section.
+- Do not merge it into Results. Denominator, filtered-train/dev, covered-scope,
+  averaged-BLIP variant, exact-label denominator, Docker-result boundary, and
+  non-claim caveats are reviewer-defense material and should remain visible
+  before the metric results.
+- Use the standard section title and state scope in the first paragraph/tables;
+  this follows common CV paper structure more closely than putting `Scope` in
+  the heading.
 
 Reproducibility/GitHub portability note:
 
@@ -594,10 +648,13 @@ Required defenses:
   and covered Open3DSG contexts;
 - add Open3DSG second-source metrics before making cross-predictor claims;
 - treat Qwen-VL and functional/robotics benchmarks as separate optional tracks.
+- cite and distinguish RelWitness before final submission: H001 is not a
+  witness-supervised open-vocabulary generator, but a calibrated reliability
+  layer and evaluation protocol over existing relation-source outputs.
 
 ## Sources Checked
 
-- Checked / updated: 2026-05-15 KST
+- Checked / updated: 2026-05-22 KST
 - `VL-SAT` official repository: https://github.com/wz7in/CVPR2023-VLSAT
 - `VL-SAT` CVF page: https://openaccess.thecvf.com/content/CVPR2023/html/Wang_VL-SAT_Visual-Linguistic_Semantics_Assisted_Training_for_3D_Semantic_Scene_Graph_CVPR_2023_paper.html
 - `Open3DSG` official repository: https://github.com/boschresearch/Open3DSG
@@ -605,3 +662,8 @@ Required defenses:
 - `CCL-3DSGG` CVF page: https://openaccess.thecvf.com/content/CVPR2024/html/Chen_CLIP-Driven_Open-Vocabulary_3D_Scene_Graph_Generation_via_Cross-Modality_Contrastive_Learning_CVPR_2024_paper.html
 - `SGFormer` official repository: https://github.com/Andy20178/SGFormer
 - `SGGpoint` official repository: https://github.com/chaoyivision/SGGpoint
+- `RelWitness` arXiv page: https://arxiv.org/abs/2605.20823
+- `ZING-3D` arXiv page: https://arxiv.org/abs/2510.21069
+- `Open-World 3DSG-RAG` arXiv page: https://arxiv.org/abs/2511.05894
+- `View-on-Graph` AAAI page: https://ojs.aaai.org/index.php/AAAI/article/view/37677
+- `VIZOR` CVF PDF: https://openaccess.thecvf.com/content/WACV2026/papers/Madhavaram_VIZOR_Viewpoint-Invariant_Zero-Shot_Scene_Graph_Generation_for_3D_Scene_Reasoning_WACV_2026_paper.pdf

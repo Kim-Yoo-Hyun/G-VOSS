@@ -1,0 +1,30 @@
+\section{Limitations}
+
+The current study is intentionally scoped to geometry-checkable relation
+families. Relations whose correctness depends primarily on functional, social,
+affordance, or language-pragmatic context are outside the H001 metric claim.
+The evaluation also uses closed-set/GT-object relation rows and exact
+predicate-label recall, so the results should be read as relation-reliability
+evidence rather than full open-vocabulary scene graph generation performance.
+
+The Open3DSG experiment is a reproduced averaged-BLIP variant with explicit
+filtering and coverage caveats. The checkpoint is selected by train-dev
+validation loss before H001 held-out inspection, the training and validation
+splits are filtered to preprocessed-ready subgraphs, and H001 evaluation covers
+the loadable Open3DSG scope. These choices do not invalidate the scoped
+reliability result, but they prevent claims of exact non-averaged Open3DSG
+reproduction or broad open-vocabulary SOTA.
+
+The visual and qualitative evidence should also be read with the correct scope.
+The reduced visual sanity check and Open3DSG qualitative case inspection are
+reviewer-defense and failure-mechanism evidence, not large-scale independent
+human audits. They help identify failure modes and residual calibration risk,
+but the quantitative claim remains tied to the fixed metric denominator and
+Docker-generated tables.
+
+Finally, \pgeom{} is a calibrated reliability score, not a proof of physical
+correctness. Residual high-confidence but rule-violated cases motivate future
+work on broader predicate families, stronger calibration, larger visual audits,
+modern VLM relation sources, and downstream tasks where relation reliability can
+be tested through planning, navigation, alignment, or embodied reasoning.
+

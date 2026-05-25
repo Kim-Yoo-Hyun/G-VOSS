@@ -1,6 +1,6 @@
 # Paper Registry
 
-Last updated: 2026-05-11
+Last updated: 2026-05-23
 
 이 파일은 3D Scene Graph literature pass에서 추적하는 논문 목록과 reading queue를 관리한다. 논문별 상세 정리는 각 paper folder에 둔다.
 
@@ -41,26 +41,32 @@ Last updated: 2026-05-11
 | [FROSS](https://openaccess.thecvf.com/content/ICCV2025/html/Hou_FROSS_Faster-Than-Real-Time_Online_3D_Semantic_Scene_Graph_Generation_from_RGB-D_ICCV_2025_paper.html) | ICCV 2025 | `literature/2025_iccv_fross/` | Read | 2D scene graph를 3D로 lift하고 3D Gaussian으로 online/faster-than-real-time 3D SSG 생성; ReplicaSSG 제안 |
 | [3DGraphLLM](https://openaccess.thecvf.com/content/ICCV2025/html/Zemskova_3DGraphLLM_Combining_Semantic_Graphs_and_Large_Language_Models_for_3D_ICCV_2025_paper.html) | ICCV 2025 | `literature/2025_iccv_3dgraphllm/` | Read | 3D semantic graph를 LLM 입력 표현으로 사용해 3D vision-language task 수행 |
 | [Open-Vocabulary Octree-Graph for 3D Scene Understanding](https://openaccess.thecvf.com/content/ICCV2025/html/Wang_Open-Vocabulary_Octree-Graph_for_3D_Scene_Understanding_ICCV_2025_paper.html) | ICCV 2025 | `literature/2025_iccv_octree-graph/` | Read | adaptive-octree node와 spatial-relation edge로 open-vocabulary 3D representation 구성; CAND-001의 compact geometry evidence 참고축 |
+| [ZING-3D: Zero-shot Incremental 3D Scene Graphs via Vision-Language Models](https://arxiv.org/abs/2510.21069) | arXiv 2025 | TBD | Final RW trend citation | zero-shot incremental 3D scene graph generation with VLMs, depth-grounded 2D scene graphs, and edges carrying spatial/semantic relations plus inter-object distances; not a direct H001 baseline |
+| [Open-World 3D Scene Graph Generation for Retrieval-Augmented Reasoning](https://arxiv.org/abs/2511.05894) | AAAI 2026 / arXiv 2025 | TBD | Final RW boundary citation | open-world 3DSG plus retrieval-augmented reasoning across 3DSSG/Replica and downstream QA/grounding/retrieval/planning; boundary against broad open-world/RAG claims |
 | [Relationship-Aware Hierarchical 3D Scene Graph for Task Reasoning](https://arxiv.org/abs/2602.02456) | ICRA 2026 | TBD | CAND-003 P1 | VLM으로 semantic relation을 추론하고 LLM/VLM task reasoning module을 결합 |
+| [View-on-Graph: Zero-Shot 3D Visual Grounding via Vision-Language Reasoning on Scene Graphs](https://ojs.aaai.org/index.php/AAAI/article/view/37677) | AAAI 2026 | TBD | Final RW downstream citation | scene graph externalizes 3D spatial information for zero-shot 3D visual grounding; supports graph-as-reasoning-interface trend rather than direct H001 baseline |
+| [VIZOR: Viewpoint-Invariant Zero-Shot Scene Graph Generation for 3D Scene Reasoning](https://openaccess.thecvf.com/content/WACV2026/papers/Madhavaram_VIZOR_Viewpoint-Invariant_Zero-Shot_Scene_Graph_Generation_for_3D_Scene_Reasoning_WACV_2026_paper.pdf) | WACV 2026 | TBD | Final RW boundary citation | training-free viewpoint-invariant zero-shot 3D scene graph generation from meshes; direct boundary for spatial relation coordinate-frame claims |
 | [RieMind](https://arxiv.org/abs/2603.15386) | arXiv 2026 | `literature/2026_arxiv_riemind/` | Read | explicit 3DSG와 structured geometric tools로 LLM spatial reasoning을 수행 |
 | [SGR3](https://arxiv.org/abs/2603.04614) | arXiv 2026 | TBD | Candidate | MLLM+RAG 기반 semantic 3D scene graph generation; explicit reconstruction을 우회 |
 | [SCOUT](https://arxiv.org/abs/2603.05642) | arXiv 2026 | `literature/2026_arxiv_scout/` | Read | 3DSG 위에서 relational semantic reasoning을 object search utility로 distill |
 | [ReLaGS](https://arxiv.org/abs/2603.17605) | arXiv 2026 | TBD | Candidate | language-distilled Gaussian scene + 3D semantic scene graph + relational reasoning; venue needs official verification |
 | [ToLL](https://arxiv.org/abs/2603.28178) | arXiv 2026 | TBD | Candidate | topological geometry reasoning을 3DSG pretraining proxy로 사용 |
 | [3D-VCD](https://arxiv.org/abs/2604.08645) | CVPR 2026 accepted / arXiv | `literature/2026_cvpr_3d-vcd/` | Read | distorted 3D scene graph와 visual contrastive decoding으로 3D-LLM hallucination을 줄임 |
+| [RelWitness: Open-Vocabulary 3D Scene Graph Generation with Visual-Geometric Relation Witnesses](https://arxiv.org/abs/2605.20823) | arXiv 2026 | `literature/2026_arxiv_relwitness/` | Full-PDF novelty-threat skim | direct H001 novelty threat: visual-geometric relation witnesses plus calibrated witness quality for open-vocabulary 3DSG under incomplete relation supervision; v2 numerical tables are simulated planning values |
 
 ## CAND-001 Evidence View
 
-Date checked: 2026-04-28
+Date checked: 2026-05-23
 
 | Evidence role | Papers | What they support for CAND-001 |
 | --- | --- | --- |
 | Direct 3DSG benchmark anchor | 3DSSG, SGGpoint, SMKA, VL-SAT, SGRec3D, Open3DSG, CCL-3DSGG | 3DSSG/3RScan, predicate R@K/mR@K, explicit edge feature modeling, spatial-knowledge relation regularization, long-tail semantic relation prediction, open-vocabulary relation prediction |
-| Open-vocabulary 3D graph / robotics anchor | OVSG, ConceptGraphs, HOV-SG, OpenFunGraph, Open-Vocabulary Octree-Graph | 3D graph is useful when open-vocabulary semantics must be compact, queryable, and usable for planning/navigation/manipulation |
-| Geometry-grounding anchor | SGGpoint, SMKA, SGRec3D, FirePlace, GREAT, Octree-Graph | Geometry/edge attributes and support hierarchy can constrain semantic relations, affordances, support/contact-like reasoning, and spatial relation usability |
+| Open-vocabulary 3D graph / robotics anchor | OVSG, ConceptGraphs, HOV-SG, OpenFunGraph, Open-Vocabulary Octree-Graph, ZING-3D, Open-World 3DSG-RAG, VIZOR | 3D graph is useful when open-vocabulary semantics must be compact, queryable, incremental, view-invariant, and usable for planning/navigation/manipulation |
+| Geometry-grounding anchor | SGGpoint, SMKA, SGRec3D, FirePlace, GREAT, Octree-Graph, ZING-3D, RelWitness | Geometry/edge attributes, support hierarchy, inter-object distance, and visual-geometric witnesses can constrain semantic relations, affordances, support/contact-like reasoning, and spatial relation usability |
 | LLM/VLM grounding and hallucination anchor | Open3DSG, 3D-GRAND, 3DGraphLLM, 3D-Mem, SayPlan | LLM/VLM reasoning over 3D needs structured grounding; hallucination and restrictive textual relations are explicit evaluation concerns |
 | Upstream object-node proposal anchor | OpenScene, OpenMask3D, LangSplat | Open-vocabulary object/region features can supply nodes, but relation-edge grounding remains under-specified |
 | Downstream alignment / registration motivation | SGAligner, SG-PGM | 3D scene graphs are used as structured inputs for scene alignment, registration, mosaicking, overlap checking, and navigation; this supports why relation reliability matters, but these are not direct relation-prediction baselines for H001 |
+| Direct novelty-threat watch | RelWitness | "visual-geometric relation witnesses" and calibrated witness quality are now very recent explicit prior-art-adjacent phrases. H001 must emphasize reproduced calibrated reliability evaluation/re-ranking, source adapters, recall/violation tradeoffs, controls, and Docker metrics rather than claiming novelty from relation witnesses or calibration alone. |
 
 ## CAND-001 Alignment/Downstream Positioning Note
 
@@ -76,6 +82,24 @@ Inference:
 - These papers strengthen the motivation that 3D scene graph edges should be geometrically reliable before they are reused for alignment, registration, navigation, or mapping.
 - They should appear in related work under `3D scene graph downstream use / alignment / semantic-geometric fusion`, not under direct 3DSSG relation-prediction baselines.
 - If H001 later adds a downstream sanity check, the clean question is whether geometry-consistency-filtered or re-ranked relation edges improve alignment robustness. This should remain optional until Open3DSG second-source relation evidence is complete.
+
+## H001 Final Related Work Promotion Decision
+
+Date checked: 2026-05-23
+
+| Paper | Fit to H001 | What it changes | Required H001 response |
+| --- | --- | --- | --- |
+| RelWitness | Required direct novelty-threat citation | Makes visual-geometric relation witnesses and calibrated witness quality for open-vocabulary 3DSSG an explicit recent topic; full-PDF skim confirms all numerical tables are simulated planning values | Cite in geometry/reliability Related Work. Do not claim novelty as relation witnesses, geometry verification, or first calibrated witness quality. |
+| VIZOR | Required boundary citation | Proposes training-free viewpoint-invariant zero-shot 3D scene graph generation from raw 3D scenes, with object-centric spatial relations and open-vocabulary spatial/proximity edges | Cite in open-vocabulary/spatial-relation boundary. H001 should not claim viewpoint-invariant zero-shot 3DSG generation or relative-horizontal relation resolution. |
+| ZING-3D | Keep as final trend citation | Uses VLMs for zero-shot incremental 3DSG with 3D grounding and inter-object distance edges, on Replica/HM3D | Cite once in the open-vocabulary/VLM 3DSG trend paragraph. It supports timeliness and Qwen-VL-source motivation, not H001 metric claims. |
+| Open-World 3DSG-RAG | Keep as final broad-boundary citation | Connects open-world 3DSG to retrieval-augmented reasoning across 3DSSG/Replica and downstream QA, grounding, retrieval, and planning | Cite once as a broad open-world/RAG boundary. Do not broaden H001 into RAG/task-reasoning without separate experiments. |
+| View-on-Graph | Keep as final downstream citation | Uses scene graphs as an externalized spatial-information interface for zero-shot 3D visual grounding | Cite once as downstream graph-mediated reasoning motivation. It is not a relation-prediction or reliability baseline. |
+
+Inference:
+
+- The reference set was too thin for a top-tier Related Work section if it only cited core 3DSSG and the two reproduced sources.
+- The final H001 Related Work should retain all five recent citations but assign them different roles: one direct novelty threat, one spatial-relation boundary, one VLM/incremental trend, one open-world/RAG boundary, and one downstream grounding motivation.
+- The strongest pressure is not "H001 is invalid"; it is that the paper must separate itself from relation-witness/generation/downstream systems by leaning on calibrated evaluation, source-agnostic re-ranking, denominator transparency, and controls.
 
 ## CAND-003 Evidence View
 
@@ -164,3 +188,5 @@ Goal: CAND-001을 `geometry-grounded verification and representation of open-voc
 | P1 | MSQA/MSNN + Scene-LLM | CAND-003 evaluation support: situated QA, next-step navigation, interactive 3D reasoning | Selected for CAND-003 evaluation scan |
 | P1 | OVSG + ConceptGraphs + HOV-SG for CAND-003 | Open-vocabulary 3D graph systems as broad downstream motivation and scope boundary | Secondary motivation |
 | P2 | OpenScene + OpenMask3D + LangSplat | CAND-001의 node proposal/upstream open-vocabulary 3D features 후보 확인 | Supporting only |
+| P0 | RelWitness future-version watch | Direct novelty-threat check for visual-geometric relation witnesses, incomplete relation supervision, calibrated witness quality, and witness-consistent decoding overlap with H001 | Full-PDF novelty-threat skim complete for v2; watch for reproduced results, code, arbitrary-source adapters, `Violation@K`, and wrong-pair/shuffled-geometry controls |
+| P1 | ZING-3D + Open-World 3DSG-RAG + View-on-Graph + VIZOR | Recent 2025-2026 expansion of VLM/open-world/zero-shot graph reasoning; needed to keep H001 Related Work current and claim boundary sharp | Final Related Work roles decided; no full paper folders unless a later section needs detailed reproduction or baseline analysis |

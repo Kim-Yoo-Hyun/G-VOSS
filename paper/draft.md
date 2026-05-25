@@ -1,19 +1,145 @@
 # H001 First-Pass Manuscript Draft
 
-Last updated: 2026-05-21 KST
+Last updated: 2026-05-25 KST
 
-Status: `first_pass_reviewed_figures_layout_reviewed`
+Status: `first_pass_body_budget_reviewed_iccv_source_converted`
 
 This is a first-pass manuscript prose draft derived from `paper/outline.md`.
 It is not camera-ready text. The purpose is to make the paper-body logic
-readable end to end before figure generation, caption compression, or final
-bibliography formatting.
+readable end to end before final caption compression or final
+bibliography/build verification. The first ICCV-style LaTeX source conversion
+now lives under `paper/iccv/`.
 
-Citation placeholders such as `[3DSSG]`, `[VL-SAT]`, and `[Open3DSG]` should be
-replaced with final BibTeX keys later. Current placeholders are
-`[3DSSG]`, `[SGGpoint]`, `[SMKA]`, `[VL-SAT]`, `[SGRec3D]`, `[Open3DSG]`,
-`[CCL-3DSGG]`, `[FROSS]`, `[OpenFunGraph]`, `[OctreeGraph]`, `[FirePlace]`,
-`[GREAT]`, `[SGAligner]`, and `[SG-PGM]`.
+Related Work citation placeholders have been replaced with BibTeX-style keys.
+The 2026-05-23 literature pass keeps recent open-world/VLM graph and
+RelWitness citations in the final draft with separated roles: direct novelty
+threat, spatial-relation boundary, VLM/incremental trend, open-world/RAG
+boundary, and downstream grounding motivation.
+Current key map:
+
+| shorthand | BibTeX-style key |
+| --- | --- |
+| 3DSSG | `wald2020learning3dssg` |
+| SGGpoint | `zhang2021sggpoint` |
+| SMKA | `feng2023smka` |
+| VL-SAT | `wang2023vlsat` |
+| SGRec3D | `koch2024sgrec3d` |
+| Open3DSG | `koch2024open3dsg` |
+| CCL-3DSGG | `chen2024ccl3dsgg` |
+| FROSS | `hou2025fross` |
+| OpenFunGraph | `zhang2025openfungraph` |
+| OctreeGraph | `wang2025octreegraph` |
+| FirePlace | `huang2025fireplace` |
+| GREAT | `shao2025great` |
+| SGAligner | `sarkar2023sgaligner` |
+| SG-PGM | `xie2024sgpgm` |
+| ZING-3D | `saxena2025zing3d` |
+| Open-World 3DSG-RAG | `yu2025openworld3dsg` |
+| View-on-Graph | `liu2026viewongraph` |
+| VIZOR | `madhavaram2026vizor` |
+| RelWitness | `nguyen2026relwitness` |
+
+## Title
+
+Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations
+
+## Abstract
+
+3D Scene Graphs represent objects and relations in a form useful for spatial
+reasoning, but relation predictions can remain unreliable even when predicted
+predicates appear semantically plausible. We study a relation-level failure
+mode: semantic relation confidence is not necessarily calibrated to the 3D
+geometry of the same object pair, so a predictor can rank physically
+inconsistent relations highly. To expose and reduce this failure, we introduce
+a calibrated geometry-consistency evaluation and re-ranking framework for
+geometry-checkable relation families. The framework standardizes prediction
+rows across relation sources, preserves subject-object identity, joins explicit
+3D evidence, estimates a calibrated geometry-validity score `p_geom_valid`, and
+reports probabilistic, rule-verified, and family-specific operating points
+under a recall-violation protocol. On the reproduced VL-SAT source,
+probabilistic re-ranking improves R@50/R@100 from 0.9599/0.9894 to
+0.9642/0.9921 while reducing Violation@100 from 0.0469 to 0.0391; the
+family-specific operating point further reduces Violation@100 to 0.0310. GT
+positive/counterfactual checks separate valid and invalid geometry with
+AUROC/AUPRC of 0.9779/0.9737, and controls rule out geometry-only,
+distance-only, shuffled-geometry, and wrong-pair explanations. On Open3DSG, a
+Docker-reproduced averaged-BLIP variant provides second-source evidence that
+geometry-consistency reduces violations under explicit recall tradeoffs. These
+results support a scoped relation-reliability claim for measured
+geometry-checkable 3D Scene Graph relations, not a broad open-vocabulary graph
+generation claim.
+
+## 1. Introduction
+
+3D Scene Graphs turn reconstructed scenes into structured object-relation
+representations that can support spatial reasoning, embodied AI, scene
+alignment, visual grounding, and downstream decision making
+\cite{wald2020learning3dssg,sarkar2023sgaligner,xie2024sgpgm,liu2026viewongraph}.
+For these uses, relation prediction must be reliable in the physical scene,
+not only plausible at the category or language level. A graph edge such as
+`standing on`, `next to`, or `higher than` is useful only if it describes the
+actual subject-object pair in 3D.
+
+We study a failure mode in which semantic relation predictors rank plausible
+relation labels that are geometrically inconsistent for the actual object
+pair. A relation can sound plausible for two object categories while being
+contradicted by their contact evidence, distance, or vertical arrangement in
+the reconstructed scene. This mismatch matters more as 3D Scene Graphs become
+interfaces for language-facing, open-vocabulary, and embodied systems
+\cite{koch2024open3dsg,hou2025fross,zhang2025openfungraph,wang2025octreegraph,saxena2025zing3d,yu2025openworld3dsg,madhavaram2026vizor}.
+
+The failure is not simply that existing 3DSSG methods ignore geometry. Prior
+work already uses edge features, point-cloud structure, spatial knowledge,
+multimodal semantics, and geometric fusion
+\cite{zhang2021sggpoint,feng2023smka,wang2023vlsat,koch2024sgrec3d,chen2024ccl3dsgg}.
+The gap is more specific: semantic relation confidence is not necessarily a
+calibrated estimate of relation-level physical consistency. A high relation
+score can behave as a semantic plausibility score without indicating whether
+the same subject-object pair satisfies the relation in 3D.
+
+This motivates a calibrated geometry-consistency evaluation and re-ranking
+framework. The framework treats an existing predictor as a relation source,
+standardizes its outputs into identity-preserving prediction rows, joins
+object-pair geometry evidence by subject and object instance identifiers,
+estimates `p_geom_valid`, and evaluates relation rankings with both exact-label
+recall and geometric violation. This design is necessary because hard physical
+rules and probabilistic reliability scores answer different questions:
+rule-verified variants diagnose strict consistency, while calibrated variants
+expose a usable recall-violation operating point. Figure 1 summarizes this
+failure-mechanism-to-framework path.
+
+We evaluate the framework on geometry-checkable relation families:
+`support_contact`, `proximity`, and `relative_vertical`. VL-SAT is the primary
+reproduced closed-set relation source, and Open3DSG is used as measured
+second-source evidence within the same H001-family scope
+\cite{wang2023vlsat,koch2024open3dsg}. Controls test whether the effect can be
+explained by geometry-only ranking, a generic distance heuristic, shuffled
+geometry, or wrong-pair geometry. GT-positive and counterfactual checks test
+the geometry-validity signal independently from prediction re-ranking, while
+qualitative failure analysis shows how semantic plausibility diverges from
+physical consistency.
+
+Our contributions are threefold:
+
+1. We identify and formalize a relation-level reliability failure in 3D Scene
+   Graph prediction: semantic relation confidence can rank plausible predicates
+   that are physically inconsistent because it is not calibrated to
+   object-pair geometry.
+2. We introduce a calibrated geometry-consistency evaluation and re-ranking
+   framework that standardizes prediction rows, joins identity-preserving 3D
+   evidence, estimates `p_geom_valid`, and exposes probabilistic,
+   rule-verified, and family-specific operating points.
+3. We define a recall-violation evaluation protocol for geometry-checkable
+   relation families, including exact-label `R@K`, `Violation@K`,
+   GT-positive/counterfactual verifier evaluation, and geometry identity
+   controls.
+
+We validate these contributions with Docker-reproducible evidence on VL-SAT
+and Open3DSG, including nontriviality controls, second-source metrics, and
+failure analysis. The claim is intentionally scoped: H001 measures and improves
+relation reliability for geometry-checkable 3DSSG families. It does not claim
+general open-vocabulary 3D Scene Graph generation improvement, arbitrary-source
+generality, or guaranteed physical correctness.
 
 ## 2. Related Work
 
@@ -23,10 +149,11 @@ replaced with final BibTeX keys later. Current placeholders are
 and relations, enabling downstream spatial reasoning beyond isolated object
 recognition. Early 3DSSG work established the 3RScan/3DSSG setting and made
 predicate recall a standard way to evaluate relation prediction in reconstructed
-3D scenes [3DSSG]. Subsequent relation-prediction methods model relation edges
-more explicitly, using edge-oriented graph reasoning, point-cloud features,
-multimodal cues, and spatial knowledge to improve closed-set predicate
-prediction [SGGpoint, SMKA, VL-SAT, SGRec3D].
+3D scenes \cite{wald2020learning3dssg}. Subsequent relation-prediction
+methods model relation edges more explicitly, using edge-oriented graph
+reasoning, point-cloud features, multimodal cues, and spatial knowledge to
+improve closed-set predicate prediction
+\cite{zhang2021sggpoint,feng2023smka,wang2023vlsat,koch2024sgrec3d}.
 
 These works show that 3D geometry is already important for relation prediction.
 Our work does not claim that existing 3DSSG methods ignore geometry. Instead,
@@ -41,13 +168,29 @@ evaluated and re-ranked by calibrated geometry consistency.
 
 Recent work extends 3D scene graphs toward open-vocabulary objects, open-set
 relations, VLM-derived features, online graph generation, and functional
-relations [Open3DSG, CCL-3DSGG, FROSS, OpenFunGraph, OctreeGraph]. This line is
-important because relation labels increasingly come from visual-language priors
-or open-vocabulary semantic sources rather than only from fixed closed-set
-classifiers. It also raises the reliability requirement: when relation edges are
-used as language-facing scene representations, plausible text labels must still
-refer to object pairs that satisfy the corresponding spatial relation in the
-scene.
+relations
+\cite{koch2024open3dsg,chen2024ccl3dsgg,hou2025fross,zhang2025openfungraph,wang2025octreegraph}.
+This line is important because relation labels increasingly come from
+visual-language priors or open-vocabulary semantic sources rather than only
+from fixed closed-set classifiers. It also raises the reliability requirement:
+when relation edges are used as language-facing scene representations,
+plausible text labels must still refer to object pairs that satisfy the
+corresponding spatial relation in the scene.
+
+Very recent systems broaden this setting further. ZING-3D uses VLM reasoning
+for zero-shot incremental 3D scene graphs with depth grounding and
+distance-bearing edges \cite{saxena2025zing3d}; VIZOR constructs
+viewpoint-invariant zero-shot scene graphs with object-centric spatial
+relations \cite{madhavaram2026vizor}; and Open-World 3DSG-RAG connects
+open-world graph construction to retrieval-augmented reasoning across
+downstream tasks \cite{yu2025openworld3dsg}. We cite these papers as trend and
+boundary evidence, not as direct H001 baselines.
+
+Recent graph-mediated grounding work also uses scene graphs as an explicit
+interface for VLM reasoning over 3D spatial information
+\cite{liu2026viewongraph}. We treat this as downstream motivation rather than
+as a direct baseline: H001 evaluates the reliability of relation rows before
+they are reused by grounding, retrieval, or planning systems.
 
 H001 is not positioned as a broad open-vocabulary 3D scene graph generation
 method. We use VL-SAT as the primary reproduced relation source and Open3DSG as
@@ -61,10 +204,25 @@ the same Docker, denominator, metric, and audit treatment as the main evidence.
 
 A broad set of 3D reasoning methods already uses geometry: edge features,
 support/contact patterns, affordance geometry, metric distance, topology, and
-semantic-geometric fusion [SGGpoint, SMKA, FirePlace, GREAT, SG-PGM]. Scene
+semantic-geometric fusion
+\cite{zhang2021sggpoint,feng2023smka,huang2025fireplace,shao2025great,xie2024sgpgm}.
+Scene
 graph alignment and registration methods further demonstrate that graph
 structure and geometric consistency matter when scene graphs are reused for
-matching, alignment, and downstream geometric tasks [SGAligner, SG-PGM].
+matching, alignment, and downstream geometric tasks \cite{sarkar2023sgaligner,xie2024sgpgm}.
+
+Very recent arXiv work on RelWitness makes the overlap sharper by introducing
+visual-geometric relation witnesses, calibrated witness quality, and
+witness-consistent decoding for open-vocabulary 3D scene graph generation under
+incomplete relation supervision \cite{nguyen2026relwitness}.
+This motivates a narrow distinction for H001. We do not claim novelty from the
+existence of visual-geometric relation evidence or calibrated relation evidence
+alone. In the checked version, RelWitness reports simulated planning values, so
+we treat it as near-concurrent related work rather than a quantitative baseline.
+H001 studies a different contract: a calibrated reliability layer over existing
+relation-source outputs. The same prediction row is joined to object-pair
+geometry, assigned a calibrated geometry-validity score, and evaluated through
+recall/violation operating points and controls.
 
 The gap addressed here is more specific. We ask whether relation-level
 geometric evidence is identity-preserving, calibrated, and reported jointly
@@ -158,7 +316,8 @@ for 3D scene graph relation predictions. It is not a replacement relation
 predictor and not a standalone verifier script. The framework is built around
 four design requirements: preserve relation-row identity, join explicit
 object-pair geometry, calibrate geometry validity, and evaluate recall and
-violation jointly.
+violation jointly. Figure 1 presents these requirements as a pipeline from
+relation-source outputs to calibrated operating points.
 
 ### 4.1 Relation-Row Standardization
 
@@ -229,6 +388,8 @@ design rather than a generic "add geometry" explanation.
 
 ## 5. Experimental Setup
 
+This section fixes the experimental scope before reporting results, because
+H001's claim depends on denominator transparency as much as on metric values.
 The primary source is the reproduced VL-SAT closed-set relation prediction
 setting on the fixed H001 held-out scope. The scope contains 127 scans, 388
 subgraphs, 25,916 directed pairs, 673,816 prediction rows, 7,505 ground-truth
@@ -256,9 +417,10 @@ evidence.
 ## 6. Results And Discussion
 
 The central question is whether calibrated geometry consistency reduces
-physically inconsistent relation predictions without collapsing recall. On
-VL-SAT, Table 1 shows that the reproduced `semantic_only` ranking reaches R@50/R@100 of
-0.9599/0.9894 with Violation@50/@100 of 0.0247/0.0469. The main
+physically inconsistent relation predictions without collapsing recall. Figure
+2 visualizes the main recall-violation operating points, and Table 1 gives the
+corresponding VL-SAT values. The reproduced `semantic_only` ranking reaches
+R@50/R@100 of 0.9599/0.9894 with Violation@50/@100 of 0.0247/0.0469. The main
 `probabilistic_recalibrated` setting improves R@50/R@100 to 0.9642/0.9921 and
 reduces Violation@100 to 0.0391. This supports the intended recall-first use
 case: calibrated geometry validity can reduce violations while preserving, and
@@ -288,6 +450,14 @@ The calibrated `p_geom_valid` score separates these groups with AUROC/AUPRC of
 0.9779/0.9737 and Brier score 0.0538. This supports the use of `p_geom_valid`
 as a reliability signal while still leaving room for residual calibration risk.
 
+Table 4 reports audit and visual sanity checks as supporting evidence rather
+than as the primary metric result. The structured audit covers 250 rows and
+reaches quality-issue precision of 0.8933, while the reduced 50-row visual
+spot-check reaches a target-bucket quality-issue rate of 0.9333 with
+contradiction rate 0.0333. We use these checks to support failure-mechanism
+interpretation and to detect annotation or verifier issues, not as a
+large-scale independent human audit.
+
 Table 6 reports Open3DSG as second-source evidence rather than a broad open-vocabulary
 SOTA claim. Under the measured H001-family scope, Open3DSG `semantic_only`
 ranking reaches R@50/R@100 of 0.3945/0.4963 with Violation@50/@100 of
@@ -300,15 +470,16 @@ families, with the averaged-BLIP, filtered-split, covered-scope, exact-label
 denominator, and residual-calibration caveats kept explicit.
 
 The qualitative failure analysis explains why the metric changes occur and
-provides candidate source rows for Figure 3.
-Open3DSG failure rows produce 57,736 real analysis rows with zero validation
-errors, and the inspected 36-case qualitative queue shows that 23 cases are
-demoted by geometry-aware re-ranking. The cases are family-structured:
-proximity failures often involve distance contradictions, relative-vertical
-failures involve vertical-order contradictions, and support/contact failures
-expose float-gap or support-plane contradictions. This supports the failure
-mechanism: a relation can be semantically plausible from object categories but
-physically inconsistent for the actual object pair.
+provides candidate source rows for Figure 3. Open3DSG failure rows produce
+57,736 real analysis rows with zero validation errors, and the inspected
+36-case qualitative queue shows that 23 cases are demoted by geometry-aware
+re-ranking. Figure 3 uses geometry-backed panels from this queue to show
+family-structured failures: proximity failures often involve distance
+contradictions, relative-vertical failures involve vertical-order
+contradictions, and support/contact failures expose float-gap or support-plane
+contradictions. This supports the failure mechanism: a relation can be
+semantically plausible from object categories but physically inconsistent for
+the actual object pair.
 
 The same qualitative analysis also exposes a limitation. Ten of the 36 sampled
 rule-violated cases still have `p_geom_valid > 0.9`. This means the calibrated
@@ -348,32 +519,89 @@ audits, modern VLM relation sources, and downstream tasks where relation
 reliability can be tested through planning, navigation, alignment, or embodied
 reasoning.
 
+## 8. Conclusion
+
+This paper studies a scoped reliability failure in 3D Scene Graph relation
+prediction: semantic relation confidence can rank plausible predicates that are
+physically inconsistent for the same object pair. We address this failure with
+a calibrated geometry-consistency evaluation and re-ranking framework that
+standardizes relation rows, preserves subject-object identity, joins explicit
+3D evidence, estimates `p_geom_valid`, and reports recall and geometric
+violation together.
+
+Across VL-SAT and a Docker-reproduced Open3DSG averaged-BLIP variant, the
+results show that geometry-consistency can reduce violations under measurable
+recall tradeoffs. The GT-positive/counterfactual verifier checks, geometry
+identity controls, and qualitative failure analysis support the central claim:
+the useful contribution is not merely adding geometry, but making relation-level
+physical consistency calibrated, identity-preserving, and reportable. The
+remaining limitations point to the next stage: broader predicate families,
+modern VLM relation sources, functional or robotics relations, and downstream
+tests where reliable relation edges directly affect embodied reasoning.
+
 ## Draft TODO
 
-- Replace citation placeholders with final BibTeX keys.
-- Decide whether Section 5 should remain in this draft or be merged into a
-  shorter Experimental Setup section after venue page limits are known.
-- Keep a later optional figure-improvement TODO for rendered/crop Figure 3
-  evidence if a deterministic rendering path is added.
+- Run an ICCV-style compression pass after the table/figure layout is placed in
+  a manuscript source; prioritize Results/Table 6 wording and Related Work.
+- Convert the current Markdown draft into a section-by-section manuscript
+  source only after the paper-body prose is stable.
+- Use the geometry-backed Figure 3 panel as the preferred draft; keep scene
+  crop rendering only as optional final polish if a deterministic path is added.
 - Keep Table 6/Open3DSG caveats visible until the paper-body logic is stable.
+
+## Draft Budget Review
+
+Reviewed on: 2026-05-23 KST
+
+ICCV-style content status:
+
+- Manuscript prose from Title through Conclusion is about 3,507 words before
+  final compression and before LaTeX/table/figure layout.
+- Front matter is about 707 words excluding title: 201-word Abstract and
+  506-word Introduction.
+- The current draft is content-complete enough for a layout/conversion pass,
+  but still needs compression after figures/tables are placed.
+
+Main-paper table recommendation:
+
+| table | placement | reason |
+| --- | --- | --- |
+| Table 1 | main | Primary VL-SAT operating-point evidence. |
+| Table 2 | main, compact | Nontriviality controls defend against geometry-only, distance-only, shuffled, and wrong-pair explanations. |
+| Table 3 | main if compact; otherwise appendix with one-sentence main summary | Independent GT-positive/counterfactual support for `p_geom_valid`. |
+| Table 4 | appendix | Audit/sanity evidence is supportive, not the primary metric claim. |
+| Table 5 | prose or appendix | Claim-boundary accounting should be visible, but the full table can move if page budget is tight. |
+| Table 6 | main | Open3DSG second-source evidence and caveats are required for the cross-source claim. |
+
+Figure placement recommendation:
+
+- Figure 1 main: failure mechanism and framework.
+- Figure 2 main: recall-violation tradeoff.
+- Figure 3 main if space permits; otherwise main-text small panel plus appendix
+  enlarged version. Do not remove all qualitative geometry evidence.
 
 ## Draft Review
 
-Status: `passed_claim_scope_figures_layout_reviewed`
+Status: `passed_claim_scope_figures_citation_keys_section_title_intro_body_gap_budget_reviewed`
 
-Reviewed on: 2026-05-21 KST
+Reviewed on: 2026-05-23 KST
 
 Review result:
 
 | item | status | decision |
 | --- | --- | --- |
 | Claim scope | pass | The draft stays within measured geometry-checkable relation reliability and does not claim broad open-vocabulary 3DSSG generation improvement. |
+| Title/Abstract/Introduction | filled and reviewed | The draft now includes a scoped title, quantitative abstract, and Introduction that links failure mechanism to method necessity before Related Work. Current front matter is about 701 words excluding title, with a 201-word abstract and 500-word Introduction, which is acceptable for an ICCV-style content draft before final compression. |
+| Paper-body gap review | patched | Added Figure 1-3 callouts, Table 4 audit/sanity prose, and a Conclusion section before LaTeX/template conversion. |
 | Method framing | pass | The method is described as a calibrated geometry-consistency evaluation and re-ranking framework, not as a standalone verifier script. |
 | Open3DSG caveats | pass | The averaged-BLIP variant, filtered train/dev split, covered loadable scope, `validation_missing_preprocessed:11`, exact-label denominator, and residual calibration risk remain explicit. |
 | Qwen-VL boundary | pass | Qwen-VL remains optional extension evidence and is not used as a main metric result. |
-| Citation placeholders | needs follow-up | Related Work still uses placeholder citation keys and needs final BibTeX replacement. |
+| Citation keys | scaffolded | Related Work placeholders have been replaced with BibTeX-style keys; `paper/references.bib` contains draft entries for all inserted keys. Final ICCV-style build still needs verification once a manuscript source exists. |
 | Evidence links | patched | Results prose now points to Table 1, Table 2, Table 3, Table 5, and Table 6. |
-| Figure readiness | generated and verified | Draft SVGs are generated under `paper/generated/figures/` and validation passed. |
+| Figure readiness | generated and verified | Draft SVGs are generated under `paper/generated/figures/`; Figure 3 also has a geometry-backed point-cloud panel upgrade with validation passed. |
+| Section structure | locked | Keep Section 5 as a short standalone `Experimental Setup` section. Do not merge it into Results because denominator, filtered-split, covered-scope, and Docker-result boundaries are part of the reviewer defense. |
+| Section title | standardized | Top-tier CV/CVPR/ICCV-style papers typically use section labels such as `Experiments`, `Experimental Setup`, `Evaluation Setup`, `Datasets`, `Evaluation Metrics`, and `Implementation Details`. H001 therefore keeps scope/denominator caveats in the text but uses the standard heading `Experimental Setup`. |
+| Budget/table placement | reviewed | Manuscript prose is about 3,507 words from Title through Conclusion before compression. Recommended main tables are Table 1, compact Table 2, compact Table 3 if space allows, and Table 6; Table 4 and full Table 5 should move to appendix/prose if page budget is tight. |
 
 Evidence map:
 
@@ -385,7 +613,7 @@ Evidence map:
 | Claim boundary and non-claims | `experiments/H001_geom_reliability/tables/table5_claim_boundary.md` |
 | Open3DSG second-source metrics | `experiments/H001_geom_reliability/tables/table6_cross_source_status.md` and `experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json` |
 | Open3DSG caveat wording | `experiments/H001_geom_reliability/sources/open3dsg/paper_caveats/report.md` |
-| Failure mechanism and residual calibration risk | `experiments/H001_geom_reliability/sources/open3dsg/failure_cases/inspection.md` |
+| Failure mechanism and residual calibration risk | `experiments/H001_geom_reliability/sources/open3dsg/failure_cases/inspection.md` and `paper/generated/figures/figure3_geometry_report.md` |
 | Docker reproducibility and artifact portability | `docs/reproducibility.md` |
 
 Figure source-lock decision:
@@ -395,8 +623,12 @@ Figure source-lock decision:
   `experiments/H001_geom_reliability/manifest.lock.json`.
 - Figure 2 is a two-panel `R@100` / `Violation@100` tradeoff plot using Table 1
   for VL-SAT and Open3DSG `metrics.json` with paper caveats.
-- Figure 3 uses traceable Open3DSG qualitative rows
+- Figure 3 uses traceable Open3DSG qualitative rows and the preferred
+  geometry-backed point-cloud panel upgrade
   `open3dsg_case_001`, `open3dsg_case_005`, `open3dsg_case_010`, and
   `open3dsg_case_007`.
 - The authoritative source-lock file is `paper/figures.md`.
-- Generated draft SVGs are `paper/generated/figures/figure1_framework.svg`, `paper/generated/figures/figure2_tradeoff.svg`, and `paper/generated/figures/figure3_failure_cases.svg`.
+- Generated draft SVGs are `paper/generated/figures/figure1_framework.svg`,
+  `paper/generated/figures/figure2_tradeoff.svg`,
+  `paper/generated/figures/figure3_failure_cases.svg`, and the preferred
+  `paper/generated/figures/figure3_geometry_panels.svg`.

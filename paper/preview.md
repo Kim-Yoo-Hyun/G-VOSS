@@ -1,6 +1,6 @@
 # H001 Paper Preview
 
-Last updated: 2026-05-21 KST
+Last updated: 2026-05-25 KST
 
 이 문서는 H001을 paper/experiment writing phase로 넘기기 직전에 현재까지의 연구 결과, 주장 범위, 실험 근거, caveat, 그리고 재시작 시 반드시 읽어야 할 파일을 한곳에 고정한 preview다. 최종 manuscript가 아니라 paper draft를 쓰기 위한 handoff 문서다.
 
@@ -160,7 +160,8 @@ Interpretation:
 Fact:
 
 - First-pass manuscript prose and claim/evidence review are recorded in
-  `paper/draft.md`; Figure 1-3 source rows and caveat wording are locked in
+  `paper/draft.md`; the first ICCV-style LaTeX source conversion is under
+  `paper/iccv/`; Figure 1-3 source rows and caveat wording are locked in
   `paper/figures.md`; verified/layout-reviewed draft SVGs are under
   `paper/generated/figures/`.
 - Table 1: `VL-SAT` semantic-only vs calibrated/rule/family-specific conditions.
@@ -228,7 +229,9 @@ Read these first:
 9. `paper/preview.md`
 10. `paper/outline.md`
 11. `paper/draft.md`
-12. `paper/figures.md`
+12. `paper/iccv/README.md`
+13. `paper/iccv/main.tex`
+14. `paper/figures.md`
 
 ### Must-Read Hypothesis Files
 
@@ -306,8 +309,9 @@ Recovery rule:
 
 Recommended next action:
 
-1. Use `paper/draft.md` as the active reviewed first-pass manuscript prose and `paper/generated/figures/` as the active draft figure output.
+1. Use `paper/draft.md` as the active reviewed first-pass manuscript prose, `paper/iccv/` as the current ICCV-style LaTeX source, and `paper/generated/figures/` as the active draft figure output.
 2. Treat the claim-consistency review in `paper/outline.md` as the current paper guardrail: title, contributions, abstract, Introduction, table captions, and figure captions must stay within the scoped relation-reliability claim.
-3. Replace Related Work citation placeholders in `paper/draft.md`.
-4. Keep Table 6/Open3DSG caveats explicit for now; caption compression is a later writing-polish task after paper-body logic is stable.
-5. Keep Qwen-VL runtime smoke as optional extension only, unless it receives the same Docker, metric, denominator, and audit treatment as paper evidence.
+3. Complete the `paper/iccv/` manuscript-content pass before PDF build: section prose, table/figure callouts, captions, Open3DSG caveats, and limitations must be filled and claim-consistent first.
+4. Verify/build `paper/iccv/` only after manuscript content and figure assets are ready; current host lacks `pdflatex`, `bibtex`, `latexmk`, `rsvg-convert`, and `inkscape`.
+5. Keep Table 6/Open3DSG caveats explicit for now; caption compression is a later writing-polish task after paper-body logic is stable.
+6. Keep Qwen-VL runtime smoke as optional extension only, unless it receives the same Docker, metric, denominator, and audit treatment as paper evidence.

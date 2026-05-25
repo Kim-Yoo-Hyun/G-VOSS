@@ -1,6 +1,6 @@
 # H001 Reproducibility Runbook
 
-Last updated: 2026-05-21 KST
+Last updated: 2026-05-25 KST
 
 This document consolidates dataset, checkpoint, environment, Docker, reproduction,
 and evaluation-summary information for `experiments/H001_geom_reliability/`.
@@ -14,14 +14,14 @@ Facts:
 - Paper-body experiment outputs must be generated through Docker.
 - `VL-SAT` locked artifacts, Open3DSG second-source metrics, Open3DSG real
   failure rows, and Table 6 are ready.
-- Paper handoff and planning are ready: `paper/preview.md` and
-  `paper/outline.md` contain the current claim boundary, paper skeleton,
-  contribution wording, related-work positioning, method/problem formalization,
-  Figure 1-3 asset plan, table/appendix placement, and limitation/reviewer
-  defense prose skeletons.
-- Next paper task: draft first-pass manuscript prose from `paper/outline.md`
-  for Related Work, Problem Formulation, Method, Results/Discussion, and
-  Limitations.
+- Paper handoff and planning are ready: `paper/preview.md`, `paper/progress.md`,
+  `paper/outline.md`, `paper/draft.md`, `paper/iccv/`, `paper/figures.md`, and
+  `paper/generated/figures/` contain the current claim boundary, paper skeleton,
+  first-pass prose, ICCV-style LaTeX source, figure locks, and reviewer-defense
+  guardrails.
+- Next paper task: complete the manuscript-content pass inside `paper/iccv/`
+  before PDF build. Figure conversion and build verification come after section
+  prose, table/figure callouts, captions, caveats, and limitations are filled.
 - Qwen-VL is an optional modern semantic-source smoke path. The locked
   Qwen3-VL-4B cache is ready, but runtime inference is not paper metric
   evidence.
@@ -51,7 +51,12 @@ Tracked experiment artifacts and runbooks live under:
 experiments/H001_geom_reliability/
 docs/reproducibility.md
 paper/preview.md
+paper/progress.md
 paper/outline.md
+paper/draft.md
+paper/iccv/
+paper/figures.md
+paper/generated/figures/
 ```
 
 Hypothesis-stage smoke artifacts may exist under ignored `artifacts/` or
@@ -68,9 +73,9 @@ Can be committed to GitHub:
 - Root workflow docs: `README.md`, `TODO.md`, `AGENTS.md`, `summary.md`.
 - Reproducibility docs: `docs/reproducibility.md`, `docs/index.md`,
   `docs/paper.md`, `docs/hypothesis.md`, `docs/literature.md`.
-- Paper planning docs: `paper/preview.md` and `paper/outline.md`.
-  `paper/outline.md` is not ignored, but is currently untracked and must be
-  added explicitly before a push.
+- Paper planning/source docs: `paper/preview.md`, `paper/progress.md`,
+  `paper/outline.md`, `paper/draft.md`, `paper/iccv/`, `paper/figures.md`, and
+  compact figure metadata under `paper/generated/figures/`.
 - Docker/reproduction source files:
   `experiments/H001_geom_reliability/Dockerfile`,
   `experiments/H001_geom_reliability/compose.yaml`,

@@ -2,15 +2,16 @@
 
 Last updated: 2026-05-22 KST
 
-Status: `layout_review_passed_with_figure3_upgrade_recommended`
+Status: `figure3_geometry_upgrade_generated`
 
 This file locks the paper-facing source claims and data artifacts for Figure
 1-3 before drawing. It is a planning artifact, not a generated figure output.
 It supersedes the older generated `figure_specs.md` source note where it
 conflicts, especially for Figure 3.
 
-Generated draft outputs are now available under `paper/generated/figures/`.
-They are draft SVGs, not camera-ready final artwork.
+Generated draft outputs and the geometry-backed Figure 3 upgrade are available
+under `paper/generated/figures/`. They are manuscript-planning figures, not
+camera-ready final artwork.
 
 ## Global Rules
 
@@ -111,8 +112,11 @@ Locked claim:
 Locked visual form:
 
 - Four evidence panels from traceable Open3DSG qualitative inspection rows.
-- Use row-card or lightweight schematic panels first. If later upgraded to
-  rendered scene crops, the render script must preserve these same case IDs.
+- Current preferred draft is the geometry-backed point-cloud panel generated
+  from Open3DSG preprocessed object payloads. The older row-card SVG remains a
+  traceable fallback.
+- If later upgraded to rendered scene crops, the render script must preserve
+  these same case IDs.
 - Do not mix VL-SAT visual sanity-check examples into the main Figure 3 unless
   the caption separates them from Open3DSG deterministic qualitative inspection.
 
@@ -131,6 +135,9 @@ Source artifacts:
 - `experiments/H001_geom_reliability/sources/open3dsg/failure_cases/inspection.json`.
 - `experiments/H001_geom_reliability/sources/open3dsg/failure_rows/report.md`.
 - `experiments/H001_geom_reliability/sources/open3dsg/paper_caveats/report.md`.
+- `local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/`
+  for ignored preprocessed object point-cloud payloads used by
+  `paper/scripts/render_figure3_geometry_panels.py`.
 
 Caption constraint:
 
@@ -147,6 +154,8 @@ Completed:
 1. Figure 2 was generated first from locked numeric values.
 2. Figure 1 was generated as a clean framework schematic.
 3. Figure 3 was generated as row-card evidence panels.
+4. Figure 3 was upgraded to geometry-backed point-cloud panels for the same
+   locked case IDs.
 
 Generated files:
 
@@ -155,12 +164,16 @@ Generated files:
 | `paper/generated/figures/figure1_framework.svg` | draft method/framework schematic |
 | `paper/generated/figures/figure2_tradeoff.svg` | draft two-panel R@100 / Violation@100 tradeoff |
 | `paper/generated/figures/figure3_failure_cases.svg` | draft Open3DSG qualitative row-card panels |
+| `paper/generated/figures/figure3_geometry_panels.svg` | preferred draft Open3DSG geometry-backed failure panels |
 | `paper/generated/figures/figure2_data.json` | extracted values used for Figure 2 |
 | `paper/generated/figures/figure3_cases.json` | extracted case rows used for Figure 3 |
+| `paper/generated/figures/figure3_geometry_cases.json` | geometry measurements and source paths for upgraded Figure 3 |
 | `paper/generated/figures/manifest.json` | generation manifest |
 | `paper/generated/figures/validation.json` | source-lock validation |
 | `paper/generated/figures/report.md` | generation report |
 | `paper/generated/figures/layout_review.md` | layout and top-tier novelty review |
+| `paper/generated/figures/figure3_geometry_manifest.json` | generation manifest for geometry-backed Figure 3 |
+| `paper/generated/figures/figure3_geometry_report.md` | geometry-backed Figure 3 report |
 
 ## Validation Checklist
 
@@ -175,8 +188,10 @@ Validation result:
 
 - `paper/generated/figures/validation.json`: `passed`
 - SVG XML parse: `passed` for Figure 1-3
-- Layout/top-tier novelty review: `passed_with_figure3_upgrade_recommended`
-- Next: replace Related Work citation placeholders in `paper/draft.md`
+- Layout/top-tier novelty review: `passed_with_figure3_geometry_upgrade`
+- Geometry-backed Figure 3 manifest: `figure3_geometry_panels_generated_verified`
+- Geometry-backed Figure 3 SVG XML parse: `passed`
+- Next: review `paper/draft.md` section structure and decide whether Section 5 should remain separate or merge into a shorter Experimental Setup section
 
 ## Layout And Novelty Review
 
@@ -186,9 +201,10 @@ Decision:
   design necessity before the framework pipeline.
 - Figure 2: keep draft. It is the strongest evidence figure because it directly
   shows the recall-violation tradeoff.
-- Figure 3: keep as a draft placeholder, but upgrade is recommended before
-  final top-tier submission if deterministic rendered/crop evidence can be
-  added for the same locked case IDs.
+- Figure 3: use the geometry-backed point-cloud panel as the preferred draft.
+  It keeps the same locked case IDs and is stronger than the row-card fallback.
+  A later scene-crop upgrade is optional only if a deterministic crop/render
+  path is added.
 
 Review record:
 

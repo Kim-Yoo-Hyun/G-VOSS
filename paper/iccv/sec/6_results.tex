@@ -1,0 +1,181 @@
+\section{Results and Discussion}
+
+\begin{figure*}[t]
+    \centering
+    \figmaybe[width=0.92\linewidth]{../generated/figures/figure1_framework.pdf}
+    \caption{\textbf{Calibrated geometry-consistency framework.} H001 treats
+    relation predictors as relation sources, standardizes prediction rows,
+    preserves object-pair identity, joins explicit 3D geometry, estimates
+    \pgeom{}, and reports recall and violation operating points.}
+    \label{fig:framework}
+\end{figure*}
+
+\begin{figure*}[t]
+    \centering
+    \figmaybe[width=0.92\linewidth]{../generated/figures/figure2_tradeoff.pdf}
+    \caption{\textbf{Recall-violation tradeoff.} Lower \vAt{100} and higher
+    \rAt{100} are better. Open3DSG is a Docker-reproduced averaged-BLIP
+    second-source variant under the covered H001 scope, not a broad SOTA
+    comparison.}
+    \label{fig:tradeoff}
+\end{figure*}
+
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\caption{\textbf{Main VL-SAT held-out result.} Probabilistic re-ranking
+preserves recall while reducing geometric violations; the rule-verified
+condition is a zero-violation diagnostic.}
+\label{tab:vlsat-main}
+\begin{tabular}{lcccc}
+\toprule
+Condition & \rAt{50} & \rAt{100} & \vAt{50} & \vAt{100} \\
+\midrule
+\texttt{semantic\_only} & 0.9599 & 0.9894 & 0.0247 & 0.0469 \\
+\texttt{probabilistic\_recalibrated} & 0.9642 & 0.9921 & 0.0234 & 0.0391 \\
+\texttt{rule\_verified\_point\_subtype} & 0.9587 & 0.9890 & 0.0000 & 0.0000 \\
+\texttt{family\_specific\_p\_geom\_valid} & 0.9619 & 0.9914 & 0.0204 & 0.0310 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The central question is whether calibrated geometry consistency reduces
+physically inconsistent relation predictions without collapsing recall.
+Figure~\ref{fig:tradeoff} visualizes the main recall-violation operating
+points, and Table~\ref{tab:vlsat-main} gives the corresponding VL-SAT values.
+The reproduced \texttt{semantic\_only} ranking reaches \rAt{50}/\rAt{100} of
+0.9599/0.9894 with \vAt{50}/\vAt{100} of 0.0247/0.0469. The main
+\texttt{probabilistic\_recalibrated} setting improves \rAt{50}/\rAt{100} to
+0.9642/0.9921 and reduces \vAt{100} to 0.0391. This supports the intended
+recall-first use case: calibrated geometry validity can reduce violations
+while preserving, and slightly improving, exact-label recall.
+
+The stricter \texttt{family\_specific\_p\_geom\_valid} setting reaches
+\rAt{50}/\rAt{100} of 0.9619/0.9914 and \vAt{50}/\vAt{100} of 0.0204/0.0310.
+This provides a stronger violation-first operating point. The
+\texttt{rule\_verified\_point\_subtype} setting achieves zero measured
+violations while keeping \rAt{50}/\rAt{100} at 0.9587/0.9890, but we treat it
+as a diagnostic rather than the default method because hard filtering exposes
+one end of the reliability-recall tradeoff.
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{3pt}
+\caption{\textbf{Nontriviality controls.} The effect is not explained by
+geometry-only ranking, distance-only ranking, shuffled geometry, or wrong-pair
+geometry.}
+\label{tab:controls}
+\begin{tabular}{lccc}
+\toprule
+Control & \rAt{100} & \vAt{100} & Reading \\
+\midrule
+\texttt{geom-only} & 0.5049 & 0.0701 & no semantics \\
+\texttt{distance-only} & 0.5642 & 0.0993 & heuristic \\
+\texttt{shuffled-geom} & 0.9788 & 0.0559 & no identity \\
+\texttt{wrong-pair} & 0.9788 & 0.0581 & wrong identity \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:controls} reports the nontriviality controls. Geometry-only
+ranking falls to \rAt{50}/\rAt{100} of 0.2028/0.5049 and has higher violations
+than the main calibrated setting. Distance-only ranking also underperforms,
+reaching \rAt{50}/\rAt{100} of 0.3835/0.5642. Shuffled geometry and wrong-pair
+geometry preserve more of the source signal but still degrade both recall and
+violation behavior relative to calibrated identity-preserving joins. These
+controls support the design requirement that geometry evidence must be joined
+to the correct object pair and calibrated as a relation-level reliability
+signal.
+
+\begin{table}[t]
+\centering
+\small
+\caption{\textbf{GT-based verifier evaluation.} \pgeom{} separates GT-positive
+relations from deterministic counterfactual negatives.}
+\label{tab:gt-verifier}
+\begin{tabular}{lcc}
+\toprule
+Metric & Rows & Value \\
+\midrule
+GT-positive nonviolated & 2,545 & 0.9972 \\
+GT-negative nonsatisfied & 2,545 & 0.9694 \\
+\pgeom{} AUROC & 5,090 & 0.9779 \\
+\pgeom{} AUPRC & 5,090 & 0.9737 \\
+\pgeom{} Brier & 5,090 & 0.0538 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:gt-verifier} tests the geometry signal independently from
+prediction re-ranking. GT-positive rows remain nonviolated at a rate of 0.9972,
+while GT-derived counterfactual negatives are nonsatisfied at a rate of 0.9694.
+The calibrated \pgeom{} score separates these groups with AUROC/AUPRC of
+0.9779/0.9737 and Brier score 0.0538. This supports the use of \pgeom{} as a
+reliability signal while still leaving room for residual calibration risk.
+
+Audit and visual sanity checks are supporting evidence rather than the primary
+metric result. The structured audit covers 250 rows and reaches quality-issue
+precision of 0.8933, while the reduced 50-row visual spot-check reaches a
+target-bucket quality-issue rate of 0.9333 with contradiction rate 0.0333. We
+use these checks to support failure-mechanism interpretation and to detect
+annotation or verifier issues, not as a large-scale independent human audit.
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{3pt}
+\caption{\textbf{Open3DSG second-source evidence.} Results use a
+Docker-reproduced averaged-BLIP variant under the covered H001-family scope.}
+\label{tab:open3dsg}
+\begin{tabular}{lcccc}
+\toprule
+Condition & \rAt{50} & \rAt{100} & \vAt{50} & \vAt{100} \\
+\midrule
+\texttt{semantic\_only} & 0.3945 & 0.4963 & 0.1326 & 0.1195 \\
+\texttt{prob.\ recal.} & 0.3843 & 0.5580 & 0.0575 & 0.0803 \\
+\texttt{rule\_verified} & 0.4149 & 0.5238 & 0.0000 & 0.0000 \\
+\texttt{family\_specific} & 0.4530 & 0.5984 & 0.0228 & 0.0311 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:open3dsg} reports Open3DSG as second-source evidence rather than
+a broad open-vocabulary SOTA claim. Under the measured H001-family scope,
+Open3DSG \texttt{semantic\_only} ranking reaches \rAt{50}/\rAt{100} of
+0.3945/0.4963 with \vAt{50}/\vAt{100} of 0.1326/0.1195. The
+\texttt{probabilistic\_recalibrated} setting reduces violations to
+0.0575/0.0803 while shifting recall to 0.3843/0.5580. The family-specific
+setting reaches \rAt{50}/\rAt{100} of 0.4530/0.5984 with
+\vAt{50}/\vAt{100} of 0.0228/0.0311. These results support a cross-source
+relation-reliability claim within measured H001 families, with the
+averaged-BLIP, filtered-split, covered-scope, exact-label denominator, and
+residual-calibration caveats kept explicit.
+
+\begin{figure*}[t]
+    \centering
+    \figmaybe[width=0.92\linewidth]{../generated/figures/figure3_geometry_panels.pdf}
+    \caption{\textbf{Geometry-backed qualitative failures.} Open3DSG examples
+    show proximity, relative-vertical, and support/contact cases where semantic
+    plausibility conflicts with object-pair geometry. The rightmost case
+    illustrates residual calibration risk.}
+    \label{fig:failures}
+\end{figure*}
+
+The qualitative failure analysis explains why the metric changes occur and
+provides candidate source rows for Figure~\ref{fig:failures}. Open3DSG failure
+rows produce 57,736 real analysis rows with zero validation errors, and the
+inspected 36-case qualitative queue shows that 23 cases are demoted by
+geometry-aware re-ranking. Figure~\ref{fig:failures} uses geometry-backed
+panels from this queue to show family-structured failures: proximity failures
+often involve distance contradictions, relative-vertical failures involve
+vertical-order contradictions, and support/contact failures expose float-gap or
+support-plane contradictions.
+
+The same qualitative analysis also exposes a limitation. Ten of the 36 sampled
+rule-violated cases still have $\pgeom > 0.9$. This means the calibrated score
+should not be interpreted as a hard validity label. It also justifies why the
+paper reports probabilistic, rule-verified, and family-specific variants
+separately rather than collapsing them into a single geometry-corrected output.
+
