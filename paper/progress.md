@@ -1,6 +1,6 @@
 # H001 Experiment Progress Rationale
 
-Last updated: 2026-05-25 KST
+Last updated: 2026-05-26 KST
 
 This document explains why H001 moved from hypothesis checks to Docker paper
 experiments, why each next experiment was introduced, and how the key results
@@ -341,12 +341,17 @@ Not allowed:
 ## Current Paper Stage
 
 The current paper body is in `paper/draft.md` and now runs from Title through
-Conclusion. The first ICCV-style LaTeX source conversion is in `paper/iccv/`
-using the official ICCV/CVF author-kit route. The next writing-stage task is
-not PDF build yet; it is a manuscript-content pass inside `paper/iccv/` to fill
-and verify all section prose, table/figure callouts, captions, Open3DSG caveats,
-and limitations. Build verification comes after content and figure assets are
-ready. Paper-result experiments should remain Docker
+Conclusion. The current target-venue LaTeX source is in `paper/aaai/`, using
+the latest public AAAI-26 style route until the exact target-year AAAI kit is
+fixed. Docker PDF build verification is complete with `h001-aaai-tex:20260526`:
+`main.pdf` builds to 9 total pages, technical content occupies pages 1-7,
+references are on page 8, the AAAI reproducibility checklist is on page 9,
+BibTeX uses 19 entries, and there are no missing citations, undefined refs,
+overfull hboxes, LaTeX errors, or AAAI package errors.
+Open3DSG-first table ordering is preserved: the manuscript treats Open3DSG as
+the main open-vocabulary case study and VL-SAT as the controlled anchor.
+Paper-result
+experiments should remain Docker
 reproducible, and optional Qwen/FROSS/functional extensions should not change
 the main claim unless they receive the same row contract, metric, denominator,
 and audit treatment.

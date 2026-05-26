@@ -10,15 +10,15 @@
     \label{fig:framework}
 \end{figure*}
 
-\begin{figure*}[t]
+\begin{figure}[t]
     \centering
-    \figmaybe[width=0.92\linewidth]{../generated/figures/figure2_tradeoff.png}
+    \figmaybe[width=\linewidth]{../generated/figures/figure2_tradeoff.png}
     \caption{\textbf{Recall-violation tradeoff.} Lower \vAt{100} and higher
     \rAt{100} are better. Open3DSG is the main open-vocabulary case study, but
     it is reported as a Docker-reproduced averaged-BLIP variant under the
     covered H001 scope, not as a broad SOTA comparison.}
     \label{fig:tradeoff}
-\end{figure*}
+\end{figure}
 
 \begin{table*}[t]
 \centering
@@ -100,15 +100,15 @@ H001 is a new relation generator, that it improves all open-vocabulary relation
 labels, or that it is baseline-agnostic across arbitrary 3DSSG predictors.
 Those blocked extensions are fixed in Table~\ref{tab:claim-boundary}.
 
-\begin{figure*}[t]
+\begin{figure}[t]
     \centering
-    \figmaybe[width=0.92\linewidth]{../generated/figures/figure3_geometry_panels.png}
+    \figmaybe[width=\linewidth]{../generated/figures/figure3_geometry_panels.png}
     \caption{\textbf{Geometry-backed qualitative failures.} Open3DSG examples
     show proximity, relative-vertical, and support/contact cases where semantic
     plausibility conflicts with object-pair geometry. The rightmost case
     illustrates residual calibration risk.}
     \label{fig:failures}
-\end{figure*}
+\end{figure}
 
 The qualitative failure analysis explains why the Open3DSG metric changes
 occur. Open3DSG produces 57,736 real analysis rows with zero validation errors,

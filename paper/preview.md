@@ -1,6 +1,6 @@
 # H001 Paper Preview
 
-Last updated: 2026-05-25 KST
+Last updated: 2026-05-26 KST
 
 이 문서는 H001을 paper/experiment writing phase로 넘기기 직전에 현재까지의 연구 결과, 주장 범위, 실험 근거, caveat, 그리고 재시작 시 반드시 읽어야 할 파일을 한곳에 고정한 preview다. 최종 manuscript가 아니라 paper draft를 쓰기 위한 handoff 문서다.
 
@@ -39,7 +39,7 @@ Fact:
 - Fixed H001 held-out scope has 127 scans, 388 subgraphs, 25,916 directed pairs, 673,816 `VL-SAT` prediction rows, 7,505 GT rows, and 2,545 in-scope H001-family GT relations.
 - Docker experiment root: `experiments/H001_geom_reliability/`.
 - Docker table builder generated Table 1-6, figure specs, `manifest.lock.json`, and `report.md`.
-- Open3DSG second-source path is complete for the measured H001-family setting: checkpoint reproduction, H001 eval features, raw dump identity, clean v14 streaming raw-dump provenance, adapter export, geometry join, metric eval, Table 6 hook, real failure rows, qualitative case inspection, and paper caveat wording.
+- Open3DSG second-source path is complete for the measured H001-family setting: checkpoint reproduction, H001 eval features, raw dump identity, clean v14 streaming raw-dump provenance, adapter export, geometry join, metric eval, main source-result hook, real failure rows, qualitative case inspection, and paper caveat wording.
 
 ## Key Metrics
 
@@ -160,16 +160,14 @@ Interpretation:
 Fact:
 
 - First-pass manuscript prose and claim/evidence review are recorded in
-  `paper/draft.md`; the first ICCV-style LaTeX source conversion is under
-  `paper/iccv/`; Figure 1-3 source rows and caveat wording are locked in
-  `paper/figures.md`; verified/layout-reviewed draft SVGs are under
-  `paper/generated/figures/`.
-- Table 1: `VL-SAT` semantic-only vs calibrated/rule/family-specific conditions.
-- Table 2: nontriviality controls, including geometry-only, distance-only, shuffled-geometry, and wrong-pair geometry.
-- Table 3: GT-based verifier evaluation.
-- Table 4: structured audit and visual sanity check.
-- Table 5: source-specific claim boundary.
-- Table 6: cross-source `VL-SAT` + Open3DSG status.
+  `paper/draft.md`; the current AAAI-style LaTeX source conversion is under
+  `paper/aaai/`; the historical ICCV-style source is under `paper/iccv/`;
+  Figure 1-3 source rows and caveat wording are locked in `paper/figures.md`;
+  verified/layout-reviewed draft SVGs are under `paper/generated/figures/`.
+- AAAI Table 1: fixed H001 evaluation scope and denominator.
+- AAAI Table 2: source-specific claim boundary.
+- AAAI Table 3: main source results, with Open3DSG first as the main open-vocabulary case study and `VL-SAT` second as the controlled reproduced anchor.
+- Controls, GT-based verifier evaluation, structured audit, visual sanity check, and detailed family rows are kept as prose-backed reviewer-defense evidence unless an appendix is added.
 - Figure specs are already generated under `experiments/H001_geom_reliability/figures/`.
 
 Recommended paper narrative:
@@ -177,8 +175,8 @@ Recommended paper narrative:
 1. Define failure: semantic relation confidence is not calibrated to physical relation consistency.
 2. Define target families: `support_contact`, `proximity`, `relative_vertical`.
 3. Present calibrated geometry-consistency framework.
-4. Show `VL-SAT` metrics, controls, and GT-based verifier evaluation.
-5. Show Open3DSG second-source metrics with caveats.
+4. Show Open3DSG as the main open-vocabulary case study, with VL-SAT as the controlled reproduced anchor.
+5. Use controls, GT-based verifier evaluation, and audit as prose-backed reviewer defense.
 6. Use failure analysis to explain where the framework helps and where residual risk remains.
 7. Keep Qwen-VL as optional extension unless full metric evidence is added.
 
@@ -229,9 +227,10 @@ Read these first:
 9. `paper/preview.md`
 10. `paper/outline.md`
 11. `paper/draft.md`
-12. `paper/iccv/README.md`
-13. `paper/iccv/main.tex`
-14. `paper/figures.md`
+12. `paper/aaai/README.md`
+13. `paper/aaai/main.tex`
+14. `paper/iccv/README.md`
+15. `paper/figures.md`
 
 ### Must-Read Hypothesis Files
 
@@ -309,9 +308,8 @@ Recovery rule:
 
 Recommended next action:
 
-1. Use `paper/draft.md` as the active reviewed first-pass manuscript prose, `paper/iccv/` as the current ICCV-style LaTeX source, and `paper/generated/figures/` as the active draft figure output.
+1. Use `paper/draft.md` as the active reviewed first-pass manuscript prose, `paper/aaai/` as the current AAAI-style LaTeX source, and `paper/generated/figures/` as the active draft figure output.
 2. Treat the claim-consistency review in `paper/outline.md` as the current paper guardrail: title, contributions, abstract, Introduction, table captions, and figure captions must stay within the scoped relation-reliability claim.
-3. Complete the `paper/iccv/` manuscript-content pass before PDF build: section prose, table/figure callouts, captions, Open3DSG caveats, and limitations must be filled and claim-consistent first.
-4. Verify/build `paper/iccv/` only after manuscript content and figure assets are ready; current host lacks `pdflatex`, `bibtex`, `latexmk`, `rsvg-convert`, and `inkscape`.
-5. Keep Table 6/Open3DSG caveats explicit for now; caption compression is a later writing-polish task after paper-body logic is stable.
-6. Keep Qwen-VL runtime smoke as optional extension only, unless it receives the same Docker, metric, denominator, and audit treatment as paper evidence.
+3. Treat the AAAI reproducibility checklist as inserted after references: latest Docker build gives 9 total pages, technical content pages 1-7, references page 8, checklist page 9, and no blocking build warnings.
+4. Keep Open3DSG caveats explicit during any further polish; caption compression must not hide averaged-BLIP, filtered split, covered scope, exact-label denominator, or residual calibration risk.
+5. Keep Qwen-VL runtime smoke as optional extension only, unless it receives the same Docker, metric, denominator, and audit treatment as paper evidence.

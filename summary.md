@@ -1,6 +1,6 @@
 # H001 Research Summary
 
-Last updated: 2026-05-25 KST
+Last updated: 2026-05-26 KST
 
 이 문서는 CAND-001 / H001의 현재 연구 정의, 필요성, 가설, metric,
 비교군, 실험 세팅, contribution, 구현 방향, baseline 재현 가능성을 한곳에
@@ -236,8 +236,8 @@ Cross-source comparison:
 
 | Source | Role | Status |
 | --- | --- | --- |
-| `VL-SAT` | current implemented main source | reproduced and table-ready |
-| Open3DSG | selected second-source / open-vocabulary source | Docker-reproduced avg-BLIP checkpoint, H001 eval features, raw dump identity with clean v14 streaming provenance, adapter export, geometry join, metric eval, Table 6 hook, real failure rows, qualitative case sample, qualitative inspection, and paper caveat wording are ready |
+| Open3DSG | manuscript main open-vocabulary relation-source case study | Docker-reproduced avg-BLIP checkpoint, H001 eval features, raw dump identity with clean v14 streaming provenance, adapter export, geometry join, metric eval, experiment-artifact Table 6 hook, real failure rows, qualitative case sample, qualitative inspection, and paper caveat wording are ready |
+| `VL-SAT` | controlled reproduced anchor | reproduced and table-ready; used to test the same reliability mechanism under a cleaner closed-set source contract |
 | Qwen-VL | optional modern VLM semantic-source extension | schema/parser/tiny pilot/pair crops ready; Qwen3-VL-4B cache ready; runtime preflight not rerun after Open3DSG jobs completed; no inference |
 | FROSS | optional online support/contact source | not full-family H001 evidence |
 
@@ -320,18 +320,22 @@ Inference:
 
 ## Required Tables And Figures
 
-Required tables:
+Current AAAI manuscript tables:
 
 | Table | Content |
 | --- | --- |
-| Table 1 | main held-out prediction result |
-| Table 2 | nontriviality controls |
-| Table 3 | GT-based verifier evaluation |
-| Table 4 | structured audit and reduced visual sanity check |
-| Table 5 | source-specific claim boundary and blocked extensions |
-| Table 6 | cross-source `VL-SAT` + Open3DSG result; ready, with Open3DSG caveats |
-| Table 7 | optional Qwen-VL modern semantic-source result |
-| Table 8 | optional SceneFun3D/FunGraph3D functional/robotics result |
+| AAAI Table 1 | fixed H001 evaluation scope and denominator |
+| AAAI Table 2 | source-specific claim boundary and blocked extensions |
+| AAAI Table 3 | main source results, Open3DSG first and `VL-SAT` second, with Open3DSG caveats |
+
+Prose-backed reviewer-defense evidence:
+
+| Evidence | Content |
+| --- | --- |
+| Controls | geometry-only, distance-only, shuffled-geometry, wrong-pair geometry |
+| GT verifier | GT-positive/counterfactual verifier evaluation |
+| Audit | structured audit and reduced visual sanity check |
+| Optional extensions | Qwen-VL or functional/robotics results only if promoted with the same Docker, denominator, metric, and audit treatment |
 
 Required figures:
 
@@ -545,16 +549,19 @@ Current paper handoff:
   claim-consistency review across title, contribution, abstract, Introduction,
   table captions, and figure captions. Cross-source results and failure
   analysis are empirical validation, not a fourth contribution.
-- `paper/draft.md` is ready as ICCV-style first-pass manuscript prose covering
+- `paper/draft.md` is ready as first-pass manuscript prose covering
   Title, Abstract, Introduction, Related Work, Problem Formulation, Method,
   Experimental Setup, Results/Discussion, Limitations, and Conclusion. Related
   Work now uses BibTeX-style citation keys and `paper/references.bib` scaffolds
   all inserted keys.
-- `paper/iccv/` is ready as the first ICCV-style LaTeX source conversion. It
-  uses the official ICCV/CVF author-kit route, vendors `iccv.sty` and
-  `ieeenat_fullname.bst`, splits the manuscript into `main.tex` plus
-  `sec/*.tex`, and points the bibliography to `paper/references.bib`. Build is
-  pending because the current host lacks TeX and figure-conversion tools.
+- `paper/aaai/` is ready as the current AAAI-style LaTeX source conversion. It
+  uses AAAI-26 style files until the exact target-year official kit is fixed,
+  splits the manuscript into `main.tex` plus `sec/*.tex`, and points the
+  bibliography to `paper/references.bib`. Docker build verification is complete
+  with `h001-aaai-tex:20260526`; `main.pdf` builds to 9 total pages, technical
+  content pages 1-7, references page 8, AAAI reproducibility checklist page 9,
+  and no missing citations, undefined refs, overfull hboxes, LaTeX errors, or
+  AAAI package errors.
 - `paper/figures.md` is ready and locks Figure 1-3 claims/assets before drawing:
   Figure 1 method framework, Figure 2 two-panel R@100/Violation@100 tradeoff,
   and Figure 3 Open3DSG qualitative case panels.
@@ -570,23 +577,15 @@ Current paper handoff:
 
 Next required drafting step:
 
-1. Complete the `paper/iccv/` manuscript-content pass before PDF build: verify
-   all main-section prose, table callouts, figure callouts, captions, Open3DSG
-   caveats, and limitation wording against the scoped H001 claim.
-2. Convert Figure 1-3 SVGs to PDF/PNG for the ICCV build or update the
-   `\figmaybe{...}` paths to the chosen figure format.
-3. Verify/build `paper/iccv/` after manuscript content and figure assets are
-   ready. The current host lacks `pdflatex`, `bibtex`, `latexmk`,
-   `rsvg-convert`, and `inkscape`.
-4. Verify bibliography and citation formatting in the final ICCV-style
-   manuscript build. Citation keys used by `paper/iccv/sec/*.tex` currently
-   match `paper/references.bib`.
-5. Defer Table 6/Open3DSG caveat compression until the paper-body logic is
-   readable end to end;
+1. Decide the next paper-polish priority now that the AAAI reproducibility
+   checklist is inserted after references. The latest AAAI PDF rebuild is clean,
+   and manuscript Table 3 reports Open3DSG first as the main open-vocabulary
+   case study with VL-SAT second as the controlled anchor.
+2. Keep Open3DSG caveats explicit during any further polish;
    keep averaged-BLIP, filtered-train/dev, covered-scope, exact-label denominator,
    `validation_missing_preprocessed:11`, and residual calibration-risk caveats
    explicit for now.
-6. Keep only an optional final-polish task for rendered scene-crop Figure 3
+3. Keep only an optional final-polish task for rendered scene-crop Figure 3
    evidence if a deterministic path is added; the geometry-backed panel is
    already sufficient for manuscript planning.
 

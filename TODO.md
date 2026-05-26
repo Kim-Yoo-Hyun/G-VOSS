@@ -1,6 +1,6 @@
 # TODO
 
-Last updated: 2026-05-25
+Last updated: 2026-05-26
 
 이 파일은 에이전트가 다음 작업 계획과 진행 상태를 관리하는 루트 작업판이다. 자세한 문헌 조사 내용은 `literature/`에 기록하고, 자세한 hypothesis 근거는 `hypothesis/`에 기록한다.
 
@@ -18,7 +18,7 @@ CAND-001은 hypothesis prep / verifier implementation 트랙이다. H001 hypothe
 - `06_second_source.md`
 - `07_experiment_spec.md`
 
-Docker-based scoped H001 experiment workflow entry는 완료했다. `experiments/H001_geom_reliability/`에서 Docker build/run으로 locked `VL-SAT` artifact를 검증하고 Table 1-6, figure specs, locked input manifest, report를 생성했다. Method contribution은 verifier script가 아니라 calibrated geometry-consistency evaluation/re-ranking framework로 정리한다. Top-tier main path는 single-baseline-only justification보다 Open3DSG second-source adapter evidence를 우선한다. Qwen2.5-VL/Qwen3-VL은 Open3DSG reproduction anchor를 대체하지 않는 modern-VLM semantic-source extension으로 허용한다. Open3DSG `training_repro` metadata/split/full payload, official BLIP TopK5/scales3 feature dump, avg-BLIP full training, checkpoint selection, eval preflight, H001 held-out eval feature-cache generation, raw-dump identity audit, clean v14 streaming raw-dump source provenance, adapter export, geometry join, metric eval, Table 6 regeneration, paper claim-consistency review, paper-body content block planning, first-pass manuscript prose draft, draft claim/evidence review, Figure 1-3 source lock, verified draft Figure 1-3 SVG generation, top-tier novelty/layout figure review, Figure 3 geometry-backed panel upgrade, ICCV-style Title/Abstract/Introduction fill, and ICCV-style LaTeX source conversion under `paper/iccv/` are complete. 논문 본문용 실제 experiment 구현은 계속 Docker 기반으로 진행한다. Host-only outputs must not be promoted to paper experiment results.
+Docker-based scoped H001 experiment workflow entry는 완료했다. `experiments/H001_geom_reliability/`에서 Docker build/run으로 locked `VL-SAT` artifact를 검증하고 Table 1-6, figure specs, locked input manifest, report를 생성했다. Method contribution은 verifier script가 아니라 calibrated geometry-consistency evaluation/re-ranking framework로 정리한다. Top-tier main path는 single-baseline-only justification보다 Open3DSG evidence를 우선하며, manuscript에서는 Open3DSG를 main open-vocabulary relation-source case study로 두고 VL-SAT는 controlled reproduced anchor로 둔다. Qwen2.5-VL/Qwen3-VL은 Open3DSG reproduction anchor를 대체하지 않는 modern-VLM semantic-source extension으로 허용한다. Open3DSG `training_repro` metadata/split/full payload, official BLIP TopK5/scales3 feature dump, avg-BLIP full training, checkpoint selection, eval preflight, H001 held-out eval feature-cache generation, raw-dump identity audit, clean v14 streaming raw-dump source provenance, adapter export, geometry join, metric eval, Table 6 regeneration, paper claim-consistency review, paper-body content block planning, first-pass manuscript prose draft, draft claim/evidence review, Figure 1-3 source lock, verified draft Figure 1-3 SVG generation, top-tier novelty/layout figure review, Figure 3 geometry-backed panel upgrade, ICCV-style source conversion, AAAI-style source conversion, and AAAI reproducibility checklist insertion under `paper/aaai/` are complete. Current target venue route is AAAI; ICCV source is historical/alternate. 논문 본문용 실제 experiment 구현은 계속 Docker 기반으로 진행한다. Host-only outputs must not be promoted to paper experiment results.
 
 Reproducibility/GitHub portability status: `docs/reproducibility.md` is updated for 2026-05-21 and records the `.gitignore` audit. Core runbooks, Dockerfiles, compose files, scripts, reports, compact manifests, paper planning docs, and metric summaries can be committed. Large datasets, checkpoints, features, raw dumps, prediction/verification/failure JSONL rows, and model caches are intentionally ignored and must be rebuilt/downloaded or transferred separately on another computer.
 
@@ -44,11 +44,6 @@ Data-dependent:
 
 Non-data:
 
-- [ ] Complete the `paper/iccv/` manuscript-content pass before PDF build: fill/verify all main-section prose, table callouts, figure callouts, captions, Open3DSG caveats, and limitation wording against the scoped H001 claim
-- [ ] After content is complete, convert Figure 1-3 SVGs to PDF/PNG for `paper/iccv` figure includes, or update `\figmaybe{...}` paths to the chosen output format
-- [ ] After content and figure assets are ready, verify/build `paper/iccv/`; current host lacks `pdflatex`, `bibtex`, `latexmk`, `rsvg-convert`, and `inkscape`
-- [ ] Run an ICCV-style compression pass only after manuscript content and layout are visible; prioritize Results/Table 6 wording and Related Work
-- [ ] Verify bibliography/citation formatting in the final ICCV-style manuscript build after build tooling is available
 - [ ] Rerun Docker `qwen_vl_runtime_preflight` after clearing current GPU/RAM/swap pressure; Qwen smoke remains optional/non-metric
 - [ ] After runtime preflight passes, run Docker `qwen_vl_tiny_inference_smoke` on 1-3 crops and validate JSONL contract; do not promote smoke output to paper metric evidence
 
@@ -64,13 +59,9 @@ Non-data:
 
 ### CAND-001 Non-Data Order
 
-- [ ] Complete the `paper/iccv/` manuscript-content pass before PDF build: fill/verify all main-section prose, table callouts, figure callouts, captions, Open3DSG caveats, and limitation wording against the scoped H001 claim
-- [ ] Convert Figure 1-3 SVGs to PDF/PNG for `paper/iccv` figure includes, or update `\figmaybe{...}` paths to the chosen output format
-- [ ] Verify/build `paper/iccv/` after manuscript content and figure assets are ready; current host lacks `pdflatex`, `bibtex`, `latexmk`, `rsvg-convert`, and `inkscape`
-- [ ] Run an ICCV-style compression pass after the manuscript layout exists; prioritize Results/Table 6 wording and Related Work
-- [ ] Verify bibliography/citation formatting in the final ICCV-style manuscript build after build tooling is available
+- [ ] Replace `paper/aaai/aaai2026.*` with the exact target-year official AAAI author kit once available
 - [ ] Optional final Figure 3 polish: replace geometry panels with rendered scene crops only if a deterministic crop/render path is added for the same locked case IDs
-- [ ] Defer Table 6/Open3DSG caption compression until paper content is locked; keep caveats explicit for now
+- [ ] Keep Open3DSG caveats explicit in manuscript Table 3 and experiment artifact Table 6; do not compress away averaged-BLIP, filtered split, covered scope, exact-label denominator, or residual calibration risk
 - [ ] Qwen-VL GPU runtime preflight after GPU/RAM pressure is cleared: `qwen_vl_runtime_preflight`
 - [ ] Qwen-VL tiny inference smoke after runtime preflight: `qwen_vl_tiny_inference_smoke` with 1-3 crops; keep as modern-VLM semantic-source extension smoke only
 - [ ] Optional reduced checkpoint smoke only if the official route is intentionally paused or declared too slow: `dump_features_3rscan_pilot` -> `feature_audit_pilot` -> `train_pilot_reduced`; do not promote to paper-result evidence
@@ -85,6 +76,14 @@ Non-data:
 
 ## Recently Completed
 
+- [x] H001 AAAI reproducibility checklist 추가 완료: official AAAI-26 reproducibility checklist page를 확인하고 `paper/aaai/sec/9_reproducibility_checklist.tex`를 추가한 뒤 `paper/aaai/main.tex`에서 references 뒤에 연결했다. Docker rebuild `logs/h001_aaai_pdf_build_20260526_102601.log` exit 0; `paper/aaai/main.pdf`는 9 pages, technical content pages 1-7, references page 8, checklist page 9이며 missing citations, undefined refs, overfull hboxes, LaTeX errors, or AAAI package errors 없음.
+- [x] H001 AAAI-style source conversion 완료: `paper/aaai/`에 AAAI-style `main.tex`, `preamble.tex`, `sec/*.tex`, `aaai2026.sty`, `aaai2026.bst`, `Dockerfile.tex`, `.gitignore`, `README.md`, and `inspection/report.md`를 생성했다. Official AAAI-26 submission page를 확인했고 최신 공개 AAAI-26 style route를 사용했다. Docker image `h001-aaai-tex:20260526` build 성공, `paper/aaai/main.pdf` build 성공. Initial PDF log `logs/h001_aaai_pdf_build_20260526_015812.log`: 8 total pages, technical content pages 1-7, references start page 8, no missing citations, undefined refs, overfull hboxes, or AAAI package errors. This was later superseded by the checklist-included rebuild above.
+- [x] H001 Open3DSG-first ICCV float/table ordering polish 완료: `paper/iccv/sec/0_abstract.tex`, `sec/1_intro.tex`, `sec/5_experiments.tex`, `sec/6_results.tex`, `sec/7_limitations.tex`, and `sec/8_conclusion.tex`를 Open3DSG-main framing으로 갱신했다. Manuscript에서는 Open3DSG를 main open-vocabulary relation-source case study로 두고 VL-SAT를 controlled reproduced anchor로 둔다. Standalone Open3DSG/VL-SAT/audit tables를 `Table 3 Main source results`와 prose evidence로 압축해 9-page build를 유지했다. Docker rebuild `logs/h001_iccv_pdf_build_20260526_013847.log` exit 0; no missing citations, undefined refs, or overfull hboxes.
+- [x] H001 PDF visual/layout inspection 완료: `paper/iccv/inspection/report.md`에 page-level inspection을 기록했다. Latest `paper/iccv/main.pdf`는 9 pages이며 no missing citations, no undefined refs, no overfull hbox warnings 상태다. Body/Conclusion은 page 8 안에서 끝나고 References는 page 8에서 시작해 page 9로 이어진다. 이후 Open3DSG-first float/table ordering polish로 standalone Open3DSG/VL-SAT/audit tables를 `Table 3 Main source results`와 prose evidence로 압축했다.
+- [x] H001 ICCV-style compression/layout pass 완료: Related Work / Results / Table 6 wording을 압축하고 `sec/3_problem.tex` family equation과 Open3DSG table을 줄여 overfull hbox 2개를 제거했다. Docker `latexmk` rebuild 성공, `paper/iccv/main.pdf`는 9 pages이며 본문/Conclusion은 page 8 안에서 끝나고 References는 page 8 right column에서 시작해 page 9로 이어진다. Latest build log: `logs/h001_iccv_pdf_build_20260526_001215.log`.
+- [x] H001 `paper/iccv/` Docker PDF build 검증 완료: `paper/iccv/Dockerfile.tex`로 `h001-iccv-tex:20260525` image를 만들고 Docker `latexmk` build를 실행했다. Initial `paper/iccv/main.pdf` 생성 성공, 9 pages, letter size, BibTeX 19 entries used, missing citations/undefined refs 없음. Initial build warnings were overfull hbox 2개(`sec/3_problem.tex` line 23, `sec/6_results.tex` lines 157-167), later resolved by the compression/layout pass. Build logs: `logs/h001_iccv_tex_image_build_20260525_235416.log`, `logs/h001_iccv_pdf_build_20260525_235643.log`.
+- [x] H001 Figure 1-3 ICCV build asset 변환 완료: Chrome headless screenshot으로 `figure1_framework.png` 1280x650, `figure2_tradeoff.png` 1280x620, `figure3_geometry_panels.png` 1280x910을 생성했고 `paper/iccv/sec/6_results.tex`의 `\figmaybe{...}` paths를 PNG로 전환했다. PDF build는 아직 실행하지 않았다.
+- [x] H001 `paper/iccv/` manuscript-content pass 완료: PDF build 전에 필요한 main-section prose, fixed scope/denominator table, source-specific claim-boundary table, figure/table callouts, audit/sanity table, Open3DSG caveat-heavy Table caption, and limitation wording을 scoped H001 claim에 맞게 보강했다. Build는 아직 실행하지 않았다.
 - [x] H001 ICCV-style manuscript source conversion 완료: official ICCV/CVF author-kit route를 선택하고 `paper/iccv/`에 `iccv.sty`, `ieeenat_fullname.bst`, `main.tex`, `preamble.tex`, `sec/*.tex`, and figure placeholder route를 생성했다. Citation keys used by the LaTeX source match `paper/references.bib`; `git diff --check` passes. Build는 현재 host에 TeX engine / figure converter가 없어 아직 검증하지 못했다.
 - [x] H001 paper content-first pass 진행: `paper/draft.md`에 scoped title, quantitative abstract, and Section 1 Introduction을 추가했다. 이후 body gap patch까지 반영되어 draft는 Title/Abstract/Introduction/Related Work/Problem/Method/Experimental Setup/Results/Limitations/Conclusion까지 이어지는 ICCV-style paper body를 가진다. Template/build 검증은 내용 안정화 이후로 미룬다.
 - [x] H001 front matter ICCV-style quick review 완료: `paper/draft.md`의 Title/Abstract/Introduction을 claim sharpness와 page economy 기준으로 확인했다. 현재 front matter는 title 제외 약 701 words, abstract 201 words, Introduction 500 words로 final compression 전 content draft로 수용 가능하다.

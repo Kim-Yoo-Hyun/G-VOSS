@@ -1,6 +1,6 @@
 # Paper Workflow
 
-Last updated: 2026-05-25
+Last updated: 2026-05-26
 
 This document manages paper-level framing for H001/CAND-001: novelty, contribution boundary, reviewer-defense logic, and the minimum experiment evidence needed before paper writing. It does not replace `docs/hypothesis.md`, `07_experiment_spec.md`, or Docker experiment artifacts.
 
@@ -36,8 +36,9 @@ Current paper handoff:
 - `paper/preview.md` summarizes current evidence, caveats, reviewer-defense map, optional extension boundary, and recovery files.
 - `paper/progress.md` records why each hypothesis/experiment stage was run, why the next stage was needed, and how the key results should be interpreted.
 - `paper/outline.md` provides the English/Korean paper skeleton, recommended title, title alternatives, three contribution statements, abstract skeleton, section-level evidence placement, Open3DSG caveat placement, reviewer-defense plan, and table/figure plan. Cross-source results and failure analysis are treated as empirical validation, not a separate fourth contribution.
-- `paper/draft.md` provides ICCV-style first-pass manuscript prose for Title, Abstract, Introduction, Related Work, Problem Formulation, Method, Experimental Setup, Results/Discussion, Limitations, and Conclusion. It has passed claim-scope/evidence-link review and now uses BibTeX-style citation keys in Related Work.
-- `paper/iccv/` provides the first ICCV-style LaTeX manuscript source conversion using the official ICCV/CVF author-kit route. It vendors `iccv.sty` and `ieeenat_fullname.bst`, splits the draft into `main.tex` plus `sec/*.tex`, and points bibliography to `paper/references.bib`. Build is pending because this host currently lacks TeX and figure-conversion tools.
+- `paper/draft.md` provides first-pass manuscript prose for Title, Abstract, Introduction, Related Work, Problem Formulation, Method, Experimental Setup, Results/Discussion, Limitations, and Conclusion. It has passed claim-scope/evidence-link review and now uses BibTeX-style citation keys in Related Work.
+- `paper/aaai/` is the current target-venue LaTeX source. It uses AAAI-26 style files until the exact target-year AAAI kit is fixed, splits the draft into `main.tex` plus `sec/*.tex`, points bibliography to `paper/references.bib`, and includes the AAAI reproducibility checklist after references. Docker PDF build is verified with `h001-aaai-tex:20260526`.
+- `paper/iccv/` remains a historical/alternate ICCV-style source route.
 - `paper/figures.md` locks Figure 1-3 source claims, exact values, case IDs, artifacts, and caption constraints; draft SVGs are generated, verified, and layout-reviewed under `paper/generated/figures/`.
 
 ## H001 Fit To Top-Tier Pattern
@@ -83,7 +84,7 @@ Required defense:
 - Include wrong-pair or shuffled-geometry controls to show the geometry signal is not accidental.
 - Report recall and violation metrics together.
 - Keep denominator and filtered-split caveats visible in every table using Open3DSG.
-- Use Open3DSG as second-source evidence before broad claims.
+- Use Open3DSG as the main open-vocabulary case study before considering any broad claims.
 - Report residual calibration-risk cases separately from rule-verified results.
 - Treat Qwen-VL as optional semantic-source extension unless it receives the same Docker, metric, and audit treatment.
 - Treat RelWitness-style "relation witness" and "calibrated witness quality" wording as prior-art-adjacent. H001 should claim reproduced calibrated reliability evaluation/re-ranking, source-adapter protocol, recall/violation operating points, and controls, not the mere existence of visual-geometric evidence or calibration.
@@ -93,11 +94,9 @@ Required defense:
 Minimum table/figure set before paper writing:
 
 - Table 1: dataset/split/scope and denominator audit.
-- Table 2: semantic-only vs rule-only vs calibrated geometry-consistency re-ranking.
-- Table 3: family-specific results for `support_contact`, `proximity`, and `relative_vertical`.
-- Table 4: calibration and threshold ablations.
-- Table 5: control experiments such as wrong-pair and shuffled-geometry.
-- Table 6: Open3DSG second-source metrics with exact scope and blocked/filtered sample accounting.
+- Table 2: source-specific claim boundary and blocked extensions.
+- Table 3: Open3DSG-first main source results with VL-SAT as the controlled anchor.
+- Prose: controls, GT verifier evaluation, audit, and visual sanity checks unless an appendix is added.
 - Figure 1: failure mechanism and framework overview.
 - Figure 2: recall-violation tradeoff across semantic-only, probabilistic calibrated, rule-verified, and family-specific operating points.
 - Figure 3: qualitative failure taxonomy with geometry-backed examples where semantic plausibility and physical consistency diverge.
@@ -124,17 +123,19 @@ Do not claim these until evidence exists:
 - Section structure is locked: keep Section 5 as a short standalone `Experimental Setup` section. Do not merge it into Results because denominator, filtered-split, covered-scope, Open3DSG variant, and Docker-result boundaries are part of the reviewer defense.
 - Section-title rule: use standard paper headings such as `Experiments`, `Experimental Setup`, `Evaluation Setup`, `Datasets`, `Evaluation Metrics`, and `Implementation Details`. Do not put `Scope` in the heading unless the target venue/template makes it necessary; H001's scope and denominator discipline should be stated in the first paragraph and tables.
 - Section-title reference check, 2026-05-23: Open3DSG uses `4 Experiments` / `4.1 Experimental Setup`; OpenFunGraph uses `6 Experiments` / `6.1 Experimental Setup`; FROSS uses `4 Experimental Results` / `4.1 Evaluation Setup` with dataset/metric/implementation subsections; VIZOR uses `4 Experiments` / `4.1 Datasets` and separates `5 Failure Analysis`. This supports the H001 decision to use the standard heading `Experimental Setup` while keeping scope/caveat details in text and tables.
-- Target venue direction is ICCV-style main conference writing. Content stability comes before template/build work.
+- Target venue direction is AAAI-style main conference writing. Content stability and AAAI page/checklist compliance come before final camera-ready polish.
 - `paper/draft.md` Title/Abstract/Introduction quick review is complete; front matter is about 701 words excluding title, with a 201-word abstract and 500-word Introduction before final compression.
 - Paper-body gap review patch is complete: Figure 1-3 callouts, Table 4 audit/sanity prose, and Conclusion are now in `paper/draft.md`.
-- Paper-body budget review is complete: Title-through-Conclusion prose is about 3,507 words; recommended main tables are Table 1, compact Table 2, compact Table 3 if space allows, and Table 6. Table 4 and full Table 5 should move to appendix/prose fallback if page budget is tight.
-- ICCV-style source conversion is complete under `paper/iccv/` using the official ICCV/CVF author-kit route. Update the style files when the exact target-year kit is fixed.
-- Next, complete the `paper/iccv/` manuscript-content pass before PDF build: fill/verify all main-section prose, table callouts, figure callouts, captions, Open3DSG caveats, and limitation wording against the scoped H001 claim.
-- After manuscript content is complete, convert Figure 1-3 assets and verify/build `paper/iccv/`; then run the ICCV-style layout/compression pass.
-- Draft bibliography scaffold is complete in `paper/references.bib`; citation keys used by `paper/iccv/sec/*.tex` match the bibliography entries, but final formatting still needs a successful ICCV-style build.
+- Paper-body budget review is complete: Title-through-Conclusion prose is about 3,507 words. The current AAAI manuscript uses three main tables: fixed scope/denominator, source-specific claim boundary, and Open3DSG-first source results with `VL-SAT` as controlled anchor. Controls, GT verifier, audit, and detailed family rows stay as prose-backed evidence unless an appendix is added.
+- AAAI-style source conversion is complete under `paper/aaai/` using the latest public AAAI-26 route. Replace the style files when the exact target-year official AAAI kit is fixed.
+- The `paper/aaai/` manuscript-content pass is complete: it includes fixed scope/denominator accounting, a source-specific claim-boundary table, an Open3DSG-first main source-results table, prose controls/verifier/audit evidence, explicit Open3DSG caveat captioning, and limitation wording.
+- Figure 1-3 PNG build assets are ready and `paper/aaai/sec/6_results.tex` points to them. Figure 2 and Figure 3 are single-column in the AAAI source to keep technical content before references.
+- Docker build verification is complete: `paper/aaai/main.pdf` builds with `h001-aaai-tex:20260526`, BibTeX uses 19 entries, and there are no missing citations, undefined refs, overfull hboxes, or AAAI package errors.
+- AAAI reproducibility checklist insertion is complete: `paper/aaai/sec/9_reproducibility_checklist.tex` is included after references. Docker rebuild `logs/h001_aaai_pdf_build_20260526_102601.log` exits 0; the PDF has 9 total pages, technical content on pages 1-7, references on page 8, checklist on page 9, and no missing citations, undefined refs, overfull hboxes, LaTeX errors, or AAAI package errors.
+- Draft bibliography scaffold is complete in `paper/references.bib`; citation keys used by `paper/aaai/sec/*.tex` match the bibliography entries.
 - Use `paper/generated/figures/figure3_geometry_panels.svg` as the preferred Figure 3 draft; keep `figure3_failure_cases.svg` as the traceable row-card fallback. A rendered scene-crop upgrade is optional only if a deterministic crop/render path is added.
-- Keep Table 6/Open3DSG caveats explicit until content is locked; later compression must retain averaged-BLIP, filtered-train/dev, covered loadable scope, exact-label denominator, `validation_missing_preprocessed:11`, and residual calibration-risk caveats.
-- Use the frozen Open3DSG caveat wording in Table 6 and failure-analysis text.
+- Keep Open3DSG caveats explicit in manuscript Table 3 and experiment artifact Table 6; later compression must retain averaged-BLIP, filtered-train/dev, covered loadable scope, exact-label denominator, `validation_missing_preprocessed:11`, and residual calibration-risk caveats.
+- Use the frozen Open3DSG caveat wording in the source-results table and failure-analysis text.
 - Keep clean v14 streaming source-process provenance separate from historical exit-137 run records in reproducibility wording.
 - Keep Qwen-VL as optional extension evidence unless it receives the same Docker, metric, and audit treatment.
 - RelWitness full-PDF skim is complete for v2. Before submission, check whether a newer RelWitness version adds reproduced results, code, arbitrary-source adapters, `Violation@K`, or wrong-pair/shuffled-geometry controls.

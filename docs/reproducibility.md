@@ -1,6 +1,6 @@
 # H001 Reproducibility Runbook
 
-Last updated: 2026-05-25 KST
+Last updated: 2026-05-26 KST
 
 This document consolidates dataset, checkpoint, environment, Docker, reproduction,
 and evaluation-summary information for `experiments/H001_geom_reliability/`.
@@ -12,16 +12,21 @@ Facts:
 
 - Active experiment root: `experiments/H001_geom_reliability/`.
 - Paper-body experiment outputs must be generated through Docker.
-- `VL-SAT` locked artifacts, Open3DSG second-source metrics, Open3DSG real
+- `VL-SAT` locked artifacts, Open3DSG metrics, Open3DSG real
   failure rows, and Table 6 are ready.
 - Paper handoff and planning are ready: `paper/preview.md`, `paper/progress.md`,
-  `paper/outline.md`, `paper/draft.md`, `paper/iccv/`, `paper/figures.md`, and
-  `paper/generated/figures/` contain the current claim boundary, paper skeleton,
-  first-pass prose, ICCV-style LaTeX source, figure locks, and reviewer-defense
-  guardrails.
-- Next paper task: complete the manuscript-content pass inside `paper/iccv/`
-  before PDF build. Figure conversion and build verification come after section
-  prose, table/figure callouts, captions, caveats, and limitations are filled.
+  `paper/outline.md`, `paper/draft.md`, `paper/aaai/`, `paper/iccv/`,
+  `paper/figures.md`, and `paper/generated/figures/` contain the current claim
+  boundary, paper skeleton, first-pass prose, venue-specific LaTeX sources,
+  figure locks, and reviewer-defense guardrails.
+- Latest paper task completed: AAAI reproducibility checklist insertion. Docker
+  build verification and visual/layout inspection for `paper/aaai/` are
+  complete with `h001-aaai-tex:20260526`; the latest `main.pdf` rebuild logs are
+  `logs/h001_aaai_pdf_build_20260526_102601.log`, with 9 total pages, technical
+  content on pages 1-7, references on page 8, and the AAAI reproducibility
+  checklist on page 9. The manuscript uses Open3DSG as the main
+  open-vocabulary relation-source case study and VL-SAT as the controlled
+  reproduced anchor.
 - Qwen-VL is an optional modern semantic-source smoke path. The locked
   Qwen3-VL-4B cache is ready, but runtime inference is not paper metric
   evidence.
@@ -54,6 +59,7 @@ paper/preview.md
 paper/progress.md
 paper/outline.md
 paper/draft.md
+paper/aaai/
 paper/iccv/
 paper/figures.md
 paper/generated/figures/
@@ -74,7 +80,7 @@ Can be committed to GitHub:
 - Reproducibility docs: `docs/reproducibility.md`, `docs/index.md`,
   `docs/paper.md`, `docs/hypothesis.md`, `docs/literature.md`.
 - Paper planning/source docs: `paper/preview.md`, `paper/progress.md`,
-  `paper/outline.md`, `paper/draft.md`, `paper/iccv/`, `paper/figures.md`, and
+  `paper/outline.md`, `paper/draft.md`, `paper/aaai/`, `paper/iccv/`, `paper/figures.md`, and
   compact figure metadata under `paper/generated/figures/`.
 - Docker/reproduction source files:
   `experiments/H001_geom_reliability/Dockerfile`,

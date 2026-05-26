@@ -1,0 +1,97 @@
+\section*{Reproducibility Checklist}
+
+This checklist follows the AAAI-26 reproducibility checklist route checked on
+2026-05-26. It is included after the references and is not part of the
+technical-content page count. Answers refer to the main paper and the
+Docker-based experiment artifact described in the paper.
+
+\subsection*{General}
+
+\begin{itemize}
+    \item Conceptual outline and method description: yes. The paper describes
+    the calibrated geometry-consistency framework, row contract, geometry join,
+    operating points, and recall-violation protocol in Sections 3--4 and
+    Figure 1.
+    \item Separation between facts, claims, and speculation: yes. The paper
+    states the scoped reliability claim, source-specific boundaries, blocked
+    extensions, and limitations explicitly.
+    \item Pedagogical and background references: yes. Related Work cites 3D
+    scene graph prediction, open-vocabulary 3D scene graph methods,
+    geometry-aware relation modeling, and reliability/calibration work.
+\end{itemize}
+
+\subsection*{Theoretical Contributions}
+
+\begin{itemize}
+    \item Does this paper make theoretical contributions? no.
+    \item Formal assumptions, theorem statements, proofs, proof sketches, and
+    theoretical-tool citations: NA.
+    \item Empirical demonstrations of theoretical claims and code for
+    theoretical counterexamples: NA.
+\end{itemize}
+
+\subsection*{Datasets}
+
+\begin{itemize}
+    \item Does this paper rely on one or more datasets? yes.
+    \item Motivation for selected datasets: yes. Open3DSG is used as the main
+    open-vocabulary relation-source case study, while VL-SAT is used as a
+    controlled reproduced anchor under the same row contract and metrics.
+    \item Novel datasets introduced by this paper: no.
+    \item Novel dataset release and license: NA.
+    \item Citations for existing datasets and sources: yes. The paper cites the
+    relevant 3DSSG, VL-SAT, and Open3DSG sources.
+    \item Public availability of existing datasets: partial. The method uses
+    public research datasets and code routes, but large raw data, meshes,
+    features, checkpoints, and model caches are subject to their original access
+    terms and are not redistributed in the paper PDF.
+    \item Non-public dataset description: NA; no new private dataset is
+    introduced.
+\end{itemize}
+
+\subsection*{Computational Experiments}
+
+\begin{itemize}
+    \item Does this paper include computational experiments? yes.
+    \item Development-time hyperparameter search and selection criteria:
+    partial. The paper states the reported operating points, metric scope, and
+    Open3DSG checkpoint selection by train-dev validation loss; exhaustive
+    hyperparameter sweeps are not claimed.
+    \item Preprocessing code: partial. The Docker experiment root records the
+    preprocessing, feature, adapter, geometry-join, metric, table, and
+    failure-analysis commands; large runtime artifacts are rebuilt or mounted
+    rather than embedded in the PDF.
+    \item Source code for experiments and analysis: partial. The tracked
+    experiment root contains the Docker entrypoints, scripts, manifests, and
+    reports needed to reproduce the paper-facing tables from staged data and
+    artifacts; large datasets and model caches are intentionally external.
+    \item Public code release: yes, planned upon publication, subject to
+    anonymization during review and third-party dataset/model licenses.
+    \item Implementation comments: partial. The experiment scripts and runbooks
+    document the row contract, source adapters, geometry scoring, and metric
+    generation, but final code-release cleanup is still required.
+    \item Randomness and seeds: partial. The main evaluation pipeline is
+    deterministic after fixed predictions, checkpoints, and manifests; full
+    training randomness for reproduced source models is documented as run
+    provenance rather than a multi-seed study.
+    \item Computing infrastructure: partial. The Docker image, compose route,
+    mounted paths, logs, and resource checks are recorded; final submission
+    should include the exact GPU/CPU model and software versions used for the
+    released artifact bundle.
+    \item Evaluation metrics: yes. The paper defines exact-label
+    \rAt{50}/\rAt{100}, \vAt{50}/\vAt{100}, verifier GT/counterfactual
+    metrics, controls, and failure-analysis criteria.
+    \item Number of runs: yes. Reported source-result tables use one fixed
+    reproduced source run per source/condition under locked manifests.
+    \item Variation or distributional information beyond averages: partial.
+    The paper reports source/family operating points, counterfactual verifier
+    metrics, controls, structured audit, and failure rows, but it does not yet
+    report repeated-run variance.
+    \item Statistical significance tests: no. The current draft reports
+    deterministic held-out recall and violation tradeoffs; no paired
+    significance test is included.
+    \item Final hyperparameters and operating points: partial. The paper and
+    artifact reports list the final operating points, checkpoint choice,
+    denominator policy, and source caveats; a final release table should collect
+    every threshold and configuration in one place.
+\end{itemize}
