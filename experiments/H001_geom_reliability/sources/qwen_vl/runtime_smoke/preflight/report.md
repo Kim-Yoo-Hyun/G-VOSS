@@ -1,7 +1,7 @@
 # Qwen-VL Runtime Smoke
 
-Status: `blocked_runtime_preflight`
-Created at: `2026-05-11T23:32:13.423557+00:00`
+Status: `runtime_preflight_passed`
+Created at: `2026-05-26T15:22:04.096218+00:00`
 
 ## Scope
 
@@ -23,15 +23,11 @@ This is a runtime smoke gate only. It is not a paper metric and does not replace
 ## GPU
 
 - available: `True`
-- memory used MB: `22449`
-- utilization %: `59`
+- memory used MB: `4372`
+- utilization %: `24`
 
 ## Runtime
 
-- model loaded: `False`
-- processor class: `None`
-- model class: `None`
-
-## Blockers
-
-- `gpu_busy_or_unavailable:memory_used_mb=22449,utilization=59`
+- model loaded: `True`
+- processor class: `Qwen3VLProcessor`
+- model class: `Qwen3VLForConditionalGeneration`

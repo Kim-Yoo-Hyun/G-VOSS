@@ -1,12 +1,12 @@
 # AAAI PDF Visual/Layout Inspection
 
-Last updated: 2026-05-26 KST
+Last updated: 2026-05-27 KST
 
 ## Build Checked
 
 - PDF: `paper/aaai/main.pdf`
 - Image build log: `logs/h001_aaai_tex_image_build_20260526_015436.log`
-- PDF build log: `logs/h001_aaai_pdf_build_20260526_102601.log`
+- PDF build log: `logs/h001_aaai_pdf_build_official_kit_20260527_024752.log`
 - Preview files generated locally: `page-1.png` through `page-9.png`
 - Page count: 9 total pages, US Letter
 - Technical content: pages 1-7
@@ -38,11 +38,17 @@ Inference:
 
 - The AAAI source now respects the high-level AAAI-26 structure of up to 7
   technical pages plus additional reference/checklist pages.
-- The draft is not final submission-ready because the exact target-year AAAI
-  author kit still needs to be verified when released and the checklist answers
-  should be revisited after the final artifact/code-release package is fixed.
+- The current AAAI-26 source now uses the official AAAI-26 Author Kit style
+  files. It is still not final submission-ready because a future target-year
+  AAAI kit must be rechecked if the submission year changes, and checklist
+  answers should be revisited after the final artifact/code-release package is
+  fixed.
 - Figure 2 and Figure 3 are single-column in the AAAI version to avoid wide
   floats drifting after references.
+- The reviewer-defense prose pass did not move references or checklist pages:
+  technical content remains pages 1-7 after the new defense paragraphs.
+- The bootstrap-CI sentence added to Results also leaves technical content on
+  pages 1-7 and keeps references/checklist on pages 8-9.
 
 ## Verdict
 
@@ -57,8 +63,8 @@ Visual/layout inspection passed for AAAI-style draft continuation:
 
 Required before submission:
 
-1. Replace the current AAAI-26 style files with the exact target-year official
-   AAAI author kit when available.
+1. Re-check the exact target-year official AAAI author kit if the submission
+   target changes beyond AAAI-26.
 2. Re-check checklist answers after final artifact/code-release packaging,
    especially `partial/no` items.
 3. Re-check supplementary/appendix and ethics/review instructions from the

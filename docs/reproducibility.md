@@ -13,28 +13,32 @@ Facts:
 - Active experiment root: `experiments/H001_geom_reliability/`.
 - Paper-body experiment outputs must be generated through Docker.
 - `VL-SAT` locked artifacts, Open3DSG metrics, Open3DSG real
-  failure rows, and Table 6 are ready.
+  failure rows, Table 6, and Docker subgraph bootstrap CI are ready.
 - Paper handoff and planning are ready: `paper/preview.md`, `paper/progress.md`,
   `paper/outline.md`, `paper/draft.md`, `paper/aaai/`, `paper/iccv/`,
   `paper/figures.md`, and `paper/generated/figures/` contain the current claim
   boundary, paper skeleton, first-pass prose, venue-specific LaTeX sources,
   figure locks, and reviewer-defense guardrails.
-- Latest paper task completed: AAAI reproducibility checklist insertion. Docker
-  build verification and visual/layout inspection for `paper/aaai/` are
-  complete with `h001-aaai-tex:20260526`; the latest `main.pdf` rebuild logs are
-  `logs/h001_aaai_pdf_build_20260526_102601.log`, with 9 total pages, technical
-  content on pages 1-7, references on page 8, and the AAAI reproducibility
-  checklist on page 9. The manuscript uses Open3DSG as the main
-  open-vocabulary relation-source case study and VL-SAT as the controlled
-  reproduced anchor.
-- Qwen-VL is an optional modern semantic-source smoke path. The locked
-  Qwen3-VL-4B cache is ready, but runtime inference is not paper metric
-  evidence.
-- Runtime spot check on 2026-05-21 KST found an `h001-open3dsg-repro:cu128`
-  container active, GPU memory around 20.9/32.6 GiB used, host memory around
-  40/62 GiB used, and swap nearly full. Treat runtime pressure as volatile:
-  check `docker ps`, `tmux ls`, `nvidia-smi`, and `free -h` before launching
-  heavy Open3DSG or Qwen jobs.
+- Latest paper/reproducibility tasks completed: AAAI reproducibility checklist
+  insertion, reviewer-defense main-text passes, Docker subgraph bootstrap CI,
+  and reproducibility artifact bundle planning. Docker build verification for
+  `paper/aaai/` is complete with `h001-aaai-tex:20260526`; the latest
+  `main.pdf` rebuild log is `logs/h001_aaai_pdf_build_20260526_182458.log`,
+  with 9 total pages, technical content on pages 1-7, references on page 8,
+  and the AAAI reproducibility checklist on page 9. The manuscript uses
+  Open3DSG as the main open-vocabulary relation-source case study and VL-SAT as
+  the controlled reproduced anchor.
+- Qwen-VL is a third semantic source / modern VLM extension path. The locked
+  Qwen3-VL-4B cache, runtime preflight, 3-row tiny inference smoke,
+  raw-response validation, full-source promotion protocol, and full-source
+  input audit are ready, but full Qwen inference is not paper metric evidence
+  yet. Current Qwen input audit has 33,384 inferable rows and 134 shards.
+- Runtime pressure is volatile: check `docker ps`, `tmux ls`, `nvidia-smi`, and
+  `free -h` before launching heavy Open3DSG or Qwen jobs. The historical
+  2026-05-26 Qwen-VL runtime-preflight retry was blocked by GPU guard, but the
+  later 2026-05-27 runtime preflight and tiny inference smoke passed. Full
+  Qwen promotion must still verify rendered or render-on-demand crops for the
+  audited full-source input before inference.
 
 ## Data Locations
 
@@ -89,9 +93,9 @@ Can be committed to GitHub:
   Open3DSG/Qwen Dockerfiles and compose files, and all experiment scripts under
   `experiments/H001_geom_reliability/scripts/`.
 - Reproduction summaries and compact results: `manifest*.json`, `report.md`,
-  table `.md`/`.json`, figure specs, Open3DSG metric JSON, paper caveat reports,
-  adapter/geometry/failure summary manifests, and Qwen contract/runtime-plan
-  manifests.
+  table `.md`/`.json`, bootstrap CI summaries, figure specs, Open3DSG metric
+  JSON, paper caveat reports, adapter/geometry/failure summary manifests, and
+  Qwen contract/runtime-plan manifests.
 
 Intentionally not committed because of `.gitignore`:
 
@@ -121,6 +125,128 @@ Implication for another computer:
   5090 setup, while the H001 eval feature cache required a bounded shard loop.
   Prefer transferring these feature directories if fast setup matters; regenerate
   only when storage transfer is impractical or provenance needs to be rebuilt.
+
+## Reproducibility Artifact Bundle Plan
+
+The public GitHub repo should carry source code, paper source, Dockerfiles,
+compose files, runbooks, compact manifests, and metric summaries. Large
+runtime artifacts should be published separately, for example through Google
+Drive, Zenodo, or Hugging Face Dataset, because several files are too large or
+license-sensitive for normal GitHub commits.
+
+Recommended release tiers:
+
+| Tier | Include | Purpose | Current size / count | Release note |
+| --- | --- | --- | --- | --- |
+| A. GitHub tracked source | `README.md`, `TODO.md`, `docs/`, `paper/aaai/`, `experiments/H001_geom_reliability/{Dockerfile,compose.yaml,commands.md,scripts/,reports,compact manifests}` | Rebuild commands and paper source | small | Commit to GitHub. |
+| B. Core H001 result bundle | selected Open3DSG checkpoint, Open3DSG `raw_dump/raw.jsonl`, adapter `predictions.jsonl`, geometry `verification.jsonl`, metrics, failure rows, qualitative queue, table outputs, manifest locks | Reproduce paper tables without rerunning multi-day feature/training jobs | checkpoint 401 MB; row JSONL about 2.8 GB uncompressed; 1,070,134 JSONL rows across the checked row files | Good candidate for Google Drive or Zenodo. |
+| C. Large feature-cache transfer bundle | Open3DSG train/dev features and H001 eval features | Fast full rerun without regenerating features | train/dev 131 GB; eval 13 GB | Optional; high storage cost but saves multi-day regeneration. |
+| D. External-only dependencies | raw 3RScan/3DSSG/VL-SAT data, official third-party checkpoints, Qwen-VL HF cache | Dataset/model access under original terms | Qwen cache 8.3 GB; raw datasets much larger | Prefer documented download/rebuild over redistribution. |
+
+Core result bundle paths:
+
+```text
+local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt
+experiments/H001_geom_reliability/manifest.lock.json
+experiments/H001_geom_reliability/report.md
+experiments/H001_geom_reliability/tables/
+experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl
+experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl
+experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl
+experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json
+experiments/H001_geom_reliability/sources/open3dsg/failure_rows/rows.jsonl
+experiments/H001_geom_reliability/sources/open3dsg/failure_cases/queue.jsonl
+experiments/H001_geom_reliability/sources/open3dsg/*/manifest.json
+experiments/H001_geom_reliability/sources/open3dsg/*/report.md
+```
+
+Checked row counts for the current core row files:
+
+```text
+raw_dump/raw.jsonl: 19,162
+adapter/predictions.jsonl: 496,600
+geometry/verification.jsonl: 496,600
+failure_rows/rows.jsonl: 57,736
+failure_cases/queue.jsonl: 36
+```
+
+Core bundle creation template:
+
+```bash
+mkdir -p release logs
+ts=$(date +%Y%m%d_%H%M%S)
+tar --zstd -cf release/h001_core_results_${ts}.tar.zst \
+  local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt \
+  experiments/H001_geom_reliability/manifest.lock.json \
+  experiments/H001_geom_reliability/report.md \
+  experiments/H001_geom_reliability/tables \
+  experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl \
+  experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl \
+  experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl \
+  experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json \
+  experiments/H001_geom_reliability/sources/open3dsg/failure_rows/rows.jsonl \
+  experiments/H001_geom_reliability/sources/open3dsg/failure_cases/queue.jsonl \
+  experiments/H001_geom_reliability/sources/open3dsg/*/manifest.json \
+  experiments/H001_geom_reliability/sources/open3dsg/*/report.md
+sha256sum release/h001_core_results_${ts}.tar.zst > release/h001_core_results_${ts}.sha256
+```
+
+Current verified core bundle:
+
+```text
+status: completed_verified
+session: h001_core_bundle_20260526_160957
+cwd: /home/yoohyun/research
+log: logs/h001_core_bundle_20260526_160957.log
+exit: logs/h001_core_bundle_20260526_160957.exit
+output: release/h001_core_results_20260526_160957.tar.zst
+checksum: release/h001_core_results_20260526_160957.sha256
+size: 423 MB
+archive_entries: 89
+exit_code: 0
+checksum_status: OK
+row_counts: raw_dump 19,162; predictions 496,600; verification 496,600; failure_rows 57,736; qualitative_queue 36; total 1,070,134
+metric_status: ready
+exact command: tar --zstd -cf release/h001_core_results_20260526_160957.tar.zst local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt experiments/H001_geom_reliability/manifest.lock.json experiments/H001_geom_reliability/report.md experiments/H001_geom_reliability/tables experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json experiments/H001_geom_reliability/sources/open3dsg/failure_rows/rows.jsonl experiments/H001_geom_reliability/sources/open3dsg/failure_cases/queue.jsonl experiments/H001_geom_reliability/sources/open3dsg/*/manifest.json experiments/H001_geom_reliability/sources/open3dsg/*/report.md
+verification: sha256sum -c release/h001_core_results_20260526_160957.sha256 && wc -l experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl experiments/H001_geom_reliability/sources/open3dsg/failure_rows/rows.jsonl experiments/H001_geom_reliability/sources/open3dsg/failure_cases/queue.jsonl && jq -r '.status' experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json
+```
+
+Core bundle verification template after download/extract:
+
+```bash
+sha256sum -c release/h001_core_results_<ts>.sha256
+wc -l \
+  experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl \
+  experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl \
+  experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl \
+  experiments/H001_geom_reliability/sources/open3dsg/failure_rows/rows.jsonl \
+  experiments/H001_geom_reliability/sources/open3dsg/failure_cases/queue.jsonl
+jq -r '.status' experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm table_builder'
+```
+
+Large feature-cache transfer template, only if full rerun speed matters:
+
+```bash
+mkdir -p release
+ts=$(date +%Y%m%d_%H%M%S)
+tar --zstd -cf release/h001_open3dsg_features_${ts}.tar.zst \
+  local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3 \
+  local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3
+sha256sum release/h001_open3dsg_features_${ts}.tar.zst > release/h001_open3dsg_features_${ts}.sha256
+```
+
+Feature transfer verification:
+
+```bash
+sha256sum -c release/h001_open3dsg_features_<ts>.sha256
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm feature_audit'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm feature_audit_h001_eval'
+```
+
+Do not put Qwen-VL model weights in the default core bundle. The Qwen path is
+optional/non-metric and can be recreated from the fixed Hugging Face model id,
+revision, and local-dir command above.
 
 ## Environment And Docker
 
@@ -435,7 +561,9 @@ sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_g
 sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_failure_case_sampler'
 ```
 
-Optional Qwen-VL runtime smoke after GPU/RAM pressure is cleared:
+Optional Qwen-VL runtime smoke after GPU/RAM pressure is cleared. The
+2026-05-26 retry stopped at the guard because an unrelated `AST_mujoco` rollout
+was using the RTX 5090, so rerun this only after that job is finished or paused:
 
 ```bash
 sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_runtime_preflight'

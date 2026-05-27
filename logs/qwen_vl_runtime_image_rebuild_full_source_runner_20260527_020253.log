@@ -1,0 +1,63 @@
+ Image h001-qwen-vl-runtime:cu128 Building 
+ Image h001-qwen-vl-runtime:cu128 Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.20kB done
+#1 DONE 0.0s
+
+#2 [qwen_vl_full_source_infer_dry_run internal] load build definition from Dockerfile.qwen
+#2 transferring dockerfile: 571B done
+#2 DONE 0.0s
+
+#3 [qwen_vl_full_source_infer_dry_run internal] load metadata for docker.io/library/h001-open3dsg-repro:cu128
+#3 DONE 0.0s
+
+#4 [qwen_vl_full_source_infer_shard internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [qwen_vl_full_source_infer_dry_run internal] load build context
+#5 transferring context: 7.97kB done
+#5 DONE 0.0s
+
+#6 [qwen_vl_full_source_infer_shard 1/4] FROM docker.io/library/h001-open3dsg-repro:cu128@sha256:da40c5db6ab9c8ce30506ccf3b59214d35412fb6eb241b83565b33217b3d3d79
+#6 resolve docker.io/library/h001-open3dsg-repro:cu128@sha256:da40c5db6ab9c8ce30506ccf3b59214d35412fb6eb241b83565b33217b3d3d79 0.0s done
+#6 DONE 0.0s
+
+#7 [qwen_vl_full_source_infer_dry_run 2/4] WORKDIR /workspace
+#7 CACHED
+
+#8 [qwen_vl_full_source_infer_shard 3/4] RUN python -m pip install --no-cache-dir     "transformers>=4.57.0"     "accelerate>=1.10.0"     "huggingface_hub[cli]>=0.35.0"     "qwen-vl-utils>=0.0.14"     "sentencepiece>=0.2.0"     "safetensors>=0.5.0"
+#8 CACHED
+
+#9 [qwen_vl_full_source_infer_shard 4/4] COPY experiments/H001_geom_reliability/scripts/ /opt/h001/scripts/
+#9 DONE 0.1s
+
+#10 [qwen_vl_full_source_infer_dry_run] exporting to image
+#10 exporting layers
+#10 exporting layers 0.2s done
+#10 exporting manifest sha256:2af02bcf846ff95326c98bb9d5966452c4f9a978b4d2f39dced1a5763d96f999 0.1s done
+#10 exporting config sha256:0b01ac74d1f0c0bc89b3badd29c8384858a3e174d42ee3700c49668a3d663ef7
+#10 exporting config sha256:0b01ac74d1f0c0bc89b3badd29c8384858a3e174d42ee3700c49668a3d663ef7 0.1s done
+#10 exporting attestation manifest sha256:9e77bf8bba34bc0c15c16fa8f4cb9f04a2c8224a45ab48a8347ca7becbd22f54 0.1s done
+#10 exporting manifest list sha256:38cfaca008a7677be0688728e53767103bce2fd0b72e4fcac426bec07ed1ecc2 0.1s done
+#10 naming to docker.io/library/h001-qwen-vl-runtime:cu128 0.0s done
+#10 unpacking to docker.io/library/h001-qwen-vl-runtime:cu128 0.1s done
+#10 DONE 0.6s
+
+#11 [qwen_vl_full_source_infer_shard] exporting to image
+#11 exporting layers 0.2s done
+#11 exporting manifest sha256:72ecb20f52fe512b99e2541d82c556ea4e413885ba534d2148c380c6086957c6 0.0s done
+#11 exporting config sha256:99cd9ce097eabe6a2365629eb194fb6f9a11d6dbcc90d6a6ec7337f930b43023 0.1s done
+#11 exporting attestation manifest sha256:5b817f61dc9748a0a2524471ebe109ec12df4ab0915c41ef9c780467eb4f8b9b 0.1s done
+#11 exporting manifest list sha256:620d5968cd5a475ff48353ea8b864590dc3548a889bffa0b2b7d90891caf2bfb 0.1s done
+#11 naming to docker.io/library/h001-qwen-vl-runtime:cu128 done
+#11 unpacking to docker.io/library/h001-qwen-vl-runtime:cu128 0.1s done
+#11 DONE 0.6s
+
+#12 [qwen_vl_full_source_infer_dry_run] resolving provenance for metadata file
+#12 DONE 0.0s
+
+#13 [qwen_vl_full_source_infer_shard] resolving provenance for metadata file
+#13 DONE 0.0s
+ Image h001-qwen-vl-runtime:cu128 Built 
+ Image h001-qwen-vl-runtime:cu128 Built 

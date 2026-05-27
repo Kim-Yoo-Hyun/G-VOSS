@@ -1,0 +1,39 @@
+{
+  "blockers": [],
+  "counts": {
+    "input_rows": 33384,
+    "missing_rows": 44364,
+    "planned_rows": 33384,
+    "shards": 134,
+    "verified_unique_pair_crops": 11128
+  },
+  "created_at": "2026-05-26T17:03:15+00:00",
+  "hashes": {
+    "planned_shards_jsonl_sha256": "0655605b19c8ec93a1b79ccd111a83361c7858f770843e5a6ad04551c8c5777d"
+  },
+  "inputs": {
+    "crop_manifest": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_crops/all/manifest.json",
+    "input_jsonl": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_input/input.jsonl",
+    "input_jsonl_sha256": "2648047240514533045437b110d50f5e82a52e89d18cd48178b284fbf332a393",
+    "input_manifest": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_input/manifest.json",
+    "qwen_status": "experiments/H001_geom_reliability/sources/qwen_vl/status.json",
+    "runtime_smoke_manifest": "experiments/H001_geom_reliability/sources/qwen_vl/runtime_smoke/tiny_inference/manifest.json"
+  },
+  "next_action": "Run qwen_vl_full_source_infer_dry_run for shard 0000, then launch inference shards only as background jobs.",
+  "outputs": {
+    "commands": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_inference_plan/commands.md",
+    "manifest": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_inference_plan/manifest.json",
+    "report": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_inference_plan/report.md",
+    "runner_contract": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_inference_plan/runner_contract.json",
+    "shards_jsonl": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_inference_plan/shards.jsonl"
+  },
+  "paper_metric": false,
+  "qwen_status_snapshot": {
+    "crop_status": "full_source_crop_preflight_ready_no_inference",
+    "runtime_smoke": "tiny_inference_smoke_passed_non_metric",
+    "status": "full_source_crop_preflight_ready_no_inference"
+  },
+  "role": "third_semantic_source_modern_vlm_extension",
+  "schema_version": "h001_qwen_vl_full_source_inference_plan_v1",
+  "status": "full_source_inference_runner_frozen_no_inference"
+}

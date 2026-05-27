@@ -1,0 +1,37 @@
+{
+  "accepted_raw_response": {
+    "prediction_fields": [
+      "predicate",
+      "confidence",
+      "rationale_short"
+    ],
+    "required_fields": [
+      "answer_is_visible",
+      "predictions"
+    ],
+    "type": "strict JSON object"
+  },
+  "parser_status_values": [
+    "parsed",
+    "parsed_with_warning",
+    "unparseable",
+    "refused",
+    "runtime_error"
+  ],
+  "runtime_policy": "contract_only_no_model_download_no_inference",
+  "schema_version": "h001_qwen_vl_parser_skeleton_v1",
+  "scoring_policy": {
+    "confidence": "Use confidence in [0, 1] as semantic_score when present.",
+    "fallback": "Use 1/rank if confidence is missing or invalid, and record a warning.",
+    "not_allowed": [
+      "geometry_score",
+      "ground_truth",
+      "ground_truth_label",
+      "gt_label",
+      "p_geom_valid",
+      "verifier_decision",
+      "verifier_label",
+      "violation_label"
+    ]
+  }
+}

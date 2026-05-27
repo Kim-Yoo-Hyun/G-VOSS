@@ -18,6 +18,7 @@ venv/
 .vscode/
 
 # Large/generated research binaries
+release/
 *.ply
 *.npy
 *.npz
@@ -28,6 +29,7 @@ venv/
 *.zip
 *.tar
 *.tar.gz
+*.tar.zst
 
 # Downloaded paper PDFs are documented by metadata links, not committed.
 literature/**/paper.pdf

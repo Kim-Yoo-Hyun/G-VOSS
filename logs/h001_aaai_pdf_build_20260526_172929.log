@@ -1,0 +1,300 @@
+Rc files read:
+  /etc/LatexMk
+Latexmk: This is Latexmk, John Collins, 31 Jan. 2024. Version 4.83.
+Latexmk: applying rule 'pdflatex'...
+Rule 'pdflatex':  Reasons for rerun
+Changed files or newly in use/created:
+  sec/0_abstract.tex
+  sec/2_related_work.tex
+  sec/3_problem.tex
+  sec/5_experiments.tex
+  sec/6_results.tex
+  sec/8_conclusion.tex
+Category 'changed_user':
+  sec/0_abstract.tex
+  sec/2_related_work.tex
+  sec/3_problem.tex
+  sec/5_experiments.tex
+  sec/6_results.tex
+  sec/8_conclusion.tex
+
+------------
+Run number 1 of rule 'pdflatex'
+------------
+------------
+Running 'pdflatex  -interaction=nonstopmode -halt-on-error -recorder  "main.tex"'
+------------
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./main.tex
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-22>
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2023/05/17 v1.4n Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo)) (./aaai2026.sty
+Conference Style for AAAI for LaTeX 2e -- version for submission
+) (/usr/share/texlive/texmf-dist/tex/latex/psnfss/times.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/helvet.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/courier.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/natbib/natbib.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty) (./preamble.tex
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def)))
+(/usr/share/texlive/texmf-dist/tex/latex/multirow/multirow.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/tabularx.sty
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/mathcolor.ltx)))
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def)
+(./main.aux) (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+
+[Loading MPS to PDF converter (version 2006.09.02).]
+) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
+(./sec/0_abstract.tex (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+) (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd))
+(./sec/1_intro.tex (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd)
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texmf-
+dist/fonts/enc/dvips/base/8r.enc}]
+Underfull \hbox (badness 1371) in paragraph at lines 63--66
+\OT1/ptm/m/n/10 dic-tion rows, joins identity-preserving 3D ev-i-dence,
+
+Underfull \hbox (badness 1496) in paragraph at lines 66--70
+[]\OT1/ptm/m/n/10 We de-fine a recall-violation eval-u-a-tion pro-to-col for
+
+Underfull \hbox (badness 1400) in paragraph at lines 66--70
+\OT1/ptm/m/n/10 label R@K, Vi-o-la-tion@K, GT-positive/counterfactual
+) (./sec/2_related_work.tex
+Underfull \hbox (badness 1087) in paragraph at lines 21--28
+ \OT1/ptm/b/n/10 Open-vocabulary 3D Scene Graphs and VLM-based
+
+Underfull \hbox (badness 1057) in paragraph at lines 21--28
+\OT1/ptm/b/n/10 scene un-der-stand-ing. \OT1/ptm/m/n/10 Re-cent work ex-tends 3
+D scene
+
+Underfull \hbox (badness 7685) in paragraph at lines 41--49
+ \OT1/ptm/b/n/10 Geometry-aware re-la-tion rea-son-ing and semantic-
+) (./sec/3_problem.tex
+Underfull \vbox (badness 2503) has occurred while \output is active [2]
+Underfull \hbox (badness 1259) in paragraph at lines 30--33
+\OMS/cmsy/m/n/10 f[]\OML/cmm/m/it/10 ; []; []\OMS/cmsy/m/n/10 g$\OT1/ptm/m/n/10
+ , and the cal-i-bra-tor es-ti-
+) (./sec/4_method.tex
+Underfull \hbox (badness 2626) in paragraph at lines 21--26
+\OT1/ptm/m/n/10 This row is the unit of com-par-i-son across VL-SAT,
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--49
+\OT1/ptm/m/n/10 H001 uses relation-family-specific checks
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--49
+\OT1/ptm/m/n/10 for \OT1/pcr/m/n/10 support[]contact\OT1/ptm/m/n/10 , \OT1/pcr/
+m/n/10 proximity\OT1/ptm/m/n/10 , and
+
+Underfull \hbox (badness 1168) in paragraph at lines 38--49
+\OT1/pcr/m/n/10 relative[]vertical\OT1/ptm/m/n/10 . For sup-port/contact, the e
+v-i-
+
+Underfull \hbox (badness 10000) in paragraph at lines 67--75
+[]\OT1/ptm/m/n/10 We re-port four main op-er-at-ing points.
+
+Underfull \hbox (badness 10000) in paragraph at lines 67--75
+\OT1/pcr/m/n/10 semantic[]only \OT1/ptm/m/n/10 ranks by the source se-man-tic
+
+Underfull \hbox (badness 3579) in paragraph at lines 67--75
+\OT1/ptm/m/n/10 score and serves as the re-pro-duced source base-line.
+
+Underfull \hbox (badness 1424) in paragraph at lines 67--75
+\OT1/ptm/m/n/10 di-ag-nos-tic. \OT1/pcr/m/n/10 family[]specific[]p[]geom[]valid
+ \OT1/ptm/m/n/10 uses
+[3]) (./sec/5_experiments.tex
+Underfull \hbox (badness 2042) in paragraph at lines 78--1
+\OT1/ptm/m/n/10 plains the re-sult. Shuffled-geometry and wrong-pair-
+
+Underfull \hbox (badness 6510) in paragraph at lines 46--57
+[]\OT1/ptm/m/n/10 The Open3DSG re-sult is re-ported as a Docker-
+
+Underfull \hbox (badness 6252) in paragraph at lines 46--57
+\OT1/ptm/m/n/10 averaged of-fi-cial check-point. The se-lected check-
+
+Underfull \hbox (badness 2205) in paragraph at lines 46--57
+\OT1/ptm/m/n/10 point is \OT1/pcr/m/n/10 epoch=13-step=13104.ckpt\OT1/ptm/m/n/1
+0 , cho-sen by
+
+Underfull \hbox (badness 1721) in paragraph at lines 46--57
+\OT1/ptm/m/n/10 train-dev val-i-da-tion loss be-fore H001 held-out in-spec-
+
+Underfull \hbox (badness 1776) in paragraph at lines 46--57
+\OT1/ptm/m/n/10 tion. The run-time uses a fil-tered preprocessed-ready
+
+Underfull \hbox (badness 1852) in paragraph at lines 46--57
+\OT1/ptm/m/n/10 train split of 3,744/3,852 sub-graphs, a train-dev val-i-
+
+Underfull \hbox (badness 1320) in paragraph at lines 46--57
+\OT1/ptm/m/n/10 da-tion split of 156/160 sub-graphs, and an H001 cov-
+
+Underfull \hbox (badness 2478) in paragraph at lines 46--57
+\OT1/pcr/m/n/10 validation[]missing[]preprocessed:11 \OT1/ptm/m/n/10 re-ported
+
+Underfull \hbox (badness 2961) in paragraph at lines 46--57
+\OT1/ptm/m/n/10 as a caveat. These caveats re-main vis-i-ble be-cause
+
+Underfull \hbox (badness 1117) in paragraph at lines 81--81
+[]|\OT1/ptm/m/n/9 Main open-vocabulary re-li-a-bil-ity
+
+Underfull \hbox (badness 1292) in paragraph at lines 81--81
+[]|\OT1/ptm/m/n/9 Controlled an-chor for the same
+
+Underfull \hbox (badness 1509) in paragraph at lines 81--81
+[]|\OT1/ptm/m/n/9 Future sup-port/contact smoke if
+
+Underfull \hbox (badness 3068) in paragraph at lines 81--81
+[]|\OT1/ptm/m/n/9 Not claimed from cur-rent ev-i-
+
+Underfull \hbox (badness 10000) in paragraph at lines 81--81
+[]|\OT1/ptm/m/n/9 Requires broader mea-sured
+) (./sec/6_results.tex
+Underfull \hbox (badness 10000) in paragraph at lines 84--1
+[]\OT1/ptm/m/n/10 All paper-body ex-per-i-ment re-sults
+
+Underfull \hbox (badness 10000) in paragraph at lines 84--1
+\OT1/ptm/m/n/10 are gen-er-ated through Docker un-der
+
+Underfull \hbox (badness 7558) in paragraph at lines 84--1
+\OT1/pcr/m/n/10 experiments/H001[]geom[]reliability/\OT1/ptm/m/n/10 . The
+
+Underfull \hbox (badness 3989) in paragraph at lines 84--1
+\OT1/ptm/m/n/10 and Vi-o-la-tion@100, Open3DSG and VL-SAT source
+
+Underfull \hbox (badness 1077) in paragraph at lines 50--62
+\OT1/ptm/m/n/10 sis-tency re-duces phys-i-cally in-con-sis-tent re-la-tion pre-
+dic-
+
+Underfull \hbox (badness 1365) in paragraph at lines 50--62
+\OT1/ptm/m/n/10 be-cause it is the main open-vocabulary relation-source
+
+Underfull \hbox (badness 4254) in paragraph at lines 50--62
+\OT1/ptm/m/n/10 clos-est to the in-tended use case. Ta-ble 3[] shows
+
+Underfull \hbox (badness 2119) in paragraph at lines 50--62
+\OT1/ptm/m/n/10 of 0.3945/0.4963 with Vi-o-la-tion@50/Violation@100 of
+
+Underfull \hbox (badness 7047) in paragraph at lines 50--62
+\OT1/ptm/m/n/10 0.1326/0.1195. The \OT1/pcr/m/n/10 probabilistic \OT1/ptm/m/n/1
+0 set-ting re-
+
+Underfull \hbox (badness 1383) in paragraph at lines 50--62
+\OT1/ptm/m/n/10 duces vi-o-la-tions to 0.0575/0.0803 while shift-ing re-call
+
+Underfull \hbox (badness 1062) in paragraph at lines 50--62
+\OT1/ptm/m/n/10 to 0.3843/0.5580. The \OT1/pcr/m/n/10 family[]specific \OT1/ptm
+/m/n/10 op-er-at-ing
+
+Underfull \hbox (badness 1609) in paragraph at lines 63--71
+[]\OT1/ptm/m/n/10 VL-SAT pro-vides a con-trolled an-chor for the same
+
+Underfull \hbox (badness 2856) in paragraph at lines 63--71
+\OT1/ptm/m/n/10 rank-ing reaches R@50/R@100 of 0.9599/0.9894 with
+
+Underfull \hbox (badness 4441) in paragraph at lines 63--71
+\OT1/ptm/m/n/10 Vi-o-la-tion@50/Violation@100 of 0.0247/0.0469. The
+
+Underfull \hbox (badness 3977) in paragraph at lines 63--71
+\OT1/pcr/m/n/10 probabilistic \OT1/ptm/m/n/10 set-ting im-proves R@50/R@100 to
+
+Underfull \hbox (badness 2080) in paragraph at lines 72--89
+\OT1/ptm/m/n/10 row in-scope GT de-nom-i-na-tor as Ta-ble 3[], geometry-
+
+Underfull \hbox (badness 2277) in paragraph at lines 72--89
+\OT1/ptm/m/n/10 only rank-ing falls to R@50/R@100 of 0.2028/0.5049
+
+Underfull \hbox (badness 1496) in paragraph at lines 72--89
+\OT1/ptm/m/n/10 with Vi-o-la-tion@100=0.0701, and distance-only rank-ing
+
+Underfull \hbox (badness 2426) in paragraph at lines 72--89
+\OT1/ptm/m/n/10 Shuffled-geometry and wrong-pair con-trols keep more
+
+Underfull \hbox (badness 1874) in paragraph at lines 72--89
+\OT1/ptm/m/n/10 source sig-nal (R@100=0.9788 for both), but still de-
+
+Underfull \hbox (badness 2073) in paragraph at lines 72--89
+\OT1/ptm/m/n/10 output case study shows the same need for identity-
+
+Underfull \hbox (badness 7486) in paragraph at lines 72--89
+\OT1/ptm/m/n/10 preserving re-la-tion ge-om-e-try: distance-only reaches
+
+Underfull \hbox (badness 3088) in paragraph at lines 72--89
+\OT1/ptm/m/n/10 R@100=0.5081 and Vi-o-la-tion@100=0.1074, geometry-
+[4]
+Underfull \vbox (badness 10000) has occurred while \output is active
+Underfull \hbox (badness 10000) in paragraph at lines 126--126
+[]\OT1/ptm/m/n/10 Figure 3: \OT1/ptm/b/n/10 Geometry-backed qual-i-ta-tive fail
+-ures.
+
+Underfull \hbox (badness 6510) in paragraph at lines 130--141
+[]\OT1/ptm/m/n/10 The qual-i-ta-tive fail-ure anal-y-sis ex-plains why the
+
+Underfull \hbox (badness 1342) in paragraph at lines 130--141
+\OT1/ptm/m/n/10 con-tra-dic-tions, relative-vertical fail-ures in-volve vertica
+l-
+
+Underfull \vbox (badness 10000) has occurred while \output is active [5])
+(./sec/7_limitations.tex
+Underfull \hbox (badness 1052) in paragraph at lines 142--1
+[]\OT1/ptm/m/n/10 The same qual-i-ta-tive anal-y-sis also ex-poses a lim-i-ta-
+
+Underfull \hbox (badness 1052) in paragraph at lines 3--12
+\OT1/ptm/m/n/10 de-pends pri-mar-ily on func-tional, so-cial, af-for-dance, or
+
+Underfull \vbox (badness 3590) has occurred while \output is active [6 <../gene
+rated/figures/figure1_framework.png (PNG copy)>]) (./sec/8_conclusion.tex)
+[7 <../generated/figures/figure2_tradeoff.png (PNG copy)> <../generated/figures
+/figure3_geometry_panels.png (PNG copy)>] (./main.bbl
+Underfull \hbox (badness 1297) in paragraph at lines 126--130
+[]\OT1/ptm/m/n/10 Yu, F.; Deng, Q.; Tang, S.; Li, Y.; and Cheng, L.
+
+Underfull \hbox (badness 2088) in paragraph at lines 126--130
+\OT1/ptm/m/n/10 2025.  Open-World 3D Scene Graph Gen-er-a-tion for
+) [8] (./sec/9_reproducibility_checklist.tex
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd)
+Underfull \hbox (badness 1221) in paragraph at lines 93--97
+\OT1/ptm/m/n/10 The pa-per and ar-ti-fact re-ports list the fi-nal op-er-at-
+) [9] (./main.aux) )
+(see the transcript file for additional information)</usr/share/texlive/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.p
+fb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf
+-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/typ
+e1/urw/times/utmri8a.pfb>
+Output written on main.pdf (9 pages, 487899 bytes).
+Transcript written on main.log.
+Latexmk: Getting log file 'main.log'
+Latexmk: Examining 'main.fls'
+Latexmk: Examining 'main.log'
+Latexmk: Found input bbl file 'main.bbl'
+Latexmk: Found input bbl file 'main.bbl'
+Latexmk: Log file says output to 'main.pdf'
+Latexmk: Found bibliography file(s):
+  ../references.bib
+Latexmk: All targets (main.pdf) are up-to-date
+

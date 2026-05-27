@@ -1,6 +1,6 @@
 # Qwen-VL Output JSONL Contract
 
-Status: frozen contract, model runtime not started.
+Status: frozen contract, tiny runtime smoke passed, full-source paper metric not started.
 
 ## File Shape
 
@@ -49,3 +49,10 @@ Use `semantic_score` only as a semantic-source score. If the model does not retu
 ## Downstream Compatibility
 
 The output rows are converted into the same H001 prediction/evaluation path as other baselines: semantic-only ranking first, then external geometry join and `qwen_vl_geometry_reranked`. Geometry evidence must be joined outside the Qwen semantic-only adapter.
+
+## Paper Role
+
+Qwen-VL rows are third semantic source / modern VLM extension rows. They do not
+replace VL-SAT or Open3DSG. For paper-metric use, the rows must come from a
+complete audited candidate universe, not only GT-positive or manually selected
+pairs.

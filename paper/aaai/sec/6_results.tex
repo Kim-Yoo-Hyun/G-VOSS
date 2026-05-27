@@ -14,9 +14,9 @@
     \centering
     \figmaybe[width=\linewidth]{../generated/figures/figure2_tradeoff.png}
     \caption{\textbf{Recall-violation tradeoff.} Lower \vAt{100} and higher
-    \rAt{100} are better. Open3DSG is the main open-vocabulary case study, but
-    it is reported as a Docker-reproduced averaged-BLIP variant under the
-    covered H001 scope, not as a broad SOTA comparison.}
+    \rAt{100} are better. Open3DSG is the main open-vocabulary relation-source
+    case study, but it is reported as a Docker-reproduced averaged-BLIP variant
+    under the covered H001 scope, not as a broad SOTA comparison.}
     \label{fig:tradeoff}
 \end{figure}
 
@@ -25,7 +25,7 @@
 \small
 \setlength{\tabcolsep}{4pt}
 \caption{\textbf{Main source results.} Open3DSG is the main open-vocabulary
-case study; VL-SAT is a controlled reproduced anchor. The Open3DSG rows retain
+relation-source case study; VL-SAT is a controlled reproduced anchor. The Open3DSG rows retain
 the averaged-BLIP, filtered train 3,744/3,852, val 156/160, covered H001
 377/388, exact-label denominator 2,545, and
 \texttt{validation\_missing\_preprocessed:11} caveats.}
@@ -49,16 +49,16 @@ VL-SAT & \texttt{family\_specific} & 0.9619 & 0.9914 & 0.0204 & 0.0310 \\
 
 The central question is whether calibrated geometry consistency reduces
 physically inconsistent relation predictions without collapsing recall. We
-begin with Open3DSG because it is the main open-vocabulary source closest to
-the intended use case. Table~\ref{tab:source-results} shows that Open3DSG
-\texttt{semantic\_only} reaches \rAt{50}/\rAt{100} of 0.3945/0.4963 with
+begin with Open3DSG because it is the main open-vocabulary relation-source
+closest to the intended use case. Table~\ref{tab:source-results} shows that
+Open3DSG \texttt{semantic\_only} reaches \rAt{50}/\rAt{100} of 0.3945/0.4963 with
 \vAt{50}/\vAt{100} of 0.1326/0.1195. The
 \texttt{probabilistic} setting reduces violations to 0.0575/0.0803 while
 shifting recall to 0.3843/0.5580. The \texttt{family\_specific} operating
 point gives the strongest Open3DSG tradeoff, reaching 0.4530/0.5984 recall and
-0.0228/0.0311 violation. This is the main open-vocabulary reliability evidence
-for H001, with the reproduction and coverage caveats fixed in
-Table~\ref{tab:claim-boundary}.
+0.0228/0.0311 violation. This is the main source-output reliability evidence
+for the open-vocabulary setting, with the reproduction and coverage caveats
+fixed in Table~\ref{tab:claim-boundary}.
 
 VL-SAT provides a controlled anchor for the same row contract and metric
 protocol. Its \texttt{semantic\_only} ranking reaches \rAt{50}/\rAt{100} of
@@ -69,14 +69,32 @@ reduces \vAt{100} to 0.0310. The \texttt{rule\_verified} rows on both sources
 are zero-violation diagnostics rather than the default method, because hard
 filtering exposes one end of the reliability-recall tradeoff.
 
-The nontriviality controls rule out simpler alternatives. Geometry-only ranking
-falls to \rAt{50}/\rAt{100} of 0.2028/0.5049 with \vAt{100}=0.0701, and
-distance-only ranking reaches only 0.3835/0.5642 with \vAt{100}=0.0993.
-Shuffled-geometry and wrong-pair controls keep more source signal
-(\rAt{100}=0.9788 for both), but still degrade violations to 0.0559 and 0.0581
-relative to calibrated identity-preserving joins. These controls support the
-design requirement that geometry evidence must be joined to the correct object
-pair and calibrated as a relation-level reliability signal.
+A Docker subgraph bootstrap with 1,000 resamples gives the Open3DSG
+\texttt{family\_specific} operating point a \rAt{100} delta of +10.22
+percentage points (95\% CI +7.94,+12.54) and a \vAt{100} delta of -8.84
+points (95\% CI -9.41,-8.28) relative to \texttt{semantic\_only}. VL-SAT
+deltas are smaller: \texttt{family\_specific} changes \rAt{100} by +0.20
+points with a CI crossing zero, but reduces \vAt{100} by -1.59 points with a
+negative CI. We use these intervals as evaluation-context uncertainty checks,
+not as repeated-training variance.
+
+The nontriviality controls rule out simpler alternatives. On the VL-SAT
+controlled anchor, using the same 2,545-row in-scope GT denominator as
+Table~\ref{tab:source-results}, geometry-only ranking falls to
+\rAt{50}/\rAt{100} of 0.2028/0.5049 with \vAt{100}=0.0701, and distance-only
+ranking reaches only 0.3835/0.5642 with \vAt{100}=0.0993. Shuffled-geometry
+and wrong-pair controls keep more source signal (\rAt{100}=0.9788 for both),
+but still degrade violations to 0.0559 and 0.0581 relative to calibrated
+identity-preserving joins. The Open3DSG source-output case study shows the same
+need for identity-preserving relation geometry: distance-only reaches
+\rAt{100}=0.5081 and \vAt{100}=0.1074, geometry-only reaches 0.4939 and
+0.0840, while shuffled-geometry and wrong-pair controls fall to
+\rAt{100}=0.2562/0.2255 with \vAt{100}=0.2027/0.1972. These controls support
+the design requirement that geometry evidence must be joined to the correct
+object pair and calibrated as a relation-level reliability signal. They also
+rule out the strongest simple-baseline objection: H001 is not merely ranking by
+geometry, distance, or hard rules, because those variants either lose recall,
+leave more violations, or fail when object-pair identity is broken.
 
 The GT-based verifier check tests the geometry signal independently from
 prediction re-ranking. GT-positive rows remain nonviolated at a rate of 0.9972,
@@ -84,21 +102,29 @@ while GT-derived counterfactual negatives are nonsatisfied at a rate of 0.9694.
 The calibrated \pgeom{} score separates these 5,090 rows with AUROC/AUPRC of
 0.9779/0.9737 and Brier score 0.0538. This supports the use of \pgeom{} as a
 reliability signal while still leaving room for residual calibration risk.
+Combined with the controls, this separates the calibrated reliability signal
+from a purely hand-written validity script: rules define checkable families,
+but \pgeom{} must also separate GT positives from counterfactual negatives and
+improve source rankings under the recall-violation metric.
 
 Structured audit and visual sanity checks support the failure interpretation,
 but they are not reported as large-scale independent human evaluation. The
 structured audit covers 250 rows and reaches quality-issue precision of
-0.8933. The reduced 50-row visual spot-check, reviewer-confirmed by
-\texttt{yhkim}, reaches a target-bucket quality-issue rate of 0.9333 with
-contradiction rate 0.0333 and private-reference match 1.0000. These checks are
+0.8933. A reduced 50-row internal visual spot-check reaches a target-bucket
+quality-issue rate of 0.9333 with contradiction rate 0.0333. These checks are
 used to detect annotation or verifier issues and to support failure-mechanism
-interpretation, not as primary metric evidence.
+interpretation, not as primary metric evidence or as a blinded human audit.
 
 Together, Table~\ref{tab:source-results} and the control/verifier checks
 support a calibrated reliability-layer interpretation. They do not show that
 H001 is a new relation generator, that it improves all open-vocabulary relation
 labels, or that it is baseline-agnostic across arbitrary 3DSSG predictors.
-Those blocked extensions are fixed in Table~\ref{tab:claim-boundary}.
+Those blocked extensions are fixed in Table~\ref{tab:claim-boundary}. The
+Open3DSG evidence remains meaningful despite the averaged-BLIP caveat because
+all comparisons are made within the same reproduced prediction source,
+checkpoint-selection policy, row contract, and covered H001 denominator; the
+paper evaluates whether a reliability layer changes relation rankings, not
+whether it reproduces the official non-averaged Open3DSG result.
 
 \begin{figure}[t]
     \centering
@@ -117,6 +143,10 @@ geometry-aware re-ranking. Figure~\ref{fig:failures} shows family-structured
 failures: proximity failures often involve distance contradictions,
 relative-vertical failures involve vertical-order contradictions, and
 support/contact failures expose float-gap or support-plane contradictions.
+These are the kinds of symbolic relation mistakes that may make graph edges
+unreliable inputs for downstream reasoning, grounding, alignment, or embodied
+decision modules, motivating downstream evaluation rather than establishing it
+here.
 
 The same qualitative analysis also exposes a limitation. Ten of the 36 sampled
 rule-violated cases still have $\pgeom > 0.9$. This means the calibrated score

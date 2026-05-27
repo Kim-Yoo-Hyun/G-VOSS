@@ -1,6 +1,6 @@
 # Commands
 
-Last updated: 2026-05-19
+Last updated: 2026-05-26
 
 Run from the repository root.
 
@@ -29,6 +29,71 @@ Expected completion line:
 ```
 
 The table builder also writes `sources/open3dsg/table6_hook.json`; Open3DSG rows in Table 6 are now ready when `sources/open3dsg/metrics/metrics.json` reports status `ready`.
+
+## Bootstrap Confidence Intervals
+
+Compute subgraph-level bootstrap confidence intervals for VL-SAT and Open3DSG
+source metrics:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm bootstrap_ci'
+```
+
+This creates:
+
+- `bootstrap_ci/manifest.json`
+- `bootstrap_ci/summary.json`
+- `bootstrap_ci/summary.md`
+
+Expected completion line:
+
+```json
+{"out": "experiments/H001_geom_reliability/bootstrap_ci", "sources": ["open3dsg_ov", "vlsat_closed_set"], "status": "ready"}
+```
+
+## Qwen-VL Full-Source Crops
+
+Qwen-VL remains a third semantic source / modern VLM extension. Render and
+verify pair crops before any full-source Qwen inference:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) QWEN_VL_FULL_SOURCE_SHARD_ID=qwen_full_source_shard_0000 docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_source_crop_render'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) QWEN_VL_FULL_SOURCE_SHARD_ID=qwen_full_source_shard_0000 docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_source_crop_preflight'
+```
+
+The current shard smoke passed for `qwen_full_source_shard_0000`: 250 input
+rows, 84 unique pair crops, 84 verified crops, 0 errors.
+
+Launch the all-scope render as a background job:
+
+```bash
+mkdir -p logs
+ts=$(date +%Y%m%d_%H%M%S)
+tmux new-session -d -s h001_qwen_vl_full_crop_render "cd /home/yoohyun/research && bash -lc 'sg docker -c '\''env UID=$(id -u) GID=$(id -g) QWEN_VL_FULL_SOURCE_SHARD_ID=all docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_source_crop_render'\''; rc=\$?; printf \"%s\n\" \"\$rc\" > logs/qwen_vl_full_source_crop_render_all_${ts}.exit; exit \"\$rc\"' > logs/qwen_vl_full_source_crop_render_all_${ts}.log 2>&1"
+```
+
+After exit code 0, run all-scope preflight:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) QWEN_VL_FULL_SOURCE_SHARD_ID=all docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_source_crop_preflight'
+```
+
+Freeze the full-source Qwen inference runner and resume policy:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_source_inference_plan'
+```
+
+Dry-run the first shard without model load or inference:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) QWEN_VL_FULL_SOURCE_SHARD_ID=qwen_full_source_shard_0000 docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_full_source_infer_dry_run'
+```
+
+Current result: runner plan status `full_source_inference_runner_frozen_no_inference`;
+dry-run shard `qwen_full_source_shard_0000` has 250 rows, 84 unique pair crops,
+and 0 blockers. Actual inference uses `qwen_vl_full_source_infer_shard` and
+must run as a timestamped background job.
 
 ## Direct Docker Equivalent
 
@@ -386,4 +451,36 @@ These commands create or update:
 - `sources/qwen_vl/runtime_smoke/tiny_inference/predictions.jsonl` after tiny inference
 
 Qwen-VL runtime smoke is not paper metric evidence and does not replace the
-Open3DSG reproduction anchor.
+VL-SAT controlled anchor or Open3DSG reproduction anchor.
+
+## Qwen-VL Full-Source Promotion Plan
+
+Freeze the third-source promotion protocol before any full Qwen paper-metric
+run:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_source_plan'
+```
+
+This command creates or updates:
+
+- `sources/qwen_vl/full_source_plan/manifest.json`
+- `sources/qwen_vl/full_source_plan/protocol.json`
+- `sources/qwen_vl/full_source_plan/commands.md`
+- `sources/qwen_vl/full_source_plan/report.md`
+
+The next implementation command is not inference. Add and run a Docker
+`qwen_vl_full_source_input` builder first to audit the complete directed-pair /
+family input universe, crop coverage, missing-row policy, and shard list.
+
+Current full-source input audit command:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_source_input'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_contract_validator --repo-root /workspace --contract-dir /workspace/experiments/H001_geom_reliability/sources/qwen_vl --input-jsonl /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_source_input/input.jsonl --out /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_source_input/validation'
+```
+
+Current result: 77,748 universe query rows, 33,384 inferable input rows, 44,364
+missing rows, 134 shards, and 0 input contract errors. Full Qwen inference is
+still blocked until full-source crop rendering or render-on-demand shard
+preflight verifies image availability.

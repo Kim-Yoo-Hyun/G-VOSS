@@ -1,0 +1,29 @@
+run_id	shard_id	event	timestamp	exit_code
+20260527_023111	qwen_full_source_shard_0001	started	2026-05-27T02:31:11+09:00	
+20260527_023111	qwen_full_source_shard_0001	finished	2026-05-27T02:34:53+09:00	0
+20260527_023111	qwen_full_source_shard_0002	started	2026-05-27T02:34:53+09:00	
+20260527_023111	qwen_full_source_shard_0002	finished	2026-05-27T02:38:15+09:00	0
+20260527_023111	qwen_full_source_shard_0003	started	2026-05-27T02:38:15+09:00	
+20260527_023111	qwen_full_source_shard_0003	finished	2026-05-27T02:41:57+09:00	0
+20260527_023111	qwen_full_source_shard_0004	started	2026-05-27T02:41:57+09:00	
+20260527_023111	qwen_full_source_shard_0004	finished	2026-05-27T02:45:25+09:00	0
+20260527_023111	qwen_full_source_shard_0005	started	2026-05-27T02:45:25+09:00	
+20260527_023111	qwen_full_source_shard_0005	finished	2026-05-27T02:49:07+09:00	0
+20260527_023111	qwen_full_source_shard_0006	started	2026-05-27T02:49:07+09:00	
+20260527_023111	qwen_full_source_shard_0006	finished	2026-05-27T02:52:50+09:00	0
+20260527_023111	qwen_full_source_shard_0007	started	2026-05-27T02:52:50+09:00	
+20260527_023111	qwen_full_source_shard_0007	finished	2026-05-27T02:56:32+09:00	0
+20260527_023111	qwen_full_source_shard_0008	started	2026-05-27T02:56:32+09:00	
+20260527_023111	qwen_full_source_shard_0008	finished	2026-05-27T03:00:19+09:00	0
+20260527_023111	qwen_full_source_shard_0009	started	2026-05-27T03:00:19+09:00	
+20260527_023111	qwen_full_source_shard_0009	finished	2026-05-27T03:03:45+09:00	0
+20260527_023111	qwen_full_source_shard_0010	started	2026-05-27T03:03:45+09:00	
+20260527_023111	qwen_full_source_shard_0010	finished	2026-05-27T03:07:23+09:00	0
+20260527_023111	qwen_full_source_shard_0011	started	2026-05-27T03:07:23+09:00	
+20260527_023111	qwen_full_source_shard_0011	finished	2026-05-27T03:11:05+09:00	0
+20260527_023111	qwen_full_source_shard_0012	started	2026-05-27T03:11:05+09:00	
+20260527_023111	qwen_full_source_shard_0012	finished	2026-05-27T03:14:52+09:00	0
+20260527_023111	qwen_full_source_shard_0013	started	2026-05-27T03:14:52+09:00	
+20260527_023111	qwen_full_source_shard_0013	finished	2026-05-27T03:18:33+09:00	0
+20260527_023111	qwen_full_source_shard_0014	started	2026-05-27T03:18:33+09:00	
+20260527_023111	qwen_full_source_shard_0014	finished	2026-05-27T03:18:36+09:00	1

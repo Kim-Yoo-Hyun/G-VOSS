@@ -37,7 +37,7 @@ Current paper handoff:
 - `paper/progress.md` records why each hypothesis/experiment stage was run, why the next stage was needed, and how the key results should be interpreted.
 - `paper/outline.md` provides the English/Korean paper skeleton, recommended title, title alternatives, three contribution statements, abstract skeleton, section-level evidence placement, Open3DSG caveat placement, reviewer-defense plan, and table/figure plan. Cross-source results and failure analysis are treated as empirical validation, not a separate fourth contribution.
 - `paper/draft.md` provides first-pass manuscript prose for Title, Abstract, Introduction, Related Work, Problem Formulation, Method, Experimental Setup, Results/Discussion, Limitations, and Conclusion. It has passed claim-scope/evidence-link review and now uses BibTeX-style citation keys in Related Work.
-- `paper/aaai/` is the current target-venue LaTeX source. It uses AAAI-26 style files until the exact target-year AAAI kit is fixed, splits the draft into `main.tex` plus `sec/*.tex`, points bibliography to `paper/references.bib`, and includes the AAAI reproducibility checklist after references. Docker PDF build is verified with `h001-aaai-tex:20260526`.
+- `paper/aaai/` is the current target-venue LaTeX source. It now uses the official AAAI-26 Author Kit style files checked on 2026-05-27 KST, splits the draft into `main.tex` plus `sec/*.tex`, points bibliography to `paper/references.bib`, and includes the AAAI reproducibility checklist after references. Docker PDF build is verified with `h001-aaai-tex:20260526`.
 - `paper/iccv/` remains a historical/alternate ICCV-style source route.
 - `paper/figures.md` locks Figure 1-3 source claims, exact values, case IDs, artifacts, and caption constraints; draft SVGs are generated, verified, and layout-reviewed under `paper/generated/figures/`.
 
@@ -48,10 +48,11 @@ Facts:
 - H001 already has a concrete failure target: geometry-checkable relation families such as `support_contact`, `proximity`, and `relative_vertical`.
 - Hypothesis-stage `VL-SAT` evidence includes semantic-only vs calibrated geometry variants, family-specific controls, evidence lock, GT-based verifier evaluation, and a reduced visual sanity check.
 - The Open3DSG path is now second-source evidence: Docker checkpoint reproduction, raw-dump identity, adapter export, geometry join, metric eval, Table 6, real failure rows, qualitative case queue, and deterministic qualitative inspection are ready.
+- Docker subgraph bootstrap CI is ready under `experiments/H001_geom_reliability/bootstrap_ci/`; it is used as evaluation-context uncertainty, not repeated-training variance.
 - Open3DSG qualitative inspection shows both support and limits: 23/36 sampled cases are demoted by geometry-aware reranking, while 10/36 are rule-violated but still have `p_geom_valid > 0.9`. This must be framed as residual calibration risk, not hidden.
 - Open3DSG has clean raw-dump source-process provenance via v14 streaming same-path resume. It remains caveated by filtered train split, averaged-BLIP variant, covered loadable scope, and `validation_missing_preprocessed:11`; earlier exit-137 attempts are historical run records, not final raw-dump provenance caveats.
 - Open3DSG paper caveat wording is frozen in `experiments/H001_geom_reliability/sources/open3dsg/paper_caveats/`: filtered train 3,744/3,852 subgraphs, train-dev validation 156/160 subgraphs, H001 covered loadable scope 377/388 contexts, averaged-BLIP variant, exact-label 2,545-row denominator, and residual calibration risk.
-- Qwen-VL is currently an optional modern semantic-source extension, not the main baseline replacement.
+- Qwen-VL is currently a third semantic source / modern VLM extension, not a VL-SAT or Open3DSG replacement.
 - The 2026-05-23 RelWitness full-PDF skim identified a stronger direct novelty threat: RelWitness uses visual-geometric relation witnesses, calibrated witness quality, witness-guided positive-unlabeled learning, and witness-consistent decoding. Its v2 numerical tables are simulated planning values, so it should sharpen H001 wording rather than replace H001's reproduced evidence.
 
 Inference:
@@ -86,7 +87,7 @@ Required defense:
 - Keep denominator and filtered-split caveats visible in every table using Open3DSG.
 - Use Open3DSG as the main open-vocabulary case study before considering any broad claims.
 - Report residual calibration-risk cases separately from rule-verified results.
-- Treat Qwen-VL as optional semantic-source extension unless it receives the same Docker, metric, and audit treatment.
+- Treat Qwen-VL as a third semantic-source extension unless it receives the same Docker, metric, and audit treatment.
 - Treat RelWitness-style "relation witness" and "calibrated witness quality" wording as prior-art-adjacent. H001 should claim reproduced calibrated reliability evaluation/re-ranking, source-adapter protocol, recall/violation operating points, and controls, not the mere existence of visual-geometric evidence or calibration.
 
 ## Main Paper Evidence Checklist
@@ -127,15 +128,16 @@ Do not claim these until evidence exists:
 - `paper/draft.md` Title/Abstract/Introduction quick review is complete; front matter is about 701 words excluding title, with a 201-word abstract and 500-word Introduction before final compression.
 - Paper-body gap review patch is complete: Figure 1-3 callouts, Table 4 audit/sanity prose, and Conclusion are now in `paper/draft.md`.
 - Paper-body budget review is complete: Title-through-Conclusion prose is about 3,507 words. The current AAAI manuscript uses three main tables: fixed scope/denominator, source-specific claim boundary, and Open3DSG-first source results with `VL-SAT` as controlled anchor. Controls, GT verifier, audit, and detailed family rows stay as prose-backed evidence unless an appendix is added.
-- AAAI-style source conversion is complete under `paper/aaai/` using the latest public AAAI-26 route. Replace the style files when the exact target-year official AAAI kit is fixed.
+- AAAI-style source conversion is complete under `paper/aaai/` using the official AAAI-26 Author Kit. The 2026-05-27 check confirms `aaai2026.sty` was replaced from `AuthorKit26/AnonymousSubmission/LaTeX/aaai2026.sty`, `aaai2026.bst` already matched the official kit, and no official AAAI-27 author kit was confirmed.
 - The `paper/aaai/` manuscript-content pass is complete: it includes fixed scope/denominator accounting, a source-specific claim-boundary table, an Open3DSG-first main source-results table, prose controls/verifier/audit evidence, explicit Open3DSG caveat captioning, and limitation wording.
 - Figure 1-3 PNG build assets are ready and `paper/aaai/sec/6_results.tex` points to them. Figure 2 and Figure 3 are single-column in the AAAI source to keep technical content before references.
-- Docker build verification is complete: `paper/aaai/main.pdf` builds with `h001-aaai-tex:20260526`, BibTeX uses 19 entries, and there are no missing citations, undefined refs, overfull hboxes, or AAAI package errors.
+- Docker build verification is complete: `paper/aaai/main.pdf` builds with `h001-aaai-tex:20260526`, BibTeX uses 19 entries, and there are no missing citations, undefined refs, overfull hboxes, or AAAI package errors. Latest official-kit rebuild log: `logs/h001_aaai_pdf_build_official_kit_20260527_024752.log`.
 - AAAI reproducibility checklist insertion is complete: `paper/aaai/sec/9_reproducibility_checklist.tex` is included after references. Docker rebuild `logs/h001_aaai_pdf_build_20260526_102601.log` exits 0; the PDF has 9 total pages, technical content on pages 1-7, references on page 8, checklist on page 9, and no missing citations, undefined refs, overfull hboxes, LaTeX errors, or AAAI package errors.
+- AAAI reviewer-defense main-text pass is complete: Introduction, Method, Experimental Setup, Results, and Limitations now directly answer the high-risk attacks: hand-coded verifier, geometry-only/distance heuristic, recall-for-violation tradeoff, averaged-BLIP Open3DSG caveat, family selection, AAAI relevance, and small-delta uncertainty. Docker rebuild `logs/h001_aaai_pdf_build_20260526_182458.log` exits 0 with the same 7-page technical-content layout.
 - Draft bibliography scaffold is complete in `paper/references.bib`; citation keys used by `paper/aaai/sec/*.tex` match the bibliography entries.
 - Use `paper/generated/figures/figure3_geometry_panels.svg` as the preferred Figure 3 draft; keep `figure3_failure_cases.svg` as the traceable row-card fallback. A rendered scene-crop upgrade is optional only if a deterministic crop/render path is added.
 - Keep Open3DSG caveats explicit in manuscript Table 3 and experiment artifact Table 6; later compression must retain averaged-BLIP, filtered-train/dev, covered loadable scope, exact-label denominator, `validation_missing_preprocessed:11`, and residual calibration-risk caveats.
 - Use the frozen Open3DSG caveat wording in the source-results table and failure-analysis text.
 - Keep clean v14 streaming source-process provenance separate from historical exit-137 run records in reproducibility wording.
-- Keep Qwen-VL as optional extension evidence unless it receives the same Docker, metric, and audit treatment.
+- Keep Qwen-VL as third-source extension evidence unless it receives the same Docker, metric, and audit treatment. Current Qwen promotion status is protocol-frozen but non-metric: tiny runtime smoke passed, full-source plan frozen, and no full prediction/geometry/metric/audit path yet.
 - RelWitness full-PDF skim is complete for v2. Before submission, check whether a newer RelWitness version adds reproduced results, code, arbitrary-source adapters, `Violation@K`, or wrong-pair/shuffled-geometry controls.

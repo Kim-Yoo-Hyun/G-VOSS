@@ -1,7 +1,5 @@
 {
-  "blockers": [
-    "gpu_busy_or_unavailable:memory_used_mb=22449,utilization=59"
-  ],
+  "blockers": [],
   "cache": {
     "errors": [],
     "exists": true,
@@ -18,15 +16,15 @@
     "total_gb": 8.277,
     "weight_file_count": 3
   },
-  "created_at": "2026-05-11T23:32:13.423557+00:00",
+  "created_at": "2026-05-26T15:22:04.096218+00:00",
   "gpu": {
     "available": true,
     "memory_total_mb": 32607,
-    "memory_used_mb": 22449,
+    "memory_used_mb": 4372,
     "name": "NVIDIA GeForce RTX 5090",
     "returncode": 0,
-    "timestamp": "2026/05/11 23:32:13.416",
-    "utilization_gpu_percent": 59
+    "timestamp": "2026/05/26 15:21:54.293",
+    "utilization_gpu_percent": 24
   },
   "mode": "preflight",
   "model": {
@@ -66,8 +64,12 @@
     "replacement_for_open3dsg_anchor": false
   },
   "runtime": {
-    "model_loaded": false
+    "model_class": "Qwen3VLForConditionalGeneration",
+    "model_loaded": true,
+    "model_loader_class": "AutoModelForImageTextToText",
+    "processor_class": "Qwen3VLProcessor",
+    "torch_cuda_available": true
   },
   "schema_version": "h001_qwen_vl_runtime_smoke_v1",
-  "status": "blocked_runtime_preflight"
+  "status": "runtime_preflight_passed"
 }

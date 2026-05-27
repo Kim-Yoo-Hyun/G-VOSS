@@ -24,7 +24,10 @@ multimodal semantics, and geometric fusion
 The gap is more specific: semantic relation confidence is not necessarily a
 calibrated estimate of relation-level physical consistency. A high relation
 score can behave as a semantic plausibility score without indicating whether
-the same subject-object pair satisfies the relation in 3D.
+the same subject-object pair satisfies the relation in 3D. This makes the
+problem an AI reliability issue, not only a 3DSSG implementation detail:
+language-facing and embodied systems can inherit a confident symbolic relation
+that contradicts the underlying world state.
 
 This motivates a \method{} framework. The framework treats an existing
 predictor as a relation source, standardizes its outputs into
@@ -38,10 +41,13 @@ operating point. Figure~\ref{fig:framework} summarizes this path.
 
 We evaluate the framework on geometry-checkable relation families:
 \texttt{support\_contact}, \texttt{proximity}, and
-\texttt{relative\_vertical}. Open3DSG is the main open-vocabulary relation
-source case study, and VL-SAT is a controlled reproduced closed-set anchor
-within the same H001-family scope \cite{wang2023vlsat,koch2024open3dsg}.
-Controls test
+\texttt{relative\_vertical}. These families are selected because their
+validity can be tested from reconstructed object-pair geometry, they cover
+contact, metric proximity, and vertical ordering, and they appear in both
+relation sources with a fixed exact-label denominator. Open3DSG is the main
+open-vocabulary relation source case study, and VL-SAT is a controlled
+reproduced closed-set anchor within the same H001-family scope
+\cite{wang2023vlsat,koch2024open3dsg}. Controls test
 whether the effect can be explained by geometry-only ranking, a generic
 distance heuristic, shuffled geometry, or wrong-pair geometry. GT-positive and
 counterfactual checks test the geometry-validity signal independently from

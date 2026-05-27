@@ -14,6 +14,26 @@ services:
       - --out
       - /workspace/experiments/H001_geom_reliability
 
+  bootstrap_ci:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/experiments/H001_geom_reliability/scripts/bootstrap_metrics.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/bootstrap_ci
+      - --n-bootstrap
+      - "1000"
+
   open3dsg_plan:
     build:
       context: ../..
@@ -562,3 +582,115 @@ services:
       - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/crops
       - --crop-root
       - /workspace/local_dataset/qwen_vl_crops/tiny_pilot
+
+  qwen_vl_full_source_plan:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/plan_qwen_vl_full_source.py
+    command:
+      - --repo-root
+      - /workspace
+      - --qwen-root
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl
+      - --open3dsg-root
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_source_plan
+
+  qwen_vl_full_source_input:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/build_qwen_vl_full_source_input.py
+    command:
+      - --repo-root
+      - /workspace
+      - --contract-dir
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_source_input
+      - --views-dir
+      - /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/views
+      - --shard-size
+      - "250"
+
+  qwen_vl_full_source_crop_render:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/render_qwen_vl_full_source_crops.py
+    command:
+      - --repo-root
+      - /workspace
+      - --mode
+      - render
+      - --shard-id
+      - ${QWEN_VL_FULL_SOURCE_SHARD_ID:-all}
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_source_crops
+      - --views-dir
+      - /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/views
+
+  qwen_vl_full_source_crop_preflight:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/render_qwen_vl_full_source_crops.py
+    command:
+      - --repo-root
+      - /workspace
+      - --mode
+      - preflight
+      - --shard-id
+      - ${QWEN_VL_FULL_SOURCE_SHARD_ID:-all}
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_source_crops
+      - --views-dir
+      - /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/views
+
+  qwen_vl_full_source_inference_plan:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/plan_qwen_vl_full_source_inference.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_source_inference_plan

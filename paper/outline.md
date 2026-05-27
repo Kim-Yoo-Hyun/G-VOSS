@@ -39,7 +39,7 @@ Claim boundary:
 
 - `VL-SAT` supports the primary closed-set relation-reliability result.
 - Open3DSG supports second-source evidence within the measured H001 families.
-- Qwen-VL remains optional extension evidence unless it receives full Docker metric and audit treatment.
+- Qwen-VL remains third-source modern VLM extension evidence unless it receives full Docker metric, bootstrap, and audit treatment.
 
 ## Title Candidates
 
@@ -778,7 +778,7 @@ claim boundary:
 
 - `VL-SAT`는 primary closed-set relation-reliability 결과를 뒷받침한다.
 - Open3DSG는 측정된 H001 family 내부에서 second-source evidence를 제공한다.
-- Qwen-VL은 full Docker metric과 audit treatment를 받기 전까지 optional extension evidence로만 둔다.
+- Qwen-VL은 full Docker metric, bootstrap, audit treatment를 받기 전까지 third-source modern VLM extension evidence로만 둔다.
 
 ### Title Candidates
 
@@ -1190,7 +1190,7 @@ Reviewer-defense role:
 AAAI Table 2 caption draft:
 
 ```text
-Source-specific claim boundary for H001. Open3DSG is the main open-vocabulary relation-source case study, VL-SAT is a controlled reproduced anchor, and FROSS/Qwen-VL remain optional or blocked extensions unless promoted with the same denominator, Docker, metric, and audit treatment. Broad open-vocabulary 3DSSG improvement is not claimed from the current evidence.
+Source-specific claim boundary for H001. Open3DSG is the main open-vocabulary relation-source case study, VL-SAT is a controlled reproduced anchor, and Qwen-VL remains a third semantic source / modern VLM extension unless promoted with the same denominator, Docker, metric, bootstrap, and audit treatment. FROSS remains blocked as a full-family source. Broad open-vocabulary 3DSSG improvement is not claimed from the current evidence.
 ```
 
 Reviewer-defense role:
@@ -1285,7 +1285,7 @@ Do not drift into these claims:
 - H001 improves broad open-vocabulary 3D Scene Graph generation.
 - H001 is a baseline-agnostic relation predictor.
 - The method is just a verifier script.
-- Qwen-VL is part of the main metric evidence.
+- Qwen-VL is part of the main metric evidence before full-source promotion.
 - Open3DSG is reproduced as an exact non-averaged BLIP official route.
 - Reduced visual sanity checks are large-scale blinded human audits.
 
@@ -1293,11 +1293,11 @@ Korean review note:
 
 - 현재 abstract, Introduction, table caption, figure caption은 모두 scoped relation-reliability claim과 일치한다.
 - AAAI Table 3는 caveat을 숨기지 않는 점이 중요하다. 지금은 압축보다 필수 content와 limitation을 모두 확보하는 것이 우선이다.
-- Qwen-VL은 계속 optional modern-VLM extension이며, 본문 main evidence로 승격하지 않는다.
+- Qwen-VL은 third semantic source / modern VLM extension으로만 두며, full-source Docker metric, bootstrap, audit가 끝나기 전에는 본문 main evidence로 승격하지 않는다.
 
 ## Paper Content Coverage Checklist
 
-Status: `content_blocks_secured_draft_figures_layout_reviewed_aaai_checklist_inserted`
+Status: `content_blocks_secured_draft_figures_layout_reviewed_aaai_defense_passed`
 
 Purpose:
 
@@ -1330,6 +1330,7 @@ Content blocks secured in this outline pass:
 | Reviewer-attack response text | secured | Convert control, Open3DSG, and failure-analysis skeletons into Results/Discussion prose. |
 | Optional Qwen-VL decision | scoped | Keep as appendix/future-work only unless promoted with full Docker metric/audit treatment. |
 | AAAI reproducibility checklist | inserted | Revisit `partial/no` answers after final artifact/code-release packaging. |
+| AAAI reviewer-defense pass | secured | Main text directly answers hand-coded verifier, geometry-only/distance, recall-tradeoff, averaged-BLIP Open3DSG, family-selection, and AAAI-relevance attacks. |
 
 Priority:
 

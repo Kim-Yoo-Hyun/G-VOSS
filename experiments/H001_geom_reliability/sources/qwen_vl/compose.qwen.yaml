@@ -85,3 +85,41 @@ services:
       - --limit
       - ${QWEN_VL_TINY_INFERENCE_LIMIT:-3}
       - --fail-if-gpu-busy
+
+  qwen_vl_full_source_infer_dry_run:
+    <<: *qwen_vl_base
+    entrypoint:
+      - python
+      - /opt/h001/scripts/run_qwen_vl_full_source_inference.py
+    command:
+      - --mode
+      - dry_run
+      - --repo-root
+      - /workspace
+      - --shard-id
+      - ${QWEN_VL_FULL_SOURCE_SHARD_ID:-qwen_full_source_shard_0000}
+      - --out-root
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime
+
+  qwen_vl_full_source_infer_shard:
+    <<: *qwen_vl_base
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    entrypoint:
+      - python
+      - /opt/h001/scripts/run_qwen_vl_full_source_inference.py
+    command:
+      - --mode
+      - infer_shard
+      - --repo-root
+      - /workspace
+      - --shard-id
+      - ${QWEN_VL_FULL_SOURCE_SHARD_ID:-qwen_full_source_shard_0000}
+      - --out-root
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime
+      - --fail-if-gpu-busy

@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-05-19T04:01:41.900025+00:00",
+  "created_at_utc": "2026-05-26T17:35:24.572336+00:00",
   "expected_counts": {
     "directed_pairs": 25916,
     "ground_truth_rows": 7505,

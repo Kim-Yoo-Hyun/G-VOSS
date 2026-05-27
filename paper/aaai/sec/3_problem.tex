@@ -41,6 +41,10 @@ The main recall metric is exact predicate-label \rAt{K} over the fixed in-scope
 ground-truth denominator. Family grouping defines the geometry-checkable
 reliability scope and violation analysis; it does not relax predicate-label
 matching. \vAt{K} is the fraction of top-$K$ in-scope predicted rows whose
-joined geometry is judged violated. We report recall retention and violation
-reduction together so that violation reduction cannot be interpreted without
-its recall tradeoff.
+joined geometry is judged violated. Top-$K$ is formed per evaluated
+subgraph/source ranking after the H001 family filter; satisfied, uncertain, and
+violated rows form the violation denominator, while unsupported or missing-join
+rows are excluded from that denominator and reported through coverage caveats.
+Only rows with verification status \texttt{violated} count as violations. We
+report recall retention and violation reduction together so that violation
+reduction cannot be interpreted without its recall tradeoff.

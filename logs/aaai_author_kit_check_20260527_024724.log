@@ -1,0 +1,47 @@
+checked_at=2026-05-27T02:47:24+09:00
+source=https://aaai.org/authorkit26-1/
+d2844ec68a4a9396d749fcca5b5784809617b670863e8d4fecbfb00e444fc3af  /tmp/h001_aaai_author_kit_20260527_024724/AuthorKit26-1.zip
+Archive:  /tmp/h001_aaai_author_kit_20260527_024724/AuthorKit26-1.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+        0  2025-07-17 21:39   AuthorKit26/
+        0  2025-07-18 13:15   AuthorKit26/ReproducibilityChecklist/
+        0  2025-07-18 12:41   AuthorKit26/ReproducibilityChecklist/Word/
+   178076  2025-07-18 12:39   AuthorKit26/ReproducibilityChecklist/Word/ReproducibilityChecklist.pdf
+    26940  2025-07-18 12:39   AuthorKit26/ReproducibilityChecklist/Word/ReproducibilityChecklist.docx
+        0  2025-07-18 13:15   AuthorKit26/ReproducibilityChecklist/LaTeX/
+     8809  2025-07-18 12:36   AuthorKit26/ReproducibilityChecklist/LaTeX/ReproducibilityChecklist.tex
+    56884  2025-07-18 13:15   AuthorKit26/ReproducibilityChecklist/LaTeX/ReproducibilityChecklist.pdf
+    11958  2025-07-18 12:50   AuthorKit26/ReproducibilityChecklist/LaTeX/aaai2026.sty
+        0  2025-07-18 13:15   AuthorKit26/AnonymousSubmission/
+        0  2025-07-18 13:12   AuthorKit26/AnonymousSubmission/Word/
+    76656  2025-07-18 13:11   AuthorKit26/AnonymousSubmission/Word/anonymous-submission-word-2026.docx
+   364684  2025-07-18 13:11   AuthorKit26/AnonymousSubmission/Word/anonymous-submission-word-2026.pdf
+        0  2025-07-18 13:15   AuthorKit26/AnonymousSubmission/LaTeX/
+    30207  2025-04-29 17:46   AuthorKit26/AnonymousSubmission/LaTeX/aaai2026.bst
+  1099641  2023-06-27 04:44   AuthorKit26/AnonymousSubmission/LaTeX/figure2.pdf
+  1497386  2025-07-18 13:15   AuthorKit26/AnonymousSubmission/LaTeX/anonymous-submission-latex-2026.pdf
+     4766  2023-06-27 04:01   AuthorKit26/AnonymousSubmission/LaTeX/aaai2026.bib
+    56516  2025-07-18 13:01   AuthorKit26/AnonymousSubmission/LaTeX/anonymous-submission-latex-2026.tex
+   252557  2023-06-27 04:44   AuthorKit26/AnonymousSubmission/LaTeX/figure1.pdf
+    11958  2025-07-18 12:34   AuthorKit26/AnonymousSubmission/LaTeX/aaai2026.sty
+        0  2025-07-18 13:15   AuthorKit26/CameraReady/
+        0  2025-04-30 01:50   AuthorKit26/CameraReady/Word/
+   139319  2024-05-09 18:58   AuthorKit26/CameraReady/Word/Example of Multiple Author Layout - Word.pdf
+   374153  2025-04-30 01:50   AuthorKit26/CameraReady/Word/formatting-instructions-word-2026.pdf
+    78713  2025-04-30 01:50   AuthorKit26/CameraReady/Word/formatting-instructions-word-2026.docx
+    19792  2024-05-09 18:58   AuthorKit26/CameraReady/Word/Example of Multiple Author Layout - Word.docx
+        0  2025-07-18 13:15   AuthorKit26/CameraReady/LaTeX/
+    30207  2025-04-29 17:54   AuthorKit26/CameraReady/LaTeX/aaai2026.bst
+  1099641  2023-06-27 04:44   AuthorKit26/CameraReady/LaTeX/figure2.pdf
+    54568  2025-04-29 19:43   AuthorKit26/CameraReady/LaTeX/Formatting-Instructions-LaTeX-2026.tex
+     4766  2023-06-27 04:14   AuthorKit26/CameraReady/LaTeX/aaai2026.bib
+  1498148  2025-07-18 13:15   AuthorKit26/CameraReady/LaTeX/Formatting-Instructions-LaTeX-2026.pdf
+   252557  2023-06-27 04:44   AuthorKit26/CameraReady/LaTeX/figure1.pdf
+    11958  2025-07-18 12:50   AuthorKit26/CameraReady/LaTeX/aaai2026.sty
+        0  2024-05-08 18:40   AuthorKit26/Copyright/
+    83738  2024-04-04 22:23   AuthorKit26/Copyright/video-distribution.pdf
+   112169  2024-04-04 22:23   AuthorKit26/Copyright/photo-release.pdf
+    85388  2024-03-27 21:55   AuthorKit26/Copyright/copyrightform.pdf
+---------                     -------
+  7522155                     39 files

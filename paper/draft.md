@@ -197,8 +197,9 @@ method. We use VL-SAT as the primary reproduced relation source and Open3DSG as
 second-source evidence within measured geometry-checkable relation families.
 The claim is scoped to relation reliability for `support_contact`, `proximity`,
 and `relative_vertical`, not to general open-vocabulary graph generation.
-Qwen-VL remains an optional modern semantic-source extension unless it receives
-the same Docker, denominator, metric, and audit treatment as the main evidence.
+Qwen-VL remains a third semantic source / modern VLM extension unless it
+receives the same Docker, denominator, metric, bootstrap, and audit treatment
+as the main evidence.
 
 ### 2.3 Geometry-Aware Relation Reasoning And Semantic-Geometric Fusion
 
@@ -595,7 +596,7 @@ Review result:
 | Paper-body gap review | patched | Added Figure 1-3 callouts, Table 4 audit/sanity prose, and a Conclusion section before LaTeX/template conversion. |
 | Method framing | pass | The method is described as a calibrated geometry-consistency evaluation and re-ranking framework, not as a standalone verifier script. |
 | Open3DSG caveats | pass | The averaged-BLIP variant, filtered train/dev split, covered loadable scope, `validation_missing_preprocessed:11`, exact-label denominator, and residual calibration risk remain explicit. |
-| Qwen-VL boundary | pass | Qwen-VL remains optional extension evidence and is not used as a main metric result. |
+| Qwen-VL boundary | pass | Qwen-VL remains third-source extension evidence and is not used as a main metric result before full-source promotion. |
 | Citation keys | scaffolded | Related Work placeholders have been replaced with BibTeX-style keys; `paper/references.bib` contains draft entries for all inserted keys. Final ICCV-style build still needs verification once a manuscript source exists. |
 | Evidence links | patched | Results prose now points to Table 1, Table 2, Table 3, Table 5, and Table 6. |
 | Figure readiness | generated and verified | Draft SVGs are generated under `paper/generated/figures/`; Figure 3 also has a geometry-backed point-cloud panel upgrade with validation passed. |

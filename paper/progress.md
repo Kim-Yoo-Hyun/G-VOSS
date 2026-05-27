@@ -294,14 +294,20 @@ Why we moved on:
 
 Why it exists:
 
-- Qwen-VL is a modern VLM semantic-source extension and helps align the project
-  with recent VLM/open-vocabulary trends.
+- Qwen-VL is a third semantic source / modern VLM extension and helps align the
+  project with recent VLM/open-vocabulary trends without replacing VL-SAT or
+  Open3DSG.
 
 Current status:
 
 - Input schema, output JSONL contract, parser, tiny pilot scope, pair crops,
-  model-lock plan, and Qwen3-VL-4B cache are ready.
-- Runtime preflight and tiny inference smoke have not been promoted to metrics.
+  model-lock plan, Qwen3-VL-4B cache, runtime preflight, 3-row tiny inference
+  smoke, runtime raw-response validation, full-source promotion plan, and
+  full-source input audit are ready.
+- The frozen promotion scope is 127 scans, 388 contexts, 25,916 directed pairs,
+  77,748 all-pairs x family query rows, 33,384 inferable input rows, 44,364
+  missing rows, 134 shards, and 2,545 in-scope GT rows.
+- Tiny runtime smoke has not been promoted to metrics.
 
 Why not main evidence:
 
@@ -350,6 +356,10 @@ BibTeX uses 19 entries, and there are no missing citations, undefined refs,
 overfull hboxes, LaTeX errors, or AAAI package errors.
 Open3DSG-first table ordering is preserved: the manuscript treats Open3DSG as
 the main open-vocabulary case study and VL-SAT as the controlled anchor.
+The latest reviewer-defense pass adds explicit main-text answers to the
+hand-coded-verifier, simple-geometry/distance, recall-tradeoff, Open3DSG
+reproduction-caveat, family-selection, and AAAI-relevance attacks without
+moving technical content beyond page 7.
 Paper-result
 experiments should remain Docker
 reproducible, and optional Qwen/FROSS/functional extensions should not change

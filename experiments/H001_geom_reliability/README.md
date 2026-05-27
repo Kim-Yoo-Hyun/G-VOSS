@@ -1,19 +1,20 @@
 # H001 Geometry Reliability Experiment
 
-Last updated: 2026-05-19
+Last updated: 2026-05-27
 
 This is the first paper-body experiment workflow for H001. It is Docker-based by rule.
 
 ## Scope
 
-Current executable source:
+Current executable sources:
 
 - `VL-SAT` / `vlsat_closed_set`
+- `Open3DSG` / `open3dsg_ov`
 
 Selected top-tier expansion:
 
-- Open3DSG second-source adapter result after Dockerized checkpoint reproduction; checkpoint plan, `training_repro` metadata/split staging, full payload staging, train/validation views, explicit train/validation preprocess filtering, official BLIP TopK5/scales3 feature dump, Docker feature audit, avg-BLIP checkpoint reproduction, checkpoint selection, eval preflight, H001 held-out eval feature-cache generation, raw-dump identity checklist, adapter export, geometry join, metric eval, predicate-family/denominator metric-scope policy, pre-metric failure-analysis schema, synthetic failure row-generator smoke, real failure-analysis rows, qualitative case inspection, paper caveat wording, and Table 6 hook are ready.
-- Qwen-VL modern semantic-source extension contract is ready under `sources/qwen_vl/`; recommended small model ladder is Qwen3-VL-4B first, Qwen2.5-VL-3B stable fallback, and Qwen3-VL-2B parser-smoke candidate. Frozen input JSON Schema, output JSONL contract, contract-only validator/parser skeleton, non-held-out tiny pilot scope, runtime model-lock plan, and tiny-pilot pair-crop rendering path are recorded. The locked Qwen3-VL-4B model-cache download completed and cache verification is ready; runtime preflight has not been rerun after Open3DSG jobs completed, so tiny inference smoke has not started. This is not a replacement for Open3DSG reproduction evidence.
+- Open3DSG second-source adapter result after Dockerized checkpoint reproduction; checkpoint plan, `training_repro` metadata/split staging, full payload staging, train/validation views, explicit train/validation preprocess filtering, official BLIP TopK5/scales3 feature dump, Docker feature audit, avg-BLIP checkpoint reproduction, checkpoint selection, eval preflight, H001 held-out eval feature-cache generation, raw-dump identity checklist, adapter export, geometry join, metric eval, predicate-family/denominator metric-scope policy, pre-metric failure-analysis schema, synthetic failure row-generator smoke, real failure-analysis rows, qualitative case inspection, paper caveat wording, Table 6 hook, and subgraph bootstrap CI are ready.
+- Qwen-VL third semantic source / modern VLM extension contract is ready under `sources/qwen_vl/`; recommended small model ladder is Qwen3-VL-4B first, Qwen2.5-VL-3B stable fallback, and Qwen3-VL-2B parser-smoke candidate. Frozen input JSON Schema, output JSONL contract, contract-only validator/parser skeleton, non-held-out tiny pilot scope, runtime model-lock plan, tiny-pilot pair-crop rendering path, model-cache verification, runtime preflight, 3-row tiny inference smoke, runtime raw-response validation, full-source promotion plan, full-source input audit, full-source crop preflight, and full-source inference runner plan are recorded. Current full-source input audit has 77,748 universe rows, 33,384 inferable input rows, 44,364 missing rows, and 134 shards. All-scope crop preflight passed for 33,384 input rows / 11,128 unique pair crops / 0 errors. Runner plan freezes 134 shard commands/resume policy, and shard 0000 dry-run passed for 250 rows / 84 unique pair crops / 0 blockers. This is not a replacement for VL-SAT or Open3DSG evidence, and no full Qwen paper-metric inference has run.
 
 Current method framing:
 
@@ -24,6 +25,7 @@ calibrated geometry-consistency evaluation and re-ranking framework
 ## What This Stage Does
 
 This stage reads locked hypothesis artifacts, validates fixed counts, records input hashes/row counts, generates paper-facing tables/report files, records the Dockerized Open3DSG checkpoint reproduction plan, stages the Open3DSG `training_repro` metadata/split root, and tracks the Dockerized Open3DSG second-source reproduction pipeline. Open3DSG paper-facing metric promotion is now enabled only within measured H001 families and closed-set/GT-object scope.
+It also computes Dockerized subgraph bootstrap confidence intervals for the same VL-SAT and Open3DSG metric rows.
 
 Generated outputs:
 
@@ -86,6 +88,9 @@ Generated outputs:
 - `sources/open3dsg/training_repro/report.md`
 - `sources/open3dsg/status.json`
 - `sources/open3dsg/table6_hook.json`
+- `bootstrap_ci/manifest.json`
+- `bootstrap_ci/summary.json`
+- `bootstrap_ci/summary.md`
 - `sources/qwen_vl/adapter_contract.json`
 - `sources/qwen_vl/input_schema.json`
 - `sources/qwen_vl/input_schema_example.json`
@@ -104,6 +109,16 @@ Generated outputs:
 - `sources/qwen_vl/crops/records.jsonl`
 - `sources/qwen_vl/crops/manifest.json`
 - `sources/qwen_vl/crops/report.md`
+- `sources/qwen_vl/full_source_input/manifest.json`
+- `sources/qwen_vl/full_source_input/report.md`
+- `sources/qwen_vl/full_source_crops/shards/qwen_full_source_shard_0000/manifest.json`
+- `sources/qwen_vl/full_source_crops/shards/qwen_full_source_shard_0000/report.md`
+- `sources/qwen_vl/full_source_crops/all/manifest.json`
+- `sources/qwen_vl/full_source_crops/all/report.md`
+- `sources/qwen_vl/full_source_inference_plan/manifest.json`
+- `sources/qwen_vl/full_source_inference_plan/runner_contract.json`
+- `sources/qwen_vl/full_source_inference_plan/shards.jsonl`
+- `sources/qwen_vl/full_source_runtime/dry_runs/qwen_full_source_shard_0000.json`
 - `manifest.lock.json`
 - `report.md`
 

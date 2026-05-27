@@ -195,9 +195,9 @@ Recommended paper narrative:
 
 Qwen-VL:
 
-- Current status: contract, parser skeleton, 30-row non-held-out tiny pilot, pair crops, model-lock plan, and Qwen3-VL-4B cache are ready.
-- Runtime preflight and tiny inference smoke have not been run after Open3DSG jobs completed.
-- It should stay optional unless full prediction JSONL, geometry join, denominator, metrics, and audit treatment are added.
+- Current status: third semantic source / modern VLM extension. Contract, parser skeleton, 30-row non-held-out tiny pilot, pair crops, model-lock plan, Qwen3-VL-4B cache, runtime preflight, 3-row tiny inference smoke, raw-response validation, full-source promotion plan, and full-source input audit are ready.
+- Frozen promotion scope: 127 scans, 388 contexts, 25,916 directed pairs, 77,748 all-pairs x family query rows, 33,384 inferable input rows, 44,364 missing rows, 134 shards, and 2,545 in-scope GT rows.
+- It should stay non-metric unless full prediction JSONL, geometry join, denominator, metrics, bootstrap, and audit treatment are added.
 
 FROSS:
 
@@ -311,5 +311,6 @@ Recommended next action:
 1. Use `paper/draft.md` as the active reviewed first-pass manuscript prose, `paper/aaai/` as the current AAAI-style LaTeX source, and `paper/generated/figures/` as the active draft figure output.
 2. Treat the claim-consistency review in `paper/outline.md` as the current paper guardrail: title, contributions, abstract, Introduction, table captions, and figure captions must stay within the scoped relation-reliability claim.
 3. Treat the AAAI reproducibility checklist as inserted after references: latest Docker build gives 9 total pages, technical content pages 1-7, references page 8, checklist page 9, and no blocking build warnings.
-4. Keep Open3DSG caveats explicit during any further polish; caption compression must not hide averaged-BLIP, filtered split, covered scope, exact-label denominator, or residual calibration risk.
-5. Keep Qwen-VL runtime smoke as optional extension only, unless it receives the same Docker, metric, denominator, and audit treatment as paper evidence.
+4. Treat the first AAAI reviewer-defense pass as complete: main text now directly answers hand-coded verifier, geometry-only/distance, recall-tradeoff, averaged-BLIP Open3DSG, family-selection, and AAAI-relevance attacks.
+5. Keep Open3DSG caveats explicit during any further polish; caption compression must not hide averaged-BLIP, filtered split, covered scope, exact-label denominator, or residual calibration risk.
+6. Keep Qwen-VL as third-source extension only, unless it receives the same Docker, metric, denominator, bootstrap, and audit treatment as paper evidence.

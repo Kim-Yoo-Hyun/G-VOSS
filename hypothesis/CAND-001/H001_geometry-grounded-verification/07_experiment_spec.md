@@ -58,15 +58,34 @@ Fact:
   and now marks Table 6 ready with no blockers, scoped to measured H001
   families.
 - A modern-VLM semantic-source extension using `Qwen2.5-VL` or `Qwen3-VL` is
-  allowed as an additional trend-aligned experiment track, not as a replacement
-  for the Open3DSG reproduction anchor.
+  allowed only as a third semantic source / modern VLM extension, not as a
+  replacement for the VL-SAT controlled anchor or Open3DSG reproduction anchor.
 - The Qwen-VL runtime plan has fixed the recommended primary model to
   `Qwen/Qwen3-VL-4B-Instruct` revision
   `ebb281ec70b05090aa6165b016eac8ec08e71b17`, with local-dir
   `local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17`.
 - The Qwen-VL tiny pilot has 30/30 rendered pair crops after shared-view
-  selection gating. This is a runtime-input artifact only; Qwen3-VL-4B model
-  cache verification is ready, but runtime preflight/inference has not started.
+  selection gating. Qwen3-VL-4B model cache verification, Docker runtime
+  preflight, 3-row tiny inference smoke, and runtime raw-response contract
+  validation are ready. The full-source promotion protocol is frozen under
+  `experiments/H001_geom_reliability/sources/qwen_vl/full_source_plan/` with
+  127 scans, 388 contexts, 25,916 directed pairs, a maximum 77,748 all-pairs x
+  family query rows, and the same 2,545-row in-scope GT denominator.
+- The Qwen-VL full-source input audit is ready under
+  `experiments/H001_geom_reliability/sources/qwen_vl/full_source_input/` with
+  77,748 universe query rows, 33,384 inferable input rows, 44,364 missing rows,
+  134 shards, and 0 input contract errors.
+- The Qwen-VL full-source crop render/preflight is ready under
+  `experiments/H001_geom_reliability/sources/qwen_vl/full_source_crops/` with
+  33,384 input rows, 11,128 unique pair crops, 11,128 verified crops, and 0
+  crop errors. No Qwen model load or inference was run in this crop gate.
+- The Qwen-VL full-source inference runner/resume plan is ready under
+  `experiments/H001_geom_reliability/sources/qwen_vl/full_source_inference_plan/`
+  with 33,384 planned rows, 134 shards, `record_id` resume key, and no plan
+  blockers. Shard `qwen_full_source_shard_0000` completed and validated with
+  250 prediction rows, 250 raw responses, parser status `parsed:250`, and 0
+  validation errors/warnings. Full-source Qwen paper-metric evaluation has not
+  run.
 - Robotics/functionality benchmarks such as `SceneFun3D` and `FunGraph3D` are
   relevant expansion targets for functional 3D scene graph reliability, but
   they change the claim from spatial relation reliability to functional or
@@ -88,14 +107,14 @@ The paper strategy is layered, not a single benchmark replacement.
 | --- | --- | --- | --- |
 | Main anchor | 3DSSG relation reliability | `3DSSG` / 3RScan with `VL-SAT` | scoped reliability-layer result |
 | Reproduction anchor | cross-source 3DSSG evidence | Docker-reproduced `Open3DSG` on `3DSSG` / 3RScan | measured reliability trend within H001 relation families |
-| Modern semantic source | trend-aligned VLM evidence | `Qwen2.5-VL` or `Qwen3-VL` object-pair adapter | modern open-vocabulary semantic-source reliability |
+| Third semantic source | trend-aligned modern VLM evidence | `Qwen2.5-VL` or `Qwen3-VL` object-pair adapter | modern VLM semantic-source reliability extension |
 | Robotics/functionality expansion | optional broader application | `SceneFun3D` / `FunGraph3D` | functional or affordance relation reliability |
 
 Priority:
 
 1. Keep `VL-SAT` and Open3DSG on `3DSSG` / 3RScan as the main 3DSSG
    relation-reliability path.
-2. Add Qwen-VL only as a Docker-reproducible modern semantic-source extension.
+2. Add Qwen-VL only as a Docker-reproducible third semantic source / modern VLM extension.
 3. Treat `SceneFun3D` / `FunGraph3D` as an optional follow-up if the paper
    pivots toward robotics, manipulation, or functional scene graphs.
 
@@ -262,8 +281,8 @@ Primary conditions:
 | `probabilistic_recalibrated` | main H001 recall-first condition |
 | `rule_verified_point_subtype` | hard-filter diagnostic / zero-violation operating point |
 | `family_specific_p_geom_valid` | stricter violation-first operating point |
-| `qwen_vl_semantic_only` | optional modern-VLM semantic-source baseline |
-| `qwen_vl_geometry_reranked` | optional modern-VLM semantic source plus H001 geometry-consistency reranking |
+| `qwen_vl_semantic_only` | third-source modern-VLM semantic-source baseline |
+| `qwen_vl_geometry_reranked` | third-source modern-VLM semantic source plus H001 geometry-consistency reranking |
 
 Control conditions:
 
@@ -306,7 +325,7 @@ Audit metrics:
 | Table 4 | structured audit and reduced visual sanity check |
 | Table 5 | source-specific claim boundary and blocked extensions |
 | Table 6 | cross-source result; Open3DSG hook is now ready for measured H001-family evidence, with broader claims still blocked |
-| Table 7 | optional modern-VLM semantic-source result, added only after Qwen-VL adapter metric evidence exists |
+| Table 7 | third-source modern-VLM semantic-source result, added only after Qwen-VL adapter metric evidence exists |
 | Table 8 | optional functional/robotics benchmark result, added only after SceneFun3D/FunGraph3D protocol evidence exists |
 
 ## Required Figures
@@ -424,17 +443,30 @@ E5 optional extension gate:
 
 E6 optional modern-VLM semantic-source gate:
 
-- Qwen-VL is an additional trend-aligned semantic-source track, not the
-  Open3DSG reproduction anchor;
+- Qwen-VL is an additional trend-aligned third semantic-source track, not the
+  VL-SAT controlled anchor or Open3DSG reproduction anchor;
 - current contract/cache status: frozen input JSON Schema, output JSONL
   contract, Docker validator/parser skeleton, 30-row non-held-out tiny pilot
   scope, and 30/30 rendered pair crops are ready under
   `experiments/H001_geom_reliability/sources/qwen_vl/`; Qwen3-VL-4B model
-  cache verification is ready; runtime preflight, inference, and metric
-  evidence do not exist yet;
-- current runtime plan status is
-  `runtime_plan_ready_no_model_download_no_inference`; context frames,
-  object2image metadata, and pair crops exist for 30/30 tiny pilot rows;
+  cache verification, runtime preflight, 3-row tiny inference smoke, and
+  runtime raw-response validation are ready;
+- current full-source promotion plan status is
+  `full_source_promotion_plan_frozen_no_metric_run`; the frozen metric scope is
+  127 scans, 388 contexts, 25,916 directed pairs, up to 77,748 all-pairs x
+  family query rows, and 2,545 in-scope GT rows;
+- current full-source input status is
+  `full_source_input_ready_with_missing_rows_no_inference`; it has 33,384
+  inferable rows and 134 shards;
+- current full-source crop status is
+  `full_source_crop_preflight_ready_no_inference`; it verifies 11,128 unique
+  pair crops for the 33,384 inferable input rows and ran no Qwen inference;
+- current full-source inference runner status is
+  `full_source_inference_runner_frozen_no_inference`; shard 0000 status is
+  `complete_validated_non_metric`; remaining shard loop status is
+  `running_non_metric` in tmux `h001_qwen_vl_infer_remaining`, run id
+  `20260527_023111`, for `qwen_full_source_shard_0001` through
+  `qwen_full_source_shard_0133`;
 - use the locked primary model `Qwen/Qwen3-VL-4B-Instruct` revision
   `ebb281ec70b05090aa6165b016eac8ec08e71b17` first, with local-dir
   `local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17`;
@@ -449,9 +481,10 @@ E6 optional modern-VLM semantic-source gate:
   relation candidate, semantic confidence or calibrated proxy score, raw text
   answer, parser status, and source model metadata;
 - compare `qwen_vl_semantic_only` against `qwen_vl_geometry_reranked` with the
-  same relation-family metric suite used for `VL-SAT`;
-- report Qwen-VL results as modern-VLM semantic-source evidence, not as a
-  trained 3DSSG model or Open3DSG checkpoint reproduction.
+  same relation-family metric suite used for `VL-SAT` and Open3DSG;
+- report Qwen-VL results as third-source modern-VLM semantic-source evidence,
+  not as a trained 3DSSG model, VL-SAT replacement, or Open3DSG checkpoint
+  reproduction.
 
 E7 optional robotics/functionality benchmark gate:
 
@@ -492,8 +525,12 @@ The preferred top-tier phase is ready only if, in addition:
 
 The optional modern-VLM phase is ready only if, in addition:
 
-- Qwen-VL model id/revision, prompt schema, decoding settings, parser, and
-  contract validator are frozen before held-out metric inspection;
+- Qwen-VL model id/revision, prompt schema, decoding settings, parser,
+  contract validator, full-source input universe, crop audit, missing-row
+  policy, shard list, and runner resume policy are frozen before held-out metric
+  inspection;
+- Qwen-VL reserved crop paths are rendered or verified before model inference
+  (ready as `full_source_crop_preflight_ready_no_inference`);
 - Qwen-VL outputs preserve scan/subgraph/object-pair identity;
 - Qwen-VL prediction JSONL, geometry join, and metric tables are generated by
   documented Docker commands;
@@ -523,9 +560,9 @@ measured H001-family evidence, after final Open3DSG caveat wording.
 Optional follow-up judgment:
 
 ```text
-Add Qwen2.5-VL or Qwen3-VL as a modern open-vocabulary VLM semantic-source
-adapter after recording the Open3DSG reproduction anchor and without promoting
-Qwen-VL prompt outputs to end-to-end 3DSSG training evidence.
+Add Qwen2.5-VL or Qwen3-VL as a third semantic source / modern VLM extension
+after recording the Open3DSG reproduction anchor and without promoting Qwen-VL
+prompt outputs to end-to-end 3DSSG training evidence.
 ```
 
 Optional robotics/functionality judgment:

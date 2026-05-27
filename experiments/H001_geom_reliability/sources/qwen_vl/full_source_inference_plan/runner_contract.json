@@ -1,0 +1,61 @@
+{
+  "docker_compose": "experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml",
+  "dry_run_service": "qwen_vl_full_source_infer_dry_run",
+  "inference_service": "qwen_vl_full_source_infer_shard",
+  "model": {
+    "local_dir": "local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17",
+    "model_id": "Qwen/Qwen3-VL-4B-Instruct",
+    "model_revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17"
+  },
+  "non_leakage": [
+    "semantic-only prompt must not include p_geom_valid",
+    "semantic-only prompt must not include verifier labels or GT labels",
+    "geometry summaries are not used in the semantic-only prompt"
+  ],
+  "promotion_rule": {
+    "metric_promotion_requires": [
+      "all shard manifests complete",
+      "raw-response contract validation",
+      "prediction-row adapter export",
+      "H001 geometry join",
+      "R@K and Violation@K metrics",
+      "controls",
+      "bootstrap CI if reported",
+      "qualitative/failure audit"
+    ],
+    "paper_metric": false,
+    "replacement_for_open3dsg_anchor": false,
+    "replacement_for_vlsat_anchor": false
+  },
+  "prompt_and_decoding": {
+    "do_sample": false,
+    "max_new_tokens": 256,
+    "prompt_version": "semantic_only_v1",
+    "seed": 20260527,
+    "temperature": 0.0,
+    "top_p": 1.0
+  },
+  "resume_policy": {
+    "append_outputs": [
+      "full_source_runtime/raw_response/<shard_id>.jsonl",
+      "full_source_runtime/predictions/<shard_id>.jsonl",
+      "full_source_runtime/progress/<shard_id>.completed.jsonl"
+    ],
+    "completed_file": "full_source_runtime/progress/<shard_id>.completed.jsonl",
+    "completion_check": "prediction row count and completed row count must match the planned shard row_count, or the run is partial",
+    "overwrite_rule": "outputs may be deleted only by passing --overwrite explicitly",
+    "resume_key": "record_id"
+  },
+  "role": "third_semantic_source_modern_vlm_extension",
+  "runner_script": "experiments/H001_geom_reliability/scripts/run_qwen_vl_full_source_inference.py",
+  "schema_version": "h001_qwen_vl_full_source_inference_plan_v1",
+  "scope": {
+    "crop_preflight_status": "full_source_crop_preflight_ready_no_inference",
+    "inferable_input_rows": 33384,
+    "missing_rows": 44364,
+    "shards": 134,
+    "universe_rows": 77748,
+    "verified_unique_pair_crops": 11128
+  },
+  "status": "full_source_inference_runner_frozen_no_inference"
+}

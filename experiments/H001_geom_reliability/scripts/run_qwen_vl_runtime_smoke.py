@@ -309,9 +309,13 @@ def generate_response(processor: Any, model: Any, image_path: Path, prompt: str,
         temperature=None,
         top_p=None,
     )
+    if len(inputs.input_ids) != len(generated_ids):
+        raise RuntimeError(
+            f"generation_batch_size_mismatch:{len(inputs.input_ids)}!={len(generated_ids)}"
+        )
     trimmed = [
         output_ids[len(input_ids) :]
-        for input_ids, output_ids in zip(inputs.input_ids, generated_ids, strict=True)
+        for input_ids, output_ids in zip(inputs.input_ids, generated_ids)
     ]
     return processor.batch_decode(
         trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False

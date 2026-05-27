@@ -1,6 +1,6 @@
 # H001 Research Summary
 
-Last updated: 2026-05-26 KST
+Last updated: 2026-05-27 KST
 
 이 문서는 CAND-001 / H001의 현재 연구 정의, 필요성, 가설, metric,
 비교군, 실험 세팅, contribution, 구현 방향, baseline 재현 가능성을 한곳에
@@ -212,6 +212,12 @@ Audit / sanity metrics:
 - reduced visual spot-check target-bucket quality-issue rate
 - reduced visual spot-check contradiction rate
 
+Uncertainty metric:
+
+- deterministic subgraph bootstrap CI for `R@K` and `Violation@K` over the same
+  locked source rows; this is evaluation-context uncertainty, not repeated
+  training variance
+
 ## Comparison Groups
 
 Primary conditions:
@@ -236,9 +242,9 @@ Cross-source comparison:
 
 | Source | Role | Status |
 | --- | --- | --- |
-| Open3DSG | manuscript main open-vocabulary relation-source case study | Docker-reproduced avg-BLIP checkpoint, H001 eval features, raw dump identity with clean v14 streaming provenance, adapter export, geometry join, metric eval, experiment-artifact Table 6 hook, real failure rows, qualitative case sample, qualitative inspection, and paper caveat wording are ready |
+| Open3DSG | manuscript main open-vocabulary relation-source case study | Docker-reproduced avg-BLIP checkpoint, H001 eval features, raw dump identity with clean v14 streaming provenance, adapter export, geometry join, metric eval, experiment-artifact Table 6 hook, real failure rows, qualitative case sample, qualitative inspection, paper caveat wording, and subgraph bootstrap CI are ready |
 | `VL-SAT` | controlled reproduced anchor | reproduced and table-ready; used to test the same reliability mechanism under a cleaner closed-set source contract |
-| Qwen-VL | optional modern VLM semantic-source extension | schema/parser/tiny pilot/pair crops ready; Qwen3-VL-4B cache ready; runtime preflight not rerun after Open3DSG jobs completed; no inference |
+| Qwen-VL | third semantic source / modern VLM extension | schema/parser/tiny pilot/pair crops ready; Qwen3-VL-4B cache ready; Docker runtime preflight, 3-row tiny inference smoke, raw-response validation, full-source promotion plan, full-source input audit, all-scope crop preflight, and full-source inference runner plan are ready; 33,384 inferable rows / 134 shards / 11,128 verified unique pair crops; shard 0000 inference complete and validated with 250/250 parsed rows; no full paper-metric validation/evaluation |
 | FROSS | optional online support/contact source | not full-family H001 evidence |
 
 ## What The Experiments Compare
@@ -298,6 +304,15 @@ Open3DSG second-source result:
 | `probabilistic_recalibrated` | 0.3843 | 0.5580 | 0.0575 | 0.0803 |
 | `rule_verified_point_subtype` | 0.4149 | 0.5238 | 0.0000 | 0.0000 |
 | `family_specific_p_geom_valid` | 0.4530 | 0.5984 | 0.0228 | 0.0311 |
+
+Bootstrap CI:
+
+- Docker `bootstrap_ci` status: `ready`, 1,000 subgraph resamples, warnings none.
+- Open3DSG `family_specific` vs `semantic_only`: R@100 delta `+10.22 pp`
+  with 95% CI `[+7.94,+12.54]`; Violation@100 delta `-8.84 pp` with 95% CI
+  `[-9.41,-8.28]`.
+- VL-SAT `family_specific` vs `semantic_only`: R@100 delta `+0.20 pp` with CI
+  crossing zero; Violation@100 delta `-1.59 pp` with negative CI.
 
 Fact:
 
@@ -422,7 +437,8 @@ Implemented / ready:
 - Open3DSG failure-analysis schema and synthetic smoke generator
 - Open3DSG real failure-analysis rows and qualitative failure-case sampler
 - Qwen-VL input/output schema, parser skeleton, tiny pilot, model-lock plan,
-  and 30/30 pair-crop rendering
+  30/30 pair-crop rendering, tiny runtime smoke, full-source promotion plan,
+  full-source input audit, and all-scope crop preflight
 
 Current data/runtime status:
 
@@ -562,6 +578,11 @@ Current paper handoff:
   content pages 1-7, references page 8, AAAI reproducibility checklist page 9,
   and no missing citations, undefined refs, overfull hboxes, LaTeX errors, or
   AAAI package errors.
+- The AAAI reviewer-defense main-text passes are complete. The AAAI source now
+  directly answers the hand-coded-verifier, geometry-only/distance,
+  recall-tradeoff, averaged-BLIP Open3DSG, family-selection, AAAI-relevance,
+  and small-delta uncertainty attacks without moving technical content beyond
+  page 7.
 - `paper/figures.md` is ready and locks Figure 1-3 claims/assets before drawing:
   Figure 1 method framework, Figure 2 two-panel R@100/Violation@100 tradeoff,
   and Figure 3 Open3DSG qualitative case panels.
@@ -578,9 +599,9 @@ Current paper handoff:
 Next required drafting step:
 
 1. Decide the next paper-polish priority now that the AAAI reproducibility
-   checklist is inserted after references. The latest AAAI PDF rebuild is clean,
-   and manuscript Table 3 reports Open3DSG first as the main open-vocabulary
-   case study with VL-SAT second as the controlled anchor.
+   checklist and first reviewer-defense pass are complete. The latest AAAI PDF
+   rebuild is clean, and manuscript Table 3 reports Open3DSG first as the main
+   open-vocabulary case study with VL-SAT second as the controlled anchor.
 2. Keep Open3DSG caveats explicit during any further polish;
    keep averaged-BLIP, filtered-train/dev, covered-scope, exact-label denominator,
    `validation_missing_preprocessed:11`, and residual calibration-risk caveats
@@ -610,16 +631,27 @@ Section-structure decision:
 
 Reproducibility/GitHub portability note:
 
-- `docs/reproducibility.md` records the 2026-05-21 `.gitignore` audit.
+- `docs/reproducibility.md` records the 2026-05-21 `.gitignore` audit and
+  the 2026-05-26 reproducibility artifact bundle plan.
 - GitHub can carry the runbooks, Docker setup, scripts, reports, compact
   manifests, tables/metric summaries, and paper planning docs.
-- Large datasets, checkpoints, features, raw dumps, prediction/verification/
-  failure JSONL rows, and model caches remain intentionally ignored and must be
-  rebuilt/downloaded or transferred separately on another computer.
+- The selected Open3DSG checkpoint and row-level H001 JSONL outputs should be
+  released as a separate core result bundle with checksum verification; the
+  current verified bundle is `release/h001_core_results_20260526_160957.tar.zst`
+  with checksum file `release/h001_core_results_20260526_160957.sha256`.
+- Large datasets, feature caches, and model caches remain intentionally ignored
+  and must be rebuilt/downloaded or transferred separately on another computer.
 
 Optional extension sequence:
 
-- Qwen-VL runtime preflight after GPU availability, then 1-3 crop tiny inference smoke; keep as non-metric extension evidence.
+- Qwen-VL remaining shard loop running: shard 0000 completed and validated;
+  tmux `h001_qwen_vl_infer_remaining` run id `20260527_023111` is processing
+  shards 0001-0133 sequentially. Keep Qwen as third-source non-metric
+  extension evidence until the full Docker metric path completes.
+- AAAI source route: `paper/aaai/` now uses official AAAI-26 Author Kit style
+  files checked on 2026-05-27 KST. `aaai2026.sty` was replaced from the
+  official kit, `aaai2026.bst` already matched, and no official AAAI-27 author
+  kit was confirmed.
 - Reduced checkpoint smoke only if official route is intentionally paused or
   declared too slow; it must not become paper-result evidence.
 - SceneFun3D/FunGraph3D only if the paper scope expands to functional or

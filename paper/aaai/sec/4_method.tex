@@ -1,12 +1,16 @@
 \section{Method}
 
 H001 is a \method{} framework for 3D scene graph relation predictions. It is
-not a replacement relation predictor and not a standalone verifier script. The
-framework is built around four design requirements: preserve relation-row
-identity, join explicit object-pair geometry, calibrate geometry validity, and
-evaluate recall and violation jointly. Figure~\ref{fig:framework} presents
-these requirements as a pipeline from relation-source outputs to calibrated
-operating points.
+not a replacement relation predictor and not a standalone hand-coded verifier.
+The geometric checks define the measurable validity target for families with
+observable physical constraints; the method contribution is the
+identity-preserving row contract, calibrated \pgeom{} signal, operating-point
+analysis, and controls that test whether geometry is used as a relation-level
+reliability signal rather than as a generic filter. The framework is built
+around four design requirements: preserve relation-row identity, join explicit
+object-pair geometry, calibrate geometry validity, and evaluate recall and
+violation jointly. Figure~\ref{fig:framework} presents these requirements as a
+pipeline from relation-source outputs to calibrated operating points.
 
 \subsection{Relation-Row Standardization}
 
@@ -38,7 +42,10 @@ support subtypes. For proximity, the evidence includes object distance and pair
 scale. For relative vertical relations, the evidence includes centroid and
 extent ordering along the vertical axis. The verifier returns violated only
 when the evidence is strong enough; otherwise ambiguous or weak geometry can be
-marked uncertain.
+marked uncertain. We do not apply this protocol to predicates whose correctness
+depends primarily on function, social context, affordance, or language
+pragmatics, because those predicates do not have a stable geometric validity
+test from the available reconstruction alone.
 
 \subsection{Calibrated Geometry Validity and Re-Ranking}
 
@@ -48,7 +55,11 @@ The probabilistic operating point uses a frozen calibrator:
 \end{equation}
 where $\phi(g_i)$ is the geometry feature vector and $C_a$ is either the pooled
 or family-specific calibrator trained on train-dev calibration positives and
-counterfactual negatives. The main probabilistic re-ranking score is
+counterfactual negatives. The predicate-family map, hard-rule thresholds,
+counterfactual construction, and calibrator files are fixed from train-dev
+calibration artifacts before held-out source-result reporting; held-out
+prediction rows are not used to retune them. The main probabilistic re-ranking
+score is
 \begin{equation}
 \mathrm{score}^{prob}_i = \mathrm{score}^{sem}_i \cdot \pgeom_i.
 \end{equation}
@@ -71,4 +82,3 @@ explains the result. Shuffled-geometry and wrong-pair-geometry controls test
 whether relation-level object-pair identity is necessary. If these controls
 perform worse than the calibrated setting, the result supports the framework
 design rather than a generic ``add geometry'' explanation.
-

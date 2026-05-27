@@ -3,17 +3,21 @@
 The current study is intentionally scoped to geometry-checkable relation
 families. Relations whose correctness depends primarily on functional, social,
 affordance, or language-pragmatic context are outside the H001 metric claim.
-The evaluation uses GT-object relation rows and exact predicate-label recall,
-so even the Open3DSG result should be read as relation-reliability evidence
-rather than full open-vocabulary scene graph generation performance.
+The selected families are not arbitrary convenience classes: they cover contact
+or support, metric proximity, and vertical ordering, and they are the families
+for which reconstructed geometry can support falsifiable validity checks. The
+evaluation uses GT-object relation rows and exact predicate-label recall, so
+even the Open3DSG result should be read as relation-reliability evidence rather
+than full open-vocabulary scene graph generation performance.
 
 The Open3DSG experiment is a reproduced averaged-BLIP variant with explicit
 filtering and coverage caveats. The checkpoint is selected by train-dev
 validation loss before H001 held-out inspection, the training and validation
 splits are filtered to preprocessed-ready subgraphs, and H001 evaluation covers
 the loadable Open3DSG scope. These choices do not invalidate the scoped
-reliability result, but they prevent claims of exact non-averaged Open3DSG
-reproduction or broad open-vocabulary SOTA.
+reliability result, because the comparisons are within the same reproduced
+source predictions and denominator, but they prevent claims of exact
+non-averaged Open3DSG reproduction or broad open-vocabulary SOTA.
 
 The visual and qualitative evidence should also be read with the correct scope.
 The reduced visual sanity check and Open3DSG qualitative case inspection are
