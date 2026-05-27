@@ -589,7 +589,14 @@ Main job:
 - Restate the failure-mechanism contribution.
 - Restate calibrated geometry-consistency as the method contribution.
 - Summarize evidence across `VL-SAT` and Open3DSG.
-- Point to future work: broader predicates, modern VLM sources, functional/robotics relations, and online/embodied settings.
+- Point to future work: `attachment_deferred` as the next physical-relation
+  upgrade, modern VLM sources, functional/robotics relations, and
+  online/embodied settings.
+- Do not jump directly from H001 to broad function reasoning. If the paper
+  expands, use the completed G0 scope/schema audit and G1 extractor contract
+  for `attached to` / `hanging on` / `connected to`, then implement a G1b
+  evidence-only dry run and only then add a small function reasoning case
+  study.
 
 ## Figure Plan
 
@@ -722,6 +729,7 @@ Recommended appendix tables:
 
 | table | placement | reason |
 | --- | --- | --- |
+| Calibrator / threshold provenance | appendix | shows family mapping, rule thresholds, counterfactual construction, calibrator artifacts, and held-out use were fixed before source-result reporting |
 | Table 4 | appendix with short main-text summary | structured audit and 50-row visual sanity check are reviewer-defense evidence, not the primary metric result |
 | Detailed family-specific rows | appendix | useful for transparency without crowding main result |
 | Full Open3DSG caveat/coverage accounting | appendix with main-text caveat summary | keeps denominator/filter details traceable |
@@ -731,6 +739,7 @@ Space-risk fallback:
 
 - Keep controls, GT verifier, audit, and visual sanity checks as prose evidence unless an appendix is added.
 - Do not remove Open3DSG caveats from manuscript Table 3; move details to appendix only if the main text still states the variant, covered scope, denominator, and residual calibration risk.
+- The current provenance appendix owner is `paper/appendix.md`; update it before changing calibration, thresholds, Open3DSG caveat wording, Figure 3 final-polish status, or Qwen-VL boundary.
 
 ## Next Drafting Tasks
 
@@ -1140,7 +1149,11 @@ reviewer 방어:
 - failure-mechanism contribution을 다시 요약한다.
 - calibrated geometry-consistency를 method contribution으로 다시 정리한다.
 - `VL-SAT`와 Open3DSG evidence를 요약한다.
-- future work로 broader predicates, modern VLM sources, functional/robotics relations, online/embodied settings를 제시한다.
+- future work로는 broader predicates를 일반적으로 말하기보다
+  `attachment_deferred`를 다음 physical-relation upgrade로 먼저 제시한다.
+  G0 scope/schema audit와 G1 extractor contract는 완료되었고, 다음은 G1b
+  evidence-only dry run이다.
+  function reasoning은 attachment reliability가 검증된 뒤의 secondary pilot로 둔다.
 
 ### Figure Plan
 
@@ -1248,6 +1261,7 @@ Korean caption notes:
 - AAAI Table 1은 denominator/scope를 잠근다.
 - AAAI Table 2는 claim boundary와 non-claim을 명시하는 방어용 표다.
 - AAAI Table 3은 Open3DSG-first main source result이며 Open3DSG caveat을 caption에 직접 넣어야 한다.
+- Calibrator / threshold provenance는 `paper/appendix.md`가 소유한다. Family mapping, rule threshold, counterfactual construction, calibrator artifact, held-out 사용 여부가 바뀌면 먼저 이 파일을 갱신한다.
 - Controls, GT verifier, audit는 본문 prose evidence로 남기되 appendix가 생기면 상세 표로 옮길 수 있다.
 
 ## Claim-Consistency Review
@@ -1325,7 +1339,7 @@ Content blocks secured in this outline pass:
 | Related-work positioning map | secured | Convert section-level bullets into Related Work prose with citations. |
 | Method formalization | secured | Convert notation, operating points, and algorithm skeleton into Problem/Method sections. |
 | Figure asset plan | secured | Generate figures later from locked sources; no new claims without traceable rows. |
-| Table placement and appendix split | secured | Use AAAI Tables 1-3 in main paper; keep controls, GT verifier, audit details, family details, and Qwen as prose/appendix candidates. |
+| Table placement and appendix split | secured | Use AAAI Tables 1-3 in main paper; keep calibrator/threshold provenance, controls, GT verifier, audit details, family details, and Qwen as prose/appendix candidates. |
 | Limitation paragraphs | secured | Convert caveat paragraphs into Limitations/Discussion prose. |
 | Reviewer-attack response text | secured | Convert control, Open3DSG, and failure-analysis skeletons into Results/Discussion prose. |
 | Optional Qwen-VL decision | scoped | Keep as appendix/future-work only unless promoted with full Docker metric/audit treatment. |

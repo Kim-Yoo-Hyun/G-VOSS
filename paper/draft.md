@@ -515,10 +515,12 @@ Docker-generated tables.
 
 Finally, `p_geom_valid` is a calibrated reliability score, not a proof of
 physical correctness. Residual high-confidence but rule-violated cases motivate
-future work on broader predicate families, stronger calibration, larger visual
-audits, modern VLM relation sources, and downstream tasks where relation
-reliability can be tested through planning, navigation, alignment, or embodied
-reasoning.
+future work on attachment-style physical relations such as attached, hanging,
+or connected objects before broader functional predicates. Such an upgrade
+would require additional surface/contact/gravity evidence and a separate
+validation contract. Larger visual audits, modern VLM relation sources, and
+downstream tasks remain natural follow-up settings where relation reliability
+can be tested through planning, navigation, alignment, or embodied reasoning.
 
 ## 8. Conclusion
 
@@ -536,9 +538,10 @@ recall tradeoffs. The GT-positive/counterfactual verifier checks, geometry
 identity controls, and qualitative failure analysis support the central claim:
 the useful contribution is not merely adding geometry, but making relation-level
 physical consistency calibrated, identity-preserving, and reportable. The
-remaining limitations point to the next stage: broader predicate families,
-modern VLM relation sources, functional or robotics relations, and downstream
-tests where reliable relation edges directly affect embodied reasoning.
+remaining limitations point to the next stage: attachment-style physical
+relations as the nearest family upgrade, modern VLM relation sources, and
+downstream tests where reliable relation edges directly affect embodied
+reasoning.
 
 ## Draft TODO
 
@@ -573,6 +576,7 @@ Main-paper table recommendation:
 | Table 4 | appendix | Audit/sanity evidence is supportive, not the primary metric claim. |
 | Table 5 | prose or appendix | Claim-boundary accounting should be visible, but the full table can move if page budget is tight. |
 | Table 6 | main | Open3DSG second-source evidence and caveats are required for the cross-source claim. |
+| Appendix A1 | appendix | Calibrator/threshold provenance and Open3DSG caveat consistency defend against post-hoc tuning and denominator attacks. |
 
 Figure placement recommendation:
 
@@ -596,6 +600,7 @@ Review result:
 | Paper-body gap review | patched | Added Figure 1-3 callouts, Table 4 audit/sanity prose, and a Conclusion section before LaTeX/template conversion. |
 | Method framing | pass | The method is described as a calibrated geometry-consistency evaluation and re-ranking framework, not as a standalone verifier script. |
 | Open3DSG caveats | pass | The averaged-BLIP variant, filtered train/dev split, covered loadable scope, `validation_missing_preprocessed:11`, exact-label denominator, and residual calibration risk remain explicit. |
+| Appendix provenance | pass | `paper/appendix.md` records calibrator/threshold provenance, Open3DSG caveat consistency, Figure 3 optionality, and Qwen-VL third-source boundary. |
 | Qwen-VL boundary | pass | Qwen-VL remains third-source extension evidence and is not used as a main metric result before full-source promotion. |
 | Citation keys | scaffolded | Related Work placeholders have been replaced with BibTeX-style keys; `paper/references.bib` contains draft entries for all inserted keys. Final ICCV-style build still needs verification once a manuscript source exists. |
 | Evidence links | patched | Results prose now points to Table 1, Table 2, Table 3, Table 5, and Table 6. |

@@ -1,15 +1,22 @@
 # Hypothesis Workflow
 
-Last updated: 2026-05-07
+Last updated: 2026-05-27
 
 이 문서는 연구 후보를 검증 가능한 hypothesis로 바꾸는 에이전트 workflow와 작성 규칙을 정의한다. 실제 hypothesis 내용은 루트의 `hypothesis/` 폴더에 저장한다.
+
+## Ownership
+
+- `docs/hypothesis.md`는 hypothesis workflow rulebook이다.
+- 실제 candidate/hypothesis 상태와 active gate는 `hypothesis/README.md`가 소유한다.
+- CAND-001처럼 active hypothesis가 하나인 candidate는 별도 `hypothesis/CAND-001/README.md`를 만들지 않는다. Candidate-level summary는 `hypothesis/README.md`에 병합하고, 세부 내용은 H-folder canonical files에 둔다.
+- Candidate 안에 여러 active hypotheses가 생기거나 candidate-level assumption/risk가 `hypothesis/README.md`를 과도하게 키울 때만 `hypothesis/CAND-<number>/README.md`를 만든다.
 
 ## Storage Rule
 
 Hypothesis 관련 산출물은 루트의 `hypothesis/` 폴더에 저장한다.
 
 - workflow와 작성 규칙: `docs/hypothesis.md`
-- hypothesis index: `hypothesis/README.md`
+- hypothesis/candidate index: `hypothesis/README.md`
 - candidate별 hypothesis 묶음: `hypothesis/CAND-<number>/`
 - 개별 hypothesis: `hypothesis/CAND-<number>/H<number>_<short-title>/`
 - 작업 계획과 진행 상태: `TODO.md`
@@ -27,7 +34,7 @@ Hypothesis 작업을 시작하는 에이전트는 아래 순서로 읽는다.
 5. `docs/hypothesis.md`
 6. `literature/CAND-001.md`
 7. `hypothesis/README.md`
-8. 대상 hypothesis 폴더의 `README.md`
+8. 대상 hypothesis folder의 canonical files
 
 ## Folder Convention
 
@@ -35,7 +42,6 @@ Hypothesis 작업을 시작하는 에이전트는 아래 순서로 읽는다.
 hypothesis/
   README.md
   CAND-001/
-    README.md
     H001_geometry-grounded-verification/
       01_overview.md
       02_method.md
@@ -61,7 +67,7 @@ hypothesis/
 
 ### `hypothesis/README.md`
 
-전체 hypothesis index를 관리한다.
+전체 hypothesis index와 active candidate summary를 관리한다.
 
 포함할 내용:
 
@@ -70,19 +76,11 @@ hypothesis/
 - hypothesis registry
 - current gate
 - blocked items
+- candidate-level assumptions and risks when only one active hypothesis exists
 
-### `hypothesis/CAND-<number>/README.md`
+### Optional `hypothesis/CAND-<number>/README.md`
 
-candidate 단위의 hypothesis 묶음을 관리한다.
-
-포함할 내용:
-
-- source candidate
-- research direction
-- active hypothesis list
-- canonical file map
-- candidate-level assumptions and risks
-- next gate
+candidate 안에 여러 active hypotheses가 생기거나 candidate-level 상태가 root index를 과도하게 키울 때만 만든다. 단일 active H001처럼 root index에서 충분히 관리되는 경우 만들지 않는다.
 
 ### `01_overview.md` / Overview
 
@@ -192,7 +190,7 @@ Hypothesis 문서를 갱신한 에이전트는 아래를 함께 확인한다.
 - `TODO.md`: 현재 작업과 다음 작업 상태 갱신
 - `docs/index.md`: active workflow와 current working file 갱신
 - `hypothesis/README.md`: active hypothesis와 gate 상태 갱신
-- `hypothesis/CAND-<number>/README.md`: candidate-level 상태 갱신
+- optional `hypothesis/CAND-<number>/README.md`: 여러 active hypotheses가 있는 경우에만 candidate-level 상태 갱신
 - 필요 시 `literature/CAND-<number>.md`: literature-derived feasibility 판단만 갱신
 
 ## Experiment Transition Rule
@@ -210,7 +208,8 @@ Hypothesis 문서를 갱신한 에이전트는 아래를 함께 확인한다.
 
 - `experiments/` 폴더는 active hypothesis spec이 명시하고 사용자가 experiment phase 진입을 요청한 뒤 만든다.
 - `experiments/` 폴더를 만들 때는 Docker 재현성 구조를 같이 만든다.
-- 아직 `paper/`, `decisions/` 폴더를 만들지 않는다.
+- `paper/`는 현재 H001 manuscript workspace로 존재한다. 새 paper/venue subtree는 실제 필요가 생길 때만 만든다.
+- `decisions/` 같은 새 top-level workflow root는 아직 만들지 않는다.
 - 하나의 candidate에 여러 hypothesis를 미리 만들지 않는다.
 - evaluation protocol과 subset strategy 전에는 full baseline reproduction plan을 확정하지 않는다.
 - hypothesis 문서는 연구 방향을 좁히는 도구이지 최종 논문 초안이 아니다.
@@ -219,4 +218,4 @@ Hypothesis 문서를 갱신한 에이전트는 아래를 함께 확인한다.
 
 - Candidate: `CAND-001`
 - Hypothesis: `H001 Geometry-grounded verification of open-vocabulary 3DSSG relations`
-- Status: H001 hypothesis-stage evidence, scoped main experiment spec, Docker `VL-SAT` table/report reproduction, Docker-reproduced Open3DSG second-source metrics, clean v14 Open3DSG streaming raw-dump provenance, Open3DSG qualitative case inspection, Open3DSG paper caveat wording, Qwen-VL third-source promotion protocol freeze, and Qwen-VL full-source input audit are complete; active notes are consolidated into `01_overview.md` through `07_experiment_spec.md`; active experiment root is `experiments/H001_geom_reliability/`; current gate is paper polish or Qwen full-source crop rendering / render-on-demand shard preflight before any full Qwen inference.
+- Status: H001 hypothesis-stage evidence, scoped main experiment spec, Docker `VL-SAT` table/report reproduction, Docker-reproduced Open3DSG second-source metrics, clean v14 Open3DSG streaming raw-dump provenance, Open3DSG qualitative case inspection, Open3DSG paper caveat wording, Qwen-VL third-source promotion protocol, Qwen-VL full-source input/crop preflight, Qwen-VL runner plan, and Qwen shards 0000-0013 are complete; active notes are consolidated into `01_overview.md` through `07_experiment_spec.md`; active experiment root is `experiments/H001_geom_reliability/`; current gate is paper polish or Qwen resume from `qwen_full_source_shard_0014` when GPU guard is acceptable.

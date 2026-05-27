@@ -1,0 +1,13 @@
+ Container h001_geom_reliability-relative_horizontal_scope_audit-run-e9249c388756 Creating 
+ Container h001_geom_reliability-relative_horizontal_scope_audit-run-e9249c388756 Created 
+Traceback (most recent call last):
+  File "/opt/h001/scripts/audit_relative_horizontal_scope.py", line 354, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/opt/h001/scripts/audit_relative_horizontal_scope.py", line 349, in main
+    write_report(out / "report.md", manifest)
+  File "/opt/h001/scripts/audit_relative_horizontal_scope.py", line 204, in write_report
+    [[status, count] for status, count in verification["verification_status_counts"].items()],
+                                          ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'verification_status_counts'
+

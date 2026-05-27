@@ -1,0 +1,81 @@
+{
+  "affordance_context": {
+    "allowed_as_proof": false,
+    "class_pair_prior": "plausible",
+    "class_pair_prior_source": "fixed_list"
+  },
+  "contradictory_support_evidence": {
+    "floor_or_table_supported": false,
+    "reason_codes": [],
+    "support_explanation_score": 0.0
+  },
+  "extractor_status": "ready",
+  "extractor_version": "h001_attachment_deferred_extractor_v1",
+  "geometry_available": {
+    "normals": true,
+    "obb": true,
+    "points": true,
+    "surface_candidates": true
+  },
+  "gravity_evidence": {
+    "floor_clearance_m": 1.2,
+    "hanging_geometry_score": 0.0,
+    "near_vertical_or_overhead_surface": true
+  },
+  "missing_fields": [],
+  "notes": [
+    "Example row only; not extracted from data."
+  ],
+  "obb_evidence": {
+    "center_delta_z_m": 0.15,
+    "distance_3d_m": 0.05,
+    "distance_xy_m": 0.03,
+    "normalized_distance_3d": 0.08,
+    "normalized_distance_xy": 0.05,
+    "projected_xy_overlap": 0.31,
+    "vertical_gap_m": 0.0
+  },
+  "object_id": 34,
+  "object_label": "wall",
+  "point_contact_evidence": {
+    "contact_patch_extent_m2": 0.012,
+    "contact_patch_score": 0.72,
+    "min_point_distance_m": 0.018,
+    "near_contact_point_count": 36,
+    "near_contact_threshold_m": 0.05,
+    "object_point_count": 1500,
+    "subject_point_count": 420
+  },
+  "predicate_family": "attachment_deferred",
+  "predicate_label": "attached to",
+  "quality_flags": [],
+  "row_id": "example_scan::example_subgraph::12::34::attached to",
+  "scan_id": "example_scan",
+  "schema_version": "h001_attachment_deferred_evidence_row_v1",
+  "source_name": "gt_positive",
+  "subgraph_id": "example_subgraph",
+  "subject_id": 12,
+  "subject_label": "picture",
+  "subtype_hint": "attached_to_vertical_or_overhead_surface",
+  "surface_evidence": {
+    "candidate_count": 1,
+    "candidates": [
+      {
+        "distance_m": 0.018,
+        "evidence_source": "segmented_points",
+        "normal_class": "vertical",
+        "normal_xyz": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "point_contact_count": 36,
+        "projected_overlap_ratio": 0.31,
+        "surface_id": "object:34",
+        "surface_type": "wall"
+      }
+    ],
+    "selected_surface_normal_class": "vertical",
+    "selected_surface_type": "wall"
+  }
+}

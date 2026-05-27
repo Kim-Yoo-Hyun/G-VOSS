@@ -1,6 +1,6 @@
 # H001 Paper Reviewer-Risk Register
 
-Last updated: 2026-05-26 KST
+Last updated: 2026-05-28 KST
 
 Scope: this file tracks paper-body risks for the current AAAI manuscript under
 `paper/aaai/`. The goal is not sentence polish; it is to prevent reviewer attacks
@@ -22,14 +22,18 @@ The main rejection risks are not that the topic is unimportant. They are:
 - the method could be read as a hand-coded verifier/post-processing script;
 - Open3DSG is the main source but uses a reproduced averaged-BLIP variant with
   filtered coverage;
+- the measured relation-family scope may look narrow if reviewers expect broad
+  spatial-relation coverage;
+- future `attachment_deferred` expansion could be attacked as affordance guessing
+  unless the physical evidence schema is separated from class priors;
 - controls and GT verifier evidence may look under-specified in the main text;
 - audit wording may look non-anonymous or overfit to an internal reference;
 - novelty can be blurred by recent relation-witness/calibrated-witness work.
 
 ## Mitigation Status
 
-Updated on 2026-05-26 KST after main-text patches, Docker bootstrap CI, and
-Docker PDF rebuilds:
+Updated on 2026-05-27 KST after main-text patches, Docker bootstrap CI,
+Docker PDF rebuilds, and the appendix/provenance pass:
 
 - P0 main-text mitigation: completed. `paper/aaai/sec/6_results.tex` no longer
   names the internal reviewer id or reports private-reference matching.
@@ -56,16 +60,81 @@ Docker PDF rebuilds:
   resamples with status `ready` and no warnings. Open3DSG family-specific
   deltas remain positive for \rAt{100} and negative for \vAt{100}; VL-SAT
   recall deltas remain modest while violation reductions are stable.
+- P8 appendix/provenance pass: completed. `paper/appendix.md` now records the
+  calibrator/threshold provenance table, Open3DSG caveat consistency pass,
+  Figure 3 final-polish boundary, and Qwen-VL third-source boundary. Docker
+  `table_builder` was rebuilt and rerun so experiment Table 6 carries the
+  Open3DSG caveat note.
+- P9 scope-expansion track: scope audit, coordinate audit, and bucket inspection
+  are complete, not metric evidence. The current paper claim remains the
+  three-family scoped relation-reliability claim. `relative_horizontal` is the
+  preferred expansion candidate because it adds 3,570 candidate GT rows
+  (`left`, `right`, `front`, `behind`) and would expand the denominator from
+  2,545 to 6,115 if validated. Docker `relative_horizontal_scope_audit`
+  confirms VL-SAT has 103,664 candidate prediction rows and Open3DSG has 76,400
+  candidate prediction rows, but both are currently `unsupported` by the
+  verifier. Docker `relative_horizontal_coordinate_audit` is blocked for
+  promotion: the best frame is `scan_left_neg_x_front_neg_y`, macro strict
+  purity is 0.7725, strict eligible share is 0.6403, `left`/`right` purity is
+  0.8005, `front`/`behind` purity is 0.7445, inverse-pair consistency is 1.0,
+  and the wrong-frame gap is 0.1231. Docker
+  `relative_horizontal_bucket_inspection` adds threshold-free diagnostics:
+  `front`/`behind` strict match:contradiction is 2.9143, sign-only purity is
+  0.7491, and ambiguity buckets remain large (`axis_margin_ambiguous` 230,
+  `conflicting_axis_dominates` 430, `strong_projected_overlap` 44). The
+  recommendation is `do_not_promote_relative_horizontal_to_main_claim`. This is
+  useful appendix/limitation evidence but cannot support a broader main claim.
+  Current AAAI-path decision is to stop here rather than run expanded-family
+  metrics; future promotion requires resolving the `front`/`behind` ambiguity
+  and completing the full verifier/calibration/metrics/control/bootstrap/audit
+  path.
+  Reviewer-facing wording should report the threshold-free evidence first:
+  selected frame, per-label GT purity, inverse consistency, wrong-frame gap,
+  match/contradiction ratio, and ambiguity buckets. The predeclared purity gate
+  is a conservative non-promotion rule, not an official benchmark threshold and
+  not a success claim.
+- P10 attachment-deferred upgrade: Docker G0 scope/schema audit and G1
+  extractor contract completed, no metric execution. This is the preferred
+  future relation-family upgrade because it adds 967 GT rows and aligns with
+  physical consistency better than relative-horizontal frame semantics. It is
+  not part of the current AAAI claim. The audit freezes candidate denominator
+  3,512 if validated, source rows VL-SAT 77,748 / Open3DSG 57,300, existing
+  verification status `unsupported`, and the extractor contract freezes
+  evidence-only output fields. Required defense before promotion: a G1b
+  schema-validated extractor dry run for surface type, local contact, surface
+  normals, gravity/hanging, contradictory support cues, and
+  object-affordance-as-context; train-dev calibration/counterfactuals; GT
+  verifier evaluation; VL-SAT/Open3DSG metrics; controls; bootstrap CI; and
+  visual audit. Reviewer risk is high if the rule uses object class affordance
+  as proof rather than as optional context; the current contract explicitly
+  forbids that.
 - Verification: Docker bootstrap log `logs/h001_bootstrap_ci_20260526_182034.log`
   exited 0. Docker PDF rebuild `logs/h001_aaai_pdf_build_20260526_182458.log`
   exited 0; `paper/aaai/main.pdf` remains 9 pages with technical content before
   references/checklist, and no missing citations, undefined references,
   overfull hboxes, LaTeX errors, or AAAI package errors were found.
+- Latest appendix/caveat PDF rebuild:
+  `logs/h001_aaai_pdf_build_appendix_caveat_20260527_202734.log` exited 0;
+  `paper/aaai/main.pdf` remains 9 pages, US Letter, with no missing citations,
+  undefined references, overfull hboxes, LaTeX errors, or AAAI package errors.
 
-Remaining after P0-P7:
+Remaining after P0-P9:
 
-- A supplement table for calibrator/threshold provenance would still strengthen
-  P2, but the main-text blocker is mitigated.
+- No P2 provenance blocker remains. Future supplement work should only expand
+  details if the target venue requires a separate supplementary PDF.
+- P9 is an optional claim-expansion track, not a blocker for the current paper
+  claim. Its coordinate audit and bucket inspection are blocked for promotion,
+  so the AAAI path freezes it as a disciplined scope-boundary defense rather
+  than as a broader-coverage claim. It can strengthen the "framework can scale
+  to more spatial relations" defense only if a follow-up resolves the
+  `front`/`behind` frame ambiguity and then passes verifier design, calibration,
+  controls, Open3DSG/VL-SAT metrics, bootstrap CI, and failure/audit gates.
+- P10 is a future-upgrade track, not a current-paper blocker. G0 scope/schema
+  audit and G1 extractor contract are complete. If pursued, G1b evidence-only
+  extractor dry run should happen before retrying relative-horizontal metrics
+  because it is more aligned with H001's physical-consistency mechanism.
+  Function reasoning should remain a secondary case study until the attachment
+  relation reliability result itself is established.
 
 ## Priority Order
 
@@ -300,18 +369,105 @@ Evidence / affected files:
 - `experiments/H001_geom_reliability/scripts/bootstrap_metrics.py`
 - `paper/aaai/sec/6_results.tex`
 
+### P9. Test Scope Expansion With Relative Horizontal Relations
+
+Reviewer attack:
+
+> The current relation scope is too narrow. The work may be a well-engineered
+> verifier for support/proximity/vertical predicates, not a framework that can
+> scale to broader spatial-relation reliability.
+
+Current decision:
+
+- Keep the current main paper claim unchanged: scoped relation reliability for
+  `support_contact`, `proximity`, and `relative_vertical`.
+- Add `relative_horizontal` as a separate validation track, not as immediate
+  main evidence. The first Docker scope audit is complete and records that both
+  VL-SAT and Open3DSG relative-horizontal rows are currently unsupported by the
+  verifier. The coordinate-frame protocol is frozen and the first Docker
+  coordinate audit is complete, but it is blocked for main-claim promotion
+  because macro strict purity is 0.7725 and `front`/`behind` purity is 0.7445.
+- Treat success as evidence that the framework can expand to another large
+  spatial family; treat failure or ambiguity as a limitation/future-work result
+  rather than weakening the locked main claim.
+
+Why this family:
+
+- It is the largest excluded geometry-adjacent family in the fixed H001
+  denominator: 3,570 GT rows, covering `left`, `right`, `front`, and `behind`.
+- If validated, the geometry-checkable denominator would expand from 2,545 to
+  6,115 GT rows, covering about 81% of the 7,505 held-out GT rows.
+- It tests whether H001 is a framework over relation-level geometry reliability
+  rather than a hand-crafted rule set for support/proximity/vertical cases.
+
+Main risk:
+
+- `left/right/front/behind` may depend on an annotation coordinate frame,
+  room/scan frame, object-centric frame, or viewpoint convention. If the frame
+  is wrong, the verifier can look wrong even when the framework is coherent.
+  Therefore coordinate-frame validation must precede metric promotion.
+
+Promotion gates before main-claim use:
+
+1. Freeze the `relative_horizontal` label semantics and coordinate-frame
+   hypothesis from dataset documentation and empirical label checks.
+2. Produce a denominator/coverage audit for GT rows and source prediction rows,
+   including excluded or ambiguous cases.
+3. Define a deterministic geometry status policy with `satisfied`, `violated`,
+   and `uncertain` handling, plus a wrong-frame/axis-flip control.
+4. Build train-dev calibration and counterfactual negatives without using
+   held-out prediction failures.
+5. Run GT-positive/counterfactual verifier evaluation and a targeted visual
+   sanity check for horizontal labels.
+6. Run VL-SAT and Open3DSG source-result metrics with the expanded family
+   included, preserving exact predicate-label recall.
+7. Add nontriviality controls: geometry-only, distance-only if relevant,
+   shuffled geometry, wrong-pair geometry, and wrong-frame/axis-flip geometry.
+8. Run bootstrap CI and failure analysis at the same standard used for the
+   current paper claim.
+
+Pass / fail rule:
+
+- Pass: `relative_horizontal` reaches the same evidence standard as the current
+  H001 families and improves the recall/violation tradeoff under transparent
+  frame and denominator caveats. It may then be promoted from appendix/track
+  evidence into the main paper claim.
+- Partial: it has useful metrics but unresolved frame ambiguity or weak visual
+  audit. Keep it as appendix evidence that motivates broader validation.
+- Fail: frame semantics are too ambiguous or controls show the result is a
+  coordinate artifact. Keep the current claim unchanged and report the failure
+  as a limitation/future-work boundary.
+
+Reviewer-defense wording rule:
+
+- Do not frame the result as "we set 0.80 and missed it" in isolation.
+- Frame it as a threshold-free diagnostic: best deterministic frame is clearly
+  above wrong-frame alternatives and inverse labels are perfectly consistent,
+  but `front`/`behind` remains less stable than `left`/`right`.
+- Use the predeclared gate only to justify not broadening the main claim
+  post-hoc.
+
+Evidence / affected files:
+
+- `experiments/H001_geom_reliability/sources/open3dsg/metric_scope/`
+- `experiments/H001_geom_reliability/sources/relative_horizontal/README.md`
+- `experiments/H001_geom_reliability/sources/relative_horizontal/scope_audit/`
+- `experiments/H001_geom_reliability/sources/relative_horizontal/coordinate_frame_protocol.md`
+- `experiments/H001_geom_reliability/sources/relative_horizontal/coordinate_audit/`
+- future Docker artifacts under
+  `experiments/H001_geom_reliability/sources/relative_horizontal/`
+- `paper/aaai/sec/5_experiments.tex` only if the track reaches promotion level
+- `paper/aaai/sec/7_limitations.tex` if the track remains partial or failed
+
 ## Recommended Immediate Sequence
 
-1. P0: anonymize/remove internal audit wording in `sec/6_results.tex`.
-2. P1: clarify controls source/denominator and decide whether controls stay as
-   main prose or move to supplement table.
-3. P2: add calibrator/threshold freeze provenance sentence and supplement table
-   plan.
-4. P5: tighten `Violation@K` metric definition.
-5. P4: add one RelWitness non-baseline sentence.
-6. P3 and P6: run a wording pass to keep Open3DSG and downstream claims scoped.
-7. P7: completed as Docker subgraph bootstrap CI; keep wording scoped to
-   evaluation-context uncertainty, not repeated-training variance.
+1. P9: inspect the `relative_horizontal` `front`/`behind`
+   ambiguity/contradiction buckets before deciding whether a verifier policy is
+   defensible. Do not change the current paper claim during this gate.
+2. P0-P8: completed for the current claim; keep the manuscript wording scoped
+   during any paper polish.
+3. Qwen-VL: keep as a deferred third semantic-source extension until GPU
+   runtime is acceptable and full Docker metric/audit promotion can run.
 
 ## What Not To Do
 
@@ -323,3 +479,6 @@ Evidence / affected files:
   denominator, or residual calibration-risk caveats.
 - Do not describe the 50-row visual spot-check as large-scale, strictly blinded,
   or independent.
+- Do not add `relative_horizontal` to the main claim until coordinate-frame
+  semantics, denominator, calibration, controls, metrics, bootstrap CI, and
+  failure/audit evidence reach the current H001 evidence standard.

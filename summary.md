@@ -1,6 +1,6 @@
 # H001 Research Summary
 
-Last updated: 2026-05-27 KST
+Last updated: 2026-05-28 KST
 
 이 문서는 CAND-001 / H001의 현재 연구 정의, 필요성, 가설, metric,
 비교군, 실험 세팅, contribution, 구현 방향, baseline 재현 가능성을 한곳에
@@ -38,7 +38,13 @@ Target families:
 Out of first-scope:
 
 - full functional relation discovery
-- relative-horizontal coordinate-frame claim
+- relative-horizontal coordinate-frame claim remains outside the current main
+  claim; it is now a selected scope-expansion validation track with blocked
+  coordinate-audit and bucket-inspection diagnostics
+- attachment / hanging / connection relations remain outside the current main
+  claim, but `attachment_deferred` is the preferred future physical-relation
+  upgrade path; Docker G0 scope/schema audit and G1 extractor contract are
+  complete and the next gate is `G1b_attachment_evidence_extractor_dry_run`
 - online RGB-D graph generation
 - robotics navigation
 - broad open-vocabulary 3DSSG generation improvement
@@ -185,6 +191,55 @@ Open3DSG metric-scope policy:
   collapse
 - filtered-train and covered-scope caveats must be reported
 
+Relative-horizontal expansion track:
+
+- status: `relative_horizontal_bucket_inspection_ready_do_not_promote_no_metric_execution`
+- current claim remains unchanged until the expanded track reaches the current
+  H001 evidence standard
+- candidate GT rows: 3,570, with labels `left/right/front/behind`
+  1,132/1,132/653/653
+- expanded candidate denominator: 6,115 / 7,505 if validated
+- source prediction rows: VL-SAT 103,664 and Open3DSG 76,400
+- current verification status: unsupported for both sources
+- coordinate audit result: selected frame `scan_left_neg_x_front_neg_y`, macro
+  strict purity 0.7725, strict eligible share 0.6403, `left`/`right` purity
+  0.8005, `front`/`behind` purity 0.7445, inverse consistency 1.0, wrong-frame
+  gap 0.1231
+- bucket inspection result: `front`/`behind` strict match:contradiction 2.9143,
+  sign-only purity 0.7491, ambiguity flags `axis_margin_ambiguous` 230,
+  `conflicting_axis_dominates` 430, `strong_projected_overlap` 44
+- recommendation: `do_not_promote_relative_horizontal_to_main_claim`
+- current AAAI-path decision: stop as appendix/limitation evidence; do not run
+  expanded-family metrics unless the paper strategy explicitly pivots to broader
+  spatial-family coverage
+
+Attachment-deferred upgrade track:
+
+- status: `attachment_deferred_extractor_contract_ready_no_extraction`
+- current claim remains unchanged; this is a future H001 upgrade path
+- candidate GT rows: 967, with labels `attached to` 808, `hanging on` 126,
+  `connected to` 33
+- expanded candidate denominator: 3,512 / 7,505 if validated
+- source prediction rows: VL-SAT 77,748 and Open3DSG 57,300
+- existing geometry verification status: `unsupported` for both sources
+- completed Docker outputs:
+  `experiments/H001_geom_reliability/sources/attachment_deferred/scope_audit/{manifest.json,label_counts.json,evidence_schema.json,report.md}`
+- completed G1 contract outputs:
+  `experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/{manifest.json,extractor_contract.json,output_schema.json,field_catalog.json,subtype_policy.json,extraction_plan.json,validation_plan.json,example_row.json,report.md}`
+- frozen extractor rule: emit evidence only; do not emit `verification_status`,
+  `p_geom_valid`, recall credit, or reranking scores
+- reason to prefer over `relative_horizontal`: smaller denominator gain but
+  stronger conceptual fit to H001, because attachment/hanging/connection require
+  physical adjacency, contact, near-surface support, gravity, and object
+  affordance consistency
+- core risk: harder than support/contact; requires wall/ceiling/furniture
+  surface evidence, local point contact, surface normals, gravity/hanging
+  evidence, conservative uncertain handling, and visual audit
+- upgrade order: G1b evidence-only extractor dry run -> verifier policy ->
+  train-dev calibration/counterfactuals -> GT verifier evaluation/visual sanity
+  -> VL-SAT/Open3DSG metrics and controls -> bootstrap CI/failure analysis ->
+  optional function-reasoning pilot
+
 ## Metrics
 
 Prediction metrics:
@@ -244,7 +299,7 @@ Cross-source comparison:
 | --- | --- | --- |
 | Open3DSG | manuscript main open-vocabulary relation-source case study | Docker-reproduced avg-BLIP checkpoint, H001 eval features, raw dump identity with clean v14 streaming provenance, adapter export, geometry join, metric eval, experiment-artifact Table 6 hook, real failure rows, qualitative case sample, qualitative inspection, paper caveat wording, and subgraph bootstrap CI are ready |
 | `VL-SAT` | controlled reproduced anchor | reproduced and table-ready; used to test the same reliability mechanism under a cleaner closed-set source contract |
-| Qwen-VL | third semantic source / modern VLM extension | schema/parser/tiny pilot/pair crops ready; Qwen3-VL-4B cache ready; Docker runtime preflight, 3-row tiny inference smoke, raw-response validation, full-source promotion plan, full-source input audit, all-scope crop preflight, and full-source inference runner plan are ready; 33,384 inferable rows / 134 shards / 11,128 verified unique pair crops; shard 0000 inference complete and validated with 250/250 parsed rows; no full paper-metric validation/evaluation |
+| Qwen-VL | third semantic source / modern VLM extension | schema/parser/tiny pilot/pair crops ready; Qwen3-VL-4B cache ready; Docker runtime preflight, 3-row tiny inference smoke, raw-response validation, full-source promotion plan, full-source input audit, all-scope crop preflight, and full-source inference runner plan are ready; 33,384 inferable rows / 134 shards / 11,128 verified unique pair crops; shards 0000-0013 complete with 3,500 parsed rows; remaining resume starts from shard 0014 after GPU guard is acceptable; no full paper-metric validation/evaluation |
 | FROSS | optional online support/contact source | not full-family H001 evidence |
 
 ## What The Experiments Compare
@@ -553,6 +608,8 @@ Current data/runtime status:
 
 Current paper handoff:
 
+- `paper/README.md` is ready and maps the paper workspace files, reading order,
+  and update ownership.
 - `paper/preview.md` is ready and summarizes current results, caveats,
   reviewer-defense map, optional extension boundary, and recovery files.
 - `paper/progress.md` is ready and records the hypothesis-to-experiment
@@ -570,6 +627,11 @@ Current paper handoff:
   Experimental Setup, Results/Discussion, Limitations, and Conclusion. Related
   Work now uses BibTeX-style citation keys and `paper/references.bib` scaffolds
   all inserted keys.
+- `paper/risk.md` is ready as the reviewer-risk register tracking attack
+  surface, mitigation status, and remaining defense work.
+- `paper/appendix.md` is ready as the appendix/supplement plan. It records the
+  calibrator/threshold provenance table, Open3DSG caveat consistency pass,
+  optional Figure 3 decision, and Qwen-VL third-source boundary.
 - `paper/aaai/` is ready as the current AAAI-style LaTeX source conversion. It
   uses AAAI-26 style files until the exact target-year official kit is fixed,
   splits the manuscript into `main.tex` plus `sec/*.tex`, and points the
@@ -583,6 +645,10 @@ Current paper handoff:
   recall-tradeoff, averaged-BLIP Open3DSG, family-selection, AAAI-relevance,
   and small-delta uncertainty attacks without moving technical content beyond
   page 7.
+- The 2026-05-27 appendix/caveat PDF rebuild
+  `logs/h001_aaai_pdf_build_appendix_caveat_20260527_202734.log` exits 0;
+  `paper/aaai/main.pdf` remains 9 pages, US Letter, with no blocking LaTeX or
+  AAAI warnings.
 - `paper/figures.md` is ready and locks Figure 1-3 claims/assets before drawing:
   Figure 1 method framework, Figure 2 two-panel R@100/Violation@100 tradeoff,
   and Figure 3 Open3DSG qualitative case panels.
@@ -602,13 +668,23 @@ Next required drafting step:
    checklist and first reviewer-defense pass are complete. The latest AAAI PDF
    rebuild is clean, and manuscript Table 3 reports Open3DSG first as the main
    open-vocabulary case study with VL-SAT second as the controlled anchor.
-2. Keep Open3DSG caveats explicit during any further polish;
-   keep averaged-BLIP, filtered-train/dev, covered-scope, exact-label denominator,
-   `validation_missing_preprocessed:11`, and residual calibration-risk caveats
-   explicit for now.
+2. Keep Open3DSG caveats explicit during any further polish; the 2026-05-27
+   consistency pass records averaged-BLIP, filtered-train/dev, covered-scope,
+   exact-label denominator, `validation_missing_preprocessed:11`, and residual
+   calibration-risk checks in `paper/appendix.md`.
 3. Keep only an optional final-polish task for rendered scene-crop Figure 3
    evidence if a deterministic path is added; the geometry-backed panel is
    already sufficient for manuscript planning.
+4. Keep the current paper claim unchanged while `relative_horizontal` remains a
+   frozen appendix/limitation track for the AAAI path. The scope audit,
+   coordinate audit, and bucket inspection are ready, but the track is blocked
+   for promotion; promotion requires resolving `front`/`behind` ambiguity plus
+   verifier policy, calibration, source metrics, controls, bootstrap CI, and
+   failure/audit evidence at the current H001 standard.
+5. Treat `attachment_deferred` as the preferred future H001 upgrade if relation
+   scope expands. Docker G0 scope/schema audit and G1 extractor contract are
+   complete; next start with a schema-validated G1b evidence-only dry run rather
+   than held-out metrics.
 
 Recent Related Work decision:
 
@@ -644,10 +720,24 @@ Reproducibility/GitHub portability note:
 
 Optional extension sequence:
 
-- Qwen-VL remaining shard loop running: shard 0000 completed and validated;
-  tmux `h001_qwen_vl_infer_remaining` run id `20260527_023111` is processing
-  shards 0001-0133 sequentially. Keep Qwen as third-source non-metric
-  extension evidence until the full Docker metric path completes.
+- `relative_horizontal` has completed the non-GPU scope, coordinate, and bucket
+  inspections. The current recommendation is
+  `do_not_promote_relative_horizontal_to_main_claim`; the AAAI-path decision is
+  to stop as appendix/limitation evidence. A targeted `front`/`behind`
+  visual/frame-metadata check is optional only if the paper strategy later
+  pivots to broader spatial-family coverage.
+- `attachment_deferred` is the preferred next relation-family expansion if H001
+  is upgraded: Docker scope/schema audit and G1 extractor contract are complete,
+  so the next step is G1b schema-validated evidence-only dry run; then add
+  verifier policy, calibration/counterfactuals, GT verifier evaluation, source
+  metrics/controls, bootstrap CI, and audit. A simple
+  function-reasoning case study should come only after relation reliability is
+  established.
+- Qwen-VL remaining shard loop status: run id `20260527_023111` stopped at
+  shard 0014 because the GPU guard observed utilization 36% against the 35%
+  threshold. Shards 0000-0013 are complete with 3,500 parsed rows, and the clean
+  resume point is `qwen_full_source_shard_0014`. Keep Qwen as third-source
+  non-metric extension evidence until the full Docker metric path completes.
 - AAAI source route: `paper/aaai/` now uses official AAAI-26 Author Kit style
   files checked on 2026-05-27 KST. `aaai2026.sty` was replaced from the
   official kit, `aaai2026.bst` already matched, and no official AAAI-27 author

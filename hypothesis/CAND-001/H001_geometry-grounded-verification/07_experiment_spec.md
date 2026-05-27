@@ -267,9 +267,31 @@ semantic source is a modern VLM rather than a trained 3DSSG predictor?
 Optional RQ6:
 
 ```text
-Can the framework be transferred from spatial 3DSSG relations to functional or
-affordance relations without changing the claim boundary?
+Can the framework be upgraded from the current spatial/support families to
+attachment-style physical relations (`attached to`, `hanging on`, `connected
+to`) before attempting broader functional or affordance reasoning?
 ```
+
+Current RQ6 boundary:
+
+- `attachment_deferred` is the preferred future relation-family upgrade because
+  it stays close to physical consistency while adding 967 GT rows.
+- It is not part of the current AAAI claim.
+- Docker G0 scope/schema audit is complete under
+  `experiments/H001_geom_reliability/sources/attachment_deferred/scope_audit/`
+  with status `attachment_deferred_scope_schema_ready_no_metric_execution`.
+- Docker G1 extractor contract is complete under
+  `experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/`
+  with status `attachment_deferred_extractor_contract_ready_no_extraction`.
+- Next gate is `G1b_attachment_evidence_extractor_dry_run`: surface type, local
+  contact/near-contact, surface normal, gravity/hanging cue, contradictory
+  support cue, and object-affordance-as-context fields must be emitted as
+  evidence-only rows before any verifier, calibration, or source metric run.
+- The extractor contract forbids `verification_status`, `p_geom_valid`, recall
+  credit, and reranking scores.
+- Function reasoning should be evaluated only as a secondary pilot after
+  attachment relation reliability passes its own verifier/calibration/source
+  metric gates.
 
 ## Metrics And Conditions
 

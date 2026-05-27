@@ -1,0 +1,482 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "affordance_context": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed_as_proof": {
+          "const": false
+        },
+        "class_pair_prior": {
+          "enum": [
+            "plausible",
+            "implausible",
+            "unknown"
+          ]
+        },
+        "class_pair_prior_source": {
+          "enum": [
+            "fixed_list",
+            "none"
+          ]
+        }
+      },
+      "required": [
+        "class_pair_prior",
+        "class_pair_prior_source",
+        "allowed_as_proof"
+      ],
+      "type": "object"
+    },
+    "contradictory_support_evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "floor_or_table_supported": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "reason_codes": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "support_explanation_score": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "floor_or_table_supported",
+        "support_explanation_score",
+        "reason_codes"
+      ],
+      "type": "object"
+    },
+    "extractor_status": {
+      "enum": [
+        "ready",
+        "partial",
+        "missing_geometry",
+        "missing_points",
+        "unsupported_label",
+        "invalid_object_pair"
+      ]
+    },
+    "extractor_version": {
+      "type": "string"
+    },
+    "geometry_available": {
+      "additionalProperties": false,
+      "properties": {
+        "normals": {
+          "type": "boolean"
+        },
+        "obb": {
+          "type": "boolean"
+        },
+        "points": {
+          "type": "boolean"
+        },
+        "surface_candidates": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "obb",
+        "points",
+        "surface_candidates",
+        "normals"
+      ],
+      "type": "object"
+    },
+    "gravity_evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "floor_clearance_m": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "hanging_geometry_score": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "near_vertical_or_overhead_surface": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "floor_clearance_m",
+        "near_vertical_or_overhead_surface",
+        "hanging_geometry_score"
+      ],
+      "type": "object"
+    },
+    "missing_fields": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "notes": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "obb_evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "center_delta_z_m": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "distance_3d_m": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "distance_xy_m": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "normalized_distance_3d": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "normalized_distance_xy": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "projected_xy_overlap": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "vertical_gap_m": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "distance_3d_m",
+        "distance_xy_m",
+        "normalized_distance_3d",
+        "normalized_distance_xy",
+        "projected_xy_overlap",
+        "vertical_gap_m",
+        "center_delta_z_m"
+      ],
+      "type": "object"
+    },
+    "object_id": {
+      "type": [
+        "integer",
+        "string"
+      ]
+    },
+    "object_label": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "point_contact_evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "contact_patch_extent_m2": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "contact_patch_score": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "min_point_distance_m": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "near_contact_point_count": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "near_contact_threshold_m": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "object_point_count": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "subject_point_count": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "subject_point_count",
+        "object_point_count",
+        "min_point_distance_m",
+        "near_contact_point_count",
+        "near_contact_threshold_m",
+        "contact_patch_extent_m2",
+        "contact_patch_score"
+      ],
+      "type": "object"
+    },
+    "predicate_family": {
+      "const": "attachment_deferred"
+    },
+    "predicate_label": {
+      "enum": [
+        "attached to",
+        "hanging on",
+        "connected to"
+      ]
+    },
+    "quality_flags": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "row_id": {
+      "type": "string"
+    },
+    "scan_id": {
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "h001_attachment_deferred_evidence_row_v1"
+    },
+    "source_name": {
+      "enum": [
+        "vlsat_closed_set",
+        "open3dsg_ov",
+        "gt_positive",
+        "counterfactual"
+      ]
+    },
+    "subgraph_id": {
+      "type": "string"
+    },
+    "subject_id": {
+      "type": [
+        "integer",
+        "string"
+      ]
+    },
+    "subject_label": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "subtype_hint": {
+      "enum": [
+        "attached_to_vertical_or_overhead_surface",
+        "attached_to_furniture_or_fixture",
+        "ambiguous_functional_attachment",
+        "hanging_from_vertical_surface",
+        "hanging_from_overhead_or_fixture",
+        "ambiguous_draped_or_occluded_hanging",
+        "connected_adjacent_or_contiguous",
+        "connected_by_fixture_or_part",
+        "ambiguous_functional_connection",
+        "unknown"
+      ]
+    },
+    "surface_evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "candidates": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "distance_m": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "evidence_source": {
+                "enum": [
+                  "segmented_points",
+                  "obb_plane_proxy",
+                  "object_label_prior",
+                  "missing"
+                ]
+              },
+              "normal_class": {
+                "enum": [
+                  "horizontal_up",
+                  "horizontal_down",
+                  "vertical",
+                  "slanted",
+                  "unknown"
+                ]
+              },
+              "normal_xyz": {
+                "items": {
+                  "type": "number"
+                },
+                "maxItems": 3,
+                "minItems": 3,
+                "type": [
+                  "array",
+                  "null"
+                ]
+              },
+              "point_contact_count": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "projected_overlap_ratio": {
+                "maximum": 1,
+                "minimum": 0,
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "surface_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "surface_type": {
+                "enum": [
+                  "wall",
+                  "ceiling",
+                  "floor",
+                  "furniture",
+                  "fixture",
+                  "object_part",
+                  "unknown"
+                ]
+              }
+            },
+            "required": [
+              "surface_id",
+              "surface_type",
+              "normal_class",
+              "normal_xyz",
+              "distance_m",
+              "projected_overlap_ratio",
+              "point_contact_count",
+              "evidence_source"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "selected_surface_normal_class": {
+          "enum": [
+            "horizontal_up",
+            "horizontal_down",
+            "vertical",
+            "slanted",
+            "unknown"
+          ]
+        },
+        "selected_surface_type": {
+          "enum": [
+            "wall",
+            "ceiling",
+            "floor",
+            "furniture",
+            "fixture",
+            "object_part",
+            "unknown"
+          ]
+        }
+      },
+      "required": [
+        "selected_surface_type",
+        "selected_surface_normal_class",
+        "candidate_count",
+        "candidates"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "extractor_version",
+    "row_id",
+    "source_name",
+    "scan_id",
+    "subgraph_id",
+    "subject_id",
+    "object_id",
+    "subject_label",
+    "object_label",
+    "predicate_label",
+    "predicate_family",
+    "extractor_status",
+    "subtype_hint",
+    "geometry_available",
+    "obb_evidence",
+    "point_contact_evidence",
+    "surface_evidence",
+    "gravity_evidence",
+    "contradictory_support_evidence",
+    "affordance_context",
+    "quality_flags",
+    "missing_fields",
+    "notes"
+  ],
+  "title": "H001 attachment-deferred evidence row",
+  "type": "object"
+}

@@ -1,6 +1,6 @@
 # H001 Paper Preview
 
-Last updated: 2026-05-26 KST
+Last updated: 2026-05-28 KST
 
 이 문서는 H001을 paper/experiment writing phase로 넘기기 직전에 현재까지의 연구 결과, 주장 범위, 실험 근거, caveat, 그리고 재시작 시 반드시 읽어야 할 파일을 한곳에 고정한 preview다. 최종 manuscript가 아니라 paper draft를 쓰기 위한 handoff 문서다.
 
@@ -155,6 +155,61 @@ Interpretation:
 - The failure analysis supports the failure-mechanism narrative: semantic plausibility and physical consistency can diverge.
 - It also exposes residual calibration risk, which should be reported rather than hidden.
 
+## Optional Scope Expansion Boundary
+
+Fact:
+
+- `relative_horizontal` is a separate expansion track, not part of the current
+  main claim.
+- Docker scope audit finds 3,570 candidate GT rows and an expanded candidate
+  denominator of 6,115 / 7,505 if validated.
+- Docker coordinate audit and bucket inspection are complete but blocked for
+  promotion: best frame `scan_left_neg_x_front_neg_y`, macro strict purity
+  0.7725, `front`/`behind` strict purity 0.7445, inverse consistency 1.0,
+  wrong-frame gap 0.1231, and `front`/`behind` ambiguity buckets remain large.
+- Current recommendation: `do_not_promote_relative_horizontal_to_main_claim`.
+- Current AAAI-path decision: freeze as appendix/limitation evidence and do not
+  run expanded-family metrics.
+
+Interpretation:
+
+- This is useful scope-boundary evidence, not a broader-coverage result.
+- Do not run or report expanded-family VL-SAT/Open3DSG metrics on the current
+  AAAI path. A targeted `front`/`behind` visual/frame-metadata check is only
+  justified if the paper strategy later pivots to broader spatial-family
+  coverage.
+
+## Future Attachment Upgrade
+
+Fact:
+
+- `attachment_deferred` is a future H001 upgrade path, not part of the current
+  main claim.
+- Docker G0 scope/schema audit and G1 extractor contract are complete with
+  status `attachment_deferred_extractor_contract_ready_no_extraction`.
+- Current denominator policy records 967 GT rows: `attached to` 808,
+  `hanging on` 126, and `connected to` 33.
+- If validated, the candidate denominator grows from 2,545 to 3,512.
+- Candidate source rows already exist: VL-SAT 77,748 and Open3DSG 57,300.
+- Existing verification status is `unsupported` for both sources; this is why
+  the track is not current metric evidence.
+- The extractor contract explicitly forbids `verification_status`,
+  `p_geom_valid`, recall credit, and reranking scores in extractor output.
+
+Interpretation:
+
+- This is a better next relation-family expansion than `relative_horizontal`
+  because it stays inside H001's physical-consistency mechanism: attachment and
+  hanging should be constrained by contact, surface type, gravity, and object
+  affordance.
+- It is also harder than support/contact and cannot be promoted without a G1b
+  evidence-only extractor dry run, subtype verifier, calibration/
+  counterfactuals, visual sanity check, two-source metrics, controls, bootstrap
+  CI, and failure analysis.
+- A small function-reasoning case study is reasonable only after the
+  attachment-reliability result exists; it should show simple physical
+  precondition reasoning, not claim broad affordance or robotics performance.
+
 ## Main Tables And Figures To Draft
 
 Fact:
@@ -195,8 +250,9 @@ Recommended paper narrative:
 
 Qwen-VL:
 
-- Current status: third semantic source / modern VLM extension. Contract, parser skeleton, 30-row non-held-out tiny pilot, pair crops, model-lock plan, Qwen3-VL-4B cache, runtime preflight, 3-row tiny inference smoke, raw-response validation, full-source promotion plan, and full-source input audit are ready.
+- Current status: third semantic source / modern VLM extension. Contract, parser skeleton, 30-row non-held-out tiny pilot, pair crops, model-lock plan, Qwen3-VL-4B cache, runtime preflight, 3-row tiny inference smoke, raw-response validation, full-source promotion plan, full-source input audit, all-scope crop preflight, full-source inference runner plan, and shard 0000 contract validation are ready.
 - Frozen promotion scope: 127 scans, 388 contexts, 25,916 directed pairs, 77,748 all-pairs x family query rows, 33,384 inferable input rows, 44,364 missing rows, 134 shards, and 2,545 in-scope GT rows.
+- Current inference state: shards 0000-0013 are complete with 3,500 parsed rows. Remaining loop run id `20260527_023111` stopped at shard 0014 because the GPU guard observed utilization 36% against the 35% threshold; clean resume starts from `qwen_full_source_shard_0014`.
 - It should stay non-metric unless full prediction JSONL, geometry join, denominator, metrics, bootstrap, and audit treatment are added.
 
 FROSS:
@@ -224,27 +280,29 @@ Read these first:
 6. `docs/paper.md`
 7. `docs/reproducibility.md`
 8. `summary.md`
-9. `paper/preview.md`
-10. `paper/outline.md`
-11. `paper/draft.md`
-12. `paper/aaai/README.md`
-13. `paper/aaai/main.tex`
-14. `paper/iccv/README.md`
-15. `paper/figures.md`
+9. `paper/README.md`
+10. `paper/preview.md`
+11. `paper/risk.md`
+12. `paper/appendix.md`
+13. `paper/outline.md`
+14. `paper/draft.md`
+15. `paper/aaai/README.md`
+16. `paper/aaai/main.tex`
+17. `paper/iccv/README.md`
+18. `paper/figures.md`
 
 ### Must-Read Hypothesis Files
 
 Read these to recover the claim, method, and evaluation contract:
 
 1. `hypothesis/README.md`
-2. `hypothesis/CAND-001/README.md`
-3. `hypothesis/CAND-001/H001_geometry-grounded-verification/01_overview.md`
-4. `hypothesis/CAND-001/H001_geometry-grounded-verification/02_method.md`
-5. `hypothesis/CAND-001/H001_geometry-grounded-verification/03_data_baseline.md`
-6. `hypothesis/CAND-001/H001_geometry-grounded-verification/04_results.md`
-7. `hypothesis/CAND-001/H001_geometry-grounded-verification/05_audit.md`
-8. `hypothesis/CAND-001/H001_geometry-grounded-verification/06_second_source.md`
-9. `hypothesis/CAND-001/H001_geometry-grounded-verification/07_experiment_spec.md`
+2. `hypothesis/CAND-001/H001_geometry-grounded-verification/01_overview.md`
+3. `hypothesis/CAND-001/H001_geometry-grounded-verification/02_method.md`
+4. `hypothesis/CAND-001/H001_geometry-grounded-verification/03_data_baseline.md`
+5. `hypothesis/CAND-001/H001_geometry-grounded-verification/04_results.md`
+6. `hypothesis/CAND-001/H001_geometry-grounded-verification/05_audit.md`
+7. `hypothesis/CAND-001/H001_geometry-grounded-verification/06_second_source.md`
+8. `hypothesis/CAND-001/H001_geometry-grounded-verification/07_experiment_spec.md`
 
 ### Must-Read Experiment Result Files
 
@@ -261,6 +319,7 @@ Read these to recover the locked paper-result state:
 9. `experiments/H001_geom_reliability/tables/table5_claim_boundary.md`
 10. `experiments/H001_geom_reliability/tables/table6_cross_source_status.md`
 11. `experiments/H001_geom_reliability/figures/figure_specs.md`
+12. `experiments/H001_geom_reliability/bootstrap_ci/summary.md`
 
 ### Must-Read Open3DSG Files
 
@@ -281,6 +340,20 @@ Read these before rerunning Open3DSG:
 13. `experiments/H001_geom_reliability/sources/open3dsg/failure_cases/inspection.md`
 14. `experiments/H001_geom_reliability/sources/open3dsg/paper_caveats/report.md`
 
+### Must-Read Qwen-VL Files
+
+Read these before resuming Qwen-VL or moving the run to another computer:
+
+1. `experiments/H001_geom_reliability/sources/qwen_vl/README.md`
+2. `experiments/H001_geom_reliability/sources/qwen_vl/report.md`
+3. `experiments/H001_geom_reliability/sources/qwen_vl/status.json`
+4. `experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml`
+5. `experiments/H001_geom_reliability/sources/qwen_vl/full_source_input/manifest.json`
+6. `experiments/H001_geom_reliability/sources/qwen_vl/full_source_inference_plan/commands.md`
+7. `experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/manifests/`
+8. `logs/qwen_vl_full_source_infer_remaining_20260527_023111.status.tsv`
+9. `logs/qwen_vl_full_source_infer_remaining_20260527_023111.exit`
+
 ### Runtime Data That May Need Rebuild
 
 These are usually not safe to assume on a new computer:
@@ -295,6 +368,7 @@ These are usually not safe to assume on a new computer:
 | Open3DSG train/dev features | `local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3/` |
 | Open3DSG H001 eval features | `local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3/` |
 | Qwen-VL model cache | `local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/` |
+| Qwen-VL full-source crops | `local_dataset/qwen_vl_crops/full_source/` |
 
 Recovery rule:
 
@@ -312,5 +386,6 @@ Recommended next action:
 2. Treat the claim-consistency review in `paper/outline.md` as the current paper guardrail: title, contributions, abstract, Introduction, table captions, and figure captions must stay within the scoped relation-reliability claim.
 3. Treat the AAAI reproducibility checklist as inserted after references: latest Docker build gives 9 total pages, technical content pages 1-7, references page 8, checklist page 9, and no blocking build warnings.
 4. Treat the first AAAI reviewer-defense pass as complete: main text now directly answers hand-coded verifier, geometry-only/distance, recall-tradeoff, averaged-BLIP Open3DSG, family-selection, and AAAI-relevance attacks.
-5. Keep Open3DSG caveats explicit during any further polish; caption compression must not hide averaged-BLIP, filtered split, covered scope, exact-label denominator, or residual calibration risk.
-6. Keep Qwen-VL as third-source extension only, unless it receives the same Docker, metric, denominator, bootstrap, and audit treatment as paper evidence.
+5. Treat `paper/appendix.md` as the current appendix/provenance owner: calibrator/threshold provenance, Open3DSG caveat consistency, Figure 3 optionality, and Qwen-VL third-source boundary are recorded there.
+6. Keep Open3DSG caveats explicit during any further polish; caption compression must not hide averaged-BLIP, filtered split, covered scope, exact-label denominator, or residual calibration risk.
+7. Keep Qwen-VL as third-source extension only, unless it receives the same Docker, metric, denominator, bootstrap, and audit treatment as paper evidence.

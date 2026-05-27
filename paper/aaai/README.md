@@ -1,6 +1,6 @@
 # AAAI-Style Manuscript Source
 
-Last updated: 2026-05-27 KST
+Last updated: 2026-05-28 KST
 
 This directory is the AAAI-style LaTeX source conversion of the H001 paper.
 It is separate from `paper/iccv/` so venue-specific formatting decisions do not
@@ -77,14 +77,15 @@ ICCV preamble blindly into this directory.
 Verified run:
 
 - Image build log: `logs/h001_aaai_tex_image_build_20260526_015436.log`
-- PDF build log: `logs/h001_aaai_pdf_build_official_kit_20260527_024752.log`
+- PDF build log: `logs/h001_aaai_pdf_build_attachment_strategy_20260528_004342.log`
 - Output: `paper/aaai/main.pdf`
 - Page count: 9 total pages
 - Technical content: pages 1-7
 - References: page 8
 - Reproducibility checklist: page 9
 - Current warnings: no missing citations, undefined references, overfull hboxes,
-  LaTeX errors, or AAAI package errors in the latest build log
+  LaTeX errors, or AAAI package errors in the latest build log. Underfull box
+  warnings remain non-blocking layout warnings.
 - Visual inspection: `paper/aaai/inspection/report.md`
 
 ## Source Boundary

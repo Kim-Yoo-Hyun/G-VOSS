@@ -1,0 +1,92 @@
+{
+  "counterfactual_negative_strategies": [
+    "wrong_surface_replacement",
+    "far_object_pair",
+    "wrong_pair_attachment",
+    "shuffled_geometry_within_attachment_family",
+    "floor_support_replacement_for_wall_or_hanging_cases",
+    "gravity_inconsistent_hanging_case"
+  ],
+  "existing_reusable_evidence": [
+    "object labels",
+    "subject/object OBB extents",
+    "3D and XY distance",
+    "normalized distance",
+    "projected XY overlap",
+    "vertical extents and gaps",
+    "segmented object point clouds when available"
+  ],
+  "function_reasoning_boundary": {
+    "allowed_after_relation_metrics": [
+      "small physical-precondition case study",
+      "wall-mounted or hanging plausibility query",
+      "connected-object consistency query"
+    ],
+    "blocked_until_separate_benchmark": [
+      "broad affordance prediction",
+      "robotics task success claim",
+      "general functional relation discovery"
+    ]
+  },
+  "new_required_evidence": [
+    "candidate attachment surface type: wall, ceiling, floor, furniture, fixture, or unknown",
+    "local object-to-surface distance",
+    "local point-contact or near-contact count",
+    "contact patch size or projected overlap on candidate surface",
+    "surface normal / dominant plane orientation",
+    "hanging gravity cue: subject suspended above floor or near vertical/overhead support",
+    "contradictory support cue: object is better explained as floor/table supported",
+    "optional class-pair affordance cue, never as the sole proof of validity"
+  ],
+  "predicate_labels": [
+    "attached to",
+    "hanging on",
+    "connected to"
+  ],
+  "required_controls": [
+    "geometry_only_ranking",
+    "distance_or_contact_only_ranking",
+    "shuffled_geometry",
+    "wrong_pair_geometry",
+    "surface_type_ablation",
+    "class_affordance_only_ablation"
+  ],
+  "schema_version": "h001_attachment_deferred_evidence_schema_v1",
+  "status": "schema_plan_frozen_no_verifier_no_metric",
+  "status_policy_principles": {
+    "satisfied": [
+      "clear near-contact with plausible attachment surface",
+      "surface orientation and predicate subtype agree",
+      "no stronger contradictory support explanation"
+    ],
+    "uncertain": [
+      "mesh or segmented points are insufficient",
+      "visible geometry supports multiple explanations",
+      "relation likely depends on hidden fasteners, wires, or functional context",
+      "class affordance suggests attachment but geometry is not decisive"
+    ],
+    "violated": [
+      "object pair is far from any plausible attachment surface",
+      "predicate requires hanging/attachment but geometry indicates unrelated separated objects",
+      "support surface type contradicts the predicate with sufficient geometric margin"
+    ]
+  },
+  "subtypes": {
+    "attached to": [
+      "attached_to_vertical_or_overhead_surface",
+      "attached_to_furniture_or_fixture",
+      "ambiguous_functional_attachment"
+    ],
+    "connected to": [
+      "connected_adjacent_or_contiguous",
+      "connected_by_fixture_or_part",
+      "ambiguous_functional_connection"
+    ],
+    "hanging on": [
+      "hanging_from_vertical_surface",
+      "hanging_from_overhead_or_fixture",
+      "ambiguous_draped_or_occluded_hanging"
+    ]
+  },
+  "target_family": "attachment_deferred"
+}

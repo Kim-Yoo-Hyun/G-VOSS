@@ -1,0 +1,108 @@
+{
+  "predicate_to_subtype_hints": {
+    "attached to": [
+      {
+        "required_evidence": [
+          "near vertical/overhead candidate surface",
+          "small object-to-surface distance",
+          "local near-contact or contact patch"
+        ],
+        "subtype_hint": "attached_to_vertical_or_overhead_surface",
+        "uncertain_cases": [
+          "hidden fastener or occluded contact",
+          "surface normal unavailable",
+          "object class suggests attachment but geometry is weak"
+        ]
+      },
+      {
+        "required_evidence": [
+          "near furniture/fixture/object-part surface",
+          "small object-to-surface distance",
+          "local contact or projected overlap"
+        ],
+        "subtype_hint": "attached_to_furniture_or_fixture",
+        "uncertain_cases": [
+          "functional attachment without visible contact"
+        ]
+      },
+      {
+        "required_evidence": [
+          "class/context suggests attachment but geometry is not decisive"
+        ],
+        "subtype_hint": "ambiguous_functional_attachment",
+        "uncertain_cases": [
+          "always uncertain until visual or stronger geometry evidence exists"
+        ]
+      }
+    ],
+    "connected to": [
+      {
+        "required_evidence": [
+          "very small object-object distance",
+          "local contact or near-contact",
+          "spatial continuity along boundary"
+        ],
+        "subtype_hint": "connected_adjacent_or_contiguous",
+        "uncertain_cases": [
+          "connection hidden by occlusion"
+        ]
+      },
+      {
+        "required_evidence": [
+          "fixture/object-part candidate nearby",
+          "small distance to intermediate support/part"
+        ],
+        "subtype_hint": "connected_by_fixture_or_part",
+        "uncertain_cases": [
+          "intermediate part not segmented as a separate object"
+        ]
+      },
+      {
+        "required_evidence": [
+          "class/context suggests connection but physical contact is not visible"
+        ],
+        "subtype_hint": "ambiguous_functional_connection",
+        "uncertain_cases": [
+          "always uncertain until visual or stronger geometry evidence exists"
+        ]
+      }
+    ],
+    "hanging on": [
+      {
+        "required_evidence": [
+          "subject near vertical surface",
+          "subject not primarily floor/table supported",
+          "gravity cue consistent with hanging"
+        ],
+        "subtype_hint": "hanging_from_vertical_surface",
+        "uncertain_cases": [
+          "draped object",
+          "occluded contact point",
+          "normal unavailable"
+        ]
+      },
+      {
+        "required_evidence": [
+          "subject near overhead/fixture candidate",
+          "positive floor clearance or suspended geometry",
+          "no stronger floor/table support explanation"
+        ],
+        "subtype_hint": "hanging_from_overhead_or_fixture",
+        "uncertain_cases": [
+          "thin wires or small hooks not visible in point cloud"
+        ]
+      },
+      {
+        "required_evidence": [
+          "partial geometry only"
+        ],
+        "subtype_hint": "ambiguous_draped_or_occluded_hanging",
+        "uncertain_cases": [
+          "always uncertain until visual or stronger geometry evidence exists"
+        ]
+      }
+    ]
+  },
+  "schema_version": "h001_attachment_deferred_subtype_policy_v1",
+  "status": "attachment_deferred_extractor_contract_ready_no_extraction"
+}

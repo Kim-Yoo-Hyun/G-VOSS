@@ -1,0 +1,63 @@
+{
+  "inputs": {
+    "obb_geometry": "existing semseg_obb_v0 features from the row-preserving geometry join",
+    "object_metadata": "object labels and object ids from 3DSSG/3RScan context",
+    "optional_visual_context": "not used by extractor contract; reserved for later audit only",
+    "prediction_jsonl": "VL-SAT/Open3DSG/GT/counterfactual rows with scan_id, subgraph_id, subject_id, object_id, predicate_label",
+    "segmented_points": "labels.instances.annotated.v2.ply or staged point evidence when available"
+  },
+  "metric_block": "Do not run source metrics from this contract. Metrics require verifier/calibration gates after extractor implementation.",
+  "next_implementation_gate": "G1b_attachment_evidence_extractor_dry_run",
+  "phases": [
+    {
+      "description": "Preserve source row identity and copy OBB distance/overlap/vertical features.",
+      "id": "E1",
+      "name": "identity_and_obb_pass_through",
+      "output_groups": [
+        "identity",
+        "obb_evidence",
+        "geometry_available"
+      ]
+    },
+    {
+      "description": "Estimate min point distance, near-contact counts, and contact patch proxy for the subject-object pair.",
+      "id": "E2",
+      "name": "local_point_contact_estimation",
+      "output_groups": [
+        "point_contact_evidence",
+        "quality_flags"
+      ]
+    },
+    {
+      "description": "Collect wall/ceiling/furniture/fixture/object-part surface candidates and classify normals.",
+      "id": "E3",
+      "name": "surface_candidate_estimation",
+      "output_groups": [
+        "surface_evidence",
+        "quality_flags"
+      ]
+    },
+    {
+      "description": "Compute hanging plausibility and competing floor/table support explanation fields.",
+      "id": "E4",
+      "name": "gravity_and_contradictory_support_cues",
+      "output_groups": [
+        "gravity_evidence",
+        "contradictory_support_evidence"
+      ]
+    },
+    {
+      "description": "Assign a conservative subtype hint and class-pair affordance context without making a validity decision.",
+      "id": "E5",
+      "name": "subtype_hint_and_context",
+      "output_groups": [
+        "subtype_hint",
+        "affordance_context",
+        "missing_fields",
+        "notes"
+      ]
+    }
+  ],
+  "schema_version": "h001_attachment_deferred_extraction_plan_v1",
+  "status": "attachment_deferred_extractor_contract_ready_no_extraction"
+}

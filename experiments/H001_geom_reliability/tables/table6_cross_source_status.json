@@ -1,6 +1,7 @@
 [
   {
     "blockers": "none",
+    "caveat_note": "controlled reproduced anchor under fixed H001 denominator",
     "claim_use": "scoped current result",
     "contract_status": "ready",
     "evidence_artifact": "locked VL-SAT H001 metrics",
@@ -9,6 +10,7 @@
   },
   {
     "blockers": "none",
+    "caveat_note": "averaged-BLIP variant; filtered train/dev; covered H001 377/388; exact-label denominator 2545; validation_missing_preprocessed:11; residual calibration risk",
     "claim_use": "cross-source claim enabled within measured H001 families",
     "contract_status": "ready",
     "evidence_artifact": "sources/open3dsg/metrics/metrics.json",

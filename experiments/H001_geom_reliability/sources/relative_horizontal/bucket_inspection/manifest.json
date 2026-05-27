@@ -1,0 +1,35 @@
+{
+  "claim_boundary": {
+    "candidate_family": "relative_horizontal",
+    "current_main_claim_unchanged": true,
+    "metric_evidence": false
+  },
+  "created_at": "2026-05-27T14:47:55.705142+00:00",
+  "inputs": {
+    "coordinate_manifest": "/workspace/experiments/H001_geom_reliability/sources/relative_horizontal/coordinate_audit/manifest.json",
+    "coordinate_records": "/workspace/experiments/H001_geom_reliability/sources/relative_horizontal/coordinate_audit/records.jsonl"
+  },
+  "recommendation": {
+    "decision": "do_not_promote_relative_horizontal_to_main_claim",
+    "next_step": "targeted_front_behind_visual_or_frame_metadata_check_if_user_wants_to_continue_expansion",
+    "policy_path": "possible_only_after_targeted_front_behind_visual_or_frame_metadata_check",
+    "rationale": "The selected frame shows nontrivial signal through inverse consistency and wrong-frame gap, but front/behind still has substantial contradiction and ambiguity buckets. This supports scope-boundary or appendix discussion, not expanded source metrics."
+  },
+  "schema_version": "h001_relative_horizontal_bucket_inspection_v1",
+  "status": "relative_horizontal_bucket_inspection_ready_no_metric_execution",
+  "summary": {
+    "comparison_labels": [
+      "left",
+      "right"
+    ],
+    "focus_labels": [
+      "front",
+      "behind"
+    ],
+    "front_behind_contradictions": 210,
+    "front_behind_matches": 612,
+    "front_behind_same_label_contradictions": 48,
+    "front_behind_uncertain": 484,
+    "records": 3570
+  }
+}

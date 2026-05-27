@@ -1,0 +1,24 @@
+{
+  "contract_checks": [
+    "Every output row validates against output_schema.json.",
+    "Row count is preserved from the selected attachment input rows.",
+    "No forbidden verifier/metric fields appear in extractor output.",
+    "Every row has source identity and exact predicate label.",
+    "Rows without points or surface candidates use partial/missing statuses and missing_fields."
+  ],
+  "required_reports": [
+    "manifest.json",
+    "schema_validation_summary.json",
+    "field_coverage.json",
+    "report.md"
+  ],
+  "sanity_checks_before_verifier": [
+    "Per-label extractor_status counts for attached/hanging/connected are reported.",
+    "Surface type distribution is reported by predicate label.",
+    "Near-contact availability is reported by source and label.",
+    "Affordance-only rows are counted separately and cannot be treated as valid.",
+    "A small visual sanity queue is created before any hard violation policy is frozen."
+  ],
+  "schema_version": "h001_attachment_deferred_validation_plan_v1",
+  "status": "attachment_deferred_extractor_contract_ready_no_extraction"
+}

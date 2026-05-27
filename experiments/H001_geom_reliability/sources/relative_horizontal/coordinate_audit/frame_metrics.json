@@ -1,0 +1,1940 @@
+{
+  "frames": [
+    {
+      "ambiguity_counts": {
+        "axis_margin_ambiguous": 502,
+        "conflicting_axis_dominates": 1098,
+        "strong_projected_overlap": 138
+      },
+      "by_label": {
+        "behind": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 135,
+            "eligible": 538,
+            "eligible_share": 0.8239,
+            "match": 403,
+            "purity": 0.7491,
+            "uncertain": 115
+          },
+          "strict": {
+            "contradiction": 105,
+            "eligible": 411,
+            "eligible_share": 0.6294,
+            "match": 306,
+            "purity": 0.7445,
+            "uncertain": 242
+          },
+          "total": 653
+        },
+        "front": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 135,
+            "eligible": 538,
+            "eligible_share": 0.8239,
+            "match": 403,
+            "purity": 0.7491,
+            "uncertain": 115
+          },
+          "strict": {
+            "contradiction": 105,
+            "eligible": 411,
+            "eligible_share": 0.6294,
+            "match": 306,
+            "purity": 0.7445,
+            "uncertain": 242
+          },
+          "total": 653
+        },
+        "left": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 223,
+            "eligible": 996,
+            "eligible_share": 0.8799,
+            "match": 773,
+            "purity": 0.7761,
+            "uncertain": 136
+          },
+          "strict": {
+            "contradiction": 146,
+            "eligible": 732,
+            "eligible_share": 0.6466,
+            "match": 586,
+            "purity": 0.8005,
+            "uncertain": 400
+          },
+          "total": 1132
+        },
+        "right": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 223,
+            "eligible": 996,
+            "eligible_share": 0.8799,
+            "match": 773,
+            "purity": 0.7761,
+            "uncertain": 136
+          },
+          "strict": {
+            "contradiction": 146,
+            "eligible": 732,
+            "eligible_share": 0.6466,
+            "match": 586,
+            "purity": 0.8005,
+            "uncertain": 400
+          },
+          "total": 1132
+        }
+      },
+      "frame_family": "scan_xy",
+      "frame_name": "scan_left_neg_x_front_neg_y",
+      "front_axis": [
+        0.0,
+        -1.0
+      ],
+      "left_axis": [
+        -1.0,
+        0.0
+      ],
+      "macro_sign_only_purity": 0.7626,
+      "macro_strict_purity": 0.7725,
+      "overall": {
+        "missing_geometry": 0,
+        "sign_only": {
+          "contradiction": 716,
+          "eligible": 3068,
+          "eligible_share": 0.8594,
+          "match": 2352,
+          "purity": 0.7666,
+          "uncertain": 502
+        },
+        "strict": {
+          "contradiction": 502,
+          "eligible": 2286,
+          "eligible_share": 0.6403,
+          "match": 1784,
+          "purity": 0.7804,
+          "uncertain": 1284
+        },
+        "total": 3570
+      }
+    },
+    {
+      "ambiguity_counts": {
+        "axis_margin_ambiguous": 678,
+        "conflicting_axis_dominates": 1326,
+        "strong_projected_overlap": 138
+      },
+      "by_label": {
+        "behind": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 208,
+            "eligible": 490,
+            "eligible_share": 0.7504,
+            "match": 282,
+            "purity": 0.5755,
+            "uncertain": 163
+          },
+          "strict": {
+            "contradiction": 135,
+            "eligible": 336,
+            "eligible_share": 0.5145,
+            "match": 201,
+            "purity": 0.5982,
+            "uncertain": 317
+          },
+          "total": 653
+        },
+        "front": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 208,
+            "eligible": 490,
+            "eligible_share": 0.7504,
+            "match": 282,
+            "purity": 0.5755,
+            "uncertain": 163
+          },
+          "strict": {
+            "contradiction": 135,
+            "eligible": 336,
+            "eligible_share": 0.5145,
+            "match": 201,
+            "purity": 0.5982,
+            "uncertain": 317
+          },
+          "total": 653
+        },
+        "left": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 302,
+            "eligible": 956,
+            "eligible_share": 0.8445,
+            "match": 654,
+            "purity": 0.6841,
+            "uncertain": 176
+          },
+          "strict": {
+            "contradiction": 211,
+            "eligible": 705,
+            "eligible_share": 0.6228,
+            "match": 494,
+            "purity": 0.7007,
+            "uncertain": 427
+          },
+          "total": 1132
+        },
+        "right": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 302,
+            "eligible": 956,
+            "eligible_share": 0.8445,
+            "match": 654,
+            "purity": 0.6841,
+            "uncertain": 176
+          },
+          "strict": {
+            "contradiction": 211,
+            "eligible": 705,
+            "eligible_share": 0.6228,
+            "match": 494,
+            "purity": 0.7007,
+            "uncertain": 427
+          },
+          "total": 1132
+        }
+      },
+      "frame_family": "room_pca",
+      "frame_name": "room_pca_left_pos_p0_front_pos_p1",
+      "front_axis": [
+        -0.763722,
+        -0.645545
+      ],
+      "left_axis": [
+        -0.645545,
+        0.763722
+      ],
+      "macro_sign_only_purity": 0.6298,
+      "macro_strict_purity": 0.6494,
+      "overall": {
+        "missing_geometry": 0,
+        "sign_only": {
+          "contradiction": 1020,
+          "eligible": 2892,
+          "eligible_share": 0.8101,
+          "match": 1872,
+          "purity": 0.6473,
+          "uncertain": 678
+        },
+        "strict": {
+          "contradiction": 692,
+          "eligible": 2082,
+          "eligible_share": 0.5832,
+          "match": 1390,
+          "purity": 0.6676,
+          "uncertain": 1488
+        },
+        "total": 3570
+      }
+    },
+    {
+      "ambiguity_counts": {
+        "axis_margin_ambiguous": 738,
+        "conflicting_axis_dominates": 1410,
+        "strong_projected_overlap": 138
+      },
+      "by_label": {
+        "behind": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 230,
+            "eligible": 534,
+            "eligible_share": 0.8178,
+            "match": 304,
+            "purity": 0.5693,
+            "uncertain": 119
+          },
+          "strict": {
+            "contradiction": 181,
+            "eligible": 409,
+            "eligible_share": 0.6263,
+            "match": 228,
+            "purity": 0.5575,
+            "uncertain": 244
+          },
+          "total": 653
+        },
+        "front": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 230,
+            "eligible": 534,
+            "eligible_share": 0.8178,
+            "match": 304,
+            "purity": 0.5693,
+            "uncertain": 119
+          },
+          "strict": {
+            "contradiction": 181,
+            "eligible": 409,
+            "eligible_share": 0.6263,
+            "match": 228,
+            "purity": 0.5575,
+            "uncertain": 244
+          },
+          "total": 653
+        },
+        "left": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 359,
+            "eligible": 882,
+            "eligible_share": 0.7792,
+            "match": 523,
+            "purity": 0.593,
+            "uncertain": 250
+          },
+          "strict": {
+            "contradiction": 232,
+            "eligible": 589,
+            "eligible_share": 0.5203,
+            "match": 357,
+            "purity": 0.6061,
+            "uncertain": 543
+          },
+          "total": 1132
+        },
+        "right": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 359,
+            "eligible": 882,
+            "eligible_share": 0.7792,
+            "match": 523,
+            "purity": 0.593,
+            "uncertain": 250
+          },
+          "strict": {
+            "contradiction": 232,
+            "eligible": 589,
+            "eligible_share": 0.5203,
+            "match": 357,
+            "purity": 0.6061,
+            "uncertain": 543
+          },
+          "total": 1132
+        }
+      },
+      "frame_family": "room_pca",
+      "frame_name": "room_pca_left_pos_p1_front_neg_p0",
+      "front_axis": [
+        0.645545,
+        -0.763722
+      ],
+      "left_axis": [
+        -0.763722,
+        -0.645545
+      ],
+      "macro_sign_only_purity": 0.5812,
+      "macro_strict_purity": 0.5818,
+      "overall": {
+        "missing_geometry": 0,
+        "sign_only": {
+          "contradiction": 1178,
+          "eligible": 2832,
+          "eligible_share": 0.7933,
+          "match": 1654,
+          "purity": 0.584,
+          "uncertain": 738
+        },
+        "strict": {
+          "contradiction": 826,
+          "eligible": 1996,
+          "eligible_share": 0.5591,
+          "match": 1170,
+          "purity": 0.5862,
+          "uncertain": 1574
+        },
+        "total": 3570
+      }
+    },
+    {
+      "ambiguity_counts": {
+        "axis_margin_ambiguous": 612,
+        "conflicting_axis_dominates": 1220,
+        "strong_projected_overlap": 138
+      },
+      "by_label": {
+        "behind": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 242,
+            "eligible": 555,
+            "eligible_share": 0.8499,
+            "match": 313,
+            "purity": 0.564,
+            "uncertain": 98
+          },
+          "strict": {
+            "contradiction": 188,
+            "eligible": 417,
+            "eligible_share": 0.6386,
+            "match": 229,
+            "purity": 0.5492,
+            "uncertain": 236
+          },
+          "total": 653
+        },
+        "front": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 242,
+            "eligible": 555,
+            "eligible_share": 0.8499,
+            "match": 313,
+            "purity": 0.564,
+            "uncertain": 98
+          },
+          "strict": {
+            "contradiction": 188,
+            "eligible": 417,
+            "eligible_share": 0.6386,
+            "match": 229,
+            "purity": 0.5492,
+            "uncertain": 236
+          },
+          "total": 653
+        },
+        "left": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 392,
+            "eligible": 924,
+            "eligible_share": 0.8163,
+            "match": 532,
+            "purity": 0.5758,
+            "uncertain": 208
+          },
+          "strict": {
+            "contradiction": 298,
+            "eligible": 695,
+            "eligible_share": 0.614,
+            "match": 397,
+            "purity": 0.5712,
+            "uncertain": 437
+          },
+          "total": 1132
+        },
+        "right": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 392,
+            "eligible": 924,
+            "eligible_share": 0.8163,
+            "match": 532,
+            "purity": 0.5758,
+            "uncertain": 208
+          },
+          "strict": {
+            "contradiction": 298,
+            "eligible": 695,
+            "eligible_share": 0.614,
+            "match": 397,
+            "purity": 0.5712,
+            "uncertain": 437
+          },
+          "total": 1132
+        }
+      },
+      "frame_family": "scan_xy",
+      "frame_name": "scan_left_pos_y_front_pos_x",
+      "front_axis": [
+        1.0,
+        0.0
+      ],
+      "left_axis": [
+        0.0,
+        1.0
+      ],
+      "macro_sign_only_purity": 0.5699,
+      "macro_strict_purity": 0.5602,
+      "overall": {
+        "missing_geometry": 0,
+        "sign_only": {
+          "contradiction": 1268,
+          "eligible": 2958,
+          "eligible_share": 0.8286,
+          "match": 1690,
+          "purity": 0.5713,
+          "uncertain": 612
+        },
+        "strict": {
+          "contradiction": 972,
+          "eligible": 2224,
+          "eligible_share": 0.623,
+          "match": 1252,
+          "purity": 0.5629,
+          "uncertain": 1346
+        },
+        "total": 3570
+      }
+    },
+    {
+      "ambiguity_counts": {
+        "axis_margin_ambiguous": 678,
+        "conflicting_axis_dominates": 1326,
+        "strong_projected_overlap": 138
+      },
+      "by_label": {
+        "behind": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 282,
+            "eligible": 490,
+            "eligible_share": 0.7504,
+            "match": 208,
+            "purity": 0.4245,
+            "uncertain": 163
+          },
+          "strict": {
+            "contradiction": 201,
+            "eligible": 336,
+            "eligible_share": 0.5145,
+            "match": 135,
+            "purity": 0.4018,
+            "uncertain": 317
+          },
+          "total": 653
+        },
+        "front": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 282,
+            "eligible": 490,
+            "eligible_share": 0.7504,
+            "match": 208,
+            "purity": 0.4245,
+            "uncertain": 163
+          },
+          "strict": {
+            "contradiction": 201,
+            "eligible": 336,
+            "eligible_share": 0.5145,
+            "match": 135,
+            "purity": 0.4018,
+            "uncertain": 317
+          },
+          "total": 653
+        },
+        "left": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 302,
+            "eligible": 956,
+            "eligible_share": 0.8445,
+            "match": 654,
+            "purity": 0.6841,
+            "uncertain": 176
+          },
+          "strict": {
+            "contradiction": 211,
+            "eligible": 705,
+            "eligible_share": 0.6228,
+            "match": 494,
+            "purity": 0.7007,
+            "uncertain": 427
+          },
+          "total": 1132
+        },
+        "right": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 302,
+            "eligible": 956,
+            "eligible_share": 0.8445,
+            "match": 654,
+            "purity": 0.6841,
+            "uncertain": 176
+          },
+          "strict": {
+            "contradiction": 211,
+            "eligible": 705,
+            "eligible_share": 0.6228,
+            "match": 494,
+            "purity": 0.7007,
+            "uncertain": 427
+          },
+          "total": 1132
+        }
+      },
+      "frame_family": "room_pca",
+      "frame_name": "room_pca_left_pos_p0_front_neg_p1",
+      "front_axis": [
+        0.763722,
+        0.645545
+      ],
+      "left_axis": [
+        -0.645545,
+        0.763722
+      ],
+      "macro_sign_only_purity": 0.5543,
+      "macro_strict_purity": 0.5513,
+      "overall": {
+        "missing_geometry": 0,
+        "sign_only": {
+          "contradiction": 1168,
+          "eligible": 2892,
+          "eligible_share": 0.8101,
+          "match": 1724,
+          "purity": 0.5961,
+          "uncertain": 678
+        },
+        "strict": {
+          "contradiction": 824,
+          "eligible": 2082,
+          "eligible_share": 0.5832,
+          "match": 1258,
+          "purity": 0.6042,
+          "uncertain": 1488
+        },
+        "total": 3570
+      }
+    },
+    {
+      "ambiguity_counts": {
+        "axis_margin_ambiguous": 502,
+        "conflicting_axis_dominates": 1098,
+        "strong_projected_overlap": 138
+      },
+      "by_label": {
+        "behind": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 403,
+            "eligible": 538,
+            "eligible_share": 0.8239,
+            "match": 135,
+            "purity": 0.2509,
+            "uncertain": 115
+          },
+          "strict": {
+            "contradiction": 306,
+            "eligible": 411,
+            "eligible_share": 0.6294,
+            "match": 105,
+            "purity": 0.2555,
+            "uncertain": 242
+          },
+          "total": 653
+        },
+        "front": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 403,
+            "eligible": 538,
+            "eligible_share": 0.8239,
+            "match": 135,
+            "purity": 0.2509,
+            "uncertain": 115
+          },
+          "strict": {
+            "contradiction": 306,
+            "eligible": 411,
+            "eligible_share": 0.6294,
+            "match": 105,
+            "purity": 0.2555,
+            "uncertain": 242
+          },
+          "total": 653
+        },
+        "left": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 223,
+            "eligible": 996,
+            "eligible_share": 0.8799,
+            "match": 773,
+            "purity": 0.7761,
+            "uncertain": 136
+          },
+          "strict": {
+            "contradiction": 146,
+            "eligible": 732,
+            "eligible_share": 0.6466,
+            "match": 586,
+            "purity": 0.8005,
+            "uncertain": 400
+          },
+          "total": 1132
+        },
+        "right": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 223,
+            "eligible": 996,
+            "eligible_share": 0.8799,
+            "match": 773,
+            "purity": 0.7761,
+            "uncertain": 136
+          },
+          "strict": {
+            "contradiction": 146,
+            "eligible": 732,
+            "eligible_share": 0.6466,
+            "match": 586,
+            "purity": 0.8005,
+            "uncertain": 400
+          },
+          "total": 1132
+        }
+      },
+      "frame_family": "scan_xy",
+      "frame_name": "scan_left_neg_x_front_pos_y",
+      "front_axis": [
+        0.0,
+        1.0
+      ],
+      "left_axis": [
+        -1.0,
+        0.0
+      ],
+      "macro_sign_only_purity": 0.5135,
+      "macro_strict_purity": 0.528,
+      "overall": {
+        "missing_geometry": 0,
+        "sign_only": {
+          "contradiction": 1252,
+          "eligible": 3068,
+          "eligible_share": 0.8594,
+          "match": 1816,
+          "purity": 0.5919,
+          "uncertain": 502
+        },
+        "strict": {
+          "contradiction": 904,
+          "eligible": 2286,
+          "eligible_share": 0.6403,
+          "match": 1382,
+          "purity": 0.6045,
+          "uncertain": 1284
+        },
+        "total": 3570
+      }
+    },
+    {
+      "ambiguity_counts": {
+        "axis_margin_ambiguous": 738,
+        "conflicting_axis_dominates": 1410,
+        "strong_projected_overlap": 138
+      },
+      "by_label": {
+        "behind": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 304,
+            "eligible": 534,
+            "eligible_share": 0.8178,
+            "match": 230,
+            "purity": 0.4307,
+            "uncertain": 119
+          },
+          "strict": {
+            "contradiction": 228,
+            "eligible": 409,
+            "eligible_share": 0.6263,
+            "match": 181,
+            "purity": 0.4425,
+            "uncertain": 244
+          },
+          "total": 653
+        },
+        "front": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 304,
+            "eligible": 534,
+            "eligible_share": 0.8178,
+            "match": 230,
+            "purity": 0.4307,
+            "uncertain": 119
+          },
+          "strict": {
+            "contradiction": 228,
+            "eligible": 409,
+            "eligible_share": 0.6263,
+            "match": 181,
+            "purity": 0.4425,
+            "uncertain": 244
+          },
+          "total": 653
+        },
+        "left": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 359,
+            "eligible": 882,
+            "eligible_share": 0.7792,
+            "match": 523,
+            "purity": 0.593,
+            "uncertain": 250
+          },
+          "strict": {
+            "contradiction": 232,
+            "eligible": 589,
+            "eligible_share": 0.5203,
+            "match": 357,
+            "purity": 0.6061,
+            "uncertain": 543
+          },
+          "total": 1132
+        },
+        "right": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 359,
+            "eligible": 882,
+            "eligible_share": 0.7792,
+            "match": 523,
+            "purity": 0.593,
+            "uncertain": 250
+          },
+          "strict": {
+            "contradiction": 232,
+            "eligible": 589,
+            "eligible_share": 0.5203,
+            "match": 357,
+            "purity": 0.6061,
+            "uncertain": 543
+          },
+          "total": 1132
+        }
+      },
+      "frame_family": "room_pca",
+      "frame_name": "room_pca_left_pos_p1_front_pos_p0",
+      "front_axis": [
+        -0.645545,
+        0.763722
+      ],
+      "left_axis": [
+        -0.763722,
+        -0.645545
+      ],
+      "macro_sign_only_purity": 0.5119,
+      "macro_strict_purity": 0.5243,
+      "overall": {
+        "missing_geometry": 0,
+        "sign_only": {
+          "contradiction": 1326,
+          "eligible": 2832,
+          "eligible_share": 0.7933,
+          "match": 1506,
+          "purity": 0.5318,
+          "uncertain": 738
+        },
+        "strict": {
+          "contradiction": 920,
+          "eligible": 1996,
+          "eligible_share": 0.5591,
+          "match": 1076,
+          "purity": 0.5391,
+          "uncertain": 1574
+        },
+        "total": 3570
+      }
+    },
+    {
+      "ambiguity_counts": {
+        "axis_margin_ambiguous": 612,
+        "conflicting_axis_dominates": 1220,
+        "strong_projected_overlap": 138
+      },
+      "by_label": {
+        "behind": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 313,
+            "eligible": 555,
+            "eligible_share": 0.8499,
+            "match": 242,
+            "purity": 0.436,
+            "uncertain": 98
+          },
+          "strict": {
+            "contradiction": 229,
+            "eligible": 417,
+            "eligible_share": 0.6386,
+            "match": 188,
+            "purity": 0.4508,
+            "uncertain": 236
+          },
+          "total": 653
+        },
+        "front": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 313,
+            "eligible": 555,
+            "eligible_share": 0.8499,
+            "match": 242,
+            "purity": 0.436,
+            "uncertain": 98
+          },
+          "strict": {
+            "contradiction": 229,
+            "eligible": 417,
+            "eligible_share": 0.6386,
+            "match": 188,
+            "purity": 0.4508,
+            "uncertain": 236
+          },
+          "total": 653
+        },
+        "left": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 392,
+            "eligible": 924,
+            "eligible_share": 0.8163,
+            "match": 532,
+            "purity": 0.5758,
+            "uncertain": 208
+          },
+          "strict": {
+            "contradiction": 298,
+            "eligible": 695,
+            "eligible_share": 0.614,
+            "match": 397,
+            "purity": 0.5712,
+            "uncertain": 437
+          },
+          "total": 1132
+        },
+        "right": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 392,
+            "eligible": 924,
+            "eligible_share": 0.8163,
+            "match": 532,
+            "purity": 0.5758,
+            "uncertain": 208
+          },
+          "strict": {
+            "contradiction": 298,
+            "eligible": 695,
+            "eligible_share": 0.614,
+            "match": 397,
+            "purity": 0.5712,
+            "uncertain": 437
+          },
+          "total": 1132
+        }
+      },
+      "frame_family": "scan_xy",
+      "frame_name": "scan_left_pos_y_front_neg_x",
+      "front_axis": [
+        -1.0,
+        0.0
+      ],
+      "left_axis": [
+        0.0,
+        1.0
+      ],
+      "macro_sign_only_purity": 0.5059,
+      "macro_strict_purity": 0.511,
+      "overall": {
+        "missing_geometry": 0,
+        "sign_only": {
+          "contradiction": 1410,
+          "eligible": 2958,
+          "eligible_share": 0.8286,
+          "match": 1548,
+          "purity": 0.5233,
+          "uncertain": 612
+        },
+        "strict": {
+          "contradiction": 1054,
+          "eligible": 2224,
+          "eligible_share": 0.623,
+          "match": 1170,
+          "purity": 0.5261,
+          "uncertain": 1346
+        },
+        "total": 3570
+      }
+    },
+    {
+      "ambiguity_counts": {
+        "axis_margin_ambiguous": 612,
+        "conflicting_axis_dominates": 1220,
+        "strong_projected_overlap": 138
+      },
+      "by_label": {
+        "behind": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 242,
+            "eligible": 555,
+            "eligible_share": 0.8499,
+            "match": 313,
+            "purity": 0.564,
+            "uncertain": 98
+          },
+          "strict": {
+            "contradiction": 188,
+            "eligible": 417,
+            "eligible_share": 0.6386,
+            "match": 229,
+            "purity": 0.5492,
+            "uncertain": 236
+          },
+          "total": 653
+        },
+        "front": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 242,
+            "eligible": 555,
+            "eligible_share": 0.8499,
+            "match": 313,
+            "purity": 0.564,
+            "uncertain": 98
+          },
+          "strict": {
+            "contradiction": 188,
+            "eligible": 417,
+            "eligible_share": 0.6386,
+            "match": 229,
+            "purity": 0.5492,
+            "uncertain": 236
+          },
+          "total": 653
+        },
+        "left": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 532,
+            "eligible": 924,
+            "eligible_share": 0.8163,
+            "match": 392,
+            "purity": 0.4242,
+            "uncertain": 208
+          },
+          "strict": {
+            "contradiction": 397,
+            "eligible": 695,
+            "eligible_share": 0.614,
+            "match": 298,
+            "purity": 0.4288,
+            "uncertain": 437
+          },
+          "total": 1132
+        },
+        "right": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 532,
+            "eligible": 924,
+            "eligible_share": 0.8163,
+            "match": 392,
+            "purity": 0.4242,
+            "uncertain": 208
+          },
+          "strict": {
+            "contradiction": 397,
+            "eligible": 695,
+            "eligible_share": 0.614,
+            "match": 298,
+            "purity": 0.4288,
+            "uncertain": 437
+          },
+          "total": 1132
+        }
+      },
+      "frame_family": "scan_xy",
+      "frame_name": "scan_left_neg_y_front_pos_x",
+      "front_axis": [
+        1.0,
+        0.0
+      ],
+      "left_axis": [
+        0.0,
+        -1.0
+      ],
+      "macro_sign_only_purity": 0.4941,
+      "macro_strict_purity": 0.489,
+      "overall": {
+        "missing_geometry": 0,
+        "sign_only": {
+          "contradiction": 1548,
+          "eligible": 2958,
+          "eligible_share": 0.8286,
+          "match": 1410,
+          "purity": 0.4767,
+          "uncertain": 612
+        },
+        "strict": {
+          "contradiction": 1170,
+          "eligible": 2224,
+          "eligible_share": 0.623,
+          "match": 1054,
+          "purity": 0.4739,
+          "uncertain": 1346
+        },
+        "total": 3570
+      }
+    },
+    {
+      "ambiguity_counts": {
+        "axis_margin_ambiguous": 738,
+        "conflicting_axis_dominates": 1410,
+        "strong_projected_overlap": 138
+      },
+      "by_label": {
+        "behind": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 230,
+            "eligible": 534,
+            "eligible_share": 0.8178,
+            "match": 304,
+            "purity": 0.5693,
+            "uncertain": 119
+          },
+          "strict": {
+            "contradiction": 181,
+            "eligible": 409,
+            "eligible_share": 0.6263,
+            "match": 228,
+            "purity": 0.5575,
+            "uncertain": 244
+          },
+          "total": 653
+        },
+        "front": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 230,
+            "eligible": 534,
+            "eligible_share": 0.8178,
+            "match": 304,
+            "purity": 0.5693,
+            "uncertain": 119
+          },
+          "strict": {
+            "contradiction": 181,
+            "eligible": 409,
+            "eligible_share": 0.6263,
+            "match": 228,
+            "purity": 0.5575,
+            "uncertain": 244
+          },
+          "total": 653
+        },
+        "left": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 523,
+            "eligible": 882,
+            "eligible_share": 0.7792,
+            "match": 359,
+            "purity": 0.407,
+            "uncertain": 250
+          },
+          "strict": {
+            "contradiction": 357,
+            "eligible": 589,
+            "eligible_share": 0.5203,
+            "match": 232,
+            "purity": 0.3939,
+            "uncertain": 543
+          },
+          "total": 1132
+        },
+        "right": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 523,
+            "eligible": 882,
+            "eligible_share": 0.7792,
+            "match": 359,
+            "purity": 0.407,
+            "uncertain": 250
+          },
+          "strict": {
+            "contradiction": 357,
+            "eligible": 589,
+            "eligible_share": 0.5203,
+            "match": 232,
+            "purity": 0.3939,
+            "uncertain": 543
+          },
+          "total": 1132
+        }
+      },
+      "frame_family": "room_pca",
+      "frame_name": "room_pca_left_neg_p1_front_neg_p0",
+      "front_axis": [
+        0.645545,
+        -0.763722
+      ],
+      "left_axis": [
+        0.763722,
+        0.645545
+      ],
+      "macro_sign_only_purity": 0.4881,
+      "macro_strict_purity": 0.4757,
+      "overall": {
+        "missing_geometry": 0,
+        "sign_only": {
+          "contradiction": 1506,
+          "eligible": 2832,
+          "eligible_share": 0.7933,
+          "match": 1326,
+          "purity": 0.4682,
+          "uncertain": 738
+        },
+        "strict": {
+          "contradiction": 1076,
+          "eligible": 1996,
+          "eligible_share": 0.5591,
+          "match": 920,
+          "purity": 0.4609,
+          "uncertain": 1574
+        },
+        "total": 3570
+      }
+    },
+    {
+      "ambiguity_counts": {
+        "axis_margin_ambiguous": 502,
+        "conflicting_axis_dominates": 1098,
+        "strong_projected_overlap": 138
+      },
+      "by_label": {
+        "behind": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 135,
+            "eligible": 538,
+            "eligible_share": 0.8239,
+            "match": 403,
+            "purity": 0.7491,
+            "uncertain": 115
+          },
+          "strict": {
+            "contradiction": 105,
+            "eligible": 411,
+            "eligible_share": 0.6294,
+            "match": 306,
+            "purity": 0.7445,
+            "uncertain": 242
+          },
+          "total": 653
+        },
+        "front": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 135,
+            "eligible": 538,
+            "eligible_share": 0.8239,
+            "match": 403,
+            "purity": 0.7491,
+            "uncertain": 115
+          },
+          "strict": {
+            "contradiction": 105,
+            "eligible": 411,
+            "eligible_share": 0.6294,
+            "match": 306,
+            "purity": 0.7445,
+            "uncertain": 242
+          },
+          "total": 653
+        },
+        "left": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 773,
+            "eligible": 996,
+            "eligible_share": 0.8799,
+            "match": 223,
+            "purity": 0.2239,
+            "uncertain": 136
+          },
+          "strict": {
+            "contradiction": 586,
+            "eligible": 732,
+            "eligible_share": 0.6466,
+            "match": 146,
+            "purity": 0.1995,
+            "uncertain": 400
+          },
+          "total": 1132
+        },
+        "right": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 773,
+            "eligible": 996,
+            "eligible_share": 0.8799,
+            "match": 223,
+            "purity": 0.2239,
+            "uncertain": 136
+          },
+          "strict": {
+            "contradiction": 586,
+            "eligible": 732,
+            "eligible_share": 0.6466,
+            "match": 146,
+            "purity": 0.1995,
+            "uncertain": 400
+          },
+          "total": 1132
+        }
+      },
+      "frame_family": "scan_xy",
+      "frame_name": "scan_left_pos_x_front_neg_y",
+      "front_axis": [
+        0.0,
+        -1.0
+      ],
+      "left_axis": [
+        1.0,
+        0.0
+      ],
+      "macro_sign_only_purity": 0.4865,
+      "macro_strict_purity": 0.472,
+      "overall": {
+        "missing_geometry": 0,
+        "sign_only": {
+          "contradiction": 1816,
+          "eligible": 3068,
+          "eligible_share": 0.8594,
+          "match": 1252,
+          "purity": 0.4081,
+          "uncertain": 502
+        },
+        "strict": {
+          "contradiction": 1382,
+          "eligible": 2286,
+          "eligible_share": 0.6403,
+          "match": 904,
+          "purity": 0.3955,
+          "uncertain": 1284
+        },
+        "total": 3570
+      }
+    },
+    {
+      "ambiguity_counts": {
+        "axis_margin_ambiguous": 678,
+        "conflicting_axis_dominates": 1326,
+        "strong_projected_overlap": 138
+      },
+      "by_label": {
+        "behind": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 208,
+            "eligible": 490,
+            "eligible_share": 0.7504,
+            "match": 282,
+            "purity": 0.5755,
+            "uncertain": 163
+          },
+          "strict": {
+            "contradiction": 135,
+            "eligible": 336,
+            "eligible_share": 0.5145,
+            "match": 201,
+            "purity": 0.5982,
+            "uncertain": 317
+          },
+          "total": 653
+        },
+        "front": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 208,
+            "eligible": 490,
+            "eligible_share": 0.7504,
+            "match": 282,
+            "purity": 0.5755,
+            "uncertain": 163
+          },
+          "strict": {
+            "contradiction": 135,
+            "eligible": 336,
+            "eligible_share": 0.5145,
+            "match": 201,
+            "purity": 0.5982,
+            "uncertain": 317
+          },
+          "total": 653
+        },
+        "left": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 654,
+            "eligible": 956,
+            "eligible_share": 0.8445,
+            "match": 302,
+            "purity": 0.3159,
+            "uncertain": 176
+          },
+          "strict": {
+            "contradiction": 494,
+            "eligible": 705,
+            "eligible_share": 0.6228,
+            "match": 211,
+            "purity": 0.2993,
+            "uncertain": 427
+          },
+          "total": 1132
+        },
+        "right": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 654,
+            "eligible": 956,
+            "eligible_share": 0.8445,
+            "match": 302,
+            "purity": 0.3159,
+            "uncertain": 176
+          },
+          "strict": {
+            "contradiction": 494,
+            "eligible": 705,
+            "eligible_share": 0.6228,
+            "match": 211,
+            "purity": 0.2993,
+            "uncertain": 427
+          },
+          "total": 1132
+        }
+      },
+      "frame_family": "room_pca",
+      "frame_name": "room_pca_left_neg_p0_front_pos_p1",
+      "front_axis": [
+        -0.763722,
+        -0.645545
+      ],
+      "left_axis": [
+        0.645545,
+        -0.763722
+      ],
+      "macro_sign_only_purity": 0.4457,
+      "macro_strict_purity": 0.4487,
+      "overall": {
+        "missing_geometry": 0,
+        "sign_only": {
+          "contradiction": 1724,
+          "eligible": 2892,
+          "eligible_share": 0.8101,
+          "match": 1168,
+          "purity": 0.4039,
+          "uncertain": 678
+        },
+        "strict": {
+          "contradiction": 1258,
+          "eligible": 2082,
+          "eligible_share": 0.5832,
+          "match": 824,
+          "purity": 0.3958,
+          "uncertain": 1488
+        },
+        "total": 3570
+      }
+    },
+    {
+      "ambiguity_counts": {
+        "axis_margin_ambiguous": 612,
+        "conflicting_axis_dominates": 1220,
+        "strong_projected_overlap": 138
+      },
+      "by_label": {
+        "behind": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 313,
+            "eligible": 555,
+            "eligible_share": 0.8499,
+            "match": 242,
+            "purity": 0.436,
+            "uncertain": 98
+          },
+          "strict": {
+            "contradiction": 229,
+            "eligible": 417,
+            "eligible_share": 0.6386,
+            "match": 188,
+            "purity": 0.4508,
+            "uncertain": 236
+          },
+          "total": 653
+        },
+        "front": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 313,
+            "eligible": 555,
+            "eligible_share": 0.8499,
+            "match": 242,
+            "purity": 0.436,
+            "uncertain": 98
+          },
+          "strict": {
+            "contradiction": 229,
+            "eligible": 417,
+            "eligible_share": 0.6386,
+            "match": 188,
+            "purity": 0.4508,
+            "uncertain": 236
+          },
+          "total": 653
+        },
+        "left": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 532,
+            "eligible": 924,
+            "eligible_share": 0.8163,
+            "match": 392,
+            "purity": 0.4242,
+            "uncertain": 208
+          },
+          "strict": {
+            "contradiction": 397,
+            "eligible": 695,
+            "eligible_share": 0.614,
+            "match": 298,
+            "purity": 0.4288,
+            "uncertain": 437
+          },
+          "total": 1132
+        },
+        "right": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 532,
+            "eligible": 924,
+            "eligible_share": 0.8163,
+            "match": 392,
+            "purity": 0.4242,
+            "uncertain": 208
+          },
+          "strict": {
+            "contradiction": 397,
+            "eligible": 695,
+            "eligible_share": 0.614,
+            "match": 298,
+            "purity": 0.4288,
+            "uncertain": 437
+          },
+          "total": 1132
+        }
+      },
+      "frame_family": "scan_xy",
+      "frame_name": "scan_left_neg_y_front_neg_x",
+      "front_axis": [
+        -1.0,
+        0.0
+      ],
+      "left_axis": [
+        0.0,
+        -1.0
+      ],
+      "macro_sign_only_purity": 0.4301,
+      "macro_strict_purity": 0.4398,
+      "overall": {
+        "missing_geometry": 0,
+        "sign_only": {
+          "contradiction": 1690,
+          "eligible": 2958,
+          "eligible_share": 0.8286,
+          "match": 1268,
+          "purity": 0.4287,
+          "uncertain": 612
+        },
+        "strict": {
+          "contradiction": 1252,
+          "eligible": 2224,
+          "eligible_share": 0.623,
+          "match": 972,
+          "purity": 0.4371,
+          "uncertain": 1346
+        },
+        "total": 3570
+      }
+    },
+    {
+      "ambiguity_counts": {
+        "axis_margin_ambiguous": 738,
+        "conflicting_axis_dominates": 1410,
+        "strong_projected_overlap": 138
+      },
+      "by_label": {
+        "behind": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 304,
+            "eligible": 534,
+            "eligible_share": 0.8178,
+            "match": 230,
+            "purity": 0.4307,
+            "uncertain": 119
+          },
+          "strict": {
+            "contradiction": 228,
+            "eligible": 409,
+            "eligible_share": 0.6263,
+            "match": 181,
+            "purity": 0.4425,
+            "uncertain": 244
+          },
+          "total": 653
+        },
+        "front": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 304,
+            "eligible": 534,
+            "eligible_share": 0.8178,
+            "match": 230,
+            "purity": 0.4307,
+            "uncertain": 119
+          },
+          "strict": {
+            "contradiction": 228,
+            "eligible": 409,
+            "eligible_share": 0.6263,
+            "match": 181,
+            "purity": 0.4425,
+            "uncertain": 244
+          },
+          "total": 653
+        },
+        "left": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 523,
+            "eligible": 882,
+            "eligible_share": 0.7792,
+            "match": 359,
+            "purity": 0.407,
+            "uncertain": 250
+          },
+          "strict": {
+            "contradiction": 357,
+            "eligible": 589,
+            "eligible_share": 0.5203,
+            "match": 232,
+            "purity": 0.3939,
+            "uncertain": 543
+          },
+          "total": 1132
+        },
+        "right": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 523,
+            "eligible": 882,
+            "eligible_share": 0.7792,
+            "match": 359,
+            "purity": 0.407,
+            "uncertain": 250
+          },
+          "strict": {
+            "contradiction": 357,
+            "eligible": 589,
+            "eligible_share": 0.5203,
+            "match": 232,
+            "purity": 0.3939,
+            "uncertain": 543
+          },
+          "total": 1132
+        }
+      },
+      "frame_family": "room_pca",
+      "frame_name": "room_pca_left_neg_p1_front_pos_p0",
+      "front_axis": [
+        -0.645545,
+        0.763722
+      ],
+      "left_axis": [
+        0.763722,
+        0.645545
+      ],
+      "macro_sign_only_purity": 0.4189,
+      "macro_strict_purity": 0.4182,
+      "overall": {
+        "missing_geometry": 0,
+        "sign_only": {
+          "contradiction": 1654,
+          "eligible": 2832,
+          "eligible_share": 0.7933,
+          "match": 1178,
+          "purity": 0.416,
+          "uncertain": 738
+        },
+        "strict": {
+          "contradiction": 1170,
+          "eligible": 1996,
+          "eligible_share": 0.5591,
+          "match": 826,
+          "purity": 0.4138,
+          "uncertain": 1574
+        },
+        "total": 3570
+      }
+    },
+    {
+      "ambiguity_counts": {
+        "axis_margin_ambiguous": 678,
+        "conflicting_axis_dominates": 1326,
+        "strong_projected_overlap": 138
+      },
+      "by_label": {
+        "behind": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 282,
+            "eligible": 490,
+            "eligible_share": 0.7504,
+            "match": 208,
+            "purity": 0.4245,
+            "uncertain": 163
+          },
+          "strict": {
+            "contradiction": 201,
+            "eligible": 336,
+            "eligible_share": 0.5145,
+            "match": 135,
+            "purity": 0.4018,
+            "uncertain": 317
+          },
+          "total": 653
+        },
+        "front": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 282,
+            "eligible": 490,
+            "eligible_share": 0.7504,
+            "match": 208,
+            "purity": 0.4245,
+            "uncertain": 163
+          },
+          "strict": {
+            "contradiction": 201,
+            "eligible": 336,
+            "eligible_share": 0.5145,
+            "match": 135,
+            "purity": 0.4018,
+            "uncertain": 317
+          },
+          "total": 653
+        },
+        "left": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 654,
+            "eligible": 956,
+            "eligible_share": 0.8445,
+            "match": 302,
+            "purity": 0.3159,
+            "uncertain": 176
+          },
+          "strict": {
+            "contradiction": 494,
+            "eligible": 705,
+            "eligible_share": 0.6228,
+            "match": 211,
+            "purity": 0.2993,
+            "uncertain": 427
+          },
+          "total": 1132
+        },
+        "right": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 654,
+            "eligible": 956,
+            "eligible_share": 0.8445,
+            "match": 302,
+            "purity": 0.3159,
+            "uncertain": 176
+          },
+          "strict": {
+            "contradiction": 494,
+            "eligible": 705,
+            "eligible_share": 0.6228,
+            "match": 211,
+            "purity": 0.2993,
+            "uncertain": 427
+          },
+          "total": 1132
+        }
+      },
+      "frame_family": "room_pca",
+      "frame_name": "room_pca_left_neg_p0_front_neg_p1",
+      "front_axis": [
+        0.763722,
+        0.645545
+      ],
+      "left_axis": [
+        0.645545,
+        -0.763722
+      ],
+      "macro_sign_only_purity": 0.3702,
+      "macro_strict_purity": 0.3505,
+      "overall": {
+        "missing_geometry": 0,
+        "sign_only": {
+          "contradiction": 1872,
+          "eligible": 2892,
+          "eligible_share": 0.8101,
+          "match": 1020,
+          "purity": 0.3527,
+          "uncertain": 678
+        },
+        "strict": {
+          "contradiction": 1390,
+          "eligible": 2082,
+          "eligible_share": 0.5832,
+          "match": 692,
+          "purity": 0.3324,
+          "uncertain": 1488
+        },
+        "total": 3570
+      }
+    },
+    {
+      "ambiguity_counts": {
+        "axis_margin_ambiguous": 502,
+        "conflicting_axis_dominates": 1098,
+        "strong_projected_overlap": 138
+      },
+      "by_label": {
+        "behind": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 403,
+            "eligible": 538,
+            "eligible_share": 0.8239,
+            "match": 135,
+            "purity": 0.2509,
+            "uncertain": 115
+          },
+          "strict": {
+            "contradiction": 306,
+            "eligible": 411,
+            "eligible_share": 0.6294,
+            "match": 105,
+            "purity": 0.2555,
+            "uncertain": 242
+          },
+          "total": 653
+        },
+        "front": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 403,
+            "eligible": 538,
+            "eligible_share": 0.8239,
+            "match": 135,
+            "purity": 0.2509,
+            "uncertain": 115
+          },
+          "strict": {
+            "contradiction": 306,
+            "eligible": 411,
+            "eligible_share": 0.6294,
+            "match": 105,
+            "purity": 0.2555,
+            "uncertain": 242
+          },
+          "total": 653
+        },
+        "left": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 773,
+            "eligible": 996,
+            "eligible_share": 0.8799,
+            "match": 223,
+            "purity": 0.2239,
+            "uncertain": 136
+          },
+          "strict": {
+            "contradiction": 586,
+            "eligible": 732,
+            "eligible_share": 0.6466,
+            "match": 146,
+            "purity": 0.1995,
+            "uncertain": 400
+          },
+          "total": 1132
+        },
+        "right": {
+          "missing_geometry": 0,
+          "sign_only": {
+            "contradiction": 773,
+            "eligible": 996,
+            "eligible_share": 0.8799,
+            "match": 223,
+            "purity": 0.2239,
+            "uncertain": 136
+          },
+          "strict": {
+            "contradiction": 586,
+            "eligible": 732,
+            "eligible_share": 0.6466,
+            "match": 146,
+            "purity": 0.1995,
+            "uncertain": 400
+          },
+          "total": 1132
+        }
+      },
+      "frame_family": "scan_xy",
+      "frame_name": "scan_left_pos_x_front_pos_y",
+      "front_axis": [
+        0.0,
+        1.0
+      ],
+      "left_axis": [
+        1.0,
+        0.0
+      ],
+      "macro_sign_only_purity": 0.2374,
+      "macro_strict_purity": 0.2275,
+      "overall": {
+        "missing_geometry": 0,
+        "sign_only": {
+          "contradiction": 2352,
+          "eligible": 3068,
+          "eligible_share": 0.8594,
+          "match": 716,
+          "purity": 0.2334,
+          "uncertain": 502
+        },
+        "strict": {
+          "contradiction": 1784,
+          "eligible": 2286,
+          "eligible_share": 0.6403,
+          "match": 502,
+          "purity": 0.2196,
+          "uncertain": 1284
+        },
+        "total": 3570
+      }
+    }
+  ]
+}

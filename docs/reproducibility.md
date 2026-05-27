@@ -1,10 +1,93 @@
 # H001 Reproducibility Runbook
 
-Last updated: 2026-05-26 KST
+Last updated: 2026-05-27 KST
 
 This document consolidates dataset, checkpoint, environment, Docker, reproduction,
 and evaluation-summary information for `experiments/H001_geom_reliability/`.
 Detailed stage logs remain in the experiment subfolders.
+
+## Resume Reading Order
+
+Before any download, deletion, training, feature dump, or metric rerun, recover
+the current research state from tracked files first.
+
+Basic harness context:
+
+1. `AGENTS.md`
+2. `README.md`
+3. `TODO.md`
+4. `docs/index.md`
+5. `docs/hypothesis.md`
+6. `docs/paper.md`
+7. `docs/reproducibility.md`
+8. `summary.md`
+
+H001 hypothesis and experiment contract:
+
+1. `hypothesis/README.md`
+2. `hypothesis/CAND-001/H001_geometry-grounded-verification/01_overview.md`
+3. `hypothesis/CAND-001/H001_geometry-grounded-verification/02_method.md`
+4. `hypothesis/CAND-001/H001_geometry-grounded-verification/03_data_baseline.md`
+5. `hypothesis/CAND-001/H001_geometry-grounded-verification/04_results.md`
+6. `hypothesis/CAND-001/H001_geometry-grounded-verification/05_audit.md`
+7. `hypothesis/CAND-001/H001_geometry-grounded-verification/06_second_source.md`
+8. `hypothesis/CAND-001/H001_geometry-grounded-verification/07_experiment_spec.md`
+
+H001 Docker experiment and result state:
+
+1. `experiments/H001_geom_reliability/README.md`
+2. `experiments/H001_geom_reliability/report.md`
+3. `experiments/H001_geom_reliability/commands.md`
+4. `experiments/H001_geom_reliability/manifest.lock.json`
+5. `experiments/H001_geom_reliability/compose.yaml`
+6. `experiments/H001_geom_reliability/tables/`
+7. `experiments/H001_geom_reliability/figures/figure_specs.md`
+8. `experiments/H001_geom_reliability/bootstrap_ci/summary.md`
+
+Open3DSG source-specific state:
+
+1. `experiments/H001_geom_reliability/sources/open3dsg/README.md`
+2. `experiments/H001_geom_reliability/sources/open3dsg/commands.open3dsg.md`
+3. `experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml`
+4. `experiments/H001_geom_reliability/sources/open3dsg/checkpoint_selection/report.md`
+5. `experiments/H001_geom_reliability/sources/open3dsg/raw_dump_identity/report.md`
+6. `experiments/H001_geom_reliability/sources/open3dsg/adapter/report.md`
+7. `experiments/H001_geom_reliability/sources/open3dsg/geometry/report.md`
+8. `experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json`
+9. `experiments/H001_geom_reliability/sources/open3dsg/failure_rows/report.md`
+10. `experiments/H001_geom_reliability/sources/open3dsg/failure_cases/inspection.md`
+11. `experiments/H001_geom_reliability/sources/open3dsg/paper_caveats/report.md`
+
+Qwen-VL extension/resume state:
+
+1. `experiments/H001_geom_reliability/sources/qwen_vl/README.md`
+2. `experiments/H001_geom_reliability/sources/qwen_vl/report.md`
+3. `experiments/H001_geom_reliability/sources/qwen_vl/status.json`
+4. `experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml`
+5. `experiments/H001_geom_reliability/sources/qwen_vl/full_source_input/manifest.json`
+6. `experiments/H001_geom_reliability/sources/qwen_vl/full_source_inference_plan/commands.md`
+7. `experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/manifests/`
+8. `logs/qwen_vl_full_source_infer_remaining_20260527_023111.status.tsv`
+9. `logs/qwen_vl_full_source_infer_remaining_20260527_023111.exit`
+
+Paper writing state:
+
+1. `paper/README.md`
+2. `paper/preview.md`
+3. `paper/progress.md`
+4. `paper/appendix.md`
+5. `paper/outline.md`
+6. `paper/draft.md`
+7. `paper/risk.md`
+8. `paper/figures.md`
+9. `paper/aaai/README.md`
+10. `paper/aaai/inspection/report.md`
+
+If any listed runtime result file is missing, do not infer that the experiment
+was never run. First check the artifact bundle section below and then verify
+whether the file is in an external bundle, ignored runtime root, or regenerated
+cache. Inspect large logs or JSONL files only through counts, `head`, `tail`,
+targeted `rg`, or checksums.
 
 ## Current Status
 
@@ -14,16 +97,21 @@ Facts:
 - Paper-body experiment outputs must be generated through Docker.
 - `VL-SAT` locked artifacts, Open3DSG metrics, Open3DSG real
   failure rows, Table 6, and Docker subgraph bootstrap CI are ready.
-- Paper handoff and planning are ready: `paper/preview.md`, `paper/progress.md`,
-  `paper/outline.md`, `paper/draft.md`, `paper/aaai/`, `paper/iccv/`,
-  `paper/figures.md`, and `paper/generated/figures/` contain the current claim
-  boundary, paper skeleton, first-pass prose, venue-specific LaTeX sources,
-  figure locks, and reviewer-defense guardrails.
+- Paper handoff and planning are ready: `paper/README.md`, `paper/preview.md`,
+  `paper/progress.md`, `paper/appendix.md`, `paper/outline.md`,
+  `paper/draft.md`, `paper/risk.md`, `paper/aaai/`, `paper/iccv/`,
+  `paper/figures.md`, and
+  `paper/generated/figures/` contain the paper workspace map, current claim
+  boundary, appendix/provenance table, paper skeleton, first-pass prose,
+  reviewer-risk register, venue-specific LaTeX sources, figure locks, and
+  reviewer-defense guardrails.
 - Latest paper/reproducibility tasks completed: AAAI reproducibility checklist
   insertion, reviewer-defense main-text passes, Docker subgraph bootstrap CI,
-  and reproducibility artifact bundle planning. Docker build verification for
-  `paper/aaai/` is complete with `h001-aaai-tex:20260526`; the latest
-  `main.pdf` rebuild log is `logs/h001_aaai_pdf_build_20260526_182458.log`,
+  reproducibility artifact bundle planning, and official AAAI-26 Author Kit
+  replacement/verification, plus the appendix/provenance and Open3DSG
+  caveat-consistency pass. Docker build verification for `paper/aaai/` is
+  complete with `h001-aaai-tex:20260526`; the latest `main.pdf`
+  rebuild log is `logs/h001_aaai_pdf_build_appendix_caveat_20260527_202734.log`,
   with 9 total pages, technical content on pages 1-7, references on page 8,
   and the AAAI reproducibility checklist on page 9. The manuscript uses
   Open3DSG as the main open-vocabulary relation-source case study and VL-SAT as
@@ -31,14 +119,18 @@ Facts:
 - Qwen-VL is a third semantic source / modern VLM extension path. The locked
   Qwen3-VL-4B cache, runtime preflight, 3-row tiny inference smoke,
   raw-response validation, full-source promotion protocol, and full-source
-  input audit are ready, but full Qwen inference is not paper metric evidence
-  yet. Current Qwen input audit has 33,384 inferable rows and 134 shards.
+  input audit, all-scope crop preflight, full-source inference runner plan, and
+  shard 0000 contract validation are ready, but full Qwen inference is not
+  paper metric evidence yet. Current Qwen input audit has 33,384 inferable rows
+  and 134 shards. The remaining shard loop run id `20260527_023111` stopped at
+  shard 0014 because the GPU guard observed utilization 36% against the 35%
+  threshold; shards 0000-0013 are complete with 3,500 rows written, and resume
+  should start from `qwen_full_source_shard_0014`.
 - Runtime pressure is volatile: check `docker ps`, `tmux ls`, `nvidia-smi`, and
   `free -h` before launching heavy Open3DSG or Qwen jobs. The historical
   2026-05-26 Qwen-VL runtime-preflight retry was blocked by GPU guard, but the
-  later 2026-05-27 runtime preflight and tiny inference smoke passed. Full
-  Qwen promotion must still verify rendered or render-on-demand crops for the
-  audited full-source input before inference.
+  later 2026-05-27 runtime preflight, tiny inference smoke, crop preflight, and
+  shard 0000 inference contract validation passed.
 
 ## Data Locations
 
@@ -53,16 +145,20 @@ Large runtime data is intentionally under ignored local roots:
 | Open3DSG H001 eval features | `local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3/` |
 | Qwen-VL model cache | `local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/` |
 | Qwen-VL tiny crops | `local_dataset/qwen_vl_crops/tiny_pilot/` |
+| Qwen-VL full-source crops | `local_dataset/qwen_vl_crops/full_source/` |
 
 Tracked experiment artifacts and runbooks live under:
 
 ```text
 experiments/H001_geom_reliability/
 docs/reproducibility.md
+paper/README.md
 paper/preview.md
 paper/progress.md
+paper/appendix.md
 paper/outline.md
 paper/draft.md
+paper/risk.md
 paper/aaai/
 paper/iccv/
 paper/figures.md
@@ -83,8 +179,8 @@ Can be committed to GitHub:
 - Root workflow docs: `README.md`, `TODO.md`, `AGENTS.md`, `summary.md`.
 - Reproducibility docs: `docs/reproducibility.md`, `docs/index.md`,
   `docs/paper.md`, `docs/hypothesis.md`, `docs/literature.md`.
-- Paper planning/source docs: `paper/preview.md`, `paper/progress.md`,
-  `paper/outline.md`, `paper/draft.md`, `paper/aaai/`, `paper/iccv/`, `paper/figures.md`, and
+- Paper planning/source docs: `paper/README.md`, `paper/preview.md`, `paper/progress.md`,
+  `paper/appendix.md`, `paper/outline.md`, `paper/draft.md`, `paper/risk.md`, `paper/aaai/`, `paper/iccv/`, `paper/figures.md`, and
   compact figure metadata under `paper/generated/figures/`.
 - Docker/reproduction source files:
   `experiments/H001_geom_reliability/Dockerfile`,
@@ -246,7 +342,27 @@ sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_g
 
 Do not put Qwen-VL model weights in the default core bundle. The Qwen path is
 optional/non-metric and can be recreated from the fixed Hugging Face model id,
-revision, and local-dir command above.
+revision, and local-dir command above. If the goal is to continue the current
+Qwen full-source run on another computer, preserve or transfer these paths:
+
+```text
+local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/
+local_dataset/qwen_vl_crops/full_source/
+experiments/H001_geom_reliability/sources/qwen_vl/full_source_input/
+experiments/H001_geom_reliability/sources/qwen_vl/full_source_inference_plan/
+experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/
+experiments/H001_geom_reliability/sources/qwen_vl/status.json
+experiments/H001_geom_reliability/sources/qwen_vl/README.md
+experiments/H001_geom_reliability/sources/qwen_vl/report.md
+experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml
+experiments/H001_geom_reliability/sources/qwen_vl/Dockerfile.qwen
+experiments/H001_geom_reliability/scripts/run_qwen_vl_full_source_inference.py
+experiments/H001_geom_reliability/scripts/run_qwen_vl_full_source_shard_loop.sh
+experiments/H001_geom_reliability/scripts/plan_qwen_vl_full_source_inference.py
+logs/qwen_vl_full_source_infer_remaining_20260527_023111.log
+logs/qwen_vl_full_source_infer_remaining_20260527_023111.status.tsv
+logs/qwen_vl_full_source_infer_remaining_20260527_023111.exit
+```
 
 ## Environment And Docker
 
@@ -561,14 +677,31 @@ sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_g
 sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_failure_case_sampler'
 ```
 
-Optional Qwen-VL runtime smoke after GPU/RAM pressure is cleared. The
-2026-05-26 retry stopped at the guard because an unrelated `AST_mujoco` rollout
-was using the RTX 5090, so rerun this only after that job is finished or paused:
+Qwen-VL runtime smoke has already passed. Use these commands only if rebuilding
+or verifying a new computer:
 
 ```bash
 sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_runtime_preflight'
 sg docker -c 'env UID=$(id -u) GID=$(id -g) QWEN_VL_TINY_INFERENCE_LIMIT=3 docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_tiny_inference_smoke'
 ```
+
+Resume Qwen-VL full-source inference only after GPU guard is acceptable. The
+current clean resume point is `qwen_full_source_shard_0014`; shards 0000-0013
+are already complete with 3,500 rows written.
+
+```bash
+tmux ls || true
+nvidia-smi
+free -h
+mkdir -p logs
+ts=$(date +%Y%m%d_%H%M%S)
+tmux new-session -d -s h001_qwen_vl_infer_remaining \
+  "cd /home/yoohyun/research && bash -lc 'set -o pipefail; QWEN_VL_LOOP_RUN_ID=${ts} QWEN_VL_LOOP_START_SUFFIX=0014 QWEN_VL_LOOP_END_SUFFIX=0133 bash experiments/H001_geom_reliability/scripts/run_qwen_vl_full_source_shard_loop.sh; rc=\$?; printf \"%s\n\" \"\$rc\" > logs/qwen_vl_full_source_infer_remaining_${ts}.exit; exit \$rc' > logs/qwen_vl_full_source_infer_remaining_${ts}.log 2>&1"
+```
+
+After the loop finishes, Qwen still is not paper evidence until all-shard
+validation, adapter export, geometry join, metrics, controls, bootstrap CI if
+reported, and audit are completed through Docker.
 
 Raw Open3DSG source eval has clean provenance through the v14 streaming
 same-path resume. The canonical raw dump remains `raw_dump/raw.jsonl`, and the

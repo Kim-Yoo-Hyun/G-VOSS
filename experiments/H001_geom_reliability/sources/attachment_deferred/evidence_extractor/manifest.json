@@ -1,0 +1,35 @@
+{
+  "blockers": [
+    "extractor_implementation_not_written",
+    "point_contact_estimator_not_validated",
+    "surface_candidate_estimator_not_validated",
+    "normal_classification_not_validated",
+    "gravity_and_contradictory_support_cues_not_validated",
+    "schema_validation_dry_run_not_executed",
+    "attachment_verifier_policy_not_frozen",
+    "train_dev_calibration_not_built",
+    "source_metrics_not_run"
+  ],
+  "claim_boundary": {
+    "artifact_type": "design_contract_only",
+    "current_main_claim_unchanged": true,
+    "metric_evidence": false,
+    "verifier_evidence": false
+  },
+  "created_at": "2026-05-27T16:14:41+00:00",
+  "inputs": {
+    "scope_evidence_schema": "experiments/H001_geom_reliability/sources/attachment_deferred/scope_audit/evidence_schema.json",
+    "scope_manifest": "experiments/H001_geom_reliability/sources/attachment_deferred/scope_audit/manifest.json"
+  },
+  "next_gate": "G1b_attachment_evidence_extractor_dry_run",
+  "outputs": {
+    "example_row": "example_row.json",
+    "extraction_plan": "extraction_plan.json",
+    "field_catalog": "field_catalog.json",
+    "output_schema": "output_schema.json",
+    "subtype_policy": "subtype_policy.json",
+    "validation_plan": "validation_plan.json"
+  },
+  "schema_version": "h001_attachment_deferred_extractor_contract_v1",
+  "status": "attachment_deferred_extractor_contract_ready_no_extraction"
+}

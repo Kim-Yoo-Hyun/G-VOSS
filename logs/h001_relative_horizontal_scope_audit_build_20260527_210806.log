@@ -1,0 +1,55 @@
+ Image h001-geom-reliability:latest Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 633B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 335B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11.9-slim-bookworm
+#3 ...
+
+#4 [auth] library/python:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11.9-slim-bookworm
+#3 DONE 4.1s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 2B done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 21.72kB done
+#6 DONE 0.0s
+
+#7 [1/4] FROM docker.io/library/python:3.11.9-slim-bookworm@sha256:8fb099199b9f2d70342674bd9dbccd3ed03a258f26bbd1d556822c6dfc60c317
+#7 resolve docker.io/library/python:3.11.9-slim-bookworm@sha256:8fb099199b9f2d70342674bd9dbccd3ed03a258f26bbd1d556822c6dfc60c317 0.0s done
+#7 DONE 0.0s
+
+#8 [2/4] WORKDIR /workspace
+#8 CACHED
+
+#9 [3/4] RUN pip install --no-cache-dir numpy==1.26.4 pillow==10.4.0
+#9 CACHED
+
+#10 [4/4] COPY experiments/H001_geom_reliability/scripts/ /opt/h001/scripts/
+#10 DONE 0.2s
+
+#11 exporting to image
+#11 exporting layers 0.1s done
+#11 exporting manifest sha256:9a3b1f81f2f4e0218155079efe0ce967047cb91a532037c33733b7aabf7d3a08
+#11 exporting manifest sha256:9a3b1f81f2f4e0218155079efe0ce967047cb91a532037c33733b7aabf7d3a08 0.0s done
+#11 exporting config sha256:195eb30ff6ad4c008178ec88b378e1f7450f2135d611d6f547bcf6904ab3f445 0.0s done
+#11 exporting attestation manifest sha256:d5852a01aee40b8da7e15d1a1e441b07cf578023c3e18582b868dfb6c402951f 0.1s done
+#11 exporting manifest list sha256:297764859640e3bdd76f9e0cf99a7cf409dc3c10d1d4738cc7d6883de7e24eeb
+#11 exporting manifest list sha256:297764859640e3bdd76f9e0cf99a7cf409dc3c10d1d4738cc7d6883de7e24eeb 0.0s done
+#11 naming to docker.io/library/h001-geom-reliability:latest done
+#11 unpacking to docker.io/library/h001-geom-reliability:latest
+#11 unpacking to docker.io/library/h001-geom-reliability:latest 0.3s done
+#11 DONE 0.7s
+
+#12 resolving provenance for metadata file
+#12 DONE 0.0s
+ Image h001-geom-reliability:latest Built 

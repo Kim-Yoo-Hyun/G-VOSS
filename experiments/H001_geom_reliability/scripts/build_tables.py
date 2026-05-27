@@ -552,6 +552,7 @@ def build_table6(open3dsg_hook: dict[str, Any]) -> tuple[list[dict[str, Any]], l
             "contract_status": "ready",
             "blockers": "none",
             "claim_use": "scoped current result",
+            "caveat_note": "controlled reproduced anchor under fixed H001 denominator",
         },
         {
             "prediction_source": "Open3DSG",
@@ -564,6 +565,11 @@ def build_table6(open3dsg_hook: dict[str, Any]) -> tuple[list[dict[str, Any]], l
                 if open3dsg_ready
                 else "required before cross-source claim"
             ),
+            "caveat_note": (
+                "averaged-BLIP variant; filtered train/dev; covered H001 377/388; "
+                "exact-label denominator 2545; validation_missing_preprocessed:11; "
+                "residual calibration risk"
+            ),
         },
     ]
     md_rows = [
@@ -574,6 +580,7 @@ def build_table6(open3dsg_hook: dict[str, Any]) -> tuple[list[dict[str, Any]], l
             row["contract_status"],
             row["blockers"],
             row["claim_use"],
+            row["caveat_note"],
         ]
         for row in rows
     ]

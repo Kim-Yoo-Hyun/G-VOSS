@@ -1,0 +1,37 @@
+{
+  "all_frames": {
+    "axis_margin_ambiguous": 10120,
+    "conflicting_axis_dominates": 20216,
+    "strong_projected_overlap": 2208
+  },
+  "inverse_pair_consistency": {
+    "by_label": {
+      "behind": {
+        "expected_inverse_found": 653,
+        "reverse_annotation_exists": 653
+      },
+      "front": {
+        "expected_inverse_found": 653,
+        "reverse_annotation_exists": 653
+      },
+      "left": {
+        "expected_inverse_found": 1132,
+        "reverse_annotation_exists": 1132
+      },
+      "right": {
+        "expected_inverse_found": 1132,
+        "reverse_annotation_exists": 1132
+      }
+    },
+    "inconsistent_examples": [],
+    "inverse_consistency": 1.0,
+    "rows": 3570,
+    "rows_with_expected_inverse": 3570,
+    "rows_with_reverse_annotation": 3570
+  },
+  "selected_frame": {
+    "axis_margin_ambiguous": 502,
+    "conflicting_axis_dominates": 1098,
+    "strong_projected_overlap": 138
+  }
+}

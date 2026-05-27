@@ -1,0 +1,91 @@
+{
+  "field_groups": [
+    {
+      "name": "identity",
+      "purpose": "Preserve row/source/object identity across VL-SAT, Open3DSG, GT positives, and counterfactuals.",
+      "required_fields": [
+        "row_id",
+        "source_name",
+        "scan_id",
+        "subgraph_id",
+        "subject_id",
+        "object_id",
+        "predicate_label",
+        "predicate_family"
+      ]
+    },
+    {
+      "name": "obb_evidence",
+      "purpose": "Reuse existing semseg OBB geometry for distance, overlap, and vertical context.",
+      "required_fields": [
+        "distance_3d_m",
+        "distance_xy_m",
+        "normalized_distance_3d",
+        "normalized_distance_xy",
+        "projected_xy_overlap",
+        "vertical_gap_m",
+        "center_delta_z_m"
+      ]
+    },
+    {
+      "name": "point_contact_evidence",
+      "purpose": "Estimate local near-contact and contact patch evidence from segmented points when available.",
+      "required_fields": [
+        "subject_point_count",
+        "object_point_count",
+        "min_point_distance_m",
+        "near_contact_point_count",
+        "near_contact_threshold_m",
+        "contact_patch_extent_m2",
+        "contact_patch_score"
+      ]
+    },
+    {
+      "name": "surface_evidence",
+      "purpose": "Identify plausible wall, ceiling, furniture, fixture, or object-part attachment surfaces.",
+      "required_fields": [
+        "selected_surface_type",
+        "selected_surface_normal_class",
+        "candidate_count",
+        "candidates"
+      ]
+    },
+    {
+      "name": "gravity_and_contradiction",
+      "purpose": "Represent hanging plausibility and alternative floor/table support explanations.",
+      "required_fields": [
+        "floor_clearance_m",
+        "near_vertical_or_overhead_surface",
+        "hanging_geometry_score",
+        "floor_or_table_supported",
+        "support_explanation_score"
+      ]
+    },
+    {
+      "name": "affordance_context",
+      "purpose": "Record class-pair plausibility only as context for later audit/ablation.",
+      "required_fields": [
+        "class_pair_prior",
+        "class_pair_prior_source",
+        "allowed_as_proof"
+      ]
+    }
+  ],
+  "forbidden_extractor_outputs": [
+    "verification_status",
+    "p_geom_valid",
+    "satisfied",
+    "violated",
+    "uncertain_as_decision",
+    "recall_credit",
+    "reranked_score"
+  ],
+  "principles": [
+    "Extractor emits evidence only; verifier emits satisfied/violated/uncertain later.",
+    "Object class affordance is optional context and must never be the sole proof.",
+    "Missing or ambiguous surface evidence should become partial/missing flags, not a hidden violation.",
+    "Exact predicate labels remain separate for recall; family grouping is only for evidence extraction."
+  ],
+  "schema_version": "h001_attachment_deferred_field_catalog_v1",
+  "status": "attachment_deferred_extractor_contract_ready_no_extraction"
+}

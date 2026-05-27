@@ -1,6 +1,6 @@
 # H001 Geometry Reliability Experiment
 
-Last updated: 2026-05-27
+Last updated: 2026-05-28
 
 This is the first paper-body experiment workflow for H001. It is Docker-based by rule.
 
@@ -14,7 +14,9 @@ Current executable sources:
 Selected top-tier expansion:
 
 - Open3DSG second-source adapter result after Dockerized checkpoint reproduction; checkpoint plan, `training_repro` metadata/split staging, full payload staging, train/validation views, explicit train/validation preprocess filtering, official BLIP TopK5/scales3 feature dump, Docker feature audit, avg-BLIP checkpoint reproduction, checkpoint selection, eval preflight, H001 held-out eval feature-cache generation, raw-dump identity checklist, adapter export, geometry join, metric eval, predicate-family/denominator metric-scope policy, pre-metric failure-analysis schema, synthetic failure row-generator smoke, real failure-analysis rows, qualitative case inspection, paper caveat wording, Table 6 hook, and subgraph bootstrap CI are ready.
-- Qwen-VL third semantic source / modern VLM extension contract is ready under `sources/qwen_vl/`; recommended small model ladder is Qwen3-VL-4B first, Qwen2.5-VL-3B stable fallback, and Qwen3-VL-2B parser-smoke candidate. Frozen input JSON Schema, output JSONL contract, contract-only validator/parser skeleton, non-held-out tiny pilot scope, runtime model-lock plan, tiny-pilot pair-crop rendering path, model-cache verification, runtime preflight, 3-row tiny inference smoke, runtime raw-response validation, full-source promotion plan, full-source input audit, full-source crop preflight, and full-source inference runner plan are recorded. Current full-source input audit has 77,748 universe rows, 33,384 inferable input rows, 44,364 missing rows, and 134 shards. All-scope crop preflight passed for 33,384 input rows / 11,128 unique pair crops / 0 errors. Runner plan freezes 134 shard commands/resume policy, and shard 0000 dry-run passed for 250 rows / 84 unique pair crops / 0 blockers. This is not a replacement for VL-SAT or Open3DSG evidence, and no full Qwen paper-metric inference has run.
+- `relative_horizontal` is now a separate scope-expansion validation track under `sources/relative_horizontal/`. The no-training/no-inference Docker scope audit is ready, with 3,570 candidate GT rows and source rows for VL-SAT / Open3DSG, but current verification status remains unsupported. The Docker coordinate audit and bucket inspection are also ready and currently blocked: best scan-frame macro strict purity is 0.7725, `front`/`behind` strict purity is 0.7445, inverse consistency is 1.0, wrong-frame gap is 0.1231, and `front`/`behind` ambiguity buckets remain substantial. Recommendation is `do_not_promote_relative_horizontal_to_main_claim`. Current AAAI-path decision is to freeze this as appendix/limitation evidence and not run expanded-family metrics. This does not change the current main paper claim. It can only be promoted after coordinate-frame semantics, denominator audit, verifier policy, calibration, controls, source metrics, bootstrap CI, and failure/audit evidence reach the same standard as the current H001 families.
+- `attachment_deferred` is now the preferred future relation-family upgrade under `sources/attachment_deferred/`, not current metric evidence. Docker G0 scope/schema audit and G1 extractor contract are complete with status `attachment_deferred_extractor_contract_ready_no_extraction`: it adds 967 GT rows (`attached to` 808, `hanging on` 126, `connected to` 33), with candidate source rows for VL-SAT 77,748 and Open3DSG 57,300, and current verification status `unsupported` for both sources. It is a better conceptual fit than relative-horizontal for H001's physical-consistency mechanism, but the next gate is a schema-validated G1b evidence-only dry run for surface type, local point contact, surface normals, gravity/hanging, contradictory support cues, and object-affordance-as-context before any verifier/calibration or source metrics.
+- Qwen-VL third semantic source / modern VLM extension contract is ready under `sources/qwen_vl/`; recommended small model ladder is Qwen3-VL-4B first, Qwen2.5-VL-3B stable fallback, and Qwen3-VL-2B parser-smoke candidate. Frozen input JSON Schema, output JSONL contract, contract-only validator/parser skeleton, non-held-out tiny pilot scope, runtime model-lock plan, tiny-pilot pair-crop rendering path, model-cache verification, runtime preflight, 3-row tiny inference smoke, runtime raw-response validation, full-source promotion plan, full-source input audit, full-source crop preflight, and full-source inference runner plan are recorded. Current full-source input audit has 77,748 universe rows, 33,384 inferable input rows, 44,364 missing rows, and 134 shards. All-scope crop preflight passed for 33,384 input rows / 11,128 unique pair crops / 0 errors. Runner plan freezes 134 shard commands/resume policy; shards 0000-0013 are complete with 3,500 parsed rows, and run id `20260527_023111` stopped at shard 0014 because the GPU guard observed utilization 36% against the 35% threshold. This is not a replacement for VL-SAT or Open3DSG evidence, and no full Qwen paper-metric evaluation has run.
 
 Current method framing:
 
@@ -88,6 +90,33 @@ Generated outputs:
 - `sources/open3dsg/training_repro/report.md`
 - `sources/open3dsg/status.json`
 - `sources/open3dsg/table6_hook.json`
+- `sources/relative_horizontal/README.md`
+- `sources/relative_horizontal/scope_audit/manifest.json`
+- `sources/relative_horizontal/scope_audit/label_counts.json`
+- `sources/relative_horizontal/scope_audit/report.md`
+- `sources/relative_horizontal/coordinate_audit/manifest.json`
+- `sources/relative_horizontal/coordinate_audit/frame_metrics.json`
+- `sources/relative_horizontal/coordinate_audit/records.jsonl`
+- `sources/relative_horizontal/coordinate_audit/ambiguity_buckets.json`
+- `sources/relative_horizontal/coordinate_audit/report.md`
+- `sources/relative_horizontal/bucket_inspection/manifest.json`
+- `sources/relative_horizontal/bucket_inspection/summary.json`
+- `sources/relative_horizontal/bucket_inspection/examples.jsonl`
+- `sources/relative_horizontal/bucket_inspection/report.md`
+- `sources/attachment_deferred/README.md`
+- `sources/attachment_deferred/scope_audit/manifest.json`
+- `sources/attachment_deferred/scope_audit/label_counts.json`
+- `sources/attachment_deferred/scope_audit/evidence_schema.json`
+- `sources/attachment_deferred/scope_audit/report.md`
+- `sources/attachment_deferred/evidence_extractor/manifest.json`
+- `sources/attachment_deferred/evidence_extractor/extractor_contract.json`
+- `sources/attachment_deferred/evidence_extractor/output_schema.json`
+- `sources/attachment_deferred/evidence_extractor/field_catalog.json`
+- `sources/attachment_deferred/evidence_extractor/subtype_policy.json`
+- `sources/attachment_deferred/evidence_extractor/extraction_plan.json`
+- `sources/attachment_deferred/evidence_extractor/validation_plan.json`
+- `sources/attachment_deferred/evidence_extractor/example_row.json`
+- `sources/attachment_deferred/evidence_extractor/report.md`
 - `bootstrap_ci/manifest.json`
 - `bootstrap_ci/summary.json`
 - `bootstrap_ci/summary.md`
@@ -138,6 +167,8 @@ Still blocked:
 
 ```text
 Broad open-vocabulary 3DSSG generation improvement claim beyond the measured H001-family closed-set/GT-object scope.
+Adding relative_horizontal to the main claim before its separate validation track reaches the current H001 evidence standard.
+Adding attachment_deferred to the main claim before its separate evidence extractor dry run, verifier/calibration contract, source metrics, controls, bootstrap CI, and audit reach the current H001 evidence standard. The completed G0 scope/schema audit and G1 extractor contract are not metric evidence.
 ```
 
 Current Open3DSG blocker:
@@ -167,11 +198,12 @@ raw-dump identity audit is ready with H001 scope 127 scans / 388 contexts / 25,9
 Current Open3DSG metric-scope policy:
 
 ```text
-predicate-family mapping and denominator caveat are frozen; in-scope GT denominator is 2,545 rows across support_contact 1,199 / proximity 1,128 / relative_vertical 218. Table 6 requires this policy before real Open3DSG metrics can be promoted.
+predicate-family mapping and denominator caveat are frozen; in-scope GT denominator is 2,545 rows across support_contact 1,199 / proximity 1,128 / relative_vertical 218. relative_horizontal has 3,570 excluded GT rows and is tracked only as a separate expansion candidate. Its coordinate audit and bucket inspection are blocked for main-claim promotion: best scan-frame macro strict purity 0.7725, left/right 0.8005, front/behind 0.7445, inverse consistency 1.0, wrong-frame gap 0.1231, front/behind match:contradiction 2.9143, and ambiguity flags axis_margin_ambiguous 230 / conflicting_axis_dominates 430 / strong_projected_overlap 44. Table 6 requires the current policy before real Open3DSG metrics can be promoted.
+attachment_deferred has 967 excluded GT rows and is tracked as the preferred future physical-relation upgrade, not current metric evidence. Docker G0 scope/schema audit and G1 extractor contract are complete and freeze the candidate denominator, source rows, unsupported verification status, and evidence-only output contract. Promotion still requires a G1b attachment evidence extractor dry run and full H001 validation path before Table 6 can include it.
 ```
 
 Current Open3DSG Table 6 hook:
 
 ```text
-table builder reads sources/open3dsg/metrics/metrics.json and marks Open3DSG Table 6 ready with no blockers, scoped to measured H001 families.
+table builder reads sources/open3dsg/metrics/metrics.json and marks Open3DSG Table 6 ready with no blockers, scoped to measured H001 families. The regenerated Table 6 includes a caveat_note for averaged-BLIP, filtered train/dev, covered H001 377/388, exact-label denominator 2545, validation_missing_preprocessed:11, and residual calibration risk.
 ```

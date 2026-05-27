@@ -1,0 +1,334 @@
+{
+  "blockers": [
+    "coordinate_frame_semantics_unverified",
+    "relative_horizontal_verifier_not_implemented",
+    "train_dev_calibration_not_built",
+    "gt_counterfactual_verifier_eval_not_run",
+    "source_metrics_not_run",
+    "bootstrap_ci_not_run",
+    "failure_analysis_and_visual_audit_not_run"
+  ],
+  "claim_boundary": {
+    "candidate_family": "relative_horizontal",
+    "current_families": [
+      "support_contact",
+      "proximity",
+      "relative_vertical"
+    ],
+    "current_main_claim_unchanged": true,
+    "promotion_rule": "Do not promote to main claim until current H001 evidence standard is matched."
+  },
+  "coordinate_frame_hypotheses": [
+    "scan_or_world_axis_aligned_xy",
+    "camera_or_annotation_viewpoint_axis",
+    "room_layout_axis_after_alignment",
+    "object_pair_or_subject_centric_axis"
+  ],
+  "created_at": "2026-05-27T12:12:08.992072+00:00",
+  "denominator": {
+    "all_held_out_gt_rows": 7505,
+    "current_h001_gt_denominator": 2545,
+    "expanded_candidate_denominator": 6115,
+    "expanded_denominator_share": 0.8148,
+    "relative_horizontal_gt_rows": 3570
+  },
+  "existing_verification_status": {
+    "open3dsg": {
+      "label_counts": {
+        "behind": 19100,
+        "front": 19100,
+        "left": 19100,
+        "right": 19100
+      },
+      "path": "/workspace/experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl",
+      "reason_code_counts": {
+        "point_subtype_delegated_to_obb_for_family": 76400,
+        "predicate_family_out_of_scope:relative_horizontal": 76400
+      },
+      "relative_horizontal_rows": 76400,
+      "verification_status_counts": {
+        "unsupported": 76400
+      }
+    },
+    "vlsat": {
+      "label_counts": {
+        "behind": 25916,
+        "front": 25916,
+        "left": 25916,
+        "right": 25916
+      },
+      "path": "/workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened_geometry/verification.jsonl",
+      "reason_code_counts": {
+        "point_subtype_delegated_to_obb_for_family": 103664,
+        "predicate_family_out_of_scope:relative_horizontal": 103664
+      },
+      "relative_horizontal_rows": 103664,
+      "verification_status_counts": {
+        "unsupported": 103664
+      }
+    }
+  },
+  "ground_truth": {
+    "directed_pairs": 5263,
+    "family_counts": {
+      "attachment_deferred": 967,
+      "proximity": 1128,
+      "relative_horizontal": 3570,
+      "relative_vertical": 218,
+      "support_contact": 1199,
+      "unsupported_first_pass": 423
+    },
+    "family_label_counts": {
+      "attachment_deferred::attached to": 808,
+      "attachment_deferred::connected to": 33,
+      "attachment_deferred::hanging on": 126,
+      "proximity::close by": 1128,
+      "relative_horizontal::behind": 653,
+      "relative_horizontal::front": 653,
+      "relative_horizontal::left": 1132,
+      "relative_horizontal::right": 1132,
+      "relative_vertical::higher than": 109,
+      "relative_vertical::lower than": 109,
+      "support_contact::lying on": 141,
+      "support_contact::standing on": 929,
+      "support_contact::supported by": 129,
+      "unsupported_first_pass::belonging to": 21,
+      "unsupported_first_pass::bigger than": 43,
+      "unsupported_first_pass::build in": 31,
+      "unsupported_first_pass::cover": 18,
+      "unsupported_first_pass::hanging in": 1,
+      "unsupported_first_pass::leaning against": 6,
+      "unsupported_first_pass::lying in": 30,
+      "unsupported_first_pass::part of": 5,
+      "unsupported_first_pass::same as": 170,
+      "unsupported_first_pass::same symmetry as": 42,
+      "unsupported_first_pass::smaller than": 43,
+      "unsupported_first_pass::standing in": 13
+    },
+    "label_counts": {
+      "attached to": 808,
+      "behind": 653,
+      "belonging to": 21,
+      "bigger than": 43,
+      "build in": 31,
+      "close by": 1128,
+      "connected to": 33,
+      "cover": 18,
+      "front": 653,
+      "hanging in": 1,
+      "hanging on": 126,
+      "higher than": 109,
+      "leaning against": 6,
+      "left": 1132,
+      "lower than": 109,
+      "lying in": 30,
+      "lying on": 141,
+      "part of": 5,
+      "right": 1132,
+      "same as": 170,
+      "same symmetry as": 42,
+      "smaller than": 43,
+      "standing in": 13,
+      "standing on": 929,
+      "supported by": 129
+    },
+    "path": "/workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl",
+    "relative_horizontal_label_counts": {
+      "behind": 653,
+      "front": 653,
+      "left": 1132,
+      "right": 1132
+    },
+    "relative_horizontal_rows": 3570,
+    "rows": 7505,
+    "scans": 127,
+    "subgraphs": 388
+  },
+  "inputs": {
+    "denominator_policy_json": "/workspace/experiments/H001_geom_reliability/sources/open3dsg/metric_scope/denominator_policy.json",
+    "ground_truth_jsonl": "/workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl",
+    "open3dsg_predictions_jsonl": "/workspace/experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl",
+    "open3dsg_verification_jsonl": "/workspace/experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl",
+    "predicate_mapping_json": "/workspace/experiments/H001_geom_reliability/sources/open3dsg/metric_scope/predicate_mapping.json",
+    "vlsat_predictions_jsonl": "/workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/predictions.jsonl",
+    "vlsat_verification_jsonl": "/workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened_geometry/verification.jsonl"
+  },
+  "next_gate": "G0_coordinate_frame_and_label_semantics_audit",
+  "predicate_mapping_source": {
+    "path": "/workspace/experiments/H001_geom_reliability/sources/open3dsg/metric_scope/predicate_mapping.json",
+    "relative_horizontal_labels": [
+      "left",
+      "right",
+      "front",
+      "behind",
+      "in front of"
+    ]
+  },
+  "required_controls": [
+    "wrong_frame_or_axis_flip_geometry",
+    "wrong_pair_geometry",
+    "shuffled_geometry_within_family",
+    "geometry_only_ranking",
+    "distance_only_if_meaningful"
+  ],
+  "schema_version": "h001_relative_horizontal_scope_audit_v1",
+  "source_prediction_rows": {
+    "open3dsg": {
+      "directed_pairs": 19100,
+      "family_counts": {
+        "attachment_deferred": 57300,
+        "proximity": 19100,
+        "relative_horizontal": 76400,
+        "relative_vertical": 38200,
+        "support_contact": 57300,
+        "unsupported_first_pass": 248300
+      },
+      "family_label_counts": {
+        "attachment_deferred::attached to": 19100,
+        "attachment_deferred::connected to": 19100,
+        "attachment_deferred::hanging on": 19100,
+        "proximity::close by": 19100,
+        "relative_horizontal::behind": 19100,
+        "relative_horizontal::front": 19100,
+        "relative_horizontal::left": 19100,
+        "relative_horizontal::right": 19100,
+        "relative_vertical::higher than": 19100,
+        "relative_vertical::lower than": 19100,
+        "support_contact::lying on": 19100,
+        "support_contact::standing on": 19100,
+        "support_contact::supported by": 19100,
+        "unsupported_first_pass::belonging to": 19100,
+        "unsupported_first_pass::bigger than": 19100,
+        "unsupported_first_pass::build in": 19100,
+        "unsupported_first_pass::cover": 19100,
+        "unsupported_first_pass::hanging in": 19100,
+        "unsupported_first_pass::inside": 19100,
+        "unsupported_first_pass::leaning against": 19100,
+        "unsupported_first_pass::lying in": 19100,
+        "unsupported_first_pass::part of": 19100,
+        "unsupported_first_pass::same as": 19100,
+        "unsupported_first_pass::same symmetry as": 19100,
+        "unsupported_first_pass::smaller than": 19100,
+        "unsupported_first_pass::standing in": 19100
+      },
+      "label_counts": {
+        "attached to": 19100,
+        "behind": 19100,
+        "belonging to": 19100,
+        "bigger than": 19100,
+        "build in": 19100,
+        "close by": 19100,
+        "connected to": 19100,
+        "cover": 19100,
+        "front": 19100,
+        "hanging in": 19100,
+        "hanging on": 19100,
+        "higher than": 19100,
+        "inside": 19100,
+        "leaning against": 19100,
+        "left": 19100,
+        "lower than": 19100,
+        "lying in": 19100,
+        "lying on": 19100,
+        "part of": 19100,
+        "right": 19100,
+        "same as": 19100,
+        "same symmetry as": 19100,
+        "smaller than": 19100,
+        "standing in": 19100,
+        "standing on": 19100,
+        "supported by": 19100
+      },
+      "path": "/workspace/experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl",
+      "relative_horizontal_label_counts": {
+        "behind": 19100,
+        "front": 19100,
+        "left": 19100,
+        "right": 19100
+      },
+      "relative_horizontal_rows": 76400,
+      "rows": 496600,
+      "scans": 126,
+      "subgraphs": 377
+    },
+    "vlsat": {
+      "directed_pairs": 25916,
+      "family_counts": {
+        "attachment_deferred": 77748,
+        "proximity": 25916,
+        "relative_horizontal": 103664,
+        "relative_vertical": 51832,
+        "support_contact": 77748,
+        "unsupported_first_pass": 336908
+      },
+      "family_label_counts": {
+        "attachment_deferred::attached to": 25916,
+        "attachment_deferred::connected to": 25916,
+        "attachment_deferred::hanging on": 25916,
+        "proximity::close by": 25916,
+        "relative_horizontal::behind": 25916,
+        "relative_horizontal::front": 25916,
+        "relative_horizontal::left": 25916,
+        "relative_horizontal::right": 25916,
+        "relative_vertical::higher than": 25916,
+        "relative_vertical::lower than": 25916,
+        "support_contact::lying on": 25916,
+        "support_contact::standing on": 25916,
+        "support_contact::supported by": 25916,
+        "unsupported_first_pass::belonging to": 25916,
+        "unsupported_first_pass::bigger than": 25916,
+        "unsupported_first_pass::build in": 25916,
+        "unsupported_first_pass::cover": 25916,
+        "unsupported_first_pass::hanging in": 25916,
+        "unsupported_first_pass::inside": 25916,
+        "unsupported_first_pass::leaning against": 25916,
+        "unsupported_first_pass::lying in": 25916,
+        "unsupported_first_pass::part of": 25916,
+        "unsupported_first_pass::same as": 25916,
+        "unsupported_first_pass::same symmetry as": 25916,
+        "unsupported_first_pass::smaller than": 25916,
+        "unsupported_first_pass::standing in": 25916
+      },
+      "label_counts": {
+        "attached to": 25916,
+        "behind": 25916,
+        "belonging to": 25916,
+        "bigger than": 25916,
+        "build in": 25916,
+        "close by": 25916,
+        "connected to": 25916,
+        "cover": 25916,
+        "front": 25916,
+        "hanging in": 25916,
+        "hanging on": 25916,
+        "higher than": 25916,
+        "inside": 25916,
+        "leaning against": 25916,
+        "left": 25916,
+        "lower than": 25916,
+        "lying in": 25916,
+        "lying on": 25916,
+        "part of": 25916,
+        "right": 25916,
+        "same as": 25916,
+        "same symmetry as": 25916,
+        "smaller than": 25916,
+        "standing in": 25916,
+        "standing on": 25916,
+        "supported by": 25916
+      },
+      "path": "/workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/predictions.jsonl",
+      "relative_horizontal_label_counts": {
+        "behind": 25916,
+        "front": 25916,
+        "left": 25916,
+        "right": 25916
+      },
+      "relative_horizontal_rows": 103664,
+      "rows": 673816,
+      "scans": 127,
+      "subgraphs": 388
+    }
+  },
+  "status": "relative_horizontal_scope_audit_ready_no_metric_execution"
+}

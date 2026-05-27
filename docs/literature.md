@@ -1,8 +1,15 @@
 # Literature Workflow
 
-Last updated: 2026-04-28
+Last updated: 2026-05-27
 
 이 문서는 3D Scene Graph 문헌 조사를 수행하는 에이전트의 workflow와 규칙을 정의한다. 실제 조사 결과는 이 파일에 저장하지 않는다.
+
+## Ownership
+
+- `docs/literature.md`는 literature workflow의 authoritative rulebook이다.
+- `AGENTS.md`에는 이 workflow를 중복해서 쓰지 않고, 이 파일을 참조하는 상위 규칙만 둔다.
+- 실제 논문 요약, paper registry, trend synthesis, contribution candidate는 `literature/` 아래에 기록한다.
+- `docs/index.md`는 현재 상태 dashboard만 관리하고, literature workflow 세부 절차를 복사하지 않는다.
 
 ## Storage Rule
 

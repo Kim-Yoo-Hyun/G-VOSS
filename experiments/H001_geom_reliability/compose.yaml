@@ -177,6 +177,104 @@ services:
       - --out
       - /workspace/experiments/H001_geom_reliability/sources/open3dsg/metric_scope
 
+  relative_horizontal_scope_audit:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/audit_relative_horizontal_scope.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/relative_horizontal/scope_audit
+
+  relative_horizontal_coordinate_audit:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/audit_relative_horizontal_coordinate.py
+    command:
+      - --repo-root
+      - /workspace
+      - --dataset-root
+      - /workspace/local_dataset
+      - --ground-truth-jsonl
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/relative_horizontal/coordinate_audit
+
+  relative_horizontal_bucket_inspection:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/inspect_relative_horizontal_buckets.py
+    command:
+      - --repo-root
+      - /workspace
+      - --coordinate-dir
+      - /workspace/experiments/H001_geom_reliability/sources/relative_horizontal/coordinate_audit
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/relative_horizontal/bucket_inspection
+
+  attachment_deferred_scope_audit:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/audit_attachment_deferred_scope.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/scope_audit
+
+  attachment_deferred_extractor_contract:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/design_attachment_deferred_extractor.py
+    command:
+      - --repo-root
+      - /workspace
+      - --scope-audit-dir
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/scope_audit
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor
+
   open3dsg_metric_join_contract:
     build:
       context: ../..

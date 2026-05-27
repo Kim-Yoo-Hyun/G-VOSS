@@ -1,6 +1,6 @@
 # Commands
 
-Last updated: 2026-05-26
+Last updated: 2026-05-28
 
 Run from the repository root.
 
@@ -50,6 +50,142 @@ Expected completion line:
 ```json
 {"out": "experiments/H001_geom_reliability/bootstrap_ci", "sources": ["open3dsg_ov", "vlsat_closed_set"], "status": "ready"}
 ```
+
+## Relative Horizontal Scope Audit
+
+Run the no-training, no-inference audit for the optional
+`relative_horizontal` expansion track:
+
+```bash
+docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm relative_horizontal_scope_audit
+```
+
+This creates:
+
+- `sources/relative_horizontal/scope_audit/manifest.json`
+- `sources/relative_horizontal/scope_audit/label_counts.json`
+- `sources/relative_horizontal/scope_audit/report.md`
+
+Current result: status `relative_horizontal_scope_audit_ready_no_metric_execution`;
+expanded candidate denominator 6,115/7,505 if `relative_horizontal` is
+validated. This is not metric evidence and does not change the current paper
+claim.
+
+## Relative Horizontal Coordinate Audit
+
+Run the GT-only coordinate-frame semantics gate before any verifier or metric
+promotion:
+
+```bash
+docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm relative_horizontal_coordinate_audit
+```
+
+This creates:
+
+- `sources/relative_horizontal/coordinate_audit/manifest.json`
+- `sources/relative_horizontal/coordinate_audit/frame_metrics.json`
+- `sources/relative_horizontal/coordinate_audit/records.jsonl`
+- `sources/relative_horizontal/coordinate_audit/ambiguity_buckets.json`
+- `sources/relative_horizontal/coordinate_audit/report.md`
+
+This is not source-prediction metric evidence. It only tests whether
+`left/right/front/behind` labels are stable under a deterministic coordinate
+frame and whether wrong-frame controls are clearly worse.
+
+Current result: status
+`relative_horizontal_coordinate_audit_blocked_no_metric_execution`; best frame
+`scan_left_neg_x_front_neg_y`, macro strict purity 0.7725, strict eligible share
+0.6403, left/right purity 0.8005, front/behind purity 0.7445, inverse
+consistency 1.0, wrong-frame gap 0.1231. This blocks main-claim promotion.
+
+## Relative Horizontal Bucket Inspection
+
+Inspect threshold-free `front` / `behind` ambiguity and contradiction buckets
+from the coordinate audit:
+
+```bash
+docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm relative_horizontal_bucket_inspection
+```
+
+This creates:
+
+- `sources/relative_horizontal/bucket_inspection/manifest.json`
+- `sources/relative_horizontal/bucket_inspection/summary.json`
+- `sources/relative_horizontal/bucket_inspection/examples.jsonl`
+- `sources/relative_horizontal/bucket_inspection/report.md`
+
+Use this only as scope-expansion diagnostic evidence. It is not a verifier,
+not a source metric, and not a main-claim result.
+
+Current result: status
+`relative_horizontal_bucket_inspection_ready_no_metric_execution`;
+recommendation `do_not_promote_relative_horizontal_to_main_claim`.
+Threshold-free diagnostics: inverse consistency 1.0, wrong-frame gap 0.1231,
+front/behind match:contradiction 2.9143, front/behind strict purity 0.7445,
+front/behind sign-only purity 0.7491, and ambiguity flags
+axis_margin_ambiguous 230 / conflicting_axis_dominates 430 /
+strong_projected_overlap 44. Current AAAI-path decision is to freeze this as
+appendix/limitation evidence and not run expanded-family metrics.
+
+## Attachment Deferred Scope Audit
+
+Run the no-training, no-inference audit for the preferred future
+`attachment_deferred` relation-family upgrade:
+
+```bash
+docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm attachment_deferred_scope_audit
+```
+
+This creates:
+
+- `sources/attachment_deferred/scope_audit/manifest.json`
+- `sources/attachment_deferred/scope_audit/label_counts.json`
+- `sources/attachment_deferred/scope_audit/evidence_schema.json`
+- `sources/attachment_deferred/scope_audit/report.md`
+
+Use this only as scope and evidence-schema planning. It is not a verifier,
+not a source metric, and not a main-claim result.
+
+Current result: status
+`attachment_deferred_scope_schema_ready_no_metric_execution`; current H001 GT
+denominator 2,545, attachment GT rows 967, expanded candidate denominator
+3,512 / 7,505, VL-SAT candidate rows 77,748, Open3DSG candidate rows 57,300,
+and existing verification status `unsupported` for both sources. Next gate is
+`G1_attachment_evidence_extractor_design`.
+
+## Attachment Deferred Evidence Extractor Contract
+
+Run the G1 design/contract step for the future attachment evidence extractor:
+
+```bash
+docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm attachment_deferred_extractor_contract
+```
+
+This creates:
+
+- `sources/attachment_deferred/evidence_extractor/manifest.json`
+- `sources/attachment_deferred/evidence_extractor/extractor_contract.json`
+- `sources/attachment_deferred/evidence_extractor/output_schema.json`
+- `sources/attachment_deferred/evidence_extractor/field_catalog.json`
+- `sources/attachment_deferred/evidence_extractor/subtype_policy.json`
+- `sources/attachment_deferred/evidence_extractor/extraction_plan.json`
+- `sources/attachment_deferred/evidence_extractor/validation_plan.json`
+- `sources/attachment_deferred/evidence_extractor/example_row.json`
+- `sources/attachment_deferred/evidence_extractor/commands.md`
+- `sources/attachment_deferred/evidence_extractor/report.md`
+
+Use this only as extractor design and output-contract evidence. It is not a
+verifier, not a calibration run, not a source metric, and not a main-claim
+result.
+
+Current result: status
+`attachment_deferred_extractor_contract_ready_no_extraction`; next gate is
+`G1b_attachment_evidence_extractor_dry_run`.
 
 ## Qwen-VL Full-Source Crops
 

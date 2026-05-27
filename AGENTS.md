@@ -15,31 +15,61 @@
 - 실제 hypothesis 산출물은 루트의 `hypothesis/` 폴더에 저장한다.
 - 논문 하나는 `literature/<paper-folder>/` 하나로 관리한다.
 
-## Entry Points
+## Instruction Strategy
 
-에이전트는 작업을 시작할 때 아래 순서로 읽는다.
+`AGENTS.md`는 작업 전에 읽히는 project instruction이며, 세부 연구 로그가 아니라 에이전트용 상위 운영 규칙이다. OpenAI Codex guidance처럼 repo-level instruction에는 setup/rules/expectations, file responsibilities, verification expectations만 두고, 상세 지침은 가까운 하위 문서나 nested instruction으로 분리한다.
 
-1. `README.md`
-2. `TODO.md`
-3. `docs/index.md`
-4. `docs/literature.md`
-5. `docs/hypothesis.md`
-6. `docs/paper.md`
-7. `literature/README.md`
-8. `literature/PAPER.md`
-9. `literature/Contribution Candidates.md`
-10. `literature/CAND-001.md`
-11. `hypothesis/README.md`
+- 이 repo의 기본 구조는 `AGENTS.md = 상위 규칙과 파일 책임`, `docs/*.md` 및 각 폴더 `README.md = 세부 runbook/state`이다.
+- 이 파일에는 변하지 않는 rule, document ownership, claim boundary, experiment safety rule만 둔다.
+- 최신 실험 상태, 긴 artifact 목록, 실행 명령, row count, recovery checklist는 `docs/reproducibility.md`, `docs/index.md`, `summary.md`, `TODO.md`, `experiments/**/README.md`에 둔다.
+- 특정 폴더의 세부 규칙은 그 폴더의 `README.md` 또는 필요 시 nested `AGENTS.md`로 분리한다.
+- `AGENTS.md`를 run log, paper draft, artifact inventory, download checklist, or metric table로 사용하지 않는다.
+- Codex의 project instruction size limit을 고려해 이 파일은 간결하게 유지한다. 긴 목록은 owning document로 이동한다.
 
-`docs/literature.md`는 literature workflow의 핵심 문맥이다.
-`docs/hypothesis.md`는 hypothesis workflow의 핵심 문맥이다.
-`docs/paper.md`는 paper framing과 novelty/reviewer-defense 기준이다.
-`literature/README.md`는 cross-paper synthesis다.
-`literature/PAPER.md`는 paper registry와 reading queue다.
-`literature/Contribution Candidates.md`는 기여 후보 목록이다.
-`literature/CAND-001.md`는 CAND-001의 literature-derived problem setting과 feasibility다.
-`hypothesis/README.md`는 hypothesis index다.
-`TODO.md`는 앞으로 할 계획과 현재 진행 상태를 관리하는 루트 작업판이다.
+## Reading Protocol
+
+작업 시작 시에는 `AGENTS.md`를 최상위 project instruction으로 먼저 읽고,
+이어서 현재 상태와 우선순위를 재구성한다. 이후 작업 유형에 맞는 대표
+문서를 읽고 필요한 폴더의 `README.md`로 내려간다.
+
+1. Global instruction: `AGENTS.md`
+2. Orientation: `README.md`, `TODO.md`, `docs/index.md`
+3. Global rules: `docs/paper.md`, `docs/reproducibility.md`
+4. Research state: `summary.md`, `hypothesis/README.md`, relevant H-folder canonical files
+5. Literature tasks: `docs/literature.md`, `literature/README.md`, `literature/PAPER.md`
+6. Hypothesis tasks: `docs/hypothesis.md`, `hypothesis/README.md`, relevant H-folder canonical files
+7. Experiment tasks: relevant `experiments/**/README.md`, `commands.md`, `compose*.yaml`, and reports
+8. Paper-writing tasks: `paper/README.md`, `paper/preview.md`, `paper/risk.md`, `paper/appendix.md`, `paper/outline.md`, `paper/draft.md`, `paper/figures.md`, and venue folder README
+
+H001 resume, upload, deletion, or other-computer recovery work must start from `docs/reproducibility.md`. That file owns the exact artifact lists, transfer paths, verification commands, and recovery order.
+
+## Repository File Role Map
+
+- `AGENTS.md`: agent-facing operating contract. Owns stable rules, file-role map, documentation ownership, experiment safety, novelty/claim guardrails, and update protocol.
+- `README.md`: human-facing project overview and current high-level phase. It should summarize where the work stands, not duplicate runbooks.
+- `TODO.md`: mutable task board. Owns `Now`, `Next`, and recently completed items. It should not contain long literature notes, full metrics, or large command logs.
+- `summary.md`: consolidated research summary. Owns problem definition, hypothesis, contribution, metric/baseline plan, current evidence, and top-level paper direction.
+- `docs/index.md`: state dashboard. Owns current status, active questions, and pointers to working files.
+- `docs/literature.md`: literature workflow rulebook. Owns how to create paper cards, trend synthesis, and contribution scans.
+- `docs/hypothesis.md`: hypothesis workflow rulebook. Owns candidate/hypothesis stages, gate criteria, and hypothesis artifact conventions.
+- `docs/paper.md`: paper-framing rulebook. Owns top-tier novelty standard, claim boundary, reviewer-risk checklist, and table/ablation/failure-analysis requirements.
+- `docs/reproducibility.md`: recovery and reproducibility runbook. Owns dataset/checkpoint/model locations, artifact bundles, Docker commands, verification commands, transfer guidance, and cleanup implications.
+- `literature/`: paper evidence base. Owns source-grounded paper cards, field maps, cross-paper synthesis, reading queue, and contribution candidates.
+- `hypothesis/`: pre-paper validation workspace. Owns hypothesis statements, method sketches, smoke tests, audits, scoped results, and experiment-transition gates.
+- `experiments/`: Docker-based paper experiment workspace. Owns executable experiment code, compose files, locked manifests, paper-facing reports, metric outputs, and source-specific adapters.
+- `paper/`: manuscript workspace. `paper/README.md` owns the folder map; the folder owns paper preview, progress rationale, outline, draft prose, risk register, appendix/supplement plan, venue-specific LaTeX source, references, and figure plans.
+- `logs/`: timestamped logs for long-running or verification jobs. Inspect with `tail`, `head`, targeted `rg`, summaries, or exit files.
+- `local_dataset/`: ignored local dataset/cache/runtime root. Never treat it as a tracked artifact source.
+- `release/`: ignored external artifact bundle staging area. Use checksums and row/file-count verification before relying on it.
+
+## Documentation Ownership Rules
+
+- If a change adds or changes a rule, update `AGENTS.md`.
+- If a change updates current status, active work, or completion history, update `TODO.md` and possibly `docs/index.md`.
+- If a change affects research framing, contribution, novelty, or reviewer defense, update `docs/paper.md`, `summary.md`, and the relevant `paper/` planning file.
+- If a change affects commands, datasets, checkpoints, model caches, artifact transfer, or cleanup safety, update `docs/reproducibility.md` and the relevant experiment README.
+- If a change affects a folder-local workflow, update that folder's `README.md`; do not expand `AGENTS.md` with folder-local details.
+- If a detailed list appears in more than one place, keep the authoritative copy in the owning document and replace other copies with a pointer.
 
 ## Working Language
 
@@ -59,6 +89,14 @@ H001/CAND를 논문으로 정리할 때 motivation만으로 novelty를 주장하
 - Evidence가 single source의 scoped reliability에 머물면 claim도 scoped reliability로 제한한다. Broad open-vocabulary 3DSSG improvement 주장은 second-source metrics, denominator caveat, failure analysis가 완료되기 전에는 사용하지 않는다.
 - Reviewer가 물을 "왜 더 단순한 방법으로 안 되는가?", "왜 이 relation family인가?", "왜 이 geometry rule/calibration인가?", "recall tradeoff는 무엇인가?"에 대한 답을 table, ablation, error taxonomy 중 하나로 연결한다.
 
+## H001 Claim Boundary And Extension Rules
+
+- H001의 현재 paper claim은 broad SOTA가 아니라 scoped relation reliability layer다. Claim을 "open-vocabulary 3DSSG 전체 성능 향상", "baseline-agnostic improvement", "Open3DSG SOTA/reproduction benchmark"로 넓히려면 별도 source metrics, denominator caveat, controls, and audit evidence가 먼저 있어야 한다.
+- Open3DSG는 현재 main open-vocabulary relation-source case study로 lock한다. 논문에서는 averaged-BLIP variant, filtered train/dev split, covered H001 scope, exact-label denominator, `validation_missing_preprocessed:11`, and residual calibration-risk caveat를 Table/results/provenance wording에서 숨기지 않는다.
+- Open3DSG 관련 필수 실험은 현재 scoped H001 claim 기준으로 완료된 것으로 본다. 추가 Open3DSG 실험은 claim을 넓히거나 full reproduction 자체를 목표로 바꿀 때만 진행한다.
+- Qwen-VL은 VL-SAT/Open3DSG를 대체하는 main baseline이 아니라 third semantic source / modern VLM extension이다. Qwen 결과는 sharded inference, parser validation, adapter export, geometry join, metrics, controls, bootstrap CI if reported, and audit가 Docker로 완료되기 전까지 paper metric evidence가 아니다.
+- Cross-source results, failure rows, qualitative inspection, and Qwen extension은 세 번째/네 번째 contribution으로 부풀리지 말고, calibrated geometry-consistency framework를 검증하는 empirical evidence로 둔다.
+
 ## Long-running and Background Tasks
 
 Dataset/model/checkpoint downloads, Docker pulls/builds, decompression, indexing, preprocessing, and other long-running I/O-heavy jobs must not keep Codex blocked.
@@ -71,6 +109,7 @@ Dataset/model/checkpoint downloads, Docker pulls/builds, decompression, indexing
 - Never scan or print huge logs; inspect only `tail`, `head`, or targeted `grep` errors.
 - Verify completion with file counts, expected directory layout, checksums when available, or a lightweight sanity script.
 - Update `TODO.md` or the relevant hypothesis README with job status: `launched`, `running`, `completed`, `failed`, or `needs_verification`.
+- If a guarded loop stops because of a resource guard such as GPU utilization, treat it as a resumable stop rather than a scientific failure. Record the exact blocker, completed shards/rows, clean resume shard, exit file, and next resume command before taking any other action.
 
 Template:
 
@@ -79,6 +118,15 @@ mkdir -p logs
 ts=$(date +%Y%m%d_%H%M%S)
 tmux new-session -d -s <job_name> "cd <workdir> && <resumable command> > logs/<job_name>_${ts}.log 2>&1"
 ```
+
+## Artifact Handoff And Cleanup Rules
+
+- Always distinguish three goals before advising uploads or deletion: paper-result preservation, current experiment resume, and full reproduction. Each goal requires a different artifact set.
+- GitHub should carry source, Dockerfiles/compose files, scripts, runbooks, paper source, compact manifests, reports, table summaries, and metric summaries. Large `local_dataset/` payloads, model caches, feature caches, and row-level JSONL outputs stay ignored and must be transferred separately or regenerated.
+- Before deleting any local dataset, checkpoint, feature cache, model cache, or row-level JSONL, verify the external copy with checksums, file counts, expected directory layout, or a lightweight sanity script. Record the verification and deletion rationale in `TODO.md` or `docs/reproducibility.md`.
+- Deleting uploaded Open3DSG checkpoint, feature caches, or row-level JSONL does not block Qwen-VL continuation, but it does block local Open3DSG re-eval, feature audit, raw-dump regeneration, and geometry-backed figure regeneration until those artifacts are restored.
+- For Qwen-VL resume on another computer, preserve or transfer the fixed model cache, full-source crops, full-source input, inference plan, runtime shard outputs, status files, Qwen compose/Dockerfile, Qwen scripts, and the latest loop log/status/exit files.
+- For Open3DSG full reproduction, preserve or transfer `local_dataset/Open3DSG_staged/`, `local_dataset/3RScan/`, `local_dataset/3DSSG/`, `local_dataset/3DSSG_subset/`, and relevant model caches such as `Salesforce/instructblip-vicuna-7b`, `jinaai/jina-embeddings-v2-base-en`, and CLIP cache. For paper-table regeneration only, the verified core result bundle plus source repo is sufficient.
 
 ## Naming Rules
 
@@ -99,87 +147,21 @@ tmux new-session -d -s <job_name> "cd <workdir> && <resumable command> > logs/<j
 - 근거가 약한 판단은 `Inference`로 표시한다.
 - 출처를 확인하지 못한 항목은 확정된 사실처럼 쓰지 않는다.
 
-## Literature Workflow
-
-문헌 조사 작업은 네 단계로 수행한다.
-
-1. Field Map
-   - 3D Scene Graph의 하위 흐름을 정리한다.
-   - 예: open-vocabulary, dynamic/online, LLM/VLM reasoning, robotics/embodied AI, 3D generation, 3DGS/NeRF integration.
-
-2. Paper Card
-   - 각 논문을 같은 포맷으로 요약한다.
-   - 문제, 핵심 아이디어, 데이터/실험, 강점, 한계, 내 연구와의 연결을 기록한다.
-
-3. Trend Synthesis
-   - 논문별 요약을 넘어서 흐름을 뽑는다.
-   - 어떤 문제가 반복되는지, 어떤 assumption이 공유되는지, 어떤 benchmark가 병목인지 본다.
-
-4. Contribution Scan
-   - 석사 연구로 기여 가능한 지점을 찾는다.
-   - 기여 가능성은 "아이디어"가 아니라 "검증 가능한 연구 질문" 형태로 정리한다.
-
 ## Update Protocol
 
-문헌 조사를 수행한 에이전트는 `literature/` 아래에 결과를 저장한다.
+모든 갱신은 "가장 작은 authoritative owner"에 기록한다.
 
-- `literature/README.md`: Field Map, Trend Synthesis, Cross-Paper Insights, Open Questions
-- `literature/PAPER.md`: Paper Registry, Reading Queue
-- `literature/Contribution Candidates.md`: contribution candidate 목록
-- `literature/CAND-<number>.md`: candidate별 세부 문제 설정과 feasibility
-- `literature/<paper-folder>/paper.pdf`: 가능하면 저장하는 논문 원문 PDF
-- `literature/<paper-folder>/01_metadata.md`: 논문 식별 정보와 링크
-- `literature/<paper-folder>/02_paper_card.md`: 문제, 방법, 강점, 한계
-- `literature/<paper-folder>/03_evaluation.md`: dataset, metric, baseline, result
-- `literature/<paper-folder>/04_insights.md`: 내 연구와의 연결, 추론, 기여 가능성
+- `AGENTS.md`: stable rule이나 file-role 책임이 바뀔 때만 수정한다.
+- `TODO.md`: 시작할 작업은 `Now`, 바로 다음 작업은 `Next`, 완료한 작업은 `Recently Completed`에 둔다.
+- `docs/index.md`: 연구 상태 dashboard와 active questions가 바뀔 때 갱신한다.
+- `summary.md`: 문제 정의, 가설, contribution, metric, baseline, experiment setting, claim boundary가 바뀔 때 갱신한다.
+- `docs/literature.md` / `literature/`: 문헌 조사 절차와 결과를 관리한다. 자세한 paper card와 trend synthesis는 `literature/`에 둔다.
+- `docs/hypothesis.md` / `hypothesis/`: hypothesis gate, method sketch, smoke-test artifact convention, audit/evidence lock을 관리한다.
+- `docs/paper.md` / `paper/`: paper-level novelty, reviewer defense, outline, draft, figure/table plan, venue-specific source를 관리한다.
+- `docs/reproducibility.md` / `experiments/**/README.md`: dataset, checkpoint, model cache, Docker command, artifact bundle, verification, cleanup safety를 관리한다.
+- `logs/`: long-running job log와 exit/status file만 둔다. 중요한 결과는 owning report/README/TODO에 요약한다.
 
-갱신할 때는 날짜를 남긴다. 현재 날짜 기준으로 작성한다.
-
-Paper framing 작업은 `docs/paper.md`에 저장한다. 이 문서는 paper-level claim, novelty one-liner, reviewer-risk checklist, table/ablation/failure-analysis requirements를 관리하며, hypothesis 결과나 experiment artifact를 복사해 길게 중복하지 않는다.
-
-Hypothesis 작업을 수행한 에이전트는 `hypothesis/` 아래에 결과를 저장한다.
-
-- `hypothesis/README.md`: hypothesis index와 active gate
-- `hypothesis/CAND-<number>/README.md`: candidate-level hypothesis 묶음
-- `hypothesis/CAND-<number>/H<number>_<short-title>/01_overview.md`: problem, hypothesis, feasibility, claim boundary, transition gate
-- `hypothesis/CAND-<number>/H<number>_<short-title>/02_method.md`: evidence schema, verifier, calibration, prediction-row join, evaluation protocol
-- `hypothesis/CAND-<number>/H<number>_<short-title>/03_data_baseline.md`: dataset, baseline layout, fixed scope, staged payload readiness
-- `hypothesis/CAND-<number>/H<number>_<short-title>/04_results.md`: mini/hardened metrics, controls, evidence lock, GT-based verifier evaluation
-- `hypothesis/CAND-<number>/H<number>_<short-title>/05_audit.md`: structured audit, visual sanity check, provenance and wording limits
-- `hypothesis/CAND-<number>/H<number>_<short-title>/06_second_source.md`: FROSS/Open3DSG source/runtime feasibility and claim boundary
-- `hypothesis/CAND-<number>/H<number>_<short-title>/07_experiment_spec.md`: scoped main experiment implementation spec and Docker experiment-transition gate
-- `hypothesis/CAND-<number>/H<number>_<short-title>/tools/`: hypothesis-stage smoke-test scripts
-
-Hypothesis smoke-test artifact는 hypothesis 폴더 내부에만 둔다.
-
-- one-scan artifact root: `hypothesis/CAND-<number>/H<number>_<short-title>/artifacts/one_scan/<scan-id>/`
-- baseline layout checker artifact root: `hypothesis/CAND-<number>/H<number>_<short-title>/artifacts/layout/<baseline-name>/`
-- subset selection artifact root: `hypothesis/CAND-<number>/H<number>_<short-title>/artifacts/subset/<subset-name>/`
-- prediction/evaluation artifact root: `hypothesis/CAND-<number>/H<number>_<short-title>/artifacts/evaluation/<baseline-name>/<split-name>/`
-- Phase A files: `edges.jsonl`, `export_summary.json`, `export_report.md`, `thresholds.json`
-- Phase B files: `decisions.jsonl`, `rules_summary.json`, `rules_report.md`, `review_queue.jsonl`, `review_labels.jsonl`, `review_report.md`
-- Phase C files: `point_evidence.jsonl`, `point_comparison.jsonl`, `point_summary.json`, `point_report.md`, `comparison_report.md`
-- Visual inspection files should live under `visual_inspection/` with short names such as `labels.jsonl`, `report.md`, `projections.png`.
-- Versioned verifier outputs may use a short subfolder such as `v2/` and short filenames such as `decisions.jsonl`, `summary.json`, `report.md`.
-- Layout checker outputs should use short filenames such as `summary.json`, `prep_manifest.json`, and `report.md`.
-- Layout prep outputs should use short filenames such as `generated_manifest.json`, and generated baseline files should stay under `artifacts/layout/<baseline-name>/generated/`.
-- Subset selection outputs should use short filenames such as `manifest.json`, `scans.txt`, `candidates.jsonl`, `subgraphs.jsonl`, and `report.md`.
-- Hardened payload readiness outputs may live under the fixed subset root with short names such as `payload_manifest.json` and `payload_report.md`.
-- Hardened aligned PLY outputs may live under the baseline layout root with short names such as `aligned_manifest.json` and `aligned_report.md`.
-- Calibration outputs should live under `artifacts/calibration/<split-name>/` and use short filenames such as `manifest.json`, `table.jsonl`, `negatives.jsonl`, and `report.md`.
-- Prediction/evaluation outputs should use short filenames such as `raw.jsonl`, `predictions.jsonl`, `ground_truth.jsonl`, `manifest.json`, `metrics.json`, and `report.md`.
-- Open3DSG runtime planning outputs should live under `artifacts/evaluation/open3dsg_ov/runtime_plan/` and use short filenames such as `manifest.json`, `checklist.json`, `commands.md`, and `report.md`.
-- Open3DSG staged-root prep outputs should live under `artifacts/evaluation/open3dsg_ov/staged_root/` and use short filenames such as `manifest.json`, `config_paths.json`, and `report.md`.
-- Open3DSG mesh/texture acquisition outputs should live under `artifacts/evaluation/open3dsg_ov/mesh_texture/` and use short filenames such as `manifest.json`, `records.jsonl`, and `report.md`.
-- Open3DSG view pickle generation outputs should live under `artifacts/evaluation/open3dsg_ov/views/` and use short filenames such as `manifest.json`, `records.jsonl`, `report.md`, and `config_patch.diff`.
-- Open3DSG preprocess generation outputs should live under `artifacts/evaluation/open3dsg_ov/preprocess/` and use short filenames such as `manifest.json`, `records.jsonl`, `report.md`, and `config_patch.diff`.
-- Open3DSG model artifact audit outputs should live under `artifacts/evaluation/open3dsg_ov/model_artifacts/` and use short filenames such as `manifest.json` and `report.md`.
-- Open3DSG training route preflight outputs should live under `artifacts/evaluation/open3dsg_ov/training_route/` and use short filenames such as `manifest.json` and `report.md`.
-- Independent visual spot-check outputs should live under `artifacts/evaluation/vlsat_closed_set/hardened/human_audit/visual_spotcheck/` and use short filenames such as `manifest.json`, `queue.jsonl`, `labels.jsonl`, `reference.jsonl`, `guide.md`, `summary.json`, `summary.md`, and `report.md`.
-- Evidence-lock outputs should live under `artifacts/evaluation/vlsat_closed_set/hardened/evidence_lock/` and use short filenames such as `manifest.json` and `report.md`.
-- GT-based verifier evaluation outputs should live under `artifacts/evaluation/vlsat_closed_set/hardened/gt_eval/` and use short filenames such as `gt_positive.jsonl`, `counterfactuals.jsonl`, `metrics.json`, `manifest.json`, and `report.md`.
-- Large baseline runtime files should stay under an ignored staged dataset root such as `local_dataset/VLSAT_staged/` or `local_dataset/Open3DSG_staged/`, not under tracked hypothesis artifacts.
-- 중간 산출물이 더 구체적인 review/report artifact로 대체되면 오래된 queue 파일은 유지하지 않는다.
+세부 파일명, artifact directory, row-level output, run command 목록은 `AGENTS.md`에 추가하지 않는다. 그런 정보는 `docs/reproducibility.md`, `docs/hypothesis.md`, `experiments/**/README.md`, or source-specific README가 소유한다.
 
 Experiment implementation rule:
 
@@ -188,13 +170,7 @@ Experiment implementation rule:
 - Experiment root를 만들 때는 Dockerfile 또는 compose file, pinned dependency record, mounted dataset/cache path, command entrypoint, and output manifest를 함께 둔다.
 - `local_dataset/` 같은 큰 runtime/data root는 container에 mount하고 tracked artifact로 복사하지 않는다.
 - Hypothesis-stage smoke test와 문서 검증은 기존 방식으로 가능하지만, paper experiment 결과로 승격하려면 Docker command로 재현 가능해야 한다.
-
-에이전트는 작업 전후로 `TODO.md`도 갱신한다.
-
-- 시작할 작업은 `Now`에 둔다.
-- 바로 다음 작업은 `Next`에 둔다.
-- 완료한 작업은 체크한다.
-- 상세 조사 내용은 `TODO.md`나 `docs/literature.md`에 길게 쓰지 말고 `literature/`에 쓴다.
+- 중간 산출물이 더 구체적인 review/report artifact로 대체되면 오래된 queue 파일은 유지하지 않는다.
 
 ## Contribution Candidate Standard
 
@@ -210,7 +186,8 @@ Experiment implementation rule:
 
 - 빈 paper folder를 미리 많이 만들지 않는다.
 - 추가 `experiments/` root를 미리 만들지 않는다.
-- `paper/`, `decisions/`는 아직 만들지 않는다.
+- `paper/`는 현재 H001 manuscript workspace로 존재한다. 새 paper/venue subtree는 실제 필요가 생길 때만 만든다.
+- `decisions/` 같은 새 top-level workflow root는 아직 만들지 않는다.
 - `experiments/`는 Docker 재현성을 전제로 최소 구조부터 만든다.
 - hypothesis는 루트의 `hypothesis/` 폴더에서만 관리한다.
 - 해당 단계가 실제로 필요해지면 먼저 새 workflow 문서 하나에서 시작한다.
