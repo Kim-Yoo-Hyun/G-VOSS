@@ -283,12 +283,87 @@ Current RQ6 boundary:
 - Docker G1 extractor contract is complete under
   `experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/`
   with status `attachment_deferred_extractor_contract_ready_no_extraction`.
-- Next gate is `G1b_attachment_evidence_extractor_dry_run`: surface type, local
-  contact/near-contact, surface normal, gravity/hanging cue, contradictory
-  support cue, and object-affordance-as-context fields must be emitted as
-  evidence-only rows before any verifier, calibration, or source metric run.
-- The extractor contract forbids `verification_status`, `p_geom_valid`, recall
-  credit, and reranking scores.
+- Docker G1b evidence-only dry run is complete under
+  `experiments/H001_geom_reliability/sources/attachment_deferred/extractor_dry_run/`
+  with status `attachment_deferred_extractor_dry_run_ready_no_verifier`.
+- The dry run emits surface type, local contact/near-contact, surface normal,
+  gravity/hanging cue, contradictory support cue, and
+  object-affordance-as-context fields as evidence-only rows before any
+  verifier, calibration, or source metric run. It produced 36/36 schema-valid
+  rows with 0 validation errors, but all rows remained `partial` at G1b because
+  point-contact evidence was reserved for the subsequent G1c validator.
+- The extractor contract and dry-run validator forbid `verification_status`,
+  `p_geom_valid`, recall credit, and reranking scores.
+- Docker G1c point/surface estimator validation is complete under
+  `experiments/H001_geom_reliability/sources/attachment_deferred/point_surface_validation/`
+  with status `attachment_deferred_point_surface_validation_ready_no_verifier`.
+  It produced 36/36 ready rows, 36 point/normal-available rows, 27
+  near-contact rows, and 0 validation errors while preserving the no
+  verifier/metric-field boundary.
+- Docker G2 verifier-policy design is complete under
+  `experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy/`
+  with status
+  `attachment_deferred_verifier_policy_ready_no_decisions_no_metrics`. It
+  freezes 9 subtype policies and conservative threshold defaults, but emits no
+  decision rows, calibration, source scoring, or metrics.
+- Docker G3 train-dev calibration/counterfactual route is complete under
+  `experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/`
+  with status
+  `attachment_deferred_calibration_counterfactual_plan_ready_no_fit_no_metrics`.
+  It prepares 315 train/dev positive seeds and 446 counterfactual negative seeds
+  with held-out scan overlap 0, but emits no decision rows, fitted calibration,
+  source scoring, or metrics. The dev split has no `connected to` positive seed,
+  so any future connected-to family-specific calibration claim requires pooled
+  calibration, augmented dev selection, or explicit limitation.
+- Docker G4 GT policy smoke is complete under
+  `experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/`
+  with status `attachment_deferred_gt_policy_smoke_ready_no_source_metrics`.
+  It applies the frozen policy to 36 smoke rows and 761 train/dev seed rows,
+  with positive nonviolated 0.9048, counterfactual nonsatisfied 0.8274,
+  positive strict satisfied 0.3841, counterfactual strict violated 0.4574, and
+  uncertain rate 0.4323. It fits no `p_geom_valid` calibrator and runs no
+  source metrics.
+- Docker G4b error/visual sanity planning is complete under
+  `experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity/`
+  with status `attachment_deferred_error_visual_sanity_plan_ready_no_source_metrics`.
+  It freezes 436 review cases, a label-diverse 50-row visual sanity queue, and
+  761 calibration-filter rows. Strict candidates are 121 positives and 204
+  negatives; 77 false-satisfied counterfactuals, 30 false-violated positives,
+  and 329 uncertain rows require review/exclusion/soft-label policy before
+  calibration.
+- Docker G4c strict-only calibration-filter freeze is complete under
+  `experiments/H001_geom_reliability/sources/attachment_deferred/strict_filter_freeze/`
+  with status `attachment_deferred_strict_filter_frozen_no_fit_no_source_metrics`.
+  It freezes 325 strict calibration rows: 121 strict positives, 204 strict
+  negatives, and 436 excluded non-strict rows. `connected to` has no dev strict
+  rows, so future family-specific calibration needs pooled calibration,
+  augmented dev selection, or an explicit caveat.
+- Docker G5a pooled strict calibration fit is complete under
+  `experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit/`
+  with status `attachment_deferred_calibration_fit_ready_no_source_metrics`.
+  It fits model `h001-attachment-deferred-p-geom-valid-strict-v1` on 242 train
+  rows and evaluates on 83 dev rows with dev Brier/NLL/ECE 0.0010/0.0077/0.0071
+  and dev AUROC/AUPRC 1.0/1.0. This is calibration-readiness evidence only:
+  the strict subset is nearly separable, `connected to` has no dev strict rows,
+  and no source predictions are scored.
+- Docker G5b bounded source scoring preflight is complete under
+  `experiments/H001_geom_reliability/sources/attachment_deferred/source_scoring_preflight/`
+  with status `attachment_deferred_source_scoring_preflight_ready_no_metrics`.
+  It scores 120 scan-diverse source rows, 60 from VL-SAT and 60 from Open3DSG,
+  with evidence ready 120/120 and validation errors 0. This is bounded contract
+  evidence only: no full-source scoring, R@K, Violation@K, controls, bootstrap
+  CI, or audit is computed.
+- Docker G5c full-source scoring/metric protocol freeze is complete under
+  `experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol/`
+  with status `attachment_deferred_full_source_protocol_frozen_no_metrics`.
+  It freezes 69 deterministic shards for 135,048 full-source rows, output
+  schema, source-specific exact-label denominators, metric conditions, and
+  control order. VL-SAT covers 967/967 attachment GT rows; Open3DSG covers
+  768/967 and must report 199 missing exact-label GT rows as a caveat.
+- Next gate is optional G5d full-source scoring plus source metrics/controls if
+  the attachment expansion continues.
+- Adding `attachment_deferred` to the main AAAI claim requires explicit final
+  user confirmation even after the remaining evidence gates pass.
 - Function reasoning should be evaluated only as a secondary pilot after
   attachment relation reliability passes its own verifier/calibration/source
   metric gates.

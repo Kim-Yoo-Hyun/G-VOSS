@@ -1,0 +1,66 @@
+{
+  "blockers": [
+    "source_metrics_not_run",
+    "controls_not_run",
+    "bootstrap_ci_not_run",
+    "main_AAAI_claim_requires_user_confirmation_before_attachment_promotion"
+  ],
+  "claim_boundary": {
+    "artifact_type": "bounded_attachment_source_scoring_preflight",
+    "bootstrap_ci_run": false,
+    "bounded_preflight_rows_scored": true,
+    "controls_run": false,
+    "current_main_claim_unchanged": true,
+    "full_source_predictions_scored": false,
+    "requires_user_confirmation_before_main_claim_promotion": true,
+    "source_metrics_computed": false
+  },
+  "counts": {
+    "diagnostic_rows": 120,
+    "evidence_rows": 120,
+    "extractor_status_counts": {
+      "ready": 120
+    },
+    "geometry_ready_rows": 120,
+    "label_counts": {
+      "attached to": 40,
+      "connected to": 40,
+      "hanging on": 40
+    },
+    "scored_rows": 120,
+    "selected_source_rows": 120,
+    "source_counts": {
+      "open3dsg_ov": 60,
+      "vlsat_closed_set": 60
+    },
+    "unknown_model_category_counts": {
+      "subtype_hint=hanging_from_overhead_or_fixture": 1,
+      "surface_type=ceiling": 3,
+      "surface_type=fixture": 3
+    },
+    "validation_errors": 0
+  },
+  "created_at": "2026-05-28T06:57:59+00:00",
+  "inputs": {
+    "calibration_manifest": "experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit/manifest.json",
+    "dataset_root": "local_dataset",
+    "model": "experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit/model.json",
+    "open3dsg_verification_jsonl": "experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl",
+    "scope_manifest": "experiments/H001_geom_reliability/sources/attachment_deferred/scope_audit/manifest.json",
+    "vlsat_verification_jsonl": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened_geometry/verification.jsonl"
+  },
+  "next_gate": "G5c_attachment_full_source_scoring_or_metric_protocol_freeze",
+  "outputs": {
+    "commands": "commands.md",
+    "diagnostics": "diagnostics.jsonl",
+    "evidence_rows": "evidence_rows.jsonl",
+    "manifest": "manifest.json",
+    "report": "report.md",
+    "scored_rows": "scored_rows.jsonl",
+    "source_rows": "source_rows.jsonl",
+    "summary": "summary.json"
+  },
+  "schema_version": "h001_attachment_deferred_source_scoring_preflight_v1",
+  "status": "attachment_deferred_source_scoring_preflight_ready_no_metrics",
+  "warnings": []
+}

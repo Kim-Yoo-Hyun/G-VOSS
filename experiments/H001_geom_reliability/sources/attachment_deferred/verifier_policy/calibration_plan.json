@@ -1,0 +1,26 @@
+{
+  "blocked_claims_until_complete": [
+    "attachment_deferred source metrics",
+    "expanded H001 denominator claim",
+    "functional or affordance reasoning claim"
+  ],
+  "negative_types": [
+    "wrong attachment surface",
+    "far object pair",
+    "wrong-pair attachment",
+    "floor-support replacement for hanging",
+    "gravity-inconsistent hanging",
+    "shuffled geometry within same label"
+  ],
+  "next_gate": "G3_attachment_calibration_counterfactual_generation",
+  "required_before_source_metrics": [
+    "train-dev positive/counterfactual generation",
+    "policy implementation smoke on non-held-out rows",
+    "GT-positive/counterfactual verifier evaluation",
+    "threshold freeze before held-out source metrics",
+    "wrong-pair and shuffled-geometry controls",
+    "visual sanity check for attachment/hanging"
+  ],
+  "schema_version": "h001_attachment_deferred_verifier_policy_v1",
+  "status": "planned_not_run"
+}

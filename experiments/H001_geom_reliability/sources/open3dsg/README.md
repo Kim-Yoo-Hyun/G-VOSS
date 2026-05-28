@@ -8,6 +8,14 @@ Current status:
 open3dsg_second_source_metrics_ready
 ```
 
+Current caveat-reduction plan:
+
+- status: `open3dsg_caveat_reduction_plan_frozen_no_execution`
+- artifacts: `caveat_reduction_plan/{manifest.json,retry_plan.json,commands.md,report.md}`
+- frozen order: R1 exact non-averaged BLIP route retry, R2 H001 covered-loadable context retry toward `388/388`, R3 attachment G5d only after Open3DSG caveat-reduction decisions are resolved or explicitly waived
+- current decomposition for attachment impact: Open3DSG missing exact-label GT rows 199 total, with 23 tied to missing preprocessed H001 contexts and 176 tied to absent Open3DSG candidate pairs
+- interpretation: non-avg BLIP and `388/388` success would strengthen Open3DSG source credibility, but they do not by themselves make `attachment_deferred_G5d` successful
+
 Plan artifact:
 
 ```text

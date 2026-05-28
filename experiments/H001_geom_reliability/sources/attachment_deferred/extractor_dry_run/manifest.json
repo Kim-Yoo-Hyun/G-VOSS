@@ -1,0 +1,81 @@
+{
+  "blockers": [
+    "point_contact_estimator_not_validated",
+    "surface_candidate_estimator_not_validated_beyond_obb_proxy",
+    "normal_classification_not_validated_beyond_semseg_dominantNormal",
+    "attachment_verifier_policy_not_frozen",
+    "train_dev_calibration_not_built",
+    "source_metrics_not_run"
+  ],
+  "claim_boundary": {
+    "artifact_type": "evidence_only_dry_run",
+    "current_main_claim_unchanged": true,
+    "forbidden_outputs_absent": true,
+    "metric_evidence": false,
+    "verifier_evidence": false
+  },
+  "counts": {
+    "extractor_status_counts": {
+      "partial": 36
+    },
+    "input_rows": 36,
+    "label_counts": {
+      "attached to": 12,
+      "connected to": 12,
+      "hanging on": 12
+    },
+    "output_rows": 36,
+    "source_counts": {
+      "counterfactual": 9,
+      "gt_positive": 9,
+      "open3dsg_ov": 9,
+      "vlsat_closed_set": 9
+    },
+    "subtype_hint_counts": {
+      "ambiguous_draped_or_occluded_hanging": 4,
+      "ambiguous_functional_attachment": 6,
+      "ambiguous_functional_connection": 3,
+      "attached_to_vertical_or_overhead_surface": 6,
+      "connected_adjacent_or_contiguous": 9,
+      "hanging_from_vertical_surface": 8
+    },
+    "surface_type_counts": {
+      "floor": 12,
+      "unknown": 7,
+      "wall": 17
+    },
+    "validation_errors": 0
+  },
+  "created_at": "2026-05-27T16:34:15+00:00",
+  "inputs": {
+    "contract_manifest": "experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/manifest.json",
+    "dataset_root": "local_dataset",
+    "field_catalog": "experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/field_catalog.json",
+    "ground_truth_jsonl": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl",
+    "open3dsg_verification_jsonl": "experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl",
+    "output_schema": "experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/output_schema.json",
+    "vlsat_verification_jsonl": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened_geometry/verification.jsonl"
+  },
+  "next_gate": "G1c_attachment_point_surface_estimator_validation",
+  "outputs": {
+    "report": "report.md",
+    "rows": "rows.jsonl",
+    "summary": "summary.json",
+    "validation": "validation.json"
+  },
+  "schema_version": "h001_attachment_deferred_extractor_dry_run_v1",
+  "settings": {
+    "limit_per_label": 3,
+    "predicate_labels": [
+      "attached to",
+      "hanging on",
+      "connected to"
+    ]
+  },
+  "status": "attachment_deferred_extractor_dry_run_ready_no_verifier",
+  "warning_counts": {
+    "dry_run_obb_only_no_point_contact": 36,
+    "point_contact_evidence": 36,
+    "segmented_points": 36
+  }
+}

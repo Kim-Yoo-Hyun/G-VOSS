@@ -1,0 +1,236 @@
+{
+  "blockers": [
+    "source_predictions_not_scored",
+    "source_metrics_not_run",
+    "controls_not_run",
+    "bootstrap_ci_not_run",
+    "main_AAAI_claim_requires_user_confirmation_before_attachment_promotion"
+  ],
+  "claim_boundary": {
+    "artifact_type": "attachment_deferred_calibration_fit",
+    "bootstrap_ci_run": false,
+    "calibration_fitted": true,
+    "controls_run": false,
+    "current_main_claim_unchanged": true,
+    "requires_user_confirmation_before_main_claim_promotion": true,
+    "source_metrics_computed": false,
+    "source_predictions_scored": false
+  },
+  "counts": {
+    "by_role": {
+      "dev": {
+        "by_predicate_label": {
+          "attached to": 41,
+          "hanging on": 42
+        },
+        "by_subtype_hint": {
+          "ambiguous_draped_or_occluded_hanging": 30,
+          "ambiguous_functional_attachment": 26,
+          "attached_to_vertical_or_overhead_surface": 15,
+          "hanging_from_vertical_surface": 12
+        },
+        "negatives": 56,
+        "positives": 27,
+        "rows": 83
+      },
+      "train": {
+        "by_predicate_label": {
+          "attached to": 159,
+          "connected to": 12,
+          "hanging on": 71
+        },
+        "by_subtype_hint": {
+          "ambiguous_draped_or_occluded_hanging": 50,
+          "ambiguous_functional_attachment": 92,
+          "ambiguous_functional_connection": 1,
+          "attached_to_furniture_or_fixture": 1,
+          "attached_to_vertical_or_overhead_surface": 66,
+          "connected_adjacent_or_contiguous": 11,
+          "hanging_from_vertical_surface": 21
+        },
+        "negatives": 148,
+        "positives": 94,
+        "rows": 242
+      }
+    },
+    "input_strict_rows": 325,
+    "used_rows": 325
+  },
+  "created_at": "2026-05-28T06:26:40+00:00",
+  "dev_metrics": {
+    "auprc_valid": 1.0,
+    "auroc_valid": 1.0,
+    "brier": 0.0010268071750410028,
+    "by_predicate_label": {
+      "attached to": {
+        "auprc_valid": 1.0,
+        "auroc_valid": 1.0,
+        "brier": 1.8603204752822429e-06,
+        "mean_p_geom_valid": 0.36546301174449153,
+        "negatives": 26,
+        "nll": 0.0008308565891707755,
+        "positive_rate": 0.36585365853658536,
+        "positives": 15,
+        "rows": 41
+      },
+      "hanging on": {
+        "auprc_valid": 1.0,
+        "auroc_valid": 1.0,
+        "brier": 0.0020273505330694434,
+        "mean_p_geom_valid": 0.2985600027658663,
+        "negatives": 30,
+        "nll": 0.014481310060490209,
+        "positive_rate": 0.2857142857142857,
+        "positives": 12,
+        "rows": 42
+      }
+    },
+    "calibration_bins": [
+      {
+        "avg_p_geom_valid": 0.0028436849829764996,
+        "bin": 0,
+        "count": 54,
+        "empirical_geom_valid": 0.0,
+        "gap": 0.0028436849829764996,
+        "lower": 0.0,
+        "upper": 0.1
+      },
+      {
+        "avg_p_geom_valid": null,
+        "bin": 1,
+        "count": 0,
+        "empirical_geom_valid": null,
+        "gap": null,
+        "lower": 0.1,
+        "upper": 0.2
+      },
+      {
+        "avg_p_geom_valid": 0.20237362631575243,
+        "bin": 2,
+        "count": 2,
+        "empirical_geom_valid": 0.0,
+        "gap": 0.20237362631575243,
+        "lower": 0.2,
+        "upper": 0.3
+      },
+      {
+        "avg_p_geom_valid": null,
+        "bin": 3,
+        "count": 0,
+        "empirical_geom_valid": null,
+        "gap": null,
+        "lower": 0.3,
+        "upper": 0.4
+      },
+      {
+        "avg_p_geom_valid": null,
+        "bin": 4,
+        "count": 0,
+        "empirical_geom_valid": null,
+        "gap": null,
+        "lower": 0.4,
+        "upper": 0.5
+      },
+      {
+        "avg_p_geom_valid": null,
+        "bin": 5,
+        "count": 0,
+        "empirical_geom_valid": null,
+        "gap": null,
+        "lower": 0.5,
+        "upper": 0.6
+      },
+      {
+        "avg_p_geom_valid": null,
+        "bin": 6,
+        "count": 0,
+        "empirical_geom_valid": null,
+        "gap": null,
+        "lower": 0.6,
+        "upper": 0.7
+      },
+      {
+        "avg_p_geom_valid": null,
+        "bin": 7,
+        "count": 0,
+        "empirical_geom_valid": null,
+        "gap": null,
+        "lower": 0.7,
+        "upper": 0.8
+      },
+      {
+        "avg_p_geom_valid": null,
+        "bin": 8,
+        "count": 0,
+        "empirical_geom_valid": null,
+        "gap": null,
+        "lower": 0.8,
+        "upper": 0.9
+      },
+      {
+        "avg_p_geom_valid": 0.9987110131843813,
+        "bin": 9,
+        "count": 27,
+        "empirical_geom_valid": 1.0,
+        "gap": 0.0012889868156187312,
+        "lower": 0.9,
+        "upper": 1.0
+      }
+    ],
+    "ece": 0.007145890189565561,
+    "invalid_detection": {
+      "0.1": {
+        "coverage": 0.6506024096385542,
+        "invalid": 54,
+        "precision_invalid": 1.0,
+        "selected": 54
+      },
+      "0.2": {
+        "coverage": 0.6506024096385542,
+        "invalid": 54,
+        "precision_invalid": 1.0,
+        "selected": 54
+      },
+      "0.3": {
+        "coverage": 0.6746987951807228,
+        "invalid": 56,
+        "precision_invalid": 1.0,
+        "selected": 56
+      },
+      "0.5": {
+        "coverage": 0.6746987951807228,
+        "invalid": 56,
+        "precision_invalid": 1.0,
+        "selected": 56
+      }
+    },
+    "mce": 0.20237362631575243,
+    "mean_p_geom_valid": 0.3316084770806088,
+    "negatives": 56,
+    "nll": 0.0077383149722480785,
+    "positive_rate": 0.3253012048192771,
+    "positives": 27,
+    "rows": 83
+  },
+  "inputs": {
+    "gt_evidence_rows": "experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/gt_evidence_rows.jsonl",
+    "strict_calibration_rows": "experiments/H001_geom_reliability/sources/attachment_deferred/strict_filter_freeze/strict_calibration_rows.jsonl",
+    "strict_filter_manifest": "experiments/H001_geom_reliability/sources/attachment_deferred/strict_filter_freeze/manifest.json"
+  },
+  "model_id": "h001-attachment-deferred-p-geom-valid-strict-v1",
+  "next_gate": "G5_attachment_source_scoring_and_metrics",
+  "outputs": {
+    "commands": "commands.md",
+    "manifest": "manifest.json",
+    "metrics": "metrics.json",
+    "model": "model.json",
+    "report": "report.md",
+    "scores": "scores.jsonl"
+  },
+  "schema_version": "h001_attachment_deferred_calibration_fit_v1",
+  "status": "attachment_deferred_calibration_fit_ready_no_source_metrics",
+  "warnings": [
+    "connected_to_dev_absent_use_pooled_or_train_only_caveat",
+    "strict_subset_nearly_separable_not_source_metric_evidence"
+  ]
+}

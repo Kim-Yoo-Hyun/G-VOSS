@@ -275,6 +275,268 @@ services:
       - --out
       - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor
 
+  attachment_deferred_extractor_dry_run:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/run_attachment_deferred_extractor_dry_run.py
+    command:
+      - --repo-root
+      - /workspace
+      - --dataset-root
+      - /workspace/local_dataset
+      - --contract-dir
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/extractor_dry_run
+      - --limit-per-label
+      - "3"
+
+  attachment_deferred_point_surface_validation:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/validate_attachment_deferred_point_surface.py
+    command:
+      - --repo-root
+      - /workspace
+      - --dataset-root
+      - /workspace/local_dataset
+      - --dry-run-dir
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/extractor_dry_run
+      - --contract-dir
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/point_surface_validation
+      - --contact-threshold-m
+      - "0.05"
+      - --max-points-per-object
+      - "750"
+
+  attachment_deferred_verifier_policy:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/design_attachment_verifier_policy.py
+    command:
+      - --repo-root
+      - /workspace
+      - --point-surface-dir
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/point_surface_validation
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy
+
+  attachment_deferred_calibration_counterfactuals:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/prepare_attachment_calibration_counterfactuals.py
+    command:
+      - --repo-root
+      - /workspace
+      - --subset-json
+      - /workspace/local_dataset/3DSSG_subset/relationships_train.json
+      - --train-scans
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_calib_pilot/train_scans.txt
+      - --dev-scans
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_calib_pilot/dev_scans.txt
+      - --heldout-gt-jsonl
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl
+      - --verifier-policy-dir
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy
+      - --point-surface-dir
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/point_surface_validation
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals
+      - --max-negatives-per-positive
+      - "2"
+
+  attachment_deferred_gt_policy_smoke:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/run_attachment_gt_policy_smoke.py
+    command:
+      - --repo-root
+      - /workspace
+      - --dataset-root
+      - /workspace/local_dataset
+      - --calibration-dir
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals
+      - --verifier-policy-dir
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy
+      - --point-surface-dir
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/point_surface_validation
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke
+      - --contact-threshold-m
+      - "0.05"
+      - --max-points-per-object
+      - "5000"
+
+  attachment_deferred_error_visual_sanity:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/inspect_attachment_policy_errors.py
+    command:
+      - --repo-root
+      - /workspace
+      - --gt-policy-dir
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity
+      - --target-queue-size
+      - "50"
+
+  attachment_deferred_strict_filter_freeze:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/freeze_attachment_strict_calibration_filter.py
+    command:
+      - --repo-root
+      - /workspace
+      - --gt-policy-dir
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke
+      - --error-visual-dir
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/strict_filter_freeze
+
+  attachment_deferred_calibration_fit:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/fit_attachment_strict_calibration.py
+    command:
+      - --repo-root
+      - /workspace
+      - --strict-filter-dir
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/strict_filter_freeze
+      - --gt-policy-dir
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit
+
+  attachment_deferred_source_scoring_preflight:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/run_attachment_source_scoring_preflight.py
+    command:
+      - --repo-root
+      - /workspace
+      - --dataset-root
+      - /workspace/local_dataset
+      - --calibration-dir
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit
+      - --scope-audit-dir
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/scope_audit
+      - --vlsat-verification
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened_geometry/verification.jsonl
+      - --open3dsg-verification
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/source_scoring_preflight
+      - --max-rows-per-source-label
+      - "20"
+
+  attachment_deferred_full_source_protocol:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/freeze_attachment_full_source_protocol.py
+    command:
+      - --repo-root
+      - /workspace
+      - --scope-audit-dir
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/scope_audit
+      - --calibration-dir
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit
+      - --source-preflight-dir
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/source_scoring_preflight
+      - --ground-truth
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl
+      - --vlsat-verification
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened_geometry/verification.jsonl
+      - --open3dsg-verification
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol
+      - --rows-per-shard
+      - "2000"
+
   open3dsg_metric_join_contract:
     build:
       context: ../..
@@ -556,6 +818,24 @@ services:
       - /workspace
       - --out
       - /workspace/experiments/H001_geom_reliability/sources/open3dsg/paper_caveats
+
+  open3dsg_caveat_reduction_plan:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/prepare_open3dsg_caveat_reduction_plan.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/caveat_reduction_plan
 
   qwen_vl_adapter_contract:
     build:

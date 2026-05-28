@@ -1,0 +1,277 @@
+{
+  "categorical_fields": [
+    "predicate_label",
+    "subtype_hint",
+    "surface_type",
+    "surface_normal_class",
+    "class_pair_prior"
+  ],
+  "categorical_values": {
+    "class_pair_prior": [
+      "implausible",
+      "plausible",
+      "unknown"
+    ],
+    "predicate_label": [
+      "attached to",
+      "connected to",
+      "hanging on"
+    ],
+    "subtype_hint": [
+      "ambiguous_draped_or_occluded_hanging",
+      "ambiguous_functional_attachment",
+      "ambiguous_functional_connection",
+      "attached_to_furniture_or_fixture",
+      "attached_to_vertical_or_overhead_surface",
+      "connected_adjacent_or_contiguous",
+      "hanging_from_vertical_surface"
+    ],
+    "surface_normal_class": [
+      "horizontal_up",
+      "slanted",
+      "vertical"
+    ],
+    "surface_type": [
+      "floor",
+      "furniture",
+      "unknown",
+      "wall"
+    ]
+  },
+  "created_at": "2026-05-28T06:26:40+00:00",
+  "feature_names": [
+    "bias",
+    "num:min_point_distance_m",
+    "num:log_near_contact_point_count",
+    "num:contact_patch_score",
+    "num:surface_candidate_count",
+    "num:surface_distance_m",
+    "num:surface_projected_overlap_ratio",
+    "num:distance_3d_m",
+    "num:distance_xy_m",
+    "num:normalized_distance_3d",
+    "num:normalized_distance_xy",
+    "num:center_delta_z_m",
+    "num:abs_center_delta_z_m",
+    "num:vertical_gap_m",
+    "num:abs_vertical_gap_m",
+    "num:projected_xy_overlap",
+    "num:floor_clearance_m",
+    "num:hanging_geometry_score",
+    "num:support_explanation_score",
+    "num:near_vertical_or_overhead_surface",
+    "num:floor_or_table_supported",
+    "num:surface_type_matches_attachment",
+    "num:surface_normal_matches_attachment",
+    "num:class_pair_prior_plausible",
+    "cat:predicate_label=attached to",
+    "cat:predicate_label=connected to",
+    "cat:predicate_label=hanging on",
+    "cat:subtype_hint=ambiguous_draped_or_occluded_hanging",
+    "cat:subtype_hint=ambiguous_functional_attachment",
+    "cat:subtype_hint=ambiguous_functional_connection",
+    "cat:subtype_hint=attached_to_furniture_or_fixture",
+    "cat:subtype_hint=attached_to_vertical_or_overhead_surface",
+    "cat:subtype_hint=connected_adjacent_or_contiguous",
+    "cat:subtype_hint=hanging_from_vertical_surface",
+    "cat:surface_type=floor",
+    "cat:surface_type=furniture",
+    "cat:surface_type=unknown",
+    "cat:surface_type=wall",
+    "cat:surface_normal_class=horizontal_up",
+    "cat:surface_normal_class=slanted",
+    "cat:surface_normal_class=vertical",
+    "cat:class_pair_prior=implausible",
+    "cat:class_pair_prior=plausible",
+    "cat:class_pair_prior=unknown"
+  ],
+  "hyperparameters": {
+    "bins": 10,
+    "epochs": 800,
+    "l2": 0.0001,
+    "learning_rate": 0.15
+  },
+  "label_prior": {
+    "attached to": 0.42138364779874216,
+    "connected to": 0.5,
+    "hanging on": 0.29577464788732394
+  },
+  "model_id": "h001-attachment-deferred-p-geom-valid-strict-v1",
+  "notes": [
+    "This is an attachment-deferred train/dev calibration fit from G4c strict rows.",
+    "It uses point-contact, surface, OBB, gravity/support, predicate label, subtype, and coarse class-pair features.",
+    "It does not use semantic source scores, source identity, seed strategy, or verifier status as model features.",
+    "The strict filter excludes false-satisfied counterfactuals, false-violated positives, and uncertain rows.",
+    "Near-perfect train/dev scores can occur because G4c keeps only strict policy-selected rows; source metrics are still required.",
+    "No source prediction scoring or held-out source metrics are computed in this step."
+  ],
+  "numeric_features": [
+    "min_point_distance_m",
+    "log_near_contact_point_count",
+    "contact_patch_score",
+    "surface_candidate_count",
+    "surface_distance_m",
+    "surface_projected_overlap_ratio",
+    "distance_3d_m",
+    "distance_xy_m",
+    "normalized_distance_3d",
+    "normalized_distance_xy",
+    "center_delta_z_m",
+    "abs_center_delta_z_m",
+    "vertical_gap_m",
+    "abs_vertical_gap_m",
+    "projected_xy_overlap",
+    "floor_clearance_m",
+    "hanging_geometry_score",
+    "support_explanation_score",
+    "near_vertical_or_overhead_surface",
+    "floor_or_table_supported",
+    "surface_type_matches_attachment",
+    "surface_normal_matches_attachment",
+    "class_pair_prior_plausible"
+  ],
+  "numeric_stats": {
+    "abs_center_delta_z_m": {
+      "mean": 1.1376219906424385,
+      "std": 0.7800466356728869
+    },
+    "abs_vertical_gap_m": {
+      "mean": 2.105017844479332,
+      "std": 1.4118393225416543
+    },
+    "center_delta_z_m": {
+      "mean": 1.0091779533577174,
+      "std": 0.9403278183030548
+    },
+    "class_pair_prior_plausible": {
+      "mean": 0.49173553719008267,
+      "std": 0.4999316939887519
+    },
+    "contact_patch_score": {
+      "mean": 0.41765116942148756,
+      "std": 0.490294503547951
+    },
+    "distance_3d_m": {
+      "mean": 2.348587624593998,
+      "std": 1.350397182481578
+    },
+    "distance_xy_m": {
+      "mean": 1.8946058502762682,
+      "std": 1.359135205022426
+    },
+    "floor_clearance_m": {
+      "mean": 3.1540735202592765,
+      "std": 1.3344321438709688
+    },
+    "floor_or_table_supported": {
+      "mean": 0.17355371900826447,
+      "std": 0.37872526404593754
+    },
+    "hanging_geometry_score": {
+      "mean": 0.08677685950413223,
+      "std": 0.2815077905826608
+    },
+    "log_near_contact_point_count": {
+      "mean": 2.060121878157573,
+      "std": 2.4821644884494303
+    },
+    "min_point_distance_m": {
+      "mean": 0.7008274752066112,
+      "std": 0.7787610535180312
+    },
+    "near_vertical_or_overhead_surface": {
+      "mean": 0.39669421487603307,
+      "std": 0.48921152353549374
+    },
+    "normalized_distance_3d": {
+      "mean": 0.45458512150628255,
+      "std": 0.2675138462092162
+    },
+    "normalized_distance_xy": {
+      "mean": 0.49305246388419677,
+      "std": 0.38934610609381937
+    },
+    "projected_xy_overlap": {
+      "mean": 0.5018795659279134,
+      "std": 0.41170699675849604
+    },
+    "support_explanation_score": {
+      "mean": 0.04351280991735538,
+      "std": 0.1275925127063335
+    },
+    "surface_candidate_count": {
+      "mean": 1.0,
+      "std": 1.0
+    },
+    "surface_distance_m": {
+      "mean": 0.7008274752066112,
+      "std": 0.7787610535180312
+    },
+    "surface_normal_matches_attachment": {
+      "mean": 0.40082644628099173,
+      "std": 0.49006592030332474
+    },
+    "surface_projected_overlap_ratio": {
+      "mean": 0.5018795659279134,
+      "std": 0.41170699675849604
+    },
+    "surface_type_matches_attachment": {
+      "mean": 0.3925619834710744,
+      "std": 0.48832066575594474
+    },
+    "vertical_gap_m": {
+      "mean": -1.9914377649265946,
+      "std": 1.5679815134992712
+    }
+  },
+  "schema_version": "h001_attachment_deferred_p_geom_valid_model_v1",
+  "source_split": "attachment_deferred_g4c_strict_filter",
+  "status": "attachment_deferred_calibration_fit_ready_no_source_metrics",
+  "train_prior": 0.3884297520661157,
+  "weights": [
+    -0.5683916881709513,
+    -0.2307071881921012,
+    0.6427197386955367,
+    0.6410008165721304,
+    0.0,
+    -0.2307071881921012,
+    0.2381852467537787,
+    -0.47676127262711915,
+    -0.44820030610937867,
+    -0.6259685515258435,
+    -0.4931629842198802,
+    -0.28529659061428075,
+    -0.1684551122173482,
+    -0.19968189264786343,
+    0.2148752183239867,
+    0.2381852467537787,
+    0.2300487049836625,
+    0.36347211574011684,
+    -0.02945094045330019,
+    0.6420743862760416,
+    0.04123673263199833,
+    0.7359916187953556,
+    0.6249445451820327,
+    0.689109748634578,
+    -0.0765487183513588,
+    -0.18821566136936163,
+    -0.29845028558948805,
+    -0.351896517947604,
+    -0.2864472952022247,
+    -0.0011907822052601507,
+    0.007308184536384294,
+    0.20259039231448117,
+    -0.18702487916410174,
+    0.053446232358114555,
+    -0.6433118303873746,
+    0.019827261176933838,
+    -0.19576618349529265,
+    0.25603608739552536,
+    -0.6437273561937558,
+    -0.05048237572683999,
+    0.1309950666103871,
+    -0.4377593128995318,
+    0.06755513797939955,
+    -0.19301049039007626
+  ]
+}

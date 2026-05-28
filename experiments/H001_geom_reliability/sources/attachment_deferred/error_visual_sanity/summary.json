@@ -1,0 +1,148 @@
+{
+  "by_calibration_disposition": {
+    "exclude_or_review_counterfactual_seed_false_satisfaction": 77,
+    "review_false_violation_before_any_positive_calibration_use": 30,
+    "skip_or_review_uncertain_negative": 165,
+    "soft_positive_or_review_before_calibration": 164,
+    "use_as_strict_negative": 204,
+    "use_as_strict_positive": 121
+  },
+  "by_case_type": {
+    "false_satisfaction_counterfactual": 77,
+    "false_violation_positive": 30,
+    "strict_satisfied_positive": 121,
+    "strict_violated_counterfactual": 204,
+    "uncertain_counterfactual": 165,
+    "uncertain_positive": 164
+  },
+  "by_label_case_type": {
+    "attached to": {
+      "false_satisfaction_counterfactual": 72,
+      "false_violation_positive": 30,
+      "strict_satisfied_positive": 82,
+      "strict_violated_counterfactual": 118,
+      "uncertain_counterfactual": 164,
+      "uncertain_positive": 157
+    },
+    "connected to": {
+      "false_satisfaction_counterfactual": 5,
+      "strict_satisfied_positive": 6,
+      "strict_violated_counterfactual": 6,
+      "uncertain_counterfactual": 1
+    },
+    "hanging on": {
+      "strict_satisfied_positive": 33,
+      "strict_violated_counterfactual": 80,
+      "uncertain_positive": 7
+    }
+  },
+  "by_likely_issue": {
+    "counterfactual_far_pair_margin_not_clear_enough": 47,
+    "counterfactual_functional_attachment_ambiguous_skip": 70,
+    "counterfactual_seed_not_geometrically_negative_far_pair_has_direct_contact": 72,
+    "counterfactual_uncertain_skip_or_review": 48,
+    "positive_annotation_or_object_role_conflicts_with_surface_type": 30,
+    "positive_contact_threshold_or_surface_normal_ambiguous": 5,
+    "positive_functional_attachment_semantics_ambiguous": 152,
+    "positive_hanging_occlusion_or_draping_ambiguous": 4,
+    "positive_uncertain_needs_visual_or_policy_review": 3,
+    "strict_negative_candidate": 204,
+    "strict_positive_candidate": 121,
+    "wrong_pair_counterfactual_has_visible_contact_or_contiguity": 5
+  },
+  "by_strategy_case_type": {
+    "None": {
+      "false_violation_positive": 30,
+      "strict_satisfied_positive": 121,
+      "uncertain_positive": 164
+    },
+    "far_object_pair": {
+      "false_satisfaction_counterfactual": 72,
+      "strict_violated_counterfactual": 64,
+      "uncertain_counterfactual": 138
+    },
+    "floor_support_replacement_for_hanging": {
+      "strict_violated_counterfactual": 40
+    },
+    "gravity_inconsistent_hanging": {
+      "strict_violated_counterfactual": 40
+    },
+    "wrong_pair_attachment": {
+      "false_satisfaction_counterfactual": 5,
+      "strict_violated_counterfactual": 1
+    },
+    "wrong_surface_replacement": {
+      "strict_violated_counterfactual": 59,
+      "uncertain_counterfactual": 27
+    }
+  },
+  "by_subtype_case_type": {
+    "ambiguous_draped_or_occluded_hanging": {
+      "strict_violated_counterfactual": 80
+    },
+    "ambiguous_functional_attachment": {
+      "false_violation_positive": 30,
+      "strict_violated_counterfactual": 118,
+      "uncertain_counterfactual": 70,
+      "uncertain_positive": 152
+    },
+    "ambiguous_functional_connection": {
+      "strict_violated_counterfactual": 1,
+      "uncertain_counterfactual": 1
+    },
+    "attached_to_furniture_or_fixture": {
+      "false_satisfaction_counterfactual": 9,
+      "strict_satisfied_positive": 1,
+      "uncertain_counterfactual": 17
+    },
+    "attached_to_vertical_or_overhead_surface": {
+      "false_satisfaction_counterfactual": 63,
+      "strict_satisfied_positive": 81,
+      "uncertain_counterfactual": 77,
+      "uncertain_positive": 5
+    },
+    "connected_adjacent_or_contiguous": {
+      "false_satisfaction_counterfactual": 5,
+      "strict_satisfied_positive": 6,
+      "strict_violated_counterfactual": 5
+    },
+    "hanging_from_overhead_or_fixture": {
+      "uncertain_positive": 3
+    },
+    "hanging_from_vertical_surface": {
+      "strict_satisfied_positive": 33,
+      "uncertain_positive": 4
+    }
+  },
+  "calibration_readiness": {
+    "false_satisfaction_counterfactuals_to_exclude_or_review": 77,
+    "false_violation_positives_to_visual_check": 30,
+    "recommended_before_calibration": [
+      "exclude false-satisfied counterfactuals from negative calibration unless visual review confirms the seed is valid",
+      "visual-check false-violated positives before relaxing policy thresholds",
+      "keep uncertain rows out of strict calibration tables unless a separate soft-label protocol is defined"
+    ],
+    "strict_negative_candidates": 204,
+    "strict_positive_candidates": 121,
+    "uncertain_rows_to_skip_or_review": 329
+  },
+  "promotion_readiness": {
+    "main_AAAI_claim_unchanged": true,
+    "ready_for_source_metrics": false,
+    "reason": "G4b only freezes error review and visual-sanity queue; fitted calibration, controls, source metrics, bootstrap CI, and audit remain missing.",
+    "requires_final_user_confirmation_before_claim_promotion": true
+  },
+  "queue_by_case_type": {
+    "false_satisfaction_counterfactual": 20,
+    "false_violation_positive": 15,
+    "uncertain_counterfactual": 1,
+    "uncertain_positive": 14
+  },
+  "queue_by_label": {
+    "attached to": 38,
+    "connected to": 6,
+    "hanging on": 6
+  },
+  "queue_rows": 50,
+  "rows": 761
+}

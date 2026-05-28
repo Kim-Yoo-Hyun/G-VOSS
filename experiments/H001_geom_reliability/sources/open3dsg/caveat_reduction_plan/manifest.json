@@ -1,0 +1,37 @@
+{
+  "claim_boundary": {
+    "attachment_promotion_requires_user_confirmation": true,
+    "covered_388_success_requires_full_downstream_regeneration": true,
+    "does_not_change_current_AAAI_main_claim": true,
+    "non_avg_success_requires_full_downstream_regeneration": true,
+    "plan_only_no_heavy_execution": true
+  },
+  "created_at": "2026-05-28T08:04:18+00:00",
+  "current_state_summary": {
+    "attachment_candidate_pair_absent_rows": 176,
+    "attachment_missing_preprocessed_context_rows": 23,
+    "attachment_open3dsg_missing_exact_label_gt_rows": 199,
+    "h001_covered_contexts": "377/388",
+    "h001_missing_preprocessed": 11,
+    "open3dsg_variant": "avg_blip_full_variant"
+  },
+  "inputs": {
+    "attachment_denominator": "experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol/denominator_audit.json",
+    "checkpoint_selection": "experiments/H001_geom_reliability/sources/open3dsg/checkpoint_selection/manifest.json",
+    "ground_truth_jsonl": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl",
+    "h001_feature_audit": "experiments/H001_geom_reliability/sources/open3dsg/dump_features_h001_eval/manifest.json",
+    "open3dsg_verification_jsonl": "experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl",
+    "paper_caveats": "experiments/H001_geom_reliability/sources/open3dsg/paper_caveats/manifest.json"
+  },
+  "outputs": {
+    "commands": "experiments/H001_geom_reliability/sources/open3dsg/caveat_reduction_plan/commands.md",
+    "manifest": "experiments/H001_geom_reliability/sources/open3dsg/caveat_reduction_plan/manifest.json",
+    "report": "experiments/H001_geom_reliability/sources/open3dsg/caveat_reduction_plan/report.md",
+    "retry_plan": "experiments/H001_geom_reliability/sources/open3dsg/caveat_reduction_plan/retry_plan.json"
+  },
+  "schema_version": "h001_open3dsg_caveat_reduction_plan_v1",
+  "status": "open3dsg_caveat_reduction_plan_frozen_no_execution",
+  "validation": {
+    "errors": []
+  }
+}

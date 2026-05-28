@@ -14,8 +14,9 @@ Current executable sources:
 Selected top-tier expansion:
 
 - Open3DSG second-source adapter result after Dockerized checkpoint reproduction; checkpoint plan, `training_repro` metadata/split staging, full payload staging, train/validation views, explicit train/validation preprocess filtering, official BLIP TopK5/scales3 feature dump, Docker feature audit, avg-BLIP checkpoint reproduction, checkpoint selection, eval preflight, H001 held-out eval feature-cache generation, raw-dump identity checklist, adapter export, geometry join, metric eval, predicate-family/denominator metric-scope policy, pre-metric failure-analysis schema, synthetic failure row-generator smoke, real failure-analysis rows, qualitative case inspection, paper caveat wording, Table 6 hook, and subgraph bootstrap CI are ready.
+- Open3DSG caveat-reduction plan is frozen under `sources/open3dsg/caveat_reduction_plan/` with status `open3dsg_caveat_reduction_plan_frozen_no_execution`. Retry order is R1 exact non-averaged BLIP route, R2 H001 covered-loadable context retry toward `388/388`, and R3 attachment G5d only after the Open3DSG decisions are resolved or waived. Current decomposition records attachment Open3DSG missing exact-label GT rows as 199 total: 23 from missing preprocessed H001 contexts and 176 from absent Open3DSG candidate pairs.
 - `relative_horizontal` is now a separate scope-expansion validation track under `sources/relative_horizontal/`. The no-training/no-inference Docker scope audit is ready, with 3,570 candidate GT rows and source rows for VL-SAT / Open3DSG, but current verification status remains unsupported. The Docker coordinate audit and bucket inspection are also ready and currently blocked: best scan-frame macro strict purity is 0.7725, `front`/`behind` strict purity is 0.7445, inverse consistency is 1.0, wrong-frame gap is 0.1231, and `front`/`behind` ambiguity buckets remain substantial. Recommendation is `do_not_promote_relative_horizontal_to_main_claim`. Current AAAI-path decision is to freeze this as appendix/limitation evidence and not run expanded-family metrics. This does not change the current main paper claim. It can only be promoted after coordinate-frame semantics, denominator audit, verifier policy, calibration, controls, source metrics, bootstrap CI, and failure/audit evidence reach the same standard as the current H001 families.
-- `attachment_deferred` is now the preferred future relation-family upgrade under `sources/attachment_deferred/`, not current metric evidence. Docker G0 scope/schema audit and G1 extractor contract are complete with status `attachment_deferred_extractor_contract_ready_no_extraction`: it adds 967 GT rows (`attached to` 808, `hanging on` 126, `connected to` 33), with candidate source rows for VL-SAT 77,748 and Open3DSG 57,300, and current verification status `unsupported` for both sources. It is a better conceptual fit than relative-horizontal for H001's physical-consistency mechanism, but the next gate is a schema-validated G1b evidence-only dry run for surface type, local point contact, surface normals, gravity/hanging, contradictory support cues, and object-affordance-as-context before any verifier/calibration or source metrics.
+- `attachment_deferred` is now the preferred future relation-family upgrade under `sources/attachment_deferred/`, not current metric evidence. Docker G0 scope/schema audit, G1 extractor contract, G1b evidence-only dry run, G1c point/surface estimator validation, G2 conservative verifier-policy design, G3 train-dev calibration/counterfactual route, G4 GT policy smoke, G4b error/visual sanity planning, G4c strict-only calibration-filter freeze, G5a pooled strict calibration fit, G5b bounded source scoring preflight, and G5c full-source protocol freeze are complete with status `attachment_deferred_full_source_protocol_frozen_no_metrics`: it adds 967 GT rows (`attached to` 808, `hanging on` 126, `connected to` 33), with candidate source rows for VL-SAT 77,748 and Open3DSG 57,300, and current verification status `unsupported` for both sources. G4c freezes 325 strict calibration rows, G5a fits model `h001-attachment-deferred-p-geom-valid-strict-v1`, G5b scores 120 scan-diverse bounded source rows with 0 validation errors, and G5c freezes 69 deterministic full-source shards for 135,048 rows plus source-specific covered denominators: VL-SAT 967/967 and Open3DSG 768/967. This is still not source metric evidence; full-source scoring, source metrics, controls, bootstrap CI, and completed visual audit do not exist yet. Main AAAI claim promotion requires explicit final user confirmation.
 - Qwen-VL third semantic source / modern VLM extension contract is ready under `sources/qwen_vl/`; recommended small model ladder is Qwen3-VL-4B first, Qwen2.5-VL-3B stable fallback, and Qwen3-VL-2B parser-smoke candidate. Frozen input JSON Schema, output JSONL contract, contract-only validator/parser skeleton, non-held-out tiny pilot scope, runtime model-lock plan, tiny-pilot pair-crop rendering path, model-cache verification, runtime preflight, 3-row tiny inference smoke, runtime raw-response validation, full-source promotion plan, full-source input audit, full-source crop preflight, and full-source inference runner plan are recorded. Current full-source input audit has 77,748 universe rows, 33,384 inferable input rows, 44,364 missing rows, and 134 shards. All-scope crop preflight passed for 33,384 input rows / 11,128 unique pair crops / 0 errors. Runner plan freezes 134 shard commands/resume policy; shards 0000-0013 are complete with 3,500 parsed rows, and run id `20260527_023111` stopped at shard 0014 because the GPU guard observed utilization 36% against the 35% threshold. This is not a replacement for VL-SAT or Open3DSG evidence, and no full Qwen paper-metric evaluation has run.
 
 Current method framing:
@@ -86,6 +87,10 @@ Generated outputs:
 - `sources/open3dsg/geometry/report.md`
 - `sources/open3dsg/metrics/metrics.json`
 - `sources/open3dsg/metrics/report.md`
+- `sources/open3dsg/caveat_reduction_plan/manifest.json`
+- `sources/open3dsg/caveat_reduction_plan/retry_plan.json`
+- `sources/open3dsg/caveat_reduction_plan/commands.md`
+- `sources/open3dsg/caveat_reduction_plan/report.md`
 - `sources/open3dsg/training_repro/manifest.json`
 - `sources/open3dsg/training_repro/report.md`
 - `sources/open3dsg/status.json`
@@ -117,6 +122,82 @@ Generated outputs:
 - `sources/attachment_deferred/evidence_extractor/validation_plan.json`
 - `sources/attachment_deferred/evidence_extractor/example_row.json`
 - `sources/attachment_deferred/evidence_extractor/report.md`
+- `sources/attachment_deferred/extractor_dry_run/rows.jsonl`
+- `sources/attachment_deferred/extractor_dry_run/manifest.json`
+- `sources/attachment_deferred/extractor_dry_run/summary.json`
+- `sources/attachment_deferred/extractor_dry_run/validation.json`
+- `sources/attachment_deferred/extractor_dry_run/report.md`
+- `sources/attachment_deferred/point_surface_validation/rows.jsonl`
+- `sources/attachment_deferred/point_surface_validation/diagnostics.jsonl`
+- `sources/attachment_deferred/point_surface_validation/manifest.json`
+- `sources/attachment_deferred/point_surface_validation/summary.json`
+- `sources/attachment_deferred/point_surface_validation/validation.json`
+- `sources/attachment_deferred/point_surface_validation/report.md`
+- `sources/attachment_deferred/verifier_policy/manifest.json`
+- `sources/attachment_deferred/verifier_policy/verifier_policy.json`
+- `sources/attachment_deferred/verifier_policy/decision_schema.json`
+- `sources/attachment_deferred/verifier_policy/threshold_plan.json`
+- `sources/attachment_deferred/verifier_policy/reason_codes.json`
+- `sources/attachment_deferred/verifier_policy/calibration_plan.json`
+- `sources/attachment_deferred/verifier_policy/commands.md`
+- `sources/attachment_deferred/verifier_policy/report.md`
+- `sources/attachment_deferred/calibration_counterfactuals/manifest.json`
+- `sources/attachment_deferred/calibration_counterfactuals/positive_seeds.jsonl`
+- `sources/attachment_deferred/calibration_counterfactuals/counterfactual_seeds.jsonl`
+- `sources/attachment_deferred/calibration_counterfactuals/split_plan.json`
+- `sources/attachment_deferred/calibration_counterfactuals/counterfactual_plan.json`
+- `sources/attachment_deferred/calibration_counterfactuals/policy_smoke_plan.json`
+- `sources/attachment_deferred/calibration_counterfactuals/gt_eval_inputs.json`
+- `sources/attachment_deferred/calibration_counterfactuals/threshold_freeze_protocol.json`
+- `sources/attachment_deferred/calibration_counterfactuals/commands.md`
+- `sources/attachment_deferred/calibration_counterfactuals/report.md`
+- `sources/attachment_deferred/gt_policy_smoke/manifest.json`
+- `sources/attachment_deferred/gt_policy_smoke/summary.json`
+- `sources/attachment_deferred/gt_policy_smoke/validation.json`
+- `sources/attachment_deferred/gt_policy_smoke/policy_smoke_decisions.jsonl`
+- `sources/attachment_deferred/gt_policy_smoke/gt_evidence_rows.jsonl`
+- `sources/attachment_deferred/gt_policy_smoke/gt_evidence_diagnostics.jsonl`
+- `sources/attachment_deferred/gt_policy_smoke/gt_policy_decisions.jsonl`
+- `sources/attachment_deferred/gt_policy_smoke/gt_eval_rows.jsonl`
+- `sources/attachment_deferred/gt_policy_smoke/visual_sanity_plan.json`
+- `sources/attachment_deferred/gt_policy_smoke/commands.md`
+- `sources/attachment_deferred/gt_policy_smoke/report.md`
+- `sources/attachment_deferred/error_visual_sanity/manifest.json`
+- `sources/attachment_deferred/error_visual_sanity/summary.json`
+- `sources/attachment_deferred/error_visual_sanity/review_cases.jsonl`
+- `sources/attachment_deferred/error_visual_sanity/visual_queue.jsonl`
+- `sources/attachment_deferred/error_visual_sanity/calibration_filter.jsonl`
+- `sources/attachment_deferred/error_visual_sanity/guide.md`
+- `sources/attachment_deferred/error_visual_sanity/commands.md`
+- `sources/attachment_deferred/error_visual_sanity/report.md`
+- `sources/attachment_deferred/strict_filter_freeze/manifest.json`
+- `sources/attachment_deferred/strict_filter_freeze/summary.json`
+- `sources/attachment_deferred/strict_filter_freeze/freeze_policy.json`
+- `sources/attachment_deferred/strict_filter_freeze/strict_calibration_rows.jsonl`
+- `sources/attachment_deferred/strict_filter_freeze/excluded_rows.jsonl`
+- `sources/attachment_deferred/strict_filter_freeze/commands.md`
+- `sources/attachment_deferred/strict_filter_freeze/report.md`
+- `sources/attachment_deferred/calibration_fit/manifest.json`
+- `sources/attachment_deferred/calibration_fit/model.json`
+- `sources/attachment_deferred/calibration_fit/metrics.json`
+- `sources/attachment_deferred/calibration_fit/scores.jsonl`
+- `sources/attachment_deferred/calibration_fit/commands.md`
+- `sources/attachment_deferred/calibration_fit/report.md`
+- `sources/attachment_deferred/source_scoring_preflight/manifest.json`
+- `sources/attachment_deferred/source_scoring_preflight/summary.json`
+- `sources/attachment_deferred/source_scoring_preflight/source_rows.jsonl`
+- `sources/attachment_deferred/source_scoring_preflight/evidence_rows.jsonl`
+- `sources/attachment_deferred/source_scoring_preflight/diagnostics.jsonl`
+- `sources/attachment_deferred/source_scoring_preflight/scored_rows.jsonl`
+- `sources/attachment_deferred/source_scoring_preflight/commands.md`
+- `sources/attachment_deferred/source_scoring_preflight/report.md`
+- `sources/attachment_deferred/full_source_protocol/manifest.json`
+- `sources/attachment_deferred/full_source_protocol/protocol.json`
+- `sources/attachment_deferred/full_source_protocol/denominator_audit.json`
+- `sources/attachment_deferred/full_source_protocol/shards.jsonl`
+- `sources/attachment_deferred/full_source_protocol/validation.json`
+- `sources/attachment_deferred/full_source_protocol/commands.md`
+- `sources/attachment_deferred/full_source_protocol/report.md`
 - `bootstrap_ci/manifest.json`
 - `bootstrap_ci/summary.json`
 - `bootstrap_ci/summary.md`
@@ -168,7 +249,7 @@ Still blocked:
 ```text
 Broad open-vocabulary 3DSSG generation improvement claim beyond the measured H001-family closed-set/GT-object scope.
 Adding relative_horizontal to the main claim before its separate validation track reaches the current H001 evidence standard.
-Adding attachment_deferred to the main claim before its separate evidence extractor dry run, verifier/calibration contract, source metrics, controls, bootstrap CI, and audit reach the current H001 evidence standard. The completed G0 scope/schema audit and G1 extractor contract are not metric evidence.
+Adding attachment_deferred to the main claim before its full-source scoring protocol, source metrics, controls, bootstrap CI, and audit reach the current H001 evidence standard. The completed G0-G5b artifacts are upgrade-readiness evidence, not current source metric evidence. Even after the remaining gates pass, main-claim promotion requires explicit final user confirmation.
 ```
 
 Current Open3DSG blocker:
@@ -186,20 +267,20 @@ none. Docker open3dsg_metric_eval status is ready with 496600 predictions, 7505 
 Current Open3DSG checkpoint-selection blocker:
 
 ```text
-checkpoint selection is ready for the explicitly labeled averaged-BLIP variant. Selected checkpoint: epoch=13-step=13104.ckpt by train-dev val/loss 0.32881081104278564 at step 13103, before H001 held-out raw dump/metrics/failure analysis/visual inspection. Exact non-averaged BLIP route remains OOM-blocked and must be reported as a limitation.
+checkpoint selection is ready for the explicitly labeled averaged-BLIP variant. Selected checkpoint: epoch=13-step=13104.ckpt by train-dev val/loss 0.32881081104278564 at step 13103, before H001 held-out raw dump/metrics/failure analysis/visual inspection. Exact non-averaged BLIP route remains OOM-blocked in the current result, but the caveat-reduction plan now freezes a resource-guarded Docker/tmux retry before any attachment G5d source-metric execution.
 ```
 
 Current Open3DSG raw-dump identity status:
 
 ```text
-raw-dump identity audit is ready with H001 scope 127 scans / 388 contexts / 25,916 directed pairs. raw_dump/raw.jsonl has 19162 rows; adapter, geometry join, metric eval, and Table 6 all passed downstream. Clean v14 streaming raw-dump resume completed with exit 0 and produced a byte-identical row set to raw_dump/raw.jsonl, so source-process provenance is available. Paper-facing caveats are frozen under `paper_caveats/`.
+raw-dump identity audit is ready with H001 scope 127 scans / 388 contexts / 25,916 directed pairs. raw_dump/raw.jsonl has 19162 rows; adapter, geometry join, metric eval, and Table 6 all passed downstream. Clean v14 streaming raw-dump resume completed with exit 0 and produced a byte-identical row set to raw_dump/raw.jsonl, so source-process provenance is available. Paper-facing caveats are frozen under `paper_caveats/`. Optional covered-context reduction is now planned but not executed: retry the 11 missing H001 preprocess contexts, then rerun feature audit and the downstream raw-dump/metric chain only if coverage improves.
 ```
 
 Current Open3DSG metric-scope policy:
 
 ```text
 predicate-family mapping and denominator caveat are frozen; in-scope GT denominator is 2,545 rows across support_contact 1,199 / proximity 1,128 / relative_vertical 218. relative_horizontal has 3,570 excluded GT rows and is tracked only as a separate expansion candidate. Its coordinate audit and bucket inspection are blocked for main-claim promotion: best scan-frame macro strict purity 0.7725, left/right 0.8005, front/behind 0.7445, inverse consistency 1.0, wrong-frame gap 0.1231, front/behind match:contradiction 2.9143, and ambiguity flags axis_margin_ambiguous 230 / conflicting_axis_dominates 430 / strong_projected_overlap 44. Table 6 requires the current policy before real Open3DSG metrics can be promoted.
-attachment_deferred has 967 excluded GT rows and is tracked as the preferred future physical-relation upgrade, not current metric evidence. Docker G0 scope/schema audit and G1 extractor contract are complete and freeze the candidate denominator, source rows, unsupported verification status, and evidence-only output contract. Promotion still requires a G1b attachment evidence extractor dry run and full H001 validation path before Table 6 can include it.
+attachment_deferred has 967 excluded GT rows and is tracked as the preferred future physical-relation upgrade, not current metric evidence. Docker G0 scope/schema audit, G1 extractor contract, G1b evidence-only dry run, G1c point/surface validation, G2 verifier-policy design, G3 calibration/counterfactual route, G4 GT policy smoke, G4b error/visual sanity planning, G4c strict-only calibration-filter freeze, G5a pooled strict calibration fit, G5b bounded source scoring preflight, and G5c full-source protocol freeze are complete and freeze the candidate denominator, source rows, unsupported verification status, evidence-only output contract, point/surface-ready evidence rows, conservative 9-subtype policy, train/dev policy-decision readiness, error taxonomy, calibration-filter dispositions, visual sanity queue, strict calibration subset, pooled p_geom model, bounded source scoring contract, deterministic shards, source-specific covered denominators, metric conditions, and control order. Promotion still requires full-source scoring, VL-SAT/Open3DSG source metrics, controls, bootstrap CI, and audit before Table 6 can include it. Visual labels remain useful for a soft protocol, but the strict-only route is now frozen.
 ```
 
 Current Open3DSG Table 6 hook:

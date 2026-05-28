@@ -87,24 +87,51 @@ Facts:
   non-promotion rule.
 - `attachment_deferred` is the preferred future relation-family upgrade if H001
   is expanded beyond the current AAAI claim. It is not current metric evidence.
-  Docker G0 scope/schema audit and G1 extractor contract are complete with
-  status `attachment_deferred_extractor_contract_ready_no_extraction`: the
-  denominator policy records 967 GT rows (`attached to` 808, `hanging on` 126,
-  `connected to` 33), candidate denominator 3,512 if validated, and candidate
-  prediction rows for VL-SAT (77,748) and Open3DSG (57,300); both sources are
-  currently verification-unsupported for this family. This direction is better
-  aligned with the H001 physical-consistency thesis than `relative_horizontal`,
-  because attachment, hanging, and connection imply physical support/adjacency,
-  near-surface contact, gravity, and object-affordance constraints. Its risk is
-  rule complexity: it requires wall/ceiling/furniture surface evidence, local
-  point contact, surface normals, hanging geometry, contradictory support
-  handling, and conservative uncertain handling. The frozen contract forbids
-  `verification_status`, `p_geom_valid`, recall credit, and reranking scores in
-  extractor output, so reviewer-facing validity decisions remain in later
-  verifier/calibration gates. Treat it as a future upgrade path whose next gate
-  is `G1b_attachment_evidence_extractor_dry_run`; verifier policy,
-  calibration/counterfactuals, GT verifier evaluation, two-source metrics,
-  controls, bootstrap CI, and audit must pass before any main-claim promotion.
+  Docker G0 scope/schema audit, G1 extractor contract, G1b evidence-only dry
+  run, G1c point/surface estimator validation, G2 verifier-policy design, G3
+  train-dev calibration/counterfactual route, G4 GT policy smoke, G4b
+  error/visual sanity planning, G4c strict-only calibration-filter freeze, G5a
+  pooled strict calibration fit, G5b bounded source scoring preflight, and G5c
+  full-source protocol freeze are complete with status
+  `attachment_deferred_full_source_protocol_frozen_no_metrics`:
+  the denominator policy records 967 GT rows (`attached to` 808, `hanging on`
+  126, `connected to` 33), candidate denominator 3,512 if validated, and
+  candidate prediction rows for VL-SAT (77,748) and Open3DSG (57,300); both
+  sources are currently verification-unsupported for this family. G2 covers 9
+  conservative subtypes, G3 prepares 315 train/dev positive seeds plus 446
+  counterfactual negative seeds, and G4 applies the frozen policy to 36 smoke
+  rows plus 761 train/dev seed rows. G4 decision-schema validation passes with
+  ready evidence for 761/761 seed rows, positive nonviolated 0.9048,
+  counterfactual nonsatisfied 0.8274, positive strict satisfied 0.3841,
+  counterfactual strict violated 0.4574, and overall uncertain rate 0.4323. At
+  G4 it emitted no fitted calibration, source scoring, or source metrics. G4b
+  freezes 436 review cases, a 50-row label-diverse visual sanity queue, strict
+  positive candidates 121, strict negative candidates 204, false-satisfied
+  counterfactuals 77, false-violated positives 30, and uncertain rows 329. G4c
+  freezes 325 strict calibration rows, including 121 strict positives and 204
+  strict negatives, and excludes 436 non-strict rows. G5a fits pooled model
+  `h001-attachment-deferred-p-geom-valid-strict-v1`; dev Brier/NLL/ECE are
+  0.0010/0.0077/0.0071 and dev AUROC/AUPRC are 1.0/1.0 on 83 strict rows.
+  These numbers are calibration-readiness evidence only, because the strict
+  subset is policy-selected and nearly separable. G5b scores 120 bounded,
+  scan-diverse source rows with evidence ready 120/120 and validation errors 0.
+  G5c freezes 69 deterministic full-source shards for 135,048 rows, metric
+  conditions, control order, and source-specific exact-label denominators:
+  VL-SAT covers 967/967 attachment GT rows, while Open3DSG covers 768/967 and
+  has 199 missing exact-label GT rows. This is still contract evidence only
+  because full-source scoring and metrics do not exist. `connected to` has no
+  dev strict rows, so pooled calibration or an explicit caveat is required. This
+  direction is better aligned with
+  the H001
+  physical-consistency thesis than `relative_horizontal`, because attachment,
+  hanging, and connection imply physical support/adjacency, near-surface
+  contact, gravity, and object-affordance constraints. Its risk is rule
+  complexity: it requires validated wall/ceiling/furniture surface evidence,
+  local point contact, surface normals, hanging geometry, contradictory support
+  handling, and conservative uncertain handling. Treat it as a future upgrade
+  path whose next gates are full-source scoring, two-source metrics, controls,
+  bootstrap CI, and audit before any main-claim
+  promotion.
 - Qwen-VL is currently a third semantic source / modern VLM extension, not a VL-SAT or Open3DSG replacement.
 - The 2026-05-23 RelWitness full-PDF skim identified a stronger direct novelty threat: RelWitness uses visual-geometric relation witnesses, calibrated witness quality, witness-guided positive-unlabeled learning, and witness-consistent decoding. Its v2 numerical tables are simulated planning values, so it should sharpen H001 wording rather than replace H001's reproduced evidence.
 
@@ -151,10 +178,15 @@ Required defense:
   best frame, wrong-frame gap, inverse consistency, per-label breakdown, and
   ambiguity buckets.
 - Treat `attachment_deferred` as the preferred future physical-relation upgrade.
-  The Docker scope/schema audit and extractor contract are complete, but do not
-  promote it from "future upgrade" to "main result" before it has a
-  schema-validated evidence-only dry run, verifier policy, train-dev
-  calibration, source metrics, controls, bootstrap CI, and visual audit.
+  The Docker scope/schema audit, extractor contract, schema-validated
+  evidence-only dry run, point/surface estimator validation, conservative
+  verifier-policy design, calibration/counterfactual route, G4 policy
+  smoke/GT-counterfactual evaluation, G4b visual-sanity queue, G4c strict
+  calibration-filter freeze, G5a pooled strict calibration fit, and G5b bounded
+  source scoring preflight are complete, but do not promote it from "future
+  upgrade" to "main result" before it has full-source metrics, controls,
+  bootstrap CI, and audit. Visual labels remain optional for a soft protocol,
+  not required for the frozen strict-only calibration route.
   Function-reasoning examples may be useful as a secondary case study only
   after relation reliability is established.
 - Treat RelWitness-style "relation witness" and "calibrated witness quality" wording as prior-art-adjacent. H001 should claim reproduced calibrated reliability evaluation/re-ranking, source-adapter protocol, recall/violation operating points, and controls, not the mere existence of visual-geometric evidence or calibration.
@@ -184,9 +216,14 @@ Do not claim these until evidence exists:
   validation track passes coordinate-frame, calibration, metric, control,
   bootstrap, and audit gates.
 - `attachment_deferred` or functional-reasoning coverage as part of the main
-  claim before the attachment-specific evidence extractor dry run, verifier,
-  calibration, metrics, controls, and audit gates pass. The completed G0
-  scope/schema audit and G1 extractor contract are planning evidence only.
+  claim before the attachment-specific source metrics, controls, and audit
+  gates pass. The completed G0 scope/schema audit, G1 extractor contract, G1b
+  dry run, G1c point/surface validation, G2 verifier-policy design, G3 seed
+  route, G4 policy smoke, G4b visual-sanity queue, G4c strict-filter freeze,
+  G5a pooled strict calibration fit, G5b bounded source scoring preflight, and
+  G5c full-source protocol freeze are upgrade-readiness evidence only.
+- Adding any expansion family to the main AAAI claim without explicit final
+  user confirmation, even if the later evidence gates pass.
 - Exact non-averaged BLIP Open3DSG route; current evidence uses an explicitly labeled averaged-BLIP variant.
 
 ## Next Paper-Framing Step

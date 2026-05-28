@@ -1,0 +1,406 @@
+{
+  "counts": {
+    "diagnostic_rows": 120,
+    "evidence_rows": 120,
+    "extractor_status_counts": {
+      "ready": 120
+    },
+    "geometry_ready_rows": 120,
+    "label_counts": {
+      "attached to": 40,
+      "connected to": 40,
+      "hanging on": 40
+    },
+    "scored_rows": 120,
+    "selected_source_rows": 120,
+    "source_counts": {
+      "open3dsg_ov": 60,
+      "vlsat_closed_set": 60
+    },
+    "unknown_model_category_counts": {
+      "subtype_hint=hanging_from_overhead_or_fixture": 1,
+      "surface_type=ceiling": 3,
+      "surface_type=fixture": 3
+    },
+    "validation_errors": 0
+  },
+  "created_at": "2026-05-28T06:57:59+00:00",
+  "evidence_meta": {
+    "dry_warning_counts": {
+      "dry_run_obb_only_no_point_contact": 120,
+      "point_contact_evidence": 120,
+      "segmented_points": 120
+    },
+    "scan_errors": [],
+    "scan_stats": {
+      "095821f7-e2c2-2de1-9568-b9ce59920e29": {
+        "ply_face_count_header": 37096,
+        "ply_vertex_count_header": 27027,
+        "ply_vertex_rows_read": 27027,
+        "target_object_ids": [
+          1,
+          2
+        ],
+        "target_vertex_rows_kept": 9822
+      },
+      "0988ea72-eb32-2e61-8344-99e2283c2728": {
+        "ply_face_count_header": 79388,
+        "ply_vertex_count_header": 61628,
+        "ply_vertex_rows_read": 61628,
+        "target_object_ids": [
+          1,
+          23,
+          47,
+          48
+        ],
+        "target_vertex_rows_kept": 8961
+      },
+      "0cac7584-8d6f-2d13-8df8-c05e4307b418": {
+        "ply_face_count_header": 84915,
+        "ply_vertex_count_header": 63119,
+        "ply_vertex_rows_read": 63119,
+        "target_object_ids": [
+          1,
+          2,
+          50
+        ],
+        "target_vertex_rows_kept": 14979
+      },
+      "0cac761b-8d6f-2d13-8f16-23a7d73c54fe": {
+        "ply_face_count_header": 25149,
+        "ply_vertex_count_header": 18201,
+        "ply_vertex_rows_read": 18201,
+        "target_object_ids": [
+          1,
+          2
+        ],
+        "target_vertex_rows_kept": 3182
+      },
+      "0cac7676-8d6f-2d13-8f3a-d7bf7f03e721": {
+        "ply_face_count_header": 73485,
+        "ply_vertex_count_header": 52266,
+        "ply_vertex_rows_read": 52266,
+        "target_object_ids": [
+          1,
+          28,
+          32
+        ],
+        "target_vertex_rows_kept": 6083
+      },
+      "10b17963-3938-2467-8a48-0d4af350ce92": {
+        "ply_face_count_header": 26690,
+        "ply_vertex_count_header": 18969,
+        "ply_vertex_rows_read": 18969,
+        "target_object_ids": [
+          1,
+          3
+        ],
+        "target_vertex_rows_kept": 4016
+      },
+      "1d233fe8-e280-2b1a-8fac-c3646a1cd64a": {
+        "ply_face_count_header": 23361,
+        "ply_vertex_count_header": 17623,
+        "ply_vertex_rows_read": 17623,
+        "target_object_ids": [
+          1,
+          4,
+          16
+        ],
+        "target_vertex_rows_kept": 1750
+      },
+      "1d234022-e280-2b1a-8cec-e9787bb0d7b2": {
+        "ply_face_count_header": 34202,
+        "ply_vertex_count_header": 21987,
+        "ply_vertex_rows_read": 21987,
+        "target_object_ids": [
+          1,
+          9,
+          10
+        ],
+        "target_vertex_rows_kept": 3696
+      },
+      "1d234024-e280-2b1a-8c28-2743fefed020": {
+        "ply_face_count_header": 40636,
+        "ply_vertex_count_header": 27256,
+        "ply_vertex_rows_read": 27256,
+        "target_object_ids": [
+          1,
+          13,
+          16
+        ],
+        "target_vertex_rows_kept": 4191
+      },
+      "20c993b3-698f-29c5-859c-dca8ddecf220": {
+        "ply_face_count_header": 37721,
+        "ply_vertex_count_header": 28417,
+        "ply_vertex_rows_read": 28417,
+        "target_object_ids": [
+          1,
+          4,
+          18
+        ],
+        "target_vertex_rows_kept": 6853
+      },
+      "43b8cadf-6678-2e38-9920-064144c99406": {
+        "ply_face_count_header": 102856,
+        "ply_vertex_count_header": 66823,
+        "ply_vertex_rows_read": 66823,
+        "target_object_ids": [
+          1,
+          2
+        ],
+        "target_vertex_rows_kept": 13829
+      },
+      "5341b79f-8a66-2cdd-84d5-6dba6525dd75": {
+        "ply_face_count_header": 27032,
+        "ply_vertex_count_header": 19702,
+        "ply_vertex_rows_read": 19702,
+        "target_object_ids": [
+          1,
+          5,
+          16
+        ],
+        "target_vertex_rows_kept": 6428
+      },
+      "68bae75f-3567-2f7c-829d-7422117729f3": {
+        "ply_face_count_header": 40015,
+        "ply_vertex_count_header": 29995,
+        "ply_vertex_rows_read": 29995,
+        "target_object_ids": [
+          1,
+          3,
+          19
+        ],
+        "target_vertex_rows_kept": 5505
+      },
+      "6e67e550-1209-2cd0-8294-7cc2564cf82c": {
+        "ply_face_count_header": 58447,
+        "ply_vertex_count_header": 39521,
+        "ply_vertex_rows_read": 39521,
+        "target_object_ids": [
+          1,
+          8,
+          43
+        ],
+        "target_vertex_rows_kept": 9079
+      },
+      "7272e17c-a01b-20f6-8b2f-e659331ae41a": {
+        "ply_face_count_header": 52592,
+        "ply_vertex_count_header": 35258,
+        "ply_vertex_rows_read": 35258,
+        "target_object_ids": [
+          1,
+          10,
+          32
+        ],
+        "target_vertex_rows_kept": 8963
+      },
+      "742e8f17-be0a-294e-9dd3-52492d308e2b": {
+        "ply_face_count_header": 42795,
+        "ply_vertex_count_header": 31622,
+        "ply_vertex_rows_read": 31622,
+        "target_object_ids": [
+          1,
+          6,
+          21,
+          35
+        ],
+        "target_vertex_rows_kept": 6132
+      },
+      "ab835faa-54c6-29a1-9b55-1a5217fcba19": {
+        "ply_face_count_header": 43345,
+        "ply_vertex_count_header": 30221,
+        "ply_vertex_rows_read": 30221,
+        "target_object_ids": [
+          1,
+          2
+        ],
+        "target_vertex_rows_kept": 3871
+      },
+      "bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8": {
+        "ply_face_count_header": 22741,
+        "ply_vertex_count_header": 18098,
+        "ply_vertex_rows_read": 18098,
+        "target_object_ids": [
+          1,
+          4
+        ],
+        "target_vertex_rows_kept": 1513
+      },
+      "c2d99345-1947-2fbf-818d-90ea82acef29": {
+        "ply_face_count_header": 60598,
+        "ply_vertex_count_header": 38440,
+        "ply_vertex_rows_read": 38440,
+        "target_object_ids": [
+          1,
+          9,
+          22
+        ],
+        "target_vertex_rows_kept": 8975
+      },
+      "c7895f63-339c-2d13-81a3-0b07b1eb23b4": {
+        "ply_face_count_header": 53175,
+        "ply_vertex_count_header": 41150,
+        "ply_vertex_rows_read": 41150,
+        "target_object_ids": [
+          1,
+          2,
+          16
+        ],
+        "target_vertex_rows_kept": 5354
+      }
+    }
+  },
+  "full_source_scope_reference": {
+    "expanded_candidate_denominator": 3512,
+    "open3dsg_attachment_rows": 57300,
+    "vlsat_attachment_rows": 77748
+  },
+  "schema_version": "h001_attachment_deferred_source_scoring_preflight_v1",
+  "score_summary": {
+    "by_label": {
+      "attached to": {
+        "by_source": {
+          "open3dsg_ov": 20,
+          "vlsat_closed_set": 20
+        },
+        "p_geom_valid": {
+          "max": 0.9997011334712842,
+          "mean": 0.367272550688883,
+          "median": 0.0665686029294888,
+          "min": 9.525030414241837e-05,
+          "p10": 0.001862828985885642,
+          "p90": 0.9963649604870356
+        },
+        "rows": 40
+      },
+      "connected to": {
+        "by_source": {
+          "open3dsg_ov": 20,
+          "vlsat_closed_set": 20
+        },
+        "p_geom_valid": {
+          "max": 0.9995067161339226,
+          "mean": 0.36280119309066655,
+          "median": 0.08255483026090386,
+          "min": 0.0001201796336566691,
+          "p10": 0.0031696988116570743,
+          "p90": 0.9940133070003767
+        },
+        "rows": 40
+      },
+      "hanging on": {
+        "by_source": {
+          "open3dsg_ov": 20,
+          "vlsat_closed_set": 20
+        },
+        "p_geom_valid": {
+          "max": 0.9998720121538349,
+          "mean": 0.3528417148911004,
+          "median": 0.05078736553807859,
+          "min": 7.146309812314544e-05,
+          "p10": 0.0022398748899467792,
+          "p90": 0.9947405103300981
+        },
+        "rows": 40
+      }
+    },
+    "by_source": {
+      "open3dsg_ov": {
+        "by_label": {
+          "attached to": 20,
+          "connected to": 20,
+          "hanging on": 20
+        },
+        "p_geom_valid": {
+          "max": 0.9997732775851409,
+          "mean": 0.2053857283630594,
+          "median": 0.05078736553807859,
+          "min": 0.0013982351790127658,
+          "p10": 0.005806154025417134,
+          "p90": 0.5897163431420371
+        },
+        "rows": 60
+      },
+      "vlsat_closed_set": {
+        "by_label": {
+          "attached to": 20,
+          "connected to": 20,
+          "hanging on": 20
+        },
+        "p_geom_valid": {
+          "max": 0.9998720121538349,
+          "mean": 0.5165579107507072,
+          "median": 0.7910563450429599,
+          "min": 7.146309812314544e-05,
+          "p10": 0.0004891159702518987,
+          "p90": 0.9963649604870356
+        },
+        "rows": 60
+      }
+    },
+    "p_geom_valid": {
+      "max": 0.9998720121538349,
+      "mean": 0.36097181955688334,
+      "median": 0.057955692988128193,
+      "min": 7.146309812314544e-05,
+      "p10": 0.0022398748899467792,
+      "p90": 0.9958602319936551
+    },
+    "rows": 120
+  },
+  "selection": {
+    "expected_selected_rows": 120,
+    "max_rows_per_source_label": 20,
+    "open3dsg": {
+      "attachment_rows_seen_total": 57300,
+      "candidate_rows_by_label": {
+        "attached to": 19100,
+        "connected to": 19100,
+        "hanging on": 19100
+      },
+      "path": "/workspace/experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl",
+      "rows_read_total": 496600,
+      "selected_by_label": {
+        "attached to": 20,
+        "connected to": 20,
+        "hanging on": 20
+      },
+      "selected_rows": 60,
+      "selected_unique_scans_by_label": {
+        "attached to": 20,
+        "connected to": 20,
+        "hanging on": 20
+      },
+      "selected_unique_scans_total": 20,
+      "skipped": {},
+      "source_name": "open3dsg_ov"
+    },
+    "vlsat": {
+      "attachment_rows_seen_total": 77748,
+      "candidate_rows_by_label": {
+        "attached to": 25916,
+        "connected to": 25916,
+        "hanging on": 25916
+      },
+      "path": "/workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened_geometry/verification.jsonl",
+      "rows_read_total": 673816,
+      "selected_by_label": {
+        "attached to": 20,
+        "connected to": 20,
+        "hanging on": 20
+      },
+      "selected_rows": 60,
+      "selected_unique_scans_by_label": {
+        "attached to": 20,
+        "connected to": 20,
+        "hanging on": 20
+      },
+      "selected_unique_scans_total": 20,
+      "skipped": {},
+      "source_name": "vlsat_closed_set"
+    }
+  },
+  "status": "attachment_deferred_source_scoring_preflight_ready_no_metrics",
+  "validation_errors": []
+}

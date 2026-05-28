@@ -184,8 +184,316 @@ verifier, not a calibration run, not a source metric, and not a main-claim
 result.
 
 Current result: status
-`attachment_deferred_extractor_contract_ready_no_extraction`; next gate is
-`G1b_attachment_evidence_extractor_dry_run`.
+`attachment_deferred_extractor_contract_ready_no_extraction`; this contract was
+used by the completed G1b dry run.
+
+## Attachment Deferred Extractor Dry Run
+
+Run the G1b schema-validated evidence-only dry run:
+
+```bash
+docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm attachment_deferred_extractor_dry_run
+```
+
+This creates:
+
+- `sources/attachment_deferred/extractor_dry_run/rows.jsonl`
+- `sources/attachment_deferred/extractor_dry_run/manifest.json`
+- `sources/attachment_deferred/extractor_dry_run/summary.json`
+- `sources/attachment_deferred/extractor_dry_run/validation.json`
+- `sources/attachment_deferred/extractor_dry_run/report.md`
+
+Use this only as a small evidence-output dry run. It is not a verifier,
+calibration run, source metric, or main-claim result.
+
+Current result: status
+`attachment_deferred_extractor_dry_run_ready_no_verifier`; 36 input rows
+produced 36 output rows, validation errors 0, source rows 9 each for
+`gt_positive`, `counterfactual`, `vlsat_closed_set`, and `open3dsg_ov`, and
+labels 12 each for `attached to`, `hanging on`, and `connected to`. Forbidden
+verifier/metric fields are absent. All rows are `partial` because the dry run
+uses semseg OBB and `dominantNormal` proxies only. Subsequent G1c validation is
+now complete.
+
+## Attachment Deferred Point/Surface Validation
+
+Run the G1c segmented-point contact and surface-normal validation:
+
+```bash
+docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm attachment_deferred_point_surface_validation
+```
+
+This creates:
+
+- `sources/attachment_deferred/point_surface_validation/rows.jsonl`
+- `sources/attachment_deferred/point_surface_validation/diagnostics.jsonl`
+- `sources/attachment_deferred/point_surface_validation/manifest.json`
+- `sources/attachment_deferred/point_surface_validation/summary.json`
+- `sources/attachment_deferred/point_surface_validation/validation.json`
+- `sources/attachment_deferred/point_surface_validation/report.md`
+
+Use this only as point/surface estimator validation. It is not a verifier,
+calibration run, source metric, or main-claim result.
+
+Current result: status
+`attachment_deferred_point_surface_validation_ready_no_verifier`; 36 input rows
+produced 36 output rows, validation errors 0, ready rows 36, point available
+rows 36, normal available rows 36, and near-contact rows 27 under the 0.05m
+diagnostic threshold. Forbidden verifier/metric fields are absent. Next gate is
+`G2_attachment_verifier_policy_design`.
+
+## Attachment Deferred Verifier Policy
+
+Run the G2 conservative verifier-policy design step:
+
+```bash
+docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm attachment_deferred_verifier_policy
+```
+
+This creates:
+
+- `sources/attachment_deferred/verifier_policy/manifest.json`
+- `sources/attachment_deferred/verifier_policy/verifier_policy.json`
+- `sources/attachment_deferred/verifier_policy/decision_schema.json`
+- `sources/attachment_deferred/verifier_policy/threshold_plan.json`
+- `sources/attachment_deferred/verifier_policy/reason_codes.json`
+- `sources/attachment_deferred/verifier_policy/calibration_plan.json`
+- `sources/attachment_deferred/verifier_policy/commands.md`
+- `sources/attachment_deferred/verifier_policy/report.md`
+
+Use this only as a verifier-policy design artifact. It does not apply decisions
+to source predictions, fit calibration, compute metrics, or change the main
+paper claim.
+
+Current result: status
+`attachment_deferred_verifier_policy_ready_no_decisions_no_metrics`; 9 subtype
+rules are covered. Conservative defaults are near-contact 0.05m, uncertain
+contact band 0.05-0.15m, clear-far distance 0.30m, min near-contact points 3,
+and min contact patch score 0.20. No decision rows, calibration, source
+scoring, or metrics were emitted. Next gate is
+`G3_attachment_calibration_counterfactual_generation` (now completed).
+
+## Attachment Deferred Calibration / Counterfactual Route
+
+Prepare the G3 train-dev positive/counterfactual route before any held-out
+source metric execution:
+
+```bash
+docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm attachment_deferred_calibration_counterfactuals
+```
+
+This creates:
+
+- `sources/attachment_deferred/calibration_counterfactuals/manifest.json`
+- `sources/attachment_deferred/calibration_counterfactuals/positive_seeds.jsonl`
+- `sources/attachment_deferred/calibration_counterfactuals/counterfactual_seeds.jsonl`
+- `sources/attachment_deferred/calibration_counterfactuals/split_plan.json`
+- `sources/attachment_deferred/calibration_counterfactuals/counterfactual_plan.json`
+- `sources/attachment_deferred/calibration_counterfactuals/policy_smoke_plan.json`
+- `sources/attachment_deferred/calibration_counterfactuals/gt_eval_inputs.json`
+- `sources/attachment_deferred/calibration_counterfactuals/threshold_freeze_protocol.json`
+- `sources/attachment_deferred/calibration_counterfactuals/commands.md`
+- `sources/attachment_deferred/calibration_counterfactuals/report.md`
+
+Current result: status
+`attachment_deferred_calibration_counterfactual_plan_ready_no_fit_no_metrics`;
+315 train/dev positive seeds and 446 counterfactual negative seeds are ready.
+Counterfactual seeds require geometry-margin validation before becoming
+calibration negatives. No decision rows, calibration, source scoring, or metrics
+were emitted. Subsequent G4 GT policy smoke is now complete.
+
+## Attachment Deferred GT Policy Smoke
+
+Run the G4 policy-smoke and train-dev GT/counterfactual evaluation before any
+attachment source metrics:
+
+```bash
+docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm attachment_deferred_gt_policy_smoke
+```
+
+This creates:
+
+- `sources/attachment_deferred/gt_policy_smoke/manifest.json`
+- `sources/attachment_deferred/gt_policy_smoke/summary.json`
+- `sources/attachment_deferred/gt_policy_smoke/validation.json`
+- `sources/attachment_deferred/gt_policy_smoke/policy_smoke_decisions.jsonl`
+- `sources/attachment_deferred/gt_policy_smoke/gt_evidence_rows.jsonl`
+- `sources/attachment_deferred/gt_policy_smoke/gt_evidence_diagnostics.jsonl`
+- `sources/attachment_deferred/gt_policy_smoke/gt_policy_decisions.jsonl`
+- `sources/attachment_deferred/gt_policy_smoke/gt_eval_rows.jsonl`
+- `sources/attachment_deferred/gt_policy_smoke/visual_sanity_plan.json`
+- `sources/attachment_deferred/gt_policy_smoke/commands.md`
+- `sources/attachment_deferred/gt_policy_smoke/report.md`
+
+Current result: status
+`attachment_deferred_gt_policy_smoke_ready_no_source_metrics`; policy-smoke
+decision rows 36/36 and train/dev seed decision rows 761/761 pass schema
+validation with scan errors 0. Positive nonviolated is 0.9048,
+counterfactual nonsatisfied is 0.8274, positive strict satisfied is 0.3841,
+counterfactual strict violated is 0.4574, and overall uncertain rate is 0.4323.
+This is not fitted calibration, not source metric evidence, and not a main
+claim update. The subsequent G4b error/visual sanity planning step is now
+complete, the subsequent G4c strict-only calibration-filter freeze is complete,
+the subsequent G5a pooled strict calibration fit is complete, and the subsequent
+G5b bounded source scoring preflight is complete. The subsequent G5c
+full-source scoring/metric protocol freeze is also complete; the current gate is
+optional G5d full-source scoring plus source metrics/controls.
+
+## Attachment Deferred Error / Visual Sanity
+
+Run the G4b error taxonomy, calibration-filter, and visual-queue planning step:
+
+```bash
+docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm attachment_deferred_error_visual_sanity
+```
+
+This creates:
+
+- `sources/attachment_deferred/error_visual_sanity/manifest.json`
+- `sources/attachment_deferred/error_visual_sanity/summary.json`
+- `sources/attachment_deferred/error_visual_sanity/review_cases.jsonl`
+- `sources/attachment_deferred/error_visual_sanity/visual_queue.jsonl`
+- `sources/attachment_deferred/error_visual_sanity/calibration_filter.jsonl`
+- `sources/attachment_deferred/error_visual_sanity/guide.md`
+- `sources/attachment_deferred/error_visual_sanity/commands.md`
+- `sources/attachment_deferred/error_visual_sanity/report.md`
+
+Current result: status
+`attachment_deferred_error_visual_sanity_plan_ready_no_source_metrics`; review
+cases 436, visual queue rows 50, calibration-filter rows 761. The queue is
+label-diverse with `attached to` 38, `connected to` 6, and `hanging on` 6.
+Strict calibration candidates are 121 positives and 204 negatives; 77
+false-satisfied counterfactuals, 30 false-violated positives, and 329 uncertain
+rows require review, exclusion, or soft-label protocol before calibration. This
+is not fitted calibration, not source metric evidence, and not a main-claim
+update. The subsequent G4c strict-only calibration-filter freeze is now
+complete.
+
+## Attachment Deferred Strict Filter Freeze
+
+Run the G4c strict-only calibration-filter freeze:
+
+```bash
+docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm attachment_deferred_strict_filter_freeze
+```
+
+This creates:
+
+- `sources/attachment_deferred/strict_filter_freeze/manifest.json`
+- `sources/attachment_deferred/strict_filter_freeze/summary.json`
+- `sources/attachment_deferred/strict_filter_freeze/freeze_policy.json`
+- `sources/attachment_deferred/strict_filter_freeze/strict_calibration_rows.jsonl`
+- `sources/attachment_deferred/strict_filter_freeze/excluded_rows.jsonl`
+- `sources/attachment_deferred/strict_filter_freeze/commands.md`
+- `sources/attachment_deferred/strict_filter_freeze/report.md`
+
+Current result: status
+`attachment_deferred_strict_filter_frozen_no_fit_no_source_metrics`; strict
+calibration rows 325, strict positives 121, strict negatives 204, and excluded
+non-strict rows 436. Strict label counts are `attached to` 200, `hanging on`
+113, and `connected to` 12. Split counts are train 242 and dev 83. Warning:
+`connected to` has no dev strict rows, so future connected-to family-specific
+calibration requires pooled calibration, augmented dev selection, or explicit
+limitation. This is not fitted calibration, not source metric evidence, and not
+a main-claim update. The subsequent G5a attachment calibration fit and G5b
+bounded source scoring preflight are complete; the next gate is full-source
+scoring/metric protocol freeze before VL-SAT/Open3DSG source metrics and
+controls.
+
+## Attachment Deferred Calibration Fit
+
+Run the G5a pooled strict calibration fit:
+
+```bash
+docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm attachment_deferred_calibration_fit
+```
+
+This creates:
+
+- `sources/attachment_deferred/calibration_fit/manifest.json`
+- `sources/attachment_deferred/calibration_fit/model.json`
+- `sources/attachment_deferred/calibration_fit/metrics.json`
+- `sources/attachment_deferred/calibration_fit/scores.jsonl`
+- `sources/attachment_deferred/calibration_fit/commands.md`
+- `sources/attachment_deferred/calibration_fit/report.md`
+
+Current result: status
+`attachment_deferred_calibration_fit_ready_no_source_metrics`; model id
+`h001-attachment-deferred-p-geom-valid-strict-v1`; train/dev rows 242/83;
+dev positives/negatives 27/56; dev Brier/NLL/ECE 0.0010/0.0077/0.0071; dev
+AUROC/AUPRC 1.0/1.0. Warnings:
+`connected_to_dev_absent_use_pooled_or_train_only_caveat` and
+`strict_subset_nearly_separable_not_source_metric_evidence`. This is a fitted
+calibration artifact only; it does not score source predictions, compute source
+metrics, run controls/bootstrap, or update the main AAAI claim.
+
+## Attachment Deferred Source Scoring Preflight
+
+Run the G5b bounded source evidence extraction and `p_geom_valid` scoring
+preflight:
+
+```bash
+docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm attachment_deferred_source_scoring_preflight
+```
+
+This creates:
+
+- `sources/attachment_deferred/source_scoring_preflight/manifest.json`
+- `sources/attachment_deferred/source_scoring_preflight/summary.json`
+- `sources/attachment_deferred/source_scoring_preflight/source_rows.jsonl`
+- `sources/attachment_deferred/source_scoring_preflight/evidence_rows.jsonl`
+- `sources/attachment_deferred/source_scoring_preflight/diagnostics.jsonl`
+- `sources/attachment_deferred/source_scoring_preflight/scored_rows.jsonl`
+- `sources/attachment_deferred/source_scoring_preflight/commands.md`
+- `sources/attachment_deferred/source_scoring_preflight/report.md`
+
+Current result: status
+`attachment_deferred_source_scoring_preflight_ready_no_metrics`; selected and
+scored rows 120; source counts Open3DSG 60 and VL-SAT 60; label counts
+`attached to` 40, `connected to` 40, `hanging on` 40; selected unique scans 20
+per source; evidence rows ready 120/120; validation errors 0; mean/median
+`p_geom_valid` 0.3610/0.0580. This is bounded preflight only. It does not
+compute R@K, Violation@K, controls, bootstrap CI, or update the main AAAI claim.
+
+## Attachment Deferred Full-Source Protocol Freeze
+
+Run the G5c protocol freeze before any full-source attachment metric:
+
+```bash
+docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm attachment_deferred_full_source_protocol
+```
+
+This creates:
+
+- `sources/attachment_deferred/full_source_protocol/manifest.json`
+- `sources/attachment_deferred/full_source_protocol/protocol.json`
+- `sources/attachment_deferred/full_source_protocol/denominator_audit.json`
+- `sources/attachment_deferred/full_source_protocol/shards.jsonl`
+- `sources/attachment_deferred/full_source_protocol/validation.json`
+- `sources/attachment_deferred/full_source_protocol/commands.md`
+- `sources/attachment_deferred/full_source_protocol/report.md`
+
+Current result: status
+`attachment_deferred_full_source_protocol_frozen_no_metrics`; validation errors
+0; expected full-source rows 135,048; deterministic shards 69 with 2,000 rows
+per shard; global exact-label GT denominator 967; VL-SAT covered denominator
+967/967; Open3DSG covered denominator 768/967 with 199 missing exact-label GT
+rows. Frozen metric conditions are `semantic_only`,
+`probabilistic_recalibrated`, `rule_verified_attachment_policy`,
+`control_p_geom_valid_only`, `control_distance_only`,
+`control_shuffled_geometry`, and `control_wrong_pair_geometry`. This is still
+not full-source scoring, not source metric evidence, and not a main-claim
+update.
 
 ## Qwen-VL Full-Source Crops
 
@@ -352,6 +660,22 @@ This creates:
 - `sources/open3dsg/checkpoint_selection/manifest.json`
 - `sources/open3dsg/checkpoint_selection/commands.md`
 - `sources/open3dsg/checkpoint_selection/report.md`
+
+## Open3DSG Caveat-Reduction Plan
+
+Freeze the optional retry order before launching any heavy non-avg BLIP or
+`388/388` covered-context job:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_caveat_reduction_plan'
+```
+
+This creates:
+
+- `sources/open3dsg/caveat_reduction_plan/manifest.json`
+- `sources/open3dsg/caveat_reduction_plan/retry_plan.json`
+- `sources/open3dsg/caveat_reduction_plan/commands.md`
+- `sources/open3dsg/caveat_reduction_plan/report.md`
 
 ## Open3DSG H001 Eval Features
 

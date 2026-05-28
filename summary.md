@@ -43,8 +43,13 @@ Out of first-scope:
   coordinate-audit and bucket-inspection diagnostics
 - attachment / hanging / connection relations remain outside the current main
   claim, but `attachment_deferred` is the preferred future physical-relation
-  upgrade path; Docker G0 scope/schema audit and G1 extractor contract are
-  complete and the next gate is `G1b_attachment_evidence_extractor_dry_run`
+  upgrade path; Docker G0 scope/schema audit, G1 extractor contract, G1b
+  evidence-only dry run, G1c point/surface validation, G2 conservative
+  verifier-policy design, G3 train-dev calibration/counterfactual route, G4 GT
+  policy smoke, G4b error/visual sanity planning, G4c strict-only
+  calibration-filter freeze, G5a pooled strict calibration fit, G5b bounded
+  source scoring preflight, and G5c full-source protocol freeze are complete;
+  next gate is optional G5d full-source scoring plus source metrics/controls
 - online RGB-D graph generation
 - robotics navigation
 - broad open-vocabulary 3DSSG generation improvement
@@ -215,19 +220,87 @@ Relative-horizontal expansion track:
 
 Attachment-deferred upgrade track:
 
-- status: `attachment_deferred_extractor_contract_ready_no_extraction`
+- status: `attachment_deferred_full_source_protocol_frozen_no_metrics`
 - current claim remains unchanged; this is a future H001 upgrade path
 - candidate GT rows: 967, with labels `attached to` 808, `hanging on` 126,
   `connected to` 33
 - expanded candidate denominator: 3,512 / 7,505 if validated
 - source prediction rows: VL-SAT 77,748 and Open3DSG 57,300
+- full-source protocol: 69 deterministic shards for 135,048 source rows
+- source-specific covered denominators: VL-SAT 967/967, Open3DSG 768/967
 - existing geometry verification status: `unsupported` for both sources
 - completed Docker outputs:
   `experiments/H001_geom_reliability/sources/attachment_deferred/scope_audit/{manifest.json,label_counts.json,evidence_schema.json,report.md}`
 - completed G1 contract outputs:
   `experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/{manifest.json,extractor_contract.json,output_schema.json,field_catalog.json,subtype_policy.json,extraction_plan.json,validation_plan.json,example_row.json,report.md}`
+- completed G1b dry-run outputs:
+  `experiments/H001_geom_reliability/sources/attachment_deferred/extractor_dry_run/{rows.jsonl,manifest.json,summary.json,validation.json,report.md}`
+- completed G1c point/surface validation outputs:
+  `experiments/H001_geom_reliability/sources/attachment_deferred/point_surface_validation/{rows.jsonl,diagnostics.jsonl,manifest.json,summary.json,validation.json,report.md}`
+- completed G2 verifier-policy outputs:
+  `experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy/{manifest.json,verifier_policy.json,decision_schema.json,threshold_plan.json,reason_codes.json,calibration_plan.json,commands.md,report.md}`
+- completed G3 calibration/counterfactual route outputs:
+  `experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/{manifest.json,positive_seeds.jsonl,counterfactual_seeds.jsonl,split_plan.json,counterfactual_plan.json,policy_smoke_plan.json,gt_eval_inputs.json,threshold_freeze_protocol.json,commands.md,report.md}`
+- completed G4 GT policy-smoke outputs:
+  `experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/{manifest.json,summary.json,validation.json,policy_smoke_decisions.jsonl,gt_evidence_rows.jsonl,gt_evidence_diagnostics.jsonl,gt_policy_decisions.jsonl,gt_eval_rows.jsonl,visual_sanity_plan.json,commands.md,report.md}`
+- completed G4b error/visual sanity outputs:
+  `experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity/{manifest.json,summary.json,review_cases.jsonl,visual_queue.jsonl,calibration_filter.jsonl,guide.md,commands.md,report.md}`
+- completed G4c strict filter freeze outputs:
+  `experiments/H001_geom_reliability/sources/attachment_deferred/strict_filter_freeze/{manifest.json,summary.json,freeze_policy.json,strict_calibration_rows.jsonl,excluded_rows.jsonl,commands.md,report.md}`
+- completed G5a pooled strict calibration-fit outputs:
+  `experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit/{manifest.json,model.json,metrics.json,scores.jsonl,commands.md,report.md}`
+- completed G5b bounded source-scoring preflight outputs:
+  `experiments/H001_geom_reliability/sources/attachment_deferred/source_scoring_preflight/{manifest.json,summary.json,source_rows.jsonl,evidence_rows.jsonl,diagnostics.jsonl,scored_rows.jsonl,commands.md,report.md}`
 - frozen extractor rule: emit evidence only; do not emit `verification_status`,
   `p_geom_valid`, recall credit, or reranking scores
+- dry-run result: 36 input rows -> 36 output rows, validation errors 0, source
+  rows 9 each for `gt_positive`, `counterfactual`, `vlsat_closed_set`, and
+  `open3dsg_ov`, label rows 12 each for `attached to`, `hanging on`, and
+  `connected to`
+- point/surface validation result: 36/36 ready rows, point available rows 36,
+  normal available rows 36, near-contact rows 27, surface normal classes
+  horizontal_up 14 / vertical 21 / slanted 1, forbidden verifier/metric fields
+  absent
+- G2 verifier-policy result: 9 subtype policies, conservative defaults
+  near-contact 0.05m, uncertain contact band 0.05-0.15m, clear-far distance
+  0.30m, min near-contact points 3, min contact patch score 0.20; no decision
+  rows, calibration, source scoring, or metrics are emitted
+- G3 calibration/counterfactual route result: 315 train/dev positive seeds and
+  446 counterfactual negative seeds, held-out scan overlap 0, no verifier
+  application, no fitted calibration, no source scoring, and no metrics; warning
+  that dev split has no `connected to` positive seed, so future connected-to
+  family-specific calibration requires pooled calibration, augmented dev
+  selection, or explicit limitation
+- G4 GT policy-smoke result: 36/36 smoke decisions and 761/761 train/dev seed
+  decisions pass schema validation; point/surface evidence is ready for
+  761/761 seed rows with scan errors 0. Positive nonviolated is 0.9048,
+  positive strict satisfied is 0.3841, counterfactual nonsatisfied is 0.8274,
+  counterfactual strict violated is 0.4574, calibration-ready counterfactual
+  negatives are 204/446, and overall uncertain rate is 0.4323.
+- G4b error/visual sanity result: 436 review cases, 50 visual queue rows, 761
+  calibration-filter rows, strict positive candidates 121, strict negative
+  candidates 204, false-satisfied counterfactuals 77, false-violated positives
+  30, uncertain positives 164, and uncertain counterfactuals 165. The visual
+  queue is label-diverse: `attached to` 38, `connected to` 6, `hanging on` 6.
+- G4c strict filter freeze result: 325 strict calibration rows, with 121 strict
+  positives, 204 strict negatives, and 436 excluded non-strict rows. Strict
+  label counts are `attached to` 200, `hanging on` 113, and `connected to` 12;
+  split counts are train 242 and dev 83. Warning: `connected to` has no dev
+  strict rows, so pooled calibration, augmented dev selection, or an explicit
+  limitation is required.
+- G5a pooled strict calibration-fit result: model
+  `h001-attachment-deferred-p-geom-valid-strict-v1`, train/dev rows 242/83,
+  dev positives/negatives 27/56, dev Brier/NLL/ECE
+  0.0010/0.0077/0.0071, and dev AUROC/AUPRC 1.0/1.0. This is calibration
+  readiness only: the strict subset is policy-selected and nearly separable, no
+  source predictions are scored, and no source metrics/controls/bootstrap/audit
+  have run.
+- G5b bounded source-scoring preflight result: 120 scan-diverse source rows
+  scored with the G5a fitted model, 60 VL-SAT and 60 Open3DSG rows, 40 rows per
+  label, 20 selected unique scans per source, evidence ready 120/120,
+  validation errors 0, and mean/median `p_geom_valid` 0.3610/0.0580. This is
+  not source metric evidence because it is bounded preflight only and does not
+  run full-source scoring, R@K, Violation@K, controls, bootstrap CI, or audit.
 - reason to prefer over `relative_horizontal`: smaller denominator gain but
   stronger conceptual fit to H001, because attachment/hanging/connection require
   physical adjacency, contact, near-surface support, gravity, and object
@@ -235,10 +308,11 @@ Attachment-deferred upgrade track:
 - core risk: harder than support/contact; requires wall/ceiling/furniture
   surface evidence, local point contact, surface normals, gravity/hanging
   evidence, conservative uncertain handling, and visual audit
-- upgrade order: G1b evidence-only extractor dry run -> verifier policy ->
-  train-dev calibration/counterfactuals -> GT verifier evaluation/visual sanity
-  -> VL-SAT/Open3DSG metrics and controls -> bootstrap CI/failure analysis ->
-  optional function-reasoning pilot
+- upgrade order: full-source scoring ->
+  VL-SAT/Open3DSG metrics and controls ->
+  bootstrap CI/failure analysis -> optional function-reasoning pilot
+- main AAAI claim promotion rule: do not add `attachment_deferred` to the main
+  claim without explicit final user confirmation, even if later gates pass
 
 ## Metrics
 
@@ -682,9 +756,13 @@ Next required drafting step:
    verifier policy, calibration, source metrics, controls, bootstrap CI, and
    failure/audit evidence at the current H001 standard.
 5. Treat `attachment_deferred` as the preferred future H001 upgrade if relation
-   scope expands. Docker G0 scope/schema audit and G1 extractor contract are
-   complete; next start with a schema-validated G1b evidence-only dry run rather
-   than held-out metrics.
+   scope expands. Docker G0 scope/schema audit, G1 extractor contract, G1b
+   evidence-only dry run, G1c point/surface validation, G2 verifier-policy
+   design, G3 train-dev calibration/counterfactual route, G4 GT policy smoke,
+   G4b error/visual sanity planning, G4c strict-only calibration-filter freeze,
+   G5a pooled strict calibration fit, G5b bounded source scoring preflight, and
+   G5c full-source protocol freeze are complete; next start with full-source
+   scoring rather than held-out source metrics.
 
 Recent Related Work decision:
 
@@ -727,10 +805,13 @@ Optional extension sequence:
   visual/frame-metadata check is optional only if the paper strategy later
   pivots to broader spatial-family coverage.
 - `attachment_deferred` is the preferred next relation-family expansion if H001
-  is upgraded: Docker scope/schema audit and G1 extractor contract are complete,
-  so the next step is G1b schema-validated evidence-only dry run; then add
-  verifier policy, calibration/counterfactuals, GT verifier evaluation, source
-  metrics/controls, bootstrap CI, and audit. A simple
+  is upgraded: Docker scope/schema audit, G1 extractor contract, G1b
+  evidence-only dry run, G1c point/surface validation, G2 verifier-policy
+  design, G3 calibration/counterfactual route, G4 GT policy smoke, G4b
+  error/visual sanity planning, G4c strict-only calibration-filter freeze, G5a
+  pooled strict calibration fit, G5b bounded source scoring preflight, and G5c
+  full-source protocol freeze are complete, so the next step is full-source
+  scoring; then add source metrics/controls, bootstrap CI, and audit. A simple
   function-reasoning case study should come only after relation reliability is
   established.
 - Qwen-VL remaining shard loop status: run id `20260527_023111` stopped at

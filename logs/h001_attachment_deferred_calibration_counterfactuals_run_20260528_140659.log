@@ -1,0 +1,13 @@
+ Container h001_geom_reliability-attachment_deferred_calibration_counterfactuals-run-1ea0b5cc0084 Creating 
+ Container h001_geom_reliability-attachment_deferred_calibration_counterfactuals-run-1ea0b5cc0084 Created 
+Traceback (most recent call last):
+  File "/opt/h001/scripts/prepare_attachment_calibration_counterfactuals.py", line 901, in <module>
+    main()
+  File "/opt/h001/scripts/prepare_attachment_calibration_counterfactuals.py", line 768, in main
+    ensure_dir(out)
+  File "/opt/h001/scripts/prepare_attachment_calibration_counterfactuals.py", line 90, in ensure_dir
+    path.mkdir(parents=True, exist_ok=True)
+  File "/usr/local/lib/python3.11/pathlib.py", line 1116, in mkdir
+    os.mkdir(self, mode)
+PermissionError: [Errno 13] Permission denied: '/workspace/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals'
+

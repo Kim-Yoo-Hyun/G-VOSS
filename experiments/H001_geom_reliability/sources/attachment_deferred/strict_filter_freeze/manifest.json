@@ -1,0 +1,46 @@
+{
+  "blockers": [
+    "calibrator_not_fit",
+    "source_metrics_not_run",
+    "controls_not_run",
+    "bootstrap_ci_not_run",
+    "completed_visual_audit_optional_if_strict_filter_used_but_required_for_soft_protocol",
+    "main_AAAI_claim_requires_user_confirmation_before_attachment_promotion"
+  ],
+  "claim_boundary": {
+    "artifact_type": "strict_calibration_filter_freeze",
+    "calibration_fitted": false,
+    "current_main_claim_unchanged": true,
+    "requires_user_confirmation_before_main_claim_promotion": true,
+    "source_metrics_computed": false,
+    "source_predictions_scored": false,
+    "strict_filter_frozen": true,
+    "visual_labels_completed": false
+  },
+  "counts": {
+    "excluded_rows": 436,
+    "input_eval_rows": 761,
+    "input_filter_rows": 761,
+    "strict_rows": 325,
+    "validation_errors": 0
+  },
+  "created_at": "2026-05-28T06:11:44+00:00",
+  "inputs": {
+    "g4b_calibration_filter": "experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity/calibration_filter.jsonl",
+    "g4b_manifest": "experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity/manifest.json",
+    "gt_eval_rows": "experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/gt_eval_rows.jsonl",
+    "gt_policy_manifest": "experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/manifest.json"
+  },
+  "next_gate": "G5_attachment_calibration_fit_then_source_metrics",
+  "outputs": {
+    "commands": "commands.md",
+    "excluded_rows": "excluded_rows.jsonl",
+    "freeze_policy": "freeze_policy.json",
+    "manifest": "manifest.json",
+    "report": "report.md",
+    "strict_calibration_rows": "strict_calibration_rows.jsonl",
+    "summary": "summary.json"
+  },
+  "schema_version": "h001_attachment_deferred_strict_filter_freeze_v1",
+  "status": "attachment_deferred_strict_filter_frozen_no_fit_no_source_metrics"
+}

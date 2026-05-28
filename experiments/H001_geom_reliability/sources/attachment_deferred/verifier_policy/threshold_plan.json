@@ -1,0 +1,30 @@
+{
+  "calibration_status": "not_fitted",
+  "common": {
+    "clear_far_distance_m": 0.3,
+    "max_support_explanation_score_without_contradiction": 0.3,
+    "min_contact_patch_score_for_satisfied": 0.2,
+    "min_floor_clearance_for_hanging_m": 0.1,
+    "min_near_contact_points_for_satisfied": 3,
+    "min_support_explanation_score_for_contradiction": 0.6,
+    "near_contact_threshold_m": 0.05,
+    "uncertain_contact_band_m": [
+      0.05,
+      0.15
+    ]
+  },
+  "may_be_calibrated_in_G3": [
+    "decision-to-probability mapping",
+    "uncertain band width",
+    "family-specific operating point"
+  ],
+  "non_tunable_before_G3": [
+    "near_contact_threshold_m",
+    "clear_far_distance_m",
+    "surface_type_allowlist_by_subtype",
+    "normal_class_allowlist_by_subtype"
+  ],
+  "schema_version": "h001_attachment_deferred_verifier_policy_v1",
+  "status": "attachment_deferred_verifier_policy_ready_no_decisions_no_metrics",
+  "threshold_origin": "predeclared_policy_defaults_from_G1c_evidence_contract_not_heldout_metric_tuned"
+}

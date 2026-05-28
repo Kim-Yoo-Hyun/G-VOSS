@@ -1,0 +1,54 @@
+ Image h001-geom-reliability:latest Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 630B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 335B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11.9-slim-bookworm
+#3 ...
+
+#4 [auth] library/python:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11.9-slim-bookworm
+#3 DONE 1.1s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 2B done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 61.12kB done
+#6 DONE 0.0s
+
+#7 [1/4] FROM docker.io/library/python:3.11.9-slim-bookworm@sha256:8fb099199b9f2d70342674bd9dbccd3ed03a258f26bbd1d556822c6dfc60c317
+#7 resolve docker.io/library/python:3.11.9-slim-bookworm@sha256:8fb099199b9f2d70342674bd9dbccd3ed03a258f26bbd1d556822c6dfc60c317 0.0s done
+#7 DONE 0.0s
+
+#8 [2/4] WORKDIR /workspace
+#8 CACHED
+
+#9 [3/4] RUN pip install --no-cache-dir numpy==1.26.4 pillow==10.4.0
+#9 CACHED
+
+#10 [4/4] COPY experiments/H001_geom_reliability/scripts/ /opt/h001/scripts/
+#10 DONE 0.1s
+
+#11 exporting to image
+#11 exporting layers 0.1s done
+#11 exporting manifest sha256:5988e7a05a71240d7b8ecbdec31e72d9141a08e88e18e42a3682760ceeb90324
+#11 exporting manifest sha256:5988e7a05a71240d7b8ecbdec31e72d9141a08e88e18e42a3682760ceeb90324 0.0s done
+#11 exporting config sha256:438d343c160ff96ed335ae0e4148d3e15619246a65e2a5374f21417ad079c67f 0.0s done
+#11 exporting attestation manifest sha256:521a0f9c03e71cb2b26595fd67fa5ec565f49c4b3747157bb46ad374bb5bec6b 0.1s done
+#11 exporting manifest list sha256:55cb5ba80226623888105668bf2807d61b5c5071affaec7d1e9a5ba6aa7c4a24
+#11 exporting manifest list sha256:55cb5ba80226623888105668bf2807d61b5c5071affaec7d1e9a5ba6aa7c4a24 0.0s done
+#11 naming to docker.io/library/h001-geom-reliability:latest done
+#11 unpacking to docker.io/library/h001-geom-reliability:latest 0.1s done
+#11 DONE 0.4s
+
+#12 resolving provenance for metadata file
+#12 DONE 0.0s
+ Image h001-geom-reliability:latest Built 

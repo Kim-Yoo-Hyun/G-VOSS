@@ -1,0 +1,142 @@
+{
+  "blockers": [
+    "verifier_policy_not_applied_to_train_dev_rows",
+    "calibrator_not_fit",
+    "GT_verifier_evaluation_not_run",
+    "source_metrics_not_run",
+    "bootstrap_ci_not_run",
+    "visual_audit_not_run"
+  ],
+  "claim_boundary": {
+    "artifact_type": "g3_route_freeze",
+    "calibration_fitted": false,
+    "current_main_claim_unchanged": true,
+    "decision_rows_emitted": false,
+    "metric_evidence": false,
+    "source_predictions_scored": false
+  },
+  "counterfactual_summary": {
+    "by_label": {
+      "attached to": 354,
+      "connected to": 12,
+      "hanging on": 80
+    },
+    "by_role": {
+      "dev": 105,
+      "train": 341
+    },
+    "by_role_label": {
+      "dev:attached to": 75,
+      "dev:hanging on": 30,
+      "train:attached to": 279,
+      "train:connected to": 12,
+      "train:hanging on": 50
+    },
+    "by_role_strategy": {
+      "dev:far_object_pair": 57,
+      "dev:floor_support_replacement_for_hanging": 15,
+      "dev:gravity_inconsistent_hanging": 15,
+      "dev:wrong_surface_replacement": 18,
+      "train:far_object_pair": 217,
+      "train:floor_support_replacement_for_hanging": 25,
+      "train:gravity_inconsistent_hanging": 25,
+      "train:wrong_pair_attachment": 6,
+      "train:wrong_surface_replacement": 68
+    },
+    "by_strategy": {
+      "far_object_pair": 274,
+      "floor_support_replacement_for_hanging": 40,
+      "gravity_inconsistent_hanging": 40,
+      "wrong_pair_attachment": 6,
+      "wrong_surface_replacement": 86
+    },
+    "rows": 446,
+    "scans_by_role": {
+      "dev": 8,
+      "train": 24
+    },
+    "subgraphs_by_role": {
+      "dev": 31,
+      "train": 114
+    }
+  },
+  "created_at": "2026-05-28T05:14:05+00:00",
+  "generation_summary": {
+    "negative_counts": {
+      "dev:attached to:far_object_pair": 57,
+      "dev:attached to:wrong_surface_replacement": 18,
+      "dev:hanging on:floor_support_replacement_for_hanging": 15,
+      "dev:hanging on:gravity_inconsistent_hanging": 15,
+      "train:attached to:far_object_pair": 211,
+      "train:attached to:wrong_surface_replacement": 68,
+      "train:connected to:far_object_pair": 6,
+      "train:connected to:wrong_pair_attachment": 6,
+      "train:hanging on:floor_support_replacement_for_hanging": 25,
+      "train:hanging on:gravity_inconsistent_hanging": 25
+    },
+    "positive_counts": {
+      "dev:attached to": 57,
+      "dev:hanging on": 15,
+      "train:attached to": 212,
+      "train:connected to": 6,
+      "train:hanging on": 25
+    },
+    "skipped_negative_generation": {
+      "duplicate_negative_id": 2,
+      "no_negative_candidate:train:attached to": 1
+    }
+  },
+  "inputs": {
+    "dev_scans": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_calib_pilot/dev_scans.txt",
+    "heldout_gt_jsonl": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl",
+    "point_surface_rows": "experiments/H001_geom_reliability/sources/attachment_deferred/point_surface_validation/rows.jsonl",
+    "subset_json": "local_dataset/3DSSG_subset/relationships_train.json",
+    "train_scans": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_calib_pilot/train_scans.txt",
+    "verifier_policy_manifest": "experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy/manifest.json"
+  },
+  "next_gate": "G4_attachment_gt_verifier_evaluation_and_policy_smoke",
+  "outputs": {
+    "commands": "commands.md",
+    "counterfactual_plan": "counterfactual_plan.json",
+    "counterfactual_seeds": "counterfactual_seeds.jsonl",
+    "gt_eval_inputs": "gt_eval_inputs.json",
+    "policy_smoke_plan": "policy_smoke_plan.json",
+    "positive_seeds": "positive_seeds.jsonl",
+    "report": "report.md",
+    "split_plan": "split_plan.json",
+    "threshold_freeze_protocol": "threshold_freeze_protocol.json"
+  },
+  "positive_summary": {
+    "by_label": {
+      "attached to": 269,
+      "connected to": 6,
+      "hanging on": 40
+    },
+    "by_role": {
+      "dev": 72,
+      "train": 243
+    },
+    "by_role_label": {
+      "dev:attached to": 57,
+      "dev:hanging on": 15,
+      "train:attached to": 212,
+      "train:connected to": 6,
+      "train:hanging on": 25
+    },
+    "rows": 315,
+    "scans_by_role": {
+      "dev": 8,
+      "train": 24
+    },
+    "subgraphs_by_role": {
+      "dev": 31,
+      "train": 114
+    }
+  },
+  "schema_version": "h001_attachment_deferred_calibration_counterfactuals_v1",
+  "status": "attachment_deferred_calibration_counterfactual_plan_ready_no_fit_no_metrics",
+  "warnings": [
+    "dev_split_has_no_connected_to_positive_seed_use_pooled_or_augmented_dev_before_family_specific_connected_claim",
+    "skipped_negative_generation:{'duplicate_negative_id': 2, 'no_negative_candidate:train:attached to': 1}"
+  ]
+}

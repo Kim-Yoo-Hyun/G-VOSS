@@ -85,20 +85,46 @@ metrics.
 
 `attachment_deferred` is the preferred future relation-family upgrade if H001
 is extended beyond the current AAAI scope. It is not current metric evidence.
-Docker G0 scope/schema audit and G1 extractor contract are complete with status
-`attachment_deferred_extractor_contract_ready_no_extraction`. The family adds
-967 GT rows (`attached to`, `hanging on`, `connected to`) and would increase
-the candidate denominator to 3,512 if validated. Candidate rows exist for
-VL-SAT (77,748) and Open3DSG (57,300), but both are currently
+Docker G0 scope/schema audit, G1 extractor contract, G1b evidence-only dry run,
+G1c point/surface validation, G2 conservative verifier-policy design, G3
+train-dev calibration/counterfactual route, G4 GT policy smoke, G4b
+error/visual sanity planning, G4c strict-only calibration-filter freeze, G5a
+pooled strict calibration fit, G5b bounded source scoring preflight, and G5c
+full-source protocol freeze are complete with status
+`attachment_deferred_full_source_protocol_frozen_no_metrics`.
+The family adds 967 GT rows (`attached to`, `hanging on`, `connected to`) and
+would increase the candidate denominator to 3,512 if validated. Candidate rows
+exist for VL-SAT (77,748) and Open3DSG (57,300), but both are currently
 verification-unsupported. Its conceptual fit is strong because attachment and
-hanging have physical preconditions, but it requires a G1b schema-validated
-evidence-only extractor dry run before any source metrics: surface type, local
-point contact, surface normals, wall/ceiling/furniture adjacency,
-gravity/hanging cues, contradictory support handling, and conservative
-uncertain handling. The extractor contract forbids `verification_status`,
-`p_geom_valid`, recall credit, and reranking scores. A function-reasoning
-example may be used only as a secondary pilot after the relation-level verifier
-and metrics pass.
+hanging have physical preconditions, G2 freezes 9 subtype policies with
+conservative near-contact, uncertain-band, clear-far, contact-point, and
+contact-patch defaults, G3 prepares 315 positive seeds plus 446 counterfactual
+seeds with held-out overlap 0, and G4 applies the frozen policy to 36 smoke rows
+plus 761 train/dev seed rows. G4 results are positive nonviolated 0.9048,
+counterfactual nonsatisfied 0.8274, positive strict satisfied 0.3841,
+counterfactual strict violated 0.4574, and uncertain rate 0.4323. G4b freezes
+436 review cases, a 50-row visual sanity queue, 121 strict positive candidates,
+204 strict negative candidates, 77 false-satisfied counterfactuals, 30
+false-violated positives, and 329 uncertain rows. G4c freezes 325 strict
+calibration rows and excludes 436 non-strict rows; `connected to` has no dev
+strict rows. G5a fits pooled model
+`h001-attachment-deferred-p-geom-valid-strict-v1` with dev Brier/NLL/ECE
+0.0010/0.0077/0.0071 and dev AUROC/AUPRC 1.0/1.0 on 83 strict rows. These
+metrics are calibration-readiness only because the strict subset is
+policy-selected and nearly separable. G5b scores 120 scan-diverse bounded
+source rows, with evidence ready 120/120 and validation errors 0. G5c freezes
+69 deterministic full-source shards for 135,048 rows, source-specific covered
+denominators, metric conditions, and controls: VL-SAT covers 967/967 attachment
+GT rows while Open3DSG covers 768/967 and must report 199 missing exact-label GT
+rows. No full-source scoring or source metrics are computed. Promotion requires
+full-source scoring, two-source metrics, controls, bootstrap CI, and failure
+analysis; main-claim promotion also requires explicit final user confirmation.
+G1c
+produced 36/36 schema-valid point/surface-ready evidence rows with 0 validation
+errors and no forbidden verifier/metric fields; 27/36 rows have near-contact
+points under the 0.05m diagnostic threshold. A function-reasoning example may
+be used only as a secondary pilot after the relation-level verifier and metrics
+pass.
 
 ## Qwen-VL Boundary
 

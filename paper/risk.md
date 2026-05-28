@@ -93,21 +93,46 @@ Docker PDF rebuilds, and the appendix/provenance pass:
   match/contradiction ratio, and ambiguity buckets. The predeclared purity gate
   is a conservative non-promotion rule, not an official benchmark threshold and
   not a success claim.
-- P10 attachment-deferred upgrade: Docker G0 scope/schema audit and G1
-  extractor contract completed, no metric execution. This is the preferred
+- P10 attachment-deferred upgrade: Docker G0 scope/schema audit, G1 extractor
+  contract, G1b evidence-only dry run, G1c point/surface validation, G2
+  conservative verifier-policy design, G3 train-dev calibration/counterfactual
+  route, G4 GT policy smoke, G4b error/visual sanity planning, G4c
+  strict-only calibration-filter freeze, G5a pooled strict calibration fit, G5b
+  bounded source scoring preflight, and G5c full-source protocol freeze
+  completed, no source metric execution.
+  This is the
+  preferred
   future relation-family upgrade because it adds 967 GT rows and aligns with
   physical consistency better than relative-horizontal frame semantics. It is
   not part of the current AAAI claim. The audit freezes candidate denominator
   3,512 if validated, source rows VL-SAT 77,748 / Open3DSG 57,300, existing
-  verification status `unsupported`, and the extractor contract freezes
-  evidence-only output fields. Required defense before promotion: a G1b
-  schema-validated extractor dry run for surface type, local contact, surface
-  normals, gravity/hanging, contradictory support cues, and
-  object-affordance-as-context; train-dev calibration/counterfactuals; GT
-  verifier evaluation; VL-SAT/Open3DSG metrics; controls; bootstrap CI; and
-  visual audit. Reviewer risk is high if the rule uses object class affordance
-  as proof rather than as optional context; the current contract explicitly
-  forbids that.
+  verification status `unsupported`, the extractor contract freezes
+  evidence-only output fields, and G1c validates 36/36 point/surface-ready
+  rows with no forbidden verifier/metric fields. G2 freezes 9 subtype policies
+  and conservative defaults, G3 prepares 315 positive seeds plus 446
+  counterfactual negative seeds with held-out overlap 0, and G4 applies the
+  frozen policy to 36 smoke rows plus 761 train/dev seed rows. G4 results are
+  positive nonviolated 0.9048, counterfactual nonsatisfied 0.8274, positive
+  strict satisfied 0.3841, counterfactual strict violated 0.4574, and uncertain
+  rate 0.4323. G4b freezes 436 review cases, a 50-row visual sanity queue, 121
+  strict positive candidates, 204 strict negative candidates, 77
+  false-satisfied counterfactuals, 30 false-violated positives, and 329
+  uncertain rows. G5a fits pooled model
+  `h001-attachment-deferred-p-geom-valid-strict-v1` with dev Brier/NLL/ECE
+  0.0010/0.0077/0.0071 and dev AUROC/AUPRC 1.0/1.0 on 83 strict rows, but the
+  strict subset is nearly separable and this is not source metric evidence. G5b
+  scores 120 scan-diverse bounded source rows with evidence ready 120/120 and 0
+  validation errors. G5c freezes 69 deterministic full-source shards for
+  135,048 rows and source-specific covered denominators: VL-SAT 967/967 and
+  Open3DSG 768/967. It remains protocol/preflight only. Required defense before
+  promotion: full-source scoring, VL-SAT/Open3DSG metrics, controls, bootstrap
+  CI, and visual audit. Reviewer
+  risk is high if
+  the rule uses object class affordance as proof rather than as optional
+  context; the current contract explicitly forbids that. A secondary risk is
+  that the dev split has no `connected to` positive seed, so any connected-to
+  family-specific calibration claim needs pooled calibration, augmented dev
+  selection, or explicit limitation.
 - Verification: Docker bootstrap log `logs/h001_bootstrap_ci_20260526_182034.log`
   exited 0. Docker PDF rebuild `logs/h001_aaai_pdf_build_20260526_182458.log`
   exited 0; `paper/aaai/main.pdf` remains 9 pages with technical content before
@@ -118,7 +143,7 @@ Docker PDF rebuilds, and the appendix/provenance pass:
   `paper/aaai/main.pdf` remains 9 pages, US Letter, with no missing citations,
   undefined references, overfull hboxes, LaTeX errors, or AAAI package errors.
 
-Remaining after P0-P9:
+Remaining after P0-P10:
 
 - No P2 provenance blocker remains. Future supplement work should only expand
   details if the target venue requires a separate supplementary PDF.
@@ -130,9 +155,17 @@ Remaining after P0-P9:
   `front`/`behind` frame ambiguity and then passes verifier design, calibration,
   controls, Open3DSG/VL-SAT metrics, bootstrap CI, and failure/audit gates.
 - P10 is a future-upgrade track, not a current-paper blocker. G0 scope/schema
-  audit and G1 extractor contract are complete. If pursued, G1b evidence-only
-  extractor dry run should happen before retrying relative-horizontal metrics
-  because it is more aligned with H001's physical-consistency mechanism.
+  audit, G1 extractor contract, G1b evidence-only dry run, G1c
+  point/surface validation, G2 verifier-policy design, G3
+  calibration/counterfactual route, G4 GT policy smoke, G4b error/visual
+  sanity planning, G4c strict-only calibration-filter freeze, G5a pooled strict
+  calibration fit, G5b bounded source scoring preflight, and G5c full-source
+  protocol freeze are complete. If pursued, start with full-source scoring
+  before any attachment source metrics. The current G5a-G5c result has enough
+  strict rows for pooled calibration, a working bounded source-scoring contract,
+  and a frozen denominator/control protocol, but
+  `connected to` has no dev strict rows, so a family-specific calibration claim
+  needs pooled calibration, augmented dev selection, or an explicit caveat.
   Function reasoning should remain a secondary case study until the attachment
   relation reliability result itself is established.
 

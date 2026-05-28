@@ -1,0 +1,30 @@
+{
+  "claim_boundary": {
+    "calibration_fitted": false,
+    "main_AAAI_claim_unchanged": true,
+    "requires_user_confirmation_before_main_claim_promotion": true,
+    "source_metrics_computed": false,
+    "visual_labels_required_for_soft_protocol": true
+  },
+  "exclude": {
+    "exclude_or_review_counterfactual_seed_false_satisfaction": "counterfactual seed is not reliable as a negative without visual review",
+    "review_false_violation_before_any_positive_calibration_use": "positive GT row needs visual review before use or threshold relaxation",
+    "skip_or_review_uncertain_negative": "uncertain counterfactual is not strict negative calibration evidence",
+    "skip_unknown": "unknown disposition is never used in strict calibration",
+    "soft_positive_or_review_before_calibration": "uncertain positive is not strict positive calibration evidence"
+  },
+  "include": {
+    "use_as_strict_negative": {
+      "calibration_label": 0,
+      "target_geom_valid": 0,
+      "verification_status": "violated"
+    },
+    "use_as_strict_positive": {
+      "calibration_label": 1,
+      "target_geom_valid": 1,
+      "verification_status": "satisfied"
+    }
+  },
+  "policy_name": "attachment_deferred_strict_only_calibration_filter",
+  "schema_version": "h001_attachment_deferred_strict_filter_policy_v1"
+}

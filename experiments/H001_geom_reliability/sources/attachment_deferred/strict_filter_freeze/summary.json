@@ -1,0 +1,93 @@
+{
+  "calibration_readiness": {
+    "ready_for_family_specific_connected_to_dev_calibration": false,
+    "ready_for_pooled_attachment_calibration_fit": true,
+    "recommended_next": [
+      "fit pooled or family-aware attachment calibrator from strict_calibration_rows.jsonl",
+      "keep excluded rows out of strict calibration unless visual labels define a soft-label protocol",
+      "record connected-to dev absence as a caveat if family-specific calibration is attempted"
+    ],
+    "strict_filter_frozen": true,
+    "warnings": [
+      "connected to:dev:no_strict_rows",
+      "connected_to_dev_absent_use_pooled_or_train_only_caveat"
+    ]
+  },
+  "excluded_by_disposition": {
+    "exclude_or_review_counterfactual_seed_false_satisfaction": 77,
+    "review_false_violation_before_any_positive_calibration_use": 30,
+    "skip_or_review_uncertain_negative": 165,
+    "soft_positive_or_review_before_calibration": 164
+  },
+  "excluded_by_label": {
+    "attached to": 423,
+    "connected to": 6,
+    "hanging on": 7
+  },
+  "excluded_rows": 436,
+  "promotion_readiness": {
+    "main_AAAI_claim_unchanged": true,
+    "ready_for_source_metrics": false,
+    "reason": "G4c freezes strict calibration rows only; fitted calibration, source metrics, controls, bootstrap CI, and audit remain missing.",
+    "requires_final_user_confirmation_before_claim_promotion": true
+  },
+  "strict_by_label": {
+    "attached to": 200,
+    "connected to": 12,
+    "hanging on": 113
+  },
+  "strict_by_label_split": {
+    "attached to": {
+      "dev": 41,
+      "train": 159
+    },
+    "connected to": {
+      "train": 12
+    },
+    "hanging on": {
+      "dev": 42,
+      "train": 71
+    }
+  },
+  "strict_by_label_target": {
+    "attached to": {
+      "0": 118,
+      "1": 82
+    },
+    "connected to": {
+      "0": 6,
+      "1": 6
+    },
+    "hanging on": {
+      "0": 80,
+      "1": 33
+    }
+  },
+  "strict_by_split": {
+    "dev": 83,
+    "train": 242
+  },
+  "strict_by_split_label": {
+    "dev": {
+      "attached to": 41,
+      "hanging on": 42
+    },
+    "train": {
+      "attached to": 159,
+      "connected to": 12,
+      "hanging on": 71
+    }
+  },
+  "strict_by_subtype": {
+    "ambiguous_draped_or_occluded_hanging": 80,
+    "ambiguous_functional_attachment": 118,
+    "ambiguous_functional_connection": 1,
+    "attached_to_furniture_or_fixture": 1,
+    "attached_to_vertical_or_overhead_surface": 81,
+    "connected_adjacent_or_contiguous": 11,
+    "hanging_from_vertical_surface": 33
+  },
+  "strict_negative_rows": 204,
+  "strict_positive_rows": 121,
+  "strict_rows": 325
+}

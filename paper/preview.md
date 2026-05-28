@@ -185,8 +185,13 @@ Fact:
 
 - `attachment_deferred` is a future H001 upgrade path, not part of the current
   main claim.
-- Docker G0 scope/schema audit and G1 extractor contract are complete with
-  status `attachment_deferred_extractor_contract_ready_no_extraction`.
+- Docker G0 scope/schema audit, G1 extractor contract, G1b evidence-only dry
+  run, G1c point/surface validation, G2 conservative verifier-policy design,
+  G3 train-dev calibration/counterfactual route, G4 GT policy smoke, G4b
+  error/visual sanity planning, G4c strict-only calibration-filter freeze, G5a
+  pooled strict calibration fit, G5b bounded source scoring preflight, and G5c
+  full-source protocol freeze are complete with status
+  `attachment_deferred_full_source_protocol_frozen_no_metrics`.
 - Current denominator policy records 967 GT rows: `attached to` 808,
   `hanging on` 126, and `connected to` 33.
 - If validated, the candidate denominator grows from 2,545 to 3,512.
@@ -195,6 +200,33 @@ Fact:
   the track is not current metric evidence.
 - The extractor contract explicitly forbids `verification_status`,
   `p_geom_valid`, recall credit, and reranking scores in extractor output.
+- G1c produced 36/36 schema-valid point/surface-ready evidence rows and 0
+  validation errors, with 9 rows each from GT positives, counterfactuals,
+  VL-SAT, and Open3DSG; 27/36 rows have near-contact points under the 0.05m
+  diagnostic threshold.
+- G2 freezes a 9-subtype verifier-policy contract with conservative defaults:
+  near-contact 0.05m, uncertain contact band 0.05-0.15m, clear-far distance
+  0.30m, min near-contact points 3, and min contact patch score 0.20. It emits
+  no decision rows, calibration, source scoring, or metrics.
+- G3 prepares 315 train/dev positive seeds and 446 counterfactual negative
+  seeds with held-out scan overlap 0. G4 applies the frozen policy to 36 smoke
+  rows and 761 train/dev seed rows with schema validation passed, positive
+  nonviolated 0.9048, counterfactual nonsatisfied 0.8274, positive strict
+  satisfied 0.3841, counterfactual strict violated 0.4574, and uncertain rate
+  0.4323. G4b freezes 436 review cases, a 50-row visual sanity queue, 121
+  strict positive candidates, 204 strict negative candidates, 77
+  false-satisfied counterfactuals, 30 false-violated positives, and 329
+  uncertain rows. G4c freezes 325 strict calibration rows, with 121 strict
+  positives, 204 strict negatives, and 436 excluded non-strict rows. G5a fits
+  pooled model `h001-attachment-deferred-p-geom-valid-strict-v1` with dev
+  Brier/NLL/ECE 0.0010/0.0077/0.0071 and dev AUROC/AUPRC 1.0/1.0 on 83 strict
+  rows. G5b scores 120 scan-diverse bounded source rows with evidence ready
+  120/120 and validation errors 0. G5c freezes 69 deterministic full-source
+  shards for 135,048 rows and source-specific covered denominators: VL-SAT
+  967/967 and Open3DSG 768/967, but it still emits no full-source scoring or
+  source metrics. The strict subset is nearly separable and has no
+  `connected to` dev rows, so future connected-to family-specific calibration
+  requires pooled calibration, augmented dev selection, or explicit limitation.
 
 Interpretation:
 
@@ -202,10 +234,10 @@ Interpretation:
   because it stays inside H001's physical-consistency mechanism: attachment and
   hanging should be constrained by contact, surface type, gravity, and object
   affordance.
-- It is also harder than support/contact and cannot be promoted without a G1b
-  evidence-only extractor dry run, subtype verifier, calibration/
-  counterfactuals, visual sanity check, two-source metrics, controls, bootstrap
-  CI, and failure analysis.
+- It is also harder than support/contact and cannot be promoted without
+  full-source scoring, two-source metrics, controls, bootstrap CI, and failure
+  analysis. Main-claim
+  promotion requires explicit final user confirmation.
 - A small function-reasoning case study is reasonable only after the
   attachment-reliability result exists; it should show simple physical
   precondition reasoning, not claim broad affordance or robotics performance.

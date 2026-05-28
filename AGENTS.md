@@ -10,6 +10,7 @@
 - 연구 목표와 방향성은 AI, ML, CV, Robotics top-tier journal/conference를 타겟으로 판단한다.
 - `docs/hypothesis.md`는 hypothesis workflow와 작성 규칙을 관리한다.
 - `docs/literature.md`는 literature workflow와 작성 규칙을 관리한다.
+- `docs/experiments.md`는 Docker experiment workflow와 promotion 규칙을 관리한다.
 - `docs/paper.md`는 top-tier paper framing, novelty standard, reviewer-defense rule을 관리한다.
 - 실제 문헌 조사 결과는 루트의 `literature/` 폴더에 저장한다.
 - 실제 hypothesis 산출물은 루트의 `hypothesis/` 폴더에 저장한다.
@@ -34,11 +35,11 @@
 
 1. Global instruction: `AGENTS.md`
 2. Orientation: `README.md`, `TODO.md`, `docs/index.md`
-3. Global rules: `docs/paper.md`, `docs/reproducibility.md`
+3. Global rules: `docs/paper.md`, `docs/experiments.md`, `docs/reproducibility.md`
 4. Research state: `summary.md`, `hypothesis/README.md`, relevant H-folder canonical files
 5. Literature tasks: `docs/literature.md`, `literature/README.md`, `literature/PAPER.md`
 6. Hypothesis tasks: `docs/hypothesis.md`, `hypothesis/README.md`, relevant H-folder canonical files
-7. Experiment tasks: relevant `experiments/**/README.md`, `commands.md`, `compose*.yaml`, and reports
+7. Experiment tasks: `docs/experiments.md`, relevant `experiments/**/README.md`, `commands.md`, `compose*.yaml`, and reports
 8. Paper-writing tasks: `paper/README.md`, `paper/preview.md`, `paper/risk.md`, `paper/appendix.md`, `paper/outline.md`, `paper/draft.md`, `paper/figures.md`, and venue folder README
 
 H001 resume, upload, deletion, or other-computer recovery work must start from `docs/reproducibility.md`. That file owns the exact artifact lists, transfer paths, verification commands, and recovery order.
@@ -52,6 +53,7 @@ H001 resume, upload, deletion, or other-computer recovery work must start from `
 - `docs/index.md`: state dashboard. Owns current status, active questions, and pointers to working files.
 - `docs/literature.md`: literature workflow rulebook. Owns how to create paper cards, trend synthesis, and contribution scans.
 - `docs/hypothesis.md`: hypothesis workflow rulebook. Owns candidate/hypothesis stages, gate criteria, and hypothesis artifact conventions.
+- `docs/experiments.md`: Docker experiment workflow rulebook. Owns experiment promotion criteria, root-creation checklist, source adapter expectations, metric-freeze gates, and paper-result boundary rules.
 - `docs/paper.md`: paper-framing rulebook. Owns top-tier novelty standard, claim boundary, reviewer-risk checklist, and table/ablation/failure-analysis requirements.
 - `docs/reproducibility.md`: recovery and reproducibility runbook. Owns dataset/checkpoint/model locations, artifact bundles, Docker commands, verification commands, transfer guidance, and cleanup implications.
 - `literature/`: paper evidence base. Owns source-grounded paper cards, field maps, cross-paper synthesis, reading queue, and contribution candidates.
@@ -69,6 +71,7 @@ H001 resume, upload, deletion, or other-computer recovery work must start from `
 - If a change affects research framing, contribution, novelty, or reviewer defense, update `docs/paper.md`, `summary.md`, and the relevant `paper/` planning file.
 - If a change affects commands, datasets, checkpoints, model caches, artifact transfer, or cleanup safety, update `docs/reproducibility.md` and the relevant experiment README.
 - If a change affects a folder-local workflow, update that folder's `README.md`; do not expand `AGENTS.md` with folder-local details.
+- When a new root-level research/workflow folder is created or activated, create or update the matching `docs/<folder>.md` workflow rulebook before substantive work in that folder. Also add it to `docs/index.md` and the relevant README role map. This rule applies to durable workflow roots such as `experiments/`, `paper/`, `literature/`, or `hypothesis/`, not transient/ignored roots such as `logs/`, `local_dataset/`, or `release/`.
 - If a detailed list appears in more than one place, keep the authoritative copy in the owning document and replace other copies with a pointer.
 
 ## Working Language
@@ -96,6 +99,7 @@ H001/CAND를 논문으로 정리할 때 motivation만으로 novelty를 주장하
 - Open3DSG 관련 필수 실험은 현재 scoped H001 claim 기준으로 완료된 것으로 본다. 추가 Open3DSG 실험은 claim을 넓히거나 full reproduction 자체를 목표로 바꿀 때만 진행한다.
 - Qwen-VL은 VL-SAT/Open3DSG를 대체하는 main baseline이 아니라 third semantic source / modern VLM extension이다. Qwen 결과는 sharded inference, parser validation, adapter export, geometry join, metrics, controls, bootstrap CI if reported, and audit가 Docker로 완료되기 전까지 paper metric evidence가 아니다.
 - Cross-source results, failure rows, qualitative inspection, and Qwen extension은 세 번째/네 번째 contribution으로 부풀리지 말고, calibrated geometry-consistency framework를 검증하는 empirical evidence로 둔다.
+- `relative_horizontal`, `attachment_deferred`, Qwen-VL, or any other expansion must not be added to the main AAAI claim without explicit final confirmation from the user after the required evidence gates are complete.
 
 ## Long-running and Background Tasks
 
@@ -157,6 +161,7 @@ tmux new-session -d -s <job_name> "cd <workdir> && <resumable command> > logs/<j
 - `summary.md`: 문제 정의, 가설, contribution, metric, baseline, experiment setting, claim boundary가 바뀔 때 갱신한다.
 - `docs/literature.md` / `literature/`: 문헌 조사 절차와 결과를 관리한다. 자세한 paper card와 trend synthesis는 `literature/`에 둔다.
 - `docs/hypothesis.md` / `hypothesis/`: hypothesis gate, method sketch, smoke-test artifact convention, audit/evidence lock을 관리한다.
+- `docs/experiments.md` / `experiments/`: Docker experiment promotion, source adapter, metric-freeze, and paper-result boundary를 관리한다.
 - `docs/paper.md` / `paper/`: paper-level novelty, reviewer defense, outline, draft, figure/table plan, venue-specific source를 관리한다.
 - `docs/reproducibility.md` / `experiments/**/README.md`: dataset, checkpoint, model cache, Docker command, artifact bundle, verification, cleanup safety를 관리한다.
 - `logs/`: long-running job log와 exit/status file만 둔다. 중요한 결과는 owning report/README/TODO에 요약한다.

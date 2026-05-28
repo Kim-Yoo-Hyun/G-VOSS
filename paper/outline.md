@@ -593,9 +593,14 @@ Main job:
   upgrade, modern VLM sources, functional/robotics relations, and
   online/embodied settings.
 - Do not jump directly from H001 to broad function reasoning. If the paper
-  expands, use the completed G0 scope/schema audit and G1 extractor contract
-  for `attached to` / `hanging on` / `connected to`, then implement a G1b
-  evidence-only dry run and only then add a small function reasoning case
+  expands, use the completed G0 scope/schema audit, G1 extractor contract, G1b
+  evidence-only dry run, G1c point/surface validation, G2 conservative verifier
+  policy, G3 calibration/counterfactual route, G4 GT policy smoke, G4b
+  error/visual sanity planning, G4c strict-only calibration-filter freeze, and
+  G5a pooled strict calibration fit, G5b bounded source scoring preflight, and
+  G5c full-source protocol freeze for
+  `attached to` / `hanging on` / `connected to`; next freeze the full-source
+  scoring/metric protocol before adding any small function reasoning case
   study.
 
 ## Figure Plan
@@ -1151,8 +1156,13 @@ reviewer 방어:
 - `VL-SAT`와 Open3DSG evidence를 요약한다.
 - future work로는 broader predicates를 일반적으로 말하기보다
   `attachment_deferred`를 다음 physical-relation upgrade로 먼저 제시한다.
-  G0 scope/schema audit와 G1 extractor contract는 완료되었고, 다음은 G1b
-  evidence-only dry run이다.
+  G0 scope/schema audit, G1 extractor contract, G1b evidence-only dry run,
+  G1c point/surface validation, G2 conservative verifier policy design, G3
+  calibration/counterfactual route, G4 GT policy smoke, G4b error/visual
+  sanity planning, G4c strict-only calibration filter freeze, G5a pooled strict
+  calibration fit, G5b bounded source scoring preflight, G5c full-source
+  protocol freeze는 완료되었고, 다음은 optional G5d full-source scoring plus
+  metrics/controls다.
   function reasoning은 attachment reliability가 검증된 뒤의 secondary pilot로 둔다.
 
 ### Figure Plan

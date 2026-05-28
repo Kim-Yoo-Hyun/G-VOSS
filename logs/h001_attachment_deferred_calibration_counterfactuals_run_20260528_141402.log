@@ -1,0 +1,3 @@
+ Container h001_geom_reliability-attachment_deferred_calibration_counterfactuals-run-b5b2112bb3f3 Creating 
+ Container h001_geom_reliability-attachment_deferred_calibration_counterfactuals-run-b5b2112bb3f3 Created 
+{"counterfactual_rows": 446, "out": "experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals", "positive_rows": 315, "status": "attachment_deferred_calibration_counterfactual_plan_ready_no_fit_no_metrics", "warnings": 2}

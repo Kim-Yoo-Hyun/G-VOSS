@@ -1,0 +1,79 @@
+{
+  "family": "attachment_deferred",
+  "global_exact_label_gt_denominator": 967,
+  "global_gt_label_counts": {
+    "attached to": 808,
+    "connected to": 33,
+    "hanging on": 126
+  },
+  "policy": {
+    "also_report_global_candidate_denominator": true,
+    "coverage_must_be_frozen_before_metric_execution": true,
+    "do_not_compare_sources_without_coverage_caveat": true,
+    "exact_predicate_label_matching_required": true,
+    "global_candidate_denominator": 967,
+    "primary_recall_denominator": "source_specific_covered_exact_label_gt_denominator"
+  },
+  "sources": {
+    "open3dsg_ov": {
+      "coverage_ratio_vs_global": 0.7942088934850051,
+      "covered_exact_label_gt_denominator": 768,
+      "covered_label_counts": {
+        "attached to": 649,
+        "connected to": 28,
+        "hanging on": 91
+      },
+      "missing_exact_label_gt_rows": 199,
+      "missing_label_counts": {
+        "attached to": 159,
+        "connected to": 5,
+        "hanging on": 35
+      },
+      "source_attachment_stats": {
+        "attachment_rows_used": 57300,
+        "directed_pairs": 19100,
+        "family_counts": {
+          "attachment_deferred": 57300
+        },
+        "label_counts": {
+          "attached to": 19100,
+          "connected to": 19100,
+          "hanging on": 19100
+        },
+        "path": "/workspace/experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl",
+        "rows_read": 496600,
+        "scans": 126,
+        "subgraphs": 377,
+        "unique_exact_keys": 57300
+      }
+    },
+    "vlsat_closed_set": {
+      "coverage_ratio_vs_global": 1.0,
+      "covered_exact_label_gt_denominator": 967,
+      "covered_label_counts": {
+        "attached to": 808,
+        "connected to": 33,
+        "hanging on": 126
+      },
+      "missing_exact_label_gt_rows": 0,
+      "missing_label_counts": {},
+      "source_attachment_stats": {
+        "attachment_rows_used": 77748,
+        "directed_pairs": 25916,
+        "family_counts": {
+          "attachment_deferred": 77748
+        },
+        "label_counts": {
+          "attached to": 25916,
+          "connected to": 25916,
+          "hanging on": 25916
+        },
+        "path": "/workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened_geometry/verification.jsonl",
+        "rows_read": 673816,
+        "scans": 127,
+        "subgraphs": 388,
+        "unique_exact_keys": 77748
+      }
+    }
+  }
+}

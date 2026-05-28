@@ -1,0 +1,58 @@
+{
+  "contract_forbidden_output_fields": [
+    "verification_status",
+    "p_geom_valid",
+    "satisfied",
+    "violated",
+    "uncertain_as_decision",
+    "recall_credit",
+    "reranked_score"
+  ],
+  "counts": {
+    "extractor_status_counts": {
+      "partial": 36
+    },
+    "input_rows": 36,
+    "label_counts": {
+      "attached to": 12,
+      "connected to": 12,
+      "hanging on": 12
+    },
+    "output_rows": 36,
+    "source_counts": {
+      "counterfactual": 9,
+      "gt_positive": 9,
+      "open3dsg_ov": 9,
+      "vlsat_closed_set": 9
+    },
+    "subtype_hint_counts": {
+      "ambiguous_draped_or_occluded_hanging": 4,
+      "ambiguous_functional_attachment": 6,
+      "ambiguous_functional_connection": 3,
+      "attached_to_vertical_or_overhead_surface": 6,
+      "connected_adjacent_or_contiguous": 9,
+      "hanging_from_vertical_surface": 8
+    },
+    "surface_type_counts": {
+      "floor": 12,
+      "unknown": 7,
+      "wall": 17
+    },
+    "validation_errors": 0
+  },
+  "forbidden_output_fields": [
+    "p_geom_valid",
+    "recall_credit",
+    "reranked_score",
+    "satisfied",
+    "verification_status",
+    "violated"
+  ],
+  "schema_version": "h001_attachment_deferred_extractor_dry_run_v1",
+  "status": "attachment_deferred_extractor_dry_run_ready_no_verifier",
+  "warning_counts": {
+    "dry_run_obb_only_no_point_contact": 36,
+    "point_contact_evidence": 36,
+    "segmented_points": 36
+  }
+}

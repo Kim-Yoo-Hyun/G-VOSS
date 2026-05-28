@@ -1,0 +1,328 @@
+{
+  "commands": {
+    "checkpoint_selection_after_non_avg": "sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_checkpoint_selection'",
+    "existing_downstream_rerun_chain": [
+      "open3dsg_raw_dump_identity",
+      "open3dsg_adapter_raw_dump",
+      "open3dsg_geometry_join",
+      "open3dsg_metric_eval",
+      "bootstrap_ci",
+      "table_builder",
+      "open3dsg_paper_caveats"
+    ],
+    "h001_feature_audit_after_388": "sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm feature_audit_h001_eval'",
+    "h001_feature_retry_after_388_template": "mkdir -p logs\nts=$(date +%Y%m%d_%H%M%S)\ntmux new-session -d -s h001_open3dsg_dump_features_h001_eval_388_retry \\\n  \"cd /home/yoohyun/research && bash -lc 'set -o pipefail; \\\n  env UID=$(id -u) GID=$(id -g) \\\n  OPEN3DSG_CHECKPOINT=/workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt \\\n  OPEN3DSG_FEATURE_SHARD_ONLY_MISSING=1 OPEN3DSG_FEATURE_SHARD_MAX_NEW_IDS=11 \\\n  OPEN3DSG_BLIP_EMBED_CHUNK_SIZE=1 OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE=1 \\\n  PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True,max_split_size_mb:64 \\\n  docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml \\\n  run --rm dump_features_h001_eval; rc=$?; printf \"%s\\n\" \"$rc\" > logs/open3dsg_dump_features_h001_eval_388_retry_${ts}.exit; exit $rc' \\\n  > logs/open3dsg_dump_features_h001_eval_388_retry_${ts}.log 2>&1\"",
+    "h001_preprocess_retry_388_template": "mkdir -p logs\nts=$(date +%Y%m%d_%H%M%S)\ntmux new-session -d -s h001_open3dsg_h001_preprocess_retry_388 \\\n  \"cd /home/yoohyun/research && bash -lc 'set -o pipefail; \\\n  env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml \\\n  run --rm open3dsg_base bash -lc \\\"python /workspace/experiments/H001_geom_reliability/scripts/patch_open3dsg_source.py \\\n  --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source && \\\n  python /workspace/experiments/H001_geom_reliability/scripts/run_open3dsg_train_preprocess.py \\\n  --staged-root /workspace/local_dataset/Open3DSG_staged/h001_runtime \\\n  --open3dsg-source /workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source \\\n  --work-source /workspace/local_dataset/Open3DSG_staged/h001_runtime/work/open3dsg_eval_source \\\n  --split validation --workers 1 --force --deep-inspect \\\n  --output-dir /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_preprocess_retry_388 --scan-id 0cac7532-8d6f-2d13-8cea-1e70d5ae4856 --scan-id 0cac7534-8d6f-2d13-8de7-8a915ed90050 --scan-id 0cac7582-8d6f-2d13-8d4b-e4041cb166c4 --scan-id 0cac7584-8d6f-2d13-8df8-c05e4307b418 --scan-id 10b1794e-3938-2467-89a7-ebc89e84cf88 --scan-id 422885b3-192d-25fc-84c9-9b80eea1752d --scan-id 422885c5-192d-25fc-85e6-12a3d65c8e7b --scan-id bf9a3ddf-45a5-2e80-8007-8e9e7f323e52 --scan-id c7895f63-339c-2d13-81a3-0b07b1eb23b4 --scan-id fcf66d7b-622d-291c-86b8-7db96aebcee3\\\"; rc=$?; printf \"%s\\n\" \"$rc\" > logs/open3dsg_h001_preprocess_retry_388_${ts}.exit; exit $rc' \\\n  > logs/open3dsg_h001_preprocess_retry_388_${ts}.log 2>&1\"",
+    "non_avg_training_tmux_template": "mkdir -p logs\nts=$(date +%Y%m%d_%H%M%S)\ntmux new-session -d -s h001_open3dsg_train_full_nonavg_retry \\\n  \"cd /home/yoohyun/research && bash -lc 'set -o pipefail; \\\n  env UID=$(id -u) GID=$(id -g) OPEN3DSG_TRAIN_WORKERS=0 \\\n  OPEN3DSG_BLIP_EMBED_CHUNK_SIZE=1 OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE=1 \\\n  OPEN3DSG_MIN_GPU_FREE_MB=22000 \\\n  PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True,max_split_size_mb:64 \\\n  docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml \\\n  run --rm train_full; rc=$?; printf \"%s\\n\" \"$rc\" > logs/open3dsg_train_full_nonavg_retry_${ts}.exit; exit $rc' \\\n  > logs/open3dsg_train_full_nonavg_retry_${ts}.log 2>&1\"",
+    "plan_service": "sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_caveat_reduction_plan'"
+  },
+  "created_at": "2026-05-28T08:04:18+00:00",
+  "current_caveats": {
+    "attachment_missing_decomposition": {
+      "attachment_gt_rows": 967,
+      "examples": [
+        {
+          "object_id": 1,
+          "predicate_label": "attached to",
+          "reason": "candidate_pair_absent",
+          "scan_id": "ab835faa-54c6-29a1-9b55-1a5217fcba19",
+          "subject_id": 12,
+          "subset_split_id": 1
+        },
+        {
+          "object_id": 9,
+          "predicate_label": "attached to",
+          "reason": "candidate_pair_absent",
+          "scan_id": "ab835faa-54c6-29a1-9b55-1a5217fcba19",
+          "subject_id": 25,
+          "subset_split_id": 2
+        },
+        {
+          "object_id": 4,
+          "predicate_label": "attached to",
+          "reason": "candidate_pair_absent",
+          "scan_id": "bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8",
+          "subject_id": 14,
+          "subset_split_id": 1
+        },
+        {
+          "object_id": 3,
+          "predicate_label": "attached to",
+          "reason": "candidate_pair_absent",
+          "scan_id": "bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8",
+          "subject_id": 30,
+          "subset_split_id": 2
+        },
+        {
+          "object_id": 1,
+          "predicate_label": "attached to",
+          "reason": "candidate_pair_absent",
+          "scan_id": "bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8",
+          "subject_id": 12,
+          "subset_split_id": 4
+        },
+        {
+          "object_id": 1,
+          "predicate_label": "attached to",
+          "reason": "candidate_pair_absent",
+          "scan_id": "bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8",
+          "subject_id": 22,
+          "subset_split_id": 4
+        },
+        {
+          "object_id": 9,
+          "predicate_label": "attached to",
+          "reason": "candidate_pair_absent",
+          "scan_id": "c2d99345-1947-2fbf-818d-90ea82acef29",
+          "subject_id": 11,
+          "subset_split_id": 1
+        },
+        {
+          "object_id": 3,
+          "predicate_label": "attached to",
+          "reason": "candidate_pair_absent",
+          "scan_id": "742e8f17-be0a-294e-9dd3-52492d308e2b",
+          "subject_id": 18,
+          "subset_split_id": 2
+        },
+        {
+          "object_id": 2,
+          "predicate_label": "attached to",
+          "reason": "candidate_pair_absent",
+          "scan_id": "742e8f17-be0a-294e-9dd3-52492d308e2b",
+          "subject_id": 11,
+          "subset_split_id": 3
+        },
+        {
+          "object_id": 2,
+          "predicate_label": "attached to",
+          "reason": "candidate_pair_absent",
+          "scan_id": "742e8f17-be0a-294e-9dd3-52492d308e2b",
+          "subject_id": 14,
+          "subset_split_id": 3
+        }
+      ],
+      "interpretation": {
+        "covered_context_retry_can_address": 23,
+        "covered_context_retry_cannot_address": 176,
+        "note": "A 388/388 covered-context retry can only recover attachment rows whose context is currently missing. Candidate-pair absence requires a different Open3DSG raw-dump/candidate-universe strategy or a source-specific denominator."
+      },
+      "missing_label_counts_by_reason": {
+        "candidate_pair_absent": {
+          "attached to": 140,
+          "connected to": 5,
+          "hanging on": 31
+        },
+        "missing_preprocessed_context": {
+          "attached to": 19,
+          "hanging on": 4
+        }
+      },
+      "missing_reason_counts": {
+        "candidate_pair_absent": 176,
+        "missing_preprocessed_context": 23
+      },
+      "open3dsg_covered_exact_label_gt_rows": 768,
+      "open3dsg_missing_exact_label_gt_rows": 199
+    },
+    "attachment_open3dsg_coverage": {
+      "coverage_ratio_vs_global": 0.7942088934850051,
+      "covered_exact_label_gt_denominator": 768,
+      "covered_label_counts": {
+        "attached to": 649,
+        "connected to": 28,
+        "hanging on": 91
+      },
+      "missing_exact_label_gt_rows": 199,
+      "missing_label_counts": {
+        "attached to": 159,
+        "connected to": 5,
+        "hanging on": 35
+      },
+      "source_attachment_stats": {
+        "attachment_rows_used": 57300,
+        "directed_pairs": 19100,
+        "family_counts": {
+          "attachment_deferred": 57300
+        },
+        "label_counts": {
+          "attached to": 19100,
+          "connected to": 19100,
+          "hanging on": 19100
+        },
+        "path": "/workspace/experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl",
+        "rows_read": 496600,
+        "scans": 126,
+        "subgraphs": 377,
+        "unique_exact_keys": 57300
+      }
+    },
+    "averaged_blip_variant": {
+      "claim_limitations": [
+        "no_exact_official_non_avg_blip_checkpoint_after_documented_oom_attempts",
+        "selected_checkpoint_is_averaged_blip_open3dsg_variant_not_exact_non_avg_open3dsg",
+        "downstream_table_must_label_open3dsg_source_as_avg_blip_variant"
+      ],
+      "selected_checkpoint": "local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt",
+      "selection_signal": "mlflow val/loss from Open3DSG train-dev validation only; no H001 held-out metric, raw dump, failure taxonomy, or visual inspection used",
+      "source_stage": "avg_blip_full_variant",
+      "train_dev_val_loss": 0.32881081104278564,
+      "train_dev_val_loss_step": 13103
+    },
+    "covered_loadable_scope": {
+      "complete_feature_ids": 377,
+      "identity_contexts": 388,
+      "missing_contexts": [
+        {
+          "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c7895f63-339c-2d13-81a3-0b07b1eb23b4/data_dict_2.pkl",
+          "reason": "missing_preprocessed_pickle",
+          "scan": "c7895f63-339c-2d13-81a3-0b07b1eb23b4",
+          "split": 2
+        },
+        {
+          "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7584-8d6f-2d13-8df8-c05e4307b418/data_dict_5.pkl",
+          "reason": "missing_preprocessed_pickle",
+          "scan": "0cac7584-8d6f-2d13-8df8-c05e4307b418",
+          "split": 5
+        },
+        {
+          "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/fcf66d7b-622d-291c-86b8-7db96aebcee3/data_dict_3.pkl",
+          "reason": "missing_preprocessed_pickle",
+          "scan": "fcf66d7b-622d-291c-86b8-7db96aebcee3",
+          "split": 3
+        },
+        {
+          "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7582-8d6f-2d13-8d4b-e4041cb166c4/data_dict_1.pkl",
+          "reason": "missing_preprocessed_pickle",
+          "scan": "0cac7582-8d6f-2d13-8d4b-e4041cb166c4",
+          "split": 1
+        },
+        {
+          "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7532-8d6f-2d13-8cea-1e70d5ae4856/data_dict_2.pkl",
+          "reason": "missing_preprocessed_pickle",
+          "scan": "0cac7532-8d6f-2d13-8cea-1e70d5ae4856",
+          "split": 2
+        },
+        {
+          "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b1794e-3938-2467-89a7-ebc89e84cf88/data_dict_3.pkl",
+          "reason": "missing_preprocessed_pickle",
+          "scan": "10b1794e-3938-2467-89a7-ebc89e84cf88",
+          "split": 3
+        },
+        {
+          "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7534-8d6f-2d13-8de7-8a915ed90050/data_dict_3.pkl",
+          "reason": "missing_preprocessed_pickle",
+          "scan": "0cac7534-8d6f-2d13-8de7-8a915ed90050",
+          "split": 3
+        },
+        {
+          "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/422885c5-192d-25fc-85e6-12a3d65c8e7b/data_dict_2.pkl",
+          "reason": "missing_preprocessed_pickle",
+          "scan": "422885c5-192d-25fc-85e6-12a3d65c8e7b",
+          "split": 2
+        },
+        {
+          "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/bf9a3ddf-45a5-2e80-8007-8e9e7f323e52/data_dict_2.pkl",
+          "reason": "missing_preprocessed_pickle",
+          "scan": "bf9a3ddf-45a5-2e80-8007-8e9e7f323e52",
+          "split": 2
+        },
+        {
+          "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/422885b3-192d-25fc-84c9-9b80eea1752d/data_dict_1.pkl",
+          "reason": "missing_preprocessed_pickle",
+          "scan": "422885b3-192d-25fc-84c9-9b80eea1752d",
+          "split": 1
+        },
+        {
+          "path": "/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/422885b3-192d-25fc-84c9-9b80eea1752d/data_dict_2.pkl",
+          "reason": "missing_preprocessed_pickle",
+          "scan": "422885b3-192d-25fc-84c9-9b80eea1752d",
+          "split": 2
+        }
+      ],
+      "missing_preprocessed": 11
+    }
+  },
+  "downstream_rerun_requirements": {
+    "if_R1_non_avg_succeeds": [
+      "add/use non-avg H001 eval feature service with no --avg_blip_emb",
+      "run non-avg H001 eval feature dump into a separate feature directory",
+      "run feature audit on that separate directory",
+      "run raw dump into a separate raw.jsonl with baseline_run_id open3dsg_nonavg_*",
+      "run raw-dump identity, adapter export, geometry join, metric eval, bootstrap CI, Table 6, paper caveats",
+      "update manuscript caveats only after the new chain passes"
+    ],
+    "if_R2_388_succeeds": [
+      "rerun H001 eval raw dump on the updated feature/context scope",
+      "rerun raw-dump identity, adapter export, geometry join, metric eval, bootstrap CI, Table 6, paper caveats",
+      "update covered-scope wording from 377/388 only after the regenerated artifacts pass"
+    ],
+    "if_both_fail_or_are_waived": [
+      "retain current Open3DSG result with averaged-BLIP and 377/388 caveats",
+      "continue attachment_deferred only as optional/future expansion unless the user explicitly accepts the caveats"
+    ]
+  },
+  "retry_order": [
+    {
+      "command_template_key": "non_avg_training_tmux_template",
+      "execution_policy": "Docker/tmux background job only; do not overwrite existing avg-BLIP result artifacts.",
+      "failure_policy": [
+        "If OOM recurs after the resource-guarded retry, keep the current averaged-BLIP caveat.",
+        "Do not tune checkpoint choice on H001 held-out R@K, violation, failure rows, or visual inspection."
+      ],
+      "goal": "Reduce the averaged-BLIP variant caveat for the main Open3DSG source.",
+      "id": "R1_exact_non_avg_blip_route_retry",
+      "implementation_gap_before_downstream": [
+        "Existing H001 eval feature/raw-dump compose services include --avg_blip_emb.",
+        "Before promoting a non-avg checkpoint, add dedicated non-avg H001 eval feature and raw-dump services with separate output paths."
+      ],
+      "priority": 1,
+      "success_criteria": [
+        "train_full exits 0 without CUDA OOM",
+        "a non-avg BLIP full-route checkpoint is present under the Open3DSG mlflow/checkpoint tree",
+        "checkpoint selection can identify it without H001 held-out metrics",
+        "downstream H001 feature/raw-dump/eval artifacts use separate non-avg run ids and output paths"
+      ]
+    },
+    {
+      "command_template_keys": [
+        "h001_preprocess_retry_388_template",
+        "h001_feature_retry_after_388_template",
+        "h001_feature_audit_after_388"
+      ],
+      "execution_policy": "Target only the 11 missing-preprocessed H001 contexts first, then audit.",
+      "failure_policy": [
+        "If the 11 contexts are still non-recoverable, keep 377/388 as an explicit covered-loadable caveat.",
+        "Do not infer attachment success from this retry; it only addresses missing context coverage."
+      ],
+      "goal": "Try to reduce the H001 covered-scope caveat from 377/388 to 388/388 contexts.",
+      "id": "R2_h001_covered_loadable_context_retry_388",
+      "priority": 2,
+      "success_criteria": [
+        "missing_preprocessed becomes 0 in feature_audit_h001_eval",
+        "complete feature ids become 388/388",
+        "raw-dump identity and downstream metric artifacts are regenerated with the updated scope"
+      ]
+    },
+    {
+      "execution_policy": "No attachment main-claim promotion without explicit final user confirmation.",
+      "expected_effect_of_R1_R2": {
+        "does_not_solve": [
+          "candidate_pair_absent attachment rows",
+          "connected-to dev absence",
+          "attachment full-source scoring, controls, bootstrap CI, and audit requirements"
+        ],
+        "helps": [
+          "stronger Open3DSG source credibility",
+          "reduced averaged-BLIP caveat if R1 succeeds",
+          "possible recovery of attachment missing_preprocessed_context rows if R2 succeeds"
+        ]
+      },
+      "goal": "Run attachment full-source scoring only after Open3DSG caveat-reduction decisions are resolved or explicitly waived.",
+      "id": "R3_attachment_deferred_G5d_after_open3dsg_decision",
+      "priority": 3
+    }
+  ],
+  "schema_version": "h001_open3dsg_caveat_reduction_plan_v1",
+  "status": "open3dsg_caveat_reduction_plan_frozen_no_execution"
+}
