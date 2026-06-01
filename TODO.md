@@ -1,6 +1,6 @@
 # TODO
 
-Last updated: 2026-05-28
+Last updated: 2026-06-01
 
 이 파일은 에이전트가 다음 작업 계획과 진행 상태를 관리하는 루트 작업판이다. 자세한 문헌 조사 내용은 `literature/`에 기록하고, 자세한 hypothesis 근거는 `hypothesis/`에 기록한다.
 
@@ -30,7 +30,7 @@ Reproducibility/GitHub portability status: `docs/reproducibility.md` is updated 
 
 Latest H001 Open3DSG status, 2026-05-26 KST: H001 eval feature shard loop completed with exit `0` and `377/377` covered loadable feature ids. Clean v14 streaming raw-dump same-path resume completed with exit `0`; stream manifest status is `raw_dump_stream_complete`, `377/377` completed batches, `19162` rows, dropped/invalid partial rows `0/0`, and SHA256 matches existing `raw_dump/raw.jsonl` exactly (`7072c77939a84f8739671025534cf09d5b834c507efad22fec3e3172e46ed2c2`). Docker adapter `v1` exports `496600` prediction rows, filtering `62` raw rows outside the fixed H001 object context. Docker geometry join preserves `496600/496600` rows and scores `114600` geometry-checkable rows. Docker metric eval status is `ready` with no blockers; Table 6 hook is `ready`. Docker real failure-analysis rows status is `failure_analysis_real_ready` with 57,736 rows and 0 validation errors. Docker qualitative inspection status is `qualitative_case_inspection_ready`: 36 cases, 23 demoted by geometry-aware reranking, 13 promoted/retained, 10 rule-violated cases with `p_geom_valid > 0.9`, and no taxonomy change. Docker paper caveat wording status is `open3dsg_paper_caveats_ready`: filtered train 3,744/3,852 subgraphs, train-dev validation 156/160 subgraphs, H001 covered loadable scope 377/388 contexts with `validation_missing_preprocessed:11`, averaged-BLIP variant, exact-label 2,545-row H001-family denominator, and residual calibration-risk caveat. Key Open3DSG metrics: semantic_only R@50/R@100 `0.3945/0.4963`, Violation@50/@100 `0.1326/0.1195`; probabilistic_recalibrated R@50/R@100 `0.3843/0.5580`, Violation@50/@100 `0.0575/0.0803`; rule_verified_point_subtype R@50/R@100 `0.4149/0.5238`, Violation@50/@100 `0.0/0.0`; family_specific control R@50/R@100 `0.4530/0.5984`, Violation@50/@100 `0.0228/0.0311`. Docker `bootstrap_ci` status is `ready` with 1,000 subgraph resamples and no warnings; Open3DSG family_specific vs semantic_only R@100 delta is `+10.22 pp` with 95% CI `[+7.94,+12.54]`, and Violation@100 delta is `-8.84 pp` with 95% CI `[-9.41,-8.28]`.
 
-Open3DSG caveat-reduction plan is now frozen with status `open3dsg_caveat_reduction_plan_frozen_no_execution` under `experiments/H001_geom_reliability/sources/open3dsg/caveat_reduction_plan/`. It orders optional future work as R1 exact non-averaged BLIP retry, R2 H001 covered-loadable context retry toward `388/388`, then R3 `attachment_deferred` G5d only after those decisions. The plan records attachment Open3DSG missing exact-label GT rows as 199 total: 23 from missing preprocessed H001 contexts and 176 from absent Open3DSG candidate pairs.
+Open3DSG caveat-reduction plan is frozen under `experiments/H001_geom_reliability/sources/open3dsg/caveat_reduction_plan/`. It orders optional future work as R1 exact non-averaged BLIP retry, R2 H001 covered-loadable context retry toward `388/388`, then R3 `attachment_deferred` G5d only after those decisions. R1 was launched as a Docker/tmux background job on 2026-06-01 KST: session `h001_open3dsg_train_full_nonavg_retry_20260601_071908`, log `logs/open3dsg_train_full_nonavg_retry_20260601_071908.log`, exit file `logs/open3dsg_train_full_nonavg_retry_20260601_071908.exit`. Latest R1 check at 2026-06-01 19:40 KST: still running with no exit file, epoch 15 at about 595/3744 steps (16%), best current checkpoint `epoch=13-step=13104.ckpt` with train-dev `val/loss=0.5724539161`, run size about 7.5G, disk free about 56G, and no OOM/traceback/no-space error found in the checked log tail. R1 remains non-paper evidence until checkpoint selection and the full downstream H001 Open3DSG chain are regenerated. The plan records attachment Open3DSG missing exact-label GT rows as 199 total: 23 from missing preprocessed H001 contexts and 176 from absent Open3DSG candidate pairs.
 
 Research target rule: goal and direction are judged against AI, ML, CV, and Robotics top-tier journal/conference standards.
 
@@ -50,7 +50,7 @@ CAND-003은 literature survey 트랙이다. 2026-04-30 기준으로 LLM/VLM task
 
 Data-dependent:
 
-- [ ] Optional R1 Open3DSG exact non-averaged BLIP route retry: launch only as a Docker/tmux background job when GPU memory is acceptable; do not overwrite avg-BLIP artifacts and do not promote without full downstream regeneration.
+- [ ] R1 Open3DSG exact non-averaged BLIP route retry is running as Docker/tmux background job `h001_open3dsg_train_full_nonavg_retry_20260601_071908`; latest check 2026-06-01 19:40 KST reached epoch 15 step ~595/3744 with best current non-avg checkpoint `epoch=13-step=13104.ckpt`; do not overwrite avg-BLIP artifacts and do not promote without checkpoint selection plus full downstream regeneration.
 - [ ] Optional R2 H001 covered-loadable context retry toward `388/388`: run only after R1 decision or if the user explicitly prioritizes covered-scope caveat reduction; if it succeeds, rerun the full downstream Open3DSG chain before changing paper wording.
 - [ ] Optional H001 upgrade path G5d: keep full-source attachment VL-SAT/Open3DSG scoring, source metrics, and controls deferred until the Open3DSG caveat-reduction path is either completed or explicitly waived.
 
@@ -68,7 +68,7 @@ Non-data:
 ### CAND-001 Data-Dependent Order
 
 - [x] Freeze Open3DSG caveat-reduction retry order and downstream rerun requirements before running heavy jobs.
-- [ ] First, optional exact non-averaged BLIP route retry under Docker/tmux. If it succeeds, rerun the dependent Open3DSG chain before paper promotion: add/use non-avg H001 eval services, feature/cache audit, checkpoint provenance/selection, H001 eval feature/raw dump, adapter export, geometry join, metrics, bootstrap CI, Table 6, and caveat wording.
+- [ ] First, verify the running exact non-averaged BLIP route retry only when requested or when a dependent task needs it. If it succeeds, rerun the dependent Open3DSG chain before paper promotion: add/use non-avg H001 eval services, feature/cache audit, checkpoint provenance/selection, H001 eval feature/raw dump, adapter export, geometry join, metrics, bootstrap CI, Table 6, and caveat wording.
 - [ ] Second, optional H001 covered-loadable context retry toward `388/388`. If it succeeds, rerun the dependent H001 eval feature/raw dump, adapter export, geometry join, metrics, bootstrap CI, Table 6, and caveat wording with the updated scope.
 - [ ] Only after the two Open3DSG caveat-reduction decisions, revisit `attachment_deferred` G5d full-source scoring. Treat non-avg BLIP and `388/388` coverage as source-credibility improvements, not as proof that attachment G5d will pass.
 
@@ -85,7 +85,7 @@ Non-data:
 - [ ] Resume Qwen-VL remaining full-source inference from `qwen_full_source_shard_0014` only when GPU runtime is acceptable; previous loop `20260527_023111` stopped with exit 1 due to transient GPU utilization guard, not OOM or parser failure
 - [ ] Re-check official AAAI author kit only if the target year changes beyond AAAI-26; no official AAAI-27 kit is confirmed as of 2026-05-27 KST
 - [ ] Optional final Figure 3 polish: replace geometry panels with rendered scene crops only if a deterministic crop/render path is added for the same locked case IDs
-- [ ] Keep Open3DSG caveats explicit in manuscript Table 3 and experiment artifact Table 6; do not compress away averaged-BLIP, filtered split, covered scope, exact-label denominator, or residual calibration risk
+- [x] Keep Open3DSG caveats explicit in manuscript Table 3 and experiment artifact Table 6; 2026-06-01 re-check confirmed averaged-BLIP, filtered split, covered H001 377/388, exact-label denominator, `validation_missing_preprocessed:11`, and residual calibration risk remain visible. R1 non-avg retry must not change wording before full downstream regeneration.
 - [ ] After the Qwen-VL remaining shard loop completes, verify exit/file counts, run full-source parser validation, prediction aggregation/export, geometry join, metrics, controls, bootstrap CI, and audit; keep it as a third semantic source, not a VL-SAT/Open3DSG replacement
 - [ ] Optional reduced checkpoint smoke only if the official route is intentionally paused or declared too slow: `dump_features_3rscan_pilot` -> `feature_audit_pilot` -> `train_pilot_reduced`; do not promote to paper-result evidence
 - [ ] Optional SceneFun3D/FunGraph3D expansion only if paper scope pivots to robotics/functionality: separate verifier contract, denominator, metrics, and claim boundary

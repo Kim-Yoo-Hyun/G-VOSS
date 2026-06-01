@@ -610,6 +610,15 @@ Current data/runtime status:
   paper-result eligible candidates 0.
 - Full avg-BLIP training completed and Docker checkpoint selection selected
   `epoch=13-step=13104.ckpt` before H001 held-out inspection.
+- Exact non-averaged BLIP route was previously OOM-blocked in pilot retries,
+  but R1 caveat-reduction retry is currently running as Docker/tmux session
+  `h001_open3dsg_train_full_nonavg_retry_20260601_071908`. Latest check on
+  2026-06-01 19:40 KST: no exit file, epoch 15 at about 595/3744 steps, best
+  current non-avg checkpoint `epoch=13-step=13104.ckpt` with train-dev
+  `val/loss=0.5724539161`, run size about 7.5G, and no OOM/traceback/no-space
+  error in the checked log tail. This does not change current paper evidence or
+  averaged-BLIP caveats until R1 completes and the full downstream H001
+  Open3DSG chain is regenerated.
 - H001 held-out eval feature cache is complete for the covered loadable scope:
   shard loop exit 0, `377/377` complete feature ids, and `1131` `.pt` files.
   Docker `feature_audit_h001_eval` has missing complete feature ids `0`, while

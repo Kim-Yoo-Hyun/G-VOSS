@@ -1,6 +1,6 @@
 # H001 Appendix And Supplement Plan
 
-Last updated: 2026-05-28 KST
+Last updated: 2026-06-01 KST
 
 This file owns appendix/supplement material that is too detailed for the AAAI
 main text but important for reviewer defense. It is not a new experiment-result
@@ -49,15 +49,25 @@ Do not use it to hide caveats that must remain visible in the main text.
 
 ## Open3DSG Caveat Consistency Pass
 
-Status: `completed_2026_05_27`
+Status: `completed_2026_06_01_rechecked_r1_running_no_wording_change`
+
+2026-06-01 re-check result: the active AAAI source already keeps the required
+Open3DSG caveats visible in the main experimental setup, the main source-result
+table, the Results prose, the Limitations section, and the experiment artifact
+Table 6. The running R1 exact non-averaged BLIP retry does not change paper
+wording. If R1 succeeds, paper wording can change only after checkpoint
+selection and the full downstream H001 Open3DSG chain are regenerated under
+separate non-avg output paths.
 
 | Location | Required caveats | Status |
 | --- | --- | --- |
 | AAAI Experimental Setup | averaged-BLIP variant, checkpoint selected by train-dev loss, filtered train/dev split, covered H001 scope, `validation_missing_preprocessed:11`, exact-label 2,545 denominator | present in `paper/aaai/sec/5_experiments.tex` |
-| AAAI Main Source Results Table | Open3DSG-first source role, averaged-BLIP, filtered train 3,744/3,852, validation 156/160, covered H001 377/388, exact-label denominator 2,545, `validation_missing_preprocessed:11`, residual calibration risk | present after 2026-05-27 caption update in `paper/aaai/sec/6_results.tex` |
+| AAAI Table 3 / Main Source Results Table | Open3DSG-first source role, averaged-BLIP, filtered train 3,744/3,852, validation 156/160, covered H001 377/388, exact-label denominator 2,545, `validation_missing_preprocessed:11`, residual calibration risk | present in `paper/aaai/sec/6_results.tex`; 2026-06-01 re-check found no wording change needed |
 | AAAI Results prose | within-source reliability, no official non-averaged Open3DSG leaderboard claim, same checkpoint/row contract/covered denominator | present in `paper/aaai/sec/6_results.tex` |
-| Experiment artifact Table 6 | Open3DSG row must carry a caveat note or point to frozen caveat wording | present after 2026-05-27 regeneration from `build_tables.py` |
+| AAAI Limitations | reproduced averaged-BLIP variant, filtered coverage, scoped relation-reliability interpretation, no exact non-averaged Open3DSG or broad SOTA claim | present in `paper/aaai/sec/7_limitations.tex` |
+| Experiment artifact Table 6 | Open3DSG row must carry averaged-BLIP, filtered train/dev, covered H001 377/388, exact-label denominator, `validation_missing_preprocessed:11`, and residual calibration-risk note | present in `experiments/H001_geom_reliability/tables/table6_cross_source_status.md`; 2026-06-01 re-check found no regeneration needed |
 | Paper risk register | P2 provenance and Open3DSG caveat visibility risk | updated in `paper/risk.md` |
+| R1 exact non-avg BLIP retry | Must not alter current caveats until the non-avg checkpoint is selected and downstream metrics/tables/caveats are regenerated | recorded as running in `TODO.md` and `experiments/H001_geom_reliability/sources/open3dsg/train_pilot/full_nonavg_retry_20260601_071908.md` |
 
 ## Figure 3 Decision
 

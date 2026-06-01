@@ -1,6 +1,6 @@
 # H001 Paper Reviewer-Risk Register
 
-Last updated: 2026-05-28 KST
+Last updated: 2026-06-01 KST
 
 Scope: this file tracks paper-body risks for the current AAAI manuscript under
 `paper/aaai/`. The goal is not sentence polish; it is to prevent reviewer attacks
@@ -65,6 +65,14 @@ Docker PDF rebuilds, and the appendix/provenance pass:
   Figure 3 final-polish boundary, and Qwen-VL third-source boundary. Docker
   `table_builder` was rebuilt and rerun so experiment Table 6 carries the
   Open3DSG caveat note.
+- P8 re-check on 2026-06-01: completed. AAAI Experimental Setup, AAAI
+  source-result Table 3, Results prose, Limitations, appendix, and experiment
+  artifact Table 6 all retain the Open3DSG averaged-BLIP, filtered train/dev,
+  covered 377/388 H001 scope, exact-label 2,545 denominator,
+  `validation_missing_preprocessed:11`, and residual calibration-risk caveats.
+  The running R1 exact non-averaged BLIP retry is a caveat-reduction attempt,
+  not current paper evidence; no paper wording changes until checkpoint
+  selection and the full downstream Open3DSG H001 chain are regenerated.
 - P9 scope-expansion track: scope audit, coordinate audit, and bucket inspection
   are complete, not metric evidence. The current paper claim remains the
   three-family scoped relation-reliability claim. `relative_horizontal` is the
@@ -273,10 +281,15 @@ Reviewer attack:
 
 Current weakness:
 
-- The paper does state averaged-BLIP, filtered split, covered scope, and exact
-  denominator caveats.
+- The paper states averaged-BLIP, filtered train/dev split, covered 377/388 H001
+  scope, exact-label 2,545 denominator, `validation_missing_preprocessed:11`,
+  and residual calibration-risk caveats in the main source-result table/prose,
+  appendix, and experiment Table 6 as of the 2026-06-01 re-check.
 - The risk is wording: `main open-vocabulary case study` can be interpreted as a
   broad Open3DSG/SOTA claim unless the case-study boundary stays visible.
+- The running R1 exact non-averaged BLIP retry may tempt premature wording
+  changes; it must not affect current claims until the downstream H001 chain is
+  regenerated.
 
 Required fix:
 
@@ -285,6 +298,10 @@ Required fix:
 - Avoid `Open3DSG improvement` unless the sentence says improvement is within
   the reproduced averaged-BLIP source, fixed denominator, and H001 families.
 - Keep Table 3 caption caveats visible.
+- Keep experiment Table 6 caveat notes visible.
+- Do not replace the averaged-BLIP caveat with non-avg wording until R1
+  succeeds, checkpoint selection is refreshed, and feature/raw-dump/adapter/
+  geometry/metrics/bootstrap/Table 6/caveat wording are regenerated.
 
 Evidence / affected files:
 

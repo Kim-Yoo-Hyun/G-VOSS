@@ -10,11 +10,23 @@ open3dsg_second_source_metrics_ready
 
 Current caveat-reduction plan:
 
-- status: `open3dsg_caveat_reduction_plan_frozen_no_execution`
+- status: `open3dsg_caveat_reduction_plan_frozen_r1_running`
 - artifacts: `caveat_reduction_plan/{manifest.json,retry_plan.json,commands.md,report.md}`
 - frozen order: R1 exact non-averaged BLIP route retry, R2 H001 covered-loadable context retry toward `388/388`, R3 attachment G5d only after Open3DSG caveat-reduction decisions are resolved or explicitly waived
 - current decomposition for attachment impact: Open3DSG missing exact-label GT rows 199 total, with 23 tied to missing preprocessed H001 contexts and 176 tied to absent Open3DSG candidate pairs
 - interpretation: non-avg BLIP and `388/388` success would strengthen Open3DSG source credibility, but they do not by themselves make `attachment_deferred_G5d` successful
+
+Current R1 non-averaged BLIP retry:
+
+- status: `launched_running`
+- launched at: `2026-06-01 07:19:08 KST`
+- tmux: `h001_open3dsg_train_full_nonavg_retry_20260601_071908`
+- log: `logs/open3dsg_train_full_nonavg_retry_20260601_071908.log`
+- exit file: `logs/open3dsg_train_full_nonavg_retry_20260601_071908.exit`
+- run record: `train_pilot/full_nonavg_retry_20260601_071908.md`
+- initial evidence: preflight passed, training entered epoch 0, and Open3DSG args show `avg_blip_emb=False`
+- latest check: `2026-06-01 19:40 KST`, tmux active, no exit file, epoch 15 at about 595/3744 steps, best current train-dev checkpoint `epoch=13-step=13104.ckpt` with `val/loss=0.5724539161`, run size about 7.5G, disk free about 56G, and no OOM/traceback/no-space error found in the checked log tail
+- boundary: not paper evidence unless the retry completes, checkpoint selection is refreshed, and the full H001 downstream Open3DSG chain is regenerated under separate non-avg output paths
 
 Plan artifact:
 
@@ -119,7 +131,7 @@ Current guard result:
 - `dump_features_3rscan_pilot`: reduced `--mini_dataset`, TopK1/scales1 route for checkpoint smoke only; not paper-result evidence
 - `train_pilot`: non-averaged BLIP projector route is OOM-blocked and kept only as a limitation record
 - `train_pilot_reduced`: reduced checkpoint-smoke route only; not paper-result evidence
-- `train_full`: non-averaged BLIP projector route is OOM-blocked; `train_full_avg_blip` completed and produced the selected checkpoint
+- `train_full`: non-averaged BLIP projector route was previously OOM-blocked; R1 retry is now running under a 22GB free-memory GPU gate and has reached epoch 15, while `train_full_avg_blip` remains the currently selected completed checkpoint route until R1 finishes and checkpoint selection/downstream regeneration are complete
 - source entrypoint gate: passed (`open3dsg/scripts/run.py` exists)
 - Docker import/CUDA gate: passed (`torch 2.8.0+cu128`, CUDA visible, device count 1, RTX 5090 `sm_120` supported)
 - artifacts: `training_preflight/{dump_features,train_pilot,train_full}.{json,md}`

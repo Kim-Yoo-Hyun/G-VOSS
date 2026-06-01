@@ -1,6 +1,6 @@
 # Open3DSG Training Preflight
 
-Created at: `2026-05-15T08:27:49.569857+00:00`
+Created at: `2026-05-31T22:19:15.095660+00:00`
 Mode: `train_full`
 Status: `ready`
 
@@ -42,9 +42,9 @@ Status: `ready`
 - CUDA device: `NVIDIA GeForce RTX 5090`
 - required CUDA arch: `sm_120`
 - torch supported arch list: `sm_70, sm_75, sm_80, sm_86, sm_90, sm_100, sm_120`
-- GPU free memory: `19868` MB
+- GPU free memory: `26674` MB
 - GPU total memory: `32100` MB
-- GPU free-memory threshold: `18000` MB
+- GPU free-memory threshold: `22000` MB
 - torch: `ok` `2.8.0+cu128`
 - pytorch_lightning: `ok` `2.1.1`
 - tensorflow: `ok` `2.12.0`
