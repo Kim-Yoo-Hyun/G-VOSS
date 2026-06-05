@@ -1,7 +1,7 @@
 # Open3DSG Paper Caveats
 
 Status: `open3dsg_paper_caveats_ready`
-Created at: `2026-05-19T03:57:42.145011+00:00`
+Created at: `2026-06-04T08:37:36.728188+00:00`
 
 ## Purpose
 
@@ -20,7 +20,7 @@ Open3DSG training uses an explicit preprocessed-ready split: 1158/1178 train sca
 
 ### `variant_caveat`
 
-The Open3DSG checkpoint is an explicitly labeled averaged-BLIP variant, not the exact non-averaged BLIP projector route. The selected checkpoint is `epoch=13-step=13104.ckpt`, chosen by train-dev `val/loss` 0.3288108110 at step 13103 before H001 held-out metric, failure, or visual inspection.
+The Open3DSG checkpoint is an explicitly labeled averaged-BLIP variant, not the exact non-averaged BLIP projector route. The selected checkpoint is `epoch=13-step=13104.ckpt`, chosen by train-dev `val/loss` 0.3288108110 at step 13103 before H001 held-out metric, failure, or visual inspection. A separate official non-averaged BLIP checkpoint selection now exists, but the downstream H001 Open3DSG raw dump, adapter, geometry, metrics, bootstrap CI, Table 6, and caveat wording have not been regenerated for that route; current paper-facing metrics remain the averaged-BLIP result.
 
 ### `denominator_caveat`
 
@@ -77,6 +77,11 @@ These Open3DSG results support measured H001-family relation-reliability evidenc
 ## Validation
 
 - no validation errors
+
+Warnings:
+
+- `checkpoint_selection_is_official_non_avg_but_active_downstream_result_remains_avg_blip`
+- `non_avg_train_dev_val_loss_worse_than_avg_blip_by:0.24364310503005981`
 
 ## Claim Boundary
 

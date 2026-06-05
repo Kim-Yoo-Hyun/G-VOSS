@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Freeze the Open3DSG failure-analysis schema before metric inspection."""
+"""Freeze the H001 source failure-analysis schema before metric inspection."""
 
 from __future__ import annotations
 
@@ -13,6 +13,8 @@ from typing import Any
 SCHEMA_VERSION = "h001_open3dsg_failure_analysis_v1"
 MANIFEST_SCHEMA_VERSION = "h001_open3dsg_failure_analysis_manifest_v1"
 STATUS = "failure_analysis_schema_ready_no_metric_run"
+SUPPORTED_RECORD_TYPES = ["open3dsg_failure_analysis", "vlsat_failure_analysis"]
+SUPPORTED_BASELINES = ["open3dsg_ov", "vlsat_closed_set"]
 
 
 PRIMARY_CATEGORIES: list[dict[str, Any]] = [
@@ -165,7 +167,7 @@ def failure_schema() -> dict[str, Any]:
     return {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "$id": f"{SCHEMA_VERSION}.schema.json",
-        "title": "H001 Open3DSG failure-analysis row",
+        "title": "H001 source failure-analysis row",
         "type": "object",
         "additionalProperties": False,
         "required": [
@@ -184,7 +186,7 @@ def failure_schema() -> dict[str, Any]:
         ],
         "properties": {
             "schema_version": {"const": SCHEMA_VERSION},
-            "record_type": {"const": "open3dsg_failure_analysis"},
+            "record_type": {"type": "string", "enum": SUPPORTED_RECORD_TYPES},
             "analysis_id": {"type": "string", "minLength": 1},
             "source_prediction": {
                 "type": "object",
@@ -206,7 +208,7 @@ def failure_schema() -> dict[str, Any]:
                 ],
                 "properties": {
                     "prediction_id": {"type": "string"},
-                    "baseline_name": {"const": "open3dsg_ov"},
+                    "baseline_name": {"type": "string", "enum": SUPPORTED_BASELINES},
                     "baseline_run_id": {"type": "string"},
                     "scan_id": {"type": "string"},
                     "subgraph_id": {"type": "string"},
@@ -386,7 +388,11 @@ def taxonomy() -> dict[str, Any]:
     return {
         "schema_version": SCHEMA_VERSION,
         "locked_before": "Open3DSG metric/failure inspection",
-        "target_baseline": "open3dsg_ov",
+        "target_baselines": SUPPORTED_BASELINES,
+        "compatibility_note": (
+            "The taxonomy is unchanged; the schema now allows the same H001 diagnostic row contract "
+            "to be applied to the VL-SAT closed-set source as well as Open3DSG."
+        ),
         "assignment_priority": ASSIGNMENT_PRIORITY,
         "primary_categories": PRIMARY_CATEGORIES,
         "hard_rules": [
@@ -396,6 +402,7 @@ def taxonomy() -> dict[str, Any]:
             "Rows outside support_contact/proximity/relative_vertical are excluded from H001 family claims.",
             "Do not count preprocessing_or_filtering_limitation as an Open3DSG semantic failure.",
             "Do not use Qwen-VL outputs to assign Open3DSG failure categories.",
+            "Use source-specific baseline_name/record_type fields; do not mix Open3DSG and VL-SAT rows in one metric without a source column.",
         ],
     }
 
@@ -405,19 +412,19 @@ def aggregation_plan() -> dict[str, Any]:
         "schema_version": SCHEMA_VERSION,
         "tables": [
             {
-                "name": "open3dsg_failure_taxonomy_by_family",
+                "name": "source_failure_taxonomy_by_family",
                 "group_by": ["predicate_family", "primary_category"],
                 "metrics": ["count", "share_within_family", "top50_count", "top100_count"],
-                "claim_use": "explains where geometry-consistency helps or fails for the Open3DSG source.",
+                "claim_use": "explains where geometry-consistency helps or fails for each semantic relation source.",
             },
             {
-                "name": "open3dsg_geometry_status_by_category",
+                "name": "source_geometry_status_by_category",
                 "group_by": ["verification_status", "primary_category"],
                 "metrics": ["count", "mean_p_geom_valid", "median_semantic_score"],
                 "claim_use": "separates semantic failures from geometry contradictions and unsupported geometry.",
             },
             {
-                "name": "open3dsg_rerank_transition",
+                "name": "source_rerank_transition",
                 "group_by": ["topk_transition", "primary_category"],
                 "metrics": ["count", "delta_R@50", "delta_R@100", "violation_delta"],
                 "claim_use": "shows whether the reliability layer promotes valid rows or demotes contradicted rows.",
@@ -578,15 +585,16 @@ def validate_examples(rows: list[dict[str, Any]]) -> list[str]:
 
 def render_report(manifest: dict[str, Any], taxonomy_payload: dict[str, Any]) -> str:
     lines = [
-        "# Open3DSG Failure-Analysis Schema",
+        "# H001 Source Failure-Analysis Schema",
         "",
         f"Status: `{manifest['status']}`",
         f"Created at: `{manifest['created_at']}`",
         "",
         "## Scope",
         "",
-        "This freezes the Open3DSG failure-analysis row contract before Open3DSG metric/failure inspection.",
-        "It does not run Open3DSG, inspect predictions, compute metrics, or assign real failure labels.",
+        "This freezes the H001 failure-analysis row contract before source-specific metric/failure inspection.",
+        "It does not run a relation source, inspect predictions, compute metrics, or assign real failure labels.",
+        "The taxonomy is shared by Open3DSG and VL-SAT; each generated row still records its source-specific baseline name.",
         "",
         "## Primary Categories",
         "",
@@ -613,7 +621,7 @@ def render_report(manifest: dict[str, Any], taxonomy_payload: dict[str, Any]) ->
             "",
             "## Claim Boundary",
             "",
-            "Failure-analysis rows are diagnostic evidence only until generated from a reproduced Open3DSG checkpoint, identity-preserving raw dump, H001 prediction JSONL, geometry join, and metric run.",
+            "Failure-analysis rows are diagnostic evidence only after they are generated from source-specific prediction JSONL, GT join, geometry join, and metric artifacts.",
             "",
         ]
     )

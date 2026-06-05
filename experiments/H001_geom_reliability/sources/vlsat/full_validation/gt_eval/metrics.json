@@ -1,0 +1,273 @@
+{
+  "counts": {
+    "by_kind_family": {
+      "gt_counterfactual_negative": {
+        "proximity": 1766,
+        "relative_vertical": 390,
+        "support_contact": 1816
+      },
+      "gt_positive": {
+        "proximity": 1766,
+        "relative_vertical": 390,
+        "support_contact": 1816
+      }
+    },
+    "counterfactual_strategy": {
+      "far_nonoverlap_close_by": 1766,
+      "far_nonoverlap_support_contact": 1816,
+      "relative_vertical_inverse": 390
+    },
+    "gt_counterfactual_negative": 3972,
+    "gt_positive": 3972,
+    "rows": 7944
+  },
+  "gt_counterfactual_negative": {
+    "nonsatisfied_rate": 0.9672708962739174,
+    "nonviolated_rate": 0.701913393756294,
+    "p_geom_valid": {
+      "count": 3972,
+      "max": 0.9995501986402647,
+      "mean": 0.12600035174009144,
+      "min": 7.412793235866193e-09
+    },
+    "p_geom_valid_thresholds": {
+      "ge_0_5": 0.05563947633434038,
+      "ge_0_7": 0.042799597180261835,
+      "le_0_1": 0.6613796576032226,
+      "le_0_3": 0.8804128902316214,
+      "le_0_5": 0.9443605236656596
+    },
+    "rows": 3972,
+    "satisfied_rate": 0.03272910372608258,
+    "status_counts": {
+      "satisfied": 130,
+      "uncertain": 2658,
+      "violated": 1184
+    },
+    "uncertain_rate": 0.6691842900302115,
+    "violated_rate": 0.2980866062437059
+  },
+  "gt_counterfactual_negative_by_family": {
+    "proximity": {
+      "nonsatisfied_rate": 1.0,
+      "nonviolated_rate": 0.4575311438278596,
+      "p_geom_valid": {
+        "count": 1766,
+        "max": 0.6737198995581569,
+        "mean": 0.11013849691008805,
+        "min": 1.9048040968799332e-07
+      },
+      "p_geom_valid_thresholds": {
+        "ge_0_5": 0.005096262740656852,
+        "ge_0_7": 0.0,
+        "le_0_1": 0.6245753114382786,
+        "le_0_3": 0.8895809739524349,
+        "le_0_5": 0.9949037372593431
+      },
+      "rows": 1766,
+      "satisfied_rate": 0.0,
+      "status_counts": {
+        "uncertain": 808,
+        "violated": 958
+      },
+      "uncertain_rate": 0.4575311438278596,
+      "violated_rate": 0.5424688561721405
+    },
+    "relative_vertical": {
+      "nonsatisfied_rate": 0.9948717948717949,
+      "nonviolated_rate": 0.4512820512820513,
+      "p_geom_valid": {
+        "count": 390,
+        "max": 0.9995501986402647,
+        "mean": 0.48394672713559544,
+        "min": 8.73382203287317e-09
+      },
+      "p_geom_valid_thresholds": {
+        "ge_0_5": 0.5205128205128206,
+        "ge_0_7": 0.4358974358974359,
+        "le_0_1": 0.2948717948717949,
+        "le_0_3": 0.4128205128205128,
+        "le_0_5": 0.4794871794871795
+      },
+      "rows": 390,
+      "satisfied_rate": 0.005128205128205128,
+      "status_counts": {
+        "satisfied": 2,
+        "uncertain": 174,
+        "violated": 214
+      },
+      "uncertain_rate": 0.4461538461538462,
+      "violated_rate": 0.5487179487179488
+    },
+    "support_contact": {
+      "nonsatisfied_rate": 0.9295154185022027,
+      "nonviolated_rate": 0.9933920704845814,
+      "p_geom_valid": {
+        "count": 1816,
+        "max": 0.6160765833833508,
+        "mean": 0.06455373787750315,
+        "min": 7.412793235866193e-09
+      },
+      "p_geom_valid_thresholds": {
+        "ge_0_5": 0.004955947136563877,
+        "ge_0_7": 0.0,
+        "le_0_1": 0.7758810572687225,
+        "le_0_3": 0.9719162995594713,
+        "le_0_5": 0.9950440528634361
+      },
+      "rows": 1816,
+      "satisfied_rate": 0.07048458149779736,
+      "status_counts": {
+        "satisfied": 128,
+        "uncertain": 1676,
+        "violated": 12
+      },
+      "uncertain_rate": 0.9229074889867841,
+      "violated_rate": 0.006607929515418502
+    }
+  },
+  "gt_positive": {
+    "nonsatisfied_rate": 0.14224572004028196,
+    "nonviolated_rate": 0.9964753272910373,
+    "p_geom_valid": {
+      "count": 3972,
+      "max": 0.9999996506255532,
+      "mean": 0.866819905669965,
+      "min": 0.008906986386921974
+    },
+    "p_geom_valid_thresholds": {
+      "ge_0_5": 0.9282477341389728,
+      "ge_0_7": 0.8625377643504532,
+      "le_0_1": 0.004028197381671702,
+      "le_0_3": 0.029707955689828803,
+      "le_0_5": 0.07175226586102719
+    },
+    "rows": 3972,
+    "satisfied_rate": 0.857754279959718,
+    "status_counts": {
+      "satisfied": 3407,
+      "uncertain": 551,
+      "violated": 14
+    },
+    "uncertain_rate": 0.13872104733131924,
+    "violated_rate": 0.003524672708962739
+  },
+  "gt_positive_by_family": {
+    "proximity": {
+      "nonsatisfied_rate": 0.0,
+      "nonviolated_rate": 1.0,
+      "p_geom_valid": {
+        "count": 1766,
+        "max": 0.9999415373279665,
+        "mean": 0.8687386350320986,
+        "min": 0.16430845298419647
+      },
+      "p_geom_valid_thresholds": {
+        "ge_0_5": 0.9739524348810872,
+        "ge_0_7": 0.9088335220838052,
+        "le_0_1": 0.0,
+        "le_0_3": 0.008493771234428085,
+        "le_0_5": 0.026047565118912798
+      },
+      "rows": 1766,
+      "satisfied_rate": 1.0,
+      "status_counts": {
+        "satisfied": 1766
+      },
+      "uncertain_rate": 0.0,
+      "violated_rate": 0.0
+    },
+    "relative_vertical": {
+      "nonsatisfied_rate": 0.4512820512820513,
+      "nonviolated_rate": 0.9948717948717949,
+      "p_geom_valid": {
+        "count": 390,
+        "max": 0.9999996506255532,
+        "mean": 0.925377257098939,
+        "min": 0.14233895192817672
+      },
+      "p_geom_valid_thresholds": {
+        "ge_0_5": 0.9538461538461539,
+        "ge_0_7": 0.9487179487179487,
+        "le_0_1": 0.0,
+        "le_0_3": 0.017948717948717947,
+        "le_0_5": 0.046153846153846156
+      },
+      "rows": 390,
+      "satisfied_rate": 0.5487179487179488,
+      "status_counts": {
+        "satisfied": 214,
+        "uncertain": 174,
+        "violated": 2
+      },
+      "uncertain_rate": 0.4461538461538462,
+      "violated_rate": 0.005128205128205128
+    },
+    "support_contact": {
+      "nonsatisfied_rate": 0.21420704845814978,
+      "nonviolated_rate": 0.9933920704845814,
+      "p_geom_valid": {
+        "count": 1816,
+        "max": 0.9999681038449978,
+        "mean": 0.8523783621067301,
+        "min": 0.008906986386921974
+      },
+      "p_geom_valid_thresholds": {
+        "ge_0_5": 0.8783039647577092,
+        "ge_0_7": 0.7990088105726872,
+        "le_0_1": 0.00881057268722467,
+        "le_0_3": 0.05286343612334802,
+        "le_0_5": 0.12169603524229075
+      },
+      "rows": 1816,
+      "satisfied_rate": 0.7857929515418502,
+      "status_counts": {
+        "satisfied": 1427,
+        "uncertain": 377,
+        "violated": 12
+      },
+      "uncertain_rate": 0.20759911894273128,
+      "violated_rate": 0.006607929515418502
+    }
+  },
+  "p_geom_valid_discrimination": {
+    "auprc_valid": 0.9728973123059211,
+    "auroc_valid": 0.9771915493043449,
+    "brier": 0.054288200834003875,
+    "mean_p_geom_valid": 0.49641012870502915,
+    "negatives": 3972,
+    "positives": 3972,
+    "rows": 7944
+  },
+  "p_geom_valid_discrimination_by_family": {
+    "proximity": {
+      "auprc_valid": 0.9978527592873867,
+      "auroc_valid": 0.9975656960659955,
+      "brier": 0.03219431565558167,
+      "mean_p_geom_valid": 0.48943856597109386,
+      "negatives": 1766,
+      "positives": 1766,
+      "rows": 3532
+    },
+    "relative_vertical": {
+      "auprc_valid": 0.8894343687749597,
+      "auroc_valid": 0.895982905982906,
+      "brier": 0.20165867285596822,
+      "mean_p_geom_valid": 0.704661992117267,
+      "negatives": 390,
+      "positives": 390,
+      "rows": 780
+    },
+    "support_contact": {
+      "auprc_valid": 0.9936734727675056,
+      "auroc_valid": 0.9924141624133983,
+      "brier": 0.04412482921314937,
+      "mean_p_geom_valid": 0.4584660499921159,
+      "negatives": 1816,
+      "positives": 1816,
+      "rows": 3632
+    }
+  },
+  "schema_version": "h001_gt_verifier_metrics_v1",
+  "status": "ready"
+}

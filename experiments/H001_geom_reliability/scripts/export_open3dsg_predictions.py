@@ -153,6 +153,42 @@ def finite_score(value: Any) -> float | None:
     return score
 
 
+def parse_split_value(value: Any) -> int | None:
+    if value is None:
+        return None
+    if isinstance(value, int):
+        return value
+    text = str(value).strip()
+    if not text:
+        return None
+    try:
+        return int(text)
+    except ValueError:
+        pass
+    if len(text) == 1 and text.lower() in "abcdef":
+        return int(text, 16)
+    return None
+
+
+def normalize_raw_identity(raw: dict[str, Any]) -> tuple[str, int, str] | None:
+    raw_scan = raw.get("scan_id")
+    raw_split = parse_split_value(raw.get("subset_split_id"))
+    if raw_scan is None:
+        return None
+    scan_id = str(raw_scan)
+    if raw_split is None:
+        # Open3DSG feature ids use a hexadecimal split suffix for split >= 10,
+        # and some raw rows surface it as "<scan-id>-a" with no split field.
+        base, sep, suffix = scan_id.rpartition("-")
+        parsed_suffix = parse_split_value(suffix) if sep else None
+        if parsed_suffix is not None and base:
+            scan_id = base
+            raw_split = parsed_suffix
+    if raw_split is None:
+        return None
+    return scan_id, raw_split, f"{scan_id}_{raw_split}"
+
+
 def score_entries(raw: dict[str, Any]) -> list[dict[str, Any]]:
     entries = raw.get("predicate_scores")
     if isinstance(entries, dict):
@@ -206,7 +242,11 @@ def convert_rows(
         if raw.get("record_type") != "open3dsg_raw_prediction":
             errors.append(f"bad_raw_record_type:{raw_index}:{raw.get('record_type')}")
             continue
-        subgraph_id = str(raw.get("subgraph_id") or f"{raw.get('scan_id')}_{raw.get('subset_split_id')}")
+        normalized_identity = normalize_raw_identity(raw)
+        if normalized_identity is None:
+            errors.append(f"bad_raw_identity:{raw_index}:{raw.get('scan_id')}:{raw.get('subset_split_id')}")
+            continue
+        scan_id, subset_split_id, subgraph_id = normalized_identity
         context = contexts.get(subgraph_id)
         if context is None:
             errors.append(f"raw_subgraph_not_in_h001_scope:{subgraph_id}")
@@ -244,8 +284,8 @@ def convert_rows(
                     "baseline_run_id": raw.get("baseline_run_id") or baseline_run_id,
                     "split_name": split_name,
                     "subset_source": "local_dataset/3DSSG_subset/relationships_validation.json",
-                    "scan_id": context["scan_id"],
-                    "subset_split_id": context["subset_split_id"],
+                    "scan_id": scan_id,
+                    "subset_split_id": subset_split_id,
                     "subgraph_id": subgraph_id,
                     "task_mode": TASK_MODE,
                     "edge": {

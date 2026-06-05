@@ -10,14 +10,17 @@ evaluation uses GT-object relation rows and exact predicate-label recall, so
 even the Open3DSG result should be read as relation-reliability evidence rather
 than full open-vocabulary scene graph generation performance.
 
-The Open3DSG experiment is a reproduced averaged-BLIP variant with explicit
-filtering and coverage caveats. The checkpoint is selected by train-dev
-validation loss before H001 held-out inspection, the training and validation
-splits are filtered to preprocessed-ready subgraphs, and H001 evaluation covers
-the loadable Open3DSG scope. These choices do not invalidate the scoped
-reliability result, because the comparisons are within the same reproduced
-source predictions and denominator, but they prevent claims of exact
-non-averaged Open3DSG reproduction or broad open-vocabulary SOTA.
+The Open3DSG experiment uses the selected official non-averaged checkpoint, but
+it is still not a leaderboard reproduction. The checkpoint is selected by
+train-dev validation loss before H001 held-out inspection, training/dev
+provenance remains filtered to preprocessed-ready subgraphs, and the paper-facing
+full-validation result uses a documented recovery-policy branch
+(\texttt{OPEN3DSG\_MIN\_VISIBLE\_OBJECTS=2} plus relaxed two-scan view
+regeneration) to cover 548/548 contexts. The original 533/548 covered branch is
+kept as sensitivity evidence. These choices do not invalidate the scoped
+reliability result, because the comparisons are within the same source
+predictions, row contract, and denominator, but they prevent claims of broad
+Open3DSG SOTA or arbitrary-source generality.
 
 The visual and qualitative evidence should also be read with the correct scope.
 The reduced visual sanity check and Open3DSG qualitative case inspection are

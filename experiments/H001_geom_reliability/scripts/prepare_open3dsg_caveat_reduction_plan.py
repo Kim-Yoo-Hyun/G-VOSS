@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 
-SCHEMA_VERSION = "h001_open3dsg_caveat_reduction_plan_v1"
+SCHEMA_VERSION = "h001_open3dsg_caveat_reduction_plan_v2"
 STATUS_READY = "open3dsg_caveat_reduction_plan_frozen_no_execution"
 ATTACHMENT_LABELS = {"attached to", "hanging on", "connected to"}
 
@@ -409,10 +409,22 @@ def build_plan(
     if h001_eval.get("missing_preprocessed") != 11:
         validation_errors.append("unexpected_current_missing_preprocessed")
     selected = checkpoint_selection.get("selected_checkpoint", {})
-    if selected.get("source_stage") != "avg_blip_full_variant":
-        validation_errors.append("expected_current_selected_checkpoint_to_be_avg_blip_variant")
+    selected_stage = selected.get("source_stage")
+    active_downstream_stage = get(paper_caveats, ["facts", "variant", "source_stage"])
+    if selected_stage not in {"avg_blip_full_variant", "official_non_avg_blip_full"}:
+        validation_errors.append("unexpected_selected_checkpoint_stage")
+    if active_downstream_stage != "avg_blip_full_variant":
+        validation_errors.append("unexpected_active_downstream_variant")
     if attachment_decomposition["open3dsg_missing_exact_label_gt_rows"] != 199:
         validation_errors.append("unexpected_attachment_missing_count")
+
+    route_comparison = checkpoint_selection.get("route_comparison", {})
+    r1_status = "not_completed_or_not_selected"
+    if (
+        checkpoint_selection.get("status") == "checkpoint_selection_ready_official_non_avg_blip"
+        and selected_stage == "official_non_avg_blip_full"
+    ):
+        r1_status = "completed_checkpoint_selected_no_downstream_metrics"
 
     manifest = {
         "schema_version": SCHEMA_VERSION,
@@ -426,7 +438,12 @@ def build_plan(
             "report": relpath(repo_root, out_dir / "report.md"),
         },
         "current_state_summary": {
-            "open3dsg_variant": selected.get("source_stage"),
+            "active_downstream_result_variant": active_downstream_stage,
+            "selected_checkpoint_route": selected_stage,
+            "selected_checkpoint": selected.get("checkpoint_path"),
+            "selected_checkpoint_train_dev_val_loss": get(selected, ["training_internal_val_loss", "value"]),
+            "r1_non_avg_status": r1_status,
+            "route_comparison": route_comparison,
             "h001_covered_contexts": f"{h001_eval.get('complete_feature_ids')}/{h001_eval.get('identity_contexts')}",
             "h001_missing_preprocessed": h001_eval.get("missing_preprocessed"),
             "attachment_open3dsg_missing_exact_label_gt_rows": attachment_decomposition[
@@ -508,6 +525,8 @@ def make_commands_md(retry_plan: dict[str, Any]) -> str:
 
 def make_report(manifest: dict[str, Any], retry_plan: dict[str, Any]) -> str:
     summary = manifest["current_state_summary"]
+    route_comparison = summary.get("route_comparison") or {}
+    comparison_notes = route_comparison.get("interpretation", [])
     lines = [
         "# Open3DSG Caveat-Reduction Plan",
         "",
@@ -516,7 +535,11 @@ def make_report(manifest: dict[str, Any], retry_plan: dict[str, Any]) -> str:
         "",
         "## Current Caveats",
         "",
-        f"- current variant: `{summary['open3dsg_variant']}`",
+        f"- active downstream result variant: `{summary['active_downstream_result_variant']}`",
+        f"- selected checkpoint route: `{summary['selected_checkpoint_route']}`",
+        f"- selected checkpoint: `{summary['selected_checkpoint']}`",
+        f"- selected checkpoint train-dev val/loss: `{summary['selected_checkpoint_train_dev_val_loss']}`",
+        f"- R1 non-avg status: `{summary['r1_non_avg_status']}`",
         f"- H001 covered contexts: `{summary['h001_covered_contexts']}`",
         f"- missing preprocessed H001 contexts: `{summary['h001_missing_preprocessed']}`",
         f"- attachment Open3DSG missing exact-label GT rows: `{summary['attachment_open3dsg_missing_exact_label_gt_rows']}`",
@@ -541,9 +564,19 @@ def make_report(manifest: dict[str, Any], retry_plan: dict[str, Any]) -> str:
         [
             "## Interpretation",
             "",
+            "R1 non-avg BLIP checkpoint selection reduces the route-level feasibility caveat only after downstream non-avg artifacts are regenerated.",
+            "Until then, the current paper-facing Open3DSG metrics remain the active avg-BLIP result.",
             "Non-avg BLIP success and 388/388 covered-context success would strengthen Open3DSG source credibility.",
             "They do not by themselves make `attachment_deferred_G5d` successful: the 388 retry can only address the missing-preprocessed-context portion, while candidate-pair absence remains a separate denominator/source-universe issue.",
             "",
+        ]
+    )
+    if comparison_notes:
+        lines.extend(["## Route Comparison Notes", ""])
+        lines.extend(f"- {note}" for note in comparison_notes)
+        lines.append("")
+    lines.extend(
+        [
             "## Claim Boundary",
             "",
             "- This artifact is a no-execution plan.",

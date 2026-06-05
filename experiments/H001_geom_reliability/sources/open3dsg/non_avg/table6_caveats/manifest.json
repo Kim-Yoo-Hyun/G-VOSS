@@ -1,0 +1,138 @@
+{
+  "blocked": [],
+  "caveat_wording": {
+    "if_blocked": "Do not update the current paper Table 6 or Open3DSG caveat wording. The active downstream result remains the avg-BLIP Open3DSG branch.",
+    "if_ready": "Report the official non-avg Open3DSG branch as a separately regenerated downstream result. The averaged-BLIP caveat can be removed only for this branch, while filtered train/dev, covered H001 377/388, exact-label denominator 2545, validation_missing_preprocessed:11, and residual calibration-risk caveats remain visible. Promotion over avg-BLIP requires user confirmation."
+  },
+  "claim_boundary": "This artifact compares Open3DSG downstream branches. It does not promote the non-avg branch to the main paper claim without complete metrics, bootstrap, caveat wording, and user confirmation.",
+  "conditions": {
+    "avg_blip": {
+      "control_family_specific_p_geom_valid": {
+        "r100": 0.5984282907662083,
+        "r50": 0.4530451866404715,
+        "violation100": 0.031071620893914915,
+        "violation50": 0.022758620689655173
+      },
+      "probabilistic_recalibrated": {
+        "r100": 0.5579567779960707,
+        "r50": 0.3842829076620825,
+        "violation100": 0.0803177167474421,
+        "violation50": 0.05745358090185677
+      },
+      "rule_verified_point_subtype": {
+        "r100": 0.5237721021611002,
+        "r50": 0.4149312377210216,
+        "violation100": 0.0,
+        "violation50": 0.0
+      },
+      "semantic_only": {
+        "r100": 0.4962671905697446,
+        "r50": 0.3944990176817289,
+        "violation100": 0.11949380721593969,
+        "violation50": 0.13262599469496023
+      }
+    },
+    "non_avg_minus_avg": {
+      "control_family_specific_p_geom_valid": {
+        "r100": 0.006286836935166962,
+        "r50": 0.022003929273084477,
+        "violation100": -5.385029617662948e-05,
+        "violation50": 0.0015384615384615372
+      },
+      "probabilistic_recalibrated": {
+        "r100": 0.005893909626719096,
+        "r50": 0.010216110019646396,
+        "violation100": -0.002073236402800216,
+        "violation50": -0.0004244031830238776
+      },
+      "rule_verified_point_subtype": {
+        "r100": 0.024361493123772116,
+        "r50": 0.03575638506876233,
+        "violation100": 0.0,
+        "violation50": 0.0
+      },
+      "semantic_only": {
+        "r100": 0.035756385068762275,
+        "r50": 0.03654223968565812,
+        "violation100": 0.006138933764135712,
+        "violation50": 0.006896551724137917
+      }
+    },
+    "official_non_avg": {
+      "control_family_specific_p_geom_valid": {
+        "r100": 0.6047151277013753,
+        "r50": 0.475049115913556,
+        "violation100": 0.031017770597738286,
+        "violation50": 0.02429708222811671
+      },
+      "probabilistic_recalibrated": {
+        "r100": 0.5638506876227898,
+        "r50": 0.3944990176817289,
+        "violation100": 0.07824448034464189,
+        "violation50": 0.05702917771883289
+      },
+      "rule_verified_point_subtype": {
+        "r100": 0.5481335952848723,
+        "r50": 0.4506876227897839,
+        "violation100": 0.0,
+        "violation50": 0.0
+      },
+      "semantic_only": {
+        "r100": 0.5320235756385069,
+        "r50": 0.431041257367387,
+        "violation100": 0.1256327409800754,
+        "violation50": 0.13952254641909814
+      }
+    }
+  },
+  "created_at": "2026-06-04T11:43:27.450286+00:00",
+  "inputs": {
+    "avg_root": "experiments/H001_geom_reliability/sources/open3dsg",
+    "checkpoint_selection": "experiments/H001_geom_reliability/sources/open3dsg/checkpoint_selection/manifest.json",
+    "non_avg_root": "experiments/H001_geom_reliability/sources/open3dsg/non_avg"
+  },
+  "outputs": {
+    "manifest_json": "experiments/H001_geom_reliability/sources/open3dsg/non_avg/table6_caveats/manifest.json",
+    "report_md": "experiments/H001_geom_reliability/sources/open3dsg/non_avg/table6_caveats/report.md",
+    "table_json": "experiments/H001_geom_reliability/sources/open3dsg/non_avg/table6_caveats/table6_non_avg_comparison.json"
+  },
+  "route_comparison": {
+    "best_avg_blip_full_variant": {
+      "checkpoint_path": "local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt",
+      "run_id": "2a23a9af581b4666a207423aa6217853",
+      "step": 13103,
+      "val_loss": 0.32881081104278564
+    },
+    "best_official_non_avg_blip_full": {
+      "checkpoint_path": "local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt",
+      "run_id": "25da9c4c00214f3b880cedbb2a124177",
+      "step": 13103,
+      "val_loss": 0.5724539160728455
+    },
+    "interpretation": [
+      "official non-avg BLIP route completed, but its train-dev val/loss is worse than the existing avg-BLIP variant",
+      "avg-BLIP checkpoint-route caveat can be reduced only after the full downstream H001 Open3DSG chain is regenerated under non-avg output paths",
+      "current avg-BLIP H001 metric tables remain the active paper evidence until non-avg raw dump, adapter, geometry join, metrics, CI, and caveat wording exist"
+    ],
+    "train_dev_val_loss_delta_non_avg_minus_avg": 0.24364310503005981
+  },
+  "schema_version": "h001_open3dsg_non_avg_branch_report_v1",
+  "status": "open3dsg_non_avg_branch_ready",
+  "table6_rows": [
+    {
+      "artifact": "experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json",
+      "caveat_note": "averaged-BLIP variant; filtered train/dev; covered H001 377/388; exact-label denominator 2545",
+      "claim_use": "current paper-facing Open3DSG result",
+      "metric_status": "ready",
+      "prediction_source": "Open3DSG avg-BLIP"
+    },
+    {
+      "artifact": "experiments/H001_geom_reliability/sources/open3dsg/non_avg/metrics/metrics.json",
+      "caveat_note": "official non-avg checkpoint; filtered train/dev and covered-scope caveats still apply",
+      "claim_use": "candidate replacement or robustness branch after full downstream regeneration",
+      "metric_status": "ready",
+      "prediction_source": "Open3DSG official non-avg"
+    }
+  ],
+  "warnings": []
+}

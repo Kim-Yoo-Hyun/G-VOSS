@@ -1,6 +1,6 @@
 # Open3DSG Eval Preflight
 
-Created at: `2026-05-19T01:32:34.942186+00:00`
+Created at: `2026-06-05T17:12:01.654107+00:00`
 Status: `ready`
 
 ## Gates

@@ -1,0 +1,82 @@
+{
+  "blockers": [],
+  "created_at": "2026-06-04T17:28:12.743027+00:00",
+  "gates": {
+    "checkpoint": {
+      "blockers": [],
+      "bytes": 1328810637,
+      "checkpoint": "local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt",
+      "exists": true,
+      "passed": true
+    },
+    "imports": {
+      "blockers": [],
+      "cuda": {},
+      "enabled": false,
+      "modules": {},
+      "passed": true
+    },
+    "runtime": {
+      "blockers": [],
+      "passed": true,
+      "paths": {
+        "blip2_positional_embedding": "/workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/checkpoints/blip2_positional_embedding.pt",
+        "checkpoint_dir": "/workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/checkpoints",
+        "classes": "/workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/data/3RScan/3DSSG_subset/classes.txt",
+        "clip_cache_dir": "/workspace/local_dataset/model_cache/home/.cache/clip",
+        "data_dir": "/workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/data",
+        "hf_home": "/workspace/local_dataset/model_cache/huggingface",
+        "home_dir": "/workspace/local_dataset/model_cache/home",
+        "open3dsg_run_script": "/workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/source/open3dsg_source/open3dsg/scripts/run.py",
+        "openseg_saved_model": "/workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/checkpoints/openseg/saved_model.pb",
+        "output_dir": "/workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/output",
+        "pointnet2_ulip_checkpoint": "/workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/checkpoints/pointnet2_ulip.pt",
+        "pointnet_checkpoint": "/workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/checkpoints/pointnet.pth",
+        "raw_dump_dir": "/workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/raw_dump",
+        "relationships": "/workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/data/3RScan/3DSSG_subset/relationships.txt",
+        "relationships_validation": "/workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/data/3RScan/3DSSG_subset/relationships_validation.json",
+        "runtime_root": "/workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime",
+        "source_root": "/workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/source/open3dsg_source",
+        "torch_home": "/workspace/local_dataset/model_cache/torch",
+        "transformers_cache": "/workspace/local_dataset/model_cache/huggingface",
+        "validation_scans": "/workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/data/3RScan/3DSSG_subset/validation_scans.txt",
+        "xdg_cache_home": "/workspace/local_dataset/model_cache/xdg"
+      }
+    },
+    "scope": {
+      "blockers": [],
+      "counts": {
+        "contexts": 548,
+        "selected_scans": 157
+      },
+      "passed": true,
+      "selected_scans": "experiments/H001_geom_reliability/full_validation_transition/scope_contract/scans.txt",
+      "subset_json": "local_dataset/3DSSG_subset/relationships_validation.json"
+    }
+  },
+  "next_action": "Run eval_h001_gt_objects or raw-dump hook with this checkpoint.",
+  "raw_dump_contract": {
+    "adapter_command": "sg docker -c 'env UID=$(id -u) GID=$(id -g) OPEN3DSG_RAW_DUMP_JSONL=/workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/raw_dump/raw.jsonl docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_adapter_raw_dump'",
+    "claim_boundary": "This contract is not second-source metric evidence until the raw dump exists, converts to prediction JSONL, joins with geometry, and evaluates.",
+    "raw_dump_jsonl": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/raw_dump/raw.jsonl",
+    "record_type": "open3dsg_raw_prediction",
+    "required_identity_fields": [
+      "schema_version",
+      "record_type",
+      "baseline_run_id",
+      "scan_id",
+      "subset_split_id",
+      "subgraph_id",
+      "edge.subject_id",
+      "edge.object_id",
+      "predicate_scores[].predicate_label",
+      "predicate_scores[].score"
+    ],
+    "schema_version": "h001_open3dsg_raw_dump_v1",
+    "status": "contract_ready_raw_dump_missing"
+  },
+  "repo_root": "/workspace",
+  "runtime_root": "local_dataset/Open3DSG_staged/h001_full_validation_runtime",
+  "schema_version": "h001_open3dsg_eval_preflight_v1",
+  "status": "ready"
+}

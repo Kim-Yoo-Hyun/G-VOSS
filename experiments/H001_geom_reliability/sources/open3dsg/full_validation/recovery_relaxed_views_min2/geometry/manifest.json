@@ -1,0 +1,196 @@
+{
+  "counts": {
+    "by_family": {
+      "attachment_deferred": 80298,
+      "proximity": 26766,
+      "relative_horizontal": 107064,
+      "relative_vertical": 53532,
+      "support_contact": 80298,
+      "unsupported_first_pass": 347958
+    },
+    "by_family_status": {
+      "attachment_deferred": {
+        "unsupported": 80298
+      },
+      "proximity": {
+        "satisfied": 24510,
+        "uncertain": 1142,
+        "violated": 1114
+      },
+      "relative_horizontal": {
+        "unsupported": 107064
+      },
+      "relative_vertical": {
+        "satisfied": 18506,
+        "uncertain": 16520,
+        "violated": 18506
+      },
+      "support_contact": {
+        "satisfied": 25038,
+        "uncertain": 52858,
+        "violated": 2402
+      },
+      "unsupported_first_pass": {
+        "unsupported": 347958
+      }
+    },
+    "by_status": {
+      "satisfied": 68054,
+      "uncertain": 70520,
+      "unsupported": 535320,
+      "violated": 22022
+    },
+    "by_variant_family_status": {
+      "obb_only": {
+        "attachment_deferred": {
+          "unsupported": 80298
+        },
+        "proximity": {
+          "satisfied": 24510,
+          "uncertain": 1142,
+          "violated": 1114
+        },
+        "relative_horizontal": {
+          "unsupported": 107064
+        },
+        "relative_vertical": {
+          "satisfied": 18506,
+          "uncertain": 16520,
+          "violated": 18506
+        },
+        "support_contact": {
+          "satisfied": 2253,
+          "uncertain": 69822,
+          "violated": 8223
+        },
+        "unsupported_first_pass": {
+          "unsupported": 347958
+        }
+      },
+      "point_subtype": {
+        "attachment_deferred": {
+          "unsupported": 80298
+        },
+        "proximity": {
+          "satisfied": 24510,
+          "uncertain": 1142,
+          "violated": 1114
+        },
+        "relative_horizontal": {
+          "unsupported": 107064
+        },
+        "relative_vertical": {
+          "satisfied": 18506,
+          "uncertain": 16520,
+          "violated": 18506
+        },
+        "support_contact": {
+          "satisfied": 25038,
+          "uncertain": 52858,
+          "violated": 2402
+        },
+        "unsupported_first_pass": {
+          "unsupported": 347958
+        }
+      },
+      "point_subtype_no_soft_support": {
+        "attachment_deferred": {
+          "unsupported": 80298
+        },
+        "proximity": {
+          "satisfied": 24510,
+          "uncertain": 1142,
+          "violated": 1114
+        },
+        "relative_horizontal": {
+          "unsupported": 107064
+        },
+        "relative_vertical": {
+          "satisfied": 18506,
+          "uncertain": 16520,
+          "violated": 18506
+        },
+        "support_contact": {
+          "satisfied": 10357,
+          "uncertain": 65080,
+          "violated": 4861
+        },
+        "unsupported_first_pass": {
+          "unsupported": 347958
+        }
+      }
+    },
+    "by_variant_status": {
+      "obb_only": {
+        "satisfied": 45269,
+        "uncertain": 87484,
+        "unsupported": 535320,
+        "violated": 27843
+      },
+      "point_subtype": {
+        "satisfied": 68054,
+        "uncertain": 70520,
+        "unsupported": 535320,
+        "violated": 22022
+      },
+      "point_subtype_no_soft_support": {
+        "satisfied": 53373,
+        "uncertain": 82742,
+        "unsupported": 535320,
+        "violated": 24481
+      }
+    },
+    "calibration_scored_rows": 160596,
+    "geometry_available_rows": 160596,
+    "missing_point_evidence_rows": 33336,
+    "obb_to_point_status_transitions": {
+      "satisfied_to_satisfied": 619,
+      "satisfied_to_uncertain": 1386,
+      "satisfied_to_violated": 248,
+      "uncertain_to_satisfied": 24417,
+      "uncertain_to_uncertain": 43251,
+      "uncertain_to_violated": 2154,
+      "violated_to_satisfied": 2,
+      "violated_to_uncertain": 8221
+    },
+    "point_context_error_scans": [],
+    "point_context_warning_scans": [],
+    "predictions": 695916,
+    "primary_family_rows": 160596,
+    "rows_preserved": true,
+    "support_subtype_counts": {
+      "legged_floor_support": 6332,
+      "rigid_object_on_furniture": 40380,
+      "soft_support_contact": 33586
+    },
+    "unsupported_family_rows": 535320,
+    "verification_rows": 695916
+  },
+  "created_at": "2026-06-04T18:18:30.195582+00:00",
+  "errors": [],
+  "inputs": {
+    "dataset_root": "/workspace/local_dataset",
+    "model_json": "/workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_smoke/model.json",
+    "predictions_jsonl": "/workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/adapter/predictions.jsonl",
+    "selected_scans": "/workspace/experiments/H001_geom_reliability/full_validation_transition/scope_contract/scans.txt"
+  },
+  "joiner": "h001-prediction-join-g2",
+  "notes": [
+    "This artifact preserves every prediction row.",
+    "unsupported status means the predicate family is outside the current H001 geometry-checkable scope.",
+    "G2 emits obb_only, point_subtype, and point_subtype_no_soft_support variants."
+  ],
+  "outputs": {
+    "manifest_json": "/workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/geometry/manifest.json",
+    "report_md": "/workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/geometry/report.md",
+    "verification_jsonl": "/workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/geometry/verification.jsonl"
+  },
+  "record_type": "prediction_geometry_join_manifest",
+  "schema_version": "h001_prediction_geometry_manifest_v1",
+  "selected_verification_policy": "point_subtype",
+  "status": "ready",
+  "warnings": [
+    "invalid_obb:4fbad331-465b-2a5d-8488-852fcda9513c:45:non_positive_aabb_extent",
+    "invalid_obb:c2d99347-1947-2fbf-834b-f95790c125dd:7:non_positive_aabb_extent"
+  ]
+}

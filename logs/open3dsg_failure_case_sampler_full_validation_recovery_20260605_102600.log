@@ -1,0 +1,3 @@
+ Container h001_geom_reliability-open3dsg_failure_case_sampler_full_validation_recovery-run-3445562b5e44 Creating 
+ Container h001_geom_reliability-open3dsg_failure_case_sampler_full_validation_recovery-run-3445562b5e44 Created 
+{"manifest": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_cases/manifest.json", "selected_count": 36, "status": "failure_case_sample_ready"}

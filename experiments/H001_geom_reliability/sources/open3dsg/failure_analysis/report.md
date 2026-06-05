@@ -1,12 +1,13 @@
-# Open3DSG Failure-Analysis Schema
+# H001 Source Failure-Analysis Schema
 
 Status: `failure_analysis_schema_ready_no_metric_run`
-Created at: `2026-05-08T07:29:22+00:00`
+Created at: `2026-06-05T01:25:11+00:00`
 
 ## Scope
 
-This freezes the Open3DSG failure-analysis row contract before Open3DSG metric/failure inspection.
-It does not run Open3DSG, inspect predictions, compute metrics, or assign real failure labels.
+This freezes the H001 failure-analysis row contract before source-specific metric/failure inspection.
+It does not run a relation source, inspect predictions, compute metrics, or assign real failure labels.
+The taxonomy is shared by Open3DSG and VL-SAT; each generated row still records its source-specific baseline name.
 
 ## Primary Categories
 
@@ -42,4 +43,4 @@ Categories are assigned in this fixed priority order:
 
 ## Claim Boundary
 
-Failure-analysis rows are diagnostic evidence only until generated from a reproduced Open3DSG checkpoint, identity-preserving raw dump, H001 prediction JSONL, geometry join, and metric run.
+Failure-analysis rows are diagnostic evidence only after they are generated from source-specific prediction JSONL, GT join, geometry join, and metric artifacts.

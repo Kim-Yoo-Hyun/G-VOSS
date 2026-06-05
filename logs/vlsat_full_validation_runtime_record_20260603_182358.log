@@ -1,0 +1,50 @@
+ Image h001-geom-reliability:latest Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 648B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 335B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11.9-slim-bookworm
+#3 DONE 0.7s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 42.40kB done
+#5 DONE 0.0s
+
+#6 [1/4] FROM docker.io/library/python:3.11.9-slim-bookworm@sha256:8fb099199b9f2d70342674bd9dbccd3ed03a258f26bbd1d556822c6dfc60c317
+#6 resolve docker.io/library/python:3.11.9-slim-bookworm@sha256:8fb099199b9f2d70342674bd9dbccd3ed03a258f26bbd1d556822c6dfc60c317 0.0s done
+#6 DONE 0.0s
+
+#7 [2/4] WORKDIR /workspace
+#7 CACHED
+
+#8 [3/4] RUN pip install --no-cache-dir numpy==1.26.4 pillow==10.4.0
+#8 CACHED
+
+#9 [4/4] COPY experiments/H001_geom_reliability/scripts/ /opt/h001/scripts/
+#9 DONE 0.1s
+
+#10 exporting to image
+#10 exporting layers 0.1s done
+#10 exporting manifest sha256:f71df2116843f6d3f450e2d5fceaafdf2bb4809f87c5aafccdfc205f29e87a12 0.0s done
+#10 exporting config sha256:fdb724dad8db9ac768417905a841fd3bc56774d9f0936c3d43da8c69e4454d0e 0.0s done
+#10 exporting attestation manifest sha256:fb24fc00ba63f895925be0987f89f2df60f1492fe25b83b2202da47e02dc0116 0.1s done
+#10 exporting manifest list sha256:f0b348778cc025a4437662ca05e537462adedd154d9d44b257106afc6923398e
+#10 exporting manifest list sha256:f0b348778cc025a4437662ca05e537462adedd154d9d44b257106afc6923398e 0.0s done
+#10 naming to docker.io/library/h001-geom-reliability:latest done
+#10 unpacking to docker.io/library/h001-geom-reliability:latest 0.0s done
+#10 DONE 0.4s
+
+#11 resolving provenance for metadata file
+#11 DONE 0.0s
+ Image h001-geom-reliability:latest Built 
+ Container h001_geom_reliability-vlsat_full_validation_runtime_record-run-564861f0cc1f Creating 
+ Container h001_geom_reliability-vlsat_full_validation_runtime_record-run-564861f0cc1f Created 
+{"blockers": [], "out": "experiments/H001_geom_reliability/sources/vlsat/full_validation/runtime_record", "status": "vlsat_full_validation_runtime_record_ready_no_metric_execution"}

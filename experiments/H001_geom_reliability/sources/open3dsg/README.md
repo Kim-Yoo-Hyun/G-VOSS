@@ -5,30 +5,219 @@ Open3DSG is the selected second-source expansion for the top-tier path.
 Current status:
 
 ```text
-open3dsg_second_source_metrics_ready
+open3dsg_full_validation_metric_bundle_ready_with_caveats
+open3dsg_full_validation_recovery_relaxed_views_min2_metric_bundle_ready
+open3dsg_full_validation_primary_route_selected_recovery_branch
 ```
 
 Current caveat-reduction plan:
 
-- status: `open3dsg_caveat_reduction_plan_frozen_r1_running`
+- status: `open3dsg_caveat_reduction_plan_frozen_no_execution`
 - artifacts: `caveat_reduction_plan/{manifest.json,retry_plan.json,commands.md,report.md}`
 - frozen order: R1 exact non-averaged BLIP route retry, R2 H001 covered-loadable context retry toward `388/388`, R3 attachment G5d only after Open3DSG caveat-reduction decisions are resolved or explicitly waived
 - current decomposition for attachment impact: Open3DSG missing exact-label GT rows 199 total, with 23 tied to missing preprocessed H001 contexts and 176 tied to absent Open3DSG candidate pairs
-- interpretation: non-avg BLIP and `388/388` success would strengthen Open3DSG source credibility, but they do not by themselves make `attachment_deferred_G5d` successful
+- interpretation: R1 selected an official non-avg BLIP checkpoint and the full
+  downstream non-avg H001 branch is now regenerated under `non_avg/`. Current
+  paper-facing Open3DSG metrics remain avg-BLIP unless the user explicitly
+  promotes the non-avg branch. Non-avg BLIP and `388/388` success strengthen
+  Open3DSG source credibility, but they do not by themselves make
+  `attachment_deferred_G5d` successful.
 
 Current R1 non-averaged BLIP retry:
 
-- status: `launched_running`
+- status: `completed_checkpoint_selected_downstream_metrics_ready`
 - launched at: `2026-06-01 07:19:08 KST`
 - tmux: `h001_open3dsg_train_full_nonavg_retry_20260601_071908`
 - log: `logs/open3dsg_train_full_nonavg_retry_20260601_071908.log`
 - exit file: `logs/open3dsg_train_full_nonavg_retry_20260601_071908.exit`
 - run record: `train_pilot/full_nonavg_retry_20260601_071908.md`
 - initial evidence: preflight passed, training entered epoch 0, and Open3DSG args show `avg_blip_emb=False`
-- latest check: `2026-06-01 19:40 KST`, tmux active, no exit file, epoch 15 at about 595/3744 steps, best current train-dev checkpoint `epoch=13-step=13104.ckpt` with `val/loss=0.5724539161`, run size about 7.5G, disk free about 56G, and no OOM/traceback/no-space error found in the checked log tail
-- boundary: not paper evidence unless the retry completes, checkpoint selection is refreshed, and the full H001 downstream Open3DSG chain is regenerated under separate non-avg output paths
+- final check: `2026-06-04 17:24 KST`, tmux ended, exit file present with code `0`, finished at `2026-06-04T17:01:07+09:00`, final epoch 99 / global step 93600
+- checkpoint selection: Docker `open3dsg_checkpoint_selection` status `checkpoint_selection_ready_official_non_avg_blip`; selected checkpoint `epoch=13-step=13104.ckpt` from MLflow run `25da9c4c00214f3b880cedbb2a124177`
+- selected checkpoint path: `local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt`
+- selected checkpoint sha256: `ca86d429b19e846aec2bfff014256bf36f6f90da07e566b90c461d6eca8d76bb`
+- selection signal: train-dev `val/loss=0.5724539160728455` at step `13103`, before selected-route H001 held-out metrics/failure/visual inspection
+- route comparison: best avg-BLIP variant train-dev `val/loss=0.32881081104278564`; non-avg minus avg delta `+0.24364310503005981`
+- boundary: the non-avg route is now feasible and selected, but it is not paper metric evidence unless the full H001 downstream Open3DSG chain is regenerated under separate non-avg output paths
 
-Plan artifact:
+Current non-avg downstream branch:
+
+- status: `open3dsg_non_avg_branch_ready`
+- branch root: `non_avg/`
+- local entry point: `non_avg/README.md`
+- raw-dump run record: `non_avg/raw_dump/run_20260604_182423.md`
+- raw-dump tmux: `h001_open3dsg_eval_nonavg_stream_20260604_182423`, ended
+- log: `logs/open3dsg_eval_h001_gt_objects_nonavg_stream_20260604_182423.log`
+- downstream continuation tmux: `h001_open3dsg_nonavg_downstream_20260604_183622`
+- downstream continuation record: `non_avg/downstream_after_raw_20260604_183622.md`
+- manual downstream completion record: `non_avg/downstream_manual_20260604.md`
+- fixed checkpoint: selected official non-avg `epoch=13-step=13104.ckpt`
+- fixed feature load dir: `local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3`
+- raw stream: complete, 19,162 rows, 377/377 completed batches; raw process
+  exited `137` after stream finalization
+- completed gates: raw-dump identity, adapter export, geometry join, metric
+  eval, bootstrap CI, and non-avg Table 6/caveat report
+- non-avg key metrics: semantic_only R@50/R@100 `0.4310/0.5320`,
+  Violation@50/@100 `0.1395/0.1256`; probabilistic_recalibrated
+  R@50/R@100 `0.3945/0.5639`, Violation@50/@100 `0.0570/0.0782`;
+  rule_verified_point_subtype R@50/R@100 `0.4507/0.5481`,
+  Violation@50/@100 `0.0/0.0`; family_specific control R@50/R@100
+  `0.4750/0.6047`, Violation@50/@100 `0.0243/0.0310`
+- boundary: non-avg is complete enough to report as a separately regenerated
+  official branch. For the historical 127-scan route, avg-BLIP remains stronger
+  on train-dev loss; the paper-facing Open3DSG primary route is now the
+  full-validation 548/548 recovery branch.
+
+Current R2 H001 covered-scope recovery:
+
+- status: `h001_covered_recovery_raw_stream_complete_exit_137_teardown_oom`
+- branch root: `h001_covered_recovery/`
+- scope: historical H001 127 scans / 388 validation contexts, not the current
+  paper-facing full-validation main route
+- initial audit: `h001_covered_recovery/preprocess_audit/` reported 377/388
+  ready contexts and 11 missing contexts across 10 scans
+- default view audit: after adding NumPy pickle compatibility to the local
+  wrappers, `h001_covered_recovery/views_default_audit/` reports 10/10 missing
+  scans readable
+- diagnosis after default views: 11/11 missing contexts are Open3DSG
+  visible-object-gate drops; visible annotation object counts are 1 for one
+  context, 2 for one context, and 3 for nine contexts
+- recovery policy: `OPEN3DSG_MIN_VISIBLE_OBJECTS=2` recovered 10/11 missing
+  contexts; the final context required backing up/regenerating only
+  `0cac7532-8d6f-2d13-8cea-1e70d5ae4856` with relaxed view thresholds
+- preprocess audit: `h001_covered_recovery/preprocess_audit_388/` reports
+  388/388 ready contexts, 127 unique ready scans, and 7,505 annotation
+  relations
+- feature recovery: tmux `h001_open3dsg_h001_r2_feature_388_retry`, log
+  `logs/open3dsg_h001_r2_feature_388_retry_20260605_144854.log`, exit file
+  `logs/open3dsg_h001_r2_feature_388_retry_20260605_144854.exit`, completed
+  with exit `0`
+- feature audit: `h001_covered_recovery/features_388/` reports 388/388
+  complete feature ids and 1,164 `.pt` files
+- raw dump: tmux `h001_open3dsg_h001_r2_raw_388`, log
+  `logs/open3dsg_h001_r2_raw_388_20260605_150256.log`, exit file
+  `logs/open3dsg_h001_r2_raw_388_20260605_150256.exit`, output
+  `h001_covered_recovery/raw_dump/`
+- raw stream result: manifest status `raw_dump_stream_complete`, 388/388
+  completed batches, 19,224 raw rows, dropped/invalid partial rows `0/0`
+- process provenance: the run used the old H001 streaming hook and exited
+  `137` after finalization. This is recorded as an old-hook process-exit
+  caveat, not as an incomplete artifact. The H001 Open3DSG source patch and
+  active runtime `trainer.py` files now return cleanly after raw stream
+  finalization instead of raising `SystemExit(0)`.
+- clean-return provenance rerun: tmux
+  `h001_open3dsg_h001_r2_raw_clean_return_20260606_003130` completed on
+  2026-06-06 KST. Output root:
+  `h001_covered_recovery/raw_dump_clean_return_20260606_003130/`; log
+  `logs/open3dsg_h001_r2_raw_clean_return_20260606_003130.log`; exit file
+  `logs/open3dsg_h001_r2_raw_clean_return_20260606_003130.exit`. Manifest
+  status is `raw_dump_stream_complete`, 388/388 completed batches, 19,224 raw
+  rows, and dropped/invalid partial rows `0/0`; the log confirms
+  `returning cleanly`. Docker still returned exit `137`; Docker events confirm
+  `container oom` for `open3dsg-eval_h001_gt_objects-run-494244438c14` at
+  2026-06-06 01:05:41 KST, followed by `exitCode=137`. This completes the
+  artifact but does not provide clean process-level provenance.
+- clean-return retry2 after swap reset: tmux
+  `h001_open3dsg_h001_r2_raw_clean_return_retry2_20260606_021154` completed on
+  2026-06-06 KST. Output root:
+  `h001_covered_recovery/raw_dump_clean_return_retry2_20260606_021154/`; log
+  `logs/open3dsg_h001_r2_raw_clean_return_retry2_20260606_021154.log`; exit
+  file `logs/open3dsg_h001_r2_raw_clean_return_retry2_20260606_021154.exit`.
+  Manifest status is `raw_dump_stream_complete`, 388/388 completed batches,
+  19,224 raw rows, and dropped/invalid partial rows `0/0`; the log confirms
+  `returning cleanly`. Docker still returned exit `137`; Docker events confirm
+  `container oom` for `open3dsg-eval_h001_gt_objects-run-c5428c4a28c3` at
+  2026-06-06 02:54:41 KST, followed by `exitCode=137`. Initial swap use was
+  `0B`, but the wrapper memory snapshot at finish showed 5.8 GiB swap in use,
+  so another same-route retry is not recommended.
+- command boundary: this is a caveat-reduction sensitivity branch. It must not
+  change paper wording until raw dump, raw identity, adapter export, geometry
+  join, metrics, bootstrap CI, and table/caveat refresh all pass.
+
+Full official validation transition:
+
+- status: `open3dsg_full_validation_metric_bundle_ready_with_caveats_retry2_stream_complete_exit_137`
+- scope contract: `../../full_validation_transition/scope_contract/`
+- target scope: 157 scans / 548 contexts / 11,254 GT rows / 3,972 H001-family GT rows
+- output root: `full_validation/`
+- runtime root: `local_dataset/Open3DSG_staged/h001_full_validation_runtime`
+- selected checkpoint: official non-avg BLIP `epoch=13-step=13104.ckpt`
+- completed coverage gates: payload, views, preprocess audit/recovery, feature seed/audit, raw stream, raw-dump identity, adapter, geometry join, metrics/controls, bootstrap CI, failure rows, and Table 6/caveat regeneration
+- coverage: views 157/157; preprocess 533/548, with 15 missing contexts after recovery; covered-scope features 533/533; raw stream 26,746 rows / 533 completed batches
+- preprocess retry2: `full_validation/preprocess_retry2/` reran the 13 scans containing the 15 missing contexts with `--force --deep-inspect`; result remained identical at 32 regenerated / 15 missing, with repeated `too few visible objects, scene missalignment possible` source messages
+- raw exit-0 retry: first attempt `raw_dump_exit0_retry_20260604_235944/` was stopped before raw writing because the clean-exit env was not propagated into the container; retry2 `raw_dump_exit0_retry_20260605_000241/` used explicit `docker compose run -e OPEN3DSG_RAW_DUMP_EXIT_AFTER_WRITE=1`, reached 533/533 batches, wrote 26,746 rows, fired the exit-after-write hook, and still ended with exit `137`
+- row outputs: adapter 690,924 predictions; geometry 690,924 verification rows; 159,444 H001-family geometry-checkable rows; 81,448 failure rows
+- table/caveat artifact: `full_validation/table_caveats/{manifest.json,table6_candidate.json,report.md}`
+- bootstrap artifact: `full_validation/bootstrap_ci/{manifest.json,summary.json,summary.md}`
+- boundary: this is a separate full-validation source-output reliability branch.
+  It should not overwrite the avg-BLIP or non-avg hardened branches. After the
+  2026-06-05 route decision, this 533/548 covered branch is retained as a
+  sensitivity / unmodified-source-route check because the 548/548 recovery
+  branch is the selected paper-facing full-denominator Open3DSG result.
+
+Full-validation missing-15 recovery branch:
+
+- status: `open3dsg_full_validation_recovery_relaxed_views_min2_metric_bundle_ready`
+- branch artifacts: `full_validation/preprocess_missing15_diagnosis/`, `full_validation/preprocess_recovery_relaxed_min2/`, and `full_validation/preprocess_recovery_relaxed_views_min2/`
+- metric bundle root: `full_validation/recovery_relaxed_views_min2/`
+- exact source drop condition: `open3dsg/data/preprocess_3rscan.py` returns with `too few visible objects, scene missalignment possible` when fewer than 4 annotation objects have `object2image` view metadata
+- diagnosis: 15/15 missing contexts are source preprocess policy drops; visible annotation object counts were 1 for 2 contexts, 2 for 1 context, and 3 for 12 contexts
+- min-visible recovery: `OPEN3DSG_MIN_VISIBLE_OBJECTS=2` generated 13/15 missing contexts; the 2 remaining contexts had only one visible annotation object
+- relaxed-view recovery: backed up the original view pickles for `0cac7532-8d6f-2d13-8cea-1e70d5ae4856` and `c7895f29-339c-2d13-83e9-90dbe61fa8be`, regenerated only those two scans with relaxed view-generation thresholds, then reran preprocess with `OPEN3DSG_MIN_VISIBLE_OBJECTS=2`
+- preprocess audit: `full_validation/preprocess_recovery_relaxed_views_min2/audit_548/` reports 548/548 ready contexts, 157 unique ready scans, and 11,254 annotation relations
+- feature recovery: `local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/features/clip_features_h001_full_validation_recovery_relaxed_views_min2` was prepared by hardlinking the existing feature run and purging 20 missing/stale ids; Docker/tmux `h001_open3dsg_fullval_recovery_features` completed with exit `0` and feature audit passed 548/548
+- raw stream: Docker/tmux `h001_open3dsg_fullval_recovery_raw_20260605_022812` completed with exit `0`; stream manifest status `raw_dump_stream_complete`, 548/548 batches, 26,938 raw rows, dropped/invalid partial rows `0/0`
+- downstream outputs: raw-dump identity `ready`, adapter 695,916 prediction rows, geometry 695,916 rows with 160,596 H001-family geometry-checkable rows, metrics/controls `ready`, bootstrap CI `ready`, failure rows 82,155, and Table 6/caveat report `open3dsg_full_validation_table_caveats_ready`
+- qualitative failure sample/inspection: `full_validation/recovery_relaxed_views_min2/failure_cases/`
+  is ready with 36 selected high-severity cases, all selected rows requiring
+  visual audit and unique source analysis ids. Inspection summary: 25/36
+  demoted by geometry-aware reranking, 11/36 promoted or retained, and 8/36
+  violated rows with `p_geom_valid > 0.9`.
+- boundary: this is the selected paper-facing primary Open3DSG full-validation
+  branch because it handles all 548 official validation contexts. It is still a
+  recovery variant with relaxed view/preprocess policy, so it must be reported
+  as `min_visible=2` plus two-scan relaxed-view recovery, not as the unmodified
+  Open3DSG source preprocess route. The 533/548 covered branch remains the
+  sensitivity check for the unmodified source-route behavior.
+
+Recovery failure-analysis files:
+
+```text
+full_validation/recovery_relaxed_views_min2/failure_rows/rows.jsonl
+full_validation/recovery_relaxed_views_min2/failure_rows/summary.json
+full_validation/recovery_relaxed_views_min2/failure_rows/manifest.json
+full_validation/recovery_relaxed_views_min2/failure_cases/queue.jsonl
+full_validation/recovery_relaxed_views_min2/failure_cases/manifest.json
+full_validation/recovery_relaxed_views_min2/failure_cases/inspection.json
+full_validation/recovery_relaxed_views_min2/failure_cases/inspection.md
+```
+
+Open3DSG full-validation recovery metrics:
+
+| condition | R@50 | R@100 | V@50 | V@100 |
+| --- | ---: | ---: | ---: | ---: |
+| semantic_only | 0.4096 | 0.5161 | 0.1386 | 0.1242 |
+| probabilistic_recalibrated | 0.3975 | 0.5723 | 0.0606 | 0.0811 |
+| rule_verified_point_subtype | 0.4295 | 0.5368 | 0.0000 | 0.0000 |
+| control_family_specific_p_geom_valid | 0.4658 | 0.6047 | 0.0286 | 0.0341 |
+
+Open3DSG full-validation metrics:
+
+| condition | R@50 | R@100 | V@50 | V@100 |
+| --- | ---: | ---: | ---: | ---: |
+| semantic_only | 0.4043 | 0.5111 | 0.1387 | 0.1242 |
+| probabilistic_recalibrated | 0.3943 | 0.5685 | 0.0590 | 0.0807 |
+| rule_verified_point_subtype | 0.4242 | 0.5320 | 0.0000 | 0.0000 |
+| control_family_specific_p_geom_valid | 0.4612 | 0.5999 | 0.0265 | 0.0332 |
+
+Full-validation caveats:
+
+- 15 validation contexts still lack loadable Open3DSG preprocessed pickles after recovery and retry2 attempts; retry2 reproduced the same missing IDs, so this is currently treated as an Open3DSG source-runtime loadability caveat rather than a transient retry failure.
+- The feature audit is complete for the covered 533-context scope and reports only the missing-preprocess blocker against the full 548-context target.
+- The canonical raw stream finalized 533/533 covered batches and 26,746 rows, but the Open3DSG process exited `137` after finalization; downstream identity/export/geometry/metric/bootstrap/failure/table gates passed on the finalized raw stream. Retry2 also finalized 533/533 batches and 26,746 rows with no OOM/traceback string in the checked log, but still exited `137`; its raw hash differs from canonical because some predicate scores differ. Treat this as a completed stream-output retry, not as a clean-exit replacement. A raw identity/equivalence audit is required before changing paper-facing wording.
+- This remains a source-output reliability evaluation and re-ranking case study, not a full Open3DSG paper reproduction claim.
+
+Historical plan artifact:
 
 ```text
 checkpoint_reproduction_plan_ready_training_not_started
@@ -46,7 +235,7 @@ Required before broad cross-source claims:
 - validation split coverage guard before feature dump/training
 - train/validation feature dump on the filtered runtime split
 - official BLIP TopK5/scales3 full dump completion, or clearly marked reduced/pilot route only for checkpoint smoke
-- trained or otherwise trusted Open3DSG checkpoint: complete with averaged-BLIP variant caveat
+- trained or otherwise trusted Open3DSG checkpoint: complete for current avg-BLIP downstream result; official non-avg checkpoint selected and downstream non-avg metrics/caveat wording regenerated under `non_avg/`
 - identity-preserving raw dump: complete, with clean v14 streaming source-process provenance
 - streaming raw-dump source rerun: complete via same-path v14 resume, exit `0`, 377/377 completed batches, 19,162 rows, SHA256 matching `raw_dump/raw.jsonl`
 - `open3dsg_ov` prediction JSONL export: complete
@@ -67,15 +256,21 @@ Current metric/join contract:
 
 Current checkpoint selection template:
 
-- status: `checkpoint_selection_ready_labeled_avg_blip_variant`
+- status: `checkpoint_selection_ready_official_non_avg_blip`
 - artifacts: `checkpoint_selection/{selection_policy.json,record_template.json,manifest.json,commands.md,report.md}`
-- candidate checkpoints: 8
-- selected checkpoint: `local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt`
-- selected source stage: `avg_blip_full_variant`
-- selection signal: Open3DSG train-dev `val/loss` 0.32881081104278564 at step 13103
+- candidate checkpoints: 14
+- paper-result eligible candidates: 6
+- labeled avg-BLIP variant candidates: 6
+- selected checkpoint: `local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt`
+- selected source stage: `official_non_avg_blip_full`
+- selection signal: Open3DSG train-dev `val/loss` 0.5724539160728455 at step 13103
 - blockers: none
 - selection boundary: primary checkpoint selection must not use H001 held-out R@K, violation rate, failure-analysis distribution, or visual inspection of H001 held-out Open3DSG predictions
-- claim limitation: this is an explicitly labeled averaged-BLIP Open3DSG variant, not the exact non-averaged BLIP projector route
+- route comparison: the selected official non-avg checkpoint is worse than the existing avg-BLIP checkpoint on train-dev `val/loss` by `+0.24364310503005981`
+- claim limitation: the historical 127-scan Open3DSG comparison keeps the
+  avg-BLIP downstream result because it has stronger train-dev loss. Current
+  paper-facing Open3DSG tables should instead be regenerated from the selected
+  full-validation 548/548 recovery branch.
 
 Current raw-dump identity checklist:
 
@@ -131,7 +326,7 @@ Current guard result:
 - `dump_features_3rscan_pilot`: reduced `--mini_dataset`, TopK1/scales1 route for checkpoint smoke only; not paper-result evidence
 - `train_pilot`: non-averaged BLIP projector route is OOM-blocked and kept only as a limitation record
 - `train_pilot_reduced`: reduced checkpoint-smoke route only; not paper-result evidence
-- `train_full`: non-averaged BLIP projector route was previously OOM-blocked; R1 retry is now running under a 22GB free-memory GPU gate and has reached epoch 15, while `train_full_avg_blip` remains the currently selected completed checkpoint route until R1 finishes and checkpoint selection/downstream regeneration are complete
+- `train_full`: non-averaged BLIP projector route previously failed OOM pilots, but the R1 full retry completed with exit `0` and produced a selected official non-avg checkpoint; non-avg downstream artifacts are regenerated under `non_avg/`. For the historical 127-scan route, avg-BLIP remains stronger on train-dev loss; current paper-facing evidence uses the full-validation 548/548 recovery branch.
 - source entrypoint gate: passed (`open3dsg/scripts/run.py` exists)
 - Docker import/CUDA gate: passed (`torch 2.8.0+cu128`, CUDA visible, device count 1, RTX 5090 `sm_120` supported)
 - artifacts: `training_preflight/{dump_features,train_pilot,train_full}.{json,md}`

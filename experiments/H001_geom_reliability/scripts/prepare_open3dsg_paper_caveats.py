@@ -10,9 +10,11 @@ from pathlib import Path
 from typing import Any
 
 
-SCHEMA_VERSION = "h001_open3dsg_paper_caveats_v1"
+SCHEMA_VERSION = "h001_open3dsg_paper_caveats_v2"
 STATUS_READY = "open3dsg_paper_caveats_ready"
 STATUS_BLOCKED = "blocked_missing_required_inputs"
+STATUS_CHECKPOINT_AVG = "checkpoint_selection_ready_labeled_avg_blip_variant"
+STATUS_CHECKPOINT_NON_AVG = "checkpoint_selection_ready_official_non_avg_blip"
 
 
 def parse_args() -> argparse.Namespace:
@@ -114,6 +116,8 @@ def build_payload(repo_root: Path, paths: dict[str, Path], inputs: dict[str, dic
     feature_validation = get(selected_run, ["split_coverage", "validation"], {})
     ground_truth = scope.get("ground_truth_denominator", {})
     checkpoint_payload = checkpoint.get("selected_checkpoint", {})
+    checkpoint_status = checkpoint.get("status")
+    route_comparison = checkpoint.get("route_comparison", {})
     raw_scope = raw_identity.get("scope", {})
     raw_dump = raw_identity.get("raw_dump", {})
 
@@ -177,6 +181,15 @@ def build_payload(repo_root: Path, paths: dict[str, Path], inputs: dict[str, dic
         },
     }
 
+    non_avg_selected_note = ""
+    if checkpoint_status == STATUS_CHECKPOINT_NON_AVG:
+        non_avg_selected_note = (
+            " A separate official non-averaged BLIP checkpoint selection now exists, "
+            "but the downstream H001 Open3DSG raw dump, adapter, geometry, metrics, "
+            "bootstrap CI, Table 6, and caveat wording have not been regenerated for "
+            "that route; current paper-facing metrics remain the averaged-BLIP result."
+        )
+
     fixed_wording = {
         "table_note_short": (
             "Open3DSG results use a Docker-reproduced averaged-BLIP variant selected by train-dev val/loss before H001 held-out inspection. "
@@ -196,6 +209,7 @@ def build_payload(repo_root: Path, paths: dict[str, Path], inputs: dict[str, dic
         "variant_caveat": (
             "The Open3DSG checkpoint is an explicitly labeled averaged-BLIP variant, not the exact non-averaged BLIP projector route. "
             "The selected checkpoint is `epoch=13-step=13104.ckpt`, chosen by train-dev `val/loss` 0.3288108110 at step 13103 before H001 held-out metric, failure, or visual inspection."
+            + non_avg_selected_note
         ),
         "denominator_caveat": (
             "Open3DSG recall is exact predicate-label matched. Family grouping is used for reliability/violation reporting only. "
@@ -210,11 +224,11 @@ def build_payload(repo_root: Path, paths: dict[str, Path], inputs: dict[str, dic
     }
 
     validation_errors: list[str] = []
+    validation_warnings: list[str] = []
     expected_statuses = {
         "train_filter": "filter_applied",
         "validation_filter": "filter_applied",
         "metric_scope": "metric_scope_policy_ready_no_metric_execution",
-        "checkpoint_selection": "checkpoint_selection_ready_labeled_avg_blip_variant",
         "raw_identity": "raw_dump_identity_audit_ready",
         "adapter": "ready",
         "case_inspection": "qualitative_case_inspection_ready",
@@ -222,6 +236,13 @@ def build_payload(repo_root: Path, paths: dict[str, Path], inputs: dict[str, dic
     for name, status in expected_statuses.items():
         if inputs[name].get("status") != status:
             validation_errors.append(f"{name}_status:{inputs[name].get('status')}!= {status}")
+    if checkpoint_status not in {STATUS_CHECKPOINT_AVG, STATUS_CHECKPOINT_NON_AVG}:
+        validation_errors.append(f"checkpoint_selection_status:{checkpoint_status} not in accepted paper-caveat statuses")
+    if checkpoint_status == STATUS_CHECKPOINT_NON_AVG:
+        validation_warnings.append("checkpoint_selection_is_official_non_avg_but_active_downstream_result_remains_avg_blip")
+        delta = route_comparison.get("train_dev_val_loss_delta_non_avg_minus_avg")
+        if delta is not None and delta > 0:
+            validation_warnings.append(f"non_avg_train_dev_val_loss_worse_than_avg_blip_by:{delta}")
     if feature_validation.get("missing_preprocessed") != 11:
         validation_errors.append(f"unexpected_validation_missing_preprocessed:{feature_validation.get('missing_preprocessed')}")
     if feature_validation.get("complete_all_roles") != 377:
@@ -240,7 +261,7 @@ def build_payload(repo_root: Path, paths: dict[str, Path], inputs: dict[str, dic
         "inputs": {name: relpath(repo_root, path) for name, path in paths.items()},
         "facts": facts,
         "fixed_wording": fixed_wording,
-        "validation": {"errors": validation_errors},
+        "validation": {"errors": validation_errors, "warnings": validation_warnings},
         "outputs": outputs,
         "claim_boundary": (
             "Paper-facing wording artifact only. It fixes how to report Open3DSG scope/variant/calibration caveats; "
@@ -324,6 +345,13 @@ def build_report(payload: dict[str, Any]) -> str:
             lines.append(f"- `{error}`")
     else:
         lines.append("- no validation errors")
+    warnings = payload["validation"].get("warnings", [])
+    if warnings:
+        lines.append("")
+        lines.append("Warnings:")
+        lines.append("")
+        for warning in warnings:
+            lines.append(f"- `{warning}`")
     lines.extend(
         [
             "",

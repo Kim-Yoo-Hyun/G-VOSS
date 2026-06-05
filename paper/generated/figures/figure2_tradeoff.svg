@@ -20,21 +20,21 @@
 <text x="25.0" y="295.0" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#111827" text-anchor="middle">R@100</text>
 <text x="70.0" y="495.0" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#6b7280" text-anchor="middle">0.00</text>
 <text x="590.0" y="495.0" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#6b7280" text-anchor="middle">0.05</text>
-<text x="58.0" y="475.0" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#6b7280" text-anchor="end">0.985</text>
-<text x="58.0" y="115.0" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#6b7280" text-anchor="end">0.994</text>
-<line x1="557.6" y1="299.4" x2="476.4" y2="189.3" stroke="#64748b" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
-<line x1="557.6" y1="299.4" x2="392.7" y2="220.8" stroke="#64748b" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
-<line x1="557.6" y1="299.4" x2="70.0" y2="315.1" stroke="#64748b" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
-<circle cx="557.6" cy="299.4" r="7" fill="#4b5563" stroke="#ffffff" stroke-width="2"/>
-<text x="567.6" y="291.4" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#4b5563" text-anchor="start">semantic</text>
-<circle cx="476.4" cy="189.3" r="7" fill="#2563eb" stroke="#ffffff" stroke-width="2"/>
-<text x="486.4" y="181.3" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#2563eb" text-anchor="start">prob.</text>
-<circle cx="392.7" cy="220.8" r="7" fill="#059669" stroke="#ffffff" stroke-width="2"/>
-<text x="402.7" y="212.8" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#059669" text-anchor="start">family</text>
-<circle cx="70.0" cy="315.1" r="7" fill="#dc2626" stroke="#ffffff" stroke-width="2"/>
-<text x="62.0" y="307.1" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#dc2626" text-anchor="end">rule</text>
+<text x="58.0" y="475.0" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#6b7280" text-anchor="end">0.960</text>
+<text x="58.0" y="115.0" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#6b7280" text-anchor="end">0.971</text>
+<line x1="565.5" y1="360.6" x2="490.6" y2="187.6" stroke="#64748b" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+<line x1="565.5" y1="360.6" x2="416.4" y2="204.1" stroke="#64748b" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+<line x1="565.5" y1="360.6" x2="70.0" y2="385.4" stroke="#64748b" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+<circle cx="565.5" cy="360.6" r="7" fill="#4b5563" stroke="#ffffff" stroke-width="2"/>
+<text x="575.5" y="352.6" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#4b5563" text-anchor="start">semantic</text>
+<circle cx="490.6" cy="187.6" r="7" fill="#2563eb" stroke="#ffffff" stroke-width="2"/>
+<text x="500.6" y="179.6" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#2563eb" text-anchor="start">prob.</text>
+<circle cx="416.4" cy="204.1" r="7" fill="#059669" stroke="#ffffff" stroke-width="2"/>
+<text x="426.4" y="196.1" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#059669" text-anchor="start">family</text>
+<circle cx="70.0" cy="385.4" r="7" fill="#dc2626" stroke="#ffffff" stroke-width="2"/>
+<text x="62.0" y="377.4" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#dc2626" text-anchor="end">rule</text>
 <rect x="675" y="70" width="560" height="465" rx="8" fill="#f8fafc" stroke="#e5e7eb"/>
-<text x="690.0" y="95.0" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#111827" text-anchor="start">B. Open3DSG second source</text>
+<text x="690.0" y="95.0" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#111827" text-anchor="start">B. Open3DSG open-vocabulary source</text>
 <line x1="690.0" y1="115" x2="690.0" y2="475" stroke="#d1d5db" stroke-width="0.8"/>
 <line x1="690" y1="115.0" x2="1210" y2="115.0" stroke="#d1d5db" stroke-width="0.8"/>
 <line x1="820.0" y1="115" x2="820.0" y2="475" stroke="#d1d5db" stroke-width="0.8"/>
@@ -50,19 +50,19 @@
 <text x="645.0" y="295.0" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#111827" text-anchor="middle">R@100</text>
 <text x="690.0" y="495.0" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#6b7280" text-anchor="middle">0.00</text>
 <text x="1210.0" y="495.0" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#6b7280" text-anchor="middle">0.13</text>
-<text x="678.0" y="475.0" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#6b7280" text-anchor="end">0.450</text>
+<text x="678.0" y="475.0" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#6b7280" text-anchor="end">0.500</text>
 <text x="678.0" y="115.0" font-family="Arial, sans-serif" font-size="11" font-weight="400" fill="#6b7280" text-anchor="end">0.620</text>
-<line x1="1168.0" y1="377.0" x2="1011.3" y2="246.4" stroke="#64748b" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
-<line x1="1168.0" y1="377.0" x2="814.3" y2="160.7" stroke="#64748b" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
-<line x1="1168.0" y1="377.0" x2="690.0" y2="318.8" stroke="#64748b" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
-<circle cx="1168.0" cy="377.0" r="7" fill="#4b5563" stroke="#ffffff" stroke-width="2"/>
-<text x="1178.0" y="369.0" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#4b5563" text-anchor="start">semantic</text>
-<circle cx="1011.3" cy="246.4" r="7" fill="#2563eb" stroke="#ffffff" stroke-width="2"/>
-<text x="1021.3" y="238.4" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#2563eb" text-anchor="start">prob.</text>
-<circle cx="814.3" cy="160.7" r="7" fill="#059669" stroke="#ffffff" stroke-width="2"/>
-<text x="824.3" y="152.7" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#059669" text-anchor="start">family</text>
-<circle cx="690.0" cy="318.8" r="7" fill="#dc2626" stroke="#ffffff" stroke-width="2"/>
-<text x="682.0" y="310.8" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#dc2626" text-anchor="end">rule</text>
+<line x1="1186.8" y1="426.7" x2="1014.5" y2="258.2" stroke="#64748b" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+<line x1="1186.8" y1="426.7" x2="826.3" y2="160.8" stroke="#64748b" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+<line x1="1186.8" y1="426.7" x2="690.0" y2="364.7" stroke="#64748b" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+<circle cx="1186.8" cy="426.7" r="7" fill="#4b5563" stroke="#ffffff" stroke-width="2"/>
+<text x="1196.8" y="418.7" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#4b5563" text-anchor="start">semantic</text>
+<circle cx="1014.5" cy="258.2" r="7" fill="#2563eb" stroke="#ffffff" stroke-width="2"/>
+<text x="1024.5" y="250.2" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#2563eb" text-anchor="start">prob.</text>
+<circle cx="826.3" cy="160.8" r="7" fill="#059669" stroke="#ffffff" stroke-width="2"/>
+<text x="836.3" y="152.8" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#059669" text-anchor="start">family</text>
+<circle cx="690.0" cy="364.7" r="7" fill="#dc2626" stroke="#ffffff" stroke-width="2"/>
+<text x="682.0" y="356.7" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#dc2626" text-anchor="end">rule</text>
 <text x="70.0" y="540.0" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#111827" text-anchor="start">Operating points:</text>
 <circle cx="202" cy="536" r="6" fill="#4b5563"/>
 <text x="214.0" y="540.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#111827" text-anchor="start">semantic</text>
@@ -72,5 +72,5 @@
 <text x="594.0" y="540.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#111827" text-anchor="start">family</text>
 <circle cx="772" cy="536" r="6" fill="#dc2626"/>
 <text x="784.0" y="540.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#111827" text-anchor="start">rule</text>
-<text x="70.0" y="585.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#6b7280" text-anchor="start">Open3DSG panel is a Docker-reproduced averaged-BLIP second-source variant under covered H001 scope.</text>
+<text x="70.0" y="585.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#6b7280" text-anchor="start">Open3DSG panel uses the full-validation 548/548 recovery branch; 533/548 covered branch is sensitivity evidence.</text>
 </svg>

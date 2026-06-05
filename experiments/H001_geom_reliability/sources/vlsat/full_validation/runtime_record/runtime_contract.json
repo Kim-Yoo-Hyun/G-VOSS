@@ -1,0 +1,164 @@
+{
+  "blockers": [],
+  "checkpoints": [
+    {
+      "exists": true,
+      "name": "clip_adapter_best.pth",
+      "path": "local_dataset/VLSAT_code/CVPR2023-VLSAT/output/ckp/Mmgnet/3dssg/clip_adapter_best.pth",
+      "sha256": "13208f240c5560eed7a86259c5e502928aadcde45ddc23feae633b680223ab66",
+      "size_bytes": 1053403
+    },
+    {
+      "exists": true,
+      "name": "clip_model_best.pth",
+      "path": "local_dataset/VLSAT_code/CVPR2023-VLSAT/output/ckp/Mmgnet/3dssg/clip_model_best.pth",
+      "sha256": "229c6e33dfd09260da740027250748a447a83b08e68f9a34288dc5fccf5a828e",
+      "size_bytes": 353548709
+    },
+    {
+      "exists": true,
+      "name": "config_best.pth",
+      "path": "local_dataset/VLSAT_code/CVPR2023-VLSAT/output/ckp/Mmgnet/3dssg/config_best.pth",
+      "sha256": "c3a9080dc100341b684a82fd951b3df8dd088cd21abbcc234533f3c6f314d40f",
+      "size_bytes": 559
+    },
+    {
+      "exists": true,
+      "name": "lr_scheduler_best.pth",
+      "path": "local_dataset/VLSAT_code/CVPR2023-VLSAT/output/ckp/Mmgnet/3dssg/lr_scheduler_best.pth",
+      "sha256": "30e4bf33cf862b6865b9f62ad065f359267ee6ac9fef1f3c819bcb8e81a8820c",
+      "size_bytes": 815
+    },
+    {
+      "exists": true,
+      "name": "mlp_3d_best.pth",
+      "path": "local_dataset/VLSAT_code/CVPR2023-VLSAT/output/ckp/Mmgnet/3dssg/mlp_3d_best.pth",
+      "sha256": "537036574494bc474aadfc5058198b6502f1f47e336ce91ceaf2d8c55f629cf8",
+      "size_bytes": 1560659
+    },
+    {
+      "exists": true,
+      "name": "mmg_best.pth",
+      "path": "local_dataset/VLSAT_code/CVPR2023-VLSAT/output/ckp/Mmgnet/3dssg/mmg_best.pth",
+      "sha256": "a19f250dc3ecb7903ba02a63cdd02d61b6801cf389eb97a1b332557bfb3c118c",
+      "size_bytes": 85462629
+    },
+    {
+      "exists": true,
+      "name": "obj_encoder_best.pth",
+      "path": "local_dataset/VLSAT_code/CVPR2023-VLSAT/output/ckp/Mmgnet/3dssg/obj_encoder_best.pth",
+      "sha256": "009e0dcaac157ca6d42a02ab6738aae20b1175f4ebdd559b3ad4016a8c065308",
+      "size_bytes": 432535
+    },
+    {
+      "exists": true,
+      "name": "obj_predictor_2d_best.pth",
+      "path": "local_dataset/VLSAT_code/CVPR2023-VLSAT/output/ckp/Mmgnet/3dssg/obj_predictor_2d_best.pth",
+      "sha256": "7f529031fcce475a052f5e7aff567cdefa11d6aba95e205d51f764767b36b035",
+      "size_bytes": 329383
+    },
+    {
+      "exists": true,
+      "name": "obj_predictor_3d_best.pth",
+      "path": "local_dataset/VLSAT_code/CVPR2023-VLSAT/output/ckp/Mmgnet/3dssg/obj_predictor_3d_best.pth",
+      "sha256": "ea8a881a15d87d225c86e84c8984641ea9690e4ad48ff6f7bdb313514958f3f2",
+      "size_bytes": 329383
+    },
+    {
+      "exists": true,
+      "name": "optimizer_best.pth",
+      "path": "local_dataset/VLSAT_code/CVPR2023-VLSAT/output/ckp/Mmgnet/3dssg/optimizer_best.pth",
+      "sha256": "23809829074dc8c836379a0ad827e18e70527dba0d01421395b868df9942487a",
+      "size_bytes": 217406349
+    },
+    {
+      "exists": true,
+      "name": "rel_encoder_2d_best.pth",
+      "path": "local_dataset/VLSAT_code/CVPR2023-VLSAT/output/ckp/Mmgnet/3dssg/rel_encoder_2d_best.pth",
+      "sha256": "9c21fbfb6ea05bff88b9709c5d76e4d91b435a300aecb501d49627d8eb48618d",
+      "size_bytes": 302487
+    },
+    {
+      "exists": true,
+      "name": "rel_encoder_3d_best.pth",
+      "path": "local_dataset/VLSAT_code/CVPR2023-VLSAT/output/ckp/Mmgnet/3dssg/rel_encoder_3d_best.pth",
+      "sha256": "5b238c64bb49e7b4746860856eee2924cf23878acef7edaaa49bc86182b5eae7",
+      "size_bytes": 302487
+    },
+    {
+      "exists": true,
+      "name": "rel_predictor_2d_best.pth",
+      "path": "local_dataset/VLSAT_code/CVPR2023-VLSAT/output/ckp/Mmgnet/3dssg/rel_predictor_2d_best.pth",
+      "sha256": "8579fef004cabc7613002c901a696fe0f33f8a78f614e0d8a33cc98a81b1037d",
+      "size_bytes": 1604567
+    },
+    {
+      "exists": true,
+      "name": "rel_predictor_3d_best.pth",
+      "path": "local_dataset/VLSAT_code/CVPR2023-VLSAT/output/ckp/Mmgnet/3dssg/rel_predictor_3d_best.pth",
+      "sha256": "d0e2121ec1fd2ef8fca279f31755a607c9cc688fc6af14837f2f269a3163f752",
+      "size_bytes": 1604567
+    },
+    {
+      "exists": true,
+      "name": "triplet_projector_2d_best.pth",
+      "path": "local_dataset/VLSAT_code/CVPR2023-VLSAT/output/ckp/Mmgnet/3dssg/triplet_projector_2d_best.pth",
+      "sha256": "64c3e9884e1011d9a5ce567b56b44e76ce6b9187820d46de2790bba6d14cb001",
+      "size_bytes": 8396255
+    },
+    {
+      "exists": true,
+      "name": "triplet_projector_3d_best.pth",
+      "path": "local_dataset/VLSAT_code/CVPR2023-VLSAT/output/ckp/Mmgnet/3dssg/triplet_projector_3d_best.pth",
+      "sha256": "2f11b3adc21bf749f806c838cb0557de567d70de9594b7d85cc5e7c6a1e534b6",
+      "size_bytes": 8396255
+    }
+  ],
+  "counts": {
+    "candidate_directed_pairs": 36808,
+    "checkpoint_files_expected": 16,
+    "checkpoint_files_present": 16,
+    "contexts": 548,
+    "expected_vlsat_prediction_rows": 957008,
+    "gt_rows": 11254,
+    "h001_family_gt_rows": 3972,
+    "selected_scans": 157
+  },
+  "generated_at": "2026-06-03T09:27:55+00:00",
+  "paths": {
+    "checkpoint_root": "local_dataset/VLSAT_code/CVPR2023-VLSAT/output/ckp/Mmgnet/3dssg",
+    "raw_dump_dir": "experiments/H001_geom_reliability/sources/vlsat/full_validation/raw",
+    "raw_preflight_dir": "experiments/H001_geom_reliability/sources/vlsat/full_validation/raw_preflight",
+    "scope_dir": "experiments/H001_geom_reliability/full_validation_transition/scope_contract",
+    "stage_dir": "experiments/H001_geom_reliability/sources/vlsat/full_validation/stage",
+    "staged_root": "local_dataset/VLSAT_staged/h001_full_validation/CVPR2023-VLSAT",
+    "vlsat_code_root": "local_dataset/VLSAT_code/CVPR2023-VLSAT"
+  },
+  "promotion_rule": "No full-validation VL-SAT output is paper metric evidence until raw dump, adapter export, ground-truth JSONL, geometry join, source metrics, controls, GT verifier check, bootstrap CI, and paper table/report regeneration all complete under the same full-validation scope.",
+  "raw_preflight": {
+    "errors": 0,
+    "report": "experiments/H001_geom_reliability/sources/vlsat/full_validation/raw_preflight/report.md",
+    "status": "ready_to_run",
+    "summary": "experiments/H001_geom_reliability/sources/vlsat/full_validation/raw_preflight/summary.json",
+    "warning_items": [
+      "src_lib_pointnet_graph_missing_using_unused_import_shim"
+    ],
+    "warnings": 1
+  },
+  "runtime": {
+    "image": "h001-open3dsg-repro:cu128",
+    "preflight_service": "vlsat_full_validation_raw_preflight",
+    "raw_dump_service": "vlsat_full_validation_raw_dump",
+    "reason": "existing CUDA 12.8 image already satisfies torch, CLIP, torch_scatter, torch_geometric, trimesh, open3d, and cv2 imports",
+    "stage_service": "vlsat_full_validation_stage"
+  },
+  "schema_version": "h001_vlsat_full_validation_runtime_record_v1",
+  "stage": {
+    "faithful_vlsat_ready_scans": 157,
+    "multi_view_ready_scans": 157,
+    "reference_aligned_mode": "symlink",
+    "stage_manifest": "experiments/H001_geom_reliability/sources/vlsat/full_validation/stage/stage_manifest.json",
+    "status": "ready"
+  },
+  "status": "vlsat_full_validation_runtime_record_ready_no_metric_execution"
+}

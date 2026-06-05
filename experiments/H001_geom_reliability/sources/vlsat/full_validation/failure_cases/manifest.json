@@ -1,0 +1,54 @@
+{
+  "candidate_by_category": {
+    "geometry_contradiction": 516,
+    "semantic_and_geometry_failure": 2381
+  },
+  "candidate_count": 2897,
+  "claim_boundary": "qualitative inspection queue only; not a new metric or representative human audit",
+  "created_at": "2026-06-05T01:26:03.017801+00:00",
+  "outputs": {
+    "manifest_json": "/workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_cases/manifest.json",
+    "queue_jsonl": "/workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_cases/queue.jsonl",
+    "report_md": "/workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_cases/report.md"
+  },
+  "schema_version": "h001_open3dsg_failure_case_sample_v1",
+  "selected_by_category": {
+    "geometry_contradiction": 14,
+    "semantic_and_geometry_failure": 22
+  },
+  "selected_by_family": {
+    "proximity": 6,
+    "relative_vertical": 20,
+    "support_contact": 10
+  },
+  "selected_by_transition": {
+    "demoted_out_of_top100": 16,
+    "demoted_out_of_top50": 6,
+    "promoted_into_top100": 4,
+    "promoted_into_top50": 4,
+    "stayed_in_topk": 6
+  },
+  "selected_count": 36,
+  "selection_config": {
+    "bucket_key": [
+      "primary_category",
+      "predicate_family",
+      "topk_transition"
+    ],
+    "candidate_filter": "needs_visual_audit=true AND severity=high AND category in {geometry_contradiction, semantic_and_geometry_failure}",
+    "case_id_prefix": "vlsat_case",
+    "limit": 36,
+    "max_per_subgraph": 2,
+    "per_bucket": 1,
+    "record_type": "vlsat_qualitative_case_candidate",
+    "source_name": "VL-SAT full-validation"
+  },
+  "source_row_count": 59841,
+  "source_rows": "experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_rows/rows.jsonl",
+  "status": "failure_case_sample_ready",
+  "validation": {
+    "all_selected_high_severity": true,
+    "all_selected_need_visual_audit": true,
+    "unique_source_analysis_ids": true
+  }
+}

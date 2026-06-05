@@ -50,6 +50,7 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=Path("experiments/H001_geom_reliability/sources/open3dsg/eval_preflight"),
     )
+    parser.add_argument("--expected-contexts", type=int, default=EXPECTED_CONTEXTS)
     parser.add_argument("--ensure-dirs", action="store_true")
     parser.add_argument("--check-imports", action="store_true")
     return parser.parse_args()
@@ -191,7 +192,12 @@ def runtime_gate(repo_root: Path, runtime_root: Path, raw_dump_jsonl: Path, ensu
     }
 
 
-def scope_gate(repo_root: Path, subset_json: Path, selected_scans: Path) -> dict[str, Any]:
+def scope_gate(
+    repo_root: Path,
+    subset_json: Path,
+    selected_scans: Path,
+    expected_contexts: int,
+) -> dict[str, Any]:
     blockers: list[str] = []
     counts = {"selected_scans": 0, "contexts": 0}
     if not selected_scans.is_file():
@@ -208,8 +214,8 @@ def scope_gate(repo_root: Path, subset_json: Path, selected_scans: Path) -> dict
         if str(entry.get("scan")) in selected
     ]
     counts = {"selected_scans": len(selected), "contexts": len(contexts)}
-    if len(contexts) != EXPECTED_CONTEXTS:
-        blockers.append(f"unexpected_h001_context_count:{len(contexts)}/{EXPECTED_CONTEXTS}")
+    if len(contexts) != expected_contexts:
+        blockers.append(f"unexpected_h001_context_count:{len(contexts)}/{expected_contexts}")
     return {
         "passed": not blockers,
         "counts": counts,
@@ -355,7 +361,12 @@ def main() -> int:
         raw_dump_jsonl=raw_dump_jsonl,
         ensure_dirs=args.ensure_dirs,
     )
-    scope_result = scope_gate(repo_root=repo_root, subset_json=subset_json, selected_scans=selected_scans)
+    scope_result = scope_gate(
+        repo_root=repo_root,
+        subset_json=subset_json,
+        selected_scans=selected_scans,
+        expected_contexts=args.expected_contexts,
+    )
     import_result = import_gate(enabled=args.check_imports)
     blockers = [
         *checkpoint_result["blockers"],

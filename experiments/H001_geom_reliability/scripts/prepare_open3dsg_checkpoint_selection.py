@@ -12,10 +12,11 @@ from pathlib import Path
 from typing import Any
 
 
-SCHEMA_VERSION = "h001_open3dsg_checkpoint_selection_v3"
+SCHEMA_VERSION = "h001_open3dsg_checkpoint_selection_v4"
 STATUS_READY_MISSING = "checkpoint_selection_template_ready_checkpoint_missing"
 STATUS_READY_WITH_CANDIDATES = "checkpoint_selection_template_ready_candidates_present"
 STATUS_READY_SELECTED_VARIANT = "checkpoint_selection_ready_labeled_avg_blip_variant"
+STATUS_READY_SELECTED_OFFICIAL = "checkpoint_selection_ready_official_non_avg_blip"
 
 
 def parse_args() -> argparse.Namespace:
@@ -288,8 +289,69 @@ def select_predeclared_checkpoint(candidates: list[dict[str, Any]]) -> dict[str,
         else "documented lower-memory avg-BLIP full variant selected by Open3DSG train-dev val/loss after non-averaged BLIP route produced no checkpoint"
     )
     selected["h001_eval_metric_seen_before_selection"] = False
-    selected["selected_before_raw_dump_or_metric"] = True
+    selected["selected_before_selected_route_raw_dump_or_metric"] = True
     return selected
+
+
+def best_checkpoint_for_stage(candidates: list[dict[str, Any]], stage: str) -> dict[str, Any] | None:
+    pool = [
+        candidate
+        for candidate in candidates
+        if candidate.get("source_stage") == stage
+        and candidate.get("filename") != "last.ckpt"
+        and isinstance(candidate.get("training_internal_val_loss"), dict)
+        and isinstance(candidate["training_internal_val_loss"].get("value"), (int, float))
+    ]
+    if not pool:
+        return None
+    return min(pool, key=lambda candidate: float(candidate["training_internal_val_loss"]["value"]))
+
+
+def summarize_route_comparison(candidates: list[dict[str, Any]], selected: dict[str, Any] | None) -> dict[str, Any]:
+    best_non_avg = best_checkpoint_for_stage(candidates, "official_non_avg_blip_full")
+    best_avg = best_checkpoint_for_stage(candidates, "avg_blip_full_variant")
+
+    comparison: dict[str, Any] = {
+        "best_official_non_avg_blip_full": None,
+        "best_avg_blip_full_variant": None,
+        "train_dev_val_loss_delta_non_avg_minus_avg": None,
+        "interpretation": [],
+    }
+    if best_non_avg:
+        comparison["best_official_non_avg_blip_full"] = {
+            "checkpoint_path": best_non_avg["checkpoint_path"],
+            "val_loss": best_non_avg["training_internal_val_loss"]["value"],
+            "step": best_non_avg["training_internal_val_loss"]["step"],
+            "run_id": best_non_avg.get("mlflow_run_id"),
+        }
+    if best_avg:
+        comparison["best_avg_blip_full_variant"] = {
+            "checkpoint_path": best_avg["checkpoint_path"],
+            "val_loss": best_avg["training_internal_val_loss"]["value"],
+            "step": best_avg["training_internal_val_loss"]["step"],
+            "run_id": best_avg.get("mlflow_run_id"),
+        }
+    if best_non_avg and best_avg:
+        delta = float(best_non_avg["training_internal_val_loss"]["value"]) - float(
+            best_avg["training_internal_val_loss"]["value"]
+        )
+        comparison["train_dev_val_loss_delta_non_avg_minus_avg"] = delta
+        if delta > 0:
+            comparison["interpretation"].append(
+                "official non-avg BLIP route completed, but its train-dev val/loss is worse than the existing avg-BLIP variant"
+            )
+        else:
+            comparison["interpretation"].append(
+                "official non-avg BLIP route completed and is not worse than the avg-BLIP variant by train-dev val/loss"
+            )
+    if selected and selected.get("source_stage") == "official_non_avg_blip_full":
+        comparison["interpretation"].append(
+            "avg-BLIP checkpoint-route caveat can be reduced only after the full downstream H001 Open3DSG chain is regenerated under non-avg output paths"
+        )
+        comparison["interpretation"].append(
+            "current avg-BLIP H001 metric tables remain the active paper evidence until non-avg raw dump, adapter, geometry join, metrics, CI, and caveat wording exist"
+        )
+    return comparison
 
 
 def record_template() -> dict[str, Any]:
@@ -332,9 +394,9 @@ def selection_policy() -> dict[str, Any]:
             "must_freeze_before": [
                 "Open3DSG pilot checkpoint inspection",
                 "Open3DSG full checkpoint inspection",
-                "H001 raw dump generation",
-                "H001 Open3DSG prediction JSONL export",
-                "H001 Open3DSG metric computation",
+                "selected-route H001 raw dump generation",
+                "selected-route H001 Open3DSG prediction JSONL export",
+                "selected-route H001 Open3DSG metric computation",
             ],
             "forbidden_selection_signals": [
                 "H001 held-out R@K",
@@ -426,6 +488,7 @@ def source_statuses(paths: dict[str, Path]) -> dict[str, str | None]:
 
 def build_report(payload: dict[str, Any]) -> str:
     selected = payload.get("selected_checkpoint")
+    route_comparison = payload.get("route_comparison") or {}
     lines = [
         "# Open3DSG Checkpoint Selection",
         "",
@@ -434,7 +497,8 @@ def build_report(payload: dict[str, Any]) -> str:
         "",
         "## Fact",
         "",
-        "- The checkpoint provenance schema and selection policy are refreshed before any H001 held-out Open3DSG metric inspection.",
+        "- The checkpoint provenance schema and selection policy use route priority, source provenance, and Open3DSG train-dev validation loss only.",
+        "- For the selected route, no H001 held-out metric, failure taxonomy, or visual inspection is used for checkpoint selection.",
         "- This artifact does not train Open3DSG, inspect held-out predictions, or compute metrics.",
         "- Reduced-route checkpoints are smoke-only unless the paper claim is explicitly downgraded.",
         "",
@@ -469,6 +533,24 @@ def build_report(payload: dict[str, Any]) -> str:
                 "- H001 held-out metrics seen before selection: `False`",
             ]
         )
+    if route_comparison:
+        non_avg = route_comparison.get("best_official_non_avg_blip_full") or {}
+        avg = route_comparison.get("best_avg_blip_full_variant") or {}
+        lines.extend(["", "## Route Comparison", ""])
+        if non_avg:
+            lines.append(
+                f"- best official non-avg BLIP: `{non_avg.get('checkpoint_path')}`, val/loss `{non_avg.get('val_loss')}` at step `{non_avg.get('step')}`"
+            )
+        if avg:
+            lines.append(
+                f"- best avg-BLIP variant: `{avg.get('checkpoint_path')}`, val/loss `{avg.get('val_loss')}` at step `{avg.get('step')}`"
+            )
+        if route_comparison.get("train_dev_val_loss_delta_non_avg_minus_avg") is not None:
+            lines.append(
+                f"- non-avg minus avg train-dev val/loss: `{route_comparison['train_dev_val_loss_delta_non_avg_minus_avg']}`"
+            )
+        for item in route_comparison.get("interpretation", []):
+            lines.append(f"- {item}")
     if payload.get("claim_limitations"):
         lines.extend(["", "## Claim Limitations", ""])
         lines.extend(f"- `{limitation}`" for limitation in payload["claim_limitations"])
@@ -522,6 +604,7 @@ def main() -> int:
     paper_result_eligible_count = sum(candidate.get("paper_result_eligible") is True for candidate in candidates)
     labeled_variant_count = sum(candidate.get("paper_result_eligible") == "labeled_variant_only" for candidate in candidates)
     selected_checkpoint = select_predeclared_checkpoint(candidates)
+    route_comparison = summarize_route_comparison(candidates, selected_checkpoint)
     blockers: list[str] = []
     if not checkpoint_dir.is_dir():
         blockers.append(f"missing_checkpoint_dir:{relpath(repo_root, checkpoint_dir)}")
@@ -541,6 +624,16 @@ def main() -> int:
     policy = selection_policy()
     template = record_template()
     claim_limitations: list[str] = []
+    if selected_checkpoint and selected_checkpoint.get("paper_result_eligible") is True:
+        claim_limitations.extend(
+            [
+                "non_avg_checkpoint_selected_no_downstream_h001_metrics_yet",
+                "current_paper_tables_still_use_avg_blip_until_non_avg_downstream_chain_is_regenerated",
+            ]
+        )
+        delta = route_comparison.get("train_dev_val_loss_delta_non_avg_minus_avg")
+        if isinstance(delta, (int, float)) and delta > 0:
+            claim_limitations.append("non_avg_train_dev_val_loss_worse_than_existing_avg_blip_variant")
     if paper_result_eligible_count == 0 and labeled_variant_count:
         claim_limitations.extend(
             [
@@ -552,7 +645,9 @@ def main() -> int:
     status = STATUS_READY_MISSING
     if candidates:
         status = STATUS_READY_WITH_CANDIDATES
-    if selected_checkpoint and selected_checkpoint.get("paper_result_eligible") == "labeled_variant_only" and not blockers:
+    if selected_checkpoint and selected_checkpoint.get("paper_result_eligible") is True and not blockers:
+        status = STATUS_READY_SELECTED_OFFICIAL
+    elif selected_checkpoint and selected_checkpoint.get("paper_result_eligible") == "labeled_variant_only" and not blockers:
         status = STATUS_READY_SELECTED_VARIANT
     manifest = {
         "schema_version": SCHEMA_VERSION,
@@ -564,6 +659,7 @@ def main() -> int:
         "labeled_variant_candidate_count": labeled_variant_count,
         "candidate_checkpoints": candidates,
         "selected_checkpoint": selected_checkpoint,
+        "route_comparison": route_comparison,
         "source_statuses": statuses,
         "feature_audit_status": statuses["feature_audit"],
         "source_artifacts": artifact_records(repo_root, source_paths),
@@ -574,8 +670,9 @@ def main() -> int:
         "claim_boundary": (
             "This artifact freezes provenance and selection policy only. It is not Open3DSG metric "
             "evidence and it is not permission to select a checkpoint using H001 held-out metrics. "
-            "If the selected checkpoint is avg-BLIP, downstream evidence must be labeled as an "
-            "averaged-BLIP Open3DSG variant."
+            "If the selected checkpoint is non-avg, downstream evidence must be regenerated under "
+            "separate non-avg output paths before paper wording changes. If the selected checkpoint "
+            "is avg-BLIP, downstream evidence must be labeled as an averaged-BLIP Open3DSG variant."
         ),
         "next_action_after_checkpoint": (
             "Run eval_preflight with the selected checkpoint before raw dump/eval."

@@ -9,10 +9,10 @@ controlled reproduced closed-set anchor that helps test whether the same
 reliability mechanism appears under a cleaner source contract. The families and
 denominator are fixed before source-result
 reporting, so the evaluation tests a predeclared physically checkable slice
-rather than a post-hoc set of favorable predicates. The fixed H001 scope
-contains 127 scans, 388 subgraphs,
-25,916 directed pairs, 673,816 VL-SAT prediction rows, 7,505 ground-truth rows,
-and 2,545 in-scope GT relation instances across the measured
+rather than a post-hoc set of favorable predicates. The paper-facing H001 scope
+is the full official 3DSSG-subset validation split: 157 scans, 548 contexts,
+36,808 directed pairs, 957,008 VL-SAT prediction rows, 11,254 ground-truth rows,
+and 3,972 in-scope GT relation instances across the measured
 geometry-checkable families. Table~\ref{tab:scope} records the denominator and
 the source outputs used by the main source-result table
 (Table~\ref{tab:source-results}).
@@ -21,9 +21,9 @@ the source outputs used by the main source-result table
 \centering
 \small
 \setlength{\tabcolsep}{5pt}
-\caption{\textbf{Fixed H001 evaluation scope.} The paper claim is limited to
+\caption{\textbf{Full official H001 evaluation scope.} The paper claim is limited to
 the measured geometry-checkable families and the listed source outputs. Recall
-is exact predicate-label recall over the 2,545-row in-scope GT denominator;
+is exact predicate-label recall over the 3,972-row in-scope GT denominator;
 family grouping is used for reliability and violation reporting, not for
 relaxing predicate matches.}
 \label{tab:scope}
@@ -31,29 +31,31 @@ relaxing predicate matches.}
 \toprule
 Item & Count & Source & Role in claim \\
 \midrule
-Held-out scans & 127 & H001 fixed scope & Common validation-derived held-out scan set. \\
-Subgraphs / contexts & 388 & H001 fixed scope & Object-pair identity denominator before source-specific loadability. \\
-Directed object pairs & 25,916 & H001 fixed scope & Candidate pair universe for relation rows. \\
-VL-SAT prediction rows & 673,816 & VL-SAT & Controlled reproduced closed-set anchor. \\
-Ground-truth rows & 7,505 & 3DSSG & Full held-out relation annotation rows. \\
-In-scope GT rows & 2,545 & H001 families & Exact-label denominator for \texttt{support\_contact}, \texttt{proximity}, and \texttt{relative\_vertical}. \\
-Open3DSG prediction rows & 496,600 & Open3DSG & Main open-vocabulary relation-source output after filtering 62 raw rows outside the fixed object context. \\
-Geometry-scored rows & 114,600 & H001 verifier & Open3DSG geometry-checkable rows joined to calibrated evidence. \\
+Validation scans & 157 & 3DSSG subset & Full official validation scan set. \\
+Subgraphs / contexts & 548 & 3DSSG subset & Object-pair identity denominator before source-specific row export. \\
+Directed object pairs & 36,808 & H001 scope contract & Candidate pair universe for relation rows. \\
+VL-SAT prediction rows & 957,008 & VL-SAT & Controlled reproduced closed-set anchor. \\
+Ground-truth rows & 11,254 & 3DSSG & Full validation relation annotation rows. \\
+In-scope GT rows & 3,972 & H001 families & Exact-label denominator for \texttt{support\_contact}, \texttt{proximity}, and \texttt{relative\_vertical}. \\
+Open3DSG prediction rows & 695,916 & Open3DSG & Main open-vocabulary relation-source output after filtering 172 raw rows outside the fixed object context. \\
+Geometry-scored rows & 160,596 & H001 verifier & Open3DSG geometry-checkable rows joined to calibrated evidence. \\
 \bottomrule
 \end{tabularx}
 \end{table*}
 
-The Open3DSG result is reported as a Docker-reproduced averaged-BLIP variant,
-not as an exact non-averaged official checkpoint. The selected checkpoint is
+The Open3DSG result is reported as a Docker-reproduced source-output reliability
+case study, not as an official Open3DSG leaderboard reproduction. The selected
+full-validation checkpoint is the official non-averaged BLIP route
 \texttt{epoch=13-step=13104.ckpt}, chosen by train-dev validation loss before
 H001 held-out inspection. The runtime uses a filtered preprocessed-ready train
-split of 3,744/3,852 subgraphs, a train-dev validation split of 156/160
-subgraphs, and an H001 covered loadable evaluation scope of 377/388 contexts
-with \texttt{validation\_missing\_preprocessed:11} reported as a caveat. These
-caveats remain visible because Open3DSG is the main open-vocabulary
-relation-source case study. The claim is therefore within-source reliability
-under a fixed reproduced Open3DSG variant, not an official Open3DSG leaderboard
-or broad generation claim.
+split of 3,744/3,852 subgraphs and a train-dev validation split of 156/160
+subgraphs. The primary Open3DSG full-validation branch covers 548/548 contexts
+by using a recovery policy: \texttt{OPEN3DSG\_MIN\_VISIBLE\_OBJECTS=2} and
+relaxed view regeneration for two scans. The original 533/548 covered branch is
+retained as an unmodified-source-route sensitivity check. These caveats remain
+visible because Open3DSG is the main open-vocabulary relation-source case study.
+The claim is therefore within-source reliability under a fixed reproduced source
+contract, not a broad generation claim.
 
 Table~\ref{tab:claim-boundary} fixes how each source may be used. This is part
 of the experimental design: a result can support the paper only if it passes

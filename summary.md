@@ -1,6 +1,6 @@
 # H001 Research Summary
 
-Last updated: 2026-05-28 KST
+Last updated: 2026-06-05 KST
 
 이 문서는 CAND-001 / H001의 현재 연구 정의, 필요성, 가설, metric,
 비교군, 실험 세팅, contribution, 구현 방향, baseline 재현 가능성을 한곳에
@@ -167,34 +167,85 @@ a rule verifier script for VL-SAT
 
 ## Experimental Setting
 
-Fixed current setting:
+Paper-facing full-validation setting:
 
 | Item | Fixed value |
 | --- | --- |
-| dataset | official `3DSSG_subset` / 3RScan validation-derived held-out scope |
-| implemented prediction source | reproduced `VL-SAT` / `vlsat_closed_set` |
-| selected second-source path | Docker-reproduced `Open3DSG` |
-| held-out scans | 127 |
-| subgraphs | 388 |
-| prediction rows | 673,816 |
-| ground-truth rows | 7,505 |
-| in-scope prediction rows | 155,496 |
-| in-scope GT denominator | 2,545 |
+| dataset | official `3DSSG_subset` / 3RScan full validation |
+| implemented prediction source | reproduced `VL-SAT` / `vlsat_closed_set` full-validation route |
+| selected second-source path | Docker-reproduced `Open3DSG` full-validation recovery branch |
+| held-out scans | 157 |
+| contexts | 548 |
+| directed pairs | 36,808 |
+| VL-SAT prediction rows | 957,008 |
+| Open3DSG prediction rows | 695,916 |
+| ground-truth rows | 11,254 |
+| in-scope GT denominator | 3,972 |
 | predicate families | `support_contact`, `proximity`, `relative_vertical` |
 | frozen verifier policy | `point_subtype` |
 | frozen pooled calibrator | `artifacts/calibration/p_geom_valid_smoke/model.json` |
 | frozen family calibrator | `artifacts/calibration/p_geom_valid_family/model.json` |
 
+Full official validation branch:
+
+- status: `full_validation_primary_route_selected_recovery_branch`
+- scope: official `3DSSG_subset` validation, 157 scans / 548 contexts /
+  11,254 GT rows / 3,972 H001-family GT rows
+- VL-SAT: 957,008 prediction rows, adapter/geometry/metrics/controls/GT
+  verifier/bootstrap/failure-analysis ready under
+  `experiments/H001_geom_reliability/sources/vlsat/full_validation/`
+- Open3DSG covered-scope branch: 690,924 prediction rows, 533 covered raw
+  batches, adapter/raw identity/geometry/metrics/controls/bootstrap/failure
+  rows/Table 6 caveats ready under
+  `experiments/H001_geom_reliability/sources/open3dsg/full_validation/`
+- Open3DSG caveats: selected official non-avg BLIP checkpoint route, 15 missing
+  preprocessed validation contexts after recovery, and raw process exit `137`
+  after stream finalization
+- Open3DSG missing-15 recovery branch: diagnosis identified the exact
+  Open3DSG source condition as the hard-coded 4-visible-object preprocess gate;
+  a separate recovery variant with `OPEN3DSG_MIN_VISIBLE_OBJECTS=2` plus
+  relaxed view generation for two scans now passes preprocess audit at 548/548.
+  The full recovery downstream bundle is ready under
+  `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/`:
+  feature audit 548/548, clean-exit raw dump 26,938 rows / 548 batches,
+  adapter 695,916 prediction rows, geometry 695,916 rows, 160,596
+  H001-family geometry-checkable rows, metrics/controls, bootstrap CI, 82,155
+  failure rows, 36-case qualitative failure inspection, and Table 6/caveat
+  regeneration. Recovery metrics:
+  semantic_only R@50/R@100 `0.4096/0.5161`, V@50/@100 `0.1386/0.1242`;
+  probabilistic_recalibrated R@50/R@100 `0.3975/0.5723`, V@50/@100
+  `0.0606/0.0811`; rule_verified_point_subtype R@50/R@100
+  `0.4295/0.5368`, V@50/@100 `0.0/0.0`; family_specific control
+  R@50/R@100 `0.4658/0.6047`, V@50/@100 `0.0286/0.0341`.
+- Open3DSG recovery caveat: this removes the missing-context denominator caveat
+  but must be described as a recovery-policy variant, not as the unmodified
+  Open3DSG preprocess route.
+- paper rule: regenerate AAAI main tables/prose from the selected
+  full-validation route. Use VL-SAT full-validation as the controlled-anchor
+  result and Open3DSG `recovery_relaxed_views_min2/` as the primary
+  full-denominator Open3DSG result; report the 533/548 covered branch as a
+  sensitivity / unmodified-source-route check.
+- full-validation failure taxonomy: VL-SAT has 59,841 diagnostic rows, 2,897
+  visual-audit queue rows, and a 36-case deterministic qualitative inspection;
+  Open3DSG recovery has 82,155 diagnostic rows, 8,821 visual-audit queue rows,
+  and a new 36-case deterministic qualitative inspection. These artifacts
+  support failure-mechanism/reviewer-defense discussion; they are not
+  representative human-audit metrics.
+
 Open3DSG metric-scope policy:
 
-- in-scope GT denominator: 2,545 rows
-- `support_contact`: 1,199
-- `proximity`: 1,128
-- `relative_vertical`: 218
+- current paper-facing full-validation H001-family GT denominator: 3,972 rows
+- current full-validation families: `support_contact` 1,816, `proximity` 1,766,
+  `relative_vertical` 390
+- historical 127-scan H001-family GT denominator: 2,545 rows
+- historical 127-scan families: `support_contact` 1,199, `proximity` 1,128,
+  `relative_vertical` 218
 - recall matching remains exact predicate-label matching
 - family grouping is for reliability / violation reporting, not recall-label
   collapse
-- filtered-train and covered-scope caveats must be reported
+- current primary caveats: selected checkpoint provenance, filtered train/dev
+  provenance, recovery-policy branch, 533/548 sensitivity branch, and residual
+  calibration risk
 
 Relative-horizontal expansion track:
 
@@ -371,8 +422,8 @@ Cross-source comparison:
 
 | Source | Role | Status |
 | --- | --- | --- |
-| Open3DSG | manuscript main open-vocabulary relation-source case study | Docker-reproduced avg-BLIP checkpoint, H001 eval features, raw dump identity with clean v14 streaming provenance, adapter export, geometry join, metric eval, experiment-artifact Table 6 hook, real failure rows, qualitative case sample, qualitative inspection, paper caveat wording, and subgraph bootstrap CI are ready |
-| `VL-SAT` | controlled reproduced anchor | reproduced and table-ready; used to test the same reliability mechanism under a cleaner closed-set source contract |
+| Open3DSG | manuscript main open-vocabulary relation-source case study | Docker-reproduced avg-BLIP checkpoint, H001 eval features, raw dump identity with clean v14 streaming provenance, adapter export, geometry join, metric eval, experiment-artifact Table 6 hook, real failure rows, qualitative case sample, qualitative inspection, paper caveat wording, and subgraph bootstrap CI are ready for the historical 127-scan branch. R1 official non-avg checkpoint selection and downstream regeneration are complete under `sources/open3dsg/non_avg/`. Full official validation is the selected paper-facing route: the recovery branch `recovery_relaxed_views_min2/` reaches 548/548 with clean raw dump, 695,916 predictions, geometry/metrics/bootstrap, 82,155 failure rows, 36-case qualitative inspection, and Table 6 caveats ready, and must disclose the recovery policy; the original 533/548 covered branch remains sensitivity / unmodified-source-route evidence. |
+| `VL-SAT` | controlled reproduced anchor | 127-scan hardened result is reproduced and table-ready as historical/sensitivity evidence; full official validation rerun is the selected controlled-anchor primary route under `sources/vlsat/full_validation/` with 957,008 predictions, 11,254 GT rows, 3,972 H001-family GT rows, metric status `ready`, GT verifier AUROC `0.9772`, bootstrap warnings 0, 59,841 failure rows, and 36-case qualitative inspection. AAAI table/prose regeneration from this route is complete; remaining work is polish/build verification. |
 | Qwen-VL | third semantic source / modern VLM extension | schema/parser/tiny pilot/pair crops ready; Qwen3-VL-4B cache ready; Docker runtime preflight, 3-row tiny inference smoke, raw-response validation, full-source promotion plan, full-source input audit, all-scope crop preflight, and full-source inference runner plan are ready; 33,384 inferable rows / 134 shards / 11,128 verified unique pair crops; shards 0000-0013 complete with 3,500 parsed rows; remaining resume starts from shard 0014 after GPU guard is acceptable; no full paper-metric validation/evaluation |
 | FROSS | optional online support/contact source | not full-family H001 evidence |
 
@@ -416,40 +467,41 @@ semantic source is a modern VLM rather than a trained 3DSSG predictor?
 
 ## Current Evidence
 
-Fact:
+Fact, paper-facing full-validation primary route:
 
 | Condition | R@50 | R@100 | Violation@50 | Violation@100 |
 | --- | ---: | ---: | ---: | ---: |
-| `semantic_only` | 0.9599 | 0.9894 | 0.0247 | 0.0469 |
-| `probabilistic_recalibrated` | 0.9642 | 0.9921 | 0.0234 | 0.0391 |
-| `family_specific_p_geom_valid` | 0.9619 | 0.9914 | 0.0204 | 0.0310 |
-| `rule_verified_point_subtype` | 0.9587 | 0.9890 | 0.0000 | 0.0000 |
+| `semantic_only` | 0.9272 | 0.9635 | 0.0268 | 0.0476 |
+| `probabilistic_recalibrated` | 0.9305 | 0.9688 | 0.0229 | 0.0404 |
+| `family_specific_p_geom_valid` | 0.9288 | 0.9683 | 0.0206 | 0.0333 |
+| `rule_verified_point_subtype` | 0.9257 | 0.9627 | 0.0000 | 0.0000 |
 
-Open3DSG second-source result:
+Open3DSG full-validation recovery result:
 
 | Condition | R@50 | R@100 | Violation@50 | Violation@100 |
 | --- | ---: | ---: | ---: | ---: |
-| `semantic_only` | 0.3945 | 0.4963 | 0.1326 | 0.1195 |
-| `probabilistic_recalibrated` | 0.3843 | 0.5580 | 0.0575 | 0.0803 |
-| `rule_verified_point_subtype` | 0.4149 | 0.5238 | 0.0000 | 0.0000 |
-| `family_specific_p_geom_valid` | 0.4530 | 0.5984 | 0.0228 | 0.0311 |
+| `semantic_only` | 0.4096 | 0.5161 | 0.1386 | 0.1242 |
+| `probabilistic_recalibrated` | 0.3975 | 0.5723 | 0.0606 | 0.0811 |
+| `rule_verified_point_subtype` | 0.4295 | 0.5368 | 0.0000 | 0.0000 |
+| `family_specific_p_geom_valid` | 0.4658 | 0.6047 | 0.0286 | 0.0341 |
 
 Bootstrap CI:
 
 - Docker `bootstrap_ci` status: `ready`, 1,000 subgraph resamples, warnings none.
-- Open3DSG `family_specific` vs `semantic_only`: R@100 delta `+10.22 pp`
-  with 95% CI `[+7.94,+12.54]`; Violation@100 delta `-8.84 pp` with 95% CI
-  `[-9.41,-8.28]`.
-- VL-SAT `family_specific` vs `semantic_only`: R@100 delta `+0.20 pp` with CI
-  crossing zero; Violation@100 delta `-1.59 pp` with negative CI.
+- Open3DSG `family_specific` vs `semantic_only`: R@100 delta `+8.86 pp`
+  with 95% CI `[+6.69,+10.96]`; Violation@100 delta `-9.01 pp` with 95% CI
+  `[-9.49,-8.53]`.
+- VL-SAT `family_specific` vs `semantic_only`: R@100 delta `+0.48 pp` with
+  95% CI `[+0.11,+0.93]`; Violation@100 delta `-1.43 pp` with 95% CI
+  `[-1.60,-1.28]`.
 
 Fact:
 
-- GT positives: 2,545
-- GT-derived negatives: 2,545
-- GT-positive nonviolated rate: 0.9972
-- GT-derived negative nonsatisfied rate: 0.9694
-- `p_geom_valid` AUROC/AUPRC: 0.9779 / 0.9737
+- GT positives: 3,972
+- GT-derived negatives: 3,972
+- GT-positive nonviolated rate: 0.9965
+- GT-derived negative nonsatisfied rate: 0.9673
+- `p_geom_valid` AUROC/AUPRC: 0.9772 / 0.9729
 - reduced visual sanity-check target quality-issue rate: 0.9333
 - reduced visual sanity-check contradiction rate: 0.0333
 
@@ -515,7 +567,7 @@ Baseline selection policy:
 | Baseline paper | Current H001 role | Official code | Pre-trained baseline checkpoint | Re-training possible | Current decision |
 | --- | --- | --- | --- | --- | --- |
 | `VL-SAT: Visual-Linguistic Semantics Assisted Training for 3D Semantic Scene Graph Prediction in Point Cloud` | Primary reproducible baseline / closed-set 3DSSG anchor | Yes: `wz7in/CVPR2023-VLSAT` | Yes. Official README links a Google Drive `checkpoint`, and mentions `clip_adapter/checkpoint/origin_mean.pth`. GitHub Releases are empty, so checkpoint is Drive-based. | Yes. README gives dependencies, data preparation, multi-view generation, CLIP adapter training, default config, and train/eval commands. | Best first baseline. Use for pre-trained re-eval, retraining attempt, H001 Table 1/2/controls, and ablations. |
-| `Open3DSG: Open-Vocabulary 3D Scene Graphs from Point Clouds with Queryable Objects and Open-Set Relationships` | Required second-source / open-vocabulary anchor | Yes: `boschresearch/Open3DSG`; repo is archived/read-only as of 2026-05-15 check | No trusted final trained Open3DSG checkpoint confirmed in the official repo. Component downloads exist for OpenSeg, BLIP2 positional embedding, and PointNet/PointNet2, but test still requires `--checkpoint [path to checkpoint]`. | Yes, but heavy. README gives setup, data prep, preprocessing, optional 2D feature dump, train, and test commands. Feature dump can require about 300GB per dataset. | Docker reproduction produced an explicitly labeled avg-BLIP checkpoint and H001 metrics. Use as second-source evidence with the frozen `paper_caveats/` wording: filtered-train, averaged-BLIP, covered-scope, `validation_missing_preprocessed:11`, exact-label denominator, and residual calibration-risk caveats; clean v14 streaming raw-dump provenance is available. |
+| `Open3DSG: Open-Vocabulary 3D Scene Graphs from Point Clouds with Queryable Objects and Open-Set Relationships` | Required second-source / open-vocabulary anchor | Yes: `boschresearch/Open3DSG`; repo is archived/read-only as of 2026-05-15 check | No trusted final trained Open3DSG checkpoint confirmed in the official repo. Component downloads exist for OpenSeg, BLIP2 positional embedding, and PointNet/PointNet2, but test still requires `--checkpoint [path to checkpoint]`. | Yes, but heavy. README gives setup, data prep, preprocessing, optional 2D feature dump, train, and test commands. Feature dump can require about 300GB per dataset. | Docker reproduction produced historical avg-BLIP H001 metrics, an official non-avg branch, and the selected full-validation 548/548 recovery branch. R1 exact non-avg full training selected an official non-avg checkpoint; downstream non-avg metrics are ready but train-dev loss remains worse than avg-BLIP for the historical 127-scan route. Current paper-facing second-source evidence should use the full-validation `recovery_relaxed_views_min2/` branch with explicit selected-checkpoint, filtered-train/dev, exact-label denominator, residual calibration-risk, and recovery-policy caveats; the 533/548 covered branch is sensitivity / unmodified-source-route evidence. |
 | `SGFormer: Semantic Graph Transformer for Point Cloud-based 3D Scene Graph Generation` | Optional additional closed-set baseline | Yes: `Andy20178/SGFormer` | Official README states code and model release, but the actual checkpoint asset/path still needs Docker-side verification. | Likely possible. README gives dataset, install, training, and inference commands, but commands include local absolute paths and 3DSSG-O27R16 / 160O26R setup details that need cleanup. | Use only after `VL-SAT` and Open3DSG. Good candidate if a clean checkpoint download and split-compatible adapter are confirmed. |
 
 Recommended baseline order:
@@ -598,7 +650,7 @@ Current data/runtime status:
 - Retry2 used `OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE=1`, reached epoch 0
   step 699/3744, and failed with CUDA OOM in the chunked BLIP projector path.
   Exit code was 1 and no `.ckpt` file was found.
-- The selected lower-memory route is Open3DSG's existing `--avg_blip_emb`
+- The historical lower-memory route is Open3DSG's existing `--avg_blip_emb`
   option, which is compatible with the official `[num_edges, 257, 1408]`
   BLIP feature tensors and skips the train-time BLIP projector. This is a
   reproducible Open3DSG averaged-BLIP variant, not the exact non-averaged
@@ -611,14 +663,21 @@ Current data/runtime status:
 - Full avg-BLIP training completed and Docker checkpoint selection selected
   `epoch=13-step=13104.ckpt` before H001 held-out inspection.
 - Exact non-averaged BLIP route was previously OOM-blocked in pilot retries,
-  but R1 caveat-reduction retry is currently running as Docker/tmux session
-  `h001_open3dsg_train_full_nonavg_retry_20260601_071908`. Latest check on
-  2026-06-01 19:40 KST: no exit file, epoch 15 at about 595/3744 steps, best
-  current non-avg checkpoint `epoch=13-step=13104.ckpt` with train-dev
-  `val/loss=0.5724539161`, run size about 7.5G, and no OOM/traceback/no-space
-  error in the checked log tail. This does not change current paper evidence or
-  averaged-BLIP caveats until R1 completes and the full downstream H001
-  Open3DSG chain is regenerated.
+  but R1 caveat-reduction full retry completed with exit `0` at
+  `2026-06-04T17:01:07+09:00`. Docker checkpoint selection selected
+  `local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt`,
+  sha256 `ca86d429b19e846aec2bfff014256bf36f6f90da07e566b90c461d6eca8d76bb`,
+  by train-dev `val/loss=0.5724539160728455` before selected-route H001
+  held-out metrics. The avg-BLIP checkpoint remains better on train-dev loss
+  (`0.32881081104278564`, delta `+0.24364310503005981` for non-avg), so this
+  remains worse than avg-BLIP for the historical 127-scan comparison. The
+  paper-facing route has since moved to full-validation Open3DSG
+  `recovery_relaxed_views_min2/`, which uses the selected official non-avg
+  checkpoint and must disclose its recovery policy. A separate non-avg
+  downstream branch is complete under
+  `experiments/H001_geom_reliability/sources/open3dsg/non_avg/`; raw stream
+  wrote 19,162 rows / 377 batches, and identity/export/join/metrics/bootstrap/
+  Table 6-caveat services passed.
 - H001 held-out eval feature cache is complete for the covered loadable scope:
   shard loop exit 0, `377/377` complete feature ids, and `1131` `.pt` files.
   Docker `feature_audit_h001_eval` has missing complete feature ids `0`, while
@@ -654,18 +713,19 @@ Current data/runtime status:
 - Docker `open3dsg_geometry_join` is ready: `496600/496600` rows preserved,
   `114600` geometry-checkable rows scored, and G2 variants emitted
   (`obb_only`, `point_subtype`, `point_subtype_no_soft_support`).
-- Docker `open3dsg_metric_eval` is ready with no blockers. Key Open3DSG
-  H001-family metrics are: semantic_only R@50/R@100 `0.3945/0.4963`,
+- Historical 127-scan Docker `open3dsg_metric_eval` is ready with no blockers.
+  Key Open3DSG H001-family metrics for that historical branch are:
+  semantic_only R@50/R@100 `0.3945/0.4963`,
   Violation@50/@100 `0.1326/0.1195`; probabilistic_recalibrated
   R@50/R@100 `0.3843/0.5580`, Violation@50/@100 `0.0575/0.0803`;
   rule_verified_point_subtype R@50/R@100 `0.4149/0.5238`,
   Violation@50/@100 `0.0/0.0`; family_specific control R@50/R@100
   `0.4530/0.5984`, Violation@50/@100 `0.0228/0.0311`.
-- Docker `table_builder` regenerated Table 6 from
+- Historical 127-scan Docker `table_builder` regenerated Table 6 from
   `sources/open3dsg/metrics/metrics.json`; Open3DSG Table 6 hook status is
   `ready`.
-- Docker `open3dsg_failure_generator_real` is ready: it generated 57,736 real
-  failure-analysis rows from semantic top-100 or geometry-reranked top-100
+- Historical 127-scan Docker `open3dsg_failure_generator_real` is ready: it
+  generated 57,736 real failure-analysis rows from semantic top-100 or geometry-reranked top-100
   union per subgraph, with 0 validation errors. Primary categories include
   semantic_false_positive 27,326, insufficient_geometry_evidence 20,828,
   semantic_and_geometry_failure 5,183, geometry_contradiction 979,
@@ -723,11 +783,13 @@ Current paper handoff:
   content pages 1-7, references page 8, AAAI reproducibility checklist page 9,
   and no missing citations, undefined refs, overfull hboxes, LaTeX errors, or
   AAAI package errors.
-- The AAAI reviewer-defense main-text passes are complete. The AAAI source now
-  directly answers the hand-coded-verifier, geometry-only/distance,
-  recall-tradeoff, averaged-BLIP Open3DSG, family-selection, AAAI-relevance,
-  and small-delta uncertainty attacks without moving technical content beyond
-  page 7.
+- The older AAAI reviewer-defense main-text passes are complete for the
+  127-scan manuscript route. The next AAAI source pass must preserve the same
+  defenses while updating Open3DSG wording to the selected full-validation
+  recovery branch: hand-coded-verifier, geometry-only/distance, recall-tradeoff,
+  Open3DSG recovery-policy provenance, family-selection, AAAI-relevance, and
+  small-delta uncertainty attacks must still be answered without moving
+  technical content beyond page 7.
 - The 2026-05-27 appendix/caveat PDF rebuild
   `logs/h001_aaai_pdf_build_appendix_caveat_20260527_202734.log` exits 0;
   `paper/aaai/main.pdf` remains 9 pages, US Letter, with no blocking LaTeX or
@@ -747,13 +809,14 @@ Current paper handoff:
 
 Next required drafting step:
 
-1. Decide the next paper-polish priority now that the AAAI reproducibility
-   checklist and first reviewer-defense pass are complete. The latest AAAI PDF
-   rebuild is clean, and manuscript Table 3 reports Open3DSG first as the main
-   open-vocabulary case study with VL-SAT second as the controlled anchor.
-2. Keep Open3DSG caveats explicit during any further polish; the 2026-05-27
-   consistency pass records averaged-BLIP, filtered-train/dev, covered-scope,
-   exact-label denominator, `validation_missing_preprocessed:11`, and residual
+1. Full-validation AAAI source regeneration and Docker PDF build are complete:
+   `logs/h001_aaai_pdf_build_full_validation_20260605_100108.log` exits 0 and
+   `paper/aaai/main.pdf` remains 9 pages. Next drafting work is manual
+   PDF/layout/content polish, not source-result regeneration.
+2. Keep Open3DSG caveats explicit during any further polish; the current
+   consistency target is selected official non-avg checkpoint provenance,
+   filtered train/dev provenance, full-validation exact-label denominator,
+   548/548 recovery policy, 533/548 sensitivity branch, and residual
    calibration-risk checks in `paper/appendix.md`.
 3. Keep only an optional final-polish task for rendered scene-crop Figure 3
    evidence if a deterministic path is added; the geometry-backed panel is
@@ -784,24 +847,28 @@ Recent Related Work decision:
 Section-structure decision:
 
 - Keep Section 5 as a short standalone `Experimental Setup` section.
-- Do not merge it into Results. Denominator, filtered-train/dev, covered-scope,
-  averaged-BLIP variant, exact-label denominator, Docker-result boundary, and
-  non-claim caveats are reviewer-defense material and should remain visible
-  before the metric results.
+- Do not merge it into Results. Denominator, filtered-train/dev provenance,
+  selected checkpoint, recovery-policy branch, exact-label denominator,
+  Docker-result boundary, and non-claim caveats are reviewer-defense material
+  and should remain visible before the metric results.
 - Use the standard section title and state scope in the first paragraph/tables;
   this follows common CV paper structure more closely than putting `Scope` in
   the heading.
 
 Reproducibility/GitHub portability note:
 
-- `docs/reproducibility.md` records the 2026-05-21 `.gitignore` audit and
-  the 2026-05-26 reproducibility artifact bundle plan.
+- `docs/reproducibility.md` records the 2026-05-21 `.gitignore` audit, the
+  historical 2026-05-26 127-scan bundle, the 2026-06-05 full-validation
+  paper-facing bundle plan, and cleanup candidates that are not required for the
+  current full-validation claim.
 - GitHub can carry the runbooks, Docker setup, scripts, reports, compact
   manifests, tables/metric summaries, and paper planning docs.
-- The selected Open3DSG checkpoint and row-level H001 JSONL outputs should be
-  released as a separate core result bundle with checksum verification; the
-  current verified bundle is `release/h001_core_results_20260526_160957.tar.zst`
-  with checksum file `release/h001_core_results_20260526_160957.sha256`.
+- The selected official non-avg Open3DSG checkpoint and full-validation row-level
+  JSONL outputs should be released as a separate paper-facing result bundle with
+  checksum verification. The existing verified
+  `release/h001_core_results_20260526_160957.tar.zst` bundle is now
+  historical/sensitivity evidence, not the default paper-facing bundle; its
+  local tar/checksum copy was deleted during the 2026-06-05 cleanup.
 - Large datasets, feature caches, and model caches remain intentionally ignored
   and must be rebuilt/downloaded or transferred separately on another computer.
 

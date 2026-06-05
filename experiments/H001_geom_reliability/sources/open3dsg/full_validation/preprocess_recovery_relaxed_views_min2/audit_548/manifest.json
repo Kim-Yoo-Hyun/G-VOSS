@@ -1,0 +1,36 @@
+{
+  "all_split_subgraph_count": 548,
+  "audit_only": true,
+  "blockers": [],
+  "claim_limit": "No Open3DSG raw dump, prediction JSONL, geometry join, metric, or improvement claim exists after preprocessing.",
+  "config_patch": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/preprocess_recovery_relaxed_views_min2/audit_548/config_patch.diff",
+  "date_checked": "2026-06-04T16:57:54+00:00",
+  "force": false,
+  "limit": null,
+  "next_action": "Acquire Open3DSG checkpoint/model artifacts, then run raw dump smoke.",
+  "offset": 0,
+  "open3dsg_min_visible_objects": "4",
+  "open3dsg_source": "local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source",
+  "preprocessed_root": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed",
+  "processed_subgraph_count": 548,
+  "schema_version": "h001_open3dsg_preprocess_v1",
+  "split": "validation",
+  "staged_root": "local_dataset/Open3DSG_staged/h001_full_validation_runtime",
+  "status": "preprocess_ready",
+  "summary": {
+    "actions": {
+      "already_ready": 548
+    },
+    "failed_records": [],
+    "missing_records": [],
+    "missing_subgraph_count": 0,
+    "processed_subgraph_count": 548,
+    "ready_subgraph_count": 548,
+    "total_annotation_relations": 11254,
+    "total_size_bytes": 14072588485,
+    "unique_ready_scans": 157
+  },
+  "warnings": [],
+  "work_source": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/work/open3dsg_eval_source",
+  "workers": 1
+}

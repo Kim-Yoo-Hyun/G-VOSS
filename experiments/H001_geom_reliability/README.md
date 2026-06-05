@@ -1,6 +1,6 @@
 # H001 Geometry Reliability Experiment
 
-Last updated: 2026-05-28
+Last updated: 2026-06-05
 
 This is the first paper-body experiment workflow for H001. It is Docker-based by rule.
 
@@ -14,7 +14,8 @@ Current executable sources:
 Selected top-tier expansion:
 
 - Open3DSG second-source adapter result after Dockerized checkpoint reproduction; checkpoint plan, `training_repro` metadata/split staging, full payload staging, train/validation views, explicit train/validation preprocess filtering, official BLIP TopK5/scales3 feature dump, Docker feature audit, avg-BLIP checkpoint reproduction, checkpoint selection, eval preflight, H001 held-out eval feature-cache generation, raw-dump identity checklist, adapter export, geometry join, metric eval, predicate-family/denominator metric-scope policy, pre-metric failure-analysis schema, synthetic failure row-generator smoke, real failure-analysis rows, qualitative case inspection, paper caveat wording, Table 6 hook, and subgraph bootstrap CI are ready.
-- Open3DSG caveat-reduction plan is frozen under `sources/open3dsg/caveat_reduction_plan/`. Retry order is R1 exact non-averaged BLIP route, R2 H001 covered-loadable context retry toward `388/388`, and R3 attachment G5d only after the Open3DSG decisions are resolved or waived. R1 is currently running as tmux `h001_open3dsg_train_full_nonavg_retry_20260601_071908`; latest check 2026-06-01 19:40 KST reached epoch 15 step ~595/3744 with best current checkpoint `epoch=13-step=13104.ckpt` and no exit file. Current decomposition records attachment Open3DSG missing exact-label GT rows as 199 total: 23 from missing preprocessed H001 contexts and 176 from absent Open3DSG candidate pairs.
+- Open3DSG caveat-reduction plan is frozen under `sources/open3dsg/caveat_reduction_plan/`. Retry order is R1 exact non-averaged BLIP route, R2 H001 covered-loadable context retry toward `388/388`, and R3 attachment G5d only after the Open3DSG decisions are resolved or waived. R1 completed with exit `0` on 2026-06-04 KST and Docker checkpoint selection selected the official non-avg checkpoint `epoch=13-step=13104.ckpt` from MLflow run `25da9c4c00214f3b880cedbb2a124177` using train-dev `val/loss=0.5724539160728455`. The existing avg-BLIP route still has better train-dev `val/loss=0.32881081104278564` for the historical 127-scan comparison. The non-avg downstream branch is complete under `sources/open3dsg/non_avg/`; paper-facing Open3DSG primary evidence now comes from the full-validation 548/548 recovery branch. Current decomposition records attachment Open3DSG missing exact-label GT rows as 199 total: 23 from missing preprocessed H001 contexts and 176 from absent Open3DSG candidate pairs.
+- Open3DSG non-avg downstream branch is ready without overwriting avg-BLIP artifacts. Raw stream completed 19,162 rows and 377/377 batches, then the process exited `137` after finalization. Manual downstream services passed: raw-dump identity, adapter export, geometry join, metric eval, bootstrap CI, and Table 6/caveat report. Key non-avg metrics: semantic_only R@50/R@100 `0.4310/0.5320`, Violation@50/@100 `0.1395/0.1256`; probabilistic_recalibrated R@50/R@100 `0.3945/0.5639`, Violation@50/@100 `0.0570/0.0782`; rule_verified_point_subtype R@50/R@100 `0.4507/0.5481`, Violation@50/@100 `0.0/0.0`; family_specific control R@50/R@100 `0.4750/0.6047`, Violation@50/@100 `0.0243/0.0310`.
 - `relative_horizontal` is now a separate scope-expansion validation track under `sources/relative_horizontal/`. The no-training/no-inference Docker scope audit is ready, with 3,570 candidate GT rows and source rows for VL-SAT / Open3DSG, but current verification status remains unsupported. The Docker coordinate audit and bucket inspection are also ready and currently blocked: best scan-frame macro strict purity is 0.7725, `front`/`behind` strict purity is 0.7445, inverse consistency is 1.0, wrong-frame gap is 0.1231, and `front`/`behind` ambiguity buckets remain substantial. Recommendation is `do_not_promote_relative_horizontal_to_main_claim`. Current AAAI-path decision is to freeze this as appendix/limitation evidence and not run expanded-family metrics. This does not change the current main paper claim. It can only be promoted after coordinate-frame semantics, denominator audit, verifier policy, calibration, controls, source metrics, bootstrap CI, and failure/audit evidence reach the same standard as the current H001 families.
 - `attachment_deferred` is now the preferred future relation-family upgrade under `sources/attachment_deferred/`, not current metric evidence. Docker G0 scope/schema audit, G1 extractor contract, G1b evidence-only dry run, G1c point/surface estimator validation, G2 conservative verifier-policy design, G3 train-dev calibration/counterfactual route, G4 GT policy smoke, G4b error/visual sanity planning, G4c strict-only calibration-filter freeze, G5a pooled strict calibration fit, G5b bounded source scoring preflight, and G5c full-source protocol freeze are complete with status `attachment_deferred_full_source_protocol_frozen_no_metrics`: it adds 967 GT rows (`attached to` 808, `hanging on` 126, `connected to` 33), with candidate source rows for VL-SAT 77,748 and Open3DSG 57,300, and current verification status `unsupported` for both sources. G4c freezes 325 strict calibration rows, G5a fits model `h001-attachment-deferred-p-geom-valid-strict-v1`, G5b scores 120 scan-diverse bounded source rows with 0 validation errors, and G5c freezes 69 deterministic full-source shards for 135,048 rows plus source-specific covered denominators: VL-SAT 967/967 and Open3DSG 768/967. This is still not source metric evidence; full-source scoring, source metrics, controls, bootstrap CI, and completed visual audit do not exist yet. Main AAAI claim promotion requires explicit final user confirmation.
 - Qwen-VL third semantic source / modern VLM extension contract is ready under `sources/qwen_vl/`; recommended small model ladder is Qwen3-VL-4B first, Qwen2.5-VL-3B stable fallback, and Qwen3-VL-2B parser-smoke candidate. Frozen input JSON Schema, output JSONL contract, contract-only validator/parser skeleton, non-held-out tiny pilot scope, runtime model-lock plan, tiny-pilot pair-crop rendering path, model-cache verification, runtime preflight, 3-row tiny inference smoke, runtime raw-response validation, full-source promotion plan, full-source input audit, full-source crop preflight, and full-source inference runner plan are recorded. Current full-source input audit has 77,748 universe rows, 33,384 inferable input rows, 44,364 missing rows, and 134 shards. All-scope crop preflight passed for 33,384 input rows / 11,128 unique pair crops / 0 errors. Runner plan freezes 134 shard commands/resume policy; shards 0000-0013 are complete with 3,500 parsed rows, and run id `20260527_023111` stopped at shard 0014 because the GPU guard observed utilization 36% against the 35% threshold. This is not a replacement for VL-SAT or Open3DSG evidence, and no full Qwen paper-metric evaluation has run.
@@ -23,6 +24,151 @@ Current method framing:
 
 ```text
 calibrated geometry-consistency evaluation and re-ranking framework
+```
+
+## Full Official Validation Transition
+
+2026-06-05 decision update: the paper-facing primary route is now the full
+official `3DSSG_subset` validation split. VL-SAT full-validation is the
+controlled-anchor primary result. Open3DSG
+`sources/open3dsg/full_validation/recovery_relaxed_views_min2/` is the primary
+full-denominator Open3DSG branch; the original 533/548 covered branch remains a
+sensitivity / unmodified-source-route check. The existing 127-scan hardened
+results are historical/sensitivity evidence, not the main table route.
+
+Target full-validation scope:
+
+| Item | Count |
+| --- | ---: |
+| validation scans | 157 |
+| contexts | 548 |
+| GT-positive directed pairs | 7,720 |
+| candidate directed pairs | 36,808 |
+| GT rows | 11,254 |
+| H001-family GT rows | 3,972 |
+| expected VL-SAT prediction rows | 957,008 |
+| `support_contact` | 1,816 |
+| `proximity` | 1,766 |
+| `relative_vertical` | 390 |
+
+Method provenance rule: final predicate-family mapping, hard-rule policies,
+counterfactual construction, and `p_geom_valid` calibration must be described
+as train/train-dev-derived and frozen before validation source-result
+reporting. H001-Mini is hypothesis/feasibility evidence, not a paper metric
+split. Full-validation results require separate VL-SAT and Open3DSG output
+paths, fresh geometry joins, metrics, controls, bootstrap CI, and caveat
+wording before any AAAI table or main claim is rewritten.
+
+Current transition status:
+
+```text
+full_official_validation_scope_contract_ready_no_metric_execution
+vlsat_full_validation_metric_bundle_ready
+vlsat_full_validation_failure_analysis_ready
+open3dsg_full_validation_metric_bundle_ready_with_caveats
+open3dsg_full_validation_recovery_relaxed_views_min2_metric_bundle_ready
+open3dsg_full_validation_recovery_failure_case_inspection_ready
+paper_full_validation_primary_route_selected_recovery_branch
+```
+
+Docker `full_validation_scope_contract` generated the scope-freeze artifact at:
+
+```text
+experiments/H001_geom_reliability/full_validation_transition/scope_contract/
+```
+
+It records raw payload readiness 157/157, existing VL-SAT hardened staged root
+127/157, existing Open3DSG H001 runtime views 127/157, existing Open3DSG H001
+runtime preprocess 377/548, and separate output paths for the full-validation
+rerun. This is not metric evidence.
+
+VL-SAT full-validation staging and runtime preflight are now Docker-ready:
+
+- staged root: `local_dataset/VLSAT_staged/h001_full_validation/CVPR2023-VLSAT`
+- stage artifact: `sources/vlsat/full_validation/stage/`
+- runtime record: `sources/vlsat/full_validation/runtime_record/`
+- raw preflight: `sources/vlsat/full_validation/raw_preflight/`
+- result: 157/157 faithful staged scans, 16/16 checkpoint files, raw preflight
+  `ready_to_run`, 0 errors, and 1 expected legacy import-shim warning.
+
+The VL-SAT full-validation metric bundle is now ready under
+`sources/vlsat/full_validation/`. Run record:
+`sources/vlsat/full_validation/raw/run_20260604_204428.md`. Completed artifacts:
+raw dump/export, ground-truth JSONL, geometry join, metrics, controls, GT
+verifier check, VL-SAT-only bootstrap CI, failure-analysis rows, and
+deterministic qualitative failure-case inspection under the same
+full-validation scope. Failure rows: 59,841; selected qualitative cases: 36.
+Key metrics:
+
+| condition | R@50 | R@100 | V@50 | V@100 |
+| --- | ---: | ---: | ---: | ---: |
+| semantic_only | 0.9272 | 0.9635 | 0.0268 | 0.0476 |
+| probabilistic_recalibrated | 0.9305 | 0.9688 | 0.0229 | 0.0404 |
+| rule_verified_point_subtype | 0.9257 | 0.9627 | 0.0000 | 0.0000 |
+| control_family_specific_p_geom_valid | 0.9288 | 0.9683 | 0.0206 | 0.0333 |
+
+The Open3DSG full-validation metric bundle is also ready under
+`sources/open3dsg/full_validation/`. It was generated under separate output
+paths and does not overwrite the existing avg-BLIP or non-avg hardened
+branches. Completed gates: payload/views/preprocess coverage audit, recovery
+attempt for missing contexts, covered-scope feature seed/audit, selected
+checkpoint raw dump, raw-dump identity, adapter export, geometry join,
+metrics/controls, bootstrap CI, failure rows, and Table 6/caveat regeneration.
+
+Open3DSG full-validation coverage and row counts:
+
+- views: 157/157
+- preprocess: 533/548, with 15 missing contexts after recovery attempts
+- covered-scope features: 533/533 complete feature ids
+- raw stream: 26,746 rows / 533 completed batches
+- adapter: 690,924 prediction rows
+- geometry: 690,924 verification rows, 159,444 geometry-checkable H001-family rows
+- failure rows: 81,448
+- bootstrap CI: ready with 1,000 subgraph resamples
+
+Open3DSG full-validation metrics:
+
+| condition | R@50 | R@100 | V@50 | V@100 |
+| --- | ---: | ---: | ---: | ---: |
+| semantic_only | 0.4043 | 0.5111 | 0.1387 | 0.1242 |
+| probabilistic_recalibrated | 0.3943 | 0.5685 | 0.0590 | 0.0807 |
+| rule_verified_point_subtype | 0.4242 | 0.5320 | 0.0000 | 0.0000 |
+| control_family_specific_p_geom_valid | 0.4612 | 0.5999 | 0.0265 | 0.0332 |
+
+Open3DSG full-validation caveats: the existing metric bundle uses the selected
+official non-avg BLIP checkpoint, the raw process exited `137` after stream
+finalization, and 15 contexts remained missing after the first preprocessing
+recovery attempts. A separate missing-15 recovery branch is now active under
+`sources/open3dsg/full_validation/preprocess_recovery_relaxed_views_min2/`.
+It diagnoses the Open3DSG source drop as the hard-coded fewer-than-4-visible-
+objects preprocess gate, recovers all 15 contexts through `min_visible=2` plus
+relaxed view-generation for the final two scans, and passes preprocess audit
+at 548/548. The recovery downstream branch is now complete under
+`sources/open3dsg/full_validation/recovery_relaxed_views_min2/`: feature audit
+548/548, raw stream exit `0`, 26,938 raw rows / 548 completed batches, adapter
+695,916 prediction rows, geometry 695,916 rows, metrics/controls, bootstrap CI,
+82,155 failure rows, and Table 6/caveat regeneration are ready. Recovery
+metrics: semantic_only R@50/R@100 `0.4096/0.5161`, V@50/@100
+`0.1386/0.1242`; probabilistic_recalibrated R@50/R@100 `0.3975/0.5723`,
+V@50/@100 `0.0606/0.0811`; rule_verified_point_subtype R@50/R@100
+`0.4295/0.5368`, V@50/@100 `0.0/0.0`; family_specific control R@50/R@100
+`0.4658/0.6047`, V@50/@100 `0.0286/0.0341`. This branch removes the
+missing-context denominator caveat and is the selected paper-facing primary
+Open3DSG full-validation route, but it must be reported as a recovery-policy
+variant because it relaxes the visible-object gate and regenerates relaxed views
+for two scans. Recovery failure-case inspection is ready with 36 selected
+high-severity cases: 25/36 demoted by geometry-aware reranking, 11/36 promoted
+or retained, and 8/36 violated rows with `p_geom_valid > 0.9`.
+
+VL-SAT and Open3DSG full-validation metric evidence now define the paper-facing
+primary route. The full-validation failure-taxonomy artifacts now also exist
+for both sources. The 533/548 Open3DSG covered branch remains a sensitivity /
+unmodified-source-route check.
+
+Transition record:
+
+```text
+experiments/H001_geom_reliability/full_validation_transition/report.md
 ```
 
 ## What This Stage Does
@@ -267,7 +413,7 @@ none. Docker open3dsg_metric_eval status is ready with 496600 predictions, 7505 
 Current Open3DSG checkpoint-selection blocker:
 
 ```text
-checkpoint selection is ready for the explicitly labeled averaged-BLIP variant. Selected checkpoint: epoch=13-step=13104.ckpt by train-dev val/loss 0.32881081104278564 at step 13103, before H001 held-out raw dump/metrics/failure analysis/visual inspection. The exact non-averaged BLIP route was previously OOM-blocked in pilot attempts, but R1 is now running as a resource-guarded Docker/tmux retry and has reached epoch 15 as of 2026-06-01 19:40 KST. This is not current paper evidence; keep averaged-BLIP caveats until R1 completes, checkpoint selection is refreshed, and downstream H001 Open3DSG artifacts are regenerated.
+checkpoint selection is refreshed after the official non-averaged BLIP R1 retry. Docker `open3dsg_checkpoint_selection` status is `checkpoint_selection_ready_official_non_avg_blip`; selected checkpoint: `local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt`, sha256 `ca86d429b19e846aec2bfff014256bf36f6f90da07e566b90c461d6eca8d76bb`, chosen by train-dev `val/loss=0.5724539160728455` at step 13103 before selected-route H001 held-out raw dump/metrics/failure analysis/visual inspection. Route comparison is unfavorable to non-avg on train-dev loss for the historical 127-scan branch: best avg-BLIP checkpoint remains `0.32881081104278564`, so non-avg minus avg is `+0.24364310503005981`. Current paper-facing Open3DSG evidence uses the full-validation 548/548 recovery branch with explicit recovery-policy caveat; the historical avg-BLIP metrics/caveats stay local to the 127-scan branch.
 ```
 
 Current Open3DSG raw-dump identity status:

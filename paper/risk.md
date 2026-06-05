@@ -1,6 +1,6 @@
 # H001 Paper Reviewer-Risk Register
 
-Last updated: 2026-06-01 KST
+Last updated: 2026-06-04 KST
 
 Scope: this file tracks paper-body risks for the current AAAI manuscript under
 `paper/aaai/`. The goal is not sentence polish; it is to prevent reviewer attacks
@@ -20,8 +20,8 @@ broad open-vocabulary 3DSSG generation paper. The strongest contribution remains
 The main rejection risks are not that the topic is unimportant. They are:
 
 - the method could be read as a hand-coded verifier/post-processing script;
-- Open3DSG is the main source but uses a reproduced averaged-BLIP variant with
-  filtered coverage;
+- Open3DSG is the main source but uses a reproduced selected checkpoint and a
+  recovery-policy full-validation branch;
 - the measured relation-family scope may look narrow if reviewers expect broad
   spatial-relation coverage;
 - future `attachment_deferred` expansion could be attacked as affordance guessing
@@ -29,6 +29,9 @@ The main rejection risks are not that the topic is unimportant. They are:
 - controls and GT verifier evidence may look under-specified in the main text;
 - audit wording may look non-anonymous or overfit to an internal reference;
 - novelty can be blurred by recent relation-witness/calibrated-witness work.
+- the previous 127-scan H001 hardened scope can be attacked as a
+  pilot-excluded subset unless the paper either justifies it as conservative
+  no-leakage evidence or reruns the full official validation split.
 
 ## Mitigation Status
 
@@ -65,14 +68,20 @@ Docker PDF rebuilds, and the appendix/provenance pass:
   Figure 3 final-polish boundary, and Qwen-VL third-source boundary. Docker
   `table_builder` was rebuilt and rerun so experiment Table 6 carries the
   Open3DSG caveat note.
-- P8 re-check on 2026-06-01: completed. AAAI Experimental Setup, AAAI
-  source-result Table 3, Results prose, Limitations, appendix, and experiment
-  artifact Table 6 all retain the Open3DSG averaged-BLIP, filtered train/dev,
-  covered 377/388 H001 scope, exact-label 2,545 denominator,
-  `validation_missing_preprocessed:11`, and residual calibration-risk caveats.
-  The running R1 exact non-averaged BLIP retry is a caveat-reduction attempt,
-  not current paper evidence; no paper wording changes until checkpoint
-  selection and the full downstream Open3DSG H001 chain are regenerated.
+- P8 re-check on 2026-06-05: full-validation route selected and regenerated in
+  AAAI Experimental Setup, source-result table, Results prose, Limitations,
+  appendix, and experiment artifact Table 6. Required current caveats are:
+  selected official non-avg checkpoint provenance, filtered train/dev provenance,
+  exact-label full-validation denominator, residual calibration risk, and the
+  Open3DSG recovery policy (`OPEN3DSG_MIN_VISIBLE_OBJECTS=2` plus relaxed
+  two-scan view regeneration). The older averaged-BLIP / covered 377/388 /
+  `validation_missing_preprocessed:11` wording applies only to the historical
+  127-scan sensitivity branch.
+- P8 cleanup/consistency pass on 2026-06-05: stale qualitative counts and
+  regeneration-needed wording were updated after local cleanup. Docker AAAI PDF
+  rebuild `logs/h001_aaai_pdf_build_cleanup_consistency_20260605_111759.log`
+  exited 0 with 9 US Letter pages and no targeted citation/reference/overfull or
+  LaTeX/package errors.
 - P9 scope-expansion track: scope audit, coordinate audit, and bucket inspection
   are complete, not metric evidence. The current paper claim remains the
   three-family scoped relation-reliability claim. `relative_horizontal` is the
@@ -176,6 +185,85 @@ Remaining after P0-P10:
   needs pooled calibration, augmented dev selection, or an explicit caveat.
   Function reasoning should remain a secondary case study until the attachment
   relation reliability result itself is established.
+- P11 full official validation transition: active paper-risk mitigation with
+  VL-SAT full-validation metric bundle ready and Open3DSG full-validation
+  recovery metric bundle ready.
+  The full official `3DSSG_subset` validation split is now the paper-facing
+  primary evaluation, not the pilot-excluded 127-scan subset. This is defensible
+  only with the provenance boundary that final method design, predicate-family
+  mapping, hard-rule policies, counterfactual construction, and `p_geom_valid`
+  calibrators are train/train-dev-derived and frozen before validation
+  source-result reporting. H001-Mini should be described as
+  hypothesis/feasibility evidence, not as threshold fitting, calibrator fitting,
+  or primary paper metric evidence. VL-SAT full-validation raw/export,
+  geometry join, metrics, GT verifier eval, and bootstrap CI now exist under
+  separate output paths. Open3DSG full-validation now also has a complete
+  recovery branch with 548/548 coverage, clean-exit raw dump, adapter, geometry,
+  metrics, controls, bootstrap CI, failure rows, and table/caveat regeneration.
+  Use the 548/548 recovery-policy branch as the primary Open3DSG
+  full-denominator result and the 533-context covered branch as sensitivity /
+  unmodified-source-route evidence.
+
+### P11. Full Official Validation Transition
+
+Reviewer attack:
+
+> Why is the main result not evaluated on the full official `3DSSG_subset`
+> validation split, and did the method overfit to a pilot subset?
+
+Current weakness:
+
+- Existing manuscript tables have been regenerated from the selected
+  full-validation route.
+- VL-SAT and Open3DSG now both have full official validation metric evidence.
+  The remaining weakness is transparent wording, not missing execution or branch
+  selection. The 548/548 Open3DSG branch depends on a recovery policy
+  (`min_visible=2` plus relaxed view generation for two scans), while the
+  unmodified covered branch keeps a 15-context denominator caveat.
+
+Required fix:
+
+- Move the paper-facing primary result to full official validation. Use the
+  548-context Open3DSG recovery-policy branch as the main full-denominator
+  Open3DSG result and report the unmodified 533-context covered branch as
+  sensitivity evidence.
+- To minimize tuning/hand-adjustment concerns, preserve both Open3DSG
+  full-validation routes in the paper record: the 533/548 branch is the
+  unmodified public-source/as-is route, and the 548/548 branch is the transparent
+  recovery-policy coverage-completion variant. If the main table cannot contain
+  both rows, the omitted route must be visible in the caption, appendix, or
+  sensitivity paragraph.
+- Keep method provenance explicit: family mapping, hard-rule policies,
+  counterfactuals, and `p_geom_valid` calibrators are frozen from
+  train/train-dev artifacts before validation source-result reporting.
+- Treat H001-Mini as hypothesis/feasibility evidence only.
+- Preserve the regenerated paper tables/prose from the selected full-validation
+  branch and keep the Open3DSG recovery caveat explicit during polish.
+
+Preflight:
+
+- Raw 3RScan payload is present for all 157 official validation scans.
+- Full scope contract has status
+  `full_official_validation_scope_contract_ready_no_metric_execution`.
+- Full official validation has 548 contexts, 7,720 GT-positive directed pairs,
+  36,808 candidate directed pairs, 957,008 expected VL-SAT prediction rows,
+  11,254 GT rows, and 3,972 H001-family GT rows.
+- VL-SAT full-validation metric bundle is ready under
+  `experiments/H001_geom_reliability/sources/vlsat/full_validation/`: 957,008
+  predictions, 11,254 GT rows, 3,972 H001-family GT rows, metric status
+  `ready`, GT verifier AUROC `0.9772`, and bootstrap warnings 0.
+- Open3DSG H001 runtime preprocess currently covers 377/548 official
+  validation contexts.
+
+Evidence / affected files:
+
+- `experiments/H001_geom_reliability/full_validation_transition/scope_contract/`
+- `experiments/H001_geom_reliability/full_validation_transition/report.md`
+- `experiments/H001_geom_reliability/sources/vlsat/full_validation/`
+- `TODO.md`
+- `paper/aaai/sec/5_experiments.tex`
+- `paper/aaai/sec/6_results.tex`
+- `experiments/H001_geom_reliability/tables/`
 
 ## Priority Order
 
@@ -281,27 +369,29 @@ Reviewer attack:
 
 Current weakness:
 
-- The paper states averaged-BLIP, filtered train/dev split, covered 377/388 H001
-  scope, exact-label 2,545 denominator, `validation_missing_preprocessed:11`,
-  and residual calibration-risk caveats in the main source-result table/prose,
-  appendix, and experiment Table 6 as of the 2026-06-01 re-check.
+- The selected paper-facing Open3DSG result is not an unmodified Open3DSG
+  preprocess route: it uses the selected official non-avg checkpoint and the
+  548/548 recovery branch. The 533/548 covered full-validation branch remains
+  the sensitivity check.
 - The risk is wording: `main open-vocabulary case study` can be interpreted as a
-  broad Open3DSG/SOTA claim unless the case-study boundary stays visible.
-- The running R1 exact non-averaged BLIP retry may tempt premature wording
-  changes; it must not affect current claims until the downstream H001 chain is
-  regenerated.
+  broad Open3DSG/SOTA claim unless the case-study boundary and recovery-policy
+  caveat stay visible.
+- The completed full-validation route may tempt overclaiming as exact Open3DSG
+  reproduction; it must stay framed as a source-output reliability case study.
+  The 548/548 branch is stronger for denominator coverage but requires recovery
+  policy disclosure, and the 533/548 branch remains the sensitivity check.
 
 Required fix:
 
 - Prefer `main open-vocabulary relation-source case study` or
   `Open3DSG source-output reliability case study`.
 - Avoid `Open3DSG improvement` unless the sentence says improvement is within
-  the reproduced averaged-BLIP source, fixed denominator, and H001 families.
+  the reproduced selected-source output, fixed full-validation denominator, and
+  H001 families.
 - Keep Table 3 caption caveats visible.
 - Keep experiment Table 6 caveat notes visible.
-- Do not replace the averaged-BLIP caveat with non-avg wording until R1
-  succeeds, checkpoint selection is refreshed, and feature/raw-dump/adapter/
-  geometry/metrics/bootstrap/Table 6/caveat wording are regenerated.
+- Do not hide the full-validation recovery policy when replacing older
+  averaged-BLIP/covered-scope wording.
 
 Evidence / affected files:
 
@@ -525,8 +615,10 @@ Evidence / affected files:
   generation.
 - Do not present Qwen-VL as evidence unless it receives full Docker metric,
   denominator, geometry join, and audit treatment.
-- Do not hide Open3DSG averaged-BLIP, filtered split, covered-scope, exact-label
-  denominator, or residual calibration-risk caveats.
+- Do not hide Open3DSG checkpoint provenance, filtered split, exact-label
+  denominator, residual calibration-risk caveats, or the full-validation
+  recovery policy. If reporting the historical 127-scan branch, keep its
+  averaged-BLIP and covered-scope caveats local to that branch.
 - Do not describe the 50-row visual spot-check as large-scale, strictly blinded,
   or independent.
 - Do not add `relative_horizontal` to the main claim until coordinate-frame

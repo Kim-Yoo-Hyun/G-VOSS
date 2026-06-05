@@ -1,0 +1,16 @@
+[
+  {
+    "artifact": "experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json",
+    "caveat_note": "averaged-BLIP variant; filtered train/dev; covered H001 377/388; exact-label denominator 2545",
+    "claim_use": "current paper-facing Open3DSG result",
+    "metric_status": "ready",
+    "prediction_source": "Open3DSG avg-BLIP"
+  },
+  {
+    "artifact": "experiments/H001_geom_reliability/sources/open3dsg/non_avg/metrics/metrics.json",
+    "caveat_note": "official non-avg checkpoint; filtered train/dev and covered-scope caveats still apply",
+    "claim_use": "candidate replacement or robustness branch after full downstream regeneration",
+    "metric_status": "ready",
+    "prediction_source": "Open3DSG official non-avg"
+  }
+]

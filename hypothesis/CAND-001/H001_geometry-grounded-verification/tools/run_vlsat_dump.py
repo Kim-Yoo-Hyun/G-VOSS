@@ -127,9 +127,9 @@ def make_report(summary: dict[str, Any]) -> str:
             "",
             "## Guardrails",
             "",
-            "- This raw dump is H001-Mini validation/smoke data only.",
+            "- This raw dump is source-run data for the selected scan split named by the command.",
             "- It must not be used to fit `p_geom_valid`.",
-            "- Final prediction-level evaluation remains blocked until prediction export, geometry join, and calibrator/verifier outputs exist.",
+            "- Raw scores alone are not metric evidence until prediction export, ground-truth JSONL, geometry join, calibrator/verifier outputs, metrics, controls, and bootstrap outputs exist.",
             "",
         ]
     )
@@ -605,7 +605,7 @@ def main() -> int:
             "warnings": warnings,
         },
         "notes": [
-            "H001-Mini is held-out/smoke validation data and must not be used for calibration training.",
+            "The selected scan split is fixed by the command; do not use this raw dump to fit calibration.",
             "This runner preserves raw VL-SAT relation scores before aggregate metric files lose join identity.",
         ],
     }

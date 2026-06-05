@@ -1,0 +1,41 @@
+{
+  "allowed_nonblocking_warnings": [
+    "same-endpoint raw row skipped with an explicit warning before metric export",
+    "unsupported predicate family retained in prediction JSONL but excluded from H001 geometry-checkable metric denominator"
+  ],
+  "blocking_failures": [
+    "missing raw dump when real adapter/metric execution is requested",
+    "raw row outside H001 selected scan/subgraph scope",
+    "raw edge endpoint missing from the corresponding H001 object set",
+    "non-finite predicate score",
+    "duplicate raw identity rows with conflicting scores",
+    "adapter output that changes scan_id, subgraph_id, subject_id, object_id, or predicate label"
+  ],
+  "claim_boundary": "This checklist freezes raw-dump identity auditing only. It is not Open3DSG metric evidence until raw dump, prediction JSONL export, geometry join, and metric evaluation all exist.",
+  "identity_checks": [
+    "raw schema_version must equal h001_open3dsg_raw_dump_v1",
+    "record_type must equal open3dsg_raw_prediction",
+    "subgraph_id must equal scan_id + '_' + subset_split_id",
+    "scan_id must belong to the fixed H001 selected scans",
+    "subgraph_id must belong to the fixed H001 validation contexts",
+    "edge.subject_id and edge.object_id must be integer 3DSSG object instance ids",
+    "subject and object ids must be distinct",
+    "subject and object ids must exist in the matching H001 context object set",
+    "predicate scores must be finite and must not silently drop object-pair identity",
+    "adapter prediction_id must be deterministic from baseline, split, subgraph, subject, object, and predicate"
+  ],
+  "raw_schema_version": "h001_open3dsg_raw_dump_v1",
+  "required_raw_fields": [
+    "schema_version",
+    "record_type",
+    "baseline_run_id",
+    "scan_id",
+    "subset_split_id",
+    "subgraph_id",
+    "edge.subject_id",
+    "edge.object_id",
+    "predicate_scores[].predicate_label",
+    "predicate_scores[].score"
+  ],
+  "schema_version": "h001_open3dsg_raw_dump_identity_audit_v1"
+}

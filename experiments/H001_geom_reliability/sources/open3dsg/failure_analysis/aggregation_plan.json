@@ -14,7 +14,7 @@
   "schema_version": "h001_open3dsg_failure_analysis_v1",
   "tables": [
     {
-      "claim_use": "explains where geometry-consistency helps or fails for the Open3DSG source.",
+      "claim_use": "explains where geometry-consistency helps or fails for each semantic relation source.",
       "group_by": [
         "predicate_family",
         "primary_category"
@@ -25,7 +25,7 @@
         "top50_count",
         "top100_count"
       ],
-      "name": "open3dsg_failure_taxonomy_by_family"
+      "name": "source_failure_taxonomy_by_family"
     },
     {
       "claim_use": "separates semantic failures from geometry contradictions and unsupported geometry.",
@@ -38,7 +38,7 @@
         "mean_p_geom_valid",
         "median_semantic_score"
       ],
-      "name": "open3dsg_geometry_status_by_category"
+      "name": "source_geometry_status_by_category"
     },
     {
       "claim_use": "shows whether the reliability layer promotes valid rows or demotes contradicted rows.",
@@ -52,7 +52,7 @@
         "delta_R@100",
         "violation_delta"
       ],
-      "name": "open3dsg_rerank_transition"
+      "name": "source_rerank_transition"
     },
     {
       "claim_use": "distinguishes source-specific Open3DSG failures from repeated VL-SAT/Open3DSG weaknesses.",

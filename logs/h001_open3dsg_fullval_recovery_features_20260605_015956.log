@@ -1,0 +1,97 @@
+ Container open3dsg-dump_features_full_validation_nonavg-run-1d7b73625eba Creating 
+ Container open3dsg-dump_features_full_validation_nonavg-run-1d7b73625eba Created 
+
+==========
+== CUDA ==
+==========
+
+CUDA Version 12.8.1
+
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/lightning_fabric/__init__.py:40: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/transformers/utils/hub.py:128: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+2026-06-04 16:59:59.015728: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-06-04 16:59:59.033668: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2026-06-04 16:59:59.140557: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2026-06-04 16:59:59.725271: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+{"blockers": [], "out": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/eval_preflight", "status": "ready"}
+{"blockers": [], "status": "ready"}
+Defaulting to user installation because normal site-packages is not writeable
+Obtaining file:///workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: open3dsg
+  Building editable for open3dsg (pyproject.toml): started
+  Building editable for open3dsg (pyproject.toml): finished with status 'done'
+  Created wheel for open3dsg: filename=open3dsg-0.0.1-0.editable-py3-none-any.whl size=18321 sha256=3e937c47ba21086c528f7ff50d58be31e5abf42044da4b61dc319362596a7d65
+  Stored in directory: /tmp/pip-ephem-wheel-cache-7bo7_i3h/wheels/f6/f4/48/e79d972da195275afaf83301f54818e0ba9b351c2e72890e90
+Successfully built open3dsg
+Installing collected packages: open3dsg
+  Attempting uninstall: open3dsg
+    Found existing installation: open3dsg 0.0.1
+    Uninstalling open3dsg-0.0.1:
+      Successfully uninstalled open3dsg-0.0.1
+Successfully installed open3dsg-0.0.1
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/lightning_fabric/__init__.py:40: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/transformers/utils/hub.py:128: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+2026-06-04 17:00:06.656066: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-06-04 17:00:06.657301: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2026-06-04 17:00:06.678427: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2026-06-04 17:00:07.018101: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+Experimental: No LLava model present in your system
+2026-06-04 17:00:08.033816: I tensorflow/compiler/xla/stream_executor/cuda/cuda_gpu_executor.cc:996] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero. See more at https://github.com/torvalds/linux/blob/v6.0/Documentation/ABI/testing/sysfs-bus-pci#L344-L355
+2026-06-04 17:00:08.036985: W tensorflow/core/common_runtime/gpu/gpu_device.cc:1956] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.
+Skipping registering GPU devices...
+CUDA device name: NVIDIA GeForce RTX 5090
+Seed set to 42
+checkpoint: /workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt
+Args: Namespace(gpus=1, workers=0, seed=42, run_name='', mixed_precision=False, accumulate_grad_batches=1, epochs=1, batch_size=1, lr=0.0001, lr_scheduler='reduce', wd=0.01, bn_momentum=0.9, bn_decay=0.5, decay_step=100000.0, w_obj=1.0, w_rel=1.0, use_rgb=False, gnn_layers=4, graph_backbone='message', gconv_dim=512, hidden_dim=1024, max_nodes=9, max_edges=72, dataset='3rscan', mini_dataset=False, augment=False, top_k_frames=5, scales=3, dump_features=True, load_features=None, clip_model='OpenSeg', node_model='ViT-L/14@336px', edge_model=None, blip=True, avg_blip_emb=True, blip_proj_layers=3, llava=False, avg_llava_emb=False, pointnet2=False, clean_pointnet=False, supervised_edges=False, test=True, checkpoint='/workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt', weight_2d=0.5, n_beams=5, gt_objects=False, vis_graphs=False, predict_materials=False, test_scans_3rscan=False, predict_from_2d=False, quick_eval=False, object_context=False, update_hparams=False, manual_mapping=False)
+HParams: {'gpus': 1, 'workers': 0, 'seed': 42, 'run_name': '', 'mixed_precision': False, 'accumulate_grad_batches': 1, 'epochs': 1, 'batch_size': 1, 'lr': 0.0001, 'lr_scheduler': 'reduce', 'wd': 0.01, 'bn_momentum': 0.9, 'bn_decay': 0.5, 'decay_step': 100000.0, 'w_obj': 1.0, 'w_rel': 1.0, 'use_rgb': False, 'gnn_layers': 4, 'graph_backbone': 'message', 'gconv_dim': 512, 'hidden_dim': 1024, 'max_nodes': 9, 'max_edges': 72, 'dataset': '3rscan', 'mini_dataset': False, 'augment': False, 'top_k_frames': 5, 'scales': 3, 'dump_features': True, 'load_features': None, 'clip_model': 'OpenSeg', 'node_model': 'ViT-L/14@336px', 'edge_model': None, 'blip': True, 'avg_blip_emb': True, 'blip_proj_layers': 3, 'llava': False, 'avg_llava_emb': False, 'pointnet2': False, 'clean_pointnet': False, 'supervised_edges': False, 'test': True, 'checkpoint': '/workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt', 'weight_2d': 0.5, 'n_beams': 5, 'gt_objects': False, 'vis_graphs': False, 'predict_materials': False, 'test_scans_3rscan': False, 'predict_from_2d': False, 'quick_eval': False, 'object_context': False, 'update_hparams': False, 'manual_mapping': False}
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+[rank: 0] Seed set to 42
+Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/1
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 1 processes
+----------------------------------------------------------------------------------------------------
+
+You are using a CUDA device ('NVIDIA GeForce RTX 5090') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+H001 feature shard split=test_val original=548 complete=528 missing=20 selected=20 max_new=0 skipped_missing_preprocessed=0 unparsable=0 clip_path=/workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/features/clip_features_h001_full_validation_recovery_relaxed_views_min2
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user. 
+  warnings.warn(  # warn only once
+Downloading shards:   0%|          | 0/4 [00:00<?, ?it/s]Downloading shards: 100%|██████████| 4/4 [00:00<00:00, 13025.79it/s]
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:02<00:06,  2.02s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:02<00:01,  1.05it/s]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:02<00:00,  1.63it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:02<00:00,  2.23it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:02<00:00,  1.52it/s]
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:441: The 'test_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=19` in the `DataLoader` to improve performance.
+Testing: |          | 0/? [00:00<?, ?it/s]/workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source/open3dsg/data/open_dataset.py:346: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray.
+  frames, pixels, vis, bbox, pixel_ids = tuple(np.array(t) for t in zip(*obj))
+/workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source/open3dsg/data/open_dataset.py:350: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray.
+  pixel_ids = np.array([np.array([pids[:, 1], 172-pids[:, 0]]).T for pids in pixel_ids])
+/workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source/open3dsg/data/open_dataset.py:351: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray.
+  pixel_ids = np.array([pids[(pids[:, 1] < 172) & (pids[:, 0] < 224)] for pids in pixel_ids])
+Testing:   0%|          | 0/20 [00:00<?, ?it/s]Testing DataLoader 0:   0%|          | 0/20 [00:00<?, ?it/s]/workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source/open3dsg/models/sgpn.py:465: FutureWarning: The input object of type 'Image' is an array-like implementing one of the corresponding protocols (`__array__`, `__array_interface__` or `__array_struct__`); but not a sequence (or 0-D). In the future, this object will be coerced as if it was first converted using `np.array(obj)`. To retain the old behaviour, you have to either modify the type 'Image', or assign to an empty array created with `np.empty(correct_shape, dtype=object)`.
+  rel_images_tensor = np.array(rel_imgs)
+/workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source/open3dsg/models/sgpn.py:465: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray.
+  rel_images_tensor = np.array(rel_imgs)
+Testing DataLoader 0:   5%|▌         | 1/20 [02:01<38:29,  0.01it/s]Testing DataLoader 0:  10%|█         | 2/20 [03:49<34:26,  0.01it/s]Testing DataLoader 0:  15%|█▌        | 3/20 [05:51<33:13,  0.01it/s]Testing DataLoader 0:  20%|██        | 4/20 [07:40<30:41,  0.01it/s]Testing DataLoader 0:  25%|██▌       | 5/20 [08:18<24:56,  0.01it/s]Testing DataLoader 0:  30%|███       | 6/20 [09:10<21:24,  0.01it/s]Testing DataLoader 0:  35%|███▌      | 7/20 [09:48<18:13,  0.01it/s]Testing DataLoader 0:  40%|████      | 8/20 [10:40<16:00,  0.01it/s]Testing DataLoader 0:  45%|████▌     | 9/20 [11:32<14:06,  0.01it/s]Testing DataLoader 0:  50%|█████     | 10/20 [13:34<13:34,  0.01it/s]Testing DataLoader 0:  55%|█████▌    | 11/20 [14:54<12:11,  0.01it/s]Testing DataLoader 0:  60%|██████    | 12/20 [15:46<10:30,  0.01it/s]Testing DataLoader 0:  65%|██████▌   | 13/20 [16:37<08:56,  0.01it/s]Testing DataLoader 0:  70%|███████   | 14/20 [17:28<07:29,  0.01it/s]Testing DataLoader 0:  75%|███████▌  | 15/20 [18:20<06:06,  0.01it/s]Testing DataLoader 0:  80%|████████  | 16/20 [19:13<04:48,  0.01it/s]Testing DataLoader 0:  85%|████████▌ | 17/20 [20:05<03:32,  0.01it/s]Testing DataLoader 0:  90%|█████████ | 18/20 [20:57<02:19,  0.01it/s]Testing DataLoader 0:  95%|█████████▌| 19/20 [21:49<01:08,  0.01it/s]Testing DataLoader 0: 100%|██████████| 20/20 [22:41<00:00,  0.01it/s]Testing DataLoader 0: 100%|██████████| 20/20 [22:41<00:00,  0.01it/s]
+[rank0]:[W604 17:23:10.110133280 ProcessGroupNCCL.cpp:1538] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())

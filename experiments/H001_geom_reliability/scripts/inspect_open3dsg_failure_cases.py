@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Inspect sampled Open3DSG qualitative failure cases."""
+"""Inspect sampled H001 qualitative failure cases."""
 
 from __future__ import annotations
 
@@ -14,6 +14,7 @@ from typing import Any
 SCHEMA_VERSION = "h001_open3dsg_failure_case_inspection_v1"
 STATUS_READY = "qualitative_case_inspection_ready"
 STATUS_BLOCKED = "blocked_failure_case_queue_missing"
+DEFAULT_SOURCE_NAME = "Open3DSG"
 
 
 def parse_args() -> argparse.Namespace:
@@ -34,6 +35,7 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=Path("experiments/H001_geom_reliability/sources/open3dsg/failure_cases"),
     )
+    parser.add_argument("--source-name", default=DEFAULT_SOURCE_NAME)
     return parser.parse_args()
 
 
@@ -113,6 +115,25 @@ def selected_cases(cases: list[dict[str, Any]], predicate, limit: int, key) -> l
     return [compact_case(row) for row in sorted((row for row in cases if predicate(row)), key=key)[:limit]]
 
 
+def family_mechanism_examples(cases: list[dict[str, Any]], limit_per_family: int = 2) -> list[dict[str, Any]]:
+    selected: list[dict[str, Any]] = []
+    seen: Counter[str] = Counter()
+    for row in sorted(
+        cases,
+        key=lambda item: (
+            str(item.get("source_prediction", {}).get("predicate_family")),
+            -abs(finite_float(item.get("rerank_effect", {}).get("delta_rank"))),
+            str(item.get("case_id")),
+        ),
+    ):
+        family = str(row.get("source_prediction", {}).get("predicate_family"))
+        if seen[family] >= limit_per_family:
+            continue
+        selected.append(compact_case(row))
+        seen[family] += 1
+    return selected
+
+
 def build_payload(
     repo_root: Path,
     queue_path: Path,
@@ -120,6 +141,7 @@ def build_payload(
     out_dir: Path,
     cases: list[dict[str, Any]],
     sample_manifest: dict[str, Any],
+    source_name: str,
 ) -> dict[str, Any]:
     category_counter = Counter(case.get("failure_taxonomy", {}).get("primary_category") for case in cases)
     family_counter = Counter(case.get("source_prediction", {}).get("predicate_family") for case in cases)
@@ -163,17 +185,7 @@ def build_payload(
             lambda row: -finite_float(row.get("geometry", {}).get("p_geom_valid")),
         ),
         "family_mechanism_examples": [
-            compact_case(row)
-            for row in cases
-            if row.get("case_id")
-            in {
-                "open3dsg_case_001",
-                "open3dsg_case_005",
-                "open3dsg_case_010",
-                "open3dsg_case_019",
-                "open3dsg_case_026",
-                "open3dsg_case_030",
-            }
+            *family_mechanism_examples(cases)
         ],
     }
 
@@ -219,6 +231,7 @@ def build_payload(
     return {
         "schema_version": SCHEMA_VERSION,
         "status": STATUS_READY,
+        "source_name": source_name,
         "created_at": datetime.now(timezone.utc).isoformat(),
         "inputs": {
             "queue_jsonl": relpath(repo_root, queue_path),
@@ -301,15 +314,16 @@ def case_table(cases: list[dict[str, Any]]) -> list[str]:
 
 def build_report(payload: dict[str, Any]) -> str:
     counts = payload["counts"]
+    source_name = payload.get("source_name") or DEFAULT_SOURCE_NAME
     lines = [
-        "# Open3DSG Qualitative Failure Case Inspection",
+        f"# {source_name} Qualitative Failure Case Inspection",
         "",
         f"Status: `{payload['status']}`",
         f"Created at: `{payload['created_at']}`",
         "",
         "## Scope",
         "",
-        "This report inspects the sampled Open3DSG qualitative queue generated from real prediction, GT, geometry, and metric joins.",
+        f"This report inspects the sampled {source_name} qualitative queue generated from real prediction, GT, geometry, and metric joins.",
         "It does not add a metric and does not perform an independent visual audit.",
         "",
         "## Inspection Verdict",
@@ -412,13 +426,16 @@ def main() -> None:
             },
         }
         write_json(inspection_json, payload)
-        inspection_md.write_text("# Open3DSG Qualitative Failure Case Inspection\n\nStatus: `blocked_failure_case_queue_missing`\n", encoding="utf-8")
+        inspection_md.write_text(
+            f"# {args.source_name} Qualitative Failure Case Inspection\n\nStatus: `blocked_failure_case_queue_missing`\n",
+            encoding="utf-8",
+        )
         print(json.dumps({"status": STATUS_BLOCKED, "inspection": relpath(repo_root, inspection_json)}, sort_keys=True))
         return
 
     cases = read_jsonl(queue_path)
     sample_manifest = read_json(manifest_path) if manifest_path.is_file() else {}
-    payload = build_payload(repo_root, queue_path, manifest_path, out_dir, cases, sample_manifest)
+    payload = build_payload(repo_root, queue_path, manifest_path, out_dir, cases, sample_manifest, args.source_name)
     write_json(inspection_json, payload)
     inspection_md.write_text(build_report(payload), encoding="utf-8")
     print(json.dumps({"status": STATUS_READY, "cases": len(cases), "inspection": relpath(repo_root, inspection_json)}, sort_keys=True))

@@ -1,0 +1,74 @@
+{
+  "counts": {
+    "in_scope_predictions": 220848,
+    "locked_primary_categories": 14,
+    "missing_geometry_for_in_scope": 0,
+    "real_primary_categories": 7,
+    "selected_rows": 59841,
+    "selected_subgraphs": 548,
+    "total_predictions": 957008
+  },
+  "created_at": "2026-06-05T01:25:21+00:00",
+  "inputs": {
+    "geometry_jsonl": "experiments/H001_geom_reliability/sources/vlsat/full_validation/geometry/verification.jsonl",
+    "ground_truth_jsonl": "experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl",
+    "metrics_json": "experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics/metrics.json",
+    "predictions_jsonl": "experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/predictions.jsonl"
+  },
+  "mode": "runtime_generation",
+  "next_action": "Sample representative qualitative cases from rows with needs_visual_audit=true and high-severity categories.",
+  "outputs": {
+    "manifest_json": "experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_rows/manifest.json",
+    "report_md": "experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_rows/report.md",
+    "rows_jsonl": "experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_rows/rows.jsonl",
+    "summary_json": "experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_rows/summary.json"
+  },
+  "runtime_policy": "real rows from frozen VL-SAT full-validation prediction/GT/geometry/metric artifacts; taxonomy unchanged",
+  "schema_dir": "experiments/H001_geom_reliability/sources/open3dsg/failure_analysis",
+  "schema_version": "h001_open3dsg_failure_analysis_generator_manifest_v1",
+  "selection": {
+    "geometry_top_k": 100,
+    "policy": "union of semantic top-k and probabilistic geometry-reranked top-k per subgraph",
+    "semantic_top_k": 100
+  },
+  "status": "failure_analysis_real_ready",
+  "summary": {
+    "by_claim_use": {
+      "caveat_only": 22483,
+      "include_metric": 30647,
+      "main_h001_failure": 2897,
+      "positive_evidence": 3814
+    },
+    "by_predicate_family": {
+      "proximity": 17601,
+      "relative_vertical": 16739,
+      "support_contact": 25501
+    },
+    "by_primary_category": {
+      "geometry_contradiction": 516,
+      "insufficient_geometry_evidence": 19702,
+      "predicate_family_ambiguity": 2781,
+      "rank_only_failure": 23,
+      "semantic_and_geometry_failure": 2381,
+      "semantic_false_positive": 30624,
+      "true_positive_supported": 3814
+    },
+    "by_topk_transition": {
+      "demoted_out_of_top100": 4914,
+      "demoted_out_of_top50": 2143,
+      "promoted_into_top100": 5041,
+      "promoted_into_top50": 2143,
+      "stayed_in_topk": 45600
+    },
+    "metric_eligible_count": 59841,
+    "row_count": 59841,
+    "schema_version": "h001_open3dsg_failure_analysis_summary_v1",
+    "source": "real_vlsat_closed_set_metric_joins",
+    "status": "failure_analysis_real_ready",
+    "visual_audit_queue_count": 2897
+  },
+  "validation": {
+    "errors": [],
+    "warnings": []
+  }
+}

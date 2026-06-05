@@ -1,8 +1,8 @@
 # H001 Figure Source Lock
 
-Last updated: 2026-05-22 KST
+Last updated: 2026-06-05 KST
 
-Status: `figure3_geometry_upgrade_generated`
+Status: `figure2_full_validation_regenerated`
 
 This file locks the paper-facing source claims and data artifacts for Figure
 1-3 before drawing. It is a planning artifact, not a generated figure output.
@@ -17,13 +17,14 @@ camera-ready final artwork.
 
 - Figures must support the scoped relation-reliability claim only.
 - Do not use figures to claim broad open-vocabulary 3DSSG generation
-  improvement, arbitrary-baseline generality, or exact non-averaged Open3DSG
-  reproduction.
+  improvement, arbitrary-baseline generality, Open3DSG leaderboard/SOTA, or
+  arbitrary-source reproduction.
 - Figure captions must report recall and violation jointly when showing
   performance.
-- Open3DSG visual or metric content must retain the averaged-BLIP,
-  filtered-train/dev, covered-scope, exact-label denominator,
-  `validation_missing_preprocessed:11`, and residual-calibration caveats.
+- Open3DSG visual or metric content must retain the selected official
+  non-averaged checkpoint, filtered-train/dev provenance, full-validation
+  exact-label denominator 3,972, 548/548 recovery-policy branch, 533/548
+  covered branch as sensitivity evidence, and residual-calibration caveats.
 - Qwen-VL does not appear in Figure 1-3 unless it is promoted with full Docker
   metric, denominator, and audit treatment.
 
@@ -66,11 +67,11 @@ Locked claim:
 Locked visual form:
 
 - Two-panel recall-violation tradeoff plot using `R@100` and `Violation@100`.
-- Panel A: primary `VL-SAT` result from Table 1.
-- Panel B: Open3DSG second-source result from Docker metrics.
+- Panel A: primary `VL-SAT` full-validation result.
+- Panel B: Open3DSG full-validation recovery-policy result.
 - Use separate panel axes or clear panel labels, because absolute recall is not
-  directly comparable across the closed-set VL-SAT source and the reproduced
-  averaged-BLIP Open3DSG variant.
+  directly comparable across the closed-set VL-SAT source and the Open3DSG
+  open-vocabulary relation source.
 - Draw arrows from `semantic_only` to `probabilistic_recalibrated`,
   `family_specific_p_geom_valid`, and `rule_verified_point_subtype`.
 - Lower `Violation@100` is better; higher `R@100` is better.
@@ -79,26 +80,26 @@ Locked data:
 
 | source | condition | R@100 | Violation@100 |
 | --- | --- | ---: | ---: |
-| VL-SAT | `semantic_only` | 0.9894 | 0.0469 |
-| VL-SAT | `probabilistic_recalibrated` | 0.9921 | 0.0391 |
-| VL-SAT | `family_specific_p_geom_valid` | 0.9914 | 0.0310 |
-| VL-SAT | `rule_verified_point_subtype` | 0.9890 | 0.0000 |
-| Open3DSG | `semantic_only` | 0.4963 | 0.1195 |
-| Open3DSG | `probabilistic_recalibrated` | 0.5580 | 0.0803 |
-| Open3DSG | `family_specific_p_geom_valid` | 0.5984 | 0.0311 |
-| Open3DSG | `rule_verified_point_subtype` | 0.5238 | 0.0000 |
+| VL-SAT | `semantic_only` | 0.9635 | 0.0476 |
+| VL-SAT | `probabilistic_recalibrated` | 0.9688 | 0.0404 |
+| VL-SAT | `family_specific_p_geom_valid` | 0.9683 | 0.0333 |
+| VL-SAT | `rule_verified_point_subtype` | 0.9627 | 0.0000 |
+| Open3DSG | `semantic_only` | 0.5161 | 0.1242 |
+| Open3DSG | `probabilistic_recalibrated` | 0.5723 | 0.0811 |
+| Open3DSG | `family_specific_p_geom_valid` | 0.6047 | 0.0341 |
+| Open3DSG | `rule_verified_point_subtype` | 0.5368 | 0.0000 |
 
 Source artifacts:
 
-- `experiments/H001_geom_reliability/tables/table1_main_prediction.md`.
-- `experiments/H001_geom_reliability/tables/table1_main_prediction.json`.
-- `experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json`.
-- `experiments/H001_geom_reliability/sources/open3dsg/paper_caveats/report.md`.
+- `experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics/metrics.json`.
+- `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics/metrics.json`.
+- `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/table_caveats/report.md`.
 
 Caption constraint:
 
-- State that Open3DSG is a Docker-reproduced averaged-BLIP second-source
-  variant under the covered H001 scope, not a broad SOTA comparison.
+- State that Open3DSG uses the Docker-produced full-validation 548/548
+  recovery-policy branch and that the 533/548 covered branch is sensitivity
+  evidence, not a broad SOTA comparison.
 - Do not hide Open3DSG caveats in appendix only.
 
 ## Figure 3
@@ -163,6 +164,7 @@ Generated files:
 | --- | --- |
 | `paper/generated/figures/figure1_framework.svg` | draft method/framework schematic |
 | `paper/generated/figures/figure2_tradeoff.svg` | draft two-panel R@100 / Violation@100 tradeoff |
+| `paper/generated/figures/figure2_tradeoff.png` | LaTeX-facing PNG generated from the same full-validation values |
 | `paper/generated/figures/figure3_failure_cases.svg` | draft Open3DSG qualitative row-card panels |
 | `paper/generated/figures/figure3_geometry_panels.svg` | preferred draft Open3DSG geometry-backed failure panels |
 | `paper/generated/figures/figure2_data.json` | extracted values used for Figure 2 |
@@ -188,10 +190,11 @@ Validation result:
 
 - `paper/generated/figures/validation.json`: `passed`
 - SVG XML parse: `passed` for Figure 1-3
-- Layout/top-tier novelty review: `passed_with_figure3_geometry_upgrade`
+- Layout/top-tier novelty review: `passed_with_full_validation_figure2`
 - Geometry-backed Figure 3 manifest: `figure3_geometry_panels_generated_verified`
 - Geometry-backed Figure 3 SVG XML parse: `passed`
-- Next: review `paper/draft.md` section structure and decide whether Section 5 should remain separate or merge into a shorter Experimental Setup section
+- Next: keep only optional final Figure 3 crop polish if a deterministic render
+  path is added.
 
 ## Layout And Novelty Review
 

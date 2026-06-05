@@ -6,14 +6,38 @@
     "non_avg_success_requires_full_downstream_regeneration": true,
     "plan_only_no_heavy_execution": true
   },
-  "created_at": "2026-05-28T08:04:18+00:00",
+  "created_at": "2026-06-04T08:26:23+00:00",
   "current_state_summary": {
+    "active_downstream_result_variant": "avg_blip_full_variant",
     "attachment_candidate_pair_absent_rows": 176,
     "attachment_missing_preprocessed_context_rows": 23,
     "attachment_open3dsg_missing_exact_label_gt_rows": 199,
     "h001_covered_contexts": "377/388",
     "h001_missing_preprocessed": 11,
-    "open3dsg_variant": "avg_blip_full_variant"
+    "r1_non_avg_status": "completed_checkpoint_selected_no_downstream_metrics",
+    "route_comparison": {
+      "best_avg_blip_full_variant": {
+        "checkpoint_path": "local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt",
+        "run_id": "2a23a9af581b4666a207423aa6217853",
+        "step": 13103,
+        "val_loss": 0.32881081104278564
+      },
+      "best_official_non_avg_blip_full": {
+        "checkpoint_path": "local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt",
+        "run_id": "25da9c4c00214f3b880cedbb2a124177",
+        "step": 13103,
+        "val_loss": 0.5724539160728455
+      },
+      "interpretation": [
+        "official non-avg BLIP route completed, but its train-dev val/loss is worse than the existing avg-BLIP variant",
+        "avg-BLIP checkpoint-route caveat can be reduced only after the full downstream H001 Open3DSG chain is regenerated under non-avg output paths",
+        "current avg-BLIP H001 metric tables remain the active paper evidence until non-avg raw dump, adapter, geometry join, metrics, CI, and caveat wording exist"
+      ],
+      "train_dev_val_loss_delta_non_avg_minus_avg": 0.24364310503005981
+    },
+    "selected_checkpoint": "local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt",
+    "selected_checkpoint_route": "official_non_avg_blip_full",
+    "selected_checkpoint_train_dev_val_loss": 0.5724539160728455
   },
   "inputs": {
     "attachment_denominator": "experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol/denominator_audit.json",
@@ -29,7 +53,7 @@
     "report": "experiments/H001_geom_reliability/sources/open3dsg/caveat_reduction_plan/report.md",
     "retry_plan": "experiments/H001_geom_reliability/sources/open3dsg/caveat_reduction_plan/retry_plan.json"
   },
-  "schema_version": "h001_open3dsg_caveat_reduction_plan_v1",
+  "schema_version": "h001_open3dsg_caveat_reduction_plan_v2",
   "status": "open3dsg_caveat_reduction_plan_frozen_no_execution",
   "validation": {
     "errors": []

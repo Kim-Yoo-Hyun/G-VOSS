@@ -12,14 +12,27 @@ import json
 import textwrap
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any
+
+from PIL import Image, ImageDraw, ImageFont
 
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT_DIR = ROOT / "paper" / "generated" / "figures"
 
-TABLE1_JSON = ROOT / "experiments" / "H001_geom_reliability" / "tables" / "table1_main_prediction.json"
+VLSAT_FULL_METRICS = (
+    ROOT / "experiments" / "H001_geom_reliability" / "sources" / "vlsat" / "full_validation" / "metrics" / "metrics.json"
+)
 OPEN3DSG_METRICS = (
-    ROOT / "experiments" / "H001_geom_reliability" / "sources" / "open3dsg" / "metrics" / "metrics.json"
+    ROOT
+    / "experiments"
+    / "H001_geom_reliability"
+    / "sources"
+    / "open3dsg"
+    / "full_validation"
+    / "recovery_relaxed_views_min2"
+    / "metrics"
+    / "metrics.json"
 )
 INSPECTION_JSON = (
     ROOT
@@ -47,16 +60,16 @@ COLORS = {
 
 EXPECTED_FIGURE2 = {
     "VL-SAT": {
-        "semantic_only": {"r100": 0.9894, "violation100": 0.0469},
-        "probabilistic_recalibrated": {"r100": 0.9921, "violation100": 0.0391},
-        "family_specific_p_geom_valid": {"r100": 0.9914, "violation100": 0.0310},
-        "rule_verified_point_subtype": {"r100": 0.9890, "violation100": 0.0},
+        "semantic_only": {"r100": 0.9635, "violation100": 0.0476},
+        "probabilistic_recalibrated": {"r100": 0.9688, "violation100": 0.0404},
+        "family_specific_p_geom_valid": {"r100": 0.9683, "violation100": 0.0333},
+        "rule_verified_point_subtype": {"r100": 0.9627, "violation100": 0.0},
     },
     "Open3DSG": {
-        "semantic_only": {"r100": 0.4963, "violation100": 0.1195},
-        "probabilistic_recalibrated": {"r100": 0.5580, "violation100": 0.0803},
-        "family_specific_p_geom_valid": {"r100": 0.5984, "violation100": 0.0311},
-        "rule_verified_point_subtype": {"r100": 0.5238, "violation100": 0.0},
+        "semantic_only": {"r100": 0.5161, "violation100": 0.1242},
+        "probabilistic_recalibrated": {"r100": 0.5723, "violation100": 0.0811},
+        "family_specific_p_geom_valid": {"r100": 0.6047, "violation100": 0.0341},
+        "rule_verified_point_subtype": {"r100": 0.5368, "violation100": 0.0},
     },
 }
 
@@ -185,45 +198,27 @@ def generate_figure1() -> str:
     return "\n".join(parts)
 
 
-def load_figure2_data() -> dict[str, list[dict[str, float | str]]]:
-    table1 = json.loads(TABLE1_JSON.read_text())
-    vlsat = []
-    keep = [
-        "semantic_only",
-        "probabilistic_recalibrated",
-        "family_specific_p_geom_valid",
-        "rule_verified_point_subtype",
-    ]
-    rows_by_condition = {row["condition"]: row for row in table1}
-    for condition in keep:
-        row = rows_by_condition[condition]
-        vlsat.append(
-            {
-                "source": "VL-SAT",
-                "condition": condition,
-                "r100": row["r100"],
-                "violation100": row["violation100"],
-            }
-        )
-
-    metrics = json.loads(OPEN3DSG_METRICS.read_text())["conditions"]
-    open3dsg_map = {
-        "semantic_only": "semantic_only",
-        "probabilistic_recalibrated": "probabilistic_recalibrated",
-        "family_specific_p_geom_valid": "control_family_specific_p_geom_valid",
-        "rule_verified_point_subtype": "rule_verified_point_subtype",
+def metric_row(metrics: dict[str, Any], key: str, label: str, source: str) -> dict[str, float | str]:
+    row = metrics["conditions"][key]
+    return {
+        "source": source,
+        "condition": label,
+        "r100": row["recall"]["by_k"]["100"]["recall"],
+        "violation100": row["violation_rate"]["by_k"]["100"]["violation_rate"],
     }
-    open3dsg = []
-    for label, key in open3dsg_map.items():
-        row = metrics[key]
-        open3dsg.append(
-            {
-                "source": "Open3DSG",
-                "condition": label,
-                "r100": row["recall"]["by_k"]["100"]["recall"],
-                "violation100": row["violation_rate"]["by_k"]["100"]["violation_rate"],
-            }
-        )
+
+
+def load_figure2_data() -> dict[str, list[dict[str, float | str]]]:
+    keep = [
+        ("semantic_only", "semantic_only"),
+        ("probabilistic_recalibrated", "probabilistic_recalibrated"),
+        ("family_specific_p_geom_valid", "control_family_specific_p_geom_valid"),
+        ("rule_verified_point_subtype", "rule_verified_point_subtype"),
+    ]
+    vlsat_metrics = json.loads(VLSAT_FULL_METRICS.read_text())
+    open3dsg_metrics = json.loads(OPEN3DSG_METRICS.read_text())
+    vlsat = [metric_row(vlsat_metrics, key, label, "VL-SAT") for label, key in keep]
+    open3dsg = [metric_row(open3dsg_metrics, key, label, "Open3DSG") for label, key in keep]
     return {"VL-SAT": vlsat, "Open3DSG": open3dsg}
 
 
@@ -238,8 +233,8 @@ def generate_figure2(data: dict[str, list[dict[str, float | str]]]) -> str:
     ]
 
     panels = [
-        ("A. VL-SAT primary source", "VL-SAT", 70, 115, 520, 360, (0.0, 0.05), (0.985, 0.994)),
-        ("B. Open3DSG second source", "Open3DSG", 690, 115, 520, 360, (0.0, 0.13), (0.45, 0.62)),
+        ("A. VL-SAT primary source", "VL-SAT", 70, 115, 520, 360, (0.0, 0.05), (0.960, 0.971)),
+        ("B. Open3DSG open-vocabulary source", "Open3DSG", 690, 115, 520, 360, (0.0, 0.13), (0.50, 0.62)),
     ]
 
     def map_point(x: float, y: float, px: int, py: int, pw: int, ph: int, xr: tuple[float, float], yr: tuple[float, float]) -> tuple[float, float]:
@@ -291,9 +286,75 @@ def generate_figure2(data: dict[str, list[dict[str, float | str]]]) -> str:
         x = legend_x + 132 + idx * 190
         parts.append(f'<circle cx="{x}" cy="{legend_y-4}" r="6" fill="{COLORS[condition]}"/>')
         parts.append(svg_text(x + 12, legend_y, LABELS[condition], 12, 400))
-    parts.append(svg_text(70, 585, "Open3DSG panel is a Docker-reproduced averaged-BLIP second-source variant under covered H001 scope.", 12, 400, "#6b7280"))
+    parts.append(svg_text(70, 585, "Open3DSG panel uses the full-validation 548/548 recovery branch; 533/548 covered branch is sensitivity evidence.", 12, 400, "#6b7280"))
     parts.append("</svg>")
     return "\n".join(parts)
+
+
+def write_figure2_png(data: dict[str, list[dict[str, float | str]]]) -> None:
+    width, height = 1280, 620
+    image = Image.new("RGB", (width, height), "white")
+    draw = ImageDraw.Draw(image)
+    font = ImageFont.truetype("DejaVuSans.ttf", 22)
+    font_bold = ImageFont.truetype("DejaVuSans-Bold.ttf", 22)
+    small = ImageFont.truetype("DejaVuSans.ttf", 14)
+    small_bold = ImageFont.truetype("DejaVuSans-Bold.ttf", 14)
+    tiny = ImageFont.truetype("DejaVuSans.ttf", 11)
+
+    def text(x: int, y: int, value: str, fill: str = "#111827", bold: bool = False) -> None:
+        draw.text((x, y), value, fill=fill, font=font_bold if bold else small)
+
+    def map_point(x: float, y: float, px: int, py: int, pw: int, ph: int, xr: tuple[float, float], yr: tuple[float, float]) -> tuple[float, float]:
+        sx = px + (x - xr[0]) / (xr[1] - xr[0]) * pw
+        sy = py + ph - (y - yr[0]) / (yr[1] - yr[0]) * ph
+        return sx, sy
+
+    draw.text((55, 35), "Figure 2. Recall-violation tradeoff", fill="#111827", font=font_bold)
+    draw.text((55, 67), "Draft plot from full-validation R@100 and Violation@100 values. Lower violation and higher recall are better.", fill="#4b5563", font=small)
+    panels = [
+        ("A. VL-SAT primary source", "VL-SAT", 70, 115, 520, 360, (0.0, 0.05), (0.960, 0.971)),
+        ("B. Open3DSG open-vocabulary source", "Open3DSG", 690, 115, 520, 360, (0.0, 0.13), (0.50, 0.62)),
+    ]
+    for title, source, px, py, pw, ph, xr, yr in panels:
+        draw.rounded_rectangle((px - 15, py - 45, px + pw + 25, py + ph + 60), radius=8, fill="#f8fafc", outline="#e5e7eb")
+        text(px, py - 32, title, bold=True)
+        for frac in [0.0, 0.25, 0.5, 0.75, 1.0]:
+            gx = px + frac * pw
+            gy = py + frac * ph
+            draw.line((gx, py, gx, py + ph), fill="#d1d5db", width=1)
+            draw.line((px, gy, px + pw, gy), fill="#d1d5db", width=1)
+        draw.rectangle((px, py, px + pw, py + ph), outline="#111827", width=2)
+        draw.text((px + pw // 2 - 45, py + ph + 34), "Violation@100", fill="#111827", font=small_bold)
+        draw.text((px - 52, py + ph // 2), "R@100", fill="#111827", font=small_bold)
+        draw.text((px - 5, py + ph + 8), f"{xr[0]:.2f}", fill="#6b7280", font=tiny)
+        draw.text((px + pw - 18, py + ph + 8), f"{xr[1]:.2f}", fill="#6b7280", font=tiny)
+        draw.text((px - 46, py + ph - 8), f"{yr[0]:.3f}", fill="#6b7280", font=tiny)
+        draw.text((px - 46, py - 8), f"{yr[1]:.3f}", fill="#6b7280", font=tiny)
+
+        points = {
+            str(row["condition"]): map_point(float(row["violation100"]), float(row["r100"]), px, py, pw, ph, xr, yr)
+            for row in data[source]
+        }
+        semantic = points["semantic_only"]
+        for condition in ["probabilistic_recalibrated", "family_specific_p_geom_valid", "rule_verified_point_subtype"]:
+            x2, y2 = points[condition]
+            draw.line((semantic[0], semantic[1], x2, y2), fill="#64748b", width=2)
+        for row in data[source]:
+            condition = str(row["condition"])
+            x, y = points[condition]
+            color = COLORS[condition]
+            draw.ellipse((x - 8, y - 8, x + 8, y + 8), fill=color, outline="white", width=2)
+            dx = 11 if condition != "rule_verified_point_subtype" else -42
+            draw.text((x + dx, y - 18), LABELS[condition], fill=color, font=small_bold)
+
+    text(70, 530, "Operating points:", bold=True)
+    for idx, condition in enumerate(["semantic_only", "probabilistic_recalibrated", "family_specific_p_geom_valid", "rule_verified_point_subtype"]):
+        x = 205 + idx * 190
+        y = 532
+        draw.ellipse((x - 6, y - 6, x + 6, y + 6), fill=COLORS[condition])
+        draw.text((x + 12, y - 9), LABELS[condition], fill="#111827", font=small)
+    draw.text((70, 575), "Open3DSG panel uses the full-validation 548/548 recovery branch; 533/548 covered branch is sensitivity evidence.", fill="#6b7280", font=small)
+    image.save(OUT_DIR / "figure2_tradeoff.png")
 
 
 def load_figure3_cases() -> list[dict[str, object]]:
@@ -384,6 +445,7 @@ def write_outputs() -> None:
     }
     for filename, content in outputs.items():
         (OUT_DIR / filename).write_text(content + "\n")
+    write_figure2_png(figure2_data)
 
     (OUT_DIR / "figure2_data.json").write_text(json.dumps(figure2_data, indent=2, sort_keys=True) + "\n")
     (OUT_DIR / "figure3_cases.json").write_text(json.dumps(figure3_cases, indent=2, sort_keys=True) + "\n")
@@ -394,9 +456,12 @@ def write_outputs() -> None:
         "status": "draft_figures_generated_verified" if validation["status"] == "passed" else "draft_figures_generated_validation_failed",
         "created_at": datetime.now(timezone.utc).isoformat(),
         "outputs": {key: str((OUT_DIR / key).relative_to(ROOT)) for key in outputs},
+        "png_outputs": {
+            "figure2_tradeoff.png": str((OUT_DIR / "figure2_tradeoff.png").relative_to(ROOT)),
+        },
         "source_lock": "paper/figures.md",
         "source_artifacts": [
-            str(TABLE1_JSON.relative_to(ROOT)),
+            str(VLSAT_FULL_METRICS.relative_to(ROOT)),
             str(OPEN3DSG_METRICS.relative_to(ROOT)),
             str(INSPECTION_JSON.relative_to(ROOT)),
         ],
@@ -406,6 +471,14 @@ def write_outputs() -> None:
     }
     (OUT_DIR / "manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
 
+    geometry_note = ""
+    if (OUT_DIR / "figure3_geometry_panels.svg").exists():
+        geometry_note = """
+- `figure3_geometry_panels.svg`: preferred geometry-backed Open3DSG failure panels, generated by `render_figure3_geometry_panels.py`.
+- `figure3_geometry_panels.png`: LaTeX-facing conversion for the preferred Figure 3, if present.
+- `figure3_geometry_manifest.json`: generation manifest for geometry-backed Figure 3, if present.
+"""
+
     report = f"""# Draft Figure Generation
 
 Status: `{manifest["status"]}`
@@ -414,7 +487,9 @@ Generated outputs:
 
 - `figure1_framework.svg`: method/framework schematic.
 - `figure2_tradeoff.svg`: two-panel R@100 / Violation@100 tradeoff.
+- `figure2_tradeoff.png`: LaTeX-facing PNG conversion of the Figure 2 tradeoff.
 - `figure3_failure_cases.svg`: Open3DSG qualitative row-card panels.
+{geometry_note.rstrip()}
 - `figure2_data.json`: extracted numeric values used for Figure 2.
 - `figure3_cases.json`: extracted case rows used for Figure 3.
 - `validation.json`: source-lock value and case-ID validation.
@@ -422,7 +497,8 @@ Generated outputs:
 
 Validation rules:
 
-- Verify Figure 2 values against `paper/figures.md`, Table 1, and Open3DSG `metrics.json`.
+- Verify Figure 2 values against `paper/figures.md`, VL-SAT full-validation
+  `metrics.json`, and Open3DSG full-validation recovery `metrics.json`.
 - Verify Figure 3 case IDs against `paper/figures.md` and Open3DSG `inspection.json`.
 - Treat all SVGs as draft manuscript figures, not camera-ready final artwork.
 """

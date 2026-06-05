@@ -1,0 +1,754 @@
+{
+  "bootstrap_unit": "subgraph_id",
+  "conditions": [
+    "semantic_only",
+    "probabilistic_recalibrated",
+    "rule_verified_point_subtype",
+    "control_family_specific_p_geom_valid"
+  ],
+  "created_at_utc": "2026-06-04T14:22:20.122046+00:00",
+  "docker_command": "UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm bootstrap_ci",
+  "families": [
+    "proximity",
+    "relative_vertical",
+    "support_contact"
+  ],
+  "ks": [
+    50,
+    100
+  ],
+  "n_bootstrap": 1000,
+  "schema_version": "h001_bootstrap_ci_v1",
+  "seed": 20260526,
+  "sources": {
+    "open3dsg_ov_full_validation_nonavg": {
+      "conditions": {
+        "control_family_specific_p_geom_valid": {
+          "100": {
+            "recall": {
+              "ci95": [
+                0.572951639405998,
+                0.6250650627581988
+              ],
+              "median": 0.6003383017565953,
+              "metrics_json_point": 0.5999496475327291,
+              "point": 0.5999496475327291,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                0.030096748629875856,
+                0.03652648875295659
+              ],
+              "median": 0.03320787696576449,
+              "metrics_json_point": 0.03324944711355144,
+              "point": 0.03324944711355144,
+              "valid_samples": 1000
+            }
+          },
+          "50": {
+            "recall": {
+              "ci95": [
+                0.43844611528822053,
+                0.4867318316601106
+              ],
+              "median": 0.46151838242676146,
+              "metrics_json_point": 0.4612286002014099,
+              "point": 0.4612286002014099,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                0.023914272821555192,
+                0.029309863869671948
+              ],
+              "median": 0.0264185387087756,
+              "metrics_json_point": 0.026505481303499025,
+              "point": 0.026505481303499025,
+              "valid_samples": 1000
+            }
+          }
+        },
+        "probabilistic_recalibrated": {
+          "100": {
+            "recall": {
+              "ci95": [
+                0.5450416908265722,
+                0.5912835688985991
+              ],
+              "median": 0.5685009603072984,
+              "metrics_json_point": 0.5684793554884189,
+              "point": 0.5684793554884189,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                0.07696241085416129,
+                0.08477653637752974
+              ],
+              "median": 0.08076013545406241,
+              "metrics_json_point": 0.0807214214901243,
+              "point": 0.0807214214901243,
+              "valid_samples": 1000
+            }
+          },
+          "50": {
+            "recall": {
+              "ci95": [
+                0.3734688229350736,
+                0.41633617415569585
+              ],
+              "median": 0.394603896797758,
+              "metrics_json_point": 0.3942598187311178,
+              "point": 0.3942598187311178,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                0.05517092646383054,
+                0.06287506941061369
+              ],
+              "median": 0.05903022960495824,
+              "metrics_json_point": 0.058980327376482955,
+              "point": 0.058980327376482955,
+              "valid_samples": 1000
+            }
+          }
+        },
+        "rule_verified_point_subtype": {
+          "100": {
+            "recall": {
+              "ci95": [
+                0.5056457014640143,
+                0.5601617680565049
+              ],
+              "median": 0.5322578816882444,
+              "metrics_json_point": 0.5319738167170192,
+              "point": 0.5319738167170192,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "median": 0.0,
+              "metrics_json_point": 0.0,
+              "point": 0.0,
+              "valid_samples": 1000
+            }
+          },
+          "50": {
+            "recall": {
+              "ci95": [
+                0.3990477414674349,
+                0.4512368082883447
+              ],
+              "median": 0.42411689921696116,
+              "metrics_json_point": 0.4242195367573011,
+              "point": 0.4242195367573011,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "median": 0.0,
+              "metrics_json_point": 0.0,
+              "point": 0.0,
+              "valid_samples": 1000
+            }
+          }
+        },
+        "semantic_only": {
+          "100": {
+            "recall": {
+              "ci95": [
+                0.48388323411750866,
+                0.5408709976423285
+              ],
+              "median": 0.5119528800690147,
+              "metrics_json_point": 0.5110775427995972,
+              "point": 0.5110775427995972,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                0.11967213366271683,
+                0.12841798943437358
+              ],
+              "median": 0.12410250482315195,
+              "metrics_json_point": 0.12415160527720583,
+              "point": 0.12415160527720583,
+              "valid_samples": 1000
+            }
+          },
+          "50": {
+            "recall": {
+              "ci95": [
+                0.3782158938255635,
+                0.43241486464226625
+              ],
+              "median": 0.40434789264765,
+              "metrics_json_point": 0.4043303121852971,
+              "point": 0.4043303121852971,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                0.13254960039959324,
+                0.14454938511227025
+              ],
+              "median": 0.13856873822975518,
+              "metrics_json_point": 0.13872203033488512,
+              "point": 0.13872203033488512,
+              "valid_samples": 1000
+            }
+          }
+        }
+      },
+      "deltas_vs_semantic_only": {
+        "control_family_specific_p_geom_valid": {
+          "100": {
+            "recall": {
+              "ci95": [
+                0.0655511260378788,
+                0.11076409097768058
+              ],
+              "median": 0.08772785532745114,
+              "point": 0.0888721047331319,
+              "prob_delta_ge_0": 1.0,
+              "prob_delta_le_0": 0.0,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                -0.09563229326418862,
+                -0.08601610817713394
+              ],
+              "median": -0.09082596559050535,
+              "point": -0.09090215816365438,
+              "prob_delta_ge_0": 0.0,
+              "prob_delta_le_0": 1.0,
+              "valid_samples": 1000
+            }
+          },
+          "50": {
+            "recall": {
+              "ci95": [
+                0.038464521724818554,
+                0.07451786429978058
+              ],
+              "median": 0.05707217815599888,
+              "point": 0.0568982880161128,
+              "prob_delta_ge_0": 1.0,
+              "prob_delta_le_0": 0.0,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                -0.11766989513705045,
+                -0.10659624365908095
+              ],
+              "median": -0.11197369118410871,
+              "point": -0.11221654903138609,
+              "prob_delta_ge_0": 0.0,
+              "prob_delta_le_0": 1.0,
+              "valid_samples": 1000
+            }
+          }
+        },
+        "probabilistic_recalibrated": {
+          "100": {
+            "recall": {
+              "ci95": [
+                0.030889058310213467,
+                0.08507395833333337
+              ],
+              "median": 0.056238889809314185,
+              "point": 0.05740181268882172,
+              "prob_delta_ge_0": 1.0,
+              "prob_delta_le_0": 0.0,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                -0.04852598282131574,
+                -0.038046111950057845
+              ],
+              "median": -0.043350519720688194,
+              "point": -0.04343018378708152,
+              "prob_delta_ge_0": 0.0,
+              "prob_delta_le_0": 1.0,
+              "valid_samples": 1000
+            }
+          },
+          "50": {
+            "recall": {
+              "ci95": [
+                -0.033731754158556206,
+                0.011383871798684702
+              ],
+              "median": -0.009875740084890089,
+              "point": -0.010070493454179263,
+              "prob_delta_ge_0": 0.192,
+              "prob_delta_le_0": 0.816,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                -0.08572877070154931,
+                -0.07298342501142087
+              ],
+              "median": -0.07947332824874459,
+              "point": -0.07974170295840216,
+              "prob_delta_ge_0": 0.0,
+              "prob_delta_le_0": 1.0,
+              "valid_samples": 1000
+            }
+          }
+        },
+        "rule_verified_point_subtype": {
+          "100": {
+            "recall": {
+              "ci95": [
+                0.012903004557723719,
+                0.02876088741708319
+              ],
+              "median": 0.020390417036379754,
+              "point": 0.020896273917421992,
+              "prob_delta_ge_0": 1.0,
+              "prob_delta_le_0": 0.0,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                -0.1284179894343736,
+                -0.11967213366271683
+              ],
+              "median": -0.12410250482315195,
+              "point": -0.12415160527720583,
+              "prob_delta_ge_0": 0.0,
+              "prob_delta_le_0": 1.0,
+              "valid_samples": 1000
+            }
+          },
+          "50": {
+            "recall": {
+              "ci95": [
+                0.014328240629731618,
+                0.02564455569461829
+              ],
+              "median": 0.019730942027929188,
+              "point": 0.01988922457200404,
+              "prob_delta_ge_0": 1.0,
+              "prob_delta_le_0": 0.0,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                -0.14454938511227025,
+                -0.13254960039959326
+              ],
+              "median": -0.13856873822975518,
+              "point": -0.13872203033488512,
+              "prob_delta_ge_0": 0.0,
+              "prob_delta_le_0": 1.0,
+              "valid_samples": 1000
+            }
+          }
+        }
+      },
+      "families": [
+        "proximity",
+        "relative_vertical",
+        "support_contact"
+      ],
+      "input_rows": {
+        "ground_truth": 11254,
+        "predictions": 690924,
+        "verification": 690924
+      },
+      "inputs": {
+        "family_model_json": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json",
+        "ground_truth_jsonl": "experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl",
+        "metrics_json": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/metrics/metrics.json",
+        "predictions_jsonl": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/adapter/predictions.jsonl",
+        "verification_jsonl": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/geometry/verification.jsonl"
+      },
+      "population": {
+        "subgraphs": 546,
+        "unit": "subgraph_id"
+      },
+      "source": "open3dsg_ov_full_validation_nonavg",
+      "status": "ready",
+      "warnings": []
+    },
+    "vlsat_closed_set_full_validation": {
+      "conditions": {
+        "control_family_specific_p_geom_valid": {
+          "100": {
+            "recall": {
+              "ci95": [
+                0.9530741004438679,
+                0.9822187522785194
+              ],
+              "median": 0.9685400614198211,
+              "metrics_json_point": 0.9682779456193353,
+              "point": 0.9682779456193353,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                0.030784671532846714,
+                0.03569388686131387
+              ],
+              "median": 0.03323905109489051,
+              "metrics_json_point": 0.0333029197080292,
+              "point": 0.0333029197080292,
+              "valid_samples": 1000
+            }
+          },
+          "50": {
+            "recall": {
+              "ci95": [
+                0.9070563450838306,
+                0.9494342791563086
+              ],
+              "median": 0.9288714810830784,
+              "metrics_json_point": 0.9287512588116817,
+              "point": 0.9287512588116817,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                0.01835675182481752,
+                0.022811131386861312
+              ],
+              "median": 0.020583941605839415,
+              "metrics_json_point": 0.020620437956204378,
+              "point": 0.020620437956204378,
+              "valid_samples": 1000
+            }
+          }
+        },
+        "probabilistic_recalibrated": {
+          "100": {
+            "recall": {
+              "ci95": [
+                0.9532505097181466,
+                0.9831579403096463
+              ],
+              "median": 0.9691201410335886,
+              "metrics_json_point": 0.9687814702920443,
+              "point": 0.9687814702920443,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                0.037518248175182484,
+                0.043139598540145985
+              ],
+              "median": 0.04041970802919708,
+              "metrics_json_point": 0.04043795620437956,
+              "point": 0.04043795620437956,
+              "valid_samples": 1000
+            }
+          },
+          "50": {
+            "recall": {
+              "ci95": [
+                0.9088952495460666,
+                0.9513720475183877
+              ],
+              "median": 0.9304003344048082,
+              "metrics_json_point": 0.9305135951661632,
+              "point": 0.9305135951661632,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                0.02032755474452555,
+                0.02536587591240876
+              ],
+              "median": 0.022956204379562042,
+              "metrics_json_point": 0.02291970802919708,
+              "point": 0.02291970802919708,
+              "valid_samples": 1000
+            }
+          }
+        },
+        "rule_verified_point_subtype": {
+          "100": {
+            "recall": {
+              "ci95": [
+                0.946467762897884,
+                0.978147278471923
+              ],
+              "median": 0.9629080684829814,
+              "metrics_json_point": 0.9627391742195368,
+              "point": 0.9627391742195368,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "median": 0.0,
+              "metrics_json_point": 0.0,
+              "point": 0.0,
+              "valid_samples": 1000
+            }
+          },
+          "50": {
+            "recall": {
+              "ci95": [
+                0.9043578246523687,
+                0.9469449704857263
+              ],
+              "median": 0.9258289909428439,
+              "metrics_json_point": 0.925730110775428,
+              "point": 0.925730110775428,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "median": 0.0,
+              "metrics_json_point": 0.0,
+              "point": 0.0,
+              "valid_samples": 1000
+            }
+          }
+        },
+        "semantic_only": {
+          "100": {
+            "recall": {
+              "ci95": [
+                0.9462788521301698,
+                0.9796202309278713
+              ],
+              "median": 0.9634340914591775,
+              "metrics_json_point": 0.9634944612286002,
+              "point": 0.9634944612286002,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                0.044415602189781016,
+                0.05093111313868613
+              ],
+              "median": 0.04755474452554744,
+              "metrics_json_point": 0.04764598540145985,
+              "point": 0.04764598540145985,
+              "valid_samples": 1000
+            }
+          },
+          "50": {
+            "recall": {
+              "ci95": [
+                0.905611090621233,
+                0.9482956906615403
+              ],
+              "median": 0.9271826583602494,
+              "metrics_json_point": 0.9272406847935549,
+              "point": 0.9272406847935549,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                0.023978102189781022,
+                0.029708029197080293
+              ],
+              "median": 0.026751824817518248,
+              "metrics_json_point": 0.026751824817518248,
+              "point": 0.026751824817518248,
+              "valid_samples": 1000
+            }
+          }
+        }
+      },
+      "deltas_vs_semantic_only": {
+        "control_family_specific_p_geom_valid": {
+          "100": {
+            "recall": {
+              "ci95": [
+                0.0010648687896316622,
+                0.00925467728100319
+              ],
+              "median": 0.004724057748017874,
+              "point": 0.004783484390735171,
+              "prob_delta_ge_0": 0.999,
+              "prob_delta_le_0": 0.002,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                -0.015985857664233574,
+                -0.012809306569343065
+              ],
+              "median": -0.014306569343065696,
+              "point": -0.014343065693430655,
+              "prob_delta_ge_0": 0.0,
+              "prob_delta_le_0": 1.0,
+              "valid_samples": 1000
+            }
+          },
+          "50": {
+            "recall": {
+              "ci95": [
+                -0.001533324353402185,
+                0.0047187455355201325
+              ],
+              "median": 0.0014916115622237713,
+              "point": 0.0015105740181268201,
+              "prob_delta_ge_0": 0.857,
+              "prob_delta_le_0": 0.184,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                -0.007773722627737227,
+                -0.0045985401459854025
+              ],
+              "median": -0.006167883211678833,
+              "point": -0.00613138686131387,
+              "prob_delta_ge_0": 0.0,
+              "prob_delta_le_0": 1.0,
+              "valid_samples": 1000
+            }
+          }
+        },
+        "probabilistic_recalibrated": {
+          "100": {
+            "recall": {
+              "ci95": [
+                0.002514634885836231,
+                0.008698778785800037
+              ],
+              "median": 0.005284349602144578,
+              "point": 0.005287009063444148,
+              "prob_delta_ge_0": 1.0,
+              "prob_delta_le_0": 0.0,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                -0.00848540145985402,
+                -0.005948905109489047
+              ],
+              "median": -0.007171532846715324,
+              "point": -0.007208029197080294,
+              "prob_delta_ge_0": 0.0,
+              "prob_delta_le_0": 1.0,
+              "valid_samples": 1000
+            }
+          },
+          "50": {
+            "recall": {
+              "ci95": [
+                0.0004959949484244719,
+                0.006411978005963187
+              ],
+              "median": 0.003199972956403341,
+              "point": 0.00327291037260824,
+              "prob_delta_ge_0": 0.993,
+              "prob_delta_le_0": 0.011,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                -0.005255474452554747,
+                -0.0025912408759124067
+              ],
+              "median": -0.0038321167883211688,
+              "point": -0.0038321167883211688,
+              "prob_delta_ge_0": 0.0,
+              "prob_delta_le_0": 1.0,
+              "valid_samples": 1000
+            }
+          }
+        },
+        "rule_verified_point_subtype": {
+          "100": {
+            "recall": {
+              "ci95": [
+                -0.0031400474009886823,
+                0.0016629162227278502
+              ],
+              "median": -0.0007334963325182908,
+              "point": -0.0007552870090633546,
+              "prob_delta_ge_0": 0.339,
+              "prob_delta_le_0": 0.729,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                -0.05093111313868613,
+                -0.044415602189781016
+              ],
+              "median": -0.04755474452554744,
+              "point": -0.04764598540145985,
+              "prob_delta_ge_0": 0.0,
+              "prob_delta_le_0": 1.0,
+              "valid_samples": 1000
+            }
+          },
+          "50": {
+            "recall": {
+              "ci95": [
+                -0.0033509160928929275,
+                0.0005047000974546856
+              ],
+              "median": -0.0014761963564517977,
+              "point": -0.0015105740181269312,
+              "prob_delta_ge_0": 0.098,
+              "prob_delta_le_0": 0.934,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                -0.029708029197080293,
+                -0.023978102189781022
+              ],
+              "median": -0.026751824817518248,
+              "point": -0.026751824817518248,
+              "prob_delta_ge_0": 0.0,
+              "prob_delta_le_0": 1.0,
+              "valid_samples": 1000
+            }
+          }
+        }
+      },
+      "families": [
+        "proximity",
+        "relative_vertical",
+        "support_contact"
+      ],
+      "input_rows": {
+        "ground_truth": 11254,
+        "predictions": 957008,
+        "verification": 957008
+      },
+      "inputs": {
+        "family_model_json": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json",
+        "ground_truth_jsonl": "experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl",
+        "metrics_json": "experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics/metrics.json",
+        "predictions_jsonl": "experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/predictions.jsonl",
+        "verification_jsonl": "experiments/H001_geom_reliability/sources/vlsat/full_validation/geometry/verification.jsonl"
+      },
+      "population": {
+        "subgraphs": 548,
+        "unit": "subgraph_id"
+      },
+      "source": "vlsat_closed_set_full_validation",
+      "status": "ready",
+      "warnings": []
+    }
+  },
+  "status": "ready"
+}

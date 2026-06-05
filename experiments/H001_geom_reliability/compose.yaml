@@ -34,6 +34,344 @@ services:
       - --n-bootstrap
       - "1000"
 
+  bootstrap_ci_nonavg:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/experiments/H001_geom_reliability/scripts/bootstrap_metrics.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/non_avg/bootstrap_ci
+      - --open3dsg-source-root
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/non_avg
+      - --open3dsg-source-name
+      - open3dsg_ov_non_avg
+      - --n-bootstrap
+      - "1000"
+
+  full_validation_scope_contract:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/freeze_full_validation_scope.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/full_validation_transition/scope_contract
+
+  vlsat_full_validation_stage:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/tools/stage_vlsat.py
+    command:
+      - --selected-scans
+      - /workspace/experiments/H001_geom_reliability/full_validation_transition/scope_contract/scans.txt
+      - --artifact-dir
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/stage
+      - --generated-subset-root
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/stage/generated/3DSSG_subset
+      - --staged-root
+      - /workspace/local_dataset/VLSAT_staged/h001_full_validation/CVPR2023-VLSAT
+      - --link-mode
+      - symlink
+      - --reference-aligned-mode
+      - symlink
+      - --overwrite
+
+  vlsat_full_validation_runtime_record:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/prepare_vlsat_full_validation_runtime.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/runtime_record
+
+  vlsat_full_validation_raw_preflight:
+    image: h001-open3dsg-repro:cu128
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    shm_size: "${VLSAT_SHM_SIZE:-16gb}"
+    environment:
+      HOME: /workspace/local_dataset/model_cache/home
+      XDG_CACHE_HOME: /workspace/local_dataset/model_cache/xdg
+      TORCH_HOME: /workspace/local_dataset/model_cache/torch
+      PYTHONPATH: /workspace/local_dataset/VLSAT_code/CVPR2023-VLSAT:/workspace/local_dataset/VLSAT_code/CVPR2023-VLSAT/src
+    volumes:
+      - ../..:/workspace
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    entrypoint:
+      - python
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/tools/run_vlsat_dump.py
+    command:
+      - --staged-root
+      - /workspace/local_dataset/VLSAT_staged/h001_full_validation/CVPR2023-VLSAT
+      - --selected-scans
+      - /workspace/experiments/H001_geom_reliability/full_validation_transition/scope_contract/scans.txt
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/raw_preflight
+      - --baseline-run-id
+      - vlsat_full_official_validation_frozen_v1
+      - --preflight-only
+      - --force-pyg-shim
+
+  vlsat_full_validation_raw_dump:
+    image: h001-open3dsg-repro:cu128
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    shm_size: "${VLSAT_SHM_SIZE:-16gb}"
+    environment:
+      HOME: /workspace/local_dataset/model_cache/home
+      XDG_CACHE_HOME: /workspace/local_dataset/model_cache/xdg
+      TORCH_HOME: /workspace/local_dataset/model_cache/torch
+      PYTHONPATH: /workspace/local_dataset/VLSAT_code/CVPR2023-VLSAT:/workspace/local_dataset/VLSAT_code/CVPR2023-VLSAT/src
+    volumes:
+      - ../..:/workspace
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    entrypoint:
+      - python
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/tools/run_vlsat_dump.py
+    command:
+      - --staged-root
+      - /workspace/local_dataset/VLSAT_staged/h001_full_validation/CVPR2023-VLSAT
+      - --selected-scans
+      - /workspace/experiments/H001_geom_reliability/full_validation_transition/scope_contract/scans.txt
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/raw
+      - --baseline-run-id
+      - vlsat_full_official_validation_frozen_v1
+      - --force-pyg-shim
+
+  vlsat_full_validation_adapter_export:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/tools/export_predictions.py
+    command:
+      - --subset-json
+      - /workspace/local_dataset/3DSSG_subset/relationships_validation.json
+      - --classes-file
+      - /workspace/local_dataset/3DSSG_subset/classes.txt
+      - --relationships-file
+      - /workspace/local_dataset/3DSSG_subset/relationships.txt
+      - --selected-scans
+      - /workspace/experiments/H001_geom_reliability/full_validation_transition/scope_contract/scans.txt
+      - --raw-dump-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/raw/raw.jsonl
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter
+      - --split-name
+      - full_official_validation
+      - --baseline-run-id
+      - vlsat_full_official_validation_frozen_v1
+      - --export-policy
+      - all_non_none_predicates_per_directed_pair
+
+  vlsat_full_validation_geometry_join:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/tools/join_predictions.py
+    command:
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/predictions.jsonl
+      - --dataset-root
+      - /workspace/local_dataset
+      - --model-json
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_smoke/model.json
+      - --selected-scans
+      - /workspace/experiments/H001_geom_reliability/full_validation_transition/scope_contract/scans.txt
+      - --verification-policy
+      - point_subtype
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/geometry
+
+  vlsat_full_validation_metric_eval:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/tools/evaluate_predictions.py
+    command:
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/predictions.jsonl
+      - --ground-truth-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl
+      - --verification-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/geometry/verification.jsonl
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics
+      - --families
+      - support_contact
+      - proximity
+      - relative_vertical
+      - --ks
+      - "50"
+      - "100"
+      - --policy
+      - filter_safe
+      - --rule-variants
+      - obb_only
+      - point_subtype
+      - point_subtype_no_soft_support
+      - --ablation-controls
+      - p_geom_valid_only
+      - distance_only
+      - family_specific_p_geom_valid
+      - shuffled_geometry
+      - wrong_pair_geometry
+      - --family-specific-model-json
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json
+
+  vlsat_full_validation_gt_verifier_eval:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/tools/evaluate_gt_verifier.py
+    command:
+      - --dataset-root
+      - /workspace/local_dataset
+      - --subset-json
+      - /workspace/local_dataset/3DSSG_subset/relationships_validation.json
+      - --relationships-file
+      - /workspace/local_dataset/3DSSG_subset/relationships.txt
+      - --selected-scans
+      - /workspace/experiments/H001_geom_reliability/full_validation_transition/scope_contract/scans.txt
+      - --ground-truth-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl
+      - --model-json
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_smoke/model.json
+      - --verification-policy
+      - point_subtype
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/gt_eval
+
+  bootstrap_ci_full_validation_vlsat:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/experiments/H001_geom_reliability/scripts/bootstrap_metrics.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/bootstrap_ci
+      - --vlsat-source-root
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation
+      - --vlsat-source-name
+      - vlsat_closed_set_full_validation
+      - --skip-open3dsg
+      - --n-bootstrap
+      - "1000"
+
+  bootstrap_ci_full_validation:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/experiments/H001_geom_reliability/scripts/bootstrap_metrics.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/bootstrap_ci
+      - --vlsat-source-root
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation
+      - --vlsat-source-name
+      - vlsat_closed_set_full_validation
+      - --open3dsg-source-root
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation
+      - --open3dsg-source-name
+      - open3dsg_ov_full_validation_nonavg
+      - --n-bootstrap
+      - "1000"
+
   open3dsg_plan:
     build:
       context: ../..
@@ -86,6 +424,61 @@ services:
     entrypoint:
       - python
       - /opt/h001/scripts/stage_3rscan_payload.py
+
+  open3dsg_full_validation_payload:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/stage_open3dsg_h001_eval_payload.py
+    command:
+      - --repo-root
+      - /workspace
+      - --runtime-root
+      - /workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime
+      - --raw-scans-root
+      - /workspace/local_dataset/3RScan/scans
+      - --selected-scans
+      - /workspace/experiments/H001_geom_reliability/full_validation_transition/scope_contract/scans.txt
+      - --relationships-validation
+      - /workspace/local_dataset/3DSSG_subset/relationships_validation.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/payload
+      - --write
+
+  open3dsg_full_validation_feature_seed:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/seed_open3dsg_full_validation_features.py
+    command:
+      - --repo-root
+      - /workspace
+      - --relationships-json
+      - /workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/data/3RScan/3DSSG_subset/relationships_validation.json
+      - --preprocessed-root
+      - /workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed
+      - --target-run-dir
+      - /workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/features/clip_features_h001_full_validation_official_blip_top5_scales3
+      - --source-run-dir
+      - /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3
+      - --source-run-dir
+      - /workspace/local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/feature_seed
 
   open3dsg_train_handoff:
     build:
@@ -158,6 +551,60 @@ services:
       - /workspace
       - --out
       - /workspace/experiments/H001_geom_reliability/sources/open3dsg/raw_dump_identity
+
+  open3dsg_raw_dump_identity_nonavg:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/prepare_open3dsg_raw_dump_identity.py
+    command:
+      - --repo-root
+      - /workspace
+      - --raw-dump-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/non_avg/raw_dump/raw.jsonl
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/non_avg/adapter/predictions.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/non_avg/raw_dump_identity
+
+  open3dsg_raw_dump_identity_full_validation:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/prepare_open3dsg_raw_dump_identity.py
+    command:
+      - --repo-root
+      - /workspace
+      - --raw-dump-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/raw_dump/raw.jsonl
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/adapter/predictions.jsonl
+      - --subset-json
+      - /workspace/local_dataset/3DSSG_subset/relationships_validation.json
+      - --selected-scans
+      - /workspace/experiments/H001_geom_reliability/full_validation_transition/scope_contract/scans.txt
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/raw_dump_identity
+      - --expected-scans
+      - "157"
+      - --expected-contexts
+      - "548"
+      - --expected-directed-pairs
+      - "36808"
 
   open3dsg_metric_scope:
     build:
@@ -581,6 +1028,58 @@ services:
       - --output-dir
       - /workspace/experiments/H001_geom_reliability/sources/open3dsg/geometry
 
+  open3dsg_geometry_join_nonavg:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/tools/join_predictions.py
+    command:
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/non_avg/adapter/predictions.jsonl
+      - --dataset-root
+      - /workspace/local_dataset
+      - --model-json
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_smoke/model.json
+      - --selected-scans
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_validation_hardened/scans.txt
+      - --verification-policy
+      - point_subtype
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/non_avg/geometry
+
+  open3dsg_geometry_join_full_validation:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/tools/join_predictions.py
+    command:
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/adapter/predictions.jsonl
+      - --dataset-root
+      - /workspace/local_dataset
+      - --model-json
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_smoke/model.json
+      - --selected-scans
+      - /workspace/experiments/H001_geom_reliability/full_validation_transition/scope_contract/scans.txt
+      - --verification-policy
+      - point_subtype
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/geometry
+
   open3dsg_metric_eval:
     build:
       context: ../..
@@ -602,6 +1101,92 @@ services:
       - /workspace/experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl
       - --output-dir
       - /workspace/experiments/H001_geom_reliability/sources/open3dsg/metrics
+      - --families
+      - support_contact
+      - proximity
+      - relative_vertical
+      - --ks
+      - "50"
+      - "100"
+      - --policy
+      - filter_safe
+      - --rule-variants
+      - obb_only
+      - point_subtype
+      - point_subtype_no_soft_support
+      - --ablation-controls
+      - p_geom_valid_only
+      - distance_only
+      - family_specific_p_geom_valid
+      - shuffled_geometry
+      - wrong_pair_geometry
+      - --family-specific-model-json
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json
+
+  open3dsg_metric_eval_nonavg:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/tools/evaluate_predictions.py
+    command:
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/non_avg/adapter/predictions.jsonl
+      - --ground-truth-jsonl
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl
+      - --verification-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/non_avg/geometry/verification.jsonl
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/non_avg/metrics
+      - --families
+      - support_contact
+      - proximity
+      - relative_vertical
+      - --ks
+      - "50"
+      - "100"
+      - --policy
+      - filter_safe
+      - --rule-variants
+      - obb_only
+      - point_subtype
+      - point_subtype_no_soft_support
+      - --ablation-controls
+      - p_geom_valid_only
+      - distance_only
+      - family_specific_p_geom_valid
+      - shuffled_geometry
+      - wrong_pair_geometry
+      - --family-specific-model-json
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json
+
+  open3dsg_metric_eval_full_validation:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/tools/evaluate_predictions.py
+    command:
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/adapter/predictions.jsonl
+      - --ground-truth-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl
+      - --verification-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/geometry/verification.jsonl
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/metrics
       - --families
       - support_contact
       - proximity
@@ -686,6 +1271,58 @@ services:
       - --output-dir
       - /workspace/experiments/H001_geom_reliability/sources/open3dsg/adapter
 
+  open3dsg_adapter_raw_dump_nonavg:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/export_open3dsg_predictions.py
+    command:
+      - --repo-root
+      - /workspace
+      - --raw-dump-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/non_avg/raw_dump/raw.jsonl
+      - --baseline-run-id
+      - open3dsg_nonavg_epoch13_step13104
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/non_avg/adapter
+
+  open3dsg_adapter_raw_dump_full_validation:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/export_open3dsg_predictions.py
+    command:
+      - --repo-root
+      - /workspace
+      - --raw-dump-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/raw_dump/raw.jsonl
+      - --subset-json
+      - /workspace/local_dataset/3DSSG_subset/relationships_validation.json
+      - --relationships-file
+      - /workspace/local_dataset/3DSSG_subset/relationships.txt
+      - --selected-scans
+      - /workspace/experiments/H001_geom_reliability/full_validation_transition/scope_contract/scans.txt
+      - --split-name
+      - full_official_validation
+      - --baseline-run-id
+      - open3dsg_full_validation_nonavg_epoch13_step13104
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/adapter
+
   open3dsg_failure_schema:
     build:
       context: ../..
@@ -753,6 +1390,34 @@ services:
       - --out
       - /workspace/experiments/H001_geom_reliability/sources/open3dsg/failure_rows
 
+  open3dsg_failure_generator_full_validation:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/generate_open3dsg_failure_analysis.py
+    command:
+      - --repo-root
+      - /workspace
+      - --schema-dir
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/failure_analysis
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/adapter/predictions.jsonl
+      - --geometry-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/geometry/verification.jsonl
+      - --ground-truth-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl
+      - --metrics-json
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/metrics/metrics.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/failure_rows
+
   open3dsg_failure_case_sampler:
     build:
       context: ../..
@@ -801,6 +1466,190 @@ services:
       - --out
       - /workspace/experiments/H001_geom_reliability/sources/open3dsg/failure_cases
 
+  open3dsg_failure_generator_full_validation_recovery:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/generate_open3dsg_failure_analysis.py
+    command:
+      - --repo-root
+      - /workspace
+      - --schema-dir
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/failure_analysis
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/adapter/predictions.jsonl
+      - --geometry-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/geometry/verification.jsonl
+      - --ground-truth-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl
+      - --metrics-json
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics/metrics.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_rows
+      - --split-name
+      - full_official_validation
+      - --baseline-run-id
+      - open3dsg_full_validation_recovery_relaxed_views_min2
+      - --source-name
+      - Open3DSG recovery full-validation
+      - --analysis-prefix
+      - open3dsg_recovery_full_validation
+
+  open3dsg_failure_case_sampler_full_validation_recovery:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/sample_open3dsg_failure_cases.py
+    command:
+      - --repo-root
+      - /workspace
+      - --failure-rows
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_rows/rows.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_cases
+      - --limit
+      - "36"
+      - --per-bucket
+      - "1"
+      - --max-per-subgraph
+      - "2"
+      - --source-name
+      - Open3DSG recovery full-validation
+      - --case-id-prefix
+      - open3dsg_recovery_case
+
+  open3dsg_failure_case_inspection_full_validation_recovery:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/inspect_open3dsg_failure_cases.py
+    command:
+      - --repo-root
+      - /workspace
+      - --queue-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_cases/queue.jsonl
+      - --manifest-json
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_cases/manifest.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_cases
+      - --source-name
+      - Open3DSG recovery full-validation
+
+  vlsat_failure_generator_full_validation:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/generate_open3dsg_failure_analysis.py
+    command:
+      - --repo-root
+      - /workspace
+      - --schema-dir
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/failure_analysis
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/predictions.jsonl
+      - --geometry-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/geometry/verification.jsonl
+      - --ground-truth-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl
+      - --metrics-json
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics/metrics.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_rows
+      - --split-name
+      - full_official_validation
+      - --baseline-name
+      - vlsat_closed_set
+      - --record-type
+      - vlsat_failure_analysis
+      - --source-name
+      - VL-SAT full-validation
+      - --analysis-prefix
+      - vlsat_full_validation
+
+  vlsat_failure_case_sampler_full_validation:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/sample_open3dsg_failure_cases.py
+    command:
+      - --repo-root
+      - /workspace
+      - --failure-rows
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_rows/rows.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_cases
+      - --limit
+      - "36"
+      - --per-bucket
+      - "1"
+      - --max-per-subgraph
+      - "2"
+      - --source-name
+      - VL-SAT full-validation
+      - --case-id-prefix
+      - vlsat_case
+      - --record-type
+      - vlsat_qualitative_case_candidate
+
+  vlsat_failure_case_inspection_full_validation:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/inspect_open3dsg_failure_cases.py
+    command:
+      - --repo-root
+      - /workspace
+      - --queue-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_cases/queue.jsonl
+      - --manifest-json
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_cases/manifest.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_cases
+      - --source-name
+      - VL-SAT full-validation
+
   open3dsg_paper_caveats:
     build:
       context: ../..
@@ -818,6 +1667,42 @@ services:
       - /workspace
       - --out
       - /workspace/experiments/H001_geom_reliability/sources/open3dsg/paper_caveats
+
+  open3dsg_non_avg_table6_caveats:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/prepare_open3dsg_non_avg_branch_report.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/non_avg/table6_caveats
+
+  open3dsg_full_validation_table6_caveats:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/prepare_open3dsg_full_validation_report.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/table_caveats
 
   open3dsg_caveat_reduction_plan:
     build:

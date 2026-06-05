@@ -1,0 +1,33 @@
+{
+  "all_selected_scan_count": 10,
+  "audit_only": true,
+  "blockers": [],
+  "claim_limit": "No Open3DSG raw dump, prediction JSONL, geometry join, metric, or improvement claim exists after view pickle generation.",
+  "config_patch": "experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/views_default_audit/config_patch.diff",
+  "date_checked": "2026-06-05T05:40:43+00:00",
+  "limit": null,
+  "mode": "validation",
+  "next_action": "Run Open3DSG preprocess generation after view pickles are ready.",
+  "offset": 0,
+  "open3dsg_source": "local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source",
+  "processed_scan_count": 10,
+  "schema_version": "h001_open3dsg_views_v1",
+  "selected_scans_file": "local_dataset/Open3DSG_staged/h001_runtime/data/3RScan/3DSSG_subset/validation_scans.txt",
+  "staged_root": "local_dataset/Open3DSG_staged/h001_runtime",
+  "status": "views_ready",
+  "summary": {
+    "actions": {
+      "already_ready": 10
+    },
+    "failed_records": [],
+    "missing_scan_count": 0,
+    "processed_scan_count": 10,
+    "ready_scan_count": 10,
+    "total_frame_ref_count": 297,
+    "total_object_count": 126,
+    "total_size_bytes": 357803
+  },
+  "view_root": "local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/views",
+  "work_source": "local_dataset/Open3DSG_staged/h001_runtime/work/open3dsg_h001_r2_recovery_source",
+  "workers": 1
+}

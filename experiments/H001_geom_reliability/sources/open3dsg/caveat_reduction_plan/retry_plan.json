@@ -16,7 +16,7 @@
     "non_avg_training_tmux_template": "mkdir -p logs\nts=$(date +%Y%m%d_%H%M%S)\ntmux new-session -d -s h001_open3dsg_train_full_nonavg_retry \\\n  \"cd /home/yoohyun/research && bash -lc 'set -o pipefail; \\\n  env UID=$(id -u) GID=$(id -g) OPEN3DSG_TRAIN_WORKERS=0 \\\n  OPEN3DSG_BLIP_EMBED_CHUNK_SIZE=1 OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE=1 \\\n  OPEN3DSG_MIN_GPU_FREE_MB=22000 \\\n  PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True,max_split_size_mb:64 \\\n  docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml \\\n  run --rm train_full; rc=$?; printf \"%s\\n\" \"$rc\" > logs/open3dsg_train_full_nonavg_retry_${ts}.exit; exit $rc' \\\n  > logs/open3dsg_train_full_nonavg_retry_${ts}.log 2>&1\"",
     "plan_service": "sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_caveat_reduction_plan'"
   },
-  "created_at": "2026-05-28T08:04:18+00:00",
+  "created_at": "2026-06-04T08:26:23+00:00",
   "current_caveats": {
     "attachment_missing_decomposition": {
       "attachment_gt_rows": 967,
@@ -323,6 +323,6 @@
       "priority": 3
     }
   ],
-  "schema_version": "h001_open3dsg_caveat_reduction_plan_v1",
+  "schema_version": "h001_open3dsg_caveat_reduction_plan_v2",
   "status": "open3dsg_caveat_reduction_plan_frozen_no_execution"
 }

@@ -1,0 +1,60 @@
+{
+  "blockers": [],
+  "checkpoint_link": {
+    "dst": "local_dataset/Open3DSG_staged/h001_runtime/output/checkpoints",
+    "src": "local_dataset/Open3DSG_staged/h001_runtime/output/checkpoints",
+    "src_exists": true,
+    "status": "ready_symlink"
+  },
+  "counts": {
+    "linked_scans": 157,
+    "selected_scans": 157,
+    "sequence_ready_scans": 157,
+    "target_scans": 157,
+    "validation_contexts": 548,
+    "validation_scan_ids": 157
+  },
+  "created_at": "2026-06-04T13:10:21+00:00",
+  "link_status_counts": {
+    "ready_symlink": 157
+  },
+  "metadata_records_status_counts": {
+    "copied": 5,
+    "created_symlink": 4,
+    "ready_symlink": 1
+  },
+  "next_action": "Run dump_features_h001_eval after status is ready.",
+  "paths": {
+    "checkpoint_template_root": "local_dataset/Open3DSG_staged/h001_runtime/output/checkpoints",
+    "metadata_records": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/payload/metadata_records.jsonl",
+    "raw_scans_root": "local_dataset/3RScan/scans",
+    "records": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/payload/records.jsonl",
+    "relationships_validation": "local_dataset/3DSSG_subset/relationships_validation.json",
+    "runtime_checkpoint_root": "local_dataset/Open3DSG_staged/h001_runtime/output/checkpoints",
+    "runtime_dir_records": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/payload/runtime_dir_records.jsonl",
+    "runtime_r3scan_root": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/data/3RScan",
+    "runtime_scannet_root": "local_dataset/Open3DSG_staged/h001_runtime/data/SCANNET",
+    "runtime_source_root": "local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source",
+    "runtime_subset_root": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/data/3RScan/3DSSG_subset",
+    "runtime_template_root": "local_dataset/Open3DSG_staged/h001_runtime",
+    "selected_scans": "experiments/H001_geom_reliability/full_validation_transition/scope_contract/scans.txt",
+    "source_template_root": "local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source",
+    "subset_records": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/payload/subset_records.jsonl",
+    "subset_root": "local_dataset/3DSSG_subset"
+  },
+  "runtime_dir_status_counts": {
+    "ready_dir": 7
+  },
+  "schema_version": "h001_open3dsg_eval_payload_stage_v1",
+  "source_link": {
+    "dst": "local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source",
+    "src": "local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source",
+    "src_exists": true,
+    "status": "ready_symlink"
+  },
+  "status": "ready",
+  "subset_records_status_counts": {
+    "copied": 5,
+    "ready_existing": 4
+  }
+}

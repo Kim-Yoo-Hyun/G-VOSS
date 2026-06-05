@@ -1,19 +1,19 @@
 [
   {
     "blockers": "none",
-    "caveat_note": "controlled reproduced anchor under fixed H001 denominator",
-    "claim_use": "scoped current result",
+    "caveat_note": "full official validation; exact-label denominator 3972; Docker rerun; bootstrap CI ready",
+    "claim_use": "controlled-anchor full-validation result",
     "contract_status": "ready",
-    "evidence_artifact": "locked VL-SAT H001 metrics",
+    "evidence_artifact": "sources/vlsat/full_validation/metrics/metrics.json",
     "metric_status": "ready",
     "prediction_source": "VL-SAT / vlsat_closed_set"
   },
   {
     "blockers": "none",
-    "caveat_note": "averaged-BLIP variant; filtered train/dev; covered H001 377/388; exact-label denominator 2545; validation_missing_preprocessed:11; residual calibration risk",
-    "claim_use": "cross-source claim enabled within measured H001 families",
+    "caveat_note": "selected official non-avg checkpoint; filtered train/dev provenance; 548/548 recovery policy with min_visible=2 and relaxed two-scan views; exact-label denominator 3972; 533/548 covered branch sensitivity; residual calibration risk",
+    "claim_use": "main open-vocabulary relation-source full-validation result",
     "contract_status": "ready",
-    "evidence_artifact": "sources/open3dsg/metrics/metrics.json",
+    "evidence_artifact": "sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics/metrics.json",
     "metric_status": "ready",
     "prediction_source": "Open3DSG"
   }

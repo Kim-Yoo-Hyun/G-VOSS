@@ -1,6 +1,6 @@
 # Open3DSG Full Training Non-Averaged BLIP Retry
 
-Status: launched_running
+Status: completed_checkpoint_selected_no_downstream_metrics
 Launched at: 2026-06-01 07:19:08 KST
 
 ## Reason
@@ -43,26 +43,29 @@ initial status check: active; train_full entered epoch 0, step 7/3744
 
 ## Latest Status Check
 
-Checked at: 2026-06-01 19:40 KST
+Checked at: 2026-06-04 17:24 KST
 
 ```text
-tmux session: active
-exit file: not present
-latest training position: epoch 15, about 595/3744 steps, 16%
-recent speed: about 1.30 it/s
-best current checkpoint: epoch=13-step=13104.ckpt
-best current train-dev val/loss: 0.5724539161
-checkpoint dir contents: epoch 6, 7, 8, 11, 13 top-k checkpoints plus last.ckpt
-run directory size: about 7.5G
-disk free: about 56G
-GPU status: RTX 5090, about 9.4-14.7G used during checks, utilization active
-checked log tail: no OOM, traceback, exit_code, or no-space error found
+tmux session: ended
+exit file: present, exit code 0
+finished_at: 2026-06-04T17:01:07+09:00
+final training position: epoch 99, global step 93600
+checkpoint selection status: checkpoint_selection_ready_official_non_avg_blip
+selected checkpoint: local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt
+selected checkpoint sha256: ca86d429b19e846aec2bfff014256bf36f6f90da07e566b90c461d6eca8d76bb
+selected train-dev val/loss: 0.5724539160728455 at step 13103
+route comparison: best avg-BLIP train-dev val/loss 0.32881081104278564; non-avg minus avg delta +0.24364310503005981
 ```
 
-Interpretation: R1 has advanced beyond the earlier OOM-blocked pilot range and
-is currently stable, but it is still only a background caveat-reduction retry.
-It does not replace the averaged-BLIP paper caveat or current Open3DSG evidence
-until completion, checkpoint selection, and the downstream H001 eval chain.
+Interpretation: R1 completed and produced an official non-averaged BLIP
+full-route checkpoint selected by train-dev `val/loss` before selected-route
+H001 held-out metrics. This reduces only the route-feasibility blocker. It does
+not replace the current averaged-BLIP Open3DSG paper evidence because the
+non-avg H001 eval feature/raw dump, adapter, geometry join, metrics, bootstrap
+CI, Table 6, and caveat wording have not been regenerated. The selected non-avg
+checkpoint also has worse train-dev `val/loss` than the existing avg-BLIP
+variant, so downstream regeneration is optional evidence gathering rather than
+an automatic paper-table upgrade.
 
 ## Expected Outputs
 

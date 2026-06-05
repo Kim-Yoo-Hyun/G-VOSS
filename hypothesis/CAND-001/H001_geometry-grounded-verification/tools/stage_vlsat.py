@@ -69,6 +69,12 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Do not create aligned PLY by copying raw PLY for reference scans.",
     )
+    parser.add_argument(
+        "--reference-aligned-mode",
+        choices=("copy", "symlink"),
+        default="copy",
+        help="Storage mode for identity aligned PLY files on reference scans.",
+    )
     return parser.parse_args()
 
 
@@ -343,6 +349,7 @@ def stage_aligned_for_reference(
     aligned_target: Path,
     *,
     overwrite: bool,
+    mode: str,
 ) -> dict[str, Any]:
     if not raw_source.exists():
         return file_record(
@@ -352,6 +359,13 @@ def stage_aligned_for_reference(
             status="missing_source",
             required=True,
         )
+
+    if mode == "symlink":
+        return stage_file(raw_source, aligned_target, mode="symlink", overwrite=overwrite, required=True) | {
+            "action": "official_reference_identity_symlink"
+        }
+    if mode != "copy":
+        raise ValueError(f"unsupported reference aligned mode: {mode}")
 
     aligned_target.parent.mkdir(parents=True, exist_ok=True)
     if aligned_target.exists() or aligned_target.is_symlink():
@@ -528,6 +542,7 @@ def stage_selected_scan(
             source_dir / RAW_PLY,
             target_aligned,
             overwrite=args.overwrite,
+            mode=args.reference_aligned_mode,
         )
     elif has_transform:
         aligned = file_record(
@@ -687,9 +702,10 @@ def main() -> int:
         "selected_scans": selected_scans,
         "link_mode": args.link_mode,
         "reference_aligned_copy_enabled": not args.no_reference_aligned_copy,
+        "reference_aligned_mode": args.reference_aligned_mode,
         "official_vlsat_source": {
             "repository": "https://github.com/wz7in/CVPR2023-VLSAT",
-            "reference_transform_behavior": "reference scans copy raw annotated PLY to aligned annotated PLY",
+            "reference_transform_behavior": "reference scans use identity aligned PLY from raw annotated PLY; full-validation Docker staging may symlink this identity file to avoid duplicate storage",
             "rescan_transform_behavior": "rescans require transform_ply.py with 3RScan.json transforms",
         },
         "subset_records": subset_records,

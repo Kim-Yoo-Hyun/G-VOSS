@@ -1,6 +1,6 @@
 # H001 Reproducibility Runbook
 
-Last updated: 2026-05-27 KST
+Last updated: 2026-06-05 KST
 
 This document consolidates dataset, checkpoint, environment, Docker, reproduction,
 and evaluation-summary information for `experiments/H001_geom_reliability/`.
@@ -50,13 +50,23 @@ Open3DSG source-specific state:
 2. `experiments/H001_geom_reliability/sources/open3dsg/commands.open3dsg.md`
 3. `experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml`
 4. `experiments/H001_geom_reliability/sources/open3dsg/checkpoint_selection/report.md`
-5. `experiments/H001_geom_reliability/sources/open3dsg/raw_dump_identity/report.md`
-6. `experiments/H001_geom_reliability/sources/open3dsg/adapter/report.md`
-7. `experiments/H001_geom_reliability/sources/open3dsg/geometry/report.md`
-8. `experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json`
-9. `experiments/H001_geom_reliability/sources/open3dsg/failure_rows/report.md`
-10. `experiments/H001_geom_reliability/sources/open3dsg/failure_cases/inspection.md`
-11. `experiments/H001_geom_reliability/sources/open3dsg/paper_caveats/report.md`
+5. `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/README.md`
+6. `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics/metrics.json`
+7. `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/bootstrap_ci/summary.md`
+8. `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_rows/report.md`
+9. `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_cases/inspection.md`
+10. `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/table_caveats/report.md`
+11. `experiments/H001_geom_reliability/sources/open3dsg/raw_dump_identity/report.md`
+
+VL-SAT full-validation source state:
+
+1. `experiments/H001_geom_reliability/sources/vlsat/README.md`
+2. `experiments/H001_geom_reliability/sources/vlsat/full_validation/README.md`
+3. `experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics/metrics.json`
+4. `experiments/H001_geom_reliability/sources/vlsat/full_validation/bootstrap_ci/summary.md`
+5. `experiments/H001_geom_reliability/sources/vlsat/full_validation/gt_eval/report.md`
+6. `experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_rows/report.md`
+7. `experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_cases/inspection.md`
 
 Qwen-VL extension/resume state:
 
@@ -95,8 +105,10 @@ Facts:
 
 - Active experiment root: `experiments/H001_geom_reliability/`.
 - Paper-body experiment outputs must be generated through Docker.
-- `VL-SAT` locked artifacts, Open3DSG metrics, Open3DSG real
-  failure rows, Table 6, and Docker subgraph bootstrap CI are ready.
+- Full-validation `VL-SAT` artifacts, Open3DSG recovery artifacts, source
+  metrics, source failure rows, deterministic qualitative failure inspections,
+  Table 6, and Docker subgraph bootstrap CI are ready for the selected
+  paper-facing H001 route.
 - Paper handoff and planning are ready: `paper/README.md`, `paper/preview.md`,
   `paper/progress.md`, `paper/appendix.md`, `paper/outline.md`,
   `paper/draft.md`, `paper/risk.md`, `paper/aaai/`, `paper/iccv/`,
@@ -110,8 +122,8 @@ Facts:
   reproducibility artifact bundle planning, and official AAAI-26 Author Kit
   replacement/verification, plus the appendix/provenance and Open3DSG
   caveat-consistency pass. Docker build verification for `paper/aaai/` is
-  complete with `h001-aaai-tex:20260526`; the latest `main.pdf`
-  rebuild log is `logs/h001_aaai_pdf_build_appendix_caveat_20260527_202734.log`,
+  complete with `h001-aaai-tex:20260526`; the latest full-validation
+  rebuild log is `logs/h001_aaai_pdf_build_full_validation_20260605_100108.log`,
   with 9 total pages, technical content on pages 1-7, references on page 8,
   and the AAAI reproducibility checklist on page 9. The manuscript uses
   Open3DSG as the main open-vocabulary relation-source case study and VL-SAT as
@@ -143,6 +155,7 @@ Large runtime data is intentionally under ignored local roots:
 | Open3DSG H001 eval root | `local_dataset/Open3DSG_staged/h001_runtime/` |
 | Open3DSG train/dev features | `local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3/` |
 | Open3DSG H001 eval features | `local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3/` |
+| Open3DSG full-validation recovery features | `local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/features/clip_features_h001_full_validation_recovery_relaxed_views_min2/` |
 | Qwen-VL model cache | `local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/` |
 | Qwen-VL tiny crops | `local_dataset/qwen_vl_crops/tiny_pilot/` |
 | Qwen-VL full-source crops | `local_dataset/qwen_vl_crops/full_source/` |
@@ -230,73 +243,111 @@ runtime artifacts should be published separately, for example through Google
 Drive, Zenodo, or Hugging Face Dataset, because several files are too large or
 license-sensitive for normal GitHub commits.
 
+## Open3DSG Dual-Route Retention Policy
+
+Keep both Open3DSG full-validation routes. They answer different reviewer
+questions and neither should be deleted during cleanup.
+
+| Route | Path | Coverage | Role |
+| --- | --- | ---: | --- |
+| Unmodified source route | `experiments/H001_geom_reliability/sources/open3dsg/full_validation/` | 533/548 loadable contexts | Public-source/as-is evidence. The 15 missing contexts are Open3DSG source-runtime preprocess visibility drops, not missing GT annotations. |
+| Recovery route | `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/` | 548/548 contexts | Coverage-completion variant. Must disclose `OPEN3DSG_MIN_VISIBLE_OBJECTS=2` and relaxed two-scan view generation. |
+
+Reporting rule:
+
+- Use the unmodified source route to defend against "you tuned Open3DSG
+  preprocessing for your method" objections.
+- Use the recovery route to show the conclusion is not an artifact of the 15
+  missing contexts.
+- If table space permits, report both Open3DSG rows. If only one row is shown in
+  the main table, the other route must appear in the caption, appendix, or
+  sensitivity discussion.
+
 Recommended release tiers:
 
 | Tier | Include | Purpose | Current size / count | Release note |
 | --- | --- | --- | --- | --- |
 | A. GitHub tracked source | `README.md`, `TODO.md`, `docs/`, `paper/aaai/`, `experiments/H001_geom_reliability/{Dockerfile,compose.yaml,commands.md,scripts/,reports,compact manifests}` | Rebuild commands and paper source | small | Commit to GitHub. |
-| B. Core H001 result bundle | selected Open3DSG checkpoint, Open3DSG `raw_dump/raw.jsonl`, adapter `predictions.jsonl`, geometry `verification.jsonl`, metrics, failure rows, qualitative queue, table outputs, manifest locks | Reproduce paper tables without rerunning multi-day feature/training jobs | checkpoint 401 MB; row JSONL about 2.8 GB uncompressed; 1,070,134 JSONL rows across the checked row files | Good candidate for Google Drive or Zenodo. |
+| B. Full-validation paper result bundle | selected official non-avg Open3DSG checkpoint, full-validation VL-SAT row JSONL/metrics/bootstrap/failure artifacts, Open3DSG recovery branch row JSONL/metrics/bootstrap/failure artifacts, table outputs, manifest locks | Reproduce current paper-facing full-validation tables without rerunning multi-day feature/training jobs | row JSONL counts: VL-SAT predictions 957,008, verification 957,008, failure rows 59,841; Open3DSG recovery raw 26,938, predictions 695,916, verification 695,916, failure rows 82,155 | Good candidate for Google Drive or Zenodo. |
 | C. Large feature-cache transfer bundle | Open3DSG train/dev features and H001 eval features | Fast full rerun without regenerating features | train/dev 131 GB; eval 13 GB | Optional; high storage cost but saves multi-day regeneration. |
 | D. External-only dependencies | raw 3RScan/3DSSG/VL-SAT data, official third-party checkpoints, Qwen-VL HF cache | Dataset/model access under original terms | Qwen cache 8.3 GB; raw datasets much larger | Prefer documented download/rebuild over redistribution. |
 
-Core result bundle paths:
+Full-validation paper result bundle paths:
 
 ```text
-local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt
+local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt
+experiments/H001_geom_reliability/full_validation_transition/scope_contract/
+experiments/H001_geom_reliability/full_validation_transition/artifact_bundle/
 experiments/H001_geom_reliability/manifest.lock.json
 experiments/H001_geom_reliability/report.md
 experiments/H001_geom_reliability/tables/
-experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl
-experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl
-experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl
-experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json
-experiments/H001_geom_reliability/sources/open3dsg/failure_rows/rows.jsonl
-experiments/H001_geom_reliability/sources/open3dsg/failure_cases/queue.jsonl
-experiments/H001_geom_reliability/sources/open3dsg/*/manifest.json
-experiments/H001_geom_reliability/sources/open3dsg/*/report.md
+experiments/H001_geom_reliability/sources/vlsat/full_validation/raw/raw.jsonl
+experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/predictions.jsonl
+experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl
+experiments/H001_geom_reliability/sources/vlsat/full_validation/geometry/verification.jsonl
+experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics/metrics.json
+experiments/H001_geom_reliability/sources/vlsat/full_validation/bootstrap_ci/summary.json
+experiments/H001_geom_reliability/sources/vlsat/full_validation/gt_eval/metrics.json
+experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_rows/rows.jsonl
+experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_cases/queue.jsonl
+experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_cases/inspection.json
+experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/raw_dump/raw.jsonl
+experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/adapter/predictions.jsonl
+experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/geometry/verification.jsonl
+experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics/metrics.json
+experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/bootstrap_ci/summary.json
+experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_rows/rows.jsonl
+experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_cases/queue.jsonl
+experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_cases/inspection.json
+experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/table_caveats/
+experiments/H001_geom_reliability/sources/open3dsg/checkpoint_selection/
 ```
 
-Checked row counts for the current core row files:
+Checked row counts for the current full-validation row files:
 
 ```text
-raw_dump/raw.jsonl: 19,162
-adapter/predictions.jsonl: 496,600
-geometry/verification.jsonl: 496,600
-failure_rows/rows.jsonl: 57,736
-failure_cases/queue.jsonl: 36
+VL-SAT raw/raw.jsonl: 548
+VL-SAT adapter/predictions.jsonl: 957,008
+VL-SAT adapter/ground_truth.jsonl: 11,254
+VL-SAT geometry/verification.jsonl: 957,008
+VL-SAT failure_rows/rows.jsonl: 59,841
+VL-SAT failure_cases/queue.jsonl: 36
+Open3DSG recovery raw_dump/raw.jsonl: 26,938
+Open3DSG recovery adapter/predictions.jsonl: 695,916
+Open3DSG recovery geometry/verification.jsonl: 695,916
+Open3DSG recovery failure_rows/rows.jsonl: 82,155
+Open3DSG recovery failure_cases/queue.jsonl: 36
 ```
 
-Core bundle creation template:
+Full-validation bundle creation template:
 
 ```bash
 mkdir -p release logs
 ts=$(date +%Y%m%d_%H%M%S)
-tar --zstd -cf release/h001_core_results_${ts}.tar.zst \
-  local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt \
+tar --zstd -cf release/h001_full_validation_results_${ts}.tar.zst \
+  local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt \
+  experiments/H001_geom_reliability/full_validation_transition/scope_contract \
+  experiments/H001_geom_reliability/full_validation_transition/artifact_bundle \
   experiments/H001_geom_reliability/manifest.lock.json \
   experiments/H001_geom_reliability/report.md \
   experiments/H001_geom_reliability/tables \
-  experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl \
-  experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl \
-  experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl \
-  experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json \
-  experiments/H001_geom_reliability/sources/open3dsg/failure_rows/rows.jsonl \
-  experiments/H001_geom_reliability/sources/open3dsg/failure_cases/queue.jsonl \
-  experiments/H001_geom_reliability/sources/open3dsg/*/manifest.json \
-  experiments/H001_geom_reliability/sources/open3dsg/*/report.md
-sha256sum release/h001_core_results_${ts}.tar.zst > release/h001_core_results_${ts}.sha256
+  experiments/H001_geom_reliability/sources/vlsat/full_validation \
+  experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2 \
+  experiments/H001_geom_reliability/sources/open3dsg/full_validation/table_caveats \
+  experiments/H001_geom_reliability/sources/open3dsg/checkpoint_selection
+sha256sum release/h001_full_validation_results_${ts}.tar.zst > release/h001_full_validation_results_${ts}.sha256
 ```
 
-Current verified core bundle:
+Historical verified 127-scan bundle:
 
 ```text
-status: completed_verified
+status: completed_verified_then_local_archive_deleted_on_2026-06-05
 session: h001_core_bundle_20260526_160957
 cwd: /home/yoohyun/research
 log: logs/h001_core_bundle_20260526_160957.log
 exit: logs/h001_core_bundle_20260526_160957.exit
-output: release/h001_core_results_20260526_160957.tar.zst
-checksum: release/h001_core_results_20260526_160957.sha256
+output: release/h001_core_results_20260526_160957.tar.zst (local archive deleted after cleanup)
+checksum: release/h001_core_results_20260526_160957.sha256 (local checksum deleted after cleanup)
 size: 423 MB
 archive_entries: 89
 exit_code: 0
@@ -305,19 +356,27 @@ row_counts: raw_dump 19,162; predictions 496,600; verification 496,600; failure_
 metric_status: ready
 exact command: tar --zstd -cf release/h001_core_results_20260526_160957.tar.zst local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt experiments/H001_geom_reliability/manifest.lock.json experiments/H001_geom_reliability/report.md experiments/H001_geom_reliability/tables experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json experiments/H001_geom_reliability/sources/open3dsg/failure_rows/rows.jsonl experiments/H001_geom_reliability/sources/open3dsg/failure_cases/queue.jsonl experiments/H001_geom_reliability/sources/open3dsg/*/manifest.json experiments/H001_geom_reliability/sources/open3dsg/*/report.md
 verification: sha256sum -c release/h001_core_results_20260526_160957.sha256 && wc -l experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl experiments/H001_geom_reliability/sources/open3dsg/failure_rows/rows.jsonl experiments/H001_geom_reliability/sources/open3dsg/failure_cases/queue.jsonl && jq -r '.status' experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json
+boundary: historical/sensitivity bundle only; current paper-facing bundle is the full-validation plan above. The local tar/checksum copy was deleted on 2026-06-05 after the full-validation route became the default handoff path.
 ```
 
-Core bundle verification template after download/extract:
+Full-validation bundle verification template after download/extract:
 
 ```bash
-sha256sum -c release/h001_core_results_<ts>.sha256
+sha256sum -c release/h001_full_validation_results_<ts>.sha256
 wc -l \
-  experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl \
-  experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl \
-  experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl \
-  experiments/H001_geom_reliability/sources/open3dsg/failure_rows/rows.jsonl \
-  experiments/H001_geom_reliability/sources/open3dsg/failure_cases/queue.jsonl
-jq -r '.status' experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json
+  experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/predictions.jsonl \
+  experiments/H001_geom_reliability/sources/vlsat/full_validation/geometry/verification.jsonl \
+  experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_rows/rows.jsonl \
+  experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_cases/queue.jsonl \
+  experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/raw_dump/raw.jsonl \
+  experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/adapter/predictions.jsonl \
+  experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/geometry/verification.jsonl \
+  experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_rows/rows.jsonl \
+  experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_cases/queue.jsonl
+jq -r '.status' experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics/metrics.json
+jq -r '.status' experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics/metrics.json
+jq -r '.status' experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_cases/inspection.json
+jq -r '.status' experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_cases/inspection.json
 sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm table_builder'
 ```
 
@@ -328,7 +387,8 @@ mkdir -p release
 ts=$(date +%Y%m%d_%H%M%S)
 tar --zstd -cf release/h001_open3dsg_features_${ts}.tar.zst \
   local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3 \
-  local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3
+  local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3 \
+  local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/features/clip_features_h001_full_validation_recovery_relaxed_views_min2
 sha256sum release/h001_open3dsg_features_${ts}.tar.zst > release/h001_open3dsg_features_${ts}.sha256
 ```
 
@@ -450,6 +510,7 @@ Current feature caches:
 | --- | --- | ---: | ---: |
 | train/dev official BLIP TopK5/scales3 | `local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3/` | about 131 GB | 3,900 |
 | H001 eval BLIP TopK5/scales3 | `local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3/` | about 13 GB | 377 loadable ids |
+| full-validation recovery BLIP TopK5/scales3 | `local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/features/clip_features_h001_full_validation_recovery_relaxed_views_min2/` | local cache | 548 loadable ids |
 
 Expected role directories inside each cache:
 
@@ -524,16 +585,25 @@ find local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_
   | sed 's/\.[^.]*$//' | sort | uniq -c | awk '$1==3{c++} END{print c+0}'
 ```
 
-### Regenerate H001 Eval Feature Cache
+### Regenerate Historical H001 Eval Feature Cache
 
-The H001 eval feature cache depends on a selected Open3DSG checkpoint. If the
-checkpoint is not transferred, regenerate the checkpoint first through the
-Open3DSG training route before running this step.
+This section is for the historical 127-scan H001 eval branch. The current
+paper-facing Open3DSG result is the full-validation
+`recovery_relaxed_views_min2/` branch, which uses the selected official non-avg
+checkpoint and the full-validation recovery feature cache listed above. Use the
+historical H001 eval cache only to reproduce the 127-scan sensitivity/history
+route.
 
-Selected checkpoint path used by H001:
+Historical 127-scan checkpoint path:
 
 ```text
 local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt
+```
+
+Current full-validation recovery feature cache:
+
+```text
+local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/features/clip_features_h001_full_validation_recovery_relaxed_views_min2/
 ```
 
 Stage held-out eval payload:
@@ -617,11 +687,23 @@ Open3DSG:
 - The official Open3DSG repository did not expose a trusted final trained
   relation checkpoint in the checked path. The H001 Open3DSG checkpoint is
   generated by our Docker reproduction.
-- Selected checkpoint:
+- Current paper-facing full-validation selected checkpoint:
+  `local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt`.
+- Selection signal: train-dev `val/loss`
+  0.5724539160728455 at step 13103; sha256
+  `ca86d429b19e846aec2bfff014256bf36f6f90da07e566b90c461d6eca8d76bb`.
+- Current paper-facing use: full-validation
+  `sources/open3dsg/full_validation/recovery_relaxed_views_min2/` row-level
+  JSONL, metrics, bootstrap CI, failure rows, qualitative cases, and Table 6.
+  Report the recovery-policy caveat because this branch relaxes the Open3DSG
+  visible-object preprocess gate to `min_visible=2` and regenerates relaxed
+  views for two scans.
+- Historical 127-scan averaged-BLIP checkpoint:
   `local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt`.
-- Selection signal: train-dev `val/loss` 0.32881081104278564 at step 13103.
-- Limitation: this is an explicitly labeled Open3DSG averaged-BLIP variant;
-  the exact non-averaged BLIP projector route failed under CUDA OOM.
+- Historical selection signal: train-dev `val/loss` 0.32881081104278564 at step
+  13103. This route remains the stronger 127-scan sensitivity/history branch by
+  train-dev loss, but it is not the current paper-facing full-validation
+  denominator.
 
 Open3DSG component model downloads, if the staged checkpoint/component root must
 be rebuilt:
@@ -752,15 +834,40 @@ sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_g
 | `probabilistic_recalibrated` | 0.9642 | 0.9921 | 0.0234 | 0.0391 |
 | `family_specific_p_geom_valid` | 0.9619 | 0.9914 | 0.0204 | 0.0310 |
 
+`VL-SAT` full official validation rerun:
+
+- artifact root:
+  `experiments/H001_geom_reliability/sources/vlsat/full_validation/`
+- command index: `experiments/H001_geom_reliability/commands.md`
+- status: `vlsat_full_validation_metric_bundle_ready`
+- scope: 157 scans, 548 contexts, 957,008 prediction rows, 11,254 GT rows,
+  3,972 H001-family GT rows
+
+| Condition | R@50 | R@100 | Violation@50 | Violation@100 |
+| --- | ---: | ---: | ---: | ---: |
+| `semantic_only` | 0.9272 | 0.9635 | 0.0268 | 0.0476 |
+| `probabilistic_recalibrated` | 0.9305 | 0.9688 | 0.0229 | 0.0404 |
+| `rule_verified_point_subtype` | 0.9257 | 0.9627 | 0.0000 | 0.0000 |
+| `family_specific_p_geom_valid` | 0.9288 | 0.9683 | 0.0206 | 0.0333 |
+
 Additional `VL-SAT` verifier/audit evidence:
 
-- GT-positive rows: 2,545.
-- GT-derived negatives: 2,545.
-- `p_geom_valid` AUROC/AUPRC: 0.9779 / 0.9737.
-- Reduced visual sanity check: 50/50 labels, reviewer `yhkim`,
+- Full-validation GT-positive rows: 3,972.
+- Full-validation GT-derived negatives: 3,972.
+- Full-validation `p_geom_valid` AUROC/AUPRC: 0.9772 / 0.9729.
+- Historical reduced visual sanity check: 50/50 labels, reviewer `yhkim`,
   `ready_sanity_pass`.
 
-Open3DSG second-source result:
+Open3DSG full-validation recovery result:
+
+| Condition | R@50 | R@100 | Violation@50 | Violation@100 |
+| --- | ---: | ---: | ---: | ---: |
+| `semantic_only` | 0.4096 | 0.5161 | 0.1386 | 0.1242 |
+| `probabilistic_recalibrated` | 0.3975 | 0.5723 | 0.0606 | 0.0811 |
+| `rule_verified_point_subtype` | 0.4295 | 0.5368 | 0.0000 | 0.0000 |
+| `family_specific_p_geom_valid` | 0.4658 | 0.6047 | 0.0286 | 0.0341 |
+
+Open3DSG historical 127-scan second-source result:
 
 | Condition | R@50 | R@100 | Violation@50 | Violation@100 |
 | --- | ---: | ---: | ---: | ---: |
@@ -769,7 +876,7 @@ Open3DSG second-source result:
 | `rule_verified_point_subtype` | 0.4149 | 0.5238 | 0.0000 | 0.0000 |
 | `family_specific_p_geom_valid` | 0.4530 | 0.5984 | 0.0228 | 0.0311 |
 
-Open3DSG artifact summary:
+Open3DSG historical 127-scan artifact summary:
 
 - Raw dump: `raw_dump/raw.jsonl`, 19,162 rows.
 - Adapter predictions: 496,600 rows; 62 raw rows filtered outside the fixed
@@ -782,3 +889,52 @@ Open3DSG artifact summary:
   `experiments/H001_geom_reliability/sources/open3dsg/paper_caveats/`:
   filtered train split, averaged-BLIP Open3DSG variant, covered loadable H001
   eval scope, residual calibration risk, and `validation_missing_preprocessed:11`.
+
+## Cleanup Candidates
+
+Cleanup state, 2026-06-05 KST: the user-approved paths below were deleted from
+the local workspace. They were not required for the current paper-facing
+full-validation claim. Do not delete primary full-validation artifacts, raw
+datasets, selected checkpoints, feature caches needed for reruns, or Qwen resume
+files unless the corresponding transfer/archive has been verified.
+
+Deleted failed or superseded Open3DSG full-validation attempts:
+
+```text
+experiments/H001_geom_reliability/sources/open3dsg/full_validation/raw_dump_exit0_retry_20260604_235944/
+experiments/H001_geom_reliability/sources/open3dsg/full_validation/raw_dump_exit0_retry_20260605_000241/
+experiments/H001_geom_reliability/sources/open3dsg/full_validation/preprocess_retry2/
+experiments/H001_geom_reliability/sources/open3dsg/full_validation/preprocess_recovery/
+experiments/H001_geom_reliability/sources/open3dsg/full_validation/preprocess_recovery_relaxed_min2/
+experiments/H001_geom_reliability/sources/open3dsg/full_validation/preprocess_shards/
+experiments/H001_geom_reliability/sources/open3dsg/full_validation/feature_seed/
+```
+
+Deleted local generated Python cache:
+
+```text
+experiments/H001_geom_reliability/scripts/__pycache__/
+```
+
+Deleted failed or superseded logs whose important status is already summarized in the
+reports/manifests:
+
+```text
+logs/h001_geom_reliability_build_fullval_failure_20260605_102448.log
+logs/h001_geom_reliability_build_fullval_failure_20260605_102455.log
+logs/open3dsg_full_validation_raw_exit0_retry_20260604_235944.*
+logs/open3dsg_full_validation_raw_exit0_retry_20260605_000241.*
+logs/open3dsg_full_validation_preprocess_retry2_20260604_234921.*
+logs/open3dsg_full_validation_preprocess_missing_force_20260604_220501.*
+logs/open3dsg_full_validation_preprocess_o180*
+logs/open3dsg_full_validation_preprocess_o370*
+logs/open3dsg_full_validation_feature_seed_*
+```
+
+Deleted historical release copy. The original row-level files and reports remain
+under their source artifact roots:
+
+```text
+release/h001_core_results_20260526_160957.tar.zst
+release/h001_core_results_20260526_160957.sha256
+```

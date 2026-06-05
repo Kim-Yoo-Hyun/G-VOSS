@@ -1,0 +1,3 @@
+ Container h001_geom_reliability-vlsat_failure_generator_full_validation-run-5e508d351f5a Creating 
+ Container h001_geom_reliability-vlsat_failure_generator_full_validation-run-5e508d351f5a Created 
+{"errors": 0, "out": "experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_rows", "rows": 59841, "status": "failure_analysis_real_ready"}

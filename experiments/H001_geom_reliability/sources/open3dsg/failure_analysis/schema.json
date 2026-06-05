@@ -293,7 +293,11 @@
       "type": "object"
     },
     "record_type": {
-      "const": "open3dsg_failure_analysis"
+      "enum": [
+        "open3dsg_failure_analysis",
+        "vlsat_failure_analysis"
+      ],
+      "type": "string"
     },
     "rerank_effect": {
       "additionalProperties": false,
@@ -351,7 +355,11 @@
       "additionalProperties": false,
       "properties": {
         "baseline_name": {
-          "const": "open3dsg_ov"
+          "enum": [
+            "open3dsg_ov",
+            "vlsat_closed_set"
+          ],
+          "type": "string"
         },
         "baseline_run_id": {
           "type": "string"
@@ -462,6 +470,6 @@
     "quality_flags",
     "provenance"
   ],
-  "title": "H001 Open3DSG failure-analysis row",
+  "title": "H001 source failure-analysis row",
   "type": "object"
 }

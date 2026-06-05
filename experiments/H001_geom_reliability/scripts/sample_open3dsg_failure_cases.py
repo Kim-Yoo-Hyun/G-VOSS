@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Sample representative Open3DSG qualitative failure cases."""
+"""Sample representative H001 qualitative failure cases."""
 
 from __future__ import annotations
 
@@ -14,6 +14,9 @@ from typing import Any
 SCHEMA_VERSION = "h001_open3dsg_failure_case_sample_v1"
 STATUS_READY = "failure_case_sample_ready"
 STATUS_BLOCKED = "blocked_failure_rows_missing"
+DEFAULT_SOURCE_NAME = "Open3DSG"
+DEFAULT_CASE_ID_PREFIX = "open3dsg_case"
+DEFAULT_RECORD_TYPE = "open3dsg_qualitative_case_candidate"
 
 TRANSITION_PRIORITY = {
     "demoted_out_of_top50": 0,
@@ -45,6 +48,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--limit", type=int, default=36)
     parser.add_argument("--per-bucket", type=int, default=1)
     parser.add_argument("--max-per-subgraph", type=int, default=2)
+    parser.add_argument("--source-name", default=DEFAULT_SOURCE_NAME)
+    parser.add_argument("--case-id-prefix", default=DEFAULT_CASE_ID_PREFIX)
+    parser.add_argument("--record-type", default=DEFAULT_RECORD_TYPE)
     return parser.parse_args()
 
 
@@ -146,7 +152,13 @@ def is_candidate(row: dict[str, Any]) -> bool:
     )
 
 
-def compact_case(row: dict[str, Any], case_index: int) -> dict[str, Any]:
+def compact_case(
+    row: dict[str, Any],
+    case_index: int,
+    *,
+    record_type: str,
+    case_id_prefix: str,
+) -> dict[str, Any]:
     source = row.get("source_prediction", {})
     taxonomy = row.get("failure_taxonomy", {})
     geometry = row.get("geometry", {})
@@ -154,8 +166,8 @@ def compact_case(row: dict[str, Any], case_index: int) -> dict[str, Any]:
     rerank = row.get("rerank_effect", {})
     return {
         "schema_version": SCHEMA_VERSION,
-        "record_type": "open3dsg_qualitative_case_candidate",
-        "case_id": f"open3dsg_case_{case_index:03d}",
+        "record_type": record_type,
+        "case_id": f"{case_id_prefix}_{case_index:03d}",
         "source_analysis_id": row.get("analysis_id"),
         "source_line_number": row.get("_line_number"),
         "selection_bucket": {
@@ -219,16 +231,16 @@ def suggested_check(row: dict[str, Any]) -> str:
     return f"Inspect whether both semantic label and geometry evidence fail for this relation; reason_codes={reason_codes}"
 
 
-def build_report(payload: dict[str, Any], cases: list[dict[str, Any]], repo_root: Path) -> str:
+def build_report(payload: dict[str, Any], cases: list[dict[str, Any]], repo_root: Path, *, source_name: str) -> str:
     lines = [
-        "# Open3DSG Qualitative Failure Case Sample",
+        f"# {source_name} Qualitative Failure Case Sample",
         "",
         f"Status: `{payload['status']}`",
         f"Created at: `{payload['created_at']}`",
         "",
         "## Scope",
         "",
-        "This sample is selected from high-severity Open3DSG failure-analysis rows with `needs_visual_audit=true`.",
+        f"This sample is selected from high-severity {source_name} failure-analysis rows with `needs_visual_audit=true`.",
         "It is a qualitative inspection queue, not an additional metric.",
         "",
         "## Summary",
@@ -303,7 +315,10 @@ def main() -> None:
             },
         }
         write_json(manifest_path, payload)
-        report_path.write_text("# Open3DSG Qualitative Failure Case Sample\n\nStatus: `blocked_failure_rows_missing`\n", encoding="utf-8")
+        report_path.write_text(
+            f"# {args.source_name} Qualitative Failure Case Sample\n\nStatus: `blocked_failure_rows_missing`\n",
+            encoding="utf-8",
+        )
         print(json.dumps({"status": STATUS_BLOCKED, "manifest": relpath(repo_root, manifest_path)}, sort_keys=True))
         return
 
@@ -348,7 +363,15 @@ def main() -> None:
             if len(selected) >= args.limit:
                 break
 
-    cases = [compact_case(row, index + 1) for index, row in enumerate(selected)]
+    cases = [
+        compact_case(
+            row,
+            index + 1,
+            record_type=args.record_type,
+            case_id_prefix=args.case_id_prefix,
+        )
+        for index, row in enumerate(selected)
+    ]
     selected_category = Counter(case["failure_taxonomy"]["primary_category"] for case in cases)
     selected_family = Counter(case["source_prediction"]["predicate_family"] for case in cases)
     selected_transition = Counter(case["rerank_effect"]["topk_transition"] for case in cases)
@@ -365,6 +388,9 @@ def main() -> None:
             "limit": args.limit,
             "per_bucket": args.per_bucket,
             "max_per_subgraph": args.max_per_subgraph,
+            "source_name": args.source_name,
+            "case_id_prefix": args.case_id_prefix,
+            "record_type": args.record_type,
             "candidate_filter": "needs_visual_audit=true AND severity=high AND category in {geometry_contradiction, semantic_and_geometry_failure}",
             "bucket_key": ["primary_category", "predicate_family", "topk_transition"],
         },
@@ -387,7 +413,7 @@ def main() -> None:
 
     write_jsonl(queue_path, cases)
     write_json(manifest_path, manifest)
-    report_path.write_text(build_report(manifest, cases, repo_root), encoding="utf-8")
+    report_path.write_text(build_report(manifest, cases, repo_root, source_name=args.source_name), encoding="utf-8")
     print(json.dumps({"status": STATUS_READY, "selected_count": len(cases), "manifest": relpath(repo_root, manifest_path)}, sort_keys=True))
 
 

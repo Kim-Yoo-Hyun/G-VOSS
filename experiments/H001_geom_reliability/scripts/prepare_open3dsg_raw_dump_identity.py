@@ -13,9 +13,9 @@ from typing import Any
 
 SCHEMA_VERSION = "h001_open3dsg_raw_dump_identity_audit_v1"
 RAW_SCHEMA_VERSION = "h001_open3dsg_raw_dump_v1"
-EXPECTED_SCANS = 127
-EXPECTED_CONTEXTS = 388
-EXPECTED_DIRECTED_PAIRS = 25916
+DEFAULT_EXPECTED_SCANS = 127
+DEFAULT_EXPECTED_CONTEXTS = 388
+DEFAULT_EXPECTED_DIRECTED_PAIRS = 25916
 STATUS_READY_MISSING = "raw_dump_identity_checklist_ready_raw_dump_missing"
 STATUS_AUDIT_READY = "raw_dump_identity_audit_ready"
 STATUS_AUDIT_BLOCKED = "raw_dump_identity_audit_blocked"
@@ -52,6 +52,9 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=Path("experiments/H001_geom_reliability/sources/open3dsg/raw_dump_identity"),
     )
+    parser.add_argument("--expected-scans", type=int, default=DEFAULT_EXPECTED_SCANS)
+    parser.add_argument("--expected-contexts", type=int, default=DEFAULT_EXPECTED_CONTEXTS)
+    parser.add_argument("--expected-directed-pairs", type=int, default=DEFAULT_EXPECTED_DIRECTED_PAIRS)
     return parser.parse_args()
 
 
@@ -86,7 +89,14 @@ def read_selected_scans(path: Path) -> set[str]:
     return {line.strip() for line in path.read_text(encoding="utf-8").splitlines() if line.strip()}
 
 
-def build_scope(repo_root: Path, subset_json: Path, selected_scans: Path) -> dict[str, Any]:
+def build_scope(
+    repo_root: Path,
+    subset_json: Path,
+    selected_scans: Path,
+    expected_scans: int,
+    expected_contexts: int,
+    expected_directed_pairs: int,
+) -> dict[str, Any]:
     blockers: list[str] = []
     if not subset_json.is_file():
         blockers.append(f"missing_subset_json:{relpath(repo_root, subset_json)}")
@@ -118,12 +128,12 @@ def build_scope(repo_root: Path, subset_json: Path, selected_scans: Path) -> dic
             "object_count": object_count,
         }
 
-    if len(selected) != EXPECTED_SCANS:
-        blockers.append(f"selected_scans:{len(selected)}/{EXPECTED_SCANS}")
-    if len(contexts) != EXPECTED_CONTEXTS:
-        blockers.append(f"contexts:{len(contexts)}/{EXPECTED_CONTEXTS}")
-    if directed_pairs != EXPECTED_DIRECTED_PAIRS:
-        blockers.append(f"directed_pairs:{directed_pairs}/{EXPECTED_DIRECTED_PAIRS}")
+    if len(selected) != expected_scans:
+        blockers.append(f"selected_scans:{len(selected)}/{expected_scans}")
+    if len(contexts) != expected_contexts:
+        blockers.append(f"contexts:{len(contexts)}/{expected_contexts}")
+    if directed_pairs != expected_directed_pairs:
+        blockers.append(f"directed_pairs:{directed_pairs}/{expected_directed_pairs}")
 
     return {
         "status": "ready" if not blockers else "blocked",
@@ -132,6 +142,11 @@ def build_scope(repo_root: Path, subset_json: Path, selected_scans: Path) -> dic
         "selected_scans": len(selected),
         "contexts": len(contexts),
         "directed_pairs": directed_pairs,
+        "expected": {
+            "selected_scans": expected_scans,
+            "contexts": expected_contexts,
+            "directed_pairs": expected_directed_pairs,
+        },
         "object_count_histogram": {str(key): value for key, value in sorted(object_count_hist.items())},
         "context_sample": list(contexts.values())[:5],
         "context_ids": sorted(contexts),
@@ -201,6 +216,42 @@ def read_jsonl(path: Path) -> tuple[list[dict[str, Any]], list[str]]:
     return rows, errors
 
 
+def parse_split_value(value: Any) -> int | None:
+    if value is None:
+        return None
+    if isinstance(value, int):
+        return value
+    text = str(value).strip()
+    if not text:
+        return None
+    try:
+        return int(text)
+    except ValueError:
+        pass
+    if len(text) == 1 and text.lower() in "abcdef":
+        return int(text, 16)
+    return None
+
+
+def normalize_raw_identity(row: dict[str, Any]) -> tuple[str, int, str] | None:
+    raw_scan = row.get("scan_id")
+    split_id = parse_split_value(row.get("subset_split_id"))
+    if raw_scan is None:
+        return None
+    scan_id = str(raw_scan)
+    if split_id is None:
+        # Open3DSG may surface split >= 10 as "<scan-id>-a" and omit
+        # subset_split_id because its feature ids use hexadecimal suffixes.
+        base, sep, suffix = scan_id.rpartition("-")
+        parsed_suffix = parse_split_value(suffix) if sep else None
+        if parsed_suffix is not None and base:
+            scan_id = base
+            split_id = parsed_suffix
+    if split_id is None:
+        return None
+    return scan_id, split_id, f"{scan_id}_{split_id}"
+
+
 def audit_raw_dump(repo_root: Path, raw_dump_jsonl: Path, scope: dict[str, Any]) -> dict[str, Any]:
     if not raw_dump_jsonl.exists():
         return {
@@ -233,10 +284,11 @@ def audit_raw_dump(repo_root: Path, raw_dump_jsonl: Path, scope: dict[str, Any])
             blockers.append(f"bad_schema:{index}:{row.get('schema_version')}")
         if row.get("record_type") != "open3dsg_raw_prediction":
             blockers.append(f"bad_record_type:{index}:{row.get('record_type')}")
-        subgraph_id = str(row.get("subgraph_id") or f"{row.get('scan_id')}_{row.get('subset_split_id')}")
-        expected_subgraph = f"{row.get('scan_id')}_{row.get('subset_split_id')}"
-        if subgraph_id != expected_subgraph:
-            blockers.append(f"subgraph_id_mismatch:{index}:{subgraph_id}:{expected_subgraph}")
+        normalized_identity = normalize_raw_identity(row)
+        if normalized_identity is None:
+            blockers.append(f"bad_raw_identity:{index}:{row.get('scan_id')}:{row.get('subset_split_id')}")
+            continue
+        _, _, subgraph_id = normalized_identity
         if subgraph_id not in contexts:
             blockers.append(f"raw_subgraph_not_in_h001_scope:{index}:{subgraph_id}")
         edge = row.get("edge") if isinstance(row.get("edge"), dict) else {}
@@ -338,9 +390,18 @@ def build_report(payload: dict[str, Any]) -> str:
         "",
         "## Scope",
         "",
-        f"- selected scans: `{payload['scope'].get('selected_scans')}/{EXPECTED_SCANS}`",
-        f"- contexts: `{payload['scope'].get('contexts')}/{EXPECTED_CONTEXTS}`",
-        f"- directed pairs: `{payload['scope'].get('directed_pairs')}/{EXPECTED_DIRECTED_PAIRS}`",
+        (
+            f"- selected scans: `{payload['scope'].get('selected_scans')}/"
+            f"{payload['scope'].get('expected', {}).get('selected_scans')}`"
+        ),
+        (
+            f"- contexts: `{payload['scope'].get('contexts')}/"
+            f"{payload['scope'].get('expected', {}).get('contexts')}`"
+        ),
+        (
+            f"- directed pairs: `{payload['scope'].get('directed_pairs')}/"
+            f"{payload['scope'].get('expected', {}).get('directed_pairs')}`"
+        ),
         "",
         "## Raw Dump",
         "",
@@ -373,7 +434,14 @@ def main() -> int:
     out_dir = resolve(repo_root, args.out)
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    scope = build_scope(repo_root, subset_json, selected_scans)
+    scope = build_scope(
+        repo_root,
+        subset_json,
+        selected_scans,
+        args.expected_scans,
+        args.expected_contexts,
+        args.expected_directed_pairs,
+    )
     raw_audit = audit_raw_dump(repo_root, raw_dump_jsonl, scope)
     payload = build_manifest(repo_root, raw_dump_jsonl, predictions_jsonl, scope, raw_audit)
 

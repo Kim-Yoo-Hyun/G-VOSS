@@ -25,5 +25,5 @@
     "training_log_path": "log path under logs/ or Open3DSG output dir",
     "validation_split_manifest": "filtered validation split/preprocess manifest path and hash"
   },
-  "schema_version": "h001_open3dsg_checkpoint_selection_v3"
+  "schema_version": "h001_open3dsg_checkpoint_selection_v4"
 }

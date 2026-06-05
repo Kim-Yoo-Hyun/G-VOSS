@@ -1,15 +1,18 @@
 {
   "claim_boundary": "draft figures only; scoped H001 relation-reliability claim",
-  "created_at": "2026-05-21T15:34:10.228077+00:00",
+  "created_at": "2026-06-05T00:56:21.018594+00:00",
   "layout_review": "paper/generated/figures/layout_review.md",
   "outputs": {
     "figure1_framework.svg": "paper/generated/figures/figure1_framework.svg",
     "figure2_tradeoff.svg": "paper/generated/figures/figure2_tradeoff.svg",
     "figure3_failure_cases.svg": "paper/generated/figures/figure3_failure_cases.svg"
   },
+  "png_outputs": {
+    "figure2_tradeoff.png": "paper/generated/figures/figure2_tradeoff.png"
+  },
   "source_artifacts": [
-    "experiments/H001_geom_reliability/tables/table1_main_prediction.json",
-    "experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json",
+    "experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics/metrics.json",
+    "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics/metrics.json",
     "experiments/H001_geom_reliability/sources/open3dsg/failure_cases/inspection.json"
   ],
   "source_lock": "paper/figures.md",

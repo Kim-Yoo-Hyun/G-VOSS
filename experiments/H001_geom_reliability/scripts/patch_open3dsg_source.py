@@ -356,6 +356,12 @@ RAW_DUMP_WRITE_PRINT = """        print(f"H001 raw dump wrote {rows_written} row
 
 RAW_DUMP_WRITE_EXIT_AFTER_WRITE = """        print(f"H001 raw dump wrote {rows_written} rows to {raw_dump_jsonl}")
         if os.environ.get("OPEN3DSG_RAW_DUMP_EXIT_AFTER_WRITE", "0") == "1":
+            print(f"H001 raw dump exit-after-write requested for {raw_dump_jsonl}; returning cleanly")
+            self._h001_raw_dump_exit_after_write_requested = True
+"""
+
+RAW_DUMP_WRITE_EXIT_AFTER_WRITE_V14 = """        print(f"H001 raw dump wrote {rows_written} rows to {raw_dump_jsonl}")
+        if os.environ.get("OPEN3DSG_RAW_DUMP_EXIT_AFTER_WRITE", "0") == "1":
             print(f"H001 raw dump exit-after-write requested for {raw_dump_jsonl}")
             raise SystemExit(0)
 """
@@ -482,8 +488,8 @@ RAW_DUMP_HELPERS = """    def _h001_json_value(self, value):
                         rows_written += 1
         print(f"H001 raw dump wrote {rows_written} rows to {raw_dump_jsonl}")
         if os.environ.get("OPEN3DSG_RAW_DUMP_EXIT_AFTER_WRITE", "0") == "1":
-            print(f"H001 raw dump exit-after-write requested for {raw_dump_jsonl}")
-            raise SystemExit(0)
+            print(f"H001 raw dump exit-after-write requested for {raw_dump_jsonl}; returning cleanly")
+            self._h001_raw_dump_exit_after_write_requested = True
 
 """
 
@@ -747,6 +753,24 @@ ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN_V13 = """    @torch.no_grad()
 """
 
 ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN = """    @torch.no_grad()
+    def on_test_epoch_end(self,):
+        if not self.hparams.get('dataset') == '3rscan':
+            return
+        if os.environ.get("OPEN3DSG_RAW_DUMP_STREAM_BATCHES", "0") == "1":
+            self._h001_finalize_raw_dump_stream()
+            if os.environ.get("OPEN3DSG_RAW_DUMP_EXIT_AFTER_WRITE", "0") == "1":
+                print("H001 raw dump stream exit-after-write requested; returning cleanly")
+            return
+        else:
+            outputs = self.test_step_outputs
+            self._h001_export_raw_dump(outputs)
+            if os.environ.get("OPEN3DSG_RAW_DUMP_EXIT_AFTER_WRITE", "0") == "1" or getattr(self, "_h001_raw_dump_exit_after_write_requested", False):
+                return
+        if self.hparams.get('dump_features'):
+            return
+"""
+
+ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN_V14 = """    @torch.no_grad()
     def on_test_epoch_end(self,):
         if not self.hparams.get('dataset') == '3rscan':
             return
@@ -1176,7 +1200,10 @@ def apply_trainer_raw_dump_patch(source_root: Path) -> dict[str, Any]:
     changed = False
     missing_patterns: list[str] = []
 
-    if "OPEN3DSG_RAW_DUMP_EXIT_AFTER_WRITE" not in text and RAW_DUMP_WRITE_PRINT in text:
+    if RAW_DUMP_WRITE_EXIT_AFTER_WRITE_V14 in text and RAW_DUMP_WRITE_EXIT_AFTER_WRITE not in text:
+        text = text.replace(RAW_DUMP_WRITE_EXIT_AFTER_WRITE_V14, RAW_DUMP_WRITE_EXIT_AFTER_WRITE, 1)
+        changed = True
+    elif "OPEN3DSG_RAW_DUMP_EXIT_AFTER_WRITE" not in text and RAW_DUMP_WRITE_PRINT in text:
         text = text.replace(RAW_DUMP_WRITE_PRINT, RAW_DUMP_WRITE_EXIT_AFTER_WRITE, 1)
         changed = True
 
@@ -1214,6 +1241,7 @@ def apply_trainer_raw_dump_patch(source_root: Path) -> dict[str, Any]:
         ON_TEST_EPOCH_END_RAW_DUMP not in text
         and ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN_V13 not in text
         and ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN not in text
+        and ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN_V14 not in text
     ):
         if ON_TEST_EPOCH_END_MARKER in text:
             text = text.replace(ON_TEST_EPOCH_END_MARKER, ON_TEST_EPOCH_END_RAW_DUMP, 1)
@@ -1222,7 +1250,10 @@ def apply_trainer_raw_dump_patch(source_root: Path) -> dict[str, Any]:
             missing_patterns.append("on_test_epoch_end_call")
 
     if ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN not in text:
-        if ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN_V13 in text:
+        if ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN_V14 in text:
+            text = text.replace(ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN_V14, ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN, 1)
+            changed = True
+        elif ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN_V13 in text:
             text = text.replace(ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN_V13, ON_TEST_EPOCH_END_RAW_DUMP_FEATURE_RETURN, 1)
             changed = True
         elif ON_TEST_EPOCH_END_RAW_DUMP in text:

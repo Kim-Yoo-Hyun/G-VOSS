@@ -1,6 +1,6 @@
 # H001 Paper Preview
 
-Last updated: 2026-05-28 KST
+Last updated: 2026-06-05 KST
 
 이 문서는 H001을 paper/experiment writing phase로 넘기기 직전에 현재까지의 연구 결과, 주장 범위, 실험 근거, caveat, 그리고 재시작 시 반드시 읽어야 할 파일을 한곳에 고정한 preview다. 최종 manuscript가 아니라 paper draft를 쓰기 위한 handoff 문서다.
 
@@ -36,14 +36,54 @@ This is a broad open-vocabulary 3DSSG generation improvement or arbitrary-baseli
 
 Fact:
 
-- Fixed H001 held-out scope has 127 scans, 388 subgraphs, 25,916 directed pairs, 673,816 `VL-SAT` prediction rows, 7,505 GT rows, and 2,545 in-scope H001-family GT relations.
+- Paper-facing full official validation scope has 157 scans, 548 contexts, 36,808 directed pairs, 957,008 `VL-SAT` prediction rows, 11,254 GT rows, and 3,972 in-scope H001-family GT relations. The earlier 127-scan scope is retained only as sensitivity/history.
 - Docker experiment root: `experiments/H001_geom_reliability/`.
 - Docker table builder generated Table 1-6, figure specs, `manifest.lock.json`, and `report.md`.
-- Open3DSG second-source path is complete for the measured H001-family setting: checkpoint reproduction, H001 eval features, raw dump identity, clean v14 streaming raw-dump provenance, adapter export, geometry join, metric eval, main source-result hook, real failure rows, qualitative case inspection, and paper caveat wording.
+- Open3DSG second-source path is complete for the measured H001-family setting. The historical 127-scan avg-BLIP downstream result remains reproduced and table-ready. R1 official non-avg checkpoint selection and separate non-avg downstream regeneration are also complete. The selected paper-facing route is now the full official validation branch, using the 548/548 Open3DSG recovery branch as the primary full-denominator Open3DSG result and the 533/548 covered branch as sensitivity / unmodified-source-route evidence.
+
+2026-06-03 direction update:
+
+- The intended paper-facing primary route is now full official
+  `3DSSG_subset` validation after a complete Docker rerun, not the
+  pilot-excluded 127-scan scope.
+- Full official validation target: 157 scans, 548 contexts, 36,808 candidate
+  directed pairs, 957,008 expected VL-SAT prediction rows, 11,254 GT rows, and
+  3,972 H001-family GT rows.
+- Docker `full_validation_scope_contract` has frozen the scope contract under
+  `experiments/H001_geom_reliability/full_validation_transition/scope_contract/`;
+  this was the protocol-freeze artifact.
+- 2026-06-04: VL-SAT full-validation rerun is now metric-ready under
+  `experiments/H001_geom_reliability/sources/vlsat/full_validation/`: raw
+  dump/export, ground-truth JSONL, geometry join, metric eval, GT verifier
+  eval, VL-SAT-only bootstrap CI, failure rows, and deterministic qualitative
+  failure-case inspection are complete. Outputs are 957,008 predictions, 11,254
+  GT rows, 3,972 H001-family GT rows, 59,841 diagnostic failure rows, and a
+  36-case qualitative queue.
+- 2026-06-05: Open3DSG full-validation is metric-ready in two forms. The
+  original covered branch keeps 533/548 contexts with a 15-context preprocess
+  caveat. The recovery branch
+  `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/`
+  reaches 548/548 by relaxing the visible-object gate to `min_visible=2` and
+  regenerating relaxed views for two scans; feature audit, clean-exit raw dump,
+  adapter, geometry, metrics, bootstrap CI, failure rows, and Table 6/caveat
+  regeneration are complete. A new recovery-branch 36-case qualitative failure
+  inspection is also complete.
+- The current 127-scan results remain historical/sensitivity evidence. The
+  manuscript table route is regenerated from the full official validation
+  results: VL-SAT full-validation as the controlled anchor and Open3DSG
+  `recovery_relaxed_views_min2/` as the primary full-denominator Open3DSG
+  branch.
+- Paper-facing provenance should state that final method design, hard-rule
+  policies, counterfactual construction, and `p_geom_valid` calibration are
+  train/train-dev-derived and frozen before validation source-result reporting.
+- H001-Mini is hypothesis/feasibility evidence, not a paper metric or
+  calibration/tuning split.
+- Transition record:
+  `experiments/H001_geom_reliability/full_validation_transition/report.md`.
 
 ## Key Metrics
 
-### VL-SAT
+### VL-SAT Historical 127-Scan Sensitivity
 
 | condition | R@50 | R@100 | Violation@50 | Violation@100 | role |
 | --- | ---: | ---: | ---: | ---: | --- |
@@ -58,14 +98,46 @@ Interpretation:
 - `rule_verified_point_subtype` demonstrates zero-violation behavior but should be reported as a diagnostic, not the default main operating point.
 - `family_specific_p_geom_valid` gives a clearer violation reduction but is a stricter operating point.
 
-### Controls
+Paper-facing full official validation:
+
+| condition | R@50 | R@100 | Violation@50 | Violation@100 | role |
+| --- | ---: | ---: | ---: | ---: | --- |
+| `semantic_only` | 0.9272 | 0.9635 | 0.0268 | 0.0476 | full official validation source ranking |
+| `probabilistic_recalibrated` | 0.9305 | 0.9688 | 0.0229 | 0.0404 | full-validation recall-first H001 condition |
+| `rule_verified_point_subtype` | 0.9257 | 0.9627 | 0.0000 | 0.0000 | full-validation zero-violation diagnostic |
+| `family_specific_p_geom_valid` | 0.9288 | 0.9683 | 0.0206 | 0.0333 | full-validation stricter violation-first operating point |
+
+Full-validation interpretation:
+
+- The direction is consistent with the hardened result on a broader official
+  validation scope: calibrated/family-specific variants reduce violations, and
+  rule filtering reaches zero violation with only a small recall tradeoff.
+- Recall is lower than the 127-scan hardened result because the full official
+  validation denominator is broader and includes all 157 scans / 548 contexts.
+- This is now part of the selected paper-facing primary route. Paper tables/prose
+  have been regenerated from the full-validation artifacts.
+
+### Open3DSG Full Validation Recovery
+
+| condition | R@50 | R@100 | Violation@50 | Violation@100 | role |
+| --- | ---: | ---: | ---: | ---: | --- |
+| `semantic_only` | 0.4096 | 0.5161 | 0.1386 | 0.1242 | recovery full-validation source ranking |
+| `probabilistic_recalibrated` | 0.3975 | 0.5723 | 0.0606 | 0.0811 | recovery recall-first H001 condition |
+| `rule_verified_point_subtype` | 0.4295 | 0.5368 | 0.0000 | 0.0000 | recovery zero-violation diagnostic |
+| `family_specific_p_geom_valid` | 0.4658 | 0.6047 | 0.0286 | 0.0341 | recovery stricter violation-first operating point |
+
+Recovery caveat: this removes the 15-context missing-preprocess denominator
+caveat, but it is a recovery-policy variant rather than the unmodified Open3DSG
+preprocess route.
+
+### VL-SAT Full-Validation Controls
 
 | condition | R@50 | R@100 | Violation@50 | Violation@100 | purpose |
 | --- | ---: | ---: | ---: | ---: | --- |
-| `control_p_geom_valid_only` | 0.2028 | 0.5049 | 0.0642 | 0.0701 | geometry-only ranking control |
-| `control_distance_only` | 0.3835 | 0.5642 | 0.0731 | 0.0993 | simple distance heuristic control |
-| `control_shuffled_geometry` | 0.9297 | 0.9788 | 0.0289 | 0.0559 | breaks geometry identity while preserving distribution |
-| `control_wrong_pair_geometry` | 0.9242 | 0.9788 | 0.0302 | 0.0581 | tests object-pair identity |
+| `control_p_geom_valid_only` | 0.2110 | 0.5184 | 0.0661 | 0.0711 | geometry-only ranking control |
+| `control_distance_only` | 0.3746 | 0.5554 | 0.0724 | 0.0981 | simple distance heuristic control |
+| `control_shuffled_geometry` | 0.8890 | 0.9494 | 0.0295 | 0.0588 | breaks geometry identity while preserving distribution |
+| `control_wrong_pair_geometry` | 0.8915 | 0.9529 | 0.0320 | 0.0601 | tests object-pair identity |
 
 Interpretation:
 
@@ -77,11 +149,11 @@ Interpretation:
 
 | metric | rows | value |
 | --- | ---: | ---: |
-| GT-positive nonviolated rate | 2,545 | 0.9972 |
-| GT-derived negative nonsatisfied rate | 2,545 | 0.9694 |
-| `p_geom_valid` AUROC | 5,090 | 0.9779 |
-| `p_geom_valid` AUPRC | 5,090 | 0.9737 |
-| `p_geom_valid` Brier | 5,090 | 0.0538 |
+| GT-positive nonviolated rate | 3,972 | 0.9965 |
+| GT-derived negative nonsatisfied rate | 3,972 | 0.9673 |
+| `p_geom_valid` AUROC | 7,944 | 0.9772 |
+| `p_geom_valid` AUPRC | 7,944 | 0.9729 |
+| `p_geom_valid` Brier | 7,944 | 0.0543 |
 
 Interpretation:
 
@@ -103,7 +175,7 @@ Interpretation:
 - Use this as sanity and reviewer-defense evidence.
 - Do not describe it as a large-scale or strictly blinded independent human audit.
 
-### Open3DSG
+### Open3DSG Historical 127-Scan Sensitivity
 
 | condition | R@50 | R@100 | Violation@50 | Violation@100 |
 | --- | ---: | ---: | ---: | ---: |
@@ -114,7 +186,7 @@ Interpretation:
 
 Interpretation:
 
-- Open3DSG provides second-source evidence that geometry-consistency can reduce violations in the same H001 families.
+- Open3DSG historical 127-scan evidence is retained as sensitivity evidence that geometry-consistency can reduce violations in the same H001 families.
 - The best Open3DSG pattern is not identical to `VL-SAT`; use it to support cross-source reliability evidence, not to claim universal behavior.
 - `family_specific_p_geom_valid` is strong on Open3DSG but must be presented as a family-specific operating point.
 
@@ -123,32 +195,49 @@ Interpretation:
 Fact:
 
 - Open3DSG checkpoint is generated by Docker reproduction, not downloaded as an official trained checkpoint.
-- Selected checkpoint: `epoch=13-step=13104.ckpt`.
-- Selection signal: train-dev `val/loss` 0.32881081104278564 at step 13103, chosen before H001 held-out metric/failure/visual inspection.
-- This is an explicitly labeled averaged-BLIP variant, not the exact non-averaged BLIP projector route.
+- Paper-facing full-validation checkpoint: official non-avg BLIP
+  `epoch=13-step=13104.ckpt` from run
+  `25da9c4c00214f3b880cedbb2a124177`.
+- Selection signal: train-dev `val/loss=0.5724539160728455` at step 13103,
+  chosen before selected-route H001 held-out metric/failure/visual inspection.
+- Historical 127-scan avg-BLIP branch remains reproduced and stronger on
+  train-dev loss (`0.32881081104278564`), but it is now sensitivity/historical
+  evidence rather than the main paper-facing route.
 - Runtime train split is filtered to 3,744/3,852 train subgraphs.
 - Train-dev validation split is filtered to 156/160 subgraphs.
-- H001 eval covered loadable scope is 377/388 contexts with `validation_missing_preprocessed:11`.
-- Exact-label H001-family denominator is 2,545 GT relations.
+- Full-validation primary Open3DSG route covers 548/548 contexts through
+  `recovery_relaxed_views_min2/`.
+- Exact-label H001-family denominator is 3,972 GT relations on the full official
+  validation route.
 - Qualitative inspection found 10/36 sampled rule-violated cases with `p_geom_valid > 0.9`.
 
 Paper wording rule:
 
-- Every Open3DSG table/discussion must mention filtered-train, averaged-BLIP, covered-scope, exact-label denominator, `validation_missing_preprocessed:11`, and residual calibration-risk caveats.
-- Historical exit-137 attempts are run records, not final raw-dump provenance caveats.
-- Clean raw-dump source-process provenance is v14 streaming same-path resume: exit 0, 377/377 completed batches, 19,162 rows, dropped/invalid partial rows 0/0, SHA256 matching canonical `raw_dump/raw.jsonl`.
+- Every paper-facing Open3DSG full-validation table/discussion must mention the
+  selected official non-avg checkpoint, filtered train/dev provenance,
+  exact-label denominator, residual calibration risk, and recovery policy:
+  `OPEN3DSG_MIN_VISIBLE_OBJECTS=2` plus relaxed view regeneration for two scans.
+- The 533/548 covered full-validation branch should be reported as sensitivity /
+  unmodified-source-route evidence.
+- Historical 127-scan exit-137 attempts are run records, not final raw-dump
+  provenance caveats.
 
 ## Failure Analysis
 
 Fact:
 
-- Open3DSG real failure-analysis rows: 57,736.
-- Validation errors: 0.
-- Visual-audit queue rows: 6,162.
-- Qualitative case inspection: 36 cases.
-- Geometry-aware reranking demoted 23/36 selected cases.
-- 13/36 were promoted or retained.
-- 10/36 were rule-violated but still had `p_geom_valid > 0.9`.
+- VL-SAT full-validation failure-analysis rows: 59,841.
+- VL-SAT validation errors: 0.
+- VL-SAT visual-audit queue rows: 2,897.
+- VL-SAT qualitative case inspection: 36 cases; 28/36 demoted by
+  geometry-aware reranking, 8/36 promoted or retained, and 7/36 were
+  rule-violated but still had `p_geom_valid > 0.9`.
+- Open3DSG recovery full-validation failure-analysis rows: 82,155.
+- Open3DSG recovery validation errors: 0.
+- Open3DSG recovery visual-audit queue rows: 8,821.
+- Open3DSG recovery qualitative case inspection: 36 cases; 25/36 demoted by
+  geometry-aware reranking, 11/36 promoted or retained, and 8/36 were
+  rule-violated but still had `p_geom_valid > 0.9`.
 
 Interpretation:
 
@@ -275,7 +364,7 @@ Recommended paper narrative:
 | "It only works on VL-SAT." | Open3DSG second-source metric evidence is ready. | Keep claim within measured H001 families. |
 | "It trades recall for filtering." | Report R@K and Violation@K together; `probabilistic_recalibrated` and `family_specific_p_geom_valid` show different operating points. | Include Pareto/tradeoff wording. |
 | "Rules were tuned on test set." | Denominator policy, metric scope, checkpoint selection, and caveat wording are fixed before paper writing; GT-based verifier eval exists. | State selection/provenance clearly. |
-| "Open3DSG reproduction is not exact." | Explicit averaged-BLIP variant caveat and Docker provenance. | Do not claim exact non-averaged Open3DSG route. |
+| "Open3DSG reproduction is not exact." | Docker provenance, selected official non-avg checkpoint record, full-validation recovery-policy disclosure, and 533/548 covered-branch sensitivity evidence. | Do not claim Open3DSG leaderboard/SOTA reproduction; frame as source-output reliability evidence. |
 | "Open-vocabulary claim is too broad." | Current claim is measured reliability-layer evidence, not broad generation improvement. | Keep non-claims visible. |
 
 ## Optional Extensions
@@ -416,8 +505,8 @@ Recommended next action:
 
 1. Use `paper/draft.md` as the active reviewed first-pass manuscript prose, `paper/aaai/` as the current AAAI-style LaTeX source, and `paper/generated/figures/` as the active draft figure output.
 2. Treat the claim-consistency review in `paper/outline.md` as the current paper guardrail: title, contributions, abstract, Introduction, table captions, and figure captions must stay within the scoped relation-reliability claim.
-3. Treat the AAAI reproducibility checklist as inserted after references: latest Docker build gives 9 total pages, technical content pages 1-7, references page 8, checklist page 9, and no blocking build warnings.
-4. Treat the first AAAI reviewer-defense pass as complete: main text now directly answers hand-coded verifier, geometry-only/distance, recall-tradeoff, averaged-BLIP Open3DSG, family-selection, and AAAI-relevance attacks.
+3. Treat the AAAI reproducibility checklist as inserted after references: latest Docker build `logs/h001_aaai_pdf_build_full_validation_20260605_100108.log` gives 9 total pages, technical content pages 1-7, references page 8, checklist page 9, and no blocking build warnings.
+4. Treat the AAAI reviewer-defense pass as updated for the selected full-validation route: hand-coded verifier, geometry-only/distance, recall-tradeoff, Open3DSG recovery-policy provenance, family-selection, and AAAI-relevance attacks must all remain answered during polish.
 5. Treat `paper/appendix.md` as the current appendix/provenance owner: calibrator/threshold provenance, Open3DSG caveat consistency, Figure 3 optionality, and Qwen-VL third-source boundary are recorded there.
-6. Keep Open3DSG caveats explicit during any further polish; caption compression must not hide averaged-BLIP, filtered split, covered scope, exact-label denominator, or residual calibration risk.
+6. Keep Open3DSG caveats explicit during any further polish; caption compression must not hide selected-checkpoint provenance, filtered split, exact-label denominator, recovery policy, 533/548 sensitivity branch, or residual calibration risk.
 7. Keep Qwen-VL as third-source extension only, unless it receives the same Docker, metric, denominator, bootstrap, and audit treatment as paper evidence.

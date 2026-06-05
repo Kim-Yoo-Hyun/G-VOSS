@@ -1,6 +1,6 @@
 # H001 Experiment Progress Rationale
 
-Last updated: 2026-05-26 KST
+Last updated: 2026-06-05 KST
 
 This document explains why H001 moved from hypothesis checks to Docker paper
 experiments, why each next experiment was introduced, and how the key results
@@ -47,7 +47,7 @@ Why we moved on:
 - Next step therefore had to be a hardened held-out evaluation with fixed
   denominator and paper-safe metrics.
 
-## Stage 2: Hardened VL-SAT Evaluation
+## Stage 2: Hardened VL-SAT Evaluation (Historical 127-Scan Route)
 
 Why this stage was run:
 
@@ -56,7 +56,7 @@ Why this stage was run:
 - The hypothesis needed a fixed held-out scope, exact prediction/GT row counts,
   and Docker-promotable artifacts.
 
-Fixed scope:
+Historical fixed scope:
 
 | item | count |
 | --- | ---: |
@@ -67,7 +67,7 @@ Fixed scope:
 | GT rows | 7,505 |
 | in-scope GT denominator | 2,545 |
 
-Key result:
+Historical key result:
 
 | condition | R@50 | R@100 | Violation@50 | Violation@100 | reading |
 | --- | ---: | ---: | ---: | ---: | --- |
@@ -92,7 +92,7 @@ Why we moved on:
 - The next required evidence was nontriviality controls and independent verifier
   checks.
 
-## Stage 3: Nontriviality Controls
+## Stage 3: Nontriviality Controls (Historical 127-Scan Route)
 
 Why this stage was run:
 
@@ -100,7 +100,7 @@ Why this stage was run:
 - H001 needed to show that semantic confidence, object-pair identity, and
   calibrated geometry all matter.
 
-Control result:
+Historical control result:
 
 | control | R@50 | R@100 | Violation@100 | what it tests |
 | --- | ---: | ---: | ---: | --- |
@@ -122,7 +122,7 @@ Why we moved on:
 - The next step was to test whether `p_geom_valid` separates GT-positive
   relations from deterministic counterfactual negatives.
 
-## Stage 4: GT-Based Verifier Evaluation
+## Stage 4: GT-Based Verifier Evaluation (Historical 127-Scan Route)
 
 Why this stage was run:
 
@@ -131,7 +131,7 @@ Why this stage was run:
 - GT positives and controlled counterfactual negatives provide a lower-burden
   evaluation of the geometry-validity signal.
 
-Result:
+Historical result:
 
 | metric | rows | value |
 | --- | ---: | ---: |
@@ -222,17 +222,21 @@ Why this took many substeps:
   checkpoint selection, H001 eval feature generation, raw-dump identity audit,
   adapter export, geometry join, metric evaluation, and caveat wording.
 
-Key caveats:
+Historical 127-scan caveats:
 
-- The result is a Docker-reproduced averaged-BLIP variant.
+- The historical 127-scan result is a Docker-reproduced averaged-BLIP variant.
+- R1 official non-avg checkpoint selection and downstream regeneration are now
+  complete as sensitivity evidence. The current paper-facing Open3DSG result is
+  instead the full-validation `recovery_relaxed_views_min2/` branch using the
+  selected official non-avg checkpoint.
 - Train split is filtered to 3,744/3,852 preprocessed-ready subgraphs.
 - Train-dev validation is 156/160 subgraphs.
 - H001 covered loadable eval scope is 377/388 contexts with
   `validation_missing_preprocessed:11`.
-- Recall is exact predicate-label recall over the 2,545-row H001-family
-  denominator.
+- Recall is exact predicate-label recall over the historical 2,545-row
+  H001-family denominator.
 
-Open3DSG result:
+Historical Open3DSG 127-scan result:
 
 | condition | R@50 | R@100 | Violation@50 | Violation@100 |
 | --- | ---: | ---: | ---: | ---: |
@@ -262,7 +266,7 @@ Why this stage was run:
 - Failure analysis connects semantic plausibility to physical inconsistency and
   exposes residual calibration risk.
 
-Result:
+Historical result:
 
 | item | value |
 | --- | ---: |
@@ -287,6 +291,94 @@ Why we moved on:
   and failure analysis complete, the hypothesis had enough paper-facing
   evidence for a scoped reliability paper.
 - The next stage became paper writing, not another heavy baseline by default.
+
+## Stage 10: Full Official Validation Transition
+
+Why this stage was introduced:
+
+- The 127-scan hardened split was valid for scoped evidence, but reviewers
+  could attack it as pilot-excluded or less standard than the full official
+  `3DSSG_subset` validation split.
+- The method design, thresholds, verifier policy, counterfactuals, and
+  `p_geom_valid` calibration had already been frozen from train/train-dev
+  artifacts, so a full official validation rerun could be used as a stronger
+  frozen evaluation rather than a tuning step.
+
+What was run:
+
+- Docker scope contract for 157 scans, 548 contexts, 36,808 directed candidate
+  pairs, 957,008 expected VL-SAT prediction rows, 11,254 GT rows, and 3,972
+  H001-family GT rows.
+- VL-SAT full-validation staging/runtime/raw dump, adapter export,
+  ground-truth JSONL export, geometry join, metric eval, GT verifier eval, and
+  VL-SAT-only bootstrap CI under
+  `experiments/H001_geom_reliability/sources/vlsat/full_validation/`.
+- Open3DSG full-validation covered branch under
+  `experiments/H001_geom_reliability/sources/open3dsg/full_validation/`, plus
+  the recovery branch under
+  `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/`.
+  The recovery branch diagnoses the 15 missing contexts as Open3DSG's
+  fewer-than-4-visible-objects preprocess gate, recovers them with
+  `min_visible=2` plus relaxed two-scan view generation, and completes feature
+  audit, clean-exit raw dump, adapter, geometry, metrics, bootstrap CI, failure
+  rows, deterministic qualitative case inspection, and Table 6/caveat
+  regeneration.
+- VL-SAT full-validation failure rows and deterministic qualitative case
+  inspection under `sources/vlsat/full_validation/{failure_rows,failure_cases}/`,
+  so both paper-facing sources now have metric, control, bootstrap, and
+  failure-taxonomy artifacts.
+
+Key VL-SAT full-validation result:
+
+| condition | R@50 | R@100 | Violation@50 | Violation@100 | reading |
+| --- | ---: | ---: | ---: | ---: | --- |
+| `semantic_only` | 0.9272 | 0.9635 | 0.0268 | 0.0476 | full official source ranking |
+| `probabilistic_recalibrated` | 0.9305 | 0.9688 | 0.0229 | 0.0404 | recall-first calibrated setting |
+| `family_specific_p_geom_valid` | 0.9288 | 0.9683 | 0.0206 | 0.0333 | stricter violation-first setting |
+| `rule_verified_point_subtype` | 0.9257 | 0.9627 | 0.0000 | 0.0000 | hard-filter diagnostic |
+
+Interpretation:
+
+- The full official validation route preserves the main qualitative pattern:
+  calibrated/family-specific reranking reduces violation while maintaining or
+  slightly improving recall, and rule filtering reaches zero violation with a
+  small recall tradeoff.
+- The absolute recall is lower than the 127-scan result because the denominator
+  is broader, which is expected and should be reported rather than hidden.
+- This is now the selected cross-source full-validation primary route. The
+  548-context Open3DSG recovery branch is the primary full-denominator Open3DSG
+  result and must disclose its recovery policy; the 533-context covered branch
+  preserves the unmodified missing-preprocess behavior and should be reported as
+  sensitivity / unmodified-source-route evidence.
+
+Key Open3DSG recovery full-validation result:
+
+| condition | R@50 | R@100 | Violation@50 | Violation@100 | reading |
+| --- | ---: | ---: | ---: | ---: | --- |
+| `semantic_only` | 0.4096 | 0.5161 | 0.1386 | 0.1242 | recovery full official source ranking |
+| `probabilistic_recalibrated` | 0.3975 | 0.5723 | 0.0606 | 0.0811 | recall-first calibrated setting |
+| `family_specific_p_geom_valid` | 0.4658 | 0.6047 | 0.0286 | 0.0341 | stricter violation-first setting |
+| `rule_verified_point_subtype` | 0.4295 | 0.5368 | 0.0000 | 0.0000 | hard-filter diagnostic |
+
+Full-validation uncertainty and verifier checks:
+
+- Open3DSG `family_specific` vs `semantic_only`: R@100 delta `+8.86 pp`
+  with 95% CI `[+6.69,+10.96]`; Violation@100 delta `-9.01 pp` with
+  95% CI `[-9.49,-8.53]`.
+- VL-SAT `family_specific` vs `semantic_only`: R@100 delta `+0.48 pp`
+  with 95% CI `[+0.11,+0.93]`; Violation@100 delta `-1.43 pp` with
+  95% CI `[-1.60,-1.28]`.
+- Full-validation GT verifier: 3,972 positives and 3,972 counterfactual
+  negatives; positive nonviolated `0.9965`, negative nonsatisfied `0.9673`,
+  AUROC/AUPRC `0.9772/0.9729`, Brier `0.0543`.
+- VL-SAT full-validation failure analysis produces 59,841 rows with zero
+  validation errors; the 36-case qualitative queue has 28 demoted cases, 8
+  promoted/retained cases, and 7 violated cases with `p_geom_valid > 0.9`.
+- Open3DSG recovery failure analysis produces 82,155 rows with zero validation
+  errors; the new 36-case recovery qualitative queue has 25 demoted cases, 11
+  promoted/retained cases, and 8 violated cases with `p_geom_valid > 0.9`.
+- These qualitative queues are deterministic failure-mechanism evidence, not
+  representative human audits.
 
 ## Optional Branches And Why They Are Not Main Evidence Yet
 
@@ -341,7 +433,11 @@ Not allowed:
 
 - Broad open-vocabulary 3DSSG generation improvement.
 - Arbitrary-baseline or baseline-agnostic generality.
-- Exact official non-averaged Open3DSG reproduction.
+- Describing the selected official non-averaged Open3DSG recovery branch as an
+  exact Open3DSG leaderboard reproduction. It is allowed only as the
+  paper-facing full-validation source-output reliability case study with the
+  recovery-policy caveat and the 533/548 covered branch retained as sensitivity
+  evidence.
 - Guaranteed physical correctness.
 
 ## Current Paper Stage

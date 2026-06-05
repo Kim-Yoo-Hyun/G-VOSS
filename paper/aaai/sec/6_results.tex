@@ -15,8 +15,9 @@
     \figmaybe[width=\linewidth]{../generated/figures/figure2_tradeoff.png}
     \caption{\textbf{Recall-violation tradeoff.} Lower \vAt{100} and higher
     \rAt{100} are better. Open3DSG is the main open-vocabulary relation-source
-    case study, but it is reported as a Docker-reproduced averaged-BLIP variant
-    under the covered H001 scope, not as a broad SOTA comparison.}
+    case study and is reported on the full-validation recovery-policy branch;
+    the original 533/548 covered branch remains sensitivity evidence, not a
+    separate SOTA comparison.}
     \label{fig:tradeoff}
 \end{figure}
 
@@ -25,25 +26,26 @@
 \small
 \setlength{\tabcolsep}{4pt}
 \caption{\textbf{Main source results.} Open3DSG is the main open-vocabulary
-relation-source case study; VL-SAT is a controlled reproduced anchor. The Open3DSG rows retain
-the averaged-BLIP, filtered train 3,744/3,852, val 156/160, covered H001
-377/388, exact-label denominator 2,545, and
-\texttt{validation\_missing\_preprocessed:11} caveats; residual calibration
-risk is reported separately in the failure analysis.}
+relation-source case study; VL-SAT is a controlled reproduced anchor. Rows use
+the full official validation denominator of 3,972 H001-family GT relations.
+Open3DSG uses the selected official non-averaged checkpoint on a 548/548
+recovery-policy branch; the 533/548 covered branch is retained as sensitivity
+evidence. Residual calibration risk is reported separately in the failure
+analysis.}
 \label{tab:source-results}
 \begin{tabular}{llcccc}
 \toprule
 Source & Condition & \rAt{50} & \rAt{100} & \vAt{50} & \vAt{100} \\
 \midrule
-Open3DSG & \texttt{semantic\_only} & 0.3945 & 0.4963 & 0.1326 & 0.1195 \\
-Open3DSG & \texttt{probabilistic} & 0.3843 & 0.5580 & 0.0575 & 0.0803 \\
-Open3DSG & \texttt{rule\_verified} & 0.4149 & 0.5238 & 0.0000 & 0.0000 \\
-Open3DSG & \texttt{family\_specific} & 0.4530 & 0.5984 & 0.0228 & 0.0311 \\
+Open3DSG & \texttt{semantic\_only} & 0.4096 & 0.5161 & 0.1386 & 0.1242 \\
+Open3DSG & \texttt{probabilistic} & 0.3975 & 0.5723 & 0.0606 & 0.0811 \\
+Open3DSG & \texttt{rule\_verified} & 0.4295 & 0.5368 & 0.0000 & 0.0000 \\
+Open3DSG & \texttt{family\_specific} & 0.4658 & 0.6047 & 0.0286 & 0.0341 \\
 \midrule
-VL-SAT & \texttt{semantic\_only} & 0.9599 & 0.9894 & 0.0247 & 0.0469 \\
-VL-SAT & \texttt{probabilistic} & 0.9642 & 0.9921 & 0.0234 & 0.0391 \\
-VL-SAT & \texttt{rule\_verified} & 0.9587 & 0.9890 & 0.0000 & 0.0000 \\
-VL-SAT & \texttt{family\_specific} & 0.9619 & 0.9914 & 0.0204 & 0.0310 \\
+VL-SAT & \texttt{semantic\_only} & 0.9272 & 0.9635 & 0.0268 & 0.0476 \\
+VL-SAT & \texttt{probabilistic} & 0.9305 & 0.9688 & 0.0229 & 0.0404 \\
+VL-SAT & \texttt{rule\_verified} & 0.9257 & 0.9627 & 0.0000 & 0.0000 \\
+VL-SAT & \texttt{family\_specific} & 0.9288 & 0.9683 & 0.0206 & 0.0333 \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -52,45 +54,45 @@ The central question is whether calibrated geometry consistency reduces
 physically inconsistent relation predictions without collapsing recall. We
 begin with Open3DSG because it is the main open-vocabulary relation-source
 closest to the intended use case. Table~\ref{tab:source-results} shows that
-Open3DSG \texttt{semantic\_only} reaches \rAt{50}/\rAt{100} of 0.3945/0.4963 with
-\vAt{50}/\vAt{100} of 0.1326/0.1195. The
-\texttt{probabilistic} setting reduces violations to 0.0575/0.0803 while
-shifting recall to 0.3843/0.5580. The \texttt{family\_specific} operating
-point gives the strongest Open3DSG tradeoff, reaching 0.4530/0.5984 recall and
-0.0228/0.0311 violation. This is the main source-output reliability evidence
-for the open-vocabulary setting, with the reproduction and coverage caveats
-fixed in Table~\ref{tab:claim-boundary}.
+Open3DSG \texttt{semantic\_only} reaches \rAt{50}/\rAt{100} of 0.4096/0.5161 with
+\vAt{50}/\vAt{100} of 0.1386/0.1242. The
+\texttt{probabilistic} setting reduces violations to 0.0606/0.0811 while
+shifting recall to 0.3975/0.5723. The \texttt{family\_specific} operating
+point gives the strongest Open3DSG tradeoff, reaching 0.4658/0.6047 recall and
+0.0286/0.0341 violation. This is the main source-output reliability evidence
+for the open-vocabulary setting, with the recovery-policy and source
+provenance caveats fixed in Table~\ref{tab:claim-boundary}.
 
 VL-SAT provides a controlled anchor for the same row contract and metric
 protocol. Its \texttt{semantic\_only} ranking reaches \rAt{50}/\rAt{100} of
-0.9599/0.9894 with \vAt{50}/\vAt{100} of 0.0247/0.0469. The
-\texttt{probabilistic} setting improves \rAt{50}/\rAt{100} to 0.9642/0.9921
-and reduces \vAt{100} to 0.0391, while the \texttt{family\_specific} setting
-reduces \vAt{100} to 0.0310. The \texttt{rule\_verified} rows on both sources
+0.9272/0.9635 with \vAt{50}/\vAt{100} of 0.0268/0.0476. The
+\texttt{probabilistic} setting improves \rAt{50}/\rAt{100} to 0.9305/0.9688
+and reduces \vAt{100} to 0.0404, while the \texttt{family\_specific} setting
+reduces \vAt{100} to 0.0333. The \texttt{rule\_verified} rows on both sources
 are zero-violation diagnostics rather than the default method, because hard
 filtering exposes one end of the reliability-recall tradeoff.
 
 A Docker subgraph bootstrap with 1,000 resamples gives the Open3DSG
-\texttt{family\_specific} operating point a \rAt{100} delta of +10.22
-percentage points (95\% CI +7.94,+12.54) and a \vAt{100} delta of -8.84
-points (95\% CI -9.41,-8.28) relative to \texttt{semantic\_only}. VL-SAT
-deltas are smaller: \texttt{family\_specific} changes \rAt{100} by +0.20
-points with a CI crossing zero, but reduces \vAt{100} by -1.59 points with a
-negative CI. We use these intervals as evaluation-context uncertainty checks,
-not as repeated-training variance.
+\texttt{family\_specific} operating point a \rAt{100} delta of +8.86
+percentage points (95\% CI +6.69,+10.96) and a \vAt{100} delta of -9.01
+points (95\% CI -9.49,-8.53) relative to \texttt{semantic\_only}. VL-SAT
+deltas are smaller but still favorable: \texttt{family\_specific} changes
+\rAt{100} by +0.48 points (95\% CI +0.11,+0.93) and reduces \vAt{100} by
+-1.43 points (95\% CI -1.60,-1.28). We use these intervals as
+evaluation-context uncertainty checks, not as repeated-training variance.
 
 The nontriviality controls rule out simpler alternatives. On the VL-SAT
-controlled anchor, using the same 2,545-row in-scope GT denominator as
+controlled anchor, using the same 3,972-row in-scope GT denominator as
 Table~\ref{tab:source-results}, geometry-only ranking falls to
-\rAt{50}/\rAt{100} of 0.2028/0.5049 with \vAt{100}=0.0701, and distance-only
-ranking reaches only 0.3835/0.5642 with \vAt{100}=0.0993. Shuffled-geometry
-and wrong-pair controls keep more source signal (\rAt{100}=0.9788 for both),
-but still degrade violations to 0.0559 and 0.0581 relative to calibrated
+\rAt{50}/\rAt{100} of 0.2110/0.5184 with \vAt{100}=0.0711, and distance-only
+ranking reaches only 0.3746/0.5554 with \vAt{100}=0.0981. Shuffled-geometry
+and wrong-pair controls keep more source signal (\rAt{100}=0.9494/0.9529),
+but still degrade violations to 0.0588 and 0.0601 relative to calibrated
 identity-preserving joins. The Open3DSG source-output case study shows the same
 need for identity-preserving relation geometry: distance-only reaches
-\rAt{100}=0.5081 and \vAt{100}=0.1074, geometry-only reaches 0.4939 and
-0.0840, while shuffled-geometry and wrong-pair controls fall to
-\rAt{100}=0.2562/0.2255 with \vAt{100}=0.2027/0.1972. These controls support
+\rAt{100}=0.5038 and \vAt{100}=0.1071, geometry-only reaches 0.5116 and
+0.0865, while shuffled-geometry and wrong-pair controls fall to
+\rAt{100}=0.2543/0.2331 with \vAt{100}=0.1998/0.1985. These controls support
 the design requirement that geometry evidence must be joined to the correct
 object pair and calibrated as a relation-level reliability signal. They also
 rule out the strongest simple-baseline objection: H001 is not merely ranking by
@@ -98,10 +100,10 @@ geometry, distance, or hard rules, because those variants either lose recall,
 leave more violations, or fail when object-pair identity is broken.
 
 The GT-based verifier check tests the geometry signal independently from
-prediction re-ranking. GT-positive rows remain nonviolated at a rate of 0.9972,
-while GT-derived counterfactual negatives are nonsatisfied at a rate of 0.9694.
-The calibrated \pgeom{} score separates these 5,090 rows with AUROC/AUPRC of
-0.9779/0.9737 and Brier score 0.0538. This supports the use of \pgeom{} as a
+prediction re-ranking. GT-positive rows remain nonviolated at a rate of 0.9965,
+while GT-derived counterfactual negatives are nonsatisfied at a rate of 0.9673.
+The calibrated \pgeom{} score separates these 7,944 rows with AUROC/AUPRC of
+0.9772/0.9729 and Brier score 0.0543. This supports the use of \pgeom{} as a
 reliability signal while still leaving room for residual calibration risk.
 Combined with the controls, this separates the calibrated reliability signal
 from a purely hand-written validity script: rules define checkable families,
@@ -121,11 +123,11 @@ support a calibrated reliability-layer interpretation. They do not show that
 H001 is a new relation generator, that it improves all open-vocabulary relation
 labels, or that it is baseline-agnostic across arbitrary 3DSSG predictors.
 Those blocked extensions are fixed in Table~\ref{tab:claim-boundary}. The
-Open3DSG evidence remains meaningful despite the averaged-BLIP caveat because
-all comparisons are made within the same reproduced prediction source,
-checkpoint-selection policy, row contract, and covered H001 denominator; the
-paper evaluates whether a reliability layer changes relation rankings, not
-whether it reproduces the official non-averaged Open3DSG result.
+Open3DSG evidence remains meaningful despite the recovery-policy caveat because
+all comparisons are made within the same selected official non-averaged
+checkpoint, row contract, full-validation denominator, and recovered source
+payload; the paper evaluates whether a reliability layer changes relation
+rankings, not whether it establishes a new Open3DSG leaderboard result.
 
 \begin{figure}[t]
     \centering
@@ -138,9 +140,10 @@ whether it reproduces the official non-averaged Open3DSG result.
 \end{figure}
 
 The qualitative failure analysis explains why the Open3DSG metric changes
-occur. Open3DSG produces 57,736 real analysis rows with zero validation errors,
-and the inspected 36-case queue shows that 23 cases are demoted by
-geometry-aware re-ranking. Figure~\ref{fig:failures} shows family-structured
+occur. The full-validation Open3DSG branch produces 82,155 real
+failure-analysis rows with zero validation errors, and the inspected 36-case
+queue shows that 25 cases are demoted by geometry-aware re-ranking.
+Figure~\ref{fig:failures} shows family-structured
 failures: proximity failures often involve distance contradictions,
 relative-vertical failures involve vertical-order contradictions, and
 support/contact failures expose float-gap or support-plane contradictions.
@@ -149,7 +152,7 @@ unreliable inputs for downstream reasoning, grounding, alignment, or embodied
 decision modules, motivating downstream evaluation rather than establishing it
 here.
 
-The same qualitative analysis also exposes a limitation. Ten of the 36 sampled
+The same qualitative analysis also exposes a limitation. Eight of the 36 sampled
 rule-violated cases still have $\pgeom > 0.9$. This means the calibrated score
 should not be interpreted as a hard validity label. It also justifies why the
 paper reports probabilistic, rule-verified, and family-specific variants

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate Open3DSG failure-analysis rows from the locked H001 schema."""
+"""Generate H001 source failure-analysis rows from the locked taxonomy."""
 
 from __future__ import annotations
 
@@ -17,6 +17,7 @@ MANIFEST_SCHEMA_VERSION = "h001_open3dsg_failure_analysis_generator_manifest_v1"
 SUMMARY_SCHEMA_VERSION = "h001_open3dsg_failure_analysis_summary_v1"
 RECORD_TYPE = "open3dsg_failure_analysis"
 BASELINE_NAME = "open3dsg_ov"
+SOURCE_NAME = "Open3DSG"
 TARGET_FAMILIES = {"support_contact", "proximity", "relative_vertical"}
 SMOKE_STATUS = "failure_analysis_generator_smoke_ready_no_metric_inspection"
 BLOCKED_STATUS = "blocked_runtime_inputs_missing"
@@ -78,6 +79,10 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--split-name", default="h001_validation_hardened")
     parser.add_argument("--baseline-run-id", default="open3dsg_failure_generator_smoke")
+    parser.add_argument("--baseline-name", default=BASELINE_NAME)
+    parser.add_argument("--record-type", default=RECORD_TYPE)
+    parser.add_argument("--source-name", default=SOURCE_NAME)
+    parser.add_argument("--analysis-prefix", default=None)
     parser.add_argument("--semantic-top-k", type=int, default=100)
     parser.add_argument("--geometry-top-k", type=int, default=100)
     parser.add_argument("--smoke-test", action="store_true")
@@ -490,15 +495,19 @@ def build_row(
     fixture: dict[str, Any],
     *,
     analysis_prefix: str = "smoke",
+    baseline_name: str = BASELINE_NAME,
+    record_type: str = RECORD_TYPE,
+    source_name: str = SOURCE_NAME,
     provenance_inputs: dict[str, str] | None = None,
     provenance_notes: list[str] | None = None,
 ) -> dict[str, Any]:
     category, severity, secondaries, assignment_rule, note = assign_category(fixture)
     predicate_label = str(fixture["predicate_label"])
     prediction_id = (
-        f"{BASELINE_NAME}:{fixture['split_name']}:{fixture['subgraph_id']}:"
+        f"{baseline_name}:{fixture['split_name']}:{fixture['subgraph_id']}:"
         f"{fixture['subject_id']}:{fixture['object_id']}:{predicate_label}"
     )
+    prediction_id = str(fixture.get("prediction_id") or prediction_id)
     semantic_rank = fixture.get("semantic_rank_in_subgraph")
     top50 = isinstance(semantic_rank, int) and semantic_rank <= 50
     top100 = isinstance(semantic_rank, int) and semantic_rank <= 100
@@ -514,11 +523,11 @@ def build_row(
     }
     return {
         "schema_version": SCHEMA_VERSION,
-        "record_type": RECORD_TYPE,
+        "record_type": record_type,
         "analysis_id": f"{analysis_prefix}:{prediction_id.replace(' ', '_')}",
         "source_prediction": {
             "prediction_id": prediction_id,
-            "baseline_name": BASELINE_NAME,
+            "baseline_name": baseline_name,
             "baseline_run_id": str(fixture["baseline_run_id"]),
             "scan_id": str(fixture["scan_id"]),
             "subgraph_id": str(fixture["subgraph_id"]),
@@ -591,7 +600,7 @@ def build_row(
                 provenance_notes + [note]
                 if provenance_notes is not None
                 else [
-                "Synthetic smoke row only; not metric evidence.",
+                f"Synthetic smoke row only; not {source_name} metric evidence.",
                 note,
                 ]
             ),
@@ -720,6 +729,7 @@ def load_ranked_real_fixtures(
     geometry_path: Path,
     ground_truth_path: Path,
     split_name: str,
+    baseline_name: str,
     semantic_top_k: int,
     geometry_top_k: int,
 ) -> tuple[list[dict[str, Any]], dict[str, int], list[str]]:
@@ -801,7 +811,8 @@ def load_ranked_real_fixtures(
         geometry_rank = int(item["geometry_rank"])
         fixtures.append(
             {
-                "baseline_name": BASELINE_NAME,
+                "prediction_id": str(prediction["prediction_id"]),
+                "baseline_name": baseline_name,
                 "baseline_run_id": str(prediction.get("baseline_run_id") or ""),
                 "split_name": split_name,
                 "scan_id": str(prediction["scan_id"]),
@@ -899,6 +910,7 @@ def blocked_outputs(
     errors: list[str],
     created_at: str,
     status: str = BLOCKED_STATUS,
+    source_name: str = SOURCE_NAME,
 ) -> None:
     outputs = {
         "rows_jsonl": relpath(repo_root, out_dir / "rows.jsonl"),
@@ -917,17 +929,17 @@ def blocked_outputs(
         "missing_inputs": errors if status == BLOCKED_STATUS else [],
         "outputs": outputs,
         "validation": {"errors": errors, "warnings": []},
-        "next_action": "Complete Open3DSG prediction JSONL, GT join, geometry join, and metric outputs before real row generation.",
+        "next_action": f"Complete {source_name} prediction JSONL, GT join, geometry join, and metric outputs before real row generation.",
     }
     write_jsonl(out_dir / "rows.jsonl", [])
     write_json(out_dir / "summary.json", summarize([], status))
     write_json(out_dir / "manifest.json", manifest)
-    (out_dir / "report.md").write_text(render_report(manifest, summarize([], status)), encoding="utf-8")
+    (out_dir / "report.md").write_text(render_report(manifest, summarize([], status), source_name=source_name), encoding="utf-8")
 
 
-def render_report(manifest: dict[str, Any], summary: dict[str, Any]) -> str:
+def render_report(manifest: dict[str, Any], summary: dict[str, Any], *, source_name: str = SOURCE_NAME) -> str:
     lines = [
-        "# Open3DSG Failure-Analysis Row Generator",
+        f"# {source_name} Failure-Analysis Row Generator",
         "",
         f"Status: `{manifest['status']}`",
         f"Created at: `{manifest['created_at']}`",
@@ -935,17 +947,17 @@ def render_report(manifest: dict[str, Any], summary: dict[str, Any]) -> str:
         "",
         "## Scope",
         "",
-        "This validates the row-generation contract against the locked Open3DSG failure-analysis schema.",
+        f"This validates the row-generation contract against the locked H001 failure-analysis schema for {source_name}.",
     ]
     if manifest["mode"] == "synthetic_smoke":
         lines.extend(
             [
                 "Rows are synthetic smoke fixtures only and must not be used as metric evidence.",
-                "The generator does not inspect Open3DSG metric failures.",
+                f"The generator does not inspect {source_name} metric failures.",
             ]
         )
     else:
-        lines.append("Rows are generated from real Open3DSG prediction, GT, geometry, and metric artifacts.")
+        lines.append(f"Rows are generated from real {source_name} prediction, GT, geometry, and metric artifacts.")
     lines.extend(
         [
             "",
@@ -970,9 +982,9 @@ def render_report(manifest: dict[str, Any], summary: dict[str, Any]) -> str:
             "## Claim Boundary",
             "",
             (
-                "These rows are diagnostic evidence from reproduced Open3DSG outputs. They support failure taxonomy and qualitative sampling, not a broader claim beyond the measured H001-family metric scope."
+                f"These rows are diagnostic evidence from reproduced {source_name} outputs. They support failure taxonomy and qualitative sampling, not a broader claim beyond the measured H001-family metric scope."
                 if manifest["mode"] != "synthetic_smoke"
-                else "These rows are contract/implementation smoke evidence only until regenerated from a reproduced Open3DSG checkpoint, identity-preserving raw dump, H001 prediction JSONL, geometry join, and metric run."
+                else f"These rows are contract/implementation smoke evidence only until regenerated from {source_name} prediction JSONL, GT join, geometry join, and metric run."
             ),
             "",
         ]
@@ -1008,7 +1020,10 @@ def main() -> int:
         }
         write_json(out_dir / "manifest.json", manifest)
         write_json(out_dir / "summary.json", summarize([], manifest["status"]))
-        (out_dir / "report.md").write_text(render_report(manifest, summarize([], manifest["status"])), encoding="utf-8")
+        (out_dir / "report.md").write_text(
+            render_report(manifest, summarize([], manifest["status"]), source_name=args.source_name),
+            encoding="utf-8",
+        )
         print(json.dumps({"status": manifest["status"], "errors": errors}, sort_keys=True))
         return 1
 
@@ -1026,13 +1041,30 @@ def main() -> int:
     if not args.smoke_test:
         missing_inputs = [f"missing_input:{name}:{relpath(repo_root, path)}" for name, path in resolved_inputs.items() if not path.exists()]
         if missing_inputs:
-            blocked_outputs(repo_root, out_dir, schema_dir, resolved_inputs, missing_inputs, created_at)
+            blocked_outputs(
+                repo_root,
+                out_dir,
+                schema_dir,
+                resolved_inputs,
+                missing_inputs,
+                created_at,
+                source_name=args.source_name,
+            )
             print(json.dumps({"status": BLOCKED_STATUS, "missing_inputs": missing_inputs}, sort_keys=True))
             return 1
         metrics = load_json(resolved_inputs["metrics_json"])
         if metrics.get("status") != "ready" or metrics.get("blocked"):
             errors = [f"metrics_not_ready:{metrics.get('status')}:{metrics.get('blocked')}"]
-            blocked_outputs(repo_root, out_dir, schema_dir, resolved_inputs, errors, created_at, status="blocked_metrics_not_ready")
+            blocked_outputs(
+                repo_root,
+                out_dir,
+                schema_dir,
+                resolved_inputs,
+                errors,
+                created_at,
+                status="blocked_metrics_not_ready",
+                source_name=args.source_name,
+            )
             print(json.dumps({"status": "blocked_metrics_not_ready", "errors": errors}, sort_keys=True))
             return 1
         fixtures, real_counts, warnings = load_ranked_real_fixtures(
@@ -1040,6 +1072,7 @@ def main() -> int:
             geometry_path=resolved_inputs["geometry_jsonl"],
             ground_truth_path=resolved_inputs["ground_truth_jsonl"],
             split_name=args.split_name,
+            baseline_name=args.baseline_name,
             semantic_top_k=args.semantic_top_k,
             geometry_top_k=args.geometry_top_k,
         )
@@ -1050,13 +1083,17 @@ def main() -> int:
             "metrics_json": relpath(repo_root, resolved_inputs["metrics_json"]) or "",
         }
         provenance_notes = [
-            "Real Open3DSG row generated after metric eval status ready.",
+            f"Real {args.source_name} row generated after metric eval status ready.",
             "Rows are selected from semantic top-k or geometry-reranked top-k candidates per subgraph.",
         ]
+        analysis_prefix = args.analysis_prefix or args.baseline_name
         rows = [
             build_row(
                 fixture,
-                analysis_prefix="open3dsg_real",
+                analysis_prefix=analysis_prefix,
+                baseline_name=args.baseline_name,
+                record_type=args.record_type,
+                source_name=args.source_name,
                 provenance_inputs=provenance_inputs,
                 provenance_notes=provenance_notes,
             )
@@ -1064,7 +1101,7 @@ def main() -> int:
         ]
         errors = validate_rows(rows, schema, taxonomy)
         status = "failure_analysis_real_ready" if not errors else "blocked_failure_analysis_real_validation_errors"
-        summary = summarize(rows, status, source="real_open3dsg_metric_joins")
+        summary = summarize(rows, status, source=f"real_{args.baseline_name}_metric_joins")
         outputs = {
             "rows_jsonl": relpath(repo_root, out_dir / "rows.jsonl"),
             "summary_json": relpath(repo_root, out_dir / "summary.json"),
@@ -1076,7 +1113,7 @@ def main() -> int:
             "created_at": created_at,
             "status": status,
             "mode": "runtime_generation",
-            "runtime_policy": "real rows from frozen Open3DSG prediction/GT/geometry/metric artifacts; taxonomy unchanged",
+            "runtime_policy": f"real rows from frozen {args.source_name} prediction/GT/geometry/metric artifacts; taxonomy unchanged",
             "schema_dir": relpath(repo_root, schema_dir),
             "inputs": {name: relpath(repo_root, path) for name, path in resolved_inputs.items()},
             "outputs": outputs,
@@ -1097,11 +1134,21 @@ def main() -> int:
         write_jsonl(out_dir / "rows.jsonl", rows)
         write_json(out_dir / "summary.json", summary)
         write_json(out_dir / "manifest.json", manifest)
-        (out_dir / "report.md").write_text(render_report(manifest, summary), encoding="utf-8")
+        (out_dir / "report.md").write_text(render_report(manifest, summary, source_name=args.source_name), encoding="utf-8")
         print(json.dumps({"status": status, "out": relpath(repo_root, out_dir), "rows": len(rows), "errors": len(errors)}, sort_keys=True))
         return 0 if not errors else 1
 
-    rows = [build_row(fixture) for fixture in smoke_fixtures(args.split_name, args.baseline_run_id)]
+    analysis_prefix = args.analysis_prefix or "smoke"
+    rows = [
+        build_row(
+            fixture,
+            analysis_prefix=analysis_prefix,
+            baseline_name=args.baseline_name,
+            record_type=args.record_type,
+            source_name=args.source_name,
+        )
+        for fixture in smoke_fixtures(args.split_name, args.baseline_run_id)
+    ]
     errors = validate_rows(rows, schema, taxonomy)
     status = SMOKE_STATUS if not errors else "blocked_failure_analysis_generator_smoke_validation_errors"
     summary = summarize(rows, status)
@@ -1116,7 +1163,7 @@ def main() -> int:
         "created_at": created_at,
         "status": status,
         "mode": "synthetic_smoke",
-        "runtime_policy": "synthetic smoke only; no Open3DSG metric/failure inspection",
+        "runtime_policy": f"synthetic smoke only; no {args.source_name} metric/failure inspection",
         "schema_dir": relpath(repo_root, schema_dir),
         "inputs": {
             "schema_json": relpath(repo_root, schema_path),
@@ -1134,12 +1181,12 @@ def main() -> int:
         },
         "summary": summary,
         "validation": {"errors": errors, "warnings": []},
-        "next_action": "After Open3DSG prediction JSONL, GT join, geometry join, and metric outputs exist, replace synthetic fixtures with real joins without changing taxonomy.json.",
+        "next_action": f"After {args.source_name} prediction JSONL, GT join, geometry join, and metric outputs exist, replace synthetic fixtures with real joins without changing taxonomy.json.",
     }
     write_jsonl(out_dir / "rows.jsonl", rows)
     write_json(out_dir / "summary.json", summary)
     write_json(out_dir / "manifest.json", manifest)
-    (out_dir / "report.md").write_text(render_report(manifest, summary), encoding="utf-8")
+    (out_dir / "report.md").write_text(render_report(manifest, summary, source_name=args.source_name), encoding="utf-8")
     print(json.dumps({"status": status, "out": relpath(repo_root, out_dir), "rows": len(rows)}, sort_keys=True))
     return 0 if not errors else 1
 

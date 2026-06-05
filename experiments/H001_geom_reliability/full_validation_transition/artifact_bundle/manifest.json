@@ -1,0 +1,72 @@
+{
+  "schema_version": "h001_full_validation_artifact_bundle_manifest_v1",
+  "status": "full_validation_artifact_bundle_plan_ready_no_archive_created",
+  "created_at": "2026-06-05T00:00:00+09:00",
+  "claim_scope": "paper-facing full official 3DSSG_subset validation route",
+  "bundle_name_template": "release/h001_full_validation_results_<timestamp>.tar.zst",
+  "archive_created": false,
+  "reason_archive_not_created": "The bundle can be large and should be launched as an explicit long-running/background I/O job when upload packaging is requested.",
+  "sources": {
+    "vlsat_full_validation": {
+      "role": "controlled_anchor",
+      "root": "experiments/H001_geom_reliability/sources/vlsat/full_validation",
+      "row_counts": {
+        "raw_rows": 548,
+        "prediction_rows": 957008,
+        "ground_truth_rows": 11254,
+        "geometry_rows": 957008,
+        "failure_rows": 59841,
+        "qualitative_cases": 36
+      },
+      "status_files": [
+        "metrics/metrics.json",
+        "bootstrap_ci/summary.json",
+        "gt_eval/metrics.json",
+        "failure_rows/manifest.json",
+        "failure_cases/inspection.json"
+      ]
+    },
+    "open3dsg_recovery_full_validation": {
+      "role": "primary_open_vocabulary_source",
+      "root": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2",
+      "checkpoint": "local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt",
+      "checkpoint_sha256": "ca86d429b19e846aec2bfff014256bf36f6f90da07e566b90c461d6eca8d76bb",
+      "row_counts": {
+        "raw_rows": 26938,
+        "prediction_rows": 695916,
+        "geometry_rows": 695916,
+        "failure_rows": 82155,
+        "qualitative_cases": 36
+      },
+      "status_files": [
+        "raw_dump/stream_manifest.json",
+        "adapter/manifest.json",
+        "geometry/manifest.json",
+        "metrics/metrics.json",
+        "bootstrap_ci/summary.json",
+        "failure_rows/manifest.json",
+        "failure_cases/inspection.json",
+        "table_caveats/manifest.json"
+      ],
+      "claim_caveat": "Recovery branch uses OPEN3DSG_MIN_VISIBLE_OBJECTS=2 and relaxed two-scan view regeneration; keep the original 533/548 branch as sensitivity evidence."
+    }
+  },
+  "required_tracked_context": [
+    "README.md",
+    "TODO.md",
+    "summary.md",
+    "docs/reproducibility.md",
+    "experiments/H001_geom_reliability/README.md",
+    "experiments/H001_geom_reliability/compose.yaml",
+    "experiments/H001_geom_reliability/scripts/",
+    "experiments/H001_geom_reliability/tables/",
+    "paper/preview.md",
+    "paper/progress.md",
+    "paper/aaai/"
+  ],
+  "verification_commands": [
+    "sha256sum -c release/h001_full_validation_results_<timestamp>.sha256",
+    "wc -l experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/predictions.jsonl experiments/H001_geom_reliability/sources/vlsat/full_validation/geometry/verification.jsonl experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_rows/rows.jsonl experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/raw_dump/raw.jsonl experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/adapter/predictions.jsonl experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/geometry/verification.jsonl experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_rows/rows.jsonl",
+    "jq -r '.status' experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics/metrics.json experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics/metrics.json experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_cases/inspection.json experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_cases/inspection.json"
+  ]
+}

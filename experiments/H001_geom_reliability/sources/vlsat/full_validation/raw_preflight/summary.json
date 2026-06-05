@@ -1,0 +1,30 @@
+{
+  "baseline_name": "vlsat_closed_set",
+  "baseline_run_id": "vlsat_full_official_validation_frozen_v1",
+  "checkpoint_root": "local_dataset/VLSAT_code/CVPR2023-VLSAT/output",
+  "counts": {
+    "directed_pairs": 0,
+    "dumped_subgraphs": 0,
+    "selected_scans": 157
+  },
+  "created_at": "2026-06-03",
+  "exp": "3dssg",
+  "notes": [
+    "The selected scan split is fixed by the command; do not use this raw dump to fit calibration.",
+    "This runner preserves raw VL-SAT relation scores before aggregate metric files lose join identity."
+  ],
+  "raw_dump_file": "experiments/H001_geom_reliability/sources/vlsat/full_validation/raw_preflight/raw.jsonl",
+  "runtime_config_file": "experiments/H001_geom_reliability/sources/vlsat/full_validation/raw_preflight/config.json",
+  "schema_version": "h001_vlsat_raw_dump_summary_v1",
+  "selected_scans_file": "experiments/H001_geom_reliability/full_validation_transition/scope_contract/scans.txt",
+  "staged_root": "local_dataset/VLSAT_staged/h001_full_validation/CVPR2023-VLSAT",
+  "status": "ready_to_run",
+  "validation": {
+    "errors": [],
+    "passed": true,
+    "warnings": [
+      "src_lib_pointnet_graph_missing_using_unused_import_shim"
+    ]
+  },
+  "vlsat_code_root": "local_dataset/VLSAT_code/CVPR2023-VLSAT"
+}

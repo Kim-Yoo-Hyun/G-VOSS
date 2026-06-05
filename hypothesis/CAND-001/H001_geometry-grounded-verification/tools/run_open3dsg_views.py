@@ -143,6 +143,18 @@ def write_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:
             handle.write(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n")
 
 
+def install_numpy_pickle_compat() -> None:
+    try:
+        import numpy.core as np_core  # type: ignore
+        import numpy.core.multiarray as np_multiarray  # type: ignore
+        import numpy.core.numeric as np_numeric  # type: ignore
+    except Exception:
+        return
+    sys.modules.setdefault("numpy._core", np_core)
+    sys.modules.setdefault("numpy._core.multiarray", np_multiarray)
+    sys.modules.setdefault("numpy._core.numeric", np_numeric)
+
+
 def copy_open3dsg_source(source: Path, work_source: Path, refresh: bool) -> None:
     source_pkg = source / "open3dsg"
     if not source_pkg.exists():
@@ -205,6 +217,7 @@ def inspect_view_pickle(path: Path) -> dict[str, Any]:
         return {"exists": False, "valid_pickle": False, "object_count": 0, "frame_ref_count": 0, "size_bytes": 0}
     size = path.stat().st_size
     try:
+        install_numpy_pickle_compat()
         with path.open("rb") as handle:
             payload = pickle.load(handle)
         object_count = len(payload) if isinstance(payload, dict) else 0

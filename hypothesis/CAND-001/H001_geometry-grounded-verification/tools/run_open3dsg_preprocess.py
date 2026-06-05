@@ -16,7 +16,14 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from run_open3dsg_views import copy_open3dsg_source, patch_config, relpath, write_json, write_jsonl
+from run_open3dsg_views import (
+    copy_open3dsg_source,
+    install_numpy_pickle_compat,
+    patch_config,
+    relpath,
+    write_json,
+    write_jsonl,
+)
 
 
 SCRIPT_PATH = Path(__file__).resolve()
@@ -117,6 +124,7 @@ def inspect_pickle(path: Path, deep: bool = False) -> dict[str, Any]:
     if not deep:
         return out
     try:
+        install_numpy_pickle_compat()
         with path.open("rb") as handle:
             payload = pickle.load(handle)
         out.update(
@@ -156,6 +164,7 @@ def run_with_processor(
 
     if not audit_only and action != "already_ready":
         try:
+            install_numpy_pickle_compat()
             processor.write_pickle(relationship)
             action = "regenerated" if before["valid_pickle"] and force else "generated"
         except Exception as exc:  # noqa: BLE001
@@ -246,6 +255,7 @@ def build_manifest(
         "audit_only": args.audit_only,
         "force": args.force,
         "workers": max(1, args.workers),
+        "open3dsg_min_visible_objects": os.environ.get("OPEN3DSG_MIN_VISIBLE_OBJECTS", "4"),
         "open3dsg_source": relpath(args.open3dsg_source),
         "work_source": relpath(args.work_source),
         "staged_root": relpath(args.staged_root),

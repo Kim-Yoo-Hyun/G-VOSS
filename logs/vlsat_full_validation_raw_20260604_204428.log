@@ -1,0 +1,114 @@
+launched_at=2026-06-04T20:44:28+09:00
+session=h001_vlsat_full_validation_raw_20260604_204428
+workdir=/home/yoohyun/research
+NVIDIA GeForce RTX 5090, 4923, 27178, 23
+ Container h001_geom_reliability-vlsat_full_validation_raw_dump-run-1b0988425c4e Creating 
+ Container h001_geom_reliability-vlsat_full_validation_raw_dump-run-1b0988425c4e Created 
+=== 160 classes ===
+| 0             armchair:0.045|| 1             backpack:0.400|
+| 2                  bag:0.056|| 3                 ball:0.400|
+| 4                  bar:0.500|| 5                basin:0.500|
+| 6               basket:0.182|| 7         bath cabinet:0.080|
+| 8              bathtub:0.400|| 9                  bed:0.286|
+|10        bedside table:0.400||11                bench:0.105|
+|12                bidet:0.667||13                  bin:0.667|
+|14              blanket:0.044||15               blinds:0.400|
+|16                board:0.333||17                 book:0.182|
+|18                books:0.333||19            bookshelf:0.250|
+|20               bottle:0.500||21                  box:0.019|
+|22                bread:1.000||23               bucket:0.250|
+|24              cabinet:0.016||25               carpet:0.250|
+|26              ceiling:0.012||27                chair:0.010|
+|28             cleanser:0.400||29                clock:0.095|
+|30               closet:0.667||31              clothes:0.095|
+|32        clothes dryer:0.667||33              clutter:0.061|
+|34       coffee machine:0.500||35         coffee table:0.069|
+|36              commode:0.062||37        computer desk:0.333|
+|38                couch:0.053||39          couch table:0.118|
+|40              counter:0.143||41                  cup:1.000|
+|42             cupboard:0.200||43              curtain:0.017|
+|44              cushion:0.033||45        cutting board:0.250|
+|46           decoration:0.056||47                 desk:0.100|
+|48         dining chair:0.182||49         dining table:0.286|
+|50                 door:0.018||51            doorframe:0.035|
+|52               drawer:0.333||53                 drum:0.333|
+|54       drying machine:0.200||55        extractor fan:0.500|
+|56            fireplace:0.154||57                floor:0.004|
+|58               flower:0.250||59              flowers:0.200|
+|60               folder:0.250||61                 food:0.333|
+|62            footstool:0.667||63                frame:0.118|
+|64          fruit plate:0.500||65              garbage:0.400|
+|66          garbage bin:0.286||67                grass:0.667|
+|68           hand dryer:0.286||69               heater:0.051|
+|70                 item:0.025||71               jacket:0.667|
+|72                  jar:0.250||73               kettle:0.250|
+|74    kitchen appliance:0.167||75      kitchen cabinet:0.036|
+|76      kitchen counter:0.105||77         kitchen hood:0.286|
+|78               ladder:0.667||79                 lamp:0.019|
+|80               laptop:0.500||81       laundry basket:0.182|
+|82                light:0.062||83              machine:0.500|
+|84        magazine rack:0.667||85                 menu:0.154|
+|86            microwave:0.182||87               mirror:0.222|
+|88              monitor:0.118||89              napkins:1.000|
+|90           nightstand:1.000||91               object:0.027|
+|92              objects:1.000||93            organizer:0.500|
+|94              ottoman:0.065||95                 oven:0.118|
+|96                 pack:0.133||97                  pan:0.667|
+|98          paper towel:0.500||99               papers:1.000|
+|100                   pc:0.500||101              picture:0.024|
+|102        pile of books:0.222||103       pile of papers:0.400|
+|104               pillow:0.010||105                 pipe:0.400|
+|106                plant:0.013||107                plate:0.182|
+|108               player:0.500||109                  pot:0.250|
+|110              printer:0.143||111                 rack:0.167|
+|112             radiator:0.100||113          recycle bin:1.000|
+|114         refrigerator:0.286||115        rocking chair:0.667|
+|116                scale:0.667||117               screen:0.333|
+|118                shelf:0.014||119                 shoe:0.400|
+|120            shoe rack:0.500||121                shoes:0.333|
+|122             showcase:0.167||123               shower:0.500|
+|124       shower curtain:0.250||125         shower floor:0.667|
+|126          shower wall:0.087||127           side table:0.083|
+|128                 sink:0.033||129            soap dish:0.667|
+|130               socket:1.000||131                 sofa:0.054|
+|132           sofa chair:0.400||133                stair:0.500|
+|134                stand:0.143||135                stool:0.087|
+|136                stove:0.111||137       stuffed animal:1.000|
+|138             suitcase:0.286||139                table:0.023|
+|140           table lamp:0.250||141            telephone:0.333|
+|142              toaster:0.400||143               toilet:0.071|
+|144         toilet brush:0.200||145         toilet paper:0.167|
+|146 toilet paper dispenser:0.182||147                towel:0.071|
+|148            trash can:0.059||149             trashcan:0.500|
+|150                 tube:0.500||151                   tv:0.051|
+|152             tv stand:0.062||153                 vase:0.053|
+|154                 wall:0.003||155             wardrobe:0.143|
+|156      washing machine:0.133||157       washing powder:1.000|
+|158               window:0.023||159           windowsill:0.118|
+
+=== 26 relationships ===
+| 0         supported by 0.004|| 1                 left 0.001|
+| 2                right 0.001|| 3                front 0.001|
+| 4               behind 0.001|| 5             close by 0.001|
+| 6               inside 1.000|| 7          bigger than 0.012|
+| 8         smaller than 0.012|| 9          higher than 0.005|
+|10           lower than 0.005||11     same symmetry as 0.020|
+|12              same as 0.005||13          attached to 0.001|
+|14          standing on 0.001||15             lying on 0.004|
+|16           hanging on 0.006||17         connected to 0.029|
+|18      leaning against 0.050||19              part of 0.143|
+|20         belonging to 0.031||21             build in 0.029|
+|22          standing in 0.038||23                cover 0.053|
+|24             lying in 0.027||25           hanging in 0.500|
+
+num of data: 548
+  0%|                                               | 0.00/338M [00:00<?, ?iB/s]  2%|▊                                     | 7.64M/338M [00:00<00:14, 24.3MiB/s]  5%|█▋                                    | 15.4M/338M [00:01<00:23, 14.3MiB/s]  7%|██▋                                   | 23.6M/338M [00:01<00:18, 17.6MiB/s]  9%|███▌                                  | 31.6M/338M [00:02<00:22, 14.5MiB/s] 12%|████▍                                 | 39.6M/338M [00:02<00:18, 16.6MiB/s] 14%|█████▎                                | 47.6M/338M [00:03<00:21, 14.4MiB/s] 17%|██████▎                               | 55.8M/338M [00:03<00:17, 16.9MiB/s] 19%|███████▏                              | 63.7M/338M [00:04<00:19, 14.6MiB/s] 21%|████████                              | 71.9M/338M [00:04<00:16, 16.8MiB/s] 24%|████████▉                             | 79.9M/338M [00:04<00:14, 19.1MiB/s] 26%|█████████▉                            | 88.0M/338M [00:05<00:16, 16.1MiB/s] 28%|██████████▊                           | 96.0M/338M [00:06<00:14, 17.8MiB/s] 31%|████████████                           | 104M/338M [00:06<00:16, 15.0MiB/s] 33%|████████████▉                          | 112M/338M [00:07<00:14, 16.2MiB/s] 36%|█████████████▊                         | 120M/338M [00:07<00:12, 18.1MiB/s] 38%|██████████████▊                        | 128M/338M [00:08<00:14, 15.5MiB/s] 40%|███████████████▋                       | 136M/338M [00:08<00:12, 16.9MiB/s] 43%|████████████████▋                      | 144M/338M [00:09<00:14, 13.9MiB/s] 46%|█████████████████▉                     | 155M/338M [00:09<00:09, 20.5MiB/s] 47%|██████████████████▍                    | 159M/338M [00:10<00:15, 12.2MiB/s] 49%|███████████████████                    | 165M/338M [00:11<00:14, 12.1MiB/s] 51%|███████████████████▉                   | 173M/338M [00:12<00:15, 11.1MiB/s] 54%|█████████████████████▏                 | 183M/338M [00:12<00:09, 16.7MiB/s] 56%|█████████████████████▋                 | 188M/338M [00:13<00:12, 12.2MiB/s] 57%|██████████████████████▏                | 192M/338M [00:13<00:12, 12.0MiB/s] 59%|███████████████████████                | 200M/338M [00:13<00:09, 15.0MiB/s] 62%|████████████████████████               | 208M/338M [00:14<00:10, 13.5MiB/s] 64%|████████████████████████▉              | 216M/338M [00:14<00:08, 15.3MiB/s] 67%|█████████████████████████▉             | 225M/338M [00:15<00:08, 13.8MiB/s] 69%|██████████████████████████▉            | 233M/338M [00:15<00:05, 19.1MiB/s] 71%|███████████████████████████▊           | 241M/338M [00:16<00:06, 15.7MiB/s] 74%|████████████████████████████▋          | 249M/338M [00:16<00:05, 17.5MiB/s] 76%|█████████████████████████████▋         | 257M/338M [00:17<00:05, 14.5MiB/s] 78%|██████████████████████████████▌        | 265M/338M [00:18<00:04, 16.5MiB/s] 81%|███████████████████████████████▌       | 273M/338M [00:18<00:04, 14.5MiB/s] 83%|████████████████████████████████▍      | 281M/338M [00:19<00:03, 16.2MiB/s] 86%|█████████████████████████████████▎     | 289M/338M [00:19<00:02, 18.0MiB/s] 88%|██████████████████████████████████▎    | 297M/338M [00:20<00:02, 15.3MiB/s] 90%|███████████████████████████████████▏   | 305M/338M [00:20<00:02, 17.0MiB/s] 93%|████████████████████████████████████▏  | 313M/338M [00:21<00:01, 14.5MiB/s] 93%|████████████████████████████████████▎  | 315M/338M [00:21<00:01, 13.6MiB/s] 95%|█████████████████████████████████████  | 321M/338M [00:22<00:01, 10.8MiB/s] 98%|██████████████████████████████████████ | 329M/338M [00:23<00:00, 9.87MiB/s]100%|███████████████████████████████████████| 338M/338M [00:23<00:00, 15.0MiB/s]
+
+Loading Mmgnet model...
+resume optimizer from _best.pth
+resume lr scehduler from _best.pth
+	model loaded!
+
+{"directed_pairs": 36808, "dumped_subgraphs": 548, "errors": 0, "output_dir": "experiments/H001_geom_reliability/sources/vlsat/full_validation/raw", "raw_dump_file": "experiments/H001_geom_reliability/sources/vlsat/full_validation/raw/raw.jsonl", "status": "raw_dump_ready", "warnings": 1}
+finished_at=2026-06-04T20:50:02+09:00
+exit_code=0

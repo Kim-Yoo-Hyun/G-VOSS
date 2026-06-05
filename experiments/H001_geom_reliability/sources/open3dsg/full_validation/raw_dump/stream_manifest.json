@@ -1,0 +1,11 @@
+{
+  "completed_batches": 533,
+  "completed_jsonl": "/workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/raw_dump/raw.completed.jsonl",
+  "created_at": "2026-06-04T14:11:36.046712Z",
+  "dropped_partial_rows_on_resume": 0,
+  "invalid_partial_rows_on_resume": 0,
+  "raw_dump_jsonl": "/workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/raw_dump/raw.jsonl",
+  "rows_written": 26746,
+  "schema_version": "h001_open3dsg_raw_dump_stream_manifest_v1",
+  "status": "raw_dump_stream_complete"
+}

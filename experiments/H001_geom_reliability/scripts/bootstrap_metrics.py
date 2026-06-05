@@ -54,6 +54,27 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--seed", type=int, default=20260526)
     parser.add_argument("--families", nargs="+", default=list(DEFAULT_FAMILIES))
     parser.add_argument("--ks", nargs="+", type=int, default=list(DEFAULT_KS))
+    parser.add_argument(
+        "--open3dsg-source-root",
+        type=Path,
+        default=Path("experiments/H001_geom_reliability/sources/open3dsg"),
+        help="Open3DSG source artifact root containing adapter/, geometry/, and metrics/.",
+    )
+    parser.add_argument("--open3dsg-source-name", default="open3dsg_ov")
+    parser.add_argument(
+        "--vlsat-source-root",
+        type=Path,
+        help=(
+            "Optional VL-SAT source artifact root containing adapter/, geometry/, "
+            "and metrics/. If omitted, use the locked 127-scan hardened artifacts."
+        ),
+    )
+    parser.add_argument("--vlsat-source-name", default="vlsat_closed_set")
+    parser.add_argument(
+        "--skip-open3dsg",
+        action="store_true",
+        help="Bootstrap only the VL-SAT source. Use for VL-SAT-only full-validation gates.",
+    )
     return parser.parse_args()
 
 
@@ -89,30 +110,52 @@ def relpath(repo_root: Path, path: Path) -> str:
         return str(path)
 
 
-def source_specs(repo_root: Path) -> list[SourceSpec]:
+def source_specs(
+    repo_root: Path,
+    open3dsg_root_arg: Path,
+    open3dsg_source_name: str,
+    vlsat_root_arg: Path | None,
+    vlsat_source_name: str,
+    skip_open3dsg: bool,
+) -> list[SourceSpec]:
     hroot = repo_root / "hypothesis/CAND-001/H001_geometry-grounded-verification"
-    exp = repo_root / "experiments/H001_geom_reliability"
-    gt = hroot / "artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl"
+    open3dsg_root = open3dsg_root_arg if open3dsg_root_arg.is_absolute() else repo_root / open3dsg_root_arg
     family_model = hroot / "artifacts/calibration/p_geom_valid_family/model.json"
-    return [
-        SourceSpec(
-            name="vlsat_closed_set",
+    if vlsat_root_arg is None:
+        gt = hroot / "artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl"
+        vlsat_spec = SourceSpec(
+            name=vlsat_source_name,
             predictions_jsonl=hroot / "artifacts/evaluation/vlsat_closed_set/hardened/predictions.jsonl",
             ground_truth_jsonl=gt,
             verification_jsonl=hroot
             / "artifacts/evaluation/vlsat_closed_set/hardened_geometry/verification.jsonl",
             metrics_json=hroot / "artifacts/evaluation/vlsat_closed_set/hardened_g3/metrics.json",
             family_model_json=family_model,
-        ),
-        SourceSpec(
-            name="open3dsg_ov",
-            predictions_jsonl=exp / "sources/open3dsg/adapter/predictions.jsonl",
+        )
+    else:
+        vlsat_root = vlsat_root_arg if vlsat_root_arg.is_absolute() else repo_root / vlsat_root_arg
+        gt = vlsat_root / "adapter/ground_truth.jsonl"
+        vlsat_spec = SourceSpec(
+            name=vlsat_source_name,
+            predictions_jsonl=vlsat_root / "adapter/predictions.jsonl",
             ground_truth_jsonl=gt,
-            verification_jsonl=exp / "sources/open3dsg/geometry/verification.jsonl",
-            metrics_json=exp / "sources/open3dsg/metrics/metrics.json",
+            verification_jsonl=vlsat_root / "geometry/verification.jsonl",
+            metrics_json=vlsat_root / "metrics/metrics.json",
             family_model_json=family_model,
-        ),
-    ]
+        )
+    specs = [vlsat_spec]
+    if not skip_open3dsg:
+        specs.append(
+            SourceSpec(
+                name=open3dsg_source_name,
+                predictions_jsonl=open3dsg_root / "adapter/predictions.jsonl",
+                ground_truth_jsonl=gt,
+                verification_jsonl=open3dsg_root / "geometry/verification.jsonl",
+                metrics_json=open3dsg_root / "metrics/metrics.json",
+                family_model_json=family_model,
+            )
+        )
+    return specs
 
 
 def metric_reference(metrics: dict[str, Any], condition: str, metric: str, k: int) -> float | None:
@@ -476,6 +519,11 @@ def main() -> int:
     families = set(args.families)
     ks = list(args.ks)
     evalmod = load_eval_module(repo_root)
+    bootstrap_service = (
+        "bootstrap_ci_full_validation_vlsat"
+        if args.vlsat_source_root is not None and args.skip_open3dsg
+        else "bootstrap_ci"
+    )
 
     report: dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
@@ -490,11 +538,18 @@ def main() -> int:
         "sources": {},
         "docker_command": (
             "UID=$(id -u) GID=$(id -g) docker compose -f "
-            "experiments/H001_geom_reliability/compose.yaml run --rm bootstrap_ci"
+            f"experiments/H001_geom_reliability/compose.yaml run --rm {bootstrap_service}"
         ),
     }
 
-    for spec in source_specs(repo_root):
+    for spec in source_specs(
+        repo_root=repo_root,
+        open3dsg_root_arg=args.open3dsg_source_root,
+        open3dsg_source_name=args.open3dsg_source_name,
+        vlsat_root_arg=args.vlsat_source_root,
+        vlsat_source_name=args.vlsat_source_name,
+        skip_open3dsg=args.skip_open3dsg,
+    ):
         missing = [
             path
             for path in [

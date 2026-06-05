@@ -4,7 +4,7 @@
     "example_rows": 2,
     "primary_categories": 14
   },
-  "created_at": "2026-05-08T07:29:22+00:00",
+  "created_at": "2026-06-05T01:25:11+00:00",
   "inputs": {
     "geometry_join_jsonl": "pending: Open3DSG predictions joined with H001 verifier outputs",
     "ground_truth_jsonl": "pending: H001 held-out GT export",

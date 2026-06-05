@@ -1,0 +1,51 @@
+ Image h001-geom-reliability:latest Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 648B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 335B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11.9-slim-bookworm
+#3 DONE 0.7s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 41.86kB done
+#5 DONE 0.0s
+
+#6 [1/4] FROM docker.io/library/python:3.11.9-slim-bookworm@sha256:8fb099199b9f2d70342674bd9dbccd3ed03a258f26bbd1d556822c6dfc60c317
+#6 resolve docker.io/library/python:3.11.9-slim-bookworm@sha256:8fb099199b9f2d70342674bd9dbccd3ed03a258f26bbd1d556822c6dfc60c317 0.0s done
+#6 DONE 0.0s
+
+#7 [2/4] WORKDIR /workspace
+#7 CACHED
+
+#8 [3/4] RUN pip install --no-cache-dir numpy==1.26.4 pillow==10.4.0
+#8 CACHED
+
+#9 [4/4] COPY experiments/H001_geom_reliability/scripts/ /opt/h001/scripts/
+#9 DONE 0.1s
+
+#10 exporting to image
+#10 exporting layers
+#10 exporting layers 0.2s done
+#10 exporting manifest sha256:fa94572d1467656ac036b7d083c1076999939f43294124283a50b1c2d218423c 0.0s done
+#10 exporting config sha256:2dba2ec31f55de7973b3bfdffa119b7fdfeeeec69c6ecf5d3af1cf00a1e04528 0.0s done
+#10 exporting attestation manifest sha256:d2a5c2f99d94277e87e8915264bca91914cdb8ace13afa275d71a4405b810161 0.1s done
+#10 exporting manifest list sha256:42ba5f8e8476d52ad9003b15f2c9ac93ba1700fc964e734eb313ffcbd0332f9e
+#10 exporting manifest list sha256:42ba5f8e8476d52ad9003b15f2c9ac93ba1700fc964e734eb313ffcbd0332f9e 0.0s done
+#10 naming to docker.io/library/h001-geom-reliability:latest done
+#10 unpacking to docker.io/library/h001-geom-reliability:latest 0.0s done
+#10 DONE 0.4s
+
+#11 resolving provenance for metadata file
+#11 DONE 0.0s
+ Image h001-geom-reliability:latest Built 
+ Container h001_geom_reliability-vlsat_full_validation_runtime_record-run-00ef32b3dd04 Creating 
+ Container h001_geom_reliability-vlsat_full_validation_runtime_record-run-00ef32b3dd04 Created 
+{"blockers": [], "out": "experiments/H001_geom_reliability/sources/vlsat/full_validation/runtime_record", "status": "vlsat_full_validation_runtime_record_ready_no_metric_execution"}

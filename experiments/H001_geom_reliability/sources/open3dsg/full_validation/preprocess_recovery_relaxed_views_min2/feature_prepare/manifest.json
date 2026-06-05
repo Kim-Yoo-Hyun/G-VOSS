@@ -1,0 +1,16 @@
+{
+  "after_dest_pt_files": 1584,
+  "before_dest_pt_files": 0,
+  "copy_stats": {
+    "existing_files": 0,
+    "linked_files": 1599,
+    "visited_dirs": 3
+  },
+  "date_checked": "2026-06-04T16:59:29+00:00",
+  "dest_run_dir": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/features/clip_features_h001_full_validation_recovery_relaxed_views_min2",
+  "purged_feature_ids": 20,
+  "records": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/preprocess_recovery_relaxed_views_min2/feature_prepare/records.jsonl",
+  "schema_version": "h001_open3dsg_feature_recovery_prepare_v1",
+  "source_run_dir": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/features/clip_features_h001_full_validation_official_blip_top5_scales3",
+  "status": "prepared"
+}

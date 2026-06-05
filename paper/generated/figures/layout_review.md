@@ -1,8 +1,8 @@
 # Draft Figure Layout And Novelty Review
 
-Last updated: 2026-05-22 KST
+Last updated: 2026-06-05 KST
 
-Status: `layout_review_passed_with_figure3_geometry_upgrade`
+Status: `layout_review_passed_with_full_validation_figure2`
 
 Review basis:
 
@@ -26,7 +26,8 @@ Review basis:
 - Figure 1 caption must use "calibrated geometry-consistency evaluation and
   re-ranking framework"; never "verifier script."
 - Figure 2 caption must mention recall and violation together and retain the
-  Open3DSG averaged-BLIP / covered-scope caveat.
+  Open3DSG full-validation 548/548 recovery-policy caveat plus 533/548 covered
+  branch sensitivity note.
 - Figure 3 caption must say the panels are qualitative reviewer-defense
   examples from Open3DSG deterministic inspection and preprocessed object
   geometry, not a representative visual audit or new metric.

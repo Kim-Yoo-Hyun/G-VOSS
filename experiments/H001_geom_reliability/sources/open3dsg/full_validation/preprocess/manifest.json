@@ -1,0 +1,414 @@
+{
+  "all_split_subgraph_count": 548,
+  "audit_only": true,
+  "blockers": [],
+  "claim_limit": "No Open3DSG raw dump, prediction JSONL, geometry join, metric, or improvement claim exists after preprocessing.",
+  "config_patch": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/preprocess/config_patch.diff",
+  "date_checked": "2026-06-04T13:07:47+00:00",
+  "force": false,
+  "limit": null,
+  "next_action": "Acquire Open3DSG checkpoint/model artifacts, then run raw dump smoke.",
+  "offset": 0,
+  "open3dsg_source": "local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source",
+  "preprocessed_root": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed",
+  "processed_subgraph_count": 548,
+  "schema_version": "h001_open3dsg_preprocess_v1",
+  "split": "validation",
+  "staged_root": "local_dataset/Open3DSG_staged/h001_full_validation_runtime",
+  "status": "preprocess_partial_ready",
+  "summary": {
+    "actions": {
+      "already_ready": 533,
+      "audit_missing": 15
+    },
+    "failed_records": [],
+    "missing_records": [
+      {
+        "action": "audit_missing",
+        "after": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "before": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "error": null,
+        "object_count_annotation": 6,
+        "path": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7532-8d6f-2d13-8cea-1e70d5ae4856/data_dict_2.pkl",
+        "relationship_count": 43,
+        "relationship_id": "0cac7532-8d6f-2d13-8cea-1e70d5ae4856-2",
+        "scan_id": "0cac7532-8d6f-2d13-8cea-1e70d5ae4856",
+        "split": 2,
+        "traceback": null
+      },
+      {
+        "action": "audit_missing",
+        "after": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "before": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "error": null,
+        "object_count_annotation": 7,
+        "path": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7534-8d6f-2d13-8de7-8a915ed90050/data_dict_3.pkl",
+        "relationship_count": 18,
+        "relationship_id": "0cac7534-8d6f-2d13-8de7-8a915ed90050-3",
+        "scan_id": "0cac7534-8d6f-2d13-8de7-8a915ed90050",
+        "split": 3,
+        "traceback": null
+      },
+      {
+        "action": "audit_missing",
+        "after": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "before": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "error": null,
+        "object_count_annotation": 9,
+        "path": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7582-8d6f-2d13-8d4b-e4041cb166c4/data_dict_1.pkl",
+        "relationship_count": 24,
+        "relationship_id": "0cac7582-8d6f-2d13-8d4b-e4041cb166c4-1",
+        "scan_id": "0cac7582-8d6f-2d13-8d4b-e4041cb166c4",
+        "split": 1,
+        "traceback": null
+      },
+      {
+        "action": "audit_missing",
+        "after": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "before": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "error": null,
+        "object_count_annotation": 9,
+        "path": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed/0cac7584-8d6f-2d13-8df8-c05e4307b418/data_dict_5.pkl",
+        "relationship_count": 21,
+        "relationship_id": "0cac7584-8d6f-2d13-8df8-c05e4307b418-5",
+        "scan_id": "0cac7584-8d6f-2d13-8df8-c05e4307b418",
+        "split": 5,
+        "traceback": null
+      },
+      {
+        "action": "audit_missing",
+        "after": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "before": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "error": null,
+        "object_count_annotation": 7,
+        "path": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b1794e-3938-2467-89a7-ebc89e84cf88/data_dict_3.pkl",
+        "relationship_count": 8,
+        "relationship_id": "10b1794e-3938-2467-89a7-ebc89e84cf88-3",
+        "scan_id": "10b1794e-3938-2467-89a7-ebc89e84cf88",
+        "split": 3,
+        "traceback": null
+      },
+      {
+        "action": "audit_missing",
+        "after": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "before": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "error": null,
+        "object_count_annotation": 9,
+        "path": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b17957-3938-2467-88a5-9e9254930dad/data_dict_8.pkl",
+        "relationship_count": 11,
+        "relationship_id": "10b17957-3938-2467-88a5-9e9254930dad-8",
+        "scan_id": "10b17957-3938-2467-88a5-9e9254930dad",
+        "split": 8,
+        "traceback": null
+      },
+      {
+        "action": "audit_missing",
+        "after": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "before": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "error": null,
+        "object_count_annotation": 8,
+        "path": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed/10b17957-3938-2467-88a5-9e9254930dad/data_dict_9.pkl",
+        "relationship_count": 21,
+        "relationship_id": "10b17957-3938-2467-88a5-9e9254930dad-9",
+        "scan_id": "10b17957-3938-2467-88a5-9e9254930dad",
+        "split": 9,
+        "traceback": null
+      },
+      {
+        "action": "audit_missing",
+        "after": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "before": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "error": null,
+        "object_count_annotation": 9,
+        "path": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed/422885b3-192d-25fc-84c9-9b80eea1752d/data_dict_1.pkl",
+        "relationship_count": 23,
+        "relationship_id": "422885b3-192d-25fc-84c9-9b80eea1752d-1",
+        "scan_id": "422885b3-192d-25fc-84c9-9b80eea1752d",
+        "split": 1,
+        "traceback": null
+      },
+      {
+        "action": "audit_missing",
+        "after": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "before": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "error": null,
+        "object_count_annotation": 9,
+        "path": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed/422885b3-192d-25fc-84c9-9b80eea1752d/data_dict_2.pkl",
+        "relationship_count": 8,
+        "relationship_id": "422885b3-192d-25fc-84c9-9b80eea1752d-2",
+        "scan_id": "422885b3-192d-25fc-84c9-9b80eea1752d",
+        "split": 2,
+        "traceback": null
+      },
+      {
+        "action": "audit_missing",
+        "after": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "before": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "error": null,
+        "object_count_annotation": 8,
+        "path": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed/422885c5-192d-25fc-85e6-12a3d65c8e7b/data_dict_2.pkl",
+        "relationship_count": 5,
+        "relationship_id": "422885c5-192d-25fc-85e6-12a3d65c8e7b-2",
+        "scan_id": "422885c5-192d-25fc-85e6-12a3d65c8e7b",
+        "split": 2,
+        "traceback": null
+      },
+      {
+        "action": "audit_missing",
+        "after": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "before": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "error": null,
+        "object_count_annotation": 9,
+        "path": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed/bf9a3ddf-45a5-2e80-8007-8e9e7f323e52/data_dict_2.pkl",
+        "relationship_count": 19,
+        "relationship_id": "bf9a3ddf-45a5-2e80-8007-8e9e7f323e52-2",
+        "scan_id": "bf9a3ddf-45a5-2e80-8007-8e9e7f323e52",
+        "split": 2,
+        "traceback": null
+      },
+      {
+        "action": "audit_missing",
+        "after": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "before": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "error": null,
+        "object_count_annotation": 6,
+        "path": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed/c7895f29-339c-2d13-83e9-90dbe61fa8be/data_dict_5.pkl",
+        "relationship_count": 2,
+        "relationship_id": "c7895f29-339c-2d13-83e9-90dbe61fa8be-5",
+        "scan_id": "c7895f29-339c-2d13-83e9-90dbe61fa8be",
+        "split": 5,
+        "traceback": null
+      },
+      {
+        "action": "audit_missing",
+        "after": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "before": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "error": null,
+        "object_count_annotation": 9,
+        "path": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed/c7895f63-339c-2d13-81a3-0b07b1eb23b4/data_dict_2.pkl",
+        "relationship_count": 12,
+        "relationship_id": "c7895f63-339c-2d13-81a3-0b07b1eb23b4-2",
+        "scan_id": "c7895f63-339c-2d13-81a3-0b07b1eb23b4",
+        "split": 2,
+        "traceback": null
+      },
+      {
+        "action": "audit_missing",
+        "after": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "before": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "error": null,
+        "object_count_annotation": 9,
+        "path": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed/c7895f7c-339c-2d13-819f-3bb0b26c91f6/data_dict_4.pkl",
+        "relationship_count": 19,
+        "relationship_id": "c7895f7c-339c-2d13-819f-3bb0b26c91f6-4",
+        "scan_id": "c7895f7c-339c-2d13-819f-3bb0b26c91f6",
+        "split": 4,
+        "traceback": null
+      },
+      {
+        "action": "audit_missing",
+        "after": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "before": {
+          "exists": false,
+          "objects_count": null,
+          "predicate_count": null,
+          "size_bytes": 0,
+          "valid_pickle": false
+        },
+        "error": null,
+        "object_count_annotation": 5,
+        "path": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed/fcf66d7b-622d-291c-86b8-7db96aebcee3/data_dict_3.pkl",
+        "relationship_count": 2,
+        "relationship_id": "fcf66d7b-622d-291c-86b8-7db96aebcee3-3",
+        "scan_id": "fcf66d7b-622d-291c-86b8-7db96aebcee3",
+        "split": 3,
+        "traceback": null
+      }
+    ],
+    "missing_subgraph_count": 15,
+    "processed_subgraph_count": 548,
+    "ready_subgraph_count": 533,
+    "total_annotation_relations": 11254,
+    "total_size_bytes": 13955804788,
+    "unique_ready_scans": 156
+  },
+  "warnings": [
+    "partial_runtime:open3dsg_preprocessed_pickles:533/548"
+  ],
+  "work_source": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/work/open3dsg_eval_source",
+  "workers": 4
+}

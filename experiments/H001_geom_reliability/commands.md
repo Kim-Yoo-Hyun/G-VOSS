@@ -1,6 +1,6 @@
 # Commands
 
-Last updated: 2026-05-28
+Last updated: 2026-06-04
 
 Run from the repository root.
 
@@ -50,6 +50,202 @@ Expected completion line:
 ```json
 {"out": "experiments/H001_geom_reliability/bootstrap_ci", "sources": ["open3dsg_ov", "vlsat_closed_set"], "status": "ready"}
 ```
+
+## Open3DSG Non-Avg Downstream Branch
+
+The official non-averaged BLIP checkpoint is evaluated under
+`sources/open3dsg/non_avg/` so that avg-BLIP paper-facing artifacts are not
+overwritten. Current raw dump run record:
+
+```text
+experiments/H001_geom_reliability/sources/open3dsg/non_avg/raw_dump/run_20260604_182423.md
+```
+
+Current downstream continuation record:
+
+```text
+experiments/H001_geom_reliability/sources/open3dsg/non_avg/downstream_after_raw_20260604_183622.md
+```
+
+The continuation runner is:
+
+```bash
+experiments/H001_geom_reliability/scripts/run_open3dsg_nonavg_downstream_after_raw.sh
+```
+
+After the raw-dump exit file contains `0`, run:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_raw_dump_identity_nonavg
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_adapter_raw_dump_nonavg
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_geometry_join_nonavg
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_metric_eval_nonavg
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm bootstrap_ci_nonavg
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_non_avg_table6_caveats
+```
+
+This branch is not paper evidence until all downstream commands pass and the
+user explicitly confirms whether non-avg results should replace or supplement
+the current avg-BLIP Open3DSG wording.
+
+## Full Official Validation Scope Contract
+
+Freeze the full official `3DSSG_subset` validation scope before any
+full-validation metric rerun:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm full_validation_scope_contract'
+```
+
+This creates:
+
+- `full_validation_transition/scope_contract/manifest.json`
+- `full_validation_transition/scope_contract/scope_contract.json`
+- `full_validation_transition/scope_contract/scans.txt`
+- `full_validation_transition/scope_contract/contexts.jsonl`
+- `full_validation_transition/scope_contract/commands.md`
+- `full_validation_transition/scope_contract/report.md`
+
+Current result: status
+`full_official_validation_scope_contract_ready_no_metric_execution`; target
+scope is official validation 157 scans / 548 contexts / 11,254 GT rows / 3,972
+H001-family GT rows. This is a protocol-freeze artifact only. Do not edit the
+current 127-scan tables by denominator substitution. Full-validation paper
+promotion requires separate VL-SAT and Open3DSG output paths, fresh geometry
+join, metrics, controls, bootstrap CI, and caveat wording.
+
+## VL-SAT Full Validation Runtime
+
+Stage the full official validation runtime root:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm --build vlsat_full_validation_stage'
+```
+
+Refresh the runtime/job record:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm --build vlsat_full_validation_runtime_record'
+```
+
+Run the raw-dump preflight:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm vlsat_full_validation_raw_preflight'
+```
+
+Current result: status `vlsat_full_validation_metric_bundle_ready`; 157/157
+faithful staged scans, runtime image `h001-open3dsg-repro:cu128`, 16/16
+checkpoint files, raw preflight `ready_to_run`, raw dump `raw_dump_ready`,
+adapter export `ready`, geometry join `ready`, metrics `ready`, GT verifier
+eval `ready`, and VL-SAT-only bootstrap CI `ready`. Artifacts:
+
+- `sources/vlsat/full_validation/stage/stage_manifest.json`
+- `sources/vlsat/full_validation/stage/stage_report.md`
+- `sources/vlsat/full_validation/runtime_record/manifest.json`
+- `sources/vlsat/full_validation/runtime_record/runtime_contract.json`
+- `sources/vlsat/full_validation/runtime_record/commands.md`
+- `sources/vlsat/full_validation/runtime_record/report.md`
+- `sources/vlsat/full_validation/raw_preflight/summary.json`
+- `sources/vlsat/full_validation/raw_preflight/report.md`
+- `sources/vlsat/full_validation/raw/run_20260604_204428.md`
+- `sources/vlsat/full_validation/raw/raw.jsonl`
+- `sources/vlsat/full_validation/adapter/predictions.jsonl`
+- `sources/vlsat/full_validation/adapter/ground_truth.jsonl`
+- `sources/vlsat/full_validation/geometry/verification.jsonl`
+- `sources/vlsat/full_validation/metrics/metrics.json`
+- `sources/vlsat/full_validation/gt_eval/metrics.json`
+- `sources/vlsat/full_validation/bootstrap_ci/summary.md`
+
+Launch template:
+
+```bash
+mkdir -p logs
+ts=$(date +%Y%m%d_%H%M%S)
+tmux new-session -d -s h001_vlsat_full_validation_raw "\
+cd /home/yoohyun/research && \
+env UID=\$(id -u) GID=\$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm vlsat_full_validation_raw_dump \
+> logs/vlsat_full_validation_raw_${ts}.log 2>&1; \
+echo \$? > logs/vlsat_full_validation_raw_${ts}.exit"
+```
+
+The raw dump alone is not paper metric evidence. The downstream commands below
+now complete the VL-SAT full-validation metric bundle under the same
+full-validation scope.
+
+Downstream commands:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm vlsat_full_validation_adapter_export
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm vlsat_full_validation_geometry_join
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm vlsat_full_validation_metric_eval
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm vlsat_full_validation_gt_verifier_eval
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm bootstrap_ci_full_validation_vlsat
+```
+
+Latest downstream result: predictions `957,008`, ground-truth rows `11,254`,
+H001-family GT rows `3,972`, geometry rows preserved `957,008/957,008`, metric
+status `ready`, GT verifier AUROC `0.9772`, bootstrap warnings `0`. This is
+valid VL-SAT full-validation metric evidence, but paper-wide full-validation
+promotion now depends on explicit user confirmation and table/report
+regeneration.
+
+## Open3DSG Full Validation Runtime
+
+The Open3DSG full official validation branch lives under
+`sources/open3dsg/full_validation/` and uses the selected official non-avg BLIP
+checkpoint. It does not overwrite the existing avg-BLIP or non-avg hardened
+branches.
+
+Payload and source-runtime preparation:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_full_validation_payload
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm feature_audit_full_validation
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_full_validation_feature_seed
+```
+
+Feature generation, when not seeding from compatible feature caches:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm dump_features_full_validation_nonavg
+```
+
+Raw dump should be launched as a background job:
+
+```bash
+mkdir -p logs
+ts=$(date +%Y%m%d_%H%M%S)
+tmux new-session -d -s h001_open3dsg_full_validation_raw "\
+cd /home/yoohyun/research && \
+env UID=\$(id -u) GID=\$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm eval_full_validation_gt_objects_nonavg \
+> logs/open3dsg_full_validation_raw_${ts}.log 2>&1; \
+echo \$? > logs/open3dsg_full_validation_raw_${ts}.exit"
+```
+
+After `raw_dump/stream_manifest.json` reports `raw_dump_stream_complete`, run:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_adapter_raw_dump_full_validation
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_raw_dump_identity_full_validation
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_geometry_join_full_validation
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_metric_eval_full_validation
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm bootstrap_ci_full_validation
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_failure_generator_full_validation
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_full_validation_table6_caveats
+```
+
+Latest result: status `open3dsg_full_validation_metric_bundle_ready_with_caveats`.
+Views are 157/157; preprocess is 533/548 with 15 missing contexts after
+recovery; covered-scope features are 533/533; raw stream wrote 26,746 rows and
+533 completed batches; adapter has 690,924 prediction rows; geometry preserves
+690,924/690,924 rows; metrics, bootstrap CI, failure rows, and table/caveat
+regeneration are ready. Key metrics: semantic_only R@50/R@100
+`0.4043/0.5111`, V@50/@100 `0.1387/0.1242`; probabilistic_recalibrated
+R@50/R@100 `0.3943/0.5685`, V@50/@100 `0.0590/0.0807`;
+rule_verified_point_subtype R@50/R@100 `0.4242/0.5320`, V@50/@100 `0.0/0.0`;
+family_specific control R@50/R@100 `0.4612/0.5999`, V@50/@100
+`0.0265/0.0332`.
 
 ## Relative Horizontal Scope Audit
 

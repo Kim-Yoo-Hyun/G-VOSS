@@ -1,0 +1,266 @@
+{
+  "all_selected_scan_count": 10,
+  "audit_only": false,
+  "blockers": [
+    "missing_view_pickles:0/10"
+  ],
+  "claim_limit": "No Open3DSG raw dump, prediction JSONL, geometry join, metric, or improvement claim exists after view pickle generation.",
+  "config_patch": "experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/views_default/config_patch.diff",
+  "date_checked": "2026-06-05T05:38:02+00:00",
+  "limit": null,
+  "mode": "validation",
+  "next_action": "Run Open3DSG preprocess generation after view pickles are ready.",
+  "offset": 0,
+  "open3dsg_source": "local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source",
+  "processed_scan_count": 10,
+  "schema_version": "h001_open3dsg_views_v1",
+  "selected_scans_file": "local_dataset/Open3DSG_staged/h001_runtime/data/3RScan/3DSSG_subset/validation_scans.txt",
+  "staged_root": "local_dataset/Open3DSG_staged/h001_runtime",
+  "status": "views_blocked",
+  "summary": {
+    "actions": {
+      "missing_output": 10
+    },
+    "failed_records": [
+      {
+        "action": "missing_output",
+        "after": {
+          "error": "ModuleNotFoundError:No module named 'numpy._core'",
+          "exists": true,
+          "frame_ref_count": 0,
+          "object_count": 0,
+          "size_bytes": 5186,
+          "valid_pickle": false
+        },
+        "before": {
+          "error": "ModuleNotFoundError:No module named 'numpy._core'",
+          "exists": true,
+          "frame_ref_count": 0,
+          "object_count": 0,
+          "size_bytes": 5186,
+          "valid_pickle": false
+        },
+        "error": null,
+        "path": "local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/views/0cac7532-8d6f-2d13-8cea-1e70d5ae4856_object2image.pkl",
+        "scan_id": "0cac7532-8d6f-2d13-8cea-1e70d5ae4856",
+        "traceback": null
+      },
+      {
+        "action": "missing_output",
+        "after": {
+          "error": "ModuleNotFoundError:No module named 'numpy._core'",
+          "exists": true,
+          "frame_ref_count": 0,
+          "object_count": 0,
+          "size_bytes": 7275,
+          "valid_pickle": false
+        },
+        "before": {
+          "error": "ModuleNotFoundError:No module named 'numpy._core'",
+          "exists": true,
+          "frame_ref_count": 0,
+          "object_count": 0,
+          "size_bytes": 7275,
+          "valid_pickle": false
+        },
+        "error": null,
+        "path": "local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/views/0cac7534-8d6f-2d13-8de7-8a915ed90050_object2image.pkl",
+        "scan_id": "0cac7534-8d6f-2d13-8de7-8a915ed90050",
+        "traceback": null
+      },
+      {
+        "action": "missing_output",
+        "after": {
+          "error": "ModuleNotFoundError:No module named 'numpy._core'",
+          "exists": true,
+          "frame_ref_count": 0,
+          "object_count": 0,
+          "size_bytes": 37576,
+          "valid_pickle": false
+        },
+        "before": {
+          "error": "ModuleNotFoundError:No module named 'numpy._core'",
+          "exists": true,
+          "frame_ref_count": 0,
+          "object_count": 0,
+          "size_bytes": 37576,
+          "valid_pickle": false
+        },
+        "error": null,
+        "path": "local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/views/0cac7582-8d6f-2d13-8d4b-e4041cb166c4_object2image.pkl",
+        "scan_id": "0cac7582-8d6f-2d13-8d4b-e4041cb166c4",
+        "traceback": null
+      },
+      {
+        "action": "missing_output",
+        "after": {
+          "error": "ModuleNotFoundError:No module named 'numpy._core'",
+          "exists": true,
+          "frame_ref_count": 0,
+          "object_count": 0,
+          "size_bytes": 85844,
+          "valid_pickle": false
+        },
+        "before": {
+          "error": "ModuleNotFoundError:No module named 'numpy._core'",
+          "exists": true,
+          "frame_ref_count": 0,
+          "object_count": 0,
+          "size_bytes": 85844,
+          "valid_pickle": false
+        },
+        "error": null,
+        "path": "local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/views/0cac7584-8d6f-2d13-8df8-c05e4307b418_object2image.pkl",
+        "scan_id": "0cac7584-8d6f-2d13-8df8-c05e4307b418",
+        "traceback": null
+      },
+      {
+        "action": "missing_output",
+        "after": {
+          "error": "ModuleNotFoundError:No module named 'numpy._core'",
+          "exists": true,
+          "frame_ref_count": 0,
+          "object_count": 0,
+          "size_bytes": 41639,
+          "valid_pickle": false
+        },
+        "before": {
+          "error": "ModuleNotFoundError:No module named 'numpy._core'",
+          "exists": true,
+          "frame_ref_count": 0,
+          "object_count": 0,
+          "size_bytes": 41639,
+          "valid_pickle": false
+        },
+        "error": null,
+        "path": "local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/views/10b1794e-3938-2467-89a7-ebc89e84cf88_object2image.pkl",
+        "scan_id": "10b1794e-3938-2467-89a7-ebc89e84cf88",
+        "traceback": null
+      },
+      {
+        "action": "missing_output",
+        "after": {
+          "error": "ModuleNotFoundError:No module named 'numpy._core'",
+          "exists": true,
+          "frame_ref_count": 0,
+          "object_count": 0,
+          "size_bytes": 9546,
+          "valid_pickle": false
+        },
+        "before": {
+          "error": "ModuleNotFoundError:No module named 'numpy._core'",
+          "exists": true,
+          "frame_ref_count": 0,
+          "object_count": 0,
+          "size_bytes": 9546,
+          "valid_pickle": false
+        },
+        "error": null,
+        "path": "local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/views/422885b3-192d-25fc-84c9-9b80eea1752d_object2image.pkl",
+        "scan_id": "422885b3-192d-25fc-84c9-9b80eea1752d",
+        "traceback": null
+      },
+      {
+        "action": "missing_output",
+        "after": {
+          "error": "ModuleNotFoundError:No module named 'numpy._core'",
+          "exists": true,
+          "frame_ref_count": 0,
+          "object_count": 0,
+          "size_bytes": 20250,
+          "valid_pickle": false
+        },
+        "before": {
+          "error": "ModuleNotFoundError:No module named 'numpy._core'",
+          "exists": true,
+          "frame_ref_count": 0,
+          "object_count": 0,
+          "size_bytes": 20250,
+          "valid_pickle": false
+        },
+        "error": null,
+        "path": "local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/views/422885c5-192d-25fc-85e6-12a3d65c8e7b_object2image.pkl",
+        "scan_id": "422885c5-192d-25fc-85e6-12a3d65c8e7b",
+        "traceback": null
+      },
+      {
+        "action": "missing_output",
+        "after": {
+          "error": "ModuleNotFoundError:No module named 'numpy._core'",
+          "exists": true,
+          "frame_ref_count": 0,
+          "object_count": 0,
+          "size_bytes": 34956,
+          "valid_pickle": false
+        },
+        "before": {
+          "error": "ModuleNotFoundError:No module named 'numpy._core'",
+          "exists": true,
+          "frame_ref_count": 0,
+          "object_count": 0,
+          "size_bytes": 34956,
+          "valid_pickle": false
+        },
+        "error": null,
+        "path": "local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/views/bf9a3ddf-45a5-2e80-8007-8e9e7f323e52_object2image.pkl",
+        "scan_id": "bf9a3ddf-45a5-2e80-8007-8e9e7f323e52",
+        "traceback": null
+      },
+      {
+        "action": "missing_output",
+        "after": {
+          "error": "ModuleNotFoundError:No module named 'numpy._core'",
+          "exists": true,
+          "frame_ref_count": 0,
+          "object_count": 0,
+          "size_bytes": 34776,
+          "valid_pickle": false
+        },
+        "before": {
+          "error": "ModuleNotFoundError:No module named 'numpy._core'",
+          "exists": true,
+          "frame_ref_count": 0,
+          "object_count": 0,
+          "size_bytes": 34776,
+          "valid_pickle": false
+        },
+        "error": null,
+        "path": "local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/views/c7895f63-339c-2d13-81a3-0b07b1eb23b4_object2image.pkl",
+        "scan_id": "c7895f63-339c-2d13-81a3-0b07b1eb23b4",
+        "traceback": null
+      },
+      {
+        "action": "missing_output",
+        "after": {
+          "error": "ModuleNotFoundError:No module named 'numpy._core'",
+          "exists": true,
+          "frame_ref_count": 0,
+          "object_count": 0,
+          "size_bytes": 80755,
+          "valid_pickle": false
+        },
+        "before": {
+          "error": "ModuleNotFoundError:No module named 'numpy._core'",
+          "exists": true,
+          "frame_ref_count": 0,
+          "object_count": 0,
+          "size_bytes": 80755,
+          "valid_pickle": false
+        },
+        "error": null,
+        "path": "local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/views/fcf66d7b-622d-291c-86b8-7db96aebcee3_object2image.pkl",
+        "scan_id": "fcf66d7b-622d-291c-86b8-7db96aebcee3",
+        "traceback": null
+      }
+    ],
+    "missing_scan_count": 10,
+    "processed_scan_count": 10,
+    "ready_scan_count": 0,
+    "total_frame_ref_count": 0,
+    "total_object_count": 0,
+    "total_size_bytes": 0
+  },
+  "view_root": "local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/views",
+  "work_source": "local_dataset/Open3DSG_staged/h001_runtime/work/open3dsg_h001_r2_recovery_source",
+  "workers": 1
+}

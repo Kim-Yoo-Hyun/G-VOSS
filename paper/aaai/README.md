@@ -1,6 +1,6 @@
 # AAAI-Style Manuscript Source
 
-Last updated: 2026-05-28 KST
+Last updated: 2026-06-05 KST
 
 This directory is the AAAI-style LaTeX source conversion of the H001 paper.
 It is separate from `paper/iccv/` so venue-specific formatting decisions do not
@@ -53,10 +53,10 @@ Important AAAI-26 constraints from the official submission page:
 - VL-SAT is framed as the controlled reproduced anchor.
 - The Results section includes Docker subgraph bootstrap CIs as
   evaluation-context uncertainty checks, not repeated-training variance.
-- The current source keeps the Open3DSG caveats explicit:
-  averaged-BLIP variant, filtered train/dev split, covered H001 scope,
-  exact-label denominator, `validation_missing_preprocessed:11`, and residual
-  calibration risk.
+- The current source keeps the Open3DSG caveats explicit: selected official
+  non-averaged checkpoint, filtered train/dev provenance, full-validation
+  exact-label denominator 3,972, 548/548 recovery-policy branch,
+  533/548 covered branch as sensitivity evidence, and residual calibration risk.
 - Controls, GT verifier evaluation, structured audit, and visual sanity checks
   are prose-backed reviewer-defense evidence unless an appendix is added.
 
@@ -76,8 +76,8 @@ ICCV preamble blindly into this directory.
 
 Verified run:
 
-- Image build log: `logs/h001_aaai_tex_image_build_20260526_015436.log`
-- PDF build log: `logs/h001_aaai_pdf_build_attachment_strategy_20260528_004342.log`
+- Image build log: `logs/h001_aaai_tex_image_build_full_validation_20260605_100108.log`
+- PDF build log: `logs/h001_aaai_pdf_build_cleanup_consistency_20260605_111759.log`
 - Output: `paper/aaai/main.pdf`
 - Page count: 9 total pages
 - Technical content: pages 1-7

@@ -15,13 +15,15 @@
     "object_pair_mismatch",
     "unknown_needs_audit"
   ],
+  "compatibility_note": "The taxonomy is unchanged; the schema now allows the same H001 diagnostic row contract to be applied to the VL-SAT closed-set source as well as Open3DSG.",
   "hard_rules": [
     "Do not create new primary categories after inspecting Open3DSG metric failures without bumping schema_version.",
     "Use plausible_unlabeled only with visual/audit evidence; do not use it to hide false positives.",
     "Rows with adapter_or_identity_error are excluded until fixed and cannot support method claims.",
     "Rows outside support_contact/proximity/relative_vertical are excluded from H001 family claims.",
     "Do not count preprocessing_or_filtering_limitation as an Open3DSG semantic failure.",
-    "Do not use Qwen-VL outputs to assign Open3DSG failure categories."
+    "Do not use Qwen-VL outputs to assign Open3DSG failure categories.",
+    "Use source-specific baseline_name/record_type fields; do not mix Open3DSG and VL-SAT rows in one metric without a source column."
   ],
   "locked_before": "Open3DSG metric/failure inspection",
   "primary_categories": [
@@ -111,5 +113,8 @@
     }
   ],
   "schema_version": "h001_open3dsg_failure_analysis_v1",
-  "target_baseline": "open3dsg_ov"
+  "target_baselines": [
+    "open3dsg_ov",
+    "vlsat_closed_set"
+  ]
 }

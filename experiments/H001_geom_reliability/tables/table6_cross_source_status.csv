@@ -1,3 +1,3 @@
 prediction_source,evidence_artifact,metric_status,contract_status,blockers,claim_use,caveat_note
-VL-SAT / vlsat_closed_set,locked VL-SAT H001 metrics,ready,ready,none,scoped current result,controlled reproduced anchor under fixed H001 denominator
-Open3DSG,sources/open3dsg/metrics/metrics.json,ready,ready,none,cross-source claim enabled within measured H001 families,averaged-BLIP variant; filtered train/dev; covered H001 377/388; exact-label denominator 2545; validation_missing_preprocessed:11; residual calibration risk
+VL-SAT / vlsat_closed_set,sources/vlsat/full_validation/metrics/metrics.json,ready,ready,none,controlled-anchor full-validation result,full official validation; exact-label denominator 3972; Docker rerun; bootstrap CI ready
+Open3DSG,sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics/metrics.json,ready,ready,none,main open-vocabulary relation-source full-validation result,selected official non-avg checkpoint; filtered train/dev provenance; 548/548 recovery policy with min_visible=2 and relaxed two-scan views; exact-label denominator 3972; 533/548 covered branch sensitivity; residual calibration risk

@@ -29,7 +29,7 @@
       "rule": "may validate plumbing only; never promote to paper-result evidence"
     }
   ],
-  "schema_version": "h001_open3dsg_checkpoint_selection_v3",
+  "schema_version": "h001_open3dsg_checkpoint_selection_v4",
   "selection_boundary": {
     "allowed_selection_signals": [
       "predeclared route priority",
@@ -47,9 +47,9 @@
     "must_freeze_before": [
       "Open3DSG pilot checkpoint inspection",
       "Open3DSG full checkpoint inspection",
-      "H001 raw dump generation",
-      "H001 Open3DSG prediction JSONL export",
-      "H001 Open3DSG metric computation"
+      "selected-route H001 raw dump generation",
+      "selected-route H001 Open3DSG prediction JSONL export",
+      "selected-route H001 Open3DSG metric computation"
     ]
   }
 }
