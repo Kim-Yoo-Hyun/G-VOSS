@@ -1,0 +1,20 @@
+{
+  "bias": -2.8784228287989723e-18,
+  "clip_range": [
+    -10.0,
+    10.0
+  ],
+  "feature": "clipped_signed_margin_target_projection_over_margin",
+  "iterations": 5000,
+  "l2": 0.0001,
+  "model_type": "univariate_logistic_signed_margin",
+  "source_predictions_used": false,
+  "standardization": {
+    "mean": 0.0,
+    "std": 5.468546551599281
+  },
+  "status": "fit_train_only",
+  "train_positive_rate": 0.5,
+  "train_rows": 3076,
+  "weight": 2.163823962927341
+}

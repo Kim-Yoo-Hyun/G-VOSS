@@ -1,6 +1,6 @@
 # H001 Paper Outline
 
-Last updated: 2026-05-26 KST
+Last updated: 2026-06-06 KST
 
 This outline turns `paper/preview.md` into a paper-writing skeleton. It is not the final manuscript. It fixes the section logic, evidence placement, reviewer-defense responsibilities, title candidates, and contribution statements before drafting the abstract and manuscript sections.
 
@@ -158,9 +158,9 @@ Semantic 3D Scene Graph relation predictors can produce plausible relation label
 
 Numbers to insert only if the target venue expects quantitative abstract evidence:
 
-- `VL-SAT`: `probabilistic_recalibrated` R@50/R@100 `0.9642/0.9921` vs `semantic_only` `0.9599/0.9894`; Violation@100 `0.0391` vs `0.0469`.
-- `VL-SAT`: `family_specific_p_geom_valid` Violation@100 `0.0310`.
-- Open3DSG: `family_specific_p_geom_valid` R@50/R@100 `0.4530/0.5984` and Violation@50/@100 `0.0228/0.0311` vs `semantic_only` `0.3945/0.4963` and `0.1326/0.1195`.
+- `VL-SAT` full-validation: `probabilistic_recalibrated` R@50/R@100 `0.9305/0.9688` vs `semantic_only` `0.9272/0.9635`; Violation@100 `0.0404` vs `0.0476`.
+- `VL-SAT` full-validation: `family_specific_p_geom_valid` Violation@100 `0.0333`.
+- Open3DSG full-validation 548/548 recovery: `family_specific_p_geom_valid` R@50/R@100 `0.4658/0.6047` and Violation@50/@100 `0.0286/0.0341` vs `semantic_only` `0.4096/0.5161` and `0.1386/0.1242`.
 - GT verifier: `p_geom_valid` AUROC/AUPRC `0.9779/0.9737`.
 
 Abstract wording constraints:
@@ -473,13 +473,14 @@ Evidence/artifacts:
 
 Open3DSG caveats that must be in this section:
 
-- Docker-reproduced averaged-BLIP variant.
-- Selected checkpoint `epoch=13-step=13104.ckpt`, chosen by train-dev `val/loss`.
+- Full official validation scope: 157 scans / 548 contexts / 3,972 H001-family GT rows.
+- Selected official non-avg Open3DSG checkpoint `epoch=13-step=13104.ckpt`, chosen by train-dev `val/loss`.
 - Filtered train split: 3,744/3,852 subgraphs.
 - Train-dev validation split: 156/160 subgraphs.
-- H001 covered loadable scope: 377/388 contexts.
-- `validation_missing_preprocessed:11`.
-- Exact-label H001-family denominator: 2,545.
+- Open3DSG main table branch: `recovery_relaxed_views_min2/`, 548/548 contexts, with `OPEN3DSG_MIN_VISIBLE_OBJECTS=2` and relaxed view regeneration for two scans.
+- The original 533/548 full-validation covered branch remains sensitivity / unmodified-source-route evidence.
+- Historical 127-scan Open3DSG numbers belong only in appendix/sensitivity: old 377/388 comparison row versus R2 388/388 representative historical branch.
+- Exact-label full-validation H001-family denominator: 3,972.
 
 ### 6. Main Results
 
@@ -522,7 +523,7 @@ The control conditions show that the effect is not explained by geometry alone o
 Open3DSG prose skeleton:
 
 ```text
-Open3DSG provides second-source evidence rather than a broad open-vocabulary SOTA claim. Under the measured H001-family scope, geometry-consistency variants again reduce violations under explicit recall tradeoffs. The result is reported with the averaged-BLIP, filtered-split, covered-scope, exact-denominator, and residual-calibration caveats stated in the experimental setup and table notes.
+Open3DSG provides second-source evidence rather than a broad open-vocabulary SOTA claim. Under the measured H001-family scope, geometry-consistency variants again reduce violations under explicit recall tradeoffs. The main result is reported on the full-validation 548/548 recovery branch with selected-checkpoint, filtered-split, recovery-policy, exact-denominator, and residual-calibration caveats stated in the experimental setup and table notes. Historical 127-scan old 377/388 versus R2 388/388 belongs in appendix/sensitivity only.
 ```
 
 ### 7. Failure Analysis
@@ -558,8 +559,8 @@ Required limitations:
 
 - Scope limited to geometry-checkable relation families.
 - Current claim is closed-set/GT-object and measured-family reliability evidence.
-- Open3DSG result uses an averaged-BLIP variant with filtered train/dev coverage.
-- H001 eval coverage has `validation_missing_preprocessed:11`.
+- Open3DSG main result uses the selected official non-avg checkpoint on the full-validation 548/548 recovery-policy branch with filtered train/dev provenance.
+- The original 533/548 full-validation covered branch and historical old 377/388 versus R2 388/388 comparison are sensitivity evidence, not main table rows.
 - Reduced visual sanity check is not a large-scale independent audit.
 - Qwen-VL is optional and not metric evidence yet.
 
@@ -575,7 +576,7 @@ The current study is intentionally scoped to geometry-checkable relation familie
 ```
 
 ```text
-The Open3DSG experiment is a reproduced averaged-BLIP variant with explicit filtering and coverage caveats. The checkpoint is selected by train-dev validation loss before H001 held-out inspection, the training and validation splits are filtered to preprocessed-ready subgraphs, and H001 evaluation covers the loadable Open3DSG scope. These choices do not invalidate the scoped reliability result, but they prevent claims of exact non-averaged Open3DSG reproduction or broad open-vocabulary SOTA.
+The Open3DSG main experiment uses a selected official non-avg checkpoint on the full-validation 548/548 recovery-policy branch with explicit filtered-split, recovery-policy, and sensitivity caveats. The checkpoint is selected by train-dev validation loss before validation source-result reporting. The original 533/548 full-validation covered branch and the historical old 377/388 versus R2 388/388 comparison remain sensitivity evidence. These choices do not invalidate the scoped reliability result, but they prevent claims of broad open-vocabulary SOTA or unmodified Open3DSG preprocess reproduction.
 ```
 
 ```text
@@ -1076,13 +1077,14 @@ reviewer 방어:
 
 이 섹션에 반드시 들어갈 Open3DSG caveat:
 
-- Docker-reproduced averaged-BLIP variant.
-- selected checkpoint `epoch=13-step=13104.ckpt`, train-dev `val/loss`로 선택.
+- full official validation scope: 157 scans / 548 contexts / 3,972 H001-family GT rows.
+- selected official non-avg Open3DSG checkpoint `epoch=13-step=13104.ckpt`, train-dev `val/loss`로 선택.
 - filtered train split: 3,744/3,852 subgraphs.
 - train-dev validation split: 156/160 subgraphs.
-- H001 covered loadable scope: 377/388 contexts.
-- `validation_missing_preprocessed:11`.
-- exact-label H001-family denominator: 2,545.
+- Open3DSG main table branch: `recovery_relaxed_views_min2/`, 548/548 contexts, `OPEN3DSG_MIN_VISIBLE_OBJECTS=2`, relaxed two-scan view regeneration.
+- original 533/548 full-validation covered branch는 sensitivity / unmodified-source-route evidence로만 사용.
+- historical 127-scan Open3DSG는 appendix/sensitivity에서만 old 377/388 comparison row와 R2 388/388 representative branch로 비교.
+- exact-label full-validation H001-family denominator: 3,972.
 
 ### 6. Main Results
 
@@ -1137,8 +1139,8 @@ reviewer 방어:
 
 - scope는 geometry-checkable relation family로 제한된다.
 - 현재 claim은 closed-set/GT-object와 measured-family reliability evidence다.
-- Open3DSG 결과는 averaged-BLIP variant와 filtered train/dev coverage를 사용한다.
-- H001 eval coverage에는 `validation_missing_preprocessed:11`가 있다.
+- Open3DSG main result는 selected official non-avg checkpoint와 full-validation 548/548 recovery-policy branch를 사용한다.
+- original 533/548 full-validation covered branch와 historical old 377/388 versus R2 388/388 comparison은 sensitivity evidence로만 사용한다.
 - reduced visual sanity check는 large-scale independent audit가 아니다.
 - Qwen-VL은 optional이며 아직 metric evidence가 아니다.
 
@@ -1224,7 +1226,7 @@ Reviewer-defense role:
 AAAI Table 3 caption draft:
 
 ```text
-Main source results for the measured H001-family reliability claim. Open3DSG is reported first as the main open-vocabulary case study after Docker checkpoint reproduction, identity-preserving raw dump, prediction export, geometry join, and metric evaluation; VL-SAT is reported second as a controlled reproduced anchor. Open3DSG results are reported only within the covered loadable H001 scope and must retain the averaged-BLIP variant, filtered train split, covered-context, exact-label denominator, validation_missing_preprocessed:11, and residual calibration-risk caveats.
+Main source results for the measured H001-family reliability claim. Open3DSG is reported first as the main open-vocabulary case study after Docker checkpoint reproduction, identity-preserving raw dump, prediction export, geometry join, and metric evaluation; VL-SAT is reported second as a controlled reproduced anchor. The main table uses VL-SAT full-validation and Open3DSG full-validation 548/548 recovery. Open3DSG must retain the selected-checkpoint, filtered train/dev, recovery-policy, exact-label denominator, 533/548 sensitivity, appendix historical 377/388 versus R2 388/388 sensitivity, and residual calibration-risk caveats.
 ```
 
 Reviewer-defense role:
@@ -1354,7 +1356,7 @@ Content blocks secured in this outline pass:
 | Reviewer-attack response text | secured | Convert control, Open3DSG, and failure-analysis skeletons into Results/Discussion prose. |
 | Optional Qwen-VL decision | scoped | Keep as appendix/future-work only unless promoted with full Docker metric/audit treatment. |
 | AAAI reproducibility checklist | inserted | Revisit `partial/no` answers after final artifact/code-release packaging. |
-| AAAI reviewer-defense pass | secured | Main text directly answers hand-coded verifier, geometry-only/distance, recall-tradeoff, averaged-BLIP Open3DSG, family-selection, and AAAI-relevance attacks. |
+| AAAI reviewer-defense pass | secured | Main text directly answers hand-coded verifier, geometry-only/distance, recall-tradeoff, Open3DSG recovery-policy provenance, family-selection, and AAAI-relevance attacks. |
 
 Priority:
 

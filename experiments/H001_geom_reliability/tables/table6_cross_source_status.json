@@ -10,7 +10,7 @@
   },
   {
     "blockers": "none",
-    "caveat_note": "selected official non-avg checkpoint; filtered train/dev provenance; 548/548 recovery policy with min_visible=2 and relaxed two-scan views; exact-label denominator 3972; 533/548 covered branch sensitivity; residual calibration risk",
+    "caveat_note": "selected official non-avg checkpoint; filtered train/dev provenance; 548/548 recovery policy with min_visible=2 and relaxed two-scan views; exact-label denominator 3972; 533/548 covered branch sensitivity; appendix historical 377/388 vs R2 388/388 sensitivity; residual calibration risk",
     "claim_use": "main open-vocabulary relation-source full-validation result",
     "contract_status": "ready",
     "evidence_artifact": "sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics/metrics.json",

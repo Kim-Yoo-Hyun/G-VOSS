@@ -1,6 +1,6 @@
 # H001 Paper Reviewer-Risk Register
 
-Last updated: 2026-06-04 KST
+Last updated: 2026-06-06 KST
 
 Scope: this file tracks paper-body risks for the current AAAI manuscript under
 `paper/aaai/`. The goal is not sentence polish; it is to prevent reviewer attacks
@@ -82,6 +82,18 @@ Docker PDF rebuilds, and the appendix/provenance pass:
   rebuild `logs/h001_aaai_pdf_build_cleanup_consistency_20260605_111759.log`
   exited 0 with 9 US Letter pages and no targeted citation/reference/overfull or
   LaTeX/package errors.
+- P8 content/claim QA and compression pass on 2026-06-06: completed. Docker
+  AAAI PDF rebuild `logs/h001_aaai_pdf_build_compression_20260606_105126.log`
+  exited 0; `paper/aaai/main.pdf` is 9 US Letter pages with technical content on
+  pages 1-7, references on page 8, and the reproducibility checklist on page 9.
+  Targeted log checks found no LaTeX errors, undefined references, missing
+  citations, fatal errors, or overfull hboxes. Visual/layout inspection is
+  recorded in `paper/aaai/inspection/report.md` and found no blocking overlap or
+  unreadable table/figure issue. The compression pass preserved the scoped
+  relation-reliability claim: Open3DSG full-validation 548/548 recovery remains
+  the main Open3DSG route; the historical 377/388 vs R2 388/388 route remains
+  appendix/sensitivity evidence; Qwen-VL, `relative_horizontal`, and
+  `attachment_deferred` are not promoted to the main claim.
 - P9 scope-expansion track: scope audit, coordinate audit, and bucket inspection
   are complete, not metric evidence. The current paper claim remains the
   three-family scoped relation-reliability claim. `relative_horizontal` is the
@@ -110,13 +122,25 @@ Docker PDF rebuilds, and the appendix/provenance pass:
   match/contradiction ratio, and ambiguity buckets. The predeclared purity gate
   is a conservative non-promotion rule, not an official benchmark threshold and
   not a success claim.
+  Follow-up `relative_lateral` testing is also complete and stopped for the
+  current AAAI path. It split `left/right` from the full family and froze 2,264
+  GT rows, selected frame `scan_left_neg_x_front_neg_y`, strict purity 0.8005,
+  and distinct-left-axis wrong-frame gap 0.0998. The train/dev policy lock is
+  caveated: train positive strict purity is 0.8738, but dev positive strict
+  purity is 0.6975. Dev failure diagnosis shows 72 strict contradiction rows /
+  36 physical pairs concentrated in two scans, 140 uncertain rows / 70 physical
+  pairs, about half same-label object pairs, and mostly orthogonal-axis
+  dominance. Reviewer-facing decision: keep `relative_lateral` as
+  appendix/future-work boundary evidence and do not run paper-facing source
+  metrics from the current strict policy.
 - P10 attachment-deferred upgrade: Docker G0 scope/schema audit, G1 extractor
   contract, G1b evidence-only dry run, G1c point/surface validation, G2
   conservative verifier-policy design, G3 train-dev calibration/counterfactual
   route, G4 GT policy smoke, G4b error/visual sanity planning, G4c
   strict-only calibration-filter freeze, G5a pooled strict calibration fit, G5b
-  bounded source scoring preflight, and G5c full-source protocol freeze
-  completed, no source metric execution.
+  bounded source scoring preflight, G5c full-source protocol freeze, and G5d
+  full-source scoring/metrics/controls/bootstrap completed. G5d is extension
+  evidence, not current main-claim evidence.
   This is the
   preferred
   future relation-family upgrade because it adds 967 GT rows and aligns with
@@ -141,9 +165,18 @@ Docker PDF rebuilds, and the appendix/provenance pass:
   scores 120 scan-diverse bounded source rows with evidence ready 120/120 and 0
   validation errors. G5c freezes 69 deterministic full-source shards for
   135,048 rows and source-specific covered denominators: VL-SAT 967/967 and
-  Open3DSG 768/967. It remains protocol/preflight only. Required defense before
-  promotion: full-source scoring, VL-SAT/Open3DSG metrics, controls, bootstrap
-  CI, and visual audit. Reviewer
+  Open3DSG 768/967. Docker G5d was added on 2026-06-06. The 1-shard smoke
+  succeeded but its intermediate output/log was deleted after the full run
+  completed. The full G5d run completed with exit 0 at
+  `logs/h001_attachment_g5d_full_20260606_113803.log`;
+  output `experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d/`
+  has 69/69 shards, 135,048 scored rows, validation errors 0, and 300 failure
+  rows. Key G5d results: VL-SAT semantic_only R@100/V@100 `1.0000/0.2126`,
+  probabilistic_recalibrated `0.9979/0.2210`, rule_verified_attachment_policy
+  `0.9380/0.0215`; Open3DSG semantic_only `0.9297/0.3021`,
+  probabilistic_recalibrated `0.6628/0.2460`, rule_verified_attachment_policy
+  `0.9245/0.0842`. Required defense before promotion remains: visual/failure
+  audit, connected-to caveat handling, and explicit user confirmation. Reviewer
   risk is high if
   the rule uses object class affordance as proof rather than as optional
   context; the current contract explicitly forbids that. A secondary risk is
@@ -176,15 +209,22 @@ Remaining after P0-P10:
   point/surface validation, G2 verifier-policy design, G3
   calibration/counterfactual route, G4 GT policy smoke, G4b error/visual
   sanity planning, G4c strict-only calibration-filter freeze, G5a pooled strict
-  calibration fit, G5b bounded source scoring preflight, and G5c full-source
-  protocol freeze are complete. If pursued, start with full-source scoring
-  before any attachment source metrics. The current G5a-G5c result has enough
-  strict rows for pooled calibration, a working bounded source-scoring contract,
-  and a frozen denominator/control protocol, but
+  calibration fit, G5b bounded source scoring preflight, G5c full-source
+  protocol freeze, and G5d full-source source metrics are complete. The current
+  G5a-G5d result has enough strict rows for pooled calibration, a working
+  source-scoring contract, and a frozen denominator/control protocol, but
   `connected to` has no dev strict rows, so a family-specific calibration claim
   needs pooled calibration, augmented dev selection, or an explicit caveat.
   Function reasoning should remain a secondary case study until the attachment
   relation reliability result itself is established.
+- P12 paper content/claim QA: current manuscript text is internally consistent
+  with the narrow AAAI claim after the 2026-06-06 compression pass. Residual
+  reviewer risk is now content-level rather than artifact-level: a strong
+  reviewer may still read the method as a calibrated verifier/evaluator unless
+  the body keeps emphasizing the row contract, frozen train-derived
+  calibration, source-agnostic re-ranking interface, controls, and recall tradeoff.
+  Do not widen the title, abstract, or contribution list unless additional
+  source metrics and audit evidence are completed.
 - P11 full official validation transition: active paper-risk mitigation with
   VL-SAT full-validation metric bundle ready and Open3DSG full-validation
   recovery metric bundle ready.

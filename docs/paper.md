@@ -1,6 +1,6 @@
 # Paper Workflow
 
-Last updated: 2026-06-05
+Last updated: 2026-06-06
 
 This document manages paper-level framing for H001/CAND-001: novelty, contribution boundary, reviewer-defense logic, and the minimum experiment evidence needed before paper writing. It does not replace `docs/hypothesis.md`, `07_experiment_spec.md`, or Docker experiment artifacts.
 
@@ -60,6 +60,14 @@ This is the preferred direction because it contains both cause diagnosis and met
   unmodified Open3DSG preprocess route; use the 533/548 covered branch as a
   sensitivity check to show the conclusion is not created by the recovery
   policy.
+- Table policy is now fixed: the main source-result table uses VL-SAT
+  full-validation plus Open3DSG full-validation 548/548 recovery. Historical
+  127-scan Open3DSG numbers are appendix/sensitivity evidence only, where the
+  representative historical branch is the completed R2 388/388 sensitivity
+  branch and the old 377/388 branch is retained as the comparison row. R2
+  provenance review confirms clean-return raw files are row/predicate-score
+  equivalent to the canonical R2 raw dump after excluding run metadata, but the
+  process-level teardown/OOM exit-137 caveat remains visible.
 
 Current paper workspace:
 
@@ -83,11 +91,16 @@ Facts:
 - The Open3DSG path is now second-source evidence: Docker checkpoint reproduction, raw-dump identity, adapter export, geometry join, metric eval, Table 6, real failure rows, qualitative case queue, and deterministic qualitative inspection are ready.
 - Docker subgraph bootstrap CI is ready under `experiments/H001_geom_reliability/bootstrap_ci/`; it is used as evaluation-context uncertainty, not repeated-training variance.
 - Open3DSG qualitative inspection shows both support and limits: 23/36 sampled cases are demoted by geometry-aware reranking, while 10/36 are rule-violated but still have `p_geom_valid > 0.9`. This must be framed as residual calibration risk, not hidden.
-- The historical 127-scan Open3DSG branch has clean raw-dump source-process
-  provenance via v14 streaming same-path resume and remains caveated by filtered
-  train split, averaged-BLIP variant, covered loadable scope, and
-  `validation_missing_preprocessed:11`; earlier exit-137 attempts are historical
-  run records, not final raw-dump provenance caveats.
+- The historical 127-scan Open3DSG branch has two roles. The old 377/388
+  avg-BLIP branch has clean raw-dump source-process provenance via v14
+  streaming same-path resume and remains a comparison row with filtered train
+  split, averaged-BLIP variant, covered loadable scope, and
+  `validation_missing_preprocessed:11`. The R2 covered-recovery branch reaches
+  388/388 contexts and completes raw identity, adapter export, geometry join,
+  metrics, bootstrap CI, and table/caveat reporting; it should be the
+  representative historical sensitivity branch. Its process-level raw dump
+  still exits 137 after finalization, so it is not promoted as clean
+  process-level provenance.
 - The paper-facing Open3DSG full-validation branch uses the selected official
   non-avg BLIP checkpoint and `recovery_relaxed_views_min2/`. Its required
   caveat is different: disclose filtered train/dev provenance, exact-label
@@ -117,6 +130,15 @@ Facts:
   current H001 evidence standard. Reviewer-facing use should be threshold-free
   evidence first, with the predeclared gate treated only as a conservative
   non-promotion rule.
+- `relative_lateral` was tested as a narrower left/right-only split after
+  `relative_horizontal` failed full-family promotion. It is now stopped for the
+  current AAAI path. Policy freeze records 2,264 GT rows and selected frame
+  `scan_left_neg_x_front_neg_y`; train/dev policy lock is caveated with train
+  positive strict purity 0.8738 but dev positive strict purity 0.6975. Dev
+  failure diagnosis shows 72 contradiction rows / 36 physical pairs concentrated
+  in two scans, 140 uncertain rows / 70 physical pairs, about half same-label
+  object pairs, and mostly orthogonal-axis dominance. Treat this as
+  appendix/future-work boundary evidence, not source-metric evidence.
 - `attachment_deferred` is the preferred future relation-family upgrade if H001
   is expanded beyond the current AAAI claim. It is not current metric evidence.
   Docker G0 scope/schema audit, G1 extractor contract, G1b evidence-only dry
@@ -219,10 +241,13 @@ Required defense:
   verifier-policy design, calibration/counterfactual route, G4 policy
   smoke/GT-counterfactual evaluation, G4b visual-sanity queue, G4c strict
   calibration-filter freeze, G5a pooled strict calibration fit, and G5b bounded
-  source scoring preflight are complete, but do not promote it from "future
-  upgrade" to "main result" before it has full-source metrics, controls,
-  bootstrap CI, and audit. Visual labels remain optional for a soft protocol,
-  not required for the frozen strict-only calibration route.
+  source scoring preflight, G5c full-source protocol freeze, and G5d
+  full-source scoring/metrics/controls/bootstrap are complete, but do not
+  promote it from "future upgrade" to "main result" before Open3DSG denominator
+  caveats, noisy `attached to` behavior, missing `connected to` dev strict rows,
+  and failure/visual audit are resolved or explicitly bounded. Visual labels
+  remain optional for a soft protocol, not required for the frozen strict-only
+  calibration route.
   Function-reasoning examples may be useful as a secondary case study only
   after relation reliability is established.
 - Treat RelWitness-style "relation witness" and "calibrated witness quality" wording as prior-art-adjacent. H001 should claim reproduced calibrated reliability evaluation/re-ranking, source-adapter protocol, recall/violation operating points, and controls, not the mere existence of visual-geometric evidence or calibration.
@@ -251,6 +276,9 @@ Do not claim these until evidence exists:
 - `relative_horizontal` coverage as part of the main claim before its separate
   validation track passes coordinate-frame, calibration, metric, control,
   bootstrap, and audit gates.
+- `relative_lateral` coverage as part of the main claim from the current
+  strict policy. The train/dev gate is caveated and the dev diagnosis points to
+  coordinate/frame-orientation ambiguity.
 - `attachment_deferred` or functional-reasoning coverage as part of the main
   claim before the attachment-specific source metrics, controls, and audit
   gates pass. The completed G0 scope/schema audit, G1 extractor contract, G1b
@@ -281,8 +309,8 @@ Do not claim these until evidence exists:
 - AAAI-style source conversion is complete under `paper/aaai/` using the official AAAI-26 Author Kit. The 2026-05-27 check confirms `aaai2026.sty` was replaced from `AuthorKit26/AnonymousSubmission/LaTeX/aaai2026.sty`, `aaai2026.bst` already matched the official kit, and no official AAAI-27 author kit was confirmed.
 - The `paper/aaai/` manuscript-content pass is complete: it includes fixed scope/denominator accounting, a source-specific claim-boundary table, an Open3DSG-first main source-results table, prose controls/verifier/audit evidence, explicit Open3DSG caveat captioning, and limitation wording.
 - Figure 1-3 PNG build assets are ready and `paper/aaai/sec/6_results.tex` points to them. Figure 2 and Figure 3 are single-column in the AAAI source to keep technical content before references.
-- Docker build verification is complete: `paper/aaai/main.pdf` builds with `h001-aaai-tex:20260526`, BibTeX uses 19 entries, and there are no missing citations, undefined refs, overfull hboxes, LaTeX errors, or AAAI package errors. Latest full-validation rebuild log: `logs/h001_aaai_pdf_build_full_validation_20260605_100108.log`.
-- AAAI reproducibility checklist insertion is complete: `paper/aaai/sec/9_reproducibility_checklist.tex` is included after references. Docker rebuild `logs/h001_aaai_pdf_build_full_validation_20260605_100108.log` exits 0; the PDF has 9 total pages, technical content on pages 1-7, references on page 8, checklist on page 9, and no missing citations, undefined refs, overfull hboxes, LaTeX errors, or AAAI package errors.
+- Docker build verification is complete: `paper/aaai/main.pdf` builds with `h001-aaai-tex:20260526`, BibTeX uses 19 entries, and there are no missing citations, undefined refs, overfull hboxes, LaTeX errors, or AAAI package errors. Latest compression rebuild log: `logs/h001_aaai_pdf_build_compression_20260606_105126.log`.
+- AAAI reproducibility checklist insertion is complete: `paper/aaai/sec/9_reproducibility_checklist.tex` is included after references. Docker rebuild `logs/h001_aaai_pdf_build_compression_20260606_105126.log` exits 0; the PDF has 9 total pages, technical content on pages 1-7, references on page 8, checklist on page 9, and no missing citations, undefined refs, overfull hboxes, LaTeX errors, or AAAI package errors. Latest visual/layout inspection passed in `paper/aaai/inspection/report.md`; wide floats are delayed but readable before references.
 - AAAI reviewer-defense main-text pass is updated for the selected
   full-validation route: Introduction, Method, Experimental Setup, Results, and
   Limitations directly answer the high-risk attacks, including hand-coded
@@ -296,9 +324,10 @@ Do not claim these until evidence exists:
   Table 6; later compression must retain selected official non-avg checkpoint
   provenance, filtered-train/dev provenance, exact-label denominator, residual
   calibration risk, and the `recovery_relaxed_views_min2/` policy. If reporting
-  the historical 127-scan branch, retain averaged-BLIP, covered loadable scope,
-  and `validation_missing_preprocessed:11` there only as historical/sensitivity
-  caveats.
+  the historical 127-scan branch, keep it outside the main source-result table
+  and compare old 377/388 against R2 388/388 as appendix/sensitivity evidence;
+  retain averaged-BLIP, covered loadable scope, and
+  `validation_missing_preprocessed:11` only for the old comparison row.
 - Source-results table and failure-analysis text are regenerated from the
   selected full-validation route rather than the older 127-scan caveat wording.
 - Keep clean v14 streaming source-process provenance separate from historical exit-137 run records in reproducibility wording.

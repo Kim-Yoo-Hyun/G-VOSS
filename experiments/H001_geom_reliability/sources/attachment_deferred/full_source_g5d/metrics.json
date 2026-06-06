@@ -1,0 +1,1304 @@
+{
+  "conditions": {
+    "open3dsg_ov": {
+      "conditions": {
+        "control_distance_only": {
+          "recall": {
+            "by_k": {
+              "100": {
+                "correct": 728,
+                "denominator": 768,
+                "recall": 0.9479166666666666,
+                "selected_predictions": 34510
+              },
+              "50": {
+                "correct": 582,
+                "denominator": 768,
+                "recall": 0.7578125,
+                "selected_predictions": 18570
+              }
+            },
+            "by_predicate_label": {
+              "100": {
+                "attached to": {
+                  "correct": 610,
+                  "denominator": 649,
+                  "recall": 0.9399075500770416
+                },
+                "connected to": {
+                  "correct": 27,
+                  "denominator": 28,
+                  "recall": 0.9642857142857143
+                },
+                "hanging on": {
+                  "correct": 91,
+                  "denominator": 91,
+                  "recall": 1.0
+                }
+              },
+              "50": {
+                "attached to": {
+                  "correct": 492,
+                  "denominator": 649,
+                  "recall": 0.7580893682588598
+                },
+                "connected to": {
+                  "correct": 20,
+                  "denominator": 28,
+                  "recall": 0.7142857142857143
+                },
+                "hanging on": {
+                  "correct": 70,
+                  "denominator": 91,
+                  "recall": 0.7692307692307693
+                }
+              }
+            },
+            "denominator": 768
+          },
+          "score_summary": {
+            "missing_scores": 0,
+            "values": {
+              "max": 1.0,
+              "mean": 0.6898689154840144,
+              "median": 0.6875744299320401,
+              "min": 0.11078178149290636,
+              "p10": 0.315313781356379,
+              "p90": 1.0
+            }
+          },
+          "violation_rate": {
+            "by_k": {
+              "100": {
+                "denominator": 34510,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 16272,
+                "uncertain_rate": 0.4715155027528253,
+                "violated": 7194,
+                "violation_rate": 0.20846131556070704
+              },
+              "50": {
+                "denominator": 18570,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 7657,
+                "uncertain_rate": 0.41233171782444805,
+                "violated": 2001,
+                "violation_rate": 0.10775444264943457
+              }
+            }
+          }
+        },
+        "control_p_geom_valid_only": {
+          "recall": {
+            "by_k": {
+              "100": {
+                "correct": 507,
+                "denominator": 768,
+                "recall": 0.66015625,
+                "selected_predictions": 34510
+              },
+              "50": {
+                "correct": 370,
+                "denominator": 768,
+                "recall": 0.4817708333333333,
+                "selected_predictions": 18570
+              }
+            },
+            "by_predicate_label": {
+              "100": {
+                "attached to": {
+                  "correct": 388,
+                  "denominator": 649,
+                  "recall": 0.5978428351309707
+                },
+                "connected to": {
+                  "correct": 28,
+                  "denominator": 28,
+                  "recall": 1.0
+                },
+                "hanging on": {
+                  "correct": 91,
+                  "denominator": 91,
+                  "recall": 1.0
+                }
+              },
+              "50": {
+                "attached to": {
+                  "correct": 251,
+                  "denominator": 649,
+                  "recall": 0.386748844375963
+                },
+                "connected to": {
+                  "correct": 28,
+                  "denominator": 28,
+                  "recall": 1.0
+                },
+                "hanging on": {
+                  "correct": 91,
+                  "denominator": 91,
+                  "recall": 1.0
+                }
+              }
+            },
+            "denominator": 768
+          },
+          "score_summary": {
+            "missing_scores": 0,
+            "values": {
+              "max": 0.9999756198665732,
+              "mean": 0.40838164817700473,
+              "median": 0.21471335028892086,
+              "min": 1.3489199195132505e-25,
+              "p10": 0.000151523886199564,
+              "p90": 0.9950720068914422
+            }
+          },
+          "violation_rate": {
+            "by_k": {
+              "100": {
+                "denominator": 34510,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 15744,
+                "uncertain_rate": 0.45621558968414955,
+                "violated": 8515,
+                "violation_rate": 0.246740075340481
+              },
+              "50": {
+                "denominator": 18570,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 7430,
+                "uncertain_rate": 0.40010770059235323,
+                "violated": 2554,
+                "violation_rate": 0.1375336564351104
+              }
+            }
+          }
+        },
+        "control_shuffled_geometry": {
+          "recall": {
+            "by_k": {
+              "100": {
+                "correct": 530,
+                "denominator": 768,
+                "recall": 0.6901041666666666,
+                "selected_predictions": 34510
+              },
+              "50": {
+                "correct": 324,
+                "denominator": 768,
+                "recall": 0.421875,
+                "selected_predictions": 18570
+              }
+            },
+            "by_predicate_label": {
+              "100": {
+                "attached to": {
+                  "correct": 453,
+                  "denominator": 649,
+                  "recall": 0.6979969183359014
+                },
+                "connected to": {
+                  "correct": 19,
+                  "denominator": 28,
+                  "recall": 0.6785714285714286
+                },
+                "hanging on": {
+                  "correct": 58,
+                  "denominator": 91,
+                  "recall": 0.6373626373626373
+                }
+              },
+              "50": {
+                "attached to": {
+                  "correct": 283,
+                  "denominator": 649,
+                  "recall": 0.43605546995377503
+                },
+                "connected to": {
+                  "correct": 10,
+                  "denominator": 28,
+                  "recall": 0.35714285714285715
+                },
+                "hanging on": {
+                  "correct": 31,
+                  "denominator": 91,
+                  "recall": 0.34065934065934067
+                }
+              }
+            },
+            "denominator": 768
+          },
+          "score_summary": {
+            "missing_scores": 0,
+            "values": {
+              "max": 0.9533624688728549,
+              "mean": 0.3266007067691477,
+              "median": 0.17102522516701846,
+              "min": 1.0924698819671342e-25,
+              "p10": 0.00012181987747986804,
+              "p90": 0.7860847496722982
+            }
+          },
+          "violation_rate": {
+            "by_k": {
+              "100": {
+                "denominator": 34510,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 16549,
+                "uncertain_rate": 0.4795421616922631,
+                "violated": 11036,
+                "violation_rate": 0.31979136482179077
+              },
+              "50": {
+                "denominator": 18570,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 8999,
+                "uncertain_rate": 0.4845988152934841,
+                "violated": 5845,
+                "violation_rate": 0.31475498115239636
+              }
+            }
+          }
+        },
+        "control_wrong_pair_geometry": {
+          "recall": {
+            "by_k": {
+              "100": {
+                "correct": 598,
+                "denominator": 768,
+                "recall": 0.7786458333333334,
+                "selected_predictions": 34510
+              },
+              "50": {
+                "correct": 400,
+                "denominator": 768,
+                "recall": 0.5208333333333334,
+                "selected_predictions": 18570
+              }
+            },
+            "by_predicate_label": {
+              "100": {
+                "attached to": {
+                  "correct": 509,
+                  "denominator": 649,
+                  "recall": 0.7842835130970724
+                },
+                "connected to": {
+                  "correct": 16,
+                  "denominator": 28,
+                  "recall": 0.5714285714285714
+                },
+                "hanging on": {
+                  "correct": 73,
+                  "denominator": 91,
+                  "recall": 0.8021978021978022
+                }
+              },
+              "50": {
+                "attached to": {
+                  "correct": 351,
+                  "denominator": 649,
+                  "recall": 0.5408320493066255
+                },
+                "connected to": {
+                  "correct": 7,
+                  "denominator": 28,
+                  "recall": 0.25
+                },
+                "hanging on": {
+                  "correct": 42,
+                  "denominator": 91,
+                  "recall": 0.46153846153846156
+                }
+              }
+            },
+            "denominator": 768
+          },
+          "score_summary": {
+            "missing_scores": 0,
+            "values": {
+              "max": 0.9533540368394171,
+              "mean": 0.32802472485519213,
+              "median": 0.17212780274716008,
+              "min": 1.089718529201232e-25,
+              "p10": 0.00012066707354769494,
+              "p90": 0.7877329692472423
+            }
+          },
+          "violation_rate": {
+            "by_k": {
+              "100": {
+                "denominator": 34510,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 15805,
+                "uncertain_rate": 0.4579831932773109,
+                "violated": 10838,
+                "violation_rate": 0.3140538974210374
+              },
+              "50": {
+                "denominator": 18570,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 8327,
+                "uncertain_rate": 0.44841141626278946,
+                "violated": 5760,
+                "violation_rate": 0.31017770597738287
+              }
+            }
+          }
+        },
+        "probabilistic_recalibrated": {
+          "recall": {
+            "by_k": {
+              "100": {
+                "correct": 509,
+                "denominator": 768,
+                "recall": 0.6627604166666666,
+                "selected_predictions": 34510
+              },
+              "50": {
+                "correct": 371,
+                "denominator": 768,
+                "recall": 0.4830729166666667,
+                "selected_predictions": 18570
+              }
+            },
+            "by_predicate_label": {
+              "100": {
+                "attached to": {
+                  "correct": 390,
+                  "denominator": 649,
+                  "recall": 0.600924499229584
+                },
+                "connected to": {
+                  "correct": 28,
+                  "denominator": 28,
+                  "recall": 1.0
+                },
+                "hanging on": {
+                  "correct": 91,
+                  "denominator": 91,
+                  "recall": 1.0
+                }
+              },
+              "50": {
+                "attached to": {
+                  "correct": 252,
+                  "denominator": 649,
+                  "recall": 0.3882896764252696
+                },
+                "connected to": {
+                  "correct": 28,
+                  "denominator": 28,
+                  "recall": 1.0
+                },
+                "hanging on": {
+                  "correct": 91,
+                  "denominator": 91,
+                  "recall": 1.0
+                }
+              }
+            },
+            "denominator": 768
+          },
+          "score_summary": {
+            "missing_scores": 0,
+            "values": {
+              "max": 0.9533876971807381,
+              "mean": 0.32841578883384975,
+              "median": 0.17116889959669265,
+              "min": 9.621711375792849e-26,
+              "p10": 0.00012030234084909918,
+              "p90": 0.7905907019614588
+            }
+          },
+          "violation_rate": {
+            "by_k": {
+              "100": {
+                "denominator": 34510,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 15766,
+                "uncertain_rate": 0.456853086062011,
+                "violated": 8490,
+                "violation_rate": 0.2460156476383657
+              },
+              "50": {
+                "denominator": 18570,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 7570,
+                "uncertain_rate": 0.4076467420570813,
+                "violated": 2617,
+                "violation_rate": 0.14092622509423802
+              }
+            }
+          }
+        },
+        "rule_verified_attachment_policy": {
+          "recall": {
+            "by_k": {
+              "100": {
+                "correct": 710,
+                "denominator": 768,
+                "recall": 0.9244791666666666,
+                "selected_predictions": 34510
+              },
+              "50": {
+                "correct": 609,
+                "denominator": 768,
+                "recall": 0.79296875,
+                "selected_predictions": 18570
+              }
+            },
+            "by_predicate_label": {
+              "100": {
+                "attached to": {
+                  "correct": 591,
+                  "denominator": 649,
+                  "recall": 0.9106317411402157
+                },
+                "connected to": {
+                  "correct": 28,
+                  "denominator": 28,
+                  "recall": 1.0
+                },
+                "hanging on": {
+                  "correct": 91,
+                  "denominator": 91,
+                  "recall": 1.0
+                }
+              },
+              "50": {
+                "attached to": {
+                  "correct": 504,
+                  "denominator": 649,
+                  "recall": 0.7765793528505393
+                },
+                "connected to": {
+                  "correct": 27,
+                  "denominator": 28,
+                  "recall": 0.9642857142857143
+                },
+                "hanging on": {
+                  "correct": 78,
+                  "denominator": 91,
+                  "recall": 0.8571428571428571
+                }
+              }
+            },
+            "denominator": 768
+          },
+          "score_summary": {
+            "missing_scores": 0,
+            "values": {
+              "max": 0.9534461498260498,
+              "mean": 0.2137225292303175,
+              "median": 0.7727926969528198,
+              "min": -1.0,
+              "p10": -1.0,
+              "p90": 0.8693831562995911
+            }
+          },
+          "violation_rate": {
+            "by_k": {
+              "100": {
+                "denominator": 34510,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 22372,
+                "uncertain_rate": 0.6482758620689655,
+                "violated": 2906,
+                "violation_rate": 0.08420747609388583
+              },
+              "50": {
+                "denominator": 18570,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 12251,
+                "uncertain_rate": 0.6597199784598815,
+                "violated": 478,
+                "violation_rate": 0.02574044157242865
+              }
+            }
+          }
+        },
+        "semantic_only": {
+          "recall": {
+            "by_k": {
+              "100": {
+                "correct": 714,
+                "denominator": 768,
+                "recall": 0.9296875,
+                "selected_predictions": 34510
+              },
+              "50": {
+                "correct": 614,
+                "denominator": 768,
+                "recall": 0.7994791666666666,
+                "selected_predictions": 18570
+              }
+            },
+            "by_predicate_label": {
+              "100": {
+                "attached to": {
+                  "correct": 597,
+                  "denominator": 649,
+                  "recall": 0.9198767334360555
+                },
+                "connected to": {
+                  "correct": 28,
+                  "denominator": 28,
+                  "recall": 1.0
+                },
+                "hanging on": {
+                  "correct": 89,
+                  "denominator": 91,
+                  "recall": 0.978021978021978
+                }
+              },
+              "50": {
+                "attached to": {
+                  "correct": 518,
+                  "denominator": 649,
+                  "recall": 0.7981510015408321
+                },
+                "connected to": {
+                  "correct": 25,
+                  "denominator": 28,
+                  "recall": 0.8928571428571429
+                },
+                "hanging on": {
+                  "correct": 71,
+                  "denominator": 91,
+                  "recall": 0.7802197802197802
+                }
+              }
+            },
+            "denominator": 768
+          },
+          "score_summary": {
+            "missing_scores": 0,
+            "values": {
+              "max": 0.9534461498260498,
+              "mean": 0.8003454052694597,
+              "median": 0.7882016897201538,
+              "min": 0.624431312084198,
+              "p10": 0.7554671168327332,
+              "p90": 0.8693832755088806
+            }
+          },
+          "violation_rate": {
+            "by_k": {
+              "100": {
+                "denominator": 34510,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 16636,
+                "uncertain_rate": 0.48206317009562444,
+                "violated": 10426,
+                "violation_rate": 0.3021153288901768
+              },
+              "50": {
+                "denominator": 18570,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 8708,
+                "uncertain_rate": 0.4689283791060851,
+                "violated": 5184,
+                "violation_rate": 0.27915993537964456
+              }
+            }
+          }
+        }
+      },
+      "coverage_ratio_vs_global": 0.7942088934850051,
+      "covered_exact_label_gt_denominator": 768,
+      "global_exact_label_gt_denominator": 967,
+      "missing_exact_label_gt_rows": 199,
+      "rows": 57300,
+      "source_name": "open3dsg_ov",
+      "subgraphs": 377
+    },
+    "vlsat_closed_set": {
+      "conditions": {
+        "control_distance_only": {
+          "recall": {
+            "by_k": {
+              "100": {
+                "correct": 890,
+                "denominator": 967,
+                "recall": 0.9203722854188211,
+                "selected_predictions": 38240
+              },
+              "50": {
+                "correct": 643,
+                "denominator": 967,
+                "recall": 0.6649431230610134,
+                "selected_predictions": 19400
+              }
+            },
+            "by_predicate_label": {
+              "100": {
+                "attached to": {
+                  "correct": 732,
+                  "denominator": 808,
+                  "recall": 0.905940594059406
+                },
+                "connected to": {
+                  "correct": 32,
+                  "denominator": 33,
+                  "recall": 0.9696969696969697
+                },
+                "hanging on": {
+                  "correct": 126,
+                  "denominator": 126,
+                  "recall": 1.0
+                }
+              },
+              "50": {
+                "attached to": {
+                  "correct": 544,
+                  "denominator": 808,
+                  "recall": 0.6732673267326733
+                },
+                "connected to": {
+                  "correct": 22,
+                  "denominator": 33,
+                  "recall": 0.6666666666666666
+                },
+                "hanging on": {
+                  "correct": 77,
+                  "denominator": 126,
+                  "recall": 0.6111111111111112
+                }
+              }
+            },
+            "denominator": 967
+          },
+          "score_summary": {
+            "missing_scores": 0,
+            "values": {
+              "max": 1.0,
+              "mean": 0.668899204757294,
+              "median": 0.6493536009579265,
+              "min": 0.11078178149290636,
+              "p10": 0.3059955857076806,
+              "p90": 1.0
+            }
+          },
+          "violation_rate": {
+            "by_k": {
+              "100": {
+                "denominator": 38240,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 18250,
+                "uncertain_rate": 0.4772489539748954,
+                "violated": 6322,
+                "violation_rate": 0.1653242677824268
+              },
+              "50": {
+                "denominator": 19400,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 7693,
+                "uncertain_rate": 0.39654639175257733,
+                "violated": 1467,
+                "violation_rate": 0.07561855670103093
+              }
+            }
+          }
+        },
+        "control_p_geom_valid_only": {
+          "recall": {
+            "by_k": {
+              "100": {
+                "correct": 550,
+                "denominator": 967,
+                "recall": 0.5687693898655636,
+                "selected_predictions": 38240
+              },
+              "50": {
+                "correct": 467,
+                "denominator": 967,
+                "recall": 0.48293691830403307,
+                "selected_predictions": 19400
+              }
+            },
+            "by_predicate_label": {
+              "100": {
+                "attached to": {
+                  "correct": 391,
+                  "denominator": 808,
+                  "recall": 0.4839108910891089
+                },
+                "connected to": {
+                  "correct": 33,
+                  "denominator": 33,
+                  "recall": 1.0
+                },
+                "hanging on": {
+                  "correct": 126,
+                  "denominator": 126,
+                  "recall": 1.0
+                }
+              },
+              "50": {
+                "attached to": {
+                  "correct": 308,
+                  "denominator": 808,
+                  "recall": 0.3811881188118812
+                },
+                "connected to": {
+                  "correct": 33,
+                  "denominator": 33,
+                  "recall": 1.0
+                },
+                "hanging on": {
+                  "correct": 126,
+                  "denominator": 126,
+                  "recall": 1.0
+                }
+              }
+            },
+            "denominator": 967
+          },
+          "score_summary": {
+            "missing_scores": 0,
+            "values": {
+              "max": 0.9999756198665732,
+              "mean": 0.3895005753379025,
+              "median": 0.17439624133252665,
+              "min": 1.3489199195132505e-25,
+              "p10": 7.853025853811863e-05,
+              "p90": 0.9941418246815542
+            }
+          },
+          "violation_rate": {
+            "by_k": {
+              "100": {
+                "denominator": 38240,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 17456,
+                "uncertain_rate": 0.45648535564853554,
+                "violated": 8444,
+                "violation_rate": 0.22081589958158995
+              },
+              "50": {
+                "denominator": 19400,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 7268,
+                "uncertain_rate": 0.37463917525773194,
+                "violated": 1972,
+                "violation_rate": 0.10164948453608247
+              }
+            }
+          }
+        },
+        "control_shuffled_geometry": {
+          "recall": {
+            "by_k": {
+              "100": {
+                "correct": 949,
+                "denominator": 967,
+                "recall": 0.9813857290589452,
+                "selected_predictions": 38240
+              },
+              "50": {
+                "correct": 915,
+                "denominator": 967,
+                "recall": 0.9462254395036195,
+                "selected_predictions": 19400
+              }
+            },
+            "by_predicate_label": {
+              "100": {
+                "attached to": {
+                  "correct": 792,
+                  "denominator": 808,
+                  "recall": 0.9801980198019802
+                },
+                "connected to": {
+                  "correct": 32,
+                  "denominator": 33,
+                  "recall": 0.9696969696969697
+                },
+                "hanging on": {
+                  "correct": 125,
+                  "denominator": 126,
+                  "recall": 0.9920634920634921
+                }
+              },
+              "50": {
+                "attached to": {
+                  "correct": 769,
+                  "denominator": 808,
+                  "recall": 0.9517326732673267
+                },
+                "connected to": {
+                  "correct": 29,
+                  "denominator": 33,
+                  "recall": 0.8787878787878788
+                },
+                "hanging on": {
+                  "correct": 117,
+                  "denominator": 126,
+                  "recall": 0.9285714285714286
+                }
+              }
+            },
+            "denominator": 967
+          },
+          "score_summary": {
+            "missing_scores": 0,
+            "values": {
+              "max": 0.9990682988144404,
+              "mean": 0.004864025619755431,
+              "median": 8.962794808418185e-10,
+              "min": 1.3973642082532094e-39,
+              "p10": 2.9023375825187516e-16,
+              "p90": 1.4530074692683042e-05
+            }
+          },
+          "violation_rate": {
+            "by_k": {
+              "100": {
+                "denominator": 38240,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 22355,
+                "uncertain_rate": 0.584597280334728,
+                "violated": 9005,
+                "violation_rate": 0.23548640167364016
+              },
+              "50": {
+                "denominator": 19400,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 11957,
+                "uncertain_rate": 0.6163402061855671,
+                "violated": 3333,
+                "violation_rate": 0.1718041237113402
+              }
+            }
+          }
+        },
+        "control_wrong_pair_geometry": {
+          "recall": {
+            "by_k": {
+              "100": {
+                "correct": 964,
+                "denominator": 967,
+                "recall": 0.9968976215098242,
+                "selected_predictions": 38240
+              },
+              "50": {
+                "correct": 949,
+                "denominator": 967,
+                "recall": 0.9813857290589452,
+                "selected_predictions": 19400
+              }
+            },
+            "by_predicate_label": {
+              "100": {
+                "attached to": {
+                  "correct": 807,
+                  "denominator": 808,
+                  "recall": 0.9987623762376238
+                },
+                "connected to": {
+                  "correct": 31,
+                  "denominator": 33,
+                  "recall": 0.9393939393939394
+                },
+                "hanging on": {
+                  "correct": 126,
+                  "denominator": 126,
+                  "recall": 1.0
+                }
+              },
+              "50": {
+                "attached to": {
+                  "correct": 797,
+                  "denominator": 808,
+                  "recall": 0.9863861386138614
+                },
+                "connected to": {
+                  "correct": 28,
+                  "denominator": 33,
+                  "recall": 0.8484848484848485
+                },
+                "hanging on": {
+                  "correct": 124,
+                  "denominator": 126,
+                  "recall": 0.9841269841269841
+                }
+              }
+            },
+            "denominator": 967
+          },
+          "score_summary": {
+            "missing_scores": 0,
+            "values": {
+              "max": 0.9994869999192311,
+              "mean": 0.007566281827001743,
+              "median": 6.969123206862312e-10,
+              "min": 1.2205672329060941e-37,
+              "p10": 2.9206505858468767e-16,
+              "p90": 1.9344081181897383e-05
+            }
+          },
+          "violation_rate": {
+            "by_k": {
+              "100": {
+                "denominator": 38240,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 21906,
+                "uncertain_rate": 0.5728556485355648,
+                "violated": 8981,
+                "violation_rate": 0.23485878661087867
+              },
+              "50": {
+                "denominator": 19400,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 11474,
+                "uncertain_rate": 0.5914432989690722,
+                "violated": 3513,
+                "violation_rate": 0.18108247422680412
+              }
+            }
+          }
+        },
+        "probabilistic_recalibrated": {
+          "recall": {
+            "by_k": {
+              "100": {
+                "correct": 965,
+                "denominator": 967,
+                "recall": 0.9979317476732161,
+                "selected_predictions": 38240
+              },
+              "50": {
+                "correct": 957,
+                "denominator": 967,
+                "recall": 0.9896587383660806,
+                "selected_predictions": 19400
+              }
+            },
+            "by_predicate_label": {
+              "100": {
+                "attached to": {
+                  "correct": 806,
+                  "denominator": 808,
+                  "recall": 0.9975247524752475
+                },
+                "connected to": {
+                  "correct": 33,
+                  "denominator": 33,
+                  "recall": 1.0
+                },
+                "hanging on": {
+                  "correct": 126,
+                  "denominator": 126,
+                  "recall": 1.0
+                }
+              },
+              "50": {
+                "attached to": {
+                  "correct": 800,
+                  "denominator": 808,
+                  "recall": 0.9900990099009901
+                },
+                "connected to": {
+                  "correct": 31,
+                  "denominator": 33,
+                  "recall": 0.9393939393939394
+                },
+                "hanging on": {
+                  "correct": 126,
+                  "denominator": 126,
+                  "recall": 1.0
+                }
+              }
+            },
+            "denominator": 967
+          },
+          "score_summary": {
+            "missing_scores": 0,
+            "values": {
+              "max": 0.9954018378701078,
+              "mean": 0.006456993801344571,
+              "median": 7.019105642266381e-10,
+              "min": 1.8642754481476793e-38,
+              "p10": 1.0041363305892341e-16,
+              "p90": 4.620515913600097e-05
+            }
+          },
+          "violation_rate": {
+            "by_k": {
+              "100": {
+                "denominator": 38240,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 21530,
+                "uncertain_rate": 0.5630230125523012,
+                "violated": 8450,
+                "violation_rate": 0.22097280334728034
+              },
+              "50": {
+                "denominator": 19400,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 11402,
+                "uncertain_rate": 0.5877319587628866,
+                "violated": 2753,
+                "violation_rate": 0.14190721649484536
+              }
+            }
+          }
+        },
+        "rule_verified_attachment_policy": {
+          "recall": {
+            "by_k": {
+              "100": {
+                "correct": 907,
+                "denominator": 967,
+                "recall": 0.937952430196484,
+                "selected_predictions": 38240
+              },
+              "50": {
+                "correct": 897,
+                "denominator": 967,
+                "recall": 0.9276111685625646,
+                "selected_predictions": 19400
+              }
+            },
+            "by_predicate_label": {
+              "100": {
+                "attached to": {
+                  "correct": 748,
+                  "denominator": 808,
+                  "recall": 0.9257425742574258
+                },
+                "connected to": {
+                  "correct": 33,
+                  "denominator": 33,
+                  "recall": 1.0
+                },
+                "hanging on": {
+                  "correct": 126,
+                  "denominator": 126,
+                  "recall": 1.0
+                }
+              },
+              "50": {
+                "attached to": {
+                  "correct": 740,
+                  "denominator": 808,
+                  "recall": 0.9158415841584159
+                },
+                "connected to": {
+                  "correct": 31,
+                  "denominator": 33,
+                  "recall": 0.9393939393939394
+                },
+                "hanging on": {
+                  "correct": 126,
+                  "denominator": 126,
+                  "recall": 1.0
+                }
+              }
+            },
+            "denominator": 967
+          },
+          "score_summary": {
+            "missing_scores": 0,
+            "values": {
+              "max": 0.9999419450759888,
+              "mean": -0.32057758237112743,
+              "median": 6.09153838482257e-10,
+              "min": -1.0,
+              "p10": -1.0,
+              "p90": 6.66626583551988e-05
+            }
+          },
+          "violation_rate": {
+            "by_k": {
+              "100": {
+                "denominator": 38240,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 28795,
+                "uncertain_rate": 0.7530073221757322,
+                "violated": 824,
+                "violation_rate": 0.021548117154811714
+              },
+              "50": {
+                "denominator": 19400,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 14474,
+                "uncertain_rate": 0.7460824742268041,
+                "violated": 64,
+                "violation_rate": 0.0032989690721649486
+              }
+            }
+          }
+        },
+        "semantic_only": {
+          "recall": {
+            "by_k": {
+              "100": {
+                "correct": 967,
+                "denominator": 967,
+                "recall": 1.0,
+                "selected_predictions": 38240
+              },
+              "50": {
+                "correct": 963,
+                "denominator": 967,
+                "recall": 0.9958634953464323,
+                "selected_predictions": 19400
+              }
+            },
+            "by_predicate_label": {
+              "100": {
+                "attached to": {
+                  "correct": 808,
+                  "denominator": 808,
+                  "recall": 1.0
+                },
+                "connected to": {
+                  "correct": 33,
+                  "denominator": 33,
+                  "recall": 1.0
+                },
+                "hanging on": {
+                  "correct": 126,
+                  "denominator": 126,
+                  "recall": 1.0
+                }
+              },
+              "50": {
+                "attached to": {
+                  "correct": 806,
+                  "denominator": 808,
+                  "recall": 0.9975247524752475
+                },
+                "connected to": {
+                  "correct": 31,
+                  "denominator": 33,
+                  "recall": 0.9393939393939394
+                },
+                "hanging on": {
+                  "correct": 126,
+                  "denominator": 126,
+                  "recall": 1.0
+                }
+              }
+            },
+            "denominator": 967
+          },
+          "score_summary": {
+            "missing_scores": 0,
+            "values": {
+              "max": 0.9999419450759888,
+              "mean": 0.013095717481373129,
+              "median": 2.90233401756268e-08,
+              "min": 1.4989841243777171e-25,
+              "p10": 1.0796927045995941e-13,
+              "p90": 0.00011600735888350755
+            }
+          },
+          "violation_rate": {
+            "by_k": {
+              "100": {
+                "denominator": 38240,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 23229,
+                "uncertain_rate": 0.6074529288702929,
+                "violated": 8128,
+                "violation_rate": 0.2125523012552301
+              },
+              "50": {
+                "denominator": 19400,
+                "evidence_missing": 0,
+                "evidence_missing_rate": 0.0,
+                "uncertain": 11974,
+                "uncertain_rate": 0.6172164948453608,
+                "violated": 3093,
+                "violation_rate": 0.15943298969072164
+              }
+            }
+          }
+        }
+      },
+      "coverage_ratio_vs_global": 1.0,
+      "covered_exact_label_gt_denominator": 967,
+      "global_exact_label_gt_denominator": 967,
+      "missing_exact_label_gt_rows": 0,
+      "rows": 77748,
+      "source_name": "vlsat_closed_set",
+      "subgraphs": 388
+    }
+  },
+  "counts": {
+    "open3dsg_ov": {
+      "covered_gt": 768,
+      "decision_counts": {
+        "satisfied": 11064,
+        "uncertain": 27502,
+        "violated": 18734
+      },
+      "global_gt": 967,
+      "label_counts": {
+        "attached to": 19100,
+        "connected to": 19100,
+        "hanging on": 19100
+      },
+      "source_rows": 57300
+    },
+    "vlsat_closed_set": {
+      "covered_gt": 967,
+      "decision_counts": {
+        "satisfied": 13720,
+        "uncertain": 38165,
+        "violated": 25863
+      },
+      "global_gt": 967,
+      "label_counts": {
+        "attached to": 25916,
+        "connected to": 25916,
+        "hanging on": 25916
+      },
+      "source_rows": 77748
+    }
+  },
+  "created_at": "2026-06-06T05:05:32+00:00",
+  "family": "attachment_deferred",
+  "ks": [
+    50,
+    100
+  ],
+  "labels": [
+    "attached to",
+    "hanging on",
+    "connected to"
+  ],
+  "schema_version": "h001_attachment_deferred_g5d_full_source_v1",
+  "status": "ready",
+  "warnings": []
+}

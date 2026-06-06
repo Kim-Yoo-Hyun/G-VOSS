@@ -1,61 +1,47 @@
 \section{Experimental Setup}
 
-This section fixes the experimental scope before reporting results, because
-H001's claim depends on denominator transparency as much as on metric values.
-We use two source roles. Open3DSG is the main open-vocabulary relation-source
-case study, rather than a broad generation benchmark, because it is closest to
-the target setting of queryable objects and open-set relationships. VL-SAT is a
-controlled reproduced closed-set anchor that helps test whether the same
-reliability mechanism appears under a cleaner source contract. The families and
-denominator are fixed before source-result
-reporting, so the evaluation tests a predeclared physically checkable slice
-rather than a post-hoc set of favorable predicates. The paper-facing H001 scope
-is the full official 3DSSG-subset validation split: 157 scans, 548 contexts,
-36,808 directed pairs, 957,008 VL-SAT prediction rows, 11,254 ground-truth rows,
-and 3,972 in-scope GT relation instances across the measured
-geometry-checkable families. Table~\ref{tab:scope} records the denominator and
-the source outputs used by the main source-result table
-(Table~\ref{tab:source-results}).
+This section fixes scope before results because H001's claim depends on
+denominator transparency as much as metric values. Open3DSG is the main
+open-vocabulary relation-source case study, while VL-SAT is a controlled
+reproduced closed-set anchor. Families and denominators are fixed before
+source-result reporting, yielding a predeclared physically checkable slice:
+157 scans, 548 contexts, 36,808 directed pairs, 957,008 VL-SAT prediction rows,
+11,254 ground-truth rows, and 3,972 in-scope GT relations. Table~\ref{tab:scope}
+records the denominator and source outputs used by Table~\ref{tab:source-results}.
 
 \begin{table*}[t]
 \centering
 \small
 \setlength{\tabcolsep}{5pt}
-\caption{\textbf{Full official H001 evaluation scope.} The paper claim is limited to
-the measured geometry-checkable families and the listed source outputs. Recall
-is exact predicate-label recall over the 3,972-row in-scope GT denominator;
-family grouping is used for reliability and violation reporting, not for
-relaxing predicate matches.}
+\caption{\textbf{Full official H001 evaluation scope.} Recall is exact
+predicate-label recall over the 3,972-row in-scope GT denominator; family
+grouping is used for reliability and violation reporting, not for relaxing
+predicate matches.}
 \label{tab:scope}
 \begin{tabularx}{0.96\linewidth}{lrlX}
 \toprule
 Item & Count & Source & Role in claim \\
 \midrule
 Validation scans & 157 & 3DSSG subset & Full official validation scan set. \\
-Subgraphs / contexts & 548 & 3DSSG subset & Object-pair identity denominator before source-specific row export. \\
-Directed object pairs & 36,808 & H001 scope contract & Candidate pair universe for relation rows. \\
+Subgraphs / contexts & 548 & 3DSSG subset & Object-pair identity denominator. \\
+Directed object pairs & 36,808 & H001 scope contract & Relation-row candidate universe. \\
 VL-SAT prediction rows & 957,008 & VL-SAT & Controlled reproduced closed-set anchor. \\
 Ground-truth rows & 11,254 & 3DSSG & Full validation relation annotation rows. \\
 In-scope GT rows & 3,972 & H001 families & Exact-label denominator for \texttt{support\_contact}, \texttt{proximity}, and \texttt{relative\_vertical}. \\
-Open3DSG prediction rows & 695,916 & Open3DSG & Main open-vocabulary relation-source output after filtering 172 raw rows outside the fixed object context. \\
+Open3DSG prediction rows & 695,916 & Open3DSG & Main open-vocabulary source output. \\
 Geometry-scored rows & 160,596 & H001 verifier & Open3DSG geometry-checkable rows joined to calibrated evidence. \\
 \bottomrule
 \end{tabularx}
 \end{table*}
 
-The Open3DSG result is reported as a Docker-reproduced source-output reliability
-case study, not as an official Open3DSG leaderboard reproduction. The selected
-full-validation checkpoint is the official non-averaged BLIP route
-\texttt{epoch=13-step=13104.ckpt}, chosen by train-dev validation loss before
-H001 held-out inspection. The runtime uses a filtered preprocessed-ready train
-split of 3,744/3,852 subgraphs and a train-dev validation split of 156/160
-subgraphs. The primary Open3DSG full-validation branch covers 548/548 contexts
-by using a recovery policy: \texttt{OPEN3DSG\_MIN\_VISIBLE\_OBJECTS=2} and
-relaxed view regeneration for two scans. The original 533/548 covered branch is
-retained as an unmodified-source-route sensitivity check. These caveats remain
-visible because Open3DSG is the main open-vocabulary relation-source case study.
-The claim is therefore within-source reliability under a fixed reproduced source
-contract, not a broad generation claim.
+Open3DSG is reported as a Docker-reproduced source-output reliability case
+study, not an official leaderboard reproduction. The selected checkpoint is the
+official non-averaged BLIP route \texttt{epoch=13-step=13104.ckpt}, chosen by
+train-dev validation loss before H001 held-out inspection. Its runtime uses
+filtered train/dev subgraphs, and the main full-validation branch reaches
+548/548 contexts with \texttt{OPEN3DSG\_MIN\_VISIBLE\_OBJECTS=2} plus relaxed
+view regeneration for two scans. The 533/548 covered branch and historical
+old 377/388 vs R2 388/388 branch remain sensitivity evidence only.
 
 Table~\ref{tab:claim-boundary} fixes how each source may be used. This is part
 of the experimental design: a result can support the paper only if it passes
@@ -66,9 +52,8 @@ discipline.
 \centering
 \small
 \caption{\textbf{Source-specific claim boundary.} Open3DSG is the main
-open-vocabulary relation-source case study. VL-SAT is a controlled reproduced
-anchor. FROSS and Qwen-VL remain optional extensions unless promoted with the
-same Docker, denominator, metric, and audit treatment.}
+open-vocabulary relation-source case study; VL-SAT is the controlled anchor.
+Other sources require the same Docker, denominator, metric, and audit treatment.}
 \label{tab:claim-boundary}
 \begin{tabularx}{0.96\linewidth}{l l X X}
 \toprule
@@ -84,9 +69,5 @@ Broad open-vocabulary 3DSSG & blocked & Not claimed from current evidence. & Req
 \end{table*}
 
 All paper-body experiment results are generated through Docker under
-\texttt{experiments/H001\_geom\_reliability/}. The paper reports exact-label
-\rAt{50} and \rAt{100}, \vAt{50} and \vAt{100}, Open3DSG and VL-SAT source
-results, GT-positive/counterfactual verifier evaluation, nontriviality
-controls, structured audit and reduced visual sanity checks, source-specific
-claim boundaries, and qualitative failure analysis. Host-only outputs are not
+\texttt{experiments/H001\_geom\_reliability/}. Host-only outputs are not
 promoted to paper evidence.

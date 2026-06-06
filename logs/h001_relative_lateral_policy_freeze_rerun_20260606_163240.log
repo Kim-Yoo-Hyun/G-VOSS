@@ -1,0 +1,3 @@
+ Container h001_geom_reliability-relative_lateral_policy_freeze-run-d9b6c746163d Creating 
+ Container h001_geom_reliability-relative_lateral_policy_freeze-run-d9b6c746163d Created 
+{"dev_lateral_rows": 378, "distinct_left_axis_wrong_frame_gap": 0.09983722822927565, "out": "experiments/H001_geom_reliability/sources/relative_lateral/policy_freeze", "relative_depth_deferred_gt_rows": 1306, "relative_lateral_gt_rows": 2264, "status": "relative_lateral_policy_threshold_provenance_frozen_no_source_metrics", "strict_eligible_share": 0.6466431095406361, "strict_purity": 0.8005464480874317, "train_lateral_rows": 1538}

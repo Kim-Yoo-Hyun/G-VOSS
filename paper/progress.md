@@ -231,24 +231,37 @@ Historical 127-scan caveats:
   selected official non-avg checkpoint.
 - Train split is filtered to 3,744/3,852 preprocessed-ready subgraphs.
 - Train-dev validation is 156/160 subgraphs.
-- H001 covered loadable eval scope is 377/388 contexts with
-  `validation_missing_preprocessed:11`.
+- H001 covered loadable eval scope started at 377/388 contexts with
+  `validation_missing_preprocessed:11`. The R2 covered-recovery sensitivity
+  branch now reaches 388/388 contexts and completes raw identity, adapter,
+  geometry, metrics, bootstrap CI, table/caveat reporting, and provenance
+  review. The clean-return raw files are row/predicate-score equivalent to the
+  canonical R2 raw dump after excluding run metadata, while the process-level
+  exit-137 teardown caveat remains.
 - Recall is exact predicate-label recall over the historical 2,545-row
   H001-family denominator.
 
-Historical Open3DSG 127-scan result:
+Historical Open3DSG 127-scan sensitivity result:
 
-| condition | R@50 | R@100 | Violation@50 | Violation@100 |
-| --- | ---: | ---: | ---: | ---: |
-| `semantic_only` | 0.3945 | 0.4963 | 0.1326 | 0.1195 |
-| `probabilistic_recalibrated` | 0.3843 | 0.5580 | 0.0575 | 0.0803 |
-| `rule_verified_point_subtype` | 0.4149 | 0.5238 | 0.0000 | 0.0000 |
-| `family_specific_p_geom_valid` | 0.4530 | 0.5984 | 0.0228 | 0.0311 |
+| branch | condition | R@50 | R@100 | Violation@50 | Violation@100 |
+| --- | --- | ---: | ---: | ---: | ---: |
+| old 377/388 | `semantic_only` | 0.3945 | 0.4963 | 0.1326 | 0.1195 |
+| old 377/388 | `probabilistic_recalibrated` | 0.3843 | 0.5580 | 0.0575 | 0.0803 |
+| old 377/388 | `rule_verified_point_subtype` | 0.4149 | 0.5238 | 0.0000 | 0.0000 |
+| old 377/388 | `family_specific_p_geom_valid` | 0.4530 | 0.5984 | 0.0228 | 0.0311 |
+| R2 388/388 | `semantic_only` | 0.3972 | 0.4990 | 0.1331 | 0.1199 |
+| R2 388/388 | `probabilistic_recalibrated` | 0.3870 | 0.5607 | 0.0594 | 0.0811 |
+| R2 388/388 | `rule_verified_point_subtype` | 0.4177 | 0.5265 | 0.0000 | 0.0000 |
+| R2 388/388 | `family_specific_p_geom_valid` | 0.4558 | 0.6012 | 0.0254 | 0.0323 |
 
 Interpretation:
 
 - Open3DSG supports the cross-source reliability claim within measured H001
   families.
+- In the historical 127-scan scope, R2 388/388 should be the representative
+  appendix/sensitivity branch, with old 377/388 kept as the comparison row.
+- The small R2-minus-old change shows that the old missing 11 contexts did not
+  drive the Open3DSG trend.
 - The pattern is not identical to VL-SAT, which is useful: the framework is an
   operating-point/evaluation layer rather than a source-specific metric trick.
 - The caveats are part of the result and must remain visible.
@@ -382,6 +395,42 @@ Full-validation uncertainty and verifier checks:
 
 ## Optional Branches And Why They Are Not Main Evidence Yet
 
+### Relation-Family Expansion Attempts
+
+Why they existed:
+
+- Reviewers may ask whether the framework is only hand-fit to
+  `support_contact`, `proximity`, and `relative_vertical`.
+- We therefore tested plausible expansion families before broadening the claim.
+
+What happened:
+
+- `relative_horizontal` had data scale but did not pass coordinate-frame
+  validation. The best scan frame had inverse consistency 1.0 and wrong-frame
+  gap 0.1231, but full-family macro strict purity was 0.7725 and
+  `front`/`behind` strict purity was 0.7445 with large ambiguity buckets.
+- `relative_lateral` split out `left/right` and looked stronger in the held-out
+  coordinate audit, but train/dev policy lock remained caveated. Train positive
+  strict purity was 0.8738, while dev positive strict purity was only 0.6975.
+  Dev diagnosis found 72 strict contradiction rows / 36 physical pairs
+  concentrated in two scans, plus 140 uncertain rows / 70 physical pairs; about
+  half involved same-label object pairs and most uncertain cases were
+  orthogonal-axis dominance.
+- `attachment_deferred` reached full-source scoring/metrics/controls/bootstrap,
+  but it is not current main-claim evidence. It is promising, especially
+  `hanging on`, but Open3DSG covers 768/967 exact-label GT rows, `attached to`
+  is noisy, `connected to` has no dev strict rows, and additional failure/visual
+  audit is needed before promotion.
+
+Why not main evidence:
+
+- These tracks show disciplined scope control rather than broader validated
+  coverage.
+- `relative_horizontal` and `relative_lateral` expose coordinate/frame
+  ambiguity, not source-prediction reliability.
+- `attachment_deferred` is a plausible future upgrade, but it needs explicit
+  user confirmation and additional caveat handling before main-claim promotion.
+
 ### Qwen-VL
 
 Why it exists:
@@ -446,10 +495,13 @@ The current paper body is in `paper/draft.md` and now runs from Title through
 Conclusion. The current target-venue LaTeX source is in `paper/aaai/`, using
 the latest public AAAI-26 style route until the exact target-year AAAI kit is
 fixed. Docker PDF build verification is complete with `h001-aaai-tex:20260526`:
+latest compression rebuild
+`logs/h001_aaai_pdf_build_compression_20260606_105126.log` exits 0.
 `main.pdf` builds to 9 total pages, technical content occupies pages 1-7,
 references are on page 8, the AAAI reproducibility checklist is on page 9,
-BibTeX uses 19 entries, and there are no missing citations, undefined refs,
-overfull hboxes, LaTeX errors, or AAAI package errors.
+BibTeX uses 19 entries, and targeted grep found no missing citations, undefined
+refs, overfull hboxes, LaTeX errors, or AAAI package errors. The next drafting
+work is content/claim QA after the latest PDF visual/layout inspection.
 Open3DSG-first table ordering is preserved: the manuscript treats Open3DSG as
 the main open-vocabulary case study and VL-SAT as the controlled anchor.
 The latest reviewer-defense pass adds explicit main-text answers to the

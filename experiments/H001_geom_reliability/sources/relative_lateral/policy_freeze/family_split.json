@@ -1,0 +1,18 @@
+{
+  "relative_depth_deferred": {
+    "definition": "front/behind depth relation with unresolved frame/viewpoint semantics",
+    "labels": [
+      "front",
+      "behind"
+    ],
+    "rationale": "front/behind purity and ambiguity buckets remain below promotion standard."
+  },
+  "relative_lateral": {
+    "definition": "lateral relation along the selected scan x-axis sign convention",
+    "labels": [
+      "left",
+      "right"
+    ],
+    "rationale": "left/right have symmetric inverse consistency and higher strict purity than front/behind."
+  }
+}

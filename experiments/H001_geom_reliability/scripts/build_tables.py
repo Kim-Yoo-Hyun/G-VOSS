@@ -547,27 +547,29 @@ def build_table6(open3dsg_hook: dict[str, Any]) -> tuple[list[dict[str, Any]], l
     rows = [
         {
             "prediction_source": "VL-SAT / vlsat_closed_set",
-            "evidence_artifact": "locked VL-SAT H001 metrics",
+            "evidence_artifact": "sources/vlsat/full_validation/metrics/metrics.json",
             "metric_status": "ready",
             "contract_status": "ready",
             "blockers": "none",
-            "claim_use": "scoped current result",
-            "caveat_note": "controlled reproduced anchor under fixed H001 denominator",
+            "claim_use": "controlled-anchor full-validation result",
+            "caveat_note": "full official validation; exact-label denominator 3972; Docker rerun; bootstrap CI ready",
         },
         {
             "prediction_source": "Open3DSG",
-            "evidence_artifact": metric_contract["metrics_path"],
+            "evidence_artifact": "sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics/metrics.json",
             "metric_status": "ready" if open3dsg_ready else "blocked",
             "contract_status": str(metric_contract.get("metrics_status")),
             "blockers": "; ".join(open3dsg_blockers) if open3dsg_blockers else "none",
             "claim_use": (
-                "cross-source claim enabled within measured H001 families"
+                "main open-vocabulary relation-source full-validation result"
                 if open3dsg_ready
                 else "required before cross-source claim"
             ),
             "caveat_note": (
-                "averaged-BLIP variant; filtered train/dev; covered H001 377/388; "
-                "exact-label denominator 2545; validation_missing_preprocessed:11; "
+                "selected official non-avg checkpoint; filtered train/dev provenance; "
+                "548/548 recovery policy with min_visible=2 and relaxed two-scan views; "
+                "exact-label denominator 3972; 533/548 covered branch sensitivity; "
+                "appendix historical 377/388 vs R2 388/388 sensitivity; "
                 "residual calibration risk"
             ),
         },

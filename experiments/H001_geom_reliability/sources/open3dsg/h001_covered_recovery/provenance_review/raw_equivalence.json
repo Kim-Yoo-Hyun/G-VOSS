@@ -1,0 +1,146 @@
+{
+  "canonical_vs_clean_return": {
+    "baseline_run_ids": {
+      "left": {
+        "open3dsg_h001_r2_avg_blip_epoch13_step13104": 19224
+      },
+      "right": {
+        "open3dsg_avg_blip_epoch13_step13104_r2_388_clean_return": 19224
+      }
+    },
+    "byte_equal": false,
+    "duplicate_identity_keys": {
+      "left": 0,
+      "right": 0
+    },
+    "identity_key_multiset_equal": true,
+    "invalid_json_lines": {
+      "left": 0,
+      "right": 0
+    },
+    "left": {
+      "bytes": 126144071,
+      "exists": true,
+      "lines": 19224,
+      "path": "experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/raw_dump/raw.jsonl",
+      "sha256": "83da575299bc385ebbaf3ab79c537cb126ac9d9d9feaa08128889a8f9a889350"
+    },
+    "max_abs_score_delta": 0.0,
+    "metadata_diff_only": true,
+    "missing_score_keys": 0,
+    "model_source_stages": {
+      "left": {
+        "avg_blip_h001_covered_recovery_388": 19224
+      },
+      "right": {
+        "avg_blip_full_variant_h001_r2_388_clean_return": 19224
+      }
+    },
+    "normalized_only_in_left_sample": [],
+    "normalized_only_in_right_sample": [],
+    "normalized_payload_equal": true,
+    "record_types": {
+      "left": {
+        "open3dsg_raw_prediction": 19224
+      },
+      "right": {
+        "open3dsg_raw_prediction": 19224
+      }
+    },
+    "right": {
+      "bytes": 126605447,
+      "exists": true,
+      "lines": 19224,
+      "path": "experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/raw_dump_clean_return_20260606_003130/raw.jsonl",
+      "sha256": "2c2cb54514d0d179712e7abb2e80e1a0d26f293d1b555432a35600bc5292cd16"
+    },
+    "row_counts": {
+      "left": 19224,
+      "right": 19224
+    },
+    "schema_versions": {
+      "left": {
+        "h001_open3dsg_raw_dump_v1": 19224
+      },
+      "right": {
+        "h001_open3dsg_raw_dump_v1": 19224
+      }
+    },
+    "score_mismatch_count": 0,
+    "score_payload_equal_for_unique_keys": true,
+    "score_tolerance": 1e-09,
+    "status": "row_equivalent"
+  },
+  "canonical_vs_clean_return_retry2": {
+    "baseline_run_ids": {
+      "left": {
+        "open3dsg_h001_r2_avg_blip_epoch13_step13104": 19224
+      },
+      "right": {
+        "open3dsg_avg_blip_epoch13_step13104_r2_388_clean_return_retry2": 19224
+      }
+    },
+    "byte_equal": false,
+    "duplicate_identity_keys": {
+      "left": 0,
+      "right": 0
+    },
+    "identity_key_multiset_equal": true,
+    "invalid_json_lines": {
+      "left": 0,
+      "right": 0
+    },
+    "left": {
+      "bytes": 126144071,
+      "exists": true,
+      "lines": 19224,
+      "path": "experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/raw_dump/raw.jsonl",
+      "sha256": "83da575299bc385ebbaf3ab79c537cb126ac9d9d9feaa08128889a8f9a889350"
+    },
+    "max_abs_score_delta": 0.0,
+    "metadata_diff_only": true,
+    "missing_score_keys": 0,
+    "model_source_stages": {
+      "left": {
+        "avg_blip_h001_covered_recovery_388": 19224
+      },
+      "right": {
+        "avg_blip_full_variant_h001_r2_388_clean_return_retry2": 19224
+      }
+    },
+    "normalized_only_in_left_sample": [],
+    "normalized_only_in_right_sample": [],
+    "normalized_payload_equal": true,
+    "record_types": {
+      "left": {
+        "open3dsg_raw_prediction": 19224
+      },
+      "right": {
+        "open3dsg_raw_prediction": 19224
+      }
+    },
+    "right": {
+      "bytes": 126874583,
+      "exists": true,
+      "lines": 19224,
+      "path": "experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/raw_dump_clean_return_retry2_20260606_021154/raw.jsonl",
+      "sha256": "57f5e8bd88650f97dcdebcc4eaf00a9a96c9202c52b39d76c5b89453f4d66e2d"
+    },
+    "row_counts": {
+      "left": 19224,
+      "right": 19224
+    },
+    "schema_versions": {
+      "left": {
+        "h001_open3dsg_raw_dump_v1": 19224
+      },
+      "right": {
+        "h001_open3dsg_raw_dump_v1": 19224
+      }
+    },
+    "score_mismatch_count": 0,
+    "score_payload_equal_for_unique_keys": true,
+    "score_tolerance": 1e-09,
+    "status": "row_equivalent"
+  }
+}

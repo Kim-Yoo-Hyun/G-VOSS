@@ -56,7 +56,9 @@ Open3DSG source-specific state:
 8. `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_rows/report.md`
 9. `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_cases/inspection.md`
 10. `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/table_caveats/report.md`
-11. `experiments/H001_geom_reliability/sources/open3dsg/raw_dump_identity/report.md`
+11. `experiments/H001_geom_reliability/sources/open3dsg/full_validation/raw_clean_exit_review/report.md`
+12. `experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/provenance_review/report.md`
+13. `experiments/H001_geom_reliability/sources/open3dsg/raw_dump_identity/report.md`
 
 VL-SAT full-validation source state:
 
@@ -122,8 +124,8 @@ Facts:
   reproducibility artifact bundle planning, and official AAAI-26 Author Kit
   replacement/verification, plus the appendix/provenance and Open3DSG
   caveat-consistency pass. Docker build verification for `paper/aaai/` is
-  complete with `h001-aaai-tex:20260526`; the latest full-validation
-  rebuild log is `logs/h001_aaai_pdf_build_full_validation_20260605_100108.log`,
+  complete with `h001-aaai-tex:20260526`; the latest compression
+  rebuild log is `logs/h001_aaai_pdf_build_compression_20260606_105126.log`,
   with 9 total pages, technical content on pages 1-7, references on page 8,
   and the AAAI reproducibility checklist on page 9. The manuscript uses
   Open3DSG as the main open-vocabulary relation-source case study and VL-SAT as
@@ -263,6 +265,18 @@ Reporting rule:
   the main table, the other route must appear in the caption, appendix, or
   sensitivity discussion.
 
+Provenance review:
+
+- `experiments/H001_geom_reliability/sources/open3dsg/full_validation/raw_clean_exit_review/`
+  records the clean-exit retry/equivalence closeout for the unmodified 533/548
+  branch. The expected retry artifact is no longer present after cleanup, so the
+  branch keeps its process-level exit-137 caveat.
+- `experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/provenance_review/`
+  records the historical 127-scan R2 `388/388` sensitivity review. The
+  clean-return raw files are row/predicate-score equivalent to the canonical R2
+  raw dump after excluding run-metadata fields, so R2 is ready as appendix
+  sensitivity evidence despite process-level teardown/OOM exit `137`.
+
 Recommended release tiers:
 
 | Tier | Include | Purpose | Current size / count | Release note |
@@ -300,6 +314,7 @@ experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_rela
 experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_cases/queue.jsonl
 experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_cases/inspection.json
 experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/table_caveats/
+experiments/H001_geom_reliability/sources/open3dsg/full_validation/raw_clean_exit_review/
 experiments/H001_geom_reliability/sources/open3dsg/checkpoint_selection/
 ```
 
@@ -892,11 +907,13 @@ Open3DSG historical 127-scan artifact summary:
 
 ## Cleanup Candidates
 
-Cleanup state, 2026-06-05 KST: the user-approved paths below were deleted from
+Cleanup state, 2026-06-06 KST: the user-approved paths below were deleted from
 the local workspace. They were not required for the current paper-facing
 full-validation claim. Do not delete primary full-validation artifacts, raw
-datasets, selected checkpoints, feature caches needed for reruns, or Qwen resume
-files unless the corresponding transfer/archive has been verified.
+datasets, selected checkpoints, feature caches needed for reruns, Qwen resume
+files, `sources/attachment_deferred/full_source_g5d/`, Open3DSG
+`raw_clean_exit_review/`, or Open3DSG `h001_covered_recovery/provenance_review/`
+unless the corresponding transfer/archive has been verified.
 
 Deleted failed or superseded Open3DSG full-validation attempts:
 
@@ -914,6 +931,15 @@ Deleted local generated Python cache:
 
 ```text
 experiments/H001_geom_reliability/scripts/__pycache__/
+hypothesis/CAND-001/H001_geometry-grounded-verification/tools/__pycache__/
+paper/scripts/__pycache__/
+local_dataset/**/__pycache__/
+```
+
+Deleted superseded attachment/lateral intermediate artifacts:
+
+```text
+experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d_smoke/
 ```
 
 Deleted failed or superseded logs whose important status is already summarized in the
@@ -929,6 +955,17 @@ logs/open3dsg_full_validation_preprocess_missing_force_20260604_220501.*
 logs/open3dsg_full_validation_preprocess_o180*
 logs/open3dsg_full_validation_preprocess_o370*
 logs/open3dsg_full_validation_feature_seed_*
+logs/h001_attachment_g5d_smoke_20260606_113549.*
+logs/h001_attachment_g5d_build_20260606_113531.*
+logs/open3dsg_raw_provenance_review_build_20260606_205847.*
+logs/h001_relative_lateral_policy_freeze_build_20260606_163118.log
+logs/h001_relative_lateral_policy_freeze_run_20260606_163118.log
+logs/h001_relative_lateral_train_dev_lock_build_20260606_165533.log
+logs/h001_relative_lateral_train_dev_lock_run_20260606_165533.log
+logs/h001_relative_lateral_train_dev_lock_rebuild_20260606_165611.log
+logs/h001_relative_lateral_train_dev_lock_rerun_20260606_165611.log
+logs/h001_relative_lateral_dev_diagnosis_build_20260606_170300.log
+logs/h001_relative_lateral_dev_diagnosis_run_20260606_170300.log
 ```
 
 Deleted historical release copy. The original row-level files and reports remain

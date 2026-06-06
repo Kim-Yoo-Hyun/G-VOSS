@@ -247,6 +247,17 @@ rule_verified_point_subtype R@50/R@100 `0.4242/0.5320`, V@50/@100 `0.0/0.0`;
 family_specific control R@50/R@100 `0.4612/0.5999`, V@50/@100
 `0.0265/0.0332`.
 
+Review the unmodified 533/548 branch clean-exit retry/equivalence closeout:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_full_validation_raw_clean_exit_review
+```
+
+Current result: `sources/open3dsg/full_validation/raw_clean_exit_review/`
+status `open3dsg_raw_provenance_review_ready`; the expected retry artifact is
+not present after cleanup, so the unmodified branch keeps its process-level
+exit-137 caveat. The selected 548/548 recovery branch is unaffected.
+
 ## Relative Horizontal Scope Audit
 
 Run the no-training, no-inference audit for the optional

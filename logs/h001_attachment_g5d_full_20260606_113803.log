@@ -1,0 +1,4 @@
+ Container h001_geom_reliability-attachment_deferred_full_source_g5d-run-1755ed8683d4 Creating 
+ Container h001_geom_reliability-attachment_deferred_full_source_g5d-run-1755ed8683d4 Created 
+{"complete_shards": 69, "out": "experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d", "scored_rows": 135048, "shards": 69, "status": "attachment_deferred_g5d_full_source_metrics_ready", "validation_errors": 0, "warnings": ["connected_to_dev_absent_use_pooled_or_train_only_caveat"]}
+done exit=0

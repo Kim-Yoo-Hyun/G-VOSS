@@ -356,3 +356,125 @@ as a complete raw-stream artifact with a process-level Docker teardown/OOM
 caveat. Repeating the same Lightning/DDP `eval_h001_gt_objects` route is not
 recommended; use the completed artifact for downstream sensitivity analysis, or
 implement a raw-dump-only runner if process-level exit `0` is strictly required.
+
+## Downstream Sensitivity Refresh
+
+Completed after the retry2 raw artifact:
+
+```text
+input raw: experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/raw_dump_clean_return_retry2_20260606_021154/raw.jsonl
+raw identity: experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/raw_dump_identity/
+adapter: experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/adapter/
+geometry: experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/geometry/
+metrics: experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/metrics/
+bootstrap: experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/bootstrap_ci/
+table/caveat: experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/table_caveats/
+```
+
+Commands:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm --entrypoint python table_builder \
+  /workspace/experiments/H001_geom_reliability/scripts/prepare_open3dsg_raw_dump_identity.py \
+  --repo-root /workspace \
+  --raw-dump-jsonl /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/raw_dump_clean_return_retry2_20260606_021154/raw.jsonl \
+  --predictions-jsonl /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/adapter/predictions.jsonl \
+  --subset-json /workspace/local_dataset/3DSSG_subset/relationships_validation.json \
+  --selected-scans /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_validation_hardened/scans.txt \
+  --out /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/raw_dump_identity \
+  --expected-scans 127 --expected-contexts 388 --expected-directed-pairs 25916
+
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm --entrypoint python table_builder \
+  /workspace/experiments/H001_geom_reliability/scripts/export_open3dsg_predictions.py \
+  --repo-root /workspace \
+  --raw-dump-jsonl /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/raw_dump_clean_return_retry2_20260606_021154/raw.jsonl \
+  --subset-json /workspace/local_dataset/3DSSG_subset/relationships_validation.json \
+  --relationships-file /workspace/local_dataset/3DSSG_subset/relationships.txt \
+  --selected-scans /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_validation_hardened/scans.txt \
+  --output-dir /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/adapter \
+  --split-name h001_validation_hardened_r2_388 \
+  --baseline-run-id open3dsg_avg_blip_epoch13_step13104_h001_r2_388_retry2
+
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm --entrypoint python table_builder \
+  /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/tools/join_predictions.py \
+  --predictions-jsonl /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/adapter/predictions.jsonl \
+  --dataset-root /workspace/local_dataset \
+  --model-json /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_smoke/model.json \
+  --selected-scans /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_validation_hardened/scans.txt \
+  --verification-policy point_subtype \
+  --output-dir /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/geometry
+
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm --entrypoint python table_builder \
+  /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/tools/evaluate_predictions.py \
+  --predictions-jsonl /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/adapter/predictions.jsonl \
+  --ground-truth-jsonl /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl \
+  --verification-jsonl /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/geometry/verification.jsonl \
+  --output-dir /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/metrics \
+  --families support_contact proximity relative_vertical \
+  --ks 50 100 --policy filter_safe \
+  --rule-variants obb_only point_subtype point_subtype_no_soft_support \
+  --ablation-controls p_geom_valid_only distance_only family_specific_p_geom_valid shuffled_geometry wrong_pair_geometry \
+  --family-specific-model-json /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json
+
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm --entrypoint python table_builder \
+  /workspace/experiments/H001_geom_reliability/scripts/bootstrap_metrics.py \
+  --repo-root /workspace \
+  --out /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/bootstrap_ci \
+  --open3dsg-source-root /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery \
+  --open3dsg-source-name open3dsg_ov_h001_r2_388 \
+  --n-bootstrap 1000
+
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm --entrypoint python table_builder \
+  /workspace/experiments/H001_geom_reliability/scripts/prepare_open3dsg_h001_covered_recovery_report.py \
+  --repo-root /workspace \
+  --out /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/table_caveats
+```
+
+Observed downstream result:
+
+```text
+raw identity: raw_dump_identity_audit_ready
+adapter: ready, 498212 prediction rows
+geometry: ready, 498212 preserved rows, 114972 H001-family geometry rows
+metrics: ready
+bootstrap CI: ready
+table/caveat: open3dsg_h001_covered_recovery_sensitivity_ready
+```
+
+R2 is useful as appendix robustness evidence. It removes the historical
+377/388 covered-scope missing-context caveat for this branch, but it changes
+the old avg-BLIP R@100 point estimates by only about +0.28 pp and does not
+change the paper's qualitative Open3DSG conclusion. Do not build a raw-dump-only
+runner now unless this sensitivity branch is promoted to process-clean
+provenance.
+
+## Provenance Review
+
+Docker review command:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_h001_covered_recovery_provenance_review
+```
+
+Output:
+
+```text
+experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/provenance_review/
+```
+
+Current result:
+
+```text
+status: open3dsg_raw_provenance_review_ready
+canonical_vs_clean_return: row_equivalent
+canonical_vs_clean_return_retry2: row_equivalent
+byte_equal: false
+metadata_diff_only: true
+appendix_sensitivity_ready: true
+```
+
+Interpretation: the clean-return raw files differ from the canonical R2 raw
+dump only in run metadata such as `baseline_run_id` and `model_source_stage`.
+The row identities and predicate-score payload are equivalent, so R2 is ready
+as appendix sensitivity evidence despite the process-level teardown/OOM exit
+`137`.

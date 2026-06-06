@@ -1,0 +1,529 @@
+{
+  "blockers": [
+    "train_dev_policy_lock_or_calibration_fit_not_run",
+    "relative_lateral_source_metrics_not_run",
+    "controls_not_run",
+    "bootstrap_ci_not_run",
+    "failure_analysis_and_visual_audit_not_run",
+    "main_claim_requires_explicit_user_confirmation"
+  ],
+  "claim_boundary": {
+    "candidate_family": "relative_lateral",
+    "current_families": [
+      "support_contact",
+      "proximity",
+      "relative_vertical"
+    ],
+    "current_main_claim_unchanged": true,
+    "deferred_family": "relative_depth_deferred",
+    "paper_claim_promotion_allowed": false,
+    "reason": "Family split and policy provenance only; source metrics and audit are not run.",
+    "source_metrics_run": false
+  },
+  "coordinate_evidence": {
+    "bucket_summary_reference": {
+      "relative_depth_behind": {
+        "ambiguity_combo_counts": {
+          "axis_margin_ambiguous": 12,
+          "axis_margin_ambiguous+conflicting_axis_dominates": 86,
+          "axis_margin_ambiguous+strong_projected_overlap": 11,
+          "axis_margin_ambiguous+strong_projected_overlap+conflicting_axis_dominates": 6,
+          "conflicting_axis_dominates": 122,
+          "none": 411,
+          "strong_projected_overlap": 4,
+          "strong_projected_overlap+conflicting_axis_dominates": 1
+        },
+        "ambiguity_flag_counts": {
+          "axis_margin_ambiguous": 115,
+          "conflicting_axis_dominates": 215,
+          "strong_projected_overlap": 22
+        },
+        "rows": 653,
+        "sign_only_eligible_share": 0.8239,
+        "sign_only_match_to_contradiction_ratio": 2.9852,
+        "sign_only_purity": 0.7491,
+        "sign_only_status_counts": {
+          "contradiction": 135,
+          "match": 403,
+          "uncertain": 115
+        },
+        "strict_eligible_share": 0.6294,
+        "strict_match_to_contradiction_ratio": 2.9143,
+        "strict_purity": 0.7445,
+        "strict_status_counts": {
+          "contradiction": 105,
+          "match": 306,
+          "uncertain": 242
+        }
+      },
+      "relative_depth_front": {
+        "ambiguity_combo_counts": {
+          "axis_margin_ambiguous": 12,
+          "axis_margin_ambiguous+conflicting_axis_dominates": 86,
+          "axis_margin_ambiguous+strong_projected_overlap": 11,
+          "axis_margin_ambiguous+strong_projected_overlap+conflicting_axis_dominates": 6,
+          "conflicting_axis_dominates": 122,
+          "none": 411,
+          "strong_projected_overlap": 4,
+          "strong_projected_overlap+conflicting_axis_dominates": 1
+        },
+        "ambiguity_flag_counts": {
+          "axis_margin_ambiguous": 115,
+          "conflicting_axis_dominates": 215,
+          "strong_projected_overlap": 22
+        },
+        "rows": 653,
+        "sign_only_eligible_share": 0.8239,
+        "sign_only_match_to_contradiction_ratio": 2.9852,
+        "sign_only_purity": 0.7491,
+        "sign_only_status_counts": {
+          "contradiction": 135,
+          "match": 403,
+          "uncertain": 115
+        },
+        "strict_eligible_share": 0.6294,
+        "strict_match_to_contradiction_ratio": 2.9143,
+        "strict_purity": 0.7445,
+        "strict_status_counts": {
+          "contradiction": 105,
+          "match": 306,
+          "uncertain": 242
+        }
+      },
+      "relative_lateral_left": {
+        "ambiguity_combo_counts": {
+          "axis_margin_ambiguous": 19,
+          "axis_margin_ambiguous+conflicting_axis_dominates": 105,
+          "axis_margin_ambiguous+strong_projected_overlap": 12,
+          "conflicting_axis_dominates": 229,
+          "none": 732,
+          "strong_projected_overlap": 35
+        },
+        "ambiguity_flag_counts": {
+          "axis_margin_ambiguous": 136,
+          "conflicting_axis_dominates": 334,
+          "strong_projected_overlap": 47
+        },
+        "rows": 1132,
+        "sign_only_eligible_share": 0.8799,
+        "sign_only_match_to_contradiction_ratio": 3.4664,
+        "sign_only_purity": 0.7761,
+        "sign_only_status_counts": {
+          "contradiction": 223,
+          "match": 773,
+          "uncertain": 136
+        },
+        "strict_eligible_share": 0.6466,
+        "strict_match_to_contradiction_ratio": 4.0137,
+        "strict_purity": 0.8005,
+        "strict_status_counts": {
+          "contradiction": 146,
+          "match": 586,
+          "uncertain": 400
+        }
+      },
+      "relative_lateral_right": {
+        "ambiguity_combo_counts": {
+          "axis_margin_ambiguous": 19,
+          "axis_margin_ambiguous+conflicting_axis_dominates": 105,
+          "axis_margin_ambiguous+strong_projected_overlap": 12,
+          "conflicting_axis_dominates": 229,
+          "none": 732,
+          "strong_projected_overlap": 35
+        },
+        "ambiguity_flag_counts": {
+          "axis_margin_ambiguous": 136,
+          "conflicting_axis_dominates": 334,
+          "strong_projected_overlap": 47
+        },
+        "rows": 1132,
+        "sign_only_eligible_share": 0.8799,
+        "sign_only_match_to_contradiction_ratio": 3.4664,
+        "sign_only_purity": 0.7761,
+        "sign_only_status_counts": {
+          "contradiction": 223,
+          "match": 773,
+          "uncertain": 136
+        },
+        "strict_eligible_share": 0.6466,
+        "strict_match_to_contradiction_ratio": 4.0137,
+        "strict_purity": 0.8005,
+        "strict_status_counts": {
+          "contradiction": 146,
+          "match": 586,
+          "uncertain": 400
+        }
+      }
+    },
+    "distinct_left_axis_wrong_frame_gap": 0.09983722822927565,
+    "lateral_front_axis_tie_expected": true,
+    "relative_depth_deferred": {
+      "ambiguity_flag_counts": {},
+      "labels": [
+        "front",
+        "behind"
+      ],
+      "sign_only": {
+        "contradiction": 270,
+        "eligible": 1076,
+        "eligible_share": 0.8238897396630934,
+        "match": 806,
+        "match_to_contradiction_ratio": 2.9851851851851854,
+        "purity": 0.7490706319702602,
+        "uncertain": 230
+      },
+      "strict": {
+        "contradiction": 210,
+        "eligible": 822,
+        "eligible_share": 0.6294027565084227,
+        "match": 612,
+        "match_to_contradiction_ratio": 2.914285714285714,
+        "purity": 0.7445255474452555,
+        "uncertain": 484
+      },
+      "total": 1306
+    },
+    "relative_lateral": {
+      "ambiguity_flag_counts": {},
+      "labels": [
+        "left",
+        "right"
+      ],
+      "sign_only": {
+        "contradiction": 446,
+        "eligible": 1992,
+        "eligible_share": 0.8798586572438163,
+        "match": 1546,
+        "match_to_contradiction_ratio": 3.4663677130044843,
+        "purity": 0.7761044176706827,
+        "uncertain": 272
+      },
+      "strict": {
+        "contradiction": 292,
+        "eligible": 1464,
+        "eligible_share": 0.6466431095406361,
+        "match": 1172,
+        "match_to_contradiction_ratio": 4.013698630136986,
+        "purity": 0.8005464480874317,
+        "uncertain": 800
+      },
+      "total": 2264
+    },
+    "selected_frame": "scan_left_neg_x_front_neg_y",
+    "top_lateral_frame_candidates": [
+      {
+        "frame_family": "scan_xy",
+        "frame_name": "scan_left_neg_x_front_neg_y",
+        "front_axis": [
+          0.0,
+          -1.0
+        ],
+        "left_axis": [
+          -1.0,
+          0.0
+        ],
+        "sign_only_purity": 0.7761044176706827,
+        "strict_eligible_share": 0.6466431095406361,
+        "strict_purity": 0.8005464480874317
+      },
+      {
+        "frame_family": "scan_xy",
+        "frame_name": "scan_left_neg_x_front_pos_y",
+        "front_axis": [
+          0.0,
+          1.0
+        ],
+        "left_axis": [
+          -1.0,
+          0.0
+        ],
+        "sign_only_purity": 0.7761044176706827,
+        "strict_eligible_share": 0.6466431095406361,
+        "strict_purity": 0.8005464480874317
+      },
+      {
+        "frame_family": "room_pca",
+        "frame_name": "room_pca_left_pos_p0_front_pos_p1",
+        "front_axis": [
+          -0.763722,
+          -0.645545
+        ],
+        "left_axis": [
+          -0.645545,
+          0.763722
+        ],
+        "sign_only_purity": 0.6841004184100419,
+        "strict_eligible_share": 0.622791519434629,
+        "strict_purity": 0.700709219858156
+      },
+      {
+        "frame_family": "room_pca",
+        "frame_name": "room_pca_left_pos_p0_front_neg_p1",
+        "front_axis": [
+          0.763722,
+          0.645545
+        ],
+        "left_axis": [
+          -0.645545,
+          0.763722
+        ],
+        "sign_only_purity": 0.6841004184100419,
+        "strict_eligible_share": 0.622791519434629,
+        "strict_purity": 0.700709219858156
+      },
+      {
+        "frame_family": "room_pca",
+        "frame_name": "room_pca_left_pos_p1_front_pos_p0",
+        "front_axis": [
+          -0.645545,
+          0.763722
+        ],
+        "left_axis": [
+          -0.763722,
+          -0.645545
+        ],
+        "sign_only_purity": 0.5929705215419501,
+        "strict_eligible_share": 0.5203180212014135,
+        "strict_purity": 0.6061120543293718
+      },
+      {
+        "frame_family": "room_pca",
+        "frame_name": "room_pca_left_pos_p1_front_neg_p0",
+        "front_axis": [
+          0.645545,
+          -0.763722
+        ],
+        "left_axis": [
+          -0.763722,
+          -0.645545
+        ],
+        "sign_only_purity": 0.5929705215419501,
+        "strict_eligible_share": 0.5203180212014135,
+        "strict_purity": 0.6061120543293718
+      },
+      {
+        "frame_family": "scan_xy",
+        "frame_name": "scan_left_pos_y_front_pos_x",
+        "front_axis": [
+          1.0,
+          0.0
+        ],
+        "left_axis": [
+          0.0,
+          1.0
+        ],
+        "sign_only_purity": 0.5757575757575758,
+        "strict_eligible_share": 0.6139575971731449,
+        "strict_purity": 0.5712230215827339
+      },
+      {
+        "frame_family": "scan_xy",
+        "frame_name": "scan_left_pos_y_front_neg_x",
+        "front_axis": [
+          -1.0,
+          0.0
+        ],
+        "left_axis": [
+          0.0,
+          1.0
+        ],
+        "sign_only_purity": 0.5757575757575758,
+        "strict_eligible_share": 0.6139575971731449,
+        "strict_purity": 0.5712230215827339
+      }
+    ]
+  },
+  "created_at": "2026-06-06T07:32:42.266930+00:00",
+  "denominator": {
+    "all_held_out_gt_rows": 7505,
+    "current_h001_gt_denominator": 2545,
+    "expanded_if_full_relative_horizontal_validated": 6115,
+    "expanded_if_lateral_validated": 4809,
+    "relative_depth_deferred_gt_rows": 1306,
+    "relative_depth_deferred_label_counts": {
+      "behind": 653,
+      "front": 653
+    },
+    "relative_lateral_gt_rows": 2264,
+    "relative_lateral_label_counts": {
+      "left": 1132,
+      "right": 1132
+    }
+  },
+  "family_split": {
+    "relative_depth_deferred": {
+      "definition": "front/behind depth relation with unresolved frame/viewpoint semantics",
+      "labels": [
+        "front",
+        "behind"
+      ],
+      "rationale": "front/behind purity and ambiguity buckets remain below promotion standard."
+    },
+    "relative_lateral": {
+      "definition": "lateral relation along the selected scan x-axis sign convention",
+      "labels": [
+        "left",
+        "right"
+      ],
+      "rationale": "left/right have symmetric inverse consistency and higher strict purity than front/behind."
+    }
+  },
+  "geometry_policy": {
+    "exact_label_recall": true,
+    "front_behind_excluded": true,
+    "inverse_consistency_rule": "left/right inverse-pair consistency is a sanity check and is not used to override row-level geometry status.",
+    "orthogonal_axis_for_ambiguity_only": [
+      0.0,
+      -1.0
+    ],
+    "policy_name": "relative_lateral_scan_x_sign_policy_v1",
+    "selected_frame": "scan_left_neg_x_front_neg_y",
+    "selected_left_axis": [
+      -1.0,
+      0.0
+    ],
+    "status_rules": {
+      "satisfied": "left if subject-object center delta projects positively on selected_left_axis, right if it projects negatively, with no ambiguity flags",
+      "uncertain": "missing geometry, axis margin ambiguity, strong projected overlap, or orthogonal-axis dominance",
+      "violated": "opposite sign under the same non-ambiguous condition"
+    }
+  },
+  "inputs": {
+    "dev_scans": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_calib_pilot/dev_scans.txt",
+    "relative_horizontal_bucket_summary": "experiments/H001_geom_reliability/sources/relative_horizontal/bucket_inspection/summary.json",
+    "relative_horizontal_coordinate_manifest": "experiments/H001_geom_reliability/sources/relative_horizontal/coordinate_audit/manifest.json",
+    "relative_horizontal_frame_metrics": "experiments/H001_geom_reliability/sources/relative_horizontal/coordinate_audit/frame_metrics.json",
+    "relative_horizontal_scope_manifest": "experiments/H001_geom_reliability/sources/relative_horizontal/scope_audit/manifest.json",
+    "train_json": "local_dataset/3DSSG_subset/relationships_train.json",
+    "train_scans": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_calib_pilot/train_scans.txt"
+  },
+  "next_gate": "relative_lateral_train_dev_policy_lock_or_calibration",
+  "schema_version": "h001_relative_lateral_policy_freeze_v1",
+  "source_rows": {
+    "relative_depth_deferred": {
+      "open3dsg": {
+        "label_counts": {
+          "behind": 19100,
+          "front": 19100
+        },
+        "rows": 38200,
+        "verification_status_counts": {
+          "unsupported": 38200
+        },
+        "verification_status_note": "lateral-only count derived from per-label rows; source verifier has not been run for this family"
+      },
+      "vlsat": {
+        "label_counts": {
+          "behind": 25916,
+          "front": 25916
+        },
+        "rows": 51832,
+        "verification_status_counts": {
+          "unsupported": 51832
+        },
+        "verification_status_note": "lateral-only count derived from per-label rows; source verifier has not been run for this family"
+      }
+    },
+    "relative_lateral": {
+      "open3dsg": {
+        "label_counts": {
+          "left": 19100,
+          "right": 19100
+        },
+        "rows": 38200,
+        "verification_status_counts": {
+          "unsupported": 38200
+        },
+        "verification_status_note": "lateral-only count derived from per-label rows; source verifier has not been run for this family"
+      },
+      "vlsat": {
+        "label_counts": {
+          "left": 25916,
+          "right": 25916
+        },
+        "rows": 51832,
+        "verification_status_counts": {
+          "unsupported": 51832
+        },
+        "verification_status_note": "lateral-only count derived from per-label rows; source verifier has not been run for this family"
+      }
+    }
+  },
+  "status": "relative_lateral_policy_threshold_provenance_frozen_no_source_metrics",
+  "threshold_provenance": {
+    "heldout_audit_used_for_family_split": true,
+    "main_claim_caveat": "Because the split was motivated by the held-out coordinate audit, main-claim promotion requires a train/dev calibration or policy-lock rerun before held-out source metrics are used as paper evidence.",
+    "not_tuned_on_source_predictions": true,
+    "status": "frozen_provenance_no_metric_execution",
+    "threshold_basis": {
+      "anti_tuning_rule": "If promoted later, threshold/policy lock must be rerun on train/dev provenance before held-out source metrics are used as paper evidence.",
+      "not_used_as_primary_result": true,
+      "official_benchmark_threshold": false,
+      "predeclared_before_relative_lateral_source_metrics": true,
+      "purpose": "operational sanity gate for deciding whether a relation family deserves full source-metric execution",
+      "reported_as_continuous_evidence": [
+        "strict purity",
+        "strict eligible share",
+        "inverse consistency",
+        "distinct-left-axis wrong-frame gap",
+        "ambiguity buckets"
+      ]
+    },
+    "threshold_source": "inherited from pre-existing relative_horizontal coordinate audit constants before relative_lateral source metrics",
+    "thresholds": {
+      "conflicting_axis_ratio": 1.5,
+      "margin_scale_of_mean_diag_xy": 0.1,
+      "max_margin_m": 0.5,
+      "min_inverse_consistency": 0.85,
+      "min_macro_purity": 0.8,
+      "min_margin_m": 0.15,
+      "min_per_label_purity": 0.75,
+      "min_strict_eligible_share": 0.5,
+      "min_wrong_frame_gap": 0.05,
+      "strong_overlap_ratio": 0.75
+    }
+  },
+  "train_dev_provenance": {
+    "label_counts": {
+      "dev": {
+        "behind": 112,
+        "front": 112,
+        "left": 189,
+        "right": 189
+      },
+      "other_train_json": {
+        "behind": 6217,
+        "front": 6217,
+        "left": 11058,
+        "right": 11058
+      },
+      "train": {
+        "behind": 437,
+        "front": 437,
+        "left": 769,
+        "right": 769
+      }
+    },
+    "path": "/workspace/local_dataset/3DSSG_subset/relationships_train.json",
+    "relative_depth_deferred_counts": {
+      "dev": 224,
+      "other_train_json": 12434,
+      "train": 874
+    },
+    "relative_lateral_counts": {
+      "dev": 378,
+      "other_train_json": 22116,
+      "train": 1538
+    },
+    "scan_counts": {
+      "dev_scan_ids": 8,
+      "train_scan_ids": 24
+    },
+    "status": "ready",
+    "subgraph_counts": {
+      "dev": 46,
+      "other_train_json": 3626,
+      "train": 180
+    }
+  }
+}

@@ -22,7 +22,7 @@ Docker-based scoped H001 experiment workflow entry는 완료했다. `experiments
 
 `relative_horizontal`은 현재 main claim에 포함하지 않고, framework 확장 가능성을 검증하는 별도 relation-scope expansion track으로 진행한다. Docker scope audit, coordinate audit, and bucket inspection are complete; coordinate audit is blocked for promotion with best-frame macro strict purity 0.7725 and `front`/`behind` strict purity 0.7445. Bucket inspection confirms nontrivial threshold-free signal through inverse consistency 1.0 and wrong-frame gap 0.1231, but recommends `do_not_promote_relative_horizontal_to_main_claim` because `front`/`behind` still has substantial ambiguity and contradiction buckets. Current AAAI-path decision is to stop this track as appendix/limitation evidence rather than run expanded-family metrics.
 
-`attachment_deferred` is now the preferred future relation-family expansion if H001 is upgraded. Docker G0 scope/schema audit, G1 extractor contract, G1b evidence-only dry run, G1c point/surface estimator validation, G2 conservative verifier-policy design, G3 train-dev calibration/counterfactual route, G4 GT policy smoke, G4b error/visual sanity planning, G4c strict-only calibration-filter freeze, G5a pooled strict calibration fit, G5b bounded source evidence/scoring preflight, and G5c full-source scoring/metric protocol freeze are complete. Current status is `attachment_deferred_full_source_protocol_frozen_no_metrics`: 967 GT rows (`attached to` 808, `hanging on` 126, `connected to` 33), expanded denominator 3,512 if validated, VL-SAT 77,748 and Open3DSG 57,300 candidate prediction rows, G4c strict calibration rows 325, fitted pooled model `h001-attachment-deferred-p-geom-valid-strict-v1`, 120 bounded source preflight rows scored with 0 validation errors, and 69 deterministic full-source shards for 135,048 source rows. G5c freezes source-specific denominator handling: VL-SAT covers 967/967 attachment GT rows, while Open3DSG covers 768/967 and must report 199 missing exact-label GT rows as a caveat. Warning: `connected to` has no dev strict rows, so pooled calibration or explicit caveat is required. The Open3DSG main-source caveat-reduction R1 path is now complete through non-avg downstream metrics/bootstrap/Table 6 caveat wording under `sources/open3dsg/non_avg/`. R2 covered-loadable context retry reached 388/388 preprocess contexts and 388/388 complete feature ids; branch-local raw stream finalized 388/388 batches and 19,224 rows, but the old H001 streaming hook exited with process code `137` after finalization. The H001 Open3DSG source patch and active runtime `trainer.py` files were updated to use clean `return` after raw stream finalization instead of `raise SystemExit(0)`. On 2026-06-06 KST, a patched clean-return provenance rerun completed under `sources/open3dsg/h001_covered_recovery/raw_dump_clean_return_20260606_003130/`: manifest status `raw_dump_stream_complete`, 388/388 batches, 19,224 rows, dropped/invalid partial rows 0/0, and log contains `returning cleanly`; however Docker still returned exit `137`. Docker events confirm `container oom` for `open3dsg-eval_h001_gt_objects-run-494244438c14` at 2026-06-06 01:05:41 KST, followed by `exitCode=137`, so the artifact is complete but process-level clean-exit promotion failed due to container OOM during/after teardown. Retry2 after swap reset also completed the artifact under `sources/open3dsg/h001_covered_recovery/raw_dump_clean_return_retry2_20260606_021154/`: manifest status `raw_dump_stream_complete`, 388/388 batches, 19,224 rows, dropped/invalid partial rows 0/0, and log contains `returning cleanly`; Docker again emitted `container oom` at 2026-06-06 02:54:41 KST and exit `137` even though initial swap use was 0B. R2 no longer needs another same-route retry; it now needs raw identity, adapter export, geometry join, metrics, bootstrap CI, and table/caveat refresh before any wording change. These retries strengthen Open3DSG source credibility; for attachment they can reduce only the missing-preprocessed-context portion of the Open3DSG denominator caveat, not the larger candidate-pair-universe gap. The current main claim remains unchanged, and adding this family to the main AAAI claim requires explicit final user confirmation.
+`attachment_deferred` is now the preferred future relation-family expansion if H001 is upgraded. Docker G0 scope/schema audit, G1 extractor contract, G1b evidence-only dry run, G1c point/surface estimator validation, G2 conservative verifier-policy design, G3 train-dev calibration/counterfactual route, G4 GT policy smoke, G4b error/visual sanity planning, G4c strict-only calibration-filter freeze, G5a pooled strict calibration fit, G5b bounded source evidence/scoring preflight, G5c full-source scoring/metric protocol freeze, and G5d full-source scoring/metrics/controls/bootstrap are complete. Current G5d status is `attachment_deferred_g5d_full_source_metrics_ready`: 69/69 shards complete, 135,048 scored rows, validation errors 0, 300 failure rows, log `logs/h001_attachment_g5d_full_20260606_113803.log`, exit file `logs/h001_attachment_g5d_full_20260606_113803.exit` with exit 0, outputs `experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d/`. Source metrics: VL-SAT denominator 967/967, semantic_only R@100/V@100 `1.0000/0.2126`, probabilistic_recalibrated `0.9979/0.2210`, rule_verified_attachment_policy `0.9380/0.0215`; Open3DSG denominator 768/967 with 199 missing exact-label GT rows, semantic_only R@100/V@100 `0.9297/0.3021`, probabilistic_recalibrated `0.6628/0.2460`, rule_verified_attachment_policy `0.9245/0.0842`. Warning: `connected to` has no dev strict rows, so pooled calibration or explicit caveat is required. This G5d job is source metric evidence only; the current main claim remains unchanged, and adding this family to the main AAAI claim requires explicit final user confirmation. The Open3DSG main-source caveat-reduction R1 path is now complete through non-avg downstream metrics/bootstrap/Table 6 caveat wording under `sources/open3dsg/non_avg/`. R2 covered-loadable context retry reached 388/388 preprocess contexts and 388/388 complete feature ids; branch-local raw stream finalized 388/388 batches and 19,224 rows, but the old H001 streaming hook exited with process code `137` after finalization. The H001 Open3DSG source patch and active runtime `trainer.py` files were updated to use clean `return` after raw stream finalization instead of `raise SystemExit(0)`. On 2026-06-06 KST, a patched clean-return provenance rerun completed under `sources/open3dsg/h001_covered_recovery/raw_dump_clean_return_20260606_003130/`: manifest status `raw_dump_stream_complete`, 388/388 batches, 19,224 rows, dropped/invalid partial rows 0/0, and log contains `returning cleanly`; however Docker still returned exit `137`. Docker events confirm `container oom` for `open3dsg-eval_h001_gt_objects-run-494244438c14` at 2026-06-06 01:05:41 KST, followed by `exitCode=137`, so the artifact is complete but process-level clean-exit promotion failed due to container OOM during/after teardown. Retry2 after swap reset also completed the artifact under `sources/open3dsg/h001_covered_recovery/raw_dump_clean_return_retry2_20260606_021154/`: manifest status `raw_dump_stream_complete`, 388/388 batches, 19,224 rows, dropped/invalid partial rows 0/0, and log contains `returning cleanly`; Docker again emitted `container oom` at 2026-06-06 02:54:41 KST and exit `137` even though initial swap use was 0B. R2 downstream sensitivity refresh is now complete under `sources/open3dsg/h001_covered_recovery/`: raw identity `ready`, adapter 498,212 prediction rows, geometry 498,212 preserved rows / 114,972 H001-family geometry rows, metrics `ready`, bootstrap CI `ready`, and table/caveat report `open3dsg_h001_covered_recovery_sensitivity_ready`. R2 increases historical avg-BLIP R@100 by about +0.28 pp across conditions and leaves the qualitative conclusion unchanged; use it as appendix robustness evidence that the old 377/388 missing-context caveat did not drive the trend, not as a main-route replacement. Raw-dump-only runner implementation is not recommended now; implement it only if R2 is promoted from appendix sensitivity to process-clean provenance. These retries strengthen Open3DSG source credibility; for attachment they can reduce only the missing-preprocessed-context portion of the Open3DSG denominator caveat, not the larger candidate-pair-universe gap.
 
 Open3DSG `training_repro` metadata/split/full payload, official BLIP TopK5/scales3 feature dump, avg-BLIP full training, checkpoint selection, eval preflight, H001 held-out eval feature-cache generation, raw-dump identity audit, clean v14 streaming raw-dump source provenance, adapter export, geometry join, metric eval, Table 6 regeneration, Docker subgraph bootstrap CI, paper claim-consistency review, paper-body content block planning, first-pass manuscript prose draft, draft claim/evidence review, Figure 1-3 source lock, verified draft Figure 1-3 SVG generation, top-tier novelty/layout figure review, Figure 3 geometry-backed panel upgrade, ICCV-style source conversion, AAAI-style source conversion, AAAI reproducibility checklist insertion, and appendix/provenance caveat-consistency pass are complete. Current target venue route is AAAI; ICCV source is historical/alternate. 논문 본문용 실제 experiment 구현은 계속 Docker 기반으로 진행한다. Host-only outputs must not be promoted to paper experiment results.
 
@@ -43,8 +43,11 @@ completed 127-scan results are historical/sensitivity evidence. VL-SAT
 full-validation is the primary controlled-anchor result, and Open3DSG
 `recovery_relaxed_views_min2/` is the primary full-denominator Open3DSG result;
 the original 533/548 covered branch remains an unmodified-source-route
-sensitivity check. AAAI table/prose regeneration and explicit recovery-policy
-	caveat wording are complete; next paper work is PDF/layout/content polish.
+sensitivity check. Table policy is fixed: the main source-result table uses
+VL-SAT full-validation plus Open3DSG full-validation 548/548 recovery, while
+the appendix/sensitivity table uses Open3DSG historical old 377/388 versus R2
+388/388. AAAI table/prose regeneration and explicit recovery-policy caveat
+wording are complete; next paper work is PDF/layout/content polish.
 
 Research target rule: goal and direction are judged against AI, ML, CV, and Robotics top-tier journal/conference standards.
 
@@ -54,7 +57,11 @@ CAND-003은 literature survey 트랙이다. 2026-04-30 기준으로 LLM/VLM task
 
 - CAND-001: Open3DSG official feature dump, Docker `feature_audit`, avg-BLIP checkpoint reproduction, H001 raw dump, identity audit, clean v14 streaming raw-dump source provenance, adapter export, geometry join, metric eval, real failure-analysis rows, qualitative case inspection, paper caveat wording, and regenerated Table 6 are complete. Historical exit-137 attempts stay in run records, not as final raw-dump provenance caveats.
 - CAND-001: `relative_horizontal` expansion is selected as a non-GPU relation-scope track while preserving the current paper claim. Docker coordinate audit and bucket inspection are complete but blocked for promotion: selected frame `scan_left_neg_x_front_neg_y`, macro strict purity 0.7725, strict eligible share 0.6403, `left`/`right` purity 0.8005, `front`/`behind` purity 0.7445, inverse consistency 1.0, wrong-frame gap 0.1231, `front`/`behind` match:contradiction 2.9143, ambiguity flags `axis_margin_ambiguous` 230, `conflicting_axis_dominates` 430, and `strong_projected_overlap` 44. Recommendation is `do_not_promote_relative_horizontal_to_main_claim`. Current AAAI-path decision is to keep it as appendix/limitation evidence; it can only be promoted in a future expansion if the `front`/`behind` ambiguity is resolved and it reaches the current H001 evidence level: verifier policy, calibration/counterfactuals, GT verifier evaluation, VL-SAT/Open3DSG source metrics, controls, bootstrap CI, and failure/audit evidence.
-- CAND-001: `attachment_deferred` is the preferred future relation-family upgrade, not current AAAI metric evidence. Docker G0 scope/schema audit, G1b dry run, G1c point/surface estimator validation, G2 verifier-policy design, G3 train-dev calibration/counterfactual route, G4 GT policy smoke, G4b error/visual sanity planning, G4c strict-only calibration-filter freeze, G5a pooled strict calibration fit, G5b bounded source evidence/scoring preflight, and G5c full-source protocol freeze are complete under `experiments/H001_geom_reliability/sources/attachment_deferred/`; it covers `attached to`, `hanging on`, and `connected to`, adds 967 GT rows, and aligns better with H001's physical-consistency thesis than `relative_horizontal`. The fitted model and protocol can now support full-source scoring, but no full-source source metrics have been run.
+- CAND-001: `relative_lateral` is now split from the broader `relative_horizontal` track as a narrower left/right-only candidate family. Docker `relative_lateral_policy_freeze` completed with status `relative_lateral_policy_threshold_provenance_frozen_no_source_metrics`; outputs live under `experiments/H001_geom_reliability/sources/relative_lateral/policy_freeze/`. It freezes `left/right` denominator 2,264 rows (`left` 1,132 + `right` 1,132), defers `front/behind` as `relative_depth_deferred` with 1,306 rows, freezes geometry policy `relative_lateral_scan_x_sign_policy_v1` with selected frame `scan_left_neg_x_front_neg_y` and selected left axis `[-1.0, 0.0]`, and records threshold provenance as operational-gate evidence rather than tuned metric thresholds. Train/dev lateral rows are 1,538/378. No source metrics were run and the AAAI main claim remains unchanged.
+- CAND-001: `relative_lateral` next gate completed as Docker `relative_lateral_train_dev_policy_lock` with status `relative_lateral_train_dev_policy_lock_ready_with_caveats_no_source_metrics`; outputs live under `experiments/H001_geom_reliability/sources/relative_lateral/train_dev_policy_lock/`. It uses train/dev GT positives plus left/right label-flip counterfactuals only: 3,832 decision rows = 1,916 positives + 1,916 counterfactuals. Train positive strict purity / lenient nonviolated rate is `0.8738/0.9168`; dev positive strict purity / lenient nonviolated rate is `0.6975/0.8095`; dev counterfactual strict negative purity / lenient nonsatisfied rate is `0.6975/0.8095`; train-only calibration dev AUROC is `0.7401`. Gate failed because dev strict purity checks are below 0.80, so paper-facing lateral source metrics are blocked unless the result is explicitly kept as caveated appendix evidence or dev failure diagnosis resolves the issue without validation tuning.
+- CAND-001: `relative_lateral` dev failure diagnosis completed as Docker `relative_lateral_dev_failure_diagnosis` with status `relative_lateral_dev_failure_diagnosis_ready_no_policy_change_no_source_metrics`; outputs live under `experiments/H001_geom_reliability/sources/relative_lateral/dev_failure_diagnosis/`. It reads only the frozen policy-lock rows. Positive strict contradictions are 72 rows but 36 physical pairs, all concentrated in two dev scans, with same-label share `0.5278`. Positive uncertain rows are 140 rows but 70 physical pairs, same-label share `0.4857`, and the dominant cause is orthogonal/front-back-axis dominance rather than pure lateral sign failure. Conclusion: this is a coordinate/frame-orientation boundary case; keep `relative_lateral` caveated unless a separate predeclared frame/annotation study is added.
+- CAND-001: `relative_lateral` current-path stop decision is now fixed. It is appendix/future-work boundary evidence only, not a source-metric or main-claim expansion track. The consolidated relation-expansion status file is `experiments/H001_geom_reliability/sources/relation_expansion_status.md`.
+- CAND-001: `attachment_deferred` is the preferred future relation-family upgrade, not current AAAI main-claim evidence. Docker G0 scope/schema audit through G5d full-source scoring/metrics/controls/bootstrap are complete under `experiments/H001_geom_reliability/sources/attachment_deferred/`; it covers `attached to`, `hanging on`, and `connected to`, adds 967 GT rows, and aligns better with H001's physical-consistency thesis than `relative_horizontal`. G5d status is `attachment_deferred_g5d_full_source_metrics_ready` with 69/69 shards, 135,048 scored rows, validation errors 0. Main-claim promotion still requires user confirmation and likely failure/visual audit.
 - CAND-001: Qwen-VL은 third semantic source / modern VLM extension으로 고정한다. frozen input schema / output JSONL contract / validator-parser skeleton / non-held-out tiny pilot scope / runtime preflight and model-lock plan / 30-row pair-crop rendering and validation / model cache verification / runtime preflight / 3-row tiny inference smoke / runtime raw-response validation / full-source promotion protocol freeze / full-source input audit and validation / full-source crop render and preflight / full-source inference runner plan and shard dry-run까지 완료했다. Primary recommendation은 `Qwen/Qwen3-VL-4B-Instruct` revision `ebb281ec70b05090aa6165b016eac8ec08e71b17`, local-dir `local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17`이다. Docker full-source input status is `full_source_input_ready_with_missing_rows_no_inference`; scope is 127 scans / 388 contexts / 25,916 directed pairs / 77,748 universe rows / 33,384 inferable input rows / 44,364 missing rows / 134 shards / in-scope GT denominator 2,545. Crop preflight status is `full_source_crop_preflight_ready_no_inference` with 11,128 verified pair crops. Inference runner status is `full_source_inference_runner_frozen_no_inference`, shard 0000 status is `complete_validated_non_metric` with 250/250 parsed rows and 0 validation errors. Remaining shard loop run id `20260527_023111` stopped at shard 0014 because the GPU guard observed utilization 36% against the 35% threshold; shards 0000-0013 are complete, 3,500 rows are written, and resume should start from `qwen_full_source_shard_0014`. Qwen remains non-metric until all sharded inference, parser validation, adapter export, geometry join, metrics, controls, bootstrap CI, and audit complete.
 - CAND-003: P1 결과물을 보고 hypothesis workflow 승격 여부를 판단한다.
 
@@ -140,19 +147,15 @@ Data-dependent:
       `0.4658/0.6047`, V@50/@100 `0.0286/0.0341`. Caveat: report this as a
       recovery-policy variant, not the unmodified Open3DSG source preprocess
       route, because it relaxes the visible-object gate to `min_visible=2` and
-      regenerates relaxed views for two scans. A separate raw
-      clean-exit retry2 completed stream finalization but still exited `137`:
-      tmux `h001_open3dsg_full_validation_raw_exit0_retry2`, log
-      `logs/open3dsg_full_validation_raw_exit0_retry_20260605_000241.log`,
-      output
-      `experiments/H001_geom_reliability/sources/open3dsg/full_validation/raw_dump_exit0_retry_20260605_000241/`.
-      It reached 533/533 batches, wrote 26,746 rows, fired
-      `H001 raw dump stream exit-after-write requested`, and the manifest is
-      `raw_dump_stream_complete` with dropped/invalid partial rows `0/0`;
-      targeted log grep found no CUDA OOM/traceback/exception/killed string.
-      Its raw hash differs from canonical because predicate scores differ, so
-      it is not a clean-exit replacement until raw identity/equivalence audit
-      is run.
+      regenerates relaxed views for two scans. Docker
+      `open3dsg_full_validation_raw_clean_exit_review` reviewed the older
+      533/548 unmodified-source clean-exit retry/equivalence state and wrote
+      `sources/open3dsg/full_validation/raw_clean_exit_review/`: the canonical
+      unmodified branch remains complete at 26,746 rows but exited `137`; the
+      expected retry root `raw_dump_exit0_retry_20260605_000241/` is no longer
+      present after cleanup, so the unmodified branch's clean-exit caveat
+      cannot be reduced. This does not affect the selected 548/548 recovery
+      branch, whose raw stream exited `0`.
       Decision: promote full official validation to the AAAI main route. Use
       VL-SAT full-validation as the controlled-anchor result and Open3DSG
       `recovery_relaxed_views_min2/` as the primary full-denominator Open3DSG
@@ -192,8 +195,9 @@ Data-dependent:
       `min_visible=2` plus relaxed two-scan view caveat. Use both to reduce
       tuning/hand-adjustment concerns: the conclusion should not depend on
       hiding either the source-runtime drop or the recovery-policy intervention.
-- [ ] Optional R2 H001 covered-loadable context retry toward `388/388`:
-      raw-stream artifact complete, same-route clean-exit retries exhausted.
+- [x] Optional R2 H001 covered-loadable context retry toward `388/388`:
+      downstream sensitivity branch complete; same-route clean-exit retries
+      exhausted.
       Docker diagnosis found the
       same Open3DSG visible-object gate pattern as the full-validation recovery
       branch: default route stayed 377/388, default view regeneration made
@@ -214,11 +218,24 @@ Data-dependent:
       batches and 19,224 rows with dropped/invalid partial rows `0/0`; however
       the two patched clean-return reruns still ended with Docker exit `137`
       and Docker `container oom` after finalization. Treat this as a complete
-      artifact plus process-level teardown/OOM caveat. Next run raw identity,
-      adapter, geometry join, metrics, bootstrap CI, and Table/caveat refresh
-      before changing any paper wording. Do not repeat the same Lightning/DDP
-      raw-dump route unless a raw-dump-only runner is implemented.
-- [ ] Optional H001 upgrade path G5d: keep full-source attachment VL-SAT/Open3DSG scoring, source metrics, and controls deferred until the Open3DSG caveat-reduction path is either completed or explicitly waived.
+      artifact plus process-level teardown/OOM caveat. Docker downstream
+      refresh is complete under `h001_covered_recovery/`: raw identity
+      `raw_dump_identity_audit_ready`, adapter `ready` with 498,212 prediction
+      rows, geometry `ready` with 498,212 preserved rows and 114,972 H001-family
+      geometry rows, metrics `ready`, bootstrap CI `ready`, and
+      `table_caveats/` status
+      `open3dsg_h001_covered_recovery_sensitivity_ready`. R2 changes the old
+      avg-BLIP 377/388 point estimates only slightly: R@100 is +0.28 pp across
+      main conditions and Violation@100 changes by +0.00 to +0.13 pp. Wording
+      value: appendix robustness/sensitivity that the old missing 11 contexts
+      did not drive the Open3DSG trend. Do not repeat the same Lightning/DDP
+      raw-dump route. A raw-dump-only runner is optional and should be built
+      only if this R2 sensitivity branch needs process-level exit-0 provenance.
+      Docker `open3dsg_h001_covered_recovery_provenance_review` then confirmed
+      both clean-return raw files are row/predicate-score equivalent to the
+      canonical branch raw dump after excluding run-metadata fields; byte SHA
+      differs only because `baseline_run_id` / `model_source_stage` differ.
+- [x] Optional H001 upgrade path G5d completed: full-source attachment VL-SAT/Open3DSG scoring, source metrics, controls, and bootstrap CI completed with exit 0. Log `logs/h001_attachment_g5d_full_20260606_113803.log`; output `experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d/`; 69/69 shards, 135,048 scored rows, validation errors 0.
 
 Non-data:
 
@@ -228,13 +245,37 @@ Non-data:
       and the historical 127-scan release tar/checksum copy. Primary
       full-validation artifacts, Qwen resume files, datasets, selected
       checkpoints, feature caches, and sensitivity branches were not deleted.
+      2026-06-06 cleanup additionally removed the superseded attachment G5d
+      smoke output/log, selected stale relative-lateral interim logs, the
+      Open3DSG raw-provenance build log, and generated `__pycache__/` folders;
+      retained source-of-truth artifacts include `attachment_deferred/full_source_g5d/`,
+      Open3DSG `raw_clean_exit_review/`, and Open3DSG
+      `h001_covered_recovery/provenance_review/`.
       AAAI Results qualitative counts and stale risk/appendix/progress wording
       were updated for the selected full-validation recovery branch. Docker PDF
       rebuild `logs/h001_aaai_pdf_build_cleanup_consistency_20260605_111759.log`
-      exited 0; `paper/aaai/main.pdf` remains 9 pages on US Letter with no
-      missing citations, undefined references, overfull hboxes, LaTeX errors, or
-      AAAI package errors in the targeted grep.
-- [ ] Keep `relative_horizontal` frozen as appendix/limitation evidence for the current AAAI path.
+      exited 0; later table-policy rebuild
+      `logs/h001_aaai_pdf_build_table_policy_20260606_094543.log` also exited
+      0 but expanded to 10 pages. Compression/layout polish then shortened
+      Related Work, Experimental Setup, Results, Limitations, and Conclusion
+      without changing the source-result policy. Docker rebuild
+      `logs/h001_aaai_pdf_build_compression_20260606_105126.log` exited 0; the
+      current `paper/aaai/main.pdf` is 9 pages on US Letter, with technical
+      content pages 1-7, references on page 8, and the reproducibility
+      checklist on page 9. Targeted grep found no missing citations, undefined
+      references, overfull hboxes, LaTeX errors, or AAAI package errors.
+- [x] Latest AAAI PDF visual/layout inspection after compression: inspect
+      pages, table/figure placement, caption readability, and whether the
+      full-validation main table plus appendix/sensitivity policy remains
+      visible after compression. Result recorded in
+      `paper/aaai/inspection/report.md`: 9 pages, technical content pages 1-7,
+      references page 8, checklist page 9, Open3DSG-main framing preserved,
+      full-validation main table policy preserved, and no blocking visual issue.
+- [x] Keep full `relative_horizontal` frozen as appendix/limitation evidence for the current AAAI path, while splitting `left/right` into a narrower `relative_lateral` candidate track.
+- [x] Freeze `relative_lateral` family, denominator, geometry policy, and threshold provenance without source metrics. Docker build/run logs: `logs/h001_relative_lateral_policy_freeze_rebuild_20260606_163240.log`, `logs/h001_relative_lateral_policy_freeze_rerun_20260606_163240.log`; output `experiments/H001_geom_reliability/sources/relative_lateral/policy_freeze/`.
+- [x] Run `relative_lateral` train/dev policy lock or calibration gate before held-out source metrics. Docker final build/run logs: `logs/h001_relative_lateral_train_dev_lock_final_build_20260606_165717.log`, `logs/h001_relative_lateral_train_dev_lock_final_run_20260606_165717.log`; output `experiments/H001_geom_reliability/sources/relative_lateral/train_dev_policy_lock/`. Status is caveated because dev strict purity gates failed.
+- [x] Diagnose `relative_lateral` dev strict contradictions and uncertain rows without changing validation policy. Docker final build/run logs: `logs/h001_relative_lateral_dev_diagnosis_rebuild_20260606_170406.log`, `logs/h001_relative_lateral_dev_diagnosis_rerun_20260606_170406.log`; output `experiments/H001_geom_reliability/sources/relative_lateral/dev_failure_diagnosis/`. Result: strict contradictions are pair-symmetric, concentrated in two dev scans, and about half same-label object pairs; uncertain rows are mostly orthogonal-axis dominance.
+- [x] Stop `relative_lateral` for the current AAAI path and record why attempted expansion relations did not promote. Updated `sources/relation_expansion_status.md`, `relative_lateral/README.md`, `relative_horizontal/README.md`, `attachment_deferred/README.md`, paper appendix/preview/progress, docs, and TODO. Current decision: no paper-facing lateral source metrics from the current strict policy.
 - [ ] Qwen-VL resume is deferred until GPU runtime is acceptable; keep it as a TODO third-source extension, not current paper metric evidence.
 
 ### CAND-003
@@ -311,19 +352,28 @@ Non-data:
       AAAI source regeneration, Figure 2 regeneration, Table 6 artifact update,
       appendix/source-summary updates, and Docker PDF build
       `logs/h001_aaai_pdf_build_full_validation_20260605_100108.log` exit 0.
-- [ ] Verify Open3DSG full-validation raw clean-exit retry/equivalence:
-      first attempt `raw_dump_exit0_retry_20260604_235944/` was stopped before
-      raw writing because the clean-exit env was not propagated. Retry2
-      completed stream finalization but exited `137`, with
-      `raw_dump_stream_complete`, 26,746 rows, 533 completed batches,
-      dropped/invalid partial rows `0/0`, and no checked
-      OOM/traceback/exception/killed string. Next run raw identity/equivalence
-      on `raw_dump_exit0_retry_20260605_000241/raw.jsonl`; only replace the
-      post-finalization `137` caveat if identity/equivalence and downstream
-      metrics prove it is safe.
+- [x] Verify Open3DSG full-validation raw clean-exit retry/equivalence:
+      Docker `open3dsg_full_validation_raw_clean_exit_review` completed with
+      exit `0`; outputs live under
+      `sources/open3dsg/full_validation/raw_clean_exit_review/`. Result:
+      canonical unmodified 533/548 raw stream remains complete at 26,746 rows
+      but process exit `137`; the expected retry root
+      `raw_dump_exit0_retry_20260605_000241/` is no longer present after prior
+      cleanup, so row equivalence cannot be evaluated and the unmodified branch
+      cannot be promoted to clean-exit provenance. Keep it as a
+      sensitivity/unmodified-source branch with exit-137 caveat. The selected
+      548/548 recovery branch remains unaffected and already has raw stream
+      exit `0`.
 - [x] First, verify the exact non-averaged BLIP route retry and rerun Docker checkpoint selection. Result: R1 completed exit `0`, selected official non-avg checkpoint exists, and separate non-avg downstream H001 raw stream/identity/export/geometry/metrics/bootstrap/Table 6-caveat artifacts are complete under `sources/open3dsg/non_avg/`. Train-dev loss remains worse than avg-BLIP for the historical 127-scan route, while the paper-facing Open3DSG primary route is now the full-validation 548/548 recovery branch.
-- [ ] Second, optional H001 covered-loadable context retry toward `388/388`. If it succeeds, rerun the dependent H001 eval feature/raw dump, adapter export, geometry join, metrics, bootstrap CI, Table 6, and caveat wording with the updated scope.
-- [ ] Only after the two Open3DSG caveat-reduction decisions, revisit `attachment_deferred` G5d full-source scoring. Treat non-avg BLIP and `388/388` coverage as source-credibility improvements, not as proof that attachment G5d will pass.
+- [x] Second, optional H001 covered-loadable context retry toward `388/388`:
+      dependent H001 eval feature/raw dump, adapter export, geometry join,
+      metrics, bootstrap CI, Table 6/caveat wording, and provenance review are
+      complete under `sources/open3dsg/h001_covered_recovery/`. Docker
+      `open3dsg_h001_covered_recovery_provenance_review` confirms the
+      clean-return raw files are row-equivalent to the canonical R2 raw dump
+      after excluding run-metadata fields. Use this as appendix sensitivity
+      evidence only.
+- [x] Verify `attachment_deferred` G5d full-source job: exit file appeared with exit 0; JSON validation passed for manifest/summary/metrics/bootstrap/validation; 69/69 shards, 135,048 scored rows, validation errors 0, source metric status ready, controls/bootstrap ready, 300 failure rows, and Open3DSG 199 missing exact-label GT caveat preserved.
 
 ### CAND-001 Non-Data Order
 
@@ -332,13 +382,17 @@ Non-data:
 - [x] Implement Docker `relative_horizontal_coordinate_audit` for GT sign-purity, inverse-pair consistency, wrong-frame controls, and ambiguity buckets
 - [x] Inspect `relative_horizontal` `front`/`behind` ambiguity/contradiction buckets from `coordinate_audit/records.jsonl`, emphasizing raw diagnostics rather than the operational threshold, and decide whether to attempt policy refinement or stop as scope-boundary evidence
 - [x] Current AAAI-path decision: stop `relative_horizontal` as appendix/limitation evidence, because bucket inspection is meaningful but not strong enough for a broader main claim
+- [x] Split `left/right` into `relative_lateral` and freeze policy-only artifact: `left/right` denominator 2,264, `front/behind` deferred denominator 1,306, selected frame `scan_left_neg_x_front_neg_y`, strict purity 0.8005, strict eligible share 0.6466, distinct-left-axis wrong-frame gap 0.0998, train/dev lateral rows 1,538/378, no source metrics.
+- [x] Run `relative_lateral` train/dev policy lock/calibration before any held-out VL-SAT/Open3DSG source metrics: completed with 3,832 decision rows and train-only calibrator, but dev strict gate failed (`0.6975` strict purity) while lenient dev signal remains `0.8095`.
+- [x] Diagnose dev strict contradictions and uncertain rows without changing held-out validation policy; conclusion is caveated boundary evidence, not a clean promotion route.
+- [x] Decide `relative_lateral` current-path action: stop as appendix/future-work boundary; do not run paper-facing lateral source metrics from the current strict policy.
 - [ ] Optional only if explicitly continuing this expansion later: run a targeted `front`/`behind` visual/frame-metadata check to test whether the contradiction buckets are annotation-frame artifacts or real geometry-policy failures
 - [ ] If coordinate-frame validation becomes defensible after that check, specify the `relative_horizontal` geometry status policy and train-dev calibration/counterfactual generation route
 - [ ] Only after those gates, run expanded-family VL-SAT/Open3DSG metric path, controls, bootstrap CI, and failure/audit evidence before changing any main paper claim
 - [ ] Resume Qwen-VL remaining full-source inference from `qwen_full_source_shard_0014` only when GPU runtime is acceptable; previous loop `20260527_023111` stopped with exit 1 due to transient GPU utilization guard, not OOM or parser failure
 - [ ] Re-check official AAAI author kit only if the target year changes beyond AAAI-26; no official AAAI-27 kit is confirmed as of 2026-05-27 KST
 - [ ] Optional final Figure 3 polish: replace geometry panels with rendered scene crops only if a deterministic crop/render path is added for the same locked case IDs
-- [x] Keep Open3DSG caveats explicit in manuscript Table 3 and experiment artifact Table 6; 2026-06-05 update changes the required main caveats to selected official non-avg checkpoint provenance, filtered train/dev provenance, full-validation exact-label denominator, 548/548 recovery policy, 533/548 sensitivity branch, and residual calibration risk. Older averaged-BLIP / 377/388 / `validation_missing_preprocessed:11` wording is historical/sensitivity branch wording only.
+- [x] Keep Open3DSG caveats explicit in manuscript Table 3 and experiment artifact Table 6; 2026-06-06 update fixes the required table policy: main source-result table uses VL-SAT full-validation plus Open3DSG full-validation 548/548 recovery, while appendix/sensitivity uses Open3DSG historical old 377/388 versus R2 388/388. Main caveats are selected official non-avg checkpoint provenance, filtered train/dev provenance, full-validation exact-label denominator, 548/548 recovery policy, 533/548 full-validation sensitivity branch, appendix historical 377/388 vs R2 388/388 sensitivity, and residual calibration risk. Older averaged-BLIP / 377/388 / `validation_missing_preprocessed:11` wording is historical old-branch wording only.
 - [ ] After the Qwen-VL remaining shard loop completes, verify exit/file counts, run full-source parser validation, prediction aggregation/export, geometry join, metrics, controls, bootstrap CI, and audit; keep it as a third semantic source, not a VL-SAT/Open3DSG replacement
 - [ ] Optional reduced checkpoint smoke only if the official route is intentionally paused or declared too slow: `dump_features_3rscan_pilot` -> `feature_audit_pilot` -> `train_pilot_reduced`; do not promote to paper-result evidence
 - [ ] Optional SceneFun3D/FunGraph3D expansion only if paper scope pivots to robotics/functionality: separate verifier contract, denominator, metrics, and claim boundary
@@ -354,7 +408,7 @@ Non-data:
 - [x] Optional H001 upgrade path G5a: fit pooled attachment train-dev calibration from the G4c strict filter
 - [x] Optional H001 upgrade path G5b: implement/run bounded attachment VL-SAT/Open3DSG source evidence extraction and p_geom scoring preflight
 - [x] Optional H001 upgrade path G5c: freeze full-source scoring/metric protocol, including sharding/runtime budget, output contract, denominator handling, and control order
-- [ ] Optional H001 upgrade path G5d: run full-source attachment VL-SAT/Open3DSG scoring, source metrics, and controls only after G5c
+- [x] Optional H001 upgrade path G5d: full-source attachment VL-SAT/Open3DSG scoring, source metrics, controls, and bootstrap CI completed; do not promote to main claim without explicit final user confirmation
 - [ ] Optional function-reasoning pilot only after attachment relation reliability passes GT/counterfactual and source-result gates; keep it as a secondary case study, not a primary claim
 - [ ] FROSS runtime artifact acquisition path: prediction pickle or rendered-depth/2D-SG staged root
 - [ ] Implement minimal `fross_scannet20` prediction JSONL adapter after runtime artifact exists

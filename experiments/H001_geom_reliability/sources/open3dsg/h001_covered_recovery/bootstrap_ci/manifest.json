@@ -1,0 +1,12 @@
+{
+  "created_at_utc": "2026-06-05T18:08:03.913969+00:00",
+  "docker_command": "UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm bootstrap_ci",
+  "n_bootstrap": 1000,
+  "output_files": [
+    "experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/bootstrap_ci/summary.json",
+    "experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/bootstrap_ci/summary.md"
+  ],
+  "schema_version": "h001_bootstrap_ci_v1",
+  "seed": 20260526,
+  "status": "ready"
+}

@@ -1,0 +1,241 @@
+{
+  "blockers": [
+    "dev_strict_policy_gate_failed",
+    "source_metrics_blocked_until_dev_strict_failure_is_diagnosed_or_claim_is_explicitly_kept_caveated",
+    "main_claim_requires_explicit_user_confirmation",
+    "dev_positive_strict_purity_ge_0_80",
+    "dev_counterfactual_strict_negative_purity_ge_0_80"
+  ],
+  "calibration": {
+    "dev_used_for_model_selection": false,
+    "fit_split": "train_only",
+    "metrics": {
+      "dev": {
+        "auroc": 0.740068867052994,
+        "brier": 0.21636742780985,
+        "ece_10": 0.16869547577414798,
+        "mean_probability": 0.5,
+        "nll": 0.6783842777805148,
+        "positive_rate": 0.5,
+        "rows": 756,
+        "status": "ready"
+      },
+      "train": {
+        "auroc": 0.8913168098674076,
+        "brier": 0.1295143584295674,
+        "ece_10": 0.06775803510102235,
+        "mean_probability": 0.5,
+        "nll": 0.4252136308806834,
+        "positive_rate": 0.5,
+        "rows": 3076,
+        "status": "ready"
+      }
+    },
+    "model_status": "fit_train_only",
+    "model_type": "univariate_logistic_signed_margin",
+    "source_predictions_used": false
+  },
+  "claim_boundary": {
+    "candidate_family": "relative_lateral",
+    "current_main_claim_unchanged": true,
+    "labels": [
+      "left",
+      "right"
+    ],
+    "paper_claim_promotion_allowed": false,
+    "source_metrics_run": false,
+    "source_predictions_used": false
+  },
+  "created_at": "2026-06-06T07:57:19.999372+00:00",
+  "gate": {
+    "blockers": [
+      "dev_positive_strict_purity_ge_0_80",
+      "dev_counterfactual_strict_negative_purity_ge_0_80"
+    ],
+    "checks": {
+      "calibrator_fit_train_only": true,
+      "dev_calibration_eval_ready": true,
+      "dev_counterfactual_lenient_nonsatisfied_ge_0_80": true,
+      "dev_counterfactual_strict_negative_purity_ge_0_80": false,
+      "dev_left_right_label_coverage": true,
+      "dev_positive_lenient_rate_ge_0_80": true,
+      "dev_positive_strict_purity_ge_0_80": false,
+      "train_left_right_label_coverage": true
+    },
+    "passed": false,
+    "threshold_basis": "operational train/dev policy-lock gates; not official benchmark thresholds and not source metric evidence"
+  },
+  "geometry": {
+    "errors": [],
+    "warning_sample": [
+      "invalid_obb:20c993af-698f-29c5-84b2-972451f94cfb:10:non_positive_aabb_extent"
+    ]
+  },
+  "inputs": {
+    "dataset_root": "local_dataset",
+    "dev_scans": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_calib_pilot/dev_scans.txt",
+    "geometry_policy": "experiments/H001_geom_reliability/sources/relative_lateral/policy_freeze/geometry_policy.json",
+    "policy_freeze_manifest": "experiments/H001_geom_reliability/sources/relative_lateral/policy_freeze/manifest.json",
+    "threshold_provenance": "experiments/H001_geom_reliability/sources/relative_lateral/policy_freeze/threshold_provenance.json",
+    "train_json": "local_dataset/3DSSG_subset/relationships_train.json",
+    "train_scans": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_calib_pilot/train_scans.txt"
+  },
+  "next_gate": "relative_lateral_dev_failure_diagnosis_or_keep_as_caveated_extension",
+  "policy": {
+    "orthogonal_axis_for_ambiguity_only": [
+      0.0,
+      -1.0
+    ],
+    "policy_changed_after_freeze": false,
+    "policy_freeze_status": "relative_lateral_policy_threshold_provenance_frozen_no_source_metrics",
+    "policy_name": "relative_lateral_scan_x_sign_policy_v1",
+    "selected_frame": "scan_left_neg_x_front_neg_y",
+    "selected_left_axis": [
+      -1.0,
+      0.0
+    ],
+    "threshold_provenance": {
+      "heldout_audit_used_for_family_split": true,
+      "main_claim_caveat": "Because the split was motivated by the held-out coordinate audit, main-claim promotion requires a train/dev calibration or policy-lock rerun before held-out source metrics are used as paper evidence.",
+      "not_tuned_on_source_predictions": true,
+      "status": "frozen_provenance_no_metric_execution",
+      "threshold_basis": {
+        "anti_tuning_rule": "If promoted later, threshold/policy lock must be rerun on train/dev provenance before held-out source metrics are used as paper evidence.",
+        "not_used_as_primary_result": true,
+        "official_benchmark_threshold": false,
+        "predeclared_before_relative_lateral_source_metrics": true,
+        "purpose": "operational sanity gate for deciding whether a relation family deserves full source-metric execution",
+        "reported_as_continuous_evidence": [
+          "strict purity",
+          "strict eligible share",
+          "inverse consistency",
+          "distinct-left-axis wrong-frame gap",
+          "ambiguity buckets"
+        ]
+      },
+      "threshold_source": "inherited from pre-existing relative_horizontal coordinate audit constants before relative_lateral source metrics",
+      "thresholds": {
+        "conflicting_axis_ratio": 1.5,
+        "margin_scale_of_mean_diag_xy": 0.1,
+        "max_margin_m": 0.5,
+        "min_inverse_consistency": 0.85,
+        "min_macro_purity": 0.8,
+        "min_margin_m": 0.15,
+        "min_per_label_purity": 0.75,
+        "min_strict_eligible_share": 0.5,
+        "min_wrong_frame_gap": 0.05,
+        "strong_overlap_ratio": 0.75
+      }
+    }
+  },
+  "schema_version": "h001_relative_lateral_train_dev_policy_lock_v1",
+  "scope": {
+    "counterfactual_rows": 1916,
+    "decision_rows": 3832,
+    "dev_scan_ids": 8,
+    "label_counts": {
+      "left": 1916,
+      "right": 1916
+    },
+    "positive_rows": 1916,
+    "scans_with_lateral_rows": 32,
+    "train_scan_ids": 24
+  },
+  "status": "relative_lateral_train_dev_policy_lock_ready_with_caveats_no_source_metrics",
+  "summary": {
+    "dev": {
+      "gt_positive": {
+        "label_counts": {
+          "left": 189,
+          "right": 189
+        },
+        "missing_geometry_rate": 0.0,
+        "positive_lenient_rate_total": 0.8095238095238095,
+        "positive_strict_purity_eligible": 0.6974789915966386,
+        "positive_strict_rate_total": 0.43915343915343913,
+        "status_counts": {
+          "satisfied": 166,
+          "uncertain": 140,
+          "violated": 72
+        },
+        "strict_eligible": 238,
+        "strict_eligible_share": 0.6296296296296297,
+        "total": 378,
+        "uncertain_rate": 0.37037037037037035
+      },
+      "label_flip_counterfactual": {
+        "counterfactual_negative_lenient_rate_total": 0.8095238095238095,
+        "counterfactual_negative_strict_purity_eligible": 0.6974789915966386,
+        "counterfactual_negative_strict_rate_total": 0.43915343915343913,
+        "label_counts": {
+          "left": 189,
+          "right": 189
+        },
+        "missing_geometry_rate": 0.0,
+        "status_counts": {
+          "satisfied": 72,
+          "uncertain": 140,
+          "violated": 166
+        },
+        "strict_eligible": 238,
+        "strict_eligible_share": 0.6296296296296297,
+        "total": 378,
+        "uncertain_rate": 0.37037037037037035
+      }
+    },
+    "overall": {
+      "counterfactual_rows": 1916,
+      "label_counts": {
+        "left": 1916,
+        "right": 1916
+      },
+      "positive_rows": 1916,
+      "rows": 3832,
+      "status_counts": {
+        "satisfied": 1252,
+        "uncertain": 1328,
+        "violated": 1252
+      }
+    },
+    "train": {
+      "gt_positive": {
+        "label_counts": {
+          "left": 769,
+          "right": 769
+        },
+        "missing_geometry_rate": 0.0,
+        "positive_lenient_rate_total": 0.9167750325097529,
+        "positive_strict_purity_eligible": 0.873767258382643,
+        "positive_strict_rate_total": 0.576072821846554,
+        "status_counts": {
+          "satisfied": 886,
+          "uncertain": 524,
+          "violated": 128
+        },
+        "strict_eligible": 1014,
+        "strict_eligible_share": 0.659297789336801,
+        "total": 1538,
+        "uncertain_rate": 0.34070221066319895
+      },
+      "label_flip_counterfactual": {
+        "counterfactual_negative_lenient_rate_total": 0.9167750325097529,
+        "counterfactual_negative_strict_purity_eligible": 0.873767258382643,
+        "counterfactual_negative_strict_rate_total": 0.576072821846554,
+        "label_counts": {
+          "left": 769,
+          "right": 769
+        },
+        "missing_geometry_rate": 0.0,
+        "status_counts": {
+          "satisfied": 128,
+          "uncertain": 524,
+          "violated": 886
+        },
+        "strict_eligible": 1014,
+        "strict_eligible_share": 0.659297789336801,
+        "total": 1538,
+        "uncertain_rate": 0.34070221066319895
+      }
+    }
+  }
+}

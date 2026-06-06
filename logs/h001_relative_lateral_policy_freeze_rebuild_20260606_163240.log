@@ -1,0 +1,42 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 335B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.11.9-slim-bookworm
+#2 DONE 0.7s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 60.92kB done
+#4 DONE 0.0s
+
+#5 [1/4] FROM docker.io/library/python:3.11.9-slim-bookworm@sha256:8fb099199b9f2d70342674bd9dbccd3ed03a258f26bbd1d556822c6dfc60c317
+#5 resolve docker.io/library/python:3.11.9-slim-bookworm@sha256:8fb099199b9f2d70342674bd9dbccd3ed03a258f26bbd1d556822c6dfc60c317 0.0s done
+#5 DONE 0.0s
+
+#6 [2/4] WORKDIR /workspace
+#6 CACHED
+
+#7 [3/4] RUN pip install --no-cache-dir numpy==1.26.4 pillow==10.4.0
+#7 CACHED
+
+#8 [4/4] COPY experiments/H001_geom_reliability/scripts/ /opt/h001/scripts/
+#8 DONE 0.1s
+
+#9 exporting to image
+#9 exporting layers
+#9 exporting layers 0.2s done
+#9 exporting manifest sha256:a58ba77c7b1d904ea01a9d4f98e49a800eed548677790c2e11be936d7d01b21d 0.0s done
+#9 exporting config sha256:502b4806e94c6a87d1c66b1a967af086fdeb79b1143c7456518c51c3b80c8f07 0.0s done
+#9 exporting attestation manifest sha256:03d0800fca3e472db1faf7857b197a61cfb8e702f3e7c485b2bdb438a794e803
+#9 exporting attestation manifest sha256:03d0800fca3e472db1faf7857b197a61cfb8e702f3e7c485b2bdb438a794e803 0.1s done
+#9 exporting manifest list sha256:257708b9143b0a6d82264d000dd70c69908a7fd4425c8a3dc210324698075573 0.0s done
+#9 naming to docker.io/library/h001-geom-reliability:latest
+#9 naming to docker.io/library/h001-geom-reliability:latest done
+#9 unpacking to docker.io/library/h001-geom-reliability:latest 0.1s done
+#9 DONE 0.5s

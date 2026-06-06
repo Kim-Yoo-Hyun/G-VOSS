@@ -1,39 +1,30 @@
 \section{Limitations}
 
-The current study is intentionally scoped to geometry-checkable relation
-families. Relations whose correctness depends primarily on functional, social,
-affordance, or language-pragmatic context are outside the H001 metric claim.
-The selected families are not arbitrary convenience classes: they cover contact
-or support, metric proximity, and vertical ordering, and they are the families
-for which reconstructed geometry can support falsifiable validity checks. The
-evaluation uses GT-object relation rows and exact predicate-label recall, so
-even the Open3DSG result should be read as relation-reliability evidence rather
-than full open-vocabulary scene graph generation performance.
+The study is scoped to geometry-checkable relation families. Functional, social,
+affordance, and language-pragmatic predicates are outside the H001 metric claim.
+The selected families cover contact/support, proximity, and vertical ordering,
+where reconstructed geometry supports falsifiable checks. Because evaluation
+uses GT-object relation rows and exact predicate-label recall, even Open3DSG is
+relation-reliability evidence rather than full open-vocabulary generation.
+We also audited broader horizontal relations and did not promote them:
+front/behind remains frame-ambiguous, and a left/right-only variant fails the
+train/dev strict gate because dev contradictions concentrate in repeated-object
+and orthogonal-axis-dominant cases. These failed expansion gates are treated as
+scope-boundary evidence rather than hidden negative results.
 
-The Open3DSG experiment uses the selected official non-averaged checkpoint, but
-it is still not a leaderboard reproduction. The checkpoint is selected by
-train-dev validation loss before H001 held-out inspection, training/dev
-provenance remains filtered to preprocessed-ready subgraphs, and the paper-facing
-full-validation result uses a documented recovery-policy branch
-(\texttt{OPEN3DSG\_MIN\_VISIBLE\_OBJECTS=2} plus relaxed two-scan view
-regeneration) to cover 548/548 contexts. The original 533/548 covered branch is
-kept as sensitivity evidence. These choices do not invalidate the scoped
-reliability result, because the comparisons are within the same source
-predictions, row contract, and denominator, but they prevent claims of broad
-Open3DSG SOTA or arbitrary-source generality.
+Open3DSG uses the selected official non-averaged checkpoint but is not a
+leaderboard reproduction. The paper-facing result uses a documented recovery
+branch to cover 548/548 contexts, while the 533/548 full-validation branch and
+historical 377/388 vs R2 388/388 comparison remain sensitivity evidence. These
+choices preserve the scoped within-source comparison but block broad Open3DSG
+SOTA or arbitrary-source generality claims.
 
-The visual and qualitative evidence should also be read with the correct scope.
-The reduced visual sanity check and Open3DSG qualitative case inspection are
-reviewer-defense and failure-mechanism evidence, not large-scale independent
-human audits. They help identify failure modes and residual calibration risk,
-but the quantitative claim remains tied to the fixed metric denominator and
-Docker-generated tables.
+The visual sanity check and qualitative case inspection are reviewer-defense and
+failure-mechanism evidence, not large-scale independent human audits. The
+quantitative claim remains tied to the fixed denominator and Docker-generated
+tables.
 
-Finally, \pgeom{} is a calibrated reliability score, not a proof of physical
-correctness. Residual high-confidence but rule-violated cases motivate future
-work on attachment-style physical relations such as attached, hanging, or
-connected objects before broader functional predicates. Such an upgrade would
-require additional surface/contact/gravity evidence and a separate validation
-contract. Larger visual audits, modern VLM relation sources, and downstream
-tasks remain natural follow-up settings where relation reliability can be tested
-through planning, navigation, alignment, or embodied reasoning.
+Finally, \pgeom{} is a calibrated reliability score, not proof of correctness.
+Residual high-confidence violations motivate attachment-style physical
+relations before broader functional predicates, plus larger visual audits,
+modern VLM sources, and downstream planning, navigation, or alignment tests.

@@ -48,8 +48,8 @@ Out of first-scope:
   verifier-policy design, G3 train-dev calibration/counterfactual route, G4 GT
   policy smoke, G4b error/visual sanity planning, G4c strict-only
   calibration-filter freeze, G5a pooled strict calibration fit, G5b bounded
-  source scoring preflight, and G5c full-source protocol freeze are complete;
-  next gate is optional G5d full-source scoring plus source metrics/controls
+  source scoring preflight, G5c full-source protocol freeze, and G5d
+  full-source scoring plus source metrics/controls/bootstrap are complete
 - online RGB-D graph generation
 - robotics navigation
 - broad open-vocabulary 3DSSG generation improvement
@@ -201,6 +201,11 @@ Full official validation branch:
 - Open3DSG caveats: selected official non-avg BLIP checkpoint route, 15 missing
   preprocessed validation contexts after recovery, and raw process exit `137`
   after stream finalization
+- Open3DSG covered-scope provenance review:
+  `sources/open3dsg/full_validation/raw_clean_exit_review/` records that the
+  expected 533/548 clean-exit retry artifact is no longer present after cleanup,
+  so the unmodified branch keeps its exit-137 caveat. The selected 548/548
+  recovery branch is unaffected and has raw stream exit `0`.
 - Open3DSG missing-15 recovery branch: diagnosis identified the exact
   Open3DSG source condition as the hard-coded 4-visible-object preprocess gate;
   a separate recovery variant with `OPEN3DSG_MIN_VISIBLE_OBJECTS=2` plus
@@ -224,7 +229,9 @@ Full official validation branch:
   full-validation route. Use VL-SAT full-validation as the controlled-anchor
   result and Open3DSG `recovery_relaxed_views_min2/` as the primary
   full-denominator Open3DSG result; report the 533/548 covered branch as a
-  sensitivity / unmodified-source-route check.
+  sensitivity / unmodified-source-route check. Historical 127-scan Open3DSG
+  results belong only in appendix/sensitivity, with R2 388/388 as the
+  representative historical branch and old 377/388 as the comparison row.
 - full-validation failure taxonomy: VL-SAT has 59,841 diagnostic rows, 2,897
   visual-audit queue rows, and a 36-case deterministic qualitative inspection;
   Open3DSG recovery has 82,155 diagnostic rows, 8,821 visual-audit queue rows,
@@ -244,8 +251,9 @@ Open3DSG metric-scope policy:
 - family grouping is for reliability / violation reporting, not recall-label
   collapse
 - current primary caveats: selected checkpoint provenance, filtered train/dev
-  provenance, recovery-policy branch, 533/548 sensitivity branch, and residual
-  calibration risk
+  provenance, recovery-policy branch, 533/548 full-validation sensitivity
+  branch, appendix historical 377/388 versus R2 388/388 sensitivity, and
+  residual calibration risk
 
 Relative-horizontal expansion track:
 
@@ -271,7 +279,20 @@ Relative-horizontal expansion track:
 
 Attachment-deferred upgrade track:
 
-- status: `attachment_deferred_full_source_protocol_frozen_no_metrics`
+- status: `attachment_deferred_g5d_full_source_metrics_ready`
+- full log: `logs/h001_attachment_g5d_full_20260606_113803.log`
+- output: `experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d/`
+- counts: 69/69 shards, 135,048 scored rows, validation errors 0, 300 failure rows
+- cleanup note: the earlier 1-shard G5d smoke output/log was deleted after the
+  full G5d run completed; the retained source of truth is `full_source_g5d/`
+  plus `logs/h001_attachment_g5d_full_20260606_113803.log`
+- key metrics:
+  - VL-SAT semantic_only R@100/V@100 `1.0000/0.2126`,
+    probabilistic_recalibrated `0.9979/0.2210`,
+    rule_verified_attachment_policy `0.9380/0.0215`
+  - Open3DSG semantic_only R@100/V@100 `0.9297/0.3021`,
+    probabilistic_recalibrated `0.6628/0.2460`,
+    rule_verified_attachment_policy `0.9245/0.0842`
 - current claim remains unchanged; this is a future H001 upgrade path
 - candidate GT rows: 967, with labels `attached to` 808, `hanging on` 126,
   `connected to` 33
@@ -422,7 +443,7 @@ Cross-source comparison:
 
 | Source | Role | Status |
 | --- | --- | --- |
-| Open3DSG | manuscript main open-vocabulary relation-source case study | Docker-reproduced avg-BLIP checkpoint, H001 eval features, raw dump identity with clean v14 streaming provenance, adapter export, geometry join, metric eval, experiment-artifact Table 6 hook, real failure rows, qualitative case sample, qualitative inspection, paper caveat wording, and subgraph bootstrap CI are ready for the historical 127-scan branch. R1 official non-avg checkpoint selection and downstream regeneration are complete under `sources/open3dsg/non_avg/`. Full official validation is the selected paper-facing route: the recovery branch `recovery_relaxed_views_min2/` reaches 548/548 with clean raw dump, 695,916 predictions, geometry/metrics/bootstrap, 82,155 failure rows, 36-case qualitative inspection, and Table 6 caveats ready, and must disclose the recovery policy; the original 533/548 covered branch remains sensitivity / unmodified-source-route evidence. |
+| Open3DSG | manuscript main open-vocabulary relation-source case study | Docker-reproduced historical 127-scan avg-BLIP checkpoint, H001 eval features, clean v14 raw-dump provenance, adapter/geometry/metrics, failure rows, qualitative inspection, and bootstrap CI are ready as sensitivity evidence. R1 official non-avg checkpoint selection/downstream regeneration are complete under `sources/open3dsg/non_avg/`. R2 historical covered-context recovery is complete at 388/388 with downstream metrics/bootstrap/table-caveat reporting and provenance review; clean-return raw files are row/predicate-score equivalent to canonical R2 raw after excluding run metadata, so R2 is the representative appendix/sensitivity branch and old 377/388 remains the comparison row. Full official validation is the selected paper-facing route: the recovery branch `recovery_relaxed_views_min2/` reaches 548/548 with clean raw dump, 695,916 predictions, geometry/metrics/bootstrap, 82,155 failure rows, 36-case qualitative inspection, and Table 6 caveats ready, and must disclose the recovery policy; the original 533/548 covered branch remains sensitivity / unmodified-source-route evidence with exit-137 caveat. |
 | `VL-SAT` | controlled reproduced anchor | 127-scan hardened result is reproduced and table-ready as historical/sensitivity evidence; full official validation rerun is the selected controlled-anchor primary route under `sources/vlsat/full_validation/` with 957,008 predictions, 11,254 GT rows, 3,972 H001-family GT rows, metric status `ready`, GT verifier AUROC `0.9772`, bootstrap warnings 0, 59,841 failure rows, and 36-case qualitative inspection. AAAI table/prose regeneration from this route is complete; remaining work is polish/build verification. |
 | Qwen-VL | third semantic source / modern VLM extension | schema/parser/tiny pilot/pair crops ready; Qwen3-VL-4B cache ready; Docker runtime preflight, 3-row tiny inference smoke, raw-response validation, full-source promotion plan, full-source input audit, all-scope crop preflight, and full-source inference runner plan are ready; 33,384 inferable rows / 134 shards / 11,128 verified unique pair crops; shards 0000-0013 complete with 3,500 parsed rows; remaining resume starts from shard 0014 after GPU guard is acceptable; no full paper-metric validation/evaluation |
 | FROSS | optional online support/contact source | not full-family H001 evidence |
@@ -779,21 +800,22 @@ Current paper handoff:
   uses AAAI-26 style files until the exact target-year official kit is fixed,
   splits the manuscript into `main.tex` plus `sec/*.tex`, and points the
   bibliography to `paper/references.bib`. Docker build verification is complete
-  with `h001-aaai-tex:20260526`; `main.pdf` builds to 9 total pages, technical
-  content pages 1-7, references page 8, AAAI reproducibility checklist page 9,
-  and no missing citations, undefined refs, overfull hboxes, LaTeX errors, or
-  AAAI package errors.
-- The older AAAI reviewer-defense main-text passes are complete for the
-  127-scan manuscript route. The next AAAI source pass must preserve the same
-  defenses while updating Open3DSG wording to the selected full-validation
-  recovery branch: hand-coded-verifier, geometry-only/distance, recall-tradeoff,
-  Open3DSG recovery-policy provenance, family-selection, AAAI-relevance, and
-  small-delta uncertainty attacks must still be answered without moving
-  technical content beyond page 7.
-- The 2026-05-27 appendix/caveat PDF rebuild
-  `logs/h001_aaai_pdf_build_appendix_caveat_20260527_202734.log` exits 0;
-  `paper/aaai/main.pdf` remains 9 pages, US Letter, with no blocking LaTeX or
-  AAAI warnings.
+  with `h001-aaai-tex:20260526`; latest compression rebuild
+  `logs/h001_aaai_pdf_build_compression_20260606_105126.log` exits 0.
+  `main.pdf` builds to 9 total pages, technical content pages 1-7, references
+  page 8, AAAI reproducibility checklist page 9, and
+  targeted grep found no missing citations, undefined refs, overfull hboxes,
+  LaTeX errors, or AAAI package errors.
+- The current full-validation/table-policy source preserves the reviewer-defense
+  answers after compression: hand-coded verifier, geometry-only/distance,
+  recall-tradeoff, Open3DSG recovery-policy provenance, family-selection,
+  AAAI-relevance, and small-delta uncertainty remain covered within the
+  9-page build. Latest visual/layout inspection passes with wide floats delayed
+  but readable before references.
+- The 2026-05-27 appendix/caveat PDF rebuild was a historical 9-page check.
+  The latest current check is
+  `logs/h001_aaai_pdf_build_compression_20260606_105126.log`, exit 0, with
+  9 pages and no blocking LaTeX or AAAI warnings in targeted grep.
 - `paper/figures.md` is ready and locks Figure 1-3 claims/assets before drawing:
   Figure 1 method framework, Figure 2 two-panel R@100/Violation@100 tradeoff,
   and Figure 3 Open3DSG qualitative case panels.
@@ -810,13 +832,15 @@ Current paper handoff:
 Next required drafting step:
 
 1. Full-validation AAAI source regeneration and Docker PDF build are complete:
-   `logs/h001_aaai_pdf_build_full_validation_20260605_100108.log` exits 0 and
-   `paper/aaai/main.pdf` remains 9 pages. Next drafting work is manual
-   PDF/layout/content polish, not source-result regeneration.
+   `logs/h001_aaai_pdf_build_compression_20260606_105126.log` exits 0 and
+   `paper/aaai/main.pdf` has 9 pages. Latest visual/layout inspection is
+   complete; next drafting work is content/claim QA, not source-result
+   regeneration.
 2. Keep Open3DSG caveats explicit during any further polish; the current
    consistency target is selected official non-avg checkpoint provenance,
    filtered train/dev provenance, full-validation exact-label denominator,
-   548/548 recovery policy, 533/548 sensitivity branch, and residual
+   548/548 recovery policy, 533/548 full-validation sensitivity branch,
+   appendix historical 377/388 versus R2 388/388 sensitivity, and residual
    calibration-risk checks in `paper/appendix.md`.
 3. Keep only an optional final-polish task for rendered scene-crop Figure 3
    evidence if a deterministic path is added; the geometry-backed panel is

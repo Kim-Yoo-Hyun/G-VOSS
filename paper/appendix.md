@@ -45,7 +45,7 @@ Do not use it to hide caveats that must remain visible in the main text.
 | Pooled calibrator | `artifacts/calibration/p_geom_valid_smoke/model.json`; `metrics.json` | Logistic model over geometry numeric features plus family/predicate indicators; train rows 4,616; dev rows 1,193; dev Brier 0.0495, AUROC 0.9822, AUPRC 0.9735 | Produces `probabilistic_recalibrated` score `semantic_score * p_geom_valid` | Establishes `p_geom_valid` as a learned reliability score, not a binary rule label |
 | Family-specific calibrator | `artifacts/calibration/p_geom_valid_family/model.json`; `metrics.json` | Separate logistic model per family; dev AUROC support/contact 0.9831, proximity 1.0000, relative vertical 0.9982 | Produces the stricter `family_specific_p_geom_valid` operating point | Tests whether the result depends on pooling across relation families |
 | GT verifier evaluation | `experiments/H001_geom_reliability/sources/vlsat/full_validation/gt_eval/{metrics.json,report.md}` | 3,972 GT positives and 3,972 GT-derived negatives; positive nonviolated 0.9965; negative nonsatisfied 0.9673; AUROC/AUPRC 0.9772/0.9729; Brier 0.0543 | Held-out verifier check; not used to fit thresholds or calibrators | Defends the geometry signal against the "hand-coded verifier" objection |
-| Open3DSG caveat wording | `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/table_caveats/report.md`; historical 127-scan wording in `experiments/H001_geom_reliability/sources/open3dsg/paper_caveats/report.md` | Primary route: selected official non-avg checkpoint, filtered train/dev provenance, 548/548 recovery policy, exact-label 3,972 denominator, residual calibration risk. Historical branch: averaged-BLIP, 377/388 covered H001 contexts, exact-label 2,545 denominator | Required wording for main source-result table and discussion | Prevents broad Open3DSG/SOTA overclaiming while making the recovery-policy branch transparent |
+| Open3DSG caveat wording | `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/table_caveats/report.md`; historical 127-scan wording in `experiments/H001_geom_reliability/sources/open3dsg/paper_caveats/report.md`; R2 sensitivity wording in `experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/table_caveats/report.md` | Primary route: selected official non-avg checkpoint, filtered train/dev provenance, 548/548 recovery policy, exact-label 3,972 denominator, residual calibration risk. Historical appendix/sensitivity: old 377/388 branch versus R2 388/388 branch under exact-label 2,545 denominator | Required wording for main source-result table and discussion | Prevents broad Open3DSG/SOTA overclaiming while making the recovery-policy branch transparent |
 
 ## Full Official Validation Transition
 
@@ -78,11 +78,31 @@ validation source-result reporting. H001-Mini is hypothesis/feasibility
 evidence and is not used as a paper metric or calibrator-fitting split.
 ```
 
-The AAAI source-result table should use the full-validation route only. Required
+The AAAI source-result table should use the full-validation route only:
+VL-SAT full-validation plus Open3DSG full-validation 548/548 recovery. Required
 appendix note: the primary Open3DSG 548/548 result is a recovery-policy branch
 using `OPEN3DSG_MIN_VISIBLE_OBJECTS=2` plus relaxed view regeneration for two
 scans, while the 533/548 covered branch shows the unmodified source-route
-denominator behavior.
+denominator behavior. Historical 127-scan Open3DSG results should appear only
+in an appendix/sensitivity table comparing the old 377/388 branch against the
+R2 388/388 branch.
+
+## Historical Open3DSG Sensitivity Table Policy
+
+Status: `r2_388_representative_historical_sensitivity`
+
+Use this table only in appendix/supplement or paper-planning artifacts. Do not
+replace the main source-result table with it, because the main paper-facing
+denominator is the full official validation route.
+
+| branch | role | contexts | R2 status / caveat | use |
+| --- | --- | ---: | --- | --- |
+| old avg-BLIP branch | comparison row | 377/388 | clean v14 raw provenance; `validation_missing_preprocessed:11` | shows historical covered-loadable behavior |
+| R2 covered-recovery branch | representative historical sensitivity | 388/388 | complete downstream metrics/bootstrap; raw process exits 137 after finalization; provenance review confirms clean-return raw files are row/predicate-score equivalent after excluding run metadata | shows missing 11 contexts did not drive the trend |
+
+R2-minus-old effect size: R@100 changes by about +0.28 percentage points across
+the main Open3DSG conditions, while Violation@100 changes by +0.00 to +0.13
+points. This is robustness evidence, not a new main-result route.
 
 ## Open3DSG Caveat Consistency Pass
 
@@ -95,11 +115,11 @@ history only and should not be used for main result claims.
 
 | Location | Required caveats | Status |
 | --- | --- | --- |
-| AAAI Experimental Setup | full official validation scope; selected official non-avg Open3DSG checkpoint; filtered train/dev provenance; 548/548 recovery branch; 533/548 covered branch as sensitivity | updated in `paper/aaai/sec/5_experiments.tex` |
-| AAAI Table 3 / Main Source Results Table | Open3DSG-first source role, full-validation 548/548 recovery branch, exact-label denominator 3,972, recovery-policy caveat, residual calibration risk; 533/548 covered branch only as sensitivity | updated in `paper/aaai/sec/6_results.tex` |
+| AAAI Experimental Setup | full official validation scope; selected official non-avg Open3DSG checkpoint; filtered train/dev provenance; 548/548 recovery branch; 533/548 covered branch as sensitivity; historical 377/388 vs R2 388/388 only as appendix sensitivity | updated in `paper/aaai/sec/5_experiments.tex` |
+| AAAI Table 3 / Main Source Results Table | Open3DSG-first source role, full-validation 548/548 recovery branch, exact-label denominator 3,972, recovery-policy caveat, residual calibration risk; no historical 127-scan rows in main table | updated in `paper/aaai/sec/6_results.tex` |
 | AAAI Results prose | within-source reliability, no Open3DSG leaderboard/SOTA claim, same checkpoint/row contract/full-validation denominator, recovery-policy disclosure | updated in `paper/aaai/sec/6_results.tex` |
 | AAAI Limitations | selected non-avg checkpoint, filtered train/dev provenance, recovery-policy branch, scoped relation-reliability interpretation, no broad SOTA claim | updated in `paper/aaai/sec/7_limitations.tex` |
-| Experiment artifact Table 6 | Open3DSG row must carry selected non-avg checkpoint, filtered train/dev, full-validation exact-label denominator, 548/548 recovery policy, residual calibration-risk note, and 533/548 sensitivity branch | updated in `experiments/H001_geom_reliability/tables/table6_cross_source_status.*` |
+| Experiment artifact Table 6 | Open3DSG row must carry selected non-avg checkpoint, filtered train/dev, full-validation exact-label denominator, 548/548 recovery policy, residual calibration-risk note, 533/548 full-validation sensitivity, and appendix-only historical 377/388 vs R2 388/388 sensitivity | updated in `experiments/H001_geom_reliability/tables/table6_cross_source_status.*` |
 | Paper risk register | P2 provenance and Open3DSG caveat visibility risk | updated in `paper/risk.md` |
 | R1 exact non-avg BLIP retry | Supplies the selected full-validation checkpoint provenance; historical 127-scan avg-BLIP remains sensitivity evidence | completed and selected official non-avg checkpoint; downstream non-avg and full-validation recovery artifacts are recorded under `sources/open3dsg/non_avg/` and `sources/open3dsg/full_validation/recovery_relaxed_views_min2/` |
 
@@ -125,22 +145,38 @@ disciplined scope control and the future validation requirement: targeted
 `front`/`behind` visual/frame-metadata analysis before any expanded-family
 metrics.
 
+`relative_lateral` was tested as a narrower left/right-only split after the
+full `relative_horizontal` audit. It is also not part of the current main
+claim. The policy-freeze artifact records 2,264 GT rows and selected frame
+`scan_left_neg_x_front_neg_y`, with lateral-only strict purity 0.8005 and
+distinct-left-axis wrong-frame gap 0.0998. However, the train/dev policy lock is
+caveated: train positive strict purity is 0.8738, but dev positive strict purity
+is only 0.6975. The dev failure diagnosis shows that strict contradictions are
+72 rows / 36 physical pairs concentrated in two scans, about half involve
+same-label object pairs, and uncertain rows are mostly orthogonal-axis dominance
+cases. Current decision: stop `relative_lateral` as appendix/future-work
+boundary evidence and do not run paper-facing source metrics from the current
+strict policy.
+
 ## Attachment Deferred Upgrade Boundary
 
 `attachment_deferred` is the preferred future relation-family upgrade if H001
-is extended beyond the current AAAI scope. It is not current metric evidence.
+is extended beyond the current AAAI scope. It is not current main-claim
+evidence.
 Docker G0 scope/schema audit, G1 extractor contract, G1b evidence-only dry run,
 G1c point/surface validation, G2 conservative verifier-policy design, G3
 train-dev calibration/counterfactual route, G4 GT policy smoke, G4b
 error/visual sanity planning, G4c strict-only calibration-filter freeze, G5a
-pooled strict calibration fit, G5b bounded source scoring preflight, and G5c
-full-source protocol freeze are complete with status
-`attachment_deferred_full_source_protocol_frozen_no_metrics`.
+pooled strict calibration fit, G5b bounded source scoring preflight, G5c
+full-source protocol freeze, and G5d full-source scoring/metrics/controls/
+bootstrap are complete with status
+`attachment_deferred_g5d_full_source_metrics_ready`.
 The family adds 967 GT rows (`attached to`, `hanging on`, `connected to`) and
 would increase the candidate denominator to 3,512 if validated. Candidate rows
-exist for VL-SAT (77,748) and Open3DSG (57,300), but both are currently
-verification-unsupported. Its conceptual fit is strong because attachment and
-hanging have physical preconditions, G2 freezes 9 subtype policies with
+exist for VL-SAT (77,748) and Open3DSG (57,300). G5d shows source-level
+evidence, but it is still not sufficient for main-claim promotion. Its
+conceptual fit is strong because attachment and hanging have physical
+preconditions, G2 freezes 9 subtype policies with
 conservative near-contact, uncertain-band, clear-far, contact-point, and
 contact-patch defaults, G3 prepares 315 positive seeds plus 446 counterfactual
 seeds with held-out overlap 0, and G4 applies the frozen policy to 36 smoke rows
@@ -160,9 +196,12 @@ source rows, with evidence ready 120/120 and validation errors 0. G5c freezes
 69 deterministic full-source shards for 135,048 rows, source-specific covered
 denominators, metric conditions, and controls: VL-SAT covers 967/967 attachment
 GT rows while Open3DSG covers 768/967 and must report 199 missing exact-label GT
-rows. No full-source scoring or source metrics are computed. Promotion requires
-full-source scoring, two-source metrics, controls, bootstrap CI, and failure
-analysis; main-claim promotion also requires explicit final user confirmation.
+rows. G5d then scores 135,048 full-source rows with validation errors 0 and
+computes source metrics/controls/bootstrap. It is not main-claim evidence
+because `attached to` remains noisy, `connected to` lacks dev strict rows,
+Open3DSG misses 199 exact-label GT rows, and additional failure/visual audit is
+still needed. Main-claim promotion also requires explicit final user
+confirmation.
 G1c
 produced 36/36 schema-valid point/surface-ready evidence rows with 0 validation
 errors and no forbidden verifier/metric fields; 27/36 rows have near-contact
@@ -192,7 +231,8 @@ Docker.
 - Docker `table_builder` rerun:
   `logs/h001_table_builder_caveat_consistency_20260527_202425.log`, exit 0.
 - AAAI PDF rebuild:
-  `logs/h001_aaai_pdf_build_cleanup_consistency_20260605_111759.log`, exit 0.
-- PDF status: `paper/aaai/main.pdf`, 9 pages, US Letter, no missing citations,
+  `logs/h001_aaai_pdf_build_compression_20260606_105126.log`, exit 0.
+- PDF status: `paper/aaai/main.pdf`, 9 pages, US Letter, technical content
+  pages 1-7, references page 8, checklist page 9; no missing citations,
   undefined references, overfull hboxes, LaTeX errors, or AAAI package errors
-  found in the latest check.
+  found in the latest targeted check.

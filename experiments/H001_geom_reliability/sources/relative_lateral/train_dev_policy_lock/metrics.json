@@ -1,0 +1,26 @@
+{
+  "metrics": {
+    "dev": {
+      "auroc": 0.740068867052994,
+      "brier": 0.21636742780985,
+      "ece_10": 0.16869547577414798,
+      "mean_probability": 0.5,
+      "nll": 0.6783842777805148,
+      "positive_rate": 0.5,
+      "rows": 756,
+      "status": "ready"
+    },
+    "train": {
+      "auroc": 0.8913168098674076,
+      "brier": 0.1295143584295674,
+      "ece_10": 0.06775803510102235,
+      "mean_probability": 0.5,
+      "nll": 0.4252136308806834,
+      "positive_rate": 0.5,
+      "rows": 3076,
+      "status": "ready"
+    }
+  },
+  "schema_version": "h001_relative_lateral_train_dev_policy_lock_v1",
+  "status": "relative_lateral_train_dev_policy_lock_ready_with_caveats_no_source_metrics"
+}

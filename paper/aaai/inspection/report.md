@@ -1,13 +1,14 @@
 # AAAI PDF Visual/Layout Inspection
 
-Last updated: 2026-05-27 KST
+Last updated: 2026-06-06 KST
 
 ## Build Checked
 
 - PDF: `paper/aaai/main.pdf`
-- Image build log: `logs/h001_aaai_tex_image_build_20260526_015436.log`
-- PDF build log: `logs/h001_aaai_pdf_build_official_kit_20260527_024752.log`
-- Preview files generated locally: `page-1.png` through `page-9.png`
+- Image build log: `logs/h001_aaai_tex_image_build_full_validation_20260605_100108.log`
+- PDF build log: `logs/h001_aaai_pdf_build_compression_20260606_105126.log`
+- Preview files generated locally: `/tmp/h001_aaai_pages/page-4.png` through
+  `/tmp/h001_aaai_pages/page-7.png` for the latest focused check
 - Page count: 9 total pages, US Letter
 - Technical content: pages 1-7
 - References: page 8
@@ -25,8 +26,9 @@ Facts:
 - Page 1: title, abstract, and introduction are readable.
 - Page 2: introduction closes and related work begins.
 - Page 3: problem formulation and method layout are readable.
-- Page 4: controls, experimental setup, and results prose begin.
-- Page 5: fixed-scope table, source-boundary table, limitations, and
+- Page 4: experimental setup, results prose, controls, verifier/audit summary,
+  and limitations are dense but readable.
+- Page 5: fixed-scope table, source-boundary table, limitations tail, and
   conclusion are readable.
 - Page 6: Figure 1, manuscript Table 3, and Figure 2 are readable. Open3DSG is
   the first block in Table 3; VL-SAT is the controlled anchor block.
@@ -45,10 +47,12 @@ Inference:
   fixed.
 - Figure 2 and Figure 3 are single-column in the AAAI version to avoid wide
   floats drifting after references.
-- The reviewer-defense prose pass did not move references or checklist pages:
-  technical content remains pages 1-7 after the new defense paragraphs.
-- The bootstrap-CI sentence added to Results also leaves technical content on
-  pages 1-7 and keeps references/checklist on pages 8-9.
+- The 2026-06-06 table-policy pass temporarily expanded the PDF to 10 pages;
+  the compression pass restored 9 pages while preserving the full-validation
+  main table policy and historical sensitivity wording.
+- Wide floats are delayed to pages 5-7, but they stay before references and are
+  readable. This is acceptable for the current draft; final submission polish
+  can still revisit float flow if needed.
 
 ## Verdict
 
@@ -59,6 +63,8 @@ Visual/layout inspection passed for AAAI-style draft continuation:
 - references after technical content: yes
 - reproducibility checklist after references: yes
 - Open3DSG-main framing preserved: yes
+- full-validation main table policy preserved: yes
+- historical old 377/388 vs R2 388/388 sensitivity wording preserved: yes
 - blocking visual issue: none
 
 Required before submission:

@@ -68,11 +68,13 @@ Fact:
   adapter, geometry, metrics, bootstrap CI, failure rows, and Table 6/caveat
   regeneration are complete. A new recovery-branch 36-case qualitative failure
   inspection is also complete.
-- The current 127-scan results remain historical/sensitivity evidence. The
-  manuscript table route is regenerated from the full official validation
-  results: VL-SAT full-validation as the controlled anchor and Open3DSG
-  `recovery_relaxed_views_min2/` as the primary full-denominator Open3DSG
-  branch.
+- The current 127-scan results remain historical/sensitivity evidence. Within
+  that historical scope, the completed R2 388/388 branch is the representative
+  sensitivity result, and the old 377/388 branch is retained as the comparison
+  row. The manuscript main table route is regenerated from the full official
+  validation results: VL-SAT full-validation as the controlled anchor and
+  Open3DSG `recovery_relaxed_views_min2/` as the primary full-denominator
+  Open3DSG branch.
 - Paper-facing provenance should state that final method design, hard-rule
   policies, counterfactual construction, and `p_geom_valid` calibration are
   train/train-dev-derived and frozen before validation source-result reporting.
@@ -177,16 +179,27 @@ Interpretation:
 
 ### Open3DSG Historical 127-Scan Sensitivity
 
-| condition | R@50 | R@100 | Violation@50 | Violation@100 |
-| --- | ---: | ---: | ---: | ---: |
-| `semantic_only` | 0.3945 | 0.4963 | 0.1326 | 0.1195 |
-| `probabilistic_recalibrated` | 0.3843 | 0.5580 | 0.0575 | 0.0803 |
-| `rule_verified_point_subtype` | 0.4149 | 0.5238 | 0.0000 | 0.0000 |
-| `family_specific_p_geom_valid` | 0.4530 | 0.5984 | 0.0228 | 0.0311 |
+| branch | condition | R@50 | R@100 | Violation@50 | Violation@100 | role |
+| --- | --- | ---: | ---: | ---: | ---: | --- |
+| old 377/388 | `semantic_only` | 0.3945 | 0.4963 | 0.1326 | 0.1195 | comparison row |
+| old 377/388 | `probabilistic_recalibrated` | 0.3843 | 0.5580 | 0.0575 | 0.0803 | comparison row |
+| old 377/388 | `rule_verified_point_subtype` | 0.4149 | 0.5238 | 0.0000 | 0.0000 | comparison row |
+| old 377/388 | `family_specific_p_geom_valid` | 0.4530 | 0.5984 | 0.0228 | 0.0311 | comparison row |
+| R2 388/388 | `semantic_only` | 0.3972 | 0.4990 | 0.1331 | 0.1199 | representative historical sensitivity |
+| R2 388/388 | `probabilistic_recalibrated` | 0.3870 | 0.5607 | 0.0594 | 0.0811 | representative historical sensitivity |
+| R2 388/388 | `rule_verified_point_subtype` | 0.4177 | 0.5265 | 0.0000 | 0.0000 | representative historical sensitivity |
+| R2 388/388 | `family_specific_p_geom_valid` | 0.4558 | 0.6012 | 0.0254 | 0.0323 | representative historical sensitivity |
 
 Interpretation:
 
 - Open3DSG historical 127-scan evidence is retained as sensitivity evidence that geometry-consistency can reduce violations in the same H001 families.
+- R2 removes the historical missing-context caveat inside the 127-scan scope,
+  but the metric changes are small: R@100 increases by about +0.28 percentage
+  points and Violation@100 changes by +0.00 to +0.13 points. This supports the
+  appendix claim that the old 377/388 missing contexts did not drive the trend.
+- R2 provenance review confirms the clean-return raw files are row/predicate-
+  score equivalent to the canonical R2 raw dump after excluding run metadata;
+  the process-level exit-137 teardown caveat remains visible.
 - The best Open3DSG pattern is not identical to `VL-SAT`; use it to support cross-source reliability evidence, not to claim universal behavior.
 - `family_specific_p_geom_valid` is strong on Open3DSG but must be presented as a family-specific operating point.
 
@@ -219,6 +232,10 @@ Paper wording rule:
   `OPEN3DSG_MIN_VISIBLE_OBJECTS=2` plus relaxed view regeneration for two scans.
 - The 533/548 covered full-validation branch should be reported as sensitivity /
   unmodified-source-route evidence.
+- Historical 127-scan sensitivity should be reported as old 377/388 versus R2
+  388/388. Use R2 as the representative historical branch, but keep it outside
+  the main result table because the paper-facing denominator is the full
+  official validation route.
 - Historical 127-scan exit-137 attempts are run records, not final raw-dump
   provenance caveats.
 
@@ -259,6 +276,16 @@ Fact:
 - Current recommendation: `do_not_promote_relative_horizontal_to_main_claim`.
 - Current AAAI-path decision: freeze as appendix/limitation evidence and do not
   run expanded-family metrics.
+- `relative_lateral` was then tested as a narrower left/right-only split.
+  Policy freeze, train/dev policy lock, train-only calibration, and dev failure
+  diagnosis are complete.
+- `relative_lateral` train/dev result: train positive strict purity 0.8738,
+  dev positive strict purity 0.6975, dev lenient nonviolated rate 0.8095, and
+  dev calibration AUROC 0.7401.
+- `relative_lateral` dev diagnosis: strict contradictions are 72 rows / 36
+  physical pairs concentrated in two dev scans; uncertain positives are 140
+  rows / 70 physical pairs; about half of both buckets involve same-label object
+  pairs; most uncertain rows are orthogonal-axis dominance.
 
 Interpretation:
 
@@ -267,6 +294,10 @@ Interpretation:
   AAAI path. A targeted `front`/`behind` visual/frame-metadata check is only
   justified if the paper strategy later pivots to broader spatial-family
   coverage.
+- Current `relative_lateral` decision: stop as appendix/future-work boundary.
+  Do not run paper-facing lateral source metrics from the current strict policy.
+  A future revival needs a separate predeclared frame/annotation study, not
+  threshold tuning.
 
 ## Future Attachment Upgrade
 
@@ -278,15 +309,14 @@ Fact:
   run, G1c point/surface validation, G2 conservative verifier-policy design,
   G3 train-dev calibration/counterfactual route, G4 GT policy smoke, G4b
   error/visual sanity planning, G4c strict-only calibration-filter freeze, G5a
-  pooled strict calibration fit, G5b bounded source scoring preflight, and G5c
-  full-source protocol freeze are complete with status
-  `attachment_deferred_full_source_protocol_frozen_no_metrics`.
+  pooled strict calibration fit, G5b bounded source scoring preflight, G5c
+  full-source protocol freeze, and G5d full-source scoring/metrics/controls/
+  bootstrap are complete with status `attachment_deferred_g5d_full_source_metrics_ready`.
 - Current denominator policy records 967 GT rows: `attached to` 808,
   `hanging on` 126, and `connected to` 33.
 - If validated, the candidate denominator grows from 2,545 to 3,512.
 - Candidate source rows already exist: VL-SAT 77,748 and Open3DSG 57,300.
-- Existing verification status is `unsupported` for both sources; this is why
-  the track is not current metric evidence.
+- G5d source evidence exists, but the track is not current main-claim evidence.
 - The extractor contract explicitly forbids `verification_status`,
   `p_geom_valid`, recall credit, and reranking scores in extractor output.
 - G1c produced 36/36 schema-valid point/surface-ready evidence rows and 0
@@ -312,10 +342,11 @@ Fact:
   rows. G5b scores 120 scan-diverse bounded source rows with evidence ready
   120/120 and validation errors 0. G5c freezes 69 deterministic full-source
   shards for 135,048 rows and source-specific covered denominators: VL-SAT
-  967/967 and Open3DSG 768/967, but it still emits no full-source scoring or
-  source metrics. The strict subset is nearly separable and has no
-  `connected to` dev rows, so future connected-to family-specific calibration
-  requires pooled calibration, augmented dev selection, or explicit limitation.
+  967/967 and Open3DSG 768/967. G5d scores all 135,048 rows with validation
+  errors 0 and computes source metrics/controls/bootstrap. Remaining promotion
+  blockers are Open3DSG 199 missing exact-label GT rows, noisy `attached to`
+  behavior, no `connected to` dev strict rows, and likely additional
+  failure/visual audit.
 
 Interpretation:
 
@@ -324,8 +355,7 @@ Interpretation:
   hanging should be constrained by contact, surface type, gravity, and object
   affordance.
 - It is also harder than support/contact and cannot be promoted without
-  full-source scoring, two-source metrics, controls, bootstrap CI, and failure
-  analysis. Main-claim
+  resolving its caveats and reviewing failure/visual evidence. Main-claim
   promotion requires explicit final user confirmation.
 - A small function-reasoning case study is reasonable only after the
   attachment-reliability result exists; it should show simple physical
@@ -505,7 +535,7 @@ Recommended next action:
 
 1. Use `paper/draft.md` as the active reviewed first-pass manuscript prose, `paper/aaai/` as the current AAAI-style LaTeX source, and `paper/generated/figures/` as the active draft figure output.
 2. Treat the claim-consistency review in `paper/outline.md` as the current paper guardrail: title, contributions, abstract, Introduction, table captions, and figure captions must stay within the scoped relation-reliability claim.
-3. Treat the AAAI reproducibility checklist as inserted after references: latest Docker build `logs/h001_aaai_pdf_build_full_validation_20260605_100108.log` gives 9 total pages, technical content pages 1-7, references page 8, checklist page 9, and no blocking build warnings.
+3. Treat the AAAI reproducibility checklist as inserted after references: latest Docker build `logs/h001_aaai_pdf_build_compression_20260606_105126.log` gives 9 total pages, technical content pages 1-7, references page 8, checklist page 9, and no blocking build warnings. Latest visual/layout inspection passed in `paper/aaai/inspection/report.md`; remaining paper work is content/claim QA, not source-result regeneration.
 4. Treat the AAAI reviewer-defense pass as updated for the selected full-validation route: hand-coded verifier, geometry-only/distance, recall-tradeoff, Open3DSG recovery-policy provenance, family-selection, and AAAI-relevance attacks must all remain answered during polish.
 5. Treat `paper/appendix.md` as the current appendix/provenance owner: calibrator/threshold provenance, Open3DSG caveat consistency, Figure 3 optionality, and Qwen-VL third-source boundary are recorded there.
 6. Keep Open3DSG caveats explicit during any further polish; caption compression must not hide selected-checkpoint provenance, filtered split, exact-label denominator, recovery policy, 533/548 sensitivity branch, or residual calibration risk.

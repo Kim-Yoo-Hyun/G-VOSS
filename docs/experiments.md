@@ -1,6 +1,6 @@
 # Experiment Workflow
 
-Last updated: 2026-05-28
+Last updated: 2026-06-06
 
 This document is the workflow rulebook for Docker-based paper experiments. It
 does not replace `docs/reproducibility.md`, which owns recovery commands,
@@ -93,15 +93,45 @@ guards that prevent metric-dependent threshold tuning.
 Current active experiment root:
 
 - `experiments/H001_geom_reliability/`
+- relation expansion summary:
+  `experiments/H001_geom_reliability/sources/relation_expansion_status.md`
 
 Current H001 paper-result path is scoped to measured `support_contact`,
 `proximity`, and `relative_vertical` families across VL-SAT and Open3DSG.
-`relative_horizontal`, `attachment_deferred`, and Qwen-VL remain extension tracks
-until they pass their own Docker metric, control, bootstrap/audit, and claim
-confirmation gates.
+`relative_horizontal`, `relative_lateral`, `attachment_deferred`, and Qwen-VL
+remain extension tracks until they pass their own Docker metric, control,
+bootstrap/audit, and claim confirmation gates.
+
+Current `relative_lateral` extension status is
+`relative_lateral_policy_threshold_provenance_frozen_no_source_metrics`:
+`left/right` are frozen as a candidate family with 2,264 GT rows, while
+`front/behind` are deferred as `relative_depth_deferred`. The artifact records
+geometry policy and threshold provenance only; it does not run source metrics or
+update the AAAI main claim.
+
+The subsequent Docker train/dev gate is complete with status
+`relative_lateral_train_dev_policy_lock_ready_with_caveats_no_source_metrics`.
+It uses 1,916 GT positives and 1,916 left/right label-flip counterfactuals from
+the frozen train/dev split. The train side is strong, but the dev strict gate
+does not pass, so paper-facing lateral source metrics are blocked unless this is
+kept as explicitly caveated appendix evidence or a dev failure diagnosis resolves
+the issue without validation tuning.
+
+The dev diagnosis is complete with status
+`relative_lateral_dev_failure_diagnosis_ready_no_policy_change_no_source_metrics`.
+It shows that strict contradictions are pair-symmetric and concentrated in two
+dev scans, while uncertain rows are mostly orthogonal-axis dominance cases.
+Final current-path decision: stop `relative_lateral` as appendix/future-work
+boundary evidence. Do not run paper-facing lateral source metrics from the
+current strict policy unless a separate predeclared frame/annotation study is
+opened later.
 
 Current `attachment_deferred` extension status is
-`attachment_deferred_full_source_protocol_frozen_no_metrics`: the Docker G5c
-protocol freezes sharding, output schema, source-specific exact-label
-denominators, metric conditions, and control order, but no full-source scoring
-or source metric has run.
+`attachment_deferred_g5d_full_source_metrics_ready`: the Docker G5c protocol
+freezes sharding, output schema, source-specific exact-label denominators,
+metric conditions, and control order, and Docker G5d full-source
+scoring/metrics/controls/bootstrap completed with exit 0. Log:
+`logs/h001_attachment_g5d_full_20260606_113803.log`; output:
+`experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d/`.
+Counts: 69/69 shards, 135,048 scored rows, validation errors 0. This does not
+update the AAAI main claim.

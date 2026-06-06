@@ -1,41 +1,30 @@
 \section{Related Work}
 
 \paragraph{3D Scene Graph relation prediction.}
-3D Scene Graphs represent indoor scenes as structured collections of objects
-and relations, enabling downstream spatial reasoning beyond isolated object
-recognition. Early 3DSSG work established the 3RScan/3DSSG setting and made
-predicate recall a standard way to evaluate relation prediction in reconstructed
-3D scenes \cite{wald2020learning3dssg}. Subsequent relation-prediction methods
-model relation edges more explicitly, using edge-oriented graph reasoning,
-point-cloud features, multimodal cues, and spatial knowledge to improve
-closed-set predicate prediction
+3D Scene Graphs represent indoor scenes as object-relation structures for
+spatial reasoning. The 3RScan/3DSSG setting established predicate recall for
+3D relation prediction \cite{wald2020learning3dssg}, and later methods use
+edge reasoning, point-cloud features, multimodal cues, and spatial knowledge to
+improve closed-set predicates
 \cite{zhang2021sggpoint,feng2023smka,wang2023vlsat,koch2024sgrec3d}. These
-works show that 3D geometry is already important for relation prediction. Our
-work does not claim that existing 3DSSG methods ignore geometry. Instead, we
-focus on a reliability gap that remains after a relation predictor has produced
-scored predicate candidates: a high semantic relation score is not necessarily
-a calibrated estimate that the relation is physically consistent for the same
-object pair in 3D.
+methods already use geometry; H001 instead targets the post-source reliability
+gap that a high semantic relation score need not be calibrated to physical
+validity for the same object pair.
 
 \paragraph{Open-vocabulary 3D Scene Graphs and VLM-based scene understanding.}
 Recent work extends 3D scene graphs toward open-vocabulary objects, open-set
-relations, VLM-derived features, online graph generation, and functional
-relations
+relations, VLM features, online graph generation, and functional relations
 \cite{koch2024open3dsg,chen2024ccl3dsgg,hou2025fross,zhang2025openfungraph,wang2025octreegraph}.
 This line raises the reliability requirement: when relation edges are
 language-facing scene representations, plausible text labels must still refer
 to object pairs that satisfy the corresponding spatial relation.
 
-Very recent systems broaden this setting further. ZING-3D uses VLM reasoning
-for zero-shot incremental 3D scene graphs with depth grounding and
-distance-bearing edges \cite{saxena2025zing3d}; VIZOR constructs
-viewpoint-invariant zero-shot scene graphs with object-centric spatial
-relations \cite{madhavaram2026vizor}; and Open-World 3DSG-RAG connects
-open-world graph construction to retrieval-augmented reasoning across
-downstream tasks \cite{yu2025openworld3dsg}. We cite these papers as trend and
-boundary evidence, not as direct H001 baselines. Qwen-VL remains an optional
-modern semantic-source extension unless it receives the same Docker,
-denominator, metric, and audit treatment as the main evidence.
+ZING-3D, VIZOR, and Open-World 3DSG-RAG further connect VLMs, zero-shot graph
+construction, and retrieval-augmented reasoning
+\cite{saxena2025zing3d,madhavaram2026vizor,yu2025openworld3dsg}. We cite them
+as trend and boundary evidence, not direct H001 baselines. Qwen-VL remains an
+optional semantic-source extension unless promoted with the same Docker,
+denominator, metric, and audit treatment.
 
 \paragraph{Geometry-aware relation reasoning and semantic-geometric fusion.}
 A broad set of 3D reasoning methods already uses geometry: edge features,
@@ -47,26 +36,16 @@ structure and geometric consistency matter when scene graphs are reused for
 matching, alignment, and downstream geometric tasks
 \cite{sarkar2023sgaligner,xie2024sgpgm}.
 
-RelWitness sharpens the overlap with visual-geometric relation witnesses,
-calibrated witness quality, and witness-consistent decoding for open-vocabulary
-3D scene graph generation under incomplete supervision
+RelWitness uses visual-geometric witnesses, calibrated witness quality, and
+witness-consistent decoding for open-vocabulary 3D scene graph generation
 \cite{nguyen2026relwitness}. H001 therefore does not claim novelty from
 visual-geometric evidence or calibration alone. It studies a different
-contract: a calibrated reliability layer over existing relation-source outputs,
-with identity-preserving geometry joins, recall/violation operating points, and
-controls. We therefore treat RelWitness as closest prior art for
-witness-based open-vocabulary generation, but not as a direct baseline for
-H001's post-source reliability contract unless its outputs can be mapped to the
-same row, denominator, and geometry-violation protocol.
+post-source contract: identity-preserving geometry joins, recall/violation
+operating points, and controls over existing relation-source outputs.
 
 \paragraph{Reliability and calibration for structured relation outputs.}
-Standard relation prediction metrics such as \rAt{K} measure whether the
-correct predicate appears among top-ranked predictions, but they do not
-directly ask whether the predicted relation is physically valid in the
-reconstructed 3D scene. For relation edges that support downstream reasoning,
-this is a reliability problem: the score attached to a relation should not only
-indicate semantic plausibility, but also reflect whether the relation is
-consistent with object-pair geometry. H001 instantiates this reliability view
-for geometry-checkable 3DSSG relation families by standardizing prediction
-rows, joining 3D evidence for the same object pair, estimating \pgeom{}, and
-reporting recall and violation together.
+Standard \rAt{K} asks whether the correct predicate appears near the top, not
+whether the predicted relation is physically valid in the reconstructed scene.
+H001 instantiates this reliability view for geometry-checkable 3DSSG families
+by standardizing prediction rows, joining same-pair 3D evidence, estimating
+\pgeom{}, and reporting recall with violation.

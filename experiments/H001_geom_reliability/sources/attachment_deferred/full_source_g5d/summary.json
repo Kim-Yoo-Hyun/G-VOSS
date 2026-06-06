@@ -1,0 +1,92 @@
+{
+  "counts": {
+    "complete_shards": 69,
+    "expected_total_source_rows": 135048,
+    "failure_rows": 300,
+    "scored_rows": 135048,
+    "shards": 69,
+    "validation_errors": 0
+  },
+  "created_at": "2026-06-06T05:05:38+00:00",
+  "metrics_digest": {
+    "open3dsg_ov": {
+      "control_distance_only": {
+        "r100": 0.9479166666666666,
+        "uncertain100": 0.4715155027528253,
+        "violation100": 0.20846131556070704
+      },
+      "control_p_geom_valid_only": {
+        "r100": 0.66015625,
+        "uncertain100": 0.45621558968414955,
+        "violation100": 0.246740075340481
+      },
+      "control_shuffled_geometry": {
+        "r100": 0.6901041666666666,
+        "uncertain100": 0.4795421616922631,
+        "violation100": 0.31979136482179077
+      },
+      "control_wrong_pair_geometry": {
+        "r100": 0.7786458333333334,
+        "uncertain100": 0.4579831932773109,
+        "violation100": 0.3140538974210374
+      },
+      "probabilistic_recalibrated": {
+        "r100": 0.6627604166666666,
+        "uncertain100": 0.456853086062011,
+        "violation100": 0.2460156476383657
+      },
+      "rule_verified_attachment_policy": {
+        "r100": 0.9244791666666666,
+        "uncertain100": 0.6482758620689655,
+        "violation100": 0.08420747609388583
+      },
+      "semantic_only": {
+        "r100": 0.9296875,
+        "uncertain100": 0.48206317009562444,
+        "violation100": 0.3021153288901768
+      }
+    },
+    "vlsat_closed_set": {
+      "control_distance_only": {
+        "r100": 0.9203722854188211,
+        "uncertain100": 0.4772489539748954,
+        "violation100": 0.1653242677824268
+      },
+      "control_p_geom_valid_only": {
+        "r100": 0.5687693898655636,
+        "uncertain100": 0.45648535564853554,
+        "violation100": 0.22081589958158995
+      },
+      "control_shuffled_geometry": {
+        "r100": 0.9813857290589452,
+        "uncertain100": 0.584597280334728,
+        "violation100": 0.23548640167364016
+      },
+      "control_wrong_pair_geometry": {
+        "r100": 0.9968976215098242,
+        "uncertain100": 0.5728556485355648,
+        "violation100": 0.23485878661087867
+      },
+      "probabilistic_recalibrated": {
+        "r100": 0.9979317476732161,
+        "uncertain100": 0.5630230125523012,
+        "violation100": 0.22097280334728034
+      },
+      "rule_verified_attachment_policy": {
+        "r100": 0.937952430196484,
+        "uncertain100": 0.7530073221757322,
+        "violation100": 0.021548117154811714
+      },
+      "semantic_only": {
+        "r100": 1.0,
+        "uncertain100": 0.6074529288702929,
+        "violation100": 0.2125523012552301
+      }
+    }
+  },
+  "schema_version": "h001_attachment_deferred_g5d_full_source_v1",
+  "status": "attachment_deferred_g5d_full_source_metrics_ready",
+  "warnings": [
+    "connected_to_dev_absent_use_pooled_or_train_only_caveat"
+  ]
+}

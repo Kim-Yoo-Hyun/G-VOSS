@@ -1,0 +1,64 @@
+{
+  "candidate_counterfactuals": [
+    "inverse_label_counterfactual:left_to_right_or_right_to_left",
+    "wrong_pair_lateral_geometry",
+    "axis_margin_ambiguous_as_uncertain_not_negative",
+    "strong_overlap_ambiguous_as_uncertain_not_negative"
+  ],
+  "candidate_positive_labels": [
+    "left",
+    "right"
+  ],
+  "fit_policy": "Use train/dev only; do not use held-out source metrics or failure rows to tune thresholds.",
+  "positive_seed_source": "local_dataset/3DSSG_subset/relationships_train.json",
+  "required_before_main_promotion": true,
+  "schema_version": "h001_relative_lateral_policy_freeze_v1",
+  "split_source": {
+    "dev_scans": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_calib_pilot/dev_scans.txt",
+    "train_scans": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_calib_pilot/train_scans.txt"
+  },
+  "status": "relative_lateral_train_dev_calibration_plan_frozen_no_fit",
+  "train_dev_counts": {
+    "label_counts": {
+      "dev": {
+        "behind": 112,
+        "front": 112,
+        "left": 189,
+        "right": 189
+      },
+      "other_train_json": {
+        "behind": 6217,
+        "front": 6217,
+        "left": 11058,
+        "right": 11058
+      },
+      "train": {
+        "behind": 437,
+        "front": 437,
+        "left": 769,
+        "right": 769
+      }
+    },
+    "path": "/workspace/local_dataset/3DSSG_subset/relationships_train.json",
+    "relative_depth_deferred_counts": {
+      "dev": 224,
+      "other_train_json": 12434,
+      "train": 874
+    },
+    "relative_lateral_counts": {
+      "dev": 378,
+      "other_train_json": 22116,
+      "train": 1538
+    },
+    "scan_counts": {
+      "dev_scan_ids": 8,
+      "train_scan_ids": 24
+    },
+    "status": "ready",
+    "subgraph_counts": {
+      "dev": 46,
+      "other_train_json": 3626,
+      "train": 180
+    }
+  }
+}

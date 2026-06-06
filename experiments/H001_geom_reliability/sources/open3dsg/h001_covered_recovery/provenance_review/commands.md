@@ -1,0 +1,7 @@
+# Raw Provenance Review Commands
+
+Run from the repository root:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_h001_covered_recovery_provenance_review
+```

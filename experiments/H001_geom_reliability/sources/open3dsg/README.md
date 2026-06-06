@@ -70,7 +70,7 @@ Current non-avg downstream branch:
 
 Current R2 H001 covered-scope recovery:
 
-- status: `h001_covered_recovery_raw_stream_complete_exit_137_teardown_oom`
+- status: `h001_covered_recovery_sensitivity_ready_exit_137_teardown_oom`
 - branch root: `h001_covered_recovery/`
 - scope: historical H001 127 scans / 388 validation contexts, not the current
   paper-facing full-validation main route
@@ -130,9 +130,34 @@ Current R2 H001 covered-scope recovery:
   2026-06-06 02:54:41 KST, followed by `exitCode=137`. Initial swap use was
   `0B`, but the wrapper memory snapshot at finish showed 5.8 GiB swap in use,
   so another same-route retry is not recommended.
-- command boundary: this is a caveat-reduction sensitivity branch. It must not
-  change paper wording until raw dump, raw identity, adapter export, geometry
-  join, metrics, bootstrap CI, and table/caveat refresh all pass.
+- downstream refresh: Docker raw identity, adapter export, geometry join,
+  metric eval, bootstrap CI, and table/caveat refresh are complete under
+  `h001_covered_recovery/`. Artifacts:
+  `raw_dump_identity/`, `adapter/`, `geometry/`, `metrics/`, `bootstrap_ci/`,
+  and `table_caveats/`.
+- downstream status: raw identity `raw_dump_identity_audit_ready`, adapter
+  `ready` with 498,212 prediction rows, geometry `ready` with 498,212 preserved
+  rows and 114,972 H001-family geometry rows, metrics `ready`, bootstrap CI
+  `ready`, and table/caveat status
+  `open3dsg_h001_covered_recovery_sensitivity_ready`.
+- sensitivity result: compared with the old avg-BLIP 377/388 branch, R2 raises
+  R@100 by about +0.28 pp across the main conditions and changes Violation@100
+  by +0.00 to +0.13 pp. This does not change the qualitative Open3DSG trend.
+- provenance review: Docker
+  `open3dsg_h001_covered_recovery_provenance_review` wrote
+  `h001_covered_recovery/provenance_review/` and confirms both clean-return raw
+  files are row/predicate-score equivalent to the canonical branch raw dump
+  after excluding run-metadata fields. Byte SHA differs because
+  `baseline_run_id` and `model_source_stage` differ, not because the prediction
+  payload differs.
+- wording decision: use R2 as appendix robustness/sensitivity evidence that the
+  historical missing 11 contexts did not drive the result. Do not replace the
+  current full-validation 548/548 recovery main route with this branch.
+- raw-dump-only runner judgment: do not implement it now. It is reasonable only
+  if this R2 branch is promoted from appendix sensitivity to process-clean
+  provenance; such a runner must keep checkpoint, feature cache, dataloader
+  inputs, model forward, and raw JSONL schema fixed, and bypass only
+  Lightning/DDP teardown.
 
 Full official validation transition:
 
@@ -145,7 +170,15 @@ Full official validation transition:
 - completed coverage gates: payload, views, preprocess audit/recovery, feature seed/audit, raw stream, raw-dump identity, adapter, geometry join, metrics/controls, bootstrap CI, failure rows, and Table 6/caveat regeneration
 - coverage: views 157/157; preprocess 533/548, with 15 missing contexts after recovery; covered-scope features 533/533; raw stream 26,746 rows / 533 completed batches
 - preprocess retry2: `full_validation/preprocess_retry2/` reran the 13 scans containing the 15 missing contexts with `--force --deep-inspect`; result remained identical at 32 regenerated / 15 missing, with repeated `too few visible objects, scene missalignment possible` source messages
-- raw exit-0 retry: first attempt `raw_dump_exit0_retry_20260604_235944/` was stopped before raw writing because the clean-exit env was not propagated into the container; retry2 `raw_dump_exit0_retry_20260605_000241/` used explicit `docker compose run -e OPEN3DSG_RAW_DUMP_EXIT_AFTER_WRITE=1`, reached 533/533 batches, wrote 26,746 rows, fired the exit-after-write hook, and still ended with exit `137`
+- raw exit-0 retry closeout: first attempt
+  `raw_dump_exit0_retry_20260604_235944/` was stopped before raw writing
+  because the clean-exit env was not propagated into the container. Retry2
+  `raw_dump_exit0_retry_20260605_000241/` had previously reached 533/533
+  batches, wrote 26,746 rows, fired the exit-after-write hook, and still ended
+  with exit `137`, but that retry artifact was later removed during approved
+  cleanup. Docker `open3dsg_full_validation_raw_clean_exit_review` therefore
+  records `not_evaluable_retry_artifact_missing`; the unmodified 533/548 branch
+  keeps its process-level exit-137 caveat.
 - row outputs: adapter 690,924 predictions; geometry 690,924 verification rows; 159,444 H001-family geometry-checkable rows; 81,448 failure rows
 - table/caveat artifact: `full_validation/table_caveats/{manifest.json,table6_candidate.json,report.md}`
 - bootstrap artifact: `full_validation/bootstrap_ci/{manifest.json,summary.json,summary.md}`
@@ -214,7 +247,18 @@ Full-validation caveats:
 
 - 15 validation contexts still lack loadable Open3DSG preprocessed pickles after recovery and retry2 attempts; retry2 reproduced the same missing IDs, so this is currently treated as an Open3DSG source-runtime loadability caveat rather than a transient retry failure.
 - The feature audit is complete for the covered 533-context scope and reports only the missing-preprocess blocker against the full 548-context target.
-- The canonical raw stream finalized 533/533 covered batches and 26,746 rows, but the Open3DSG process exited `137` after finalization; downstream identity/export/geometry/metric/bootstrap/failure/table gates passed on the finalized raw stream. Retry2 also finalized 533/533 batches and 26,746 rows with no OOM/traceback string in the checked log, but still exited `137`; its raw hash differs from canonical because some predicate scores differ. Treat this as a completed stream-output retry, not as a clean-exit replacement. A raw identity/equivalence audit is required before changing paper-facing wording.
+- The canonical raw stream finalized 533/533 covered batches and 26,746 rows,
+  but the Open3DSG process exited `137` after finalization; downstream
+  identity/export/geometry/metric/bootstrap/failure/table gates passed on the
+  finalized raw stream. Docker
+  `open3dsg_full_validation_raw_clean_exit_review` wrote
+  `full_validation/raw_clean_exit_review/` and found the expected retry root
+  `raw_dump_exit0_retry_20260605_000241/` is no longer present after cleanup,
+  so row equivalence cannot be evaluated and the unmodified branch cannot be
+  promoted to clean-exit provenance. Keep this branch as
+  sensitivity/unmodified-source evidence with the process-level exit-137
+  caveat. The selected 548/548 recovery branch is unaffected and has raw stream
+  exit `0`.
 - This remains a source-output reliability evaluation and re-ranking case study, not a full Open3DSG paper reproduction claim.
 
 Historical plan artifact:

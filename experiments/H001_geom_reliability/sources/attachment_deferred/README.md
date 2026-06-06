@@ -1,13 +1,16 @@
 # Attachment Deferred Expansion Track
 
-Last updated: 2026-05-28 KST
+Last updated: 2026-06-06 KST
 
-Status: `attachment_deferred_full_source_protocol_frozen_no_metrics`
+Status: `attachment_deferred_g5d_full_source_metrics_ready`
 
 This folder tracks the optional `attachment_deferred` expansion path for H001.
 It is not part of the current AAAI main claim. It is the preferred next
 relation-family expansion if the paper strategy pivots beyond the current
 `support_contact`, `proximity`, and `relative_vertical` scope.
+
+Consolidated relation expansion status is tracked in
+`../relation_expansion_status.md`.
 
 ## Motivation
 
@@ -653,13 +656,64 @@ G5. Source-result metrics
 - G5c status: completed as Docker `attachment_deferred_full_source_protocol`.
   It freezes 69 full-source shards, source-specific covered denominators, output
   schema, metric conditions, and control order while emitting no source metrics.
-- Run VL-SAT and Open3DSG metrics with `attachment_deferred` included only after
-  G0-G5c.
+- G5d status: completed as Docker `attachment_deferred_full_source_g5d`.
+  A 1-shard smoke run completed successfully, then its intermediate output/log
+  was deleted after the full run became the source of truth. The full run
+  completed with exit 0 at `logs/h001_attachment_g5d_full_20260606_113803.log`;
+  output path is
+  `experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d/`.
+  Full run counts: 69/69 shards, 135,048 scored source rows, validation errors
+  0, and 300 failure rows.
 - Report `R@K`, `Violation@K`, recall retention, exact-label denominator, and
   per-subtype family rows.
 - Compare semantic-only, probabilistic calibrated, rule-verified, family-specific
   calibrated, geometry-only, distance/contact-only, shuffled-geometry, and
   wrong-pair controls.
+- Do not promote `attachment_deferred` to the main AAAI claim without explicit
+  final user confirmation after G5d outputs and any required failure/visual audit
+  are reviewed.
+
+G5d key source-result summary:
+
+- VL-SAT denominator: 967/967; missing exact-label GT rows: 0.
+  - `semantic_only` R@100/V@100: 1.0000 / 0.2126
+  - `probabilistic_recalibrated` R@100/V@100: 0.9979 / 0.2210
+  - `rule_verified_attachment_policy` R@100/V@100: 0.9380 / 0.0215
+- Open3DSG denominator: 768/967; missing exact-label GT rows: 199.
+  - `semantic_only` R@100/V@100: 0.9297 / 0.3021
+  - `probabilistic_recalibrated` R@100/V@100: 0.6628 / 0.2460
+  - `rule_verified_attachment_policy` R@100/V@100: 0.9245 / 0.0842
+- Warning: `connected to` has no dev strict rows, so use pooled calibration or
+  an explicit caveat; do not claim label-specific connected-to calibration.
+
+Subrelation opportunity assessment:
+
+- `hanging on` is the most promising future targeted relation. It is physically
+  meaningful for H001 because it has gravity/orientation/contact semantics, and
+  G5d preserves R@100 under `rule_verified_attachment_policy` for both VL-SAT
+  126/126 and Open3DSG 91/91. Its denominator is modest, so it is better as a
+  focused extension or case study than as a broad main-claim expansion by itself.
+- `attached to` has the largest denominator, but it is also the noisiest
+  subtype. It remains useful for future work, but the Open3DSG probabilistic
+  route drops recall substantially and the policy needs stronger visual/failure
+  audit before main-claim use.
+- `connected to` looks clean in source recall, but the denominator is very small
+  and the train/dev strict split has no dev positives. Treat it as caveated
+  support evidence, not a standalone claim.
+
+Why this is not promoted now:
+
+- This track did not fail in the same way as `relative_horizontal` or
+  `relative_lateral`; it is the most promising future physical-relation upgrade.
+- It is still not current main-claim evidence because Open3DSG covers only
+  768/967 exact-label GT rows, leaving 199 missing exact-label GT rows.
+- `attached to` is the largest subtype but also the noisiest; Open3DSG
+  probabilistic recall drops sharply for this label.
+- `connected to` has no dev strict rows, so label-specific calibration would be
+  under-supported without pooled calibration or an explicit caveat.
+- A failure/visual audit is still needed before adding it to the AAAI main
+  claim.
+- Any main-claim promotion requires explicit final user confirmation.
 
 G6. Function-reasoning pilot
 
@@ -707,7 +761,7 @@ If upgrading H001:
 8. Freeze the full-source scoring/metric protocol, including sharding/runtime
    budget, denominator handling, unknown-category handling, and control order.
    This is complete as G5c.
-9. Only then run full-source scoring plus VL-SAT/Open3DSG source metrics and
-   controls.
+9. Run full-source scoring plus VL-SAT/Open3DSG source metrics and controls.
+   This is complete as G5d.
 10. Add function-reasoning only as a secondary pilot after relation reliability
    is established.

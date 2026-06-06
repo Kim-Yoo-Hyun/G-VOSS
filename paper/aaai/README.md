@@ -77,7 +77,7 @@ ICCV preamble blindly into this directory.
 Verified run:
 
 - Image build log: `logs/h001_aaai_tex_image_build_full_validation_20260605_100108.log`
-- PDF build log: `logs/h001_aaai_pdf_build_cleanup_consistency_20260605_111759.log`
+- PDF build log: `logs/h001_aaai_pdf_build_compression_20260606_105126.log`
 - Output: `paper/aaai/main.pdf`
 - Page count: 9 total pages
 - Technical content: pages 1-7

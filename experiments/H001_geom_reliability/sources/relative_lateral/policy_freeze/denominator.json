@@ -1,0 +1,16 @@
+{
+  "all_held_out_gt_rows": 7505,
+  "current_h001_gt_denominator": 2545,
+  "expanded_if_full_relative_horizontal_validated": 6115,
+  "expanded_if_lateral_validated": 4809,
+  "relative_depth_deferred_gt_rows": 1306,
+  "relative_depth_deferred_label_counts": {
+    "behind": 653,
+    "front": 653
+  },
+  "relative_lateral_gt_rows": 2264,
+  "relative_lateral_label_counts": {
+    "left": 1132,
+    "right": 1132
+  }
+}

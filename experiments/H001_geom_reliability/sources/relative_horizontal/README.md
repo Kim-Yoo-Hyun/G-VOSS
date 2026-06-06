@@ -1,6 +1,6 @@
 # Relative Horizontal Expansion Track
 
-Last updated: 2026-05-27 KST
+Last updated: 2026-06-06 KST
 
 Status: `appendix_limitation_frozen_no_metric_execution`
 
@@ -8,6 +8,14 @@ This folder tracks the optional `relative_horizontal` expansion path for H001.
 It is not part of the current paper claim yet. The locked main claim remains
 scoped to `support_contact`, `proximity`, and `relative_vertical` until this
 track reaches the same evidence standard.
+
+Update: `left/right` has been split into a narrower `relative_lateral`
+candidate family under `../relative_lateral/`. `front/behind` remains deferred
+as `relative_depth_deferred` because the full `relative_horizontal` audit is not
+strong enough for promotion.
+
+Consolidated relation expansion status is tracked in
+`../relation_expansion_status.md`.
 
 ## Motivation
 
@@ -195,8 +203,12 @@ Current AAAI-path decision:
 
 - Stop here and use the result only as appendix/limitation or future-work
   evidence. This protects the main paper from a weak broader-coverage claim.
-- Do not run expanded-family VL-SAT/Open3DSG source metrics for the current
-  AAAI path.
+- Do not run full `relative_horizontal` VL-SAT/Open3DSG source metrics for the
+  current AAAI path.
+- The narrower `relative_lateral` policy-freeze artifact may proceed only as a
+  separate expansion track. That follow-up train/dev gate and dev diagnosis are
+  now complete, and the current decision is also to stop `relative_lateral` as
+  appendix/future-work boundary evidence.
 - If the paper strategy later pivots to broader spatial-family coverage, the
   next required step is a targeted `front`/`behind` visual/frame-metadata check,
   followed by verifier policy, calibration, source metrics, controls, bootstrap

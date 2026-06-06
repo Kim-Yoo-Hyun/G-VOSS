@@ -684,6 +684,60 @@ services:
       - --out
       - /workspace/experiments/H001_geom_reliability/sources/relative_horizontal/bucket_inspection
 
+  relative_lateral_policy_freeze:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/freeze_relative_lateral_policy.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/relative_lateral/policy_freeze
+
+  relative_lateral_train_dev_policy_lock:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/lock_relative_lateral_train_dev_policy.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/relative_lateral/train_dev_policy_lock
+
+  relative_lateral_dev_failure_diagnosis:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/diagnose_relative_lateral_dev_failures.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/relative_lateral/dev_failure_diagnosis
+
   attachment_deferred_scope_audit:
     build:
       context: ../..
@@ -983,6 +1037,40 @@ services:
       - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol
       - --rows-per-shard
       - "2000"
+
+  attachment_deferred_full_source_g5d:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/run_attachment_full_source_g5d.py
+    command:
+      - --repo-root
+      - /workspace
+      - --dataset-root
+      - /workspace/local_dataset
+      - --protocol-dir
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol
+      - --calibration-dir
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit
+      - --policy-dir
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy
+      - --ground-truth
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl
+      - --vlsat-verification
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened_geometry/verification.jsonl
+      - --open3dsg-verification
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d
+      - --n-bootstrap
+      - "1000"
 
   open3dsg_metric_join_contract:
     build:
@@ -1957,3 +2045,43 @@ services:
       - /workspace
       - --out
       - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_source_inference_plan
+
+  open3dsg_full_validation_raw_clean_exit_review:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/review_open3dsg_raw_provenance.py
+    command:
+      - --repo-root
+      - /workspace
+      - --mode
+      - full_validation_clean_exit
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/raw_clean_exit_review
+
+  open3dsg_h001_covered_recovery_provenance_review:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/review_open3dsg_raw_provenance.py
+    command:
+      - --repo-root
+      - /workspace
+      - --mode
+      - h001_covered_recovery_sensitivity
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/provenance_review
