@@ -1,6 +1,6 @@
 # Hypothesis Index
 
-Last updated: 2026-05-27
+Last updated: 2026-06-09
 
 이 폴더는 literature candidate를 검증 가능한 research hypothesis로 좁히는 산출물을 저장한다. Workflow와 작성 규칙은 `docs/hypothesis.md`를 따른다.
 
@@ -47,6 +47,10 @@ Blocked claims:
 - `05_audit.md`: structured audit, visual sanity check, provenance and wording limits
 - `06_second_source.md`: FROSS/Open3DSG source/runtime feasibility and claim boundary
 - `07_experiment_spec.md`: scoped Docker-based main experiment spec, required metrics/tables/figures, acceptance criteria
+
+Supplementary Korean memo:
+
+- `joongang_0609.md`: Korean relation-level explanation of selected H001 families, metric rationale, full-validation result interpretation, claim boundary, and next directions. This memo does not replace the seven canonical files.
 
 ## Current Gate
 
