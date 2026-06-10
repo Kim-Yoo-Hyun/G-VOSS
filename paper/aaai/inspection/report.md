@@ -1,12 +1,12 @@
 # AAAI PDF Visual/Layout Inspection
 
-Last updated: 2026-06-06 KST
+Last updated: 2026-06-11 KST
 
 ## Build Checked
 
 - PDF: `paper/aaai/main.pdf`
 - Image build log: `logs/h001_aaai_tex_image_build_full_validation_20260605_100108.log`
-- PDF build log: `logs/h001_aaai_pdf_build_compression_20260606_105126.log`
+- PDF build log: `logs/h001_aaai_pdf_build_claim_qa_20260611_000409.log`
 - Preview files generated locally: `/tmp/h001_aaai_pages/page-4.png` through
   `/tmp/h001_aaai_pages/page-7.png` for the latest focused check
 - Page count: 9 total pages, US Letter
@@ -18,6 +18,28 @@ Last updated: 2026-06-06 KST
 
 The PNG preview files are generated inspection artifacts and are ignored by
 `paper/aaai/.gitignore`. This report is the tracked inspection record.
+
+## Claim/Caveat QA
+
+Facts:
+
+- Claim/caveat QA record:
+  `paper/aaai/inspection/claim_qa_20260611.md`
+- QA status: `claim_caveat_qa_pass_after_table_artifact_patch`
+- Checked consistency targets: full official validation as the primary route,
+  Open3DSG 548/548 `recovery_relaxed_views_min2` branch, exact-label
+  H001-family denominator 3,972, and residual calibration risk.
+- Patched paper-facing experiment table artifacts that still had historical
+  127-scan values: Table 1, Table 2, Table 3, and Table 5 boundary wording.
+- Docker PDF rebuild after the QA patch exited 0:
+  `logs/h001_aaai_pdf_build_claim_qa_20260611_000409.log`
+
+Inference:
+
+- The paper source and tracked table artifacts now use the same
+  full-validation claim boundary. Historical 127-scan numbers remain only in
+  planning/sensitivity documents where they are explicitly marked as historical
+  or sensitivity evidence.
 
 ## Page-Level Findings
 
@@ -65,6 +87,7 @@ Visual/layout inspection passed for AAAI-style draft continuation:
 - Open3DSG-main framing preserved: yes
 - full-validation main table policy preserved: yes
 - historical old 377/388 vs R2 388/388 sensitivity wording preserved: yes
+- full-validation claim/caveat consistency after QA patch: yes
 - blocking visual issue: none
 
 Required before submission:

@@ -92,6 +92,11 @@ Docker-based experiment artifact described in the paper.
     significance test is included.
     \item Final hyperparameters and operating points: partial. The paper and
     artifact reports list the final operating points, checkpoint choice,
-    denominator policy, and source caveats; a final release table should collect
-    every threshold and configuration in one place.
+    denominator policy, and source caveats. The paper-facing Open3DSG route is
+    the 548/548 recovery-policy branch with
+    \texttt{OPEN3DSG\_MIN\_VISIBLE\_OBJECTS=2} and relaxed view regeneration
+    for two scans; the exact-label H001 denominator is 3,972, and residual
+    calibration risk is reported through the failure-analysis artifacts. A
+    final release table should collect every threshold and configuration in one
+    place.
 \end{itemize}

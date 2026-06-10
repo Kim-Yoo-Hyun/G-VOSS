@@ -1,7 +1,7 @@
 # Qwen-VL Full-Source Shard Runner
 
-Status: `blocked_full_source_inference_shard`
-Created at: `2026-05-26T18:18:36+00:00`
+Status: `full_source_inference_shard_complete`
+Created at: `2026-06-10T15:08:57+00:00`
 
 ## Scope
 
@@ -18,7 +18,3 @@ Created at: `2026-05-26T18:18:36+00:00`
 - `raw_response_jsonl`: `experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/raw_response/qwen_full_source_shard_0014.jsonl`
 - `predictions_jsonl`: `experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/predictions/qwen_full_source_shard_0014.jsonl`
 - `completed_jsonl`: `experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/progress/qwen_full_source_shard_0014.completed.jsonl`
-
-## Blockers
-
-- `gpu_busy_or_unavailable:memory_used_mb=4349,utilization=36`

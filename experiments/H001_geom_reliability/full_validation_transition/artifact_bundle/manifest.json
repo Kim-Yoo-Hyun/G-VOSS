@@ -1,72 +1,174 @@
 {
-  "schema_version": "h001_full_validation_artifact_bundle_manifest_v1",
-  "status": "full_validation_artifact_bundle_plan_ready_no_archive_created",
-  "created_at": "2026-06-05T00:00:00+09:00",
+  "schema_version": "h001_full_validation_artifact_bundle_manifest_v2",
+  "status": "upload_bundle_file_list_and_verification_fixed_no_archive_created",
+  "updated_at": "2026-06-11T00:23:19+09:00",
   "claim_scope": "paper-facing full official 3DSSG_subset validation route",
   "bundle_name_template": "release/h001_full_validation_results_<timestamp>.tar.zst",
   "archive_created": false,
-  "reason_archive_not_created": "The bundle can be large and should be launched as an explicit long-running/background I/O job when upload packaging is requested.",
-  "sources": {
-    "vlsat_full_validation": {
-      "role": "controlled_anchor",
-      "root": "experiments/H001_geom_reliability/sources/vlsat/full_validation",
-      "row_counts": {
-        "raw_rows": 548,
-        "prediction_rows": 957008,
-        "ground_truth_rows": 11254,
-        "geometry_rows": 957008,
-        "failure_rows": 59841,
-        "qualitative_cases": 36
-      },
-      "status_files": [
-        "metrics/metrics.json",
-        "bootstrap_ci/summary.json",
-        "gt_eval/metrics.json",
-        "failure_rows/manifest.json",
-        "failure_cases/inspection.json"
+  "reason_archive_not_created": "The upload archive is a large I/O job and should be created explicitly in a tmux/background job when uploading to Google Drive, Zenodo, or Hugging Face Dataset.",
+  "upload_targets": [
+    "Google Drive",
+    "Zenodo",
+    "Hugging Face Dataset"
+  ],
+  "payload_policy": {
+    "include_primary_route": true,
+    "include_open3dsg_unmodified_source_sensitivity_route": true,
+    "include_large_feature_pt_cache": false,
+    "include_raw_3rscan_or_3dssg_dataset": false,
+    "include_qwen_vl_model_cache": false,
+    "include_qwen_vl_runtime_outputs": false,
+    "include_attachment_or_lateral_extension_outputs": false
+  },
+  "generated_inventory_files": {
+    "payload_file_list": "experiments/H001_geom_reliability/full_validation_transition/artifact_bundle/upload_payload_files.txt",
+    "payload_sha256s": "experiments/H001_geom_reliability/full_validation_transition/artifact_bundle/upload_payload_sha256s.txt",
+    "payload_row_counts": "experiments/H001_geom_reliability/full_validation_transition/artifact_bundle/upload_payload_row_counts.txt",
+    "verification_script": "experiments/H001_geom_reliability/full_validation_transition/artifact_bundle/verify_upload_bundle.sh"
+  },
+  "generated_inventory_status": {
+    "payload_file_count": 211,
+    "payload_checksum_count": 211,
+    "payload_row_count_records": 18,
+    "payload_file_list_sha256": "392aa550557f64603a4548a9e494248d22eed899ecea3fefbc558451b39b716b",
+    "payload_sha256_manifest_sha256": "923bfde4e39921f5dd3fc10f0ec1a98eea606b50b83d4495d0d5b3afd1e4ff2b",
+    "payload_row_counts_sha256": "2e86fe118260300bae6379f763f39f0cda0e4b07dd38455878de5d832d121943",
+    "checksum_generation_log": "logs/h001_fullval_upload_checksums_20260611_002243.log",
+    "checksum_generation_exit_file": "logs/h001_fullval_upload_checksums_20260611_002243.exit",
+    "checksum_generation_exit_code": 0,
+    "verification_log": "logs/h001_fullval_upload_verify_20260611_002319.log",
+    "verification_exit_file": "logs/h001_fullval_upload_verify_20260611_002319.exit",
+    "verification_exit_code": 0
+  },
+  "fixed_payload_roots": [
+    {
+      "role": "selected_open3dsg_checkpoint",
+      "path": "local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt",
+      "sha256": "ca86d429b19e846aec2bfff014256bf36f6f90da07e566b90c461d6eca8d76bb"
+    },
+    {
+      "role": "full_validation_scope_contract",
+      "path": "experiments/H001_geom_reliability/full_validation_transition/scope_contract/"
+    },
+    {
+      "role": "paper_facing_manifest_report_tables",
+      "paths": [
+        "experiments/H001_geom_reliability/manifest.lock.json",
+        "experiments/H001_geom_reliability/report.md",
+        "experiments/H001_geom_reliability/tables/"
       ]
     },
-    "open3dsg_recovery_full_validation": {
-      "role": "primary_open_vocabulary_source",
-      "root": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2",
-      "checkpoint": "local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt",
-      "checkpoint_sha256": "ca86d429b19e846aec2bfff014256bf36f6f90da07e566b90c461d6eca8d76bb",
-      "row_counts": {
-        "raw_rows": 26938,
-        "prediction_rows": 695916,
-        "geometry_rows": 695916,
-        "failure_rows": 82155,
-        "qualitative_cases": 36
-      },
-      "status_files": [
-        "raw_dump/stream_manifest.json",
-        "adapter/manifest.json",
-        "geometry/manifest.json",
-        "metrics/metrics.json",
-        "bootstrap_ci/summary.json",
-        "failure_rows/manifest.json",
-        "failure_cases/inspection.json",
-        "table_caveats/manifest.json"
-      ],
-      "claim_caveat": "Recovery branch uses OPEN3DSG_MIN_VISIBLE_OBJECTS=2 and relaxed two-scan view regeneration; keep the original 533/548 branch as sensitivity evidence."
+    {
+      "role": "vlsat_full_validation_controlled_anchor",
+      "path": "experiments/H001_geom_reliability/sources/vlsat/full_validation/"
+    },
+    {
+      "role": "open3dsg_full_validation_unmodified_source_sensitivity",
+      "path": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/",
+      "note": "The recovery branch is nested under this root. The whole root is included so the unmodified 533/548 route and recovery 548/548 route stay together."
+    },
+    {
+      "role": "open3dsg_checkpoint_selection_provenance",
+      "path": "experiments/H001_geom_reliability/sources/open3dsg/checkpoint_selection/"
+    }
+  ],
+  "expected_key_row_counts": {
+    "vlsat_full_validation": {
+      "raw_rows": 548,
+      "prediction_rows": 957008,
+      "ground_truth_rows": 11254,
+      "geometry_rows": 957008,
+      "gt_positive_rows": 3972,
+      "gt_counterfactual_rows": 3972,
+      "failure_rows": 59841,
+      "qualitative_cases": 36
+    },
+    "open3dsg_unmodified_source_sensitivity": {
+      "raw_rows": 26746,
+      "prediction_rows": 690924,
+      "geometry_rows": 690924,
+      "failure_rows": 81448
+    },
+    "open3dsg_recovery_primary": {
+      "raw_rows": 26938,
+      "prediction_rows": 695916,
+      "geometry_rows": 695916,
+      "failure_rows": 82155,
+      "qualitative_cases": 36
     }
   },
-  "required_tracked_context": [
-    "README.md",
-    "TODO.md",
-    "summary.md",
-    "docs/reproducibility.md",
-    "experiments/H001_geom_reliability/README.md",
-    "experiments/H001_geom_reliability/compose.yaml",
-    "experiments/H001_geom_reliability/scripts/",
-    "experiments/H001_geom_reliability/tables/",
-    "paper/preview.md",
-    "paper/progress.md",
-    "paper/aaai/"
+  "expected_status_checks": [
+    {
+      "path": "experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics/metrics.json",
+      "jq": ".status",
+      "expected": "ready"
+    },
+    {
+      "path": "experiments/H001_geom_reliability/sources/vlsat/full_validation/bootstrap_ci/summary.json",
+      "jq": ".status",
+      "expected": "ready"
+    },
+    {
+      "path": "experiments/H001_geom_reliability/sources/vlsat/full_validation/gt_eval/metrics.json",
+      "jq": ".status",
+      "expected": "ready"
+    },
+    {
+      "path": "experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_cases/inspection.json",
+      "jq": ".status",
+      "expected": "qualitative_case_inspection_ready"
+    },
+    {
+      "path": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/metrics/metrics.json",
+      "jq": ".status",
+      "expected": "ready"
+    },
+    {
+      "path": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/bootstrap_ci/summary.json",
+      "jq": ".status",
+      "expected": "ready"
+    },
+    {
+      "path": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/table_caveats/manifest.json",
+      "jq": ".status",
+      "expected": "open3dsg_full_validation_table_caveats_ready"
+    },
+    {
+      "path": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics/metrics.json",
+      "jq": ".status",
+      "expected": "ready"
+    },
+    {
+      "path": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/bootstrap_ci/summary.json",
+      "jq": ".status",
+      "expected": "ready"
+    },
+    {
+      "path": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/table_caveats/manifest.json",
+      "jq": ".status",
+      "expected": "open3dsg_full_validation_table_caveats_ready"
+    },
+    {
+      "path": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_cases/inspection.json",
+      "jq": ".status",
+      "expected": "qualitative_case_inspection_ready"
+    }
+  ],
+  "excluded_from_default_upload": [
+    "local_dataset/3RScan/",
+    "local_dataset/3DSSG/",
+    "local_dataset/3DSSG_subset/",
+    "local_dataset/Open3DSG_staged/**/output/features/",
+    "local_dataset/model_cache/huggingface/qwen_vl/",
+    "local_dataset/qwen_vl_crops/",
+    "experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/",
+    "experiments/H001_geom_reliability/sources/attachment_deferred/",
+    "experiments/H001_geom_reliability/sources/relative_horizontal/",
+    "experiments/H001_geom_reliability/sources/relative_lateral/"
   ],
   "verification_commands": [
-    "sha256sum -c release/h001_full_validation_results_<timestamp>.sha256",
-    "wc -l experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/predictions.jsonl experiments/H001_geom_reliability/sources/vlsat/full_validation/geometry/verification.jsonl experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_rows/rows.jsonl experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/raw_dump/raw.jsonl experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/adapter/predictions.jsonl experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/geometry/verification.jsonl experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_rows/rows.jsonl",
-    "jq -r '.status' experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics/metrics.json experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics/metrics.json experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_cases/inspection.json experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_cases/inspection.json"
+    "sha256sum -c experiments/H001_geom_reliability/full_validation_transition/artifact_bundle/upload_payload_sha256s.txt",
+    "bash experiments/H001_geom_reliability/full_validation_transition/artifact_bundle/verify_upload_bundle.sh",
+    "sha256sum -c release/h001_full_validation_results_<timestamp>.sha256"
   ]
 }

@@ -1,7 +1,5 @@
 {
-  "blockers": [
-    "gpu_busy_or_unavailable:memory_used_mb=4349,utilization=36"
-  ],
+  "blockers": [],
   "cache": {
     "errors": [],
     "exists": true,
@@ -27,7 +25,7 @@
     "selected_rows": 250,
     "unique_pair_crops": 84
   },
-  "created_at": "2026-05-26T18:18:36+00:00",
+  "created_at": "2026-06-10T15:08:57+00:00",
   "decoding": {
     "backend": "qwen_vl_runtime_smoke",
     "max_new_tokens": 256,
@@ -38,11 +36,11 @@
   "gpu": {
     "available": true,
     "memory_total_mb": 32607,
-    "memory_used_mb": 4349,
+    "memory_used_mb": 788,
     "name": "NVIDIA GeForce RTX 5090",
     "returncode": 0,
-    "timestamp": "2026/05/26 18:18:34.814",
-    "utilization_gpu_percent": 36
+    "timestamp": "2026/06/10 15:05:32.583",
+    "utilization_gpu_percent": 0
   },
   "input": {
     "input_jsonl": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_input/input.jsonl",
@@ -103,8 +101,26 @@
     "replacement_for_vlsat_anchor": false
   },
   "role": "third_semantic_source_modern_vlm_extension",
-  "runtime_result": null,
+  "runtime_result": {
+    "completed_rows": 250,
+    "newly_attempted_rows": 250,
+    "parser_status_counts_new": {
+      "parsed": 250
+    },
+    "prediction_rows": 250,
+    "previously_completed_rows": 0,
+    "raw_response_rows": 250,
+    "row_status_counts_new": {
+      "ok": 250
+    },
+    "runtime": {
+      "model_class": "Qwen3VLForConditionalGeneration",
+      "model_loader_class": "AutoModelForImageTextToText",
+      "processor_class": "Qwen3VLProcessor",
+      "torch_cuda_available": true
+    }
+  },
   "schema_version": "h001_qwen_vl_full_source_inference_v1",
   "shard_id": "qwen_full_source_shard_0014",
-  "status": "blocked_full_source_inference_shard"
+  "status": "full_source_inference_shard_complete"
 }

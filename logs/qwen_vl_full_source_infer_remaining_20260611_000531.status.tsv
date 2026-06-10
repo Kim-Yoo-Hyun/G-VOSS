@@ -1,0 +1,42 @@
+run_id	shard_id	event	timestamp	exit_code
+20260611_000531	qwen_full_source_shard_0014	started	2026-06-11T00:05:31+09:00	
+20260611_000531	qwen_full_source_shard_0014	finished	2026-06-11T00:08:58+09:00	0
+20260611_000531	qwen_full_source_shard_0015	started	2026-06-11T00:08:58+09:00	
+20260611_000531	qwen_full_source_shard_0015	finished	2026-06-11T00:11:55+09:00	0
+20260611_000531	qwen_full_source_shard_0016	started	2026-06-11T00:11:55+09:00	
+20260611_000531	qwen_full_source_shard_0016	finished	2026-06-11T00:15:11+09:00	0
+20260611_000531	qwen_full_source_shard_0017	started	2026-06-11T00:15:11+09:00	
+20260611_000531	qwen_full_source_shard_0017	finished	2026-06-11T00:18:54+09:00	0
+20260611_000531	qwen_full_source_shard_0018	started	2026-06-11T00:18:54+09:00	
+20260611_000531	qwen_full_source_shard_0018	finished	2026-06-11T00:22:27+09:00	0
+20260611_000531	qwen_full_source_shard_0019	started	2026-06-11T00:22:27+09:00	
+20260611_000531	qwen_full_source_shard_0019	finished	2026-06-11T00:25:46+09:00	0
+20260611_000531	qwen_full_source_shard_0020	started	2026-06-11T00:25:46+09:00	
+20260611_000531	qwen_full_source_shard_0020	finished	2026-06-11T00:29:25+09:00	0
+20260611_000531	qwen_full_source_shard_0021	started	2026-06-11T00:29:25+09:00	
+20260611_000531	qwen_full_source_shard_0021	finished	2026-06-11T00:32:56+09:00	0
+20260611_000531	qwen_full_source_shard_0022	started	2026-06-11T00:32:56+09:00	
+20260611_000531	qwen_full_source_shard_0022	finished	2026-06-11T00:36:24+09:00	0
+20260611_000531	qwen_full_source_shard_0023	started	2026-06-11T00:36:24+09:00	
+20260611_000531	qwen_full_source_shard_0023	finished	2026-06-11T00:39:23+09:00	0
+20260611_000531	qwen_full_source_shard_0024	started	2026-06-11T00:39:23+09:00	
+20260611_000531	qwen_full_source_shard_0024	finished	2026-06-11T00:41:53+09:00	0
+20260611_000531	qwen_full_source_shard_0025	started	2026-06-11T00:41:53+09:00	
+20260611_000531	qwen_full_source_shard_0025	finished	2026-06-11T00:44:52+09:00	0
+20260611_000531	qwen_full_source_shard_0026	started	2026-06-11T00:44:52+09:00	
+20260611_000531	qwen_full_source_shard_0026	finished	2026-06-11T00:48:14+09:00	0
+20260611_000531	qwen_full_source_shard_0027	started	2026-06-11T00:48:14+09:00	
+20260611_000531	qwen_full_source_shard_0027	finished	2026-06-11T00:51:38+09:00	0
+20260611_000531	qwen_full_source_shard_0028	started	2026-06-11T00:51:38+09:00	
+20260611_000531	qwen_full_source_shard_0028	finished	2026-06-11T00:54:57+09:00	0
+20260611_000531	qwen_full_source_shard_0029	started	2026-06-11T00:54:57+09:00	
+20260611_000531	qwen_full_source_shard_0029	finished	2026-06-11T00:58:46+09:00	0
+20260611_000531	qwen_full_source_shard_0030	started	2026-06-11T00:58:46+09:00	
+20260611_000531	qwen_full_source_shard_0030	finished	2026-06-11T01:02:08+09:00	0
+20260611_000531	qwen_full_source_shard_0031	started	2026-06-11T01:02:08+09:00	
+20260611_000531	qwen_full_source_shard_0031	finished	2026-06-11T01:05:27+09:00	0
+20260611_000531	qwen_full_source_shard_0032	started	2026-06-11T01:05:27+09:00	
+20260611_000531	qwen_full_source_shard_0032	finished	2026-06-11T01:09:20+09:00	0
+20260611_000531	qwen_full_source_shard_0033	started	2026-06-11T01:09:20+09:00	
+20260611_000531	qwen_full_source_shard_0033	finished	2026-06-11T01:12:49+09:00	0
+20260611_000531	qwen_full_source_shard_0034	started	2026-06-11T01:12:49+09:00	

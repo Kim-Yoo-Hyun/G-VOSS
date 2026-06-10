@@ -1,6 +1,6 @@
 # TODO
 
-Last updated: 2026-06-06
+Last updated: 2026-06-11
 
 이 파일은 에이전트가 다음 작업 계획과 진행 상태를 관리하는 루트 작업판이다. 자세한 문헌 조사 내용은 `literature/`에 기록하고, 자세한 hypothesis 근거는 `hypothesis/`에 기록한다.
 
@@ -62,7 +62,7 @@ CAND-003은 literature survey 트랙이다. 2026-04-30 기준으로 LLM/VLM task
 - CAND-001: `relative_lateral` dev failure diagnosis completed as Docker `relative_lateral_dev_failure_diagnosis` with status `relative_lateral_dev_failure_diagnosis_ready_no_policy_change_no_source_metrics`; outputs live under `experiments/H001_geom_reliability/sources/relative_lateral/dev_failure_diagnosis/`. It reads only the frozen policy-lock rows. Positive strict contradictions are 72 rows but 36 physical pairs, all concentrated in two dev scans, with same-label share `0.5278`. Positive uncertain rows are 140 rows but 70 physical pairs, same-label share `0.4857`, and the dominant cause is orthogonal/front-back-axis dominance rather than pure lateral sign failure. Conclusion: this is a coordinate/frame-orientation boundary case; keep `relative_lateral` caveated unless a separate predeclared frame/annotation study is added.
 - CAND-001: `relative_lateral` current-path stop decision is now fixed. It is appendix/future-work boundary evidence only, not a source-metric or main-claim expansion track. The consolidated relation-expansion status file is `experiments/H001_geom_reliability/sources/relation_expansion_status.md`.
 - CAND-001: `attachment_deferred` is the preferred future relation-family upgrade, not current AAAI main-claim evidence. Docker G0 scope/schema audit through G5d full-source scoring/metrics/controls/bootstrap are complete under `experiments/H001_geom_reliability/sources/attachment_deferred/`; it covers `attached to`, `hanging on`, and `connected to`, adds 967 GT rows, and aligns better with H001's physical-consistency thesis than `relative_horizontal`. G5d status is `attachment_deferred_g5d_full_source_metrics_ready` with 69/69 shards, 135,048 scored rows, validation errors 0. Main-claim promotion still requires user confirmation and likely failure/visual audit.
-- CAND-001: Qwen-VL은 third semantic source / modern VLM extension으로 고정한다. frozen input schema / output JSONL contract / validator-parser skeleton / non-held-out tiny pilot scope / runtime preflight and model-lock plan / 30-row pair-crop rendering and validation / model cache verification / runtime preflight / 3-row tiny inference smoke / runtime raw-response validation / full-source promotion protocol freeze / full-source input audit and validation / full-source crop render and preflight / full-source inference runner plan and shard dry-run까지 완료했다. Primary recommendation은 `Qwen/Qwen3-VL-4B-Instruct` revision `ebb281ec70b05090aa6165b016eac8ec08e71b17`, local-dir `local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17`이다. Docker full-source input status is `full_source_input_ready_with_missing_rows_no_inference`; scope is 127 scans / 388 contexts / 25,916 directed pairs / 77,748 universe rows / 33,384 inferable input rows / 44,364 missing rows / 134 shards / in-scope GT denominator 2,545. Crop preflight status is `full_source_crop_preflight_ready_no_inference` with 11,128 verified pair crops. Inference runner status is `full_source_inference_runner_frozen_no_inference`, shard 0000 status is `complete_validated_non_metric` with 250/250 parsed rows and 0 validation errors. Remaining shard loop run id `20260527_023111` stopped at shard 0014 because the GPU guard observed utilization 36% against the 35% threshold; shards 0000-0013 are complete, 3,500 rows are written, and resume should start from `qwen_full_source_shard_0014`. Qwen remains non-metric until all sharded inference, parser validation, adapter export, geometry join, metrics, controls, bootstrap CI, and audit complete.
+- CAND-001: Qwen-VL은 third semantic source / modern VLM extension으로 고정한다. frozen input schema / output JSONL contract / validator-parser skeleton / non-held-out tiny pilot scope / runtime preflight and model-lock plan / 30-row pair-crop rendering and validation / model cache verification / runtime preflight / 3-row tiny inference smoke / runtime raw-response validation / full-source promotion protocol freeze / full-source input audit and validation / full-source crop render and preflight / full-source inference runner plan and shard dry-run까지 완료했다. Primary recommendation은 `Qwen/Qwen3-VL-4B-Instruct` revision `ebb281ec70b05090aa6165b016eac8ec08e71b17`, local-dir `local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17`이다. Docker full-source input status is `full_source_input_ready_with_missing_rows_no_inference`; scope is 127 scans / 388 contexts / 25,916 directed pairs / 77,748 universe rows / 33,384 inferable input rows / 44,364 missing rows / 134 shards / in-scope GT denominator 2,545. Crop preflight status is `full_source_crop_preflight_ready_no_inference` with 11,128 verified pair crops. Inference runner status is `full_source_inference_runner_frozen_no_inference`, shard 0000 status is `complete_validated_non_metric` with 250/250 parsed rows and 0 validation errors. Previous remaining shard loop run id `20260527_023111` stopped at shard 0014 because the GPU guard observed utilization 36% against the 35% threshold; shards 0000-0013 are complete and 3,500 rows are written. The remaining loop was resumed on 2026-06-11 KST as tmux `h001_qwen_vl_infer_remaining_resume_20260611_000531`, run id `20260611_000531`, from `qwen_full_source_shard_0014` through `qwen_full_source_shard_0133`, with log `logs/qwen_vl_full_source_infer_remaining_20260611_000531.log` and status TSV `logs/qwen_vl_full_source_infer_remaining_20260611_000531.status.tsv`. Resume check: shard `0014` completed with exit 0 at `2026-06-11T00:08:58+09:00`, and shard `0015` started immediately afterward. Qwen remains non-metric until all sharded inference, parser validation, adapter export, geometry join, metrics, controls, bootstrap CI, and audit complete.
 - CAND-003: P1 결과물을 보고 hypothesis workflow 승격 여부를 판단한다.
 
 ## Now
@@ -271,12 +271,37 @@ Non-data:
       `paper/aaai/inspection/report.md`: 9 pages, technical content pages 1-7,
       references page 8, checklist page 9, Open3DSG-main framing preserved,
       full-validation main table policy preserved, and no blocking visual issue.
+- [x] AAAI paper content/claim QA for the full-validation route completed on
+      2026-06-11 KST. Checked main text, appendix/checklist wording, source
+      result captions, and paper-facing experiment table artifacts for
+      consistency on: full official validation as primary route, Open3DSG
+      548/548 recovery branch, exact-label denominator 3,972, and residual
+      calibration risk. Patched stale historical values in Table 1/2/3 markdown
+      artifacts and updated Table 5 boundary wording. QA record:
+      `paper/aaai/inspection/claim_qa_20260611.md`. Docker PDF rebuild
+      `logs/h001_aaai_pdf_build_claim_qa_20260611_000409.log` exited 0.
+- [x] Reproducibility upload artifact bundle finalized for Google Drive/Zenodo/HF
+      style external release. Fixed payload list has 211 files and includes the
+      selected official non-avg Open3DSG checkpoint, full-validation VL-SAT
+      artifacts, Open3DSG unmodified-source sensitivity artifacts, Open3DSG
+      548/548 recovery artifacts, scope contract, tables, manifests, metrics,
+      bootstrap summaries, failure rows, and checkpoint-selection provenance.
+      Per-file checksum manifest and row-count snapshot were generated under
+      `experiments/H001_geom_reliability/full_validation_transition/artifact_bundle/`.
+      Verification script
+      `experiments/H001_geom_reliability/full_validation_transition/artifact_bundle/verify_upload_bundle.sh`
+      passed with log `logs/h001_fullval_upload_verify_20260611_002319.log`.
 - [x] Keep full `relative_horizontal` frozen as appendix/limitation evidence for the current AAAI path, while splitting `left/right` into a narrower `relative_lateral` candidate track.
 - [x] Freeze `relative_lateral` family, denominator, geometry policy, and threshold provenance without source metrics. Docker build/run logs: `logs/h001_relative_lateral_policy_freeze_rebuild_20260606_163240.log`, `logs/h001_relative_lateral_policy_freeze_rerun_20260606_163240.log`; output `experiments/H001_geom_reliability/sources/relative_lateral/policy_freeze/`.
 - [x] Run `relative_lateral` train/dev policy lock or calibration gate before held-out source metrics. Docker final build/run logs: `logs/h001_relative_lateral_train_dev_lock_final_build_20260606_165717.log`, `logs/h001_relative_lateral_train_dev_lock_final_run_20260606_165717.log`; output `experiments/H001_geom_reliability/sources/relative_lateral/train_dev_policy_lock/`. Status is caveated because dev strict purity gates failed.
 - [x] Diagnose `relative_lateral` dev strict contradictions and uncertain rows without changing validation policy. Docker final build/run logs: `logs/h001_relative_lateral_dev_diagnosis_rebuild_20260606_170406.log`, `logs/h001_relative_lateral_dev_diagnosis_rerun_20260606_170406.log`; output `experiments/H001_geom_reliability/sources/relative_lateral/dev_failure_diagnosis/`. Result: strict contradictions are pair-symmetric, concentrated in two dev scans, and about half same-label object pairs; uncertain rows are mostly orthogonal-axis dominance.
 - [x] Stop `relative_lateral` for the current AAAI path and record why attempted expansion relations did not promote. Updated `sources/relation_expansion_status.md`, `relative_lateral/README.md`, `relative_horizontal/README.md`, `attachment_deferred/README.md`, paper appendix/preview/progress, docs, and TODO. Current decision: no paper-facing lateral source metrics from the current strict policy.
-- [ ] Qwen-VL resume is deferred until GPU runtime is acceptable; keep it as a TODO third-source extension, not current paper metric evidence.
+- [ ] Qwen-VL remaining shard loop resumed as background job
+      `h001_qwen_vl_infer_remaining_resume_20260611_000531`, run id
+      `20260611_000531`, from `qwen_full_source_shard_0014` through
+      `qwen_full_source_shard_0133`. Status is `running_non_metric` until the
+      exit file appears and all downstream validation/metric steps complete.
+      Current check: shard `0014` completed exit 0 and shard `0015` started.
 
 ### CAND-003
 
@@ -389,7 +414,14 @@ Non-data:
 - [ ] Optional only if explicitly continuing this expansion later: run a targeted `front`/`behind` visual/frame-metadata check to test whether the contradiction buckets are annotation-frame artifacts or real geometry-policy failures
 - [ ] If coordinate-frame validation becomes defensible after that check, specify the `relative_horizontal` geometry status policy and train-dev calibration/counterfactual generation route
 - [ ] Only after those gates, run expanded-family VL-SAT/Open3DSG metric path, controls, bootstrap CI, and failure/audit evidence before changing any main paper claim
-- [ ] Resume Qwen-VL remaining full-source inference from `qwen_full_source_shard_0014` only when GPU runtime is acceptable; previous loop `20260527_023111` stopped with exit 1 due to transient GPU utilization guard, not OOM or parser failure
+- [x] Resume Qwen-VL remaining full-source inference from
+      `qwen_full_source_shard_0014`: launched tmux
+      `h001_qwen_vl_infer_remaining_resume_20260611_000531`, run id
+      `20260611_000531`, log
+      `logs/qwen_vl_full_source_infer_remaining_20260611_000531.log`, status
+      TSV `logs/qwen_vl_full_source_infer_remaining_20260611_000531.status.tsv`.
+      Previous loop `20260527_023111` stopped with exit 1 due to transient GPU
+      utilization guard, not OOM or parser failure.
 - [ ] Re-check official AAAI author kit only if the target year changes beyond AAAI-26; no official AAAI-27 kit is confirmed as of 2026-05-27 KST
 - [ ] Optional final Figure 3 polish: replace geometry panels with rendered scene crops only if a deterministic crop/render path is added for the same locked case IDs
 - [x] Keep Open3DSG caveats explicit in manuscript Table 3 and experiment artifact Table 6; 2026-06-06 update fixes the required table policy: main source-result table uses VL-SAT full-validation plus Open3DSG full-validation 548/548 recovery, while appendix/sensitivity uses Open3DSG historical old 377/388 versus R2 388/388. Main caveats are selected official non-avg checkpoint provenance, filtered train/dev provenance, full-validation exact-label denominator, 548/548 recovery policy, 533/548 full-validation sensitivity branch, appendix historical 377/388 vs R2 388/388 sensitivity, and residual calibration risk. Older averaged-BLIP / 377/388 / `validation_missing_preprocessed:11` wording is historical old-branch wording only.

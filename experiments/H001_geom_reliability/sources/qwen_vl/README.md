@@ -1,6 +1,6 @@
 # Qwen-VL Semantic-Source Adapter
 
-Status: `full_source_inference_remaining_loop_running_non_metric`
+Status: `full_source_inference_remaining_loop_resumed_non_metric`
 Created at: `2026-05-08T06:35:07+00:00`
 
 ## Role
@@ -85,12 +85,16 @@ for the VL-SAT controlled anchor, and not an end-to-end 3DSSG training result.
 - full-source inference shard counts: 250 predictions, 250 raw responses, 250 completed rows, parser status `parsed:250`
 - full-source inference shard validation: `validator_parser_skeleton_ready_no_model_runtime`, 250 parsed rows, 0 input errors, 0 output errors, 0 warnings
 - full-source inference shard validation log: `logs/qwen_vl_full_source_shard0000_contract_validate_20260527_022224.log`
-- remaining full-source shard loop: tmux `h001_qwen_vl_infer_remaining`, run id `20260527_023111`, status `running_non_metric`
-- remaining full-source shard loop scope: `qwen_full_source_shard_0001` through `qwen_full_source_shard_0133`, 133 shards, 33,134 expected rows
-- remaining full-source shard loop command: `QWEN_VL_LOOP_RUN_ID=20260527_023111 QWEN_VL_LOOP_START_SUFFIX=0001 QWEN_VL_LOOP_END_SUFFIX=0133 bash experiments/H001_geom_reliability/scripts/run_qwen_vl_full_source_shard_loop.sh`
-- remaining full-source shard loop log: `logs/qwen_vl_full_source_infer_remaining_20260527_023111.log`
-- remaining full-source shard loop status TSV: `logs/qwen_vl_full_source_infer_remaining_20260527_023111.status.tsv`
-- remaining full-source shard loop exit file: `logs/qwen_vl_full_source_infer_remaining_20260527_023111.exit`
+- previous remaining full-source shard loop: tmux `h001_qwen_vl_infer_remaining`, run id `20260527_023111`
+- previous remaining full-source shard loop result: stopped with exit `1` at `qwen_full_source_shard_0014` because the GPU guard observed utilization 36% against the 35% threshold; shards `0000` through `0013` are complete, 3,500 rows are written
+- resumed remaining full-source shard loop: tmux `h001_qwen_vl_infer_remaining_resume_20260611_000531`, run id `20260611_000531`, status `running_non_metric`
+- resumed remaining full-source shard loop scope: `qwen_full_source_shard_0014` through `qwen_full_source_shard_0133`, 120 shards, 29,884 expected rows
+- resumed remaining full-source shard loop command: `QWEN_VL_LOOP_RUN_ID=20260611_000531 QWEN_VL_LOOP_START_SUFFIX=0014 QWEN_VL_LOOP_END_SUFFIX=0133 bash experiments/H001_geom_reliability/scripts/run_qwen_vl_full_source_shard_loop.sh`
+- resumed remaining full-source shard loop log: `logs/qwen_vl_full_source_infer_remaining_20260611_000531.log`
+- resumed remaining full-source shard loop status TSV: `logs/qwen_vl_full_source_infer_remaining_20260611_000531.status.tsv`
+- resumed remaining full-source shard loop exit file: `logs/qwen_vl_full_source_infer_remaining_20260611_000531.exit` when the loop finishes
+- resumed progress check: shard `0014` started at `2026-06-11T00:05:31+09:00`, completed with exit `0` at `2026-06-11T00:08:58+09:00`, and shard `0015` started immediately afterward
+- resumed shard `0014` output: manifest `experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/manifests/qwen_full_source_shard_0014.json`, status `full_source_inference_shard_complete`, 250 selected rows, 84 unique pair crops, family counts proximity/support/relative-vertical `83/83/84`
 
 ## Next Gate
 
