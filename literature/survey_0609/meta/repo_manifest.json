@@ -1,0 +1,144 @@
+[
+  {
+    "id": "P002",
+    "title": "Exploiting Edge-Oriented Reasoning for 3D Point-Based Scene Graph Analysis",
+    "url": "https://github.com/chaoyivision/SGGpoint",
+    "path": "literature/survey_0609/repos/exploiting-edge-oriented-reasoning-for-3d-point-based-scene-graph-anal",
+    "status": "exists"
+  },
+  {
+    "id": "P003",
+    "title": "3D Spatial Multimodal Knowledge Accumulation for Scene Graph Prediction in Point Cloud",
+    "url": "https://github.com/HHrEtvP/SMKA",
+    "path": "literature/survey_0609/repos/3d-spatial-multimodal-knowledge-accumulation-for-scene-graph-predictio",
+    "status": "failed",
+    "returncode": 128,
+    "log_tail": "Cloning into 'literature/survey_0609/repos/3d-spatial-multimodal-knowledge-accumulation-for-scene-graph-predictio'...\nfatal: could not read Username for 'https://github.com': terminal prompts disabled\n"
+  },
+  {
+    "id": "P005",
+    "title": "Open-Vocabulary Octree-Graph for 3D Scene Understanding",
+    "url": "https://github.com/yifeisu/OV-Octree-Graph",
+    "path": "literature/survey_0609/repos/open-vocabulary-octree-graph-for-3d-scene-understanding",
+    "status": "exists"
+  },
+  {
+    "id": "P006",
+    "title": "3D-Mem: 3D Scene Memory for Embodied Exploration and Reasoning",
+    "url": "https://github.com/UMass-Embodied-AGI/3D-Mem",
+    "path": "literature/survey_0609/repos/3d-mem-3d-scene-memory-for-embodied-exploration-and-reasoning",
+    "status": "exists"
+  },
+  {
+    "id": "P008",
+    "title": "OpenScene: 3D Scene Understanding with Open Vocabularies",
+    "url": "https://github.com/pengsongyou/openscene",
+    "path": "literature/survey_0609/repos/openscene-3d-scene-understanding-with-open-vocabularies",
+    "status": "exists"
+  },
+  {
+    "id": "P009",
+    "title": "OpenMask3D: Open-Vocabulary 3D Instance Segmentation",
+    "url": "https://github.com/OpenMask3D/openmask3d",
+    "path": "literature/survey_0609/repos/openmask3d-open-vocabulary-3d-instance-segmentation",
+    "status": "exists"
+  },
+  {
+    "id": "P010",
+    "title": "LangSplat: 3D Language Gaussian Splatting",
+    "url": "https://github.com/minghanqin/LangSplat",
+    "path": "literature/survey_0609/repos/langsplat-3d-language-gaussian-splatting",
+    "status": "exists"
+  },
+  {
+    "id": "P014",
+    "title": "OpenGraph: Open-Vocabulary Hierarchical 3D Graph Representation in Large-Scale Outdoor Environments",
+    "url": "https://github.com/BIT-DYN/OpenGraph",
+    "path": "literature/survey_0609/repos/opengraph-open-vocabulary-hierarchical-3d-graph-representation-in-larg",
+    "status": "exists"
+  },
+  {
+    "id": "P016",
+    "title": "ConceptGraphs: Open-Vocabulary 3D Scene Graphs for Perception and Planning",
+    "url": "https://github.com/concept-graphs/concept-graphs",
+    "path": "literature/survey_0609/repos/conceptgraphs-open-vocabulary-3d-scene-graphs-for-perception-and-plann",
+    "status": "exists"
+  },
+  {
+    "id": "P017",
+    "title": "Context-Aware Entity Grounding with Open-Vocabulary 3D Scene Graphs",
+    "url": "https://github.com/changhaonan/OVSG",
+    "path": "literature/survey_0609/repos/context-aware-entity-grounding-with-open-vocabulary-3d-scene-graphs",
+    "status": "exists"
+  },
+  {
+    "id": "P018",
+    "title": "Hierarchical Open-Vocabulary 3D Scene Graphs for Language-Grounded Robot Navigation",
+    "url": "https://github.com/hovsg/HOV-SG",
+    "path": "literature/survey_0609/repos/hierarchical-open-vocabulary-3d-scene-graphs-for-language-grounded-rob",
+    "status": "exists"
+  },
+  {
+    "id": "P019",
+    "title": "Hydra: A Real-time Spatial Perception System for 3D Scene Graph Construction and Optimization",
+    "url": "https://github.com/MIT-SPARK/Hydra",
+    "path": "literature/survey_0609/repos/hydra-a-real-time-spatial-perception-system-for-3d-scene-graph-constru",
+    "status": "exists"
+  },
+  {
+    "id": "P020",
+    "title": "SG-Nav: Online 3D Scene Graph Prompting for LLM-based Zero-shot Object Navigation",
+    "url": "https://github.com/bagh2178/SG-Nav",
+    "path": "literature/survey_0609/repos/sg-nav-online-3d-scene-graph-prompting-for-llm-based-zero-shot-object-",
+    "status": "exists"
+  },
+  {
+    "id": "P021",
+    "title": "VL-SAT: Visual-Linguistic Semantics Assisted Training for 3D Semantic Scene Graph Prediction in Point Cloud",
+    "url": "https://github.com/wz7in/CVPR2023-VLSAT",
+    "path": "literature/survey_0609/repos/vl-sat-visual-linguistic-semantics-assisted-training-for-3d-semantic-s",
+    "status": "exists"
+  },
+  {
+    "id": "P022",
+    "title": "Open3DSG: Open-Vocabulary 3D Scene Graphs from Point Clouds with Queryable Objects and Open-Set Relationships",
+    "url": "https://github.com/boschresearch/Open3DSG",
+    "path": "literature/survey_0609/repos/open3dsg-open-vocabulary-3d-scene-graphs-from-point-clouds-with-querya",
+    "status": "exists"
+  },
+  {
+    "id": "P023",
+    "title": "FROSS: Faster-than-Real-Time Online 3D Semantic Scene Graph Generation from RGB-D Images",
+    "url": "https://github.com/Howardkhh/FROSS",
+    "path": "literature/survey_0609/repos/fross-faster-than-real-time-online-3d-semantic-scene-graph-generation-",
+    "status": "exists"
+  },
+  {
+    "id": "P024",
+    "title": "Open-Vocabulary Functional 3D Scene Graphs for Real-World Indoor Spaces",
+    "url": "https://github.com/ZhangCYG/OpenFunGraph",
+    "path": "literature/survey_0609/repos/open-vocabulary-functional-3d-scene-graphs-for-real-world-indoor-space",
+    "status": "exists"
+  },
+  {
+    "id": "P025",
+    "title": "3DGraphLLM: Combining Semantic Graphs and Large Language Models for 3D Scene Understanding",
+    "url": "https://github.com/CognitiveAISystems/3DGraphLLM",
+    "path": "literature/survey_0609/repos/3dgraphllm-combining-semantic-graphs-and-large-language-models-for-3d-",
+    "status": "exists"
+  },
+  {
+    "id": "P026",
+    "title": "Beyond Bare Queries: Open-Vocabulary Object Grounding with 3D Scene Graph",
+    "url": "https://github.com/linukc/BeyondBareQueries",
+    "path": "literature/survey_0609/repos/beyond-bare-queries-open-vocabulary-object-grounding-with-3d-scene-gra",
+    "status": "exists"
+  },
+  {
+    "id": "P027",
+    "title": "Dynamic Open-Vocabulary 3D Scene Graphs for Long-term Language-Guided Mobile Manipulation",
+    "url": "https://github.com/BJHYZJ/DovSG",
+    "path": "literature/survey_0609/repos/dynamic-open-vocabulary-3d-scene-graphs-for-long-term-language-guided-",
+    "status": "exists"
+  }
+]

@@ -1,0 +1,802 @@
+[
+  {
+    "id": "P001",
+    "title": "3D Scene Graph: A Structure for Unified Semantics, 3D Space, and Camera",
+    "url": "https://openaccess.thecvf.com/content_ICCV_2019/papers/Armeni_3D_Scene_Graph_A_Structure_for_Unified_Semantics_3D_Space_ICCV_2019_paper.pdf",
+    "path": "literature/survey_0609/papers/P001_3d-scene-graph-a-structure-for-unified-semantics-3d-space-and-camera.pdf",
+    "status": "exists",
+    "bytes": 6976280
+  },
+  {
+    "id": "P002",
+    "title": "Exploiting Edge-Oriented Reasoning for 3D Point-Based Scene Graph Analysis",
+    "url": "https://openaccess.thecvf.com/content/CVPR2021/papers/Zhang_Exploiting_Edge-Oriented_Reasoning_for_3D_Point-Based_Scene_Graph_Analysis_CVPR_2021_paper.pdf",
+    "path": "literature/survey_0609/papers/P002_exploiting-edge-oriented-reasoning-for-3d-point-based-scene-graph-anal.pdf",
+    "status": "exists",
+    "bytes": 4616946
+  },
+  {
+    "id": "P003",
+    "title": "3D Spatial Multimodal Knowledge Accumulation for Scene Graph Prediction in Point Cloud",
+    "url": "https://openaccess.thecvf.com/content/CVPR2023/papers/Feng_3D_Spatial_Multimodal_Knowledge_Accumulation_for_Scene_Graph_Prediction_in_CVPR_2023_paper.pdf",
+    "path": "literature/survey_0609/papers/P003_3d-spatial-multimodal-knowledge-accumulation-for-scene-graph-predictio.pdf",
+    "status": "exists",
+    "bytes": 8392272
+  },
+  {
+    "id": "P004",
+    "title": "CLIP-Driven Open-Vocabulary 3D Scene Graph Generation via Cross-Modality Contrastive Learning",
+    "url": "https://openaccess.thecvf.com/content/CVPR2024/papers/Chen_CLIP-Driven_Open-Vocabulary_3D_Scene_Graph_Generation_via_Cross-Modality_Contrastive_Learning_CVPR_2024_paper.pdf",
+    "path": "literature/survey_0609/papers/P004_clip-driven-open-vocabulary-3d-scene-graph-generation-via-cross-modali.pdf",
+    "status": "exists",
+    "bytes": 3437560
+  },
+  {
+    "id": "P005",
+    "title": "Open-Vocabulary Octree-Graph for 3D Scene Understanding",
+    "url": "https://openaccess.thecvf.com/content/ICCV2025/papers/Wang_Open-Vocabulary_Octree-Graph_for_3D_Scene_Understanding_ICCV_2025_paper.pdf",
+    "path": "literature/survey_0609/papers/P005_open-vocabulary-octree-graph-for-3d-scene-understanding.pdf",
+    "status": "exists",
+    "bytes": 7095366
+  },
+  {
+    "id": "P006",
+    "title": "3D-Mem: 3D Scene Memory for Embodied Exploration and Reasoning",
+    "url": "https://openaccess.thecvf.com/content/CVPR2025/papers/Yang_3D-Mem_3D_Scene_Memory_for_Embodied_Exploration_and_Reasoning_CVPR_2025_paper.pdf",
+    "path": "literature/survey_0609/papers/P006_3d-mem-3d-scene-memory-for-embodied-exploration-and-reasoning.pdf",
+    "status": "exists",
+    "bytes": 1572300
+  },
+  {
+    "id": "P007",
+    "title": "FirePlace: Geometric Refinements of LLM Common Sense Reasoning for 3D Object Placement",
+    "url": "https://openaccess.thecvf.com/content/CVPR2025/papers/Huang_FirePlace_Geometric_Refinements_of_LLM_Common_Sense_Reasoning_for_3D_CVPR_2025_paper.pdf",
+    "path": "literature/survey_0609/papers/P007_fireplace-geometric-refinements-of-llm-common-sense-reasoning-for-3d-o.pdf",
+    "status": "exists",
+    "bytes": 8845637
+  },
+  {
+    "id": "P008",
+    "title": "OpenScene: 3D Scene Understanding with Open Vocabularies",
+    "url": "https://openaccess.thecvf.com/content/CVPR2023/papers/Peng_OpenScene_3D_Scene_Understanding_With_Open_Vocabularies_CVPR_2023_paper.pdf",
+    "path": "literature/survey_0609/papers/P008_openscene-3d-scene-understanding-with-open-vocabularies.pdf",
+    "status": "exists",
+    "bytes": 8895823
+  },
+  {
+    "id": "P009",
+    "title": "OpenMask3D: Open-Vocabulary 3D Instance Segmentation",
+    "url": "https://arxiv.org/pdf/2306.13631",
+    "path": "literature/survey_0609/papers/P009_openmask3d-open-vocabulary-3d-instance-segmentation.pdf",
+    "status": "exists",
+    "bytes": 21262278
+  },
+  {
+    "id": "P010",
+    "title": "LangSplat: 3D Language Gaussian Splatting",
+    "url": "https://openaccess.thecvf.com/content/CVPR2024/papers/Qin_LangSplat_3D_Language_Gaussian_Splatting_CVPR_2024_paper.pdf",
+    "path": "literature/survey_0609/papers/P010_langsplat-3d-language-gaussian-splatting.pdf",
+    "status": "exists",
+    "bytes": 4815084
+  },
+  {
+    "id": "P011",
+    "title": "GREAT: Geometry-Intention Collaborative Inference for Open-Vocabulary 3D Object Affordance Grounding",
+    "url": "https://openaccess.thecvf.com/content/CVPR2025/papers/Shao_GREAT_Geometry-Intention_Collaborative_Inference_for_Open-Vocabulary_3D_Object_Affordance_Grounding_CVPR_2025_paper.pdf",
+    "path": "literature/survey_0609/papers/P011_great-geometry-intention-collaborative-inference-for-open-vocabulary-3.pdf",
+    "status": "exists",
+    "bytes": 8247003
+  },
+  {
+    "id": "P012",
+    "title": "3D-GRAND: A Million-Scale Dataset for 3D-LLMs with Better Grounding and Less Hallucination",
+    "url": "https://openaccess.thecvf.com/content/CVPR2025/papers/Yang_3D-GRAND_A_Million-Scale_Dataset_for_3D-LLMs_with_Better_Grounding_and_CVPR_2025_paper.pdf",
+    "path": "literature/survey_0609/papers/P012_3d-grand-a-million-scale-dataset-for-3d-llms-with-better-grounding-and.pdf",
+    "status": "exists",
+    "bytes": 2181817
+  },
+  {
+    "id": "P013",
+    "title": "SGAligner: 3D Scene Alignment with Scene Graphs",
+    "url": "https://openaccess.thecvf.com/content/ICCV2023/papers/Sarkar_SGAligner_3D_Scene_Alignment_with_Scene_Graphs_ICCV_2023_paper.pdf",
+    "path": "literature/survey_0609/papers/P013_sgaligner-3d-scene-alignment-with-scene-graphs.pdf",
+    "status": "exists",
+    "bytes": 2738290
+  },
+  {
+    "id": "P014",
+    "title": "OpenGraph: Open-Vocabulary Hierarchical 3D Graph Representation in Large-Scale Outdoor Environments",
+    "url": "https://arxiv.org/pdf/2403.09412",
+    "path": "literature/survey_0609/papers/P014_opengraph-open-vocabulary-hierarchical-3d-graph-representation-in-larg.pdf",
+    "status": "downloaded",
+    "bytes": 8309168
+  },
+  {
+    "id": "P015",
+    "title": "Clio: Real-time Task-Driven Open-Set 3D Scene Graphs",
+    "url": "https://arxiv.org/pdf/2404.13696",
+    "path": "literature/survey_0609/papers/P015_clio-real-time-task-driven-open-set-3d-scene-graphs.pdf",
+    "status": "exists",
+    "bytes": 21085553
+  },
+  {
+    "id": "P016",
+    "title": "ConceptGraphs: Open-Vocabulary 3D Scene Graphs for Perception and Planning",
+    "url": "https://arxiv.org/pdf/2309.16650",
+    "path": "literature/survey_0609/papers/P016_conceptgraphs-open-vocabulary-3d-scene-graphs-for-perception-and-plann.pdf",
+    "status": "exists",
+    "bytes": 2593876
+  },
+  {
+    "id": "P017",
+    "title": "Context-Aware Entity Grounding with Open-Vocabulary 3D Scene Graphs",
+    "url": "https://proceedings.mlr.press/v229/chang23b/chang23b.pdf",
+    "path": "literature/survey_0609/papers/P017_context-aware-entity-grounding-with-open-vocabulary-3d-scene-graphs.pdf",
+    "status": "exists",
+    "bytes": 13243563
+  },
+  {
+    "id": "P018",
+    "title": "Hierarchical Open-Vocabulary 3D Scene Graphs for Language-Grounded Robot Navigation",
+    "url": "https://arxiv.org/pdf/2403.17846",
+    "path": "literature/survey_0609/papers/P018_hierarchical-open-vocabulary-3d-scene-graphs-for-language-grounded-rob.pdf",
+    "status": "exists",
+    "bytes": 45286713
+  },
+  {
+    "id": "P019",
+    "title": "Hydra: A Real-time Spatial Perception System for 3D Scene Graph Construction and Optimization",
+    "url": "https://www.roboticsproceedings.org/rss18/p050.pdf",
+    "path": "literature/survey_0609/papers/P019_hydra-a-real-time-spatial-perception-system-for-3d-scene-graph-constru.pdf",
+    "status": "exists",
+    "bytes": 13540851
+  },
+  {
+    "id": "P020",
+    "title": "SG-Nav: Online 3D Scene Graph Prompting for LLM-based Zero-shot Object Navigation",
+    "url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/098491b37deebbe6c007e69815729e09-Paper-Conference.pdf",
+    "path": "literature/survey_0609/papers/P020_sg-nav-online-3d-scene-graph-prompting-for-llm-based-zero-shot-object-.pdf",
+    "status": "exists",
+    "bytes": 2089846
+  },
+  {
+    "id": "P021",
+    "title": "VL-SAT: Visual-Linguistic Semantics Assisted Training for 3D Semantic Scene Graph Prediction in Point Cloud",
+    "url": "https://openaccess.thecvf.com/content/CVPR2023/papers/Wang_VL-SAT_Visual-Linguistic_Semantics_Assisted_Training_for_3D_Semantic_Scene_Graph_CVPR_2023_paper.pdf",
+    "path": "literature/survey_0609/papers/P021_vl-sat-visual-linguistic-semantics-assisted-training-for-3d-semantic-s.pdf",
+    "status": "exists",
+    "bytes": 1628027
+  },
+  {
+    "id": "P022",
+    "title": "Open3DSG: Open-Vocabulary 3D Scene Graphs from Point Clouds with Queryable Objects and Open-Set Relationships",
+    "url": "https://arxiv.org/pdf/2402.12259",
+    "path": "literature/survey_0609/papers/P022_open3dsg-open-vocabulary-3d-scene-graphs-from-point-clouds-with-querya.pdf",
+    "status": "exists",
+    "bytes": 20607795
+  },
+  {
+    "id": "P023",
+    "title": "FROSS: Faster-than-Real-Time Online 3D Semantic Scene Graph Generation from RGB-D Images",
+    "url": "https://arxiv.org/pdf/2507.19993",
+    "path": "literature/survey_0609/papers/P023_fross-faster-than-real-time-online-3d-semantic-scene-graph-generation-.pdf",
+    "status": "exists",
+    "bytes": 20268665
+  },
+  {
+    "id": "P024",
+    "title": "Open-Vocabulary Functional 3D Scene Graphs for Real-World Indoor Spaces",
+    "url": "https://openaccess.thecvf.com/content/CVPR2025/papers/Zhang_Open-Vocabulary_Functional_3D_Scene_Graphs_for_Real-World_Indoor_Spaces_CVPR_2025_paper.pdf",
+    "path": "literature/survey_0609/papers/P024_open-vocabulary-functional-3d-scene-graphs-for-real-world-indoor-space.pdf",
+    "status": "exists",
+    "bytes": 3304368
+  },
+  {
+    "id": "P025",
+    "title": "3DGraphLLM: Combining Semantic Graphs and Large Language Models for 3D Scene Understanding",
+    "url": "https://openaccess.thecvf.com/content/ICCV2025/papers/Zemskova_3DGraphLLM_Combining_Semantic_Graphs_and_Large_Language_Models_for_3D_ICCV_2025_paper.pdf",
+    "path": "literature/survey_0609/papers/P025_3dgraphllm-combining-semantic-graphs-and-large-language-models-for-3d-.pdf",
+    "status": "exists",
+    "bytes": 3025720
+  },
+  {
+    "id": "P026",
+    "title": "Beyond Bare Queries: Open-Vocabulary Object Grounding with 3D Scene Graph",
+    "url": "https://arxiv.org/pdf/2406.07113",
+    "path": "literature/survey_0609/papers/P026_beyond-bare-queries-open-vocabulary-object-grounding-with-3d-scene-gra.pdf",
+    "status": "exists",
+    "bytes": 9559712
+  },
+  {
+    "id": "P027",
+    "title": "Dynamic Open-Vocabulary 3D Scene Graphs for Long-term Language-Guided Mobile Manipulation",
+    "url": "https://arxiv.org/pdf/2410.11989",
+    "path": "literature/survey_0609/papers/P027_dynamic-open-vocabulary-3d-scene-graphs-for-long-term-language-guided-.pdf",
+    "status": "exists",
+    "bytes": 8215429
+  },
+  {
+    "id": "P028",
+    "title": "ZING-3D: Zero-shot Incremental 3D Scene Graphs via Vision-Language Models",
+    "url": "https://arxiv.org/pdf/2510.21069",
+    "path": "literature/survey_0609/papers/P028_zing-3d-zero-shot-incremental-3d-scene-graphs-via-vision-language-mode.pdf",
+    "status": "exists",
+    "bytes": 4487785
+  },
+  {
+    "id": "P029",
+    "title": "Relational Semantic Reasoning on 3D Scene Graphs for Open World Interactive Object Search",
+    "url": "https://arxiv.org/pdf/2603.05642",
+    "path": "literature/survey_0609/papers/P029_relational-semantic-reasoning-on-3d-scene-graphs-for-open-world-intera.pdf",
+    "status": "exists",
+    "bytes": 11461685
+  },
+  {
+    "id": "P030",
+    "title": "Relational Scene Graphs for Object Grounding of Natural Language Commands",
+    "url": "https://arxiv.org/pdf/2602.04635",
+    "path": "literature/survey_0609/papers/P030_relational-scene-graphs-for-object-grounding-of-natural-language-comma.pdf",
+    "status": "exists",
+    "bytes": 5350368
+  },
+  {
+    "id": "P031",
+    "title": "Open-World 3D Scene Graph Generation for Retrieval-Augmented Reasoning",
+    "url": "https://arxiv.org/pdf/2511.05894",
+    "path": "literature/survey_0609/papers/P031_open-world-3d-scene-graph-generation-for-retrieval-augmented-reasoning.pdf",
+    "status": "exists",
+    "bytes": 3877823
+  },
+  {
+    "id": "P032",
+    "title": "FunFact: Building Probabilistic Functional 3D Scene Graphs via Factor-Graph Reasoning",
+    "url": "https://arxiv.org/pdf/2604.03696",
+    "path": "literature/survey_0609/papers/P032_funfact-building-probabilistic-functional-3d-scene-graphs-via-factor-g.pdf",
+    "status": "exists",
+    "bytes": 29654813
+  },
+  {
+    "id": "P033",
+    "title": "SceneGraphGrounder: Zero-Shot 3D Visual Grounding via Structured Scene Graph Matching",
+    "url": "https://arxiv.org/pdf/2605.21788",
+    "path": "literature/survey_0609/papers/P033_scenegraphgrounder-zero-shot-3d-visual-grounding-via-structured-scene-.pdf",
+    "status": "exists",
+    "bytes": 5959450
+  },
+  {
+    "id": "P034",
+    "title": "RGB-only Active 3D Scene Graph Generation for Indoor Mobile Robots",
+    "url": "https://arxiv.org/pdf/2605.18197",
+    "path": "literature/survey_0609/papers/P034_rgb-only-active-3d-scene-graph-generation-for-indoor-mobile-robots.pdf",
+    "status": "exists",
+    "bytes": 1202715
+  },
+  {
+    "id": "P035",
+    "title": "3D-VCD: Hallucination Mitigation in 3D-LLM Embodied Agents through Visual Contrastive Decoding",
+    "url": "https://arxiv.org/pdf/2604.08645",
+    "path": "literature/survey_0609/papers/P035_3d-vcd-hallucination-mitigation-in-3d-llm-embodied-agents-through-visu.pdf",
+    "status": "exists",
+    "bytes": 5199069
+  },
+  {
+    "id": "P036",
+    "title": "OGScene3D: Incremental Open-Vocabulary 3D Gaussian Scene Graph Mapping for Scene Understanding",
+    "url": "https://arxiv.org/pdf/2603.16301",
+    "path": "literature/survey_0609/papers/P036_ogscene3d-incremental-open-vocabulary-3d-gaussian-scene-graph-mapping-.pdf",
+    "status": "exists",
+    "bytes": 2770923
+  },
+  {
+    "id": "P037",
+    "title": "Collaborative Dynamic 3D Scene Graphs for Open-Vocabulary Urban Scene Understanding",
+    "url": "https://arxiv.org/pdf/2503.08474",
+    "path": "literature/survey_0609/papers/P037_collaborative-dynamic-3d-scene-graphs-for-open-vocabulary-urban-scene-.pdf",
+    "status": "exists",
+    "bytes": 9289456
+  },
+  {
+    "id": "P038",
+    "title": "MR-COGraphs: Communication-efficient Multi-Robot Open-vocabulary Mapping System via 3D Scene Graphs",
+    "url": "https://arxiv.org/pdf/2412.18381",
+    "path": "literature/survey_0609/papers/P038_mr-cographs-communication-efficient-multi-robot-open-vocabulary-mappin.pdf",
+    "status": "exists",
+    "bytes": 5488937
+  },
+  {
+    "id": "P039",
+    "title": "RelWitness: Open-Vocabulary 3D Scene Graph Generation with Visual-Geometric Relation Witnesses",
+    "url": "https://arxiv.org/pdf/2605.20823",
+    "path": "literature/survey_0609/papers/P039_relwitness-open-vocabulary-3d-scene-graph-generation-with-visual-geome.pdf",
+    "status": "exists",
+    "bytes": 3762760
+  },
+  {
+    "id": "P040",
+    "title": "Exploring Bottlenecks in VLM-LLM Navigation: How 3D Scene Understanding Capability Impacts Zero-Shot VLN",
+    "url": "https://arxiv.org/pdf/2605.14801",
+    "path": "literature/survey_0609/papers/P040_exploring-bottlenecks-in-vlm-llm-navigation-how-3d-scene-understanding.pdf",
+    "status": "exists",
+    "bytes": 2043276
+  },
+  {
+    "id": "P041",
+    "title": "Relationship-Aware Hierarchical 3D Scene Graph for Task Reasoning",
+    "url": "https://arxiv.org/pdf/2602.02456",
+    "path": "literature/survey_0609/papers/P041_relationship-aware-hierarchical-3d-scene-graph-for-task-reasoning.pdf",
+    "status": "exists",
+    "bytes": 6013255
+  },
+  {
+    "id": "P042",
+    "title": "VIZOR: Viewpoint-Invariant Zero-Shot Scene Graph Generation for 3D Scene Reasoning",
+    "url": "https://arxiv.org/pdf/2602.00637",
+    "path": "literature/survey_0609/papers/P042_vizor-viewpoint-invariant-zero-shot-scene-graph-generation-for-3d-scen.pdf",
+    "status": "exists",
+    "bytes": 1695892
+  },
+  {
+    "id": "P043",
+    "title": "KeySG: Hierarchical Keyframe-Based 3D Scene Graphs",
+    "url": "https://arxiv.org/pdf/2510.01049",
+    "path": "literature/survey_0609/papers/P043_keysg-hierarchical-keyframe-based-3d-scene-graphs.pdf",
+    "status": "exists",
+    "bytes": 7042322
+  },
+  {
+    "id": "P044",
+    "title": "Statistical Confidence Rescoring for Robust 3D Scene Graph Generation from Multi-View Images",
+    "url": "https://arxiv.org/pdf/2508.06546",
+    "path": "literature/survey_0609/papers/P044_statistical-confidence-rescoring-for-robust-3d-scene-graph-generation-.pdf",
+    "status": "exists",
+    "bytes": 3357932
+  },
+  {
+    "id": "P045",
+    "title": "IRS: Instance-Level 3D Scene Graphs via Room Prior Guided LiDAR-Camera Fusion",
+    "url": "https://arxiv.org/pdf/2506.06804",
+    "path": "literature/survey_0609/papers/P045_irs-instance-level-3d-scene-graphs-via-room-prior-guided-lidar-camera-.pdf",
+    "status": "exists",
+    "bytes": 9026864
+  },
+  {
+    "id": "P046",
+    "title": "Towards Terrain-Aware Task-Driven 3D Scene Graph Generation in Outdoor Environments",
+    "url": "https://arxiv.org/pdf/2506.06562",
+    "path": "literature/survey_0609/papers/P046_towards-terrain-aware-task-driven-3d-scene-graph-generation-in-outdoor.pdf",
+    "status": "exists",
+    "bytes": 1887708
+  },
+  {
+    "id": "P047",
+    "title": "SGN-CIRL: Scene Graph-based Navigation with Curriculum, Imitation, and Reinforcement Learning",
+    "url": "https://arxiv.org/pdf/2506.04505",
+    "path": "literature/survey_0609/papers/P047_sgn-cirl-scene-graph-based-navigation-with-curriculum-imitation-and-re.pdf",
+    "status": "exists",
+    "bytes": 3270876
+  },
+  {
+    "id": "P048",
+    "title": "DSM: Constructing a Diverse Semantic Map for 3D Visual Grounding",
+    "url": "https://arxiv.org/pdf/2504.08307",
+    "path": "literature/survey_0609/papers/P048_dsm-constructing-a-diverse-semantic-map-for-3d-visual-grounding.pdf",
+    "status": "exists",
+    "bytes": 2714545
+  },
+  {
+    "id": "P049",
+    "title": "Intelligent Spatial Perception by Building Hierarchical 3D Scene Graphs for Indoor Scenarios with the Help of LLMs",
+    "url": "https://arxiv.org/pdf/2503.15091",
+    "path": "literature/survey_0609/papers/P049_intelligent-spatial-perception-by-building-hierarchical-3d-scene-graph.pdf",
+    "status": "exists",
+    "bytes": 3150114
+  },
+  {
+    "id": "P050",
+    "title": "Hierarchical and Holistic Open-Vocabulary Functional 3D Scene Graphs for Indoor Spaces",
+    "url": "https://arxiv.org/pdf/2605.15753",
+    "path": "literature/survey_0609/papers/P050_hierarchical-and-holistic-open-vocabulary-functional-3d-scene-graphs-f.pdf",
+    "status": "exists",
+    "bytes": 23632552
+  },
+  {
+    "id": "P051",
+    "title": "LEXI-SG: Monocular 3D Scene Graph Mapping with Room-Guided Feed-Forward Reconstruction",
+    "url": "https://arxiv.org/pdf/2605.13741",
+    "path": "literature/survey_0609/papers/P051_lexi-sg-monocular-3d-scene-graph-mapping-with-room-guided-feed-forward.pdf",
+    "status": "exists",
+    "bytes": 3778887
+  },
+  {
+    "id": "P052",
+    "title": "ToLL: Topological Layout Learning with Asymmetric Cross-View Structural Distillation for 3D Scene Graph Generation Pretraining",
+    "url": "https://arxiv.org/pdf/2603.28178",
+    "path": "literature/survey_0609/papers/P052_toll-topological-layout-learning-with-asymmetric-cross-view-structural.pdf",
+    "status": "exists",
+    "bytes": 6721361
+  },
+  {
+    "id": "P053",
+    "title": "SGR3 Model: Scene Graph Retrieval-Reasoning Model in 3D",
+    "url": "https://arxiv.org/pdf/2603.04614",
+    "path": "literature/survey_0609/papers/P053_sgr3-model-scene-graph-retrieval-reasoning-model-in-3d.pdf",
+    "status": "exists",
+    "bytes": 8089568
+  },
+  {
+    "id": "P054",
+    "title": "RAG-3DSG: Enhancing 3D Scene Graphs with Re-Shot Guided Retrieval-Augmented Generation",
+    "url": "https://arxiv.org/pdf/2601.10168",
+    "path": "literature/survey_0609/papers/P054_rag-3dsg-enhancing-3d-scene-graphs-with-re-shot-guided-retrieval-augme.pdf",
+    "status": "exists",
+    "bytes": 8327699
+  },
+  {
+    "id": "P055",
+    "title": "FreeQ-Graph: Free-form Querying with Semantic Consistent Scene Graph for 3D Scene Understanding",
+    "url": "https://arxiv.org/pdf/2506.13629",
+    "path": "literature/survey_0609/papers/P055_freeq-graph-free-form-querying-with-semantic-consistent-scene-graph-fo.pdf",
+    "status": "exists",
+    "bytes": 6527854
+  },
+  {
+    "id": "P056",
+    "title": "GraphPad: Inference-Time 3D Scene Graph Updates for Embodied Question Answering",
+    "url": "https://arxiv.org/pdf/2506.01174",
+    "path": "literature/survey_0609/papers/P056_graphpad-inference-time-3d-scene-graph-updates-for-embodied-question-a.pdf",
+    "status": "exists",
+    "bytes": 2683987
+  },
+  {
+    "id": "P057",
+    "title": "Long-Term Planning Around Humans in Domestic Environments with 3D Scene Graphs",
+    "url": "https://arxiv.org/pdf/2503.09173",
+    "path": "literature/survey_0609/papers/P057_long-term-planning-around-humans-in-domestic-environments-with-3d-scen.pdf",
+    "status": "exists",
+    "bytes": 3182468
+  },
+  {
+    "id": "P058",
+    "title": "EmbodiedRAG: Dynamic 3D Scene Graph Retrieval for Efficient and Scalable Robot Task Planning",
+    "url": "https://arxiv.org/pdf/2410.23968",
+    "path": "literature/survey_0609/papers/P058_embodiedrag-dynamic-3d-scene-graph-retrieval-for-efficient-and-scalabl.pdf",
+    "status": "exists",
+    "bytes": 16209873
+  },
+  {
+    "id": "P059",
+    "title": "SG-PGM: Partial Graph Matching Network with Semantic Geometric Fusion for 3D Scene Graph Alignment and Its Downstream Tasks",
+    "url": "https://arxiv.org/pdf/2403.19474",
+    "path": "literature/survey_0609/papers/P059_sg-pgm-partial-graph-matching-network-with-semantic-geometric-fusion-f.pdf",
+    "status": "exists",
+    "bytes": 4656217
+  },
+  {
+    "id": "P060",
+    "title": "Indoor and Outdoor 3D Scene Graph Generation via Language-Enabled Spatial Ontologies",
+    "url": "https://arxiv.org/pdf/2312.11713",
+    "path": "literature/survey_0609/papers/P060_indoor-and-outdoor-3d-scene-graph-generation-via-language-enabled-spat.pdf",
+    "status": "exists",
+    "bytes": 8654708
+  },
+  {
+    "id": "P061",
+    "title": "Mono-hydra: Real-time 3D scene graph construction from monocular camera input with IMU",
+    "url": "https://arxiv.org/pdf/2308.05515",
+    "path": "literature/survey_0609/papers/P061_mono-hydra-real-time-3d-scene-graph-construction-from-monocular-camera.pdf",
+    "status": "exists",
+    "bytes": 566167
+  },
+  {
+    "id": "P062",
+    "title": "DGSG-Mind: Dynamic 3D Gaussian Scene Graphs for Long-Term Scene Understanding and Grounding",
+    "url": "https://arxiv.org/pdf/2605.29879",
+    "path": "literature/survey_0609/papers/P062_dgsg-mind-dynamic-3d-gaussian-scene-graphs-for-long-term-scene-underst.pdf",
+    "status": "exists",
+    "bytes": 4703116
+  },
+  {
+    "id": "P063",
+    "title": "Fixed External Cameras as Common Prior Maps for Active 3D Scene Graph Generation",
+    "url": "https://arxiv.org/pdf/2605.18184",
+    "path": "literature/survey_0609/papers/P063_fixed-external-cameras-as-common-prior-maps-for-active-3d-scene-graph-.pdf",
+    "status": "exists",
+    "bytes": 1096580
+  },
+  {
+    "id": "P064",
+    "title": "LOST-3DSG: Lightweight Open-Vocabulary 3D Scene Graphs with Semantic Tracking in Dynamic Environments",
+    "url": "https://arxiv.org/pdf/2601.02905",
+    "path": "literature/survey_0609/papers/P064_lost-3dsg-lightweight-open-vocabulary-3d-scene-graphs-with-semantic-tr.pdf",
+    "status": "exists",
+    "bytes": 5612182
+  },
+  {
+    "id": "P065",
+    "title": "ArtiSG: Functional 3D Scene Graph Construction via Human-demonstrated Articulated Objects Manipulation",
+    "url": "https://arxiv.org/pdf/2512.24845",
+    "path": "literature/survey_0609/papers/P065_artisg-functional-3d-scene-graph-construction-via-human-demonstrated-a.pdf",
+    "status": "exists",
+    "bytes": 6161305
+  },
+  {
+    "id": "P066",
+    "title": "MSGNav: Unleashing the Power of Multi-modal 3D Scene Graph for Zero-Shot Embodied Navigation",
+    "url": "https://arxiv.org/pdf/2511.10376",
+    "path": "literature/survey_0609/papers/P066_msgnav-unleashing-the-power-of-multi-modal-3d-scene-graph-for-zero-sho.pdf",
+    "status": "exists",
+    "bytes": 16111442
+  },
+  {
+    "id": "P067",
+    "title": "Social 3D Scene Graphs: Modeling Human Actions and Relations for Interactive Service Robots",
+    "url": "https://arxiv.org/pdf/2509.24966",
+    "path": "literature/survey_0609/papers/P067_social-3d-scene-graphs-modeling-human-actions-and-relations-for-intera.pdf",
+    "status": "exists",
+    "bytes": 4887847
+  },
+  {
+    "id": "P068",
+    "title": "Integrating Prior Observations for Incremental 3D Scene Graph Prediction",
+    "url": "https://arxiv.org/pdf/2509.11895",
+    "path": "literature/survey_0609/papers/P068_integrating-prior-observations-for-incremental-3d-scene-graph-predicti.pdf",
+    "status": "exists",
+    "bytes": 1366262
+  },
+  {
+    "id": "P069",
+    "title": "FunGraph: Functionality Aware 3D Scene Graphs for Language-Prompted Scene Interaction",
+    "url": "https://arxiv.org/pdf/2503.07909",
+    "path": "literature/survey_0609/papers/P069_fungraph-functionality-aware-3d-scene-graphs-for-language-prompted-sce.pdf",
+    "status": "exists",
+    "bytes": 6207134
+  },
+  {
+    "id": "P070",
+    "title": "3D Scene Graph Guided Vision-Language Pre-training",
+    "url": "https://arxiv.org/pdf/2411.18666",
+    "path": "literature/survey_0609/papers/P070_3d-scene-graph-guided-vision-language-pre-training.pdf",
+    "status": "exists",
+    "bytes": 2944881
+  },
+  {
+    "id": "P071",
+    "title": "Multi-Modal 3D Scene Graph Updater for Shared and Dynamic Environments",
+    "url": "https://arxiv.org/pdf/2411.02938",
+    "path": "literature/survey_0609/papers/P071_multi-modal-3d-scene-graph-updater-for-shared-and-dynamic-environments.pdf",
+    "status": "exists",
+    "bytes": 680403
+  },
+  {
+    "id": "P072",
+    "title": "SayPlan: Grounding Large Language Models using 3D Scene Graphs for Scalable Robot Task Planning",
+    "url": "https://proceedings.mlr.press/v229/rana23a/rana23a.pdf",
+    "path": "literature/survey_0609/papers/P072_sayplan-grounding-large-language-models-using-3d-scene-graphs-for-scal.pdf",
+    "status": "exists",
+    "bytes": 15007428
+  },
+  {
+    "id": "P073",
+    "title": "D-Lite: Navigation-Oriented Compression of 3D Scene Graphs for Multi-Robot Collaboration",
+    "url": "https://arxiv.org/pdf/2209.06111",
+    "path": "literature/survey_0609/papers/P073_d-lite-navigation-oriented-compression-of-3d-scene-graphs-for-multi-ro.pdf",
+    "status": "exists",
+    "bytes": 4769399
+  },
+  {
+    "id": "P074",
+    "title": "Seeing Fast and Slow: Bimodal 3D Scene Graphs for Open-set Tasks",
+    "url": "https://arxiv.org/pdf/2605.31067v1",
+    "path": "literature/survey_0609/papers/P074_seeing-fast-and-slow-bimodal-3d-scene-graphs-for-open-set-tasks.pdf",
+    "status": "downloaded",
+    "bytes": 2747117
+  },
+  {
+    "id": "P075",
+    "title": "Pandora: Articulated 3D Scene Graphs from Egocentric Vision",
+    "url": "https://arxiv.org/pdf/2603.28732",
+    "path": "literature/survey_0609/papers/P075_pandora-articulated-3d-scene-graphs-from-egocentric-vision.pdf",
+    "status": "exists",
+    "bytes": 18382145
+  },
+  {
+    "id": "P076",
+    "title": "Structured Interfaces for Automated Reasoning with 3D Scene Graphs",
+    "url": "https://arxiv.org/pdf/2510.16643",
+    "path": "literature/survey_0609/papers/P076_structured-interfaces-for-automated-reasoning-with-3d-scene-graphs.pdf",
+    "status": "exists",
+    "bytes": 1224582
+  },
+  {
+    "id": "P077",
+    "title": "Context Matters! Relaxing Goals with LLMs for Feasible 3D Scene Planning",
+    "url": "https://arxiv.org/pdf/2506.15828",
+    "path": "literature/survey_0609/papers/P077_context-matters-relaxing-goals-with-llms-for-feasible-3d-scene-plannin.pdf",
+    "status": "exists",
+    "bytes": 5681995
+  },
+  {
+    "id": "P078",
+    "title": "Multi-modal Situated Reasoning in 3D Scenes",
+    "url": "https://arxiv.org/pdf/2409.02389",
+    "path": "literature/survey_0609/papers/P078_multi-modal-situated-reasoning-in-3d-scenes.pdf",
+    "status": "exists",
+    "bytes": 10626545
+  },
+  {
+    "id": "P079",
+    "title": "Weakly-Supervised 3D Scene Graph Generation via Visual-Linguistic Assisted Pseudo-labeling",
+    "url": "https://arxiv.org/pdf/2404.02527",
+    "path": "literature/survey_0609/papers/P079_weakly-supervised-3d-scene-graph-generation-via-visual-linguistic-assi.pdf",
+    "status": "exists",
+    "bytes": 18667510
+  },
+  {
+    "id": "P080",
+    "title": "Lang3DSG: Language-based contrastive pre-training for 3D Scene Graph prediction",
+    "url": "https://arxiv.org/pdf/2310.16494",
+    "path": "literature/survey_0609/papers/P080_lang3dsg-language-based-contrastive-pre-training-for-3d-scene-graph-pr.pdf",
+    "status": "exists",
+    "bytes": 9133292
+  },
+  {
+    "id": "P081",
+    "title": "SGRec3D: Self-Supervised 3D Scene Graph Learning via Object-Level Scene Reconstruction",
+    "url": "https://openaccess.thecvf.com/content/WACV2024/papers/Koch_SGRec3D_Self-Supervised_3D_Scene_Graph_Learning_via_Object-Level_Scene_Reconstruction_WACV_2024_paper.pdf",
+    "path": "literature/survey_0609/papers/P081_sgrec3d-self-supervised-3d-scene-graph-learning-via-object-level-scene.pdf",
+    "status": "exists",
+    "bytes": 4848180
+  },
+  {
+    "id": "P082",
+    "title": "3D Scene Graph Prediction on Point Clouds Using Knowledge Graphs",
+    "url": "https://arxiv.org/pdf/2308.06719",
+    "path": "literature/survey_0609/papers/P082_3d-scene-graph-prediction-on-point-clouds-using-knowledge-graphs.pdf",
+    "status": "exists",
+    "bytes": 535429
+  },
+  {
+    "id": "P083",
+    "title": "Hydra-Multi: Collaborative Online Construction of 3D Scene Graphs with Multi-Robot Teams",
+    "url": "https://arxiv.org/pdf/2304.13487",
+    "path": "literature/survey_0609/papers/P083_hydra-multi-collaborative-online-construction-of-3d-scene-graphs-with-.pdf",
+    "status": "exists",
+    "bytes": 5906914
+  },
+  {
+    "id": "P084",
+    "title": "SGFormer: Semantic Graph Transformer for Point Cloud-based 3D Scene Graph Generation",
+    "url": "https://arxiv.org/pdf/2303.11048",
+    "path": "literature/survey_0609/papers/P084_sgformer-semantic-graph-transformer-for-point-cloud-based-3d-scene-gra.pdf",
+    "status": "exists",
+    "bytes": 1506050
+  },
+  {
+    "id": "P085",
+    "title": "Retargetable AR: Context-aware Augmented Reality in Indoor Scenes based on 3D Scene Graph",
+    "url": "https://arxiv.org/pdf/2008.07817",
+    "path": "literature/survey_0609/papers/P085_retargetable-ar-context-aware-augmented-reality-in-indoor-scenes-based.pdf",
+    "status": "exists",
+    "bytes": 23728031
+  },
+  {
+    "id": "P086",
+    "title": "GSMem: 3D Gaussian Splatting as Persistent Spatial Memory for Zero-Shot Embodied Exploration and Reasoning",
+    "url": "https://arxiv.org/pdf/2603.19137",
+    "path": "literature/survey_0609/papers/P086_gsmem-3d-gaussian-splatting-as-persistent-spatial-memory-for-zero-shot.pdf",
+    "status": "exists",
+    "bytes": 3516402
+  },
+  {
+    "id": "P087",
+    "title": "SGAligner++: Cross-Modal Language-Aided 3D Scene Graph Alignment",
+    "url": "https://arxiv.org/pdf/2509.20401",
+    "path": "literature/survey_0609/papers/P087_sgaligner-cross-modal-language-aided-3d-scene-graph-alignment.pdf",
+    "status": "exists",
+    "bytes": 9930689
+  },
+  {
+    "id": "P088",
+    "title": "Language-Grounded Hierarchical Planning and Execution with Multi-Robot 3D Scene Graphs",
+    "url": "https://arxiv.org/pdf/2506.07454",
+    "path": "literature/survey_0609/papers/P088_language-grounded-hierarchical-planning-and-execution-with-multi-robot.pdf",
+    "status": "exists",
+    "bytes": 5089166
+  },
+  {
+    "id": "P089",
+    "title": "DYNEMO-SLAM: Dynamic Entity and Motion-Aware 3D Scene Graph SLAM",
+    "url": "https://arxiv.org/pdf/2503.02050",
+    "path": "literature/survey_0609/papers/P089_dynemo-slam-dynamic-entity-and-motion-aware-3d-scene-graph-slam.pdf",
+    "status": "exists",
+    "bytes": 5629870
+  },
+  {
+    "id": "P090",
+    "title": "Task and Motion Planning in Hierarchical 3D Scene Graphs",
+    "url": "https://arxiv.org/pdf/2403.08094",
+    "path": "literature/survey_0609/papers/P090_task-and-motion-planning-in-hierarchical-3d-scene-graphs.pdf",
+    "status": "exists",
+    "bytes": 1979299
+  },
+  {
+    "id": "P091",
+    "title": "Explore Contextual Information for 3D Scene Graph Generation",
+    "url": "https://arxiv.org/pdf/2210.06240",
+    "path": "literature/survey_0609/papers/P091_explore-contextual-information-for-3d-scene-graph-generation.pdf",
+    "status": "exists",
+    "bytes": 12781851
+  },
+  {
+    "id": "P092",
+    "title": "Semantic and Geometric Modeling with Neural Message Passing in 3D Scene Graphs for Hierarchical Mechanical Search",
+    "url": "https://arxiv.org/pdf/2012.04060",
+    "path": "literature/survey_0609/papers/P092_semantic-and-geometric-modeling-with-neural-message-passing-in-3d-scen.pdf",
+    "status": "exists",
+    "bytes": 1845012
+  },
+  {
+    "id": "P093",
+    "title": "MA3DSG: Multi-Agent 3D Scene Graph Generation for Large-Scale Indoor Environments",
+    "url": "https://arxiv.org/pdf/2602.04152",
+    "path": "literature/survey_0609/papers/P093_ma3dsg-multi-agent-3d-scene-graph-generation-for-large-scale-indoor-en.pdf",
+    "status": "exists",
+    "bytes": 2630011
+  },
+  {
+    "id": "P094",
+    "title": "Edge-Centric Relational Reasoning for 3D Scene Graph Prediction",
+    "url": "https://arxiv.org/pdf/2511.15288",
+    "path": "literature/survey_0609/papers/P094_edge-centric-relational-reasoning-for-3d-scene-graph-prediction.pdf",
+    "status": "exists",
+    "bytes": 2534406
+  },
+  {
+    "id": "P095",
+    "title": "Situationally-aware Path Planning Exploiting 3D Scene Graphs",
+    "url": "https://arxiv.org/pdf/2508.06283",
+    "path": "literature/survey_0609/papers/P095_situationally-aware-path-planning-exploiting-3d-scene-graphs.pdf",
+    "status": "exists",
+    "bytes": 7170216
+  },
+  {
+    "id": "P096",
+    "title": "GaussianGraph: 3D Gaussian-based Scene Graph Generation for Open-world Scene Understanding",
+    "url": "https://arxiv.org/pdf/2503.04034",
+    "path": "literature/survey_0609/papers/P096_gaussiangraph-3d-gaussian-based-scene-graph-generation-for-open-world-.pdf",
+    "status": "exists",
+    "bytes": 5882188
+  },
+  {
+    "id": "P097",
+    "title": "REACT: Real-time Efficient Attribute Clustering and Transfer for Updatable 3D Scene Graph",
+    "url": "https://arxiv.org/pdf/2503.03412",
+    "path": "literature/survey_0609/papers/P097_react-real-time-efficient-attribute-clustering-and-transfer-for-updata.pdf",
+    "status": "exists",
+    "bytes": 6660387
+  },
+  {
+    "id": "P098",
+    "title": "VLA-3D: A Dataset for 3D Semantic Scene Understanding and Navigation",
+    "url": "https://arxiv.org/pdf/2411.03540",
+    "path": "literature/survey_0609/papers/P098_vla-3d-a-dataset-for-3d-semantic-scene-understanding-and-navigation.pdf",
+    "status": "exists",
+    "bytes": 1577042
+  },
+  {
+    "id": "P099",
+    "title": "SceneGraphFusion: Incremental 3D Scene Graph Prediction from RGB-D Sequences",
+    "url": "https://arxiv.org/pdf/2103.14898",
+    "path": "literature/survey_0609/papers/P099_scenegraphfusion-incremental-3d-scene-graph-prediction-from-rgb-d-sequ.pdf",
+    "status": "exists",
+    "bytes": 12365822
+  },
+  {
+    "id": "P100",
+    "title": "INHerit-SG: Incremental Hierarchical Semantic Scene Graphs with RAG-Style Retrieval",
+    "url": "https://arxiv.org/pdf/2602.12971",
+    "path": "literature/survey_0609/papers/P100_inherit-sg-incremental-hierarchical-semantic-scene-graphs-with-rag-sty.pdf",
+    "status": "exists",
+    "bytes": 22481364
+  }
+]
