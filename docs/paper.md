@@ -1,6 +1,6 @@
 # Paper Workflow
 
-Last updated: 2026-06-06
+Last updated: 2026-06-12
 
 This document manages paper-level framing for H001/CAND-001: novelty, contribution boundary, reviewer-defense logic, and the minimum experiment evidence needed before paper writing. It does not replace `docs/hypothesis.md`, `07_experiment_spec.md`, or Docker experiment artifacts.
 
@@ -30,6 +30,25 @@ H001 rule:
 
 - Do not claim novelty as "we add geometry", "we combine semantic and geometry", "we use a VLM", or "we implement a verifier".
 - Claim novelty as a calibrated geometry-consistency evaluation/re-ranking framework that targets a specific failure: semantically plausible 3D relation predictions can be physically inconsistent because semantic confidence is not calibrated to relation-level geometry.
+- Paperization must follow a problem-principle-evidence chain, not a desired-hypothesis fitting loop. Every promoted claim should be traceable as: concrete failure mechanism, method design necessity, fixed evaluation protocol, falsifiable evidence, and explicit claim boundary.
+- If an experiment or expansion does not support the intended claim under the fixed protocol, narrow the claim or report the result as appendix/limitation/future-work evidence. Do not retune relation families, thresholds, recovery policies, or source scope after held-out results merely to make the hypothesis look true.
+
+## Problem-Principle Fit Rule
+
+Before adding a result, table, relation family, source, or contribution
+statement to the paper, check five questions:
+
+1. What exact failure mechanism does this address?
+2. Why does that mechanism require this method form rather than a simpler
+   heuristic or post-hoc filter?
+3. Which parts of the protocol were fixed before held-out source-result
+   reporting?
+4. Which control, ablation, bootstrap, verifier, or failure-analysis artifact
+   could falsify the claim?
+5. What claim boundary remains after the evidence is considered?
+
+If any answer is missing, the item is not ready for the main AAAI claim. It may
+remain as planning, appendix, limitation, or future-work evidence.
 
 ## Current One-Liner
 
@@ -46,13 +65,14 @@ This is the preferred direction because it contains both cause diagnosis and met
 - Full-validation VL-SAT and Open3DSG artifacts now exist. VL-SAT is the
   controlled-anchor full-validation metric bundle. Open3DSG uses the 548/548
   recovery-policy variant as the primary full-denominator branch; the original
-  533/548 covered branch remains a sensitivity / unmodified-source-route check.
+  533/548 covered branch follows the unmodified Open3DSG source preprocessing
+  pipeline and remains a sensitivity / unmodified-source-route check.
 - The Open3DSG recovery branch uses `min_visible=2` and relaxed two-scan view
   regeneration. This must be disclosed wherever the Open3DSG full-validation
   result is used.
 - The method provenance must be stated as train/train-dev-derived: final family
   mapping, hard-rule policies, counterfactual construction, and `p_geom_valid`
-  calibration are frozen before validation source-result reporting.
+  calibration are frozen before validation source-result reporting. Full-validation is used only as held-out reporting, not for tuning thresholds or policy.
 - H001-Mini is hypothesis/feasibility evidence, not a paper metric split and
   not a calibrator/threshold fitting split.
 - Source-result tables and claims should now be regenerated from the selected
@@ -78,7 +98,7 @@ Current paper workspace:
 - `paper/draft.md` provides first-pass manuscript prose for Title, Abstract, Introduction, Related Work, Problem Formulation, Method, Experimental Setup, Results/Discussion, Limitations, and Conclusion. It has passed claim-scope/evidence-link review and now uses BibTeX-style citation keys in Related Work.
 - `paper/risk.md` tracks reviewer-risk attacks, mitigation status, and priority for logic/evidence/novelty/reproducibility defenses.
 - `paper/appendix.md` owns appendix/supplement provenance tables, detailed Open3DSG caveat consistency checks, optional Figure 3 decisions, and Qwen-VL extension boundary notes.
-- `paper/aaai/` is the current target-venue LaTeX source. It now uses the official AAAI-26 Author Kit style files checked on 2026-05-27 KST, splits the draft into `main.tex` plus `sec/*.tex`, points bibliography to `paper/references.bib`, and includes the AAAI reproducibility checklist after references. Docker PDF build is verified with `h001-aaai-tex:20260526`.
+- `paper/aaai/` is the current target-venue LaTeX source. It now uses the official AAAI-27 Author Kit style files checked on 2026-06-11 KST, splits the working draft into `main.tex` plus `sec/*.tex`, points bibliography to `paper/references.bib`, and includes an AAAI-27-structured reproducibility checklist after references. Docker PDF build is verified with `h001-aaai-tex:20260611`. Final source upload may still require flattening into a single `.tex` file plus `.bib` and used graphics.
 - `paper/iccv/` remains a historical/alternate ICCV-style source route.
 - `paper/figures.md` locks Figure 1-3 source claims, exact values, case IDs, artifacts, and caption constraints; draft SVGs are generated, verified, and layout-reviewed under `paper/generated/figures/`.
 
@@ -107,7 +127,7 @@ Facts:
   denominator, residual calibration risk, and the recovery policy
   (`OPEN3DSG_MIN_VISIBLE_OBJECTS=2` plus relaxed view regeneration for two
   scans). Use the 533/548 covered full-validation branch as sensitivity evidence
-  for unmodified source-route behavior.
+  for the unmodified Open3DSG source preprocessing pipeline.
 - `relative_horizontal` is the preferred relation-scope expansion track, not
   part of the current claim. Docker `relative_horizontal_scope_audit` confirms
   3,570 candidate GT rows and an expanded denominator of 6,115/7,505 if
@@ -140,18 +160,22 @@ Facts:
   object pairs, and mostly orthogonal-axis dominance. Treat this as
   appendix/future-work boundary evidence, not source-metric evidence.
 - `attachment_deferred` is the preferred future relation-family upgrade if H001
-  is expanded beyond the current AAAI claim. It is not current metric evidence.
+  is expanded beyond the current AAAI claim. It is not current main-claim
+  evidence.
   Docker G0 scope/schema audit, G1 extractor contract, G1b evidence-only dry
   run, G1c point/surface estimator validation, G2 verifier-policy design, G3
   train-dev calibration/counterfactual route, G4 GT policy smoke, G4b
   error/visual sanity planning, G4c strict-only calibration-filter freeze, G5a
-  pooled strict calibration fit, G5b bounded source scoring preflight, and G5c
-  full-source protocol freeze are complete with status
-  `attachment_deferred_full_source_protocol_frozen_no_metrics`:
-  the denominator policy records 967 GT rows (`attached to` 808, `hanging on`
+  pooled strict calibration fit, G5b bounded source scoring preflight, G5c
+  full-source protocol freeze, and G5d full-source
+  scoring/metrics/controls/bootstrap are complete. G5d status is
+  `attachment_deferred_g5d_full_source_metrics_ready`, with 69/69 shards,
+  135,048 scored rows, validation errors 0, and 300 failure rows. G5c
+  denominator policy records 967 GT rows (`attached to` 808, `hanging on`
   126, `connected to` 33), candidate denominator 3,512 if validated, and
   candidate prediction rows for VL-SAT (77,748) and Open3DSG (57,300); both
-  sources are currently verification-unsupported for this family. G2 covers 9
+  sources were verification-unsupported before the attachment policy was added.
+  G2 covers 9
   conservative subtypes, G3 prepares 315 train/dev positive seeds plus 446
   counterfactual negative seeds, and G4 applies the frozen policy to 36 smoke
   rows plus 761 train/dev seed rows. G4 decision-schema validation passes with
@@ -172,21 +196,24 @@ Facts:
   G5c freezes 69 deterministic full-source shards for 135,048 rows, metric
   conditions, control order, and source-specific exact-label denominators:
   VL-SAT covers 967/967 attachment GT rows, while Open3DSG covers 768/967 and
-  has 199 missing exact-label GT rows. This is still contract evidence only
-  because full-source scoring and metrics do not exist. `connected to` has no
-  dev strict rows, so pooled calibration or an explicit caveat is required. This
-  direction is better aligned with
-  the H001
-  physical-consistency thesis than `relative_horizontal`, because attachment,
+  has 199 missing exact-label GT rows. G5d results show a strong conservative
+  rule-verified signal: VL-SAT semantic-only R@100/V@100 is 1.0000/0.2126 and
+  rule-verified attachment policy is 0.9380/0.0215; Open3DSG semantic-only is
+  0.9297/0.3021 and rule-verified attachment policy is 0.9245/0.0842. However,
+  G5d is on the older H001 388/377-context scope, not the current full official
+  validation paper route. `connected to` has no dev strict rows, so pooled
+  calibration or an explicit caveat is required. This direction is better
+  aligned with the H001 physical-consistency thesis than `relative_horizontal`,
+  because attachment,
   hanging, and connection imply physical support/adjacency, near-surface
   contact, gravity, and object-affordance constraints. Its risk is rule
   complexity: it requires validated wall/ceiling/furniture surface evidence,
   local point contact, surface normals, hanging geometry, contradictory support
   handling, and conservative uncertain handling. Treat it as a future upgrade
-  path whose next gates are full-source scoring, two-source metrics, controls,
-  bootstrap CI, and audit before any main-claim
-  promotion.
-- Qwen-VL is currently a third semantic source / modern VLM extension, not a VL-SAT or Open3DSG replacement.
+  path whose next gates are full-validation rerun, source metrics on the
+  current paper route, pairwise bootstrap deltas, and post-G5d failure/visual
+  audit before any main-claim promotion.
+- Qwen-VL is currently a third semantic source / modern VLM extension with downstream metrics/audit ready, not a VL-SAT or Open3DSG replacement.
 - The 2026-05-23 RelWitness full-PDF skim identified a stronger direct novelty threat: RelWitness uses visual-geometric relation witnesses, calibrated witness quality, witness-guided positive-unlabeled learning, and witness-consistent decoding. Its v2 numerical tables are simulated planning values, so it should sharpen H001 wording rather than replace H001's reproduced evidence.
 
 Inference:
@@ -229,13 +256,15 @@ Required defense:
 - Keep denominator and filtered-split caveats visible in every table using Open3DSG.
 - Use Open3DSG as the main open-vocabulary case study before considering any broad claims.
 - Report residual calibration-risk cases separately from rule-verified results.
-- Treat Qwen-VL as a third semantic-source extension unless it receives the same Docker, metric, and audit treatment.
+- Treat Qwen-VL as a third semantic-source appendix/extension for the current AAAI route even though full-validation Docker metric/bootstrap/audit treatment is complete.
 - Treat `relative_horizontal` as a separate validation track until coordinate-frame ambiguity is resolved and the evidence reaches the same standard as the current claim. The current coordinate audit is partial/blocked, so it is not main-claim evidence.
 - When discussing that track, do not rely on the operational purity threshold
   as if it were an official benchmark. Report raw diagnostics and effect sizes:
   best frame, wrong-frame gap, inverse consistency, per-label breakdown, and
   ambiguity buckets.
-- Treat `attachment_deferred` as the preferred future physical-relation upgrade.
+- Treat `attachment_deferred` as the preferred future physical-relation upgrade
+  and appendix/preliminary extension evidence, not as part of the current main
+  claim.
   The Docker scope/schema audit, extractor contract, schema-validated
   evidence-only dry run, point/surface estimator validation, conservative
   verifier-policy design, calibration/counterfactual route, G4 policy
@@ -243,11 +272,11 @@ Required defense:
   calibration-filter freeze, G5a pooled strict calibration fit, and G5b bounded
   source scoring preflight, G5c full-source protocol freeze, and G5d
   full-source scoring/metrics/controls/bootstrap are complete, but do not
-  promote it from "future upgrade" to "main result" before Open3DSG denominator
-  caveats, noisy `attached to` behavior, missing `connected to` dev strict rows,
-  and failure/visual audit are resolved or explicitly bounded. Visual labels
-  remain optional for a soft protocol, not required for the frozen strict-only
-  calibration route.
+  promote it from "future upgrade" to "main result" before full-validation
+  rerun, Open3DSG denominator caveats, noisy `attached to` behavior, missing
+  `connected to` dev strict rows, pairwise bootstrap deltas, and failure/visual
+  audit are resolved or explicitly bounded. Visual labels remain optional for a
+  soft protocol, not required for the frozen strict-only calibration route.
   Function-reasoning examples may be useful as a secondary case study only
   after relation reliability is established.
 - Treat RelWitness-style "relation witness" and "calibrated witness quality" wording as prior-art-adjacent. H001 should claim reproduced calibrated reliability evaluation/re-ranking, source-adapter protocol, recall/violation operating points, and controls, not the mere existence of visual-geometric evidence or calibration.
@@ -299,18 +328,18 @@ Do not claim these until evidence exists:
 - Figure 1-3 source lock is complete in `paper/figures.md`: Figure 1 method framework, Figure 2 two-panel R@100/Violation@100 tradeoff, and Figure 3 Open3DSG qualitative case panels.
 - Draft Figure 1-3 generation, top-tier novelty/layout review, and Figure 3 geometry-backed panel upgrade are complete under `paper/generated/figures/`; validation passed for locked values, case IDs, geometry case IDs, and SVG XML parsing.
 - Recent 2025-2026 Related Work roles are decided: RelWitness is a required direct novelty-threat citation, VIZOR is a required spatial-relation/viewpoint-boundary citation, ZING-3D is a VLM/incremental 3DSG trend citation, Open-World 3DSG-RAG is a broad open-world/RAG boundary citation, and View-on-Graph is a downstream grounding-motivation citation.
-- Section structure is locked: keep Section 5 as a short standalone `Experimental Setup` section. Do not merge it into Results because denominator, filtered-split, covered-scope, Open3DSG variant, and Docker-result boundaries are part of the reviewer defense.
+- Section structure is locked: keep Section 5 as a short standalone `Experimental Setup` section. Do not merge it into Results because denominator, filtered train/dev provenance, Open3DSG recovery policy, sensitivity-branch, and Docker-result boundaries are part of the reviewer defense.
 - Section-title rule: use standard paper headings such as `Experiments`, `Experimental Setup`, `Evaluation Setup`, `Datasets`, `Evaluation Metrics`, and `Implementation Details`. Do not put `Scope` in the heading unless the target venue/template makes it necessary; H001's scope and denominator discipline should be stated in the first paragraph and tables.
 - Section-title reference check, 2026-05-23: Open3DSG uses `4 Experiments` / `4.1 Experimental Setup`; OpenFunGraph uses `6 Experiments` / `6.1 Experimental Setup`; FROSS uses `4 Experimental Results` / `4.1 Evaluation Setup` with dataset/metric/implementation subsections; VIZOR uses `4 Experiments` / `4.1 Datasets` and separates `5 Failure Analysis`. This supports the H001 decision to use the standard heading `Experimental Setup` while keeping scope/caveat details in text and tables.
 - Target venue direction is AAAI-style main conference writing. Content stability and AAAI page/checklist compliance come before final camera-ready polish.
 - `paper/draft.md` Title/Abstract/Introduction quick review is complete; front matter is about 701 words excluding title, with a 201-word abstract and 500-word Introduction before final compression.
 - Paper-body gap review patch is complete: Figure 1-3 callouts, Table 4 audit/sanity prose, and Conclusion are now in `paper/draft.md`.
 - Paper-body budget review is complete: Title-through-Conclusion prose is about 3,507 words. The current AAAI manuscript uses three main tables: fixed scope/denominator, source-specific claim boundary, and Open3DSG-first source results with `VL-SAT` as controlled anchor. Controls, GT verifier, audit, and detailed family rows stay as prose-backed evidence unless an appendix is added.
-- AAAI-style source conversion is complete under `paper/aaai/` using the official AAAI-26 Author Kit. The 2026-05-27 check confirms `aaai2026.sty` was replaced from `AuthorKit26/AnonymousSubmission/LaTeX/aaai2026.sty`, `aaai2026.bst` already matched the official kit, and no official AAAI-27 author kit was confirmed.
+- AAAI-style source conversion is upgraded under `paper/aaai/` using the official AAAI-27 Author Kit. The 2026-06-11 check confirms `https://aaai.org/authorkit27/` redirects to `AuthorKit27.zip`; local `aaai2027.sty` / `aaai2027.bst` match the kit hashes recorded in `paper/aaai/README.md`; `main.tex` uses `\usepackage[submission]{aaai2027}`; and the old AAAI-26 route is historical only.
 - The `paper/aaai/` manuscript-content pass is complete: it includes fixed scope/denominator accounting, a source-specific claim-boundary table, an Open3DSG-first main source-results table, prose controls/verifier/audit evidence, explicit Open3DSG caveat captioning, and limitation wording.
 - Figure 1-3 PNG build assets are ready and `paper/aaai/sec/6_results.tex` points to them. Figure 2 and Figure 3 are single-column in the AAAI source to keep technical content before references.
-- Docker build verification is complete: `paper/aaai/main.pdf` builds with `h001-aaai-tex:20260526`, BibTeX uses 19 entries, and there are no missing citations, undefined refs, overfull hboxes, LaTeX errors, or AAAI package errors. Latest compression rebuild log: `logs/h001_aaai_pdf_build_compression_20260606_105126.log`.
-- AAAI reproducibility checklist insertion is complete: `paper/aaai/sec/9_reproducibility_checklist.tex` is included after references. Docker rebuild `logs/h001_aaai_pdf_build_compression_20260606_105126.log` exits 0; the PDF has 9 total pages, technical content on pages 1-7, references on page 8, checklist on page 9, and no missing citations, undefined refs, overfull hboxes, LaTeX errors, or AAAI package errors. Latest visual/layout inspection passed in `paper/aaai/inspection/report.md`; wide floats are delayed but readable before references.
+- Docker build verification is complete: `paper/aaai/main.pdf` builds with `h001-aaai-tex:20260611`, BibTeX uses 19 entries, and there are no missing citations, no final undefined refs, no overfull hboxes, no LaTeX errors, and no AAAI package errors. Latest AAAI-27 hygiene rebuild log: `logs/h001_aaai27_pdf_build_20260611_aaai27_hygiene_retry1.log`.
+- AAAI reproducibility checklist insertion is upgraded to the AAAI-27 Author Kit question structure: `paper/aaai/sec/9_reproducibility_checklist.tex` is included after references. Docker rebuild `logs/h001_aaai27_pdf_build_20260611_aaai27_hygiene_retry1.log` exits 0; the PDF has 9 total pages, technical content within pages 1-7, references after technical content, checklist after references, and embedded Type 1 fonts only. One small overfull vbox and underfull warnings remain non-blocking. Latest visual/layout inspection is in `paper/aaai/inspection/report.md`.
 - AAAI reviewer-defense main-text pass is updated for the selected
   full-validation route: Introduction, Method, Experimental Setup, Results, and
   Limitations directly answer the high-risk attacks, including hand-coded
@@ -331,7 +360,7 @@ Do not claim these until evidence exists:
 - Source-results table and failure-analysis text are regenerated from the
   selected full-validation route rather than the older 127-scan caveat wording.
 - Keep clean v14 streaming source-process provenance separate from historical exit-137 run records in reproducibility wording.
-- Keep Qwen-VL as third-source extension evidence unless it receives the same Docker, metric, and audit treatment. Current Qwen promotion status is protocol-frozen but non-metric: tiny runtime smoke passed, full-source plan frozen, shards 0000-0013 completed with 3,500 parsed rows, and clean resume starts from shard 0014 after GPU guard is acceptable. No full prediction/geometry/metric/audit path is complete yet.
+- Keep Qwen-VL as third-source appendix/extension evidence for the current AAAI route. It now has the full-validation Docker parser/adapter/geometry/metric/bootstrap/audit path complete, but it remains non-main because recall is lower than VL-SAT/Open3DSG, the full-validation missing-query denominator must remain explicit, and it is a crop-based VLM semantic source rather than an end-to-end 3DSSG reproduction. Do not add it to the main source-result table for the current claim.
 - Keep the `relative_horizontal` expansion track frozen as appendix/limitation
   evidence for the current AAAI path. The no-training/no-inference denominator
   audit, Docker coordinate audit, and Docker bucket inspection are complete, but

@@ -1,0 +1,42 @@
+{
+  "counts": {
+    "already_existing": 0,
+    "errors": 0,
+    "records": 15502,
+    "rendered": 0,
+    "selected_input_rows": 46506,
+    "unique_pair_crops": 15502,
+    "verified_existing": 15502
+  },
+  "created_at": "2026-06-11T05:16:32+00:00",
+  "hashes": {
+    "records_jsonl_sha256": "1ff91b7f2475ea62550cc514e6456755319f9296da58ff0d4429ead7a9da64f1"
+  },
+  "inputs": {
+    "input_jsonl": "experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input/input.jsonl",
+    "shards_jsonl": "experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input/shards.jsonl",
+    "views_dir": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/views"
+  },
+  "mode": "preflight",
+  "next_action": "Run preflight after render. Qwen inference remains blocked until crop preflight is ready.",
+  "outputs": {
+    "manifest": "experiments/H001_geom_reliability/sources/qwen_vl/full_validation/crops/all/manifest.json",
+    "records_jsonl": "experiments/H001_geom_reliability/sources/qwen_vl/full_validation/crops/all/records.jsonl",
+    "report": "experiments/H001_geom_reliability/sources/qwen_vl/full_validation/crops/all/report.md"
+  },
+  "rendering_policy": {
+    "annotation": "subject red box, object blue box; no text labels added to image",
+    "overwrite": false,
+    "pair_crop": "union of subject/object 2D boxes with fixed padding",
+    "view_selection": "use the frame_id frozen in full_source_input/input.jsonl"
+  },
+  "runtime_policy": "no_model_download_no_model_load_no_inference",
+  "schema_version": "h001_qwen_vl_full_source_crops_v1",
+  "shard_id": "all",
+  "status": "full_source_crop_preflight_ready_no_inference",
+  "validation": {
+    "errors": [],
+    "warnings": [],
+    "warnings_truncated": false
+  }
+}

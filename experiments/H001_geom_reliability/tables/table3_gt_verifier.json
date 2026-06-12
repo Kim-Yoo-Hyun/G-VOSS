@@ -1,32 +1,32 @@
 [
   {
     "metric": "GT-positive nonviolated rate",
-    "note": "valid GT relations should not be flagged as violated",
-    "rows": 2545,
-    "value": 0.9972495088408644
+    "note": "valid full-validation GT relations should not be flagged as violated",
+    "rows": 3972,
+    "value": 0.9964753272910373
   },
   {
     "metric": "GT-derived negative nonsatisfied rate",
     "note": "counterfactual negatives should not be satisfied",
-    "rows": 2545,
-    "value": 0.9693516699410609
+    "rows": 3972,
+    "value": 0.9672708962739174
   },
   {
     "metric": "p_geom_valid AUROC",
-    "note": "probability discriminates GT positives from counterfactual negatives",
-    "rows": 5090,
-    "value": 0.9779406440456846
+    "note": "probability discriminates full-validation GT positives from counterfactual negatives",
+    "rows": 7944,
+    "value": 0.9771915493043449
   },
   {
     "metric": "p_geom_valid AUPRC",
     "note": "precision-recall discrimination",
-    "rows": 5090,
-    "value": 0.9736732648482089
+    "rows": 7944,
+    "value": 0.9728973123059211
   },
   {
     "metric": "p_geom_valid Brier",
     "note": "calibration error on GT/counterfactual verifier evaluation",
-    "rows": 5090,
-    "value": 0.05375387565816732
+    "rows": 7944,
+    "value": 0.054288200834003875
   }
 ]

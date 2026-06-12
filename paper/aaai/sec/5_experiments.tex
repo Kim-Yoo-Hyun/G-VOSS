@@ -40,8 +40,13 @@ official non-averaged BLIP route \texttt{epoch=13-step=13104.ckpt}, chosen by
 train-dev validation loss before H001 held-out inspection. Its runtime uses
 filtered train/dev subgraphs, and the main full-validation branch reaches
 548/548 contexts with \texttt{OPEN3DSG\_MIN\_VISIBLE\_OBJECTS=2} plus relaxed
-view regeneration for two scans. The 533/548 covered branch and historical
-old 377/388 vs R2 388/388 branch remain sensitivity evidence only.
+view regeneration for two scans. The 533/548 covered branch follows the
+unmodified Open3DSG source preprocessing pipeline and remains sensitivity
+evidence, as does the historical old 377/388 vs R2 388/388 branch.
+The recovery branch is a source-runtime coverage intervention, not an H001
+scoring or threshold-tuning step: it changes which Open3DSG contexts can be
+preprocessed, while the prediction row contract, exact-label denominator,
+geometry policies, and operating points remain fixed.
 
 Table~\ref{tab:claim-boundary} fixes how each source may be used. This is part
 of the experimental design: a result can support the paper only if it passes
@@ -62,7 +67,8 @@ Source or claim & Status & Allowed use & Blocked extension \\
 Open3DSG & metric ready & Main open-vocabulary relation-source reliability case study within measured H001 families. & Not broad open-vocabulary generation improvement by itself. \\
 VL-SAT & ready & Controlled anchor for the same scoped geometry-consistency protocol. & Not baseline-agnostic by itself. \\
 FROSS & runtime blocked & Future support/contact smoke if runtime artifact exists. & Not full-family H001 evidence. \\
-Qwen-VL & contract/cache ready & Optional modern semantic-source smoke. & Not main metric evidence without full prediction rows, joins, metrics, and audit. \\
+Qwen-VL & extension metrics ready & Optional modern semantic-source evidence. & Not main evidence without an explicit promotion decision. \\
+Attachment relations & extension only & Appendix or preliminary future-upgrade evidence. & Not current main claim without full-validation rerun, denominator update, and post-G5d audit. \\
 Broad open-vocabulary 3DSSG & blocked & Not claimed from current evidence. & Requires broader measured task/source evidence. \\
 \bottomrule
 \end{tabularx}

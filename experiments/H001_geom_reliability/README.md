@@ -1,6 +1,6 @@
 # H001 Geometry Reliability Experiment
 
-Last updated: 2026-06-06
+Last updated: 2026-06-12
 
 This is the first paper-body experiment workflow for H001. It is Docker-based by rule.
 
@@ -23,7 +23,7 @@ Selected top-tier expansion:
 - `relative_horizontal` is now a separate scope-expansion validation track under `sources/relative_horizontal/`. The no-training/no-inference Docker scope audit is ready, with 3,570 candidate GT rows and source rows for VL-SAT / Open3DSG, but current verification status remains unsupported. The Docker coordinate audit and bucket inspection are also ready and currently blocked: best scan-frame macro strict purity is 0.7725, `front`/`behind` strict purity is 0.7445, inverse consistency is 1.0, wrong-frame gap is 0.1231, and `front`/`behind` ambiguity buckets remain substantial. Recommendation is `do_not_promote_relative_horizontal_to_main_claim`. Current AAAI-path decision is to freeze full `relative_horizontal` as appendix/limitation evidence and not run full expanded-family metrics. This does not change the current main paper claim.
 - `relative_lateral` is a stopped candidate expansion under `sources/relative_lateral/`. Docker `relative_lateral_policy_freeze` is complete with status `relative_lateral_policy_threshold_provenance_frozen_no_source_metrics`: `left/right` are frozen as `relative_lateral` with 2,264 GT rows (`left` 1,132, `right` 1,132), while `front/behind` are split out as `relative_depth_deferred` with 1,306 GT rows. Geometry policy uses `relative_lateral_scan_x_sign_policy_v1`, selected frame `scan_left_neg_x_front_neg_y`, selected left axis `[-1.0, 0.0]`, strict purity 0.8005, strict eligible share 0.6466, and distinct-left-axis wrong-frame gap 0.0998. Docker `relative_lateral_train_dev_policy_lock` is complete with status `relative_lateral_train_dev_policy_lock_ready_with_caveats_no_source_metrics`: 3,832 train/dev decision rows, train positive strict purity 0.8738, dev positive strict purity 0.6975, dev lenient nonviolated rate 0.8095, and dev calibration AUROC 0.7401. Docker `relative_lateral_dev_failure_diagnosis` is complete with status `relative_lateral_dev_failure_diagnosis_ready_no_policy_change_no_source_metrics`: dev strict contradictions are 72 rows / 36 physical pairs concentrated in two scans, uncertain positives are 140 rows / 70 physical pairs, about half of both buckets involve same-label object pairs, and most uncertain rows are caused by orthogonal-axis dominance. Final decision: stop `relative_lateral` as appendix/future-work boundary evidence and do not run paper-facing source metrics from the current strict policy.
 - `attachment_deferred` is now the preferred future relation-family upgrade under `sources/attachment_deferred/`, not current main-claim evidence. Docker G0 through G5d full-source scoring/metrics/controls/bootstrap are complete with status `attachment_deferred_g5d_full_source_metrics_ready`: it adds 967 GT rows (`attached to` 808, `hanging on` 126, `connected to` 33), completes 69/69 shards and 135,048 scored rows with 0 validation errors, and reports source metrics for VL-SAT denominator 967/967 and Open3DSG denominator 768/967. Main AAAI claim promotion requires explicit final user confirmation and likely additional failure/visual audit.
-- Qwen-VL third semantic source / modern VLM extension contract is ready under `sources/qwen_vl/`; recommended small model ladder is Qwen3-VL-4B first, Qwen2.5-VL-3B stable fallback, and Qwen3-VL-2B parser-smoke candidate. Frozen input JSON Schema, output JSONL contract, contract-only validator/parser skeleton, non-held-out tiny pilot scope, runtime model-lock plan, tiny-pilot pair-crop rendering path, model-cache verification, runtime preflight, 3-row tiny inference smoke, runtime raw-response validation, full-source promotion plan, full-source input audit, full-source crop preflight, and full-source inference runner plan are recorded. Current full-source input audit has 77,748 universe rows, 33,384 inferable input rows, 44,364 missing rows, and 134 shards. All-scope crop preflight passed for 33,384 input rows / 11,128 unique pair crops / 0 errors. Runner plan freezes 134 shard commands/resume policy; shards 0000-0013 are complete with 3,500 parsed rows, and run id `20260527_023111` stopped at shard 0014 because the GPU guard observed utilization 36% against the 35% threshold. This is not a replacement for VL-SAT or Open3DSG evidence, and no full Qwen paper-metric evaluation has run.
+- Qwen-VL third semantic source / modern VLM extension contract is ready under `sources/qwen_vl/`; recommended small model ladder is Qwen3-VL-4B first, Qwen2.5-VL-3B stable fallback, and Qwen3-VL-2B parser-smoke candidate. Frozen input JSON Schema, output JSONL contract, contract-only validator/parser skeleton, non-held-out tiny pilot scope, runtime model-lock plan, tiny-pilot pair-crop rendering path, model-cache verification, runtime preflight, 3-row tiny inference smoke, runtime raw-response validation, full-source promotion plan, full-source input audit, full-source crop preflight, inference runner plan, all-shard inference, parser validation, adapter export, geometry join, metrics/controls, bootstrap CI, failure rows, and deterministic qualitative inspection are recorded. Historical 127-scan Qwen status is `full_source_downstream_metrics_ready_third_source_non_main`: 33,384 inferable input rows, 44,364 missing rows, 134 shards, 25,262 exported predictions, 23,084 in-scope rows, and 2,545 target-family GT rows. Paper-facing full-validation Qwen status is `full_validation_downstream_metrics_ready_third_source_extension`: 46,506 inferable input rows, 63,918 missing query rows, 187/187 inference shards, 35,131 exported predictions, 32,236 in-scope rows, 3,972 H001-family GT rows, metrics/bootstrap/failure rows ready, and 36 deterministic qualitative cases. Key full-validation Qwen metrics: semantic_only R@50/R@100 `0.2815/0.3600`, V@50/@100 `0.1226/0.1246`; probabilistic_recalibrated `0.3215/0.3653`, V `0.0795/0.1166`; rule_verified_point_subtype `0.3009/0.3630`, V `0.0/0.0`; family_specific control `0.3379/0.3653`, V `0.0510/0.1113`. This is optional third-source extension evidence, not a replacement for VL-SAT or Open3DSG evidence.
 
 Current method framing:
 
@@ -76,6 +76,7 @@ open3dsg_full_validation_raw_clean_exit_review_ready
 open3dsg_h001_covered_recovery_provenance_review_ready
 open3dsg_full_validation_recovery_failure_case_inspection_ready
 paper_full_validation_primary_route_selected_recovery_branch
+qwen_vl_full_validation_downstream_metrics_ready_third_source_extension
 ```
 
 Docker `full_validation_scope_contract` generated the scope-freeze artifact at:
@@ -389,6 +390,14 @@ Generated outputs:
 - `sources/qwen_vl/full_source_inference_plan/runner_contract.json`
 - `sources/qwen_vl/full_source_inference_plan/shards.jsonl`
 - `sources/qwen_vl/full_source_runtime/dry_runs/qwen_full_source_shard_0000.json`
+- `sources/qwen_vl/full_source_validation/aggregate_manifest.json`
+- `sources/qwen_vl/full_source_validation/contract/manifest.json`
+- `sources/qwen_vl/adapter/manifest.json`
+- `sources/qwen_vl/geometry/manifest.json`
+- `sources/qwen_vl/metrics/metrics.json`
+- `sources/qwen_vl/bootstrap_ci/summary.json`
+- `sources/qwen_vl/failure_rows/summary.json`
+- `sources/qwen_vl/failure_cases/inspection.json`
 - `manifest.lock.json`
 - `report.md`
 

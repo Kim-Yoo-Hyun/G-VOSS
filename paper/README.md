@@ -1,6 +1,6 @@
 # H001 Paper Workspace
 
-Last updated: 2026-05-27 KST
+Last updated: 2026-06-12 KST
 
 This directory contains paper-writing artifacts for H001. It is a manuscript
 workspace, not an experiment-result root. Paper-result experiments and metrics
@@ -39,8 +39,8 @@ rules live in `docs/paper.md`.
   optional Figure 3 decision notes, and Qwen-VL extension boundary.
 - `references.bib`: shared BibTeX bibliography for draft and venue-specific
   LaTeX sources.
-- `aaai/`: current AAAI-style LaTeX source, official style files, Docker build
-  route, PDF build status, and venue-local README.
+- `aaai/`: current AAAI-style LaTeX source, official AAAI-27 style files,
+  Docker build route, PDF build status, checklist state, and venue-local README.
 - `iccv/`: historical ICCV-style LaTeX source route. Keep as alternate history
   unless the target venue changes back.
 - `generated/figures/`: generated draft figure assets, validation files, and

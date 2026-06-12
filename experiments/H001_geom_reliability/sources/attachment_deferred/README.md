@@ -1,6 +1,6 @@
 # Attachment Deferred Expansion Track
 
-Last updated: 2026-06-06 KST
+Last updated: 2026-06-11 KST
 
 Status: `attachment_deferred_g5d_full_source_metrics_ready`
 
@@ -8,6 +8,14 @@ This folder tracks the optional `attachment_deferred` expansion path for H001.
 It is not part of the current AAAI main claim. It is the preferred next
 relation-family expansion if the paper strategy pivots beyond the current
 `support_contact`, `proximity`, and `relative_vertical` scope.
+
+Decision on 2026-06-11 KST: keep `attachment_deferred` as
+appendix/preliminary extension evidence and future-upgrade path, not as part of
+the current AAAI main claim. G5d has real signal, but it is on the older H001
+388/377-context scope rather than the current full official validation paper
+route. Promotion requires a current full-validation rerun, source-specific
+denominator update, pairwise bootstrap deltas, post-G5d failure/visual audit,
+and explicit user confirmation.
 
 Consolidated relation expansion status is tracked in
 `../relation_expansion_status.md`.

@@ -1,0 +1,78 @@
+{
+  "counts": {
+    "contexts": 548,
+    "directed_pairs": 36808,
+    "expected_in_scope_gt_rows": 3972,
+    "family_counts": {
+      "proximity": 36808,
+      "relative_vertical": 36808,
+      "support_contact": 36808
+    },
+    "input_family_counts": {
+      "proximity": 15502,
+      "relative_vertical": 15502,
+      "support_contact": 15502
+    },
+    "input_rows": 46506,
+    "missing_family_counts": {
+      "proximity": 21306,
+      "relative_vertical": 21306,
+      "support_contact": 21306
+    },
+    "missing_reason_counts": {
+      "missing_object_views": 12390,
+      "missing_shared_pair_view": 34890,
+      "missing_subject_views": 16638
+    },
+    "missing_rows": 63918,
+    "selected_scans": 157,
+    "shards": 187,
+    "unique_pair_view_audits": 36808,
+    "unique_source_images_checked": 1992,
+    "universe_rows": 110424
+  },
+  "created_at": "2026-06-11T05:12:11+00:00",
+  "hashes": {
+    "input_jsonl_sha256": "99fe00b75ccdaa897cd63e23db2b32dba6ba5acd2364c906801bcda68467c020",
+    "missing_jsonl_sha256": "570dba01a47fe92f76b5272b01948538a291e38a8392e3137e6d1bb117784021",
+    "shards_jsonl_sha256": "ae262f06ec50a5aea3845befc3b9d2384e9714b95e03d1d6f14a93c2529ddae0",
+    "universe_jsonl_sha256": "6d1c21a7a2877ca0f96be5dedecc97e634f7d0595ce998f9db22e5520176cb2b"
+  },
+  "inputs": {
+    "contract_dir": "experiments/H001_geom_reliability/sources/qwen_vl",
+    "crop_root": "local_dataset/qwen_vl_crops/full_validation",
+    "rscan_root": "local_dataset/3RScan/scans",
+    "runtime_output_root": "experiments/H001_geom_reliability/sources/qwen_vl/full_validation/runtime",
+    "selected_scans": "experiments/H001_geom_reliability/full_validation_transition/scope_contract/scans.txt",
+    "split_name": "h001_full_official_validation_qwen_inferable",
+    "subset_json": "local_dataset/3DSSG_subset/relationships_validation.json",
+    "views_dir": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/views"
+  },
+  "missing_row_policy": "Rows without shared object-pair view metadata or source images are retained in missing.jsonl and excluded from Qwen inference input.jsonl. Qwen metrics must report this denominator separately and must not silently inherit Open3DSG denominators after row drops.",
+  "next_action": "Validate input.jsonl with qwen_vl_contract_validator, then implement full-source crop rendering or render-on-demand inference shards before any Qwen paper metric run.",
+  "outputs": {
+    "coverage": "experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input/coverage.json",
+    "input_jsonl": "experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input/input.jsonl",
+    "manifest": "experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input/manifest.json",
+    "missing_jsonl": "experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input/missing.jsonl",
+    "report": "experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input/report.md",
+    "shards_jsonl": "experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input/shards.jsonl",
+    "universe_jsonl": "experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input/universe.jsonl"
+  },
+  "role": "third_semantic_source_modern_vlm_extension",
+  "runtime_policy": "no_model_download_no_model_load_no_inference",
+  "schema_version": "h001_qwen_vl_full_source_input_v1",
+  "sharding": {
+    "full_inference_must_use_background_job": true,
+    "input_order": "subgraph_id, subject_id, object_id, predicate_family",
+    "resume_key": "record_id",
+    "shard_size": 250
+  },
+  "status": "full_source_input_ready_with_missing_rows_no_inference",
+  "validation": {
+    "errors": [],
+    "warnings": [
+      "missing_rows_present:63918"
+    ]
+  }
+}

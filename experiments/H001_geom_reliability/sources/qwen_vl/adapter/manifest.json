@@ -1,0 +1,90 @@
+{
+  "canonical_predicate_counts": {
+    "attached to": 1419,
+    "close by": 9588,
+    "far from": 464,
+    "hanging on": 110,
+    "higher than": 7586,
+    "lower than": 1924,
+    "lying on": 750,
+    "part of": 185,
+    "standing on": 488,
+    "supported by": 3524
+  },
+  "canonicalization_policy": {
+    "above": "higher than",
+    "far from": "unsupported_first_pass because the current H001 verifier does not model far relation semantics",
+    "near": "close by",
+    "next to": "close by",
+    "part of": "unsupported_first_pass for current H001 metric scope",
+    "under": "lower than"
+  },
+  "counts": {
+    "exact_label_gt_keys_hit_by_qwen_predictions": 932,
+    "exported_in_scope_predictions": 23084,
+    "exported_predictions": 25262,
+    "ground_truth_rows": 7505,
+    "input_rows": 33384,
+    "parsed_rows": 33384,
+    "target_family_gt_rows": 2545,
+    "target_family_gt_rows_with_qwen_input_pair_family": 1845
+  },
+  "covered_target_gt_family_counts": {
+    "proximity": 828,
+    "relative_vertical": 70,
+    "support_contact": 947
+  },
+  "created_at": "2026-06-11T02:59:23+00:00",
+  "exported_predicate_family_counts": {
+    "attachment_deferred": 1529,
+    "proximity": 9588,
+    "relative_vertical": 9510,
+    "support_contact": 4762,
+    "unsupported_first_pass": 649
+  },
+  "inputs": {
+    "ground_truth_jsonl": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl",
+    "input_jsonl": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_input/input.jsonl",
+    "parsed_jsonl": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_validation/contract/parsed.jsonl"
+  },
+  "mode": "export_adapter",
+  "next_gate": "qwen_vl_geometry_join",
+  "outputs": {
+    "ground_truth_jsonl": "experiments/H001_geom_reliability/sources/qwen_vl/adapter/ground_truth.jsonl",
+    "manifest": "experiments/H001_geom_reliability/sources/qwen_vl/adapter/manifest.json",
+    "predictions_jsonl": "experiments/H001_geom_reliability/sources/qwen_vl/adapter/predictions.jsonl",
+    "report": "experiments/H001_geom_reliability/sources/qwen_vl/adapter/report.md"
+  },
+  "paper_metric": false,
+  "parser_status": {
+    "parsed": 33383,
+    "parsed_with_warning": 1
+  },
+  "raw_predicate_counts": {
+    "above": 1435,
+    "attached to": 1419,
+    "close by": 264,
+    "far from": 464,
+    "hanging on": 110,
+    "higher than": 6151,
+    "lower than": 1596,
+    "lying on": 750,
+    "near": 511,
+    "next to": 8813,
+    "part of": 185,
+    "standing on": 488,
+    "supported by": 3524,
+    "under": 328
+  },
+  "schema_version": "h001_qwen_vl_full_source_adapter_export_v1",
+  "skipped_counts": {
+    "duplicate_canonical_predicate": 776
+  },
+  "status": "qwen_vl_adapter_export_ready",
+  "target_gt_family_counts": {
+    "proximity": 1128,
+    "relative_vertical": 218,
+    "support_contact": 1199
+  },
+  "warnings": []
+}

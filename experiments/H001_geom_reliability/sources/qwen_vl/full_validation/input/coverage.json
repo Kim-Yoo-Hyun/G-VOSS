@@ -1,0 +1,42 @@
+{
+  "counts": {
+    "contexts": 548,
+    "directed_pairs": 36808,
+    "expected_in_scope_gt_rows": 3972,
+    "family_counts": {
+      "proximity": 36808,
+      "relative_vertical": 36808,
+      "support_contact": 36808
+    },
+    "input_family_counts": {
+      "proximity": 15502,
+      "relative_vertical": 15502,
+      "support_contact": 15502
+    },
+    "input_rows": 46506,
+    "missing_family_counts": {
+      "proximity": 21306,
+      "relative_vertical": 21306,
+      "support_contact": 21306
+    },
+    "missing_reason_counts": {
+      "missing_object_views": 12390,
+      "missing_shared_pair_view": 34890,
+      "missing_subject_views": 16638
+    },
+    "missing_rows": 63918,
+    "selected_scans": 157,
+    "shards": 187,
+    "unique_pair_view_audits": 36808,
+    "unique_source_images_checked": 1992,
+    "universe_rows": 110424
+  },
+  "coverage_rates": {
+    "input_rows_over_universe_rows": 0.4211584438165616,
+    "missing_rows_over_universe_rows": 0.5788415561834384
+  },
+  "created_at": "2026-06-11T05:12:11+00:00",
+  "missing_row_policy": "Rows without shared object-pair view metadata or source images are retained in missing.jsonl and excluded from Qwen inference input.jsonl. Qwen metrics must report this denominator separately and must not silently inherit Open3DSG denominators after row drops.",
+  "schema_version": "h001_qwen_vl_full_source_coverage_v1",
+  "status": "full_source_input_ready_with_missing_rows_no_inference"
+}

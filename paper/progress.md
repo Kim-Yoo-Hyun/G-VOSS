@@ -1,6 +1,6 @@
 # H001 Experiment Progress Rationale
 
-Last updated: 2026-06-05 KST
+Last updated: 2026-06-12 KST
 
 This document explains why H001 moved from hypothesis checks to Docker paper
 experiments, why each next experiment was introduced, and how the key results
@@ -420,7 +420,11 @@ What happened:
   but it is not current main-claim evidence. It is promising, especially
   `hanging on`, but Open3DSG covers 768/967 exact-label GT rows, `attached to`
   is noisy, `connected to` has no dev strict rows, and additional failure/visual
-  audit is needed before promotion.
+  audit is needed before promotion. On 2026-06-11 KST the decision was fixed:
+  keep it as appendix/preliminary extension evidence and future-upgrade path,
+  not current AAAI main evidence. The decisive extra reason is scope mismatch:
+  G5d uses the older H001 388/377-context scope, while the current main paper
+  route is the full official validation route.
 
 Why not main evidence:
 
@@ -429,7 +433,9 @@ Why not main evidence:
 - `relative_horizontal` and `relative_lateral` expose coordinate/frame
   ambiguity, not source-prediction reliability.
 - `attachment_deferred` is a plausible future upgrade, but it needs explicit
-  user confirmation and additional caveat handling before main-claim promotion.
+  user confirmation, full-validation rerun, denominator update, pairwise
+  bootstrap deltas, and post-G5d failure/visual audit before main-claim
+  promotion.
 
 ### Qwen-VL
 
@@ -443,18 +449,28 @@ Current status:
 
 - Input schema, output JSONL contract, parser, tiny pilot scope, pair crops,
   model-lock plan, Qwen3-VL-4B cache, runtime preflight, 3-row tiny inference
-  smoke, runtime raw-response validation, full-source promotion plan, and
-  full-source input audit are ready.
-- The frozen promotion scope is 127 scans, 388 contexts, 25,916 directed pairs,
-  77,748 all-pairs x family query rows, 33,384 inferable input rows, 44,364
-  missing rows, 134 shards, and 2,545 in-scope GT rows.
-- Tiny runtime smoke has not been promoted to metrics.
+  smoke, runtime raw-response validation, historical full-source route,
+  full-validation input audit, crop preflight, all-shard full-validation
+  inference, parser validation, adapter export, geometry join, metrics/controls,
+  bootstrap CI, failure rows, and deterministic qualitative inspection are
+  ready.
+- The paper-facing full-validation scope is 157 scans, 548 contexts, 36,808
+  directed pairs, 110,424 all-pairs x family query rows, 46,506 inferable input
+  rows, 63,918 missing query rows, 187 shards, and 3,972 H001-family GT rows.
+- Full-validation inference completed 187/187 shards with 46,506 prediction
+  rows and parser validation 46,506/46,506 with 0 errors. Downstream metrics are
+  now ready: semantic_only R@50/R@100 `0.2815/0.3600`,
+  probabilistic_recalibrated `0.3215/0.3653`, rule_verified_point_subtype
+  `0.3009/0.3630`, and family_specific control `0.3379/0.3653`.
 
 Why not main evidence:
 
-- No full prediction JSONL, geometry join, denominator, metrics, or audit exists
-  yet.
-- It cannot replace Open3DSG as the current second-source anchor.
+- The Qwen route now has full official validation downstream artifacts, but its
+  recall is much lower than VL-SAT/Open3DSG and its missing-query denominator
+  must remain explicit.
+- Current AAAI decision: keep Qwen as appendix/extension evidence only; it does
+  not replace Open3DSG as the second-source anchor or VL-SAT as the controlled
+  anchor.
 
 ### FROSS / Functional Benchmarks
 
@@ -493,15 +509,16 @@ Not allowed:
 
 The current paper body is in `paper/draft.md` and now runs from Title through
 Conclusion. The current target-venue LaTeX source is in `paper/aaai/`, using
-the latest public AAAI-26 style route until the exact target-year AAAI kit is
-fixed. Docker PDF build verification is complete with `h001-aaai-tex:20260526`:
-latest compression rebuild
-`logs/h001_aaai_pdf_build_compression_20260606_105126.log` exits 0.
-`main.pdf` builds to 9 total pages, technical content occupies pages 1-7,
-references are on page 8, the AAAI reproducibility checklist is on page 9,
-BibTeX uses 19 entries, and targeted grep found no missing citations, undefined
-refs, overfull hboxes, LaTeX errors, or AAAI package errors. The next drafting
-work is content/claim QA after the latest PDF visual/layout inspection.
+the official AAAI-27 Author Kit checked on 2026-06-11 KST. Docker PDF build
+verification is complete with `h001-aaai-tex:20260611`: latest AAAI-27 hygiene
+rebuild `logs/h001_aaai27_pdf_build_20260611_aaai27_hygiene_retry1.log` exits
+0. `main.pdf` builds to 9 total pages, technical content stays within pages
+1-7, references follow technical content, the AAAI-27 reproducibility checklist
+follows references, BibTeX uses 19 entries, and final `main.log` has no missing
+citations, final undefined refs, overfull hboxes, LaTeX errors, or AAAI package
+errors. Remaining submission hygiene is final portal/source packaging, PDF
+metadata/anonymization, artifact/code-release URL or DOI, and checklist
+partial-item review.
 Open3DSG-first table ordering is preserved: the manuscript treats Open3DSG as
 the main open-vocabulary case study and VL-SAT as the controlled anchor.
 The latest reviewer-defense pass adds explicit main-text answers to the

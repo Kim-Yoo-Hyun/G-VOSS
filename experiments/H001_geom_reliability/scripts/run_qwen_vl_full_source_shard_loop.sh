@@ -7,9 +7,13 @@ START_SUFFIX="${QWEN_VL_LOOP_START_SUFFIX:-0001}"
 END_SUFFIX="${QWEN_VL_LOOP_END_SUFFIX:-0133}"
 SHARDS_JSONL="${QWEN_VL_LOOP_SHARDS_JSONL:-experiments/H001_geom_reliability/sources/qwen_vl/full_source_inference_plan/shards.jsonl}"
 RUNTIME_ROOT="${QWEN_VL_LOOP_RUNTIME_ROOT:-experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime}"
+COMPOSE_FILE="${QWEN_VL_LOOP_COMPOSE_FILE:-experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml}"
+SERVICE="${QWEN_VL_LOOP_SERVICE:-qwen_vl_full_source_infer_shard}"
+SHARD_ENV_VAR="${QWEN_VL_LOOP_SHARD_ENV_VAR:-QWEN_VL_FULL_SOURCE_SHARD_ID}"
+STATUS_PREFIX="${QWEN_VL_LOOP_STATUS_PREFIX:-qwen_vl_full_source_infer_remaining}"
 LOG_DIR="${REPO_ROOT}/logs"
-STATUS_TSV="${LOG_DIR}/qwen_vl_full_source_infer_remaining_${RUN_ID}.status.tsv"
-EXIT_FILE="${LOG_DIR}/qwen_vl_full_source_infer_remaining_${RUN_ID}.exit"
+STATUS_TSV="${LOG_DIR}/${STATUS_PREFIX}_${RUN_ID}.status.tsv"
+EXIT_FILE="${LOG_DIR}/${STATUS_PREFIX}_${RUN_ID}.exit"
 
 mkdir -p "${LOG_DIR}"
 cd "${REPO_ROOT}" || exit 2
@@ -73,7 +77,7 @@ for shard in "${SHARDS[@]}"; do
 
   printf "%s\t%s\tstarted\t%s\t\n" "${RUN_ID}" "${shard}" "$(date -Is)" >> "${STATUS_TSV}"
   echo "started_at=$(date -Is) shard=${shard}"
-  sg docker -c "env UID=$(id -u) GID=$(id -g) QWEN_VL_FULL_SOURCE_SHARD_ID=${shard} docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_full_source_infer_shard"
+  sg docker -c "env UID=$(id -u) GID=$(id -g) ${SHARD_ENV_VAR}=${shard} docker compose -f ${COMPOSE_FILE} run --rm ${SERVICE}"
   rc=$?
   echo "finished_at=$(date -Is) shard=${shard} exit=${rc}"
   printf "%s\t%s\tfinished\t%s\t%s\n" "${RUN_ID}" "${shard}" "$(date -Is)" "${rc}" >> "${STATUS_TSV}"

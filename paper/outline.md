@@ -1,6 +1,6 @@
 # H001 Paper Outline
 
-Last updated: 2026-06-06 KST
+Last updated: 2026-06-12 KST
 
 This outline turns `paper/preview.md` into a paper-writing skeleton. It is not the final manuscript. It fixes the section logic, evidence placement, reviewer-defense responsibilities, title candidates, and contribution statements before drafting the abstract and manuscript sections.
 
@@ -39,7 +39,7 @@ Claim boundary:
 
 - `VL-SAT` supports the primary closed-set relation-reliability result.
 - Open3DSG supports second-source evidence within the measured H001 families.
-- Qwen-VL remains third-source modern VLM extension evidence unless it receives full Docker metric, bootstrap, and audit treatment.
+- Qwen-VL remains third-source appendix/extension evidence for the current AAAI route even though full-validation Docker metric, bootstrap, and audit treatment are complete.
 
 ## Title Candidates
 
@@ -239,7 +239,7 @@ Must include before the end of Introduction:
 - relation families: `support_contact`, `proximity`, `relative_vertical`
 - claim boundary: measured geometry-checkable relation reliability
 - empirical validation role of `VL-SAT` and Open3DSG
-- Qwen-VL omitted from the main Introduction evidence unless later promoted with full metrics
+- Qwen-VL omitted from the main Introduction evidence and kept as appendix/extension evidence for the current AAAI route
 
 ### 2. Related Work
 
@@ -739,7 +739,7 @@ Recommended appendix tables:
 | Table 4 | appendix with short main-text summary | structured audit and 50-row visual sanity check are reviewer-defense evidence, not the primary metric result |
 | Detailed family-specific rows | appendix | useful for transparency without crowding main result |
 | Full Open3DSG caveat/coverage accounting | appendix with main-text caveat summary | keeps denominator/filter details traceable |
-| Qwen-VL runtime smoke, if run | appendix/future-work only | not main metric evidence unless promoted with full Docker metric/audit treatment |
+| Qwen-VL full-validation extension | appendix/future-work only | full Docker metric/bootstrap/audit treatment is complete, but it is not main metric evidence for the current AAAI route |
 
 Space-risk fallback:
 
@@ -752,7 +752,7 @@ Space-risk fallback:
 1. Continue only final caption/prose polish unless a new layout issue appears.
 2. Current visual/layout inspection confirms the Open3DSG-first 9-page build has no missing citations, undefined refs, or overfull hbox warnings.
 3. Use the generated geometry-backed Figure 3 panel as the preferred draft; keep rendered scene crops only as optional final polish if deterministic rendering is added.
-4. Keep Qwen-VL as optional appendix/future-work material unless it is promoted with full Docker metric, denominator, and audit treatment.
+4. Keep Qwen-VL as optional appendix/extension material for the current AAAI route.
 
 ## Korean Outline
 
@@ -911,10 +911,10 @@ Semantic 3D Scene Graph relation predictor는 그럴듯하지만 object-pair geo
 
 초록에 수치를 넣을 때만 사용할 후보:
 
-- `VL-SAT`: `probabilistic_recalibrated` R@50/R@100 `0.9642/0.9921` vs `semantic_only` `0.9599/0.9894`; Violation@100 `0.0391` vs `0.0469`.
-- `VL-SAT`: `family_specific_p_geom_valid` Violation@100 `0.0310`.
-- Open3DSG: `family_specific_p_geom_valid` R@50/R@100 `0.4530/0.5984` and Violation@50/@100 `0.0228/0.0311` vs `semantic_only` `0.3945/0.4963` and `0.1326/0.1195`.
-- GT verifier: `p_geom_valid` AUROC/AUPRC `0.9779/0.9737`.
+- `VL-SAT` full validation: `probabilistic_recalibrated` R@50/R@100 `0.9305/0.9688` vs `semantic_only` `0.9272/0.9635`; Violation@100 `0.0404` vs `0.0476`.
+- `VL-SAT` full validation: `family_specific_p_geom_valid` Violation@100 `0.0333`.
+- Open3DSG full-validation recovery branch: `family_specific_p_geom_valid` R@50/R@100 `0.4658/0.6047` and Violation@50/@100 `0.0286/0.0341` vs `semantic_only` `0.4096/0.5161` and `0.1386/0.1242`.
+- GT verifier full validation: `p_geom_valid` AUROC/AUPRC `0.9772/0.9729`.
 
 ### 1. Introduction
 
@@ -986,7 +986,7 @@ Introduction 끝나기 전 반드시 포함할 내용:
 - relation families: `support_contact`, `proximity`, `relative_vertical`
 - claim boundary: measured geometry-checkable relation reliability
 - `VL-SAT`와 Open3DSG의 empirical validation 역할
-- Qwen-VL은 full metric으로 승격하기 전까지 Introduction main evidence에서 제외
+- Qwen-VL은 현재 AAAI route에서 appendix/extension evidence로 두고 Introduction main evidence에서 제외
 
 ### 2. Related Work
 
@@ -1215,7 +1215,7 @@ Reviewer-defense role:
 AAAI Table 2 caption draft:
 
 ```text
-Source-specific claim boundary for H001. Open3DSG is the main open-vocabulary relation-source case study, VL-SAT is a controlled reproduced anchor, and Qwen-VL remains a third semantic source / modern VLM extension unless promoted with the same denominator, Docker, metric, bootstrap, and audit treatment. FROSS remains blocked as a full-family source. Broad open-vocabulary 3DSSG improvement is not claimed from the current evidence.
+Source-specific claim boundary for H001. Open3DSG is the main open-vocabulary relation-source case study, VL-SAT is a controlled reproduced anchor, and Qwen-VL remains a third semantic source / modern VLM appendix extension despite completed full-validation Docker metric, bootstrap, and audit treatment. FROSS remains blocked as a full-family source. Broad open-vocabulary 3DSSG improvement is not claimed from the current evidence.
 ```
 
 Reviewer-defense role:
@@ -1312,14 +1312,14 @@ Do not drift into these claims:
 - H001 is a baseline-agnostic relation predictor.
 - The method is just a verifier script.
 - Qwen-VL is part of the main metric evidence before full-source promotion.
-- Open3DSG is reproduced as an exact non-averaged BLIP official route.
+- Open3DSG is an exact unmodified-source/preprocess reproduction or broad SOTA route.
 - Reduced visual sanity checks are large-scale blinded human audits.
 
 Korean review note:
 
 - 현재 abstract, Introduction, table caption, figure caption은 모두 scoped relation-reliability claim과 일치한다.
 - AAAI Table 3는 caveat을 숨기지 않는 점이 중요하다. 지금은 압축보다 필수 content와 limitation을 모두 확보하는 것이 우선이다.
-- Qwen-VL은 third semantic source / modern VLM extension으로만 두며, full-source Docker metric, bootstrap, audit가 끝나기 전에는 본문 main evidence로 승격하지 않는다.
+- Qwen-VL은 third semantic source / modern VLM appendix/extension으로만 두며, full-validation Docker metric, bootstrap, audit가 끝난 상태에서도 현재 AAAI route의 본문 main evidence로 승격하지 않는다.
 
 ## Paper Content Coverage Checklist
 
@@ -1342,7 +1342,7 @@ Content already secured:
 | Failure analysis | secured as qualitative/reviewer-defense evidence | 57,736 rows and 36 inspected cases |
 | Reproducibility | secured | Docker experiment root, `docs/reproducibility.md`, locked manifests, AAAI checklist after references |
 | Claim boundary | secured | `docs/paper.md`, AAAI Table 2, Open3DSG caveat wording |
-| Qwen-VL optional extension boundary | secured as optional/non-metric | contract/cache ready, no main metric claim |
+| Qwen-VL optional extension boundary | secured as appendix/extension | full-validation metric/bootstrap/audit ready, no main-table claim |
 
 Content blocks secured in this outline pass:
 
@@ -1354,7 +1354,7 @@ Content blocks secured in this outline pass:
 | Table placement and appendix split | secured | Use AAAI Tables 1-3 in main paper; keep calibrator/threshold provenance, controls, GT verifier, audit details, family details, and Qwen as prose/appendix candidates. |
 | Limitation paragraphs | secured | Convert caveat paragraphs into Limitations/Discussion prose. |
 | Reviewer-attack response text | secured | Convert control, Open3DSG, and failure-analysis skeletons into Results/Discussion prose. |
-| Optional Qwen-VL decision | scoped | Keep as appendix/future-work only unless promoted with full Docker metric/audit treatment. |
+| Optional Qwen-VL decision | fixed for current AAAI route | Keep as appendix/extension only. |
 | AAAI reproducibility checklist | inserted | Revisit `partial/no` answers after final artifact/code-release packaging. |
 | AAAI reviewer-defense pass | secured | Main text directly answers hand-coded verifier, geometry-only/distance, recall-tradeoff, Open3DSG recovery-policy provenance, family-selection, and AAAI-relevance attacks. |
 

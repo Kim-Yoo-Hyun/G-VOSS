@@ -1,6 +1,6 @@
 # H001 Paper Preview
 
-Last updated: 2026-06-05 KST
+Last updated: 2026-06-12 KST
 
 이 문서는 H001을 paper/experiment writing phase로 넘기기 직전에 현재까지의 연구 결과, 주장 범위, 실험 근거, caveat, 그리고 재시작 시 반드시 읽어야 할 파일을 한곳에 고정한 preview다. 최종 manuscript가 아니라 paper draft를 쓰기 위한 handoff 문서다.
 
@@ -317,6 +317,13 @@ Fact:
 - If validated, the candidate denominator grows from 2,545 to 3,512.
 - Candidate source rows already exist: VL-SAT 77,748 and Open3DSG 57,300.
 - G5d source evidence exists, but the track is not current main-claim evidence.
+- 2026-06-11 decision: keep `attachment_deferred` as appendix/preliminary
+  extension evidence and future-upgrade path, not as part of the current AAAI
+  main claim. The reason is not lack of signal. G5d is promising, but it is on
+  the older H001 388/377-context scope rather than the current full official
+  validation paper route; Open3DSG covers only 768/967 exact-label attachment
+  rows; `connected to` lacks dev strict rows; and post-G5d visual/failure audit
+  has not reached the current main-family standard.
 - The extractor contract explicitly forbids `verification_status`,
   `p_geom_valid`, recall credit, and reranking scores in extractor output.
 - G1c produced 36/36 schema-valid point/surface-ready evidence rows and 0
@@ -356,7 +363,9 @@ Interpretation:
   affordance.
 - It is also harder than support/contact and cannot be promoted without
   resolving its caveats and reviewing failure/visual evidence. Main-claim
-  promotion requires explicit final user confirmation.
+  promotion would require a full-validation rerun, source-specific denominator
+  update, pairwise bootstrap deltas, post-G5d failure/visual audit, and explicit
+  final user confirmation.
 - A small function-reasoning case study is reasonable only after the
   attachment-reliability result exists; it should show simple physical
   precondition reasoning, not claim broad affordance or robotics performance.
@@ -384,7 +393,8 @@ Recommended paper narrative:
 4. Show Open3DSG as the main open-vocabulary case study, with VL-SAT as the controlled reproduced anchor.
 5. Use controls, GT-based verifier evaluation, and audit as prose-backed reviewer defense.
 6. Use failure analysis to explain where the framework helps and where residual risk remains.
-7. Keep Qwen-VL as optional extension unless full metric evidence is added.
+7. Keep Qwen-VL as optional third-source appendix/extension evidence for the
+   current AAAI route.
 
 ## Reviewer Defense Map
 
@@ -401,10 +411,11 @@ Recommended paper narrative:
 
 Qwen-VL:
 
-- Current status: third semantic source / modern VLM extension. Contract, parser skeleton, 30-row non-held-out tiny pilot, pair crops, model-lock plan, Qwen3-VL-4B cache, runtime preflight, 3-row tiny inference smoke, raw-response validation, full-source promotion plan, full-source input audit, all-scope crop preflight, full-source inference runner plan, and shard 0000 contract validation are ready.
-- Frozen promotion scope: 127 scans, 388 contexts, 25,916 directed pairs, 77,748 all-pairs x family query rows, 33,384 inferable input rows, 44,364 missing rows, 134 shards, and 2,545 in-scope GT rows.
-- Current inference state: shards 0000-0013 are complete with 3,500 parsed rows. Remaining loop run id `20260527_023111` stopped at shard 0014 because the GPU guard observed utilization 36% against the 35% threshold; clean resume starts from `qwen_full_source_shard_0014`.
-- It should stay non-metric unless full prediction JSONL, geometry join, denominator, metrics, bootstrap, and audit treatment are added.
+- Current status: third semantic source / modern VLM extension. Contract, parser skeleton, 30-row non-held-out tiny pilot, pair crops, model-lock plan, Qwen3-VL-4B cache, runtime preflight, 3-row tiny inference smoke, raw-response validation, historical full-source route, and paper-facing full official validation route are ready through all-shard inference, parser validation, adapter export, geometry join, metrics/controls, bootstrap CI, failure rows, and deterministic qualitative inspection.
+- Paper-facing full-validation scope: 157 scans, 548 contexts, 36,808 directed pairs, 110,424 all-pairs x family query rows, 46,506 inferable input rows, 63,918 missing query rows, 187 shards, and 3,972 H001-family GT rows.
+- Current downstream state: parser validation 46,506/46,506 with 0 errors, adapter 35,131 predictions, geometry/metrics/controls/bootstrap `ready`, failure rows 31,881, and 36 deterministic qualitative cases.
+- Key extension metrics: semantic_only R@50/R@100 `0.2815/0.3600`, probabilistic_recalibrated `0.3215/0.3653`, rule_verified_point_subtype `0.3009/0.3630`, and family_specific control `0.3379/0.3653`.
+- It stays non-main for the current AAAI route because recall is lower than VL-SAT/Open3DSG and the full-validation missing-query denominator remains a caveat.
 
 FROSS:
 
@@ -493,17 +504,26 @@ Read these before rerunning Open3DSG:
 
 ### Must-Read Qwen-VL Files
 
-Read these before resuming Qwen-VL or moving the run to another computer:
+Read these before verifying Qwen-VL full-validation downstream evidence or
+moving the run to another computer:
 
 1. `experiments/H001_geom_reliability/sources/qwen_vl/README.md`
 2. `experiments/H001_geom_reliability/sources/qwen_vl/report.md`
 3. `experiments/H001_geom_reliability/sources/qwen_vl/status.json`
 4. `experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml`
-5. `experiments/H001_geom_reliability/sources/qwen_vl/full_source_input/manifest.json`
-6. `experiments/H001_geom_reliability/sources/qwen_vl/full_source_inference_plan/commands.md`
-7. `experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/manifests/`
-8. `logs/qwen_vl_full_source_infer_remaining_20260527_023111.status.tsv`
-9. `logs/qwen_vl_full_source_infer_remaining_20260527_023111.exit`
+5. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/README.md`
+6. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input/manifest.json`
+7. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/runtime/manifests/`
+8. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/validation/contract/manifest.json`
+9. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/adapter/manifest.json`
+10. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/geometry/manifest.json`
+11. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/metrics/metrics.json`
+12. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/bootstrap_ci/summary.json`
+13. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/failure_rows/summary.json`
+14. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/failure_cases/inspection.json`
+15. `logs/qwen_vl_full_validation_infer_20260611_141736.status.tsv`
+16. `logs/h001_qwen_fullval_downstream_20260612_031601.status.tsv`
+17. `logs/h001_qwen_fullval_failure_tail_20260612_031805.status.tsv`
 
 ### Runtime Data That May Need Rebuild
 
@@ -539,4 +559,4 @@ Recommended next action:
 4. Treat the AAAI reviewer-defense pass as updated for the selected full-validation route: hand-coded verifier, geometry-only/distance, recall-tradeoff, Open3DSG recovery-policy provenance, family-selection, and AAAI-relevance attacks must all remain answered during polish.
 5. Treat `paper/appendix.md` as the current appendix/provenance owner: calibrator/threshold provenance, Open3DSG caveat consistency, Figure 3 optionality, and Qwen-VL third-source boundary are recorded there.
 6. Keep Open3DSG caveats explicit during any further polish; caption compression must not hide selected-checkpoint provenance, filtered split, exact-label denominator, recovery policy, 533/548 sensitivity branch, or residual calibration risk.
-7. Keep Qwen-VL as third-source extension only, unless it receives the same Docker, metric, denominator, bootstrap, and audit treatment as paper evidence.
+7. Keep Qwen-VL as third-source appendix/extension only; it now has full-validation Docker metric/denominator/bootstrap/audit artifacts, but the current AAAI main claim remains VL-SAT + Open3DSG.

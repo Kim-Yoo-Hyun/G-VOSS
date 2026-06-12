@@ -1,21 +1,33 @@
 [
   {
-    "allowed_claim": "scoped geometry-consistency reliability-layer result",
+    "allowed_claim": "controlled-anchor full-validation geometry-consistency reliability result",
     "blocked_extension": "not baseline-agnostic by itself",
     "source_or_claim": "VL-SAT / vlsat_closed_set",
-    "status": "ready"
+    "status": "full_validation_metric_ready"
   },
   {
-    "allowed_claim": "cross-source reliability-layer evidence within measured H001 families",
-    "blocked_extension": "not broad open-vocabulary improvement by itself",
+    "allowed_claim": "main open-vocabulary relation-source case study within measured H001 families",
+    "blocked_extension": "not broad open-vocabulary improvement, Open3DSG SOTA, or unmodified-source reproduction by itself",
     "source_or_claim": "Open3DSG",
-    "status": "second_source_metric_ready"
+    "status": "full_validation_recovery_metric_ready"
   },
   {
     "allowed_claim": "future support/contact smoke only",
     "blocked_extension": "not full-family evidence",
     "source_or_claim": "FROSS",
     "status": "runtime_blocked_support_contact_only"
+  },
+  {
+    "allowed_claim": "third semantic-source / modern VLM extension after full Docker metric path",
+    "blocked_extension": "not a replacement main baseline or metric evidence yet",
+    "source_or_claim": "Qwen-VL",
+    "status": "contract_cache_runner_ready_non_metric"
+  },
+  {
+    "allowed_claim": "appendix/preliminary future-upgrade evidence only",
+    "blocked_extension": "not current main claim without full-validation rerun, denominator update, and post-G5d audit",
+    "source_or_claim": "Attachment relations",
+    "status": "extension_only"
   },
   {
     "allowed_claim": "not allowed from current evidence",

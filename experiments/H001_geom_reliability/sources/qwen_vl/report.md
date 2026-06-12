@@ -1,6 +1,6 @@
 # Qwen-VL Adapter Contract Report
 
-Status: `full_source_inference_remaining_loop_running_non_metric`
+Status: `full_validation_downstream_metrics_ready_third_source_extension`
 Created at: `2026-05-08T06:35:07+00:00`
 
 ## Decision
@@ -94,10 +94,9 @@ promotion.
 - all-scope preflight log: `logs/qwen_vl_full_source_crop_preflight_all_20260527_013235.log`
 - all-scope preflight artifact: `full_source_crops/all/{records.jsonl,manifest.json,report.md}`
 
-The crop-rendering stage still ran no Qwen model load and no inference. Full
-Qwen inference may now be scheduled shard-wise, but its outputs remain non-metric
-until parser validation, adapter export, geometry join, metrics, controls,
-bootstrap, and audit complete.
+The crop-rendering stage itself ran no Qwen model load and no inference. The
+later full-source inference and downstream metric/audit stages are recorded
+below.
 
 ## Full-Source Inference Runner
 
@@ -117,16 +116,78 @@ bootstrap, and audit complete.
 - shard 0000 counts: 250 predictions, 250 raw responses, 250 completed rows, parser status `parsed:250`
 - shard 0000 validation: `validator_parser_skeleton_ready_no_model_runtime`, 250 parsed rows, 0 input errors, 0 output errors, 0 warnings
 - shard 0000 validation log: `logs/qwen_vl_full_source_shard0000_contract_validate_20260527_022224.log`
-- remaining shard loop status: `running_non_metric`
-- remaining shard loop tmux: `h001_qwen_vl_infer_remaining`
-- remaining shard loop run id: `20260527_023111`
-- remaining shard loop scope: `qwen_full_source_shard_0001` through `qwen_full_source_shard_0133`, 133 shards, 33,134 expected rows
-- remaining shard loop command: `QWEN_VL_LOOP_RUN_ID=20260527_023111 QWEN_VL_LOOP_START_SUFFIX=0001 QWEN_VL_LOOP_END_SUFFIX=0133 bash experiments/H001_geom_reliability/scripts/run_qwen_vl_full_source_shard_loop.sh`
-- remaining shard loop log: `logs/qwen_vl_full_source_infer_remaining_20260527_023111.log`
-- remaining shard loop status TSV: `logs/qwen_vl_full_source_infer_remaining_20260527_023111.status.tsv`
-- remaining shard loop exit file: `logs/qwen_vl_full_source_infer_remaining_20260527_023111.exit`
+- previous remaining shard loop run id: `20260527_023111`, stopped at `qwen_full_source_shard_0014` because of GPU utilization guard; shards 0000-0013 completed with 3,500 rows
+- resumed remaining shard loop status: `complete_non_metric`
+- resumed remaining shard loop tmux: `h001_qwen_vl_infer_remaining_resume_20260611_000531`
+- resumed remaining shard loop run id: `20260611_000531`
+- resumed remaining shard loop scope: `qwen_full_source_shard_0014` through `qwen_full_source_shard_0133`, 120 shards, 29,884 expected rows
+- resumed remaining shard loop command: `QWEN_VL_LOOP_RUN_ID=20260611_000531 QWEN_VL_LOOP_START_SUFFIX=0014 QWEN_VL_LOOP_END_SUFFIX=0133 bash experiments/H001_geom_reliability/scripts/run_qwen_vl_full_source_shard_loop.sh`
+- resumed remaining shard loop log: `logs/qwen_vl_full_source_infer_remaining_20260611_000531.log`
+- resumed remaining shard loop status TSV: `logs/qwen_vl_full_source_infer_remaining_20260611_000531.status.tsv`
+- resumed remaining shard loop exit file: `logs/qwen_vl_full_source_infer_remaining_20260611_000531.exit`, value `0`
+- final shard: `qwen_full_source_shard_0133`, finished `2026-06-11T06:47:32+09:00`, exit `0`
+- full-source runtime file counts: 134/134 manifests, prediction files, raw-response files, completed-progress files, JSON reports, and Markdown reports
+- full-source runtime row counts: 33,384 prediction rows, 33,384 raw-response rows, and 33,384 completed-progress rows
+- parser status counts over prediction rows: `parsed:33383`, `parsed_with_warning:1`
+- parser warning row: `qwen_vl:h001_validation_hardened:4a9a43d4-7736-2874-87a6-0c3089281af8_2:62:44:support_contact`; the model returned duplicate `lying on` predicates and the parser retained one deduplicated top prediction
 
-The first inference shard is complete and contract-validated, but it is still
-not paper metric evidence. The remaining shards are now running as a sequential
-resumable background loop. The next dependent step is all-shard completion
-verification and parser validation.
+## Full-Source Downstream Validation And Metrics
+
+This section records the historical 127-scan inferable-pair route. It remains
+useful as extension/sanity evidence, but the paper-facing Qwen route is now the
+full official validation branch recorded below.
+
+- aggregation status: `qwen_vl_full_source_aggregate_ready`
+- contract validation: 33,384 input rows, 33,384 parsed rows, 0 input errors, 0 output errors, 0 warnings
+- adapter export: `qwen_vl_adapter_export_ready`, 25,262 exported predictions, 23,084 in-scope predictions, 2,545 target-family GT rows, 1,845 target-family GT rows with Qwen input-pair coverage, 932 exact-label GT keys hit by Qwen predictions
+- geometry join: `ready`, 25,262 preserved rows, 23,084 geometry-available/scored H001-family rows, 2,178 unsupported-family rows
+- verification status counts: `satisfied:14548`, `uncertain:5599`, `unsupported:2178`, `violated:2937`
+- semantic_only: R@50/R@100 `0.2684/0.3580`, Violation@50/@100 `0.1239/0.1260`
+- probabilistic_recalibrated: R@50/R@100 `0.3092/0.3654`, Violation@50/@100 `0.0787/0.1167`
+- rule_verified_point_subtype: R@50/R@100 `0.2904/0.3631`, Violation@50/@100 `0.0/0.0`
+- control_family_specific_p_geom_valid: R@50/R@100 `0.3308/0.3654`, Violation@50/@100 `0.0499/0.1106`
+- bootstrap CI: `ready`, 1,000 subgraph resamples; probabilistic_recalibrated vs semantic_only at @50 gives recall delta `+0.0409` with 95% CI `[+0.0262,+0.0555]` and violation delta `-0.0452` with 95% CI `[-0.0513,-0.0396]`
+- failure rows: `failure_analysis_real_ready`, 22,787 diagnostic rows, 2,843 visual-audit queue rows, validation errors 0
+- qualitative inspection: `qualitative_case_inspection_ready`, 36 deterministic cases, 27 demoted by geometry-aware reranking, 9 promoted or retained, 7 rule-violated cases with `p_geom_valid > 0.9`
+
+## Full Official Validation Downstream
+
+- branch root: `full_validation/`
+- status: `full_validation_qwen_downstream_metrics_ready_third_source_extension`
+- scope: 157 scans, 548 contexts, 36,808 directed pairs, 110,424 all-pairs x family query rows, 3,972 H001-family GT rows
+- input rows: 46,506 inferable rows and 63,918 explicit missing query rows
+- crop preflight: 15,502 unique pair crops verified, 0 errors
+- inference: 187/187 shards, 46,506/46,506 prediction/raw/completed rows, exit `0`
+- contract validation: 46,506 input rows, 46,506 parsed rows, 0 input errors, 0 output errors, 0 warnings
+- adapter export: 35,131 predictions, 32,236 in-scope predictions, 1,453 exact-label GT keys hit by Qwen predictions
+- geometry join / metrics / controls / bootstrap CI: `ready`
+- failure rows: `failure_analysis_real_ready`, 31,881 diagnostic rows, 3,939 visual-audit queue rows
+- qualitative inspection: `qualitative_case_inspection_ready`, 36 deterministic cases, 27 demoted by geometry-aware reranking, 9 promoted or retained, 6 rule-violated cases with `p_geom_valid > 0.9`
+
+Key metrics:
+
+| condition | R@50 | R@100 | V@50 | V@100 |
+| --- | ---: | ---: | ---: | ---: |
+| `semantic_only` | 0.2815 | 0.3600 | 0.1226 | 0.1246 |
+| `probabilistic_recalibrated` | 0.3215 | 0.3653 | 0.0795 | 0.1166 |
+| `rule_verified_point_subtype` | 0.3009 | 0.3630 | 0.0000 | 0.0000 |
+| `control_family_specific_p_geom_valid` | 0.3379 | 0.3653 | 0.0510 | 0.1113 |
+
+Bootstrap CI: probabilistic recalibration vs semantic-only gives @50 recall
+delta `+4.00 pp` and violation delta `-4.31 pp`; at @100 it gives recall delta
+`+0.53 pp` and violation delta `-0.80 pp`. Family-specific `p_geom_valid`
+gives the strongest @50 tradeoff with recall delta `+5.64 pp` and violation
+delta `-7.16 pp`.
+
+## Downstream Claim Boundary
+
+Qwen-VL can now be used as third-source modern-VLM extension evidence if the
+paper needs it, because it has parser validation, adapter export, geometry join,
+metrics, controls, bootstrap CI, and diagnostic audit artifacts. It should not
+replace Open3DSG or VL-SAT and should not be promoted into the main AAAI claim
+without an explicit decision, because Qwen remains a crop-based VLM semantic
+source with much weaker recall than VL-SAT/Open3DSG and still has explicit
+full-validation missing-query denominator caveats. Its strongest paper role is
+to show that the H001 reliability framework is source-agnostic enough to expose
+the same semantic-plausibility versus physical-consistency failure pattern in a
+modern VLM source.

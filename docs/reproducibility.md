@@ -1,6 +1,6 @@
 # H001 Reproducibility Runbook
 
-Last updated: 2026-06-05 KST
+Last updated: 2026-06-12 KST
 
 This document consolidates dataset, checkpoint, environment, Docker, reproduction,
 and evaluation-summary information for `experiments/H001_geom_reliability/`.
@@ -70,17 +70,25 @@ VL-SAT full-validation source state:
 6. `experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_rows/report.md`
 7. `experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_cases/inspection.md`
 
-Qwen-VL extension/resume state:
+Qwen-VL extension/downstream state:
 
 1. `experiments/H001_geom_reliability/sources/qwen_vl/README.md`
 2. `experiments/H001_geom_reliability/sources/qwen_vl/report.md`
 3. `experiments/H001_geom_reliability/sources/qwen_vl/status.json`
 4. `experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml`
-5. `experiments/H001_geom_reliability/sources/qwen_vl/full_source_input/manifest.json`
-6. `experiments/H001_geom_reliability/sources/qwen_vl/full_source_inference_plan/commands.md`
-7. `experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/manifests/`
-8. `logs/qwen_vl_full_source_infer_remaining_20260527_023111.status.tsv`
-9. `logs/qwen_vl_full_source_infer_remaining_20260527_023111.exit`
+5. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/README.md`
+6. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input/manifest.json`
+7. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/runtime/manifests/`
+8. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/validation/contract/manifest.json`
+9. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/adapter/manifest.json`
+10. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/geometry/manifest.json`
+11. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/metrics/metrics.json`
+12. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/bootstrap_ci/summary.json`
+13. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/failure_rows/summary.json`
+14. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/failure_cases/inspection.json`
+15. `logs/qwen_vl_full_validation_infer_20260611_141736.status.tsv`
+16. `logs/h001_qwen_fullval_downstream_20260612_031601.status.tsv`
+17. `logs/h001_qwen_fullval_failure_tail_20260612_031805.status.tsv`
 
 Paper writing state:
 
@@ -121,25 +129,33 @@ Facts:
   reviewer-defense guardrails.
 - Latest paper/reproducibility tasks completed: AAAI reproducibility checklist
   insertion, reviewer-defense main-text passes, Docker subgraph bootstrap CI,
-  reproducibility artifact bundle planning, and official AAAI-26 Author Kit
-  replacement/verification, plus the appendix/provenance and Open3DSG
-  caveat-consistency pass. Docker build verification for `paper/aaai/` is
-  complete with `h001-aaai-tex:20260526`; the latest compression
-  rebuild log is `logs/h001_aaai_pdf_build_compression_20260606_105126.log`,
-  with 9 total pages, technical content on pages 1-7, references on page 8,
-  and the AAAI reproducibility checklist on page 9. The manuscript uses
-  Open3DSG as the main open-vocabulary relation-source case study and VL-SAT as
-  the controlled reproduced anchor.
+  reproducibility artifact bundle planning, official AAAI-27 Author Kit
+  migration/build hygiene, appendix/provenance and Open3DSG caveat-consistency
+  pass, and 2026-06-11 final claim/content-polish pass. Docker build
+  verification for `paper/aaai/` is complete with `h001-aaai-tex:20260611`;
+  the latest AAAI-27 hygiene rebuild log is
+  `logs/h001_aaai27_pdf_build_20260611_aaai27_hygiene_retry1.log`, with
+  9 total pages, technical content within pages 1-7, references after
+  technical content, and the AAAI-27 reproducibility checklist after
+  references. The manuscript uses Open3DSG as the main open-vocabulary
+  relation-source case study and VL-SAT as the controlled reproduced anchor.
+  Remaining final-submission reproducibility work is source flattening/package
+  hygiene, artifact/code-release URL or DOI, metadata/anonymization, and final
+  checklist partial-item review.
 - Qwen-VL is a third semantic source / modern VLM extension path. The locked
   Qwen3-VL-4B cache, runtime preflight, 3-row tiny inference smoke,
-  raw-response validation, full-source promotion protocol, and full-source
-  input audit, all-scope crop preflight, full-source inference runner plan, and
-  shard 0000 contract validation are ready, but full Qwen inference is not
-  paper metric evidence yet. Current Qwen input audit has 33,384 inferable rows
-  and 134 shards. The remaining shard loop run id `20260527_023111` stopped at
-  shard 0014 because the GPU guard observed utilization 36% against the 35%
-  threshold; shards 0000-0013 are complete with 3,500 rows written, and resume
-  should start from `qwen_full_source_shard_0014`.
+  raw-response validation, historical full-source route, and paper-facing full
+  official validation route are ready through parser validation, adapter export,
+  geometry join, metrics/controls, bootstrap CI, failure rows, and qualitative
+  inspection. Current full-validation Qwen audit has 46,506 inferable rows,
+  63,918 missing query rows, 187 shards, 35,131 exported predictions, and
+  3,972 H001-family GT rows. Full-validation inference run id
+  `20260611_141736` completed 187/187 shards with exit `0`; downstream run id
+  `20260612_031601` completed aggregate through bootstrap, then the schema-fixed
+  tail rerun `20260612_031805` completed failure rows and case inspection.
+  Full-validation runtime outputs cover 187/187 shards and 46,506
+  prediction/raw/completed rows; downstream status is
+  `full_validation_downstream_metrics_ready_third_source_extension`.
 - Runtime pressure is volatile: check `docker ps`, `tmux ls`, `nvidia-smi`, and
   `free -h` before launching heavy Open3DSG or Qwen jobs. The historical
   2026-05-26 Qwen-VL runtime-preflight retry was blocked by GPU guard, but the
@@ -289,7 +305,14 @@ Recommended release tiers:
 Full-validation paper result upload bundle, fixed 2026-06-11 KST:
 
 ```text
-status: upload_bundle_file_list_and_verification_fixed_no_archive_created
+status: upload_bundle_archive_created_and_checksum_verified
+archive: release/h001_full_validation_results_20260611_025158.tar.zst
+archive sha256: d7d8678c5dfc4c2dda54c781220951386cb08cc2d7ca6b5cec908ee9e5e76cea
+archive sha256 file: release/h001_full_validation_results_20260611_025158.sha256
+archive size: 1.4G (1502684667 bytes)
+archive creation log: logs/h001_fullval_upload_archive_20260611_025158.log
+archive creation exit: logs/h001_fullval_upload_archive_20260611_025158.exit (0)
+archive checksum verification: passed with `sha256sum -c release/h001_full_validation_results_20260611_025158.sha256`
 manifest: experiments/H001_geom_reliability/full_validation_transition/artifact_bundle/manifest.json
 commands: experiments/H001_geom_reliability/full_validation_transition/artifact_bundle/commands.md
 report: experiments/H001_geom_reliability/full_validation_transition/artifact_bundle/report.md
@@ -300,12 +323,12 @@ verification script: experiments/H001_geom_reliability/full_validation_transitio
 payload files: 211
 payload checksum records: 211
 payload file-list sha256: 392aa550557f64603a4548a9e494248d22eed899ecea3fefbc558451b39b716b
-payload checksum-manifest sha256: 923bfde4e39921f5dd3fc10f0ec1a98eea606b50b83d4495d0d5b3afd1e4ff2b
+payload checksum-manifest sha256: 2b35f76c08ee758bbf8d9f29e67523124bc581a05404644bba3090294594f17f
 payload row-count-file sha256: 2e86fe118260300bae6379f763f39f0cda0e4b07dd38455878de5d832d121943
-checksum generation log: logs/h001_fullval_upload_checksums_20260611_002243.log
-checksum generation exit: logs/h001_fullval_upload_checksums_20260611_002243.exit (0)
-verification log: logs/h001_fullval_upload_verify_20260611_002319.log
-verification exit: logs/h001_fullval_upload_verify_20260611_002319.exit (0)
+checksum generation log: logs/h001_fullval_upload_checksums_20260611_020605.log
+checksum generation exit: logs/h001_fullval_upload_checksums_20260611_020605.exit (0)
+verification log: logs/h001_fullval_upload_verify_20260611_020619.log
+verification exit: logs/h001_fullval_upload_verify_20260611_020619.exit (0)
 ```
 
 Fixed payload roots:
@@ -401,27 +424,29 @@ sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_g
 ```
 
 Do not put Qwen-VL model weights in the default core bundle. The Qwen path is
-optional/non-metric and can be recreated from the fixed Hugging Face model id,
-revision, and local-dir command above. If the goal is to continue the current
-Qwen full-source run on another computer, preserve or transfer these paths:
+optional third-source extension evidence and can be recreated from the fixed
+Hugging Face model id, revision, and local-dir command above. If the goal is to
+verify, report, or transfer the current Qwen full-validation downstream bundle on
+another computer, preserve or transfer these paths:
 
 ```text
 local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/
-local_dataset/qwen_vl_crops/full_source/
-experiments/H001_geom_reliability/sources/qwen_vl/full_source_input/
-experiments/H001_geom_reliability/sources/qwen_vl/full_source_inference_plan/
-experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/
+local_dataset/qwen_vl_crops/full_validation/
+experiments/H001_geom_reliability/sources/qwen_vl/full_validation/
 experiments/H001_geom_reliability/sources/qwen_vl/status.json
 experiments/H001_geom_reliability/sources/qwen_vl/README.md
 experiments/H001_geom_reliability/sources/qwen_vl/report.md
 experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml
 experiments/H001_geom_reliability/sources/qwen_vl/Dockerfile.qwen
 experiments/H001_geom_reliability/scripts/run_qwen_vl_full_source_inference.py
+experiments/H001_geom_reliability/scripts/export_qwen_vl_full_source_adapter.py
 experiments/H001_geom_reliability/scripts/run_qwen_vl_full_source_shard_loop.sh
 experiments/H001_geom_reliability/scripts/plan_qwen_vl_full_source_inference.py
-logs/qwen_vl_full_source_infer_remaining_20260527_023111.log
-logs/qwen_vl_full_source_infer_remaining_20260527_023111.status.tsv
-logs/qwen_vl_full_source_infer_remaining_20260527_023111.exit
+logs/qwen_vl_full_validation_infer_20260611_141736.status.tsv
+logs/qwen_vl_full_validation_infer_20260611_141736.exit
+logs/h001_qwen_fullval_infer_loop_20260611_141736.log
+logs/h001_qwen_fullval_downstream_20260612_031601.status.tsv
+logs/h001_qwen_fullval_failure_tail_20260612_031805.status.tsv
 ```
 
 ## Environment And Docker
@@ -767,9 +792,10 @@ sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_g
 sg docker -c 'env UID=$(id -u) GID=$(id -g) QWEN_VL_TINY_INFERENCE_LIMIT=3 docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_tiny_inference_smoke'
 ```
 
-Resume Qwen-VL full-source inference only after GPU guard is acceptable. The
-current clean resume point is `qwen_full_source_shard_0014`; shards 0000-0013
-are already complete with 3,500 rows written.
+Qwen-VL full-validation inference is already complete. Only rerun this loop
+when regenerating the third-source full-validation runtime outputs from scratch
+or after deleting the runtime root. The completed full-validation inference run
+is `20260611_141736` with 187/187 shards.
 
 ```bash
 tmux ls || true
@@ -777,13 +803,39 @@ nvidia-smi
 free -h
 mkdir -p logs
 ts=$(date +%Y%m%d_%H%M%S)
-tmux new-session -d -s h001_qwen_vl_infer_remaining \
-  "cd /home/yoohyun/research && bash -lc 'set -o pipefail; QWEN_VL_LOOP_RUN_ID=${ts} QWEN_VL_LOOP_START_SUFFIX=0014 QWEN_VL_LOOP_END_SUFFIX=0133 bash experiments/H001_geom_reliability/scripts/run_qwen_vl_full_source_shard_loop.sh; rc=\$?; printf \"%s\n\" \"\$rc\" > logs/qwen_vl_full_source_infer_remaining_${ts}.exit; exit \$rc' > logs/qwen_vl_full_source_infer_remaining_${ts}.log 2>&1"
+tmux new-session -d -s h001_qwen_fullval_infer_loop \
+  "cd /home/yoohyun/research && bash -lc 'set -o pipefail; QWEN_VL_LOOP_RUN_ID=${ts} QWEN_VL_LOOP_START_SUFFIX=0000 QWEN_VL_LOOP_END_SUFFIX=0186 QWEN_VL_LOOP_SHARDS_JSONL=experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input/shards.jsonl QWEN_VL_LOOP_RUNTIME_ROOT=experiments/H001_geom_reliability/sources/qwen_vl/full_validation/runtime QWEN_VL_LOOP_COMPOSE_FILE=experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml QWEN_VL_LOOP_SERVICE=qwen_vl_full_validation_infer_shard QWEN_VL_LOOP_SHARD_ENV_VAR=QWEN_VL_FULL_VALIDATION_SHARD_ID QWEN_VL_LOOP_STATUS_PREFIX=qwen_vl_full_validation_infer bash experiments/H001_geom_reliability/scripts/run_qwen_vl_full_source_shard_loop.sh; rc=\$?; printf \"%s\n\" \"\$rc\" > logs/qwen_vl_full_validation_infer_${ts}.exit; exit \$rc' > logs/h001_qwen_fullval_infer_loop_${ts}.log 2>&1"
 ```
 
-After the loop finishes, Qwen still is not paper evidence until all-shard
-validation, adapter export, geometry join, metrics, controls, bootstrap CI if
-reported, and audit are completed through Docker.
+Current lightweight verification commands:
+
+```bash
+cat logs/qwen_vl_full_validation_infer_20260611_141736.exit
+find experiments/H001_geom_reliability/sources/qwen_vl/full_validation/runtime/manifests -name 'qwen_full_validation_shard_*.json' | wc -l
+wc -l experiments/H001_geom_reliability/sources/qwen_vl/full_validation/runtime/predictions/qwen_full_validation_shard_*.jsonl | tail -n 1
+wc -l experiments/H001_geom_reliability/sources/qwen_vl/full_validation/runtime/raw_response/qwen_full_validation_shard_*.jsonl | tail -n 1
+jq -r '.parser_status // empty' experiments/H001_geom_reliability/sources/qwen_vl/full_validation/runtime/predictions/qwen_full_validation_shard_*.jsonl | sort | uniq -c
+```
+
+Regenerate Qwen-VL full-validation downstream artifacts from the completed
+runtime root:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_validation_aggregate'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_validation_validate'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_validation_adapter_export'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_validation_geometry_join'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_validation_metric_eval'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_validation_bootstrap_ci'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_failure_schema'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_validation_failure_generator'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_validation_failure_case_sampler'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_validation_failure_case_inspection'
+```
+
+Qwen downstream validation is complete through Docker. Treat it as optional
+third-source extension evidence, not a VL-SAT/Open3DSG replacement and not a
+main-claim result for the current AAAI route.
 
 Raw Open3DSG source eval has clean provenance through the v14 streaming
 same-path resume. The canonical raw dump remains `raw_dump/raw.jsonl`, and the

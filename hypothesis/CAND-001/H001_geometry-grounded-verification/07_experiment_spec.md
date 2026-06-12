@@ -1,6 +1,6 @@
 # Experiment Spec
 
-Last updated: 2026-05-19
+Last updated: 2026-06-12
 
 ## Role
 
@@ -22,82 +22,27 @@ hypothesis_stage_complete_for_geom_reliability_experiment
 
 Fact:
 
-- H001 is viable as a scoped research direction.
-- Hardened `VL-SAT` evidence is meaningful and survives a larger held-out
-  validation scope.
-- G3 controls, structured audit, reduced visual sanity check, and GT-based
-  verifier evaluation are complete.
-- Arbitrary-baseline and broad open-vocabulary generation claims remain
-  blocked beyond measured `VL-SAT` + Open3DSG H001-family evidence.
-- The selected top-tier reproduction path produced Open3DSG second-source
-  adapter evidence from a Docker-reproduced checkpoint.
-- The Open3DSG failure-analysis taxonomy is locked before metric/failure
-  inspection and must not be changed after seeing Open3DSG failures without a
-  schema version bump.
-- The Open3DSG failure-analysis row generator skeleton has a Docker synthetic
-  smoke output with 6 rows, 6 primary categories, and 0 validation errors. This
-  is contract evidence only, not Open3DSG metric evidence.
-- The Open3DSG metric/join runner contract has Docker outputs with
-  `input_contract.json`, `output_contract.json`, `metrics.json`,
-  `manifest.json`, `commands.md`, and `report.md`. Real Open3DSG prediction
-  JSONL, H001 GT JSONL, and geometry verification JSONL are now present; real
-  metrics are stored under `experiments/H001_geom_reliability/sources/open3dsg/metrics/`.
-- The Open3DSG checkpoint provenance/selection policy has a Docker template
-  output under `checkpoint_selection/`. It freezes the primary-selection rule
-  before checkpoint inspection and forbids using H001 held-out metrics,
-  failure-analysis distribution, or held-out visual inspection to choose the
-  primary checkpoint.
-- The Open3DSG raw-dump identity checklist has a Docker output under
-  `raw_dump_identity/`. It fixes the raw-dump identity denominator to 127 scans,
-  388 contexts, and 25,916 directed pairs before raw dump conversion.
-- The Open3DSG metric-scope policy has a Docker output under `metric_scope/`.
-  It freezes predicate-family mapping, exact-label recall matching, the 2,545
-  row in-scope GT denominator, and filtered-train/covered-scope caveats before
-  real metric execution.
-- Docker table builder has a Table 6 hook that reads the real Open3DSG metrics
-  and now marks Table 6 ready with no blockers, scoped to measured H001
-  families.
-- A modern-VLM semantic-source extension using `Qwen2.5-VL` or `Qwen3-VL` is
-  allowed only as a third semantic source / modern VLM extension, not as a
-  replacement for the VL-SAT controlled anchor or Open3DSG reproduction anchor.
-- The Qwen-VL runtime plan has fixed the recommended primary model to
-  `Qwen/Qwen3-VL-4B-Instruct` revision
-  `ebb281ec70b05090aa6165b016eac8ec08e71b17`, with local-dir
-  `local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17`.
-- The Qwen-VL tiny pilot has 30/30 rendered pair crops after shared-view
-  selection gating. Qwen3-VL-4B model cache verification, Docker runtime
-  preflight, 3-row tiny inference smoke, and runtime raw-response contract
-  validation are ready. The full-source promotion protocol is frozen under
-  `experiments/H001_geom_reliability/sources/qwen_vl/full_source_plan/` with
-  127 scans, 388 contexts, 25,916 directed pairs, a maximum 77,748 all-pairs x
-  family query rows, and the same 2,545-row in-scope GT denominator.
-- The Qwen-VL full-source input audit is ready under
-  `experiments/H001_geom_reliability/sources/qwen_vl/full_source_input/` with
-  77,748 universe query rows, 33,384 inferable input rows, 44,364 missing rows,
-  134 shards, and 0 input contract errors.
-- The Qwen-VL full-source crop render/preflight is ready under
-  `experiments/H001_geom_reliability/sources/qwen_vl/full_source_crops/` with
-  33,384 input rows, 11,128 unique pair crops, 11,128 verified crops, and 0
-  crop errors. No Qwen model load or inference was run in this crop gate.
-- The Qwen-VL full-source inference runner/resume plan is ready under
-  `experiments/H001_geom_reliability/sources/qwen_vl/full_source_inference_plan/`
-  with 33,384 planned rows, 134 shards, `record_id` resume key, and no plan
-  blockers. Shard `qwen_full_source_shard_0000` completed and validated with
-  250 prediction rows, 250 raw responses, parser status `parsed:250`, and 0
-  validation errors/warnings. Full-source Qwen paper-metric evaluation has not
-  run.
-- Robotics/functionality benchmarks such as `SceneFun3D` and `FunGraph3D` are
-  relevant expansion targets for functional 3D scene graph reliability, but
-  they change the claim from spatial relation reliability to functional or
-  affordance relation reliability.
+- H001 is viable as a scoped top-tier direction in the full-validation regime.
+- Main AAAI claim scope is the official `3DSSG_subset` 157-scan / 548-context full
+  validation split, scoped to measured
+  `support_contact`, `proximity`, `relative_vertical`.
+- The main Docker result route is `VL-SAT` full-validation + Open3DSG recovery
+  branch (`full_validation/recovery_relaxed_views_min2/`, 548/548 contexts), with
+  both sources kept in the same fixed split.
+- Open3DSG pipeline completion includes checkpoint provenance freeze, identity-preserving
+  raw dump, prediction adapter export, geometry join, Table 6 metrics, bootstrap CI,
+  full failure rows, deterministic failure inspection, and fixed caveat wording.
+- Open3DSG historical/sensitivity branches remain: `533/548` covered branch and
+  earlier `377/388` full-historical route.
+- Qwen-VL full source route is complete but explicitly fixed as third-source /
+  appendix extension for the current AAAI direction.
 
 Inference:
 
 - H001 has entered the Docker experiment implementation phase with measured
-  `VL-SAT` + Open3DSG evidence.
-- The preferred top-tier claim should be cross-source but scoped: measured
-  H001-family geometry-consistency reliability, not broad open-vocabulary 3DSSG
-  generation improvement.
+  `VL-SAT` + Open3DSG evidence on aligned full-validation scope.
+- The preferred top-tier claim is cross-source but scoped: measured geometry-consistency
+  reliability, not broad open-vocabulary 3DSSG generation improvement.
 
 ## Paper Experiment Strategy
 
@@ -150,13 +95,16 @@ geometry-checkable 3DSSG families while preserving useful recall.
 This upgraded claim is now enabled only within the measured H001 families and
 closed-set/GT-object setting because Open3DSG checkpoint reproduction, raw
 dump, JSONL export, geometry verification JSONL, metric evaluation, and
-locked-schema failure-analysis rows are complete. It must retain filtered-train,
-averaged-BLIP, covered-scope, exact-label denominator, residual calibration
-risk, and `validation_missing_preprocessed:11` caveats.
-Clean v14 streaming raw-dump provenance is available; earlier exit-137 attempts
-remain historical run records.
+locked-schema failure-analysis rows are complete. It must retain selected
+official non-avg checkpoint provenance, filtered train/dev provenance,
+full-validation exact-label denominator, recovery-policy disclosure,
+533/548 unmodified-source-route sensitivity, appendix-only historical
+127-scan sensitivity, and residual calibration-risk caveats.
+Clean-exit raw-dump provenance is available for the paper-facing 548/548
+recovery branch. Older historical raw-dump/provenance notes remain local to
+their sensitivity branches.
 The paper-facing Open3DSG caveat wording is frozen under
-`experiments/H001_geom_reliability/sources/open3dsg/paper_caveats/`.
+`experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/`.
 
 Preferred modern-VLM extension claim after Qwen-VL validation:
 
@@ -167,10 +115,12 @@ crops, calibrated 3D geometry-consistency evidence improves relation
 reliability for geometry-checkable families.
 ```
 
-This extension claim is blocked until a Docker-reproducible Qwen-VL adapter,
-frozen prompt/output schema, identity-preserving prediction JSONL, geometry
-join, and metric evaluation are complete. It must not be described as an
-Open3DSG checkpoint reproduction result.
+This extension claim is now supported as appendix/extension evidence only:
+Docker Qwen-VL full official validation inference, parser validation, adapter
+export, geometry join, metrics/controls, bootstrap CI, failure rows, and
+deterministic qualitative inspection are complete. It must not be described as
+an Open3DSG checkpoint reproduction result, a VL-SAT/Open3DSG replacement, or
+an end-to-end 3DSSG generation result.
 
 Optional robotics/functionality extension claim after SceneFun3D/FunGraph3D
 validation:
@@ -210,14 +160,15 @@ Results on functional 3D scene graph benchmarks prove the current spatial
 
 | Item | Fixed value |
 | --- | --- |
-| dataset | official `3DSSG_subset` / 3RScan validation-derived held-out scope |
-| prediction source | reproduced `VL-SAT` / `vlsat_closed_set` |
-| held-out scans | 127 |
-| subgraphs | 388 |
-| prediction rows | 673,816 |
-| ground-truth rows | 7,505 |
-| in-scope prediction rows | 155,496 |
-| in-scope GT denominator | 2,545 |
+| dataset | official `3DSSG_subset` / 3RScan full validation split |
+| prediction source | reproduced `VL-SAT` full validation plus Open3DSG full-validation recovery branch |
+| held-out scans | 157 |
+| contexts | 548 |
+| candidate directed pairs | 36,808 |
+| VL-SAT prediction rows | 957,008 |
+| Open3DSG recovery prediction rows | 695,916 |
+| ground-truth rows | 11,254 |
+| in-scope GT denominator | 3,972 |
 | predicate families | `support_contact`, `proximity`, `relative_vertical` |
 | frozen verifier policy | `point_subtype` |
 | frozen pooled calibrator | `artifacts/calibration/p_geom_valid_smoke/model.json` |
@@ -360,8 +311,14 @@ Current RQ6 boundary:
   schema, source-specific exact-label denominators, metric conditions, and
   control order. VL-SAT covers 967/967 attachment GT rows; Open3DSG covers
   768/967 and must report 199 missing exact-label GT rows as a caveat.
-- Next gate is optional G5d full-source scoring plus source metrics/controls if
-  the attachment expansion continues.
+- Docker G5d full-source scoring, source metrics, controls, and bootstrap CI are
+  complete under
+  `experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d/`
+  with status `attachment_deferred_g5d_full_source_metrics_ready`.
+  This remains appendix/preliminary extension evidence because it uses the older
+  H001 388/377-context scope, Open3DSG covers only 768/967 exact-label
+  attachment rows, `connected to` lacks dev strict rows, and post-G5d
+  failure/visual audit is not complete.
 - Adding `attachment_deferred` to the main AAAI claim requires explicit final
   user confirmation even after the remaining evidence gates pass.
 - Function reasoning should be evaluated only as a secondary pilot after
@@ -542,28 +499,24 @@ E6 optional modern-VLM semantic-source gate:
 
 - Qwen-VL is an additional trend-aligned third semantic-source track, not the
   VL-SAT controlled anchor or Open3DSG reproduction anchor;
-- current contract/cache status: frozen input JSON Schema, output JSONL
-  contract, Docker validator/parser skeleton, 30-row non-held-out tiny pilot
-  scope, and 30/30 rendered pair crops are ready under
-  `experiments/H001_geom_reliability/sources/qwen_vl/`; Qwen3-VL-4B model
-  cache verification, runtime preflight, 3-row tiny inference smoke, and
-  runtime raw-response validation are ready;
-- current full-source promotion plan status is
-  `full_source_promotion_plan_frozen_no_metric_run`; the frozen metric scope is
-  127 scans, 388 contexts, 25,916 directed pairs, up to 77,748 all-pairs x
-  family query rows, and 2,545 in-scope GT rows;
-- current full-source input status is
-  `full_source_input_ready_with_missing_rows_no_inference`; it has 33,384
-  inferable rows and 134 shards;
-- current full-source crop status is
-  `full_source_crop_preflight_ready_no_inference`; it verifies 11,128 unique
-  pair crops for the 33,384 inferable input rows and ran no Qwen inference;
-- current full-source inference runner status is
-  `full_source_inference_runner_frozen_no_inference`; shard 0000 status is
-  `complete_validated_non_metric`; remaining shard loop status is
-  `running_non_metric` in tmux `h001_qwen_vl_infer_remaining`, run id
-  `20260527_023111`, for `qwen_full_source_shard_0001` through
-  `qwen_full_source_shard_0133`;
+- contract/cache status: frozen input JSON Schema, output JSONL contract,
+  Docker validator/parser skeleton, 30-row non-held-out tiny pilot scope,
+  Qwen3-VL-4B model cache verification, runtime preflight, 3-row tiny
+  inference smoke, runtime raw-response validation, and historical full-source
+  route are ready under `experiments/H001_geom_reliability/sources/qwen_vl/`;
+- historical 127-scan full-source route is complete but remains non-main
+  extension/sanity evidence;
+- paper-facing full official validation route is complete through input audit,
+  crop preflight, 187/187 shard inference, parser validation, adapter export,
+  geometry join, metrics/controls, bootstrap CI, failure rows, and deterministic
+  qualitative case inspection;
+- current full-validation counts are 110,424 universe query rows, 46,506
+  inferable rows, 63,918 missing query rows, 187 shards, 35,131 exported
+  predictions, 32,236 in-scope predictions, and 3,972 H001-family GT rows;
+- current full-validation metrics are semantic_only R@50/R@100
+  `0.2815/0.3600`, probabilistic_recalibrated `0.3215/0.3653`,
+  rule_verified_point_subtype `0.3009/0.3630`, and family_specific control
+  `0.3379/0.3653`;
 - use the locked primary model `Qwen/Qwen3-VL-4B-Instruct` revision
   `ebb281ec70b05090aa6165b016eac8ec08e71b17` first, with local-dir
   `local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17`;
@@ -616,8 +569,11 @@ The preferred top-tier phase is ready only if, in addition:
   documented Docker commands;
 - Open3DSG failure-analysis rows are generated from the locked schema and
   taxonomy designed before metric inspection;
-- filtered-train, averaged-BLIP, covered-scope, residual calibration risk, and
-  `validation_missing_preprocessed:11` caveats are visible through `paper_caveats/`;
+- selected official non-avg checkpoint, filtered train/dev provenance,
+  full-validation exact-label denominator, 548/548 recovery policy, 533/548
+  unmodified-source-route sensitivity, appendix-only historical 127-scan
+  sensitivity, and residual calibration-risk caveats are visible in paper
+  setup/results/captions and experiment table-caveat artifacts;
 - cross-predictor claims are limited to measured predicate families.
 
 The optional modern-VLM phase is ready only if, in addition:

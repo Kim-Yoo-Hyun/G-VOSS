@@ -1,6 +1,6 @@
 # Second Source
 
-Last updated: 2026-05-19
+Last updated: 2026-06-12
 
 ## Role
 
@@ -52,8 +52,9 @@ Inference:
 
 - A second source is now available for measured H001-family reliability claims.
 - The remaining question is not whether Open3DSG evidence exists, but how
-  tightly to word the claim around denominator, averaged-BLIP, covered-scope,
-  and `validation_missing_preprocessed:11` caveats.
+  tightly to word the claim around denominator, selected official non-avg
+  checkpoint provenance, recovery-branch coverage, 533/548 covered-scope
+  sensitivity, and residual calibration risk.
 - Open3DSG satisfies the second-source requirement for a measured cross-source
   H001-family claim, but not for arbitrary-baseline transfer.
 - For a top-tier main paper target, keep using second-source evidence instead
@@ -121,14 +122,15 @@ adapter_geometry_metrics_failure_rows_ready
 Adapter facts:
 
 - selected checkpoint: `epoch=13-step=13104.ckpt`, chosen by train-dev
-  `val/loss` before H001 held-out inspection;
-- raw dump: `raw_dump/raw.jsonl`, 19,162 rows, identity-audited;
-- adapter export: 496,600 prediction rows, with 62 raw rows filtered outside
+  `val/loss` before H001 held-out inspection; this is the official non-avg
+  branch selected as Open3DSG checkpoint baseline.
+- raw dump: `raw_dump/raw.jsonl`, 26,938 rows, identity-audited;
+- adapter export: 695,916 prediction rows, with 172 raw rows filtered outside
   fixed H001 object context;
-- geometry join: 496,600/496,600 rows preserved, 114,600 geometry-checkable
+- geometry join: 695,916/695,916 rows preserved, 206,155 geometry-checkable
   rows scored;
 - metric eval: ready, Table 6 ready;
-- real failure rows: 57,736 rows, 0 validation errors, 6,162 visual-audit queue
+- real failure rows: 82,155 rows, 0 validation errors, 8,821 visual-audit queue
   rows, 36 qualitative case candidates, deterministic qualitative inspection
   with residual calibration-risk cases, and frozen paper caveat wording.
 
@@ -137,23 +139,24 @@ Runtime readiness:
 | Artifact | Status |
 | --- | --- |
 | H001 validation/test staged metadata/root | ready |
-| selected scan symlinks | 127 / 127 |
-| mesh/texture | 127 / 127 |
-| view pickles | 127 / 127 |
-| source-visible preprocessed pickles | 377 / 388 |
-| unique ready scans for preprocess | 126 / 127 |
+| selected scan symlinks | 157 / 157 |
+| mesh/texture | 157 / 157 |
+| view pickles | 157 / 157 |
+| source-visible preprocessed pickles | 548 / 548 |
+| unique ready scans for preprocess | 157 / 157 |
 | BLIP2 positional embedding | ready |
 | OpenSeg SavedModel | ready |
 | PointNet weights | ready |
 | PointNet2 weights | ready |
 | official BLIP TopK5/scales3 feature dump | 3900 / 3900 complete |
-| H001 held-out eval feature cache | 377 / 377 covered loadable ids |
-| trained Open3DSG checkpoint | ready, averaged-BLIP variant |
+| H001 held-out eval feature cache | 548 / 548 covered loadable ids |
+| trained Open3DSG checkpoint | ready, official non-avg BLIP variant |
 
 Current limitations:
 
 ```text
-filtered_train_split; averaged_blip_variant; covered_loadable_scope; validation_missing_preprocessed_11
+selected_official_non_avg_checkpoint; recovered_full_validation_548_548;
+covered_loadable_sensitivity_533_548; residual_calibration_risk
 ```
 
 Frozen caveat wording:
@@ -167,7 +170,7 @@ Superseded decision:
 ```text
 The earlier checkpoint-waiting branch is superseded because the top-tier target
 justified a Dockerized Open3DSG reproduction budget. That reproduction has now
-produced the avg-BLIP checkpoint and H001 metrics.
+produced the official non-avg checkpoint and full-validation H001 metrics.
 ```
 
 Current direction:

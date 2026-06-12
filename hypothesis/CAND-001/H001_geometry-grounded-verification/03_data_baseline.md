@@ -1,6 +1,6 @@
 # Data And Baseline
 
-Last updated: 2026-05-19
+Last updated: 2026-06-12
 
 ## Role
 
@@ -30,10 +30,10 @@ Local dataset facts:
 
 Split policy:
 
-- use official `3DSSG_subset` as the primary split and relation-subgraph source;
-- exclude H001-Mini reference/rescan groups from hardened validation;
-- keep calibration train/dev separate from held-out validation;
-- do not retune scan selection after prediction failures.
+- use the official `3DSSG_subset` validation split as the paper-facing scope and held-out contract;
+- H001-Mini remains hypothesis/feasibility-only evidence and is no longer part of the final paper metric scope;
+- keep calibration train/train-dev separate from held-out validation;
+- freeze scope, family mapping, and calibration policy before reading any held-out source-result metrics.
 
 ## Baseline
 
@@ -84,7 +84,7 @@ Policy:
 H001-Mini role:
 
 ```text
-smoke/pilot only, not final evidence
+hypothesis/feasibility smoke only, not final evidence
 ```
 
 Facts:
@@ -105,10 +105,11 @@ Fixed scope:
 
 | Item | Count |
 | --- | ---: |
-| selected scans | 127 |
-| subgraphs | 388 |
-| relations | 7,505 |
-| scan symlinks | 127 |
+| selected scans | 157 |
+| subgraphs / contexts | 548 |
+| GT rows | 11,254 |
+| in-scope H001-family GT rows | 3,972 |
+| scan symlinks | 157 |
 
 Selection:
 
@@ -151,11 +152,11 @@ The scoped experiment spec uses:
 
 | Item | Count |
 | --- | ---: |
-| held-out scans | 127 |
-| subgraphs | 388 |
-| prediction rows | 673,816 |
-| ground-truth rows | 7,505 |
-| in-scope prediction rows | 155,496 |
-| in-scope GT denominator | 2,545 |
+| held-out scans | 157 |
+| contexts | 548 |
+| candidate directed pairs | 36,808 |
+| raw prediction rows | 957,008 |
+| ground-truth rows | 11,254 |
+| in-scope GT denominator | 3,972 |
 
 These counts are acceptance checks for experiment entry.

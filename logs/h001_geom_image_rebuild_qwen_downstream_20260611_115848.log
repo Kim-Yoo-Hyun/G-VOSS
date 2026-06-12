@@ -1,0 +1,72 @@
+ Image h001-geom-reliability:latest Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 627B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile:
+#2 transferring dockerfile: 335B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11.9-slim-bookworm
+#3 ...
+
+#4 [auth] library/python:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11.9-slim-bookworm
+#3 DONE 1.1s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 2B done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 1.61MB 0.0s done
+#6 DONE 0.1s
+
+#7 [1/4] FROM docker.io/library/python:3.11.9-slim-bookworm@sha256:8fb099199b9f2d70342674bd9dbccd3ed03a258f26bbd1d556822c6dfc60c317
+#7 resolve docker.io/library/python:3.11.9-slim-bookworm@sha256:8fb099199b9f2d70342674bd9dbccd3ed03a258f26bbd1d556822c6dfc60c317 0.1s done
+#7 DONE 0.1s
+
+#8 [2/4] WORKDIR /workspace
+#8 DONE 0.1s
+
+#9 [3/4] RUN pip install --no-cache-dir numpy==1.26.4 pillow==10.4.0
+#9 1.096 Collecting numpy==1.26.4
+#9 1.125   Downloading numpy-1.26.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (61 kB)
+#9 1.135      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 61.0/61.0 kB 6.0 MB/s eta 0:00:00
+#9 1.248 Collecting pillow==10.4.0
+#9 1.254   Downloading pillow-10.4.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (9.2 kB)
+#9 1.269 Downloading numpy-1.26.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (18.3 MB)
+#9 2.519    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 18.3/18.3 MB 13.1 MB/s eta 0:00:00
+#9 2.524 Downloading pillow-10.4.0-cp311-cp311-manylinux_2_28_x86_64.whl (4.5 MB)
+#9 2.758    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.5/4.5 MB 19.5 MB/s eta 0:00:00
+#9 2.805 Installing collected packages: pillow, numpy
+#9 3.805 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#9 3.805 Successfully installed numpy-1.26.4 pillow-10.4.0
+#9 3.862 
+#9 3.862 [notice] A new release of pip is available: 24.0 -> 26.1.2
+#9 3.862 [notice] To update, run: pip install --upgrade pip
+#9 DONE 4.0s
+
+#10 [4/4] COPY experiments/H001_geom_reliability/scripts/ /opt/h001/scripts/
+#10 DONE 0.1s
+
+#11 exporting to image
+#11 exporting layers
+#11 exporting layers 2.4s done
+#11 exporting manifest sha256:81cd2b39238c9fa21c046f8997268b40a38b81c6a3e1e27253e4c1e8c0fa4e6e 0.0s done
+#11 exporting config sha256:0afa3a76f2ed5629a08eb3d64735cbb05df9c1127e4fa71cd7b320358bf845c1 0.0s done
+#11 exporting attestation manifest sha256:a7beb8fa93853a94adb963f99d329a02059a21d84ccf76b292a1089a5f4e6fe9
+#11 exporting attestation manifest sha256:a7beb8fa93853a94adb963f99d329a02059a21d84ccf76b292a1089a5f4e6fe9 0.1s done
+#11 exporting manifest list sha256:12b682770061e0feeea9384ec2674db303e2d38a1ff1754792d0af2e85bd838b 0.0s done
+#11 naming to docker.io/library/h001-geom-reliability:latest
+#11 naming to docker.io/library/h001-geom-reliability:latest done
+#11 unpacking to docker.io/library/h001-geom-reliability:latest
+#11 unpacking to docker.io/library/h001-geom-reliability:latest 0.4s done
+#11 DONE 3.0s
+
+#12 resolving provenance for metadata file
+#12 DONE 0.0s
+ Image h001-geom-reliability:latest Built 

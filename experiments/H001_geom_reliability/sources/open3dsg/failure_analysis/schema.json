@@ -295,7 +295,8 @@
     "record_type": {
       "enum": [
         "open3dsg_failure_analysis",
-        "vlsat_failure_analysis"
+        "vlsat_failure_analysis",
+        "qwen_vl_failure_analysis"
       ],
       "type": "string"
     },
@@ -357,7 +358,8 @@
         "baseline_name": {
           "enum": [
             "open3dsg_ov",
-            "vlsat_closed_set"
+            "vlsat_closed_set",
+            "qwen_vl_semantic_source"
           ],
           "type": "string"
         },

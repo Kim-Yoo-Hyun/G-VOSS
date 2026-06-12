@@ -14,10 +14,14 @@ scope-boundary evidence rather than hidden negative results.
 
 Open3DSG uses the selected official non-averaged checkpoint but is not a
 leaderboard reproduction. The paper-facing result uses a documented recovery
-branch to cover 548/548 contexts, while the 533/548 full-validation branch and
-historical 377/388 vs R2 388/388 comparison remain sensitivity evidence. These
-choices preserve the scoped within-source comparison but block broad Open3DSG
-SOTA or arbitrary-source generality claims.
+branch to cover 548/548 contexts, while the 533/548 full-validation branch
+follows the unmodified Open3DSG source preprocessing pipeline and remains
+sensitivity evidence, as does the historical 377/388 vs R2 388/388 comparison.
+These choices preserve the scoped within-source comparison but block broad
+Open3DSG SOTA or arbitrary-source generality claims.
+The recovery branch should therefore be read as transparent coverage recovery,
+not as evidence that the unmodified Open3DSG preprocessing pipeline handles the
+entire validation split.
 
 The visual sanity check and qualitative case inspection are reviewer-defense and
 failure-mechanism evidence, not large-scale independent human audits. The

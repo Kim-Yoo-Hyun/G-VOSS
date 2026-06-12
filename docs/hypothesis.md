@@ -1,6 +1,6 @@
 # Hypothesis Workflow
 
-Last updated: 2026-05-27
+Last updated: 2026-06-12
 
 이 문서는 연구 후보를 검증 가능한 hypothesis로 바꾸는 에이전트 workflow와 작성 규칙을 정의한다. 실제 hypothesis 내용은 루트의 `hypothesis/` 폴더에 저장한다.
 
@@ -218,4 +218,4 @@ Hypothesis 문서를 갱신한 에이전트는 아래를 함께 확인한다.
 
 - Candidate: `CAND-001`
 - Hypothesis: `H001 Geometry-grounded verification of open-vocabulary 3DSSG relations`
-- Status: H001 hypothesis-stage evidence, scoped main experiment spec, Docker `VL-SAT` table/report reproduction, Docker-reproduced Open3DSG second-source metrics, clean v14 Open3DSG streaming raw-dump provenance, Open3DSG qualitative case inspection, Open3DSG paper caveat wording, Qwen-VL third-source promotion protocol, Qwen-VL full-source input/crop preflight, Qwen-VL runner plan, and Qwen shards 0000-0013 are complete; active notes are consolidated into `01_overview.md` through `07_experiment_spec.md`; active experiment root is `experiments/H001_geom_reliability/`; current gate is paper polish or Qwen resume from `qwen_full_source_shard_0014` when GPU guard is acceptable.
+- Status: H001 hypothesis-stage evidence, scoped main experiment spec, Docker `VL-SAT` table/report reproduction, Docker-reproduced Open3DSG second-source metrics, clean v14 Open3DSG streaming raw-dump provenance, Open3DSG qualitative case inspection, Open3DSG paper caveat wording, and Qwen-VL third-source full-source inference/downstream validation are complete; active notes are consolidated into `01_overview.md` through `07_experiment_spec.md`; active experiment root is `experiments/H001_geom_reliability/`; current gate is paper polish, artifact-release hygiene, or an explicit decision on whether Qwen should remain optional appendix evidence or be promoted beyond third-source extension.

@@ -1,14 +1,14 @@
 # H001 First-Pass Manuscript Draft
 
-Last updated: 2026-05-25 KST
+Last updated: 2026-06-12 KST
 
-Status: `first_pass_body_budget_reviewed_iccv_source_converted`
+Status: `first_pass_body_budget_reviewed_aaai_source_aligned`
 
 This is a first-pass manuscript prose draft derived from `paper/outline.md`.
 It is not camera-ready text. The purpose is to make the paper-body logic
 readable end to end before final caption compression or final
-bibliography/build verification. The first ICCV-style LaTeX source conversion
-now lives under `paper/iccv/`.
+bibliography/build verification. The current manuscript route is AAAI,
+and the first ICCV-style LaTeX conversion remains archived under `paper/iccv/`.
 
 Related Work citation placeholders have been replaced with BibTeX-style keys.
 The 2026-05-23 literature pass keeps recent open-world/VLM graph and
@@ -56,18 +56,19 @@ geometry-checkable relation families. The framework standardizes prediction
 rows across relation sources, preserves subject-object identity, joins explicit
 3D evidence, estimates a calibrated geometry-validity score `p_geom_valid`, and
 reports probabilistic, rule-verified, and family-specific operating points
-under a recall-violation protocol. On the reproduced VL-SAT source,
-probabilistic re-ranking improves R@50/R@100 from 0.9599/0.9894 to
-0.9642/0.9921 while reducing Violation@100 from 0.0469 to 0.0391; the
-family-specific operating point further reduces Violation@100 to 0.0310. GT
+under a recall-violation protocol. On the full official validation VL-SAT
+source, probabilistic re-ranking improves R@50/R@100 from 0.9272/0.9635 to
+0.9305/0.9688 while reducing Violation@100 from 0.0476 to 0.0404; the
+family-specific operating point further reduces Violation@100 to 0.0333. GT
 positive/counterfactual checks separate valid and invalid geometry with
-AUROC/AUPRC of 0.9779/0.9737, and controls rule out geometry-only,
+AUROC/AUPRC of 0.9772/0.9729, and controls rule out geometry-only,
 distance-only, shuffled-geometry, and wrong-pair explanations. On Open3DSG, a
-Docker-reproduced averaged-BLIP variant provides second-source evidence that
-geometry-consistency reduces violations under explicit recall tradeoffs. These
-results support a scoped relation-reliability claim for measured
-geometry-checkable 3D Scene Graph relations, not a broad open-vocabulary graph
-generation claim.
+Docker-reproduced full-validation branch with a selected official non-avg BLIP
+checkpoint provides second-source evidence that geometry-consistency reduces
+violations under explicit recall tradeoffs, with a disclosed recovery-policy
+preprocess/view caveat. These results support a scoped relation-reliability
+claim for measured geometry-checkable 3D Scene Graph relations, not a broad
+open-vocabulary graph generation claim.
 
 ## 1. Introduction
 
@@ -197,9 +198,10 @@ method. We use VL-SAT as the primary reproduced relation source and Open3DSG as
 second-source evidence within measured geometry-checkable relation families.
 The claim is scoped to relation reliability for `support_contact`, `proximity`,
 and `relative_vertical`, not to general open-vocabulary graph generation.
-Qwen-VL remains a third semantic source / modern VLM extension unless it
-receives the same Docker, denominator, metric, bootstrap, and audit treatment
-as the main evidence.
+Qwen-VL remains a third semantic source / modern VLM extension in the appendix
+for the current AAAI route. Even with completed full-validation Docker
+downstream metrics, it is not used as main evidence because it is a crop-based
+semantic source with lower recall than VL-SAT/Open3DSG.
 
 ### 2.3 Geometry-Aware Relation Reasoning And Semantic-Geometric Fusion
 
@@ -391,22 +393,26 @@ design rather than a generic "add geometry" explanation.
 
 This section fixes the experimental scope before reporting results, because
 H001's claim depends on denominator transparency as much as on metric values.
-The primary source is the reproduced VL-SAT closed-set relation prediction
-setting on the fixed H001 held-out scope. The scope contains 127 scans, 388
-subgraphs, 25,916 directed pairs, 673,816 prediction rows, 7,505 ground-truth
-rows, and 2,545 in-scope GT relation instances across the measured
-geometry-checkable families. These counts are the fixed denominator for the
-VL-SAT result in Table 1 and the claim-boundary accounting in Table 5.
+The paper-facing primary route uses the full official `3DSSG_subset`
+validation split: 157 scans, 548 contexts, 36,808 candidate directed pairs,
+957,008 expected VL-SAT prediction rows, 11,254 ground-truth rows, and 3,972
+in-scope GT relation instances across the measured geometry-checkable
+families. These counts are the fixed denominator for the VL-SAT result in Table
+1, the GT verifier evaluation in Table 3, and the claim-boundary accounting in
+Table 5.
 
 Open3DSG provides second-source evidence within the same H001-family metric
-scope. The Open3DSG result is reported as a Docker-reproduced averaged-BLIP
-variant. The selected checkpoint is `epoch=13-step=13104.ckpt`, chosen by
-train-dev validation loss before H001 held-out inspection. The Open3DSG runtime
-uses a filtered preprocessed-ready train split of 3,744/3,852 subgraphs, a
-train-dev validation split of 156/160 subgraphs, and an H001 covered loadable
-evaluation scope of 377/388 contexts with `validation_missing_preprocessed:11`
-reported as a caveat. These caveats must remain visible in Table 6 and in the
-main text wherever Open3DSG is used as second-source evidence.
+scope. The paper-facing Open3DSG route uses a selected official non-avg BLIP
+checkpoint, chosen by train-dev validation loss before H001 held-out source
+inspection, and reports the full-validation `recovery_relaxed_views_min2`
+branch as the primary 548/548 Open3DSG result. The branch discloses a recovery
+policy: the Open3DSG source preprocess gate is relaxed to
+`OPEN3DSG_MIN_VISIBLE_OBJECTS=2`, and relaxed views are regenerated for two
+scans. The unmodified Open3DSG source preprocessing route covers 533/548
+contexts and remains a sensitivity check, not the main full-denominator row.
+Historical 127-scan averaged-BLIP results are appendix/sensitivity evidence
+only. The policy, calibration, and family scope were fixed from
+train/train-dev artifacts and are not retuned from full-validation outcomes.
 
 All paper-body experiment results are generated through Docker under
 `experiments/H001_geom_reliability/`. The paper reports exact-label `R@50` and
@@ -421,23 +427,23 @@ The central question is whether calibrated geometry consistency reduces
 physically inconsistent relation predictions without collapsing recall. Figure
 2 visualizes the main recall-violation operating points, and Table 1 gives the
 corresponding VL-SAT values. The reproduced `semantic_only` ranking reaches
-R@50/R@100 of 0.9599/0.9894 with Violation@50/@100 of 0.0247/0.0469. The main
-`probabilistic_recalibrated` setting improves R@50/R@100 to 0.9642/0.9921 and
-reduces Violation@100 to 0.0391. This supports the intended recall-first use
+R@50/R@100 of 0.9272/0.9635 with Violation@50/@100 of 0.0268/0.0476. The main
+`probabilistic_recalibrated` setting improves R@50/R@100 to 0.9305/0.9688 and
+reduces Violation@100 to 0.0404. This supports the intended recall-first use
 case: calibrated geometry validity can reduce violations while preserving, and
 slightly improving, exact-label recall.
 
 The stricter `family_specific_p_geom_valid` setting reaches R@50/R@100 of
-0.9619/0.9914 and Violation@50/@100 of 0.0204/0.0310. This provides a stronger
+0.9288/0.9683 and Violation@50/@100 of 0.0206/0.0333. This provides a stronger
 violation-first operating point. The `rule_verified_point_subtype` setting
-achieves zero measured violations while keeping R@50/R@100 at 0.9587/0.9890,
+achieves zero measured violations while keeping R@50/R@100 at 0.9257/0.9627,
 but we treat it as a diagnostic rather than the default method because hard
 filtering exposes one end of the reliability-recall tradeoff.
 
 Table 2 reports the nontriviality controls. They show that the effect is not explained by geometry
 alone or by a generic distance prior. Geometry-only ranking falls to R@50/R@100
-of 0.2028/0.5049 and has higher violations than the main calibrated setting.
-Distance-only ranking also underperforms, reaching R@50/R@100 of 0.3835/0.5642.
+of 0.2110/0.5184 and has higher violations than the main calibrated setting.
+Distance-only ranking also underperforms, reaching R@50/R@100 of 0.3746/0.5554.
 Shuffled geometry and wrong-pair geometry preserve more of the source signal but
 still degrade both recall and violation behavior relative to calibrated
 identity-preserving joins. These controls support the design requirement that
@@ -445,10 +451,10 @@ geometry evidence must be joined to the correct object pair and calibrated as a
 relation-level reliability signal.
 
 Table 3 tests the geometry signal independently from
-prediction re-ranking. GT-positive rows remain nonviolated at a rate of 0.9972,
-while GT-derived counterfactual negatives are nonsatisfied at a rate of 0.9694.
+prediction re-ranking. GT-positive rows remain nonviolated at a rate of 0.9965,
+while GT-derived counterfactual negatives are nonsatisfied at a rate of 0.9673.
 The calibrated `p_geom_valid` score separates these groups with AUROC/AUPRC of
-0.9779/0.9737 and Brier score 0.0538. This supports the use of `p_geom_valid`
+0.9772/0.9729 and Brier score 0.0543. This supports the use of `p_geom_valid`
 as a reliability signal while still leaving room for residual calibration risk.
 
 Table 4 reports audit and visual sanity checks as supporting evidence rather
@@ -461,14 +467,15 @@ large-scale independent human audit.
 
 Table 6 reports Open3DSG as second-source evidence rather than a broad open-vocabulary
 SOTA claim. Under the measured H001-family scope, Open3DSG `semantic_only`
-ranking reaches R@50/R@100 of 0.3945/0.4963 with Violation@50/@100 of
-0.1326/0.1195. The `probabilistic_recalibrated` setting reduces violations to
-0.0575/0.0803 while shifting recall to 0.3843/0.5580. The rule-verified setting
+ranking reaches R@50/R@100 of 0.4096/0.5161 with Violation@50/@100 of
+0.1386/0.1242. The `probabilistic_recalibrated` setting reduces violations to
+0.0606/0.0811 while shifting recall to 0.3975/0.5723. The rule-verified setting
 again gives a zero-violation diagnostic, and the family-specific setting reaches
-R@50/R@100 of 0.4530/0.5984 with Violation@50/@100 of 0.0228/0.0311. These
+R@50/R@100 of 0.4658/0.6047 with Violation@50/@100 of 0.0286/0.0341. These
 results support a cross-source relation-reliability claim within measured H001
-families, with the averaged-BLIP, filtered-split, covered-scope, exact-label
-denominator, and residual-calibration caveats kept explicit.
+families, with the selected-checkpoint, filtered train/dev, full-validation
+exact-label denominator, recovery-policy, 533/548 unmodified-route sensitivity,
+and residual-calibration caveats kept explicit.
 
 The qualitative failure analysis explains why the metric changes occur and
 provides candidate source rows for Figure 3. Open3DSG failure rows produce
@@ -483,7 +490,7 @@ semantically plausible from object categories but physically inconsistent for
 the actual object pair.
 
 The same qualitative analysis also exposes a limitation. Ten of the 36 sampled
-rule-violated cases still have `p_geom_valid > 0.9`. This means the calibrated
+rule-violated cases still have high `p_geom_valid`. This means the calibrated
 score should not be interpreted as a hard validity label. It also justifies why
 the paper reports probabilistic, rule-verified, and family-specific variants
 separately rather than collapsing them into a single "geometry-corrected"
@@ -498,13 +505,15 @@ The evaluation also uses closed-set/GT-object relation rows and exact
 predicate-label recall, so the results should be read as relation-reliability
 evidence rather than full open-vocabulary scene graph generation performance.
 
-The Open3DSG experiment is a reproduced averaged-BLIP variant with explicit
-filtering and coverage caveats. The checkpoint is selected by train-dev
-validation loss before H001 held-out inspection, the training and validation
-splits are filtered to preprocessed-ready subgraphs, and H001 evaluation covers
-the loadable Open3DSG scope. These choices do not invalidate the scoped
-reliability result, but they prevent claims of exact non-averaged Open3DSG
-reproduction or broad open-vocabulary SOTA.
+The Open3DSG experiment uses a reproduced selected official non-avg BLIP
+checkpoint with explicit filtering and recovery caveats. The checkpoint is
+selected by train-dev validation loss before H001 held-out inspection, the
+training and validation splits are filtered to preprocessed-ready subgraphs,
+and the main full-validation Open3DSG route uses a recovery-policy branch to
+cover 548/548 contexts. These choices do not invalidate the scoped reliability
+result, but they prevent Open3DSG leaderboard, exact-source-reproduction, or
+broad open-vocabulary SOTA claims. The unmodified 533/548 full-validation
+branch and historical 127-scan branches are kept as sensitivity evidence.
 
 The visual and qualitative evidence should also be read with the correct scope.
 The reduced visual sanity check and Open3DSG qualitative case inspection are
@@ -532,7 +541,7 @@ standardizes relation rows, preserves subject-object identity, joins explicit
 3D evidence, estimates `p_geom_valid`, and reports recall and geometric
 violation together.
 
-Across VL-SAT and a Docker-reproduced Open3DSG averaged-BLIP variant, the
+Across VL-SAT and a Docker-reproduced Open3DSG full-validation branch, the
 results show that geometry-consistency can reduce violations under measurable
 recall tradeoffs. The GT-positive/counterfactual verifier checks, geometry
 identity controls, and qualitative failure analysis support the central claim:
@@ -545,7 +554,7 @@ reasoning.
 
 ## Draft TODO
 
-- Run an ICCV-style compression pass after the table/figure layout is placed in
+- Run an AAAI-style compression pass after the table/figure layout is placed in
   a manuscript source; prioritize Results/Table 6 wording and Related Work.
 - Convert the current Markdown draft into a section-by-section manuscript
   source only after the paper-body prose is stable.
@@ -557,7 +566,7 @@ reasoning.
 
 Reviewed on: 2026-05-23 KST
 
-ICCV-style content status:
+AAAI-style content status:
 
 - Manuscript prose from Title through Conclusion is about 3,507 words before
   final compression and before LaTeX/table/figure layout.
@@ -596,17 +605,17 @@ Review result:
 | item | status | decision |
 | --- | --- | --- |
 | Claim scope | pass | The draft stays within measured geometry-checkable relation reliability and does not claim broad open-vocabulary 3DSSG generation improvement. |
-| Title/Abstract/Introduction | filled and reviewed | The draft now includes a scoped title, quantitative abstract, and Introduction that links failure mechanism to method necessity before Related Work. Current front matter is about 701 words excluding title, with a 201-word abstract and 500-word Introduction, which is acceptable for an ICCV-style content draft before final compression. |
+| Title/Abstract/Introduction | filled and reviewed | The draft now includes a scoped title, quantitative abstract, and Introduction that links failure mechanism to method necessity before Related Work. Current front matter is about 701 words excluding title, with a 201-word abstract and 500-word Introduction, which is acceptable for the AAAI-style content draft before final compression. |
 | Paper-body gap review | patched | Added Figure 1-3 callouts, Table 4 audit/sanity prose, and a Conclusion section before LaTeX/template conversion. |
 | Method framing | pass | The method is described as a calibrated geometry-consistency evaluation and re-ranking framework, not as a standalone verifier script. |
-| Open3DSG caveats | pass | The averaged-BLIP variant, filtered train/dev split, covered loadable scope, `validation_missing_preprocessed:11`, exact-label denominator, and residual calibration risk remain explicit. |
+| Open3DSG caveats | pass | The recovery-policy source branch (min_visible=2 with two relaxed scans), unmodified 533/548 sensitivity branch, exact-label denominator, and residual calibration risk remain explicit. |
 | Appendix provenance | pass | `paper/appendix.md` records calibrator/threshold provenance, Open3DSG caveat consistency, Figure 3 optionality, and Qwen-VL third-source boundary. |
-| Qwen-VL boundary | pass | Qwen-VL remains third-source extension evidence and is not used as a main metric result before full-source promotion. |
-| Citation keys | scaffolded | Related Work placeholders have been replaced with BibTeX-style keys; `paper/references.bib` contains draft entries for all inserted keys. Final ICCV-style build still needs verification once a manuscript source exists. |
+| Qwen-VL boundary | pass | Qwen-VL remains third-source extension evidence and is not used as a main metric result in the current AAAI route. |
+| Citation keys | scaffolded | Related Work placeholders have been replaced with BibTeX-style keys; `paper/references.bib` contains draft entries for all inserted keys. Final AAAI-style build still needs verification once the manuscript source is finalized. |
 | Evidence links | patched | Results prose now points to Table 1, Table 2, Table 3, Table 5, and Table 6. |
 | Figure readiness | generated and verified | Draft SVGs are generated under `paper/generated/figures/`; Figure 3 also has a geometry-backed point-cloud panel upgrade with validation passed. |
-| Section structure | locked | Keep Section 5 as a short standalone `Experimental Setup` section. Do not merge it into Results because denominator, filtered-split, covered-scope, and Docker-result boundaries are part of the reviewer defense. |
-| Section title | standardized | Top-tier CV/CVPR/ICCV-style papers typically use section labels such as `Experiments`, `Experimental Setup`, `Evaluation Setup`, `Datasets`, `Evaluation Metrics`, and `Implementation Details`. H001 therefore keeps scope/denominator caveats in the text but uses the standard heading `Experimental Setup`. |
+| Section structure | locked | Keep Section 5 as a short standalone `Experimental Setup` section. Do not merge it into Results because denominator, filtered train/dev provenance, Open3DSG recovery-policy, sensitivity-branch, and Docker-result boundaries are part of the reviewer defense. |
+| Section title | standardized | Top-tier CV/AI papers typically use section labels such as `Experiments`, `Experimental Setup`, `Evaluation Setup`, `Datasets`, `Evaluation Metrics`, and `Implementation Details`. H001 therefore keeps scope/denominator caveats in the text but uses the standard heading `Experimental Setup`. |
 | Budget/table placement | reviewed | Manuscript prose is about 3,507 words from Title through Conclusion before compression. Recommended main tables are Table 1, compact Table 2, compact Table 3 if space allows, and Table 6; Table 4 and full Table 5 should move to appendix/prose if page budget is tight. |
 
 Evidence map:

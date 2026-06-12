@@ -1,0 +1,650 @@
+{
+  "claim_boundary": "qualitative reviewer-defense artifact only; not a new metric, not a visual audit, and not evidence beyond measured H001-family scope",
+  "counts": {
+    "by_category": {
+      "geometry_contradiction": 10,
+      "semantic_and_geometry_failure": 26
+    },
+    "by_family": {
+      "proximity": 4,
+      "relative_vertical": 23,
+      "support_contact": 9
+    },
+    "by_gt_match_status": {
+      "no_gt_for_pair": 26,
+      "pair_has_other_predicate": 10
+    },
+    "by_reason_code": {
+      "far_in_normalized_xy": 4,
+      "horizontal_plane_found": 7,
+      "plane_gap_large": 7,
+      "point_subtype_delegated_to_obb_for_family": 27,
+      "positive_float_gap_large": 2,
+      "subtype_rigid_object_on_furniture": 7,
+      "subtype_soft_support_contact": 2,
+      "vertical_order_contradicts_predicate": 23
+    },
+    "by_topk_transition": {
+      "demoted_out_of_top100": 5,
+      "demoted_out_of_top50": 19,
+      "promoted_into_top100": 3,
+      "promoted_into_top50": 4,
+      "stayed_in_topk": 5
+    },
+    "demoted_by_geometry": 27,
+    "geometry_rank_max": 153,
+    "geometry_rank_min": 9,
+    "p_geom_valid_max": 0.999844525127203,
+    "p_geom_valid_min": 3.223973735982949e-05,
+    "promoted_or_retained_by_geometry": 9,
+    "selected_cases": 36,
+    "semantic_rank_max": 146,
+    "semantic_rank_min": 1,
+    "violated_with_p_geom_valid_gt_0_9": 7
+  },
+  "created_at": "2026-06-11T03:01:14.089444+00:00",
+  "inputs": {
+    "queue_jsonl": "experiments/H001_geom_reliability/sources/qwen_vl/failure_cases/queue.jsonl",
+    "sample_manifest_json": "experiments/H001_geom_reliability/sources/qwen_vl/failure_cases/manifest.json"
+  },
+  "observations": [
+    {
+      "evidence": "27 of 36 selected cases are demoted by geometry-aware reranking. Several have semantic top-50 ranks but low p_geom_valid or explicit geometry reason codes.",
+      "name": "semantic_plausibility_can_conflict_with_geometry"
+    },
+    {
+      "evidence": "proximity failures concentrate in far_in_normalized_xy; relative_vertical failures concentrate in vertical_order_contradicts_predicate; support_contact failures expose float-gap or support-plane contradictions.",
+      "name": "failure_is_family_structured"
+    },
+    {
+      "evidence": "9 selected cases are promoted or retained by geometry-aware ranking. These are useful for explaining why the paper must report recall and violation jointly.",
+      "name": "reranking_has_recall_tradeoff_cases"
+    },
+    {
+      "evidence": "7 selected cases are rule-violated but have p_geom_valid > 0.9. These residual cases justify reporting rule-verified, probabilistic, and family-specific variants separately.",
+      "name": "calibration_is_not_equivalent_to_hard_rule_validity"
+    },
+    {
+      "evidence": "The queue is deterministic diagnostic evidence from prediction/GT/geometry joins. It should guide figure selection and failure narratives, not be reported as a representative visual audit.",
+      "name": "qualitative_queue_is_not_a_human_audit"
+    }
+  ],
+  "outputs": {
+    "inspection_json": "experiments/H001_geom_reliability/sources/qwen_vl/failure_cases/inspection.json",
+    "inspection_md": "experiments/H001_geom_reliability/sources/qwen_vl/failure_cases/inspection.md"
+  },
+  "paper_use": {
+    "allowed": [
+      "Use as qualitative failure-mechanism examples tied to Table 6 and the locked taxonomy.",
+      "Use demoted cases to show semantically plausible but physically inconsistent relations.",
+      "Use promoted or retained cases to explain recall/violation tradeoffs.",
+      "Use high-p but rule-violated cases to disclose residual calibration risk.",
+      "Use family-specific reason codes to justify family-specific controls and denominator reporting."
+    ],
+    "not_allowed": [
+      "Do not report the 36-case queue as a representative human audit.",
+      "Do not change the locked taxonomy based on this inspection without a schema version bump.",
+      "Do not claim broad open-vocabulary 3DSSG improvement from these qualitative cases alone."
+    ]
+  },
+  "representative_cases": {
+    "family_mechanism_examples": [
+      {
+        "case_id": "qwen_vl_case_001",
+        "category": "geometry_contradiction",
+        "delta_rank": 69,
+        "family": "proximity",
+        "geometry_rank": 91,
+        "gt_match_status": "pair_has_other_predicate",
+        "matched_predicates": [
+          "right",
+          "front"
+        ],
+        "p_geom_valid": 0.26907015942557216,
+        "pair": "vase -> bread",
+        "predicate": "close by",
+        "reason_codes": [
+          "far_in_normalized_xy",
+          "point_subtype_delegated_to_obb_for_family"
+        ],
+        "semantic_rank": 22,
+        "topk_transition": "demoted_out_of_top50"
+      },
+      {
+        "case_id": "qwen_vl_case_011",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": 54,
+        "family": "proximity",
+        "geometry_rank": 66,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.036894718476940716,
+        "pair": "socket -> pack",
+        "predicate": "close by",
+        "reason_codes": [
+          "far_in_normalized_xy",
+          "point_subtype_delegated_to_obb_for_family"
+        ],
+        "semantic_rank": 12,
+        "topk_transition": "demoted_out_of_top50"
+      },
+      {
+        "case_id": "qwen_vl_case_014",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": 151,
+        "family": "relative_vertical",
+        "geometry_rank": 153,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.043807668350582654,
+        "pair": "floor -> wall",
+        "predicate": "higher than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 2,
+        "topk_transition": "demoted_out_of_top50"
+      },
+      {
+        "case_id": "qwen_vl_case_024",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": 128,
+        "family": "relative_vertical",
+        "geometry_rank": 132,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.01689610740534693,
+        "pair": "floor -> wall",
+        "predicate": "higher than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 4,
+        "topk_transition": "demoted_out_of_top50"
+      },
+      {
+        "case_id": "qwen_vl_case_019",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": 123,
+        "family": "support_contact",
+        "geometry_rank": 127,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.04783326565133236,
+        "pair": "floor -> wall",
+        "predicate": "supported by",
+        "reason_codes": [
+          "horizontal_plane_found",
+          "plane_gap_large",
+          "subtype_rigid_object_on_furniture"
+        ],
+        "semantic_rank": 4,
+        "topk_transition": "demoted_out_of_top50"
+      },
+      {
+        "case_id": "qwen_vl_case_020",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": 82,
+        "family": "support_contact",
+        "geometry_rank": 142,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.00394539221401899,
+        "pair": "box -> window",
+        "predicate": "supported by",
+        "reason_codes": [
+          "horizontal_plane_found",
+          "plane_gap_large",
+          "subtype_rigid_object_on_furniture"
+        ],
+        "semantic_rank": 60,
+        "topk_transition": "demoted_out_of_top100"
+      }
+    ],
+    "geometry_promoted_or_retained_tradeoff": [
+      {
+        "case_id": "qwen_vl_case_004",
+        "category": "geometry_contradiction",
+        "delta_rank": -97,
+        "family": "relative_vertical",
+        "geometry_rank": 21,
+        "gt_match_status": "pair_has_other_predicate",
+        "matched_predicates": [
+          "hanging in"
+        ],
+        "p_geom_valid": 0.9983232262656139,
+        "pair": "towel -> shower",
+        "predicate": "lower than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 118,
+        "topk_transition": "promoted_into_top50"
+      },
+      {
+        "case_id": "qwen_vl_case_016",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": -81,
+        "family": "relative_vertical",
+        "geometry_rank": 12,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.9978698221016397,
+        "pair": "pillow -> floor",
+        "predicate": "lower than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 93,
+        "topk_transition": "promoted_into_top50"
+      },
+      {
+        "case_id": "qwen_vl_case_005",
+        "category": "geometry_contradiction",
+        "delta_rank": -77,
+        "family": "relative_vertical",
+        "geometry_rank": 69,
+        "gt_match_status": "pair_has_other_predicate",
+        "matched_predicates": [
+          "standing on"
+        ],
+        "p_geom_valid": 0.999844525127203,
+        "pair": "heater -> floor",
+        "predicate": "lower than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 146,
+        "topk_transition": "promoted_into_top100"
+      },
+      {
+        "case_id": "qwen_vl_case_021",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": -77,
+        "family": "support_contact",
+        "geometry_rank": 9,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.9987941196773853,
+        "pair": "pillow -> floor",
+        "predicate": "supported by",
+        "reason_codes": [
+          "positive_float_gap_large",
+          "subtype_soft_support_contact"
+        ],
+        "semantic_rank": 86,
+        "topk_transition": "promoted_into_top50"
+      },
+      {
+        "case_id": "qwen_vl_case_017",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": -65,
+        "family": "relative_vertical",
+        "geometry_rank": 64,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.8710802541338937,
+        "pair": "tv -> wall",
+        "predicate": "higher than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 129,
+        "topk_transition": "promoted_into_top100"
+      },
+      {
+        "case_id": "qwen_vl_case_022",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": -57,
+        "family": "support_contact",
+        "geometry_rank": 67,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.9717936091610574,
+        "pair": "pillow -> floor",
+        "predicate": "supported by",
+        "reason_codes": [
+          "positive_float_gap_large",
+          "subtype_soft_support_contact"
+        ],
+        "semantic_rank": 124,
+        "topk_transition": "promoted_into_top100"
+      },
+      {
+        "case_id": "qwen_vl_case_006",
+        "category": "geometry_contradiction",
+        "delta_rank": -45,
+        "family": "relative_vertical",
+        "geometry_rank": 51,
+        "gt_match_status": "pair_has_other_predicate",
+        "matched_predicates": [
+          "connected to"
+        ],
+        "p_geom_valid": 0.9096255706575412,
+        "pair": "heater -> wall",
+        "predicate": "higher than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 96,
+        "topk_transition": "stayed_in_topk"
+      },
+      {
+        "case_id": "qwen_vl_case_010",
+        "category": "geometry_contradiction",
+        "delta_rank": -34,
+        "family": "support_contact",
+        "geometry_rank": 57,
+        "gt_match_status": "pair_has_other_predicate",
+        "matched_predicates": [
+          "attached to"
+        ],
+        "p_geom_valid": 0.8021482613643838,
+        "pair": "ceiling -> wall",
+        "predicate": "supported by",
+        "reason_codes": [
+          "horizontal_plane_found",
+          "plane_gap_large",
+          "subtype_rigid_object_on_furniture"
+        ],
+        "semantic_rank": 91,
+        "topk_transition": "stayed_in_topk"
+      }
+    ],
+    "residual_calibration_risk": [
+      {
+        "case_id": "qwen_vl_case_005",
+        "category": "geometry_contradiction",
+        "delta_rank": -77,
+        "family": "relative_vertical",
+        "geometry_rank": 69,
+        "gt_match_status": "pair_has_other_predicate",
+        "matched_predicates": [
+          "standing on"
+        ],
+        "p_geom_valid": 0.999844525127203,
+        "pair": "heater -> floor",
+        "predicate": "lower than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 146,
+        "topk_transition": "promoted_into_top100"
+      },
+      {
+        "case_id": "qwen_vl_case_021",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": -77,
+        "family": "support_contact",
+        "geometry_rank": 9,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.9987941196773853,
+        "pair": "pillow -> floor",
+        "predicate": "supported by",
+        "reason_codes": [
+          "positive_float_gap_large",
+          "subtype_soft_support_contact"
+        ],
+        "semantic_rank": 86,
+        "topk_transition": "promoted_into_top50"
+      },
+      {
+        "case_id": "qwen_vl_case_004",
+        "category": "geometry_contradiction",
+        "delta_rank": -97,
+        "family": "relative_vertical",
+        "geometry_rank": 21,
+        "gt_match_status": "pair_has_other_predicate",
+        "matched_predicates": [
+          "hanging in"
+        ],
+        "p_geom_valid": 0.9983232262656139,
+        "pair": "towel -> shower",
+        "predicate": "lower than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 118,
+        "topk_transition": "promoted_into_top50"
+      },
+      {
+        "case_id": "qwen_vl_case_016",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": -81,
+        "family": "relative_vertical",
+        "geometry_rank": 12,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.9978698221016397,
+        "pair": "pillow -> floor",
+        "predicate": "lower than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 93,
+        "topk_transition": "promoted_into_top50"
+      },
+      {
+        "case_id": "qwen_vl_case_009",
+        "category": "geometry_contradiction",
+        "delta_rank": -31,
+        "family": "support_contact",
+        "geometry_rank": 20,
+        "gt_match_status": "pair_has_other_predicate",
+        "matched_predicates": [
+          "lying in"
+        ],
+        "p_geom_valid": 0.9974526867400898,
+        "pair": "box -> wardrobe",
+        "predicate": "supported by",
+        "reason_codes": [
+          "horizontal_plane_found",
+          "plane_gap_large",
+          "subtype_rigid_object_on_furniture"
+        ],
+        "semantic_rank": 51,
+        "topk_transition": "promoted_into_top50"
+      },
+      {
+        "case_id": "qwen_vl_case_022",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": -57,
+        "family": "support_contact",
+        "geometry_rank": 67,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.9717936091610574,
+        "pair": "pillow -> floor",
+        "predicate": "supported by",
+        "reason_codes": [
+          "positive_float_gap_large",
+          "subtype_soft_support_contact"
+        ],
+        "semantic_rank": 124,
+        "topk_transition": "promoted_into_top100"
+      },
+      {
+        "case_id": "qwen_vl_case_006",
+        "category": "geometry_contradiction",
+        "delta_rank": -45,
+        "family": "relative_vertical",
+        "geometry_rank": 51,
+        "gt_match_status": "pair_has_other_predicate",
+        "matched_predicates": [
+          "connected to"
+        ],
+        "p_geom_valid": 0.9096255706575412,
+        "pair": "heater -> wall",
+        "predicate": "higher than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 96,
+        "topk_transition": "stayed_in_topk"
+      }
+    ],
+    "semantic_high_geometry_demoted": [
+      {
+        "case_id": "qwen_vl_case_014",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": 151,
+        "family": "relative_vertical",
+        "geometry_rank": 153,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.043807668350582654,
+        "pair": "floor -> wall",
+        "predicate": "higher than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 2,
+        "topk_transition": "demoted_out_of_top50"
+      },
+      {
+        "case_id": "qwen_vl_case_024",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": 128,
+        "family": "relative_vertical",
+        "geometry_rank": 132,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.01689610740534693,
+        "pair": "floor -> wall",
+        "predicate": "higher than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 4,
+        "topk_transition": "demoted_out_of_top50"
+      },
+      {
+        "case_id": "qwen_vl_case_025",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": 127,
+        "family": "relative_vertical",
+        "geometry_rank": 128,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 3.223973735982949e-05,
+        "pair": "floor -> picture",
+        "predicate": "higher than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 1,
+        "topk_transition": "demoted_out_of_top50"
+      },
+      {
+        "case_id": "qwen_vl_case_026",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": 127,
+        "family": "relative_vertical",
+        "geometry_rank": 129,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.008776238130971581,
+        "pair": "floor -> wall",
+        "predicate": "higher than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 2,
+        "topk_transition": "demoted_out_of_top50"
+      },
+      {
+        "case_id": "qwen_vl_case_019",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": 123,
+        "family": "support_contact",
+        "geometry_rank": 127,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.04783326565133236,
+        "pair": "floor -> wall",
+        "predicate": "supported by",
+        "reason_codes": [
+          "horizontal_plane_found",
+          "plane_gap_large",
+          "subtype_rigid_object_on_furniture"
+        ],
+        "semantic_rank": 4,
+        "topk_transition": "demoted_out_of_top50"
+      },
+      {
+        "case_id": "qwen_vl_case_027",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": 121,
+        "family": "relative_vertical",
+        "geometry_rank": 133,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.015849278741021027,
+        "pair": "floor -> shower curtain",
+        "predicate": "higher than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 12,
+        "topk_transition": "demoted_out_of_top50"
+      },
+      {
+        "case_id": "qwen_vl_case_028",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": 114,
+        "family": "relative_vertical",
+        "geometry_rank": 137,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.0005195860208196258,
+        "pair": "heater -> window",
+        "predicate": "higher than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 23,
+        "topk_transition": "demoted_out_of_top50"
+      },
+      {
+        "case_id": "qwen_vl_case_029",
+        "category": "semantic_and_geometry_failure",
+        "delta_rank": 114,
+        "family": "relative_vertical",
+        "geometry_rank": 122,
+        "gt_match_status": "no_gt_for_pair",
+        "matched_predicates": [],
+        "p_geom_valid": 0.0019732231619811378,
+        "pair": "floor -> wall",
+        "predicate": "higher than",
+        "reason_codes": [
+          "point_subtype_delegated_to_obb_for_family",
+          "vertical_order_contradicts_predicate"
+        ],
+        "semantic_rank": 8,
+        "topk_transition": "demoted_out_of_top50"
+      }
+    ]
+  },
+  "sample_status": "failure_case_sample_ready",
+  "schema_version": "h001_open3dsg_failure_case_inspection_v1",
+  "source_name": "Qwen-VL full-source",
+  "status": "qualitative_case_inspection_ready"
+}

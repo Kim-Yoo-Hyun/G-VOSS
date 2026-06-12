@@ -91,6 +91,8 @@ H001/CAND를 논문으로 정리할 때 motivation만으로 novelty를 주장하
 - Method contribution은 `verifier script`가 아니라 calibrated geometry-consistency evaluation/re-ranking framework로 명명한다. Verifier, calibration, metric, failure-analysis schema는 이 framework를 구성하는 요소로 둔다.
 - Evidence가 single source의 scoped reliability에 머물면 claim도 scoped reliability로 제한한다. Broad open-vocabulary 3DSSG improvement 주장은 second-source metrics, denominator caveat, failure analysis가 완료되기 전에는 사용하지 않는다.
 - Reviewer가 물을 "왜 더 단순한 방법으로 안 되는가?", "왜 이 relation family인가?", "왜 이 geometry rule/calibration인가?", "recall tradeoff는 무엇인가?"에 대한 답을 table, ablation, error taxonomy 중 하나로 연결한다.
+- 논문화 과정은 원하는 가설을 증명하기 위해 결과를 끼워 맞추는 방식이 아니라, 문제의 원리에서 method가 자연스럽게 도출되고 그 method가 falsifiable evidence로 검증되는 방식이어야 한다. Claim 또는 실험을 추가할 때마다 `failure mechanism -> design necessity -> fixed protocol -> evidence -> claim boundary` chain을 확인한다.
+- Evidence가 기대보다 약하거나 부정적이면 method를 사후 조정해 성공처럼 만들지 말고 claim을 좁히거나 appendix/limitation/future-work로 내린다. Relation family, source, metric, threshold, recovery branch를 main claim에 승격하려면 사전 고정된 protocol과 controls를 먼저 통과해야 한다.
 
 ## H001 Claim Boundary And Extension Rules
 

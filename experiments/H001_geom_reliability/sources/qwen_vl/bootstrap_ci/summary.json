@@ -1,0 +1,390 @@
+{
+  "bootstrap_unit": "subgraph_id",
+  "conditions": [
+    "semantic_only",
+    "probabilistic_recalibrated",
+    "rule_verified_point_subtype",
+    "control_family_specific_p_geom_valid"
+  ],
+  "created_at_utc": "2026-06-11T02:59:53.389036+00:00",
+  "docker_command": "UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm bootstrap_ci_full_validation_vlsat",
+  "families": [
+    "proximity",
+    "relative_vertical",
+    "support_contact"
+  ],
+  "ks": [
+    50,
+    100
+  ],
+  "n_bootstrap": 1000,
+  "schema_version": "h001_bootstrap_ci_v1",
+  "seed": 20260526,
+  "sources": {
+    "qwen_vl_semantic_source": {
+      "conditions": {
+        "control_family_specific_p_geom_valid": {
+          "100": {
+            "recall": {
+              "ci95": [
+                0.3352295081967213,
+                0.39467839702373175
+              ],
+              "median": 0.36563059513130514,
+              "metrics_json_point": 0.3654223968565815,
+              "point": 0.3654223968565815,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                0.1046507147119539,
+                0.11668048071283871
+              ],
+              "median": 0.11051913045723358,
+              "metrics_json_point": 0.11056910569105691,
+              "point": 0.11056910569105691,
+              "valid_samples": 1000
+            }
+          },
+          "50": {
+            "recall": {
+              "ci95": [
+                0.3012729997570366,
+                0.35806130681986875
+              ],
+              "median": 0.33110409750604586,
+              "metrics_json_point": 0.33084479371316305,
+              "point": 0.33084479371316305,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                0.04389590754341544,
+                0.05630251694730169
+              ],
+              "median": 0.04979018696884402,
+              "metrics_json_point": 0.04988633493306391,
+              "point": 0.04988633493306391,
+              "valid_samples": 1000
+            }
+          }
+        },
+        "probabilistic_recalibrated": {
+          "100": {
+            "recall": {
+              "ci95": [
+                0.3349820017420034,
+                0.39501342623053426
+              ],
+              "median": 0.36557667061327903,
+              "metrics_json_point": 0.3654223968565815,
+              "point": 0.3654223968565815,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                0.11154607075287336,
+                0.12160360641584105
+              ],
+              "median": 0.11652991781829772,
+              "metrics_json_point": 0.11666666666666667,
+              "point": 0.11666666666666667,
+              "valid_samples": 1000
+            }
+          },
+          "50": {
+            "recall": {
+              "ci95": [
+                0.28159567351513665,
+                0.33482633184919347
+              ],
+              "median": 0.3091013945685226,
+              "metrics_json_point": 0.3092337917485265,
+              "point": 0.3092337917485265,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                0.0733737973066007,
+                0.08403734610477497
+              ],
+              "median": 0.07864778820774615,
+              "metrics_json_point": 0.07868148522354129,
+              "point": 0.07868148522354129,
+              "valid_samples": 1000
+            }
+          }
+        },
+        "rule_verified_point_subtype": {
+          "100": {
+            "recall": {
+              "ci95": [
+                0.33268796680927765,
+                0.39184718641111294
+              ],
+              "median": 0.3633884817865975,
+              "metrics_json_point": 0.3630648330058939,
+              "point": 0.3630648330058939,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "median": 0.0,
+              "metrics_json_point": 0.0,
+              "point": 0.0,
+              "valid_samples": 1000
+            }
+          },
+          "50": {
+            "recall": {
+              "ci95": [
+                0.2666080688891671,
+                0.31529549783406585
+              ],
+              "median": 0.29057159122188025,
+              "metrics_json_point": 0.29037328094302556,
+              "point": 0.29037328094302556,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "median": 0.0,
+              "metrics_json_point": 0.0,
+              "point": 0.0,
+              "valid_samples": 1000
+            }
+          }
+        },
+        "semantic_only": {
+          "100": {
+            "recall": {
+              "ci95": [
+                0.32808000866344295,
+                0.38608911789758843
+              ],
+              "median": 0.35842920204901624,
+              "metrics_json_point": 0.35795677799607073,
+              "point": 0.35795677799607073,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                0.1210554576769849,
+                0.1305569585900248
+              ],
+              "median": 0.125867705816625,
+              "metrics_json_point": 0.12601626016260162,
+              "point": 0.12601626016260162,
+              "valid_samples": 1000
+            }
+          },
+          "50": {
+            "recall": {
+              "ci95": [
+                0.24397378373344433,
+                0.29296772461520104
+              ],
+              "median": 0.26839722010380207,
+              "metrics_json_point": 0.2683693516699411,
+              "point": 0.2683693516699411,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                0.11801182293316631,
+                0.12925980860189962
+              ],
+              "median": 0.12373295912131824,
+              "metrics_json_point": 0.12389492296034352,
+              "point": 0.12389492296034352,
+              "valid_samples": 1000
+            }
+          }
+        }
+      },
+      "deltas_vs_semantic_only": {
+        "control_family_specific_p_geom_valid": {
+          "100": {
+            "recall": {
+              "ci95": [
+                0.0038638757868903932,
+                0.011413149651116198
+              ],
+              "median": 0.007286673326414722,
+              "point": 0.007465618860510781,
+              "prob_delta_ge_0": 1.0,
+              "prob_delta_le_0": 0.0,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                -0.019803878341599312,
+                -0.011091948248209338
+              ],
+              "median": -0.015374103154274066,
+              "point": -0.01544715447154471,
+              "prob_delta_ge_0": 0.0,
+              "prob_delta_le_0": 1.0,
+              "valid_samples": 1000
+            }
+          },
+          "50": {
+            "recall": {
+              "ci95": [
+                0.046914333168972006,
+                0.0771900291401433
+              ],
+              "median": 0.06241612986804135,
+              "point": 0.062475442043221974,
+              "prob_delta_ge_0": 1.0,
+              "prob_delta_le_0": 0.0,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                -0.08125041476484492,
+                -0.06663987871337856
+              ],
+              "median": -0.07378899777894378,
+              "point": -0.07400858802727961,
+              "prob_delta_ge_0": 0.0,
+              "prob_delta_le_0": 1.0,
+              "valid_samples": 1000
+            }
+          }
+        },
+        "probabilistic_recalibrated": {
+          "100": {
+            "recall": {
+              "ci95": [
+                0.003742834680240015,
+                0.011485878371460374
+              ],
+              "median": 0.0072061903641864045,
+              "point": 0.007465618860510781,
+              "prob_delta_ge_0": 1.0,
+              "prob_delta_le_0": 0.0,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                -0.012101626792118424,
+                -0.006676659787862431
+              ],
+              "median": -0.009313072617107919,
+              "point": -0.00934959349593495,
+              "prob_delta_ge_0": 0.0,
+              "prob_delta_le_0": 1.0,
+              "valid_samples": 1000
+            }
+          },
+          "50": {
+            "recall": {
+              "ci95": [
+                0.026236536819652788,
+                0.0555367214578233
+              ],
+              "median": 0.04040629301610735,
+              "point": 0.04086444007858542,
+              "prob_delta_ge_0": 1.0,
+              "prob_delta_le_0": 0.0,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                -0.05131249345636529,
+                -0.03959318238377713
+              ],
+              "median": -0.045113011882302524,
+              "point": -0.045213437736802226,
+              "prob_delta_ge_0": 0.0,
+              "prob_delta_le_0": 1.0,
+              "valid_samples": 1000
+            }
+          }
+        },
+        "rule_verified_point_subtype": {
+          "100": {
+            "recall": {
+              "ci95": [
+                0.00204907518006337,
+                0.00882934388776657
+              ],
+              "median": 0.005008911486312412,
+              "point": 0.005108055009823198,
+              "prob_delta_ge_0": 1.0,
+              "prob_delta_le_0": 0.0,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                -0.1305569585900248,
+                -0.1210554576769849
+              ],
+              "median": -0.125867705816625,
+              "point": -0.12601626016260162,
+              "prob_delta_ge_0": 0.0,
+              "prob_delta_le_0": 1.0,
+              "valid_samples": 1000
+            }
+          },
+          "50": {
+            "recall": {
+              "ci95": [
+                0.01592749402628438,
+                0.02858702364353784
+              ],
+              "median": 0.021913499404917797,
+              "point": 0.022003929273084477,
+              "prob_delta_ge_0": 1.0,
+              "prob_delta_le_0": 0.0,
+              "valid_samples": 1000
+            },
+            "violation_rate": {
+              "ci95": [
+                -0.12925980860189962,
+                -0.11801182293316631
+              ],
+              "median": -0.12373295912131824,
+              "point": -0.12389492296034352,
+              "prob_delta_ge_0": 0.0,
+              "prob_delta_le_0": 1.0,
+              "valid_samples": 1000
+            }
+          }
+        }
+      },
+      "families": [
+        "proximity",
+        "relative_vertical",
+        "support_contact"
+      ],
+      "input_rows": {
+        "ground_truth": 7505,
+        "predictions": 25262,
+        "verification": 25262
+      },
+      "inputs": {
+        "family_model_json": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json",
+        "ground_truth_jsonl": "experiments/H001_geom_reliability/sources/qwen_vl/adapter/ground_truth.jsonl",
+        "metrics_json": "experiments/H001_geom_reliability/sources/qwen_vl/metrics/metrics.json",
+        "predictions_jsonl": "experiments/H001_geom_reliability/sources/qwen_vl/adapter/predictions.jsonl",
+        "verification_jsonl": "experiments/H001_geom_reliability/sources/qwen_vl/geometry/verification.jsonl"
+      },
+      "population": {
+        "subgraphs": 387,
+        "unit": "subgraph_id"
+      },
+      "source": "qwen_vl_semantic_source",
+      "status": "ready",
+      "warnings": []
+    }
+  },
+  "status": "ready"
+}

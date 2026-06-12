@@ -1,102 +1,210 @@
+\makeatletter
+\@ifundefined{isChecklistMainFile}{
+  \newif\ifreproStandalone
+  \reproStandalonetrue
+}{
+  \newif\ifreproStandalone
+  \reproStandalonefalse
+}
+\makeatother
+
+\ifreproStandalone
+\documentclass[letterpaper]{article}
+\usepackage[submission]{aaai2027}
+\frenchspacing
+\begin{document}
+\fi
+
+\setlength{\leftmargini}{20pt}
+\makeatletter
+\def\@listi{\leftmargin\leftmargini \topsep .5em \parsep .5em \itemsep .5em}
+\def\@listii{\leftmargin\leftmarginii \labelwidth\leftmarginii \advance\labelwidth-\labelsep \topsep .4em \parsep .4em \itemsep .4em}
+\def\@listiii{\leftmargin\leftmarginiii \labelwidth\leftmarginiii \advance\labelwidth-\labelsep \topsep .4em \parsep .4em \itemsep .4em}
+\makeatother
+
+\setcounter{secnumdepth}{0}
+\renewcommand\thesubsection{\arabic{subsection}}
+\renewcommand\labelenumi{\thesubsection.\arabic{enumi}}
+
+\newcounter{checksubsection}
+\newcounter{checkitem}[checksubsection]
+
+\newcommand{\checksubsection}[1]{%
+  \refstepcounter{checksubsection}%
+  \paragraph{\arabic{checksubsection}. #1}%
+  \setcounter{checkitem}{0}%
+}
+
+\newcommand{\checkitem}{%
+  \refstepcounter{checkitem}%
+  \item[\arabic{checksubsection}.\arabic{checkitem}.]%
+}
+\newcommand{\question}[2]{\normalcolor\checkitem #1 #2 \color{blue}}
+\newcommand{\ifyespoints}[1]{\makebox[0pt][l]{\hspace{-15pt}\normalcolor #1}}
+
 \section*{Reproducibility Checklist}
 
-This checklist follows the AAAI-26 reproducibility checklist route checked on
-2026-05-26. It is included after the references and is not part of the
-technical-content page count. Answers refer to the main paper and the
-Docker-based experiment artifact described in the paper.
+This checklist follows the official AAAI-27 Author Kit checked on
+2026-06-11. Answers refer to the main paper plus the Docker-based experiment
+artifact bundle planned for anonymous review / post-acceptance release.
 
-\subsection*{General}
-
+\checksubsection{General Paper Structure}
 \begin{itemize}
-    \item Conceptual outline and method description: yes. The paper describes
-    the calibrated geometry-consistency framework, row contract, geometry join,
-    operating points, and recall-violation protocol in Sections 3--4 and
-    Figure 1.
-    \item Separation between facts, claims, and speculation: yes. The paper
-    states the scoped reliability claim, source-specific boundaries, blocked
-    extensions, and limitations explicitly.
-    \item Pedagogical and background references: yes. Related Work cites 3D
-    scene graph prediction, open-vocabulary 3D scene graph methods,
-    geometry-aware relation modeling, and reliability/calibration work.
+
+\question{Includes a conceptual outline and/or pseudocode description of AI methods introduced}{(yes/partial/no/NA)}
+yes. Sections 3--4 and Figure 1 define the row contract, geometry join,
+calibrated geometry-consistency score, and re-ranking/evaluation protocol.
+
+\question{Clearly delineates statements that are opinions, hypothesis, and speculation from objective facts and results}{(yes/no)}
+yes. The paper states the scoped reliability claim, validation scope,
+Open3DSG recovery-policy caveat, blocked extensions, and limitations
+separately from empirical results.
+
+\question{Provides well-marked pedagogical references for less-familiar readers to gain background necessary to replicate the paper}{(yes/no)}
+yes. Related Work cites 3D scene graph prediction, open-vocabulary 3D scene
+graph methods, geometry-aware relation modeling, and reliability/calibration
+work.
+
+\end{itemize}
+\checksubsection{Theoretical Contributions}
+\begin{itemize}
+
+\question{Does this paper make theoretical contributions?}{(yes/no)}
+no. The contribution is methodological and empirical.
+
+\ifyespoints{\vspace{1.2em}If yes, please address the following points:}
+\begin{itemize}
+
+\question{All assumptions and restrictions are stated clearly and formally}{(yes/partial/no)}
+NA.
+
+\question{All novel claims are stated formally (e.g., in theorem statements)}{(yes/partial/no)}
+NA.
+
+\question{Proofs of all novel claims are included}{(yes/partial/no)}
+NA.
+
+\question{Proof sketches or intuitions are given for complex and/or novel results}{(yes/partial/no)}
+NA.
+
+\question{Appropriate citations to theoretical tools used are given}{(yes/partial/no)}
+NA.
+
+\question{All theoretical claims are demonstrated empirically to hold}{(yes/partial/no/NA)}
+NA.
+
+\question{All experimental code used to eliminate or disprove claims is included}{(yes/no/NA)}
+NA.
+
+\end{itemize}
 \end{itemize}
 
-\subsection*{Theoretical Contributions}
-
+\checksubsection{Dataset Usage}
 \begin{itemize}
-    \item Does this paper make theoretical contributions? no.
-    \item Formal assumptions, theorem statements, proofs, proof sketches, and
-    theoretical-tool citations: NA.
-    \item Empirical demonstrations of theoretical claims and code for
-    theoretical counterexamples: NA.
+
+\question{Does this paper rely on one or more datasets?}{(yes/no)}
+yes.
+
+\ifyespoints{If yes, please address the following points:}
+\begin{itemize}
+
+\question{A motivation is given for why the experiments are conducted on the selected datasets}{(yes/partial/no/NA)}
+yes. Open3DSG is the main open-vocabulary relation-source case study and
+VL-SAT is the controlled reproduced anchor under the same row contract.
+
+\question{All novel datasets introduced in this paper are included in a data appendix}{(yes/partial/no/NA)}
+NA. The paper introduces no new dataset.
+
+\question{All novel datasets introduced in this paper will be made publicly available upon publication of the paper with a license that allows free usage for research purposes}{(yes/partial/no/NA)}
+NA.
+
+\question{All datasets drawn from the existing literature (potentially including authors' own previously published work) are accompanied by appropriate citations}{(yes/no/NA)}
+yes. The paper cites the 3DSSG, 3RScan, VL-SAT, and Open3DSG sources.
+
+\question{All datasets drawn from the existing literature (potentially including authors' own previously published work) are publicly available}{(yes/partial/no/NA)}
+partial. The sources are public research routes, but raw scans, meshes,
+feature caches, checkpoints, and model caches remain subject to the original
+access terms and are not redistributed in the PDF.
+
+\question{All datasets that are not publicly available are described in detail, with explanation why publicly available alternatives are not scientifically satisficing}{(yes/partial/no/NA)}
+NA. No private dataset is introduced.
+
+\end{itemize}
 \end{itemize}
 
-\subsection*{Datasets}
-
+\checksubsection{Computational Experiments}
 \begin{itemize}
-    \item Does this paper rely on one or more datasets? yes.
-    \item Motivation for selected datasets: yes. Open3DSG is used as the main
-    open-vocabulary relation-source case study, while VL-SAT is used as a
-    controlled reproduced anchor under the same row contract and metrics.
-    \item Novel datasets introduced by this paper: no.
-    \item Novel dataset release and license: NA.
-    \item Citations for existing datasets and sources: yes. The paper cites the
-    relevant 3DSSG, VL-SAT, and Open3DSG sources.
-    \item Public availability of existing datasets: partial. The method uses
-    public research datasets and code routes, but large raw data, meshes,
-    features, checkpoints, and model caches are subject to their original access
-    terms and are not redistributed in the paper PDF.
-    \item Non-public dataset description: NA; no new private dataset is
-    introduced.
+
+\question{Does this paper include computational experiments?}{(yes/no)}
+yes.
+
+\ifyespoints{If yes, please address the following points:}
+\begin{itemize}
+
+\question{This paper states the number and range of values tried per (hyper-) parameter during development of the paper, along with the criterion used for selecting the final parameter setting}{(yes/partial/no/NA)}
+partial. The paper reports the operating points, family policies, exact-label
+denominator, source scope, and Open3DSG checkpoint selection by train-dev
+validation loss. It does not claim exhaustive hyperparameter sweeps.
+
+\question{Any code required for pre-processing data is included in the appendix}{(yes/partial/no)}
+partial. Docker runbooks and scripts cover preprocessing, feature generation,
+adapter export, geometry join, metrics, tables, and failure analysis; large
+runtime artifacts are rebuilt, mounted, or released separately.
+
+\question{All source code required for conducting and analyzing the experiments is included in a code appendix}{(yes/partial/no)}
+partial. The tracked experiment root contains Docker entrypoints, scripts,
+manifests, and reports. Large datasets, model caches, feature caches, and
+selected checkpoints are external artifacts.
+
+\question{All source code required for conducting and analyzing the experiments will be made publicly available upon publication of the paper with a license that allows free usage for research purposes}{(yes/partial/no)}
+partial. A public code/artifact release is planned, but final anonymized
+review package, post-acceptance URL/DOI, and release license still need to be
+fixed.
+
+\question{All source code implementing new methods have comments detailing the implementation, with references to the paper where each step comes from}{(yes/partial/no)}
+partial. The scripts and runbooks document the row contract, source adapters,
+geometry scoring, calibration, and metric generation; final code-release
+cleanup remains.
+
+\question{If an algorithm depends on randomness, then the method used for setting seeds is described in a way sufficient to allow replication of results}{(yes/partial/no/NA)}
+partial. Evaluation is deterministic after fixed predictions, checkpoints,
+and manifests; reproduced source training randomness is recorded as
+provenance rather than evaluated through a multi-seed study.
+
+\question{This paper specifies the computing infrastructure used for running experiments (hardware and software), including GPU/CPU models; amount of memory; operating system; names and versions of relevant software libraries and frameworks}{(yes/partial/no)}
+partial. Docker images, compose routes, mounted paths, logs, and GPU/runtime
+checks are recorded. The final release package should add the exact
+hardware/software manifest and artifact URL.
+
+\question{This paper formally describes evaluation metrics used and explains the motivation for choosing these metrics}{(yes/partial/no)}
+yes. The paper defines exact-label \rAt{50}/\rAt{100},
+\vAt{50}/\vAt{100}, GT/counterfactual verifier metrics, controls, bootstrap
+CI, and failure-analysis criteria.
+
+\question{This paper states the number of algorithm runs used to compute each reported result}{(yes/no)}
+yes. Reported source-result tables use one fixed reproduced source run per
+source/condition under locked manifests.
+
+\question{Analysis of experiments goes beyond single-dimensional summaries of performance (e.g., average; median) to include measures of variation, confidence, or other distributional information}{(yes/no)}
+yes. The paper reports recall/violation tradeoffs, source/family operating
+points, counterfactual verifier checks, controls, failure rows, qualitative
+case inspection, and Docker subgraph bootstrap confidence intervals.
+
+\question{The significance of any improvement or decrease in performance is judged using appropriate statistical tests (e.g., Wilcoxon signed-rank)}{(yes/partial/no)}
+partial. The paper uses paired subgraph bootstrap confidence intervals for
+source-result deltas. It does not report repeated-run variance or Wilcoxon
+tests.
+
+\question{This paper lists all final (hyper-)parameters used for each model/algorithm in the paper's experiments}{(yes/partial/no/NA)}
+partial. The paper and artifact reports list operating points, checkpoint
+choice, denominator policy, and source caveats, including the Open3DSG
+548/548 recovery branch with \texttt{OPEN3DSG\_MIN\_VISIBLE\_OBJECTS=2} and
+relaxed two-scan view regeneration. A final release table should collect every
+threshold and configuration in one manifest.
+
+\end{itemize}
 \end{itemize}
 
-\subsection*{Computational Experiments}
-
-\begin{itemize}
-    \item Does this paper include computational experiments? yes.
-    \item Development-time hyperparameter search and selection criteria:
-    partial. The paper states the reported operating points, metric scope, and
-    Open3DSG checkpoint selection by train-dev validation loss; exhaustive
-    hyperparameter sweeps are not claimed.
-    \item Preprocessing code: partial. The Docker experiment root records the
-    preprocessing, feature, adapter, geometry-join, metric, table, and
-    failure-analysis commands; large runtime artifacts are rebuilt or mounted
-    rather than embedded in the PDF.
-    \item Source code for experiments and analysis: partial. The tracked
-    experiment root contains the Docker entrypoints, scripts, manifests, and
-    reports needed to reproduce the paper-facing tables from staged data and
-    artifacts; large datasets and model caches are intentionally external.
-    \item Public code release: yes, planned upon publication, subject to
-    anonymization during review and third-party dataset/model licenses.
-    \item Implementation comments: partial. The experiment scripts and runbooks
-    document the row contract, source adapters, geometry scoring, and metric
-    generation, but final code-release cleanup is still required.
-    \item Randomness and seeds: partial. The main evaluation pipeline is
-    deterministic after fixed predictions, checkpoints, and manifests; full
-    training randomness for reproduced source models is documented as run
-    provenance rather than a multi-seed study.
-    \item Computing infrastructure: partial. The Docker image, compose route,
-    mounted paths, logs, and resource checks are recorded; final submission
-    should include the exact GPU/CPU model and software versions used for the
-    released artifact bundle.
-    \item Evaluation metrics: yes. The paper defines exact-label
-    \rAt{50}/\rAt{100}, \vAt{50}/\vAt{100}, verifier GT/counterfactual
-    metrics, controls, and failure-analysis criteria.
-    \item Number of runs: yes. Reported source-result tables use one fixed
-    reproduced source run per source/condition under locked manifests.
-    \item Variation or distributional information beyond averages: partial.
-    The paper reports source/family operating points, counterfactual verifier
-    metrics, controls, structured audit, and failure rows, but it does not yet
-    report repeated-run variance.
-    \item Statistical significance tests: no. The current draft reports
-    deterministic held-out recall and violation tradeoffs; no paired
-    significance test is included.
-    \item Final hyperparameters and operating points: partial. The paper and
-    artifact reports list the final operating points, checkpoint choice,
-    denominator policy, and source caveats. The paper-facing Open3DSG route is
-    the 548/548 recovery-policy branch with
-    \texttt{OPEN3DSG\_MIN\_VISIBLE\_OBJECTS=2} and relaxed view regeneration
-    for two scans; the exact-label H001 denominator is 3,972, and residual
-    calibration risk is reported through the failure-analysis artifacts. A
-    final release table should collect every threshold and configuration in one
-    place.
-\end{itemize}
+\ifreproStandalone
+\end{document}
+\fi

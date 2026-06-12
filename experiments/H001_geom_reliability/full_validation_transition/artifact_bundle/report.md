@@ -1,11 +1,31 @@
 # Full-Validation Upload Artifact Bundle
 
-Status: `upload_bundle_file_list_and_verification_fixed_no_archive_created`
+Status: `upload_bundle_archive_created_and_checksum_verified`
 
 This folder fixes the paper-facing artifact bundle to upload separately from
 GitHub. It is intended for Google Drive, Zenodo, or Hugging Face Dataset. The
-archive itself has not been created in this pass; the exact payload list,
-per-file checksum manifest, row-count checks, and verification script are fixed.
+archive has been created under `release/`; the exact payload list, per-file
+checksum manifest, row-count checks, and verification script are fixed.
+
+Archive:
+
+- file:
+  `release/h001_full_validation_results_20260611_025158.tar.zst`
+- size:
+  `1.4G` (`1502684667` bytes)
+- sha256:
+  `d7d8678c5dfc4c2dda54c781220951386cb08cc2d7ca6b5cec908ee9e5e76cea`
+- checksum file:
+  `release/h001_full_validation_results_20260611_025158.sha256`
+- creation log:
+  `logs/h001_fullval_upload_archive_20260611_025158.log`
+- creation exit:
+  `logs/h001_fullval_upload_archive_20260611_025158.exit` = 0
+- archive checksum verification:
+  `sha256sum -c release/h001_full_validation_results_20260611_025158.sha256`
+  passed
+- tar listing sanity:
+  `219` members
 
 Generated inventory status:
 
@@ -15,17 +35,17 @@ Generated inventory status:
 - payload file-list sha256:
   `392aa550557f64603a4548a9e494248d22eed899ecea3fefbc558451b39b716b`
 - payload checksum-manifest sha256:
-  `923bfde4e39921f5dd3fc10f0ec1a98eea606b50b83d4495d0d5b3afd1e4ff2b`
+  `2b35f76c08ee758bbf8d9f29e67523124bc581a05404644bba3090294594f17f`
 - payload row-count-file sha256:
   `2e86fe118260300bae6379f763f39f0cda0e4b07dd38455878de5d832d121943`
 - checksum generation log:
-  `logs/h001_fullval_upload_checksums_20260611_002243.log`
+  `logs/h001_fullval_upload_checksums_20260611_020605.log`
 - checksum generation exit:
-  `logs/h001_fullval_upload_checksums_20260611_002243.exit` = 0
+  `logs/h001_fullval_upload_checksums_20260611_020605.exit` = 0
 - verification log:
-  `logs/h001_fullval_upload_verify_20260611_002319.log`
+  `logs/h001_fullval_upload_verify_20260611_020619.log`
 - verification exit:
-  `logs/h001_fullval_upload_verify_20260611_002319.exit` = 0
+  `logs/h001_fullval_upload_verify_20260611_020619.exit` = 0
 
 ## Included Sources
 

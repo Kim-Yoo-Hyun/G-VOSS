@@ -1,6 +1,6 @@
 # H001 Figure Source Lock
 
-Last updated: 2026-06-05 KST
+Last updated: 2026-06-12 KST
 
 Status: `figure2_full_validation_regenerated`
 
@@ -25,8 +25,9 @@ camera-ready final artwork.
   non-averaged checkpoint, filtered-train/dev provenance, full-validation
   exact-label denominator 3,972, 548/548 recovery-policy branch, 533/548
   covered branch as sensitivity evidence, and residual-calibration caveats.
-- Qwen-VL does not appear in Figure 1-3 unless it is promoted with full Docker
-  metric, denominator, and audit treatment.
+- Qwen-VL does not appear in Figure 1-3 for the current AAAI route; it remains
+  appendix/extension evidence despite completed full-validation Docker metric,
+  denominator, and audit treatment.
 
 ## Figure 1
 

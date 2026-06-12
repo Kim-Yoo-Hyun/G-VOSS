@@ -1,0 +1,15 @@
+run_id	service	event	timestamp	exit_code
+20260612_031601	qwen_vl_full_validation_aggregate	started	2026-06-12T03:16:01+09:00	
+20260612_031601	qwen_vl_full_validation_aggregate	finished	2026-06-12T03:16:04+09:00	0
+20260612_031601	qwen_vl_full_validation_validate	started	2026-06-12T03:16:04+09:00	
+20260612_031601	qwen_vl_full_validation_validate	finished	2026-06-12T03:16:08+09:00	0
+20260612_031601	qwen_vl_full_validation_adapter_export	started	2026-06-12T03:16:08+09:00	
+20260612_031601	qwen_vl_full_validation_adapter_export	finished	2026-06-12T03:16:10+09:00	0
+20260612_031601	qwen_vl_full_validation_geometry_join	started	2026-06-12T03:16:10+09:00	
+20260612_031601	qwen_vl_full_validation_geometry_join	finished	2026-06-12T03:16:21+09:00	0
+20260612_031601	qwen_vl_full_validation_metric_eval	started	2026-06-12T03:16:21+09:00	
+20260612_031601	qwen_vl_full_validation_metric_eval	finished	2026-06-12T03:16:29+09:00	0
+20260612_031601	qwen_vl_full_validation_bootstrap_ci	started	2026-06-12T03:16:29+09:00	
+20260612_031601	qwen_vl_full_validation_bootstrap_ci	finished	2026-06-12T03:16:33+09:00	0
+20260612_031601	qwen_vl_full_validation_failure_generator	started	2026-06-12T03:16:33+09:00	
+20260612_031601	qwen_vl_full_validation_failure_generator	finished	2026-06-12T03:16:37+09:00	1

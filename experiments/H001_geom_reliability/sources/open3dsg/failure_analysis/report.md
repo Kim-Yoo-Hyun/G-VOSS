@@ -1,7 +1,7 @@
 # H001 Source Failure-Analysis Schema
 
 Status: `failure_analysis_schema_ready_no_metric_run`
-Created at: `2026-06-05T01:25:11+00:00`
+Created at: `2026-06-11T03:01:08+00:00`
 
 ## Scope
 

@@ -1,6 +1,6 @@
 # Hypothesis Index
 
-Last updated: 2026-06-09
+Last updated: 2026-06-12
 
 이 폴더는 literature candidate를 검증 가능한 research hypothesis로 좁히는 산출물을 저장한다. Workflow와 작성 규칙은 `docs/hypothesis.md`를 따른다.
 
@@ -23,7 +23,7 @@ Last updated: 2026-06-09
 
 | Hypothesis | Folder | Status | Next Gate |
 | --- | --- | --- | --- |
-| H001: Geometry-grounded verification of open-vocabulary 3DSSG relations | `CAND-001/H001_geometry-grounded-verification/` | Hypothesis-stage evidence, Docker `VL-SAT` table/report reproduction, Open3DSG metric/failure/caveat evidence, paper handoff, and Qwen-VL runner plan are complete | Resume Qwen-VL from shard 0014 if pursuing third-source extension; otherwise continue paper polish |
+| H001: Geometry-grounded verification of open-vocabulary 3DSSG relations | `CAND-001/H001_geometry-grounded-verification/` | Hypothesis-stage evidence, Docker full-validation `VL-SAT` and Open3DSG metric/failure/caveat evidence, Qwen-VL full-validation third-source extension evidence, and paper handoff are complete | Continue AAAI paper polish, artifact release packaging, and final claim consistency checks |
 
 ## H001 Claim Boundary
 
@@ -60,12 +60,12 @@ Facts:
 - `experiments/H001_geom_reliability/` is the active paper experiment root.
 - `VL-SAT` locked results and Open3DSG second-source metric/failure/caveat evidence are ready for the scoped H001 claim.
 - Paper handoff files are ready under `paper/preview.md`, `paper/progress.md`, `paper/outline.md`, `paper/draft.md`, `paper/aaai/`, and `paper/figures.md`.
-- Qwen-VL is a third semantic source / modern VLM extension only. Shards 0000-0013 are complete with 3,500 parsed rows; run id `20260527_023111` stopped at shard 0014 because of GPU utilization guard. Clean resume starts from `qwen_full_source_shard_0014`.
+- Qwen-VL is a third semantic source / modern VLM extension only. The paper-facing full official validation branch is complete through input audit, crop preflight, 187/187 shard inference, parser validation, adapter export, geometry join, metrics/controls, bootstrap CI, failure rows, and deterministic qualitative inspection. It remains appendix/extension evidence, not a main source-result table row.
 
 Inference:
 
 - H001 is promising as a scoped top-tier direction if the manuscript keeps the claim narrow: failure mechanism, calibrated geometry-consistency framework, recall/violation tradeoff, controls, denominator transparency, and Open3DSG caveats.
-- Qwen-VL should remain non-metric extension evidence until sharded inference, parser validation, adapter export, geometry join, metrics, controls, bootstrap CI if reported, and audit complete through Docker.
+- Qwen-VL should remain appendix/extension evidence despite completed Docker metrics because recall is lower than VL-SAT/Open3DSG and the route is crop-based VLM semantic-source evidence rather than end-to-end 3DSSG reproduction.
 
 ## Active Artifact Families
 

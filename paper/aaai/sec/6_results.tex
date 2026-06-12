@@ -83,6 +83,9 @@ positives remain nonviolated at 0.9965, counterfactual negatives are
 nonsatisfied at 0.9673, and \pgeom{} separates 7,944 rows with AUROC/AUPRC
 0.9772/0.9729 and Brier 0.0543. This distinguishes the calibrated reliability
 signal from a purely hand-written validity script.
+It also limits what can be claimed: H001 measures whether a predicted edge is
+consistent with declared geometry evidence; it does not certify unmeasured
+functional or language-pragmatic relation correctness.
 
 Structured audit and visual sanity checks support failure interpretation but
 are not large-scale human evaluation: a 250-row structured audit reaches
@@ -98,6 +101,10 @@ and changes old 377/388 \rAt{100} by only about +0.28 points, so the old
 missing-context caveat did not create the trend. Its clean-return raw files are
 row-equivalent after excluding run metadata, although the process-level teardown
 exit-137 caveat remains.
+The 533/548 unmodified full-validation branch is retained for the same reason:
+it follows the Open3DSG source preprocessing pipeline, and the main conclusion
+should not depend on hiding the resulting preprocessing visibility drop or on
+treating the recovery branch as an unmodified-source result.
 
 \begin{figure}[t]
     \centering

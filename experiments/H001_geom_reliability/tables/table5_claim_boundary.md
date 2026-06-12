@@ -6,4 +6,5 @@
 | Open3DSG | full_validation_recovery_metric_ready | main open-vocabulary relation-source case study within measured H001 families | not broad open-vocabulary improvement, Open3DSG SOTA, or unmodified-source reproduction by itself |
 | FROSS | runtime_blocked_support_contact_only | future support/contact smoke only | not full-family evidence |
 | Qwen-VL | contract_cache_runner_ready_non_metric | third semantic-source / modern VLM extension after full Docker metric path | not a replacement main baseline or metric evidence yet |
+| Attachment relations | extension_only | appendix/preliminary future-upgrade evidence only | not current main claim without full-validation rerun, denominator update, and post-G5d audit |
 | Broad open-vocabulary 3DSSG improvement | blocked | not allowed from current evidence | requires measured second-source/open-vocabulary evidence |

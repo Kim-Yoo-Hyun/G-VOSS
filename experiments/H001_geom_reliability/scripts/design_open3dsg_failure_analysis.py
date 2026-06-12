@@ -13,8 +13,12 @@ from typing import Any
 SCHEMA_VERSION = "h001_open3dsg_failure_analysis_v1"
 MANIFEST_SCHEMA_VERSION = "h001_open3dsg_failure_analysis_manifest_v1"
 STATUS = "failure_analysis_schema_ready_no_metric_run"
-SUPPORTED_RECORD_TYPES = ["open3dsg_failure_analysis", "vlsat_failure_analysis"]
-SUPPORTED_BASELINES = ["open3dsg_ov", "vlsat_closed_set"]
+SUPPORTED_RECORD_TYPES = [
+    "open3dsg_failure_analysis",
+    "vlsat_failure_analysis",
+    "qwen_vl_failure_analysis",
+]
+SUPPORTED_BASELINES = ["open3dsg_ov", "vlsat_closed_set", "qwen_vl_semantic_source"]
 
 
 PRIMARY_CATEGORIES: list[dict[str, Any]] = [

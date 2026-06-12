@@ -1,52 +1,52 @@
 [
   {
     "condition": "control_p_geom_valid_only",
-    "delta_r50_vs_main": -0.7614931237721021,
-    "delta_violation50_vs_main": 0.04087628865979382,
+    "delta_r50_vs_main": -0.7195367573011078,
+    "delta_violation50_vs_main": 0.04313868613138686,
     "purpose": "geometry-only ranking control",
-    "r100": 0.5049115913555993,
-    "r50": 0.20275049115913557,
-    "violation100": 0.07007731958762886,
-    "violation50": 0.06422680412371135
+    "r100": 0.5183786505538771,
+    "r50": 0.2109768378650554,
+    "violation100": 0.0710948905109489,
+    "violation50": 0.06605839416058394
   },
   {
     "condition": "control_distance_only",
-    "delta_r50_vs_main": -0.580746561886051,
-    "delta_violation50_vs_main": 0.0497938144329897,
+    "delta_r50_vs_main": -0.5558912386706949,
+    "delta_violation50_vs_main": 0.049452554744525555,
     "purpose": "simple distance heuristic control",
-    "r100": 0.5642436149312378,
-    "r50": 0.38349705304518666,
-    "violation100": 0.09927835051546392,
-    "violation50": 0.07314432989690722
+    "r100": 0.5553877139979859,
+    "r50": 0.37462235649546827,
+    "violation100": 0.09808394160583941,
+    "violation50": 0.07237226277372263
   },
   {
     "condition": "control_shuffled_geometry",
-    "delta_r50_vs_main": -0.0345776031434184,
-    "delta_violation50_vs_main": 0.00556701030927835,
+    "delta_r50_vs_main": -0.041540785498489496,
+    "delta_violation50_vs_main": 0.0065328467153284685,
     "purpose": "breaks geometry identity while preserving distribution",
-    "r100": 0.9787819253438114,
-    "r50": 0.9296660117878193,
-    "violation100": 0.055927835051546394,
-    "violation50": 0.028917525773195875
+    "r100": 0.9493957703927492,
+    "r50": 0.8889728096676737,
+    "violation100": 0.05883211678832117,
+    "violation50": 0.029452554744525548
   },
   {
     "condition": "control_wrong_pair_geometry",
-    "delta_r50_vs_main": -0.04007858546168952,
-    "delta_violation50_vs_main": 0.0068556701030927855,
+    "delta_r50_vs_main": -0.03902316213494461,
+    "delta_violation50_vs_main": 0.009124087591240879,
     "purpose": "tests object-pair identity",
-    "r100": 0.9787819253438114,
-    "r50": 0.9241650294695481,
-    "violation100": 0.05814432989690722,
-    "violation50": 0.03020618556701031
+    "r100": 0.952920443101712,
+    "r50": 0.8914904330312186,
+    "violation100": 0.06009124087591241,
+    "violation50": 0.03204379562043796
   },
   {
     "condition": "control_family_specific_p_geom_valid",
-    "delta_r50_vs_main": -0.0023575638506875274,
-    "delta_violation50_vs_main": -0.002989690721649483,
+    "delta_r50_vs_main": -0.0017623363544814197,
+    "delta_violation50_vs_main": -0.0022992700729927013,
     "purpose": "stricter family-specific calibration",
-    "r100": 0.9913555992141454,
-    "r50": 0.9618860510805501,
-    "violation100": 0.031030927835051545,
-    "violation50": 0.020360824742268042
+    "r100": 0.9682779456193353,
+    "r50": 0.9287512588116817,
+    "violation100": 0.0333029197080292,
+    "violation50": 0.020620437956204378
   }
 ]

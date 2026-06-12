@@ -1,6 +1,6 @@
 # H001 Paper Reviewer-Risk Register
 
-Last updated: 2026-06-06 KST
+Last updated: 2026-06-12 KST
 
 Scope: this file tracks paper-body risks for the current AAAI manuscript under
 `paper/aaai/`. The goal is not sentence polish; it is to prevent reviewer attacks
@@ -32,6 +32,9 @@ The main rejection risks are not that the topic is unimportant. They are:
 - the previous 127-scan H001 hardened scope can be attacked as a
   pilot-excluded subset unless the paper either justifies it as conservative
   no-leakage evidence or reruns the full official validation split.
+- paperization could look like desired-hypothesis fitting if added experiments,
+  relation families, or recovery branches are not explicitly tied to a
+  failure-mechanism -> design-necessity -> fixed-protocol -> evidence chain.
 
 ## Mitigation Status
 
@@ -225,6 +228,20 @@ Remaining after P0-P10:
   calibration, source-agnostic re-ranking interface, controls, and recall tradeoff.
   Do not widen the title, abstract, or contribution list unless additional
   source metrics and audit evidence are completed.
+- P13 principle-fit rule and defense audit on 2026-06-11: added a project rule
+  that paperization must follow `failure mechanism -> design necessity -> fixed
+  protocol -> falsifiable evidence -> claim boundary`, not desired-hypothesis
+  fitting. Current defense status is mostly adequate for the narrow AAAI claim:
+  the manuscript ties H001 to semantic confidence not being calibrated to
+  relation-level physical consistency; Method explains row identity, geometry
+  join, calibrated `p_geom_valid`, and recall/violation operating points;
+  Results include semantic-only, calibrated, rule-verified, family-specific,
+  geometry-only, distance-only, shuffled-geometry, wrong-pair, GT/counterfactual
+  verifier, bootstrap, and failure-analysis evidence. Remaining high-risk
+  points are wording-level: keep Open3DSG recovery policy visible, keep
+  relation-family scope narrow, keep Qwen/attachment/lateral as non-main until
+  full gates pass, and avoid saying "Open3DSG improvement" or broad
+  open-vocabulary 3DSSG improvement.
 - P11 full official validation transition: active paper-risk mitigation with
   VL-SAT full-validation metric bundle ready and Open3DSG full-validation
   recovery metric bundle ready.
@@ -269,7 +286,8 @@ Required fix:
   sensitivity evidence.
 - To minimize tuning/hand-adjustment concerns, preserve both Open3DSG
   full-validation routes in the paper record: the 533/548 branch is the
-  unmodified public-source/as-is route, and the 548/548 branch is the transparent
+  unmodified public-source/as-is route that follows the Open3DSG source
+  preprocessing pipeline, and the 548/548 branch is the transparent
   recovery-policy coverage-completion variant. If the main table cannot contain
   both rows, the omitted route must be visible in the caption, appendix, or
   sensitivity paragraph.
@@ -412,7 +430,8 @@ Current weakness:
 - The selected paper-facing Open3DSG result is not an unmodified Open3DSG
   preprocess route: it uses the selected official non-avg checkpoint and the
   548/548 recovery branch. The 533/548 covered full-validation branch remains
-  the sensitivity check.
+  the sensitivity check and follows the unmodified Open3DSG source preprocessing
+  pipeline.
 - The risk is wording: `main open-vocabulary case study` can be interpreted as a
   broad Open3DSG/SOTA claim unless the case-study boundary and recovery-policy
   caveat stay visible.
@@ -646,15 +665,17 @@ Evidence / affected files:
    defensible. Do not change the current paper claim during this gate.
 2. P0-P8: completed for the current claim; keep the manuscript wording scoped
    during any paper polish.
-3. Qwen-VL: keep as a deferred third semantic-source extension until GPU
-   runtime is acceptable and full Docker metric/audit promotion can run.
+3. Qwen-VL: keep as optional third semantic-source appendix/extension evidence
+   for the current AAAI route.
 
 ## What Not To Do
 
 - Do not broaden the claim to baseline-agnostic or full open-vocabulary 3DSSG
   generation.
-- Do not present Qwen-VL as evidence unless it receives full Docker metric,
-  denominator, geometry join, and audit treatment.
+- Do not present Qwen-VL as main evidence in the current AAAI route; its
+  full-validation missing-query denominator, crop-based semantic-source nature,
+  lower recall than VL-SAT/Open3DSG, and non-replacement boundary make it
+  appendix/extension evidence only.
 - Do not hide Open3DSG checkpoint provenance, filtered split, exact-label
   denominator, residual calibration-risk caveats, or the full-validation
   recovery policy. If reporting the historical 127-scan branch, keep its

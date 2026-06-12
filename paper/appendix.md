@@ -1,6 +1,6 @@
 # H001 Appendix And Supplement Plan
 
-Last updated: 2026-06-05 KST
+Last updated: 2026-06-12 KST
 
 This file owns appendix/supplement material that is too detailed for the AAAI
 main text but important for reviewer defense. It is not a new experiment-result
@@ -212,10 +212,13 @@ pass.
 ## Qwen-VL Boundary
 
 Qwen-VL remains a third semantic source / modern VLM extension. It is not a
-VL-SAT/Open3DSG replacement and not main paper metric evidence until all
-remaining shards, parser validation, prediction aggregation/export, geometry
-join, metrics, controls, bootstrap CI if reported, and audit are complete under
-Docker.
+VL-SAT/Open3DSG replacement. The full-validation Docker parser validation,
+prediction aggregation/export, geometry join, metrics, controls, bootstrap CI,
+failure rows, and deterministic qualitative inspection are complete. Current
+AAAI decision: keep Qwen as appendix/extension evidence, not a main-table
+source. The reason is that it has lower recall than VL-SAT/Open3DSG, uses a
+crop-based VLM semantic-source route rather than end-to-end 3DSSG reproduction,
+and retains a full-validation missing-query denominator caveat.
 
 ## Validation
 

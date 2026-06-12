@@ -746,6 +746,21 @@ dry-run shard `qwen_full_source_shard_0000` has 250 rows, 84 unique pair crops,
 and 0 blockers. Actual inference uses `qwen_vl_full_source_infer_shard` and
 must run as a timestamped background job.
 
+Qwen downstream validation and metric generation from a completed runtime root:
+
+```bash
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_source_aggregate'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_source_validate'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_adapter_export'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_geometry_join'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_metric_eval'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_bootstrap_ci'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_failure_schema'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_failure_generator'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_failure_case_sampler'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_failure_case_inspection'
+```
+
 ## Direct Docker Equivalent
 
 ```bash
@@ -1148,6 +1163,7 @@ sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_g
 ```
 
 Current result: 77,748 universe query rows, 33,384 inferable input rows, 44,364
-missing rows, 134 shards, and 0 input contract errors. Full Qwen inference is
-still blocked until full-source crop rendering or render-on-demand shard
-preflight verifies image availability.
+missing rows, 134 shards, and 0 input contract errors. Full-source crop
+preflight, inference, parser validation, adapter export, geometry join, metrics,
+bootstrap, and diagnostic audit are now complete as optional third-source
+extension evidence.

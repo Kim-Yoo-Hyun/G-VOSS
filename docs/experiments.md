@@ -1,6 +1,6 @@
 # Experiment Workflow
 
-Last updated: 2026-06-06
+Last updated: 2026-06-12
 
 This document is the workflow rulebook for Docker-based paper experiments. It
 does not replace `docs/reproducibility.md`, which owns recovery commands,
@@ -102,6 +102,16 @@ Current H001 paper-result path is scoped to measured `support_contact`,
 remain extension tracks until they pass their own Docker metric, control,
 bootstrap/audit, and claim confirmation gates.
 
+Current AAAI main route is:
+
+- `VL-SAT` full-validation (157 scans / 548 contexts) as the controlled anchor;
+- Open3DSG full-validation main route from
+  `sources/open3dsg/full_validation/recovery_relaxed_views_min2/` (548/548
+  contexts) as the primary cross-source evidence;
+- Open3DSG `full_validation/` 533/548 unmodified covered branch is retained only as
+  sensitivity evidence; it is not the main source-result branch;
+- Qwen-VL full-validation is kept as appendix/extension evidence only.
+
 Current `relative_lateral` extension status is
 `relative_lateral_policy_threshold_provenance_frozen_no_source_metrics`:
 `left/right` are frozen as a candidate family with 2,264 GT rows, while
@@ -134,4 +144,8 @@ scoring/metrics/controls/bootstrap completed with exit 0. Log:
 `logs/h001_attachment_g5d_full_20260606_113803.log`; output:
 `experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d/`.
 Counts: 69/69 shards, 135,048 scored rows, validation errors 0. This does not
-update the AAAI main claim.
+update the AAAI main claim. Decision on 2026-06-11 KST: keep it as
+appendix/preliminary extension evidence and future-upgrade path. Do not promote
+it until it is rerun on the current full official validation route, Open3DSG
+denominator caveats are updated, pairwise bootstrap deltas are reported, and
+post-G5d failure/visual audit is completed.

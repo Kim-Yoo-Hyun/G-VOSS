@@ -115,6 +115,7 @@
   "schema_version": "h001_open3dsg_failure_analysis_v1",
   "target_baselines": [
     "open3dsg_ov",
-    "vlsat_closed_set"
+    "vlsat_closed_set",
+    "qwen_vl_semantic_source"
   ]
 }

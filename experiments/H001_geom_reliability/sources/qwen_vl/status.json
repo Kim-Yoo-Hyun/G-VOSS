@@ -1,5 +1,101 @@
 {
-    "created_at": "2026-05-08T06:35:07+00:00",
+  "created_at": "2026-05-08T06:35:07+00:00",
+  "full_source_downstream_20260611": {
+    "adapter": {
+      "exact_label_gt_keys_hit_by_qwen_predictions": 932,
+      "exported_in_scope_predictions": 23084,
+      "exported_predictions": 25262,
+      "ground_truth_rows": 7505,
+      "manifest": "experiments/H001_geom_reliability/sources/qwen_vl/adapter/manifest.json",
+      "status": "qwen_vl_adapter_export_ready",
+      "target_family_gt_rows": 2545,
+      "target_family_gt_rows_with_qwen_input_pair_family": 1845
+    },
+    "bootstrap_ci": {
+      "probabilistic_recalibrated_delta_at_50": {
+        "recall_ci95": [
+          0.026236536819652788,
+          0.0555367214578233
+        ],
+        "recall_delta": 0.04086444007858542,
+        "violation_ci95": [
+          -0.05131249345636529,
+          -0.03959318238377713
+        ],
+        "violation_delta": -0.045213437736802226
+      },
+      "summary": "experiments/H001_geom_reliability/sources/qwen_vl/bootstrap_ci/summary.json",
+      "status": "ready"
+    },
+    "claim_boundary": "appendix_extension_evidence_only_current_aaai_route_not_main_table",
+    "failure_cases": {
+      "demoted_by_geometry": 27,
+      "inspection": "experiments/H001_geom_reliability/sources/qwen_vl/failure_cases/inspection.json",
+      "promoted_or_retained_by_geometry": 9,
+      "selected_cases": 36,
+      "status": "qualitative_case_inspection_ready",
+      "violated_with_p_geom_valid_gt_0_9": 7
+    },
+    "failure_rows": {
+      "row_count": 22787,
+      "status": "failure_analysis_real_ready",
+      "summary": "experiments/H001_geom_reliability/sources/qwen_vl/failure_rows/summary.json",
+      "visual_audit_queue_count": 2843
+    },
+    "geometry": {
+      "calibration_scored_rows": 23084,
+      "geometry_available_rows": 23084,
+      "manifest": "experiments/H001_geom_reliability/sources/qwen_vl/geometry/manifest.json",
+      "predictions": 25262,
+      "status": "ready",
+      "status_counts": {
+        "satisfied": 14548,
+        "uncertain": 5599,
+        "unsupported": 2178,
+        "violated": 2937
+      },
+      "unsupported_family_rows": 2178,
+      "verification_rows": 25262
+    },
+    "metrics": {
+      "control_family_specific_p_geom_valid": {
+        "recall_at_100": 0.3654223968565815,
+        "recall_at_50": 0.33084479371316305,
+        "violation_at_100": 0.11056910569105691,
+        "violation_at_50": 0.04988633493306391
+      },
+      "metrics_json": "experiments/H001_geom_reliability/sources/qwen_vl/metrics/metrics.json",
+      "probabilistic_recalibrated": {
+        "recall_at_100": 0.3654223968565815,
+        "recall_at_50": 0.3092337917485265,
+        "violation_at_100": 0.11666666666666667,
+        "violation_at_50": 0.07868148522354129
+      },
+      "rule_verified_point_subtype": {
+        "recall_at_100": 0.3630648330058939,
+        "recall_at_50": 0.29037328094302556,
+        "violation_at_100": 0.0,
+        "violation_at_50": 0.0
+      },
+      "semantic_only": {
+        "recall_at_100": 0.35795677799607073,
+        "recall_at_50": 0.2683693516699411,
+        "violation_at_100": 0.12601626016260162,
+        "violation_at_50": 0.12389492296034352
+      },
+      "status": "ready"
+    },
+    "parser_validation": {
+      "input_errors": 0,
+      "input_rows": 33384,
+      "manifest": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_validation/contract/manifest.json",
+      "output_errors": 0,
+      "parsed_rows": 33384,
+      "status": "validator_parser_skeleton_ready_no_model_runtime",
+      "warnings": 0
+    },
+    "status": "full_source_downstream_metrics_ready_third_source_non_main"
+  },
     "full_source_crop_render": {
         "all_preflight_exit_file": "logs/qwen_vl_full_source_crop_preflight_all_20260527_013235.exit",
         "all_preflight_log": "logs/qwen_vl_full_source_crop_preflight_all_20260527_013235.log",
@@ -95,6 +191,58 @@
         ],
         "working_directory": "/home/yoohyun/research"
     },
+    "full_source_inference_resume_20260611": {
+        "checked_at": "2026-06-11T06:47:32+09:00",
+        "command": "QWEN_VL_LOOP_RUN_ID=20260611_000531 QWEN_VL_LOOP_START_SUFFIX=0014 QWEN_VL_LOOP_END_SUFFIX=0133 bash experiments/H001_geom_reliability/scripts/run_qwen_vl_full_source_shard_loop.sh",
+        "completed_progress_files": 134,
+        "completed_rows": 33384,
+        "end_shard": "qwen_full_source_shard_0133",
+        "exit_file": "logs/qwen_vl_full_source_infer_remaining_20260611_000531.exit",
+        "exit_file_value": 0,
+        "final_shard_finished_at": "2026-06-11T06:47:32+09:00",
+        "log": "logs/qwen_vl_full_source_infer_remaining_20260611_000531.log",
+        "manifests": 134,
+        "parser_status_counts": {
+            "parsed": 33383,
+            "parsed_with_warning": 1
+        },
+        "parser_warning_note": "One row contains duplicate lying on predictions in the model response; the parser retained one deduplicated top prediction.",
+        "paper_metric": false,
+        "predictions_files": 134,
+        "prediction_rows": 33384,
+        "promotion_rule": {
+            "metric_promotion_requires": [
+                "all_shards_complete",
+                "parser_validation",
+                "adapter_export",
+                "geometry_join",
+                "metrics",
+                "controls",
+                "bootstrap_ci_if_reported",
+                "failure_audit"
+            ],
+            "paper_metric": false
+        },
+        "raw_response_files": 134,
+        "raw_response_rows": 33384,
+        "report_json_files": 134,
+        "report_markdown_files": 134,
+        "run_id": "20260611_000531",
+        "shards_completed": 134,
+        "start_shard": "qwen_full_source_shard_0014",
+        "status": "full_source_inference_all_shards_complete_non_metric",
+        "status_tsv": "logs/qwen_vl_full_source_infer_remaining_20260611_000531.status.tsv",
+        "tmux_active": false,
+        "tmux_session": "h001_qwen_vl_infer_remaining_resume_20260611_000531",
+        "verification_commands": [
+            "cat logs/qwen_vl_full_source_infer_remaining_20260611_000531.exit",
+            "find experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/manifests -name 'qwen_full_source_shard_*.json' | wc -l",
+            "wc -l experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/predictions/qwen_full_source_shard_*.jsonl | tail -n 1",
+            "wc -l experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/raw_response/qwen_full_source_shard_*.jsonl | tail -n 1",
+            "jq -r '.parser_status // empty' experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/predictions/qwen_full_source_shard_*.jsonl | sort | uniq -c"
+        ],
+        "working_directory": "/home/yoohyun/research"
+    },
     "full_source_inference_plan": {
         "dry_run_exit_file": "logs/qwen_vl_full_source_infer_dry_run_shard0000_20260527_020324.exit",
         "dry_run_log": "logs/qwen_vl_full_source_infer_dry_run_shard0000_20260527_020324.log",
@@ -147,14 +295,104 @@
         "validation_manifest": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_input/validation/manifest.json",
         "validation_status": "validator_parser_skeleton_ready_no_model_runtime"
     },
-    "full_source_promotion_plan": {
-        "commands": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_plan/commands.md",
-        "log": "logs/qwen_vl_full_source_plan_20260527_003349.log",
-        "manifest": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_plan/manifest.json",
-        "protocol": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_plan/protocol.json",
-        "report": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_plan/report.md",
-        "status": "full_source_promotion_plan_frozen_no_metric_run"
+  "full_source_promotion_plan": {
+    "commands": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_plan/commands.md",
+    "log": "logs/qwen_vl_full_source_plan_20260527_003349.log",
+    "manifest": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_plan/manifest.json",
+    "protocol": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_plan/protocol.json",
+    "report": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_plan/report.md",
+    "status": "full_source_promotion_plan_frozen_no_metric_run"
+  },
+  "full_validation_downstream_20260612": {
+    "adapter": {
+      "exact_label_gt_keys_hit_by_qwen_predictions": 1453,
+      "exported_in_scope_predictions": 32236,
+      "exported_predictions": 35131,
+      "ground_truth_rows": 11254,
+      "manifest": "experiments/H001_geom_reliability/sources/qwen_vl/full_validation/adapter/manifest.json",
+      "status": "qwen_vl_adapter_export_ready",
+      "target_family_gt_rows": 3972,
+      "target_family_gt_rows_with_qwen_input_pair_family": 2880
     },
+    "bootstrap_ci": {
+      "probabilistic_recalibrated_delta_at_50": {
+        "recall_delta": 0.04003021148036251,
+        "violation_delta": -0.04311223359475388
+      },
+      "summary": "experiments/H001_geom_reliability/sources/qwen_vl/full_validation/bootstrap_ci/summary.json",
+      "status": "ready"
+    },
+    "claim_boundary": "appendix_extension_evidence_only_current_aaai_route_not_main_table",
+    "failure_cases": {
+      "demoted_by_geometry": 27,
+      "inspection": "experiments/H001_geom_reliability/sources/qwen_vl/full_validation/failure_cases/inspection.json",
+      "promoted_or_retained_by_geometry": 9,
+      "selected_cases": 36,
+      "status": "qualitative_case_inspection_ready",
+      "violated_with_p_geom_valid_gt_0_9": 6
+    },
+    "failure_rows": {
+      "row_count": 31881,
+      "status": "failure_analysis_real_ready",
+      "summary": "experiments/H001_geom_reliability/sources/qwen_vl/full_validation/failure_rows/summary.json",
+      "visual_audit_queue_count": 3939
+    },
+    "inference": {
+      "completed_rows": 46506,
+      "exit_file": "logs/h001_qwen_fullval_infer_loop_20260611_141736.exit",
+      "log": "logs/h001_qwen_fullval_infer_loop_20260611_141736.log",
+      "shards_completed": 187,
+      "shards_total": 187,
+      "status_tsv": "logs/qwen_vl_full_validation_infer_20260611_141736.status.tsv"
+    },
+    "metrics": {
+      "control_family_specific_p_geom_valid": {
+        "recall_at_100": 0.36530715005035247,
+        "recall_at_50": 0.337865055387714,
+        "violation_at_100": 0.11131122760750008,
+        "violation_at_50": 0.051043466702113516
+      },
+      "metrics_json": "experiments/H001_geom_reliability/sources/qwen_vl/full_validation/metrics/metrics.json",
+      "probabilistic_recalibrated": {
+        "recall_at_100": 0.36530715005035247,
+        "recall_at_50": 0.3215005035246727,
+        "violation_at_100": 0.11655356511111825,
+        "violation_at_50": 0.07953387389782444
+      },
+      "rule_verified_point_subtype": {
+        "recall_at_100": 0.36304128902316213,
+        "recall_at_50": 0.30085599194360524,
+        "violation_at_100": 0.0,
+        "violation_at_50": 0.0
+      },
+      "semantic_only": {
+        "recall_at_100": 0.3600201409869084,
+        "recall_at_50": 0.2814702920443102,
+        "violation_at_100": 0.12459396005531792,
+        "violation_at_50": 0.12264610749257832
+      },
+      "status": "ready"
+    },
+    "parser_validation": {
+      "input_errors": 0,
+      "input_rows": 46506,
+      "manifest": "experiments/H001_geom_reliability/sources/qwen_vl/full_validation/validation/contract/manifest.json",
+      "output_errors": 0,
+      "parsed_rows": 46506,
+      "status": "validator_parser_skeleton_ready_no_model_runtime",
+      "warnings": 0
+    },
+    "scope": {
+      "contexts": 548,
+      "directed_pairs": 36808,
+      "h001_family_gt_rows": 3972,
+      "inferable_input_rows": 46506,
+      "missing_query_rows": 63918,
+      "scans": 157,
+      "universe_query_rows": 110424
+    },
+    "status": "full_validation_downstream_metrics_ready_third_source_extension"
+  },
     "model_cache_job": {
         "cache_manifest": "experiments/H001_geom_reliability/sources/qwen_vl/runtime_smoke/cache/manifest.json",
         "exit_file": "logs/qwen_vl_model_download_20260512_082830.exit",
@@ -166,7 +404,8 @@
         "status": "completed_cache_ready"
     },
     "promotion_rule": {
-        "paper_metric": false,
+    "paper_metric": false,
+    "paper_placement_decision": "appendix_extension_evidence_only_current_aaai_route",
         "replacement_for_open3dsg_anchor": false,
         "replacement_for_vlsat_anchor": false,
         "role": "third_semantic_source_modern_vlm_extension"
@@ -177,5 +416,5 @@
         "status": "tiny_inference_smoke_passed_non_metric",
         "tiny_inference_manifest": "experiments/H001_geom_reliability/sources/qwen_vl/runtime_smoke/tiny_inference/manifest.json"
     },
-    "status": "full_source_inference_loop_stopped_at_shard_0014_gpu_guard_non_metric"
+  "status": "full_validation_downstream_metrics_ready_third_source_extension"
 }

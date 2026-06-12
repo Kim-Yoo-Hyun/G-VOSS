@@ -78,6 +78,18 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=Path("experiments/H001_geom_reliability/sources/qwen_vl/full_source_input"),
     )
+    parser.add_argument(
+        "--runtime-output-root",
+        type=Path,
+        default=Path("experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime"),
+    )
+    parser.add_argument("--split-name", default=SPLIT_NAME)
+    parser.add_argument("--expected-scans", type=int, default=EXPECTED_SCANS)
+    parser.add_argument("--expected-contexts", type=int, default=EXPECTED_CONTEXTS)
+    parser.add_argument("--expected-directed-pairs", type=int, default=EXPECTED_DIRECTED_PAIRS)
+    parser.add_argument("--expected-universe-rows", type=int, default=EXPECTED_ALL_PAIR_FAMILY_ROWS)
+    parser.add_argument("--expected-in-scope-gt", type=int, default=EXPECTED_IN_SCOPE_GT)
+    parser.add_argument("--shard-id-prefix", default="qwen_full_source_shard")
     parser.add_argument("--shard-size", type=int, default=250)
     parser.add_argument("--padding-ratio", type=float, default=0.18)
     parser.add_argument("--min-padding-px", type=int, default=12)
@@ -255,8 +267,8 @@ def image_size(path: Path, cache: dict[Path, tuple[int, int]]) -> tuple[int, int
     return size
 
 
-def build_record_id(subgraph_id: str, subject_id: int, object_id: int, family: str) -> str:
-    return f"qwen_vl:{SPLIT_NAME}:{subgraph_id}:{subject_id}:{object_id}:{family}"
+def build_record_id(split_name: str, subgraph_id: str, subject_id: int, object_id: int, family: str) -> str:
+    return f"qwen_vl:{split_name}:{subgraph_id}:{subject_id}:{object_id}:{family}"
 
 
 def build_pair_crop_path(crop_root: Path, subgraph_id: str, subject_id: int, object_id: int) -> Path:
@@ -303,12 +315,13 @@ def build_input_row(
     source_image: Path,
     subject_crop_box: list[int],
     object_crop_box: list[int],
+    split_name: str,
 ) -> dict[str, Any]:
     subgraph_id = str(context["subgraph_id"])
     pair_path = build_pair_crop_path(crop_root, subgraph_id, subject_id, object_id)
     return {
         "schema_version": INPUT_SCHEMA_VERSION,
-        "record_id": build_record_id(subgraph_id, subject_id, object_id, family),
+        "record_id": build_record_id(split_name, subgraph_id, subject_id, object_id, family),
         "scan_id": context["scan_id"],
         "subgraph_id": subgraph_id,
         "split": "held_out",
@@ -347,11 +360,12 @@ def build_shards(
     output_root: Path,
     row_count: int,
     shard_size: int,
+    shard_id_prefix: str,
 ) -> list[dict[str, Any]]:
     shards: list[dict[str, Any]] = []
     for shard_index, start in enumerate(range(0, row_count, shard_size)):
         end = min(start + shard_size, row_count)
-        shard_id = f"qwen_full_source_shard_{shard_index:04d}"
+        shard_id = f"{shard_id_prefix}_{shard_index:04d}"
         shards.append(
             {
                 "shard_id": shard_id,
@@ -361,8 +375,8 @@ def build_shards(
                 "input_jsonl": relpath(repo_root, input_path),
                 "raw_response_jsonl": relpath(repo_root, output_root / "raw_response" / f"{shard_id}.jsonl"),
                 "predictions_jsonl": relpath(repo_root, output_root / "predictions" / f"{shard_id}.jsonl"),
-                "log_template": f"logs/qwen_vl_full_source_infer_{shard_id}_${{ts}}.log",
-                "exit_template": f"logs/qwen_vl_full_source_infer_{shard_id}_${{ts}}.exit",
+                "log_template": f"logs/qwen_vl_infer_{shard_id}_${{ts}}.log",
+                "exit_template": f"logs/qwen_vl_infer_{shard_id}_${{ts}}.exit",
             }
         )
     return shards
@@ -422,6 +436,7 @@ def main() -> int:
     rscan_root = resolve(repo_root, args.rscan_root)
     crop_root = resolve(repo_root, args.crop_root)
     out_dir = resolve(repo_root, args.out)
+    runtime_output_root = resolve(repo_root, args.runtime_output_root)
     assert contract_dir is not None
     assert subset_json is not None
     assert selected_scans is not None
@@ -429,6 +444,7 @@ def main() -> int:
     assert rscan_root is not None
     assert crop_root is not None
     assert out_dir is not None
+    assert runtime_output_root is not None
     out_dir.mkdir(parents=True, exist_ok=True)
 
     family_to_predicates = family_map(contract_dir)
@@ -530,7 +546,7 @@ def main() -> int:
                     context, subject_id, object_id
                 )
                 for family in TARGET_FAMILIES:
-                    record_id = build_record_id(str(context["subgraph_id"]), subject_id, object_id, family)
+                    record_id = build_record_id(args.split_name, str(context["subgraph_id"]), subject_id, object_id, family)
                     universe = {
                         "schema_version": "h001_qwen_vl_full_source_universe_v1",
                         "record_id": record_id,
@@ -565,20 +581,21 @@ def main() -> int:
                                 source_image=source_image,
                                 subject_crop_box=subject_box,
                                 object_crop_box=object_box,
+                                split_name=args.split_name,
                             )
                         )
                     else:
                         missing_rows.append({**universe, "missing_reason": pair_status})
                         missing_reason_counts[pair_status] += 1
 
-    if selected_scan_count != EXPECTED_SCANS:
-        errors.append(f"selected_scans:{selected_scan_count}/{EXPECTED_SCANS}")
-    if len(contexts) != EXPECTED_CONTEXTS:
-        errors.append(f"contexts:{len(contexts)}/{EXPECTED_CONTEXTS}")
-    if counters["directed_pairs"] != EXPECTED_DIRECTED_PAIRS:
-        errors.append(f"directed_pairs:{counters['directed_pairs']}/{EXPECTED_DIRECTED_PAIRS}")
-    if len(universe_rows) != EXPECTED_ALL_PAIR_FAMILY_ROWS:
-        errors.append(f"universe_rows:{len(universe_rows)}/{EXPECTED_ALL_PAIR_FAMILY_ROWS}")
+    if selected_scan_count != args.expected_scans:
+        errors.append(f"selected_scans:{selected_scan_count}/{args.expected_scans}")
+    if len(contexts) != args.expected_contexts:
+        errors.append(f"contexts:{len(contexts)}/{args.expected_contexts}")
+    if counters["directed_pairs"] != args.expected_directed_pairs:
+        errors.append(f"directed_pairs:{counters['directed_pairs']}/{args.expected_directed_pairs}")
+    if len(universe_rows) != args.expected_universe_rows:
+        errors.append(f"universe_rows:{len(universe_rows)}/{args.expected_universe_rows}")
     if not input_rows:
         errors.append("input_rows:0")
 
@@ -592,8 +609,14 @@ def main() -> int:
     input_path = out_dir / "input.jsonl"
     missing_path = out_dir / "missing.jsonl"
     shards_path = out_dir / "shards.jsonl"
-    output_root = Path("experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime")
-    shards = build_shards(repo_root, input_path, resolve(repo_root, output_root) or repo_root / output_root, len(input_rows), args.shard_size)
+    shards = build_shards(
+        repo_root,
+        input_path,
+        runtime_output_root,
+        len(input_rows),
+        args.shard_size,
+        args.shard_id_prefix,
+    )
 
     universe_sha = write_jsonl(universe_path, universe_rows)
     input_sha = write_jsonl(input_path, input_rows)
@@ -617,6 +640,8 @@ def main() -> int:
             "views_dir": relpath(repo_root, views_dir),
             "rscan_root": relpath(repo_root, rscan_root),
             "crop_root": relpath(repo_root, crop_root),
+            "runtime_output_root": relpath(repo_root, runtime_output_root),
+            "split_name": args.split_name,
         },
         "outputs": {
             "universe_jsonl": relpath(repo_root, universe_path),
@@ -635,7 +660,7 @@ def main() -> int:
             "input_rows": len(input_rows),
             "missing_rows": len(missing_rows),
             "shards": len(shards),
-            "expected_in_scope_gt_rows": EXPECTED_IN_SCOPE_GT,
+            "expected_in_scope_gt_rows": args.expected_in_scope_gt,
             "family_counts": dict(sorted(family_counts.items())),
             "input_family_counts": dict(sorted(input_family_counts.items())),
             "missing_family_counts": dict(sorted(missing_family_counts.items())),

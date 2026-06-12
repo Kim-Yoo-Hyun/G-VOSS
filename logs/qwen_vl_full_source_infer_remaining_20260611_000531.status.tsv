@@ -40,3 +40,202 @@ run_id	shard_id	event	timestamp	exit_code
 20260611_000531	qwen_full_source_shard_0033	started	2026-06-11T01:09:20+09:00	
 20260611_000531	qwen_full_source_shard_0033	finished	2026-06-11T01:12:49+09:00	0
 20260611_000531	qwen_full_source_shard_0034	started	2026-06-11T01:12:49+09:00	
+20260611_000531	qwen_full_source_shard_0034	finished	2026-06-11T01:16:36+09:00	0
+20260611_000531	qwen_full_source_shard_0035	started	2026-06-11T01:16:36+09:00	
+20260611_000531	qwen_full_source_shard_0035	finished	2026-06-11T01:20:32+09:00	0
+20260611_000531	qwen_full_source_shard_0036	started	2026-06-11T01:20:32+09:00	
+20260611_000531	qwen_full_source_shard_0036	finished	2026-06-11T01:24:16+09:00	0
+20260611_000531	qwen_full_source_shard_0037	started	2026-06-11T01:24:16+09:00	
+20260611_000531	qwen_full_source_shard_0037	finished	2026-06-11T01:27:28+09:00	0
+20260611_000531	qwen_full_source_shard_0038	started	2026-06-11T01:27:28+09:00	
+20260611_000531	qwen_full_source_shard_0038	finished	2026-06-11T01:30:36+09:00	0
+20260611_000531	qwen_full_source_shard_0039	started	2026-06-11T01:30:36+09:00	
+20260611_000531	qwen_full_source_shard_0039	finished	2026-06-11T01:34:22+09:00	0
+20260611_000531	qwen_full_source_shard_0040	started	2026-06-11T01:34:22+09:00	
+20260611_000531	qwen_full_source_shard_0040	finished	2026-06-11T01:37:58+09:00	0
+20260611_000531	qwen_full_source_shard_0041	started	2026-06-11T01:37:58+09:00	
+20260611_000531	qwen_full_source_shard_0041	finished	2026-06-11T01:41:25+09:00	0
+20260611_000531	qwen_full_source_shard_0042	started	2026-06-11T01:41:25+09:00	
+20260611_000531	qwen_full_source_shard_0042	finished	2026-06-11T01:44:44+09:00	0
+20260611_000531	qwen_full_source_shard_0043	started	2026-06-11T01:44:44+09:00	
+20260611_000531	qwen_full_source_shard_0043	finished	2026-06-11T01:48:13+09:00	0
+20260611_000531	qwen_full_source_shard_0044	started	2026-06-11T01:48:13+09:00	
+20260611_000531	qwen_full_source_shard_0044	finished	2026-06-11T01:51:57+09:00	0
+20260611_000531	qwen_full_source_shard_0045	started	2026-06-11T01:51:57+09:00	
+20260611_000531	qwen_full_source_shard_0045	finished	2026-06-11T01:55:38+09:00	0
+20260611_000531	qwen_full_source_shard_0046	started	2026-06-11T01:55:38+09:00	
+20260611_000531	qwen_full_source_shard_0046	finished	2026-06-11T01:59:07+09:00	0
+20260611_000531	qwen_full_source_shard_0047	started	2026-06-11T01:59:07+09:00	
+20260611_000531	qwen_full_source_shard_0047	finished	2026-06-11T02:01:52+09:00	0
+20260611_000531	qwen_full_source_shard_0048	started	2026-06-11T02:01:52+09:00	
+20260611_000531	qwen_full_source_shard_0048	finished	2026-06-11T02:04:38+09:00	0
+20260611_000531	qwen_full_source_shard_0049	started	2026-06-11T02:04:38+09:00	
+20260611_000531	qwen_full_source_shard_0049	finished	2026-06-11T02:07:48+09:00	0
+20260611_000531	qwen_full_source_shard_0050	started	2026-06-11T02:07:48+09:00	
+20260611_000531	qwen_full_source_shard_0050	finished	2026-06-11T02:11:01+09:00	0
+20260611_000531	qwen_full_source_shard_0051	started	2026-06-11T02:11:01+09:00	
+20260611_000531	qwen_full_source_shard_0051	finished	2026-06-11T02:14:37+09:00	0
+20260611_000531	qwen_full_source_shard_0052	started	2026-06-11T02:14:37+09:00	
+20260611_000531	qwen_full_source_shard_0052	finished	2026-06-11T02:17:40+09:00	0
+20260611_000531	qwen_full_source_shard_0053	started	2026-06-11T02:17:40+09:00	
+20260611_000531	qwen_full_source_shard_0053	finished	2026-06-11T02:21:12+09:00	0
+20260611_000531	qwen_full_source_shard_0054	started	2026-06-11T02:21:12+09:00	
+20260611_000531	qwen_full_source_shard_0054	finished	2026-06-11T02:24:28+09:00	0
+20260611_000531	qwen_full_source_shard_0055	started	2026-06-11T02:24:28+09:00	
+20260611_000531	qwen_full_source_shard_0055	finished	2026-06-11T02:27:45+09:00	0
+20260611_000531	qwen_full_source_shard_0056	started	2026-06-11T02:27:45+09:00	
+20260611_000531	qwen_full_source_shard_0056	finished	2026-06-11T02:31:17+09:00	0
+20260611_000531	qwen_full_source_shard_0057	started	2026-06-11T02:31:17+09:00	
+20260611_000531	qwen_full_source_shard_0057	finished	2026-06-11T02:35:06+09:00	0
+20260611_000531	qwen_full_source_shard_0058	started	2026-06-11T02:35:06+09:00	
+20260611_000531	qwen_full_source_shard_0058	finished	2026-06-11T02:38:25+09:00	0
+20260611_000531	qwen_full_source_shard_0059	started	2026-06-11T02:38:25+09:00	
+20260611_000531	qwen_full_source_shard_0059	finished	2026-06-11T02:41:32+09:00	0
+20260611_000531	qwen_full_source_shard_0060	started	2026-06-11T02:41:32+09:00	
+20260611_000531	qwen_full_source_shard_0060	finished	2026-06-11T02:44:27+09:00	0
+20260611_000531	qwen_full_source_shard_0061	started	2026-06-11T02:44:27+09:00	
+20260611_000531	qwen_full_source_shard_0061	finished	2026-06-11T02:47:34+09:00	0
+20260611_000531	qwen_full_source_shard_0062	started	2026-06-11T02:47:34+09:00	
+20260611_000531	qwen_full_source_shard_0062	finished	2026-06-11T02:50:52+09:00	0
+20260611_000531	qwen_full_source_shard_0063	started	2026-06-11T02:50:52+09:00	
+20260611_000531	qwen_full_source_shard_0063	finished	2026-06-11T02:54:21+09:00	0
+20260611_000531	qwen_full_source_shard_0064	started	2026-06-11T02:54:21+09:00	
+20260611_000531	qwen_full_source_shard_0064	finished	2026-06-11T02:57:32+09:00	0
+20260611_000531	qwen_full_source_shard_0065	started	2026-06-11T02:57:32+09:00	
+20260611_000531	qwen_full_source_shard_0065	finished	2026-06-11T03:00:46+09:00	0
+20260611_000531	qwen_full_source_shard_0066	started	2026-06-11T03:00:46+09:00	
+20260611_000531	qwen_full_source_shard_0066	finished	2026-06-11T03:04:27+09:00	0
+20260611_000531	qwen_full_source_shard_0067	started	2026-06-11T03:04:27+09:00	
+20260611_000531	qwen_full_source_shard_0067	finished	2026-06-11T03:07:56+09:00	0
+20260611_000531	qwen_full_source_shard_0068	started	2026-06-11T03:07:56+09:00	
+20260611_000531	qwen_full_source_shard_0068	finished	2026-06-11T03:11:09+09:00	0
+20260611_000531	qwen_full_source_shard_0069	started	2026-06-11T03:11:09+09:00	
+20260611_000531	qwen_full_source_shard_0069	finished	2026-06-11T03:14:36+09:00	0
+20260611_000531	qwen_full_source_shard_0070	started	2026-06-11T03:14:36+09:00	
+20260611_000531	qwen_full_source_shard_0070	finished	2026-06-11T03:17:43+09:00	0
+20260611_000531	qwen_full_source_shard_0071	started	2026-06-11T03:17:43+09:00	
+20260611_000531	qwen_full_source_shard_0071	finished	2026-06-11T03:20:53+09:00	0
+20260611_000531	qwen_full_source_shard_0072	started	2026-06-11T03:20:53+09:00	
+20260611_000531	qwen_full_source_shard_0072	finished	2026-06-11T03:24:10+09:00	0
+20260611_000531	qwen_full_source_shard_0073	started	2026-06-11T03:24:10+09:00	
+20260611_000531	qwen_full_source_shard_0073	finished	2026-06-11T03:27:29+09:00	0
+20260611_000531	qwen_full_source_shard_0074	started	2026-06-11T03:27:29+09:00	
+20260611_000531	qwen_full_source_shard_0074	finished	2026-06-11T03:30:48+09:00	0
+20260611_000531	qwen_full_source_shard_0075	started	2026-06-11T03:30:48+09:00	
+20260611_000531	qwen_full_source_shard_0075	finished	2026-06-11T03:34:12+09:00	0
+20260611_000531	qwen_full_source_shard_0076	started	2026-06-11T03:34:12+09:00	
+20260611_000531	qwen_full_source_shard_0076	finished	2026-06-11T03:37:20+09:00	0
+20260611_000531	qwen_full_source_shard_0077	started	2026-06-11T03:37:20+09:00	
+20260611_000531	qwen_full_source_shard_0077	finished	2026-06-11T03:40:27+09:00	0
+20260611_000531	qwen_full_source_shard_0078	started	2026-06-11T03:40:27+09:00	
+20260611_000531	qwen_full_source_shard_0078	finished	2026-06-11T03:43:58+09:00	0
+20260611_000531	qwen_full_source_shard_0079	started	2026-06-11T03:43:58+09:00	
+20260611_000531	qwen_full_source_shard_0079	finished	2026-06-11T03:47:27+09:00	0
+20260611_000531	qwen_full_source_shard_0080	started	2026-06-11T03:47:27+09:00	
+20260611_000531	qwen_full_source_shard_0080	finished	2026-06-11T03:50:46+09:00	0
+20260611_000531	qwen_full_source_shard_0081	started	2026-06-11T03:50:46+09:00	
+20260611_000531	qwen_full_source_shard_0081	finished	2026-06-11T03:53:31+09:00	0
+20260611_000531	qwen_full_source_shard_0082	started	2026-06-11T03:53:31+09:00	
+20260611_000531	qwen_full_source_shard_0082	finished	2026-06-11T03:56:55+09:00	0
+20260611_000531	qwen_full_source_shard_0083	started	2026-06-11T03:56:55+09:00	
+20260611_000531	qwen_full_source_shard_0083	finished	2026-06-11T04:00:17+09:00	0
+20260611_000531	qwen_full_source_shard_0084	started	2026-06-11T04:00:17+09:00	
+20260611_000531	qwen_full_source_shard_0084	finished	2026-06-11T04:03:42+09:00	0
+20260611_000531	qwen_full_source_shard_0085	started	2026-06-11T04:03:42+09:00	
+20260611_000531	qwen_full_source_shard_0085	finished	2026-06-11T04:07:09+09:00	0
+20260611_000531	qwen_full_source_shard_0086	started	2026-06-11T04:07:09+09:00	
+20260611_000531	qwen_full_source_shard_0086	finished	2026-06-11T04:10:17+09:00	0
+20260611_000531	qwen_full_source_shard_0087	started	2026-06-11T04:10:17+09:00	
+20260611_000531	qwen_full_source_shard_0087	finished	2026-06-11T04:13:31+09:00	0
+20260611_000531	qwen_full_source_shard_0088	started	2026-06-11T04:13:31+09:00	
+20260611_000531	qwen_full_source_shard_0088	finished	2026-06-11T04:16:46+09:00	0
+20260611_000531	qwen_full_source_shard_0089	started	2026-06-11T04:16:46+09:00	
+20260611_000531	qwen_full_source_shard_0089	finished	2026-06-11T04:20:09+09:00	0
+20260611_000531	qwen_full_source_shard_0090	started	2026-06-11T04:20:10+09:00	
+20260611_000531	qwen_full_source_shard_0090	finished	2026-06-11T04:23:14+09:00	0
+20260611_000531	qwen_full_source_shard_0091	started	2026-06-11T04:23:14+09:00	
+20260611_000531	qwen_full_source_shard_0091	finished	2026-06-11T04:25:59+09:00	0
+20260611_000531	qwen_full_source_shard_0092	started	2026-06-11T04:25:59+09:00	
+20260611_000531	qwen_full_source_shard_0092	finished	2026-06-11T04:29:27+09:00	0
+20260611_000531	qwen_full_source_shard_0093	started	2026-06-11T04:29:27+09:00	
+20260611_000531	qwen_full_source_shard_0093	finished	2026-06-11T04:32:54+09:00	0
+20260611_000531	qwen_full_source_shard_0094	started	2026-06-11T04:32:54+09:00	
+20260611_000531	qwen_full_source_shard_0094	finished	2026-06-11T04:36:12+09:00	0
+20260611_000531	qwen_full_source_shard_0095	started	2026-06-11T04:36:12+09:00	
+20260611_000531	qwen_full_source_shard_0095	finished	2026-06-11T04:39:25+09:00	0
+20260611_000531	qwen_full_source_shard_0096	started	2026-06-11T04:39:25+09:00	
+20260611_000531	qwen_full_source_shard_0096	finished	2026-06-11T04:42:22+09:00	0
+20260611_000531	qwen_full_source_shard_0097	started	2026-06-11T04:42:22+09:00	
+20260611_000531	qwen_full_source_shard_0097	finished	2026-06-11T04:45:46+09:00	0
+20260611_000531	qwen_full_source_shard_0098	started	2026-06-11T04:45:46+09:00	
+20260611_000531	qwen_full_source_shard_0098	finished	2026-06-11T04:49:11+09:00	0
+20260611_000531	qwen_full_source_shard_0099	started	2026-06-11T04:49:11+09:00	
+20260611_000531	qwen_full_source_shard_0099	finished	2026-06-11T04:52:52+09:00	0
+20260611_000531	qwen_full_source_shard_0100	started	2026-06-11T04:52:52+09:00	
+20260611_000531	qwen_full_source_shard_0100	finished	2026-06-11T04:56:00+09:00	0
+20260611_000531	qwen_full_source_shard_0101	started	2026-06-11T04:56:00+09:00	
+20260611_000531	qwen_full_source_shard_0101	finished	2026-06-11T04:59:41+09:00	0
+20260611_000531	qwen_full_source_shard_0102	started	2026-06-11T04:59:41+09:00	
+20260611_000531	qwen_full_source_shard_0102	finished	2026-06-11T05:03:01+09:00	0
+20260611_000531	qwen_full_source_shard_0103	started	2026-06-11T05:03:01+09:00	
+20260611_000531	qwen_full_source_shard_0103	finished	2026-06-11T05:06:35+09:00	0
+20260611_000531	qwen_full_source_shard_0104	started	2026-06-11T05:06:35+09:00	
+20260611_000531	qwen_full_source_shard_0104	finished	2026-06-11T05:10:12+09:00	0
+20260611_000531	qwen_full_source_shard_0105	started	2026-06-11T05:10:12+09:00	
+20260611_000531	qwen_full_source_shard_0105	finished	2026-06-11T05:13:34+09:00	0
+20260611_000531	qwen_full_source_shard_0106	started	2026-06-11T05:13:34+09:00	
+20260611_000531	qwen_full_source_shard_0106	finished	2026-06-11T05:17:02+09:00	0
+20260611_000531	qwen_full_source_shard_0107	started	2026-06-11T05:17:02+09:00	
+20260611_000531	qwen_full_source_shard_0107	finished	2026-06-11T05:20:53+09:00	0
+20260611_000531	qwen_full_source_shard_0108	started	2026-06-11T05:20:53+09:00	
+20260611_000531	qwen_full_source_shard_0108	finished	2026-06-11T05:24:11+09:00	0
+20260611_000531	qwen_full_source_shard_0109	started	2026-06-11T05:24:11+09:00	
+20260611_000531	qwen_full_source_shard_0109	finished	2026-06-11T05:27:33+09:00	0
+20260611_000531	qwen_full_source_shard_0110	started	2026-06-11T05:27:33+09:00	
+20260611_000531	qwen_full_source_shard_0110	finished	2026-06-11T05:31:01+09:00	0
+20260611_000531	qwen_full_source_shard_0111	started	2026-06-11T05:31:01+09:00	
+20260611_000531	qwen_full_source_shard_0111	finished	2026-06-11T05:34:46+09:00	0
+20260611_000531	qwen_full_source_shard_0112	started	2026-06-11T05:34:46+09:00	
+20260611_000531	qwen_full_source_shard_0112	finished	2026-06-11T05:38:13+09:00	0
+20260611_000531	qwen_full_source_shard_0113	started	2026-06-11T05:38:13+09:00	
+20260611_000531	qwen_full_source_shard_0113	finished	2026-06-11T05:41:34+09:00	0
+20260611_000531	qwen_full_source_shard_0114	started	2026-06-11T05:41:34+09:00	
+20260611_000531	qwen_full_source_shard_0114	finished	2026-06-11T05:44:44+09:00	0
+20260611_000531	qwen_full_source_shard_0115	started	2026-06-11T05:44:44+09:00	
+20260611_000531	qwen_full_source_shard_0115	finished	2026-06-11T05:47:42+09:00	0
+20260611_000531	qwen_full_source_shard_0116	started	2026-06-11T05:47:42+09:00	
+20260611_000531	qwen_full_source_shard_0116	finished	2026-06-11T05:50:23+09:00	0
+20260611_000531	qwen_full_source_shard_0117	started	2026-06-11T05:50:23+09:00	
+20260611_000531	qwen_full_source_shard_0117	finished	2026-06-11T05:53:31+09:00	0
+20260611_000531	qwen_full_source_shard_0118	started	2026-06-11T05:53:31+09:00	
+20260611_000531	qwen_full_source_shard_0118	finished	2026-06-11T05:56:55+09:00	0
+20260611_000531	qwen_full_source_shard_0119	started	2026-06-11T05:56:55+09:00	
+20260611_000531	qwen_full_source_shard_0119	finished	2026-06-11T06:00:48+09:00	0
+20260611_000531	qwen_full_source_shard_0120	started	2026-06-11T06:00:48+09:00	
+20260611_000531	qwen_full_source_shard_0120	finished	2026-06-11T06:04:29+09:00	0
+20260611_000531	qwen_full_source_shard_0121	started	2026-06-11T06:04:29+09:00	
+20260611_000531	qwen_full_source_shard_0121	finished	2026-06-11T06:07:31+09:00	0
+20260611_000531	qwen_full_source_shard_0122	started	2026-06-11T06:07:31+09:00	
+20260611_000531	qwen_full_source_shard_0122	finished	2026-06-11T06:11:01+09:00	0
+20260611_000531	qwen_full_source_shard_0123	started	2026-06-11T06:11:01+09:00	
+20260611_000531	qwen_full_source_shard_0123	finished	2026-06-11T06:14:14+09:00	0
+20260611_000531	qwen_full_source_shard_0124	started	2026-06-11T06:14:14+09:00	
+20260611_000531	qwen_full_source_shard_0124	finished	2026-06-11T06:17:39+09:00	0
+20260611_000531	qwen_full_source_shard_0125	started	2026-06-11T06:17:39+09:00	
+20260611_000531	qwen_full_source_shard_0125	finished	2026-06-11T06:21:14+09:00	0
+20260611_000531	qwen_full_source_shard_0126	started	2026-06-11T06:21:14+09:00	
+20260611_000531	qwen_full_source_shard_0126	finished	2026-06-11T06:24:43+09:00	0
+20260611_000531	qwen_full_source_shard_0127	started	2026-06-11T06:24:43+09:00	
+20260611_000531	qwen_full_source_shard_0127	finished	2026-06-11T06:28:26+09:00	0
+20260611_000531	qwen_full_source_shard_0128	started	2026-06-11T06:28:26+09:00	
+20260611_000531	qwen_full_source_shard_0128	finished	2026-06-11T06:31:53+09:00	0
+20260611_000531	qwen_full_source_shard_0129	started	2026-06-11T06:31:53+09:00	
+20260611_000531	qwen_full_source_shard_0129	finished	2026-06-11T06:35:22+09:00	0
+20260611_000531	qwen_full_source_shard_0130	started	2026-06-11T06:35:22+09:00	
+20260611_000531	qwen_full_source_shard_0130	finished	2026-06-11T06:38:44+09:00	0
+20260611_000531	qwen_full_source_shard_0131	started	2026-06-11T06:38:44+09:00	
+20260611_000531	qwen_full_source_shard_0131	finished	2026-06-11T06:42:10+09:00	0
+20260611_000531	qwen_full_source_shard_0132	started	2026-06-11T06:42:10+09:00	
+20260611_000531	qwen_full_source_shard_0132	finished	2026-06-11T06:45:28+09:00	0
+20260611_000531	qwen_full_source_shard_0133	started	2026-06-11T06:45:28+09:00	
+20260611_000531	qwen_full_source_shard_0133	finished	2026-06-11T06:47:32+09:00	0

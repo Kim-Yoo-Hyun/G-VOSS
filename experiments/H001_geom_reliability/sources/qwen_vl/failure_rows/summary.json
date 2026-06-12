@@ -1,0 +1,35 @@
+{
+  "by_claim_use": {
+    "caveat_only": 5802,
+    "include_metric": 13232,
+    "main_h001_failure": 2843,
+    "positive_evidence": 910
+  },
+  "by_predicate_family": {
+    "proximity": 9505,
+    "relative_vertical": 8643,
+    "support_contact": 4639
+  },
+  "by_primary_category": {
+    "geometry_contradiction": 353,
+    "insufficient_geometry_evidence": 5322,
+    "predicate_family_ambiguity": 480,
+    "rank_only_failure": 20,
+    "semantic_and_geometry_failure": 2490,
+    "semantic_false_positive": 13212,
+    "true_positive_supported": 910
+  },
+  "by_topk_transition": {
+    "demoted_out_of_top100": 334,
+    "demoted_out_of_top50": 3241,
+    "promoted_into_top100": 506,
+    "promoted_into_top50": 3241,
+    "stayed_in_topk": 15465
+  },
+  "metric_eligible_count": 22787,
+  "row_count": 22787,
+  "schema_version": "h001_open3dsg_failure_analysis_summary_v1",
+  "source": "real_qwen_vl_semantic_source_metric_joins",
+  "status": "failure_analysis_real_ready",
+  "visual_audit_queue_count": 2843
+}

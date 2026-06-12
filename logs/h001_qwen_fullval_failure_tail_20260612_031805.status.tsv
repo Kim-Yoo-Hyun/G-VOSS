@@ -1,0 +1,7 @@
+run_id	service	event	timestamp	exit_code
+20260612_031805	qwen_vl_full_validation_failure_generator	started	2026-06-12T03:18:05+09:00	
+20260612_031805	qwen_vl_full_validation_failure_generator	finished	2026-06-12T03:18:09+09:00	0
+20260612_031805	qwen_vl_full_validation_failure_case_sampler	started	2026-06-12T03:18:09+09:00	
+20260612_031805	qwen_vl_full_validation_failure_case_sampler	finished	2026-06-12T03:18:11+09:00	0
+20260612_031805	qwen_vl_full_validation_failure_case_inspection	started	2026-06-12T03:18:11+09:00	
+20260612_031805	qwen_vl_full_validation_failure_case_inspection	finished	2026-06-12T03:18:11+09:00	0

@@ -1,0 +1,3 @@
+ Container h001_geom_reliability-qwen_vl_bootstrap_ci-run-72137fc0ddd8 Creating 
+ Container h001_geom_reliability-qwen_vl_bootstrap_ci-run-72137fc0ddd8 Created 
+{"out": "experiments/H001_geom_reliability/sources/qwen_vl/bootstrap_ci", "sources": ["qwen_vl_semantic_source"], "status": "ready"}

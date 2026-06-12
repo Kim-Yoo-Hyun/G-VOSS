@@ -1980,6 +1980,88 @@ services:
       - --shard-size
       - "250"
 
+  qwen_vl_full_validation_input:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/build_qwen_vl_full_source_input.py
+    command:
+      - --repo-root
+      - /workspace
+      - --contract-dir
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl
+      - --selected-scans
+      - /workspace/experiments/H001_geom_reliability/full_validation_transition/scope_contract/scans.txt
+      - --views-dir
+      - /workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/views
+      - --crop-root
+      - /workspace/local_dataset/qwen_vl_crops/full_validation
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input
+      - --runtime-output-root
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/runtime
+      - --split-name
+      - h001_full_official_validation_qwen_inferable
+      - --expected-scans
+      - "157"
+      - --expected-contexts
+      - "548"
+      - --expected-directed-pairs
+      - "36808"
+      - --expected-universe-rows
+      - "110424"
+      - --expected-in-scope-gt
+      - "3972"
+      - --shard-id-prefix
+      - qwen_full_validation_shard
+      - --shard-size
+      - "250"
+
+  qwen_vl_full_validation_input_validate:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/validate_qwen_vl_contract.py
+    command:
+      - --repo-root
+      - /workspace
+      - --contract-dir
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl
+      - --input-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input/input.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input/validation
+      - --baseline-run-id
+      - qwen3_vl_4b_full_validation_semantic_v1
+      - --model-id
+      - Qwen/Qwen3-VL-4B-Instruct
+      - --model-revision
+      - ebb281ec70b05090aa6165b016eac8ec08e71b17
+      - --prompt-version
+      - semantic_only_v1
+      - --temperature
+      - "0.0"
+      - --top-p
+      - "1.0"
+      - --max-new-tokens
+      - "256"
+      - --seed
+      - "20260527"
+
   qwen_vl_full_source_crop_render:
     build:
       context: ../..
@@ -2028,6 +2110,62 @@ services:
       - --views-dir
       - /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/views
 
+  qwen_vl_full_validation_crop_render:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/render_qwen_vl_full_source_crops.py
+    command:
+      - --repo-root
+      - /workspace
+      - --mode
+      - render
+      - --shard-id
+      - ${QWEN_VL_FULL_VALIDATION_SHARD_ID:-all}
+      - --input-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input/input.jsonl
+      - --shards-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input/shards.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/crops
+      - --views-dir
+      - /workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/views
+
+  qwen_vl_full_validation_crop_preflight:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/render_qwen_vl_full_source_crops.py
+    command:
+      - --repo-root
+      - /workspace
+      - --mode
+      - preflight
+      - --shard-id
+      - ${QWEN_VL_FULL_VALIDATION_SHARD_ID:-all}
+      - --input-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input/input.jsonl
+      - --shards-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input/shards.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/crops
+      - --views-dir
+      - /workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/views
+
   qwen_vl_full_source_inference_plan:
     build:
       context: ../..
@@ -2045,6 +2183,550 @@ services:
       - /workspace
       - --out
       - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_source_inference_plan
+
+  qwen_vl_full_source_aggregate:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/export_qwen_vl_full_source_adapter.py
+    command:
+      - --repo-root
+      - /workspace
+      - --mode
+      - aggregate
+      - --validation-dir
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_source_validation
+
+  qwen_vl_full_validation_aggregate:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/export_qwen_vl_full_source_adapter.py
+    command:
+      - --repo-root
+      - /workspace
+      - --mode
+      - aggregate
+      - --runtime-root
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/runtime
+      - --input-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input/input.jsonl
+      - --shards-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input/shards.jsonl
+      - --validation-dir
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/validation
+
+  qwen_vl_full_source_validate:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/validate_qwen_vl_contract.py
+    command:
+      - --repo-root
+      - /workspace
+      - --contract-dir
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl
+      - --input-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_source_input/input.jsonl
+      - --raw-response-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_source_validation/raw_response.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_source_validation/contract
+      - --baseline-run-id
+      - qwen3_vl_4b_full_source_semantic_v1
+      - --model-id
+      - Qwen/Qwen3-VL-4B-Instruct
+      - --model-revision
+      - ebb281ec70b05090aa6165b016eac8ec08e71b17
+      - --prompt-version
+      - semantic_only_v1
+      - --temperature
+      - "0.0"
+      - --top-p
+      - "1.0"
+      - --max-new-tokens
+      - "256"
+      - --seed
+      - "20260527"
+
+  qwen_vl_full_validation_validate:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/validate_qwen_vl_contract.py
+    command:
+      - --repo-root
+      - /workspace
+      - --contract-dir
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl
+      - --input-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input/input.jsonl
+      - --raw-response-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/validation/raw_response.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/validation/contract
+      - --baseline-run-id
+      - qwen3_vl_4b_full_validation_semantic_v1
+      - --model-id
+      - Qwen/Qwen3-VL-4B-Instruct
+      - --model-revision
+      - ebb281ec70b05090aa6165b016eac8ec08e71b17
+      - --prompt-version
+      - semantic_only_v1
+      - --temperature
+      - "0.0"
+      - --top-p
+      - "1.0"
+      - --max-new-tokens
+      - "256"
+      - --seed
+      - "20260527"
+
+  qwen_vl_adapter_export:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/export_qwen_vl_full_source_adapter.py
+    command:
+      - --repo-root
+      - /workspace
+      - --mode
+      - export_adapter
+      - --parsed-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_source_validation/contract/parsed.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/adapter
+
+  qwen_vl_full_validation_adapter_export:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/export_qwen_vl_full_source_adapter.py
+    command:
+      - --repo-root
+      - /workspace
+      - --mode
+      - export_adapter
+      - --input-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input/input.jsonl
+      - --parsed-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/validation/contract/parsed.jsonl
+      - --ground-truth-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/adapter
+      - --baseline-run-id
+      - qwen3_vl_4b_full_validation_semantic_v1
+      - --split-name
+      - h001_full_official_validation_qwen_inferable
+
+  qwen_vl_geometry_join:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/tools/join_predictions.py
+    command:
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/adapter/predictions.jsonl
+      - --dataset-root
+      - /workspace/local_dataset
+      - --model-json
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_smoke/model.json
+      - --selected-scans
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_validation_hardened/scans.txt
+      - --verification-policy
+      - point_subtype
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/geometry
+
+  qwen_vl_full_validation_geometry_join:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/tools/join_predictions.py
+    command:
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/adapter/predictions.jsonl
+      - --dataset-root
+      - /workspace/local_dataset
+      - --model-json
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_smoke/model.json
+      - --selected-scans
+      - /workspace/experiments/H001_geom_reliability/full_validation_transition/scope_contract/scans.txt
+      - --verification-policy
+      - point_subtype
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/geometry
+
+  qwen_vl_metric_eval:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/tools/evaluate_predictions.py
+    command:
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/adapter/predictions.jsonl
+      - --ground-truth-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/adapter/ground_truth.jsonl
+      - --verification-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/geometry/verification.jsonl
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/metrics
+      - --policy
+      - filter_safe
+      - --rule-variants
+      - obb_only
+      - point_subtype
+      - point_subtype_no_soft_support
+      - --ablation-controls
+      - p_geom_valid_only
+      - distance_only
+      - family_specific_p_geom_valid
+      - shuffled_geometry
+      - wrong_pair_geometry
+      - --family-specific-model-json
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json
+
+  qwen_vl_full_validation_metric_eval:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/tools/evaluate_predictions.py
+    command:
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/adapter/predictions.jsonl
+      - --ground-truth-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/adapter/ground_truth.jsonl
+      - --verification-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/geometry/verification.jsonl
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/metrics
+      - --policy
+      - filter_safe
+      - --rule-variants
+      - obb_only
+      - point_subtype
+      - point_subtype_no_soft_support
+      - --ablation-controls
+      - p_geom_valid_only
+      - distance_only
+      - family_specific_p_geom_valid
+      - shuffled_geometry
+      - wrong_pair_geometry
+      - --family-specific-model-json
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json
+
+  qwen_vl_bootstrap_ci:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/experiments/H001_geom_reliability/scripts/bootstrap_metrics.py
+    command:
+      - --repo-root
+      - /workspace
+      - --vlsat-source-root
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl
+      - --vlsat-source-name
+      - qwen_vl_semantic_source
+      - --skip-open3dsg
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/bootstrap_ci
+      - --n-bootstrap
+      - "1000"
+
+  qwen_vl_full_validation_bootstrap_ci:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/experiments/H001_geom_reliability/scripts/bootstrap_metrics.py
+    command:
+      - --repo-root
+      - /workspace
+      - --vlsat-source-root
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation
+      - --vlsat-source-name
+      - qwen_vl_full_validation_semantic_source
+      - --skip-open3dsg
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/bootstrap_ci
+      - --n-bootstrap
+      - "1000"
+
+  qwen_vl_failure_generator:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/generate_open3dsg_failure_analysis.py
+    command:
+      - --repo-root
+      - /workspace
+      - --schema-dir
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/failure_analysis
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/adapter/predictions.jsonl
+      - --geometry-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/geometry/verification.jsonl
+      - --ground-truth-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/adapter/ground_truth.jsonl
+      - --metrics-json
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/metrics/metrics.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/failure_rows
+      - --split-name
+      - h001_validation_hardened_qwen_inferable
+      - --baseline-run-id
+      - qwen3_vl_4b_full_source_semantic_v1
+      - --baseline-name
+      - qwen_vl_semantic_source
+      - --record-type
+      - qwen_vl_failure_analysis
+      - --source-name
+      - Qwen-VL full-source
+      - --analysis-prefix
+      - qwen_vl_full_source
+
+  qwen_vl_full_validation_failure_generator:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/generate_open3dsg_failure_analysis.py
+    command:
+      - --repo-root
+      - /workspace
+      - --schema-dir
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/failure_analysis
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/adapter/predictions.jsonl
+      - --geometry-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/geometry/verification.jsonl
+      - --ground-truth-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/adapter/ground_truth.jsonl
+      - --metrics-json
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/metrics/metrics.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/failure_rows
+      - --split-name
+      - h001_full_official_validation_qwen_inferable
+      - --baseline-run-id
+      - qwen3_vl_4b_full_validation_semantic_v1
+      - --baseline-name
+      - qwen_vl_semantic_source
+      - --record-type
+      - qwen_vl_failure_analysis
+      - --source-name
+      - Qwen-VL full official validation
+      - --analysis-prefix
+      - qwen_vl_full_validation
+
+  qwen_vl_failure_case_sampler:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/sample_open3dsg_failure_cases.py
+    command:
+      - --repo-root
+      - /workspace
+      - --failure-rows
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/failure_rows/rows.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/failure_cases
+      - --limit
+      - "36"
+      - --per-bucket
+      - "1"
+      - --max-per-subgraph
+      - "2"
+      - --source-name
+      - Qwen-VL full-source
+      - --case-id-prefix
+      - qwen_vl_case
+      - --record-type
+      - qwen_vl_qualitative_case_candidate
+
+  qwen_vl_full_validation_failure_case_sampler:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/sample_open3dsg_failure_cases.py
+    command:
+      - --repo-root
+      - /workspace
+      - --failure-rows
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/failure_rows/rows.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/failure_cases
+      - --limit
+      - "36"
+      - --per-bucket
+      - "1"
+      - --max-per-subgraph
+      - "2"
+      - --source-name
+      - Qwen-VL full official validation
+      - --case-id-prefix
+      - qwen_vl_full_validation_case
+      - --record-type
+      - qwen_vl_full_validation_qualitative_case_candidate
+
+  qwen_vl_failure_case_inspection:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/inspect_open3dsg_failure_cases.py
+    command:
+      - --repo-root
+      - /workspace
+      - --queue-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/failure_cases/queue.jsonl
+      - --manifest-json
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/failure_cases/manifest.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/failure_cases
+      - --source-name
+      - Qwen-VL full-source
+
+  qwen_vl_full_validation_failure_case_inspection:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /opt/h001/scripts/inspect_open3dsg_failure_cases.py
+    command:
+      - --repo-root
+      - /workspace
+      - --queue-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/failure_cases/queue.jsonl
+      - --manifest-json
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/failure_cases/manifest.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_validation/failure_cases
+      - --source-name
+      - Qwen-VL full official validation
 
   open3dsg_full_validation_raw_clean_exit_review:
     build:

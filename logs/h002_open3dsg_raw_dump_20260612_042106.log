@@ -1,0 +1,173 @@
+ Container h002_factorized-relation-confidence-raw_dump_train_pilot-run-6011afb2f4aa Creating 
+ Container h002_factorized-relation-confidence-raw_dump_train_pilot-run-6011afb2f4aa Created 
+
+==========
+== CUDA ==
+==========
+
+CUDA Version 12.8.1
+
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+
+{"blockers": [], "pilot_contexts": 100, "runtime_root": "local_dataset/Open3DSG_staged/h002_train_pilot_runtime", "selected_scans": 100, "status": "ready"}
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/lightning_fabric/__init__.py:40: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/transformers/utils/hub.py:128: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+2026-06-11 19:21:09.165005: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-06-11 19:21:09.166180: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2026-06-11 19:21:09.186580: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2026-06-11 19:21:09.521713: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+{"blockers": [], "out": "hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/preflight", "status": "ready"}
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/lightning_fabric/__init__.py:40: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/transformers/utils/hub.py:128: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+2026-06-11 19:21:13.770276: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-06-11 19:21:13.771402: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2026-06-11 19:21:13.791033: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2026-06-11 19:21:14.119963: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+Experimental: No LLava model present in your system
+2026-06-11 19:21:15.239152: I tensorflow/compiler/xla/stream_executor/cuda/cuda_gpu_executor.cc:996] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero. See more at https://github.com/torvalds/linux/blob/v6.0/Documentation/ABI/testing/sysfs-bus-pci#L344-L355
+2026-06-11 19:21:15.243844: W tensorflow/core/common_runtime/gpu/gpu_device.cc:1956] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.
+Skipping registering GPU devices...
+CUDA device name: NVIDIA GeForce RTX 5090
+checkpoint: /workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt
+Seed set to 42
+Args: Namespace(gpus=1, workers=0, seed=42, run_name='', mixed_precision=False, accumulate_grad_batches=1, epochs=50, batch_size=1, lr=0.0001, lr_scheduler='reduce', wd=0.01, bn_momentum=0.9, bn_decay=0.5, decay_step=100000.0, w_obj=1.0, w_rel=1.0, use_rgb=False, gnn_layers=4, graph_backbone='message', gconv_dim=512, hidden_dim=1024, max_nodes=9, max_edges=72, dataset='3rscan', mini_dataset=False, augment=False, top_k_frames=5, scales=3, dump_features=False, load_features='/workspace/local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3', clip_model='OpenSeg', node_model='ViT-L/14@336px', edge_model=None, blip=True, avg_blip_emb=False, blip_proj_layers=3, llava=False, avg_llava_emb=False, pointnet2=False, clean_pointnet=False, supervised_edges=False, test=True, checkpoint='/workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt', weight_2d=0.5, n_beams=5, gt_objects=True, vis_graphs=False, predict_materials=False, test_scans_3rscan=False, predict_from_2d=False, quick_eval=False, object_context=False, update_hparams=False, manual_mapping=False)
+HParams: {'gpus': 1, 'workers': 0, 'seed': 42, 'run_name': '', 'mixed_precision': False, 'accumulate_grad_batches': 1, 'epochs': 50, 'batch_size': 1, 'lr': 0.0001, 'lr_scheduler': 'reduce', 'wd': 0.01, 'bn_momentum': 0.9, 'bn_decay': 0.5, 'decay_step': 100000.0, 'w_obj': 1.0, 'w_rel': 1.0, 'use_rgb': False, 'gnn_layers': 4, 'graph_backbone': 'message', 'gconv_dim': 512, 'hidden_dim': 1024, 'max_nodes': 9, 'max_edges': 72, 'dataset': '3rscan', 'mini_dataset': False, 'augment': False, 'top_k_frames': 5, 'scales': 3, 'dump_features': False, 'load_features': '/workspace/local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3', 'clip_model': 'OpenSeg', 'node_model': 'ViT-L/14@336px', 'edge_model': None, 'blip': True, 'avg_blip_emb': False, 'blip_proj_layers': 3, 'llava': False, 'avg_llava_emb': False, 'pointnet2': False, 'clean_pointnet': False, 'supervised_edges': False, 'test': True, 'checkpoint': '/workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt', 'weight_2d': 0.5, 'n_beams': 5, 'gt_objects': True, 'vis_graphs': False, 'predict_materials': False, 'test_scans_3rscan': False, 'predict_from_2d': False, 'quick_eval': False, 'object_context': False, 'update_hparams': False, 'manual_mapping': False}
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+[rank: 0] Seed set to 42
+Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/1
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 1 processes
+----------------------------------------------------------------------------------------------------
+
+You are using a CUDA device ('NVIDIA GeForce RTX 5090') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+A new version of the following files was downloaded from https://huggingface.co/jinaai/jina-bert-implementation:
+- configuration_bert.py
+. Make sure to double-check they do not contain any added malicious code. To avoid downloading new versions of the code file, you can pin a revision.
+A new version of the following files was downloaded from https://huggingface.co/jinaai/jina-bert-implementation:
+- modeling_bert.py
+. Make sure to double-check they do not contain any added malicious code. To avoid downloading new versions of the code file, you can pin a revision.
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user. 
+  warnings.warn(  # warn only once
+Downloading shards:   0%|          | 0/4 [00:00<?, ?it/s]Downloading shards: 100%|██████████| 4/4 [00:00<00:00, 31011.49it/s]
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:04<00:13,  4.43s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:07<00:06,  3.39s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:09<00:03,  3.01s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:10<00:00,  2.06s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:10<00:00,  2.57s/it]
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+/opt/conda/envs/open3dsg/lib/python3.9/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:441: The 'test_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=19` in the `DataLoader` to improve performance.
+Testing: |          | 0/? [00:00<?, ?it/s]Testing:   0%|          | 0/100 [00:00<?, ?it/s]Testing DataLoader 0:   0%|          | 0/100 [00:00<?, ?it/s]H001 raw dump stream initialized new output /workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/raw_dump/raw.jsonl
+H001 raw dump stream wrote batch raw_scan_id=0cac7558-8d6f-2d13-8fe1-c8af0362735d-4 rows=72 total_rows=72 completed_batches=1
+Testing DataLoader 0:   1%|          | 1/100 [00:13<22:24,  0.07it/s]H001 raw dump stream wrote batch raw_scan_id=02b33df9-be2b-2d54-9062-1253be3ce186-2 rows=42 total_rows=114 completed_batches=2
+Testing DataLoader 0:   2%|▏         | 2/100 [00:22<18:21,  0.09it/s]H001 raw dump stream wrote batch raw_scan_id=02b33dfb-be2b-2d54-92d2-cd012b2b3c40-3 rows=12 total_rows=126 completed_batches=3
+Testing DataLoader 0:   3%|▎         | 3/100 [00:25<13:42,  0.12it/s]H001 raw dump stream wrote batch raw_scan_id=02b33dfd-be2b-2d54-91d2-55454852009e-1 rows=72 total_rows=198 completed_batches=4
+Testing DataLoader 0:   4%|▍         | 4/100 [00:40<16:00,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=02b33e01-be2b-2d54-93fb-4145a709cec5-2 rows=56 total_rows=254 completed_batches=5
+Testing DataLoader 0:   5%|▌         | 5/100 [00:51<16:27,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=02b33e03-be2b-2d54-9129-5d28efdd68fa-1 rows=72 total_rows=326 completed_batches=6
+Testing DataLoader 0:   6%|▌         | 6/100 [01:06<17:19,  0.09it/s]H001 raw dump stream wrote batch raw_scan_id=05c6ede7-2e69-23b1-8b27-c1cb868f1938-4 rows=42 total_rows=368 completed_batches=7
+Testing DataLoader 0:   7%|▋         | 7/100 [01:15<16:41,  0.09it/s]H001 raw dump stream wrote batch raw_scan_id=09582205-e2c2-2de1-9475-1cdac7639e60-1 rows=30 total_rows=398 completed_batches=8
+Testing DataLoader 0:   8%|▊         | 8/100 [01:21<15:42,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=09582207-e2c2-2de1-972c-225d968c2ab4-1 rows=30 total_rows=428 completed_batches=9
+Testing DataLoader 0:   9%|▉         | 9/100 [01:28<14:53,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=09582209-e2c2-2de1-9610-08baed932919-1 rows=42 total_rows=470 completed_batches=10
+Testing DataLoader 0:  10%|█         | 10/100 [01:37<14:37,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0958220b-e2c2-2de1-96bc-739f09c1e8f8-1 rows=72 total_rows=542 completed_batches=11
+Testing DataLoader 0:  11%|█         | 11/100 [01:52<15:08,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0958220d-e2c2-2de1-9710-c37018da1883-1 rows=72 total_rows=614 completed_batches=12
+Testing DataLoader 0:  12%|█▏        | 12/100 [02:07<15:31,  0.09it/s]H001 raw dump stream wrote batch raw_scan_id=09582212-e2c2-2de1-9700-fa44b14fbded-1 rows=42 total_rows=656 completed_batches=13
+Testing DataLoader 0:  13%|█▎        | 13/100 [02:15<15:08,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=09582214-e2c2-2de1-956a-64d8da4ba7cc-1 rows=42 total_rows=698 completed_batches=14
+Testing DataLoader 0:  14%|█▍        | 14/100 [02:24<14:48,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=09582216-e2c2-2de1-97de-efcab1ef9c43-2 rows=30 total_rows=728 completed_batches=15
+Testing DataLoader 0:  15%|█▌        | 15/100 [02:30<14:15,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=09582219-e2c2-2de1-9534-519142703037-2 rows=42 total_rows=770 completed_batches=16
+Testing DataLoader 0:  16%|█▌        | 16/100 [02:39<13:59,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0958221b-e2c2-2de1-96b1-6233099811a0-2 rows=42 total_rows=812 completed_batches=17
+Testing DataLoader 0:  17%|█▋        | 17/100 [02:49<13:45,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=09582223-e2c2-2de1-94b6-750684b4f80a-1 rows=20 total_rows=832 completed_batches=18
+Testing DataLoader 0:  18%|█▊        | 18/100 [02:53<13:11,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=09582225-e2c2-2de1-9564-f6681ef5e511-1 rows=42 total_rows=874 completed_batches=19
+Testing DataLoader 0:  19%|█▉        | 19/100 [03:02<12:57,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=09582228-e2c2-2de1-953d-f6f1ee4b3699-1 rows=42 total_rows=916 completed_batches=20
+Testing DataLoader 0:  20%|██        | 20/100 [03:11<12:44,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0958222a-e2c2-2de1-9474-35e601b3682a-1 rows=30 total_rows=946 completed_batches=21
+Testing DataLoader 0:  21%|██        | 21/100 [03:17<12:23,  0.11it/s]H001 raw dump stream wrote batch raw_scan_id=0958222d-e2c2-2de1-9732-e2fb990692ef-1 rows=30 total_rows=976 completed_batches=22
+Testing DataLoader 0:  22%|██▏       | 22/100 [03:23<12:02,  0.11it/s]H001 raw dump stream wrote batch raw_scan_id=0958222f-e2c2-2de1-94fd-986561908cee-1 rows=56 total_rows=1032 completed_batches=23
+Testing DataLoader 0:  23%|██▎       | 23/100 [03:35<12:02,  0.11it/s]H001 raw dump stream wrote batch raw_scan_id=09582237-e2c2-2de1-9758-862dc7a3d009-1 rows=42 total_rows=1074 completed_batches=24
+Testing DataLoader 0:  24%|██▍       | 24/100 [03:45<11:52,  0.11it/s]H001 raw dump stream wrote batch raw_scan_id=0958223d-e2c2-2de1-9683-a76a4276d84c-1 rows=30 total_rows=1104 completed_batches=25
+Testing DataLoader 0:  25%|██▌       | 25/100 [03:52<11:36,  0.11it/s]H001 raw dump stream wrote batch raw_scan_id=09582242-e2c2-2de1-942f-d1001cbff56b-1 rows=42 total_rows=1146 completed_batches=26
+Testing DataLoader 0:  26%|██▌       | 26/100 [04:01<11:27,  0.11it/s]H001 raw dump stream wrote batch raw_scan_id=09582244-e2c2-2de1-956c-357092d949d1-1 rows=56 total_rows=1202 completed_batches=27
+Testing DataLoader 0:  27%|██▋       | 27/100 [04:13<11:24,  0.11it/s]H001 raw dump stream wrote batch raw_scan_id=09582246-e2c2-2de1-95ae-2afbd2e21231-2 rows=20 total_rows=1222 completed_batches=28
+Testing DataLoader 0:  28%|██▊       | 28/100 [04:17<11:02,  0.11it/s]H001 raw dump stream wrote batch raw_scan_id=09582248-e2c2-2de1-94ff-edbe78c9c0b4-2 rows=12 total_rows=1234 completed_batches=29
+Testing DataLoader 0:  29%|██▉       | 29/100 [04:20<10:37,  0.11it/s]H001 raw dump stream wrote batch raw_scan_id=0958224a-e2c2-2de1-950b-a53ea2cb660d-2 rows=42 total_rows=1276 completed_batches=30
+Testing DataLoader 0:  30%|███       | 30/100 [04:29<10:29,  0.11it/s]H001 raw dump stream wrote batch raw_scan_id=0958224c-e2c2-2de1-948b-4417ac5f2711-2 rows=42 total_rows=1318 completed_batches=31
+Testing DataLoader 0:  31%|███       | 31/100 [04:38<10:20,  0.11it/s]H001 raw dump stream wrote batch raw_scan_id=0958224e-e2c2-2de1-943b-38e36345e2e7-2 rows=56 total_rows=1374 completed_batches=32
+Testing DataLoader 0:  32%|███▏      | 32/100 [04:50<10:17,  0.11it/s]H001 raw dump stream wrote batch raw_scan_id=09582250-e2c2-2de1-9541-3efcbdc2dca4-2 rows=56 total_rows=1430 completed_batches=33
+Testing DataLoader 0:  33%|███▎      | 33/100 [05:02<10:13,  0.11it/s]H001 raw dump stream wrote batch raw_scan_id=09582252-e2c2-2de1-96bf-d41dd0362f39-2 rows=72 total_rows=1502 completed_batches=34
+Testing DataLoader 0:  34%|███▍      | 34/100 [05:16<10:14,  0.11it/s]H001 raw dump stream wrote batch raw_scan_id=09582254-e2c2-2de1-9434-162187eb819e-2 rows=72 total_rows=1574 completed_batches=35
+Testing DataLoader 0:  35%|███▌      | 35/100 [05:31<10:14,  0.11it/s]H001 raw dump stream wrote batch raw_scan_id=09582256-e2c2-2de1-9662-c4bc7ca7c497-2 rows=56 total_rows=1630 completed_batches=36
+Testing DataLoader 0:  36%|███▌      | 36/100 [05:42<10:09,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0a4b8ef6-a83a-21f2-8672-dce34dd0d7ca-1 rows=72 total_rows=1702 completed_batches=37
+Testing DataLoader 0:  37%|███▋      | 37/100 [05:58<10:09,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0ad2d382-79e2-2212-98b3-641bf9d552c1-2 rows=56 total_rows=1758 completed_batches=38
+Testing DataLoader 0:  38%|███▊      | 38/100 [06:09<10:03,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0ad2d384-79e2-2212-9b18-72b44eb5463f-3 rows=20 total_rows=1778 completed_batches=39
+Testing DataLoader 0:  39%|███▉      | 39/100 [06:14<09:45,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0ad2d386-79e2-2212-9b40-43d081db442a-1 rows=56 total_rows=1834 completed_batches=40
+Testing DataLoader 0:  40%|████      | 40/100 [06:25<09:38,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0ad2d389-79e2-2212-9b0a-5f0e6f4982b5-1 rows=72 total_rows=1906 completed_batches=41
+Testing DataLoader 0:  41%|████      | 41/100 [06:40<09:36,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0ad2d38f-79e2-2212-98d2-9b5060e5e9b5-2 rows=42 total_rows=1948 completed_batches=42
+Testing DataLoader 0:  42%|████▏     | 42/100 [06:49<09:25,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0ad2d391-79e2-2212-98a3-7e2440884395-1 rows=72 total_rows=2020 completed_batches=43
+Testing DataLoader 0:  43%|████▎     | 43/100 [07:04<09:23,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0ad2d395-79e2-2212-9b89-83581fad7390-2 rows=72 total_rows=2092 completed_batches=44
+Testing DataLoader 0:  44%|████▍     | 44/100 [07:20<09:20,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0ad2d399-79e2-2212-99cf-7a3512734bd7-2 rows=72 total_rows=2164 completed_batches=45
+Testing DataLoader 0:  45%|████▌     | 45/100 [07:35<09:16,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0ad2d39b-79e2-2212-99ae-830c292cd079-2 rows=42 total_rows=2206 completed_batches=46
+Testing DataLoader 0:  46%|████▌     | 46/100 [07:44<09:04,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0ad2d39d-79e2-2212-99aa-1e95c5b94289-3 rows=72 total_rows=2278 completed_batches=47
+Testing DataLoader 0:  47%|████▋     | 47/100 [07:58<08:59,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0ad2d3a1-79e2-2212-9b99-a96495d9f7fe-2 rows=56 total_rows=2334 completed_batches=48
+Testing DataLoader 0:  48%|████▊     | 48/100 [08:10<08:51,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0ad2d3a3-79e2-2212-9a51-9094be707ec2-1 rows=72 total_rows=2406 completed_batches=49
+Testing DataLoader 0:  49%|████▉     | 49/100 [08:25<08:45,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0ad2d3a5-79e2-2212-9a9e-2502a05fa678-2 rows=30 total_rows=2436 completed_batches=50
+Testing DataLoader 0:  50%|█████     | 50/100 [08:31<08:31,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0ad2d3a7-79e2-2212-9a1b-8737842a24e2-1 rows=56 total_rows=2492 completed_batches=51
+Testing DataLoader 0:  51%|█████     | 51/100 [08:42<08:22,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7536-8d6f-2d13-8dc2-2f9d7aa62dc4-1 rows=72 total_rows=2564 completed_batches=52
+Testing DataLoader 0:  52%|█████▏    | 52/100 [08:58<08:16,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7538-8d6f-2d13-8c23-d635c21d0f17-1 rows=72 total_rows=2636 completed_batches=53
+Testing DataLoader 0:  53%|█████▎    | 53/100 [09:12<08:10,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac753a-8d6f-2d13-8f04-2073b87af440-1 rows=42 total_rows=2678 completed_batches=54
+Testing DataLoader 0:  54%|█████▍    | 54/100 [09:21<07:58,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac753c-8d6f-2d13-8e27-e0664fc33bb9-2 rows=20 total_rows=2698 completed_batches=55
+Testing DataLoader 0:  55%|█████▌    | 55/100 [09:25<07:42,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7549-8d6f-2d13-8d56-b895956f571a-1 rows=56 total_rows=2754 completed_batches=56
+Testing DataLoader 0:  56%|█████▌    | 56/100 [09:36<07:33,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac754d-8d6f-2d13-8c81-d134a19b0045-1 rows=72 total_rows=2826 completed_batches=57
+Testing DataLoader 0:  57%|█████▋    | 57/100 [09:50<07:25,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7554-8d6f-2d13-8f1f-5f6fcf08f931-3 rows=20 total_rows=2846 completed_batches=58
+Testing DataLoader 0:  58%|█████▊    | 58/100 [09:55<07:10,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac755a-8d6f-2d13-8fed-b1be02f4ef77-2 rows=42 total_rows=2888 completed_batches=59
+Testing DataLoader 0:  59%|█████▉    | 59/100 [10:03<06:59,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac755e-8d6f-2d13-8c6a-c0979ca34a4f-1 rows=20 total_rows=2908 completed_batches=60
+Testing DataLoader 0:  60%|██████    | 60/100 [10:08<06:45,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7564-8d6f-2d13-8cb2-8b01c0a1b3d5-1 rows=72 total_rows=2980 completed_batches=61
+Testing DataLoader 0:  61%|██████    | 61/100 [10:23<06:38,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7574-8d6f-2d13-8db6-4304f437e6d5-5 rows=72 total_rows=3052 completed_batches=62
+Testing DataLoader 0:  62%|██████▏   | 62/100 [10:38<06:31,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7576-8d6f-2d13-8f3c-f01f8f14022c-2 rows=56 total_rows=3108 completed_batches=63
+Testing DataLoader 0:  63%|██████▎   | 63/100 [10:50<06:22,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7578-8d6f-2d13-8c2d-bfa7a04f8af3-4 rows=42 total_rows=3150 completed_batches=64
+Testing DataLoader 0:  64%|██████▍   | 64/100 [10:59<06:11,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac757e-8d6f-2d13-8f1d-ef6123d53655-1 rows=42 total_rows=3192 completed_batches=65
+Testing DataLoader 0:  65%|██████▌   | 65/100 [11:09<06:00,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7580-8d6f-2d13-8c9d-d45247b5244b-4 rows=56 total_rows=3248 completed_batches=66
+Testing DataLoader 0:  66%|██████▌   | 66/100 [11:20<05:50,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7595-8d6f-2d13-8cad-f51af4c9aba2-3 rows=12 total_rows=3260 completed_batches=67
+Testing DataLoader 0:  67%|██████▋   | 67/100 [11:23<05:36,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7597-8d6f-2d13-8c9c-6f8542021d5c-5 rows=30 total_rows=3290 completed_batches=68
+Testing DataLoader 0:  68%|██████▊   | 68/100 [11:30<05:24,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7599-8d6f-2d13-8e7f-4217750a64cc-4 rows=56 total_rows=3346 completed_batches=69
+Testing DataLoader 0:  69%|██████▉   | 69/100 [11:42<05:15,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac759b-8d6f-2d13-8e3b-2e3bc1ee1158-1 rows=72 total_rows=3418 completed_batches=70
+Testing DataLoader 0:  70%|███████   | 70/100 [11:57<05:07,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac759d-8d6f-2d13-8e8b-c3730d9fe563-4 rows=20 total_rows=3438 completed_batches=71
+Testing DataLoader 0:  71%|███████   | 71/100 [12:01<04:54,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75a1-8d6f-2d13-8dab-0ecc3b317dc7-1 rows=56 total_rows=3494 completed_batches=72
+Testing DataLoader 0:  72%|███████▏  | 72/100 [12:13<04:45,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75a7-8d6f-2d13-8fdc-083ff44d10fb-2 rows=56 total_rows=3550 completed_batches=73
+Testing DataLoader 0:  73%|███████▎  | 73/100 [12:25<04:35,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75ab-8d6f-2d13-8fea-b1eb7e9bf6e7-3 rows=20 total_rows=3570 completed_batches=74
+Testing DataLoader 0:  74%|███████▍  | 74/100 [12:29<04:23,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75ad-8d6f-2d13-8c74-5de4dfc4affc-4 rows=30 total_rows=3600 completed_batches=75
+Testing DataLoader 0:  75%|███████▌  | 75/100 [12:36<04:12,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75b1-8d6f-2d13-8c17-9099db8915bc-3 rows=56 total_rows=3656 completed_batches=76
+Testing DataLoader 0:  76%|███████▌  | 76/100 [12:48<04:02,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75b3-8d6f-2d13-8f4b-3d74070429df-3 rows=20 total_rows=3676 completed_batches=77
+Testing DataLoader 0:  77%|███████▋  | 77/100 [12:52<03:50,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75c4-8d6f-2d13-8c37-fcfaf141ae5a-2 rows=12 total_rows=3688 completed_batches=78
+Testing DataLoader 0:  78%|███████▊  | 78/100 [12:55<03:38,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75c6-8d6f-2d13-8d35-f0128b4fb7a9-3 rows=42 total_rows=3730 completed_batches=79
+Testing DataLoader 0:  79%|███████▉  | 79/100 [13:04<03:28,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75c8-8d6f-2d13-8c08-b3c40c58e0f7-2 rows=56 total_rows=3786 completed_batches=80
+Testing DataLoader 0:  80%|████████  | 80/100 [13:17<03:19,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75ca-8d6f-2d13-8dfc-9932bfbb834d-2 rows=42 total_rows=3828 completed_batches=81
+Testing DataLoader 0:  81%|████████  | 81/100 [13:26<03:09,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75cc-8d6f-2d13-8ddf-7b3c05e8709c-2 rows=12 total_rows=3840 completed_batches=82
+Testing DataLoader 0:  82%|████████▏ | 82/100 [13:29<02:57,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75ce-8d6f-2d13-8cf1-add4e795b9b0-2 rows=30 total_rows=3870 completed_batches=83
+Testing DataLoader 0:  83%|████████▎ | 83/100 [13:35<02:47,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75d0-8d6f-2d13-8c26-d771a31c3f50-3 rows=20 total_rows=3890 completed_batches=84
+Testing DataLoader 0:  84%|████████▍ | 84/100 [13:40<02:36,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75d6-8d6f-2d13-8dd7-26f14b02c0e7-1 rows=56 total_rows=3946 completed_batches=85
+Testing DataLoader 0:  85%|████████▌ | 85/100 [13:52<02:26,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75ee-8d6f-2d13-8f1f-5f13d3b59ce3-1 rows=30 total_rows=3976 completed_batches=86
+Testing DataLoader 0:  86%|████████▌ | 86/100 [13:58<02:16,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75f0-8d6f-2d13-8d86-371deca33bb4-2 rows=56 total_rows=4032 completed_batches=87
+Testing DataLoader 0:  87%|████████▋ | 87/100 [14:10<02:07,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75f2-8d6f-2d13-8f0f-f00e880b4e7b-3 rows=30 total_rows=4062 completed_batches=88
+Testing DataLoader 0:  88%|████████▊ | 88/100 [14:16<01:56,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75f4-8d6f-2d13-8c10-ce688f7ac0af-4 rows=42 total_rows=4104 completed_batches=89
+Testing DataLoader 0:  89%|████████▉ | 89/100 [14:25<01:46,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75f6-8d6f-2d13-8d7b-dc01a394149c-1 rows=42 total_rows=4146 completed_batches=90
+Testing DataLoader 0:  90%|█████████ | 90/100 [14:34<01:37,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75f8-8d6f-2d13-8f8a-30d9464cad6e-1 rows=56 total_rows=4202 completed_batches=91
+Testing DataLoader 0:  91%|█████████ | 91/100 [14:46<01:27,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75fc-8d6f-2d13-8c59-13d52e366f38-1 rows=42 total_rows=4244 completed_batches=92
+Testing DataLoader 0:  92%|█████████▏| 92/100 [14:55<01:17,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75fe-8d6f-2d13-8dd8-87c100e95f4d-1 rows=42 total_rows=4286 completed_batches=93
+Testing DataLoader 0:  93%|█████████▎| 93/100 [15:03<01:08,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7602-8d6f-2d13-8ca7-c26866c2e42f-3 rows=56 total_rows=4342 completed_batches=94
+Testing DataLoader 0:  94%|█████████▍| 94/100 [15:15<00:58,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7604-8d6f-2d13-8e39-784396ee3b8c-2 rows=42 total_rows=4384 completed_batches=95
+Testing DataLoader 0:  95%|█████████▌| 95/100 [15:24<00:48,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac760d-8d6f-2d13-8ea2-109ce4da9ac9-2 rows=72 total_rows=4456 completed_batches=96
+Testing DataLoader 0:  96%|█████████▌| 96/100 [15:39<00:39,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac760f-8d6f-2d13-8d9d-2d8df8f8cb6e-2 rows=56 total_rows=4512 completed_batches=97
+Testing DataLoader 0:  97%|█████████▋| 97/100 [15:51<00:29,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7611-8d6f-2d13-8f47-8ec4a6375ac3-2 rows=30 total_rows=4542 completed_batches=98
+Testing DataLoader 0:  98%|█████████▊| 98/100 [15:57<00:19,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7613-8d6f-2d13-8d92-487a50d40794-2 rows=42 total_rows=4584 completed_batches=99
+Testing DataLoader 0:  99%|█████████▉| 99/100 [16:06<00:09,  0.10it/s]H001 raw dump stream wrote batch raw_scan_id=0cac761d-8d6f-2d13-8f35-2364ee20f2a9-2 rows=42 total_rows=4626 completed_batches=100
+Testing DataLoader 0: 100%|██████████| 100/100 [16:15<00:00,  0.10it/s]H001 raw dump stream finalized raw_dump=/workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/raw_dump/raw.jsonl rows=4626 completed_batches=100
+H001 raw dump stream exit-after-write requested; returning cleanly
+Testing DataLoader 0: 100%|██████████| 100/100 [16:15<00:00,  0.10it/s]
+[rank0]:[W611 19:38:07.655315981 ProcessGroupNCCL.cpp:1538] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
