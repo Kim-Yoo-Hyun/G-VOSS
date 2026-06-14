@@ -1,6 +1,6 @@
 # H002 Summary Branch V2
 
-Last updated: 2026-06-12
+Last updated: 2026-06-13
 
 ## Research Direction
 
@@ -625,6 +625,12 @@ Allowed:
 23_train_rga_audit.md
 24_train_manual_audit.md
 25_factor_contract.md
+26_factor_dataset.md
+27_factor_smoke.md
+28_shortcut_control.md
+29_target_redesign.md
+30_redesigned_target_smoke.md
+31_human_confirmation_protocol.md
 ```
 
 결과:
@@ -690,6 +696,177 @@ Allowed:
 - weak target은 positive `76`, negative `56`, excluded `85`, usable `132` rows다.
 - main baseline contract는 `semantic_only`, `geometry_only`,
   `semantic_plus_geometry`, `factorized_reliability_posterior` 4개로 고정했다.
+- train factor dataset은 `status: ready`로 생성됐다.
+- deployable feature rows는 `118,560`개이며, label/audit evidence는 deployable
+  feature block에서 제외했다.
+- factor target join은 `217/217` rows로 누락 없이 완료됐다.
+- strict smoke input은 `93` rows (`positive=48`, `negative=45`)이고, weak smoke
+  input은 `132` rows (`positive=76`, `negative=56`)다.
+- forbidden deployable feature key scan에서 target/label leakage는 발견되지 않았다.
+- 이 단계에서도 validation artifact는 사용하지 않았다.
+- train factor smoke는 `status: ready_with_shortcut_caveat`로 완료됐다.
+- strict train-internal 5-fold에서는 네 baseline 모두 AUROC/AUPRC `1.0`에 도달했다.
+  이는 posterior novelty 증거가 아니라 strict target이 HL-vs-LH shortcut에 가깝다는
+  증거로 해석해야 한다.
+- weak train-internal 5-fold에서는 `semantic_only=0.9563/0.9681`,
+  `geometry_only=0.9603/0.9701`, `semantic_plus_geometry=0.9739/0.9813`,
+  `factorized_reliability_posterior=0.9746/0.9818` AUROC/AUPRC를 보였다.
+- weak에서 factorized posterior가 가장 높지만, `semantic_plus_geometry` 대비 차이가
+  작고 target construction에 의존하므로 method advantage claim은 금지한다.
+- strict shortcut audit에서 negative `45/45` rows는
+  `top100_and_unsatisfied=1`, positive `48/48` rows는
+  `tail_gt100_and_satisfied=1`로 완전히 분리됐다.
+- train shortcut control은 `status: ready_target_not_independent`로 완료됐다.
+- explicit RGA shortcut, deterministic geometry status, semantic rank/top-K,
+  predicate category를 제거해도 strict target은 `continuous_core`와
+  `geometry_continuous_only`에서 train-internal 5-fold AUROC/AUPRC `1.0/1.0`을
+  유지했다.
+- weak target도 shortcut control 후 `continuous_core=0.9495/0.9620`,
+  `geometry_continuous_only=0.9610/0.9715` AUROC/AUPRC를 보여 현재 target이 여전히
+  construction signal에 강하게 의존함을 확인했다.
+- 결론: 현재 target은 representation plumbing/debugging에는 유용하지만,
+  `factorized_reliability_posterior` novelty를 검증할 독립 target은 아니다.
+- train target redesign은 `status: ready_target_v2_contract`로 완료됐다.
+- 이전 `strict_binary_target`과 `weak_binary_target`은 method claim용 target에서
+  제외했다. 이유는 `HL vs LH` 또는 `satisfied vs unsatisfied`를 거의 그대로
+  재구성하기 때문이다.
+- target v2의 primary target은 `strict_proximity_informativeness`로 고정했다:
+  `geometry_status=satisfied`, `predicate_family=proximity` 안에서
+  `true_underconfidence` positive `16` rows와 `dense_relation_noise` negative `11`
+  rows를 비교한다.
+- target v2 sensitivity target은 `weak_satisfied_actionability`로 두었다:
+  `geometry_status=satisfied` 안에서 `true_underconfidence + annotation_sparsity`
+  positive `76` rows와 `dense_relation_noise` negative `11` rows를 비교한다.
+- `ontology_mismatch`는 binary target이 아니라 relabel-only로, `semantic_overconfidence`
+  는 RGA-HL diagnostic으로, `uncertain_needs_visual_or_mesh`는 abstain으로 분리했다.
+- posterior 성능 claim은 human-confirmed label 전까지 금지한다.
+- redesigned target smoke는 `status: ready_plumbing_only`로 완료됐다.
+- `strict_proximity_informativeness`는 train-internal 5-fold 기준
+  `drop_direct_identity=0.8864/0.9217`, `safe_continuous=0.8409/0.8975`,
+  `geometry_continuous_only=0.8523/0.8986`, `semantic_raw_only=0.5483/0.7204`
+  AUROC/AUPRC를 보였다.
+- strict target v2는 이전 target보다 shortcut-prone하지 않지만 `N=27`이라 posterior
+  evidence가 아니라 human confirmation 후보로만 둔다.
+- `weak_satisfied_actionability`는 `safe_continuous=0.9115/0.9877`,
+  `semantic_raw_only=0.8906/0.9855` AUROC/AUPRC로 높게 나오며, family/source selection
+  bias가 남아 sensitivity-only로 유지한다.
+- 결론: 다음 작업은 추가 fitting이 아니라 human confirmation protocol이다.
+- human confirmation protocol은 `status: ready_protocol_no_human_labels`로 생성됐다.
+- strict primary queue는 `27` rows이고 contact sheet `27/27`, mesh link `27/27`를
+  가진다.
+- weak extension queue는 `87` rows이고 contact sheet `87/87`, mesh link `87/87`를
+  가진다.
+- final human label은 `reliable_promote -> positive`,
+  `unreliable_dense_noise -> negative`, `relabel_only / abstain_uncertain /
+  invalid_pair / geometry_artifact -> excluded`로 고정했다.
+- hypothesis-stage posterior plumbing smoke 재개 조건은 strict 27 rows completion,
+  required field completion, usable binary rows `>=20`, per-class rows `>=8`이다.
+- paper-level label-quality gate는 2 reviewers, exact final-label agreement `>=0.75`
+  또는 conflict adjudication을 요구한다.
+- 사용자 지시에 따라 strict primary queue 27 rows에 Codex bootstrap label을
+  `(codex_ver)` reviewer id로 채웠다.
+- original blank `strict_review_sheet.tsv`는 human review template로 보존했고,
+  Codex-filled sheet는 `strict_review_sheet_codex_ver.tsv`로 분리했다.
+- Codex label mapping은 `true_underconfidence -> reliable_promote -> 1`,
+  `dense_relation_noise -> unreliable_dense_noise -> 0`이다.
+- readiness validation 결과는 `ready_for_train_only_codex_plumbing_smoke`다:
+  completed rows `27/27`, usable binary rows `27`, positive `16`, negative `11`,
+  missing required fields `0`, invalid values `0`, per-class minimum `11`.
+- `(codex_ver)` label은 human-confirmed label이 아니며, paper evidence,
+  posterior advantage claim, reviewer agreement evidence로 사용할 수 없다.
+- point cloud + multi-view를 H002에 넣는 방향은 합리적이지만, 새 relation
+  predictor가 아니라 RGA evidence axis expansion으로 정의해야 한다. 즉,
+  `P(R_e = 1 | S_e, G_3D_e, V_mv_e, C_e, U_e)` 형태의
+  semantic-geometry-visual agreement 확장으로 본다.
+- multi-view는 즉시 model input으로 넣지 않고, 먼저 audit/confirmation evidence로
+  사용해 `true_underconfidence`, `dense_relation_noise`, `annotation_sparsity`,
+  `uncertain_needs_visual_or_mesh`를 human-confirmable label로 바꾸는 데 사용한다.
+- `(codex_ver)` strict label smoke는 `ready_plumbing_only_codex_labels`로 완료됐다.
+  train-internal 5-fold에서 `semantic_only` AUROC/AUPRC `0.6080/0.7431`,
+  `geometry_only` `0.8523/0.8986`, `semantic_plus_geometry` `0.8864/0.9217`,
+  `factorized_reliability_posterior` `0.8864/0.9339`를 보였다.
+- 이 smoke는 `N=27`이고 Codex bootstrap label이므로 posterior advantage가 아니라
+  pipeline viability만 보여준다. 다음 gate는 multi-view audit protocol이다.
+- multi-view audit protocol은 `ready_audit_only_vmv_deferred`로 생성됐다.
+  현재 결정은 `V_mv_e`를 model input으로 추가하지 않고, 기존
+  `P(R_e = 1 | S_e, G_e, C_e, U_e)` 검증을 먼저 수행하는 것이다.
+- multi-view audit sheet는 strict proximity current target `27` rows,
+  future-family `support_contact` `26` rows, lower-priority `relative_vertical`
+  `34` rows를 포함한다. 모든 candidate `87` rows는 contact sheet와 mesh link를
+  가진다.
+- factorized validation plan은 `ready_validation_plan_vmv_deferred`로 생성됐다.
+  현재 검증 대상은 `P(R_e = 1 | S_e, G_e, C_e, U_e)`이며, `V_mv_e`는 model input에서
+  제외된다.
+- hypothesis-stage target minimum은 human-confirmed 또는 independent audit label
+  `60` usable rows, per-class `20` rows로 고정했다. `(codex_ver)` label은 충분하지
+  않다.
+- `factorized_reliability_posterior`가 H002 가설을 지지하려면
+  `semantic_plus_geometry` 대비 AUPRC `>= +0.03` 또는 Brier `<= -0.02`를 보여야
+  하며, AUROC drop은 `0.02` 이하여야 한다. 이 조건은 same-family,
+  same-geometry-status, same-rank-band control 아래에서만 해석한다.
+- controlled label target은 `ready_controlled_review_queue_no_labels`로 생성됐다.
+  primary mined queue는 `proximity/close by`, `geometry_status=satisfied`,
+  `semantic_rank>100`만 사용하며, rank band별 reliable seed `16`개와 dense seed
+  `16`개씩 총 `96` rows다.
+- existing strict seed `27` rows를 합친 combined review queue는 `123` rows이며,
+  모든 rows는 contact sheet와 mesh link를 가진다. proposed stratum은 sampling prior일
+  뿐 final label이 아니며, training 재개 전 human/independent label이 필요하다.
+- controlled label readiness는 `not_ready_no_filled_labels`로 확인됐다. 현재
+  `mined_controlled`는 completed `0/96`, usable binary `0`, `combined_review`는
+  completed `0/123`, usable binary `0`이다.
+- 따라서 current `P(R_e = 1 | S_e, G_e, C_e, U_e)` posterior fitting은 아직 재개하지
+  않는다. 다음 gate는 controlled review sheet에 human/independent label을 채운 뒤
+  readiness validator를 다시 통과하는 것이다.
+- 사용자 지시에 따라 controlled sheets를 `(codex_ver)` bootstrap label로 먼저 채웠다.
+  원본 blank sheet는 보존했고 `*_codex_ver.tsv`를 별도로 생성했다.
+- Codex-filled target은 `mined_controlled` `96` rows (`positive=48`, `negative=48`),
+  `combined_review` `123` rows (`positive=64`, `negative=59`)이다.
+- Codex-filled readiness는 `ready_for_train_only_controlled_posterior_smoke`로
+  통과했다. 단, `codex_ver`는 sampling prior bootstrap이므로 human/independent label
+  requirement를 만족하지 않는다.
+- controlled posterior smoke는 `ready_plumbing_only_controlled_codex_labels`로
+  완료됐다. `mined_controlled_codex_ver`에서 factorized posterior는
+  `semantic_plus_geometry` 대비 AUPRC `+0.0006`, Brier `-0.0012`로 거의 동률이다.
+- `combined_controlled_codex_ver`에서는 AUPRC `+0.0337`, Brier `-0.0081`이지만,
+  Codex label과 existing strict seed가 포함된 plumbing-only 결과이므로 posterior
+  advantage claim에는 사용할 수 없다.
+- 현재 해석은 명확하다: H002 posterior implementation은 real label을 받을 준비가
+  됐지만, H002 hypothesis 자체는 `codex_ver` label로 검증되지 않았다.
+- 사용자 지시에 따라 hypothesis-stage에서는 `(codex_ver)`를 real label로 취급하는
+  working assumption을 추가했다. 이 가정 아래에서도 결론은 보수적이다:
+  `combined_controlled_codex_ver`는 AUPRC `+0.0337`로 약한 positive signal을 보이지만,
+  `mined_controlled_codex_ver`는 AUPRC `+0.0006`으로 factorized advantage를 지지하지
+  않는다.
+- 또한 `drop_direct_identity_rank`와 `safe_continuous` control에서 성능이 near-random으로
+  붕괴하므로, 현재 signal이 `C_e/U_e`의 독립 기여인지 semantic/rank/target construction
+  artifact인지 아직 분리되지 않았다.
+- 따라서 real-label assumption 아래에서도 H002는 "weak conditional support" 단계이며,
+  다음 hypothesis-stage 검증은 grouped CV, factor ablation, rank-band/target-variant
+  stability, proxy-baseline audit, bootstrap CI, calibration check다.
+- scan-grouped controlled smoke를 실행했다. `mined_controlled_codex_ver`에서는
+  factorized posterior가 `semantic_plus_geometry` 대비 AUPRC `+0.0341`, Brier
+  `-0.0234`로 numeric threshold를 만족했다. `combined_controlled_codex_ver`에서는
+  AUPRC `+0.0268`, Brier `-0.0082`로 약하지만 threshold에는 조금 부족하다.
+- factor ablation 결과 `S+G+C`는 `S+G`와 동일했고, gain은 `S+G+U`에서 발생했다.
+  즉 현재 controlled target에서는 coverage factor보다 uncertainty/disagreement factor가
+  signal을 만든다.
+- 그러나 `negative_rank_only` proxy가 factorized posterior보다 강하다:
+  mined AUPRC `0.9589` vs factorized `0.9409`, combined AUPRC `0.7094` vs
+  factorized `0.6801`. 따라서 현재는 factorized reliability signal이 semantic rank
+  artifact와 분리됐다고 말할 수 없다.
+- 현재 결론: `codex_ver`를 real label로 취급해도 H002는 reliability framing에 대한
+  conditional support는 있지만, factorized posterior method contribution은 아직
+  rank-proxy debias를 통과해야 한다.
+- rank-proxy debias check 결과는 `rank_proxy_not_debiased`다. Full factorized posterior는
+  `negative_rank_only`보다 약했다: mined AUPRC `0.9409` vs `0.9589`, combined AUPRC
+  `0.6801` vs `0.7094`.
+- `negative_rank_plus_factorized_no_rank`도 `negative_rank_only`보다 나빴다:
+  mined AUPRC `-0.0491`, Brier `+0.0286`, combined AUPRC `-0.0141`, Brier `+0.0164`.
+- 즉 non-rank factorized evidence를 rank proxy에 더해도 추가 설명력이 생기지 않았다.
+  현재 H002 posterior signal은 semantic rank / underconfidence proxy로 설명 가능하다.
+- 따라서 다음 문제는 model capacity가 아니라 target construction이다. `proximity/close by`
+  + `geometry_status=satisfied` 안에서도 positive/negative가 rank proxy로 분리된다면,
+  factorized reliability method claim은 방어하기 어렵다.
 
 핵심 artifact:
 
@@ -730,6 +907,105 @@ hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed
 hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_contract/baseline_contract.json
 hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_contract/factor_targets.jsonl
 hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_contract/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_dataset/deployable_features_all.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_dataset/target_joined.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_dataset/strict_smoke.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_dataset/weak_smoke.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_dataset/dataset_summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_dataset/schema.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_dataset/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_smoke/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_smoke/metrics.csv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_smoke/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_smoke/predictions_*.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_shortcut_control/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_shortcut_control/metrics.csv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_shortcut_control/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_shortcut_control/predictions_*.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/target_redesign/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/target_redesign/target_contract.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/target_redesign/target_assignments.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/target_redesign/strict_proximity_informativeness.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/target_redesign/weak_satisfied_actionability.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/target_redesign/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/redesigned_target_smoke/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/redesigned_target_smoke/metrics.csv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/redesigned_target_smoke/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/redesigned_target_smoke/predictions_*.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/human_confirmation_protocol/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/human_confirmation_protocol/protocol.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/human_confirmation_protocol/strict_review_queue.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/human_confirmation_protocol/weak_extension_queue.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/human_confirmation_protocol/strict_review_sheet.tsv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/human_confirmation_protocol/weak_extension_sheet.tsv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/human_confirmation_protocol/strict_review_sheet_codex_ver.tsv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/human_confirmation_protocol/strict_codex_ver_labels.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/human_confirmation_protocol/strict_codex_ver_binary_targets.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/human_confirmation_protocol/codex_ver_readiness_summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/human_confirmation_protocol/codex_ver_readiness_report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/human_confirmation_protocol/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/feasibility_check.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/codex_label_smoke/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/codex_label_smoke/metrics.csv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/codex_label_smoke/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/multiview_audit_protocol/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/multiview_audit_protocol/protocol.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/multiview_audit_protocol/primary_strict_sheet.tsv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/multiview_audit_protocol/support_contact_sheet.tsv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/multiview_audit_protocol/all_candidate_sheet.tsv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/factorized_validation_plan/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/factorized_validation_plan/protocol.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/factorized_validation_plan/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_target/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_target/protocol.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_target/mined_controlled_queue.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_target/mined_controlled_sheet.tsv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_target/combined_review_queue.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_target/combined_review_sheet.tsv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_readiness/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_readiness/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_readiness/mined_binary_targets.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_readiness/combined_binary_targets.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_target/mined_controlled_sheet_codex_ver.tsv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_target/combined_review_sheet_codex_ver.tsv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_codex_labels/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_codex_labels/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_readiness_codex_ver/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_readiness_codex_ver/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_readiness_codex_ver/mined_binary_targets.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_readiness_codex_ver/combined_binary_targets.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_posterior_smoke_codex_ver/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_posterior_smoke_codex_ver/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_posterior_smoke_codex_ver/metrics.csv
+hypothesis/CAND-001/H002_factorized-relation-confidence/40_real_label_claim_audit.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/grouped_control_smoke_codex_real_assumption/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/grouped_control_smoke_codex_real_assumption/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/grouped_control_smoke_codex_real_assumption/metrics.csv
+hypothesis/CAND-001/H002_factorized-relation-confidence/41_grouped_control_smoke.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/rank_proxy_debias_codex_real_assumption/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/rank_proxy_debias_codex_real_assumption/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/rank_proxy_debias_codex_real_assumption/metrics.csv
+hypothesis/CAND-001/H002_factorized-relation-confidence/42_rank_proxy_debias.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/tools/within_rank_stability.py
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/within_rank_stability_codex_real_assumption/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/within_rank_stability_codex_real_assumption/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/within_rank_stability_codex_real_assumption/metrics.csv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/within_rank_stability_codex_real_assumption/pairwise.csv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/within_rank_stability_codex_real_assumption/matched_pairs.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/43_within_rank_stability.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/tools/rank_matched_target.py
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/rank_matched_target_codex_real_assumption/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/rank_matched_target_codex_real_assumption/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/rank_matched_target_codex_real_assumption/metrics.csv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/rank_matched_target_codex_real_assumption/pairwise.csv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/rank_matched_target_codex_real_assumption/pair_records.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/44_rank_matched_target.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/tools/target_independence_audit.py
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/target_independence_audit_codex_real_assumption/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/target_independence_audit_codex_real_assumption/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/target_independence_audit_codex_real_assumption/feature_summaries.csv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/target_independence_audit_codex_real_assumption/metadata_summaries.csv
+hypothesis/CAND-001/H002_factorized-relation-confidence/45_target_independence_audit.md
 ```
 
 ## Next Gate
@@ -737,25 +1013,25 @@ hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed
 다음 gate:
 
 ```text
-26_factor_dataset.md
+46_independent_label_protocol.md
 ```
 
 목표:
 
-- train-only deployable feature rows를 `match_rows.jsonl`에서 materialize한다.
-- `factor_targets.jsonl`를 217 audit rows에 join한다.
-- strict/weak target subsets를 validation 없이 준비한다.
-- `semantic_only`, `geometry_only`, `semantic_plus_geometry`,
-  `factorized_reliability_posterior` smoke-fitting inputs를 만든다.
+- rank-hidden independent audit protocol을 정의한다.
+- semantic rank, proposed stratum, seed positive/negative identity를 annotator에게
+  숨긴다.
+- multi-view는 우선 audit evidence로만 사용하고 model input으로는 쓰지 않는다.
+- `support_contact`를 우선 포함하고, 이후 `attachment_deferred`,
+  `relative_vertical` 순서로 확장 가능성을 둔다.
+- validation/test는 계속 사용하지 않는다.
 
 Continue condition:
 
-- train-set RGA diagnostic에서 exact-match LH 또는 audited no-GT LH의 의미 있는
-  source-underconfidence / annotation-coverage / ontology-mismatch signal이 확인되면
-  H002는 bidirectional RGA benchmark branch로 계속 진행한다.
+- independent audit protocol에서 rank-hidden labels가 생성 가능하고, label rationale과
+  deployable input feature가 분리되면 residual/gated combiner diagnostic으로 진행한다.
 
 Stop condition:
 
-- `RGA-LH`가 대부분 geometry-trivial relation, source false positive, object-pair
-  mismatch, geometry artifact라면 H002는 bidirectional benchmark가 아니라 H001 기반
-  failure analysis 확장으로 축소한다.
+- independent audit 없이 codex target만으로 진행해야 한다면 H002는 posterior method
+  claim을 중단하고 RGA benchmark/failure-analysis claim으로 축소한다.

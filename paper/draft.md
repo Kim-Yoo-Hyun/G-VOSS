@@ -1,14 +1,15 @@
-# H001 First-Pass Manuscript Draft
+# GeoCalib First-Pass Manuscript Draft
 
-Last updated: 2026-06-12 KST
+Last updated: 2026-06-13 KST
 
-Status: `first_pass_body_budget_reviewed_aaai_source_aligned`
+Status: `historical_first_pass_body_superseded_by_paper_aaai`
 
 This is a first-pass manuscript prose draft derived from `paper/outline.md`.
-It is not camera-ready text. The purpose is to make the paper-body logic
-readable end to end before final caption compression or final
-bibliography/build verification. The current manuscript route is AAAI,
-and the first ICCV-style LaTeX conversion remains archived under `paper/iccv/`.
+It is not camera-ready text and is no longer the authoritative manuscript
+source. The current manuscript route is `paper/aaai/`, where the reviewer-facing
+paper/method name is `GeoCalib` and the latest Docker PDF build is
+`logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`. The first
+ICCV-style LaTeX conversion remains archived under `paper/iccv/`.
 
 Related Work citation placeholders have been replaced with BibTeX-style keys.
 The 2026-05-23 literature pass keeps recent open-world/VLM graph and
@@ -41,7 +42,7 @@ Current key map:
 
 ## Title
 
-Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations
+GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations
 
 ## Abstract
 

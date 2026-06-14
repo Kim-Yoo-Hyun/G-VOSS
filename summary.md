@@ -1,4 +1,4 @@
-# H001 Research Summary
+# H001 / GeoCalib Research Summary
 
 ## Research Direction
 
@@ -6,10 +6,13 @@ H001의 연구 방향은 새로운 3D Scene Graph generator를 만드는 것이 
 이미 생성된 3DSSG relation predictions의 신뢰도를 explicit 3D geometry
 evidence로 평가하고 보정하는 것이다.
 
+Paper-facing method/title name은 `GeoCalib`이다. `H001`은 내부
+hypothesis/experiment 식별자와 파일 경로명으로 유지한다.
+
 현재 가장 방어 가능한 논문 framing은 다음과 같다.
 
 ```text
-calibrated geometry-consistency evaluation and re-ranking framework
+GeoCalib: calibrated geometry-consistency evaluation and re-ranking framework
 for 3D scene graph relation-source outputs
 ```
 
@@ -35,6 +38,39 @@ miscalibrated with respect to physical consistency; calibrated geometry-
 consistency scoring exposes this failure and can reduce geometric violations
 while reporting the recall tradeoff.
 ```
+
+## Current Paper State
+
+Fact:
+
+- Active venue source: `paper/aaai/`.
+- Paper title: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D
+  Scene Graph Relations`.
+- Main source-result table now reports `K={5,10,20,50,100}` for Recall and
+  Violation; `K=1` remains excluded by the frozen low-K protocol.
+- Low-K sweep artifacts are ready under
+  `experiments/H001_geom_reliability/k_sweep/`, with source metrics in separate
+  `metrics_k_sweep/` roots so the locked `metrics/` outputs are not
+  overwritten.
+- Figure 1 has been redrawn as a three-panel evidence-record framework
+  schematic; generated assets are
+  `paper/generated/figures/figure1_framework.{svg,png}`.
+- Latest Docker PDF build:
+  `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, exit 0.
+  `paper/aaai/main.pdf` has 9 pages, no LaTeX errors, missing citations, final
+  undefined references, overfull hboxes, or Type 3 fonts.
+- The previous flattened package
+  `release/h001_aaai27_submission_20260613_004455/` predates the latest
+  GeoCalib/Figure 1 pass and must be regenerated before upload.
+
+Inference:
+
+- The main metric story is stable enough for the current scoped AAAI paper.
+  Remaining work is submission hygiene and release/supplement packaging, not a
+  new core H001 experiment.
+- Low-K results are useful as top-rank reliability evidence, especially for
+  Open3DSG, but should be interpreted as part of the same recall-violation
+  protocol rather than as a separate cherry-picked claim.
 
 ## Research Background
 
@@ -310,10 +346,12 @@ p_geom_valid = P(relation geometry is valid | family-specific geometry features)
 The framework reports relation quality through both semantic recall and
 geometry reliability.
 
-- `R@50`, `R@100`: exact-label predicate/triplet recall under fixed GT
-  denominator.
-- `Violation@50`, `Violation@100`: fraction of top-k selected rows that are
-  geometry-violated among geometry-checkable predictions.
+- `R@K` for `K={5,10,20,50,100}`: exact-label predicate/triplet recall under
+  fixed GT denominator.
+- `Violation@K` for `K={5,10,20,50,100}`: fraction of top-k selected rows that
+  are geometry-violated among geometry-checkable predictions.
+- `K=1` is excluded from paper-metric consideration because it is too noisy and
+  source-rank sensitive.
 - recall-retention / violation-reduction tradeoff: whether violation reduction
   is achieved by simply pruning recall.
 - GT verifier evaluation: GT-positive nonviolated rate, deterministic
@@ -377,10 +415,8 @@ Qwen should not replace the two main sources without a separate claim decision.
 
 Main metrics:
 
-- exact-label `R@50`
-- exact-label `R@100`
-- `Violation@50`
-- `Violation@100`
+- exact-label `R@K` for `K={5,10,20,50,100}`
+- `Violation@K` for `K={5,10,20,50,100}`
 - recall delta and violation delta against `semantic_only`
 - subgraph bootstrap confidence intervals for key deltas
 

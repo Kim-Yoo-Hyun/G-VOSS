@@ -1,6 +1,6 @@
 \section{Experimental Setup}
 
-This section fixes scope before results because H001's claim depends on
+This section fixes scope before results because the \sysname{} claim depends on
 denominator transparency as much as metric values. Open3DSG is the main
 open-vocabulary relation-source case study, while VL-SAT is a controlled
 reproduced closed-set anchor. Families and denominators are fixed before
@@ -13,7 +13,7 @@ records the denominator and source outputs used by Table~\ref{tab:source-results
 \centering
 \small
 \setlength{\tabcolsep}{5pt}
-\caption{\textbf{Full official H001 evaluation scope.} Recall is exact
+\caption{\textbf{Full official \sysname{} evaluation scope.} Recall is exact
 predicate-label recall over the 3,972-row in-scope GT denominator; family
 grouping is used for reliability and violation reporting, not for relaxing
 predicate matches.}
@@ -24,12 +24,12 @@ Item & Count & Source & Role in claim \\
 \midrule
 Validation scans & 157 & 3DSSG subset & Full official validation scan set. \\
 Subgraphs / contexts & 548 & 3DSSG subset & Object-pair identity denominator. \\
-Directed object pairs & 36,808 & H001 scope contract & Relation-row candidate universe. \\
+Directed object pairs & 36,808 & geometry-checkable scope contract & Relation-row candidate universe. \\
 VL-SAT prediction rows & 957,008 & VL-SAT & Controlled reproduced closed-set anchor. \\
 Ground-truth rows & 11,254 & 3DSSG & Full validation relation annotation rows. \\
-In-scope GT rows & 3,972 & H001 families & Exact-label denominator for \texttt{support\_contact}, \texttt{proximity}, and \texttt{relative\_vertical}. \\
+In-scope GT rows & 3,972 & geometry-checkable families & Exact-label denominator for \texttt{support\_contact}, \texttt{proximity}, and \texttt{relative\_vertical}. \\
 Open3DSG prediction rows & 695,916 & Open3DSG & Main open-vocabulary source output. \\
-Geometry-scored rows & 160,596 & H001 verifier & Open3DSG geometry-checkable rows joined to calibrated evidence. \\
+Geometry-scored rows & 160,596 & geometry verifier & Open3DSG geometry-checkable rows joined to calibrated evidence. \\
 \bottomrule
 \end{tabularx}
 \end{table*}
@@ -37,13 +37,13 @@ Geometry-scored rows & 160,596 & H001 verifier & Open3DSG geometry-checkable row
 Open3DSG is reported as a Docker-reproduced source-output reliability case
 study, not an official leaderboard reproduction. The selected checkpoint is the
 official non-averaged BLIP route \texttt{epoch=13-step=13104.ckpt}, chosen by
-train-dev validation loss before H001 held-out inspection. Its runtime uses
+train-dev validation loss before held-out \sysname{} inspection. Its runtime uses
 filtered train/dev subgraphs, and the main full-validation branch reaches
 548/548 contexts with \texttt{OPEN3DSG\_MIN\_VISIBLE\_OBJECTS=2} plus relaxed
 view regeneration for two scans. The 533/548 covered branch follows the
 unmodified Open3DSG source preprocessing pipeline and remains sensitivity
 evidence, as does the historical old 377/388 vs R2 388/388 branch.
-The recovery branch is a source-runtime coverage intervention, not an H001
+The recovery branch is a source-runtime coverage intervention, not a \sysname{}
 scoring or threshold-tuning step: it changes which Open3DSG contexts can be
 preprocessed, while the prediction row contract, exact-label denominator,
 geometry policies, and operating points remain fixed.
@@ -64,9 +64,9 @@ Other sources require the same Docker, denominator, metric, and audit treatment.
 \toprule
 Source or claim & Status & Allowed use & Blocked extension \\
 \midrule
-Open3DSG & metric ready & Main open-vocabulary relation-source reliability case study within measured H001 families. & Not broad open-vocabulary generation improvement by itself. \\
+Open3DSG & metric ready & Main open-vocabulary relation-source reliability case study within measured geometry-checkable families. & Not broad open-vocabulary generation improvement by itself. \\
 VL-SAT & ready & Controlled anchor for the same scoped geometry-consistency protocol. & Not baseline-agnostic by itself. \\
-FROSS & runtime blocked & Future support/contact smoke if runtime artifact exists. & Not full-family H001 evidence. \\
+FROSS & runtime blocked & Future support/contact smoke if runtime artifact exists. & Not full-family \sysname{} evidence. \\
 Qwen-VL & extension metrics ready & Optional modern semantic-source evidence. & Not main evidence without an explicit promotion decision. \\
 Attachment relations & extension only & Appendix or preliminary future-upgrade evidence. & Not current main claim without full-validation rerun, denominator update, and post-G5d audit. \\
 Broad open-vocabulary 3DSSG & blocked & Not claimed from current evidence. & Requires broader measured task/source evidence. \\
@@ -74,6 +74,5 @@ Broad open-vocabulary 3DSSG & blocked & Not claimed from current evidence. & Req
 \end{tabularx}
 \end{table*}
 
-All paper-body experiment results are generated through Docker under
-\texttt{experiments/H001\_geom\_reliability/}. Host-only outputs are not
-promoted to paper evidence.
+All paper-body experiment results are generated through Docker. Host-only
+outputs are not promoted to paper evidence.

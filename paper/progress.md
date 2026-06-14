@@ -1,11 +1,13 @@
-# H001 Experiment Progress Rationale
+# H001 / GeoCalib Experiment Progress Rationale
 
-Last updated: 2026-06-12 KST
+Last updated: 2026-06-13 KST
 
 This document explains why H001 moved from hypothesis checks to Docker paper
 experiments, why each next experiment was introduced, and how the key results
 should be interpreted. It is a progress rationale, not a replacement for
 `paper/draft.md`, `paper/preview.md`, or the Docker result tables.
+`H001` remains the internal experiment identifier. `GeoCalib` is the
+reviewer-facing paper/method name.
 
 ## Research Claim Being Tested
 
@@ -393,6 +395,46 @@ Full-validation uncertainty and verifier checks:
 - These qualitative queues are deterministic failure-mechanism evidence, not
   representative human audits.
 
+## Stage 11: GeoCalib Paper Consolidation
+
+Why this stage was introduced:
+
+- The scientific evidence was ready, but the paper still needed reviewer-facing
+  naming, top-rank reliability presentation, and a clearer method figure.
+- `H001` is a useful internal identifier, but it is not a good paper method
+  name. The manuscript needed a compact title acronym that signals calibration
+  and geometry consistency without implying a new generator.
+- R@50/R@100 alone underplayed the reliability issue in the top-ranked region,
+  especially for Open3DSG. A fixed low-K diagnostic could show whether the
+  framework helps where downstream consumers are most likely to read the graph.
+
+What was run:
+
+- Low-K protocol froze `K={5,10,20,50,100}`, excluded `K=1`, used separate
+  `metrics_k_sweep/` outputs, and verified that K=50/100 matched locked
+  full-validation metrics.
+- Docker services generated VL-SAT and Open3DSG recovery low-K metrics,
+  Open3DSG bootstrap CI for the K sweep, and `k_sweep/summary.md`.
+- The AAAI source was updated to use `GeoCalib` as the reviewer-facing
+  method/title name and to remove `H001` from manuscript-body method wording.
+- Figure 1 was redrawn as a three-panel evidence-record framework schematic:
+  relation-source graph, identity-preserved edge evidence record, and reliable
+  relation graph with recall/violation readout.
+- Docker rebuilt the PDF with log
+  `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, exit 0.
+
+Interpretation:
+
+- The low-K result is useful enough for the main source-result table because
+  K=10/20 show consistent violation reduction without recall collapse, and
+  Open3DSG shows a strong top-rank reliability effect.
+- This does not create a new claim. It strengthens the same recall-violation
+  protocol by reporting the top-ranked region alongside the standard K=50/100
+  rows.
+- Remaining paper work is submission hygiene: regenerate the flattened package
+  after the GeoCalib/Figure 1 pass, then verify portal upload constraints,
+  artifact/supplement placement, and metadata/anonymization.
+
 ## Optional Branches And Why They Are Not Main Evidence Yet
 
 ### Relation-Family Expansion Attempts
@@ -508,17 +550,19 @@ Not allowed:
 ## Current Paper Stage
 
 The current paper body is in `paper/draft.md` and now runs from Title through
-Conclusion. The current target-venue LaTeX source is in `paper/aaai/`, using
-the official AAAI-27 Author Kit checked on 2026-06-11 KST. Docker PDF build
-verification is complete with `h001-aaai-tex:20260611`: latest AAAI-27 hygiene
-rebuild `logs/h001_aaai27_pdf_build_20260611_aaai27_hygiene_retry1.log` exits
-0. `main.pdf` builds to 9 total pages, technical content stays within pages
-1-7, references follow technical content, the AAAI-27 reproducibility checklist
-follows references, BibTeX uses 19 entries, and final `main.log` has no missing
-citations, final undefined refs, overfull hboxes, LaTeX errors, or AAAI package
-errors. Remaining submission hygiene is final portal/source packaging, PDF
-metadata/anonymization, artifact/code-release URL or DOI, and checklist
-partial-item review.
+Conclusion as historical first-pass prose. The authoritative current
+target-venue LaTeX source is in `paper/aaai/`, using the official AAAI-27
+Author Kit checked on 2026-06-11 KST. Docker PDF build verification is complete
+with `h001-aaai-tex:20260611`: latest GeoCalib/Figure 1 rebuild
+`logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log` exits 0.
+`main.pdf` builds to 9 total pages, technical content stays within pages 1-7,
+references follow technical content, the AAAI-27 reproducibility checklist
+follows references, and final `main.log` has no missing citations, final
+undefined refs, overfull hboxes, LaTeX errors, or AAAI package errors. The PDF
+font check reports no Type 3 fonts. Remaining submission hygiene is final
+portal/source package regeneration, PDF metadata/anonymization re-check,
+artifact/code-release URL or DOI field handling, and supplement/code-data
+upload placement.
 Open3DSG-first table ordering is preserved: the manuscript treats Open3DSG as
 the main open-vocabulary case study and VL-SAT as the controlled anchor.
 The latest reviewer-defense pass adds explicit main-text answers to the

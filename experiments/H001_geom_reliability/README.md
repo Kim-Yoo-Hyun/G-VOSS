@@ -1,8 +1,10 @@
 # H001 Geometry Reliability Experiment
 
-Last updated: 2026-06-12
+Last updated: 2026-06-13
 
-This is the first paper-body experiment workflow for H001. It is Docker-based by rule.
+This is the first paper-body experiment workflow for H001. It is Docker-based
+by rule. The reviewer-facing paper/method name is `GeoCalib`; `H001` remains
+the internal experiment identifier and path name.
 
 ## Scope
 
@@ -10,6 +12,15 @@ Current executable sources:
 
 - `VL-SAT` / `vlsat_closed_set`
 - `Open3DSG` / `open3dsg_ov`
+
+Current paper-facing metric scope:
+
+- Full official validation route is selected for the main AAAI paper.
+- Main table reports `K={5,10,20,50,100}` for Recall and Violation using the
+  low-K sweep artifacts under `k_sweep/`; `K=1` is excluded by protocol.
+- Open3DSG primary route is
+  `sources/open3dsg/full_validation/recovery_relaxed_views_min2/`.
+- VL-SAT primary route is `sources/vlsat/full_validation/`.
 
 Relation expansion status:
 
@@ -28,7 +39,7 @@ Selected top-tier expansion:
 Current method framing:
 
 ```text
-calibrated geometry-consistency evaluation and re-ranking framework
+GeoCalib: calibrated geometry-consistency evaluation and re-ranking framework
 ```
 
 ## Full Official Validation Transition
@@ -76,6 +87,7 @@ open3dsg_full_validation_raw_clean_exit_review_ready
 open3dsg_h001_covered_recovery_provenance_review_ready
 open3dsg_full_validation_recovery_failure_case_inspection_ready
 paper_full_validation_primary_route_selected_recovery_branch
+low_k_sweep_main_table_reflected
 qwen_vl_full_validation_downstream_metrics_ready_third_source_extension
 ```
 
@@ -184,6 +196,14 @@ Transition record:
 
 ```text
 experiments/H001_geom_reliability/full_validation_transition/report.md
+```
+
+Low-K sweep record:
+
+```text
+experiments/H001_geom_reliability/k_sweep/protocol.md
+experiments/H001_geom_reliability/k_sweep/summary.md
+experiments/H001_geom_reliability/k_sweep/recall_violation_curve.svg
 ```
 
 ## What This Stage Does

@@ -1,6 +1,6 @@
 # TODO
 
-Last updated: 2026-06-12
+Last updated: 2026-06-13
 
 이 파일은 에이전트가 다음 작업 계획과 진행 상태를 관리하는 루트 작업판이다. 자세한 문헌 조사 내용은 `literature/`에 기록하고, 자세한 hypothesis 근거는 `hypothesis/`에 기록한다.
 
@@ -18,13 +18,23 @@ CAND-001은 hypothesis prep / verifier implementation 트랙이다. H001 hypothe
 - `06_second_source.md`
 - `07_experiment_spec.md`
 
-Docker-based scoped H001 experiment workflow entry는 완료했다. `experiments/H001_geom_reliability/`에서 Docker build/run으로 locked `VL-SAT` artifact를 검증하고 Table 1-6, figure specs, locked input manifest, report를 생성했다. Method contribution은 verifier script가 아니라 calibrated geometry-consistency evaluation/re-ranking framework로 정리한다. Top-tier main path는 single-baseline-only justification보다 Open3DSG evidence를 우선하며, manuscript에서는 Open3DSG를 main open-vocabulary relation-source case study로 두고 VL-SAT는 controlled reproduced anchor로 둔다. Qwen2.5-VL/Qwen3-VL은 VL-SAT/Open3DSG를 대체하지 않는 third semantic source / modern VLM extension으로만 진행한다.
+Docker-based scoped H001 experiment workflow entry는 완료했다.
+`experiments/H001_geom_reliability/`에서 Docker build/run으로 locked
+`VL-SAT` artifact를 검증하고 Table 1-6, figure specs, locked input manifest,
+report를 생성했다. Reviewer-facing paper/method name은 `GeoCalib`이고,
+H001은 내부 hypothesis/experiment 식별자로 유지한다. Method contribution은
+verifier script가 아니라 calibrated geometry-consistency evaluation/re-ranking
+framework로 정리한다. Top-tier main path는 single-baseline-only
+justification보다 Open3DSG evidence를 우선하며, manuscript에서는 Open3DSG를
+main open-vocabulary relation-source case study로 두고 VL-SAT는 controlled
+reproduced anchor로 둔다. Qwen2.5-VL/Qwen3-VL은 VL-SAT/Open3DSG를 대체하지
+않는 third semantic source / modern VLM extension으로만 진행한다.
 
 `relative_horizontal`은 현재 main claim에 포함하지 않고, framework 확장 가능성을 검증하는 별도 relation-scope expansion track으로 진행한다. Docker scope audit, coordinate audit, and bucket inspection are complete; coordinate audit is blocked for promotion with best-frame macro strict purity 0.7725 and `front`/`behind` strict purity 0.7445. Bucket inspection confirms nontrivial threshold-free signal through inverse consistency 1.0 and wrong-frame gap 0.1231, but recommends `do_not_promote_relative_horizontal_to_main_claim` because `front`/`behind` still has substantial ambiguity and contradiction buckets. Current AAAI-path decision is to stop this track as appendix/limitation evidence rather than run expanded-family metrics.
 
 `attachment_deferred` is now the preferred future relation-family expansion if H001 is upgraded. Docker G0 scope/schema audit, G1 extractor contract, G1b evidence-only dry run, G1c point/surface estimator validation, G2 conservative verifier-policy design, G3 train-dev calibration/counterfactual route, G4 GT policy smoke, G4b error/visual sanity planning, G4c strict-only calibration-filter freeze, G5a pooled strict calibration fit, G5b bounded source evidence/scoring preflight, G5c full-source scoring/metric protocol freeze, and G5d full-source scoring/metrics/controls/bootstrap are complete. Current G5d status is `attachment_deferred_g5d_full_source_metrics_ready`: 69/69 shards complete, 135,048 scored rows, validation errors 0, 300 failure rows, log `logs/h001_attachment_g5d_full_20260606_113803.log`, exit file `logs/h001_attachment_g5d_full_20260606_113803.exit` with exit 0, outputs `experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d/`. Source metrics: VL-SAT denominator 967/967, semantic_only R@100/V@100 `1.0000/0.2126`, probabilistic_recalibrated `0.9979/0.2210`, rule_verified_attachment_policy `0.9380/0.0215`; Open3DSG denominator 768/967 with 199 missing exact-label GT rows, semantic_only R@100/V@100 `0.9297/0.3021`, probabilistic_recalibrated `0.6628/0.2460`, rule_verified_attachment_policy `0.9245/0.0842`. Warning: `connected to` has no dev strict rows, so pooled calibration or explicit caveat is required. This G5d job is source metric evidence only; the current main claim remains unchanged, and adding this family to the main AAAI claim requires explicit final user confirmation. The Open3DSG main-source caveat-reduction R1 path is now complete through non-avg downstream metrics/bootstrap/Table 6 caveat wording under `sources/open3dsg/non_avg/`. R2 covered-loadable context retry reached 388/388 preprocess contexts and 388/388 complete feature ids; branch-local raw stream finalized 388/388 batches and 19,224 rows, but the old H001 streaming hook exited with process code `137` after finalization. The H001 Open3DSG source patch and active runtime `trainer.py` files were updated to use clean `return` after raw stream finalization instead of `raise SystemExit(0)`. On 2026-06-06 KST, a patched clean-return provenance rerun completed under `sources/open3dsg/h001_covered_recovery/raw_dump_clean_return_20260606_003130/`: manifest status `raw_dump_stream_complete`, 388/388 batches, 19,224 rows, dropped/invalid partial rows 0/0, and log contains `returning cleanly`; however Docker still returned exit `137`. Docker events confirm `container oom` for `open3dsg-eval_h001_gt_objects-run-494244438c14` at 2026-06-06 01:05:41 KST, followed by `exitCode=137`, so the artifact is complete but process-level clean-exit promotion failed due to container OOM during/after teardown. Retry2 after swap reset also completed the artifact under `sources/open3dsg/h001_covered_recovery/raw_dump_clean_return_retry2_20260606_021154/`: manifest status `raw_dump_stream_complete`, 388/388 batches, 19,224 rows, dropped/invalid partial rows 0/0, and log contains `returning cleanly`; Docker again emitted `container oom` at 2026-06-06 02:54:41 KST and exit `137` even though initial swap use was 0B. R2 downstream sensitivity refresh is now complete under `sources/open3dsg/h001_covered_recovery/`: raw identity `ready`, adapter 498,212 prediction rows, geometry 498,212 preserved rows / 114,972 H001-family geometry rows, metrics `ready`, bootstrap CI `ready`, and table/caveat report `open3dsg_h001_covered_recovery_sensitivity_ready`. R2 increases historical avg-BLIP R@100 by about +0.28 pp across conditions and leaves the qualitative conclusion unchanged; use it as appendix robustness evidence that the old 377/388 missing-context caveat did not drive the trend, not as a main-route replacement. Raw-dump-only runner implementation is not recommended now; implement it only if R2 is promoted from appendix sensitivity to process-clean provenance. These retries strengthen Open3DSG source credibility; for attachment they can reduce only the missing-preprocessed-context portion of the Open3DSG denominator caveat, not the larger candidate-pair-universe gap.
 
-Open3DSG `training_repro` metadata/split/full payload, official BLIP TopK5/scales3 feature dump, avg-BLIP full training, checkpoint selection, eval preflight, H001 held-out eval feature-cache generation, raw-dump identity audit, clean v14 streaming raw-dump source provenance, adapter export, geometry join, metric eval, Table 6 regeneration, Docker subgraph bootstrap CI, paper claim-consistency review, paper-body content block planning, first-pass manuscript prose draft, draft claim/evidence review, Figure 1-3 source lock, verified draft Figure 1-3 SVG generation, top-tier novelty/layout figure review, Figure 3 geometry-backed panel upgrade, ICCV-style source conversion, AAAI-style source conversion, AAAI reproducibility checklist insertion, and appendix/provenance caveat-consistency pass are complete. Current target venue route is AAAI; ICCV source is historical/alternate. 논문 본문용 실제 experiment 구현은 계속 Docker 기반으로 진행한다. Host-only outputs must not be promoted to paper experiment results.
+Open3DSG `training_repro` metadata/split/full payload, official BLIP TopK5/scales3 feature dump, avg-BLIP full training, checkpoint selection, eval preflight, H001 held-out eval feature-cache generation, raw-dump identity audit, clean v14 streaming raw-dump source provenance, adapter export, geometry join, metric eval, Table 6 regeneration, Docker subgraph bootstrap CI, paper claim-consistency review, paper-body content block planning, first-pass manuscript prose draft, draft claim/evidence review, Figure 1-3 source lock, verified draft Figure 1-3 SVG generation, top-tier novelty/layout figure review, Figure 3 geometry-backed panel upgrade, ICCV-style source conversion, AAAI-style source conversion, AAAI reproducibility checklist insertion, appendix/provenance caveat-consistency pass, low-K main table update, and GeoCalib naming/Figure 1 evidence-record polish are complete. Current target venue route is AAAI; ICCV source is historical/alternate. 논문 본문용 실제 experiment 구현은 계속 Docker 기반으로 진행한다. Host-only outputs must not be promoted to paper experiment results.
 
 Reproducibility/GitHub portability status: `docs/reproducibility.md` is updated for the 2026-05-21 `.gitignore` audit, the historical 2026-05-26 127-scan bundle, and the 2026-06-05 full-validation paper-facing bundle plan. Core runbooks, Dockerfiles, compose files, scripts, reports, compact manifests, paper planning docs, and metric summaries can be committed. The selected official non-avg Open3DSG checkpoint plus full-validation row-level JSONL outputs are bundled separately for external release. Large datasets, feature caches, and model caches are intentionally ignored and must be rebuilt/downloaded or transferred separately on another computer. Cleanup candidates are documented in `docs/reproducibility.md`; do not delete primary full-validation artifacts, Qwen resume files, or source datasets unless the corresponding bundle/transfer has been verified.
 
@@ -70,6 +80,28 @@ CAND-003은 literature survey 트랙이다. 2026-04-30 기준으로 LLM/VLM task
 ### CAND-001
 
 Data-dependent:
+
+- [x] H001/GeoCalib markdown current-state refresh:
+      updated current-state owner docs to reflect GeoCalib naming, low-K
+      `K={5,10,20,50,100}` main table reflection, Figure 1 evidence-record
+      redraw, latest Docker PDF build
+      `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, and the
+      fact that the previous flattened package
+      `release/h001_aaai27_submission_20260613_004455/` must be regenerated
+      before upload. Historical report/log markdown remains preserved as
+      provenance rather than rewritten.
+
+- [x] AAAI manuscript naming/figure polish:
+      reviewer-facing acronym fixed as `GeoCalib`, title updated to
+      `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph
+      Relations`, manuscript body source no longer uses `H001` as the method
+      name, and Figure 1 was redrawn as a three-panel evidence-record schematic
+      inspired by relation/graph evidence figures in the literature survey.
+      Regenerated `paper/generated/figures/figure1_framework.{svg,png}` and
+      rebuilt `paper/aaai/main.pdf` with Docker; log
+      `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, exit 0,
+      9 pages, no LaTeX errors, no final undefined refs, no missing citations,
+      no overfull hboxes, embedded Type 1 fonts only.
 
 - [x] Qwen-VL full official validation downstream:
       migrated Qwen from the historical 127-scan inferable-pair route to the
@@ -491,10 +523,40 @@ Non-data:
       `logs/h001_aaai27_pdf_build_20260611_aaai27_hygiene_retry1.log`
       exits 0, and the later Qwen-extension wording rebuild log
       `logs/h001_aaai_pdf_build_qwen_extension_update_20260611_121205.log`
-      also exits 0. Remaining final-submission hygiene: final OpenReview/AAAI
-      portal instruction check, source flattening/package archive, PDF metadata
-      anonymization, artifact/code-release URL or DOI, and checklist
-      `partial` answer review after the final release package is fixed.
+      also exits 0. 2026-06-12 KST re-check of the official AAAI-27 main-track
+      page still confirms 7 technical pages plus references, required
+      reproducibility checklist, supplementary/code-data option, and
+      supplementary deadline 3 days after full paper deadline; the public
+      OpenReview AAAI-27 group page is live but does not expose detailed form
+      requirements without portal workflow access.
+- [x] AAAI local submission-package generation completed and refreshed on
+      2026-06-13 KST:
+      added `paper/aaai/scripts/prepare_submission_package.sh` and generated
+      `release/h001_aaai27_submission_20260613_004455/` plus archive
+      `release/h001_aaai27_submission_20260613_004455.tar.zst`. Verification
+      report status: flattened `main.tex` has no `input/include` commands,
+      Docker package build exits 0, anonymous string scan finds no obvious local
+      identity strings, metadata-clean review PDF candidate has empty
+      Title/Author/Subject/Keywords, embedded fonts have no Type 3 entries, and
+      `sha256sum -c release/h001_aaai27_submission_20260613_004455.tar.zst.sha256`
+      passes.
+- [x] AAAI artifact/code-release, supplement, and checklist decision pass
+      completed on 2026-06-13 KST. Added `paper/aaai/submission_plan.md` and
+      `full_validation_transition/artifact_bundle/hardware_software_manifest.md`.
+      Decisions: do not put an external artifact URL in the anonymous review
+      manuscript unless the portal explicitly asks for one; use OpenReview
+      supplementary upload for anonymous review artifacts if size/format
+      permits; use GitHub for post-anonymity source release and Zenodo DOI as
+      the canonical full-validation result-bundle release; do not add a
+      separate technical appendix PDF for the current route; keep main paper
+      self-contained. Checklist `partial` answers were reviewed. Computing
+      infrastructure was upgraded to `yes` with concrete GPU/OS/Docker/image
+      information; code/data/license/public-release, significance-testing, and
+      exhaustive-config items remain `partial` for defensible reasons. Current
+      remaining submission blocker is only final OpenReview/AAAI portal check
+      after the submission form is available, especially upload size/format,
+      source-package, supplement, checklist-placement, and any required
+      artifact URL fields.
 - [x] Current-state Markdown synchronization completed after Qwen full-validation
       downstream and Open3DSG full-validation recovery route updates. Updated
       `paper/draft.md`, `paper/outline.md`, `docs/paper.md`,
@@ -552,6 +614,19 @@ Non-data:
 
 ## Recently Completed
 
+- [x] H001 low-K top-rank diagnostic 완료: protocol frozen at
+      `experiments/H001_geom_reliability/k_sweep/protocol.md` with
+      `K={5,10,20,50,100}` and `K=1` excluded from paper-metric consideration.
+      Docker generated separate `metrics_k_sweep/` outputs for VL-SAT
+      full-validation and Open3DSG recovery full-validation, combined
+      `bootstrap_ci_k_sweep/`, and `k_sweep/summary.md` without overwriting
+      locked `metrics/`. Validation passed: `K=50/100` point estimates,
+      denominators, selected counts, and geometry coverage match locked
+      outputs; bootstrap points match `metrics_k_sweep`. Key result: Open3DSG
+      recovery K=10/20 shows strong top-rank gains, especially family-specific
+      dR `+9.19/+12.99 pp` and dV `-27.74/-16.47 pp`. The AAAI main
+      source-result table was updated to include `K={5,10,20,50,100}` for both
+      Recall and Violation while keeping `K=1` excluded by protocol.
 - [x] Open3DSG full-validation missing-15 recovery downstream 완료:
       `sources/open3dsg/full_validation/recovery_relaxed_views_min2/` now has
       feature audit 548/548, clean-exit raw stream 26,938 rows / 548 batches,

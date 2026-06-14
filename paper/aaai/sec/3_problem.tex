@@ -17,14 +17,14 @@ g_i = G(\mathrm{scan}_i,\mathrm{subgraph}_i,s_i,o_i).
 \end{equation}
 The evidence can include OBB features, point/local contact evidence, distance,
 vertical ordering, support/contact subtype information, and missing-evidence
-reason codes. H001 evaluates only geometry-checkable relation families:
+reason codes. \sysname{} evaluates only geometry-checkable relation families:
 \begin{equation}
 \begin{aligned}
 \mathcal{A}=\{&\texttt{support\_contact},\texttt{proximity},\\
               &\texttt{relative\_vertical}\}.
 \end{aligned}
 \end{equation}
-Rows outside these families are preserved in exports but excluded from the H001
+Rows outside these families are preserved in exports but excluded from the reported
 violation claim.
 
 The geometry verifier assigns a row-level status
@@ -42,7 +42,7 @@ ground-truth denominator. Family grouping defines the geometry-checkable
 reliability scope and violation analysis; it does not relax predicate-label
 matching. \vAt{K} is the fraction of top-$K$ in-scope predicted rows whose
 joined geometry is judged violated. Top-$K$ is formed per evaluated
-subgraph/source ranking after the H001 family filter; satisfied, uncertain, and
+subgraph/source ranking after the geometry-checkable family filter; satisfied, uncertain, and
 violated rows form the violation denominator, while unsupported or missing-join
 rows are excluded from that denominator and reported through coverage caveats.
 Only rows with verification status \texttt{violated} count as violations. We

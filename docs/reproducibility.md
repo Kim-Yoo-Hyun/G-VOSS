@@ -1,6 +1,6 @@
 # H001 Reproducibility Runbook
 
-Last updated: 2026-06-12 KST
+Last updated: 2026-06-13 KST
 
 This document consolidates dataset, checkpoint, environment, Docker, reproduction,
 and evaluation-summary information for `experiments/H001_geom_reliability/`.
@@ -43,6 +43,8 @@ H001 Docker experiment and result state:
 6. `experiments/H001_geom_reliability/tables/`
 7. `experiments/H001_geom_reliability/figures/figure_specs.md`
 8. `experiments/H001_geom_reliability/bootstrap_ci/summary.md`
+9. `experiments/H001_geom_reliability/k_sweep/summary.md`
+10. `experiments/H001_geom_reliability/k_sweep/protocol.md`
 
 Open3DSG source-specific state:
 
@@ -131,17 +133,36 @@ Facts:
   insertion, reviewer-defense main-text passes, Docker subgraph bootstrap CI,
   reproducibility artifact bundle planning, official AAAI-27 Author Kit
   migration/build hygiene, appendix/provenance and Open3DSG caveat-consistency
-  pass, and 2026-06-11 final claim/content-polish pass. Docker build
+  pass, 2026-06-11 final claim/content-polish pass, 2026-06-12 local
+  submission-package generation, 2026-06-13 low-K main-table update, and
+  2026-06-13 GeoCalib naming/Figure 1 evidence-record pass. Docker build
   verification for `paper/aaai/` is complete with `h001-aaai-tex:20260611`;
-  the latest AAAI-27 hygiene rebuild log is
-  `logs/h001_aaai27_pdf_build_20260611_aaai27_hygiene_retry1.log`, with
+  the latest GeoCalib/Figure 1 rebuild log is
+  `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, with
   9 total pages, technical content within pages 1-7, references after
   technical content, and the AAAI-27 reproducibility checklist after
   references. The manuscript uses Open3DSG as the main open-vocabulary
   relation-source case study and VL-SAT as the controlled reproduced anchor.
-  Remaining final-submission reproducibility work is source flattening/package
-  hygiene, artifact/code-release URL or DOI, metadata/anonymization, and final
-  checklist partial-item review.
+  Main Table 3 reports `K={5,10,20,50,100}` using the low-K sweep artifacts
+  under `experiments/H001_geom_reliability/k_sweep/`; `K=1` is excluded by
+  protocol. The previous local submission package under
+  `release/h001_aaai27_submission_20260613_004455/` and
+  `release/h001_aaai27_submission_20260613_004455.tar.zst` predates the latest
+  GeoCalib/Figure 1 source pass and must be regenerated before upload. It
+  remains a useful historical hygiene check, but it is not the final upload
+  package. Artifact/release policy is fixed in `paper/aaai/submission_plan.md`:
+  no external URL in the anonymous review manuscript unless the portal requires
+  it; OpenReview supplementary upload is preferred for anonymous review
+  artifacts if size/format permits; GitHub plus Zenodo DOI is the
+  post-anonymity public release route; no separate technical appendix PDF is
+  planned for the current self-contained paper. Checklist `partial` answers
+  were reviewed, and the computing-infrastructure answer was upgraded to `yes`
+  using the hardware/software manifest under the artifact bundle root.
+  Remaining final-submission reproducibility work is the final OpenReview/AAAI
+  portal field check after the submission form is available, especially upload
+  size/format, source-package constraints, supplement placement, checklist
+  placement, any required artifact URL fields, and regeneration/verification of
+  the flattened source package from the latest GeoCalib source.
 - Qwen-VL is a third semantic source / modern VLM extension path. The locked
   Qwen3-VL-4B cache, runtime preflight, 3-row tiny inference smoke,
   raw-response validation, historical full-source route, and paper-facing full

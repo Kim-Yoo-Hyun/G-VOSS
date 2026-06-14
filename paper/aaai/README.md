@@ -1,8 +1,8 @@
 # AAAI-Style Manuscript Source
 
-Last updated: 2026-06-11 KST
+Last updated: 2026-06-13 KST
 
-This directory is the AAAI-style LaTeX source conversion of the H001 paper.
+This directory is the AAAI-style LaTeX source conversion of the GeoCalib paper.
 It is separate from `paper/iccv/` so venue-specific formatting decisions do not
 overwrite each other.
 
@@ -32,7 +32,7 @@ overwrite each other.
   - Official `ReproducibilityChecklist.tex` SHA256:
     `06a3459158089bf1c64b738986118f1d1566e816da4b710c6397561e33c3d5e6`.
   - Local checklist was migrated to the AAAI-27 question structure while
-    keeping H001-specific answers concise.
+    keeping experiment-specific answers concise.
 
 Important AAAI-27 constraints from the official main-track page and author kit:
 
@@ -58,6 +58,9 @@ Important AAAI-27 constraints from the official main-track page and author kit:
 
 ## Content Status
 
+- The paper-facing title acronym is fixed as `GeoCalib`, expanded in the title
+  as `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph
+  Relations`.
 - Open3DSG is framed as the main open-vocabulary relation-source case study.
 - VL-SAT is framed as the controlled reproduced anchor.
 - The Results section includes Docker subgraph bootstrap CIs as
@@ -68,6 +71,9 @@ Important AAAI-27 constraints from the official main-track page and author kit:
   533/548 covered branch as sensitivity evidence, and residual calibration risk.
 - Controls, GT verifier evaluation, structured audit, and visual sanity checks
   are prose-backed reviewer-defense evidence unless an appendix is added.
+- Figure 1 is redrawn as a three-panel evidence-record schematic:
+  relation-source graph, identity-preserved edge evidence, and reliable
+  relation graph with recall/violation readout.
 
 ## Build
 
@@ -91,7 +97,7 @@ Verified run:
 - Image build log:
   `logs/h001_aaai27_tex_image_build_20260611_aaai27_hygiene_retry1.log`
 - PDF build log:
-  `logs/h001_aaai_pdf_build_qwen_extension_update_20260611_121205.log`
+  `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`
 - Output: `paper/aaai/main.pdf`
 - Page count: 9 total pages
 - Technical content and references/checklist: see
@@ -101,15 +107,93 @@ Verified run:
   overfull hboxes, no LaTeX errors, and no AAAI package errors in the final
   `main.log`. One small overfull vbox warning (`0.77646pt`) and underfull box
   warnings remain non-blocking layout warnings.
+- Current Table 3 reports the main source results across
+  `K={5,10,20,50,100}` while retaining the standard `K=50/100` operating
+  points.
+- The main manuscript body no longer uses `H001` as the method name; internal
+  experiment paths still use the existing repository folder names.
+- PDF SHA256:
+  `ad230745e1fb833d19ddcaaf93497d7f8e698d329feb199bb9809bff8b3f24b3`.
 - Font check: `pdffonts paper/aaai/main.pdf` reports embedded Type 1 fonts only;
   no Type 3 fonts.
 - Visual inspection: `paper/aaai/inspection/report.md`
 
+## Submission Decisions
+
+Submission-side decisions are tracked in:
+
+```text
+paper/aaai/submission_plan.md
+```
+
+Current decisions:
+
+- Do not add an external artifact URL to the anonymous review manuscript unless
+  the final AAAI/OpenReview form explicitly asks for one.
+- Use OpenReview supplementary upload for anonymous review artifacts if portal
+  size/format constraints allow it.
+- Use GitHub for post-anonymity source release and Zenodo DOI as the canonical
+  fixed full-validation result-bundle release after acceptance/public release.
+- Do not add a separate technical appendix PDF for the current route; the main
+  paper remains self-contained, and supplementary material is only for
+  reproducibility support.
+
+## Submission Package
+
+Submission-hygiene package generation is now scripted:
+
+```bash
+bash paper/aaai/scripts/prepare_submission_package.sh
+```
+
+Latest generated package:
+
+- package directory:
+  `release/h001_aaai27_submission_20260613_004455/`
+- archive:
+  `release/h001_aaai27_submission_20260613_004455.tar.zst`
+- archive checksum:
+  `release/h001_aaai27_submission_20260613_004455.tar.zst.sha256`
+- package build log:
+  `logs/h001_aaai_submission_pkg_build_20260613_004455.log`
+- verification report:
+  `release/h001_aaai27_submission_20260613_004455/verification_report.md`
+
+Current status: this package predates the latest GeoCalib/Figure 1 source pass
+and the PDF build
+`logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`. Treat it as a
+historical hygiene check, not the final upload package. Regenerate the flattened
+package before any actual AAAI/OpenReview upload.
+
+Verification status:
+
+- flattened `main.tex` has no `\input{...}` or `\include{...}` commands.
+- package contains only the minimal compile set: flattened `main.tex`,
+  `references.bib`, `aaai2027.sty`, `aaai2027.bst`, three used figure PNGs,
+  generated `.bbl`/build files, PDF, metadata-clean review PDF, checksums, and
+  a package README.
+- metadata-clean review PDF candidate:
+  `main_review_metadata_clean.pdf`; `pdfinfo` reports empty Title, Author,
+  Subject, and Keywords.
+- anonymous string scan found no obvious local identity strings.
+- `pdffonts` reports embedded Type 1C fonts only and no Type 3 fonts.
+- archive checksum verification passed with:
+  `sha256sum -c release/h001_aaai27_submission_20260613_004455.tar.zst.sha256`.
+- remaining log issue is the same non-blocking small `Overfull \vbox`
+  (`0.77646pt`) plus underfull box warnings.
+
+This package is a local submission-hygiene artifact and is now stale relative
+to the current GeoCalib source. The final portal upload still needs package
+regeneration plus the actual OpenReview/AAAI form check for upload size/format,
+source-package constraints, checklist placement, and any required artifact URL
+field. Artifact/release and supplement-upload policy is fixed in
+`paper/aaai/submission_plan.md`.
+
 ## Source Boundary
 
-This is a venue-style working source, not a final source-upload archive. Before
-AAAI submission, perform one more target-year check against the official AAAI
-site and OpenReview instructions, fix the final artifact/code-release URL or
-DOI, flatten the LaTeX source if source upload requires it, strip PDF metadata
-if required for anonymity, and decide whether a supplementary technical
-appendix/code-data ZIP is being uploaded.
+This is a venue-style working source. A flattened local package now exists, but
+the actual AAAI/OpenReview upload should still be checked immediately before
+submission because portal fields and source/supplement requirements can change.
+The unresolved external decisions are artifact/code-release URL or DOI,
+supplementary technical appendix/code-data upload, and whether any checklist
+`partial` answer can be upgraded after the final release package is fixed.

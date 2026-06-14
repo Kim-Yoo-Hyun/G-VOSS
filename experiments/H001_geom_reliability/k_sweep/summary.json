@@ -1,0 +1,1071 @@
+{
+  "artifacts": {
+    "csv": "experiments/H001_geom_reliability/k_sweep/recall_violation_curve.csv",
+    "svg": "experiments/H001_geom_reliability/k_sweep/recall_violation_curve.svg"
+  },
+  "combined_bootstrap": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/bootstrap_ci_k_sweep/summary.json",
+  "created_at_utc": "2026-06-12T16:57:26+00:00",
+  "gate_summary": [
+    {
+      "condition": "probabilistic_recalibrated",
+      "condition_label": "probabilistic",
+      "k": 10,
+      "main_reflection_candidate": true,
+      "recall_delta_ge_minus_5pp_both_sources": true,
+      "violation_reduction_both_sources": true
+    },
+    {
+      "condition": "probabilistic_recalibrated",
+      "condition_label": "probabilistic",
+      "k": 20,
+      "main_reflection_candidate": true,
+      "recall_delta_ge_minus_5pp_both_sources": true,
+      "violation_reduction_both_sources": true
+    },
+    {
+      "condition": "control_family_specific_p_geom_valid",
+      "condition_label": "family_specific",
+      "k": 10,
+      "main_reflection_candidate": true,
+      "recall_delta_ge_minus_5pp_both_sources": true,
+      "violation_reduction_both_sources": true
+    },
+    {
+      "condition": "control_family_specific_p_geom_valid",
+      "condition_label": "family_specific",
+      "k": 20,
+      "main_reflection_candidate": true,
+      "recall_delta_ge_minus_5pp_both_sources": true,
+      "violation_reduction_both_sources": true
+    },
+    {
+      "condition": "rule_verified_point_subtype",
+      "condition_label": "rule",
+      "k": 10,
+      "main_reflection_candidate": true,
+      "recall_delta_ge_minus_5pp_both_sources": true,
+      "violation_reduction_both_sources": true
+    },
+    {
+      "condition": "rule_verified_point_subtype",
+      "condition_label": "rule",
+      "k": 20,
+      "main_reflection_candidate": true,
+      "recall_delta_ge_minus_5pp_both_sources": true,
+      "violation_reduction_both_sources": true
+    }
+  ],
+  "protocol": {
+    "excluded_from_paper_metric": [
+      1
+    ],
+    "ks": [
+      5,
+      10,
+      20,
+      50,
+      100
+    ],
+    "main_reflection_requires_review": true,
+    "metric_role": "top-rank reliability diagnostic"
+  },
+  "rows": [
+    {
+      "bootstrap_delta_recall_ci95": null,
+      "bootstrap_delta_violation_ci95": null,
+      "bootstrap_source": "vlsat_closed_set_full_validation",
+      "condition": "semantic_only",
+      "condition_label": "semantic",
+      "delta_recall_vs_semantic": 0.0,
+      "delta_violation_vs_semantic": 0.0,
+      "geometry_coverage": 1.0,
+      "k": 5,
+      "recall": 0.41943605236656595,
+      "recall_correct": 1666,
+      "recall_denominator": null,
+      "selected_predictions": 2740,
+      "source": "VL-SAT full-validation",
+      "source_key": "vlsat",
+      "violated": 8,
+      "violation": 0.00291970802919708,
+      "violation_denominator": 2740
+    },
+    {
+      "bootstrap_delta_recall_ci95": null,
+      "bootstrap_delta_violation_ci95": null,
+      "bootstrap_source": "vlsat_closed_set_full_validation",
+      "condition": "semantic_only",
+      "condition_label": "semantic",
+      "delta_recall_vs_semantic": 0.0,
+      "delta_violation_vs_semantic": 0.0,
+      "geometry_coverage": 1.0,
+      "k": 10,
+      "recall": 0.6321752265861027,
+      "recall_correct": 2511,
+      "recall_denominator": null,
+      "selected_predictions": 5480,
+      "source": "VL-SAT full-validation",
+      "source_key": "vlsat",
+      "violated": 45,
+      "violation": 0.008211678832116789,
+      "violation_denominator": 5480
+    },
+    {
+      "bootstrap_delta_recall_ci95": null,
+      "bootstrap_delta_violation_ci95": null,
+      "bootstrap_source": "vlsat_closed_set_full_validation",
+      "condition": "semantic_only",
+      "condition_label": "semantic",
+      "delta_recall_vs_semantic": 0.0,
+      "delta_violation_vs_semantic": 0.0,
+      "geometry_coverage": 1.0,
+      "k": 20,
+      "recall": 0.8074018126888217,
+      "recall_correct": 3207,
+      "recall_denominator": null,
+      "selected_predictions": 10960,
+      "source": "VL-SAT full-validation",
+      "source_key": "vlsat",
+      "violated": 156,
+      "violation": 0.014233576642335766,
+      "violation_denominator": 10960
+    },
+    {
+      "bootstrap_delta_recall_ci95": null,
+      "bootstrap_delta_violation_ci95": null,
+      "bootstrap_source": "vlsat_closed_set_full_validation",
+      "condition": "semantic_only",
+      "condition_label": "semantic",
+      "delta_recall_vs_semantic": 0.0,
+      "delta_violation_vs_semantic": 0.0,
+      "geometry_coverage": 1.0,
+      "k": 50,
+      "recall": 0.9272406847935549,
+      "recall_correct": 3683,
+      "recall_denominator": null,
+      "selected_predictions": 27400,
+      "source": "VL-SAT full-validation",
+      "source_key": "vlsat",
+      "violated": 733,
+      "violation": 0.026751824817518248,
+      "violation_denominator": 27400
+    },
+    {
+      "bootstrap_delta_recall_ci95": null,
+      "bootstrap_delta_violation_ci95": null,
+      "bootstrap_source": "vlsat_closed_set_full_validation",
+      "condition": "semantic_only",
+      "condition_label": "semantic",
+      "delta_recall_vs_semantic": 0.0,
+      "delta_violation_vs_semantic": 0.0,
+      "geometry_coverage": 1.0,
+      "k": 100,
+      "recall": 0.9634944612286002,
+      "recall_correct": 3827,
+      "recall_denominator": null,
+      "selected_predictions": 54800,
+      "source": "VL-SAT full-validation",
+      "source_key": "vlsat",
+      "violated": 2611,
+      "violation": 0.04764598540145985,
+      "violation_denominator": 54800
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        -0.010011203434486311,
+        0.0017951587179091566
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.0036496350364963507,
+        0.0003649635036496353
+      ],
+      "bootstrap_source": "vlsat_closed_set_full_validation",
+      "condition": "probabilistic_recalibrated",
+      "condition_label": "probabilistic",
+      "delta_recall_vs_semantic": -0.004028197381671705,
+      "delta_violation_vs_semantic": -0.00145985401459854,
+      "geometry_coverage": 1.0,
+      "k": 5,
+      "recall": 0.41540785498489424,
+      "recall_correct": 1650,
+      "recall_denominator": null,
+      "selected_predictions": 2740,
+      "source": "VL-SAT full-validation",
+      "source_key": "vlsat",
+      "violated": 4,
+      "violation": 0.00145985401459854,
+      "violation_denominator": 2740
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        -0.00558443277574735,
+        0.005308565334034312
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.003284671532846715,
+        0.0009124087591240865
+      ],
+      "bootstrap_source": "vlsat_closed_set_full_validation",
+      "condition": "probabilistic_recalibrated",
+      "condition_label": "probabilistic",
+      "delta_recall_vs_semantic": 0.0,
+      "delta_violation_vs_semantic": -0.0010948905109489059,
+      "geometry_coverage": 1.0,
+      "k": 10,
+      "recall": 0.6321752265861027,
+      "recall_correct": 2511,
+      "recall_denominator": null,
+      "selected_predictions": 5480,
+      "source": "VL-SAT full-validation",
+      "source_key": "vlsat",
+      "violated": 39,
+      "violation": 0.007116788321167883,
+      "violation_denominator": 5480
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        -0.0008068490076840018,
+        0.007123416443574995
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.003740875912408759,
+        -0.0010948905109489041
+      ],
+      "bootstrap_source": "vlsat_closed_set_full_validation",
+      "condition": "probabilistic_recalibrated",
+      "condition_label": "probabilistic",
+      "delta_recall_vs_semantic": 0.00327291037260824,
+      "delta_violation_vs_semantic": -0.002281021897810218,
+      "geometry_coverage": 1.0,
+      "k": 20,
+      "recall": 0.81067472306143,
+      "recall_correct": 3220,
+      "recall_denominator": null,
+      "selected_predictions": 10960,
+      "source": "VL-SAT full-validation",
+      "source_key": "vlsat",
+      "violated": 131,
+      "violation": 0.011952554744525548,
+      "violation_denominator": 10960
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        0.0004959949484244719,
+        0.006411978005963187
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.005255474452554747,
+        -0.0025912408759124067
+      ],
+      "bootstrap_source": "vlsat_closed_set_full_validation",
+      "condition": "probabilistic_recalibrated",
+      "condition_label": "probabilistic",
+      "delta_recall_vs_semantic": 0.00327291037260824,
+      "delta_violation_vs_semantic": -0.0038321167883211688,
+      "geometry_coverage": 1.0,
+      "k": 50,
+      "recall": 0.9305135951661632,
+      "recall_correct": 3696,
+      "recall_denominator": null,
+      "selected_predictions": 27400,
+      "source": "VL-SAT full-validation",
+      "source_key": "vlsat",
+      "violated": 628,
+      "violation": 0.02291970802919708,
+      "violation_denominator": 27400
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        0.002514634885836231,
+        0.008698778785800037
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.00848540145985402,
+        -0.005948905109489047
+      ],
+      "bootstrap_source": "vlsat_closed_set_full_validation",
+      "condition": "probabilistic_recalibrated",
+      "condition_label": "probabilistic",
+      "delta_recall_vs_semantic": 0.005287009063444148,
+      "delta_violation_vs_semantic": -0.007208029197080294,
+      "geometry_coverage": 1.0,
+      "k": 100,
+      "recall": 0.9687814702920443,
+      "recall_correct": 3848,
+      "recall_denominator": null,
+      "selected_predictions": 54800,
+      "source": "VL-SAT full-validation",
+      "source_key": "vlsat",
+      "violated": 2216,
+      "violation": 0.04043795620437956,
+      "violation_denominator": 54800
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        0.0,
+        0.000788861284064947
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.005474452554744526,
+        -0.00072992700729927
+      ],
+      "bootstrap_source": "vlsat_closed_set_full_validation",
+      "condition": "rule_verified_point_subtype",
+      "condition_label": "rule",
+      "delta_recall_vs_semantic": 0.0002517623363544885,
+      "delta_violation_vs_semantic": -0.00291970802919708,
+      "geometry_coverage": 1.0,
+      "k": 5,
+      "recall": 0.41968781470292044,
+      "recall_correct": 1667,
+      "recall_denominator": null,
+      "selected_predictions": 2740,
+      "source": "VL-SAT full-validation",
+      "source_key": "vlsat",
+      "violated": 0,
+      "violation": 0.0,
+      "violation_denominator": 2740
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        -0.0014605229155010974,
+        0.0004955493541021511
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.011861313868613138,
+        -0.0051094890510948905
+      ],
+      "bootstrap_source": "vlsat_closed_set_full_validation",
+      "condition": "rule_verified_point_subtype",
+      "condition_label": "rule",
+      "delta_recall_vs_semantic": -0.000503524672708977,
+      "delta_violation_vs_semantic": -0.008211678832116789,
+      "geometry_coverage": 1.0,
+      "k": 10,
+      "recall": 0.6316717019133937,
+      "recall_correct": 2509,
+      "recall_denominator": null,
+      "selected_predictions": 5480,
+      "source": "VL-SAT full-validation",
+      "source_key": "vlsat",
+      "violated": 0,
+      "violation": 0.0,
+      "violation_denominator": 5480
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        -0.0014817671615381862,
+        0.001514424934808975
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.017246806569343066,
+        -0.011222627737226277
+      ],
+      "bootstrap_source": "vlsat_closed_set_full_validation",
+      "condition": "rule_verified_point_subtype",
+      "condition_label": "rule",
+      "delta_recall_vs_semantic": 0.0,
+      "delta_violation_vs_semantic": -0.014233576642335766,
+      "geometry_coverage": 1.0,
+      "k": 20,
+      "recall": 0.8074018126888217,
+      "recall_correct": 3207,
+      "recall_denominator": null,
+      "selected_predictions": 10960,
+      "source": "VL-SAT full-validation",
+      "source_key": "vlsat",
+      "violated": 0,
+      "violation": 0.0,
+      "violation_denominator": 10960
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        -0.0033509160928929275,
+        0.0005047000974546856
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.029708029197080293,
+        -0.023978102189781022
+      ],
+      "bootstrap_source": "vlsat_closed_set_full_validation",
+      "condition": "rule_verified_point_subtype",
+      "condition_label": "rule",
+      "delta_recall_vs_semantic": -0.0015105740181269312,
+      "delta_violation_vs_semantic": -0.026751824817518248,
+      "geometry_coverage": 1.0,
+      "k": 50,
+      "recall": 0.925730110775428,
+      "recall_correct": 3677,
+      "recall_denominator": null,
+      "selected_predictions": 27400,
+      "source": "VL-SAT full-validation",
+      "source_key": "vlsat",
+      "violated": 0,
+      "violation": 0.0,
+      "violation_denominator": 27400
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        -0.0031400474009886823,
+        0.0016629162227278502
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.05093111313868613,
+        -0.044415602189781016
+      ],
+      "bootstrap_source": "vlsat_closed_set_full_validation",
+      "condition": "rule_verified_point_subtype",
+      "condition_label": "rule",
+      "delta_recall_vs_semantic": -0.0007552870090633546,
+      "delta_violation_vs_semantic": -0.04764598540145985,
+      "geometry_coverage": 1.0,
+      "k": 100,
+      "recall": 0.9627391742195368,
+      "recall_correct": 3824,
+      "recall_denominator": null,
+      "selected_predictions": 54781,
+      "source": "VL-SAT full-validation",
+      "source_key": "vlsat",
+      "violated": 0,
+      "violation": 0.0,
+      "violation_denominator": 54781
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        -0.007947088593208532,
+        0.0015364355219560251
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.0040145985401459855,
+        0.0
+      ],
+      "bootstrap_source": "vlsat_closed_set_full_validation",
+      "condition": "control_family_specific_p_geom_valid",
+      "condition_label": "family_specific",
+      "delta_recall_vs_semantic": -0.00327291037260824,
+      "delta_violation_vs_semantic": -0.001824817518248175,
+      "geometry_coverage": 1.0,
+      "k": 5,
+      "recall": 0.4161631419939577,
+      "recall_correct": 1653,
+      "recall_denominator": null,
+      "selected_predictions": 2740,
+      "source": "VL-SAT full-validation",
+      "source_key": "vlsat",
+      "violated": 3,
+      "violation": 0.0010948905109489052,
+      "violation_denominator": 2740
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        -0.005902904927772332,
+        0.003169350987653568
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.005474452554744526,
+        -0.001094890510948905
+      ],
+      "bootstrap_source": "vlsat_closed_set_full_validation",
+      "condition": "control_family_specific_p_geom_valid",
+      "condition_label": "family_specific",
+      "delta_recall_vs_semantic": -0.0012588116817724426,
+      "delta_violation_vs_semantic": -0.003102189781021898,
+      "geometry_coverage": 1.0,
+      "k": 10,
+      "recall": 0.6309164149043303,
+      "recall_correct": 2506,
+      "recall_denominator": null,
+      "selected_predictions": 5480,
+      "source": "VL-SAT full-validation",
+      "source_key": "vlsat",
+      "violated": 28,
+      "violation": 0.0051094890510948905,
+      "violation_denominator": 5480
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        -0.002396804260985319,
+        0.004650558179865728
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.005018248175182481,
+        -0.0017335766423357667
+      ],
+      "bootstrap_source": "vlsat_closed_set_full_validation",
+      "condition": "control_family_specific_p_geom_valid",
+      "condition_label": "family_specific",
+      "delta_recall_vs_semantic": 0.0012588116817724426,
+      "delta_violation_vs_semantic": -0.0033759124087591238,
+      "geometry_coverage": 1.0,
+      "k": 20,
+      "recall": 0.8086606243705942,
+      "recall_correct": 3212,
+      "recall_denominator": null,
+      "selected_predictions": 10960,
+      "source": "VL-SAT full-validation",
+      "source_key": "vlsat",
+      "violated": 119,
+      "violation": 0.010857664233576642,
+      "violation_denominator": 10960
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        -0.001533324353402185,
+        0.0047187455355201325
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.007773722627737227,
+        -0.0045985401459854025
+      ],
+      "bootstrap_source": "vlsat_closed_set_full_validation",
+      "condition": "control_family_specific_p_geom_valid",
+      "condition_label": "family_specific",
+      "delta_recall_vs_semantic": 0.0015105740181268201,
+      "delta_violation_vs_semantic": -0.00613138686131387,
+      "geometry_coverage": 1.0,
+      "k": 50,
+      "recall": 0.9287512588116817,
+      "recall_correct": 3689,
+      "recall_denominator": null,
+      "selected_predictions": 27400,
+      "source": "VL-SAT full-validation",
+      "source_key": "vlsat",
+      "violated": 565,
+      "violation": 0.020620437956204378,
+      "violation_denominator": 27400
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        0.0010648687896316622,
+        0.00925467728100319
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.015985857664233574,
+        -0.012809306569343065
+      ],
+      "bootstrap_source": "vlsat_closed_set_full_validation",
+      "condition": "control_family_specific_p_geom_valid",
+      "condition_label": "family_specific",
+      "delta_recall_vs_semantic": 0.004783484390735171,
+      "delta_violation_vs_semantic": -0.014343065693430655,
+      "geometry_coverage": 1.0,
+      "k": 100,
+      "recall": 0.9682779456193353,
+      "recall_correct": 3846,
+      "recall_denominator": null,
+      "selected_predictions": 54800,
+      "source": "VL-SAT full-validation",
+      "source_key": "vlsat",
+      "violated": 1825,
+      "violation": 0.0333029197080292,
+      "violation_denominator": 54800
+    },
+    {
+      "bootstrap_delta_recall_ci95": null,
+      "bootstrap_delta_violation_ci95": null,
+      "bootstrap_source": "open3dsg_ov_full_validation_recovery_relaxed_views_min2",
+      "condition": "semantic_only",
+      "condition_label": "semantic",
+      "delta_recall_vs_semantic": 0.0,
+      "delta_violation_vs_semantic": 0.0,
+      "geometry_coverage": 1.0,
+      "k": 5,
+      "recall": 0.03675730110775428,
+      "recall_correct": 146,
+      "recall_denominator": null,
+      "selected_predictions": 2740,
+      "source": "Open3DSG recovery full-validation",
+      "source_key": "open3dsg_recovery",
+      "violated": 1406,
+      "violation": 0.5131386861313869,
+      "violation_denominator": 2740
+    },
+    {
+      "bootstrap_delta_recall_ci95": null,
+      "bootstrap_delta_violation_ci95": null,
+      "bootstrap_source": "open3dsg_ov_full_validation_recovery_relaxed_views_min2",
+      "condition": "semantic_only",
+      "condition_label": "semantic",
+      "delta_recall_vs_semantic": 0.0,
+      "delta_violation_vs_semantic": 0.0,
+      "geometry_coverage": 1.0,
+      "k": 10,
+      "recall": 0.10020140986908359,
+      "recall_correct": 398,
+      "recall_denominator": null,
+      "selected_predictions": 5480,
+      "source": "Open3DSG recovery full-validation",
+      "source_key": "open3dsg_recovery",
+      "violated": 1784,
+      "violation": 0.32554744525547447,
+      "violation_denominator": 5480
+    },
+    {
+      "bootstrap_delta_recall_ci95": null,
+      "bootstrap_delta_violation_ci95": null,
+      "bootstrap_source": "open3dsg_ov_full_validation_recovery_relaxed_views_min2",
+      "condition": "semantic_only",
+      "condition_label": "semantic",
+      "delta_recall_vs_semantic": 0.0,
+      "delta_violation_vs_semantic": 0.0,
+      "geometry_coverage": 1.0,
+      "k": 20,
+      "recall": 0.19914400805639476,
+      "recall_correct": 791,
+      "recall_denominator": null,
+      "selected_predictions": 10944,
+      "source": "Open3DSG recovery full-validation",
+      "source_key": "open3dsg_recovery",
+      "violated": 2285,
+      "violation": 0.20879020467836257,
+      "violation_denominator": 10944
+    },
+    {
+      "bootstrap_delta_recall_ci95": null,
+      "bootstrap_delta_violation_ci95": null,
+      "bootstrap_source": "open3dsg_ov_full_validation_recovery_relaxed_views_min2",
+      "condition": "semantic_only",
+      "condition_label": "semantic",
+      "delta_recall_vs_semantic": 0.0,
+      "delta_violation_vs_semantic": 0.0,
+      "geometry_coverage": 1.0,
+      "k": 50,
+      "recall": 0.4096173212487412,
+      "recall_correct": 1627,
+      "recall_denominator": null,
+      "selected_predictions": 27142,
+      "source": "Open3DSG recovery full-validation",
+      "source_key": "open3dsg_recovery",
+      "violated": 3763,
+      "violation": 0.1386412202490605,
+      "violation_denominator": 27142
+    },
+    {
+      "bootstrap_delta_recall_ci95": null,
+      "bootstrap_delta_violation_ci95": null,
+      "bootstrap_source": "open3dsg_ov_full_validation_recovery_relaxed_views_min2",
+      "condition": "semantic_only",
+      "condition_label": "semantic",
+      "delta_recall_vs_semantic": 0.0,
+      "delta_violation_vs_semantic": 0.0,
+      "geometry_coverage": 1.0,
+      "k": 100,
+      "recall": 0.5161127895266868,
+      "recall_correct": 2050,
+      "recall_denominator": null,
+      "selected_predictions": 53036,
+      "source": "Open3DSG recovery full-validation",
+      "source_key": "open3dsg_recovery",
+      "violated": 6587,
+      "violation": 0.12419865751564975,
+      "violation_denominator": 53036
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        0.03655428076719798,
+        0.05634236190438676
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.47556569343065697,
+        -0.42480839416058397
+      ],
+      "bootstrap_source": "open3dsg_ov_full_validation_recovery_relaxed_views_min2",
+      "condition": "probabilistic_recalibrated",
+      "condition_label": "probabilistic",
+      "delta_recall_vs_semantic": 0.045820745216515614,
+      "delta_violation_vs_semantic": -0.4503649635036497,
+      "geometry_coverage": 1.0,
+      "k": 5,
+      "recall": 0.08257804632426989,
+      "recall_correct": 328,
+      "recall_denominator": null,
+      "selected_predictions": 2740,
+      "source": "Open3DSG recovery full-validation",
+      "source_key": "open3dsg_recovery",
+      "violated": 172,
+      "violation": 0.06277372262773723,
+      "violation_denominator": 2740
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        0.04381387276177592,
+        0.07226956933321727
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.2718978102189781,
+        -0.23868156934306567
+      ],
+      "bootstrap_source": "open3dsg_ov_full_validation_recovery_relaxed_views_min2",
+      "condition": "probabilistic_recalibrated",
+      "condition_label": "probabilistic",
+      "delta_recall_vs_semantic": 0.05790533736153071,
+      "delta_violation_vs_semantic": -0.25565693430656933,
+      "geometry_coverage": 1.0,
+      "k": 10,
+      "recall": 0.1581067472306143,
+      "recall_correct": 628,
+      "recall_denominator": null,
+      "selected_predictions": 5480,
+      "source": "Open3DSG recovery full-validation",
+      "source_key": "open3dsg_recovery",
+      "violated": 383,
+      "violation": 0.06989051094890511,
+      "violation_denominator": 5480
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        0.04252901482403668,
+        0.07964963503948112
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.15228152009032114,
+        -0.1344986964116
+      ],
+      "bootstrap_source": "open3dsg_ov_full_validation_recovery_relaxed_views_min2",
+      "condition": "probabilistic_recalibrated",
+      "condition_label": "probabilistic",
+      "delta_recall_vs_semantic": 0.06117824773413899,
+      "delta_violation_vs_semantic": -0.14336622807017543,
+      "geometry_coverage": 1.0,
+      "k": 20,
+      "recall": 0.26032225579053375,
+      "recall_correct": 1034,
+      "recall_denominator": null,
+      "selected_predictions": 10944,
+      "source": "Open3DSG recovery full-validation",
+      "source_key": "open3dsg_recovery",
+      "violated": 716,
+      "violation": 0.06542397660818713,
+      "violation_denominator": 10944
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        -0.03396607833388892,
+        0.010249936591979104
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.08385500614002447,
+        -0.07202194344596279
+      ],
+      "bootstrap_source": "open3dsg_ov_full_validation_recovery_relaxed_views_min2",
+      "condition": "probabilistic_recalibrated",
+      "condition_label": "probabilistic",
+      "delta_recall_vs_semantic": -0.012084592145015116,
+      "delta_violation_vs_semantic": -0.07799719991157616,
+      "geometry_coverage": 1.0,
+      "k": 50,
+      "recall": 0.39753272910372606,
+      "recall_correct": 1579,
+      "recall_denominator": null,
+      "selected_predictions": 27142,
+      "source": "Open3DSG recovery full-validation",
+      "source_key": "open3dsg_recovery",
+      "violated": 1646,
+      "violation": 0.06064402033748434,
+      "violation_denominator": 27142
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        0.03146227392738042,
+        0.07955042167783385
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.047651126757810434,
+        -0.03782560680579045
+      ],
+      "bootstrap_source": "open3dsg_ov_full_validation_recovery_relaxed_views_min2",
+      "condition": "probabilistic_recalibrated",
+      "condition_label": "probabilistic",
+      "delta_recall_vs_semantic": 0.05614300100704939,
+      "delta_violation_vs_semantic": -0.043065087864846516,
+      "geometry_coverage": 1.0,
+      "k": 100,
+      "recall": 0.5722557905337362,
+      "recall_correct": 2273,
+      "recall_denominator": null,
+      "selected_predictions": 53036,
+      "source": "Open3DSG recovery full-validation",
+      "source_key": "open3dsg_recovery",
+      "violated": 4303,
+      "violation": 0.08113356965080323,
+      "violation_denominator": 53036
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        0.028052929042301108,
+        0.04047309621523027
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.5364963503649635,
+        -0.4879470802919708
+      ],
+      "bootstrap_source": "open3dsg_ov_full_validation_recovery_relaxed_views_min2",
+      "condition": "rule_verified_point_subtype",
+      "condition_label": "rule",
+      "delta_recall_vs_semantic": 0.033987915407854986,
+      "delta_violation_vs_semantic": -0.5131386861313869,
+      "geometry_coverage": 1.0,
+      "k": 5,
+      "recall": 0.07074521651560926,
+      "recall_correct": 281,
+      "recall_denominator": null,
+      "selected_predictions": 2740,
+      "source": "Open3DSG recovery full-validation",
+      "source_key": "open3dsg_recovery",
+      "violated": 0,
+      "violation": 0.0,
+      "violation_denominator": 2740
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        0.02585974715600104,
+        0.037441910747987674
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.3417883211678832,
+        -0.30984945255474455
+      ],
+      "bootstrap_source": "open3dsg_ov_full_validation_recovery_relaxed_views_min2",
+      "condition": "rule_verified_point_subtype",
+      "condition_label": "rule",
+      "delta_recall_vs_semantic": 0.031218529707955675,
+      "delta_violation_vs_semantic": -0.32554744525547447,
+      "geometry_coverage": 1.0,
+      "k": 10,
+      "recall": 0.13141993957703926,
+      "recall_correct": 522,
+      "recall_denominator": null,
+      "selected_predictions": 5478,
+      "source": "Open3DSG recovery full-validation",
+      "source_key": "open3dsg_recovery",
+      "violated": 0,
+      "violation": 0.0,
+      "violation_denominator": 5478
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        0.03588324110762161,
+        0.05080287645399074
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.21809108001964983,
+        -0.19931561270487752
+      ],
+      "bootstrap_source": "open3dsg_ov_full_validation_recovery_relaxed_views_min2",
+      "condition": "rule_verified_point_subtype",
+      "condition_label": "rule",
+      "delta_recall_vs_semantic": 0.04305135951661632,
+      "delta_violation_vs_semantic": -0.20879020467836257,
+      "geometry_coverage": 1.0,
+      "k": 20,
+      "recall": 0.24219536757301108,
+      "recall_correct": 962,
+      "recall_denominator": null,
+      "selected_predictions": 10940,
+      "source": "Open3DSG recovery full-validation",
+      "source_key": "open3dsg_recovery",
+      "violated": 0,
+      "violation": 0.0,
+      "violation_denominator": 10940
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        0.014667283079459758,
+        0.02620553785517255
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.14472044233243556,
+        -0.13275760604966627
+      ],
+      "bootstrap_source": "open3dsg_ov_full_validation_recovery_relaxed_views_min2",
+      "condition": "rule_verified_point_subtype",
+      "condition_label": "rule",
+      "delta_recall_vs_semantic": 0.01988922457200404,
+      "delta_violation_vs_semantic": -0.1386412202490605,
+      "geometry_coverage": 1.0,
+      "k": 50,
+      "recall": 0.4295065458207452,
+      "recall_correct": 1706,
+      "recall_denominator": null,
+      "selected_predictions": 27066,
+      "source": "Open3DSG recovery full-validation",
+      "source_key": "open3dsg_recovery",
+      "violated": 0,
+      "violation": 0.0,
+      "violation_denominator": 27066
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        0.013241588060111179,
+        0.028857587815835424
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.1282954541416311,
+        -0.1198238427341441
+      ],
+      "bootstrap_source": "open3dsg_ov_full_validation_recovery_relaxed_views_min2",
+      "condition": "rule_verified_point_subtype",
+      "condition_label": "rule",
+      "delta_recall_vs_semantic": 0.020644511581067504,
+      "delta_violation_vs_semantic": -0.12419865751564975,
+      "geometry_coverage": 1.0,
+      "k": 100,
+      "recall": 0.5367573011077543,
+      "recall_correct": 2132,
+      "recall_denominator": null,
+      "selected_predictions": 52644,
+      "source": "Open3DSG recovery full-validation",
+      "source_key": "open3dsg_recovery",
+      "violated": 0,
+      "violation": 0.0,
+      "violation_denominator": 52644
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        0.051440248231171846,
+        0.07276865400305388
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.49562956204379566,
+        -0.44525547445255476
+      ],
+      "bootstrap_source": "open3dsg_ov_full_validation_recovery_relaxed_views_min2",
+      "condition": "control_family_specific_p_geom_valid",
+      "condition_label": "family_specific",
+      "delta_recall_vs_semantic": 0.06168177240684793,
+      "delta_violation_vs_semantic": -0.4711678832116789,
+      "geometry_coverage": 1.0,
+      "k": 5,
+      "recall": 0.09843907351460221,
+      "recall_correct": 391,
+      "recall_denominator": null,
+      "selected_predictions": 2740,
+      "source": "Open3DSG recovery full-validation",
+      "source_key": "open3dsg_recovery",
+      "violated": 115,
+      "violation": 0.041970802919708027,
+      "violation_denominator": 2740
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        0.07841402526707243,
+        0.10749016953595918
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.2941697080291971,
+        -0.26076642335766426
+      ],
+      "bootstrap_source": "open3dsg_ov_full_validation_recovery_relaxed_views_min2",
+      "condition": "control_family_specific_p_geom_valid",
+      "condition_label": "family_specific",
+      "delta_recall_vs_semantic": 0.09189325276938569,
+      "delta_violation_vs_semantic": -0.2773722627737226,
+      "geometry_coverage": 1.0,
+      "k": 10,
+      "recall": 0.19209466263846928,
+      "recall_correct": 763,
+      "recall_denominator": null,
+      "selected_predictions": 5480,
+      "source": "Open3DSG recovery full-validation",
+      "source_key": "open3dsg_recovery",
+      "violated": 264,
+      "violation": 0.04817518248175182,
+      "violation_denominator": 5480
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        0.11131974724700834,
+        0.1477537939386481
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.17354103240150784,
+        -0.15601956989506632
+      ],
+      "bootstrap_source": "open3dsg_ov_full_validation_recovery_relaxed_views_min2",
+      "condition": "control_family_specific_p_geom_valid",
+      "condition_label": "family_specific",
+      "delta_recall_vs_semantic": 0.12990936555891242,
+      "delta_violation_vs_semantic": -0.164656432748538,
+      "geometry_coverage": 1.0,
+      "k": 20,
+      "recall": 0.3290533736153072,
+      "recall_correct": 1307,
+      "recall_denominator": null,
+      "selected_predictions": 10944,
+      "source": "Open3DSG recovery full-validation",
+      "source_key": "open3dsg_recovery",
+      "violated": 483,
+      "violation": 0.04413377192982456,
+      "violation_denominator": 10944
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        0.037789150212930674,
+        0.07257510414217087
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.11553553518554885,
+        -0.10487248944406526
+      ],
+      "bootstrap_source": "open3dsg_ov_full_validation_recovery_relaxed_views_min2",
+      "condition": "control_family_specific_p_geom_valid",
+      "condition_label": "family_specific",
+      "delta_recall_vs_semantic": 0.05614300100704939,
+      "delta_violation_vs_semantic": -0.11001400044211923,
+      "geometry_coverage": 1.0,
+      "k": 50,
+      "recall": 0.46576032225579056,
+      "recall_correct": 1850,
+      "recall_denominator": null,
+      "selected_predictions": 27142,
+      "source": "Open3DSG recovery full-validation",
+      "source_key": "open3dsg_recovery",
+      "violated": 777,
+      "violation": 0.028627219806941273,
+      "violation_denominator": 27142
+    },
+    {
+      "bootstrap_delta_recall_ci95": [
+        0.06688236977991122,
+        0.10957061833137301
+      ],
+      "bootstrap_delta_violation_ci95": [
+        -0.09494257727768476,
+        -0.08529815505679177
+      ],
+      "bootstrap_source": "open3dsg_ov_full_validation_recovery_relaxed_views_min2",
+      "condition": "control_family_specific_p_geom_valid",
+      "condition_label": "family_specific",
+      "delta_recall_vs_semantic": 0.08862034239677741,
+      "delta_violation_vs_semantic": -0.09012746059280488,
+      "geometry_coverage": 1.0,
+      "k": 100,
+      "recall": 0.6047331319234642,
+      "recall_correct": 2402,
+      "recall_denominator": null,
+      "selected_predictions": 53036,
+      "source": "Open3DSG recovery full-validation",
+      "source_key": "open3dsg_recovery",
+      "violated": 1807,
+      "violation": 0.03407119692284486,
+      "violation_denominator": 53036
+    }
+  ],
+  "schema_version": "h001_low_k_sweep_summary_v1",
+  "source_inputs": {
+    "open3dsg_recovery": {
+      "bootstrap": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/bootstrap_ci_k_sweep/summary.json",
+      "locked_metrics": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics/metrics.json",
+      "root": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2",
+      "sweep_metrics": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/metrics.json"
+    },
+    "vlsat": {
+      "bootstrap": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/bootstrap_ci_k_sweep/summary.json",
+      "locked_metrics": "experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics/metrics.json",
+      "root": "experiments/H001_geom_reliability/sources/vlsat/full_validation",
+      "sweep_metrics": "experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics_k_sweep/metrics.json"
+    }
+  },
+  "status": "ready",
+  "validation_errors": []
+}

@@ -1,18 +1,23 @@
-# H001 Paper Outline
+# GeoCalib Paper Outline
 
-Last updated: 2026-06-12 KST
+Last updated: 2026-06-13 KST
 
 This outline turns `paper/preview.md` into a paper-writing skeleton. It is not the final manuscript. It fixes the section logic, evidence placement, reviewer-defense responsibilities, title candidates, and contribution statements before drafting the abstract and manuscript sections.
+`H001` remains the internal experiment identifier; the reviewer-facing
+method/title name is `GeoCalib`.
 
 ## Drafting Constraints
 
 Fact:
 
 - Candidate: `CAND-001 / H001_geometry-grounded-verification`.
-- Method framing: calibrated geometry-consistency evaluation and re-ranking framework.
+- Method framing: GeoCalib, a calibrated geometry-consistency evaluation and
+  re-ranking framework.
 - Main evidence sources: `VL-SAT` and Open3DSG.
 - Main relation families: `support_contact`, `proximity`, `relative_vertical`.
 - Paper-result experiments must remain Docker reproducible.
+- Current main source-result table reports `K={5,10,20,50,100}` for Recall and
+  Violation; `K=1` is excluded by protocol.
 
 Inference:
 
@@ -46,11 +51,13 @@ Claim boundary:
 Recommended primary title:
 
 ```text
-Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations
+GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations
 ```
 
 Why this is preferred:
 
+- It gives the method a compact reviewer-facing name while keeping the
+  subtitle descriptive.
 - It foregrounds calibration, geometric consistency, reliability, and relation prediction.
 - It does not overclaim broad open-vocabulary 3DSSG generation improvement.
 - It matches the current evidence: measured relation-family reliability across `VL-SAT` and Open3DSG.
@@ -85,7 +92,7 @@ Recommended contribution wording:
    We identify and formalize a relation-level reliability failure in 3D Scene Graph prediction: semantic relation confidence can rank plausible predicates that are physically inconsistent because it is not calibrated to object-pair geometry.
 
 2. Method framework:
-   We introduce a calibrated geometry-consistency evaluation and re-ranking framework that standardizes prediction rows across relation sources, joins identity-preserving 3D geometry evidence, estimates `p_geom_valid`, and exposes multiple operating points including probabilistic, rule-verified, and family-specific variants.
+   We introduce GeoCalib, a calibrated geometry-consistency evaluation and re-ranking framework that standardizes prediction rows across relation sources, joins identity-preserving 3D geometry evidence, estimates `p_geom_valid`, and exposes multiple operating points including probabilistic, rule-verified, and family-specific variants.
 
 3. Evaluation protocol:
    We define a recall-violation evaluation protocol for geometry-checkable relation families, including exact-label `R@K`, `Violation@K`, GT-positive/counterfactual verifier evaluation, and nontriviality controls such as geometry-only, distance-only, shuffled-geometry, and wrong-pair geometry variants.
@@ -97,7 +104,7 @@ Empirical result, not a separate contribution bullet:
 Compact version for paper introduction:
 
 ```text
-Our contributions are: (i) a failure formulation for semantically plausible but geometrically inconsistent 3D scene graph relations; (ii) a calibrated geometry-consistency evaluation and re-ranking framework with explicit operating points; and (iii) a recall-violation evaluation protocol with GT-based verifier checks and geometry identity controls. We validate these contributions with Docker-reproducible cross-source evidence on VL-SAT and Open3DSG, including failure analysis and residual calibration-risk disclosure.
+Our contributions are: (i) a failure formulation for semantically plausible but geometrically inconsistent 3D scene graph relations; (ii) GeoCalib, a calibrated geometry-consistency evaluation and re-ranking framework with explicit operating points; and (iii) a recall-violation evaluation protocol with GT-based verifier checks and geometry identity controls. We validate these contributions with Docker-reproducible cross-source evidence on VL-SAT and Open3DSG, including failure analysis and residual calibration-risk disclosure.
 ```
 
 Non-contribution wording to avoid:
@@ -112,7 +119,7 @@ Non-contribution wording to avoid:
 
 ### Title
 
-Status: draft title candidates fixed. Use the recommended primary title unless a later paper draft reveals a stronger scoped phrase.
+Status: paper-facing title fixed as GeoCalib.
 
 Role:
 
@@ -122,7 +129,7 @@ Role:
 Recommended title:
 
 ```text
-Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations
+GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations
 ```
 
 ### Abstract
@@ -143,10 +150,10 @@ Abstract skeleton:
 ```text
 3D Scene Graphs represent objects and relations in a form useful for spatial reasoning, but relation prediction can remain unreliable even when predicted predicates appear semantically plausible.
 We identify a relation-level failure mode: semantic relation confidence is not necessarily calibrated to object-pair geometry, so predictors can rank physically inconsistent relations highly.
-To study this failure, we introduce a calibrated geometry-consistency evaluation and re-ranking framework for geometry-checkable relation families, standardizing prediction rows, joining identity-preserving 3D geometry evidence, estimating p_geom_valid, and exposing probabilistic, rule-verified, and family-specific operating points.
+To study this failure, we introduce GeoCalib, a calibrated geometry-consistency evaluation and re-ranking framework for geometry-checkable relation families, standardizing prediction rows, joining identity-preserving 3D geometry evidence, estimating p_geom_valid, and exposing probabilistic, rule-verified, and family-specific operating points.
 We further define a recall-violation evaluation protocol with exact-label R@K, Violation@K, GT-positive/counterfactual verifier checks, and geometry identity controls.
-On VL-SAT, the calibrated setting improves R@50/R@100 while reducing Violation@100 relative to semantic-only ranking; controls show that the effect is not explained by geometry-only ranking, distance-only heuristics, shuffled geometry, or wrong-pair geometry.
-On Open3DSG, measured H001-family results provide second-source evidence that geometry-consistency can reduce violations under explicit recall tradeoffs, while failure analysis exposes residual calibration risk.
+On VL-SAT, GeoCalib reduces violations across K while preserving high recall; controls show that the effect is not explained by geometry-only ranking, distance-only heuristics, shuffled geometry, or wrong-pair geometry.
+On Open3DSG, measured geometry-checkable/H001-family results provide second-source evidence that geometry-consistency can reduce top-rank violations under explicit recall tradeoffs, while failure analysis exposes residual calibration risk.
 These results support a scoped relation-reliability claim for geometry-checkable 3DSSG families, not a broad open-vocabulary 3D Scene Graph generation claim.
 ```
 
@@ -161,7 +168,7 @@ Numbers to insert only if the target venue expects quantitative abstract evidenc
 - `VL-SAT` full-validation: `probabilistic_recalibrated` R@50/R@100 `0.9305/0.9688` vs `semantic_only` `0.9272/0.9635`; Violation@100 `0.0404` vs `0.0476`.
 - `VL-SAT` full-validation: `family_specific_p_geom_valid` Violation@100 `0.0333`.
 - Open3DSG full-validation 548/548 recovery: `family_specific_p_geom_valid` R@50/R@100 `0.4658/0.6047` and Violation@50/@100 `0.0286/0.0341` vs `semantic_only` `0.4096/0.5161` and `0.1386/0.1242`.
-- GT verifier: `p_geom_valid` AUROC/AUPRC `0.9779/0.9737`.
+- GT verifier: `p_geom_valid` AUROC/AUPRC `0.9772/0.9729`.
 
 Abstract wording constraints:
 
@@ -562,7 +569,9 @@ Required limitations:
 - Open3DSG main result uses the selected official non-avg checkpoint on the full-validation 548/548 recovery-policy branch with filtered train/dev provenance.
 - The original 533/548 full-validation covered branch and historical old 377/388 versus R2 388/388 comparison are sensitivity evidence, not main table rows.
 - Reduced visual sanity check is not a large-scale independent audit.
-- Qwen-VL is optional and not metric evidence yet.
+- Qwen-VL has full-validation metric/bootstrap/audit artifacts but remains
+  appendix/extension evidence, not a main-table source for the current AAAI
+  route.
 
 Reviewer defense:
 
@@ -629,17 +638,15 @@ Source:
 
 ## Figure Asset Plan
 
-Status: `content_plan_ready_assets_to_generate_later`
+Status: `figure1_generated_geocalib_evidence_record_ready`
 
 Figure 1: framework overview
 
-- Panel A: semantic relation source emits object-pair predicate scores.
-- Panel B: relation-row standardization preserves `(scan_id, subgraph_id, subject_id, object_id)`.
-- Panel C: identity-preserving geometry join attaches OBB, point/local, contact, distance, and vertical evidence.
-- Panel D: family-specific verifier and calibrator produce `status` and `p_geom_valid`.
-- Panel E: semantic-only and geometry-aware ranked lists are compared under `R@K` and `Violation@K`.
-- Source inputs: `02_method.md`, `manifest.lock.json`, `figure_specs.md`.
-- Generation mode: diagram/manual figure; no new metric computation needed.
+- Current Figure 1 is a three-panel GeoCalib evidence-record schematic:
+  relation-source graph, identity-preserved edge evidence record, and reliable
+  relation graph with recall/violation readout.
+- Source assets: `paper/generated/figures/figure1_framework.{svg,png}`.
+- Generation mode: scripted SVG/PNG figure; no new metric computation needed.
 
 Figure 2: reliability-recall tradeoff
 
@@ -684,7 +691,7 @@ Reviewer-defense role:
 Figure 2 caption draft:
 
 ```text
-Recall-violation tradeoff across semantic-only and geometry-consistency operating points on the H001 held-out relation scope. The probabilistic calibrated condition preserves or improves recall while reducing violation relative to semantic-only ranking, the rule-verified condition provides a zero-violation diagnostic with a small recall tradeoff, and the family-specific condition gives a stricter violation-first operating point. This figure should be read as a reliability tradeoff, not as a standalone SOTA leaderboard.
+Recall-violation tradeoff across semantic-only and geometry-consistency operating points on the full-validation GeoCalib relation scope. The probabilistic calibrated condition preserves or improves recall while reducing violation relative to semantic-only ranking, the rule-verified condition provides a zero-violation diagnostic with a small recall tradeoff, and the family-specific condition gives a stricter violation-first operating point. This figure should be read as a reliability tradeoff, not as a standalone SOTA leaderboard.
 ```
 
 Reviewer-defense role:
@@ -714,9 +721,9 @@ Korean caption notes:
 
 | table | purpose | source artifact |
 | --- | --- | --- |
-| AAAI Table 1 | Fixed H001 evaluation scope and denominator | `paper/aaai/sec/5_experiments.tex`, `experiments/H001_geom_reliability/tables/table5_claim_boundary.md` |
+| AAAI Table 1 | Fixed GeoCalib evaluation scope and denominator | `paper/aaai/sec/5_experiments.tex`, `experiments/H001_geom_reliability/tables/table5_claim_boundary.md` |
 | AAAI Table 2 | Source-specific claim boundary | `paper/aaai/sec/5_experiments.tex`, `experiments/H001_geom_reliability/tables/table5_claim_boundary.md` |
-| AAAI Table 3 | Main source results: Open3DSG first, `VL-SAT` controlled anchor second | `paper/aaai/sec/6_results.tex`, `experiments/H001_geom_reliability/tables/table6_cross_source_status.md`, `experiments/H001_geom_reliability/tables/table1_main_prediction.md` |
+| AAAI Table 3 | Main source results over `K={5,10,20,50,100}`: Open3DSG first, `VL-SAT` controlled anchor second | `paper/aaai/sec/6_results.tex`, `experiments/H001_geom_reliability/k_sweep/summary.md`, `experiments/H001_geom_reliability/tables/table6_cross_source_status.md`, `experiments/H001_geom_reliability/tables/table1_main_prediction.md` |
 | Prose evidence | Nontriviality controls, GT verifier, structured audit, visual sanity check, and family details | `experiments/H001_geom_reliability/tables/table2_controls.md`, `table3_gt_verifier.md`, `table4_audit.md` |
 
 ## Table And Appendix Placement
@@ -729,7 +736,7 @@ Recommended main-paper tables:
 | --- | --- | --- |
 | Table 1 | main | fixed H001 denominator and source outputs |
 | Table 2 | main | source-specific claim boundary and blocked extensions |
-| Table 3 | main | Open3DSG-first source results with VL-SAT as controlled anchor |
+| Table 3 | main | Open3DSG-first source results over `K={5,10,20,50,100}` with VL-SAT as controlled anchor |
 
 Recommended appendix tables:
 
@@ -793,14 +800,14 @@ claim boundary:
 
 - `VL-SAT`는 primary closed-set relation-reliability 결과를 뒷받침한다.
 - Open3DSG는 측정된 H001 family 내부에서 second-source evidence를 제공한다.
-- Qwen-VL은 full Docker metric, bootstrap, audit treatment를 받기 전까지 third-source modern VLM extension evidence로만 둔다.
+- Qwen-VL은 full Docker metric, bootstrap, audit treatment가 완료됐지만 current AAAI route에서는 third-source modern VLM appendix/extension evidence로만 둔다.
 
 ### Title Candidates
 
 추천 primary title:
 
 ```text
-Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations
+GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations
 ```
 
 이 제목을 우선 추천하는 이유:
@@ -864,7 +871,7 @@ Our contributions are: (i) a failure formulation for semantically plausible but 
 
 ### 제목
 
-상태: draft title candidates를 고정했다. 이후 논문 초안에서 더 나은 scoped phrase가 나오지 않으면 추천 primary title을 사용한다.
+상태: paper-facing title은 `GeoCalib`로 고정했다.
 
 역할:
 
@@ -874,7 +881,7 @@ Our contributions are: (i) a failure formulation for semantically plausible but 
 추천 title:
 
 ```text
-Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations
+GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations
 ```
 
 ### 초록
@@ -895,18 +902,18 @@ Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations
 ```text
 3D Scene Graph는 spatial reasoning에 유용한 object-relation 구조를 제공하지만, relation prediction은 predicate가 semantic하게 그럴듯해 보여도 물리적으로 일관되지 않을 수 있다.
 본 연구는 semantic relation confidence가 object-pair geometry와 반드시 calibration되어 있지 않기 때문에 physically inconsistent relation이 높은 순위에 놓일 수 있다는 relation-level failure mode를 정의한다.
-이를 검증하기 위해 geometry-checkable relation family를 대상으로 calibrated geometry-consistency evaluation and re-ranking framework를 제안한다.
+이를 검증하기 위해 geometry-checkable relation family를 대상으로 GeoCalib, calibrated geometry-consistency evaluation and re-ranking framework를 제안한다.
 이 framework는 prediction row를 표준화하고, identity-preserving 3D geometry evidence를 join하며, `p_geom_valid`를 추정하고, probabilistic / rule-verified / family-specific operating point를 분리해 보고한다.
 또한 exact-label `R@K`, `Violation@K`, GT-positive/counterfactual verifier check, geometry identity control을 포함하는 recall-violation evaluation protocol을 정의한다.
 `VL-SAT` 실험에서는 calibrated setting이 semantic-only ranking 대비 recall을 유지하거나 개선하면서 violation을 줄이며, controls는 이 효과가 geometry-only ranking, distance-only heuristic, shuffled geometry, wrong-pair geometry로 설명되지 않음을 보인다.
-Open3DSG 결과는 measured H001-family scope에서 second-source evidence를 제공하고, failure analysis는 probabilistic geometry score의 residual overconfidence를 드러낸다.
+Open3DSG 결과는 measured geometry-checkable/H001-family scope에서 second-source evidence를 제공하고, failure analysis는 probabilistic geometry score의 residual overconfidence를 드러낸다.
 따라서 본 연구의 claim은 broad open-vocabulary 3DSSG generation improvement가 아니라, geometry-checkable relation family에 대한 scoped relation-reliability claim이다.
 ```
 
 짧은 초록 skeleton:
 
 ```text
-Semantic 3D Scene Graph relation predictor는 그럴듯하지만 object-pair geometry와 충돌하는 relation을 생성할 수 있다. 본 연구는 이를 relation-level reliability failure로 formalize하고, geometry-checkable relation family를 위한 calibrated geometry-consistency evaluation and re-ranking framework를 제안한다. 이 framework는 identity-preserving 3D evidence를 join하고 `p_geom_valid`를 추정하며 probabilistic, rule-verified, family-specific operating point를 recall-violation protocol로 평가한다. `VL-SAT`와 Open3DSG 실험은 calibrated geometry-consistency가 measurable recall tradeoff 아래 geometric violation을 줄일 수 있음을 보이고, controls와 failure analysis는 geometry signal의 nontriviality와 residual calibration risk를 함께 드러낸다. 본 claim은 measured geometry-checkable 3DSSG relation reliability에 한정된다.
+Semantic 3D Scene Graph relation predictor는 그럴듯하지만 object-pair geometry와 충돌하는 relation을 생성할 수 있다. 본 연구는 이를 relation-level reliability failure로 formalize하고, geometry-checkable relation family를 위한 GeoCalib, calibrated geometry-consistency evaluation and re-ranking framework를 제안한다. 이 framework는 identity-preserving 3D evidence를 join하고 `p_geom_valid`를 추정하며 probabilistic, rule-verified, family-specific operating point를 recall-violation protocol로 평가한다. `VL-SAT`와 Open3DSG 실험은 calibrated geometry-consistency가 measurable recall tradeoff 아래 geometric violation을 줄일 수 있음을 보이고, controls와 failure analysis는 geometry signal의 nontriviality와 residual calibration risk를 함께 드러낸다. 본 claim은 measured geometry-checkable 3DSSG relation reliability에 한정된다.
 ```
 
 초록에 수치를 넣을 때만 사용할 후보:
@@ -1142,7 +1149,9 @@ reviewer 방어:
 - Open3DSG main result는 selected official non-avg checkpoint와 full-validation 548/548 recovery-policy branch를 사용한다.
 - original 533/548 full-validation covered branch와 historical old 377/388 versus R2 388/388 comparison은 sensitivity evidence로만 사용한다.
 - reduced visual sanity check는 large-scale independent audit가 아니다.
-- Qwen-VL은 optional이며 아직 metric evidence가 아니다.
+- Qwen-VL은 full-validation metric/bootstrap/audit artifacts가 준비된
+  third-source extension evidence지만, current AAAI main table/source claim에는
+  넣지 않는다.
 
 reviewer 방어:
 
@@ -1163,8 +1172,10 @@ reviewer 방어:
   calibration/counterfactual route, G4 GT policy smoke, G4b error/visual
   sanity planning, G4c strict-only calibration filter freeze, G5a pooled strict
   calibration fit, G5b bounded source scoring preflight, G5c full-source
-  protocol freeze는 완료되었고, 다음은 optional G5d full-source scoring plus
-  metrics/controls다.
+  protocol freeze, G5d full-source scoring/metrics/controls/bootstrap까지
+  완료되었다. 다만 G5d는 older 388/377-context scope, Open3DSG missing
+  exact-label rows, `connected to` dev absence, and incomplete post-G5d audit
+  때문에 current main evidence가 아니라 appendix/preliminary extension으로 둔다.
   function reasoning은 attachment reliability가 검증된 뒤의 secondary pilot로 둔다.
 
 ### Figure Plan
@@ -1194,9 +1205,9 @@ Figure 3:
 
 | table | 목적 | source artifact |
 | --- | --- | --- |
-| AAAI Table 1 | Fixed H001 evaluation scope and denominator | `paper/aaai/sec/5_experiments.tex`, `experiments/H001_geom_reliability/tables/table5_claim_boundary.md` |
+| AAAI Table 1 | Fixed GeoCalib evaluation scope and denominator | `paper/aaai/sec/5_experiments.tex`, `experiments/H001_geom_reliability/tables/table5_claim_boundary.md` |
 | AAAI Table 2 | Source-specific claim boundary | `paper/aaai/sec/5_experiments.tex`, `experiments/H001_geom_reliability/tables/table5_claim_boundary.md` |
-| AAAI Table 3 | Main source results: Open3DSG first, `VL-SAT` controlled anchor second | `paper/aaai/sec/6_results.tex`, `experiments/H001_geom_reliability/tables/table6_cross_source_status.md`, `experiments/H001_geom_reliability/tables/table1_main_prediction.md` |
+| AAAI Table 3 | Main source results over `K={5,10,20,50,100}`: Open3DSG first, `VL-SAT` controlled anchor second | `paper/aaai/sec/6_results.tex`, `experiments/H001_geom_reliability/k_sweep/summary.md`, `experiments/H001_geom_reliability/tables/table6_cross_source_status.md`, `experiments/H001_geom_reliability/tables/table1_main_prediction.md` |
 | Prose evidence | Nontriviality controls, GT verifier, structured audit, visual sanity check, and family details | `experiments/H001_geom_reliability/tables/table2_controls.md`, `table3_gt_verifier.md`, `table4_audit.md` |
 
 ## Manuscript-Ready Table Captions
@@ -1204,18 +1215,18 @@ Figure 3:
 AAAI Table 1 caption draft:
 
 ```text
-Fixed H001 evaluation scope. The paper claim is limited to the measured geometry-checkable families and the listed source outputs. Recall is exact predicate-label recall over the in-scope GT denominator; family grouping is used for reliability and violation reporting, not for relaxing predicate matches.
+Fixed GeoCalib evaluation scope. The paper claim is limited to the measured geometry-checkable families and the listed source outputs. Recall is exact predicate-label recall over the in-scope GT denominator; family grouping is used for reliability and violation reporting, not for relaxing predicate matches.
 ```
 
 Reviewer-defense role:
 
 - Locks the denominator before results.
-- Prevents reviewer confusion between fixed H001 scope, source-specific loadability, and exact-label recall.
+- Prevents reviewer confusion between fixed GeoCalib scope, source-specific loadability, and exact-label recall.
 
 AAAI Table 2 caption draft:
 
 ```text
-Source-specific claim boundary for H001. Open3DSG is the main open-vocabulary relation-source case study, VL-SAT is a controlled reproduced anchor, and Qwen-VL remains a third semantic source / modern VLM appendix extension despite completed full-validation Docker metric, bootstrap, and audit treatment. FROSS remains blocked as a full-family source. Broad open-vocabulary 3DSSG improvement is not claimed from the current evidence.
+Source-specific claim boundary for GeoCalib. Open3DSG is the main open-vocabulary relation-source case study, VL-SAT is a controlled reproduced anchor, and Qwen-VL remains a third semantic source / modern VLM appendix extension despite completed full-validation Docker metric, bootstrap, and audit treatment. FROSS remains blocked as a full-family source. Broad open-vocabulary 3DSSG improvement is not claimed from the current evidence.
 ```
 
 Reviewer-defense role:
@@ -1226,7 +1237,7 @@ Reviewer-defense role:
 AAAI Table 3 caption draft:
 
 ```text
-Main source results for the measured H001-family reliability claim. Open3DSG is reported first as the main open-vocabulary case study after Docker checkpoint reproduction, identity-preserving raw dump, prediction export, geometry join, and metric evaluation; VL-SAT is reported second as a controlled reproduced anchor. The main table uses VL-SAT full-validation and Open3DSG full-validation 548/548 recovery. Open3DSG must retain the selected-checkpoint, filtered train/dev, recovery-policy, exact-label denominator, 533/548 sensitivity, appendix historical 377/388 versus R2 388/388 sensitivity, and residual calibration-risk caveats.
+Main source results for the measured GeoCalib reliability claim over `K={5,10,20,50,100}`. Open3DSG is reported first as the main open-vocabulary case study after Docker checkpoint reproduction, identity-preserving raw dump, prediction export, geometry join, and metric evaluation; VL-SAT is reported second as a controlled reproduced anchor. The main table uses VL-SAT full-validation and Open3DSG full-validation 548/548 recovery. Open3DSG must retain the selected-checkpoint, filtered train/dev, recovery-policy, exact-label denominator, 533/548 sensitivity, appendix historical 377/388 versus R2 388/388 sensitivity, and residual calibration-risk caveats.
 ```
 
 Reviewer-defense role:

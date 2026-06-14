@@ -1,15 +1,22 @@
-# H001 Paper Preview
+# GeoCalib Paper Preview
 
-Last updated: 2026-06-12 KST
+Last updated: 2026-06-13 KST
 
-이 문서는 H001을 paper/experiment writing phase로 넘기기 직전에 현재까지의 연구 결과, 주장 범위, 실험 근거, caveat, 그리고 재시작 시 반드시 읽어야 할 파일을 한곳에 고정한 preview다. 최종 manuscript가 아니라 paper draft를 쓰기 위한 handoff 문서다.
+이 문서는 H001/GeoCalib의 현재 연구 결과, 주장 범위, 실험 근거,
+caveat, 그리고 재시작 시 반드시 읽어야 할 파일을 한곳에 고정한 preview다.
+최종 manuscript가 아니라 paper draft/source를 쓰기 위한 handoff 문서다.
+`H001`은 내부 식별자이고, reviewer-facing paper/method name은
+`GeoCalib`이다.
 
 ## Paper Direction
 
 Fact:
 
 - Active candidate: `CAND-001 / H001_geometry-grounded-verification`.
-- Method framing: calibrated geometry-consistency evaluation and re-ranking framework for 3D scene graph relation predictions.
+- Paper-facing name/title: `GeoCalib: Calibrating Geometric Consistency for
+  Reliable 3D Scene Graph Relations`.
+- Method framing: GeoCalib, a calibrated geometry-consistency evaluation and
+  re-ranking framework for 3D scene graph relation predictions.
 - Main relation families: `support_contact`, `proximity`, `relative_vertical`.
 - Main prediction sources with completed metric evidence: `VL-SAT` and Open3DSG.
 - Paper-body experiment rule: paper-result experiments must be Docker reproducible.
@@ -36,10 +43,21 @@ This is a broad open-vocabulary 3DSSG generation improvement or arbitrary-baseli
 
 Fact:
 
-- Paper-facing full official validation scope has 157 scans, 548 contexts, 36,808 directed pairs, 957,008 `VL-SAT` prediction rows, 11,254 GT rows, and 3,972 in-scope H001-family GT relations. The earlier 127-scan scope is retained only as sensitivity/history.
+- Paper-facing full official validation scope has 157 scans, 548 contexts, 36,808 directed pairs, 957,008 `VL-SAT` prediction rows, 11,254 GT rows, and 3,972 in-scope geometry-checkable/H001-family GT relations. The earlier 127-scan scope is retained only as sensitivity/history.
 - Docker experiment root: `experiments/H001_geom_reliability/`.
 - Docker table builder generated Table 1-6, figure specs, `manifest.lock.json`, and `report.md`.
 - Open3DSG second-source path is complete for the measured H001-family setting. The historical 127-scan avg-BLIP downstream result remains reproduced and table-ready. R1 official non-avg checkpoint selection and separate non-avg downstream regeneration are also complete. The selected paper-facing route is now the full official validation branch, using the 548/548 Open3DSG recovery branch as the primary full-denominator Open3DSG result and the 533/548 covered branch as sensitivity / unmodified-source-route evidence.
+- Low-K top-rank diagnostic is complete and promoted into the current AAAI
+  main source-result table: fixed `K={5,10,20,50,100}`, `K=1` excluded,
+  separate `metrics_k_sweep/` outputs, and `K=50/100` equality with locked
+  full-validation metrics verified.
+- Latest AAAI source state: `paper/aaai/` builds as GeoCalib with Figure 1
+  redrawn as a three-panel evidence-record schematic. Docker build log
+  `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log` exits 0;
+  `paper/aaai/main.pdf` has 9 pages and no LaTeX errors, missing citations,
+  final undefined refs, overfull hboxes, or Type 3 fonts. The old flattened
+  package `release/h001_aaai27_submission_20260613_004455/` predates this pass
+  and needs regeneration before upload.
 
 2026-06-03 direction update:
 
@@ -84,6 +102,36 @@ Fact:
   `experiments/H001_geom_reliability/full_validation_transition/report.md`.
 
 ## Key Metrics
+
+### Main Source Table K Sweep
+
+Current paper table policy:
+
+- Main table reports `K={5,10,20,50,100}` for both Recall and Violation.
+- `K=1` is excluded from paper-metric consideration.
+- Low-K is interpreted as top-rank reliability evidence, not as a separate
+  source or relation-family claim.
+
+Key diagnostic rows from the promoted K sweep:
+
+| source | condition | R@5 | R@10 | R@20 | V@5 | V@10 | V@20 |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| VL-SAT full-validation | `semantic_only` | 41.94 | 63.22 | 80.74 | 0.29 | 0.82 | 1.42 |
+| VL-SAT full-validation | `probabilistic_recalibrated` | 41.54 | 63.22 | 81.07 | 0.15 | 0.71 | 1.20 |
+| VL-SAT full-validation | `family_specific_p_geom_valid` | 41.62 | 63.09 | 80.87 | 0.11 | 0.51 | 1.09 |
+| Open3DSG recovery full-validation | `semantic_only` | 3.68 | 10.02 | 19.91 | 51.31 | 32.55 | 20.88 |
+| Open3DSG recovery full-validation | `probabilistic_recalibrated` | 8.26 | 15.81 | 26.03 | 6.28 | 6.99 | 6.54 |
+| Open3DSG recovery full-validation | `family_specific_p_geom_valid` | 9.84 | 19.21 | 32.91 | 4.20 | 4.82 | 4.41 |
+
+Interpretation:
+
+- Open3DSG shows the strongest top-rank reliability effect: low-K semantic-only
+  violations are high, while probabilistic/family-specific GeoCalib lowers
+  violation and improves recall.
+- VL-SAT shows a ceiling pattern: recall deltas are small because semantic
+  ranking is already strong, but violation consistently decreases.
+- The main argument should emphasize K=10/20 consistency plus the standard
+  K=50/100 rows, not a K=5-only story.
 
 ### VL-SAT Historical 127-Scan Sensitivity
 
@@ -490,17 +538,17 @@ Read these before rerunning Open3DSG:
 1. `experiments/H001_geom_reliability/sources/open3dsg/README.md`
 2. `experiments/H001_geom_reliability/sources/open3dsg/commands.open3dsg.md`
 3. `experiments/H001_geom_reliability/sources/open3dsg/checkpoint_selection/report.md`
-4. `experiments/H001_geom_reliability/sources/open3dsg/eval_preflight/report.md`
-5. `experiments/H001_geom_reliability/sources/open3dsg/dump_features/report.md`
-6. `experiments/H001_geom_reliability/sources/open3dsg/dump_features_h001_eval/report.md`
-7. `experiments/H001_geom_reliability/sources/open3dsg/raw_dump_identity/report.md`
-8. `experiments/H001_geom_reliability/sources/open3dsg/adapter/report.md`
-9. `experiments/H001_geom_reliability/sources/open3dsg/geometry/report.md`
-10. `experiments/H001_geom_reliability/sources/open3dsg/metrics/report.md`
-11. `experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json`
-12. `experiments/H001_geom_reliability/sources/open3dsg/failure_rows/report.md`
-13. `experiments/H001_geom_reliability/sources/open3dsg/failure_cases/inspection.md`
-14. `experiments/H001_geom_reliability/sources/open3dsg/paper_caveats/report.md`
+4. `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/README.md`
+5. `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics/metrics.json`
+6. `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/metrics.json`
+7. `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/bootstrap_ci/summary.md`
+8. `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/bootstrap_ci_k_sweep/summary.json`
+9. `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_rows/report.md`
+10. `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/failure_cases/inspection.md`
+11. `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/table_caveats/report.md`
+12. `experiments/H001_geom_reliability/sources/open3dsg/full_validation/raw_clean_exit_review/report.md`
+13. `experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/provenance_review/report.md`
+14. Historical 127-scan files under `sources/open3dsg/{adapter,geometry,metrics,failure_rows,failure_cases,paper_caveats}/` are sensitivity/history only.
 
 ### Must-Read Qwen-VL Files
 
@@ -535,7 +583,7 @@ These are usually not safe to assume on a new computer:
 | VL-SAT code/data/checkpoints | `local_dataset/VLSAT_code/CVPR2023-VLSAT/` |
 | Open3DSG training root | `local_dataset/Open3DSG_staged/training_repro/` |
 | Open3DSG H001 eval root | `local_dataset/Open3DSG_staged/h001_runtime/` |
-| Open3DSG selected checkpoint | `local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt` |
+| Open3DSG selected checkpoint | `local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt` |
 | Open3DSG train/dev features | `local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3/` |
 | Open3DSG H001 eval features | `local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3/` |
 | Qwen-VL model cache | `local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/` |
@@ -553,10 +601,28 @@ Recovery rule:
 
 Recommended next action:
 
-1. Use `paper/draft.md` as the active reviewed first-pass manuscript prose, `paper/aaai/` as the current AAAI-style LaTeX source, and `paper/generated/figures/` as the active draft figure output.
-2. Treat the claim-consistency review in `paper/outline.md` as the current paper guardrail: title, contributions, abstract, Introduction, table captions, and figure captions must stay within the scoped relation-reliability claim.
-3. Treat the AAAI reproducibility checklist as inserted after references: latest Docker build `logs/h001_aaai_pdf_build_compression_20260606_105126.log` gives 9 total pages, technical content pages 1-7, references page 8, checklist page 9, and no blocking build warnings. Latest visual/layout inspection passed in `paper/aaai/inspection/report.md`; remaining paper work is content/claim QA, not source-result regeneration.
-4. Treat the AAAI reviewer-defense pass as updated for the selected full-validation route: hand-coded verifier, geometry-only/distance, recall-tradeoff, Open3DSG recovery-policy provenance, family-selection, and AAAI-relevance attacks must all remain answered during polish.
-5. Treat `paper/appendix.md` as the current appendix/provenance owner: calibrator/threshold provenance, Open3DSG caveat consistency, Figure 3 optionality, and Qwen-VL third-source boundary are recorded there.
-6. Keep Open3DSG caveats explicit during any further polish; caption compression must not hide selected-checkpoint provenance, filtered split, exact-label denominator, recovery policy, 533/548 sensitivity branch, or residual calibration risk.
-7. Keep Qwen-VL as third-source appendix/extension only; it now has full-validation Docker metric/denominator/bootstrap/audit artifacts, but the current AAAI main claim remains VL-SAT + Open3DSG.
+1. Use `paper/aaai/` as the authoritative current manuscript source. Treat
+   `paper/draft.md` as historical first-pass prose.
+2. Keep `GeoCalib` as the reviewer-facing method/title name and reserve
+   `H001` for internal paths, experiment roots, and provenance documents.
+3. Treat the latest Docker build
+   `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log` as the
+   current PDF verification. The older flattened package
+   `release/h001_aaai27_submission_20260613_004455/` must be regenerated
+   before upload.
+4. Treat the AAAI reviewer-defense pass as updated for the selected
+   full-validation route and low-K table: hand-coded verifier,
+   geometry-only/distance, recall-tradeoff, Open3DSG recovery-policy
+   provenance, family-selection, top-rank reliability, and AAAI-relevance
+   attacks must all remain answered during polish.
+5. Treat `paper/appendix.md` as the current appendix/provenance owner:
+   calibrator/threshold provenance, Open3DSG caveat consistency, low-K
+   appendix boundary, Figure 3 optionality, and Qwen-VL third-source boundary
+   are recorded there.
+6. Keep Open3DSG caveats explicit during any further polish; caption
+   compression must not hide selected-checkpoint provenance, filtered split,
+   exact-label denominator, recovery policy, 533/548 sensitivity branch, or
+   residual calibration risk.
+7. Keep Qwen-VL as third-source appendix/extension only; it now has
+   full-validation Docker metric/denominator/bootstrap/audit artifacts, but the
+   current AAAI main claim remains VL-SAT + Open3DSG.

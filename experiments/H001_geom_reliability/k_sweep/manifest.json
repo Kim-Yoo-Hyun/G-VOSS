@@ -1,0 +1,11 @@
+{
+  "created_at_utc": "2026-06-12T16:57:26+00:00",
+  "output_files": [
+    "experiments/H001_geom_reliability/k_sweep/summary.json",
+    "experiments/H001_geom_reliability/k_sweep/summary.md",
+    "experiments/H001_geom_reliability/k_sweep/recall_violation_curve.csv",
+    "experiments/H001_geom_reliability/k_sweep/recall_violation_curve.svg"
+  ],
+  "schema_version": "h001_low_k_sweep_summary_v1",
+  "status": "ready"
+}

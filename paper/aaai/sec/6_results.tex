@@ -1,9 +1,40 @@
 \section{Results and Discussion}
 
+\begin{table*}[!t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.7pt}
+\caption{\textbf{Main source results across top-$K$ operating points.} Rows use
+the full official 3,972-row geometry-checkable denominator. We report $K=\{5,10,20,50,100\}$
+to show top-rank reliability without hiding the standard 50/100 operating
+points. Open3DSG uses the selected non-averaged checkpoint on the 548/548
+recovery branch; 533/548 and historical 377/388 vs R2 388/388 branches are
+sensitivity evidence only. Residual calibration risk is reported in the failure
+analysis rather than hidden in the table.}
+\label{tab:source-results}
+\begin{tabular}{llccccc@{\hspace{0.35em}}ccccc}
+\toprule
+ & & \multicolumn{5}{c}{Recall} & \multicolumn{5}{c}{Violation} \\
+\cmidrule(lr){3-7}\cmidrule(lr){8-12}
+Source & Condition & @5 & @10 & @20 & @50 & @100 & @5 & @10 & @20 & @50 & @100 \\
+\midrule
+Open3DSG & \texttt{semantic\_only} & .0368 & .1002 & .1991 & .4096 & .5161 & .5131 & .3255 & .2088 & .1386 & .1242 \\
+Open3DSG & \texttt{probabilistic} & .0826 & .1581 & .2603 & .3975 & .5723 & .0628 & .0699 & .0654 & .0606 & .0811 \\
+Open3DSG & \texttt{rule\_verified} & .0707 & .1314 & .2422 & .4295 & .5368 & .0000 & .0000 & .0000 & .0000 & .0000 \\
+Open3DSG & \texttt{family\_specific} & .0984 & .1921 & .3291 & .4658 & .6047 & .0420 & .0482 & .0441 & .0286 & .0341 \\
+\midrule
+VL-SAT & \texttt{semantic\_only} & .4194 & .6322 & .8074 & .9272 & .9635 & .0029 & .0082 & .0142 & .0268 & .0476 \\
+VL-SAT & \texttt{probabilistic} & .4154 & .6322 & .8107 & .9305 & .9688 & .0015 & .0071 & .0120 & .0229 & .0404 \\
+VL-SAT & \texttt{rule\_verified} & .4197 & .6317 & .8074 & .9257 & .9627 & .0000 & .0000 & .0000 & .0000 & .0000 \\
+VL-SAT & \texttt{family\_specific} & .4162 & .6309 & .8087 & .9288 & .9683 & .0011 & .0051 & .0109 & .0206 & .0333 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
 \begin{figure*}[t]
     \centering
     \figmaybe[width=0.92\linewidth]{../generated/figures/figure1_framework.png}
-    \caption{\textbf{Calibrated geometry-consistency framework.} H001 treats
+    \caption{\textbf{\sysname{} framework.} \sysname{} treats
     relation predictors as relation sources, standardizes prediction rows,
     preserves object-pair identity, joins explicit 3D geometry, estimates
     \pgeom{}, and reports recall and violation operating points.}
@@ -20,53 +51,34 @@
     \label{fig:tradeoff}
 \end{figure}
 
-\begin{table*}[t]
-\centering
-\small
-\setlength{\tabcolsep}{4pt}
-\caption{\textbf{Main source results.} Rows use the full official 3,972-row
-H001-family denominator. Open3DSG uses the selected non-averaged checkpoint on
-the 548/548 recovery branch; 533/548 and historical 377/388 vs R2 388/388
-branches are sensitivity evidence only. Residual calibration risk is reported
-in the failure analysis rather than hidden in the table.}
-\label{tab:source-results}
-\begin{tabular}{llcccc}
-\toprule
-Source & Condition & \rAt{50} & \rAt{100} & \vAt{50} & \vAt{100} \\
-\midrule
-Open3DSG & \texttt{semantic\_only} & 0.4096 & 0.5161 & 0.1386 & 0.1242 \\
-Open3DSG & \texttt{probabilistic} & 0.3975 & 0.5723 & 0.0606 & 0.0811 \\
-Open3DSG & \texttt{rule\_verified} & 0.4295 & 0.5368 & 0.0000 & 0.0000 \\
-Open3DSG & \texttt{family\_specific} & 0.4658 & 0.6047 & 0.0286 & 0.0341 \\
-\midrule
-VL-SAT & \texttt{semantic\_only} & 0.9272 & 0.9635 & 0.0268 & 0.0476 \\
-VL-SAT & \texttt{probabilistic} & 0.9305 & 0.9688 & 0.0229 & 0.0404 \\
-VL-SAT & \texttt{rule\_verified} & 0.9257 & 0.9627 & 0.0000 & 0.0000 \\
-VL-SAT & \texttt{family\_specific} & 0.9288 & 0.9683 & 0.0206 & 0.0333 \\
-\bottomrule
-\end{tabular}
-\end{table*}
-
 Table~\ref{tab:source-results} asks whether calibrated geometry consistency
-reduces violations without collapsing recall. On Open3DSG, \texttt{semantic\_only}
-has \rAt{50}/\rAt{100}=0.4096/0.5161 and \vAt{50}/\vAt{100}=0.1386/0.1242.
-\texttt{probabilistic} lowers violations to 0.0606/0.0811 while moving recall to
-0.3975/0.5723, and \texttt{family\_specific} gives the strongest tradeoff:
-0.4658/0.6047 recall with 0.0286/0.0341 violation.
+reduces violations without collapsing recall across both top-ranked and
+standard operating points. Open3DSG exposes the clearest top-rank failure:
+\texttt{semantic\_only} has \vAt{5}=0.5131, \vAt{10}=0.3255, and
+\vAt{20}=0.2088. \texttt{family\_specific} reduces these to 0.0420, 0.0482,
+and 0.0441 while raising \rAt{5}/\rAt{10}/\rAt{20} from
+0.0368/0.1002/0.1991 to 0.0984/0.1921/0.3291. At the standard operating
+points it gives the strongest Open3DSG tradeoff: \rAt{50}/\rAt{100}=0.4658/0.6047
+with \vAt{50}/\vAt{100}=0.0286/0.0341.
 
 VL-SAT provides the controlled anchor: \texttt{probabilistic} improves
 \rAt{50}/\rAt{100} from 0.9272/0.9635 to 0.9305/0.9688 and reduces
 \vAt{100} from 0.0476 to 0.0404; \texttt{family\_specific} reduces
-\vAt{100} to 0.0333. \texttt{rule\_verified} is a zero-violation diagnostic,
-not the default method.
+\vAt{10}/\vAt{20}/\vAt{100} to 0.0051/0.0109/0.0333. The small
+VL-SAT recall changes at low $K$ reflect a ceiling-like controlled source,
+while violations remain consistently lower. \texttt{rule\_verified} is a
+zero-violation diagnostic, not the default method.
 
 A Docker subgraph bootstrap with 1,000 resamples gives the Open3DSG
-\texttt{family\_specific} operating point a \rAt{100} delta of +8.86
-percentage points (95\% CI +6.69,+10.96) and a \vAt{100} delta of -9.01
-points (95\% CI -9.49,-8.53) relative to \texttt{semantic\_only}. VL-SAT
-deltas are smaller but still favorable: \texttt{family\_specific} changes
-\rAt{100} by +0.48 points (95\% CI +0.11,+0.93) and reduces \vAt{100} by
--1.43 points (95\% CI -1.60,-1.28). We use these intervals as
+\texttt{family\_specific} operating point strong top-rank deltas:
+\rAt{10}/\rAt{20} improve by +9.19/+12.99 percentage points (95\% CI
++7.84,+10.75 and +11.13,+14.78), while \vAt{10}/\vAt{20} drop by
+-27.74/-16.47 points (95\% CI -29.42,-26.08 and -17.35,-15.60). At
+\rAt{100}/\vAt{100}, the same condition changes Open3DSG by +8.86 points
+(95\% CI +6.69,+10.96) and -9.01 points (95\% CI -9.49,-8.53). VL-SAT deltas
+are smaller but favorable at the standard point: \texttt{family\_specific}
+changes \rAt{100} by +0.48 points (95\% CI +0.11,+0.93) and reduces
+\vAt{100} by -1.43 points (95\% CI -1.60,-1.28). We use these intervals as
 evaluation-context uncertainty checks, not as repeated-training variance.
 
 Controls rule out simpler alternatives. On VL-SAT, geometry-only reaches only
@@ -75,7 +87,7 @@ Controls rule out simpler alternatives. On VL-SAT, geometry-only reaches only
 Open3DSG shows the same pattern: distance-only gives \rAt{100}=0.5038 and
 \vAt{100}=0.1071, geometry-only gives 0.5116 and 0.0865, and
 shuffled/wrong-pair controls fall to \rAt{100}=0.2543/0.2331 with
-\vAt{100}=0.1998/0.1985. Thus H001 is not merely ranking by geometry,
+\vAt{100}=0.1998/0.1985. Thus \sysname{} is not merely ranking by geometry,
 distance, or hard rules; object-pair identity and calibration matter.
 
 The GT-based verifier check tests the geometry signal independently: GT
@@ -83,7 +95,7 @@ positives remain nonviolated at 0.9965, counterfactual negatives are
 nonsatisfied at 0.9673, and \pgeom{} separates 7,944 rows with AUROC/AUPRC
 0.9772/0.9729 and Brier 0.0543. This distinguishes the calibrated reliability
 signal from a purely hand-written validity script.
-It also limits what can be claimed: H001 measures whether a predicted edge is
+It also limits what can be claimed: \sysname{} measures whether a predicted edge is
 consistent with declared geometry evidence; it does not certify unmeasured
 functional or language-pragmatic relation correctness.
 

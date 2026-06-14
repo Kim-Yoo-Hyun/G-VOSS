@@ -1,6 +1,6 @@
-# H001 Paper Reviewer-Risk Register
+# GeoCalib Paper Reviewer-Risk Register
 
-Last updated: 2026-06-12 KST
+Last updated: 2026-06-13 KST
 
 Scope: this file tracks paper-body risks for the current AAAI manuscript under
 `paper/aaai/`. The goal is not sentence polish; it is to prevent reviewer attacks
@@ -12,10 +12,20 @@ The paper direction is viable as a scoped relation-reliability paper, not as a
 broad open-vocabulary 3DSSG generation paper. The strongest contribution remains:
 
 > Existing 3DSSG relation sources can assign high semantic confidence to
-> physically inconsistent relation edges; H001 contributes a calibrated
+> physically inconsistent relation edges; GeoCalib contributes a calibrated
 > geometry-consistency evaluation and re-ranking framework that makes this
 > failure measurable, reduces violations under explicit recall tradeoffs, and
 > reports controls, GT/counterfactual verifier checks, and failure analysis.
+
+Paper-polish verdict after the GeoCalib naming and Figure 1 pass:
+
+- No blocking main-text, title, table, or figure polish is currently identified
+  for the scoped AAAI route.
+- The reviewer-facing method name is `GeoCalib`; `H001` should remain only as an
+  internal experiment/hypothesis path name, not as a manuscript method name.
+- Remaining work is reviewer-risk discipline and submission hygiene, not new
+  experiment execution: keep Open3DSG caveats visible, keep relation-family
+  scope narrow, and keep extension tracks out of the main claim.
 
 The main rejection risks are not that the topic is unimportant. They are:
 
@@ -36,10 +46,135 @@ The main rejection risks are not that the topic is unimportant. They are:
   relation families, or recovery branches are not explicitly tied to a
   failure-mechanism -> design-necessity -> fixed-protocol -> evidence chain.
 
+## Orthogonal Persona Review, 2026-06-13
+
+These are three deliberately orthogonal reviewer simulations after the GeoCalib
+rename, low-K table update, and Figure 1 evidence-record redraw.
+
+### Persona A: Novelty / Related-Work Skeptic
+
+Likely reviewer profile:
+
+- Strong 3DSSG / VLM literature familiarity.
+- Will compare GeoCalib against geometry-aware 3DSSG, semantic-geometric fusion,
+  Open3DSG-style open-vocabulary graph construction, and RelWitness-style
+  witness/calibration work.
+
+Review judgment:
+
+- Main concern: the method can still be read as a calibrated post-hoc verifier
+  unless the paper repeatedly ties the design to the specific failure mechanism:
+  semantic confidence is not calibrated to same-pair physical consistency.
+- GeoCalib naming helps because it signals calibration/reliability rather than a
+  new graph generator. The redrawn Figure 1 also helps because it shows an
+  evidence-rich edge record rather than a generic box pipeline.
+- The Related Work distinction from RelWitness is acceptable for the current
+  claim if the paper keeps saying `post-source reliability contract`, not
+  `visual-geometric witness generation`.
+
+Risk level: `moderate`.
+
+Required defense:
+
+- Keep the novelty phrase anchored to `failure mechanism -> design necessity`:
+  relation-source rows need identity-preserved geometry evidence and calibrated
+  validity before reliability can be evaluated.
+- Do not claim novelty from using geometry, calibration, VLMs, or witnesses by
+  themselves.
+- Preserve the sentence that RelWitness is closest prior art but not a direct
+  baseline unless mapped to the same row/denominator/violation protocol.
+
+Additional paper polish needed: none blocking. Optional only if space appears:
+one sentence in Related Work could explicitly say GeoCalib is source-output
+evaluation/re-ranking, whereas witness-generation methods change the generator.
+
+### Persona B: Empirical / Statistics / Reproducibility Skeptic
+
+Likely reviewer profile:
+
+- Cares less about 3DSSG novelty and more about protocol integrity, denominator
+  accounting, confidence intervals, source reproducibility, and branch choices.
+
+Review judgment:
+
+- Main concern: Open3DSG is the main open-vocabulary source but uses a selected
+  checkpoint plus a recovery-policy branch. This is defensible only because the
+  paper does not call it leaderboard/SOTA and keeps the 533/548 covered branch
+  as sensitivity evidence.
+- Low-K results are useful in the main table because Open3DSG top-rank behavior
+  is precisely where the reliability failure is strongest. However, K=5 should
+  be read as diagnostic/top-rank reliability, not as a standalone success.
+- Bootstrap CI and controls are enough for an evaluation-context uncertainty
+  defense, but not repeated-training variance. The manuscript already states
+  this boundary.
+
+Risk level: `moderate-low` if caveats remain visible; `high` if wording drifts
+toward official Open3DSG reproduction or SOTA.
+
+Required defense:
+
+- Keep the Table 3 caption caveats: selected non-averaged checkpoint, 548/548
+  recovery branch, 533/548 sensitivity, historical 377/388 vs R2 388/388
+  sensitivity, and residual calibration risk.
+- Keep `Docker-generated` / fixed-protocol provenance visible.
+- Do not upgrade checklist or artifact claims beyond the actual release state.
+
+Additional paper polish needed: none blocking. Final external work remains the
+AAAI/OpenReview portal check, supplement decision, and release URL/DOI decision.
+
+### Persona C: 3D Spatial Semantics / Embodied-Reliability Skeptic
+
+Likely reviewer profile:
+
+- Focuses on whether the measured geometry validity actually corresponds to
+  useful scene-graph relation correctness for robotics, grounding, or reasoning.
+
+Review judgment:
+
+- Main concern: the scope is narrow and the metric does not certify functional,
+  social, affordance, or pragmatic relation correctness.
+- This is already handled as a scope boundary. The paper is stronger when it
+  says `geometry-checkable relation reliability` than when it gestures toward
+  downstream embodied performance.
+- Failed expansion tracks (`relative_horizontal` / `relative_lateral`) are
+  useful because they show disciplined non-promotion rather than post-hoc
+  success selection.
+
+Risk level: `moderate`.
+
+Required defense:
+
+- Keep Limitations explicit that GeoCalib measures declared geometry evidence,
+  not all relation truth.
+- Keep downstream planning/navigation/alignment as motivation or future work,
+  not as measured performance.
+- Keep `attachment_deferred`, Qwen-VL, and horizontal/lateral tracks outside the
+  current main claim unless separately promoted with full gates.
+
+Additional paper polish needed: none blocking. The current wording is acceptable
+as long as broad functional-relation or downstream claims are not reintroduced.
+
+### Persona Review Synthesis
+
+No new experiment is recommended for the current AAAI route. The main paper is
+now in a defensible scoped state after GeoCalib naming, low-K table inclusion,
+and Figure 1 redraw. The remaining risks are wording discipline and submission
+logistics:
+
+1. Keep GeoCalib framed as a reliability layer, not a relation generator.
+2. Keep Open3DSG recovery and selected-checkpoint caveats visible.
+3. Keep low-K results as top-rank reliability evidence, not cherry-picked metric
+   expansion.
+4. Keep relation-family scope and non-promoted expansion tracks explicit.
+5. Complete final portal/package/release decisions before upgrading checklist
+   `partial` answers.
+
 ## Mitigation Status
 
-Updated on 2026-05-27 KST after main-text patches, Docker bootstrap CI,
-Docker PDF rebuilds, and the appendix/provenance pass:
+Updated through 2026-06-13 KST after main-text patches, Docker bootstrap CI,
+Docker PDF rebuilds, appendix/provenance pass, full-validation transition,
+low-K table update, GeoCalib naming, Figure 1 evidence-record redraw, and the
+orthogonal persona review above:
 
 - P0 main-text mitigation: completed. `paper/aaai/sec/6_results.tex` no longer
   names the internal reviewer id or reports private-reference matching.
@@ -97,6 +232,23 @@ Docker PDF rebuilds, and the appendix/provenance pass:
   the main Open3DSG route; the historical 377/388 vs R2 388/388 route remains
   appendix/sensitivity evidence; Qwen-VL, `relative_horizontal`, and
   `attachment_deferred` are not promoted to the main claim.
+- P14 low-K / main-table update on 2026-06-13: completed. The main
+  source-result table now reports `K={5,10,20,50,100}` for both recall and
+  violation. This is valuable as top-rank reliability evidence, especially for
+  Open3DSG, where semantic-only low-K violations are high and family-specific
+  GeoCalib reduces them while improving recall. Reviewer-facing interpretation:
+  K=5 is diagnostic/top-rank reliability evidence, not a standalone
+  cherry-picked success metric.
+- P15 GeoCalib naming and Figure 1 pass on 2026-06-13: completed. The AAAI
+  title is now `GeoCalib: Calibrating Geometric Consistency for Reliable 3D
+  Scene Graph Relations`, the manuscript body source under `paper/aaai/sec/`
+  no longer uses `H001` as the method name, and Figure 1 is redrawn as a
+  three-panel evidence-record schematic. Docker PDF rebuild
+  `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log` exited 0 with
+  9 pages, no LaTeX errors, no final undefined references, no missing
+  citations, no overfull hboxes, and only the existing small overfull vbox
+  warning. Visual inspection found no blocking overlap or unreadable figure
+  issue.
 - P9 scope-expansion track: scope audit, coordinate audit, and bucket inspection
   are complete, not metric evidence. The current paper claim remains the
   three-family scoped relation-reliability claim. `relative_horizontal` is the
@@ -196,7 +348,7 @@ Docker PDF rebuilds, and the appendix/provenance pass:
   `paper/aaai/main.pdf` remains 9 pages, US Letter, with no missing citations,
   undefined references, overfull hboxes, LaTeX errors, or AAAI package errors.
 
-Remaining after P0-P10:
+Remaining after P0-P15:
 
 - No P2 provenance blocker remains. Future supplement work should only expand
   details if the target venue requires a separate supplementary PDF.
@@ -232,7 +384,7 @@ Remaining after P0-P10:
   that paperization must follow `failure mechanism -> design necessity -> fixed
   protocol -> falsifiable evidence -> claim boundary`, not desired-hypothesis
   fitting. Current defense status is mostly adequate for the narrow AAAI claim:
-  the manuscript ties H001 to semantic confidence not being calibrated to
+  the manuscript ties GeoCalib to semantic confidence not being calibrated to
   relation-level physical consistency; Method explains row identity, geometry
   join, calibrated `p_geom_valid`, and recall/violation operating points;
   Results include semantic-only, calibrated, rule-verified, family-specific,

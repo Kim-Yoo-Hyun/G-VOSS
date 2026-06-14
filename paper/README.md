@@ -1,18 +1,27 @@
-# H001 Paper Workspace
+# GeoCalib Paper Workspace
 
-Last updated: 2026-06-12 KST
+Last updated: 2026-06-13 KST
 
-This directory contains paper-writing artifacts for H001. It is a manuscript
-workspace, not an experiment-result root. Paper-result experiments and metrics
-are generated under `experiments/H001_geom_reliability/`; paper-level framing
-rules live in `docs/paper.md`.
+This directory contains paper-writing artifacts for the GeoCalib paper. `H001`
+remains the internal hypothesis/experiment identifier and repository path name.
+This is a manuscript workspace, not an experiment-result root. Paper-result
+experiments and metrics are generated under
+`experiments/H001_geom_reliability/`; paper-level framing rules live in
+`docs/paper.md`.
 
 ## Current Route
 
 - Target venue route: `paper/aaai/`
 - Historical alternate route: `paper/iccv/`
+- Paper-facing title: `GeoCalib: Calibrating Geometric Consistency for Reliable
+  3D Scene Graph Relations`
 - Current claim style: scoped relation-reliability paper for
   geometry-checkable 3D Scene Graph relation families.
+- Current main table: Open3DSG-first and VL-SAT-anchor source results over
+  `K={5,10,20,50,100}` for Recall and Violation.
+- Latest verified PDF build:
+  `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, exit 0,
+  `paper/aaai/main.pdf` 9 pages.
 - Non-claim: broad open-vocabulary 3DSSG generation improvement.
 
 ## File Roles
@@ -27,8 +36,9 @@ rules live in `docs/paper.md`.
 - `outline.md`: paper structure plan. Owns title candidates, contribution
   statements, abstract/Introduction skeletons, section roles, evidence
   placement, table/figure plan, and claim-consistency guardrails.
-- `draft.md`: first-pass manuscript prose. Owns the readable paper body from
-  title through conclusion before final venue-specific compression.
+- `draft.md`: historical first-pass manuscript prose. It records the readable
+  paper body from title through conclusion before venue-specific compression;
+  the authoritative current manuscript source is `paper/aaai/`.
 - `figures.md`: figure source lock. Owns Figure 1-3 claims, source artifacts,
   locked values/cases, caption constraints, and figure non-claims.
 - `risk.md`: reviewer-risk register. Owns attack surface, weakness/mitigation
@@ -39,8 +49,9 @@ rules live in `docs/paper.md`.
   optional Figure 3 decision notes, and Qwen-VL extension boundary.
 - `references.bib`: shared BibTeX bibliography for draft and venue-specific
   LaTeX sources.
-- `aaai/`: current AAAI-style LaTeX source, official AAAI-27 style files,
-  Docker build route, PDF build status, checklist state, and venue-local README.
+- `aaai/`: current GeoCalib AAAI-style LaTeX source, official AAAI-27 style
+  files, Docker build route, PDF build status, checklist state, and venue-local
+  README.
 - `iccv/`: historical ICCV-style LaTeX source route. Keep as alternate history
   unless the target venue changes back.
 - `generated/figures/`: generated draft figure assets, validation files, and

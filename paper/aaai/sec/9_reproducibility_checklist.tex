@@ -44,9 +44,11 @@
 
 \section*{Reproducibility Checklist}
 
-This checklist follows the official AAAI-27 Author Kit checked on
-2026-06-11. Answers refer to the main paper plus the Docker-based experiment
-artifact bundle planned for anonymous review / post-acceptance release.
+This checklist follows the official AAAI-27 Author Kit and public AAAI-27
+main-track instructions checked on 2026-06-13. Answers refer to the main paper
+plus the Docker-based experiment artifact bundle planned for anonymous
+OpenReview supplementary upload if allowed by the portal, and for
+post-acceptance GitHub/Zenodo release.
 
 \checksubsection{General Paper Structure}
 \begin{itemize}
@@ -157,9 +159,9 @@ manifests, and reports. Large datasets, model caches, feature caches, and
 selected checkpoints are external artifacts.
 
 \question{All source code required for conducting and analyzing the experiments will be made publicly available upon publication of the paper with a license that allows free usage for research purposes}{(yes/partial/no)}
-partial. A public code/artifact release is planned, but final anonymized
-review package, post-acceptance URL/DOI, and release license still need to be
-fixed.
+partial. The release plan is fixed as GitHub source code plus a Zenodo DOI for
+the fixed full-validation result bundle after anonymization is no longer
+required, but the final release URL/DOI and license files are not yet fixed.
 
 \question{All source code implementing new methods have comments detailing the implementation, with references to the paper where each step comes from}{(yes/partial/no)}
 partial. The scripts and runbooks document the row contract, source adapters,
@@ -172,9 +174,13 @@ and manifests; reproduced source training randomness is recorded as
 provenance rather than evaluated through a multi-seed study.
 
 \question{This paper specifies the computing infrastructure used for running experiments (hardware and software), including GPU/CPU models; amount of memory; operating system; names and versions of relevant software libraries and frameworks}{(yes/partial/no)}
-partial. Docker images, compose routes, mounted paths, logs, and GPU/runtime
-checks are recorded. The final release package should add the exact
-hardware/software manifest and artifact URL.
+yes. The Docker runbooks and artifact bundle record the exact compose routes,
+mounted paths, and image ids. The verification host uses Ubuntu 24.04.4 LTS,
+62 GiB RAM, an NVIDIA GeForce RTX 5090 with 32607 MiB GPU memory, driver
+580.159.03, Docker 29.5.2, Docker Compose v5.1.4, and Python 3.12.3. The
+tracked hardware/software manifest records image ids for
+\texttt{h001-geom-reliability:latest}, \texttt{h001-open3dsg-repro:cu128},
+and \texttt{h001-aaai-tex:20260611}.
 
 \question{This paper formally describes evaluation metrics used and explains the motivation for choosing these metrics}{(yes/partial/no)}
 yes. The paper defines exact-label \rAt{50}/\rAt{100},

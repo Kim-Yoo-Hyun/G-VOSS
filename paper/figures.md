@@ -1,8 +1,8 @@
-# H001 Figure Source Lock
+# GeoCalib Figure Source Lock
 
-Last updated: 2026-06-12 KST
+Last updated: 2026-06-13 KST
 
-Status: `figure2_full_validation_regenerated`
+Status: `figure1_geocalib_evidence_record_redraw`
 
 This file locks the paper-facing source claims and data artifacts for Figure
 1-3 before drawing. It is a planning artifact, not a generated figure output.
@@ -41,11 +41,15 @@ Locked visual form:
 
 - Method/framework diagram.
 - No numerical result claim.
-- Show the pipeline:
-  `relation source predictions` -> `standardized row contract` ->
-  `identity-preserving geometry join` -> `family-specific verifier` ->
-  `p_geom_valid calibration` -> `probabilistic / rule-verified /
-  family-specific operating points` -> `R@K + Violation@K evaluation`.
+- Use a three-panel evidence-record form inspired by recent 3D Scene Graph
+  survey targets:
+  `relation-source graph` -> `identity-preserved evidence-rich edge record` ->
+  `re-ranked reliable relation graph`.
+- Keep the concrete pipeline visible inside the panels:
+  standardized row contract, identity-preserving geometry join,
+  family-specific verifier, `p_geom_valid` calibration, probabilistic /
+  rule-verified / family-specific operating points, and `R@K + Violation@K`
+  evaluation.
 
 Source artifacts:
 
@@ -163,7 +167,8 @@ Generated files:
 
 | file | role |
 | --- | --- |
-| `paper/generated/figures/figure1_framework.svg` | draft method/framework schematic |
+| `paper/generated/figures/figure1_framework.svg` | draft GeoCalib evidence-record framework schematic |
+| `paper/generated/figures/figure1_framework.png` | LaTeX-facing PNG for Figure 1 |
 | `paper/generated/figures/figure2_tradeoff.svg` | draft two-panel R@100 / Violation@100 tradeoff |
 | `paper/generated/figures/figure2_tradeoff.png` | LaTeX-facing PNG generated from the same full-validation values |
 | `paper/generated/figures/figure3_failure_cases.svg` | draft Open3DSG qualitative row-card panels |

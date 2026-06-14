@@ -258,6 +258,44 @@ status `open3dsg_raw_provenance_review_ready`; the expected retry artifact is
 not present after cleanup, so the unmodified branch keeps its process-level
 exit-137 caveat. The selected 548/548 recovery branch is unaffected.
 
+## Low-K Top-Rank Diagnostic
+
+The low-K diagnostic reuses existing full-validation row-level outputs and does
+not rerun VL-SAT/Open3DSG inference. It writes separate outputs and does not
+overwrite locked `metrics/`.
+
+Protocol:
+
+```text
+experiments/H001_geom_reliability/k_sweep/protocol.md
+```
+
+Commands:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm vlsat_full_validation_metric_eval_k_sweep
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_metric_eval_full_validation_recovery_k_sweep
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm bootstrap_ci_full_validation_recovery_k_sweep
+env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm h001_low_k_sweep_report
+```
+
+Outputs:
+
+- `sources/vlsat/full_validation/metrics_k_sweep/metrics.json`
+- `sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/metrics.json`
+- `sources/open3dsg/full_validation/recovery_relaxed_views_min2/bootstrap_ci_k_sweep/summary.json`
+- `k_sweep/summary.md`
+- `k_sweep/recall_violation_curve.csv`
+- `k_sweep/recall_violation_curve.svg`
+
+Latest result: `k_sweep/summary.md` status `ready`; `K=50/100` point
+estimates, denominators, selected counts, and geometry coverage match the
+locked `metrics/` outputs; bootstrap point estimates match
+`metrics_k_sweep/metrics.json` for all reported K values. The diagnostic
+supports considering a main-text top-rank reliability figure/table, especially
+for Open3DSG recovery K=10/20, but it does not by itself replace the standard
+R@50/R@100 table.
+
 ## Relative Horizontal Scope Audit
 
 Run the no-training, no-inference audit for the optional

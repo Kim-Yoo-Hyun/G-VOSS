@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="360" viewBox="0 0 900 360">
+<rect width="100%" height="100%" fill="white"/>
+<style>text{font-family:Arial,sans-serif;font-size:12px}.title{font-size:15px;font-weight:bold}.axis{stroke:#333;stroke-width:1}.grid{stroke:#ddd;stroke-width:1}.line{fill:none;stroke-width:2.4}.pt{stroke:white;stroke-width:1}</style>
+<text class="title" x="60" y="33">VL-SAT full-validation</text>
+<line class="axis" x1="60" y1="315" x2="470" y2="315"/>
+<line class="axis" x1="60" y1="55" x2="60" y2="315"/>
+<text x="390" y="349">Recall</text>
+<text x="18" y="67">Violation</text>
+<text x="60" y="332">0.40</text>
+<text x="438" y="332">0.99</text>
+<text x="22" y="315">0.00</text>
+<text x="22" y="60">0.07</text>
+<polyline class="line" stroke="#555555" points="76.6,303.8 223.6,283.4 344.7,260.3 427.5,212.2 452.5,131.9"/>
+<circle class="pt" cx="76.6" cy="303.8" r="3.5" fill="#555555"/>
+<text x="81.6" y="298.8" fill="#555555">K=5</text>
+<circle class="pt" cx="223.6" cy="283.4" r="3.5" fill="#555555"/>
+<circle class="pt" cx="344.7" cy="260.3" r="3.5" fill="#555555"/>
+<circle class="pt" cx="427.5" cy="212.2" r="3.5" fill="#555555"/>
+<circle class="pt" cx="452.5" cy="131.9" r="3.5" fill="#555555"/>
+<text x="457.5" y="126.9" fill="#555555">K=100</text>
+<polyline class="line" stroke="#0072B2" points="73.8,309.4 223.6,287.6 346.9,269.1 429.7,226.9 456.2,159.6"/>
+<circle class="pt" cx="73.8" cy="309.4" r="3.5" fill="#0072B2"/>
+<text x="78.8" y="304.4" fill="#0072B2">K=5</text>
+<circle class="pt" cx="223.6" cy="287.6" r="3.5" fill="#0072B2"/>
+<circle class="pt" cx="346.9" cy="269.1" r="3.5" fill="#0072B2"/>
+<circle class="pt" cx="429.7" cy="226.9" r="3.5" fill="#0072B2"/>
+<circle class="pt" cx="456.2" cy="159.6" r="3.5" fill="#0072B2"/>
+<text x="461.2" y="154.6" fill="#0072B2">K=100</text>
+<polyline class="line" stroke="#009E73" points="76.8,315.0 223.2,315.0 344.7,315.0 426.4,315.0 452.0,315.0"/>
+<circle class="pt" cx="76.8" cy="315.0" r="3.5" fill="#009E73"/>
+<text x="81.8" y="310.0" fill="#009E73">K=5</text>
+<circle class="pt" cx="223.2" cy="315.0" r="3.5" fill="#009E73"/>
+<circle class="pt" cx="344.7" cy="315.0" r="3.5" fill="#009E73"/>
+<circle class="pt" cx="426.4" cy="315.0" r="3.5" fill="#009E73"/>
+<circle class="pt" cx="452.0" cy="315.0" r="3.5" fill="#009E73"/>
+<text x="457.0" y="310.0" fill="#009E73">K=100</text>
+<polyline class="line" stroke="#D55E00" points="74.3,310.8 222.7,295.4 345.5,273.3 428.5,235.7 455.8,187.0"/>
+<circle class="pt" cx="74.3" cy="310.8" r="3.5" fill="#D55E00"/>
+<text x="79.3" y="305.8" fill="#D55E00">K=5</text>
+<circle class="pt" cx="222.7" cy="295.4" r="3.5" fill="#D55E00"/>
+<circle class="pt" cx="345.5" cy="273.3" r="3.5" fill="#D55E00"/>
+<circle class="pt" cx="428.5" cy="235.7" r="3.5" fill="#D55E00"/>
+<circle class="pt" cx="455.8" cy="187.0" r="3.5" fill="#D55E00"/>
+<text x="460.8" y="182.0" fill="#D55E00">K=100</text>
+<text class="title" x="500" y="33">Open3DSG recovery full-validation</text>
+<line class="axis" x1="500" y1="315" x2="910" y2="315"/>
+<line class="axis" x1="500" y1="55" x2="500" y2="315"/>
+<text x="830" y="349">Recall</text>
+<text x="458" y="67">Violation</text>
+<text x="500" y="332">0.02</text>
+<text x="878" y="332">0.62</text>
+<text x="462" y="315">0.00</text>
+<text x="462" y="60">0.53</text>
+<polyline class="line" stroke="#555555" points="513.5,64.8 556.3,156.2 623.0,213.2 764.9,247.4 836.7,254.4"/>
+<circle class="pt" cx="513.5" cy="64.8" r="3.5" fill="#555555"/>
+<text x="518.5" y="59.8" fill="#555555">K=5</text>
+<circle class="pt" cx="556.3" cy="156.2" r="3.5" fill="#555555"/>
+<circle class="pt" cx="623.0" cy="213.2" r="3.5" fill="#555555"/>
+<circle class="pt" cx="764.9" cy="247.4" r="3.5" fill="#555555"/>
+<circle class="pt" cx="836.7" cy="254.4" r="3.5" fill="#555555"/>
+<text x="841.7" y="249.4" fill="#555555">K=100</text>
+<polyline class="line" stroke="#0072B2" points="544.4,284.4 595.3,280.9 664.3,283.1 756.8,285.4 874.6,275.4"/>
+<circle class="pt" cx="544.4" cy="284.4" r="3.5" fill="#0072B2"/>
+<text x="549.4" y="279.4" fill="#0072B2">K=5</text>
+<circle class="pt" cx="595.3" cy="280.9" r="3.5" fill="#0072B2"/>
+<circle class="pt" cx="664.3" cy="283.1" r="3.5" fill="#0072B2"/>
+<circle class="pt" cx="756.8" cy="285.4" r="3.5" fill="#0072B2"/>
+<circle class="pt" cx="874.6" cy="275.4" r="3.5" fill="#0072B2"/>
+<text x="879.6" y="270.4" fill="#0072B2">K=100</text>
+<polyline class="line" stroke="#009E73" points="536.4,315.0 577.3,315.0 652.0,315.0 778.3,315.0 850.7,315.0"/>
+<circle class="pt" cx="536.4" cy="315.0" r="3.5" fill="#009E73"/>
+<text x="541.4" y="310.0" fill="#009E73">K=5</text>
+<circle class="pt" cx="577.3" cy="315.0" r="3.5" fill="#009E73"/>
+<circle class="pt" cx="652.0" cy="315.0" r="3.5" fill="#009E73"/>
+<circle class="pt" cx="778.3" cy="315.0" r="3.5" fill="#009E73"/>
+<circle class="pt" cx="850.7" cy="315.0" r="3.5" fill="#009E73"/>
+<text x="855.7" y="310.0" fill="#009E73">K=100</text>
+<polyline class="line" stroke="#D55E00" points="555.1,294.5 618.2,291.5 710.6,293.5 802.8,301.0 896.5,298.4"/>
+<circle class="pt" cx="555.1" cy="294.5" r="3.5" fill="#D55E00"/>
+<text x="560.1" y="289.5" fill="#D55E00">K=5</text>
+<circle class="pt" cx="618.2" cy="291.5" r="3.5" fill="#D55E00"/>
+<circle class="pt" cx="710.6" cy="293.5" r="3.5" fill="#D55E00"/>
+<circle class="pt" cx="802.8" cy="301.0" r="3.5" fill="#D55E00"/>
+<circle class="pt" cx="896.5" cy="298.4" r="3.5" fill="#D55E00"/>
+<text x="901.5" y="293.4" fill="#D55E00">K=100</text>
+<line x1="60" y1="335" x2="82" y2="335" stroke="#555555" stroke-width="3"/>
+<text x="88" y="339">semantic</text>
+<line x1="265" y1="335" x2="287" y2="335" stroke="#0072B2" stroke-width="3"/>
+<text x="293" y="339">probabilistic</text>
+<line x1="470" y1="335" x2="492" y2="335" stroke="#009E73" stroke-width="3"/>
+<text x="498" y="339">rule</text>
+<line x1="675" y1="335" x2="697" y2="335" stroke="#D55E00" stroke-width="3"/>
+<text x="703" y="339">family_specific</text>
+</svg>

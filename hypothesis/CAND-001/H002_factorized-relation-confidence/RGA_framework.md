@@ -1,6 +1,6 @@
 # H002 RGA Framework
 
-Last updated: 2026-06-12
+Last updated: 2026-06-13
 
 ## Purpose
 
@@ -583,6 +583,998 @@ Main baseline set:
 `L_e` is supervision/evaluation/oracle evidence only. It is not a deployable
 input feature.
 
+### Stage 8. Factor Dataset
+
+Document:
+
+```text
+26_factor_dataset.md
+```
+
+Purpose:
+
+- materialize deployable feature rows from train RGA rows.
+- join audit targets without leaking label/audit evidence into deployable inputs.
+- create strict and weak train-only smoke inputs.
+- freeze the concrete files used by the next posterior smoke fitting step.
+
+Key artifacts:
+
+```text
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_dataset/deployable_features_all.jsonl
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_dataset/strict_smoke.jsonl
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_dataset/weak_smoke.jsonl
+```
+
+Counts:
+
+| Artifact | Rows |
+| --- | ---: |
+| `deployable_features_all.jsonl` | 118,560 |
+| `target_joined.jsonl` | 217 |
+| `strict_smoke.jsonl` | 93 |
+| `weak_smoke.jsonl` | 132 |
+
+Boundary:
+
+```text
+no validation usage
+no label/audit evidence in deployable feature blocks
+no paper-level performance claim
+```
+
+### Stage 9. Factor Smoke
+
+Document:
+
+```text
+27_factor_smoke.md
+```
+
+Purpose:
+
+- run train-only smoke fitting for the four planned baseline views.
+- check whether the current strict/weak targets are independent enough for
+  posterior interpretation.
+- report shortcut risk before any method claim.
+
+Key artifact:
+
+```text
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_smoke/summary.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_smoke/metrics.csv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_smoke/report.md
+```
+
+Main finding:
+
+```text
+status = ready_with_shortcut_caveat
+```
+
+Strict target is too close to the RGA bucket construction. The smoke therefore
+validates the executable pipeline but does not validate posterior novelty.
+
+### Stage 10. Shortcut Control
+
+Document:
+
+```text
+28_shortcut_control.md
+```
+
+Purpose:
+
+- remove target-construction shortcut feature groups.
+- test whether strict/weak targets remain predictable after controls.
+- decide whether posterior performance is interpretable.
+
+Key artifact:
+
+```text
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_shortcut_control/summary.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_shortcut_control/metrics.csv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/factor_shortcut_control/report.md
+```
+
+Main finding:
+
+```text
+status = ready_target_not_independent
+```
+
+The strict target remains perfectly predictable even with continuous-only
+geometry evidence. This means the current target validates feature plumbing, not
+posterior novelty.
+
+### Stage 11. Target Redesign
+
+Document:
+
+```text
+29_target_redesign.md
+```
+
+Purpose:
+
+- replace shortcut-prone strict/weak targets.
+- define within-geometry-supported reliability targets.
+- separate relabel-only and abstain labels from binary reliability labels.
+
+Key artifacts:
+
+```text
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/target_redesign/target_contract.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/target_redesign/strict_proximity_informativeness.jsonl
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/target_redesign/weak_satisfied_actionability.jsonl
+```
+
+Main finding:
+
+```text
+status = ready_target_v2_contract
+```
+
+The primary target is `strict_proximity_informativeness`: geometry-satisfied
+proximity rows only, with `true_underconfidence` as positive and
+`dense_relation_noise` as negative. It has 16 positives and 11 negatives, so it
+is a small plumbing-smoke target, not paper evidence.
+
+### Stage 12. Redesigned Target Smoke
+
+Document:
+
+```text
+30_redesigned_target_smoke.md
+```
+
+Purpose:
+
+- test target v2 with direct target identity features removed.
+- verify whether the redesigned target still collapses to a trivial score.
+- decide whether human confirmation is worth running.
+
+Key artifacts:
+
+```text
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/redesigned_target_smoke/summary.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/redesigned_target_smoke/metrics.csv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/redesigned_target_smoke/report.md
+```
+
+Main finding:
+
+```text
+status = ready_plumbing_only
+```
+
+The strict target v2 is less shortcut-prone than the previous target but has only
+27 rows. It justifies a human confirmation protocol, not a posterior performance
+claim.
+
+### Stage 13. Human Confirmation Protocol
+
+Document:
+
+```text
+31_human_confirmation_protocol.md
+```
+
+Purpose:
+
+- define human confirmation fields for target v2.
+- create strict and weak review sheets.
+- define when human labels can be used for posterior-training evidence.
+
+Key artifacts:
+
+```text
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/human_confirmation_protocol/protocol.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/human_confirmation_protocol/strict_review_sheet.tsv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/human_confirmation_protocol/weak_extension_sheet.tsv
+```
+
+Main finding:
+
+```text
+status = ready_protocol_no_human_labels
+```
+
+The protocol is ready, but no human label has been filled. Posterior claims
+remain blocked.
+
+### Stage 14. Human Label Readiness
+
+Document:
+
+```text
+32_human_label_readiness.md
+```
+
+Purpose:
+
+- fill the strict primary sheet with a temporary `(codex_ver)` reviewer label.
+- validate required fields and allowed values.
+- compute usable binary posterior targets after exclusion.
+- decide whether train-only posterior plumbing smoke can resume.
+
+Key artifacts:
+
+```text
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/human_confirmation_protocol/strict_review_sheet_codex_ver.tsv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/human_confirmation_protocol/strict_codex_ver_labels.jsonl
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/human_confirmation_protocol/strict_codex_ver_binary_targets.jsonl
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/human_confirmation_protocol/codex_ver_readiness_summary.json
+```
+
+Main finding:
+
+```text
+status = ready_for_train_only_codex_plumbing_smoke
+```
+
+Counts:
+
+```text
+strict rows = 27
+usable binary rows = 27
+positive targets = 16
+negative targets = 11
+missing required fields = 0
+invalid values = 0
+```
+
+Boundary:
+
+```text
+(codex_ver) labels are not human-confirmed labels.
+```
+
+They can support a train-only plumbing smoke but cannot support paper evidence,
+posterior advantage claims, or reviewer agreement.
+
+### Stage 15. Multi-View Feasibility Check
+
+Document:
+
+```text
+feasibility_check.md
+```
+
+Purpose:
+
+- decide whether point cloud + multi-view belongs in H002.
+- prevent the scope from drifting into a generic stronger relation predictor.
+- define multi-view as an RGA evidence-axis extension.
+
+Main verdict:
+
+```text
+reasonable, but only as evidence factor expansion
+```
+
+Future posterior form:
+
+```text
+P(R_e = 1 | S_e, G_3D_e, V_mv_e, C_e, U_e)
+```
+
+where `V_mv_e` is multi-view crop, co-visible image, visibility, occlusion, and
+appearance-context evidence.
+
+Boundary:
+
+```text
+Use multi-view as audit/confirmation evidence before using it as model input.
+```
+
+### Stage 16. Codex Label Smoke
+
+Document:
+
+```text
+33_codex_label_smoke.md
+```
+
+Purpose:
+
+- join `(codex_ver)` strict binary targets to target-v2 feature rows.
+- run train-only posterior plumbing smoke.
+- verify semantic-only, geometry-only, semantic+geometry, and factorized inputs.
+
+Key artifacts:
+
+```text
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/codex_label_smoke/summary.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/codex_label_smoke/metrics.csv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/codex_label_smoke/report.md
+```
+
+Main finding:
+
+```text
+status = ready_plumbing_only_codex_labels
+```
+
+Train-internal 5-fold AUROC/AUPRC:
+
+```text
+semantic_only = 0.6080 / 0.7431
+geometry_only = 0.8523 / 0.8986
+semantic_plus_geometry = 0.8864 / 0.9217
+factorized_reliability_posterior = 0.8864 / 0.9339
+```
+
+Interpretation:
+
+- posterior pipeline can consume `(codex_ver)` labels.
+- `p_geom_valid` alone is not relation reliability for the strict target.
+- this is not posterior advantage evidence because labels are not human-confirmed
+  and `N=27`.
+
+### Stage 17. Multi-View Audit Protocol
+
+Document:
+
+```text
+34_multiview_audit_protocol.md
+```
+
+Purpose:
+
+- fix the order: validate current factorized posterior before adding `V_mv_e`.
+- use multi-view only as audit/confirmation evidence for now.
+- create review sheets for current strict labels and future support-contact audit.
+
+Key artifacts:
+
+```text
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/multiview_audit_protocol/summary.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/multiview_audit_protocol/protocol.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/multiview_audit_protocol/primary_strict_sheet.tsv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/multiview_audit_protocol/support_contact_sheet.tsv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/multiview_audit_protocol/all_candidate_sheet.tsv
+```
+
+Main finding:
+
+```text
+status = ready_audit_only_vmv_deferred
+```
+
+Counts:
+
+```text
+primary strict proximity rows = 27
+support_contact extension rows = 26
+relative_vertical lower-priority rows = 34
+all candidates = 87
+contact sheet coverage = 87 / 87
+mesh link coverage = 87 / 87
+```
+
+Boundary:
+
+```text
+deployable_vmv_features_created = false
+model_input_expansion_allowed_now = false
+```
+
+Current rule:
+
+```text
+Validate P(R_e = 1 | S_e, G_e, C_e, U_e) first.
+Use multi-view only for audit evidence until that gate passes.
+```
+
+### Stage 18. Factorized Validation Plan
+
+Document:
+
+```text
+35_factorized_validation_plan.md
+```
+
+Purpose:
+
+- define when the current factorized posterior can support the H002 hypothesis.
+- fix the minimal independent/human-confirmed label target.
+- fix controls before any posterior advantage claim.
+- keep `V_mv_e` out of model input.
+
+Key artifacts:
+
+```text
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/factorized_validation_plan/summary.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/factorized_validation_plan/protocol.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/factorized_validation_plan/report.md
+```
+
+Main finding:
+
+```text
+status = ready_validation_plan_vmv_deferred
+```
+
+Target minimum:
+
+```text
+hypothesis-stage usable rows >= 60
+per-class rows >= 20
+label source = human-confirmed or independent audit
+codex_ver sufficient = false
+```
+
+Required controls:
+
+```text
+same-family
+same-geometry-status
+same-rank-band
+same-source for current pilot
+no visual input
+```
+
+Acceptance rule:
+
+```text
+factorized_reliability_posterior must beat semantic_plus_geometry by
+AUPRC >= +0.03 or Brier <= -0.02, with AUROC drop <= 0.02, under the
+controlled label target.
+```
+
+### Stage 19. Controlled Label Target
+
+Document:
+
+```text
+36_controlled_label_target.md
+```
+
+Purpose:
+
+- expand the current strict target into a controlled human-review candidate set.
+- preserve same-family, same-geometry-status, same-source, and rank-band controls.
+- create review sheets without creating final labels.
+
+Key artifacts:
+
+```text
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_target/summary.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_target/protocol.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_target/mined_controlled_queue.jsonl
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_target/mined_controlled_sheet.tsv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_target/combined_review_queue.jsonl
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_target/combined_review_sheet.tsv
+```
+
+Main finding:
+
+```text
+status = ready_controlled_review_queue_no_labels
+```
+
+Mined controlled queue:
+
+```text
+rows = 96
+predicate_family = proximity
+predicate_label = close by
+geometry_status = satisfied
+semantic_rank > 100
+candidate_reliable_promote_seed = 48
+candidate_unreliable_dense_noise_seed = 48
+rank_201_500 = 32
+rank_501_1000 = 32
+rank_gt1000 = 32
+contact_sheet coverage = 96 / 96
+mesh link coverage = 96 / 96
+```
+
+Combined with existing strict seed:
+
+```text
+combined review rows = 123
+```
+
+Boundary:
+
+```text
+proposed_review_stratum is not a final label.
+final labels created = false.
+```
+
+### Stage 20. Controlled Label Readiness
+
+Document:
+
+```text
+37_controlled_label_readiness.md
+```
+
+Purpose:
+
+- validate whether controlled review sheets have filled final labels.
+- check required fields and allowed values.
+- export binary targets only from allowed final labels.
+- block posterior fitting until target minimum is satisfied.
+
+Key artifacts:
+
+```text
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_readiness/summary.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_readiness/report.md
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_readiness/mined_binary_targets.jsonl
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_readiness/combined_binary_targets.jsonl
+```
+
+Main finding:
+
+```text
+status = not_ready_no_filled_labels
+```
+
+Readiness result:
+
+| Sheet | Rows | Completed | Binary rows | Per-class min |
+| --- | ---: | ---: | ---: | ---: |
+| `mined_controlled` | 96 | 0 | 0 | 0 |
+| `combined_review` | 123 | 0 | 0 | 0 |
+
+Decision:
+
+```text
+current posterior fitting remains blocked.
+```
+
+The next gate is to fill controlled review labels with human/independent review,
+then rerun the readiness validator. Proposed review strata remain sampling priors
+and are not labels.
+
+### Stage 21. Controlled Codex Labels
+
+Document:
+
+```text
+38_controlled_codex_labels.md
+```
+
+Purpose:
+
+- fill controlled review sheets with `(codex_ver)` bootstrap labels after user
+  request.
+- preserve original blank review sheets.
+- rerun readiness on Codex-filled sheets.
+- keep the label source boundary explicit.
+
+Key artifacts:
+
+```text
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_target/mined_controlled_sheet_codex_ver.tsv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_target/combined_review_sheet_codex_ver.tsv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_codex_labels/summary.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_label_readiness_codex_ver/summary.json
+```
+
+Main finding:
+
+```text
+status = controlled_codex_ver_labels_filled_not_human_confirmed
+```
+
+Counts:
+
+| Sheet | Rows | Positive | Negative |
+| --- | ---: | ---: | ---: |
+| `mined_controlled` | 96 | 48 | 48 |
+| `combined_review` | 123 | 64 | 59 |
+
+Readiness:
+
+```text
+status = ready_for_train_only_controlled_posterior_smoke
+```
+
+Boundary:
+
+```text
+codex_ver labels are sampling-prior bootstrap labels, not human-confirmed labels.
+```
+
+### Stage 22. Controlled Posterior Smoke
+
+Document:
+
+```text
+39_controlled_posterior_smoke.md
+```
+
+Purpose:
+
+- join controlled Codex labels to deployable feature rows.
+- run the four planned baseline views.
+- verify end-to-end posterior plumbing under train-only constraints.
+
+Key artifacts:
+
+```text
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_posterior_smoke_codex_ver/summary.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_posterior_smoke_codex_ver/report.md
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/controlled_posterior_smoke_codex_ver/metrics.csv
+```
+
+Train-internal 5-fold main result:
+
+| Target | `semantic_plus_geometry` AUPRC | `factorized` AUPRC | Delta AUPRC | Delta Brier |
+| --- | ---: | ---: | ---: | ---: |
+| `mined_controlled_codex_ver` | 0.9546 | 0.9552 | +0.0006 | -0.0012 |
+| `combined_controlled_codex_ver` | 0.7321 | 0.7658 | +0.0337 | -0.0081 |
+
+Decision:
+
+```text
+posterior plumbing works, but H002 hypothesis is not validated by codex_ver labels.
+```
+
+The next scientific gate is human/independent controlled labels, not more model
+fitting on Codex labels.
+
+### Stage 23. Real Label Assumption Claim Audit
+
+Document:
+
+```text
+40_real_label_claim_audit.md
+```
+
+Purpose:
+
+- follow the user-directed assumption that `(codex_ver)` controlled labels are
+  treated as real labels for hypothesis-stage analysis.
+- reinterpret the controlled posterior smoke under that assumption.
+- identify what still blocks a strong H002 posterior claim.
+
+Working assumption:
+
+```text
+artifact provenance = codex_ver
+current interpretation = user-directed real-label assumption
+```
+
+Main finding:
+
+```text
+weak conditional support only
+```
+
+Reinterpreted result:
+
+| Target | Delta AUPRC | Delta Brier | Verdict |
+| --- | ---: | ---: | --- |
+| `mined_controlled_codex_ver` | +0.0006 | -0.0012 | insufficient |
+| `combined_controlled_codex_ver` | +0.0337 | -0.0081 | weak positive signal |
+
+Main blocker:
+
+```text
+factorized gain is not yet isolated from rank/identity/target-construction effects.
+```
+
+Evidence:
+
+- `drop_direct_identity` collapses back to `semantic_plus_geometry` behavior.
+- `drop_direct_identity_rank` and `safe_continuous` are near random.
+- mined-only target does not show meaningful factorized gain.
+
+Next required checks:
+
+- scan-grouped CV.
+- explicit `S+G`, `S+G+C`, `S+G+U`, `S+G+C+U` ablation.
+- rank-band and strict-seed dependence analysis.
+- proxy baselines such as rank-only and rank-band-only.
+- paired bootstrap CI.
+- calibration analysis with Brier/ECE/reliability bins.
+
+### Stage 24. Grouped Control Smoke
+
+Document:
+
+```text
+41_grouped_control_smoke.md
+```
+
+Purpose:
+
+- treat `(codex_ver)` as real label under the user-directed hypothesis-stage
+  assumption.
+- rerun controlled posterior smoke with `scan_id` grouped folds.
+- add explicit factor ablations and rank proxy baselines.
+
+Key artifacts:
+
+```text
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/grouped_control_smoke_codex_real_assumption/summary.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/grouped_control_smoke_codex_real_assumption/report.md
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/grouped_control_smoke_codex_real_assumption/metrics.csv
+```
+
+Grouped result:
+
+| Target | Factorized - `S+G` AUPRC | Factorized - `S+G` Brier | Verdict |
+| --- | ---: | ---: | --- |
+| `mined_controlled_codex_ver` | +0.0341 | -0.0234 | numeric pass |
+| `combined_controlled_codex_ver` | +0.0268 | -0.0082 | weak / below AUPRC threshold |
+
+Factor ablation:
+
+```text
+S+G+C adds no signal.
+S+G+U carries the gain.
+```
+
+Critical blocker:
+
+```text
+negative_rank_only beats factorized_reliability_posterior.
+```
+
+Proxy evidence:
+
+| Target | Factorized AUPRC | `negative_rank_only` AUPRC |
+| --- | ---: | ---: |
+| `mined_controlled_codex_ver` | 0.9409 | 0.9589 |
+| `combined_controlled_codex_ver` | 0.6801 | 0.7094 |
+
+Decision:
+
+```text
+H002 has conditional support for the reliability framing, but not yet strong
+support for the factorized posterior as a method contribution.
+```
+
+### Stage 25. Rank Proxy Debias
+
+Document:
+
+```text
+42_rank_proxy_debias.md
+```
+
+Purpose:
+
+- test whether factorized posterior beats a simple rank-derived proxy.
+- remove rank-derived features and evaluate non-rank evidence.
+- add non-rank evidence to `negative_rank_only` and check whether it improves.
+
+Key artifacts:
+
+```text
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/rank_proxy_debias_codex_real_assumption/summary.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/rank_proxy_debias_codex_real_assumption/report.md
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/rank_proxy_debias_codex_real_assumption/metrics.csv
+```
+
+Main finding:
+
+```text
+status = rank_proxy_not_debiased
+```
+
+Critical comparisons:
+
+| Target | Left | Right | Delta AUPRC | Delta Brier |
+| --- | --- | --- | ---: | ---: |
+| `mined_controlled_codex_ver` | `factorized` | `negative_rank_only` | -0.0179 | +0.0041 |
+| `combined_controlled_codex_ver` | `factorized` | `negative_rank_only` | -0.0293 | +0.0187 |
+| `mined_controlled_codex_ver` | `negative_rank + factorized_no_rank` | `negative_rank_only` | -0.0491 | +0.0286 |
+| `combined_controlled_codex_ver` | `negative_rank + factorized_no_rank` | `negative_rank_only` | -0.0141 | +0.0164 |
+
+Decision:
+
+```text
+The current controlled-label signal is still explainable by semantic rank /
+underconfidence proxy. H002 should not claim a factorized-posterior method
+contribution yet.
+```
+
+Implication:
+
+```text
+The next blocker is target construction, not model capacity.
+```
+
+### Stage 26. Within-Rank Stability
+
+Document:
+
+```text
+43_within_rank_stability.md
+```
+
+Purpose:
+
+- evaluate whether factorized evidence remains useful inside fixed rank bands.
+- compare factorized posterior against `negative_rank_only` within each band.
+- build rank-matched positive/negative pairs using `rank_in_context`.
+- check whether the current controlled target is independent enough from
+  semantic-rank construction.
+
+Key artifacts:
+
+```text
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/within_rank_stability_codex_real_assumption/summary.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/within_rank_stability_codex_real_assumption/report.md
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/within_rank_stability_codex_real_assumption/metrics.csv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/within_rank_stability_codex_real_assumption/pairwise.csv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/within_rank_stability_codex_real_assumption/matched_pairs.jsonl
+```
+
+Result:
+
+```text
+status = within_rank_mixed
+```
+
+Primary grouped comparison:
+
+| Target | Rank band | `factorized - negative_rank_only` AUPRC | `factorized - negative_rank_only` Brier |
+| --- | --- | ---: | ---: |
+| `mined_controlled_codex_ver` | `rank_201_500` | -0.0917 | +0.0727 |
+| `mined_controlled_codex_ver` | `rank_501_1000` | -0.0545 | +0.0116 |
+| `mined_controlled_codex_ver` | `rank_gt1000` | +0.0000 | +0.0020 |
+| `combined_controlled_codex_ver` | `rank_201_500` | -0.0917 | +0.0727 |
+| `combined_controlled_codex_ver` | `rank_501_1000` | -0.0545 | +0.0116 |
+| `combined_controlled_codex_ver` | `rank_gt1000` | +0.0000 | +0.0020 |
+
+Pairwise observation:
+
+| Target | Rank band | Pairs | Mean rank gap | Factorized | `negative_rank_only` |
+| --- | --- | ---: | ---: | ---: | ---: |
+| `mined_controlled_codex_ver` | `rank_201_500` | 16 | 32.06 | 0.8750 | 0.8438 |
+| `mined_controlled_codex_ver` | `rank_501_1000` | 16 | 11.56 | 0.8125 | 0.6875 |
+| `mined_controlled_codex_ver` | `rank_gt1000` | 16 | 51.38 | 0.9375 | 0.9375 |
+
+Decision:
+
+```text
+Within-rank evidence is mixed. Pairwise rank-matched checks show that relation
+evidence can help inside some bands, but grouped primary-band metrics still do
+not consistently beat the negative-rank proxy.
+```
+
+Implication:
+
+```text
+The next step is a stricter rank-matched target, not a larger posterior model.
+```
+
+### Stage 27. Rank-Matched Target
+
+Document:
+
+```text
+44_rank_matched_target.md
+```
+
+Purpose:
+
+- build a stricter controlled target by directly matching positive and negative
+  rows with close `rank_in_context`.
+- exclude large-gap non-tail pairs from primary smoke metrics.
+- keep `tail` pairs as exploratory rows only.
+- rerun train-only scan-grouped posterior smoke on the stricter target.
+
+Key artifacts:
+
+```text
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/rank_matched_target_codex_real_assumption/summary.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/rank_matched_target_codex_real_assumption/report.md
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/rank_matched_target_codex_real_assumption/metrics.csv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/rank_matched_target_codex_real_assumption/pairwise.csv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/rank_matched_target_codex_real_assumption/pair_records.jsonl
+```
+
+Result:
+
+```text
+status = rank_matched_mixed
+```
+
+Target construction:
+
+| Target | Scope | Rows | Pairs | Mean rank gap | Max rank gap | Evaluated |
+| --- | --- | ---: | ---: | ---: | ---: | --- |
+| `mined_rank_matched_gap50_codex_ver` | primary | 86 | 43 | 14.56 | 47.00 | yes |
+| `combined_rank_matched_gap50_codex_ver` | primary | 86 | 43 | 14.56 | 47.00 | yes |
+| `combined_tail_exploratory_gap500_codex_ver` | tail exploratory | 22 | 11 | 103.91 | 367.00 | no |
+
+Primary grouped comparison:
+
+| Left | Right | Delta AUPRC | Delta Brier |
+| --- | --- | ---: | ---: |
+| `factorized_reliability_posterior` | `semantic_plus_geometry` | +0.0245 | -0.0144 |
+| `factorized_reliability_posterior` | `negative_rank_only` | -0.0239 | +0.0029 |
+| `negative_rank_plus_factorized_no_rank` | `negative_rank_only` | -0.0490 | +0.0223 |
+| `negative_rank_plus_disagreement` | `negative_rank_only` | -0.0049 | -0.0002 |
+
+Pairwise observation:
+
+| Target | Pairs | Factorized | `negative_rank_only` | `factorized_no_rank` | `p_geom_valid_raw` |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| `mined_rank_matched_gap50_codex_ver` | 43 | 0.8605 | 0.8372 | 0.6512 | 0.5349 |
+
+Decision:
+
+```text
+Rank-matched target is mixed. The stricter target reduces large rank-gap
+shortcuts, but factorized posterior still does not beat negative_rank_only under
+scan-grouped CV. Pairwise evidence remains mildly favorable but insufficient.
+```
+
+Implication:
+
+```text
+The next blocker is label/target independence. The current codex target is not
+independent enough to support a posterior method claim.
+```
+
+### Stage 28. Target Independence Audit
+
+Document:
+
+```text
+45_target_independence_audit.md
+```
+
+Purpose:
+
+- diagnose why `negative_rank_only` remains strong after rank matching.
+- separate target construction effects from deployable evidence effects.
+- audit whether current codex labels are independent enough to support a
+  posterior method claim.
+
+Key artifacts:
+
+```text
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/target_independence_audit_codex_real_assumption/summary.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/target_independence_audit_codex_real_assumption/report.md
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/target_independence_audit_codex_real_assumption/feature_summaries.csv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/target_independence_audit_codex_real_assumption/metadata_summaries.csv
+```
+
+Result:
+
+```text
+status = target_independence_not_established
+```
+
+Main evidence:
+
+| Check | Result |
+| --- | --- |
+| Mean matched rank gap | 14.56 |
+| Positive has worse source rank share | 0.8140 |
+| `negative_rank_only_raw` pairwise accuracy | 0.8372 |
+| `p_geom_valid_raw` pairwise accuracy | 0.5349 |
+| `final_controlled_label` row-majority purity | 1.0000 |
+| `proposed_review_stratum` row-majority purity | 1.0000 |
+| `mined` vs `combined` primary target Jaccard | 1.0000 |
+
+Decision:
+
+```text
+Current codex-controlled rank-matched labels are still not independent enough
+from semantic-rank / underconfidence construction to support a posterior method
+claim.
+```
+
+Implication:
+
+```text
+H002 should continue the RGA framework and target construction work, but pause
+posterior method claims until rank-hidden independent audit labels exist.
+```
+
 ## RGA To Factorized Reliability
 
 RGA is the measurement framework. Factorized reliability posterior is the later
@@ -608,6 +1600,14 @@ The posterior should learn:
 ```text
 P(R_e = 1 | S_e, G_e, C_e, U_e)
 ```
+
+The future multi-view extension is:
+
+```text
+P(R_e = 1 | S_e, G_3D_e, V_mv_e, C_e, U_e)
+```
+
+This is an evidence-axis extension, not a new scene graph generator.
 
 It should not simply learn:
 
@@ -684,21 +1684,23 @@ Blocked claims:
 - RGA-LH rows are automatically valid missing positives.
 - working labels are paper-locked human annotations.
 - `p_geom_valid` is full relation reliability.
-- the factorized posterior outperforms baselines.
+- the factorized posterior outperforms rank-controlled baselines.
 - held-out validation/test conclusions.
 
 ## Next Step
 
-The next H002 step remains:
+The next H002 step is:
 
 ```text
-26_factor_dataset.md
+46_independent_label_protocol.md
 ```
 
 Goal:
 
-- materialize deployable feature rows from `match_rows.jsonl`.
-- join `factor_targets.jsonl` to audit rows.
-- create strict/weak train-only smoke-fitting inputs.
-- preserve the rule that label/audit evidence is target/evaluation evidence, not
-  deployment-time input.
+- define a rank-hidden independent audit protocol.
+- keep multi-view as audit evidence before deployable model input.
+- prioritize `support_contact`, then `attachment_deferred`, then
+  `relative_vertical`.
+- specify how independent labels will support residual/gated factorized combiner
+  diagnostics.
+- continue without validation/test rows.

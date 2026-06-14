@@ -1,0 +1,41 @@
+source_key,source,condition,condition_label,k,recall,violation,delta_recall_vs_semantic,delta_violation_vs_semantic,recall_correct,recall_denominator,selected_predictions,violation_denominator,violated,geometry_coverage
+vlsat,VL-SAT full-validation,semantic_only,semantic,5,0.41943605236656595,0.00291970802919708,0.0,0.0,1666,,2740,2740,8,1.0
+vlsat,VL-SAT full-validation,semantic_only,semantic,10,0.6321752265861027,0.008211678832116789,0.0,0.0,2511,,5480,5480,45,1.0
+vlsat,VL-SAT full-validation,semantic_only,semantic,20,0.8074018126888217,0.014233576642335766,0.0,0.0,3207,,10960,10960,156,1.0
+vlsat,VL-SAT full-validation,semantic_only,semantic,50,0.9272406847935549,0.026751824817518248,0.0,0.0,3683,,27400,27400,733,1.0
+vlsat,VL-SAT full-validation,semantic_only,semantic,100,0.9634944612286002,0.04764598540145985,0.0,0.0,3827,,54800,54800,2611,1.0
+vlsat,VL-SAT full-validation,probabilistic_recalibrated,probabilistic,5,0.41540785498489424,0.00145985401459854,-0.004028197381671705,-0.00145985401459854,1650,,2740,2740,4,1.0
+vlsat,VL-SAT full-validation,probabilistic_recalibrated,probabilistic,10,0.6321752265861027,0.007116788321167883,0.0,-0.0010948905109489059,2511,,5480,5480,39,1.0
+vlsat,VL-SAT full-validation,probabilistic_recalibrated,probabilistic,20,0.81067472306143,0.011952554744525548,0.00327291037260824,-0.002281021897810218,3220,,10960,10960,131,1.0
+vlsat,VL-SAT full-validation,probabilistic_recalibrated,probabilistic,50,0.9305135951661632,0.02291970802919708,0.00327291037260824,-0.0038321167883211688,3696,,27400,27400,628,1.0
+vlsat,VL-SAT full-validation,probabilistic_recalibrated,probabilistic,100,0.9687814702920443,0.04043795620437956,0.005287009063444148,-0.007208029197080294,3848,,54800,54800,2216,1.0
+vlsat,VL-SAT full-validation,rule_verified_point_subtype,rule,5,0.41968781470292044,0.0,0.0002517623363544885,-0.00291970802919708,1667,,2740,2740,0,1.0
+vlsat,VL-SAT full-validation,rule_verified_point_subtype,rule,10,0.6316717019133937,0.0,-0.000503524672708977,-0.008211678832116789,2509,,5480,5480,0,1.0
+vlsat,VL-SAT full-validation,rule_verified_point_subtype,rule,20,0.8074018126888217,0.0,0.0,-0.014233576642335766,3207,,10960,10960,0,1.0
+vlsat,VL-SAT full-validation,rule_verified_point_subtype,rule,50,0.925730110775428,0.0,-0.0015105740181269312,-0.026751824817518248,3677,,27400,27400,0,1.0
+vlsat,VL-SAT full-validation,rule_verified_point_subtype,rule,100,0.9627391742195368,0.0,-0.0007552870090633546,-0.04764598540145985,3824,,54781,54781,0,1.0
+vlsat,VL-SAT full-validation,control_family_specific_p_geom_valid,family_specific,5,0.4161631419939577,0.0010948905109489052,-0.00327291037260824,-0.001824817518248175,1653,,2740,2740,3,1.0
+vlsat,VL-SAT full-validation,control_family_specific_p_geom_valid,family_specific,10,0.6309164149043303,0.0051094890510948905,-0.0012588116817724426,-0.003102189781021898,2506,,5480,5480,28,1.0
+vlsat,VL-SAT full-validation,control_family_specific_p_geom_valid,family_specific,20,0.8086606243705942,0.010857664233576642,0.0012588116817724426,-0.0033759124087591238,3212,,10960,10960,119,1.0
+vlsat,VL-SAT full-validation,control_family_specific_p_geom_valid,family_specific,50,0.9287512588116817,0.020620437956204378,0.0015105740181268201,-0.00613138686131387,3689,,27400,27400,565,1.0
+vlsat,VL-SAT full-validation,control_family_specific_p_geom_valid,family_specific,100,0.9682779456193353,0.0333029197080292,0.004783484390735171,-0.014343065693430655,3846,,54800,54800,1825,1.0
+open3dsg_recovery,Open3DSG recovery full-validation,semantic_only,semantic,5,0.03675730110775428,0.5131386861313869,0.0,0.0,146,,2740,2740,1406,1.0
+open3dsg_recovery,Open3DSG recovery full-validation,semantic_only,semantic,10,0.10020140986908359,0.32554744525547447,0.0,0.0,398,,5480,5480,1784,1.0
+open3dsg_recovery,Open3DSG recovery full-validation,semantic_only,semantic,20,0.19914400805639476,0.20879020467836257,0.0,0.0,791,,10944,10944,2285,1.0
+open3dsg_recovery,Open3DSG recovery full-validation,semantic_only,semantic,50,0.4096173212487412,0.1386412202490605,0.0,0.0,1627,,27142,27142,3763,1.0
+open3dsg_recovery,Open3DSG recovery full-validation,semantic_only,semantic,100,0.5161127895266868,0.12419865751564975,0.0,0.0,2050,,53036,53036,6587,1.0
+open3dsg_recovery,Open3DSG recovery full-validation,probabilistic_recalibrated,probabilistic,5,0.08257804632426989,0.06277372262773723,0.045820745216515614,-0.4503649635036497,328,,2740,2740,172,1.0
+open3dsg_recovery,Open3DSG recovery full-validation,probabilistic_recalibrated,probabilistic,10,0.1581067472306143,0.06989051094890511,0.05790533736153071,-0.25565693430656933,628,,5480,5480,383,1.0
+open3dsg_recovery,Open3DSG recovery full-validation,probabilistic_recalibrated,probabilistic,20,0.26032225579053375,0.06542397660818713,0.06117824773413899,-0.14336622807017543,1034,,10944,10944,716,1.0
+open3dsg_recovery,Open3DSG recovery full-validation,probabilistic_recalibrated,probabilistic,50,0.39753272910372606,0.06064402033748434,-0.012084592145015116,-0.07799719991157616,1579,,27142,27142,1646,1.0
+open3dsg_recovery,Open3DSG recovery full-validation,probabilistic_recalibrated,probabilistic,100,0.5722557905337362,0.08113356965080323,0.05614300100704939,-0.043065087864846516,2273,,53036,53036,4303,1.0
+open3dsg_recovery,Open3DSG recovery full-validation,rule_verified_point_subtype,rule,5,0.07074521651560926,0.0,0.033987915407854986,-0.5131386861313869,281,,2740,2740,0,1.0
+open3dsg_recovery,Open3DSG recovery full-validation,rule_verified_point_subtype,rule,10,0.13141993957703926,0.0,0.031218529707955675,-0.32554744525547447,522,,5478,5478,0,1.0
+open3dsg_recovery,Open3DSG recovery full-validation,rule_verified_point_subtype,rule,20,0.24219536757301108,0.0,0.04305135951661632,-0.20879020467836257,962,,10940,10940,0,1.0
+open3dsg_recovery,Open3DSG recovery full-validation,rule_verified_point_subtype,rule,50,0.4295065458207452,0.0,0.01988922457200404,-0.1386412202490605,1706,,27066,27066,0,1.0
+open3dsg_recovery,Open3DSG recovery full-validation,rule_verified_point_subtype,rule,100,0.5367573011077543,0.0,0.020644511581067504,-0.12419865751564975,2132,,52644,52644,0,1.0
+open3dsg_recovery,Open3DSG recovery full-validation,control_family_specific_p_geom_valid,family_specific,5,0.09843907351460221,0.041970802919708027,0.06168177240684793,-0.4711678832116789,391,,2740,2740,115,1.0
+open3dsg_recovery,Open3DSG recovery full-validation,control_family_specific_p_geom_valid,family_specific,10,0.19209466263846928,0.04817518248175182,0.09189325276938569,-0.2773722627737226,763,,5480,5480,264,1.0
+open3dsg_recovery,Open3DSG recovery full-validation,control_family_specific_p_geom_valid,family_specific,20,0.3290533736153072,0.04413377192982456,0.12990936555891242,-0.164656432748538,1307,,10944,10944,483,1.0
+open3dsg_recovery,Open3DSG recovery full-validation,control_family_specific_p_geom_valid,family_specific,50,0.46576032225579056,0.028627219806941273,0.05614300100704939,-0.11001400044211923,1850,,27142,27142,777,1.0
+open3dsg_recovery,Open3DSG recovery full-validation,control_family_specific_p_geom_valid,family_specific,100,0.6047331319234642,0.03407119692284486,0.08862034239677741,-0.09012746059280488,2402,,53036,53036,1807,1.0

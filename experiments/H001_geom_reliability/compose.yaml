@@ -289,6 +289,52 @@ services:
       - --family-specific-model-json
       - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json
 
+  vlsat_full_validation_metric_eval_k_sweep:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/tools/evaluate_predictions.py
+    command:
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/predictions.jsonl
+      - --ground-truth-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl
+      - --verification-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/geometry/verification.jsonl
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics_k_sweep
+      - --families
+      - support_contact
+      - proximity
+      - relative_vertical
+      - --ks
+      - "5"
+      - "10"
+      - "20"
+      - "50"
+      - "100"
+      - --policy
+      - filter_safe
+      - --rule-variants
+      - obb_only
+      - point_subtype
+      - point_subtype_no_soft_support
+      - --ablation-controls
+      - p_geom_valid_only
+      - distance_only
+      - family_specific_p_geom_valid
+      - shuffled_geometry
+      - wrong_pair_geometry
+      - --family-specific-model-json
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json
+
   vlsat_full_validation_gt_verifier_eval:
     build:
       context: ../..
@@ -371,6 +417,46 @@ services:
       - open3dsg_ov_full_validation_nonavg
       - --n-bootstrap
       - "1000"
+
+  bootstrap_ci_full_validation_recovery_k_sweep:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/experiments/H001_geom_reliability/scripts/bootstrap_metrics.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/bootstrap_ci_k_sweep
+      - --vlsat-source-root
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation
+      - --vlsat-source-name
+      - vlsat_closed_set_full_validation
+      - --vlsat-metrics-json
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics_k_sweep/metrics.json
+      - --open3dsg-source-root
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2
+      - --open3dsg-source-name
+      - open3dsg_ov_full_validation_recovery_relaxed_views_min2
+      - --open3dsg-metrics-json
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/metrics.json
+      - --ks
+      - "5"
+      - "10"
+      - "20"
+      - "50"
+      - "100"
+      - --n-bootstrap
+      - "1000"
+      - --docker-service-name
+      - bootstrap_ci_full_validation_recovery_k_sweep
 
   open3dsg_plan:
     build:
@@ -1297,6 +1383,52 @@ services:
       - --family-specific-model-json
       - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json
 
+  open3dsg_metric_eval_full_validation_recovery_k_sweep:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/tools/evaluate_predictions.py
+    command:
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/adapter/predictions.jsonl
+      - --ground-truth-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl
+      - --verification-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/geometry/verification.jsonl
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep
+      - --families
+      - support_contact
+      - proximity
+      - relative_vertical
+      - --ks
+      - "5"
+      - "10"
+      - "20"
+      - "50"
+      - "100"
+      - --policy
+      - filter_safe
+      - --rule-variants
+      - obb_only
+      - point_subtype
+      - point_subtype_no_soft_support
+      - --ablation-controls
+      - p_geom_valid_only
+      - distance_only
+      - family_specific_p_geom_valid
+      - shuffled_geometry
+      - wrong_pair_geometry
+      - --family-specific-model-json
+      - /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json
+
   open3dsg_adapter_contract:
     build:
       context: ../..
@@ -1791,6 +1923,24 @@ services:
       - /workspace
       - --out
       - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/table_caveats
+
+  h001_low_k_sweep_report:
+    build:
+      context: ../..
+      dockerfile: experiments/H001_geom_reliability/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/experiments/H001_geom_reliability/scripts/summarize_low_k_sweep.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/k_sweep
 
   open3dsg_caveat_reduction_plan:
     build:

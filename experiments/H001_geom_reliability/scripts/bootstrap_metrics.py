@@ -71,9 +71,23 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--vlsat-source-name", default="vlsat_closed_set")
     parser.add_argument(
+        "--vlsat-metrics-json",
+        type=Path,
+        help="Optional metrics JSON override for the VL-SAT source.",
+    )
+    parser.add_argument(
+        "--open3dsg-metrics-json",
+        type=Path,
+        help="Optional metrics JSON override for the Open3DSG source.",
+    )
+    parser.add_argument(
         "--skip-open3dsg",
         action="store_true",
         help="Bootstrap only the VL-SAT source. Use for VL-SAT-only full-validation gates.",
+    )
+    parser.add_argument(
+        "--docker-service-name",
+        help="Optional compose service name to record in the manifest command.",
     )
     return parser.parse_args()
 
@@ -114,13 +128,25 @@ def source_specs(
     repo_root: Path,
     open3dsg_root_arg: Path,
     open3dsg_source_name: str,
+    open3dsg_metrics_json_arg: Path | None,
     vlsat_root_arg: Path | None,
     vlsat_source_name: str,
+    vlsat_metrics_json_arg: Path | None,
     skip_open3dsg: bool,
 ) -> list[SourceSpec]:
     hroot = repo_root / "hypothesis/CAND-001/H001_geometry-grounded-verification"
     open3dsg_root = open3dsg_root_arg if open3dsg_root_arg.is_absolute() else repo_root / open3dsg_root_arg
     family_model = hroot / "artifacts/calibration/p_geom_valid_family/model.json"
+    vlsat_metrics_json = (
+        vlsat_metrics_json_arg
+        if vlsat_metrics_json_arg is None or vlsat_metrics_json_arg.is_absolute()
+        else repo_root / vlsat_metrics_json_arg
+    )
+    open3dsg_metrics_json = (
+        open3dsg_metrics_json_arg
+        if open3dsg_metrics_json_arg is None or open3dsg_metrics_json_arg.is_absolute()
+        else repo_root / open3dsg_metrics_json_arg
+    )
     if vlsat_root_arg is None:
         gt = hroot / "artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl"
         vlsat_spec = SourceSpec(
@@ -129,7 +155,8 @@ def source_specs(
             ground_truth_jsonl=gt,
             verification_jsonl=hroot
             / "artifacts/evaluation/vlsat_closed_set/hardened_geometry/verification.jsonl",
-            metrics_json=hroot / "artifacts/evaluation/vlsat_closed_set/hardened_g3/metrics.json",
+            metrics_json=vlsat_metrics_json
+            or hroot / "artifacts/evaluation/vlsat_closed_set/hardened_g3/metrics.json",
             family_model_json=family_model,
         )
     else:
@@ -140,7 +167,7 @@ def source_specs(
             predictions_jsonl=vlsat_root / "adapter/predictions.jsonl",
             ground_truth_jsonl=gt,
             verification_jsonl=vlsat_root / "geometry/verification.jsonl",
-            metrics_json=vlsat_root / "metrics/metrics.json",
+            metrics_json=vlsat_metrics_json or vlsat_root / "metrics/metrics.json",
             family_model_json=family_model,
         )
     specs = [vlsat_spec]
@@ -151,7 +178,7 @@ def source_specs(
                 predictions_jsonl=open3dsg_root / "adapter/predictions.jsonl",
                 ground_truth_jsonl=gt,
                 verification_jsonl=open3dsg_root / "geometry/verification.jsonl",
-                metrics_json=open3dsg_root / "metrics/metrics.json",
+                metrics_json=open3dsg_metrics_json or open3dsg_root / "metrics/metrics.json",
                 family_model_json=family_model,
             )
         )
@@ -519,7 +546,7 @@ def main() -> int:
     families = set(args.families)
     ks = list(args.ks)
     evalmod = load_eval_module(repo_root)
-    bootstrap_service = (
+    bootstrap_service = args.docker_service_name or (
         "bootstrap_ci_full_validation_vlsat"
         if args.vlsat_source_root is not None and args.skip_open3dsg
         else "bootstrap_ci"
@@ -546,8 +573,10 @@ def main() -> int:
         repo_root=repo_root,
         open3dsg_root_arg=args.open3dsg_source_root,
         open3dsg_source_name=args.open3dsg_source_name,
+        open3dsg_metrics_json_arg=args.open3dsg_metrics_json,
         vlsat_root_arg=args.vlsat_source_root,
         vlsat_source_name=args.vlsat_source_name,
+        vlsat_metrics_json_arg=args.vlsat_metrics_json,
         skip_open3dsg=args.skip_open3dsg,
     ):
         missing = [

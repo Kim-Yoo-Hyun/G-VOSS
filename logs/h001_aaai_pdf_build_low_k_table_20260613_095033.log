@@ -1,0 +1,551 @@
+Rc files read:
+  /etc/LatexMk
+Latexmk: This is Latexmk, John Collins, 31 Jan. 2024. Version 4.83.
+Latexmk: applying rule 'pdflatex'...
+Rule 'pdflatex':  Reasons for rerun
+Changed files or newly in use/created:
+  sec/6_results.tex
+Category 'changed_user':
+  sec/6_results.tex
+
+------------
+Run number 1 of rule 'pdflatex'
+------------
+------------
+Running 'pdflatex  -interaction=nonstopmode -halt-on-error -recorder  "main.tex"'
+------------
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./main.tex
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-22>
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2023/05/17 v1.4n Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo)) (./aaai2027.sty
+Conference Style for AAAI for LaTeX 2e
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/newtx/newtxtext.sty
+`newtxtext' v1.737, 2024/01/11 Text macros taking advantage of TeXGyre Termes a
+nd its extensions (msharpe)
+(/usr/share/texlive/texmf-dist/tex/latex/xpatch/xpatch.sty
+(/usr/share/texlive/texmf-dist/tex/latex/l3kernel/expl3.sty
+(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def))
+(/usr/share/texlive/texmf-dist/tex/latex/l3packages/xparse/xparse.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/mathcolor.ltx))
+(/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/keyval.tex))))
+(/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.sty
+(/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.tex))
+(/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/carlisle/scalefnt.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/kastrup/binhex.tex)
+(/usr/share/texlive/texmf-dist/tex/latex/fontaxes/fontaxes.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/helvet.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/courier.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/placeins/placeins.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)))
+(/usr/share/texlive/texmf-dist/tex/latex/natbib/natbib.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty)) (./preamble.tex
+ (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/multirow/multirow.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/tabularx.sty
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty)))
+(/usr/share/texlive/texmf-dist/tex/latex/newtx/t1ntxtlf.fd) (./main.aux)
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
+(./sec/0_abstract.tex (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+) (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd))
+(./sec/1_intro.tex (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd)
+Overfull \vbox (0.77646pt too high) has occurred while \output is active
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texmf-
+dist/fonts/enc/dvips/newtx/ntx-ec-tlf.enc}{/usr/share/texlive/texmf-dist/fonts/
+enc/dvips/base/8r.enc}]) (./sec/2_related_work.tex
+Underfull \hbox (badness 3557) in paragraph at lines 30--38
+ \T1/ntxtlf/b/n/10 Geometry-aware re-la-tion rea-son-ing and semantic-
+) (./sec/3_problem.tex [2]) (./sec/4_method.tex
+Underfull \hbox (badness 1057) in paragraph at lines 21--26
+\T1/ntxtlf/m/n/10 This row is the unit of com-par-i-son across VL-SAT,
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--53
+\T1/ntxtlf/m/n/10 H001 uses relation-family-specific checks
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--53
+\T1/ntxtlf/m/n/10 for \T1/pcr/m/n/10 support_contact\T1/ntxtlf/m/n/10 , \T1/pcr
+/m/n/10 proximity\T1/ntxtlf/m/n/10 , and
+
+Underfull \hbox (badness 1394) in paragraph at lines 38--53
+\T1/pcr/m/n/10 relative_vertical\T1/ntxtlf/m/n/10 . For sup-port/contact, the e
+v-i-
+
+Underfull \hbox (badness 10000) in paragraph at lines 71--79
+[]\T1/ntxtlf/m/n/10 We re-port four main op-er-at-ing points.
+
+Underfull \hbox (badness 10000) in paragraph at lines 71--79
+\T1/pcr/m/n/10 semantic_only \T1/ntxtlf/m/n/10 ranks by the source se-man-tic
+
+Underfull \hbox (badness 1509) in paragraph at lines 71--79
+\T1/ntxtlf/m/n/10 score and serves as the re-pro-duced source base-line.
+
+Underfull \hbox (badness 10000) in paragraph at lines 71--79
+\T1/pcr/m/n/10 rule_verified_point_subtype \T1/ntxtlf/m/n/10 re-moves hard
+
+Underfull \hbox (badness 10000) in paragraph at lines 71--79
+\T1/ntxtlf/m/n/10 di-ag-nos-tic. \T1/pcr/m/n/10 family_specific_p_geom_valid
+) (./sec/5_experiments.tex [3]
+Underfull \hbox (badness 4266) in paragraph at lines 74--74
+\T1/ntxtlf/m/n/9 source re-li-a-bil-ity case study
+
+Underfull \hbox (badness 10000) in paragraph at lines 74--74
+\T1/ntxtlf/m/n/9 scoped geometry-consistency
+
+Underfull \hbox (badness 10000) in paragraph at lines 74--74
+[]|\T1/ntxtlf/m/n/9 Optional mod-ern semantic-
+
+Underfull \hbox (badness 10000) in paragraph at lines 74--74
+[]|\T1/ntxtlf/m/n/9 Requires broader mea-sured
+) (./sec/6_results.tex
+Underfull \hbox (badness 10000) in paragraph at lines 77--1
+[]\T1/ntxtlf/m/n/10 All paper-body ex-per-i-ment re-sults
+
+Underfull \hbox (badness 10000) in paragraph at lines 77--1
+\T1/ntxtlf/m/n/10 are gen-er-ated through Docker un-der
+
+Underfull \hbox (badness 7203) in paragraph at lines 77--1
+\T1/pcr/m/n/10 experiments/H001_geom_reliability/\T1/ntxtlf/m/n/10 . Host-
+
+Overfull \hbox (5.71556pt too wide) in paragraph at lines 54--63
+\T1/ntxtlf/m/n/10 tion@5/Violation@10/Violation@20=0.5131/0.3255/0.2088.
+
+Underfull \hbox (badness 10000) in paragraph at lines 54--63
+\T1/pcr/m/n/10 family_specific \T1/ntxtlf/m/n/10 re-duces these to
+
+Underfull \hbox (badness 1960) in paragraph at lines 54--63
+\T1/ntxtlf/m/n/10 0.0420/0.0482/0.0441 while rais-ing R@5/R@10/R@20
+
+Underfull \hbox (badness 8170) in paragraph at lines 54--63
+\T1/ntxtlf/m/n/10 from 0.0368/0.1002/0.1991 to 0.0984/0.1921/0.3291.
+
+Underfull \hbox (badness 10000) in paragraph at lines 64--71
+[]\T1/ntxtlf/m/n/10 VL-SAT pro-vides the con-trolled an-chor:
+
+Underfull \hbox (badness 10000) in paragraph at lines 64--71
+\T1/pcr/m/n/10 probabilistic \T1/ntxtlf/m/n/10 im-proves R@50/R@100 from
+
+Underfull \hbox (badness 3657) in paragraph at lines 64--71
+\T1/ntxtlf/m/n/10 0.9272/0.9635 to 0.9305/0.9688 and re-duces Vi-o-la-
+
+Underfull \hbox (badness 5417) in paragraph at lines 64--71
+\T1/ntxtlf/m/n/10 re-duces Vi-o-la-tion@10/Violation@20/Violation@100 to
+
+Underfull \hbox (badness 2073) in paragraph at lines 72--83
+\T1/ntxtlf/m/n/10 gives the Open3DSG \T1/pcr/m/n/10 family_specific \T1/ntxtlf/
+m/n/10 op-er-at-ing
+
+Underfull \hbox (badness 1097) in paragraph at lines 72--83
+\T1/ntxtlf/m/n/10 di-tion changes Open3DSG by +8.86 points (95% CI
+
+Underfull \hbox (badness 1810) in paragraph at lines 84--92
+\T1/ntxtlf/m/n/10 geometry-only reaches only R@100=0.5184 with Vi-
+
+Underfull \hbox (badness 10000) in paragraph at lines 84--92
+\T1/ntxtlf/m/n/10 o-la-tion@100=0.0711, distance-only reaches 0.5554
+
+Underfull \hbox (badness 4416) in paragraph at lines 84--92
+\T1/ntxtlf/m/n/10 with 0.0981, and shuffled/wrong-pair ge-om-e-try de-
+
+Underfull \hbox (badness 1082) in paragraph at lines 84--92
+\T1/ntxtlf/m/n/10 grades vi-o-la-tions to 0.0588/0.0601. Open3DSG shows
+
+Underfull \hbox (badness 1577) in paragraph at lines 84--92
+\T1/ntxtlf/m/n/10 the same pat-tern: distance-only gives R@100=0.5038
+
+Underfull \hbox (badness 10000) in paragraph at lines 84--92
+\T1/ntxtlf/m/n/10 and Vi-o-la-tion@100=0.1071, geometry-only gives
+
+Underfull \hbox (badness 10000) in paragraph at lines 84--92
+\T1/ntxtlf/m/n/10 0.5116 and 0.0865, and shuffled/wrong-pair con-
+
+Underfull \hbox (badness 10000) in paragraph at lines 84--92
+\T1/ntxtlf/m/n/10 trols fall to R@100=0.2543/0.2331 with Vi-o-la-
+
+Underfull \hbox (badness 3271) in paragraph at lines 84--92
+\T1/ntxtlf/m/n/10 tion@100=0.1998/0.1985. Thus H001 is not merely
+
+Underfull \hbox (badness 10000) in paragraph at lines 127--127
+[]\T1/ntxtlf/m/n/10 Figure 3: |\T1/ntxtlf/b/n/10 Geometry-backed qual-i-ta-tive
+ fail-ures.
+[4]) (./sec/7_limitations.tex) (./sec/8_conclusion.tex
+Underfull \vbox (badness 2837) has occurred while \output is active [5])
+Underfull \vbox (badness 2600) has occurred while \output is active [6 <../gene
+rated/figures/figure1_framework.png (PNG copy)> <../generated/figures/figure2_t
+radeoff.png (PNG copy)> <../generated/figures/figure3_geometry_panels.png (PNG 
+copy)>] (./main.bbl [7]) (./sec/9_reproducibility_checklist.tex
+Underfull \hbox (badness 2334) in paragraph at lines 74--76
+[]\T1/ntxtlf/m/n/10 Does this pa-per make the-o-ret-i-cal con-tri-bu-tions?
+
+Underfull \hbox (badness 10000) in paragraph at lines 86--88
+[]\T1/ntxtlf/m/n/10 Proofs of all novel claims are in-cluded
+
+Underfull \hbox (badness 3199) in paragraph at lines 113--116
+[]\T1/ntxtlf/m/n/10 A mo-ti-va-tion is given for why the ex-per-i-
+
+Underfull \hbox (badness 1735) in paragraph at lines 113--116
+\T1/ntxtlf/m/n/10 ments are con-ducted on the se-lected datasets
+[8]
+Underfull \hbox (badness 1082) in paragraph at lines 171--175
+\T1/ntxtlf/m/n/10 method used for set-ting seeds is de-scribed in
+
+Underfull \hbox (badness 1043) in paragraph at lines 176--184
+\T1/ntxtlf/m/n/10 ware), in-clud-ing GPU/CPU mod-els; amount of
+
+Underfull \hbox (badness 2229) in paragraph at lines 176--184
+\T1/ntxtlf/m/n/10 of rel-e-vant soft-ware li-braries and frame-works
+
+Underfull \hbox (badness 1377) in paragraph at lines 176--184
+\T1/ntxtlf/m/n/10 (yes/partial/no) []yes. The Docker run-books and
+
+Underfull \hbox (badness 3525) in paragraph at lines 176--184
+\T1/ntxtlf/m/n/10 hard-ware/software man-i-fest records im-age ids
+
+Underfull \hbox (badness 10000) in paragraph at lines 176--184
+\T1/ntxtlf/m/n/10 for \T1/pcr/m/n/10 h001-geom-reliability:latest\T1/ntxtlf/m/n
+/10 ,
+
+Underfull \hbox (badness 10000) in paragraph at lines 176--184
+\T1/pcr/m/n/10 h001-open3dsg-repro:cu128\T1/ntxtlf/m/n/10 , and
+
+Underfull \vbox (badness 10000) has occurred while \output is active
+Underfull \hbox (badness 2990) in paragraph at lines 194--198
+[]\T1/ntxtlf/m/n/10 Analysis of ex-per-i-ments goes be-yond single-
+) [9] (./main.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ )
+(see the transcript file for additional information)</usr/share/texlive/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.p
+fb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/newtx/ztmb.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/newtx/ztmr.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/newtx/ztmri.pfb>
+Output written on main.pdf (9 pages, 534856 bytes).
+Transcript written on main.log.
+Latexmk: Getting log file 'main.log'
+Latexmk: Examining 'main.fls'
+Latexmk: Examining 'main.log'
+Latexmk: Found input bbl file 'main.bbl'
+Latexmk: Found input bbl file 'main.bbl'
+Latexmk: Found input bbl file 'main.bbl'
+Latexmk: References changed.
+Latexmk: Log file says output to 'main.pdf'
+Latexmk: Found bibliography file(s):
+  ../references.bib
+Latexmk: applying rule 'bibtex main'...
+Rule 'bibtex main':  Reasons for rerun
+Changed files or newly in use/created:
+  main.aux
+
+------------
+Run number 1 of rule 'bibtex main'
+------------
+------------
+Running 'bibtex  "main.aux"'
+------------
+This is BibTeX, Version 0.99d (TeX Live 2023/Debian)
+The top-level auxiliary file: main.aux
+The style file: aaai2027.bst
+Database file #1: ../references.bib
+Warning--can't use both volume and number fields in liu2026viewongraph
+(There was 1 warning)
+Latexmk: applying rule 'pdflatex'...
+Rule 'pdflatex':  Reasons for rerun
+Changed files or newly in use/created:
+  main.aux
+
+------------
+Run number 2 of rule 'pdflatex'
+------------
+------------
+Running 'pdflatex  -interaction=nonstopmode -halt-on-error -recorder  "main.tex"'
+------------
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./main.tex
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-22>
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2023/05/17 v1.4n Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo)) (./aaai2027.sty
+Conference Style for AAAI for LaTeX 2e
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/newtx/newtxtext.sty
+`newtxtext' v1.737, 2024/01/11 Text macros taking advantage of TeXGyre Termes a
+nd its extensions (msharpe)
+(/usr/share/texlive/texmf-dist/tex/latex/xpatch/xpatch.sty
+(/usr/share/texlive/texmf-dist/tex/latex/l3kernel/expl3.sty
+(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def))
+(/usr/share/texlive/texmf-dist/tex/latex/l3packages/xparse/xparse.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/mathcolor.ltx))
+(/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/keyval.tex))))
+(/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.sty
+(/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.tex))
+(/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/carlisle/scalefnt.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/kastrup/binhex.tex)
+(/usr/share/texlive/texmf-dist/tex/latex/fontaxes/fontaxes.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/helvet.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/courier.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/placeins/placeins.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)))
+(/usr/share/texlive/texmf-dist/tex/latex/natbib/natbib.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty)) (./preamble.tex
+ (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/multirow/multirow.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/tabularx.sty
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty)))
+(/usr/share/texlive/texmf-dist/tex/latex/newtx/t1ntxtlf.fd) (./main.aux)
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
+(./sec/0_abstract.tex (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+) (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd))
+(./sec/1_intro.tex (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd)
+Overfull \vbox (0.77646pt too high) has occurred while \output is active
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texmf-
+dist/fonts/enc/dvips/newtx/ntx-ec-tlf.enc}{/usr/share/texlive/texmf-dist/fonts/
+enc/dvips/base/8r.enc}]) (./sec/2_related_work.tex
+Underfull \hbox (badness 3557) in paragraph at lines 30--38
+ \T1/ntxtlf/b/n/10 Geometry-aware re-la-tion rea-son-ing and semantic-
+) (./sec/3_problem.tex [2]) (./sec/4_method.tex
+Underfull \hbox (badness 1057) in paragraph at lines 21--26
+\T1/ntxtlf/m/n/10 This row is the unit of com-par-i-son across VL-SAT,
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--53
+\T1/ntxtlf/m/n/10 H001 uses relation-family-specific checks
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--53
+\T1/ntxtlf/m/n/10 for \T1/pcr/m/n/10 support_contact\T1/ntxtlf/m/n/10 , \T1/pcr
+/m/n/10 proximity\T1/ntxtlf/m/n/10 , and
+
+Underfull \hbox (badness 1394) in paragraph at lines 38--53
+\T1/pcr/m/n/10 relative_vertical\T1/ntxtlf/m/n/10 . For sup-port/contact, the e
+v-i-
+
+Underfull \hbox (badness 10000) in paragraph at lines 71--79
+[]\T1/ntxtlf/m/n/10 We re-port four main op-er-at-ing points.
+
+Underfull \hbox (badness 10000) in paragraph at lines 71--79
+\T1/pcr/m/n/10 semantic_only \T1/ntxtlf/m/n/10 ranks by the source se-man-tic
+
+Underfull \hbox (badness 1509) in paragraph at lines 71--79
+\T1/ntxtlf/m/n/10 score and serves as the re-pro-duced source base-line.
+
+Underfull \hbox (badness 10000) in paragraph at lines 71--79
+\T1/pcr/m/n/10 rule_verified_point_subtype \T1/ntxtlf/m/n/10 re-moves hard
+
+Underfull \hbox (badness 10000) in paragraph at lines 71--79
+\T1/ntxtlf/m/n/10 di-ag-nos-tic. \T1/pcr/m/n/10 family_specific_p_geom_valid
+) (./sec/5_experiments.tex [3]
+Underfull \hbox (badness 4266) in paragraph at lines 74--74
+\T1/ntxtlf/m/n/9 source re-li-a-bil-ity case study
+
+Underfull \hbox (badness 10000) in paragraph at lines 74--74
+\T1/ntxtlf/m/n/9 scoped geometry-consistency
+
+Underfull \hbox (badness 10000) in paragraph at lines 74--74
+[]|\T1/ntxtlf/m/n/9 Optional mod-ern semantic-
+
+Underfull \hbox (badness 10000) in paragraph at lines 74--74
+[]|\T1/ntxtlf/m/n/9 Requires broader mea-sured
+) (./sec/6_results.tex
+Underfull \hbox (badness 10000) in paragraph at lines 77--1
+[]\T1/ntxtlf/m/n/10 All paper-body ex-per-i-ment re-sults
+
+Underfull \hbox (badness 10000) in paragraph at lines 77--1
+\T1/ntxtlf/m/n/10 are gen-er-ated through Docker un-der
+
+Underfull \hbox (badness 7203) in paragraph at lines 77--1
+\T1/pcr/m/n/10 experiments/H001_geom_reliability/\T1/ntxtlf/m/n/10 . Host-
+
+Overfull \hbox (5.71556pt too wide) in paragraph at lines 54--63
+\T1/ntxtlf/m/n/10 tion@5/Violation@10/Violation@20=0.5131/0.3255/0.2088.
+
+Underfull \hbox (badness 10000) in paragraph at lines 54--63
+\T1/pcr/m/n/10 family_specific \T1/ntxtlf/m/n/10 re-duces these to
+
+Underfull \hbox (badness 1960) in paragraph at lines 54--63
+\T1/ntxtlf/m/n/10 0.0420/0.0482/0.0441 while rais-ing R@5/R@10/R@20
+
+Underfull \hbox (badness 8170) in paragraph at lines 54--63
+\T1/ntxtlf/m/n/10 from 0.0368/0.1002/0.1991 to 0.0984/0.1921/0.3291.
+
+Underfull \hbox (badness 10000) in paragraph at lines 64--71
+[]\T1/ntxtlf/m/n/10 VL-SAT pro-vides the con-trolled an-chor:
+
+Underfull \hbox (badness 10000) in paragraph at lines 64--71
+\T1/pcr/m/n/10 probabilistic \T1/ntxtlf/m/n/10 im-proves R@50/R@100 from
+
+Underfull \hbox (badness 3657) in paragraph at lines 64--71
+\T1/ntxtlf/m/n/10 0.9272/0.9635 to 0.9305/0.9688 and re-duces Vi-o-la-
+
+Underfull \hbox (badness 5417) in paragraph at lines 64--71
+\T1/ntxtlf/m/n/10 re-duces Vi-o-la-tion@10/Violation@20/Violation@100 to
+
+Underfull \hbox (badness 2073) in paragraph at lines 72--83
+\T1/ntxtlf/m/n/10 gives the Open3DSG \T1/pcr/m/n/10 family_specific \T1/ntxtlf/
+m/n/10 op-er-at-ing
+
+Underfull \hbox (badness 1097) in paragraph at lines 72--83
+\T1/ntxtlf/m/n/10 di-tion changes Open3DSG by +8.86 points (95% CI
+
+Underfull \hbox (badness 1810) in paragraph at lines 84--92
+\T1/ntxtlf/m/n/10 geometry-only reaches only R@100=0.5184 with Vi-
+
+Underfull \hbox (badness 10000) in paragraph at lines 84--92
+\T1/ntxtlf/m/n/10 o-la-tion@100=0.0711, distance-only reaches 0.5554
+
+Underfull \hbox (badness 4416) in paragraph at lines 84--92
+\T1/ntxtlf/m/n/10 with 0.0981, and shuffled/wrong-pair ge-om-e-try de-
+
+Underfull \hbox (badness 1082) in paragraph at lines 84--92
+\T1/ntxtlf/m/n/10 grades vi-o-la-tions to 0.0588/0.0601. Open3DSG shows
+
+Underfull \hbox (badness 1577) in paragraph at lines 84--92
+\T1/ntxtlf/m/n/10 the same pat-tern: distance-only gives R@100=0.5038
+
+Underfull \hbox (badness 10000) in paragraph at lines 84--92
+\T1/ntxtlf/m/n/10 and Vi-o-la-tion@100=0.1071, geometry-only gives
+
+Underfull \hbox (badness 10000) in paragraph at lines 84--92
+\T1/ntxtlf/m/n/10 0.5116 and 0.0865, and shuffled/wrong-pair con-
+
+Underfull \hbox (badness 10000) in paragraph at lines 84--92
+\T1/ntxtlf/m/n/10 trols fall to R@100=0.2543/0.2331 with Vi-o-la-
+
+Underfull \hbox (badness 3271) in paragraph at lines 84--92
+\T1/ntxtlf/m/n/10 tion@100=0.1998/0.1985. Thus H001 is not merely
+
+Underfull \hbox (badness 10000) in paragraph at lines 127--127
+[]\T1/ntxtlf/m/n/10 Figure 3: |\T1/ntxtlf/b/n/10 Geometry-backed qual-i-ta-tive
+ fail-ures.
+[4]) (./sec/7_limitations.tex) (./sec/8_conclusion.tex
+Underfull \vbox (badness 2837) has occurred while \output is active [5])
+Underfull \vbox (badness 2600) has occurred while \output is active [6 <../gene
+rated/figures/figure1_framework.png (PNG copy)> <../generated/figures/figure2_t
+radeoff.png (PNG copy)> <../generated/figures/figure3_geometry_panels.png (PNG 
+copy)>] (./main.bbl [7]) (./sec/9_reproducibility_checklist.tex
+Underfull \hbox (badness 2334) in paragraph at lines 74--76
+[]\T1/ntxtlf/m/n/10 Does this pa-per make the-o-ret-i-cal con-tri-bu-tions?
+
+Underfull \hbox (badness 10000) in paragraph at lines 86--88
+[]\T1/ntxtlf/m/n/10 Proofs of all novel claims are in-cluded
+
+Underfull \hbox (badness 3199) in paragraph at lines 113--116
+[]\T1/ntxtlf/m/n/10 A mo-ti-va-tion is given for why the ex-per-i-
+
+Underfull \hbox (badness 1735) in paragraph at lines 113--116
+\T1/ntxtlf/m/n/10 ments are con-ducted on the se-lected datasets
+[8]
+Underfull \hbox (badness 1082) in paragraph at lines 171--175
+\T1/ntxtlf/m/n/10 method used for set-ting seeds is de-scribed in
+
+Underfull \hbox (badness 1043) in paragraph at lines 176--184
+\T1/ntxtlf/m/n/10 ware), in-clud-ing GPU/CPU mod-els; amount of
+
+Underfull \hbox (badness 2229) in paragraph at lines 176--184
+\T1/ntxtlf/m/n/10 of rel-e-vant soft-ware li-braries and frame-works
+
+Underfull \hbox (badness 1377) in paragraph at lines 176--184
+\T1/ntxtlf/m/n/10 (yes/partial/no) []yes. The Docker run-books and
+
+Underfull \hbox (badness 3525) in paragraph at lines 176--184
+\T1/ntxtlf/m/n/10 hard-ware/software man-i-fest records im-age ids
+
+Underfull \hbox (badness 10000) in paragraph at lines 176--184
+\T1/ntxtlf/m/n/10 for \T1/pcr/m/n/10 h001-geom-reliability:latest\T1/ntxtlf/m/n
+/10 ,
+
+Underfull \hbox (badness 10000) in paragraph at lines 176--184
+\T1/pcr/m/n/10 h001-open3dsg-repro:cu128\T1/ntxtlf/m/n/10 , and
+
+Underfull \vbox (badness 10000) has occurred while \output is active
+Underfull \hbox (badness 2990) in paragraph at lines 194--198
+[]\T1/ntxtlf/m/n/10 Analysis of ex-per-i-ments goes be-yond single-
+) [9] (./main.aux) )
+(see the transcript file for additional information)</usr/share/texlive/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.p
+fb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/newtx/ztmb.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/newtx/ztmr.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/newtx/ztmri.pfb>
+Output written on main.pdf (9 pages, 534856 bytes).
+Transcript written on main.log.
+Latexmk: Getting log file 'main.log'
+Latexmk: Examining 'main.fls'
+Latexmk: Examining 'main.log'
+Latexmk: Found input bbl file 'main.bbl'
+Latexmk: Found input bbl file 'main.bbl'
+Latexmk: Found input bbl file 'main.bbl'
+Latexmk: Log file says output to 'main.pdf'
+Latexmk: Found bibliography file(s):
+  ../references.bib
+Latexmk: All targets (main.pdf) are up-to-date
+

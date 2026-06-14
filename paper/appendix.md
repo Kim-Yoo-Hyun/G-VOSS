@@ -1,25 +1,29 @@
-# H001 Appendix And Supplement Plan
+# GeoCalib Appendix And Supplement Plan
 
-Last updated: 2026-06-12 KST
+Last updated: 2026-06-13 KST
 
 This file owns appendix/supplement material that is too detailed for the AAAI
 main text but important for reviewer defense. It is not a new experiment-result
 root. Source metrics and row artifacts remain under
 `experiments/H001_geom_reliability/` and hypothesis-stage calibration artifacts
 remain under `hypothesis/CAND-001/H001_geometry-grounded-verification/`.
+`H001` remains the internal experiment identifier; `GeoCalib` is the
+reviewer-facing paper/method name.
 
 ## Current Appendix Role
 
-The current main paper keeps three tables in the AAAI body: fixed H001 scope,
-source-specific claim boundary, and Open3DSG-first source results. Appendix
-material should defend provenance, denominator discipline, and residual risk
-without broadening the claim.
+The current main paper keeps three tables in the AAAI body: fixed GeoCalib
+scope, source-specific claim boundary, and Open3DSG-first source results over
+`K={5,10,20,50,100}`. Appendix material should defend provenance, denominator
+discipline, low-K/top-rank interpretation, and residual risk without
+broadening the claim.
 
 Use this appendix only for:
 
 - calibrator and threshold provenance;
 - detailed controls and GT verifier evidence;
 - detailed Open3DSG caveat/coverage accounting;
+- optional low-K diagnostic curve and bootstrap grid details, if space allows;
 - detailed family rows and qualitative failure taxonomy;
 - optional `relative_horizontal` scope-boundary diagnostics, if reported only
   as limitation/future-work evidence;
@@ -28,6 +32,33 @@ Use this appendix only for:
 - Qwen-VL runtime status only as third-source extension material.
 
 Do not use it to hide caveats that must remain visible in the main text.
+
+## Low-K / Top-Rank Diagnostic Boundary
+
+Status: `main_table_reflected_appendix_details_optional`
+
+The main AAAI source-result table now reports `K={5,10,20,50,100}` for Recall
+and Violation. The appendix should not reframe this as a new claim. Its role is
+to preserve the diagnostic protocol and, if space permits, include the
+recall-violation curve or extended bootstrap grid.
+
+Required interpretation:
+
+- `K=1` remains excluded from paper-metric consideration.
+- `K=5` is top-rank diagnostic evidence, not a standalone promotion criterion.
+- K=10/20 consistency is the reviewer-facing reason the low-K results are
+  useful in the main table.
+- Open3DSG shows the strong top-rank reliability effect; VL-SAT should be
+  described with ceiling effects in mind.
+
+Authoritative artifacts:
+
+- `experiments/H001_geom_reliability/k_sweep/protocol.md`
+- `experiments/H001_geom_reliability/k_sweep/summary.md`
+- `experiments/H001_geom_reliability/k_sweep/recall_violation_curve.svg`
+- `experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics_k_sweep/`
+- `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/`
+- `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/bootstrap_ci_k_sweep/`
 
 ## Appendix Table A1: Calibrator And Threshold Provenance
 
@@ -234,8 +265,11 @@ and retains a full-validation missing-query denominator caveat.
 - Docker `table_builder` rerun:
   `logs/h001_table_builder_caveat_consistency_20260527_202425.log`, exit 0.
 - AAAI PDF rebuild:
-  `logs/h001_aaai_pdf_build_compression_20260606_105126.log`, exit 0.
+  `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, exit 0.
 - PDF status: `paper/aaai/main.pdf`, 9 pages, US Letter, technical content
   pages 1-7, references page 8, checklist page 9; no missing citations,
-  undefined references, overfull hboxes, LaTeX errors, or AAAI package errors
-  found in the latest targeted check.
+  undefined references, overfull hboxes, LaTeX errors, AAAI package errors, or
+  Type 3 fonts found in the latest targeted check.
+- Submission package status: previous flattened package
+  `release/h001_aaai27_submission_20260613_004455/` predates the latest
+  GeoCalib/Figure 1 source pass and must be regenerated before upload.

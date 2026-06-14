@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate draft H001 paper figures from locked source artifacts.
+"""Generate draft GeoCalib paper figures from locked source artifacts.
 
 The figures are draft SVGs for manuscript planning. They are intentionally
 simple, traceable, and source-backed rather than camera-ready artwork.
@@ -133,69 +133,185 @@ def box(x: int, y: int, w: int, h: int, title: str, body: str, fill: str = "#fff
 
 def generate_figure1() -> str:
     width, height = 1280, 650
-    boxes = [
-        (50, 220, 160, 115, "Relation source", "VL-SAT / Open3DSG scored predicate rows"),
-        (250, 220, 170, 115, "Row contract", "scan, subgraph, subject, object, predicate, score"),
-        (460, 220, 170, 115, "Geometry join", "identity-preserving object-pair evidence"),
-        (670, 220, 170, 115, "Verifier", "family-specific satisfied / uncertain / violated"),
-        (880, 220, 170, 115, "Calibration", "estimate p_geom_valid from frozen geometry features"),
-        (1090, 220, 150, 115, "Evaluation", "R@K and Violation@K reported together"),
-    ]
     parts = [
         '<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="650" viewBox="0 0 1280 650">',
         '<rect width="1280" height="650" fill="#ffffff"/>',
         arrow_marker(),
-        svg_text(50, 50, "Figure 1. Calibrated geometry-consistency evaluation and re-ranking framework", 22, 700),
-        svg_text(50, 78, "Top-tier claim: a concrete failure mechanism motivates the framework form.", 14, 400, "#4b5563"),
+        svg_text(50, 46, "Figure 1. GeoCalib: calibrated geometry-consistency re-ranking", 22, 700),
+        svg_text(50, 74, "Relation-source graph edges become identity-preserved evidence records before recall-violation evaluation.", 14, 400, "#4b5563"),
     ]
+
+    panels = [
+        (50, 110, 340, 345, "A. Relation-source graph", "High semantic scores can rank plausible but physically inconsistent edges."),
+        (470, 110, 340, 345, "B. Evidence-rich edge record", "The same subject-object edge is joined to explicit 3D evidence and calibrated validity."),
+        (890, 110, 340, 345, "C. Reliable relation graph", "Re-ranking demotes violated edges and reports recall with geometric violation."),
+    ]
+    for x, y, w, h, title, subtitle in panels:
+        parts.append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.4"/>')
+        parts.append(svg_text(x + 20, y + 30, title, 16, 700))
+        parts.append(svg_wrapped_text(x + 20, y + 55, subtitle, 42, 16, 12, "#475569"))
+
     parts.extend(
         [
-            f'<rect x="50" y="105" width="360" height="80" rx="8" fill="#fff7ed" stroke="#fb923c" stroke-width="1.4"/>',
-            svg_text(70, 132, "Failure mechanism", 16, 700, "#9a3412"),
-            svg_wrapped_text(70, 158, "Semantic scores can rank plausible relations that conflict with object-pair geometry.", 48, 16, 12, "#7c2d12"),
-            f'<rect x="470" y="105" width="330" height="80" rx="8" fill="#fef2f2" stroke="#f87171" stroke-width="1.4"/>',
-            svg_text(490, 132, "Cause", 16, 700, "#991b1b"),
-            svg_wrapped_text(490, 158, "Semantic confidence is not calibrated to relation-level physical consistency.", 44, 16, 12, "#7f1d1d"),
-            f'<rect x="860" y="105" width="360" height="80" rx="8" fill="#eff6ff" stroke="#60a5fa" stroke-width="1.4"/>',
-            svg_text(880, 132, "Design necessity", 16, 700, "#1d4ed8"),
-            svg_wrapped_text(880, 158, "Preserve identity, join geometry, calibrate validity, then report recall and violations together.", 48, 16, 12, "#1e3a8a"),
-            '<line x1="410" y1="145" x2="470" y2="145" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>',
-            '<line x1="800" y1="145" x2="860" y2="145" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>',
-            svg_text(50, 207, "Framework instantiated by this failure-to-design link", 14, 700, "#374151"),
+            '<polygon points="90,375 350,375 325,245 115,245" fill="#eef2ff" stroke="#c7d2fe"/>',
+            '<line x1="115" y1="245" x2="90" y2="375" stroke="#d1d5db" stroke-width="1"/>',
+            '<line x1="185" y1="245" x2="175" y2="375" stroke="#d1d5db" stroke-width="1"/>',
+            '<line x1="255" y1="245" x2="260" y2="375" stroke="#d1d5db" stroke-width="1"/>',
+            '<line x1="325" y1="245" x2="350" y2="375" stroke="#d1d5db" stroke-width="1"/>',
+            '<rect x="150" y="270" width="86" height="48" rx="5" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>',
+            '<rect x="170" y="237" width="42" height="34" rx="4" fill="#fde68a" stroke="#b45309" stroke-width="1.5"/>',
+            '<rect x="275" y="310" width="40" height="50" rx="4" fill="#fecaca" stroke="#dc2626" stroke-width="1.5"/>',
+            '<rect x="95" y="325" width="45" height="35" rx="4" fill="#bbf7d0" stroke="#059669" stroke-width="1.5"/>',
+            svg_text(193, 333, "desk", 11, 700, "#1d4ed8", "middle"),
+            svg_text(191, 230, "lamp", 11, 700, "#92400e", "middle"),
+            svg_text(296, 303, "bin", 11, 700, "#991b1b", "middle"),
+            svg_text(118, 318, "heater", 11, 700, "#047857", "middle"),
+            '<path d="M190 237 C190 212 193 205 195 196" stroke="#059669" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>',
+            svg_text(225, 214, "on 0.94", 12, 700, "#047857"),
+            '<path d="M138 335 C190 302 245 296 275 324" stroke="#dc2626" stroke-width="2.5" fill="none" stroke-dasharray="5 3" marker-end="url(#arrow)"/>',
+            svg_text(178, 292, "close by 0.88", 12, 700, "#b91c1c"),
+            '<rect x="68" y="392" width="306" height="40" rx="6" fill="#fff7ed" stroke="#fb923c"/>',
+            svg_text(86, 416, "Failure: plausible edge violates geometry", 12, 700, "#9a3412"),
+            '<line x1="395" y1="282" x2="465" y2="282" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>',
+            '<rect x="505" y="205" width="270" height="220" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="1.4"/>',
+            svg_text(525, 232, "identity key", 13, 700, "#334155"),
+            svg_text(525, 258, "scan, subgraph, subject, object", 12, 400, "#475569"),
+            svg_text(525, 284, "predicate: close by     sem=.88", 12, 400, "#475569"),
+            '<line x1="525" y1="302" x2="755" y2="302" stroke="#cbd5e1" stroke-width="1"/>',
+            svg_text(525, 330, "joined 3D evidence", 13, 700, "#334155"),
+            svg_text(525, 356, "xy distance: far", 12, 400, "#b91c1c"),
+            svg_text(525, 380, "vertical/order: unrelated", 12, 400, "#475569"),
+            svg_text(525, 404, "verifier: violated  ->  p_geom=.06", 12, 700, "#b91c1c"),
+            '<line x1="815" y1="282" x2="885" y2="282" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>',
+            '<rect x="990" y="255" width="86" height="48" rx="5" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>',
+            '<rect x="1012" y="220" width="42" height="34" rx="4" fill="#fde68a" stroke="#b45309" stroke-width="1.5"/>',
+            '<rect x="1118" y="315" width="40" height="50" rx="4" fill="#fecaca" stroke="#dc2626" stroke-width="1.5"/>',
+            '<rect x="932" y="315" width="45" height="35" rx="4" fill="#bbf7d0" stroke="#059669" stroke-width="1.5"/>',
+            '<path d="M1033 220 C1033 207 1033 200 1033 191" stroke="#059669" stroke-width="3" fill="none" marker-end="url(#arrow)"/>',
+            svg_text(1068, 207, "kept", 12, 700, "#047857"),
+            '<path d="M978 330 C1034 300 1090 302 1118 330" stroke="#dc2626" stroke-width="2" fill="none" stroke-dasharray="5 4" marker-end="url(#arrow)"/>',
+            svg_text(1036, 307, "demoted", 12, 700, "#b91c1c"),
+            '<rect x="925" y="382" width="270" height="44" rx="6" fill="#ecfdf5" stroke="#34d399"/>',
+            svg_text(950, 409, "report R@K with Violation@K", 13, 700, "#047857"),
         ]
     )
-    for item in boxes:
-        parts.append(box(*item))
-    for idx in range(len(boxes) - 1):
-        x1 = boxes[idx][0] + boxes[idx][2] + 8
-        y1 = boxes[idx][1] + boxes[idx][3] / 2
-        x2 = boxes[idx + 1][0] - 8
-        y2 = boxes[idx + 1][1] + boxes[idx + 1][3] / 2
-        parts.append(
-            f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" '
-            'stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>'
-        )
 
-    y = 405
+    y = 500
     parts.extend(
         [
-            svg_text(55, y, "Operating points", 17, 700),
-            box(55, y + 22, 245, 90, "Probabilistic", "score_sem * p_geom_valid; recall-first re-ranking", "#eff6ff"),
-            box(330, y + 22, 245, 90, "Rule-verified", "remove hard violations; zero-violation diagnostic", "#fff1f2"),
-            box(605, y + 22, 245, 90, "Family-specific", "stricter calibration for violation-first operation", "#ecfdf5"),
-            box(880, y + 22, 310, 90, "Controls", "geometry-only, distance-only, shuffled geometry, wrong-pair geometry", "#f8fafc"),
-            svg_text(
-                55,
-                588,
-                "Caption guard: describe this as a framework, not a verifier script or broad open-vocabulary generation method.",
-                13,
-                400,
-                "#6b7280",
-            ),
+            '<rect x="50" y="492" width="1180" height="128" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.3"/>',
+            svg_text(70, y + 26, "Operating points and controls", 16, 700),
+            svg_text(70, y + 57, "probabilistic: score_sem x p_geom_valid", 12, 700, "#1d4ed8"),
+            svg_text(350, y + 57, "rule-verified: remove hard violations", 12, 700, "#b91c1c"),
+            svg_text(640, y + 57, "family-specific: stricter calibrated validity", 12, 700, "#047857"),
+            svg_text(70, y + 84, "controls: geometry-only, distance-only, shuffled, wrong-pair", 12, 700, "#334155"),
+            svg_text(70, y + 112, "Claim boundary: a relation-reliability layer for geometry-checkable families, not a new open-vocabulary generator.", 12, 400, "#64748b"),
         ]
     )
     parts.append("</svg>")
     return "\n".join(parts)
+
+
+def write_figure1_png() -> None:
+    width, height = 1280, 650
+    image = Image.new("RGB", (width, height), "white")
+    draw = ImageDraw.Draw(image)
+    title_font = ImageFont.truetype("DejaVuSans-Bold.ttf", 22)
+    subtitle_font = ImageFont.truetype("DejaVuSans.ttf", 14)
+    font = ImageFont.truetype("DejaVuSans.ttf", 12)
+    font_bold = ImageFont.truetype("DejaVuSans-Bold.ttf", 12)
+    panel_font = ImageFont.truetype("DejaVuSans-Bold.ttf", 16)
+    small_bold = ImageFont.truetype("DejaVuSans-Bold.ttf", 11)
+
+    def text(x: int, y: int, value: str, fill: str = "#111827", bold: bool = False) -> None:
+        draw.text((x, y), value, fill=fill, font=font_bold if bold else font)
+
+    def wrapped(x: int, y: int, value: str, width_chars: int, fill: str = "#475569") -> None:
+        for idx, line in enumerate(wrapped_lines(value, width_chars)):
+            draw.text((x, y + idx * 16), line, fill=fill, font=font)
+
+    def arrow(x1: int, y1: int, x2: int, y2: int, fill: str = "#374151", width_px: int = 2) -> None:
+        draw.line((x1, y1, x2, y2), fill=fill, width=width_px)
+        if x2 >= x1:
+            head = [(x2, y2), (x2 - 12, y2 - 6), (x2 - 12, y2 + 6)]
+        else:
+            head = [(x2, y2), (x2 + 12, y2 - 6), (x2 + 12, y2 + 6)]
+        draw.polygon(head, fill=fill)
+
+    def curve(points: list[tuple[int, int]], fill: str, width_px: int = 2, dash: bool = False) -> None:
+        if dash:
+            for idx in range(len(points) - 1):
+                if idx % 2 == 0:
+                    draw.line((points[idx], points[idx + 1]), fill=fill, width=width_px)
+        else:
+            draw.line(points, fill=fill, width=width_px, joint="curve")
+        x2, y2 = points[-1]
+        draw.polygon([(x2, y2), (x2 - 10, y2 - 6), (x2 - 5, y2 + 8)], fill=fill)
+
+    draw.text((50, 30), "Figure 1. GeoCalib: calibrated geometry-consistency re-ranking", fill="#111827", font=title_font)
+    draw.text((50, 63), "Relation-source graph edges become identity-preserved evidence records before recall-violation evaluation.", fill="#4b5563", font=subtitle_font)
+
+    panels = [
+        (50, 110, 340, 345, "A. Relation-source graph", "High semantic scores can rank plausible but physically inconsistent edges."),
+        (470, 110, 340, 345, "B. Evidence-rich edge record", "The same subject-object edge is joined to explicit 3D evidence and calibrated validity."),
+        (890, 110, 340, 345, "C. Reliable relation graph", "Re-ranking demotes violated edges and reports recall with geometric violation."),
+    ]
+    for x, y, w, h, title, subtitle in panels:
+        draw.rounded_rectangle((x, y, x + w, y + h), radius=8, fill="#f8fafc", outline="#cbd5e1", width=2)
+        draw.text((x + 20, y + 18), title, fill="#111827", font=panel_font)
+        wrapped(x + 20, y + 46, subtitle, 42)
+
+    draw.polygon([(90, 375), (350, 375), (325, 245), (115, 245)], fill="#eef2ff", outline="#c7d2fe")
+    for line in [((115, 245), (90, 375)), ((185, 245), (175, 375)), ((255, 245), (260, 375)), ((325, 245), (350, 375))]:
+        draw.line(line, fill="#d1d5db", width=1)
+    draw.rounded_rectangle((150, 270, 236, 318), radius=5, fill="#bfdbfe", outline="#2563eb", width=2)
+    draw.rounded_rectangle((170, 237, 212, 271), radius=4, fill="#fde68a", outline="#b45309", width=2)
+    draw.rounded_rectangle((275, 310, 315, 360), radius=4, fill="#fecaca", outline="#dc2626", width=2)
+    draw.rounded_rectangle((95, 325, 140, 360), radius=4, fill="#bbf7d0", outline="#059669", width=2)
+    draw.text((181, 321), "desk", fill="#1d4ed8", font=small_bold)
+    draw.text((179, 218), "lamp", fill="#92400e", font=small_bold)
+    draw.text((287, 292), "bin", fill="#991b1b", font=small_bold)
+    draw.text((100, 306), "heater", fill="#047857", font=small_bold)
+    curve([(190, 237), (190, 212), (195, 196)], "#059669", 3)
+    text(225, 202, "on 0.94", "#047857", True)
+    curve([(138, 335), (190, 302), (245, 296), (275, 324)], "#dc2626", 3, dash=True)
+    text(178, 278, "close by 0.88", "#b91c1c", True)
+    draw.rounded_rectangle((68, 392, 374, 432), radius=6, fill="#fff7ed", outline="#fb923c", width=1)
+    text(86, 405, "Failure: plausible edge violates geometry", "#9a3412", True)
+
+    arrow(395, 282, 465, 282)
+
+    draw.rounded_rectangle((505, 205, 775, 425), radius=8, fill="white", outline="#94a3b8", width=2)
+    text(525, 221, "identity key", "#334155", True)
+    text(525, 247, "scan, subgraph, subject, object", "#475569")
+    text(525, 273, "predicate: close by     sem=.88", "#475569")
+    draw.line((525, 302, 755, 302), fill="#cbd5e1", width=1)
+    text(525, 316, "joined 3D evidence", "#334155", True)
+    text(525, 342, "xy distance: far", "#b91c1c")
+    text(525, 366, "vertical/order: unrelated", "#475569")
+    text(525, 390, "verifier: violated  ->  p_geom=.06", "#b91c1c", True)
+
+    arrow(815, 282, 885, 282)
+
+    draw.rounded_rectangle((990, 255, 1076, 303), radius=5, fill="#bfdbfe", outline="#2563eb", width=2)
+    draw.rounded_rectangle((1012, 220, 1054, 254), radius=4, fill="#fde68a", outline="#b45309", width=2)
+    draw.rounded_rectangle((1118, 315, 1158, 365), radius=4, fill="#fecaca", outline="#dc2626", width=2)
+    draw.rounded_rectangle((932, 315, 977, 350), radius=4, fill="#bbf7d0", outline="#059669", width=2)
+    curve([(1033, 220), (1033, 207), (1033, 191)], "#059669", 3)
+    text(1068, 193, "kept", "#047857", True)
+    curve([(978, 330), (1034, 300), (1090, 302), (1118, 330)], "#dc2626", 2, dash=True)
+    text(1036, 293, "demoted", "#b91c1c", True)
+    draw.rounded_rectangle((925, 382, 1195, 426), radius=6, fill="#ecfdf5", outline="#34d399", width=1)
+    draw.text((950, 396), "report R@K with Violation@K", fill="#047857", font=font_bold)
+
+    draw.rounded_rectangle((50, 492, 1230, 620), radius=8, fill="white", outline="#cbd5e1", width=1)
+    draw.text((70, 514), "Operating points and controls", fill="#111827", font=panel_font)
+    text(70, 545, "probabilistic: score_sem x p_geom_valid", "#1d4ed8", True)
+    text(350, 545, "rule-verified: remove hard violations", "#b91c1c", True)
+    text(640, 545, "family-specific: stricter calibrated validity", "#047857", True)
+    text(70, 572, "controls: geometry-only, distance-only, shuffled, wrong-pair", "#334155", True)
+    text(70, 599, "Claim boundary: a relation-reliability layer for geometry-checkable families, not a new open-vocabulary generator.", "#64748b")
+    image.save(OUT_DIR / "figure1_framework.png")
 
 
 def metric_row(metrics: dict[str, Any], key: str, label: str, source: str) -> dict[str, float | str]:
@@ -445,6 +561,7 @@ def write_outputs() -> None:
     }
     for filename, content in outputs.items():
         (OUT_DIR / filename).write_text(content + "\n")
+    write_figure1_png()
     write_figure2_png(figure2_data)
 
     (OUT_DIR / "figure2_data.json").write_text(json.dumps(figure2_data, indent=2, sort_keys=True) + "\n")
@@ -457,6 +574,7 @@ def write_outputs() -> None:
         "created_at": datetime.now(timezone.utc).isoformat(),
         "outputs": {key: str((OUT_DIR / key).relative_to(ROOT)) for key in outputs},
         "png_outputs": {
+            "figure1_framework.png": str((OUT_DIR / "figure1_framework.png").relative_to(ROOT)),
             "figure2_tradeoff.png": str((OUT_DIR / "figure2_tradeoff.png").relative_to(ROOT)),
         },
         "source_lock": "paper/figures.md",
@@ -467,7 +585,7 @@ def write_outputs() -> None:
         ],
         "validation": str((OUT_DIR / "validation.json").relative_to(ROOT)),
         "layout_review": str(LAYOUT_REVIEW.relative_to(ROOT)),
-        "claim_boundary": "draft figures only; scoped H001 relation-reliability claim",
+        "claim_boundary": "draft figures only; scoped GeoCalib relation-reliability claim",
     }
     (OUT_DIR / "manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
 
@@ -486,6 +604,7 @@ Status: `{manifest["status"]}`
 Generated outputs:
 
 - `figure1_framework.svg`: method/framework schematic.
+- `figure1_framework.png`: LaTeX-facing PNG conversion of the Figure 1 framework.
 - `figure2_tradeoff.svg`: two-panel R@100 / Violation@100 tradeoff.
 - `figure2_tradeoff.png`: LaTeX-facing PNG conversion of the Figure 2 tradeoff.
 - `figure3_failure_cases.svg`: Open3DSG qualitative row-card panels.

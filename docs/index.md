@@ -1,6 +1,6 @@
 # Research Index
 
-Last updated: 2026-06-12
+Last updated: 2026-06-13
 
 ## Docs Directory Usage
 
@@ -25,9 +25,11 @@ Update rule:
 
 ## Status
 
-현재 하네스는 `CAND-001 hypothesis prep`과 `CAND-003 literature survey`를 병렬로 추적한다.
+현재 하네스는 `CAND-001 GeoCalib paper package`와 `CAND-003 literature
+survey`를 병렬로 추적한다. `H001`은 내부 hypothesis/experiment 식별자이고,
+reviewer-facing paper/method name은 `GeoCalib`이다.
 
-CAND-001 H001은 H001-Mini, hardened `VL-SAT` evaluation, G2 point/subtype join, G3 controls, G4 structured audit, reduced 50-row visual sanity check, G5 baseline feasibility, G6 reportability, FROSS/Open3DSG second-source feasibility, final scoped evidence lock, GT-based verifier evaluation, scoped main experiment implementation spec, Docker scoped experiment result, Open3DSG second-source metric/failure evidence, paper preview, bilingual paper outline, first-pass manuscript draft, Figure 1-3 source lock, verified draft Figure 1-3 generation, top-tier novelty/layout figure review, ICCV-style source conversion, AAAI-style source conversion, and AAAI reproducibility checklist까지 완료했다. H001 문서는 `01_overview.md` through `07_experiment_spec.md`의 7개 canonical file로 병합했다.
+CAND-001 H001은 H001-Mini, hardened `VL-SAT` evaluation, G2 point/subtype join, G3 controls, G4 structured audit, reduced 50-row visual sanity check, G5 baseline feasibility, G6 reportability, FROSS/Open3DSG second-source feasibility, final scoped evidence lock, GT-based verifier evaluation, scoped main experiment implementation spec, Docker scoped experiment result, Open3DSG second-source metric/failure evidence, full official validation promotion, low-K top-rank diagnostic, paper preview, bilingual paper outline, first-pass manuscript draft, Figure 1-3 source lock, verified Figure 1-3 generation, top-tier novelty/layout figure review, ICCV-style source conversion, AAAI-style source conversion, AAAI reproducibility checklist, GeoCalib naming/Figure 1 polish, and three-persona reviewer-risk pass까지 완료했다. H001 문서는 `01_overview.md` through `07_experiment_spec.md`의 7개 canonical file로 병합했다.
 
 Facts:
 
@@ -65,6 +67,14 @@ Facts:
   36-case qualitative inspection, and Table 6/caveat regeneration complete.
   Paper-wide full-validation promotion is already selected; the recovery policy
   must be disclosed.
+- Low-K top-rank diagnostic is complete under
+  `experiments/H001_geom_reliability/k_sweep/`: fixed grid
+  `K={5,10,20,50,100}`, `K=1` excluded by protocol, separate
+  `metrics_k_sweep/` outputs, and validation confirming that `K=50/100`
+  matches the locked full-validation metrics. AAAI Table 3 now reports Recall
+  and Violation for all five K values. Open3DSG shows the strongest top-rank
+  reliability effect; VL-SAT shows a ceiling-pattern with smaller but
+  consistent violation reductions.
 - `probabilistic_recalibrated` improves R@50/R@100 over semantic-only while lowering violation rate.
 - Full-validation GT-based verifier evaluation has GT positives 3,972, GT-derived negatives 3,972, positive nonviolated 0.9965, negative nonsatisfied 0.9673, and `p_geom_valid` AUROC/AUPRC 0.9772/0.9729. The earlier 2,545-row verifier result is retained as historical 127-scan sanity evidence.
 - Visual spot-check status is `ready_sanity_pass` with reviewer id `yhkim`, labels 50/50, target quality-issue rate 0.9333, and contradiction rate 0.0333.
@@ -88,18 +98,18 @@ Facts:
 - `attachment_deferred` is now the preferred future relation-family upgrade if H001 is expanded beyond the current AAAI claim. It is not current main-claim evidence. Docker G0 scope/schema audit, G1 extractor contract, G1b evidence-only dry run, G1c point/surface estimator validation, G2 verifier-policy design, G3 train-dev calibration/counterfactual route, G4 GT policy smoke, G4b error/visual sanity planning, G4c strict-only calibration-filter freeze, G5a pooled strict calibration fit, G5b bounded source scoring preflight, G5c full-source protocol freeze, and G5d full-source scoring/metrics/controls/bootstrap are complete. G5d status is `attachment_deferred_g5d_full_source_metrics_ready`; log `logs/h001_attachment_g5d_full_20260606_113803.log`; output `experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d/`; 69/69 shards, 135,048 scored rows, validation errors 0. Frozen scope: 967 GT rows (`attached to` 808, `hanging on` 126, `connected to` 33), candidate denominator 3,512 if validated, VL-SAT 77,748 candidate prediction rows, Open3DSG 57,300 candidate prediction rows, VL-SAT denominator 967/967, and Open3DSG denominator 768/967 with 199 missing exact-label GT rows. Key G5d results: VL-SAT semantic_only R@100/V@100 `1.0000/0.2126`, probabilistic_recalibrated `0.9979/0.2210`, rule_verified_attachment_policy `0.9380/0.0215`; Open3DSG semantic_only `0.9297/0.3021`, probabilistic_recalibrated `0.6628/0.2460`, rule_verified_attachment_policy `0.9245/0.0842`. Decision on 2026-06-11 KST: keep this as appendix/preliminary extension evidence and future upgrade, not current AAAI main claim, because G5d is on the older H001 388/377-context scope rather than the current full official validation route, Open3DSG has 199 missing exact-label attachment rows, `connected to` has no dev strict rows, and post-G5d visual/failure audit is not complete. Owner: `experiments/H001_geom_reliability/sources/attachment_deferred/README.md` and `experiments/H001_geom_reliability/sources/relation_expansion_status.md`.
 - Historical 127-scan Open3DSG adapter, geometry join, metric eval, and Table 6 hook are ready. Docker `open3dsg_adapter_raw_dump` exported 496,600 prediction rows, Docker `open3dsg_geometry_join` preserved 496,600/496,600 rows and scored 114,600 geometry-checkable rows, Docker `open3dsg_metric_eval` generated `sources/open3dsg/metrics/metrics.json` with status `ready`, and Docker `table_builder` marks that historical Table 6 route `ready` with no blockers. Key historical Open3DSG metrics: semantic_only R@50/R@100 0.3945/0.4963, Violation@50/@100 0.1326/0.1195; probabilistic_recalibrated R@50/R@100 0.3843/0.5580, Violation@50/@100 0.0575/0.0803; rule_verified_point_subtype R@50/R@100 0.4149/0.5238, Violation@50/@100 0.0/0.0.
 - Open3DSG caveat-reduction plan is frozen under `experiments/H001_geom_reliability/sources/open3dsg/caveat_reduction_plan/` with status `open3dsg_caveat_reduction_plan_frozen_no_execution`. R1 exact non-averaged BLIP retry is complete, selected, and downstream-regenerated. Non-avg key metrics: semantic_only R@50/R@100 0.4310/0.5320, Violation@50/@100 0.1395/0.1256; probabilistic_recalibrated R@50/R@100 0.3945/0.5639, Violation@50/@100 0.0570/0.0782; rule_verified_point_subtype R@50/R@100 0.4507/0.5481, Violation@50/@100 0.0/0.0; family_specific control R@50/R@100 0.4750/0.6047, Violation@50/@100 0.0243/0.0310. R2 covered-loadable H001 context retry is also complete at `388/388`; downstream metrics/bootstrap/table-caveat refresh and Docker provenance review are ready under `experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/`, and clean-return raw files are row/predicate-score equivalent to the canonical R2 raw dump after excluding run metadata. The plan records attachment Open3DSG missing exact-label GT rows as 199 total: 23 from missing preprocessed H001 contexts and 176 from absent Open3DSG candidate pairs, so `388/388` can only partially improve attachment coverage.
-- Paper workspace is ready: `paper/README.md` maps the paper folder roles; `paper/preview.md` summarizes current results, caveats, reviewer-defense map, optional extension boundary, and recovery files; `paper/progress.md` explains the hypothesis-to-experiment progression and result interpretations; `paper/outline.md` contains the English/Korean paper skeleton, recommended title, title alternatives, three contribution statements, abstract skeleton, Introduction logic, section evidence placement, Open3DSG caveat placement, reviewer-defense plan, and manuscript-ready table/figure caption drafts; `paper/draft.md` contains first-pass manuscript prose from Title through Conclusion and claim/evidence review; `paper/risk.md` tracks reviewer-risk mitigation; `paper/appendix.md` records calibrator/threshold provenance, Open3DSG caveat consistency, Figure 3 optionality, and Qwen-VL extension boundary; `paper/aaai/` contains the current AAAI-style LaTeX source with Open3DSG-first main source-results table, an AAAI-27 checklist after references, and official AAAI-27 Author Kit style files checked on 2026-06-11 KST; `paper/iccv/` remains a historical/alternate ICCV-style source; `paper/figures.md` locks Figure 1-3 sources, exact values, case IDs, and caption constraints; `paper/generated/figures/` contains verified/layout-reviewed draft SVGs. Cross-source results and failure analysis are empirical validation, not a fourth contribution.
+- Paper workspace is ready: `paper/README.md` maps the paper folder roles; `paper/preview.md` summarizes current results, caveats, reviewer-defense map, optional extension boundary, and recovery files; `paper/progress.md` explains the hypothesis-to-experiment progression and result interpretations; `paper/outline.md` contains the GeoCalib title, English/Korean paper skeleton, contribution statements, abstract skeleton, Introduction logic, section evidence placement, Open3DSG caveat placement, reviewer-defense plan, and manuscript-ready table/figure caption drafts; `paper/draft.md` is a historical first-pass prose draft; `paper/risk.md` tracks reviewer-risk mitigation and the 2026-06-13 orthogonal persona review; `paper/appendix.md` records calibrator/threshold provenance, Open3DSG caveat consistency, low-K appendix boundary, Figure 3 optionality, and Qwen-VL extension boundary; `paper/aaai/` contains the current GeoCalib AAAI-style LaTeX source with Open3DSG-first main source-results table over `K={5,10,20,50,100}`, an AAAI-27 checklist after references, and official AAAI-27 Author Kit style files checked on 2026-06-11 KST; `paper/iccv/` remains a historical/alternate ICCV-style source; `paper/figures.md` locks Figure 1-3 sources, exact values, case IDs, and caption constraints; `paper/generated/figures/` contains verified/layout-reviewed SVG/PNG assets. Cross-source results and failure analysis are empirical validation, not a fourth contribution.
 - 2026-05-23 literature novelty-threat expansion progressed: RelWitness full-PDF skim and H001 difference matrix are complete, ZING-3D / Open-World 3DSG-RAG / View-on-Graph / VIZOR are registered as recent trend/boundary papers, and `paper/draft.md` now distinguishes relation-witness/calibrated-witness prior art from H001's reproduced calibrated geometry-consistency evaluation/re-ranking claim.
 - Qwen-VL is fixed as a third semantic source / modern VLM extension, not a VL-SAT/Open3DSG replacement. It has frozen input JSON Schema, output JSONL contract, Docker `qwen_vl_contract_validator` parser skeleton, a 30-row non-held-out tiny pilot scope, Docker `qwen_vl_runtime_plan` model-lock output, Docker-rendered pair crops, Qwen3-VL-4B cache verification, Docker runtime preflight, 3-row tiny inference smoke, runtime raw-response validation, historical full-source route, and paper-facing full official validation route complete through parser validation, adapter export, geometry join, metrics/controls, bootstrap CI, failure rows, and deterministic qualitative inspection. Recommended primary runtime model is `Qwen/Qwen3-VL-4B-Instruct` revision `ebb281ec70b05090aa6165b016eac8ec08e71b17` under `local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17`. Current full-validation Qwen scope has 110,424 universe query rows, 46,506 inferable input rows, 63,918 missing query rows, 187 shards, 35,131 exported predictions, 32,236 in-scope predictions, and 3,972 H001-family GT rows. Qwen metrics are ready as third-source appendix/extension evidence for the current AAAI route: semantic_only R@50/R@100 `0.2815/0.3600`, probabilistic_recalibrated `0.3215/0.3653`, rule_verified_point_subtype `0.3009/0.3630`, and family_specific control `0.3379/0.3653`. It is not part of the current main source-result table.
 
 Inference:
 
-- Current CAND-001 gate is no longer blocked on Open3DSG metric, failure-row evidence, raw-dump source-process provenance, qualitative case inspection, final caveat wording, paper preview, paper outline, title candidates, contribution statements, abstract skeleton, Introduction logic, table/figure caption drafts, paper claim-consistency review, related-work positioning, method/problem formalization, Figure 1-3 asset plan, table/appendix placement, limitation/reviewer-defense prose skeletons, first-pass manuscript prose, draft claim/evidence review, Figure 1-3 source lock, draft Figure 1-3 generation, figure layout review, Related Work citation-key replacement, RelWitness full-PDF novelty matrix, recent 2025-2026 final Related Work role decision, draft section-structure decision, draft Section 5 title standardization, draft BibTeX scaffold, Title/Abstract/Introduction fill, front matter quick review, paper-body gap patch, word-budget/table-placement review, ICCV-style source conversion, AAAI-style source conversion, AAAI reproducibility checklist insertion, first AAAI reviewer-defense pass, reproducibility artifact bundle planning, verified core bundle creation, Qwen-VL runtime smoke, Qwen full-validation input/crop/inference/downstream metrics/audit, official AAAI-27 author-kit migration/build hygiene, relative-horizontal scope audit, relative-horizontal coordinate-frame protocol, relative-horizontal coordinate audit, relative-horizontal bucket inspection, relative-horizontal AAAI-path decision, or attachment-deferred strategy freeze. No active non-data metric blocker remains.
+- Current CAND-001 gate is no longer blocked on Open3DSG metric, failure-row evidence, raw-dump source-process provenance, qualitative case inspection, final caveat wording, paper preview, paper outline, title candidates, contribution statements, abstract skeleton, Introduction logic, table/figure caption drafts, paper claim-consistency review, related-work positioning, method/problem formalization, Figure 1-3 asset plan, table/appendix placement, limitation/reviewer-defense prose skeletons, first-pass manuscript prose, draft claim/evidence review, Figure 1-3 source lock, figure generation/layout review, Related Work citation-key replacement, RelWitness full-PDF novelty matrix, recent 2025-2026 final Related Work role decision, draft section-structure decision, draft Section 5 title standardization, draft BibTeX scaffold, Title/Abstract/Introduction fill, front matter quick review, paper-body gap patch, word-budget/table-placement review, ICCV-style source conversion, AAAI-style source conversion, AAAI reproducibility checklist insertion, AAAI reviewer-defense pass, reproducibility artifact bundle planning, verified core bundle creation, Qwen-VL runtime smoke, Qwen full-validation input/crop/inference/downstream metrics/audit, official AAAI-27 author-kit migration/build hygiene, low-K source-result table update, GeoCalib naming/Figure 1 evidence-record pass, orthogonal persona risk review, relative-horizontal scope audit, relative-horizontal coordinate-frame protocol, relative-horizontal coordinate audit, relative-horizontal bucket inspection, relative-horizontal AAAI-path decision, or attachment-deferred strategy freeze. No active core metric blocker remains.
 - `docs/reproducibility.md` now includes a 2026-05-21 GitHub portability check, the historical 2026-05-26 127-scan bundle, the 2026-06-05 full-validation paper-facing bundle plan, and cleanup guidance: runbooks, Dockerfiles/compose files, scripts, reports, compact manifests, table/metric summaries, and paper planning docs can be committed; selected checkpoint and full-validation row-level JSONL outputs are bundled separately; large `local_dataset/` payloads, feature caches, and model caches remain intentionally ignored, transferred, or regenerated.
 - The method contribution should be framed as calibrated geometry-consistency evaluation and re-ranking, not as a verifier script.
 - Current evidence supports a measured cross-source geometry-consistency reliability claim within H001 families across `VL-SAT` and Open3DSG.
-- The preferred next strengthening step is now paper polish/artifact release
-  preparation, not another full-validation rerun. VL-SAT full-validation metric
+- The preferred next step is now submission-hygiene refresh, not another
+  full-validation rerun. VL-SAT full-validation metric
   and failure-analysis bundle is ready
   under `experiments/H001_geom_reliability/sources/vlsat/full_validation/`:
   957,008 prediction rows, 11,254 GT rows, 3,972 H001-family GT rows, metric
@@ -112,20 +122,36 @@ Inference:
   failure rows 82,155, qualitative cases 36, and explicit caveats for the
   selected non-avg BLIP route plus recovery-policy preprocess/view changes. The
   original 533/548 branch remains sensitivity evidence.
+- Latest Docker AAAI PDF build:
+  `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, exit 0,
+  `paper/aaai/main.pdf` 9 pages, no LaTeX errors, missing citations, final
+  undefined refs, overfull hboxes, or Type 3 fonts. The previous flattened
+  package `release/h001_aaai27_submission_20260613_004455/` predates the
+  GeoCalib/Figure 1 pass and must be regenerated before upload.
 - Broad open-vocabulary 3DSSG generation improvement remains out of scope until additional source/task evidence exists.
 
 CAND-003은 2026-04-30 P1 paper intake까지 통해 RieMind, `3D-VCD`, `SayPlan`, `SG-Nav`, `SCOUT/SymSearch`, `3DGraphLLM`, `3D-Mem`의 novelty boundary와 offline verifier/refiner first cut을 정리했다.
 
 ## Active Questions
 
-1. Full-validation result와 recovery-policy caveat가 AAAI main text, appendix, Table 6, and reproducibility checklist에서 일관되게 유지되는가?
-2. Final Related Work에 들어간 recent boundary citations가 H001의 scoped reliability claim을 흐리지 않는가?
-3. Full-validation artifact bundle을 Google Drive/Zenodo/HF Dataset 중 어디에 올리고, 공개 bundle의 checksum/verification command를 어떻게 고정할 것인가?
-4. `attachment_deferred` is decided as appendix/preliminary extension evidence and future-upgrade path, not current AAAI main-claim evidence. Future promotion requires current full-validation rerun, denominator update, pairwise bootstrap deltas, and post-G5d failure/visual audit.
-5. Qwen-VL full-validation downstream bundle은 current AAAI route에서 appendix/extension evidence로 고정한다; main table에는 넣지 않는다.
-6. Qwen-VL full-validation의 63,918 missing query rows, crop-based semantic-source nature, and lower recall than VL-SAT/Open3DSG를 appendix/extension caveat로 명확히 표기한다.
-7. Strictly blinded independent audit wording이 필요하면 `reference.jsonl`을 보지 않은 reviewer로 50-row check를 반복할 것인가?
-8. CAND-003을 CAND-001의 downstream extension으로 둘 것인가, 독립 thesis 후보로 키울 것인가?
+1. Final AAAI/OpenReview portal form에서 upload size/format, source-package
+   constraints, checklist placement, supplement placement, and artifact URL
+   field가 어떻게 요구되는가?
+2. 최신 GeoCalib/Figure 1/PDF 상태를 반영해 flattened submission package를
+   언제 재생성하고 verification report/checksum을 다시 고정할 것인가?
+3. Full-validation artifact bundle을 review phase에서는 OpenReview
+   supplementary로 둘지, post-anonymity public release에서는 Zenodo DOI와
+   GitHub/HF mirror 중 어떤 조합으로 고정할 것인가?
+4. `attachment_deferred` is decided as appendix/preliminary extension evidence
+   and future-upgrade path, not current AAAI main-claim evidence. Future
+   promotion requires current full-validation rerun, denominator update,
+   pairwise bootstrap deltas, and post-G5d failure/visual audit.
+5. Qwen-VL full-validation downstream bundle은 current AAAI route에서
+   appendix/extension evidence로 고정한다; main table에는 넣지 않는다.
+6. Strictly blinded independent audit wording이 필요하면 `reference.jsonl`을
+   보지 않은 reviewer로 50-row check를 반복할 것인가?
+7. CAND-003을 CAND-001의 downstream extension으로 둘 것인가, 독립 thesis
+   후보로 키울 것인가?
 
 ## Current Working Files
 
@@ -146,7 +172,7 @@ CAND-003은 2026-04-30 P1 paper intake까지 통해 RieMind, `3D-VCD`, `SayPlan`
 - `paper/preview.md`: paper handoff summary and recovery file list
 - `paper/progress.md`: hypothesis-to-experiment progression rationale
 - `paper/outline.md`: English/Korean paper outline, title/three-contribution statements, abstract skeleton, Introduction logic, and manuscript-ready caption plan
-- `paper/draft.md`: first-pass manuscript prose from Title through Conclusion
+- `paper/draft.md`: historical first-pass manuscript prose from Title through Conclusion
 - `paper/risk.md`: reviewer-risk register and mitigation tracking
 - `paper/appendix.md`: appendix/supplement provenance table, caveat consistency pass, and optional extension boundary
 - `paper/aaai/`: current AAAI-style LaTeX manuscript source

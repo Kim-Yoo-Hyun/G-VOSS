@@ -2,7 +2,21 @@
 
 이 저장소는 3D Scene Graph 석사 연구를 위한 작업 공간이다.
 
-현재 단계는 CAND-001 H001의 Docker-based full-validation experiment 결과를 paper writing phase로 전환하는 단계와 CAND-003 literature survey를 병렬로 추적하는 단계다. CAND-001은 `Geometry-Grounded Open-Vocabulary Relation Graph` 방향에서 hypothesis-stage evidence lock, scoped main experiment spec, VL-SAT/Open3DSG full-validation metric bundles, real failure-analysis rows, qualitative case inspection, paper preview, bilingual paper outline, first-pass manuscript body, ICCV-style source conversion, AAAI-style source conversion, and AAAI reproducibility checklist insertion까지 완료했다. 현재 target venue source는 `paper/aaai/`이다. H001 문서는 `hypothesis/CAND-001/H001_geometry-grounded-verification/` 아래 7개 canonical 파일로 정리되어 있다.
+현재 단계는 CAND-001 H001의 Docker-based full-validation experiment 결과를
+AAAI paper package로 정리하는 단계와 CAND-003 literature survey를 병렬로
+추적하는 단계다. CAND-001의 reviewer-facing paper name은 `GeoCalib`로
+고정했다: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene
+Graph Relations`. H001은 내부 hypothesis/experiment 식별자로 유지한다.
+CAND-001은 `Geometry-Grounded Open-Vocabulary Relation Graph` 방향에서
+hypothesis-stage evidence lock, scoped main experiment spec,
+VL-SAT/Open3DSG full-validation metric bundles, low-K top-rank diagnostic,
+real failure-analysis rows, qualitative case inspection, paper preview,
+bilingual paper outline, first-pass manuscript body, ICCV-style source
+conversion, AAAI-style source conversion, AAAI reproducibility checklist,
+reviewer-risk/persona review, and GeoCalib/Figure 1 manuscript polish까지
+완료했다. 현재 target venue source는 `paper/aaai/`이다. H001 문서는
+`hypothesis/CAND-001/H001_geometry-grounded-verification/` 아래 7개 canonical
+파일로 정리되어 있다.
 
 ## Current Focus
 
@@ -52,7 +66,7 @@
   family mapping, verifier policies, counterfactuals, and `p_geom_valid`
   calibration are frozen before validation source-result reporting. H001-Mini
   is hypothesis/feasibility evidence, not paper metric evidence.
-- CAND-001 paper handoff: `paper/README.md`, `paper/preview.md`, `paper/progress.md`, bilingual `paper/outline.md`, reviewed first-pass `paper/draft.md`, reviewer-risk register `paper/risk.md`, appendix/provenance plan `paper/appendix.md`, checklist-included AAAI-style LaTeX source `paper/aaai/`, historical ICCV-style source `paper/iccv/`, figure source lock `paper/figures.md`, and verified/layout-reviewed draft Figure 1-3 plus geometry-backed Figure 3 under `paper/generated/figures/` are ready. The draft now covers Title, Abstract, Introduction, Related Work, Problem Formulation, Method, Experimental Setup, Results/Discussion, Limitations, and Conclusion, and Related Work uses BibTeX-style citation keys.
+- CAND-001 paper handoff: `paper/README.md`, `paper/preview.md`, `paper/progress.md`, bilingual `paper/outline.md`, reviewed first-pass `paper/draft.md`, reviewer-risk register `paper/risk.md`, appendix/provenance plan `paper/appendix.md`, checklist-included AAAI-style LaTeX source `paper/aaai/`, historical ICCV-style source `paper/iccv/`, figure source lock `paper/figures.md`, and verified/layout-reviewed Figure 1-3 under `paper/generated/figures/` are ready. The active manuscript title/method name is `GeoCalib`, the manuscript body no longer uses `H001` as the method name, Figure 1 has been redrawn as an evidence-record framework schematic, and AAAI Table 3 now reports `K={5,10,20,50,100}` for Recall and Violation. The latest Docker PDF build is `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, exit 0, with `paper/aaai/main.pdf` at 9 pages and no LaTeX errors, missing citations, final undefined refs, overfull hboxes, or Type 3 fonts.
 - CAND-001 literature expansion: 2026-05-23 novelty-threat pass completed a RelWitness full-PDF skim and registered ZING-3D, Open-World 3DSG-RAG, View-on-Graph, and VIZOR as recent trend/boundary papers. H001 wording should avoid claiming novelty as relation witnesses, geometry evidence, or calibrated witness quality alone.
 - CAND-001 next gate: no active main-claim metric blocker. `relative_horizontal`
   is frozen as appendix/limitation evidence because coordinate-frame ambiguity
@@ -95,17 +109,20 @@
   adapter export, geometry join, metrics/controls, bootstrap CI, failure rows,
   and deterministic qualitative inspection are ready. It remains non-main and
   is fixed as appendix/extension evidence for the current AAAI route.
-  Docker `paper/aaai/` PDF build is
-  verified with the official AAAI-27 Author Kit checked on 2026-06-11 KST and
-  image `h001-aaai-tex:20260611`; latest post-Qwen wording rebuild log
-  `logs/h001_aaai_pdf_build_qwen_extension_update_20260611_121205.log` exits 0,
-  and `main.pdf` builds to 9 total pages with technical content within pages
-  1-7, references after technical content, and the AAAI-27 reproducibility
-  checklist after references. The manuscript treats Open3DSG as the main
-  open-vocabulary relation-source case study and VL-SAT as a controlled
-  reproduced anchor. Remaining submission hygiene is final portal/source
-  packaging, checklist partial-item review, metadata/anonymization, and
-  supplement/code-data package decision.
+  Docker `paper/aaai/` PDF build is verified with the official AAAI-27 Author
+  Kit checked on 2026-06-11 KST and image `h001-aaai-tex:20260611`; latest
+  GeoCalib/Figure 1 rebuild log
+  `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log` exits 0, and
+  `main.pdf` builds to 9 total pages with technical content within pages 1-7,
+  references after technical content, and the AAAI-27 reproducibility checklist
+  after references. The manuscript treats Open3DSG as the main open-vocabulary
+  relation-source case study and VL-SAT as a controlled reproduced anchor.
+  Previous flattened local submission package
+  `release/h001_aaai27_submission_20260613_004455/` predates the latest
+  GeoCalib/Figure 1 source pass and must be regenerated before upload.
+  Remaining submission hygiene is final portal/source package regeneration,
+  metadata/anonymization re-check, upload-size/format check, and final
+  supplement/code-data package placement in the AAAI/OpenReview form.
 - CAND-001 AAAI reviewer-defense pass: the AAAI source now answers the hand-coded-verifier, geometry-only/distance, recall-tradeoff, Open3DSG recovery-policy, family-selection, and AAAI-relevance attacks for the selected full-validation route while preserving the scoped relation-reliability claim.
 - CAND-001 reproducibility handoff: `docs/reproducibility.md` is updated with the 2026-05-21 `.gitignore` portability audit, the 2026-05-26 historical 127-scan bundle, and the 2026-06-05 full-validation paper-facing bundle plan. GitHub carries source/runbooks/scripts/compact summaries; the selected checkpoint and row-level full-validation JSONL outputs should be bundled separately, while datasets, feature caches, and model caches remain external or regenerated.
 - CAND-001 optional extension: Qwen-VL is now fixed as a third semantic source / modern VLM extension, not a VL-SAT/Open3DSG replacement. Cache verification, Docker runtime preflight, 3-row tiny inference smoke, runtime raw-response validation, historical full-source route, and paper-facing full official validation route are ready through all-shard inference, parser validation, adapter export, geometry join, metrics/controls, bootstrap CI, failure rows, and deterministic qualitative inspection. Current status is `full_validation_downstream_metrics_ready_third_source_extension`.
@@ -198,7 +215,7 @@ Current hypothesis:
 
 Method contribution framing:
 
-> Calibrated geometry-consistency evaluation and re-ranking framework for 3D scene graph relation predictions.
+> GeoCalib: calibrated geometry-consistency evaluation and re-ranking framework for 3D scene graph relation predictions.
 
 `CAND-003: Geometry-Aware Refinement of LLM/VLM Task Reasoning on 3DSG`
 
@@ -231,10 +248,10 @@ Current survey verdict:
 - `paper/preview.md`: paper writing phase 직전의 현재 결과 총정리와 재시작 시 필수 파일 목록
 - `paper/progress.md`: hypothesis-to-experiment progression rationale and result interpretation
 - `paper/outline.md`: 영어/한국어 paper skeleton, section별 evidence placement, reviewer-defense, figure/table plan
-- `paper/draft.md`: Title through Conclusion first-pass manuscript prose
+- `paper/draft.md`: historical Title-through-Conclusion first-pass manuscript prose; current authoritative paper source is `paper/aaai/`
 - `paper/risk.md`: reviewer-risk register and mitigation tracker
 - `paper/appendix.md`: appendix/supplement provenance table and caveat consistency pass
-- `paper/aaai/`: current AAAI-style LaTeX manuscript source using official AAAI-27 Author Kit style files checked on 2026-06-11 KST
+- `paper/aaai/`: current GeoCalib AAAI-style LaTeX manuscript source using official AAAI-27 Author Kit style files checked on 2026-06-11 KST
 - `paper/iccv/`: historical ICCV-style LaTeX manuscript source using vendored ICCV/CVF style files
 - `paper/figures.md`: Figure 1-3 source lock, exact values, case IDs, and caption constraints
 - `paper/generated/figures/`: verified draft Figure 1-3 SVGs and generation manifest
