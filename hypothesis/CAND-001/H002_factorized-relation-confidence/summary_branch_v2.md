@@ -1006,6 +1006,16 @@ hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed
 hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/target_independence_audit_codex_real_assumption/feature_summaries.csv
 hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/target_independence_audit_codex_real_assumption/metadata_summaries.csv
 hypothesis/CAND-001/H002_factorized-relation-confidence/45_target_independence_audit.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/tools/independent_label_protocol.py
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_protocol/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_protocol/protocol.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_protocol/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_protocol/blind_all_sheet.tsv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_protocol/blind_support_contact_sheet.tsv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_protocol/blind_proximity_sheet.tsv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_protocol/blind_relative_vertical_sheet.tsv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_protocol/internal_key.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/46_independent_label_protocol.md
 ```
 
 ## Next Gate
@@ -1013,25 +1023,23 @@ hypothesis/CAND-001/H002_factorized-relation-confidence/45_target_independence_a
 다음 gate:
 
 ```text
-46_independent_label_protocol.md
+47_independent_label_ingestion.md
 ```
 
 목표:
 
-- rank-hidden independent audit protocol을 정의한다.
-- semantic rank, proposed stratum, seed positive/negative identity를 annotator에게
-  숨긴다.
-- multi-view는 우선 audit evidence로만 사용하고 model input으로는 쓰지 않는다.
-- `support_contact`를 우선 포함하고, 이후 `attachment_deferred`,
-  `relative_vertical` 순서로 확장 가능성을 둔다.
+- completed blind sheet를 검증하고 `internal_key.jsonl`에 join하는 절차를 정의한다.
+- hidden fields가 deployable feature로 새지 않도록 ingestion schema를 고정한다.
+- independent binary/multiclass target을 materialize할 준비를 한다.
+- residual/gated combiner diagnostic을 위한 target contract를 만든다.
 - validation/test는 계속 사용하지 않는다.
 
 Continue condition:
 
-- independent audit protocol에서 rank-hidden labels가 생성 가능하고, label rationale과
-  deployable input feature가 분리되면 residual/gated combiner diagnostic으로 진행한다.
+- completed blind labels가 schema-valid이고, rank/score/working-label leakage 없이
+  binary target으로 변환 가능하면 residual/gated combiner diagnostic으로 진행한다.
 
 Stop condition:
 
-- independent audit 없이 codex target만으로 진행해야 한다면 H002는 posterior method
+- completed labels가 없거나 blind protocol을 지키지 못하면 H002는 posterior method
   claim을 중단하고 RGA benchmark/failure-analysis claim으로 축소한다.

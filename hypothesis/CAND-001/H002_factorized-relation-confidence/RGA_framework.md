@@ -1575,6 +1575,72 @@ H002 should continue the RGA framework and target construction work, but pause
 posterior method claims until rank-hidden independent audit labels exist.
 ```
 
+### Stage 29. Independent Label Protocol
+
+Document:
+
+```text
+46_independent_label_protocol.md
+```
+
+Purpose:
+
+- define rank-hidden independent label collection for H002.
+- create blind review sheets that hide semantic rank, semantic score,
+  `p_geom_valid`, working label, queue identity, and proposed stratum.
+- use multi-view/mesh assets as audit evidence only, not deployable model input.
+- prioritize relation families for future semantic-geometry-visual agreement.
+
+Key artifacts:
+
+```text
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_protocol/summary.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_protocol/protocol.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_protocol/report.md
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_protocol/blind_all_sheet.tsv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_protocol/blind_support_contact_sheet.tsv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_protocol/blind_proximity_sheet.tsv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_protocol/blind_relative_vertical_sheet.tsv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_protocol/internal_key.jsonl
+```
+
+Result:
+
+```text
+status = independent_label_protocol_ready
+```
+
+Candidate counts:
+
+| Family | Rows | Role |
+| --- | ---: | --- |
+| `support_contact` | 26 | first multi-view reliability family |
+| `proximity` | 27 | current debugging family |
+| `relative_vertical` | 34 | control / robustness family |
+| `attachment_deferred` | 0 | future high-novelty family; separate generator needed |
+
+Label mapping:
+
+| Binary use | Labels |
+| --- | --- |
+| positive | `reliable_informative`, `annotation_sparsity_candidate` |
+| negative | `valid_but_trivial_dense`, `invalid_relation`, `invalid_pair`, `visibility_or_geometry_artifact` |
+| exclude or multiclass only | `ontology_mismatch`, `abstain_uncertain` |
+
+Decision:
+
+```text
+Independent label protocol is ready. H002 should collect or fill rank-hidden
+labels before any stronger posterior method claim.
+```
+
+Combiner follow-up after labels:
+
+```text
+residual reliability model -> gated evidence model -> pairwise rank-matched
+ranking diagnostic -> debiased factor audit
+```
+
 ## RGA To Factorized Reliability
 
 RGA is the measurement framework. Factorized reliability posterior is the later
@@ -1692,15 +1758,13 @@ Blocked claims:
 The next H002 step is:
 
 ```text
-46_independent_label_protocol.md
+47_independent_label_ingestion.md
 ```
 
 Goal:
 
-- define a rank-hidden independent audit protocol.
-- keep multi-view as audit evidence before deployable model input.
-- prioritize `support_contact`, then `attachment_deferred`, then
-  `relative_vertical`.
-- specify how independent labels will support residual/gated factorized combiner
-  diagnostics.
+- define completed blind-sheet validation and join-back to `internal_key.jsonl`.
+- prevent hidden fields from leaking into deployable features.
+- materialize independent binary/multiclass targets.
+- prepare residual/gated combiner diagnostics.
 - continue without validation/test rows.
