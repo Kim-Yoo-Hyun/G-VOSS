@@ -1,8 +1,18 @@
 # H001 Paper Preview
 
-Last updated: 2026-06-05 KST
+Last updated: 2026-06-14 KST
 
 이 문서는 H001을 paper/experiment writing phase로 넘기기 직전에 현재까지의 연구 결과, 주장 범위, 실험 근거, caveat, 그리고 재시작 시 반드시 읽어야 할 파일을 한곳에 고정한 preview다. 최종 manuscript가 아니라 paper draft를 쓰기 위한 handoff 문서다.
+
+Paper-facing name: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations`. `H001` remains an internal identifier.
+
+Current 2026-06-14 snapshot:
+
+- Main paper evidence remains VL-SAT full official validation plus Open3DSG full-validation `recovery_relaxed_views_min2/`.
+- Low-K source-result reporting is accepted for K = `{5,10,20,50,100}` if artifact provenance is present; K=1 stays sanity-check only.
+- Qwen-VL full official validation downstream is complete and should be treated as appendix/extension evidence unless explicitly promoted.
+- Latest known PDF build: `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, exit 0, 9 pages.
+- Remaining paper work is submission/package hygiene, not new main-source result generation.
 
 ## Paper Direction
 
@@ -401,10 +411,11 @@ Recommended paper narrative:
 
 Qwen-VL:
 
-- Current status: third semantic source / modern VLM extension. Contract, parser skeleton, 30-row non-held-out tiny pilot, pair crops, model-lock plan, Qwen3-VL-4B cache, runtime preflight, 3-row tiny inference smoke, raw-response validation, full-source promotion plan, full-source input audit, all-scope crop preflight, full-source inference runner plan, and shard 0000 contract validation are ready.
-- Frozen promotion scope: 127 scans, 388 contexts, 25,916 directed pairs, 77,748 all-pairs x family query rows, 33,384 inferable input rows, 44,364 missing rows, 134 shards, and 2,545 in-scope GT rows.
-- Current inference state: shards 0000-0013 are complete with 3,500 parsed rows. Remaining loop run id `20260527_023111` stopped at shard 0014 because the GPU guard observed utilization 36% against the 35% threshold; clean resume starts from `qwen_full_source_shard_0014`.
-- It should stay non-metric unless full prediction JSONL, geometry join, denominator, metrics, bootstrap, and audit treatment are added.
+- Current status: third semantic source / modern VLM extension with full official validation downstream complete.
+- Full-validation scope: 157 scans, 548 contexts, 110,424 query rows, 46,506 inferable input rows, 63,918 missing query rows, 187 shards, 35,131 exported predictions, 32,236 in-scope predictions, and 3,972 H001-family GT rows.
+- Downstream artifacts: parser validation, adapter export, geometry join, metrics/controls, bootstrap CI, 31,881 failure rows, and 36 deterministic qualitative cases.
+- Key diagnostic metrics: semantic_only R@50/R@100 `0.2815/0.3600`, V@50/@100 `0.1226/0.1246`; probabilistic_recalibrated `0.3215/0.3653`, V `0.0795/0.1166`; rule_verified_point_subtype `0.3009/0.3630`, V `0.0/0.0`; family_specific `0.3379/0.3653`, V `0.0510/0.1113`.
+- It should stay appendix/extension evidence unless the main claim is explicitly widened.
 
 FROSS:
 
@@ -535,8 +546,8 @@ Recommended next action:
 
 1. Use `paper/draft.md` as the active reviewed first-pass manuscript prose, `paper/aaai/` as the current AAAI-style LaTeX source, and `paper/generated/figures/` as the active draft figure output.
 2. Treat the claim-consistency review in `paper/outline.md` as the current paper guardrail: title, contributions, abstract, Introduction, table captions, and figure captions must stay within the scoped relation-reliability claim.
-3. Treat the AAAI reproducibility checklist as inserted after references: latest Docker build `logs/h001_aaai_pdf_build_compression_20260606_105126.log` gives 9 total pages, technical content pages 1-7, references page 8, checklist page 9, and no blocking build warnings. Latest visual/layout inspection passed in `paper/aaai/inspection/report.md`; remaining paper work is content/claim QA, not source-result regeneration.
+3. Treat the reproducibility checklist as inserted after references: latest known Docker build `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log` gives 9 total pages, technical content pages 1-7, references page 8, checklist page 9, and no blocking build warnings. Remaining paper work is portal/form, artifact URL/DOI, supplement/checklist, and release-package hygiene, not source-result regeneration.
 4. Treat the AAAI reviewer-defense pass as updated for the selected full-validation route: hand-coded verifier, geometry-only/distance, recall-tradeoff, Open3DSG recovery-policy provenance, family-selection, and AAAI-relevance attacks must all remain answered during polish.
 5. Treat `paper/appendix.md` as the current appendix/provenance owner: calibrator/threshold provenance, Open3DSG caveat consistency, Figure 3 optionality, and Qwen-VL third-source boundary are recorded there.
 6. Keep Open3DSG caveats explicit during any further polish; caption compression must not hide selected-checkpoint provenance, filtered split, exact-label denominator, recovery policy, 533/548 sensitivity branch, or residual calibration risk.
-7. Keep Qwen-VL as third-source extension only, unless it receives the same Docker, metric, denominator, bootstrap, and audit treatment as paper evidence.
+7. Keep Qwen-VL as third-source extension only unless the user explicitly promotes it into the main claim after reviewing the completed extension evidence.

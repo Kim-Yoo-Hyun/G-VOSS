@@ -1,10 +1,26 @@
-# H001 Research Summary
+# GeoCalib / H001 Research Summary
 
-Last updated: 2026-06-05 KST
+Last updated: 2026-06-14 KST
 
 이 문서는 CAND-001 / H001의 현재 연구 정의, 필요성, 가설, metric,
 비교군, 실험 세팅, contribution, 구현 방향, baseline 재현 가능성을 한곳에
 정리한다.
+
+Paper-facing name: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations`. Use `GeoCalib` in manuscript-facing prose and keep `H001` for internal hypothesis/experiment paths.
+
+## Current Snapshot, 2026-06-14 KST
+
+Facts:
+
+- Main evidence route is complete for the scoped three-family reliability claim: VL-SAT full official validation and Open3DSG full-validation `recovery_relaxed_views_min2/` are the paper-facing main sources.
+- Low-K reporting decision is to show K = `{5, 10, 20, 50, 100}` where the paper table can support it; K=1 is excluded from paper metrics and kept only as a sanity check. The current checkout does not expose a tracked low-K result directory, so regenerate or restore low-K metric/CI artifacts before final package upload.
+- Qwen-VL full official validation downstream is complete as a third-source / modern VLM extension with 157 scans / 548 contexts / 110,424 query rows / 46,506 inferable input rows / 35,131 exported predictions / 32,236 in-scope predictions / 3,972 H001-family GT rows. It remains appendix/extension evidence unless explicitly promoted.
+- Latest known paper build is `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, exit 0, 9 pages, with GeoCalib/Figure-1 updates. Any older release package generated before these updates must be regenerated before upload.
+
+Inference:
+
+- The defensible paper claim is still a scoped calibrated geometry-consistency reliability layer, not broad 3DSSG generation, broad SOTA, or arbitrary-baseline improvement.
+- Immediate work is submission/package hygiene rather than new main-source experiments: portal form, artifact URL/DOI, supplementary policy, checklist answers, package regeneration, and low-K provenance sync.
 
 ## One-Line Summary
 
@@ -112,10 +128,11 @@ p_geom_valid -> reliability-aware reranking/filtering
 Allowed current claim:
 
 ```text
-On reproduced VL-SAT 3DSSG predictions, geometry-calibrated relation
-verification improves relation reliability for geometry-checkable families by
-reducing geometry-inconsistent top-k predictions while preserving or improving
-useful recall.
+Across reproduced VL-SAT and Open3DSG relation-source outputs,
+geometry-calibrated consistency scoring exposes and reduces
+geometry-inconsistent top-k predictions for geometry-checkable families while
+reporting recall tradeoffs under fixed denominators and source-specific
+caveats.
 ```
 
 Preferred upgraded claim after Open3DSG second-source evidence:
@@ -445,7 +462,7 @@ Cross-source comparison:
 | --- | --- | --- |
 | Open3DSG | manuscript main open-vocabulary relation-source case study | Docker-reproduced historical 127-scan avg-BLIP checkpoint, H001 eval features, clean v14 raw-dump provenance, adapter/geometry/metrics, failure rows, qualitative inspection, and bootstrap CI are ready as sensitivity evidence. R1 official non-avg checkpoint selection/downstream regeneration are complete under `sources/open3dsg/non_avg/`. R2 historical covered-context recovery is complete at 388/388 with downstream metrics/bootstrap/table-caveat reporting and provenance review; clean-return raw files are row/predicate-score equivalent to canonical R2 raw after excluding run metadata, so R2 is the representative appendix/sensitivity branch and old 377/388 remains the comparison row. Full official validation is the selected paper-facing route: the recovery branch `recovery_relaxed_views_min2/` reaches 548/548 with clean raw dump, 695,916 predictions, geometry/metrics/bootstrap, 82,155 failure rows, 36-case qualitative inspection, and Table 6 caveats ready, and must disclose the recovery policy; the original 533/548 covered branch remains sensitivity / unmodified-source-route evidence with exit-137 caveat. |
 | `VL-SAT` | controlled reproduced anchor | 127-scan hardened result is reproduced and table-ready as historical/sensitivity evidence; full official validation rerun is the selected controlled-anchor primary route under `sources/vlsat/full_validation/` with 957,008 predictions, 11,254 GT rows, 3,972 H001-family GT rows, metric status `ready`, GT verifier AUROC `0.9772`, bootstrap warnings 0, 59,841 failure rows, and 36-case qualitative inspection. AAAI table/prose regeneration from this route is complete; remaining work is polish/build verification. |
-| Qwen-VL | third semantic source / modern VLM extension | schema/parser/tiny pilot/pair crops ready; Qwen3-VL-4B cache ready; Docker runtime preflight, 3-row tiny inference smoke, raw-response validation, full-source promotion plan, full-source input audit, all-scope crop preflight, and full-source inference runner plan are ready; 33,384 inferable rows / 134 shards / 11,128 verified unique pair crops; shards 0000-0013 complete with 3,500 parsed rows; remaining resume starts from shard 0014 after GPU guard is acceptable; no full paper-metric validation/evaluation |
+| Qwen-VL | third semantic source / modern VLM extension | full official validation downstream complete: 157 scans / 548 contexts / 110,424 query rows / 46,506 inferable input rows / 35,131 exported predictions / 32,236 in-scope predictions / 3,972 H001-family GT rows; parser validation, adapter export, geometry join, metrics/controls/bootstrap, 31,881 failure rows, and 36 deterministic qualitative cases ready; appendix/extension evidence unless explicitly promoted |
 | FROSS | optional online support/contact source | not full-family H001 evidence |
 
 ## What The Experiments Compare
@@ -800,8 +817,8 @@ Current paper handoff:
   uses AAAI-26 style files until the exact target-year official kit is fixed,
   splits the manuscript into `main.tex` plus `sec/*.tex`, and points the
   bibliography to `paper/references.bib`. Docker build verification is complete
-  with `h001-aaai-tex:20260526`; latest compression rebuild
-  `logs/h001_aaai_pdf_build_compression_20260606_105126.log` exits 0.
+  with `h001-aaai-tex:20260526`; latest GeoCalib/Figure-1 rebuild
+  `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log` exits 0.
   `main.pdf` builds to 9 total pages, technical content pages 1-7, references
   page 8, AAAI reproducibility checklist page 9, and
   targeted grep found no missing citations, undefined refs, overfull hboxes,
@@ -812,9 +829,9 @@ Current paper handoff:
   AAAI-relevance, and small-delta uncertainty remain covered within the
   9-page build. Latest visual/layout inspection passes with wide floats delayed
   but readable before references.
-- The 2026-05-27 appendix/caveat PDF rebuild was a historical 9-page check.
-  The latest current check is
-  `logs/h001_aaai_pdf_build_compression_20260606_105126.log`, exit 0, with
+- The 2026-05-27 appendix/caveat PDF rebuild and the 2026-06-06 compression
+  rebuild are historical checks. The latest current check is
+  `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, exit 0, with
   9 pages and no blocking LaTeX or AAAI warnings in targeted grep.
 - `paper/figures.md` is ready and locks Figure 1-3 claims/assets before drawing:
   Figure 1 method framework, Figure 2 two-panel R@100/Violation@100 tradeoff,
@@ -831,12 +848,17 @@ Current paper handoff:
 
 Next required drafting step:
 
-1. Full-validation AAAI source regeneration and Docker PDF build are complete:
-   `logs/h001_aaai_pdf_build_compression_20260606_105126.log` exits 0 and
-   `paper/aaai/main.pdf` has 9 pages. Latest visual/layout inspection is
-   complete; next drafting work is content/claim QA, not source-result
-   regeneration.
-2. Keep Open3DSG caveats explicit during any further polish; the current
+1. Full-validation AAAI source regeneration, GeoCalib/Figure-1 update, and
+   Docker PDF build are complete:
+   `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log` exits 0 and
+   `paper/aaai/main.pdf` has 9 pages. Next work is submission/package hygiene,
+   not source-result regeneration.
+2. Confirm portal/form/style/checklist requirements, decide artifact URL/DOI
+   and supplementary/code-data policy, and regenerate any flattened release
+   package created before the GeoCalib/Figure-1 update.
+3. Restore or regenerate low-K metric/CI artifacts if K = `{5,10,20,50,100}`
+   remains in the main source-result table.
+4. Keep Open3DSG caveats explicit during any further polish; the current
    consistency target is selected official non-avg checkpoint provenance,
    filtered train/dev provenance, full-validation exact-label denominator,
    548/548 recovery policy, 533/548 full-validation sensitivity branch,
@@ -914,11 +936,11 @@ Optional extension sequence:
   scoring; then add source metrics/controls, bootstrap CI, and audit. A simple
   function-reasoning case study should come only after relation reliability is
   established.
-- Qwen-VL remaining shard loop status: run id `20260527_023111` stopped at
-  shard 0014 because the GPU guard observed utilization 36% against the 35%
-  threshold. Shards 0000-0013 are complete with 3,500 parsed rows, and the clean
-  resume point is `qwen_full_source_shard_0014`. Keep Qwen as third-source
-  non-metric extension evidence until the full Docker metric path completes.
+- Qwen-VL extension status: full official validation downstream is complete
+  with parser validation, adapter export, geometry join, metrics/controls,
+  bootstrap CI, failure rows, and deterministic qualitative inspection. Keep
+  Qwen as third-source appendix/extension evidence unless explicitly promoted
+  into the main claim.
 - AAAI source route: `paper/aaai/` now uses official AAAI-26 Author Kit style
   files checked on 2026-05-27 KST. `aaai2026.sty` was replaced from the
   official kit, `aaai2026.bst` already matched, and no official AAAI-27 author

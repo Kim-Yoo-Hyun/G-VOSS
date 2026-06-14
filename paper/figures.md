@@ -1,17 +1,17 @@
-# H001 Figure Source Lock
+# GeoCalib / H001 Figure Source Lock
 
-Last updated: 2026-06-05 KST
+Last updated: 2026-06-14 KST
 
-Status: `figure2_full_validation_regenerated`
+Status: `figure1_geocalib_framework_and_figure2_3_assets_generated`
 
 This file locks the paper-facing source claims and data artifacts for Figure
 1-3 before drawing. It is a planning artifact, not a generated figure output.
 It supersedes the older generated `figure_specs.md` source note where it
 conflicts, especially for Figure 3.
 
-Generated draft outputs and the geometry-backed Figure 3 upgrade are available
-under `paper/generated/figures/`. They are manuscript-planning figures, not
-camera-ready final artwork.
+Generated Figure 1-3 draft outputs and the geometry-backed Figure 3 upgrade are
+available under `paper/generated/figures/`. They are manuscript-planning figures,
+not camera-ready final artwork.
 
 ## Global Rules
 
@@ -25,8 +25,8 @@ camera-ready final artwork.
   non-averaged checkpoint, filtered-train/dev provenance, full-validation
   exact-label denominator 3,972, 548/548 recovery-policy branch, 533/548
   covered branch as sensitivity evidence, and residual-calibration caveats.
-- Qwen-VL does not appear in Figure 1-3 unless it is promoted with full Docker
-  metric, denominator, and audit treatment.
+- Qwen-VL does not appear in Figure 1-3 unless it is explicitly promoted from
+  appendix/extension evidence into a main paper figure/table.
 
 ## Figure 1
 
@@ -48,6 +48,8 @@ Locked visual form:
 
 Source artifacts:
 
+- `paper/generated/figures/figure1_framework.svg`.
+- `paper/generated/figures/figure1_framework.png`.
 - `paper/draft.md`, Sections 3-4.
 - `hypothesis/CAND-001/H001_geometry-grounded-verification/02_method.md`.
 - `experiments/H001_geom_reliability/manifest.lock.json`.

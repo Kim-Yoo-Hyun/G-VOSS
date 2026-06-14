@@ -1,8 +1,8 @@
 # Paper Workflow
 
-Last updated: 2026-06-06
+Last updated: 2026-06-14 KST
 
-This document manages paper-level framing for H001/CAND-001: novelty, contribution boundary, reviewer-defense logic, and the minimum experiment evidence needed before paper writing. It does not replace `docs/hypothesis.md`, `07_experiment_spec.md`, or Docker experiment artifacts.
+This document manages paper-level framing for GeoCalib/H001/CAND-001: novelty, contribution boundary, reviewer-defense logic, and the minimum experiment evidence needed before paper writing. It does not replace `docs/hypothesis.md`, `07_experiment_spec.md`, or Docker experiment artifacts.
 
 ## Ownership
 
@@ -32,6 +32,8 @@ H001 rule:
 - Claim novelty as a calibrated geometry-consistency evaluation/re-ranking framework that targets a specific failure: semantically plausible 3D relation predictions can be physically inconsistent because semantic confidence is not calibrated to relation-level geometry.
 
 ## Current One-Liner
+
+Paper-facing name: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations`. Use `GeoCalib` in title/abstract/main prose and keep `H001` for internal paths, provenance, and runbooks.
 
 Draft:
 
@@ -69,6 +71,20 @@ This is the preferred direction because it contains both cause diagnosis and met
   equivalent to the canonical R2 raw dump after excluding run metadata, but the
   process-level teardown/OOM exit-137 caveat remains visible.
 
+2026-06-14 paper/package update:
+
+- Low-K reporting is acceptable as a top-rank reliability diagnostic and may be
+  shown in the main source-result table for K = `{5,10,20,50,100}` if matching
+  metric/CI provenance is present. K=1 is excluded from paper metrics.
+- Qwen-VL full official validation downstream is complete and may be discussed
+  as third-source modern-VLM extension evidence. It does not replace the
+  VL-SAT/Open3DSG main-source route and should not widen the main claim unless
+  explicitly promoted.
+- Latest known Docker PDF build:
+  `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, exit 0, 9
+  pages. Regenerate any release package created before the GeoCalib/Figure-1
+  update.
+
 Current paper workspace:
 
 - `paper/README.md` is the folder-local entry point and records the roles of the paper files, reading order, and update ownership.
@@ -78,7 +94,7 @@ Current paper workspace:
 - `paper/draft.md` provides first-pass manuscript prose for Title, Abstract, Introduction, Related Work, Problem Formulation, Method, Experimental Setup, Results/Discussion, Limitations, and Conclusion. It has passed claim-scope/evidence-link review and now uses BibTeX-style citation keys in Related Work.
 - `paper/risk.md` tracks reviewer-risk attacks, mitigation status, and priority for logic/evidence/novelty/reproducibility defenses.
 - `paper/appendix.md` owns appendix/supplement provenance tables, detailed Open3DSG caveat consistency checks, optional Figure 3 decisions, and Qwen-VL extension boundary notes.
-- `paper/aaai/` is the current target-venue LaTeX source. It now uses the official AAAI-26 Author Kit style files checked on 2026-05-27 KST, splits the draft into `main.tex` plus `sec/*.tex`, points bibliography to `paper/references.bib`, and includes the AAAI reproducibility checklist after references. Docker PDF build is verified with `h001-aaai-tex:20260526`.
+- `paper/aaai/` is the current target-venue LaTeX source. It uses the official AAAI-26 Author Kit style files checked on 2026-05-27 KST until the exact target-year kit/form is rechecked, splits the draft into `main.tex` plus `sec/*.tex`, points bibliography to `paper/references.bib`, and includes the reproducibility checklist after references. Docker PDF build is verified with `h001-aaai-tex:20260526`; latest known log is `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`.
 - `paper/iccv/` remains a historical/alternate ICCV-style source route.
 - `paper/figures.md` locks Figure 1-3 source claims, exact values, case IDs, artifacts, and caption constraints; draft SVGs are generated, verified, and layout-reviewed under `paper/generated/figures/`.
 
@@ -309,8 +325,8 @@ Do not claim these until evidence exists:
 - AAAI-style source conversion is complete under `paper/aaai/` using the official AAAI-26 Author Kit. The 2026-05-27 check confirms `aaai2026.sty` was replaced from `AuthorKit26/AnonymousSubmission/LaTeX/aaai2026.sty`, `aaai2026.bst` already matched the official kit, and no official AAAI-27 author kit was confirmed.
 - The `paper/aaai/` manuscript-content pass is complete: it includes fixed scope/denominator accounting, a source-specific claim-boundary table, an Open3DSG-first main source-results table, prose controls/verifier/audit evidence, explicit Open3DSG caveat captioning, and limitation wording.
 - Figure 1-3 PNG build assets are ready and `paper/aaai/sec/6_results.tex` points to them. Figure 2 and Figure 3 are single-column in the AAAI source to keep technical content before references.
-- Docker build verification is complete: `paper/aaai/main.pdf` builds with `h001-aaai-tex:20260526`, BibTeX uses 19 entries, and there are no missing citations, undefined refs, overfull hboxes, LaTeX errors, or AAAI package errors. Latest compression rebuild log: `logs/h001_aaai_pdf_build_compression_20260606_105126.log`.
-- AAAI reproducibility checklist insertion is complete: `paper/aaai/sec/9_reproducibility_checklist.tex` is included after references. Docker rebuild `logs/h001_aaai_pdf_build_compression_20260606_105126.log` exits 0; the PDF has 9 total pages, technical content on pages 1-7, references on page 8, checklist on page 9, and no missing citations, undefined refs, overfull hboxes, LaTeX errors, or AAAI package errors. Latest visual/layout inspection passed in `paper/aaai/inspection/report.md`; wide floats are delayed but readable before references.
+- Docker build verification is complete: `paper/aaai/main.pdf` builds with `h001-aaai-tex:20260526`, BibTeX uses 19 entries, and there are no missing citations, undefined refs, overfull hboxes, LaTeX errors, Type 3 fonts, or AAAI package errors. Latest GeoCalib/Figure-1 rebuild log: `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`.
+- AAAI reproducibility checklist insertion is complete: `paper/aaai/sec/9_reproducibility_checklist.tex` is included after references. Latest Docker rebuild `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log` exits 0; the PDF has 9 total pages, technical content on pages 1-7, references on page 8, checklist on page 9, and no missing citations, undefined refs, overfull hboxes, LaTeX errors, Type 3 fonts, or AAAI package errors in targeted checks.
 - AAAI reviewer-defense main-text pass is updated for the selected
   full-validation route: Introduction, Method, Experimental Setup, Results, and
   Limitations directly answer the high-risk attacks, including hand-coded
@@ -331,7 +347,7 @@ Do not claim these until evidence exists:
 - Source-results table and failure-analysis text are regenerated from the
   selected full-validation route rather than the older 127-scan caveat wording.
 - Keep clean v14 streaming source-process provenance separate from historical exit-137 run records in reproducibility wording.
-- Keep Qwen-VL as third-source extension evidence unless it receives the same Docker, metric, and audit treatment. Current Qwen promotion status is protocol-frozen but non-metric: tiny runtime smoke passed, full-source plan frozen, shards 0000-0013 completed with 3,500 parsed rows, and clean resume starts from shard 0014 after GPU guard is acceptable. No full prediction/geometry/metric/audit path is complete yet.
+- Keep Qwen-VL as third-source extension evidence unless explicitly promoted. Full official validation downstream is complete for the extension route, including parser validation, adapter export, geometry join, metrics/controls, bootstrap CI, failure rows, and deterministic qualitative inspection, but this does not replace the VL-SAT/Open3DSG main-source route.
 - Keep the `relative_horizontal` expansion track frozen as appendix/limitation
   evidence for the current AAAI path. The no-training/no-inference denominator
   audit, Docker coordinate audit, and Docker bucket inspection are complete, but

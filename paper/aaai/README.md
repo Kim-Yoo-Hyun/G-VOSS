@@ -1,14 +1,15 @@
 # AAAI-Style Manuscript Source
 
-Last updated: 2026-06-05 KST
+Last updated: 2026-06-14 KST
 
-This directory is the AAAI-style LaTeX source conversion of the H001 paper.
+This directory is the AAAI-style LaTeX source conversion of the GeoCalib/H001 paper.
 It is separate from `paper/iccv/` so venue-specific formatting decisions do not
 overwrite each other.
 
 ## Template Route
 
 - Route chosen: AAAI Press LaTeX submission style.
+- Paper-facing title: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations`
 - Current style files:
   - `aaai2026.sty`
   - `aaai2026.bst`
@@ -49,8 +50,14 @@ Important AAAI-26 constraints from the official submission page:
 
 ## Content Status
 
+- Current source state should use `GeoCalib` in manuscript-facing prose and
+  reserve `H001` for internal experiment/provenance paths.
 - Open3DSG is framed as the main open-vocabulary relation-source case study.
 - VL-SAT is framed as the controlled reproduced anchor.
+- Low-K reporting is accepted for K = `{5,10,20,50,100}` where current-source
+  provenance is available; K=1 is not a paper metric.
+- Qwen-VL is a completed third-source extension and should not replace the
+  VL-SAT/Open3DSG main-source framing unless explicitly promoted.
 - The Results section includes Docker subgraph bootstrap CIs as
   evaluation-context uncertainty checks, not repeated-training variance.
 - The current source keeps the Open3DSG caveats explicit: selected official
@@ -77,20 +84,22 @@ ICCV preamble blindly into this directory.
 Verified run:
 
 - Image build log: `logs/h001_aaai_tex_image_build_full_validation_20260605_100108.log`
-- PDF build log: `logs/h001_aaai_pdf_build_compression_20260606_105126.log`
+- PDF build log: `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`
 - Output: `paper/aaai/main.pdf`
 - Page count: 9 total pages
 - Technical content: pages 1-7
 - References: page 8
 - Reproducibility checklist: page 9
 - Current warnings: no missing citations, undefined references, overfull hboxes,
-  LaTeX errors, or AAAI package errors in the latest build log. Underfull box
-  warnings remain non-blocking layout warnings.
+  LaTeX errors, Type 3 fonts, or AAAI package errors in the latest known build
+  log. One tiny overfull vbox warning is non-blocking.
 - Visual inspection: `paper/aaai/inspection/report.md`
 
 ## Source Boundary
 
-This is a venue-style conversion, not a final submission. Before AAAI
-submission, verify the exact target-year author kit, page limit, supplementary
-material policy, reproducibility checklist format, and ethics/review
-instructions from the official AAAI site.
+This is a venue-style conversion, not a final submission. Before upload,
+verify the exact target-year author kit, portal form, page limit,
+supplementary/code-data policy, reproducibility checklist format,
+artifact-link/DOI requirements, and ethics/review instructions from the official
+AAAI/OpenReview site. Regenerate any flattened release package created before
+the GeoCalib/Figure-1 update.

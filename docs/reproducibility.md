@@ -1,6 +1,6 @@
 # H001 Reproducibility Runbook
 
-Last updated: 2026-06-05 KST
+Last updated: 2026-06-14 KST
 
 This document consolidates dataset, checkpoint, environment, Docker, reproduction,
 and evaluation-summary information for `experiments/H001_geom_reliability/`.
@@ -70,17 +70,19 @@ VL-SAT full-validation source state:
 6. `experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_rows/report.md`
 7. `experiments/H001_geom_reliability/sources/vlsat/full_validation/failure_cases/inspection.md`
 
-Qwen-VL extension/resume state:
+Qwen-VL extension state:
 
 1. `experiments/H001_geom_reliability/sources/qwen_vl/README.md`
 2. `experiments/H001_geom_reliability/sources/qwen_vl/report.md`
 3. `experiments/H001_geom_reliability/sources/qwen_vl/status.json`
 4. `experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml`
-5. `experiments/H001_geom_reliability/sources/qwen_vl/full_source_input/manifest.json`
-6. `experiments/H001_geom_reliability/sources/qwen_vl/full_source_inference_plan/commands.md`
-7. `experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/manifests/`
-8. `logs/qwen_vl_full_source_infer_remaining_20260527_023111.status.tsv`
-9. `logs/qwen_vl_full_source_infer_remaining_20260527_023111.exit`
+5. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input/`
+6. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/runtime/`
+7. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/validation/`
+8. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/adapter/`
+9. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/geometry/`
+10. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/failure_rows/`
+11. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/failure_cases/`
 
 Paper writing state:
 
@@ -121,25 +123,28 @@ Facts:
   reviewer-defense guardrails.
 - Latest paper/reproducibility tasks completed: AAAI reproducibility checklist
   insertion, reviewer-defense main-text passes, Docker subgraph bootstrap CI,
-  reproducibility artifact bundle planning, and official AAAI-26 Author Kit
-  replacement/verification, plus the appendix/provenance and Open3DSG
-  caveat-consistency pass. Docker build verification for `paper/aaai/` is
-  complete with `h001-aaai-tex:20260526`; the latest compression
-  rebuild log is `logs/h001_aaai_pdf_build_compression_20260606_105126.log`,
-  with 9 total pages, technical content on pages 1-7, references on page 8,
-  and the AAAI reproducibility checklist on page 9. The manuscript uses
-  Open3DSG as the main open-vocabulary relation-source case study and VL-SAT as
-  the controlled reproduced anchor.
-- Qwen-VL is a third semantic source / modern VLM extension path. The locked
-  Qwen3-VL-4B cache, runtime preflight, 3-row tiny inference smoke,
-  raw-response validation, full-source promotion protocol, and full-source
-  input audit, all-scope crop preflight, full-source inference runner plan, and
-  shard 0000 contract validation are ready, but full Qwen inference is not
-  paper metric evidence yet. Current Qwen input audit has 33,384 inferable rows
-  and 134 shards. The remaining shard loop run id `20260527_023111` stopped at
-  shard 0014 because the GPU guard observed utilization 36% against the 35%
-  threshold; shards 0000-0013 are complete with 3,500 rows written, and resume
-  should start from `qwen_full_source_shard_0014`.
+  reproducibility artifact bundle planning, official AAAI-26 Author Kit
+  replacement/verification, appendix/provenance and Open3DSG caveat-consistency
+  pass, GeoCalib naming, and Figure-1 update. Docker build verification for
+  `paper/aaai/` is complete with `h001-aaai-tex:20260526`; the latest
+  GeoCalib/Figure-1 rebuild log is
+  `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, with 9 total
+  pages, technical content on pages 1-7, references on page 8, and the
+  reproducibility checklist on page 9. The manuscript uses Open3DSG as the main
+  open-vocabulary relation-source case study and VL-SAT as the controlled
+  reproduced anchor.
+- Qwen-VL is a third semantic source / modern VLM extension path. Full official
+  validation downstream is complete: parser validation, adapter export,
+  geometry join, metrics/controls, bootstrap CI, 31,881 failure rows, and 36
+  deterministic qualitative cases are ready for 157 scans / 548 contexts /
+  110,424 query rows / 46,506 inferable input rows / 35,131 exported
+  predictions / 32,236 in-scope predictions / 3,972 H001-family GT rows. Treat
+  Qwen as appendix/extension evidence unless explicitly promoted.
+- Low-K reporting has been accepted for K = `{5,10,20,50,100}` where table
+  space/provenance support it; K=1 remains sanity-check only. This checkout does
+  not expose a tracked low-K result directory, so restore or regenerate the
+  low-K metric/CI artifacts before final release/package upload if those rows
+  are reported.
 - Runtime pressure is volatile: check `docker ps`, `tmux ls`, `nvidia-smi`, and
   `free -h` before launching heavy Open3DSG or Qwen jobs. The historical
   2026-05-26 Qwen-VL runtime-preflight retry was blocked by GPU guard, but the
@@ -287,6 +292,12 @@ Recommended release tiers:
 | D. External-only dependencies | raw 3RScan/3DSSG/VL-SAT data, official third-party checkpoints, Qwen-VL HF cache | Dataset/model access under original terms | Qwen cache 8.3 GB; raw datasets much larger | Prefer documented download/rebuild over redistribution. |
 
 Full-validation paper result upload bundle, fixed 2026-06-11 KST:
+
+2026-06-14 status note: this file-list/checksum plan remains useful
+provenance, but any final public upload package must be regenerated or
+reverified after the GeoCalib/Figure-1 update, the low-K table decision, and any
+Qwen extension inclusion decision. Do not treat an older flattened archive as
+final submission-ready without this pass.
 
 ```text
 status: upload_bundle_file_list_and_verification_fixed_no_archive_created

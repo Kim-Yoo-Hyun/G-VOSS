@@ -1,8 +1,17 @@
 # TODO
 
-Last updated: 2026-06-11
+Last updated: 2026-06-14 KST
 
 이 파일은 에이전트가 다음 작업 계획과 진행 상태를 관리하는 루트 작업판이다. 자세한 문헌 조사 내용은 `literature/`에 기록하고, 자세한 hypothesis 근거는 `hypothesis/`에 기록한다.
+
+## Current Snapshot, 2026-06-14 KST
+
+- Paper-facing name is now `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations`; keep `H001` as an internal hypothesis/experiment identifier only.
+- Main claim remains scoped relation reliability for `support_contact`, `proximity`, and `relative_vertical`, with VL-SAT as the controlled reproduced anchor and Open3DSG 548/548 recovery as the main open-vocabulary relation-source case study.
+- Low-K result reporting decision is to expose K = `{5, 10, 20, 50, 100}` where useful. K=1 stays out of paper metrics. The current checkout does not contain a tracked `k_sweep/` result directory, so regenerate or restore the low-K metric/CI artifacts before final package upload if they are needed for table provenance.
+- Qwen-VL full official validation downstream is complete as a third-source / modern VLM extension: 157 scans / 548 contexts / 110,424 query rows / 46,506 inferable input rows / 35,131 exported predictions / 32,236 in-scope predictions / 3,972 H001-family GT rows, plus metrics/controls/bootstrap/failure rows/36 deterministic qualitative cases. It remains appendix/extension evidence unless explicitly promoted.
+- Latest known paper build is `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, exit 0, 9 pages, with GeoCalib/Figure-1 updates. Any older flattened release package generated before GeoCalib/Figure-1 must be regenerated before upload.
+- Immediate TODO: confirm final OpenReview/AAAI portal form, decide artifact URL/DOI, decide supplementary/code-data upload policy, recheck partial checklist answers, regenerate/verify any missing low-K/package artifacts, and run final PDF/source sanity checks from the current checkout.
 
 ## Current Phase
 
@@ -62,7 +71,7 @@ CAND-003은 literature survey 트랙이다. 2026-04-30 기준으로 LLM/VLM task
 - CAND-001: `relative_lateral` dev failure diagnosis completed as Docker `relative_lateral_dev_failure_diagnosis` with status `relative_lateral_dev_failure_diagnosis_ready_no_policy_change_no_source_metrics`; outputs live under `experiments/H001_geom_reliability/sources/relative_lateral/dev_failure_diagnosis/`. It reads only the frozen policy-lock rows. Positive strict contradictions are 72 rows but 36 physical pairs, all concentrated in two dev scans, with same-label share `0.5278`. Positive uncertain rows are 140 rows but 70 physical pairs, same-label share `0.4857`, and the dominant cause is orthogonal/front-back-axis dominance rather than pure lateral sign failure. Conclusion: this is a coordinate/frame-orientation boundary case; keep `relative_lateral` caveated unless a separate predeclared frame/annotation study is added.
 - CAND-001: `relative_lateral` current-path stop decision is now fixed. It is appendix/future-work boundary evidence only, not a source-metric or main-claim expansion track. The consolidated relation-expansion status file is `experiments/H001_geom_reliability/sources/relation_expansion_status.md`.
 - CAND-001: `attachment_deferred` is the preferred future relation-family upgrade, not current AAAI main-claim evidence. Docker G0 scope/schema audit through G5d full-source scoring/metrics/controls/bootstrap are complete under `experiments/H001_geom_reliability/sources/attachment_deferred/`; it covers `attached to`, `hanging on`, and `connected to`, adds 967 GT rows, and aligns better with H001's physical-consistency thesis than `relative_horizontal`. G5d status is `attachment_deferred_g5d_full_source_metrics_ready` with 69/69 shards, 135,048 scored rows, validation errors 0. Main-claim promotion still requires user confirmation and likely failure/visual audit.
-- CAND-001: Qwen-VL은 third semantic source / modern VLM extension으로 고정한다. frozen input schema / output JSONL contract / validator-parser skeleton / non-held-out tiny pilot scope / runtime preflight and model-lock plan / 30-row pair-crop rendering and validation / model cache verification / runtime preflight / 3-row tiny inference smoke / runtime raw-response validation / full-source promotion protocol freeze / full-source input audit and validation / full-source crop render and preflight / full-source inference runner plan and shard dry-run까지 완료했다. Primary recommendation은 `Qwen/Qwen3-VL-4B-Instruct` revision `ebb281ec70b05090aa6165b016eac8ec08e71b17`, local-dir `local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17`이다. Docker full-source input status is `full_source_input_ready_with_missing_rows_no_inference`; scope is 127 scans / 388 contexts / 25,916 directed pairs / 77,748 universe rows / 33,384 inferable input rows / 44,364 missing rows / 134 shards / in-scope GT denominator 2,545. Crop preflight status is `full_source_crop_preflight_ready_no_inference` with 11,128 verified pair crops. Inference runner status is `full_source_inference_runner_frozen_no_inference`, shard 0000 status is `complete_validated_non_metric` with 250/250 parsed rows and 0 validation errors. Previous remaining shard loop run id `20260527_023111` stopped at shard 0014 because the GPU guard observed utilization 36% against the 35% threshold; shards 0000-0013 are complete and 3,500 rows are written. The remaining loop was resumed on 2026-06-11 KST as tmux `h001_qwen_vl_infer_remaining_resume_20260611_000531`, run id `20260611_000531`, from `qwen_full_source_shard_0014` through `qwen_full_source_shard_0133`, with log `logs/qwen_vl_full_source_infer_remaining_20260611_000531.log` and status TSV `logs/qwen_vl_full_source_infer_remaining_20260611_000531.status.tsv`. Resume check: shard `0014` completed with exit 0 at `2026-06-11T00:08:58+09:00`, and shard `0015` started immediately afterward. Qwen remains non-metric until all sharded inference, parser validation, adapter export, geometry join, metrics, controls, bootstrap CI, and audit complete.
+- CAND-001: Qwen-VL은 third semantic source / modern VLM extension으로 고정한다. Full official validation downstream route is complete: parser validation, adapter export, geometry join, metrics/controls, bootstrap CI, failure rows, and deterministic qualitative inspection are ready for 157 scans / 548 contexts / 110,424 query rows / 46,506 inferable input rows / 63,918 missing query rows / 187 shards / 35,131 exported predictions / 32,236 in-scope predictions / 3,972 H001-family GT rows. Key metrics: semantic_only R@50/R@100 `0.2815/0.3600`, V@50/@100 `0.1226/0.1246`; probabilistic_recalibrated `0.3215/0.3653`, V `0.0795/0.1166`; rule_verified_point_subtype `0.3009/0.3630`, V `0.0/0.0`; family_specific `0.3379/0.3653`, V `0.0510/0.1113`. It remains extension/appendix evidence unless explicitly promoted into the main claim.
 - CAND-003: P1 결과물을 보고 hypothesis workflow 승격 여부를 판단한다.
 
 ## Now
@@ -71,6 +80,11 @@ CAND-003은 literature survey 트랙이다. 2026-04-30 기준으로 LLM/VLM task
 
 Data-dependent:
 
+- [ ] OpenReview/AAAI portal final form 확인: target year, page/checklist/supplement policy, artifact-policy fields, and anonymity requirements must be checked against the live portal before upload.
+- [ ] Artifact/code-release URL 또는 DOI 결정: GitHub/source bundle, external row-level artifact bundle, and checksum/verification command must be fixed before final checklist answers.
+- [ ] Supplementary/code-data upload 여부 결정: decide whether low-K artifacts, Qwen extension summaries, Figure source assets, and row-level metrics are submitted as supplement, linked artifact, or both.
+- [ ] Checklist partial 답변 재검토: update answers after GeoCalib naming, Figure 1 replacement, low-K table decision, and Qwen extension boundary.
+- [ ] Low-K result provenance sync: regenerate or restore `K={5,10,20,50,100}` metrics/CI artifacts in the current checkout before final package upload; current tracked tree only shows a stale low-K Python bytecode artifact.
 - [x] Full official validation transition metric-bundle generation: build Docker-reproducible full
       `3DSSG_subset` validation scope artifacts and rerun the complete source
       pipeline before promoting it to the main paper claim. Target scope is 157
@@ -259,11 +273,12 @@ Non-data:
       0 but expanded to 10 pages. Compression/layout polish then shortened
       Related Work, Experimental Setup, Results, Limitations, and Conclusion
       without changing the source-result policy. Docker rebuild
-      `logs/h001_aaai_pdf_build_compression_20260606_105126.log` exited 0; the
-      current `paper/aaai/main.pdf` is 9 pages on US Letter, with technical
-      content pages 1-7, references on page 8, and the reproducibility
-      checklist on page 9. Targeted grep found no missing citations, undefined
-      references, overfull hboxes, LaTeX errors, or AAAI package errors.
+      `logs/h001_aaai_pdf_build_compression_20260606_105126.log` exited 0; this
+      was later superseded by the GeoCalib/Figure-1 build
+      `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, which is
+      the latest known 9-page `paper/aaai/main.pdf` check. Targeted grep found
+      no missing citations, undefined references, overfull hboxes, LaTeX errors,
+      Type 3 fonts, or AAAI package errors in the latest known check.
 - [x] Latest AAAI PDF visual/layout inspection after compression: inspect
       pages, table/figure placement, caption readability, and whether the
       full-validation main table plus appendix/sensitivity policy remains
@@ -296,12 +311,11 @@ Non-data:
 - [x] Run `relative_lateral` train/dev policy lock or calibration gate before held-out source metrics. Docker final build/run logs: `logs/h001_relative_lateral_train_dev_lock_final_build_20260606_165717.log`, `logs/h001_relative_lateral_train_dev_lock_final_run_20260606_165717.log`; output `experiments/H001_geom_reliability/sources/relative_lateral/train_dev_policy_lock/`. Status is caveated because dev strict purity gates failed.
 - [x] Diagnose `relative_lateral` dev strict contradictions and uncertain rows without changing validation policy. Docker final build/run logs: `logs/h001_relative_lateral_dev_diagnosis_rebuild_20260606_170406.log`, `logs/h001_relative_lateral_dev_diagnosis_rerun_20260606_170406.log`; output `experiments/H001_geom_reliability/sources/relative_lateral/dev_failure_diagnosis/`. Result: strict contradictions are pair-symmetric, concentrated in two dev scans, and about half same-label object pairs; uncertain rows are mostly orthogonal-axis dominance.
 - [x] Stop `relative_lateral` for the current AAAI path and record why attempted expansion relations did not promote. Updated `sources/relation_expansion_status.md`, `relative_lateral/README.md`, `relative_horizontal/README.md`, `attachment_deferred/README.md`, paper appendix/preview/progress, docs, and TODO. Current decision: no paper-facing lateral source metrics from the current strict policy.
-- [ ] Qwen-VL remaining shard loop resumed as background job
-      `h001_qwen_vl_infer_remaining_resume_20260611_000531`, run id
-      `20260611_000531`, from `qwen_full_source_shard_0014` through
-      `qwen_full_source_shard_0133`. Status is `running_non_metric` until the
-      exit file appears and all downstream validation/metric steps complete.
-      Current check: shard `0014` completed exit 0 and shard `0015` started.
+- [x] Qwen-VL full official validation downstream completed as appendix/extension
+      evidence: parser validation, adapter export, geometry join,
+      metrics/controls, bootstrap CI, failure rows, and deterministic
+      qualitative inspection are ready. It remains outside the main claim unless
+      explicitly promoted.
 
 ### CAND-003
 

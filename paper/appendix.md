@@ -1,6 +1,6 @@
 # H001 Appendix And Supplement Plan
 
-Last updated: 2026-06-05 KST
+Last updated: 2026-06-14 KST
 
 This file owns appendix/supplement material that is too detailed for the AAAI
 main text but important for reviewer defense. It is not a new experiment-result
@@ -25,7 +25,10 @@ Use this appendix only for:
   as limitation/future-work evidence;
 - optional `attachment_deferred` future-upgrade protocol, if reported only as a
   next-step physical relation family;
-- Qwen-VL runtime status only as third-source extension material.
+- Qwen-VL full-validation extension evidence only as third-source material,
+  unless explicitly promoted.
+- low-K K = `{5,10,20,50,100}` provenance/details if the main table keeps the
+  expanded K grid; K=1 remains sanity-check only.
 
 Do not use it to hide caveats that must remain visible in the main text.
 
@@ -212,10 +215,13 @@ pass.
 ## Qwen-VL Boundary
 
 Qwen-VL remains a third semantic source / modern VLM extension. It is not a
-VL-SAT/Open3DSG replacement and not main paper metric evidence until all
-remaining shards, parser validation, prediction aggregation/export, geometry
-join, metrics, controls, bootstrap CI if reported, and audit are complete under
-Docker.
+VL-SAT/Open3DSG replacement. Full official validation downstream is complete for
+the extension route: 157 scans / 548 contexts / 110,424 query rows / 46,506
+inferable input rows / 35,131 exported predictions / 32,236 in-scope
+predictions / 3,972 H001-family GT rows, with parser validation, adapter
+export, geometry join, metrics/controls, bootstrap CI, 31,881 failure rows, and
+36 deterministic qualitative cases. Keep it in appendix/extension framing
+unless the user explicitly promotes it into the main claim.
 
 ## Validation
 
@@ -231,7 +237,7 @@ Docker.
 - Docker `table_builder` rerun:
   `logs/h001_table_builder_caveat_consistency_20260527_202425.log`, exit 0.
 - AAAI PDF rebuild:
-  `logs/h001_aaai_pdf_build_compression_20260606_105126.log`, exit 0.
+  `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, exit 0.
 - PDF status: `paper/aaai/main.pdf`, 9 pages, US Letter, technical content
   pages 1-7, references page 8, checklist page 9; no missing citations,
   undefined references, overfull hboxes, LaTeX errors, or AAAI package errors

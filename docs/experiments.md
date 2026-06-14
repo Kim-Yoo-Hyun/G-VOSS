@@ -1,12 +1,21 @@
 # Experiment Workflow
 
-Last updated: 2026-06-06
+Last updated: 2026-06-14 KST
 
 This document is the workflow rulebook for Docker-based paper experiments. It
 does not replace `docs/reproducibility.md`, which owns recovery commands,
 artifact transfer, model/data locations, and cleanup safety. It also does not
 replace `experiments/**/README.md`, which owns experiment-local status,
 outputs, and run records.
+
+Current active experiment root remains `experiments/H001_geom_reliability/`.
+Paper-facing name is `GeoCalib`, but the experiment directory keeps the
+internal `H001` identifier. Main paper-result evidence is VL-SAT full official
+validation plus Open3DSG full-validation `recovery_relaxed_views_min2/`.
+Qwen-VL full official validation is extension evidence unless explicitly
+promoted. Low-K reporting for K = `{5,10,20,50,100}` must have matching
+Docker-generated or Docker-compatible metric/CI provenance before final package
+upload; K=1 is sanity-check only.
 
 ## Ownership
 

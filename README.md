@@ -2,7 +2,7 @@
 
 이 저장소는 3D Scene Graph 석사 연구를 위한 작업 공간이다.
 
-현재 단계는 CAND-001 H001의 Docker-based full-validation experiment 결과를 paper writing phase로 전환하는 단계와 CAND-003 literature survey를 병렬로 추적하는 단계다. CAND-001은 `Geometry-Grounded Open-Vocabulary Relation Graph` 방향에서 hypothesis-stage evidence lock, scoped main experiment spec, VL-SAT/Open3DSG full-validation metric bundles, real failure-analysis rows, qualitative case inspection, paper preview, bilingual paper outline, first-pass manuscript body, ICCV-style source conversion, AAAI-style source conversion, and AAAI reproducibility checklist insertion까지 완료했다. 현재 target venue source는 `paper/aaai/`이다. H001 문서는 `hypothesis/CAND-001/H001_geometry-grounded-verification/` 아래 7개 canonical 파일로 정리되어 있다.
+현재 단계는 CAND-001/H001의 Docker-based full-validation evidence를 paper/submission package로 정리하는 단계와 CAND-003 literature survey를 병렬로 추적하는 단계다. Paper-facing 제목/약어는 `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations` / `GeoCalib`로 둔다. H001은 내부 hypothesis/experiment identifier로 유지한다. CAND-001은 hypothesis-stage evidence lock, scoped main experiment spec, VL-SAT/Open3DSG full-validation metric bundles, low-K source-result sweep decision, real failure-analysis rows, qualitative case inspection, Qwen-VL third-source downstream extension, Figure 1-3 assets, paper preview/outline/draft/risk/appendix, AAAI-style source, and reproducibility checklist까지 완료했다. 현재 target venue source는 `paper/aaai/`이며, 업로드 전 target-year author kit/form/package는 재확인해야 한다. H001 문서는 `hypothesis/CAND-001/H001_geometry-grounded-verification/` 아래 7개 canonical 파일로 정리되어 있다.
 
 ## Current Focus
 
@@ -90,20 +90,23 @@
   The paper-facing primary Open3DSG route remains the full-validation 548/548
   recovery branch. Main AAAI claim expansion beyond current H001 families still
   requires explicit final user confirmation.
-  Qwen-VL remains deferred until GPU runtime is acceptable, then resumes from
-  shard 0014 as a third-source extension. Docker `paper/aaai/` PDF build is
-  verified with `h001-aaai-tex:20260526`; latest compression rebuild log
-  `logs/h001_aaai_pdf_build_compression_20260606_105126.log` exits 0, and
+  Qwen-VL full official validation downstream is complete as a third-source /
+  modern VLM extension, not as a replacement for VL-SAT or Open3DSG. Its
+  parser validation, adapter export, geometry join, metrics/controls,
+  bootstrap CI, failure rows, and deterministic qualitative inspection are
+  ready, but it remains appendix/extension evidence unless the user explicitly
+  promotes it. Docker `paper/aaai/` PDF build is verified with
+  `h001-aaai-tex:20260526`; latest GeoCalib/Figure-1 rebuild log
+  `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log` exits 0, and
   `main.pdf` builds to 9 total pages with technical content on pages 1-7,
-  references on page 8, and the AAAI reproducibility checklist on page 9. The
-  next paper task is latest-PDF visual/layout inspection, not source-result
-  regeneration. The AAAI source now uses the official AAAI-26 Author Kit checked
-  on 2026-05-27 KST; no official AAAI-27 kit is confirmed. The manuscript treats
-  Open3DSG as the main open-vocabulary relation-source case study and VL-SAT as
-  a controlled reproduced anchor.
+  references on page 8, and the reproducibility checklist on page 9. The next
+  paper task is submission-package/form/artifact hygiene, not source-result
+  regeneration. The local AAAI source still uses the official AAAI-26 Author
+  Kit checked on 2026-05-27 KST until the exact target-year kit/form is
+  reconfirmed.
 - CAND-001 AAAI reviewer-defense pass: the AAAI source now answers the hand-coded-verifier, geometry-only/distance, recall-tradeoff, Open3DSG recovery-policy, family-selection, and AAAI-relevance attacks for the selected full-validation route while preserving the scoped relation-reliability claim.
 - CAND-001 reproducibility handoff: `docs/reproducibility.md` is updated with the 2026-05-21 `.gitignore` portability audit, the 2026-05-26 historical 127-scan bundle, and the 2026-06-05 full-validation paper-facing bundle plan. GitHub carries source/runbooks/scripts/compact summaries; the selected checkpoint and row-level full-validation JSONL outputs should be bundled separately, while datasets, feature caches, and model caches remain external or regenerated.
-- CAND-001 optional extension: Qwen-VL is now fixed as a third semantic source / modern VLM extension, not a VL-SAT/Open3DSG replacement. Cache verification, Docker runtime preflight, 3-row tiny inference smoke, runtime raw-response validation, full-source promotion protocol, full-source input audit, full-source crop preflight, and full-source inference runner plan are ready; shard 0000 inference is complete and contract-validated as non-metric evidence. Remaining loop run id `20260527_023111` stopped at shard 0014 due to GPU utilization guard, not OOM or parser failure; shards 0000-0013 are complete with 3,500 rows written, and the clean resume point is `qwen_full_source_shard_0014`.
+- CAND-001 optional extension: Qwen-VL is fixed as a third semantic source / modern VLM extension, not a VL-SAT/Open3DSG replacement. Full-source inference and downstream validation are complete for the official validation extension route: 157 scans / 548 contexts / 110,424 query rows / 46,506 inferable input rows / 35,131 exported predictions / 32,236 in-scope predictions / 3,972 H001-family GT rows. Key diagnostic metrics are semantic_only R@50/R@100 `0.2815/0.3600`, V@50/@100 `0.1226/0.1246`; probabilistic_recalibrated `0.3215/0.3653`, V `0.0795/0.1166`; family_specific `0.3379/0.3653`, V `0.0510/0.1113`; and rule_verified_point_subtype `0.3009/0.3630`, V `0.0/0.0`. This is extension evidence unless explicitly promoted.
 - CAND-001 experiment rule: 논문 본문용 실제 experiment 구현은 Docker 기반으로만 진행하고 host-only output은 paper result로 승격하지 않는다.
 - Research target rule: 연구 목표와 방향성은 AI, ML, CV, Robotics top-tier journal/conference를 타겟으로 판단한다.
 - CAND-003: `Geometry-Aware Refinement of LLM/VLM Task Reasoning on 3DSG` literature survey / feasibility boundary 정리 완료, hypothesis workflow 승격 여부 판단 대기.
@@ -143,7 +146,7 @@ Facts:
 - `relative_horizontal` is tracked as a separate expansion candidate, not part of the current claim. Docker scope audit status is `relative_horizontal_scope_audit_ready_no_metric_execution`: 3,570 candidate GT rows, expanded candidate denominator 6,115/7,505 if validated, labels `left/right/front/behind` = 1,132/1,132/653/653, source rows VL-SAT 103,664 and Open3DSG 76,400, current verification status unsupported. Docker coordinate audit status is `relative_horizontal_coordinate_audit_blocked_no_metric_execution`: best frame `scan_left_neg_x_front_neg_y`, macro strict purity 0.7725, strict eligible share 0.6403, left/right purity 0.8005, front/behind purity 0.7445, inverse consistency 1.0, wrong-frame gap 0.1231. Docker bucket inspection status is `relative_horizontal_bucket_inspection_ready_no_metric_execution`: `front`/`behind` match:contradiction 2.9143, sign-only purity 0.7491, ambiguity flags `axis_margin_ambiguous` 230 / `conflicting_axis_dominates` 430 / `strong_projected_overlap` 44, recommendation `do_not_promote_relative_horizontal_to_main_claim`. This is not metric evidence and does not change the current claim.
 - `attachment_deferred` is tracked as the preferred future physical-relation expansion, not part of the current claim. Docker scope/schema audit, extractor contract, evidence-only dry run, point/surface estimator validation, verifier-policy design, train-dev calibration/counterfactual route, G4 GT policy smoke, G4b error/visual sanity planning, G4c strict-only calibration-filter freeze, G5a pooled calibration fit, G5b bounded source scoring preflight, G5c full-source protocol freeze, and G5d full-source scoring/metrics/controls/bootstrap are complete. Current denominator policy records 967 GT rows: `attached to` 808, `hanging on` 126, and `connected to` 33. Source rows exist for VL-SAT 77,748 and Open3DSG 57,300. G5d output validates at `experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d/`: 69/69 shards, 135,048 scored rows, validation errors 0. `connected to` dev absence must be handled by pooled calibration or an explicit caveat, and main-claim promotion still requires explicit user confirmation.
 - Docker experiment root `experiments/H001_geom_reliability/` has generated Table 1-6, `manifest.lock.json`, `report.md`, figure specs, Open3DSG metric artifacts, real failure rows, qualitative case queue, and qualitative inspection.
-- Qwen-VL is staged only as a third semantic source / modern VLM extension: input/output contract, parser skeleton, 30-row non-held-out tiny pilot, model-lock plan, 30/30 pair crops, Qwen3-VL-4B cache verification, runtime preflight, 3-row tiny inference smoke, raw-response validation, full-source promotion plan, full-source input audit, full-source crop preflight, and full-source inference runner plan are ready. Current Qwen input audit has 77,748 universe rows, 33,384 inferable input rows, 44,364 missing rows, and 134 shards; crop preflight verifies 11,128 unique pair crops for those rows; shards 0000-0013 inference completed with 3,500 parsed rows, and remaining resume starts from shard 0014 after GPU guard is acceptable. This is not metric evidence.
+- Qwen-VL is staged only as a third semantic source / modern VLM extension. The full official validation downstream route is complete with parser validation, adapter export, geometry join, metrics/controls, bootstrap CI, 31,881 failure rows, and 36 deterministic qualitative cases. It is metric evidence for an appendix/extension discussion, not a replacement for the two-source main claim unless explicitly promoted.
 - Dockerized Open3DSG checkpoint reproduction plan is ready under `experiments/H001_geom_reliability/sources/open3dsg/`: official train split 1178 scans / 3852 subgraphs / 81,190 relations, H001 eval split 127 scans / 388 subgraphs / 7,505 relations, dependency pins, dataset/cache mounts, train/eval commands, and failure budget.
 - Open3DSG `training_repro` metadata/split staging is ready with H001 held-out overlap 0/0: official train 1178 scans / 3852 subgraphs / 81,190 relations and train-dev without H001 30 scans / 160 subgraphs / 3,749 relations.
 - Open3DSG full train payload staging is complete: train scan dirs, raw files, Open3DSG mesh/texture, and sequence files are 1178/1178; train-dev payload is 30/30; `open3dsg_train_handoff` status is `ready_for_open3dsg_env_check`.
@@ -229,7 +232,7 @@ Current survey verdict:
 - `paper/draft.md`: Title through Conclusion first-pass manuscript prose
 - `paper/risk.md`: reviewer-risk register and mitigation tracker
 - `paper/appendix.md`: appendix/supplement provenance table and caveat consistency pass
-- `paper/aaai/`: current AAAI-style LaTeX manuscript source using official AAAI-26 Author Kit style files checked on 2026-05-27 KST
+- `paper/aaai/`: current AAAI-style LaTeX manuscript source using official AAAI-26 Author Kit style files checked on 2026-05-27 KST; target-year kit/form must be rechecked before upload
 - `paper/iccv/`: historical ICCV-style LaTeX manuscript source using vendored ICCV/CVF style files
 - `paper/figures.md`: Figure 1-3 source lock, exact values, case IDs, and caption constraints
 - `paper/generated/figures/`: verified draft Figure 1-3 SVGs and generation manifest

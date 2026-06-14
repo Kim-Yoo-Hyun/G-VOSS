@@ -1,7 +1,47 @@
 # Qwen-VL Semantic-Source Adapter
 
-Status: `full_source_inference_remaining_loop_resumed_non_metric`
+Status: `full_validation_extension_downstream_ready_appendix_only`
 Created at: `2026-05-08T06:35:07+00:00`
+Last updated: 2026-06-14 KST
+
+## Current State, 2026-06-14 KST
+
+Qwen-VL is now a completed third semantic source / modern VLM extension for
+the full official validation route. It is not a replacement for the VL-SAT
+controlled anchor or the Open3DSG main open-vocabulary relation-source case
+study.
+
+Full-validation row artifacts live under:
+
+```text
+experiments/H001_geom_reliability/sources/qwen_vl/full_validation/
+```
+
+Current scope and outputs:
+
+- 157 scans / 548 contexts
+- 110,424 query rows
+- 46,506 inferable input rows and 63,918 missing query rows
+- 187 runtime shards
+- 35,131 exported predictions
+- 32,236 in-scope predictions
+- 3,972 H001-family GT rows
+- 31,881 failure rows
+- 36 deterministic qualitative cases
+
+Key diagnostic metrics:
+
+| condition | R@50 | R@100 | V@50 | V@100 |
+| --- | ---: | ---: | ---: | ---: |
+| `semantic_only` | 0.2815 | 0.3600 | 0.1226 | 0.1246 |
+| `probabilistic_recalibrated` | 0.3215 | 0.3653 | 0.0795 | 0.1166 |
+| `rule_verified_point_subtype` | 0.3009 | 0.3630 | 0.0000 | 0.0000 |
+| `family_specific` | 0.3379 | 0.3653 | 0.0510 | 0.1113 |
+
+Paper boundary: keep Qwen-VL as appendix/extension evidence unless the main
+claim is explicitly widened. The older `full_source_*` sections below describe
+the historical 127-scan runtime plan/resume path and should not be read as the
+current active blocker.
 
 ## Role
 
@@ -36,7 +76,7 @@ for the VL-SAT controlled anchor, and not an end-to-end 3DSSG training result.
 - `crops/`: pair-crop rendering records/manifest/report; crop images stay under ignored `local_dataset/qwen_vl_crops/`
 - `model_cache/`: timestamped long-running model-cache job records
 - `runtime_smoke/`: cache/preflight/tiny-inference smoke outputs after the relevant Docker services run
-- `full_source_plan/`: frozen third-source promotion protocol before any full Qwen paper-metric run
+- `full_source_plan/`: historical 127-scan third-source promotion protocol before the later full-validation extension route
 - `full_source_input/`: full H001 directed-pair/family input universe, inferable input rows, missing-row policy, shard list, and contract validation
 - `full_source_crops/`: full-source pair-crop render/preflight records; PNG crops stay under ignored `local_dataset/qwen_vl_crops/full_source/`
 - `full_source_inference_plan/`: sharded inference runner contract, resume policy, per-shard command templates, and no-inference plan manifest
@@ -87,7 +127,7 @@ for the VL-SAT controlled anchor, and not an end-to-end 3DSSG training result.
 - full-source inference shard validation log: `logs/qwen_vl_full_source_shard0000_contract_validate_20260527_022224.log`
 - previous remaining full-source shard loop: tmux `h001_qwen_vl_infer_remaining`, run id `20260527_023111`
 - previous remaining full-source shard loop result: stopped with exit `1` at `qwen_full_source_shard_0014` because the GPU guard observed utilization 36% against the 35% threshold; shards `0000` through `0013` are complete, 3,500 rows are written
-- resumed remaining full-source shard loop: tmux `h001_qwen_vl_infer_remaining_resume_20260611_000531`, run id `20260611_000531`, status `running_non_metric`
+- historical resumed remaining full-source shard loop: tmux `h001_qwen_vl_infer_remaining_resume_20260611_000531`, run id `20260611_000531`; superseded by the full-validation extension state summarized above
 - resumed remaining full-source shard loop scope: `qwen_full_source_shard_0014` through `qwen_full_source_shard_0133`, 120 shards, 29,884 expected rows
 - resumed remaining full-source shard loop command: `QWEN_VL_LOOP_RUN_ID=20260611_000531 QWEN_VL_LOOP_START_SUFFIX=0014 QWEN_VL_LOOP_END_SUFFIX=0133 bash experiments/H001_geom_reliability/scripts/run_qwen_vl_full_source_shard_loop.sh`
 - resumed remaining full-source shard loop log: `logs/qwen_vl_full_source_infer_remaining_20260611_000531.log`
@@ -98,9 +138,8 @@ for the VL-SAT controlled anchor, and not an end-to-end 3DSSG training result.
 
 ## Next Gate
 
-The remaining Qwen-VL inference shards are running as one sequential resumable
-background loop, not as parallel GPU jobs. Check progress only when requested or
-when a dependent validation task needs the result. The result is still not
-promoted to a paper metric by itself; all-shard validation, adapter export,
-geometry join, metrics, controls, bootstrap, and audit must complete before
-Qwen-VL can become third-source modern-VLM metric evidence.
+No active Qwen-VL shard loop is the current paper blocker. Before reporting
+Qwen-VL beyond appendix/extension text, verify that the full-validation metric
+summary, bootstrap summary, failure rows, qualitative cases, and any package
+manifests are present in the release artifact set. Promotion into the main
+claim requires an explicit user decision.

@@ -1,14 +1,22 @@
-# H001 First-Pass Manuscript Draft
+# GeoCalib / H001 First-Pass Manuscript Draft
 
-Last updated: 2026-05-25 KST
+Last updated: 2026-06-14 KST
 
-Status: `first_pass_body_budget_reviewed_iccv_source_converted`
+Status: `historical_first_pass_superseded_by_current_aaai_source`
 
 This is a first-pass manuscript prose draft derived from `paper/outline.md`.
 It is not camera-ready text. The purpose is to make the paper-body logic
 readable end to end before final caption compression or final
 bibliography/build verification. The first ICCV-style LaTeX source conversion
 now lives under `paper/iccv/`.
+
+Current paper-facing title is `GeoCalib: Calibrating Geometric Consistency for
+Reliable 3D Scene Graph Relations`. The active manuscript source is
+`paper/aaai/`. This draft predates the full official validation main-route,
+low-K reporting decision, Qwen-VL extension completion, and GeoCalib/Figure-1
+build; numerical claims in the body may reflect the historical 127-scan route
+and should not be used as final submission text without checking
+`paper/aaai/`, `paper/preview.md`, and `summary.md`.
 
 Related Work citation placeholders have been replaced with BibTeX-style keys.
 The 2026-05-23 literature pass keeps recent open-world/VLM graph and

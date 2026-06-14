@@ -1,6 +1,6 @@
-# H001 Paper Outline
+# GeoCalib / H001 Paper Outline
 
-Last updated: 2026-06-06 KST
+Last updated: 2026-06-14 KST
 
 This outline turns `paper/preview.md` into a paper-writing skeleton. It is not the final manuscript. It fixes the section logic, evidence placement, reviewer-defense responsibilities, title candidates, and contribution statements before drafting the abstract and manuscript sections.
 
@@ -9,6 +9,7 @@ This outline turns `paper/preview.md` into a paper-writing skeleton. It is not t
 Fact:
 
 - Candidate: `CAND-001 / H001_geometry-grounded-verification`.
+- Paper-facing name: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations`.
 - Method framing: calibrated geometry-consistency evaluation and re-ranking framework.
 - Main evidence sources: `VL-SAT` and Open3DSG.
 - Main relation families: `support_contact`, `proximity`, `relative_vertical`.
@@ -39,19 +40,20 @@ Claim boundary:
 
 - `VL-SAT` supports the primary closed-set relation-reliability result.
 - Open3DSG supports second-source evidence within the measured H001 families.
-- Qwen-VL remains third-source modern VLM extension evidence unless it receives full Docker metric, bootstrap, and audit treatment.
+- Qwen-VL full official validation downstream is complete as third-source modern VLM extension evidence, but remains outside the main claim unless explicitly promoted.
 
 ## Title Candidates
 
 Recommended primary title:
 
 ```text
-Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations
+GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations
 ```
 
 Why this is preferred:
 
-- It foregrounds calibration, geometric consistency, reliability, and relation prediction.
+- It foregrounds the method name, calibration, geometric consistency,
+  reliability, and relation prediction.
 - It does not overclaim broad open-vocabulary 3DSSG generation improvement.
 - It matches the current evidence: measured relation-family reliability across `VL-SAT` and Open3DSG.
 

@@ -1,11 +1,21 @@
 # H001 Experiment Progress Rationale
 
-Last updated: 2026-06-05 KST
+Last updated: 2026-06-14 KST
 
 This document explains why H001 moved from hypothesis checks to Docker paper
 experiments, why each next experiment was introduced, and how the key results
 should be interpreted. It is a progress rationale, not a replacement for
 `paper/draft.md`, `paper/preview.md`, or the Docker result tables.
+
+Paper-facing name: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations`; `H001` remains the internal experiment identifier.
+
+Current progress snapshot:
+
+- Main source-result evidence is complete for the scoped GeoCalib claim.
+- Low-K reporting is accepted for K = `{5,10,20,50,100}` where artifact provenance is present; K=1 remains sanity-check only.
+- Qwen-VL full official validation downstream is complete as appendix/extension evidence, not as a main-source replacement.
+- Latest known paper build is `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, exit 0, 9 pages.
+- Remaining work is submission/package hygiene and provenance sync, not new main-source experiments.
 
 ## Research Claim Being Tested
 
@@ -441,20 +451,19 @@ Why it exists:
 
 Current status:
 
-- Input schema, output JSONL contract, parser, tiny pilot scope, pair crops,
-  model-lock plan, Qwen3-VL-4B cache, runtime preflight, 3-row tiny inference
-  smoke, runtime raw-response validation, full-source promotion plan, and
-  full-source input audit are ready.
-- The frozen promotion scope is 127 scans, 388 contexts, 25,916 directed pairs,
-  77,748 all-pairs x family query rows, 33,384 inferable input rows, 44,364
-  missing rows, 134 shards, and 2,545 in-scope GT rows.
-- Tiny runtime smoke has not been promoted to metrics.
+- Qwen-VL full official validation downstream is complete as a third-source /
+  modern VLM extension: 157 scans, 548 contexts, 110,424 query rows, 46,506
+  inferable input rows, 35,131 exported predictions, 32,236 in-scope
+  predictions, 3,972 H001-family GT rows, metrics/controls/bootstrap, failure
+  rows, and deterministic qualitative cases.
 
 Why not main evidence:
 
-- No full prediction JSONL, geometry join, denominator, metrics, or audit exists
-  yet.
-- It cannot replace Open3DSG as the current second-source anchor.
+- It was added as an extension after the main VL-SAT/Open3DSG route was already
+  framed and should not replace Open3DSG as the current main open-vocabulary
+  relation-source case study.
+- It can support appendix/extension discussion unless the user explicitly
+  promotes it into the main claim.
 
 ### FROSS / Functional Benchmarks
 
@@ -493,15 +502,17 @@ Not allowed:
 
 The current paper body is in `paper/draft.md` and now runs from Title through
 Conclusion. The current target-venue LaTeX source is in `paper/aaai/`, using
-the latest public AAAI-26 style route until the exact target-year AAAI kit is
-fixed. Docker PDF build verification is complete with `h001-aaai-tex:20260526`:
-latest compression rebuild
-`logs/h001_aaai_pdf_build_compression_20260606_105126.log` exits 0.
+the checked AAAI-26 style route until the exact target-year AAAI kit/form is
+reconfirmed. Docker PDF build verification is complete with
+`h001-aaai-tex:20260526`: latest GeoCalib/Figure-1 rebuild
+`logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log` exits 0.
 `main.pdf` builds to 9 total pages, technical content occupies pages 1-7,
 references are on page 8, the AAAI reproducibility checklist is on page 9,
 BibTeX uses 19 entries, and targeted grep found no missing citations, undefined
-refs, overfull hboxes, LaTeX errors, or AAAI package errors. The next drafting
-work is content/claim QA after the latest PDF visual/layout inspection.
+refs, overfull hboxes, LaTeX errors, or AAAI package errors. The next work is
+submission package hygiene: portal form, artifact URL/DOI, supplementary/code-
+data decision, checklist answer pass, low-K provenance sync if used, and final
+package regeneration.
 Open3DSG-first table ordering is preserved: the manuscript treats Open3DSG as
 the main open-vocabulary case study and VL-SAT as the controlled anchor.
 The latest reviewer-defense pass adds explicit main-text answers to the
@@ -511,5 +522,5 @@ moving technical content beyond page 7.
 Paper-result
 experiments should remain Docker
 reproducible, and optional Qwen/FROSS/functional extensions should not change
-the main claim unless they receive the same row contract, metric, denominator,
-and audit treatment.
+the main claim unless explicitly promoted after row contract, metric,
+denominator, bootstrap, and audit evidence are reviewed.
