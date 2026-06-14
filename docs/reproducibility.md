@@ -151,6 +151,93 @@ Facts:
   later 2026-05-27 runtime preflight, tiny inference smoke, crop preflight, and
   shard 0000 inference contract validation passed.
 
+## Reproduction Tiers And Dataset-Absent Path
+
+Use this decision tree on a new computer before running any expensive job.
+
+| Starting state | What is reproducible | Required action |
+| --- | --- | --- |
+| Git clone only, no `local_dataset/`, no external result bundle | Source/config sanity, paper source, compact tracked result summaries under `results/` | Do not claim regenerated metrics. Verify compose files and inspect tracked reports/tables only. |
+| Git clone plus full-validation paper result bundle | Current paper-facing tables, metric summaries, row-count/checksum verification, and Table 6/report regeneration | Extract the bundle from the repo root, verify checksums/row counts, then run `table_builder` and optional bootstrap checks. Raw datasets are not required for this tier. |
+| Git clone plus raw datasets/checkpoints/model caches | Full rerun from source data, including staging, raw dumps, adapter export, geometry join, metrics, controls, bootstrap, and failure rows | Follow the dataset/checkpoint staging sections below. This is GPU- and storage-heavy. |
+
+Fresh clone sanity checks that do not require datasets:
+
+```bash
+docker compose -f configs/h001/compose.yaml config --quiet
+docker compose -f configs/open3dsg/compose.open3dsg.yaml config --quiet
+docker compose -f configs/qwen_vl/compose.qwen.yaml config --quiet
+python -m py_compile $(rg --files src/geocalib -g '*.py')
+```
+
+If only the Git repo is available, `results/h001_geom_reliability/` is the
+compact paper-facing snapshot. It is enough for reading, review, and source
+sanity checks, but it is not a replacement for row-level artifacts. Do not run
+`table_builder`, metric reruns, Open3DSG raw dump, or Qwen inference expecting
+paper-equivalent outputs unless either the external result bundle or the
+required datasets/checkpoints are present.
+
+If the full-validation result bundle is available but raw datasets are not:
+
+```bash
+mkdir -p release logs
+sha256sum -c release/h001_full_validation_results_<ts>.sha256
+tar --zstd -xf release/h001_full_validation_results_<ts>.tar.zst -C /home/yoohyun/research
+bash results/h001_geom_reliability/full_validation_transition/artifact_bundle/verify_upload_bundle.sh
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm table_builder'
+```
+
+This bundle tier can regenerate compact tables/reports from row-level
+prediction, verification, metric, bootstrap, and failure artifacts. It still
+cannot reproduce VL-SAT/Open3DSG raw inference, Open3DSG feature generation, or
+Qwen-VL inference without the original datasets/model caches.
+
+If neither datasets nor result bundle are available, first create the ignored
+local roots and then acquire dependencies from the original providers or a
+verified private transfer:
+
+```bash
+mkdir -p \
+  local_dataset/3RScan/scans \
+  local_dataset/3DSSG \
+  local_dataset/3DSSG_subset \
+  local_dataset/VLSAT_code \
+  local_dataset/VLSAT_staged \
+  local_dataset/Open3DSG_staged \
+  local_dataset/model_cache \
+  release logs
+```
+
+Minimum raw-data dependency order:
+
+1. 3RScan scans and 3DSSG/3DSSG_subset relationship files under
+   `local_dataset/3RScan/`, `local_dataset/3DSSG/`, and
+   `local_dataset/3DSSG_subset/`.
+2. VL-SAT source/data/checkpoints under `local_dataset/VLSAT_code/` and
+   `local_dataset/VLSAT_staged/`.
+3. Open3DSG source/runtime staging under `local_dataset/Open3DSG_staged/`,
+   including component checkpoints and model caches checked by
+   `cache_preflight`.
+4. Optional Qwen-VL model cache and crop roots if reproducing the appendix
+   third-source extension.
+
+Lightweight readiness checks before launching a full rerun:
+
+```bash
+test -d local_dataset/3RScan/scans
+test -f local_dataset/3DSSG_subset/relationships_validation.json
+test -f local_dataset/3DSSG_subset/classes.txt
+test -f local_dataset/3DSSG_subset/relationships.txt
+test -d local_dataset/VLSAT_code/CVPR2023-VLSAT
+test -d local_dataset/VLSAT_staged/h001_full_validation/CVPR2023-VLSAT
+test -d local_dataset/Open3DSG_staged/training_repro
+```
+
+After these checks, use the Docker staging, feature-regeneration, checkpoint,
+and experiment commands below. If any check fails, stop and restore/download
+that dependency first; missing data should be treated as a setup blocker, not
+as an experimental result.
+
 ## Data Locations
 
 Large runtime data is intentionally under ignored local roots:
@@ -158,8 +245,13 @@ Large runtime data is intentionally under ignored local roots:
 | Purpose | Path |
 | --- | --- |
 | Raw 3RScan payload | `local_dataset/3RScan/scans/` |
+| 3DSSG raw/metadata payload | `local_dataset/3DSSG/` |
+| 3DSSG subset files | `local_dataset/3DSSG_subset/` |
+| VL-SAT source/runtime checkout | `local_dataset/VLSAT_code/CVPR2023-VLSAT/` |
+| VL-SAT full-validation staged root | `local_dataset/VLSAT_staged/h001_full_validation/CVPR2023-VLSAT/` |
 | Open3DSG training root | `local_dataset/Open3DSG_staged/training_repro/` |
 | Open3DSG H001 eval root | `local_dataset/Open3DSG_staged/h001_runtime/` |
+| Open3DSG full-validation runtime root | `local_dataset/Open3DSG_staged/h001_full_validation_runtime/` |
 | Open3DSG train/dev features | `local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3/` |
 | Open3DSG H001 eval features | `local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3/` |
 | Open3DSG full-validation recovery features | `local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/features/clip_features_h001_full_validation_recovery_relaxed_views_min2/` |
@@ -229,6 +321,10 @@ Implication for another computer:
 
 - The GitHub repo can carry the exact commands, Docker setup, paper/research
   state, compact manifests, and metric summaries.
+- A GitHub-only checkout can validate code/configuration and inspect compact
+  paper-facing summaries, but it cannot regenerate row-level metrics or raw
+  inference artifacts without either the external result bundle or the original
+  datasets/checkpoints.
 - Another machine must either rebuild/download the ignored runtime payloads
   using the commands in this file, or receive a separate data bundle containing
   `local_dataset/`, Open3DSG checkpoint/features/raw JSONL, VL-SAT checkpoints,
@@ -414,13 +510,15 @@ sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/open3dsg/c
 ```
 
 Do not put Qwen-VL model weights in the default core bundle. The Qwen path is
-optional/non-metric and can be recreated from the fixed Hugging Face model id,
-revision, and local-dir command above. If the goal is to continue the current
-Qwen full-source run on another computer, preserve or transfer these paths:
+appendix/extension evidence and can be recreated from the fixed Hugging Face
+model id, revision, and local-dir command above. If the goal is to reproduce or
+audit the completed Qwen full-validation extension on another computer,
+preserve or transfer these paths:
 
 ```text
 local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/
 local_dataset/qwen_vl_crops/full_source/
+experiments/H001_geom_reliability/sources/qwen_vl/full_validation/
 experiments/H001_geom_reliability/sources/qwen_vl/full_source_input/
 experiments/H001_geom_reliability/sources/qwen_vl/full_source_inference_plan/
 experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/
@@ -436,6 +534,11 @@ logs/qwen_vl_full_source_infer_remaining_20260527_023111.log
 logs/qwen_vl_full_source_infer_remaining_20260527_023111.status.tsv
 logs/qwen_vl_full_source_infer_remaining_20260527_023111.exit
 ```
+
+The `full_source_*` paths and 2026-05-27 loop logs are historical 127-scan
+route provenance. For the current paper package, prefer the
+`full_validation/` artifacts and their row-count/checksum manifest if Qwen-VL
+is included.
 
 ## Environment And Docker
 
@@ -772,31 +875,22 @@ sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compo
 sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_failure_case_sampler'
 ```
 
-Qwen-VL runtime smoke has already passed. Use these commands only if rebuilding
-or verifying a new computer:
+Qwen-VL runtime smoke and full-validation downstream evaluation are complete in
+the current workspace. Use these commands only if rebuilding or verifying a new
+computer:
 
 ```bash
 sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/qwen_vl/compose.qwen.yaml run --rm qwen_vl_runtime_preflight'
 sg docker -c 'env UID=$(id -u) GID=$(id -g) QWEN_VL_TINY_INFERENCE_LIMIT=3 docker compose -f configs/qwen_vl/compose.qwen.yaml run --rm qwen_vl_tiny_inference_smoke'
 ```
 
-Resume Qwen-VL full-source inference only after GPU guard is acceptable. The
-current clean resume point is `qwen_full_source_shard_0014`; shards 0000-0013
-are already complete with 3,500 rows written.
-
-```bash
-tmux ls || true
-nvidia-smi
-free -h
-mkdir -p logs
-ts=$(date +%Y%m%d_%H%M%S)
-tmux new-session -d -s h001_qwen_vl_infer_remaining \
-  "cd /home/yoohyun/research && bash -lc 'set -o pipefail; QWEN_VL_LOOP_RUN_ID=${ts} QWEN_VL_LOOP_START_SUFFIX=0014 QWEN_VL_LOOP_END_SUFFIX=0133 bash scripts/run_qwen_vl_full_source_shard_loop.sh; rc=\$?; printf \"%s\n\" \"\$rc\" > logs/qwen_vl_full_source_infer_remaining_${ts}.exit; exit \$rc' > logs/qwen_vl_full_source_infer_remaining_${ts}.log 2>&1"
-```
-
-After the loop finishes, Qwen still is not paper evidence until all-shard
-validation, adapter export, geometry join, metrics, controls, bootstrap CI if
-reported, and audit are completed through Docker.
+Do not resume the historical `qwen_full_source_shard_0014` loop for the current
+paper package. That command belongs to the older 127-scan full-source route and
+is superseded by the full official validation extension artifacts under
+`experiments/H001_geom_reliability/sources/qwen_vl/full_validation/`. If Qwen
+is included in a release artifact, verify the full-validation input, runtime,
+validation, adapter, geometry, metrics/bootstrap, failure rows, and qualitative
+case files rather than restarting the old loop.
 
 Raw Open3DSG source eval has clean provenance through the v14 streaming
 same-path resume. The canonical raw dump remains `raw_dump/raw.jsonl`, and the

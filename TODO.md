@@ -265,6 +265,12 @@ Non-data:
       current VL-SAT/Open3DSG claim path from Qwen-VL and relation-family
       extension code. Verification passed with `py_compile`, table generation,
       all compose config checks, and `git diff --check`.
+- [x] `docs/reproducibility.md` fresh-machine path updated: added reproduction
+      tiers for Git-only checkout, external result-bundle reproduction, and
+      full raw-dataset rerun; expanded required local dataset roots/readiness
+      checks; clarified that missing datasets are setup blockers; and replaced
+      stale Qwen shard-resume wording with the current completed
+      full-validation extension boundary.
 - [x] Cleanup and full-validation caveat consistency pass 완료: user-approved cleanup
       paths were deleted, including failed/superseded Open3DSG full-validation
       retry artifacts, generated Python cache, targeted failed/intermediate logs,
