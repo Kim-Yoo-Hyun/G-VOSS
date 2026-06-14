@@ -8,7 +8,7 @@ Baseline run id: `vlsat_full_official_validation_frozen_v1`
 
 - VL-SAT code root: `local_dataset/VLSAT_code/CVPR2023-VLSAT`
 - Staged root: `local_dataset/VLSAT_staged/h001_full_validation/CVPR2023-VLSAT`
-- Selection file: `experiments/H001_geom_reliability/full_validation_transition/scope_contract/scans.txt`
+- Selection file: `results/h001_geom_reliability/full_validation_transition/scope_contract/scans.txt`
 - Checkpoint root: `local_dataset/VLSAT_code/CVPR2023-VLSAT/output`
 
 ## Outputs

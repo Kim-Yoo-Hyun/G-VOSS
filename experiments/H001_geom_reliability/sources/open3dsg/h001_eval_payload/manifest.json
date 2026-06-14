@@ -18,7 +18,7 @@
     "records": "experiments/H001_geom_reliability/sources/open3dsg/h001_eval_payload/records.jsonl",
     "relationships_validation": "local_dataset/Open3DSG_staged/h001_runtime/data/3RScan/3DSSG_subset/relationships_validation.json",
     "runtime_r3scan_root": "local_dataset/Open3DSG_staged/h001_runtime/data/3RScan",
-    "selected_scans": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_validation_hardened/scans.txt"
+    "selected_scans": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_validation_hardened/scans.txt"
   },
   "schema_version": "h001_open3dsg_eval_payload_stage_v1",
   "status": "ready"

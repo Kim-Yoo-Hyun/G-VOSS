@@ -8,7 +8,7 @@ This is a first-pass manuscript prose draft derived from `paper/outline.md`.
 It is not camera-ready text. The purpose is to make the paper-body logic
 readable end to end before final caption compression or final
 bibliography/build verification. The first ICCV-style LaTeX source conversion
-now lives under `paper/iccv/`.
+now lives under `archive/paper/iccv/`.
 
 Current paper-facing title is `GeoCalib: Calibrating Geometric Consistency for
 Reliable 3D Scene Graph Relations`. The active manuscript source is
@@ -621,11 +621,11 @@ Evidence map:
 
 | draft claim | evidence source |
 | --- | --- |
-| VL-SAT recall/violation operating points | `experiments/H001_geom_reliability/tables/table1_main_prediction.md` |
-| Geometry-only, distance-only, shuffled, wrong-pair controls | `experiments/H001_geom_reliability/tables/table2_controls.md` |
-| GT-positive/counterfactual verifier support | `experiments/H001_geom_reliability/tables/table3_gt_verifier.md` |
-| Claim boundary and non-claims | `experiments/H001_geom_reliability/tables/table5_claim_boundary.md` |
-| Open3DSG second-source metrics | `experiments/H001_geom_reliability/tables/table6_cross_source_status.md` and `experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json` |
+| VL-SAT recall/violation operating points | `results/h001_geom_reliability/tables/table1_main_prediction.md` |
+| Geometry-only, distance-only, shuffled, wrong-pair controls | `results/h001_geom_reliability/tables/table2_controls.md` |
+| GT-positive/counterfactual verifier support | `results/h001_geom_reliability/tables/table3_gt_verifier.md` |
+| Claim boundary and non-claims | `results/h001_geom_reliability/tables/table5_claim_boundary.md` |
+| Open3DSG second-source metrics | `results/h001_geom_reliability/tables/table6_cross_source_status.md` and `experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json` |
 | Open3DSG caveat wording | `experiments/H001_geom_reliability/sources/open3dsg/paper_caveats/report.md` |
 | Failure mechanism and residual calibration risk | `experiments/H001_geom_reliability/sources/open3dsg/failure_cases/inspection.md` and `paper/generated/figures/figure3_geometry_report.md` |
 | Docker reproducibility and artifact portability | `docs/reproducibility.md` |
@@ -633,8 +633,8 @@ Evidence map:
 Figure source-lock decision:
 
 - Figure 1 is a method/framework diagram sourced from Sections 3-4,
-  `hypothesis/CAND-001/H001_geometry-grounded-verification/02_method.md`, and
-  `experiments/H001_geom_reliability/manifest.lock.json`.
+  `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/02_method.md`, and
+  `results/h001_geom_reliability/manifest.lock.json`.
 - Figure 2 is a two-panel `R@100` / `Violation@100` tradeoff plot using Table 1
   for VL-SAT and Open3DSG `metrics.json` with paper caveats.
 - Figure 3 uses traceable Open3DSG qualitative rows and the preferred

@@ -7,7 +7,7 @@
       "exists": true,
       "line_count": 199,
       "name": "calibration_model_json",
-      "path": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_smoke/model.json",
+      "path": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_smoke/model.json",
       "required": false,
       "sample_keys": [
         "created_at",
@@ -31,7 +31,7 @@
       "exists": true,
       "line_count": 744,
       "name": "family_calibration_model_json",
-      "path": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json",
+      "path": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json",
       "required": false,
       "sample_keys": [
         "created_at",
@@ -79,7 +79,7 @@
       "exists": true,
       "line_count": 7505,
       "name": "ground_truth_jsonl",
-      "path": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl",
+      "path": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl",
       "required": true,
       "sample_keys": [
         "gt_id",

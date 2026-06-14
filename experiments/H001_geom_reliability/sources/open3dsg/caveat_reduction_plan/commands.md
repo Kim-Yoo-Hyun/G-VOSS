@@ -5,7 +5,7 @@ This is a planning artifact. Do not run these as paper-result evidence until the
 ## Regenerate This Plan
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_caveat_reduction_plan'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_caveat_reduction_plan'
 ```
 
 ## R1 Exact Non-Averaged BLIP Training Retry
@@ -19,7 +19,7 @@ tmux new-session -d -s h001_open3dsg_train_full_nonavg_retry \
   OPEN3DSG_BLIP_EMBED_CHUNK_SIZE=1 OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE=1 \
   OPEN3DSG_MIN_GPU_FREE_MB=22000 \
   PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True,max_split_size_mb:64 \
-  docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml \
+  docker compose -f configs/open3dsg/compose.open3dsg.yaml \
   run --rm train_full; rc=$?; printf "%s\n" "$rc" > logs/open3dsg_train_full_nonavg_retry_${ts}.exit; exit $rc' \
   > logs/open3dsg_train_full_nonavg_retry_${ts}.log 2>&1"
 ```
@@ -27,7 +27,7 @@ tmux new-session -d -s h001_open3dsg_train_full_nonavg_retry \
 After completion, inspect only the log tail and exit file, then refresh checkpoint selection:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_checkpoint_selection'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_checkpoint_selection'
 ```
 
 Important: existing H001 eval feature/raw-dump services are avg-BLIP services. Add separate non-avg services and output paths before downstream metric promotion.
@@ -39,10 +39,10 @@ mkdir -p logs
 ts=$(date +%Y%m%d_%H%M%S)
 tmux new-session -d -s h001_open3dsg_h001_preprocess_retry_388 \
   "cd /home/yoohyun/research && bash -lc 'set -o pipefail; \
-  env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml \
-  run --rm open3dsg_base bash -lc \"python /workspace/experiments/H001_geom_reliability/scripts/patch_open3dsg_source.py \
+  env UID=$(id -u) GID=$(id -g) docker compose -f configs/open3dsg/compose.open3dsg.yaml \
+  run --rm open3dsg_base bash -lc \"python /workspace/src/geocalib/patch_open3dsg_source.py \
   --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source && \
-  python /workspace/experiments/H001_geom_reliability/scripts/run_open3dsg_train_preprocess.py \
+  python /workspace/src/geocalib/run_open3dsg_train_preprocess.py \
   --staged-root /workspace/local_dataset/Open3DSG_staged/h001_runtime \
   --open3dsg-source /workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source \
   --work-source /workspace/local_dataset/Open3DSG_staged/h001_runtime/work/open3dsg_eval_source \
@@ -63,10 +63,10 @@ tmux new-session -d -s h001_open3dsg_dump_features_h001_eval_388_retry \
   OPEN3DSG_FEATURE_SHARD_ONLY_MISSING=1 OPEN3DSG_FEATURE_SHARD_MAX_NEW_IDS=11 \
   OPEN3DSG_BLIP_EMBED_CHUNK_SIZE=1 OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE=1 \
   PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True,max_split_size_mb:64 \
-  docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml \
+  docker compose -f configs/open3dsg/compose.open3dsg.yaml \
   run --rm dump_features_h001_eval; rc=$?; printf "%s\n" "$rc" > logs/open3dsg_dump_features_h001_eval_388_retry_${ts}.exit; exit $rc' \
   > logs/open3dsg_dump_features_h001_eval_388_retry_${ts}.log 2>&1"
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm feature_audit_h001_eval'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm feature_audit_h001_eval'
 ```
 
 ## Downstream Chain After Any Successful Retry

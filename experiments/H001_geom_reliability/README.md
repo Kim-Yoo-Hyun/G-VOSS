@@ -22,16 +22,16 @@ Current executable sources:
 
 Relation expansion status:
 
-- Summary: `sources/relation_expansion_status.md`
+- Summary: `archive/experiments/H001_geom_reliability/sources/relation_expansion_status.md`
 
 Selected top-tier expansion:
 
 - Open3DSG second-source adapter result after Dockerized checkpoint reproduction; checkpoint plan, `training_repro` metadata/split staging, full payload staging, train/validation views, explicit train/validation preprocess filtering, official BLIP TopK5/scales3 feature dump, Docker feature audit, avg-BLIP checkpoint reproduction, checkpoint selection, eval preflight, H001 held-out eval feature-cache generation, raw-dump identity checklist, adapter export, geometry join, metric eval, predicate-family/denominator metric-scope policy, pre-metric failure-analysis schema, synthetic failure row-generator smoke, real failure-analysis rows, qualitative case inspection, paper caveat wording, Table 6 hook, and subgraph bootstrap CI are ready.
 - Open3DSG caveat-reduction plan is frozen under `sources/open3dsg/caveat_reduction_plan/`. Retry order is R1 exact non-averaged BLIP route, R2 H001 covered-loadable context retry toward `388/388`, and R3 attachment G5d only after the Open3DSG decisions are resolved or waived. R1 completed with exit `0` on 2026-06-04 KST and Docker checkpoint selection selected the official non-avg checkpoint `epoch=13-step=13104.ckpt` from MLflow run `25da9c4c00214f3b880cedbb2a124177` using train-dev `val/loss=0.5724539160728455`. The existing avg-BLIP route still has better train-dev `val/loss=0.32881081104278564` for the historical 127-scan comparison. The non-avg downstream branch is complete under `sources/open3dsg/non_avg/`; paper-facing Open3DSG primary evidence now comes from the full-validation 548/548 recovery branch. Current decomposition records attachment Open3DSG missing exact-label GT rows as 199 total: 23 from missing preprocessed H001 contexts and 176 from absent Open3DSG candidate pairs.
 - Open3DSG non-avg downstream branch is ready without overwriting avg-BLIP artifacts. Raw stream completed 19,162 rows and 377/377 batches, then the process exited `137` after finalization. Manual downstream services passed: raw-dump identity, adapter export, geometry join, metric eval, bootstrap CI, and Table 6/caveat report. Key non-avg metrics: semantic_only R@50/R@100 `0.4310/0.5320`, Violation@50/@100 `0.1395/0.1256`; probabilistic_recalibrated R@50/R@100 `0.3945/0.5639`, Violation@50/@100 `0.0570/0.0782`; rule_verified_point_subtype R@50/R@100 `0.4507/0.5481`, Violation@50/@100 `0.0/0.0`; family_specific control R@50/R@100 `0.4750/0.6047`, Violation@50/@100 `0.0243/0.0310`.
-- `relative_horizontal` is now a separate scope-expansion validation track under `sources/relative_horizontal/`. The no-training/no-inference Docker scope audit is ready, with 3,570 candidate GT rows and source rows for VL-SAT / Open3DSG, but current verification status remains unsupported. The Docker coordinate audit and bucket inspection are also ready and currently blocked: best scan-frame macro strict purity is 0.7725, `front`/`behind` strict purity is 0.7445, inverse consistency is 1.0, wrong-frame gap is 0.1231, and `front`/`behind` ambiguity buckets remain substantial. Recommendation is `do_not_promote_relative_horizontal_to_main_claim`. Current AAAI-path decision is to freeze full `relative_horizontal` as appendix/limitation evidence and not run full expanded-family metrics. This does not change the current main paper claim.
-- `relative_lateral` is a stopped candidate expansion under `sources/relative_lateral/`. Docker `relative_lateral_policy_freeze` is complete with status `relative_lateral_policy_threshold_provenance_frozen_no_source_metrics`: `left/right` are frozen as `relative_lateral` with 2,264 GT rows (`left` 1,132, `right` 1,132), while `front/behind` are split out as `relative_depth_deferred` with 1,306 GT rows. Geometry policy uses `relative_lateral_scan_x_sign_policy_v1`, selected frame `scan_left_neg_x_front_neg_y`, selected left axis `[-1.0, 0.0]`, strict purity 0.8005, strict eligible share 0.6466, and distinct-left-axis wrong-frame gap 0.0998. Docker `relative_lateral_train_dev_policy_lock` is complete with status `relative_lateral_train_dev_policy_lock_ready_with_caveats_no_source_metrics`: 3,832 train/dev decision rows, train positive strict purity 0.8738, dev positive strict purity 0.6975, dev lenient nonviolated rate 0.8095, and dev calibration AUROC 0.7401. Docker `relative_lateral_dev_failure_diagnosis` is complete with status `relative_lateral_dev_failure_diagnosis_ready_no_policy_change_no_source_metrics`: dev strict contradictions are 72 rows / 36 physical pairs concentrated in two scans, uncertain positives are 140 rows / 70 physical pairs, about half of both buckets involve same-label object pairs, and most uncertain rows are caused by orthogonal-axis dominance. Final decision: stop `relative_lateral` as appendix/future-work boundary evidence and do not run paper-facing source metrics from the current strict policy.
-- `attachment_deferred` is now the preferred future relation-family upgrade under `sources/attachment_deferred/`, not current main-claim evidence. Docker G0 through G5d full-source scoring/metrics/controls/bootstrap are complete with status `attachment_deferred_g5d_full_source_metrics_ready`: it adds 967 GT rows (`attached to` 808, `hanging on` 126, `connected to` 33), completes 69/69 shards and 135,048 scored rows with 0 validation errors, and reports source metrics for VL-SAT denominator 967/967 and Open3DSG denominator 768/967. Main AAAI claim promotion requires explicit final user confirmation and likely additional failure/visual audit.
+- `relative_horizontal` is now a separate scope-expansion validation track under `archive/experiments/H001_geom_reliability/sources/relative_horizontal/`. The no-training/no-inference Docker scope audit is ready, with 3,570 candidate GT rows and source rows for VL-SAT / Open3DSG, but current verification status remains unsupported. The Docker coordinate audit and bucket inspection are also ready and currently blocked: best scan-frame macro strict purity is 0.7725, `front`/`behind` strict purity is 0.7445, inverse consistency is 1.0, wrong-frame gap is 0.1231, and `front`/`behind` ambiguity buckets remain substantial. Recommendation is `do_not_promote_relative_horizontal_to_main_claim`. Current AAAI-path decision is to freeze full `relative_horizontal` as appendix/limitation evidence and not run full expanded-family metrics. This does not change the current main paper claim.
+- `relative_lateral` is a stopped candidate expansion under `archive/experiments/H001_geom_reliability/sources/relative_lateral/`. Docker `relative_lateral_policy_freeze` is complete with status `relative_lateral_policy_threshold_provenance_frozen_no_source_metrics`: `left/right` are frozen as `relative_lateral` with 2,264 GT rows (`left` 1,132, `right` 1,132), while `front/behind` are split out as `relative_depth_deferred` with 1,306 GT rows. Geometry policy uses `relative_lateral_scan_x_sign_policy_v1`, selected frame `scan_left_neg_x_front_neg_y`, selected left axis `[-1.0, 0.0]`, strict purity 0.8005, strict eligible share 0.6466, and distinct-left-axis wrong-frame gap 0.0998. Docker `relative_lateral_train_dev_policy_lock` is complete with status `relative_lateral_train_dev_policy_lock_ready_with_caveats_no_source_metrics`: 3,832 train/dev decision rows, train positive strict purity 0.8738, dev positive strict purity 0.6975, dev lenient nonviolated rate 0.8095, and dev calibration AUROC 0.7401. Docker `relative_lateral_dev_failure_diagnosis` is complete with status `relative_lateral_dev_failure_diagnosis_ready_no_policy_change_no_source_metrics`: dev strict contradictions are 72 rows / 36 physical pairs concentrated in two scans, uncertain positives are 140 rows / 70 physical pairs, about half of both buckets involve same-label object pairs, and most uncertain rows are caused by orthogonal-axis dominance. Final decision: stop `relative_lateral` as appendix/future-work boundary evidence and do not run paper-facing source metrics from the current strict policy.
+- `attachment_deferred` is now the preferred future relation-family upgrade under `archive/experiments/H001_geom_reliability/sources/attachment_deferred/`, not current main-claim evidence. Docker G0 through G5d full-source scoring/metrics/controls/bootstrap are complete with status `attachment_deferred_g5d_full_source_metrics_ready`: it adds 967 GT rows (`attached to` 808, `hanging on` 126, `connected to` 33), completes 69/69 shards and 135,048 scored rows with 0 validation errors, and reports source metrics for VL-SAT denominator 967/967 and Open3DSG denominator 768/967. Main AAAI claim promotion requires explicit final user confirmation and likely additional failure/visual audit.
 - Qwen-VL third semantic source / modern VLM extension is complete under `sources/qwen_vl/` for the full official validation extension route. Current full-validation extension outputs: 157 scans / 548 contexts / 110,424 query rows / 46,506 inferable input rows / 63,918 missing query rows / 187 shards / 35,131 exported predictions / 32,236 in-scope predictions / 3,972 H001-family GT rows / 31,881 failure rows / 36 deterministic qualitative cases. Key diagnostic metrics: semantic_only R@50/R@100 `0.2815/0.3600`, V@50/@100 `0.1226/0.1246`; probabilistic_recalibrated `0.3215/0.3653`, V `0.0795/0.1166`; rule_verified_point_subtype `0.3009/0.3630`, V `0.0/0.0`; family_specific `0.3379/0.3653`, V `0.0510/0.1113`. It is not a replacement for VL-SAT or Open3DSG main evidence and remains appendix/extension evidence unless explicitly promoted.
 
 Current method framing:
@@ -90,7 +90,7 @@ paper_full_validation_primary_route_selected_recovery_branch
 Docker `full_validation_scope_contract` generated the scope-freeze artifact at:
 
 ```text
-experiments/H001_geom_reliability/full_validation_transition/scope_contract/
+results/h001_geom_reliability/full_validation_transition/scope_contract/
 ```
 
 It records raw payload readiness 157/157, existing VL-SAT hardened staged root
@@ -191,7 +191,7 @@ excluding run metadata, but R2 remains appendix sensitivity evidence.
 Transition record:
 
 ```text
-experiments/H001_geom_reliability/full_validation_transition/report.md
+results/h001_geom_reliability/full_validation_transition/report.md
 ```
 
 ## What This Stage Does
@@ -210,8 +210,8 @@ Generated outputs:
 - `figures/figure_specs.*`
 - `sources/vlsat/locked_inputs.json`
 - `sources/open3dsg/checkpoint_plan.*`
-- `sources/open3dsg/Dockerfile.repro`
-- `sources/open3dsg/compose.open3dsg.yaml`
+- `configs/open3dsg/Dockerfile.repro`
+- `configs/open3dsg/compose.open3dsg.yaml`
 - `sources/open3dsg/commands.open3dsg.md`
 - `sources/open3dsg/post_dump_handoff/manifest.json`
 - `sources/open3dsg/post_dump_handoff/commands.md`
@@ -264,109 +264,109 @@ Generated outputs:
 - `sources/open3dsg/training_repro/report.md`
 - `sources/open3dsg/status.json`
 - `sources/open3dsg/table6_hook.json`
-- `sources/relative_horizontal/README.md`
-- `sources/relative_horizontal/scope_audit/manifest.json`
-- `sources/relative_horizontal/scope_audit/label_counts.json`
-- `sources/relative_horizontal/scope_audit/report.md`
-- `sources/relative_horizontal/coordinate_audit/manifest.json`
-- `sources/relative_horizontal/coordinate_audit/frame_metrics.json`
-- `sources/relative_horizontal/coordinate_audit/records.jsonl`
-- `sources/relative_horizontal/coordinate_audit/ambiguity_buckets.json`
-- `sources/relative_horizontal/coordinate_audit/report.md`
-- `sources/relative_horizontal/bucket_inspection/manifest.json`
-- `sources/relative_horizontal/bucket_inspection/summary.json`
-- `sources/relative_horizontal/bucket_inspection/examples.jsonl`
-- `sources/relative_horizontal/bucket_inspection/report.md`
-- `sources/attachment_deferred/README.md`
-- `sources/attachment_deferred/scope_audit/manifest.json`
-- `sources/attachment_deferred/scope_audit/label_counts.json`
-- `sources/attachment_deferred/scope_audit/evidence_schema.json`
-- `sources/attachment_deferred/scope_audit/report.md`
-- `sources/attachment_deferred/evidence_extractor/manifest.json`
-- `sources/attachment_deferred/evidence_extractor/extractor_contract.json`
-- `sources/attachment_deferred/evidence_extractor/output_schema.json`
-- `sources/attachment_deferred/evidence_extractor/field_catalog.json`
-- `sources/attachment_deferred/evidence_extractor/subtype_policy.json`
-- `sources/attachment_deferred/evidence_extractor/extraction_plan.json`
-- `sources/attachment_deferred/evidence_extractor/validation_plan.json`
-- `sources/attachment_deferred/evidence_extractor/example_row.json`
-- `sources/attachment_deferred/evidence_extractor/report.md`
-- `sources/attachment_deferred/extractor_dry_run/rows.jsonl`
-- `sources/attachment_deferred/extractor_dry_run/manifest.json`
-- `sources/attachment_deferred/extractor_dry_run/summary.json`
-- `sources/attachment_deferred/extractor_dry_run/validation.json`
-- `sources/attachment_deferred/extractor_dry_run/report.md`
-- `sources/attachment_deferred/point_surface_validation/rows.jsonl`
-- `sources/attachment_deferred/point_surface_validation/diagnostics.jsonl`
-- `sources/attachment_deferred/point_surface_validation/manifest.json`
-- `sources/attachment_deferred/point_surface_validation/summary.json`
-- `sources/attachment_deferred/point_surface_validation/validation.json`
-- `sources/attachment_deferred/point_surface_validation/report.md`
-- `sources/attachment_deferred/verifier_policy/manifest.json`
-- `sources/attachment_deferred/verifier_policy/verifier_policy.json`
-- `sources/attachment_deferred/verifier_policy/decision_schema.json`
-- `sources/attachment_deferred/verifier_policy/threshold_plan.json`
-- `sources/attachment_deferred/verifier_policy/reason_codes.json`
-- `sources/attachment_deferred/verifier_policy/calibration_plan.json`
-- `sources/attachment_deferred/verifier_policy/commands.md`
-- `sources/attachment_deferred/verifier_policy/report.md`
-- `sources/attachment_deferred/calibration_counterfactuals/manifest.json`
-- `sources/attachment_deferred/calibration_counterfactuals/positive_seeds.jsonl`
-- `sources/attachment_deferred/calibration_counterfactuals/counterfactual_seeds.jsonl`
-- `sources/attachment_deferred/calibration_counterfactuals/split_plan.json`
-- `sources/attachment_deferred/calibration_counterfactuals/counterfactual_plan.json`
-- `sources/attachment_deferred/calibration_counterfactuals/policy_smoke_plan.json`
-- `sources/attachment_deferred/calibration_counterfactuals/gt_eval_inputs.json`
-- `sources/attachment_deferred/calibration_counterfactuals/threshold_freeze_protocol.json`
-- `sources/attachment_deferred/calibration_counterfactuals/commands.md`
-- `sources/attachment_deferred/calibration_counterfactuals/report.md`
-- `sources/attachment_deferred/gt_policy_smoke/manifest.json`
-- `sources/attachment_deferred/gt_policy_smoke/summary.json`
-- `sources/attachment_deferred/gt_policy_smoke/validation.json`
-- `sources/attachment_deferred/gt_policy_smoke/policy_smoke_decisions.jsonl`
-- `sources/attachment_deferred/gt_policy_smoke/gt_evidence_rows.jsonl`
-- `sources/attachment_deferred/gt_policy_smoke/gt_evidence_diagnostics.jsonl`
-- `sources/attachment_deferred/gt_policy_smoke/gt_policy_decisions.jsonl`
-- `sources/attachment_deferred/gt_policy_smoke/gt_eval_rows.jsonl`
-- `sources/attachment_deferred/gt_policy_smoke/visual_sanity_plan.json`
-- `sources/attachment_deferred/gt_policy_smoke/commands.md`
-- `sources/attachment_deferred/gt_policy_smoke/report.md`
-- `sources/attachment_deferred/error_visual_sanity/manifest.json`
-- `sources/attachment_deferred/error_visual_sanity/summary.json`
-- `sources/attachment_deferred/error_visual_sanity/review_cases.jsonl`
-- `sources/attachment_deferred/error_visual_sanity/visual_queue.jsonl`
-- `sources/attachment_deferred/error_visual_sanity/calibration_filter.jsonl`
-- `sources/attachment_deferred/error_visual_sanity/guide.md`
-- `sources/attachment_deferred/error_visual_sanity/commands.md`
-- `sources/attachment_deferred/error_visual_sanity/report.md`
-- `sources/attachment_deferred/strict_filter_freeze/manifest.json`
-- `sources/attachment_deferred/strict_filter_freeze/summary.json`
-- `sources/attachment_deferred/strict_filter_freeze/freeze_policy.json`
-- `sources/attachment_deferred/strict_filter_freeze/strict_calibration_rows.jsonl`
-- `sources/attachment_deferred/strict_filter_freeze/excluded_rows.jsonl`
-- `sources/attachment_deferred/strict_filter_freeze/commands.md`
-- `sources/attachment_deferred/strict_filter_freeze/report.md`
-- `sources/attachment_deferred/calibration_fit/manifest.json`
-- `sources/attachment_deferred/calibration_fit/model.json`
-- `sources/attachment_deferred/calibration_fit/metrics.json`
-- `sources/attachment_deferred/calibration_fit/scores.jsonl`
-- `sources/attachment_deferred/calibration_fit/commands.md`
-- `sources/attachment_deferred/calibration_fit/report.md`
-- `sources/attachment_deferred/source_scoring_preflight/manifest.json`
-- `sources/attachment_deferred/source_scoring_preflight/summary.json`
-- `sources/attachment_deferred/source_scoring_preflight/source_rows.jsonl`
-- `sources/attachment_deferred/source_scoring_preflight/evidence_rows.jsonl`
-- `sources/attachment_deferred/source_scoring_preflight/diagnostics.jsonl`
-- `sources/attachment_deferred/source_scoring_preflight/scored_rows.jsonl`
-- `sources/attachment_deferred/source_scoring_preflight/commands.md`
-- `sources/attachment_deferred/source_scoring_preflight/report.md`
-- `sources/attachment_deferred/full_source_protocol/manifest.json`
-- `sources/attachment_deferred/full_source_protocol/protocol.json`
-- `sources/attachment_deferred/full_source_protocol/denominator_audit.json`
-- `sources/attachment_deferred/full_source_protocol/shards.jsonl`
-- `sources/attachment_deferred/full_source_protocol/validation.json`
-- `sources/attachment_deferred/full_source_protocol/commands.md`
-- `sources/attachment_deferred/full_source_protocol/report.md`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/README.md`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/scope_audit/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/scope_audit/label_counts.json`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/scope_audit/report.md`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/coordinate_audit/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/coordinate_audit/frame_metrics.json`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/coordinate_audit/records.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/coordinate_audit/ambiguity_buckets.json`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/coordinate_audit/report.md`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/bucket_inspection/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/bucket_inspection/summary.json`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/bucket_inspection/examples.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/bucket_inspection/report.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/README.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/scope_audit/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/scope_audit/label_counts.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/scope_audit/evidence_schema.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/scope_audit/report.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/extractor_contract.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/output_schema.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/field_catalog.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/subtype_policy.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/extraction_plan.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/validation_plan.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/example_row.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/report.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/extractor_dry_run/rows.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/extractor_dry_run/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/extractor_dry_run/summary.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/extractor_dry_run/validation.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/extractor_dry_run/report.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/point_surface_validation/rows.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/point_surface_validation/diagnostics.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/point_surface_validation/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/point_surface_validation/summary.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/point_surface_validation/validation.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/point_surface_validation/report.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy/verifier_policy.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy/decision_schema.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy/threshold_plan.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy/reason_codes.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy/calibration_plan.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy/commands.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy/report.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/positive_seeds.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/counterfactual_seeds.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/split_plan.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/counterfactual_plan.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/policy_smoke_plan.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/gt_eval_inputs.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/threshold_freeze_protocol.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/commands.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/report.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/summary.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/validation.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/policy_smoke_decisions.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/gt_evidence_rows.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/gt_evidence_diagnostics.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/gt_policy_decisions.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/gt_eval_rows.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/visual_sanity_plan.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/commands.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/report.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity/summary.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity/review_cases.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity/visual_queue.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity/calibration_filter.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity/guide.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity/commands.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity/report.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/strict_filter_freeze/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/strict_filter_freeze/summary.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/strict_filter_freeze/freeze_policy.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/strict_filter_freeze/strict_calibration_rows.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/strict_filter_freeze/excluded_rows.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/strict_filter_freeze/commands.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/strict_filter_freeze/report.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit/model.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit/metrics.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit/scores.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit/commands.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit/report.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/source_scoring_preflight/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/source_scoring_preflight/summary.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/source_scoring_preflight/source_rows.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/source_scoring_preflight/evidence_rows.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/source_scoring_preflight/diagnostics.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/source_scoring_preflight/scored_rows.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/source_scoring_preflight/commands.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/source_scoring_preflight/report.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol/protocol.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol/denominator_audit.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol/shards.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol/validation.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol/commands.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol/report.md`
 - `bootstrap_ci/manifest.json`
 - `bootstrap_ci/summary.json`
 - `bootstrap_ci/summary.md`

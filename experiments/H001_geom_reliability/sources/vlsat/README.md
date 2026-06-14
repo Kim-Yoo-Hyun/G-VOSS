@@ -7,7 +7,7 @@ evidence.
 The Docker table builder reads locked artifacts from:
 
 ```text
-hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/
+archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/
 ```
 
 Do not retune scan scope, verifier thresholds, or calibration models from this experiment root.
@@ -27,7 +27,7 @@ validation split. VL-SAT is the controlled-anchor source, while Open3DSG
 Scope contract:
 
 ```text
-experiments/H001_geom_reliability/full_validation_transition/scope_contract/
+results/h001_geom_reliability/full_validation_transition/scope_contract/
 ```
 
 Target full-validation VL-SAT scope:

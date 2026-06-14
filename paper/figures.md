@@ -51,8 +51,8 @@ Source artifacts:
 - `paper/generated/figures/figure1_framework.svg`.
 - `paper/generated/figures/figure1_framework.png`.
 - `paper/draft.md`, Sections 3-4.
-- `hypothesis/CAND-001/H001_geometry-grounded-verification/02_method.md`.
-- `experiments/H001_geom_reliability/manifest.lock.json`.
+- `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/02_method.md`.
+- `results/h001_geom_reliability/manifest.lock.json`.
 
 Caption constraint:
 

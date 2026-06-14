@@ -60,7 +60,7 @@ Fact:
   directed pairs, 957,008 expected VL-SAT prediction rows, 11,254 GT rows, and
   3,972 H001-family GT rows.
 - Docker `full_validation_scope_contract` has frozen the scope contract under
-  `experiments/H001_geom_reliability/full_validation_transition/scope_contract/`;
+  `results/h001_geom_reliability/full_validation_transition/scope_contract/`;
   this was the protocol-freeze artifact.
 - 2026-06-04: VL-SAT full-validation rerun is now metric-ready under
   `experiments/H001_geom_reliability/sources/vlsat/full_validation/`: raw
@@ -91,7 +91,7 @@ Fact:
 - H001-Mini is hypothesis/feasibility evidence, not a paper metric or
   calibration/tuning split.
 - Transition record:
-  `experiments/H001_geom_reliability/full_validation_transition/report.md`.
+  `results/h001_geom_reliability/full_validation_transition/report.md`.
 
 ## Key Metrics
 
@@ -377,14 +377,14 @@ Fact:
 
 - First-pass manuscript prose and claim/evidence review are recorded in
   `paper/draft.md`; the current AAAI-style LaTeX source conversion is under
-  `paper/aaai/`; the historical ICCV-style source is under `paper/iccv/`;
+  `paper/aaai/`; the historical ICCV-style source is under `archive/paper/iccv/`;
   Figure 1-3 source rows and caveat wording are locked in `paper/figures.md`;
   verified/layout-reviewed draft SVGs are under `paper/generated/figures/`.
 - AAAI Table 1: fixed H001 evaluation scope and denominator.
 - AAAI Table 2: source-specific claim boundary.
 - AAAI Table 3: main source results, with Open3DSG first as the main open-vocabulary case study and `VL-SAT` second as the controlled reproduced anchor.
 - Controls, GT-based verifier evaluation, structured audit, visual sanity check, and detailed family rows are kept as prose-backed reviewer-defense evidence unless an appendix is added.
-- Figure specs are already generated under `experiments/H001_geom_reliability/figures/`.
+- Figure specs are already generated under `results/h001_geom_reliability/figures/`.
 
 Recommended paper narrative:
 
@@ -450,38 +450,38 @@ Read these first:
 14. `paper/draft.md`
 15. `paper/aaai/README.md`
 16. `paper/aaai/main.tex`
-17. `paper/iccv/README.md`
+17. `archive/paper/iccv/README.md`
 18. `paper/figures.md`
 
 ### Must-Read Hypothesis Files
 
 Read these to recover the claim, method, and evaluation contract:
 
-1. `hypothesis/README.md`
-2. `hypothesis/CAND-001/H001_geometry-grounded-verification/01_overview.md`
-3. `hypothesis/CAND-001/H001_geometry-grounded-verification/02_method.md`
-4. `hypothesis/CAND-001/H001_geometry-grounded-verification/03_data_baseline.md`
-5. `hypothesis/CAND-001/H001_geometry-grounded-verification/04_results.md`
-6. `hypothesis/CAND-001/H001_geometry-grounded-verification/05_audit.md`
-7. `hypothesis/CAND-001/H001_geometry-grounded-verification/06_second_source.md`
-8. `hypothesis/CAND-001/H001_geometry-grounded-verification/07_experiment_spec.md`
+1. `archive/hypothesis_records/hypothesis/README.md`
+2. `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/01_overview.md`
+3. `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/02_method.md`
+4. `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/03_data_baseline.md`
+5. `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/04_results.md`
+6. `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/05_audit.md`
+7. `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/06_second_source.md`
+8. `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/07_experiment_spec.md`
 
 ### Must-Read Experiment Result Files
 
 Read these to recover the locked paper-result state:
 
 1. `experiments/H001_geom_reliability/README.md`
-2. `experiments/H001_geom_reliability/report.md`
-3. `experiments/H001_geom_reliability/manifest.lock.json`
+2. `results/h001_geom_reliability/report.md`
+3. `results/h001_geom_reliability/manifest.lock.json`
 4. `experiments/H001_geom_reliability/commands.md`
-5. `experiments/H001_geom_reliability/tables/table1_main_prediction.md`
-6. `experiments/H001_geom_reliability/tables/table2_controls.md`
-7. `experiments/H001_geom_reliability/tables/table3_gt_verifier.md`
-8. `experiments/H001_geom_reliability/tables/table4_audit.md`
-9. `experiments/H001_geom_reliability/tables/table5_claim_boundary.md`
-10. `experiments/H001_geom_reliability/tables/table6_cross_source_status.md`
-11. `experiments/H001_geom_reliability/figures/figure_specs.md`
-12. `experiments/H001_geom_reliability/bootstrap_ci/summary.md`
+5. `results/h001_geom_reliability/tables/table1_main_prediction.md`
+6. `results/h001_geom_reliability/tables/table2_controls.md`
+7. `results/h001_geom_reliability/tables/table3_gt_verifier.md`
+8. `results/h001_geom_reliability/tables/table4_audit.md`
+9. `results/h001_geom_reliability/tables/table5_claim_boundary.md`
+10. `results/h001_geom_reliability/tables/table6_cross_source_status.md`
+11. `results/h001_geom_reliability/figures/figure_specs.md`
+12. `results/h001_geom_reliability/bootstrap_ci/summary.md`
 
 ### Must-Read Open3DSG Files
 
@@ -509,7 +509,7 @@ Read these before resuming Qwen-VL or moving the run to another computer:
 1. `experiments/H001_geom_reliability/sources/qwen_vl/README.md`
 2. `experiments/H001_geom_reliability/sources/qwen_vl/report.md`
 3. `experiments/H001_geom_reliability/sources/qwen_vl/status.json`
-4. `experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml`
+4. `configs/qwen_vl/compose.qwen.yaml`
 5. `experiments/H001_geom_reliability/sources/qwen_vl/full_source_input/manifest.json`
 6. `experiments/H001_geom_reliability/sources/qwen_vl/full_source_inference_plan/commands.md`
 7. `experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/manifests/`

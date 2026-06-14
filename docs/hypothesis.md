@@ -2,26 +2,26 @@
 
 Last updated: 2026-06-14 KST
 
-이 문서는 연구 후보를 검증 가능한 hypothesis로 바꾸는 에이전트 workflow와 작성 규칙을 정의한다. 실제 hypothesis 내용은 루트의 `hypothesis/` 폴더에 저장한다.
+이 문서는 연구 후보를 검증 가능한 hypothesis로 바꾸는 에이전트 workflow와 작성 규칙을 정의한다. 현재 보존된 H001 hypothesis 기록은 `archive/hypothesis_records/hypothesis/`에 저장한다.
 
 ## Ownership
 
 - `docs/hypothesis.md`는 hypothesis workflow rulebook이다.
-- 실제 candidate/hypothesis 상태와 active gate는 `hypothesis/README.md`가 소유한다.
-- CAND-001처럼 active hypothesis가 하나인 candidate는 별도 `hypothesis/CAND-001/README.md`를 만들지 않는다. Candidate-level summary는 `hypothesis/README.md`에 병합하고, 세부 내용은 H-folder canonical files에 둔다.
-- Candidate 안에 여러 active hypotheses가 생기거나 candidate-level assumption/risk가 `hypothesis/README.md`를 과도하게 키울 때만 `hypothesis/CAND-<number>/README.md`를 만든다.
+- 실제 candidate/hypothesis 상태와 active gate는 `archive/hypothesis_records/hypothesis/README.md`가 소유한다.
+- CAND-001처럼 active hypothesis가 하나인 candidate는 별도 candidate README를 만들지 않는다. Candidate-level summary는 `archive/hypothesis_records/hypothesis/README.md`에 병합하고, 세부 내용은 H-folder canonical files에 둔다.
+- Candidate 안에 여러 active hypotheses가 생기거나 candidate-level assumption/risk가 `archive/hypothesis_records/hypothesis/README.md`를 과도하게 키울 때만 candidate-level README를 만든다.
 
 ## Storage Rule
 
-Hypothesis 관련 산출물은 루트의 `hypothesis/` 폴더에 저장한다.
+Hypothesis 관련 기록은 현재 `archive/hypothesis_records/hypothesis/` 아래에 보존한다. 새 active hypothesis workflow를 다시 열 때만 별도 루트를 만들고, 먼저 `docs/index.md`와 README ownership을 갱신한다.
 
 - workflow와 작성 규칙: `docs/hypothesis.md`
-- hypothesis/candidate index: `hypothesis/README.md`
-- candidate별 hypothesis 묶음: `hypothesis/CAND-<number>/`
-- 개별 hypothesis: `hypothesis/CAND-<number>/H<number>_<short-title>/`
+- hypothesis/candidate index: `archive/hypothesis_records/hypothesis/README.md`
+- candidate별 hypothesis 묶음: `archive/hypothesis_records/hypothesis/CAND-<number>/`
+- 개별 hypothesis: `archive/hypothesis_records/hypothesis/CAND-<number>/H<number>_<short-title>/`
 - 작업 계획과 진행 상태: `TODO.md`
 
-`docs/hypothesis.md`는 절차와 기준만 관리한다. 문제 정의, hypothesis, feasibility gate, method, data/baseline, result, audit, second-source boundary, experiment spec은 `hypothesis/` 아래에 기록한다.
+`docs/hypothesis.md`는 절차와 기준만 관리한다. 문제 정의, hypothesis, feasibility gate, method, data/baseline, result, audit, second-source boundary, experiment spec은 `archive/hypothesis_records/hypothesis/` 아래의 canonical files에 기록한다.
 
 ## Entry Context
 
@@ -33,13 +33,13 @@ Hypothesis 작업을 시작하는 에이전트는 아래 순서로 읽는다.
 4. `docs/literature.md`
 5. `docs/hypothesis.md`
 6. `literature/CAND-001.md`
-7. `hypothesis/README.md`
+7. `archive/hypothesis_records/hypothesis/README.md`
 8. 대상 hypothesis folder의 canonical files
 
 ## Folder Convention
 
 ```text
-hypothesis/
+archive/hypothesis_records/hypothesis/
   README.md
   CAND-001/
     H001_geometry-grounded-verification/
@@ -50,7 +50,6 @@ hypothesis/
       05_audit.md
       06_second_source.md
       07_experiment_spec.md
-      tools/
       artifacts/
 ```
 
@@ -65,7 +64,7 @@ hypothesis/
 
 ## File Roles
 
-### `hypothesis/README.md`
+### `archive/hypothesis_records/hypothesis/README.md`
 
 전체 hypothesis index와 active candidate summary를 관리한다.
 
@@ -78,7 +77,7 @@ hypothesis/
 - blocked items
 - candidate-level assumptions and risks when only one active hypothesis exists
 
-### Optional `hypothesis/CAND-<number>/README.md`
+### Optional Candidate README
 
 candidate 안에 여러 active hypotheses가 생기거나 candidate-level 상태가 root index를 과도하게 키울 때만 만든다. 단일 active H001처럼 root index에서 충분히 관리되는 경우 만들지 않는다.
 
@@ -112,7 +111,7 @@ Scoped main experiment implementation spec과 Docker 기반 experiment transitio
 
 ## Artifact Rules
 
-Hypothesis smoke-test artifact는 hypothesis 폴더 내부에만 둔다.
+Hypothesis smoke-test artifact는 `archive/hypothesis_records/hypothesis/`의 해당 H-folder 내부에 보존한다. 재현 가능한 실행 코드는 `src/geocalib/`, Docker/compose entry point는 `configs/`, shell wrapper는 `scripts/`가 소유한다.
 
 - one-scan artifact root: `artifacts/one_scan/<scan-id>/`
 - baseline layout checker artifact root: `artifacts/layout/<baseline-name>/`
@@ -189,8 +188,8 @@ Hypothesis 문서를 갱신한 에이전트는 아래를 함께 확인한다.
 
 - `TODO.md`: 현재 작업과 다음 작업 상태 갱신
 - `docs/index.md`: active workflow와 current working file 갱신
-- `hypothesis/README.md`: active hypothesis와 gate 상태 갱신
-- optional `hypothesis/CAND-<number>/README.md`: 여러 active hypotheses가 있는 경우에만 candidate-level 상태 갱신
+- `archive/hypothesis_records/hypothesis/README.md`: active hypothesis와 gate 상태 갱신
+- optional `archive/hypothesis_records/hypothesis/CAND-<number>/README.md`: 여러 active hypotheses가 있는 경우에만 candidate-level 상태 갱신
 - 필요 시 `literature/CAND-<number>.md`: literature-derived feasibility 판단만 갱신
 
 ## Experiment Transition Rule

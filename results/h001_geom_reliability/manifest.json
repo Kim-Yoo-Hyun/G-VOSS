@@ -1,0 +1,31 @@
+{
+  "schema_version": "h001_geom_reliability_manifest_v1",
+  "created_at": "2026-05-07",
+  "status": "docker_experiment_outputs_ready_with_open3dsg_caveats",
+  "method_framing": "calibrated geometry-consistency evaluation and re-ranking framework",
+  "experiment_root": "experiments/H001_geom_reliability",
+  "docker": {
+    "compose_file": "configs/h001/compose.yaml",
+    "dockerfile": "configs/h001/Dockerfile",
+    "image": "h001-geom-reliability:latest"
+  },
+  "inputs": {
+    "hypothesis_root": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification",
+    "source": "locked hypothesis artifacts"
+  },
+  "outputs_after_run": [
+    "manifest.lock.json",
+    "report.md",
+    "tables/",
+    "figures/",
+    "sources/vlsat/locked_inputs.json",
+    "sources/open3dsg/status.json",
+    "sources/open3dsg/metrics/metrics.json",
+    "sources/open3dsg/failure_rows/summary.json",
+    "sources/open3dsg/failure_cases/queue.jsonl"
+  ],
+  "source_status": {
+    "vlsat": "ready_locked_artifact_reproduction",
+    "open3dsg": "ready_second_source_metrics_with_exit_137_caveat"
+  }
+}

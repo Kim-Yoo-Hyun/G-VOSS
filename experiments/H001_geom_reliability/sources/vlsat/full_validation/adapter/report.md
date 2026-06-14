@@ -9,7 +9,7 @@ Status: `ready`
 
 - Subset file: `local_dataset/3DSSG_subset/relationships_validation.json`
 - Raw dump file: `experiments/H001_geom_reliability/sources/vlsat/full_validation/raw/raw.jsonl`
-- Selected scans file: `experiments/H001_geom_reliability/full_validation_transition/scope_contract/scans.txt`
+- Selected scans file: `results/h001_geom_reliability/full_validation_transition/scope_contract/scans.txt`
 
 ## Outputs
 

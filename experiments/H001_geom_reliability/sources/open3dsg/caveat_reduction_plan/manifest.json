@@ -40,9 +40,9 @@
     "selected_checkpoint_train_dev_val_loss": 0.5724539160728455
   },
   "inputs": {
-    "attachment_denominator": "experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol/denominator_audit.json",
+    "attachment_denominator": "archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol/denominator_audit.json",
     "checkpoint_selection": "experiments/H001_geom_reliability/sources/open3dsg/checkpoint_selection/manifest.json",
-    "ground_truth_jsonl": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl",
+    "ground_truth_jsonl": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl",
     "h001_feature_audit": "experiments/H001_geom_reliability/sources/open3dsg/dump_features_h001_eval/manifest.json",
     "open3dsg_verification_jsonl": "experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl",
     "paper_caveats": "experiments/H001_geom_reliability/sources/open3dsg/paper_caveats/manifest.json"

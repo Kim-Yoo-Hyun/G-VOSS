@@ -129,7 +129,7 @@ for the VL-SAT controlled anchor, and not an end-to-end 3DSSG training result.
 - previous remaining full-source shard loop result: stopped with exit `1` at `qwen_full_source_shard_0014` because the GPU guard observed utilization 36% against the 35% threshold; shards `0000` through `0013` are complete, 3,500 rows are written
 - historical resumed remaining full-source shard loop: tmux `h001_qwen_vl_infer_remaining_resume_20260611_000531`, run id `20260611_000531`; superseded by the full-validation extension state summarized above
 - resumed remaining full-source shard loop scope: `qwen_full_source_shard_0014` through `qwen_full_source_shard_0133`, 120 shards, 29,884 expected rows
-- resumed remaining full-source shard loop command: `QWEN_VL_LOOP_RUN_ID=20260611_000531 QWEN_VL_LOOP_START_SUFFIX=0014 QWEN_VL_LOOP_END_SUFFIX=0133 bash experiments/H001_geom_reliability/scripts/run_qwen_vl_full_source_shard_loop.sh`
+- resumed remaining full-source shard loop command: `QWEN_VL_LOOP_RUN_ID=20260611_000531 QWEN_VL_LOOP_START_SUFFIX=0014 QWEN_VL_LOOP_END_SUFFIX=0133 bash src/geocalib/run_qwen_vl_full_source_shard_loop.sh`
 - resumed remaining full-source shard loop log: `logs/qwen_vl_full_source_infer_remaining_20260611_000531.log`
 - resumed remaining full-source shard loop status TSV: `logs/qwen_vl_full_source_infer_remaining_20260611_000531.status.tsv`
 - resumed remaining full-source shard loop exit file: `logs/qwen_vl_full_source_infer_remaining_20260611_000531.exit` when the loop finishes

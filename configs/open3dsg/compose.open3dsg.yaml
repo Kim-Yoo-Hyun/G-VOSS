@@ -1,0 +1,499 @@
+services:
+  open3dsg_base: &open3dsg_base
+    build:
+      context: ../..
+      dockerfile: configs/open3dsg/Dockerfile.repro
+    image: h001-open3dsg-repro:cu128
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    shm_size: "${OPEN3DSG_SHM_SIZE:-16gb}"
+    environment:
+      OPEN3DSG_HOME: /workspace
+      OPEN3DSG_BASE: /workspace/local_dataset/Open3DSG_staged/training_repro
+      OPEN3DSG_DATA: /workspace/local_dataset/Open3DSG_staged/training_repro/data
+      OPEN3DSG_DATA_OUT: /workspace/local_dataset/Open3DSG_staged/training_repro/output
+      HF_HOME: /workspace/local_dataset/model_cache/huggingface
+      TORCH_HOME: /workspace/local_dataset/model_cache/torch
+      TRANSFORMERS_CACHE: /workspace/local_dataset/model_cache/huggingface
+      HOME: /workspace/local_dataset/model_cache/home
+      XDG_CACHE_HOME: /workspace/local_dataset/model_cache/xdg
+      OPEN3DSG_DATASET_LOAD_WORKERS: ${OPEN3DSG_DATASET_LOAD_WORKERS:-1}
+      OPEN3DSG_LAZY_DATASET: ${OPEN3DSG_LAZY_DATASET:-1}
+      OPEN3DSG_FEATURE_RUN_DIR: ${OPEN3DSG_FEATURE_RUN_DIR:-/workspace/local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3}
+      OPEN3DSG_FEATURE_LOAD_DIR: ${OPEN3DSG_FEATURE_LOAD_DIR:-/workspace/local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3}
+      OPEN3DSG_FEATURE_SKIP_EXISTING: ${OPEN3DSG_FEATURE_SKIP_EXISTING:-1}
+      OPEN3DSG_BLIP_EMBED_CHUNK_SIZE: ${OPEN3DSG_BLIP_EMBED_CHUNK_SIZE:-4}
+      OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE: ${OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE:-16}
+      OPEN3DSG_MIN_GPU_FREE_MB: ${OPEN3DSG_MIN_GPU_FREE_MB:-18000}
+      PYTORCH_CUDA_ALLOC_CONF: ${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}
+    volumes:
+      - ../..:/workspace
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  env_check:
+    <<: *open3dsg_base
+    command: >
+      bash -lc "python -c 'import torch, pytorch_lightning, tensorflow, open3d, transformers;
+      print(torch.cuda.is_available(), torch.cuda.device_count(), torch.__version__)'"
+
+  cache_preflight:
+    <<: *open3dsg_base
+    command: >
+      bash -lc "python /workspace/src/geocalib/open3dsg_cache_preflight.py
+      --repo-root /workspace --ensure-dirs --check-imports --min-free-gb 300"
+
+  train_views_audit:
+    <<: *open3dsg_base
+    command: >
+      bash -lc "python /workspace/src/geocalib/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source &&
+      python /workspace/src/geocalib/run_open3dsg_train_views.py --audit-only --workers 1"
+
+  train_views_smoke:
+    <<: *open3dsg_base
+    command: >
+      bash -lc "python /workspace/src/geocalib/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source &&
+      python /workspace/src/geocalib/run_open3dsg_train_views.py --limit ${OPEN3DSG_TRAIN_STAGE_LIMIT:-1} --workers 1"
+
+  train_views_full:
+    <<: *open3dsg_base
+    command: >
+      bash -lc "python /workspace/src/geocalib/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source &&
+      python /workspace/src/geocalib/run_open3dsg_train_views.py --workers ${OPEN3DSG_TRAIN_STAGE_WORKERS:-4}"
+
+  train_preprocess_audit:
+    <<: *open3dsg_base
+    command: >
+      bash -lc "python /workspace/src/geocalib/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source &&
+      python /workspace/src/geocalib/run_open3dsg_train_preprocess.py --audit-only --workers 1"
+
+  train_preprocess_smoke:
+    <<: *open3dsg_base
+    command: >
+      bash -lc "python /workspace/src/geocalib/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source &&
+      SCAN_ID=$$(python -c 'import json; print(json.load(open(\"/workspace/local_dataset/Open3DSG_staged/training_repro/data/3RScan/3DSSG_subset/relationships_train.json\"))[\"scans\"][0][\"scan\"])') &&
+      python /workspace/src/geocalib/run_open3dsg_train_views.py --scan-id "$$SCAN_ID" --workers 1 &&
+      python /workspace/src/geocalib/run_open3dsg_train_preprocess.py --scan-id "$$SCAN_ID" --workers 1 --deep-inspect"
+
+  train_preprocess_full:
+    <<: *open3dsg_base
+    command: >
+      bash -lc "python /workspace/src/geocalib/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source &&
+      python /workspace/src/geocalib/run_open3dsg_train_preprocess.py --workers ${OPEN3DSG_TRAIN_STAGE_WORKERS:-4}"
+
+  train_preprocess_filter:
+    <<: *open3dsg_base
+    command: >
+      bash -lc "python /workspace/src/geocalib/filter_open3dsg_train_preprocess.py
+      --repo-root /workspace --apply"
+
+  validation_views_audit:
+    <<: *open3dsg_base
+    command: >
+      bash -lc "python /workspace/src/geocalib/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source &&
+      python /workspace/src/geocalib/run_open3dsg_train_views.py --split validation --audit-only --workers 1"
+
+  validation_views_full:
+    <<: *open3dsg_base
+    command: >
+      bash -lc "python /workspace/src/geocalib/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source &&
+      python /workspace/src/geocalib/run_open3dsg_train_views.py --split validation --workers ${OPEN3DSG_VALIDATION_STAGE_WORKERS:-4}"
+
+  validation_preprocess_audit:
+    <<: *open3dsg_base
+    command: >
+      bash -lc "python /workspace/src/geocalib/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source &&
+      python /workspace/src/geocalib/run_open3dsg_train_preprocess.py --split validation --audit-only --workers 1"
+
+  validation_preprocess_full:
+    <<: *open3dsg_base
+    command: >
+      bash -lc "python /workspace/src/geocalib/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source &&
+      python /workspace/src/geocalib/run_open3dsg_train_preprocess.py --split validation --workers ${OPEN3DSG_VALIDATION_STAGE_WORKERS:-4}"
+
+  validation_preprocess_filter:
+    <<: *open3dsg_base
+    command: >
+      bash -lc "python /workspace/src/geocalib/filter_open3dsg_train_preprocess.py
+      --repo-root /workspace --split validation --apply"
+
+  dump_features_3rscan:
+    <<: *open3dsg_base
+    working_dir: /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source
+    command: >
+      bash -lc "python /workspace/src/geocalib/open3dsg_training_preflight.py --repo-root /workspace --mode dump_features --ensure-dirs --check-imports &&
+      python /workspace/src/geocalib/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source &&
+      pip install -e . &&
+      python open3dsg/scripts/run.py --dump_features --dataset 3rscan --epochs 1 --run_name h001_open3dsg_feature_dump
+      --scales ${OPEN3DSG_DUMP_SCALES:-3} --top_k_frames ${OPEN3DSG_DUMP_TOP_K_FRAMES:-5}
+      --workers ${OPEN3DSG_DUMP_WORKERS:-0} --clip_model OpenSeg --blip"
+
+  dump_features_3rscan_pilot:
+    <<: *open3dsg_base
+    working_dir: /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source
+    command: >
+      bash -lc "export OPEN3DSG_FEATURE_RUN_DIR=/workspace/local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_pilot_mini_blip_top1_scales1 &&
+      export OPEN3DSG_FEATURE_LOAD_DIR=$${OPEN3DSG_FEATURE_RUN_DIR} &&
+      python /workspace/src/geocalib/open3dsg_training_preflight.py --repo-root /workspace --mode dump_features --ensure-dirs --check-imports &&
+      python /workspace/src/geocalib/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source &&
+      pip install -e . &&
+      python open3dsg/scripts/run.py --dump_features --dataset 3rscan --epochs 1 --run_name h001_open3dsg_feature_dump_pilot
+      --scales 1 --top_k_frames 1 --workers ${OPEN3DSG_DUMP_WORKERS:-0} --clip_model OpenSeg --blip --mini_dataset"
+
+  feature_audit:
+    <<: *open3dsg_base
+    command: >
+      bash -lc "python /workspace/src/geocalib/audit_open3dsg_features.py
+      --repo-root /workspace --write"
+
+  feature_audit_pilot:
+    <<: *open3dsg_base
+    command: >
+      bash -lc "python /workspace/src/geocalib/audit_open3dsg_features.py
+      --repo-root /workspace
+      --run-dir /workspace/local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_pilot_mini_blip_top1_scales1
+      --output-dir /workspace/experiments/H001_geom_reliability/sources/open3dsg/dump_features_pilot
+      --write"
+
+  h001_eval_payload:
+    <<: *open3dsg_base
+    command: >
+      bash -lc "python /workspace/src/geocalib/stage_open3dsg_h001_eval_payload.py
+      --repo-root /workspace --write"
+
+  dump_features_h001_eval:
+    <<: *open3dsg_base
+    working_dir: /workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source
+    environment:
+      OPEN3DSG_HOME: /workspace
+      OPEN3DSG_BASE: /workspace/local_dataset/Open3DSG_staged/h001_runtime
+      OPEN3DSG_DATA: /workspace/local_dataset/Open3DSG_staged/h001_runtime/data
+      OPEN3DSG_DATA_OUT: /workspace/local_dataset/Open3DSG_staged/h001_runtime/output
+      HF_HOME: /workspace/local_dataset/model_cache/huggingface
+      TORCH_HOME: /workspace/local_dataset/model_cache/torch
+      TRANSFORMERS_CACHE: /workspace/local_dataset/model_cache/huggingface
+      HOME: /workspace/local_dataset/model_cache/home
+      XDG_CACHE_HOME: /workspace/local_dataset/model_cache/xdg
+      OPEN3DSG_DATASET_LOAD_WORKERS: ${OPEN3DSG_DATASET_LOAD_WORKERS:-1}
+      OPEN3DSG_LAZY_DATASET: ${OPEN3DSG_LAZY_DATASET:-1}
+      OPEN3DSG_CHECKPOINT: ${OPEN3DSG_CHECKPOINT:-}
+      OPEN3DSG_FEATURE_RUN_DIR: ${OPEN3DSG_FEATURE_RUN_DIR:-/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3}
+      OPEN3DSG_FEATURE_SKIP_EXISTING: ${OPEN3DSG_FEATURE_SKIP_EXISTING:-1}
+      OPEN3DSG_FEATURE_SHARD_ONLY_MISSING: ${OPEN3DSG_FEATURE_SHARD_ONLY_MISSING:-0}
+      OPEN3DSG_FEATURE_SHARD_MAX_NEW_IDS: ${OPEN3DSG_FEATURE_SHARD_MAX_NEW_IDS:-0}
+      OPEN3DSG_BLIP_EMBED_CHUNK_SIZE: ${OPEN3DSG_BLIP_EMBED_CHUNK_SIZE:-4}
+      OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE: ${OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE:-16}
+      PYTORCH_CUDA_ALLOC_CONF: ${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}
+    command: >
+      bash -lc "python /workspace/src/geocalib/open3dsg_eval_preflight.py
+      --repo-root /workspace --ensure-dirs --check-imports &&
+      python /workspace/src/geocalib/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source &&
+      pip install -e . &&
+      python open3dsg/scripts/run.py --test --dump_features --dataset 3rscan --checkpoint "$${OPEN3DSG_CHECKPOINT}"
+      --epochs 1 --gpus 1 --workers ${OPEN3DSG_DUMP_WORKERS:-0}
+      --scales ${OPEN3DSG_DUMP_SCALES:-3} --top_k_frames ${OPEN3DSG_DUMP_TOP_K_FRAMES:-5}
+      --clip_model OpenSeg --blip --avg_blip_emb"
+
+  feature_audit_h001_eval:
+    <<: *open3dsg_base
+    command: >
+      bash -lc "python /workspace/src/geocalib/audit_open3dsg_features.py
+      --repo-root /workspace
+      --feature-root /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/features
+      --preprocessed-root /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed
+      --relationships-root /workspace/local_dataset/Open3DSG_staged/h001_runtime/data/3RScan/3DSSG_subset
+      --run-dir /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3
+      --output-dir /workspace/experiments/H001_geom_reliability/sources/open3dsg/dump_features_h001_eval
+      --write"
+
+  feature_audit_h001_eval_nonavg:
+    <<: *open3dsg_base
+    command: >
+      bash -lc "python /workspace/src/geocalib/audit_open3dsg_features.py
+      --repo-root /workspace
+      --feature-root /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/features
+      --preprocessed-root /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed
+      --relationships-root /workspace/local_dataset/Open3DSG_staged/h001_runtime/data/3RScan/3DSSG_subset
+      --run-dir /workspace/local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3
+      --output-dir /workspace/experiments/H001_geom_reliability/sources/open3dsg/non_avg/dump_features_h001_eval
+      --write"
+
+  train_pilot:
+    <<: *open3dsg_base
+    working_dir: /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source
+    command: >
+      bash -lc "export OPEN3DSG_FEATURE_LOAD_DIR=$${OPEN3DSG_FEATURE_LOAD_DIR:-$${OPEN3DSG_FEATURE_RUN_DIR}} &&
+      python /workspace/src/geocalib/open3dsg_training_preflight.py --repo-root /workspace --mode train_pilot --ensure-dirs --check-imports &&
+      python /workspace/src/geocalib/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source &&
+      pip install -e . &&
+      python open3dsg/scripts/run.py --epochs 1 --batch_size 1 --gpus 1 --workers ${OPEN3DSG_TRAIN_WORKERS:-0} --use_rgb
+      --dataset 3rscan --clip_model OpenSeg --blip --mixed_precision --accumulate_grad_batches 4
+      --load_features "$${OPEN3DSG_FEATURE_LOAD_DIR}"
+      --run_name h001_open3dsg_pilot"
+
+  train_pilot_reduced:
+    <<: *open3dsg_base
+    working_dir: /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source
+    command: >
+      bash -lc "export OPEN3DSG_FEATURE_LOAD_DIR=/workspace/local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_pilot_mini_blip_top1_scales1 &&
+      python /workspace/src/geocalib/open3dsg_training_preflight.py --repo-root /workspace --mode train_pilot --ensure-dirs --check-imports &&
+      python /workspace/src/geocalib/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source &&
+      pip install -e . &&
+      python open3dsg/scripts/run.py --epochs 1 --batch_size 1 --gpus 1 --workers ${OPEN3DSG_TRAIN_WORKERS:-0} --use_rgb
+      --dataset 3rscan --clip_model OpenSeg --blip --mixed_precision --accumulate_grad_batches 4
+      --load_features "$${OPEN3DSG_FEATURE_LOAD_DIR}" --mini_dataset
+      --run_name h001_open3dsg_pilot_reduced"
+
+  train_pilot_avg_blip:
+    <<: *open3dsg_base
+    working_dir: /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source
+    command: >
+      bash -lc "export OPEN3DSG_FEATURE_LOAD_DIR=$${OPEN3DSG_FEATURE_LOAD_DIR:-$${OPEN3DSG_FEATURE_RUN_DIR}} &&
+      python /workspace/src/geocalib/open3dsg_training_preflight.py --repo-root /workspace --mode train_pilot --ensure-dirs --check-imports &&
+      python /workspace/src/geocalib/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source &&
+      pip install -e . &&
+      python open3dsg/scripts/run.py --epochs 1 --batch_size 1 --gpus 1 --workers ${OPEN3DSG_TRAIN_WORKERS:-0} --use_rgb
+      --dataset 3rscan --clip_model OpenSeg --blip --avg_blip_emb --mixed_precision --accumulate_grad_batches 4
+      --load_features "$${OPEN3DSG_FEATURE_LOAD_DIR}"
+      --run_name h001_open3dsg_pilot_avg_blip"
+
+  train_full:
+    <<: *open3dsg_base
+    working_dir: /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source
+    command: >
+      bash -lc "export OPEN3DSG_FEATURE_LOAD_DIR=$${OPEN3DSG_FEATURE_LOAD_DIR:-$${OPEN3DSG_FEATURE_RUN_DIR}} &&
+      python /workspace/src/geocalib/open3dsg_training_preflight.py --repo-root /workspace --mode train_full --ensure-dirs --check-imports &&
+      python /workspace/src/geocalib/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source &&
+      pip install -e . &&
+      python open3dsg/scripts/run.py --epochs 100 --batch_size 1 --gpus 1 --workers ${OPEN3DSG_TRAIN_WORKERS:-0} --use_rgb
+      --dataset 3rscan --clip_model OpenSeg --blip --mixed_precision --accumulate_grad_batches 4
+      --load_features "$${OPEN3DSG_FEATURE_LOAD_DIR}"
+      --run_name h001_open3dsg_full"
+
+  train_full_avg_blip:
+    <<: *open3dsg_base
+    working_dir: /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source
+    command: >
+      bash -lc "export OPEN3DSG_FEATURE_LOAD_DIR=$${OPEN3DSG_FEATURE_LOAD_DIR:-$${OPEN3DSG_FEATURE_RUN_DIR}} &&
+      python /workspace/src/geocalib/open3dsg_training_preflight.py --repo-root /workspace --mode train_full --ensure-dirs --check-imports &&
+      python /workspace/src/geocalib/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/training_repro/source/open3dsg_source &&
+      pip install -e . &&
+      python open3dsg/scripts/run.py --epochs 100 --batch_size 1 --gpus 1 --workers ${OPEN3DSG_TRAIN_WORKERS:-0} --use_rgb
+      --dataset 3rscan --clip_model OpenSeg --blip --avg_blip_emb --mixed_precision --accumulate_grad_batches 4
+      --load_features "$${OPEN3DSG_FEATURE_LOAD_DIR}"
+      --run_name h001_open3dsg_full_avg_blip"
+
+  eval_preflight:
+    <<: *open3dsg_base
+    working_dir: /workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source
+    environment:
+      OPEN3DSG_HOME: /workspace
+      OPEN3DSG_BASE: /workspace/local_dataset/Open3DSG_staged/h001_runtime
+      OPEN3DSG_DATA: /workspace/local_dataset/Open3DSG_staged/h001_runtime/data
+      OPEN3DSG_DATA_OUT: /workspace/local_dataset/Open3DSG_staged/h001_runtime/output
+      HF_HOME: /workspace/local_dataset/model_cache/huggingface
+      TORCH_HOME: /workspace/local_dataset/model_cache/torch
+      TRANSFORMERS_CACHE: /workspace/local_dataset/model_cache/huggingface
+      HOME: /workspace/local_dataset/model_cache/home
+      XDG_CACHE_HOME: /workspace/local_dataset/model_cache/xdg
+      OPEN3DSG_CHECKPOINT: ${OPEN3DSG_CHECKPOINT:-}
+    command: >
+      bash -lc "python /workspace/src/geocalib/open3dsg_eval_preflight.py
+      --repo-root /workspace --ensure-dirs --check-imports"
+
+  eval_h001_gt_objects:
+    <<: *open3dsg_base
+    working_dir: /workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source
+    environment:
+      OPEN3DSG_HOME: /workspace
+      OPEN3DSG_BASE: /workspace/local_dataset/Open3DSG_staged/h001_runtime
+      OPEN3DSG_DATA: /workspace/local_dataset/Open3DSG_staged/h001_runtime/data
+      OPEN3DSG_DATA_OUT: /workspace/local_dataset/Open3DSG_staged/h001_runtime/output
+      HF_HOME: /workspace/local_dataset/model_cache/huggingface
+      TORCH_HOME: /workspace/local_dataset/model_cache/torch
+      TRANSFORMERS_CACHE: /workspace/local_dataset/model_cache/huggingface
+      HOME: /workspace/local_dataset/model_cache/home
+      XDG_CACHE_HOME: /workspace/local_dataset/model_cache/xdg
+      OPEN3DSG_CHECKPOINT: ${OPEN3DSG_CHECKPOINT:-}
+      OPEN3DSG_FEATURE_LOAD_DIR: ${OPEN3DSG_FEATURE_LOAD_DIR:-/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3}
+      OPEN3DSG_RAW_DUMP_JSONL: ${OPEN3DSG_RAW_DUMP_JSONL:-/workspace/experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl}
+      OPEN3DSG_RAW_DUMP_EXIT_AFTER_WRITE: ${OPEN3DSG_RAW_DUMP_EXIT_AFTER_WRITE:-0}
+      OPEN3DSG_RAW_DUMP_STREAM_BATCHES: ${OPEN3DSG_RAW_DUMP_STREAM_BATCHES:-0}
+      OPEN3DSG_RAW_DUMP_RESUME: ${OPEN3DSG_RAW_DUMP_RESUME:-0}
+      OPEN3DSG_RAW_DUMP_COMPLETED_JSONL: ${OPEN3DSG_RAW_DUMP_COMPLETED_JSONL:-}
+      OPEN3DSG_RAW_DUMP_MANIFEST_JSON: ${OPEN3DSG_RAW_DUMP_MANIFEST_JSON:-}
+      OPEN3DSG_BASELINE_RUN_ID: ${OPEN3DSG_BASELINE_RUN_ID:-open3dsg_avg_blip_epoch13_step13104}
+      OPEN3DSG_MODEL_SOURCE_STAGE: ${OPEN3DSG_MODEL_SOURCE_STAGE:-avg_blip_full_variant}
+      OPEN3DSG_EVAL_WORKERS: ${OPEN3DSG_EVAL_WORKERS:-0}
+      OPEN3DSG_BLIP_GENERATE_MAX_NEW_TOKENS: ${OPEN3DSG_BLIP_GENERATE_MAX_NEW_TOKENS:-20}
+    command: >
+      bash -lc "python /workspace/src/geocalib/open3dsg_eval_preflight.py
+      --repo-root /workspace --ensure-dirs --check-imports &&
+      python /workspace/src/geocalib/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source &&
+      pip install -e . &&
+      python open3dsg/scripts/run.py --test --dataset 3rscan --checkpoint "$${OPEN3DSG_CHECKPOINT}"
+      --n_beams 5 --weight_2d 0.5 --clip_model OpenSeg --node_model ViT-L/14@336px --blip --avg_blip_emb --gt_objects
+      --workers "$${OPEN3DSG_EVAL_WORKERS}"
+      --load_features "$${OPEN3DSG_FEATURE_LOAD_DIR}""
+
+  eval_preflight_nonavg:
+    <<: *open3dsg_base
+    working_dir: /workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source
+    environment:
+      OPEN3DSG_HOME: /workspace
+      OPEN3DSG_BASE: /workspace/local_dataset/Open3DSG_staged/h001_runtime
+      OPEN3DSG_DATA: /workspace/local_dataset/Open3DSG_staged/h001_runtime/data
+      OPEN3DSG_DATA_OUT: /workspace/local_dataset/Open3DSG_staged/h001_runtime/output
+      HF_HOME: /workspace/local_dataset/model_cache/huggingface
+      TORCH_HOME: /workspace/local_dataset/model_cache/torch
+      TRANSFORMERS_CACHE: /workspace/local_dataset/model_cache/huggingface
+      HOME: /workspace/local_dataset/model_cache/home
+      XDG_CACHE_HOME: /workspace/local_dataset/model_cache/xdg
+      OPEN3DSG_CHECKPOINT: ${OPEN3DSG_NONAVG_CHECKPOINT:-/workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt}
+    command: >
+      bash -lc "python /workspace/src/geocalib/open3dsg_eval_preflight.py
+      --repo-root /workspace --ensure-dirs --check-imports
+      --checkpoint "$${OPEN3DSG_CHECKPOINT}"
+      --raw-dump-jsonl /workspace/experiments/H001_geom_reliability/sources/open3dsg/non_avg/raw_dump/raw.jsonl
+      --out /workspace/experiments/H001_geom_reliability/sources/open3dsg/non_avg/eval_preflight"
+
+  eval_h001_gt_objects_nonavg:
+    <<: *open3dsg_base
+    working_dir: /workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source
+    environment:
+      OPEN3DSG_HOME: /workspace
+      OPEN3DSG_BASE: /workspace/local_dataset/Open3DSG_staged/h001_runtime
+      OPEN3DSG_DATA: /workspace/local_dataset/Open3DSG_staged/h001_runtime/data
+      OPEN3DSG_DATA_OUT: /workspace/local_dataset/Open3DSG_staged/h001_runtime/output
+      HF_HOME: /workspace/local_dataset/model_cache/huggingface
+      TORCH_HOME: /workspace/local_dataset/model_cache/torch
+      TRANSFORMERS_CACHE: /workspace/local_dataset/model_cache/huggingface
+      HOME: /workspace/local_dataset/model_cache/home
+      XDG_CACHE_HOME: /workspace/local_dataset/model_cache/xdg
+      OPEN3DSG_CHECKPOINT: ${OPEN3DSG_NONAVG_CHECKPOINT:-/workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt}
+      OPEN3DSG_FEATURE_LOAD_DIR: ${OPEN3DSG_NONAVG_FEATURE_LOAD_DIR:-/workspace/local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3}
+      OPEN3DSG_RAW_DUMP_JSONL: ${OPEN3DSG_NONAVG_RAW_DUMP_JSONL:-/workspace/experiments/H001_geom_reliability/sources/open3dsg/non_avg/raw_dump/raw.jsonl}
+      OPEN3DSG_RAW_DUMP_EXIT_AFTER_WRITE: ${OPEN3DSG_RAW_DUMP_EXIT_AFTER_WRITE:-0}
+      OPEN3DSG_RAW_DUMP_STREAM_BATCHES: ${OPEN3DSG_RAW_DUMP_STREAM_BATCHES:-1}
+      OPEN3DSG_RAW_DUMP_RESUME: ${OPEN3DSG_RAW_DUMP_RESUME:-1}
+      OPEN3DSG_RAW_DUMP_COMPLETED_JSONL: ${OPEN3DSG_RAW_DUMP_COMPLETED_JSONL:-/workspace/experiments/H001_geom_reliability/sources/open3dsg/non_avg/raw_dump/raw.completed.jsonl}
+      OPEN3DSG_RAW_DUMP_MANIFEST_JSON: ${OPEN3DSG_RAW_DUMP_MANIFEST_JSON:-/workspace/experiments/H001_geom_reliability/sources/open3dsg/non_avg/raw_dump/stream_manifest.json}
+      OPEN3DSG_BASELINE_RUN_ID: ${OPEN3DSG_BASELINE_RUN_ID:-open3dsg_nonavg_epoch13_step13104}
+      OPEN3DSG_MODEL_SOURCE_STAGE: ${OPEN3DSG_MODEL_SOURCE_STAGE:-official_non_avg_blip_full}
+      OPEN3DSG_EVAL_WORKERS: ${OPEN3DSG_EVAL_WORKERS:-0}
+      OPEN3DSG_BLIP_GENERATE_MAX_NEW_TOKENS: ${OPEN3DSG_BLIP_GENERATE_MAX_NEW_TOKENS:-20}
+      OPEN3DSG_BLIP_EMBED_CHUNK_SIZE: ${OPEN3DSG_BLIP_EMBED_CHUNK_SIZE:-1}
+      OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE: ${OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE:-1}
+      PYTORCH_CUDA_ALLOC_CONF: ${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True,max_split_size_mb:64}
+    command: >
+      bash -lc "python /workspace/src/geocalib/open3dsg_eval_preflight.py
+      --repo-root /workspace --ensure-dirs --check-imports
+      --checkpoint "$${OPEN3DSG_CHECKPOINT}"
+      --raw-dump-jsonl "$${OPEN3DSG_RAW_DUMP_JSONL}"
+      --out /workspace/experiments/H001_geom_reliability/sources/open3dsg/non_avg/eval_preflight &&
+      python /workspace/src/geocalib/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source &&
+      pip install -e . &&
+      python open3dsg/scripts/run.py --test --dataset 3rscan --checkpoint "$${OPEN3DSG_CHECKPOINT}"
+      --n_beams 5 --weight_2d 0.5 --clip_model OpenSeg --node_model ViT-L/14@336px --blip --gt_objects
+      --workers "$${OPEN3DSG_EVAL_WORKERS}"
+      --load_features "$${OPEN3DSG_FEATURE_LOAD_DIR}""
+
+  dump_features_full_validation_nonavg:
+    <<: *open3dsg_base
+    working_dir: /workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/source/open3dsg_source
+    environment:
+      OPEN3DSG_HOME: /workspace
+      OPEN3DSG_BASE: /workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime
+      OPEN3DSG_DATA: /workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/data
+      OPEN3DSG_DATA_OUT: /workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/output
+      HF_HOME: /workspace/local_dataset/model_cache/huggingface
+      TORCH_HOME: /workspace/local_dataset/model_cache/torch
+      TRANSFORMERS_CACHE: /workspace/local_dataset/model_cache/huggingface
+      HOME: /workspace/local_dataset/model_cache/home
+      XDG_CACHE_HOME: /workspace/local_dataset/model_cache/xdg
+      OPEN3DSG_DATASET_LOAD_WORKERS: ${OPEN3DSG_DATASET_LOAD_WORKERS:-1}
+      OPEN3DSG_LAZY_DATASET: ${OPEN3DSG_LAZY_DATASET:-1}
+      OPEN3DSG_CHECKPOINT: ${OPEN3DSG_NONAVG_CHECKPOINT:-/workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt}
+      OPEN3DSG_FEATURE_RUN_DIR: ${OPEN3DSG_FULL_VALIDATION_FEATURE_RUN_DIR:-/workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/features/clip_features_h001_full_validation_official_blip_top5_scales3}
+      OPEN3DSG_FEATURE_SKIP_EXISTING: ${OPEN3DSG_FEATURE_SKIP_EXISTING:-1}
+      OPEN3DSG_BLIP_EMBED_CHUNK_SIZE: ${OPEN3DSG_BLIP_EMBED_CHUNK_SIZE:-1}
+      OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE: ${OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE:-1}
+      PYTORCH_CUDA_ALLOC_CONF: ${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True,max_split_size_mb:64}
+    command: >
+      bash -lc "python /workspace/src/geocalib/open3dsg_eval_preflight.py
+      --repo-root /workspace
+      --runtime-root /workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime
+      --checkpoint "$${OPEN3DSG_CHECKPOINT}"
+      --selected-scans /workspace/results/h001_geom_reliability/full_validation_transition/scope_contract/scans.txt
+      --subset-json /workspace/local_dataset/3DSSG_subset/relationships_validation.json
+      --expected-contexts 548
+      --raw-dump-jsonl /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/raw_dump/raw.jsonl
+      --out /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/eval_preflight
+      --ensure-dirs --check-imports &&
+      python /workspace/src/geocalib/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/source/open3dsg_source &&
+      pip install -e . &&
+      python open3dsg/scripts/run.py --test --dump_features --dataset 3rscan --checkpoint "$${OPEN3DSG_CHECKPOINT}"
+      --epochs 1 --gpus 1 --workers ${OPEN3DSG_DUMP_WORKERS:-0}
+      --scales ${OPEN3DSG_DUMP_SCALES:-3} --top_k_frames ${OPEN3DSG_DUMP_TOP_K_FRAMES:-5}
+      --clip_model OpenSeg --blip --avg_blip_emb"
+
+  feature_audit_full_validation:
+    <<: *open3dsg_base
+    command: >
+      bash -lc "python /workspace/src/geocalib/audit_open3dsg_features.py
+      --repo-root /workspace
+      --feature-root /workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/features
+      --preprocessed-root /workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed
+      --relationships-root /workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/data/3RScan/3DSSG_subset
+      --run-dir /workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/features/clip_features_h001_full_validation_official_blip_top5_scales3
+      --output-dir /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/features
+      --write"
+
+  eval_full_validation_gt_objects_nonavg:
+    <<: *open3dsg_base
+    working_dir: /workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/source/open3dsg_source
+    environment:
+      OPEN3DSG_HOME: /workspace
+      OPEN3DSG_BASE: /workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime
+      OPEN3DSG_DATA: /workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/data
+      OPEN3DSG_DATA_OUT: /workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/output
+      HF_HOME: /workspace/local_dataset/model_cache/huggingface
+      TORCH_HOME: /workspace/local_dataset/model_cache/torch
+      TRANSFORMERS_CACHE: /workspace/local_dataset/model_cache/huggingface
+      HOME: /workspace/local_dataset/model_cache/home
+      XDG_CACHE_HOME: /workspace/local_dataset/model_cache/xdg
+      OPEN3DSG_CHECKPOINT: ${OPEN3DSG_NONAVG_CHECKPOINT:-/workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt}
+      OPEN3DSG_FEATURE_LOAD_DIR: ${OPEN3DSG_FULL_VALIDATION_FEATURE_LOAD_DIR:-/workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/features/clip_features_h001_full_validation_official_blip_top5_scales3}
+      OPEN3DSG_RAW_DUMP_JSONL: ${OPEN3DSG_FULL_VALIDATION_RAW_DUMP_JSONL:-/workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/raw_dump/raw.jsonl}
+      OPEN3DSG_RAW_DUMP_STREAM_BATCHES: ${OPEN3DSG_RAW_DUMP_STREAM_BATCHES:-1}
+      OPEN3DSG_RAW_DUMP_RESUME: ${OPEN3DSG_RAW_DUMP_RESUME:-1}
+      OPEN3DSG_RAW_DUMP_COMPLETED_JSONL: ${OPEN3DSG_RAW_DUMP_COMPLETED_JSONL:-/workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/raw_dump/raw.completed.jsonl}
+      OPEN3DSG_RAW_DUMP_MANIFEST_JSON: ${OPEN3DSG_RAW_DUMP_MANIFEST_JSON:-/workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/raw_dump/stream_manifest.json}
+      OPEN3DSG_BASELINE_RUN_ID: ${OPEN3DSG_BASELINE_RUN_ID:-open3dsg_full_validation_nonavg_epoch13_step13104}
+      OPEN3DSG_MODEL_SOURCE_STAGE: ${OPEN3DSG_MODEL_SOURCE_STAGE:-official_non_avg_blip_full_validation}
+      OPEN3DSG_EVAL_WORKERS: ${OPEN3DSG_EVAL_WORKERS:-0}
+      OPEN3DSG_BLIP_GENERATE_MAX_NEW_TOKENS: ${OPEN3DSG_BLIP_GENERATE_MAX_NEW_TOKENS:-20}
+      OPEN3DSG_BLIP_EMBED_CHUNK_SIZE: ${OPEN3DSG_BLIP_EMBED_CHUNK_SIZE:-1}
+      OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE: ${OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE:-1}
+      PYTORCH_CUDA_ALLOC_CONF: ${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True,max_split_size_mb:64}
+    command: >
+      bash -lc "python /workspace/src/geocalib/open3dsg_eval_preflight.py
+      --repo-root /workspace
+      --runtime-root /workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime
+      --checkpoint "$${OPEN3DSG_CHECKPOINT}"
+      --selected-scans /workspace/results/h001_geom_reliability/full_validation_transition/scope_contract/scans.txt
+      --subset-json /workspace/local_dataset/3DSSG_subset/relationships_validation.json
+      --expected-contexts 548
+      --raw-dump-jsonl "$${OPEN3DSG_RAW_DUMP_JSONL}"
+      --out /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/eval_preflight &&
+      python /workspace/src/geocalib/patch_open3dsg_source.py --repo-root /workspace --source-root /workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/source/open3dsg_source &&
+      pip install -e . &&
+      python open3dsg/scripts/run.py --test --dataset 3rscan --checkpoint "$${OPEN3DSG_CHECKPOINT}"
+      --n_beams 5 --weight_2d 0.5 --clip_model OpenSeg --node_model ViT-L/14@336px --blip --gt_objects
+      --workers "$${OPEN3DSG_EVAL_WORKERS}"
+      --load_features "$${OPEN3DSG_FEATURE_LOAD_DIR}""

@@ -1708,8 +1708,8 @@
     "support_contact"
   ],
   "inputs": {
-    "family_specific_model_json": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json",
-    "ground_truth_jsonl": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl",
+    "family_specific_model_json": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json",
+    "ground_truth_jsonl": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl",
     "predictions_jsonl": "experiments/H001_geom_reliability/sources/open3dsg/non_avg/adapter/predictions.jsonl",
     "verification_jsonl": "experiments/H001_geom_reliability/sources/open3dsg/non_avg/geometry/verification.jsonl"
   },

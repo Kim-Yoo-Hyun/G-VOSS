@@ -1,48 +1,49 @@
-# Research Workspace
+# GeoCalib Research Repository
 
-이 저장소는 3D Scene Graph 관계 예측의 신뢰성을 연구하는 석사 연구 작업 공간이다. 현재 paper-facing 연구명은 `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations`이며, `H001`은 내부 hypothesis/experiment identifier로 유지한다. GeoCalib는 기존 relation source가 낸 semantic relation edge를 explicit 3D geometry evidence로 검증하고 재정렬해, top-K relation의 recall과 geometry violation tradeoff를 함께 평가한다. 현재 main evidence는 `VL-SAT` full official validation과 Open3DSG full-validation recovery route를 중심으로 관리한다.
+This repository contains the H001/GeoCalib research workspace for reliable 3D Scene Graph relations. GeoCalib evaluates whether semantic relation predictions are geometrically consistent in 3D, then reports recall and violation tradeoffs under calibrated geometry-aware scoring and re-ranking. The current paper-facing scope is `support_contact`, `proximity`, and `relative_vertical`, with VL-SAT as the controlled reproduced anchor and Open3DSG as the main open-vocabulary relation-source case study. H001 remains an internal experiment identifier.
 
-## 핵심 문제의식
+## Core Question
 
-기존 3D Scene Graph relation predictor는 의미상 그럴듯한 relation을 높은 점수로 예측할 수 있지만, 해당 subject-object pair의 실제 3D geometry와 일치하지 않을 수 있다. 이 저장소의 핵심 질문은 semantic confidence가 relation-level physical consistency에 calibrated 되어 있는지, 그리고 geometry-consistency scoring/re-ranking이 violation을 줄이면서 recall tradeoff를 명확히 보고할 수 있는지다. Claim boundary는 broad open-vocabulary 3DSSG generation improvement가 아니라, geometry-checkable relation family에 대한 scoped reliability layer다.
+3D Scene Graph relation predictors can assign high semantic confidence to relations that are physically inconsistent with the subject-object geometry. This project asks whether relation confidence is calibrated to relation-level physical consistency, and whether a scoped geometry-consistency layer can reduce top-K violations without hiding recall tradeoffs.
 
 ## Repository Structure
 
-- `summary.md`: 연구 정의, claim boundary, evidence, paper direction의 압축 요약.
-- `TODO.md`: 현재 작업판. `Now`, `Next`, 완료/보류 상태를 관리한다.
-- `docs/`: workflow rulebook과 dashboard.
-  - `docs/index.md`: 현재 연구 상태 dashboard.
-  - `docs/paper.md`: paper framing, novelty, reviewer-defense rule.
-  - `docs/experiments.md`: Docker experiment promotion rule.
-  - `docs/reproducibility.md`: dataset/checkpoint/artifact recovery and handoff runbook.
-  - `docs/literature.md`, `docs/hypothesis.md`: literature/hypothesis workflow.
-- `literature/`: paper cards, trend synthesis, contribution candidates.
-- `hypothesis/`: CAND/H hypothesis canonical notes and pre-paper evidence.
-- `experiments/H001_geom_reliability/`: Docker-based paper experiment root.
-- `paper/`: manuscript workspace, figure plans, appendix/risk docs, venue LaTeX source.
-- `logs/`: long-running job logs and exit/status files.
-- `local_dataset/`: ignored local dataset/cache/runtime root.
-- `release/`: ignored external artifact staging root.
+- `src/`: core GeoCalib Python code for staging, geometry evidence, adapters, metrics, bootstrap CI, and table generation.
+- `scripts/`: shell wrappers for long-running reproducible jobs.
+- `configs/`: Dockerfiles and compose files.
+- `experiments/`: source-specific experiment records, ablations, analysis outputs, and row-level runtime result locations.
+- `results/`: lightweight paper-facing summaries, compact tables, reports, figure specs, and locked manifests.
+- `docs/`: workflow rules, dashboard, and reproducibility runbook.
+- `literature/`: literature notes and paper cards. Existing internal layout is preserved.
+- `paper/`: manuscript source, figures, appendix/risk planning, and venue files.
+- `archive/`: preserved hypothesis records, old code/output, superseded venue files, optional expansion tracks, caches, and files preserved instead of deleted.
+- `local_dataset/`, `release/`, `logs/`: ignored local data, external bundle staging, and runtime logs.
 
-## 핵심 실행 코드와 실행 방법
+## Execution
 
-Paper-result experiments must be Docker-based. Start from the experiment root:
+Run paper-facing experiments through Docker from the repository root:
 
 ```bash
 cd /home/yoohyun/research
+docker compose -f configs/h001/compose.yaml run --rm table_builder
+docker compose -f configs/h001/compose.yaml run --rm bootstrap_ci
 ```
 
-Primary experiment entry points:
+Main configuration entry points:
 
-- `experiments/H001_geom_reliability/compose.yaml`
-- `experiments/H001_geom_reliability/commands.md`
-- `experiments/H001_geom_reliability/README.md`
-- Source-specific compose/runbooks under:
-  - `experiments/H001_geom_reliability/sources/vlsat/`
-  - `experiments/H001_geom_reliability/sources/open3dsg/`
-  - `experiments/H001_geom_reliability/sources/qwen_vl/`
+- `configs/h001/compose.yaml`: GeoCalib table, metric, bootstrap, source-adapter, and analysis services.
+- `configs/h001/Dockerfile`: lightweight GeoCalib Python image.
+- `configs/open3dsg/compose.open3dsg.yaml`: Open3DSG reproduction/runtime services.
+- `configs/qwen_vl/compose.qwen.yaml`: Qwen-VL extension runtime services.
 
-Paper source build entry point:
+Useful source-level checks:
+
+```bash
+docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm env_check
+docker compose -f configs/qwen_vl/compose.qwen.yaml run --rm qwen_vl_cache_verify
+```
+
+Build the current AAAI paper source with:
 
 ```bash
 docker build -f paper/aaai/Dockerfile.tex -t h001-aaai-tex:20260526 paper/aaai
@@ -50,18 +51,16 @@ docker run --rm -v "$PWD/paper:/work" -w /work/aaai h001-aaai-tex:20260526 \
   latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 ```
 
-Before rerunning metrics, uploads, recovery, or cleanup, read `docs/reproducibility.md` first. It owns the current artifact list, paths, verification commands, and cleanup implications.
+## Artifact Policy
 
-## Artifact Management
+Git should contain source code, configs, runbooks, compact reports, metric summaries, figure specs, and paper source. Large datasets, checkpoints, model caches, feature caches, raw dumps, and row-level JSONL outputs are not Git artifacts; keep them in `local_dataset/`, `release/`, or an external artifact bundle and verify them with counts/checksums before cleanup.
 
-Tracked GitHub content should include source code, Dockerfiles/compose files, scripts, runbooks, compact manifests, reports, metric summaries, paper source, and planning docs. Large datasets, model caches, checkpoints, feature caches, raw JSONL dumps, and row-level runtime outputs stay outside Git and must be regenerated or transferred separately.
+Before rerunning, uploading, transferring, or deleting H001 artifacts, read `docs/reproducibility.md`.
 
-Do not delete local dataset, checkpoint, feature-cache, model-cache, or row-level JSONL artifacts unless an external copy has been verified with checksums, file counts, expected layout, or a lightweight sanity script. For final submission or handoff, verify whether the current package was regenerated after GeoCalib naming, Figure updates, low-K table decisions, and any Qwen extension inclusion decision.
+## Navigation
 
-## Where To Continue
-
-- Read `summary.md` for the current research story and claim boundary.
-- Read `TODO.md` for immediate tasks and recently completed work.
-- Read `docs/index.md` for a dashboard of active files and open questions.
-- Read `docs/reproducibility.md` before any artifact transfer, deletion, rerun, or recovery.
-- Read `paper/README.md` and `paper/preview.md` before editing manuscript text.
+- `summary.md`: current research story, evidence, claim boundary, and paper direction.
+- `TODO.md`: current task board.
+- `docs/index.md`: dashboard and file ownership pointers.
+- `docs/reproducibility.md`: recovery, artifact bundle, dataset/checkpoint, and cleanup runbook.
+- `results/h001_geom_reliability/report.md`: compact H001 result summary.

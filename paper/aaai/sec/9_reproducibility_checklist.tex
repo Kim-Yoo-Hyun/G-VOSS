@@ -62,12 +62,13 @@ Docker-based experiment artifact described in the paper.
     failure-analysis commands; large runtime artifacts are rebuilt or mounted
     rather than embedded in the PDF.
     \item Source code for experiments and analysis: partial. The tracked
-    experiment root contains the Docker entrypoints, scripts, manifests, and
-    reports needed to reproduce the paper-facing tables from staged data and
-    artifacts; large datasets and model caches are intentionally external.
+    repository separates executable code under \texttt{src/}, Docker entry
+    points under \texttt{configs/}, shell wrappers under \texttt{scripts/}, and
+    compact outputs under \texttt{results/}; large datasets and model caches
+    are intentionally external.
     \item Public code release: yes, planned upon publication, subject to
     anonymization during review and third-party dataset/model licenses.
-    \item Implementation comments: partial. The experiment scripts and runbooks
+    \item Implementation comments: partial. The experiment code and runbooks
     document the row contract, source adapters, geometry scoring, and metric
     generation, but final code-release cleanup is still required.
     \item Randomness and seeds: partial. The main evaluation pipeline is

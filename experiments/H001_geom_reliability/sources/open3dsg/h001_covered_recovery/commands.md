@@ -57,7 +57,7 @@ logs/open3dsg_h001_r2_feature_388_retry_20260605_144854.exit
 Command:
 
 ```bash
-python experiments/H001_geom_reliability/scripts/run_open3dsg_h001_eval_feature_shards.py \
+python src/geocalib/run_open3dsg_h001_eval_feature_shards.py \
   --repo-root /home/yoohyun/research \
   --max-new-ids 11 \
   --max-iterations 1 \
@@ -90,7 +90,7 @@ Verification command:
 
 ```bash
 env UID=$(id -u) GID=$(id -g) docker compose \
-  -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml \
+  -f configs/open3dsg/compose.open3dsg.yaml \
   run --rm feature_audit_h001_eval
 ```
 
@@ -168,7 +168,7 @@ dropped_partial_rows_on_resume=0
 invalid_partial_rows_on_resume=0
 ```
 
-Clean-exit follow-up: `experiments/H001_geom_reliability/scripts/patch_open3dsg_source.py`
+Clean-exit follow-up: `src/geocalib/patch_open3dsg_source.py`
 and the active H001/Open3DSG runtime `trainer.py` files now use a clean
 `return` after raw stream finalization instead of raising `SystemExit(0)`.
 Do not rerun the 388-context raw stream solely to change the historical exit
@@ -235,7 +235,7 @@ env UID=$(id -u) GID=$(id -g) \
   OPEN3DSG_BASELINE_RUN_ID=open3dsg_avg_blip_epoch13_step13104_r2_388_clean_return \
   OPEN3DSG_MODEL_SOURCE_STAGE=avg_blip_full_variant_h001_r2_388_clean_return \
   PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True,max_split_size_mb:64 \
-  docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml \
+  docker compose -f configs/open3dsg/compose.open3dsg.yaml \
     run --rm \
     -e OPEN3DSG_RAW_DUMP_JSONL=/workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/raw_dump_clean_return_20260606_003130/raw.jsonl \
     -e OPEN3DSG_RAW_DUMP_COMPLETED_JSONL=/workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/raw_dump_clean_return_20260606_003130/raw.completed.jsonl \
@@ -374,58 +374,58 @@ table/caveat: experiments/H001_geom_reliability/sources/open3dsg/h001_covered_re
 Commands:
 
 ```bash
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm --entrypoint python table_builder \
-  /workspace/experiments/H001_geom_reliability/scripts/prepare_open3dsg_raw_dump_identity.py \
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm --entrypoint python table_builder \
+  /workspace/src/geocalib/prepare_open3dsg_raw_dump_identity.py \
   --repo-root /workspace \
   --raw-dump-jsonl /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/raw_dump_clean_return_retry2_20260606_021154/raw.jsonl \
   --predictions-jsonl /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/adapter/predictions.jsonl \
   --subset-json /workspace/local_dataset/3DSSG_subset/relationships_validation.json \
-  --selected-scans /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_validation_hardened/scans.txt \
+  --selected-scans /workspace/archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_validation_hardened/scans.txt \
   --out /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/raw_dump_identity \
   --expected-scans 127 --expected-contexts 388 --expected-directed-pairs 25916
 
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm --entrypoint python table_builder \
-  /workspace/experiments/H001_geom_reliability/scripts/export_open3dsg_predictions.py \
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm --entrypoint python table_builder \
+  /workspace/src/geocalib/export_open3dsg_predictions.py \
   --repo-root /workspace \
   --raw-dump-jsonl /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/raw_dump_clean_return_retry2_20260606_021154/raw.jsonl \
   --subset-json /workspace/local_dataset/3DSSG_subset/relationships_validation.json \
   --relationships-file /workspace/local_dataset/3DSSG_subset/relationships.txt \
-  --selected-scans /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_validation_hardened/scans.txt \
+  --selected-scans /workspace/archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_validation_hardened/scans.txt \
   --output-dir /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/adapter \
   --split-name h001_validation_hardened_r2_388 \
   --baseline-run-id open3dsg_avg_blip_epoch13_step13104_h001_r2_388_retry2
 
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm --entrypoint python table_builder \
-  /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/tools/join_predictions.py \
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm --entrypoint python table_builder \
+  /workspace/src/geocalib/join_predictions.py \
   --predictions-jsonl /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/adapter/predictions.jsonl \
   --dataset-root /workspace/local_dataset \
-  --model-json /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_smoke/model.json \
-  --selected-scans /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_validation_hardened/scans.txt \
+  --model-json /workspace/archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_smoke/model.json \
+  --selected-scans /workspace/archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_validation_hardened/scans.txt \
   --verification-policy point_subtype \
   --output-dir /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/geometry
 
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm --entrypoint python table_builder \
-  /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/tools/evaluate_predictions.py \
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm --entrypoint python table_builder \
+  /workspace/src/geocalib/evaluate_predictions.py \
   --predictions-jsonl /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/adapter/predictions.jsonl \
-  --ground-truth-jsonl /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl \
+  --ground-truth-jsonl /workspace/archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl \
   --verification-jsonl /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/geometry/verification.jsonl \
   --output-dir /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/metrics \
   --families support_contact proximity relative_vertical \
   --ks 50 100 --policy filter_safe \
   --rule-variants obb_only point_subtype point_subtype_no_soft_support \
   --ablation-controls p_geom_valid_only distance_only family_specific_p_geom_valid shuffled_geometry wrong_pair_geometry \
-  --family-specific-model-json /workspace/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json
+  --family-specific-model-json /workspace/archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json
 
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm --entrypoint python table_builder \
-  /workspace/experiments/H001_geom_reliability/scripts/bootstrap_metrics.py \
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm --entrypoint python table_builder \
+  /workspace/src/geocalib/bootstrap_metrics.py \
   --repo-root /workspace \
   --out /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/bootstrap_ci \
   --open3dsg-source-root /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery \
   --open3dsg-source-name open3dsg_ov_h001_r2_388 \
   --n-bootstrap 1000
 
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm --entrypoint python table_builder \
-  /workspace/experiments/H001_geom_reliability/scripts/prepare_open3dsg_h001_covered_recovery_report.py \
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm --entrypoint python table_builder \
+  /workspace/src/geocalib/prepare_open3dsg_h001_covered_recovery_report.py \
   --repo-root /workspace \
   --out /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/table_caveats
 ```
@@ -453,7 +453,7 @@ provenance.
 Docker review command:
 
 ```bash
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_h001_covered_recovery_provenance_review
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_h001_covered_recovery_provenance_review
 ```
 
 Output:

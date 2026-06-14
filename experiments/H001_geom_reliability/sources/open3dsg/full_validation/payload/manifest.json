@@ -37,7 +37,7 @@
     "runtime_source_root": "local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source",
     "runtime_subset_root": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/data/3RScan/3DSSG_subset",
     "runtime_template_root": "local_dataset/Open3DSG_staged/h001_runtime",
-    "selected_scans": "experiments/H001_geom_reliability/full_validation_transition/scope_contract/scans.txt",
+    "selected_scans": "results/h001_geom_reliability/full_validation_transition/scope_contract/scans.txt",
     "source_template_root": "local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source",
     "subset_records": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/payload/subset_records.jsonl",
     "subset_root": "local_dataset/3DSSG_subset"

@@ -13,6 +13,7 @@ Paper-facing name: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D 
 Facts:
 
 - Main evidence route is complete for the scoped three-family reliability claim: VL-SAT full official validation and Open3DSG full-validation `recovery_relaxed_views_min2/` are the paper-facing main sources.
+- Release-oriented repo layout is in place: `src/geocalib/` for executable code, `scripts/` for shell wrappers, `configs/` for Docker/compose entry points, `experiments/` for source-specific run records, `results/` for compact paper-facing outputs, and `archive/` for preserved hypothesis records plus superseded or optional material.
 - Low-K reporting decision is to show K = `{5, 10, 20, 50, 100}` where the paper table can support it; K=1 is excluded from paper metrics and kept only as a sanity check. The current checkout does not expose a tracked low-K result directory, so regenerate or restore low-K metric/CI artifacts before final package upload.
 - Qwen-VL full official validation downstream is complete as a third-source / modern VLM extension with 157 scans / 548 contexts / 110,424 query rows / 46,506 inferable input rows / 35,131 exported predictions / 32,236 in-scope predictions / 3,972 H001-family GT rows. It remains appendix/extension evidence unless explicitly promoted.
 - Latest known paper build is `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, exit 0, 9 pages, with GeoCalib/Figure-1 updates. Any older release package generated before these updates must be regenerated before upload.
@@ -298,7 +299,7 @@ Attachment-deferred upgrade track:
 
 - status: `attachment_deferred_g5d_full_source_metrics_ready`
 - full log: `logs/h001_attachment_g5d_full_20260606_113803.log`
-- output: `experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d/`
+- output: `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d/`
 - counts: 69/69 shards, 135,048 scored rows, validation errors 0, 300 failure rows
 - cleanup note: the earlier 1-shard G5d smoke output/log was deleted after the
   full G5d run completed; the retained source of truth is `full_source_g5d/`
@@ -319,27 +320,27 @@ Attachment-deferred upgrade track:
 - source-specific covered denominators: VL-SAT 967/967, Open3DSG 768/967
 - existing geometry verification status: `unsupported` for both sources
 - completed Docker outputs:
-  `experiments/H001_geom_reliability/sources/attachment_deferred/scope_audit/{manifest.json,label_counts.json,evidence_schema.json,report.md}`
+  `archive/experiments/H001_geom_reliability/sources/attachment_deferred/scope_audit/{manifest.json,label_counts.json,evidence_schema.json,report.md}`
 - completed G1 contract outputs:
-  `experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/{manifest.json,extractor_contract.json,output_schema.json,field_catalog.json,subtype_policy.json,extraction_plan.json,validation_plan.json,example_row.json,report.md}`
+  `archive/experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/{manifest.json,extractor_contract.json,output_schema.json,field_catalog.json,subtype_policy.json,extraction_plan.json,validation_plan.json,example_row.json,report.md}`
 - completed G1b dry-run outputs:
-  `experiments/H001_geom_reliability/sources/attachment_deferred/extractor_dry_run/{rows.jsonl,manifest.json,summary.json,validation.json,report.md}`
+  `archive/experiments/H001_geom_reliability/sources/attachment_deferred/extractor_dry_run/{rows.jsonl,manifest.json,summary.json,validation.json,report.md}`
 - completed G1c point/surface validation outputs:
-  `experiments/H001_geom_reliability/sources/attachment_deferred/point_surface_validation/{rows.jsonl,diagnostics.jsonl,manifest.json,summary.json,validation.json,report.md}`
+  `archive/experiments/H001_geom_reliability/sources/attachment_deferred/point_surface_validation/{rows.jsonl,diagnostics.jsonl,manifest.json,summary.json,validation.json,report.md}`
 - completed G2 verifier-policy outputs:
-  `experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy/{manifest.json,verifier_policy.json,decision_schema.json,threshold_plan.json,reason_codes.json,calibration_plan.json,commands.md,report.md}`
+  `archive/experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy/{manifest.json,verifier_policy.json,decision_schema.json,threshold_plan.json,reason_codes.json,calibration_plan.json,commands.md,report.md}`
 - completed G3 calibration/counterfactual route outputs:
-  `experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/{manifest.json,positive_seeds.jsonl,counterfactual_seeds.jsonl,split_plan.json,counterfactual_plan.json,policy_smoke_plan.json,gt_eval_inputs.json,threshold_freeze_protocol.json,commands.md,report.md}`
+  `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/{manifest.json,positive_seeds.jsonl,counterfactual_seeds.jsonl,split_plan.json,counterfactual_plan.json,policy_smoke_plan.json,gt_eval_inputs.json,threshold_freeze_protocol.json,commands.md,report.md}`
 - completed G4 GT policy-smoke outputs:
-  `experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/{manifest.json,summary.json,validation.json,policy_smoke_decisions.jsonl,gt_evidence_rows.jsonl,gt_evidence_diagnostics.jsonl,gt_policy_decisions.jsonl,gt_eval_rows.jsonl,visual_sanity_plan.json,commands.md,report.md}`
+  `archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/{manifest.json,summary.json,validation.json,policy_smoke_decisions.jsonl,gt_evidence_rows.jsonl,gt_evidence_diagnostics.jsonl,gt_policy_decisions.jsonl,gt_eval_rows.jsonl,visual_sanity_plan.json,commands.md,report.md}`
 - completed G4b error/visual sanity outputs:
-  `experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity/{manifest.json,summary.json,review_cases.jsonl,visual_queue.jsonl,calibration_filter.jsonl,guide.md,commands.md,report.md}`
+  `archive/experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity/{manifest.json,summary.json,review_cases.jsonl,visual_queue.jsonl,calibration_filter.jsonl,guide.md,commands.md,report.md}`
 - completed G4c strict filter freeze outputs:
-  `experiments/H001_geom_reliability/sources/attachment_deferred/strict_filter_freeze/{manifest.json,summary.json,freeze_policy.json,strict_calibration_rows.jsonl,excluded_rows.jsonl,commands.md,report.md}`
+  `archive/experiments/H001_geom_reliability/sources/attachment_deferred/strict_filter_freeze/{manifest.json,summary.json,freeze_policy.json,strict_calibration_rows.jsonl,excluded_rows.jsonl,commands.md,report.md}`
 - completed G5a pooled strict calibration-fit outputs:
-  `experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit/{manifest.json,model.json,metrics.json,scores.jsonl,commands.md,report.md}`
+  `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit/{manifest.json,model.json,metrics.json,scores.jsonl,commands.md,report.md}`
 - completed G5b bounded source-scoring preflight outputs:
-  `experiments/H001_geom_reliability/sources/attachment_deferred/source_scoring_preflight/{manifest.json,summary.json,source_rows.jsonl,evidence_rows.jsonl,diagnostics.jsonl,scored_rows.jsonl,commands.md,report.md}`
+  `archive/experiments/H001_geom_reliability/sources/attachment_deferred/source_scoring_preflight/{manifest.json,summary.json,source_rows.jsonl,evidence_rows.jsonl,diagnostics.jsonl,scored_rows.jsonl,commands.md,report.md}`
 - frozen extractor rule: emit evidence only; do not emit `verification_status`,
   `p_geom_valid`, recall credit, or reranking scores
 - dry-run result: 36 input rows -> 36 output rows, validation errors 0, source

@@ -7,19 +7,19 @@ Run from the repository root. The raw dump is GPU/I/O-heavy and must run as a ba
 ## Stage Full Validation Runtime Root
 
 ```bash
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm --build vlsat_full_validation_stage
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm --build vlsat_full_validation_stage
 ```
 
 ## Refresh Runtime Record
 
 ```bash
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm --build vlsat_full_validation_runtime_record
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm --build vlsat_full_validation_runtime_record
 ```
 
 ## Raw-Dump Preflight
 
 ```bash
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm vlsat_full_validation_raw_preflight
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm vlsat_full_validation_raw_preflight
 ```
 
 Expected preflight files:
@@ -34,7 +34,7 @@ mkdir -p logs
 ts=$(date +%Y%m%d_%H%M%S)
 tmux new-session -d -s h001_vlsat_full_validation_raw "\
 cd /workspace && \
-env UID=\$(id -u) GID=\$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm vlsat_full_validation_raw_dump \
+env UID=\$(id -u) GID=\$(id -g) docker compose -f configs/h001/compose.yaml run --rm vlsat_full_validation_raw_dump \
 > logs/vlsat_full_validation_raw_${ts}.log 2>&1; \
 echo \$? > logs/vlsat_full_validation_raw_${ts}.exit"
 ```

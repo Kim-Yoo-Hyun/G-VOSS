@@ -516,7 +516,7 @@
       "9": 326
     },
     "selected_scans": 127,
-    "selected_scans_path": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_validation_hardened/scans.txt",
+    "selected_scans_path": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_validation_hardened/scans.txt",
     "status": "ready",
     "subset_json": "local_dataset/3DSSG_subset/relationships_validation.json"
   },

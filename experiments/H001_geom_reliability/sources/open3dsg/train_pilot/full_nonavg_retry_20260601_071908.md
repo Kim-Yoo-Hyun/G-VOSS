@@ -24,7 +24,7 @@ TS=$(date +%Y%m%d_%H%M%S)
 SESSION="h001_open3dsg_train_full_nonavg_retry_${TS}"
 LOG="logs/open3dsg_train_full_nonavg_retry_${TS}.log"
 EXITF="logs/open3dsg_train_full_nonavg_retry_${TS}.exit"
-CMD="set -o pipefail; echo launched_at=\$(date -Is); echo session=${SESSION}; echo workdir=/home/yoohyun/research; env UID=\$(id -u) GID=\$(id -g) OPEN3DSG_TRAIN_WORKERS=0 OPEN3DSG_BLIP_EMBED_CHUNK_SIZE=1 OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE=1 OPEN3DSG_MIN_GPU_FREE_MB=22000 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True,max_split_size_mb:64 docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm train_full; rc=\$?; echo finished_at=\$(date -Is); echo exit_code=\$rc; printf '%s\n' \"\$rc\" > ${EXITF}; exit \$rc"
+CMD="set -o pipefail; echo launched_at=\$(date -Is); echo session=${SESSION}; echo workdir=/home/yoohyun/research; env UID=\$(id -u) GID=\$(id -g) OPEN3DSG_TRAIN_WORKERS=0 OPEN3DSG_BLIP_EMBED_CHUNK_SIZE=1 OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE=1 OPEN3DSG_MIN_GPU_FREE_MB=22000 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True,max_split_size_mb:64 docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm train_full; rc=\$?; echo finished_at=\$(date -Is); echo exit_code=\$rc; printf '%s\n' \"\$rc\" > ${EXITF}; exit \$rc"
 tmux new-session -d -s "$SESSION" "cd /home/yoohyun/research && bash -lc '$CMD' > '$LOG' 2>&1"
 ```
 
@@ -83,7 +83,7 @@ tmux ls | rg h001_open3dsg_train_full_nonavg_retry
 tail -n 80 logs/open3dsg_train_full_nonavg_retry_20260601_071908.log
 cat logs/open3dsg_train_full_nonavg_retry_20260601_071908.exit
 find local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow -type f -name '*.ckpt' -printf '%TY-%Tm-%Td %TH:%TM:%TS %s %p\n' | sort | tail -30
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_checkpoint_selection
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_checkpoint_selection
 ```
 
 ## Claim Boundary

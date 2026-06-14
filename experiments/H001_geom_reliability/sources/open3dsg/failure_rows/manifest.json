@@ -11,7 +11,7 @@
   "created_at": "2026-05-18T09:16:48+00:00",
   "inputs": {
     "geometry_jsonl": "experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl",
-    "ground_truth_jsonl": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl",
+    "ground_truth_jsonl": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl",
     "metrics_json": "experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json",
     "predictions_jsonl": "experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl"
   },

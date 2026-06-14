@@ -7,7 +7,7 @@
     "control_family_specific_p_geom_valid"
   ],
   "created_at_utc": "2026-06-04T11:42:33.050054+00:00",
-  "docker_command": "UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm bootstrap_ci",
+  "docker_command": "UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm bootstrap_ci",
   "families": [
     "proximity",
     "relative_vertical",
@@ -371,8 +371,8 @@
         "verification": 496600
       },
       "inputs": {
-        "family_model_json": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json",
-        "ground_truth_jsonl": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl",
+        "family_model_json": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json",
+        "ground_truth_jsonl": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl",
         "metrics_json": "experiments/H001_geom_reliability/sources/open3dsg/non_avg/metrics/metrics.json",
         "predictions_jsonl": "experiments/H001_geom_reliability/sources/open3dsg/non_avg/adapter/predictions.jsonl",
         "verification_jsonl": "experiments/H001_geom_reliability/sources/open3dsg/non_avg/geometry/verification.jsonl"
@@ -735,11 +735,11 @@
         "verification": 673816
       },
       "inputs": {
-        "family_model_json": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json",
-        "ground_truth_jsonl": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl",
-        "metrics_json": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened_g3/metrics.json",
-        "predictions_jsonl": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/predictions.jsonl",
-        "verification_jsonl": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened_geometry/verification.jsonl"
+        "family_model_json": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json",
+        "ground_truth_jsonl": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl",
+        "metrics_json": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened_g3/metrics.json",
+        "predictions_jsonl": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/predictions.jsonl",
+        "verification_jsonl": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened_geometry/verification.jsonl"
       },
       "population": {
         "subgraphs": 388,

@@ -26,7 +26,7 @@ execution from the complete raw dump is recorded in
   `logs/open3dsg_eval_h001_gt_objects_nonavg_stream_20260604_182423.exit`
 - wait budget: `360` minutes
 - runner script:
-  `experiments/H001_geom_reliability/scripts/run_open3dsg_nonavg_downstream_after_raw.sh`
+  `src/geocalib/run_open3dsg_nonavg_downstream_after_raw.sh`
 - raw exit observed by this run: `137`
 - downstream services run by this continuation: none
 - superseding record: `downstream_manual_20260604.md`
@@ -38,7 +38,7 @@ TS=$(date +%Y%m%d_%H%M%S)
 SESSION="h001_open3dsg_nonavg_downstream_${TS}"
 LOG="logs/open3dsg_nonavg_downstream_${TS}.log"
 EXITF="logs/open3dsg_nonavg_downstream_${TS}.exit"
-tmux new-session -d -s "$SESSION" "cd /home/yoohyun/research && RAW_EXIT=logs/open3dsg_eval_h001_gt_objects_nonavg_stream_20260604_182423.exit EXITF=$EXITF WAIT_MINUTES=360 bash experiments/H001_geom_reliability/scripts/run_open3dsg_nonavg_downstream_after_raw.sh > $LOG 2>&1"
+tmux new-session -d -s "$SESSION" "cd /home/yoohyun/research && RAW_EXIT=logs/open3dsg_eval_h001_gt_objects_nonavg_stream_20260604_182423.exit EXITF=$EXITF WAIT_MINUTES=360 bash src/geocalib/run_open3dsg_nonavg_downstream_after_raw.sh > $LOG 2>&1"
 ```
 
 ## Downstream Order

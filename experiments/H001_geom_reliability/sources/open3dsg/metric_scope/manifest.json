@@ -105,7 +105,7 @@
       "unsupported_first_pass::smaller than": 43,
       "unsupported_first_pass::standing in": 13
     },
-    "ground_truth_jsonl": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl",
+    "ground_truth_jsonl": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/evaluation/vlsat_closed_set/hardened/ground_truth.jsonl",
     "in_scope_gt_denominator": 2545,
     "label_counts": {
       "attached to": 808,

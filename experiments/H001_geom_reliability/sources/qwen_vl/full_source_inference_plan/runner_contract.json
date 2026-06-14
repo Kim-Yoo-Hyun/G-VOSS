@@ -1,5 +1,5 @@
 {
-  "docker_compose": "experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml",
+  "docker_compose": "configs/qwen_vl/compose.qwen.yaml",
   "dry_run_service": "qwen_vl_full_source_infer_dry_run",
   "inference_service": "qwen_vl_full_source_infer_shard",
   "model": {
@@ -47,7 +47,7 @@
     "resume_key": "record_id"
   },
   "role": "third_semantic_source_modern_vlm_extension",
-  "runner_script": "experiments/H001_geom_reliability/scripts/run_qwen_vl_full_source_inference.py",
+  "runner_script": "src/geocalib/run_qwen_vl_full_source_inference.py",
   "schema_version": "h001_qwen_vl_full_source_inference_plan_v1",
   "scope": {
     "crop_preflight_status": "full_source_crop_preflight_ready_no_inference",

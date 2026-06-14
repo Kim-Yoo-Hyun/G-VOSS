@@ -27,8 +27,8 @@
   "inputs": {
     "dataset_root": "local_dataset",
     "ground_truth_jsonl": "experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl",
-    "model_json": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_smoke/model.json",
-    "selected_scans": "experiments/H001_geom_reliability/full_validation_transition/scope_contract/scans.txt",
+    "model_json": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_smoke/model.json",
+    "selected_scans": "results/h001_geom_reliability/full_validation_transition/scope_contract/scans.txt",
     "subset_json": "local_dataset/3DSSG_subset/relationships_validation.json"
   },
   "next_action": "Keep independent visual labels as a small qualitative sanity check before paper-level audit wording.",

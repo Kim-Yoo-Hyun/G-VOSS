@@ -19,6 +19,8 @@ venv/
 
 # Large/generated research binaries
 release/
+logs/
+*.log
 *.ply
 *.npy
 *.npz
@@ -30,6 +32,14 @@ release/
 *.tar
 *.tar.gz
 *.tar.zst
+
+# LaTeX build byproducts
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.synctex.gz
 
 # Downloaded paper PDFs are documented by metadata links, not committed.
 literature/**/paper.pdf

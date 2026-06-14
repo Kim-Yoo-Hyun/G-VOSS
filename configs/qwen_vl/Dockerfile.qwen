@@ -1,0 +1,18 @@
+FROM h001-open3dsg-repro:cu128
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV HF_HOME=/workspace/local_dataset/model_cache/huggingface
+ENV TRANSFORMERS_CACHE=/workspace/local_dataset/model_cache/huggingface
+
+WORKDIR /workspace
+
+RUN python -m pip install --no-cache-dir \
+    "transformers>=4.57.0" \
+    "accelerate>=1.10.0" \
+    "huggingface_hub[cli]>=0.35.0" \
+    "qwen-vl-utils>=0.0.14" \
+    "sentencepiece>=0.2.0" \
+    "safetensors>=0.5.0"
+
+COPY src/geocalib/ /workspace/src/geocalib/

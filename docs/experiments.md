@@ -24,17 +24,23 @@ upload; K=1 is sanity-check only.
 - `experiments/<experiment>/README.md`: local entry point, current status,
   source-specific outputs, blockers, and next commands.
 - `experiments/<experiment>/commands.md`: concise reproducible command index.
-- `experiments/<experiment>/compose*.yaml`: Docker services that produce
+- `configs/<scope>/compose*.yaml`: Docker services that produce or regenerate
   paper-facing artifacts.
-- `experiments/<experiment>/scripts/`: executable experiment logic.
+- `configs/<scope>/Dockerfile*`: pinned Docker image definitions.
+- `src/geocalib/`: executable Python experiment logic.
+- `scripts/`: shell wrappers for long-running Docker jobs.
+- `results/<experiment>/`: compact paper-facing summaries, tables, figure
+  specs, bootstrap summaries, and locked manifests.
 - `docs/reproducibility.md`: dataset/checkpoint/cache paths, artifact bundles,
   recovery order, transfer guidance, and long-running command templates.
 
 ## Root Creation Rule
 
 When a new durable root-level research/workflow folder is created or activated,
-the agent must create or update the corresponding `docs/<folder>.md` file before
-substantive work begins in that root. The new docs file should define:
+the agent must at least create or update that folder's README and link it from
+`docs/index.md` before substantive work begins in that root. Create a matching
+`docs/<folder>.md` only if the folder needs workflow rules beyond the README.
+The owning README or docs file should define:
 
 - the folder's responsibility,
 - the local README/report ownership pattern,
@@ -42,11 +48,11 @@ substantive work begins in that root. The new docs file should define:
 - what must stay as smoke/preflight evidence,
 - how Docker, logs, manifests, and ignored local data are handled.
 
-After adding the docs file, update `docs/index.md`, `AGENTS.md`, and the
+After adding the owner file, update `docs/index.md`, `AGENTS.md`, and the
 relevant README role map with a pointer. This rule is for durable workflow roots
-such as `experiments/`, `paper/`, `literature/`, and `hypothesis/`; it does not
-apply to ignored or transient roots such as `logs/`, `local_dataset/`, or
-`release/`.
+such as `src/`, `configs/`, `experiments/`, `results/`, `paper/`,
+`literature/`, and reactivated hypothesis work; it does not apply to ignored or
+transient roots such as `logs/`, `local_dataset/`, or `release/`.
 
 ## Paper-Result Promotion
 
@@ -103,7 +109,7 @@ Current active experiment root:
 
 - `experiments/H001_geom_reliability/`
 - relation expansion summary:
-  `experiments/H001_geom_reliability/sources/relation_expansion_status.md`
+  `archive/experiments/H001_geom_reliability/sources/relation_expansion_status.md`
 
 Current H001 paper-result path is scoped to measured `support_contact`,
 `proximity`, and `relative_vertical` families across VL-SAT and Open3DSG.
@@ -141,6 +147,6 @@ freezes sharding, output schema, source-specific exact-label denominators,
 metric conditions, and control order, and Docker G5d full-source
 scoring/metrics/controls/bootstrap completed with exit 0. Log:
 `logs/h001_attachment_g5d_full_20260606_113803.log`; output:
-`experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d/`.
+`archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d/`.
 Counts: 69/69 shards, 135,048 scored rows, validation errors 0. This does not
 update the AAAI main claim.

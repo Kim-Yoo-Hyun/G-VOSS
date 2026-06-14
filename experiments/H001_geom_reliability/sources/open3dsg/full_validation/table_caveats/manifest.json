@@ -1324,7 +1324,7 @@
           "9": 469
         },
         "selected_scans": 157,
-        "selected_scans_path": "experiments/H001_geom_reliability/full_validation_transition/scope_contract/scans.txt",
+        "selected_scans_path": "results/h001_geom_reliability/full_validation_transition/scope_contract/scans.txt",
         "status": "ready",
         "subset_json": "local_dataset/3DSSG_subset/relationships_validation.json"
       },

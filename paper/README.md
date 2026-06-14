@@ -3,15 +3,16 @@
 Last updated: 2026-06-14 KST
 
 This directory contains paper-writing artifacts for GeoCalib/H001. It is a
-manuscript workspace, not an experiment-result root. Paper-result experiments
-and metrics are generated under `experiments/H001_geom_reliability/`;
-paper-level framing rules live in `docs/paper.md`.
+manuscript workspace, not an experiment-result root. Paper-result runtime
+records live under `experiments/H001_geom_reliability/`, compact paper-facing
+summaries live under `results/h001_geom_reliability/`, and paper-level framing
+rules live in `docs/paper.md`.
 
 ## Current Route
 
 - Paper-facing title: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations`
 - Target venue route: `paper/aaai/`
-- Historical alternate route: `paper/iccv/`
+- Historical alternate route: `archive/paper/iccv/`
 - Current claim style: scoped relation-reliability paper for
   geometry-checkable 3D Scene Graph relation families.
 - Non-claim: broad open-vocabulary 3DSSG generation improvement.
@@ -47,8 +48,8 @@ paper-level framing rules live in `docs/paper.md`.
   LaTeX sources.
 - `aaai/`: current AAAI-style LaTeX source, official style files, Docker build
   route, PDF build status, and venue-local README.
-- `iccv/`: historical ICCV-style LaTeX source route. Keep as alternate history
-  unless the target venue changes back.
+- `archive/paper/iccv/`: historical ICCV-style LaTeX source route. Keep as
+  alternate history unless the target venue changes back.
 - `generated/figures/`: generated draft figure assets, validation files, and
   figure reports.
 - `scripts/`: scripts for generating draft figures and geometry-backed panels.

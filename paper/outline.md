@@ -296,9 +296,9 @@ Main job:
 
 Evidence/artifacts:
 
-- `hypothesis/CAND-001/H001_geometry-grounded-verification/02_method.md`
-- `experiments/H001_geom_reliability/manifest.lock.json`
-- `experiments/H001_geom_reliability/tables/table1_main_prediction.md`
+- `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/02_method.md`
+- `results/h001_geom_reliability/manifest.lock.json`
+- `results/h001_geom_reliability/tables/table1_main_prediction.md`
 - `experiments/H001_geom_reliability/sources/open3dsg/metric_scope/report.md`
 
 Reviewer defense:
@@ -469,7 +469,7 @@ Subsections:
 Evidence/artifacts:
 
 - `docs/reproducibility.md`
-- `experiments/H001_geom_reliability/report.md`
+- `results/h001_geom_reliability/report.md`
 - `experiments/H001_geom_reliability/commands.md`
 - `experiments/H001_geom_reliability/sources/open3dsg/paper_caveats/report.md`
 
@@ -626,7 +626,7 @@ Figure 3:
 
 Source:
 
-- `experiments/H001_geom_reliability/figures/figure_specs.md`
+- `results/h001_geom_reliability/figures/figure_specs.md`
 - `experiments/H001_geom_reliability/sources/open3dsg/failure_cases/inspection.md`
 
 ## Figure Asset Plan
@@ -651,8 +651,8 @@ Figure 2: reliability-recall tradeoff
   - points: `semantic_only`, `probabilistic_recalibrated`, `rule_verified_point_subtype`, `family_specific_p_geom_valid`.
   - optional separate markers for `VL-SAT` and Open3DSG.
 - Source inputs:
-  - `experiments/H001_geom_reliability/tables/table1_main_prediction.json`
-  - `experiments/H001_geom_reliability/tables/table6_cross_source_status.json`
+  - `results/h001_geom_reliability/tables/table1_main_prediction.json`
+  - `results/h001_geom_reliability/tables/table6_cross_source_status.json`
 - Reviewer role: prevents "violation reduction is only pruning" by showing recall and violation together.
 
 Figure 3: qualitative failure taxonomy
@@ -716,10 +716,10 @@ Korean caption notes:
 
 | table | purpose | source artifact |
 | --- | --- | --- |
-| AAAI Table 1 | Fixed H001 evaluation scope and denominator | `paper/aaai/sec/5_experiments.tex`, `experiments/H001_geom_reliability/tables/table5_claim_boundary.md` |
-| AAAI Table 2 | Source-specific claim boundary | `paper/aaai/sec/5_experiments.tex`, `experiments/H001_geom_reliability/tables/table5_claim_boundary.md` |
-| AAAI Table 3 | Main source results: Open3DSG first, `VL-SAT` controlled anchor second | `paper/aaai/sec/6_results.tex`, `experiments/H001_geom_reliability/tables/table6_cross_source_status.md`, `experiments/H001_geom_reliability/tables/table1_main_prediction.md` |
-| Prose evidence | Nontriviality controls, GT verifier, structured audit, visual sanity check, and family details | `experiments/H001_geom_reliability/tables/table2_controls.md`, `table3_gt_verifier.md`, `table4_audit.md` |
+| AAAI Table 1 | Fixed H001 evaluation scope and denominator | `paper/aaai/sec/5_experiments.tex`, `results/h001_geom_reliability/tables/table5_claim_boundary.md` |
+| AAAI Table 2 | Source-specific claim boundary | `paper/aaai/sec/5_experiments.tex`, `results/h001_geom_reliability/tables/table5_claim_boundary.md` |
+| AAAI Table 3 | Main source results: Open3DSG first, `VL-SAT` controlled anchor second | `paper/aaai/sec/6_results.tex`, `results/h001_geom_reliability/tables/table6_cross_source_status.md`, `results/h001_geom_reliability/tables/table1_main_prediction.md` |
+| Prose evidence | Nontriviality controls, GT verifier, structured audit, visual sanity check, and family details | `results/h001_geom_reliability/tables/table2_controls.md`, `table3_gt_verifier.md`, `table4_audit.md` |
 
 ## Table And Appendix Placement
 
@@ -1021,9 +1021,9 @@ reviewer 방어:
 
 근거 파일:
 
-- `hypothesis/CAND-001/H001_geometry-grounded-verification/02_method.md`
-- `experiments/H001_geom_reliability/manifest.lock.json`
-- `experiments/H001_geom_reliability/tables/table1_main_prediction.md`
+- `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/02_method.md`
+- `results/h001_geom_reliability/manifest.lock.json`
+- `results/h001_geom_reliability/tables/table1_main_prediction.md`
 - `experiments/H001_geom_reliability/sources/open3dsg/metric_scope/report.md`
 
 reviewer 방어:
@@ -1073,7 +1073,7 @@ reviewer 방어:
 근거 파일:
 
 - `docs/reproducibility.md`
-- `experiments/H001_geom_reliability/report.md`
+- `results/h001_geom_reliability/report.md`
 - `experiments/H001_geom_reliability/commands.md`
 - `experiments/H001_geom_reliability/sources/open3dsg/paper_caveats/report.md`
 
@@ -1189,17 +1189,17 @@ Figure 3:
 
 근거:
 
-- `experiments/H001_geom_reliability/figures/figure_specs.md`
+- `results/h001_geom_reliability/figures/figure_specs.md`
 - `experiments/H001_geom_reliability/sources/open3dsg/failure_cases/inspection.md`
 
 ### Table Plan
 
 | table | 목적 | source artifact |
 | --- | --- | --- |
-| AAAI Table 1 | Fixed H001 evaluation scope and denominator | `paper/aaai/sec/5_experiments.tex`, `experiments/H001_geom_reliability/tables/table5_claim_boundary.md` |
-| AAAI Table 2 | Source-specific claim boundary | `paper/aaai/sec/5_experiments.tex`, `experiments/H001_geom_reliability/tables/table5_claim_boundary.md` |
-| AAAI Table 3 | Main source results: Open3DSG first, `VL-SAT` controlled anchor second | `paper/aaai/sec/6_results.tex`, `experiments/H001_geom_reliability/tables/table6_cross_source_status.md`, `experiments/H001_geom_reliability/tables/table1_main_prediction.md` |
-| Prose evidence | Nontriviality controls, GT verifier, structured audit, visual sanity check, and family details | `experiments/H001_geom_reliability/tables/table2_controls.md`, `table3_gt_verifier.md`, `table4_audit.md` |
+| AAAI Table 1 | Fixed H001 evaluation scope and denominator | `paper/aaai/sec/5_experiments.tex`, `results/h001_geom_reliability/tables/table5_claim_boundary.md` |
+| AAAI Table 2 | Source-specific claim boundary | `paper/aaai/sec/5_experiments.tex`, `results/h001_geom_reliability/tables/table5_claim_boundary.md` |
+| AAAI Table 3 | Main source results: Open3DSG first, `VL-SAT` controlled anchor second | `paper/aaai/sec/6_results.tex`, `results/h001_geom_reliability/tables/table6_cross_source_status.md`, `results/h001_geom_reliability/tables/table1_main_prediction.md` |
+| Prose evidence | Nontriviality controls, GT verifier, structured audit, visual sanity check, and family details | `results/h001_geom_reliability/tables/table2_controls.md`, `table3_gt_verifier.md`, `table4_audit.md` |
 
 ## Manuscript-Ready Table Captions
 

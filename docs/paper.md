@@ -10,7 +10,7 @@ This document manages paper-level framing for GeoCalib/H001/CAND-001: novelty, c
 - `AGENTS.md` keeps only stable top-level claim guardrails and points here for detailed paper rules.
 - `paper/README.md` owns the paper workspace map and file-role guide.
 - Manuscript prose, figures, tables, venue-specific LaTeX source, and draft history live under `paper/`.
-- Hypothesis validation details live under `hypothesis/`; executable paper experiment details live under `experiments/`; reproducibility and artifact transfer details live in `docs/reproducibility.md`.
+- Preserved hypothesis validation details live under `archive/hypothesis_records/hypothesis/`; executable code lives under `src/geocalib/`; Docker entry points live under `configs/`; source-specific experiment records live under `experiments/`; compact paper-facing summaries live under `results/`; reproducibility and artifact transfer details live in `docs/reproducibility.md`.
 
 ## Source Note
 
@@ -95,7 +95,7 @@ Current paper workspace:
 - `paper/risk.md` tracks reviewer-risk attacks, mitigation status, and priority for logic/evidence/novelty/reproducibility defenses.
 - `paper/appendix.md` owns appendix/supplement provenance tables, detailed Open3DSG caveat consistency checks, optional Figure 3 decisions, and Qwen-VL extension boundary notes.
 - `paper/aaai/` is the current target-venue LaTeX source. It uses the official AAAI-26 Author Kit style files checked on 2026-05-27 KST until the exact target-year kit/form is rechecked, splits the draft into `main.tex` plus `sec/*.tex`, points bibliography to `paper/references.bib`, and includes the reproducibility checklist after references. Docker PDF build is verified with `h001-aaai-tex:20260526`; latest known log is `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`.
-- `paper/iccv/` remains a historical/alternate ICCV-style source route.
+- `archive/paper/iccv/` remains a historical/alternate ICCV-style source route.
 - `paper/figures.md` locks Figure 1-3 source claims, exact values, case IDs, artifacts, and caption constraints; draft SVGs are generated, verified, and layout-reviewed under `paper/generated/figures/`.
 
 ## H001 Fit To Top-Tier Pattern
@@ -105,7 +105,7 @@ Facts:
 - H001 already has a concrete failure target: geometry-checkable relation families such as `support_contact`, `proximity`, and `relative_vertical`.
 - Hypothesis-stage `VL-SAT` evidence includes semantic-only vs calibrated geometry variants, family-specific controls, evidence lock, GT-based verifier evaluation, and a reduced visual sanity check.
 - The Open3DSG path is now second-source evidence: Docker checkpoint reproduction, raw-dump identity, adapter export, geometry join, metric eval, Table 6, real failure rows, qualitative case queue, and deterministic qualitative inspection are ready.
-- Docker subgraph bootstrap CI is ready under `experiments/H001_geom_reliability/bootstrap_ci/`; it is used as evaluation-context uncertainty, not repeated-training variance.
+- Docker subgraph bootstrap CI is ready under `results/h001_geom_reliability/bootstrap_ci/`; it is used as evaluation-context uncertainty, not repeated-training variance.
 - Open3DSG qualitative inspection shows both support and limits: 23/36 sampled cases are demoted by geometry-aware reranking, while 10/36 are rule-violated but still have `p_geom_valid > 0.9`. This must be framed as residual calibration risk, not hidden.
 - The historical 127-scan Open3DSG branch has two roles. The old 377/388
   avg-BLIP branch has clean raw-dump source-process provenance via v14

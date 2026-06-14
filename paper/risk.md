@@ -209,7 +209,7 @@ Docker PDF rebuilds, and the appendix/provenance pass:
   succeeded but its intermediate output/log was deleted after the full run
   completed. The full G5d run completed with exit 0 at
   `logs/h001_attachment_g5d_full_20260606_113803.log`;
-  output `experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d/`
+  output `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d/`
   has 69/69 shards, 135,048 scored rows, validation errors 0, and 300 failure
   rows. Key G5d results: VL-SAT semantic_only R@100/V@100 `1.0000/0.2126`,
   probabilistic_recalibrated `0.9979/0.2210`, rule_verified_attachment_policy
@@ -337,13 +337,13 @@ Preflight:
 
 Evidence / affected files:
 
-- `experiments/H001_geom_reliability/full_validation_transition/scope_contract/`
-- `experiments/H001_geom_reliability/full_validation_transition/report.md`
+- `results/h001_geom_reliability/full_validation_transition/scope_contract/`
+- `results/h001_geom_reliability/full_validation_transition/report.md`
 - `experiments/H001_geom_reliability/sources/vlsat/full_validation/`
 - `TODO.md`
 - `paper/aaai/sec/5_experiments.tex`
 - `paper/aaai/sec/6_results.tex`
-- `experiments/H001_geom_reliability/tables/`
+- `results/h001_geom_reliability/tables/`
 
 ## Priority Order
 
@@ -372,8 +372,8 @@ Required fix:
 Evidence / affected files:
 
 - `paper/aaai/sec/6_results.tex`
-- `hypothesis/CAND-001/H001_geometry-grounded-verification/05_audit.md`
-- `experiments/H001_geom_reliability/tables/table4_audit.md`
+- `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/05_audit.md`
+- `results/h001_geom_reliability/tables/table4_audit.md`
 
 ### P1. Clarify Controls Source, Denominator, And Placement
 
@@ -403,7 +403,7 @@ Required fix:
 Evidence / affected files:
 
 - `paper/aaai/sec/6_results.tex`
-- `experiments/H001_geom_reliability/tables/table2_controls.md`
+- `results/h001_geom_reliability/tables/table2_controls.md`
 - `paper/outline.md`
 
 ### P2. Strengthen Calibrator / Verifier Provenance
@@ -436,9 +436,9 @@ Evidence / affected files:
 
 - `paper/aaai/sec/4_method.tex`
 - `paper/aaai/sec/5_experiments.tex`
-- `hypothesis/CAND-001/H001_geometry-grounded-verification/02_method.md`
-- `hypothesis/CAND-001/H001_geometry-grounded-verification/04_results.md`
-- `experiments/H001_geom_reliability/manifest.lock.json`
+- `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/02_method.md`
+- `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/04_results.md`
+- `results/h001_geom_reliability/manifest.lock.json`
 
 ### P3. Defend Open3DSG Main-Source Status Without Overclaiming
 
@@ -533,7 +533,7 @@ Evidence / affected files:
 
 - `paper/aaai/sec/3_problem.tex`
 - `experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json`
-- `experiments/H001_geom_reliability/tables/table1_main_prediction.md`
+- `results/h001_geom_reliability/tables/table1_main_prediction.md`
 
 ### P6. Lower Unsupported Downstream Claims
 
@@ -567,7 +567,7 @@ Reviewer attack:
 Status:
 
 - Completed as a Docker paper experiment artifact under
-  `experiments/H001_geom_reliability/bootstrap_ci/`.
+  `results/h001_geom_reliability/bootstrap_ci/`.
 - The CI is a subgraph-level evaluation-context bootstrap, not repeated training
   variance.
 - Main use: defend that the Open3DSG family-specific tradeoff is not a single
@@ -584,9 +584,9 @@ Key result:
 
 Evidence / affected files:
 
-- `experiments/H001_geom_reliability/bootstrap_ci/summary.md`
-- `experiments/H001_geom_reliability/bootstrap_ci/summary.json`
-- `experiments/H001_geom_reliability/scripts/bootstrap_metrics.py`
+- `results/h001_geom_reliability/bootstrap_ci/summary.md`
+- `results/h001_geom_reliability/bootstrap_ci/summary.json`
+- `src/geocalib/bootstrap_metrics.py`
 - `paper/aaai/sec/6_results.tex`
 
 ### P9. Test Scope Expansion With Relative Horizontal Relations
@@ -670,12 +670,12 @@ Reviewer-defense wording rule:
 Evidence / affected files:
 
 - `experiments/H001_geom_reliability/sources/open3dsg/metric_scope/`
-- `experiments/H001_geom_reliability/sources/relative_horizontal/README.md`
-- `experiments/H001_geom_reliability/sources/relative_horizontal/scope_audit/`
-- `experiments/H001_geom_reliability/sources/relative_horizontal/coordinate_frame_protocol.md`
-- `experiments/H001_geom_reliability/sources/relative_horizontal/coordinate_audit/`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/README.md`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/scope_audit/`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/coordinate_frame_protocol.md`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/coordinate_audit/`
 - future Docker artifacts under
-  `experiments/H001_geom_reliability/sources/relative_horizontal/`
+  `archive/experiments/H001_geom_reliability/sources/relative_horizontal/`
 - `paper/aaai/sec/5_experiments.tex` only if the track reaches promotion level
 - `paper/aaai/sec/7_limitations.tex` if the track remains partial or failed
 

@@ -3,7 +3,7 @@
 Current command that freezes this plan:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_source_plan'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm qwen_vl_full_source_plan'
 ```
 
 Outputs:

@@ -11,9 +11,9 @@ pickles must remain in the staged runtime until the recovery raw dump finishes.
 
 ```bash
 env UID=$(id -u) GID=$(id -g) docker compose \
-  -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml \
+  -f configs/open3dsg/compose.open3dsg.yaml \
   run --rm open3dsg_base bash -lc '
-python /workspace/experiments/H001_geom_reliability/scripts/diagnose_open3dsg_missing15.py \
+python /workspace/src/geocalib/diagnose_open3dsg_missing15.py \
   --repo-root /workspace \
   --output-dir /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/preprocess_missing15_diagnosis \
   --write

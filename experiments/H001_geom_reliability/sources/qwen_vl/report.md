@@ -121,7 +121,7 @@ bootstrap, and audit complete.
 - remaining shard loop tmux: `h001_qwen_vl_infer_remaining`
 - remaining shard loop run id: `20260527_023111`
 - remaining shard loop scope: `qwen_full_source_shard_0001` through `qwen_full_source_shard_0133`, 133 shards, 33,134 expected rows
-- remaining shard loop command: `QWEN_VL_LOOP_RUN_ID=20260527_023111 QWEN_VL_LOOP_START_SUFFIX=0001 QWEN_VL_LOOP_END_SUFFIX=0133 bash experiments/H001_geom_reliability/scripts/run_qwen_vl_full_source_shard_loop.sh`
+- remaining shard loop command: `QWEN_VL_LOOP_RUN_ID=20260527_023111 QWEN_VL_LOOP_START_SUFFIX=0001 QWEN_VL_LOOP_END_SUFFIX=0133 bash src/geocalib/run_qwen_vl_full_source_shard_loop.sh`
 - remaining shard loop log: `logs/qwen_vl_full_source_infer_remaining_20260527_023111.log`
 - remaining shard loop status TSV: `logs/qwen_vl_full_source_infer_remaining_20260527_023111.status.tsv`
 - remaining shard loop exit file: `logs/qwen_vl_full_source_infer_remaining_20260527_023111.exit`

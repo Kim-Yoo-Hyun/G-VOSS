@@ -4,7 +4,7 @@
 
 ## Current Scope
 
-- 현재 하네스는 `literature` 조사에서 `hypothesis` 준비 및 scoped experiment 단계로 확장되었다.
+- 현재 하네스는 `literature` 조사에서 H001 paper experiment and release 정리 단계로 확장되었다.
 - 논문 본문용 실제 experiment 구현은 Docker 기반으로 진행한다.
 - 현재 active experiment root는 `experiments/H001_geom_reliability/`이다.
 - 연구 목표와 방향성은 AI, ML, CV, Robotics top-tier journal/conference를 타겟으로 판단한다.
@@ -13,7 +13,7 @@
 - `docs/experiments.md`는 Docker experiment workflow와 promotion 규칙을 관리한다.
 - `docs/paper.md`는 top-tier paper framing, novelty standard, reviewer-defense rule을 관리한다.
 - 실제 문헌 조사 결과는 루트의 `literature/` 폴더에 저장한다.
-- 실제 hypothesis 산출물은 루트의 `hypothesis/` 폴더에 저장한다.
+- 보존된 hypothesis 기록은 `archive/hypothesis_records/hypothesis/`에 저장한다.
 - 논문 하나는 `literature/<paper-folder>/` 하나로 관리한다.
 
 ## Instruction Strategy
@@ -36,10 +36,10 @@
 1. Global instruction: `AGENTS.md`
 2. Orientation: `README.md`, `TODO.md`, `docs/index.md`
 3. Global rules: `docs/paper.md`, `docs/experiments.md`, `docs/reproducibility.md`
-4. Research state: `summary.md`, `hypothesis/README.md`, relevant H-folder canonical files
+4. Research state: `summary.md`, `archive/hypothesis_records/hypothesis/README.md`, relevant H-folder canonical files
 5. Literature tasks: `docs/literature.md`, `literature/README.md`, `literature/PAPER.md`
-6. Hypothesis tasks: `docs/hypothesis.md`, `hypothesis/README.md`, relevant H-folder canonical files
-7. Experiment tasks: `docs/experiments.md`, relevant `experiments/**/README.md`, `commands.md`, `compose*.yaml`, and reports
+6. Hypothesis tasks: `docs/hypothesis.md`, `archive/hypothesis_records/hypothesis/README.md`, relevant H-folder canonical files
+7. Experiment tasks: `docs/experiments.md`, relevant `experiments/**/README.md`, `commands.md`, `configs/**/compose*.yaml`, and reports
 8. Paper-writing tasks: `paper/README.md`, `paper/preview.md`, `paper/risk.md`, `paper/appendix.md`, `paper/outline.md`, `paper/draft.md`, `paper/figures.md`, and venue folder README
 
 H001 resume, upload, deletion, or other-computer recovery work must start from `docs/reproducibility.md`. That file owns the exact artifact lists, transfer paths, verification commands, and recovery order.
@@ -57,10 +57,15 @@ H001 resume, upload, deletion, or other-computer recovery work must start from `
 - `docs/paper.md`: paper-framing rulebook. Owns top-tier novelty standard, claim boundary, reviewer-risk checklist, and table/ablation/failure-analysis requirements.
 - `docs/reproducibility.md`: recovery and reproducibility runbook. Owns dataset/checkpoint/model locations, artifact bundles, Docker commands, verification commands, transfer guidance, and cleanup implications.
 - `literature/`: paper evidence base. Owns source-grounded paper cards, field maps, cross-paper synthesis, reading queue, and contribution candidates.
-- `hypothesis/`: pre-paper validation workspace. Owns hypothesis statements, method sketches, smoke tests, audits, scoped results, and experiment-transition gates.
-- `experiments/`: Docker-based paper experiment workspace. Owns executable experiment code, compose files, locked manifests, paper-facing reports, metric outputs, and source-specific adapters.
+- `archive/hypothesis_records/hypothesis/`: preserved pre-paper validation records. Owns H001 hypothesis statements, method sketches, smoke tests, audits, scoped results, and experiment-transition gates.
+- `src/`: core executable Python code for GeoCalib preprocessing, geometry join, metrics, bootstrap, adapters, and paper table generation.
+- `scripts/`: lightweight shell wrappers for reproducible long-running jobs.
+- `configs/`: Dockerfiles, compose files, and runtime configuration entry points.
+- `experiments/`: source-specific experiment workspace. Owns run records, ablation/analysis outputs, source adapters, and row-level runtime result locations that are not promoted to compact `results/` summaries.
+- `results/`: lightweight paper-facing summaries, compact tables, reports, figure specs, and locked manifests.
+- `archive/`: old code, superseded venue files, future-work/failed/optional expansion outputs, caches, and ambiguous files preserved instead of deleted.
 - `paper/`: manuscript workspace. `paper/README.md` owns the folder map; the folder owns paper preview, progress rationale, outline, draft prose, risk register, appendix/supplement plan, venue-specific LaTeX source, references, and figure plans.
-- `logs/`: timestamped logs for long-running or verification jobs. Inspect with `tail`, `head`, targeted `rg`, summaries, or exit files.
+- `logs/`: ignored timestamped runtime logs for long-running or verification jobs. Inspect with `tail`, `head`, targeted `rg`, summaries, or exit files.
 - `local_dataset/`: ignored local dataset/cache/runtime root. Never treat it as a tracked artifact source.
 - `release/`: ignored external artifact bundle staging area. Use checksums and row/file-count verification before relying on it.
 
@@ -69,9 +74,9 @@ H001 resume, upload, deletion, or other-computer recovery work must start from `
 - If a change adds or changes a rule, update `AGENTS.md`.
 - If a change updates current status, active work, or completion history, update `TODO.md` and possibly `docs/index.md`.
 - If a change affects research framing, contribution, novelty, or reviewer defense, update `docs/paper.md`, `summary.md`, and the relevant `paper/` planning file.
-- If a change affects commands, datasets, checkpoints, model caches, artifact transfer, or cleanup safety, update `docs/reproducibility.md` and the relevant experiment README.
+- If a change affects commands, datasets, checkpoints, model caches, artifact transfer, or cleanup safety, update `docs/reproducibility.md`, the relevant config README/compose file, and the relevant experiment README.
 - If a change affects a folder-local workflow, update that folder's `README.md`; do not expand `AGENTS.md` with folder-local details.
-- When a new root-level research/workflow folder is created or activated, create or update the matching `docs/<folder>.md` workflow rulebook before substantive work in that folder. Also add it to `docs/index.md` and the relevant README role map. This rule applies to durable workflow roots such as `experiments/`, `paper/`, `literature/`, or `hypothesis/`, not transient/ignored roots such as `logs/`, `local_dataset/`, or `release/`.
+- When a new durable root-level research/workflow folder is created or activated, add it to `docs/index.md` and the relevant README role map before substantive work in that folder. Create a matching `docs/<folder>.md` only if the folder needs workflow rules beyond its local README. This applies to durable workflow roots such as `src/`, `configs/`, `experiments/`, `results/`, `paper/`, `literature/`, or reactivated hypothesis work, not transient/ignored roots such as `logs/`, `local_dataset/`, or `release/`.
 - If a detailed list appears in more than one place, keep the authoritative copy in the owning document and replace other copies with a pointer.
 
 ## Working Language
@@ -126,7 +131,7 @@ tmux new-session -d -s <job_name> "cd <workdir> && <resumable command> > logs/<j
 ## Artifact Handoff And Cleanup Rules
 
 - Always distinguish three goals before advising uploads or deletion: paper-result preservation, current experiment resume, and full reproduction. Each goal requires a different artifact set.
-- GitHub should carry source, Dockerfiles/compose files, scripts, runbooks, paper source, compact manifests, reports, table summaries, and metric summaries. Large `local_dataset/` payloads, model caches, feature caches, and row-level JSONL outputs stay ignored and must be transferred separately or regenerated.
+- GitHub should carry `src/`, `configs/`, `scripts/`, runbooks, paper source, compact manifests, reports, table summaries, and metric summaries. Large `local_dataset/` payloads, model caches, feature caches, and row-level JSONL outputs stay ignored and must be transferred separately or regenerated.
 - Before deleting any local dataset, checkpoint, feature cache, model cache, or row-level JSONL, verify the external copy with checksums, file counts, expected directory layout, or a lightweight sanity script. Record the verification and deletion rationale in `TODO.md` or `docs/reproducibility.md`.
 - Deleting uploaded Open3DSG checkpoint, feature caches, or row-level JSONL does not block Qwen-VL continuation, but it does block local Open3DSG re-eval, feature audit, raw-dump regeneration, and geometry-backed figure regeneration until those artifacts are restored.
 - For Qwen-VL resume on another computer, preserve or transfer the fixed model cache, full-source crops, full-source input, inference plan, runtime shard outputs, status files, Qwen compose/Dockerfile, Qwen scripts, and the latest loop log/status/exit files.
@@ -160,7 +165,7 @@ tmux new-session -d -s <job_name> "cd <workdir> && <resumable command> > logs/<j
 - `docs/index.md`: 연구 상태 dashboard와 active questions가 바뀔 때 갱신한다.
 - `summary.md`: 문제 정의, 가설, contribution, metric, baseline, experiment setting, claim boundary가 바뀔 때 갱신한다.
 - `docs/literature.md` / `literature/`: 문헌 조사 절차와 결과를 관리한다. 자세한 paper card와 trend synthesis는 `literature/`에 둔다.
-- `docs/hypothesis.md` / `hypothesis/`: hypothesis gate, method sketch, smoke-test artifact convention, audit/evidence lock을 관리한다.
+- `docs/hypothesis.md` / `archive/hypothesis_records/hypothesis/`: hypothesis gate, method sketch, smoke-test artifact convention, audit/evidence lock을 관리한다.
 - `docs/experiments.md` / `experiments/`: Docker experiment promotion, source adapter, metric-freeze, and paper-result boundary를 관리한다.
 - `docs/paper.md` / `paper/`: paper-level novelty, reviewer defense, outline, draft, figure/table plan, venue-specific source를 관리한다.
 - `docs/reproducibility.md` / `experiments/**/README.md`: dataset, checkpoint, model cache, Docker command, artifact bundle, verification, cleanup safety를 관리한다.
@@ -194,6 +199,6 @@ Experiment implementation rule:
 - `paper/`는 현재 H001 manuscript workspace로 존재한다. 새 paper/venue subtree는 실제 필요가 생길 때만 만든다.
 - `decisions/` 같은 새 top-level workflow root는 아직 만들지 않는다.
 - `experiments/`는 Docker 재현성을 전제로 최소 구조부터 만든다.
-- hypothesis는 루트의 `hypothesis/` 폴더에서만 관리한다.
+- active/recovered hypothesis records are managed under `archive/hypothesis_records/hypothesis/`; do not recreate a root `hypothesis/` tree unless the workflow is intentionally reactivated and documented first.
 - 해당 단계가 실제로 필요해지면 먼저 새 workflow 문서 하나에서 시작한다.
 - 구조는 연구가 커질 때 따라오게 한다.

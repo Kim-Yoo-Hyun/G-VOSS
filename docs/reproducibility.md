@@ -24,31 +24,31 @@ Basic harness context:
 
 H001 hypothesis and experiment contract:
 
-1. `hypothesis/README.md`
-2. `hypothesis/CAND-001/H001_geometry-grounded-verification/01_overview.md`
-3. `hypothesis/CAND-001/H001_geometry-grounded-verification/02_method.md`
-4. `hypothesis/CAND-001/H001_geometry-grounded-verification/03_data_baseline.md`
-5. `hypothesis/CAND-001/H001_geometry-grounded-verification/04_results.md`
-6. `hypothesis/CAND-001/H001_geometry-grounded-verification/05_audit.md`
-7. `hypothesis/CAND-001/H001_geometry-grounded-verification/06_second_source.md`
-8. `hypothesis/CAND-001/H001_geometry-grounded-verification/07_experiment_spec.md`
+1. `archive/hypothesis_records/hypothesis/README.md`
+2. `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/01_overview.md`
+3. `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/02_method.md`
+4. `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/03_data_baseline.md`
+5. `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/04_results.md`
+6. `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/05_audit.md`
+7. `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/06_second_source.md`
+8. `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/07_experiment_spec.md`
 
 H001 Docker experiment and result state:
 
 1. `experiments/H001_geom_reliability/README.md`
-2. `experiments/H001_geom_reliability/report.md`
+2. `results/h001_geom_reliability/report.md`
 3. `experiments/H001_geom_reliability/commands.md`
-4. `experiments/H001_geom_reliability/manifest.lock.json`
-5. `experiments/H001_geom_reliability/compose.yaml`
-6. `experiments/H001_geom_reliability/tables/`
-7. `experiments/H001_geom_reliability/figures/figure_specs.md`
-8. `experiments/H001_geom_reliability/bootstrap_ci/summary.md`
+4. `results/h001_geom_reliability/manifest.lock.json`
+5. `configs/h001/compose.yaml`
+6. `results/h001_geom_reliability/tables/`
+7. `results/h001_geom_reliability/figures/figure_specs.md`
+8. `results/h001_geom_reliability/bootstrap_ci/summary.md`
 
 Open3DSG source-specific state:
 
 1. `experiments/H001_geom_reliability/sources/open3dsg/README.md`
 2. `experiments/H001_geom_reliability/sources/open3dsg/commands.open3dsg.md`
-3. `experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml`
+3. `configs/open3dsg/compose.open3dsg.yaml`
 4. `experiments/H001_geom_reliability/sources/open3dsg/checkpoint_selection/report.md`
 5. `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/README.md`
 6. `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics/metrics.json`
@@ -75,7 +75,7 @@ Qwen-VL extension state:
 1. `experiments/H001_geom_reliability/sources/qwen_vl/README.md`
 2. `experiments/H001_geom_reliability/sources/qwen_vl/report.md`
 3. `experiments/H001_geom_reliability/sources/qwen_vl/status.json`
-4. `experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml`
+4. `configs/qwen_vl/compose.qwen.yaml`
 5. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/input/`
 6. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/runtime/`
 7. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/validation/`
@@ -115,7 +115,7 @@ Facts:
   paper-facing H001 route.
 - Paper handoff and planning are ready: `paper/README.md`, `paper/preview.md`,
   `paper/progress.md`, `paper/appendix.md`, `paper/outline.md`,
-  `paper/draft.md`, `paper/risk.md`, `paper/aaai/`, `paper/iccv/`,
+  `paper/draft.md`, `paper/risk.md`, `paper/aaai/`, `archive/paper/iccv/`,
   `paper/figures.md`, and
   `paper/generated/figures/` contain the paper workspace map, current claim
   boundary, appendix/provenance table, paper skeleton, first-pass prose,
@@ -180,7 +180,7 @@ paper/outline.md
 paper/draft.md
 paper/risk.md
 paper/aaai/
-paper/iccv/
+archive/paper/iccv/
 paper/figures.md
 paper/generated/figures/
 ```
@@ -188,7 +188,8 @@ paper/generated/figures/
 Hypothesis-stage smoke artifacts may exist under ignored `artifacts/` or
 `**/evaluation/` paths. They are not the preferred cross-machine source of
 truth; use the tracked reports, manifests, Docker commands, and locked tables
-under `experiments/H001_geom_reliability/`.
+under `results/h001_geom_reliability/`, `configs/`, and
+`experiments/H001_geom_reliability/`.
 
 ## GitHub Portability And `.gitignore` Audit
 
@@ -200,14 +201,14 @@ Can be committed to GitHub:
 - Reproducibility docs: `docs/reproducibility.md`, `docs/index.md`,
   `docs/paper.md`, `docs/hypothesis.md`, `docs/literature.md`.
 - Paper planning/source docs: `paper/README.md`, `paper/preview.md`, `paper/progress.md`,
-  `paper/appendix.md`, `paper/outline.md`, `paper/draft.md`, `paper/risk.md`, `paper/aaai/`, `paper/iccv/`, `paper/figures.md`, and
+  `paper/appendix.md`, `paper/outline.md`, `paper/draft.md`, `paper/risk.md`, `paper/aaai/`, `archive/paper/iccv/`, `paper/figures.md`, and
   compact figure metadata under `paper/generated/figures/`.
 - Docker/reproduction source files:
-  `experiments/H001_geom_reliability/Dockerfile`,
-  `experiments/H001_geom_reliability/compose.yaml`,
+  `configs/h001/Dockerfile`,
+  `configs/h001/compose.yaml`,
   `experiments/H001_geom_reliability/commands.md`,
-  Open3DSG/Qwen Dockerfiles and compose files, and all experiment scripts under
-  `experiments/H001_geom_reliability/scripts/`.
+  `configs/open3dsg/`, `configs/qwen_vl/`, shell wrappers under `scripts/`,
+  and executable Python under `src/geocalib/`.
 - Reproduction summaries and compact results: `manifest*.json`, `report.md`,
   table `.md`/`.json`, bootstrap CI summaries, figure specs, Open3DSG metric
   JSON, paper caveat reports, adapter/geometry/failure summary manifests, and
@@ -221,8 +222,8 @@ Intentionally not committed because of `.gitignore`:
 - Large row-level runtime outputs such as Open3DSG `raw_dump/raw.jsonl`,
   adapter `predictions.jsonl`, geometry `verification.jsonl`, failure
   `rows.jsonl`, and queue/record JSONL files.
-- Ignored hypothesis/runtime roots such as `artifacts/`, `**/artifacts/`, and
-  `**/evaluation/`.
+- Ignored runtime roots such as `artifacts/`, `**/artifacts/`,
+  `**/evaluation/`, `logs/`, and large row-level JSONL outputs.
 
 Implication for another computer:
 
@@ -245,7 +246,8 @@ Implication for another computer:
 ## Reproducibility Artifact Bundle Plan
 
 The public GitHub repo should carry source code, paper source, Dockerfiles,
-compose files, runbooks, compact manifests, and metric summaries. Large
+compose files, runbooks, compact manifests, compact result tables/reports, and
+metric summaries. Large
 runtime artifacts should be published separately, for example through Google
 Drive, Zenodo, or Hugging Face Dataset, because several files are too large or
 license-sensitive for normal GitHub commits.
@@ -286,7 +288,7 @@ Recommended release tiers:
 
 | Tier | Include | Purpose | Current size / count | Release note |
 | --- | --- | --- | --- | --- |
-| A. GitHub tracked source | `README.md`, `TODO.md`, `docs/`, `paper/aaai/`, `experiments/H001_geom_reliability/{Dockerfile,compose.yaml,commands.md,scripts/,reports,compact manifests}` | Rebuild commands and paper source | small | Commit to GitHub. |
+| A. GitHub tracked source | `README.md`, `TODO.md`, `summary.md`, `AGENTS.md`, `docs/`, `src/`, `scripts/`, `configs/`, `experiments/H001_geom_reliability/commands.md`, `results/h001_geom_reliability/`, `paper/aaai/`, and folder READMEs | Rebuild commands, compact results, and paper source | small | Commit to GitHub. |
 | B. Full-validation paper result bundle | selected official non-avg Open3DSG checkpoint, full-validation VL-SAT row JSONL/metrics/bootstrap/failure artifacts, Open3DSG unmodified-source sensitivity row JSONL/metrics/bootstrap/failure artifacts, Open3DSG recovery row JSONL/metrics/bootstrap/failure artifacts, table outputs, manifest locks, checksum manifest | Reproduce current paper-facing full-validation tables and the Open3DSG recovery/unmodified-source caveat without rerunning multi-day feature/training jobs | fixed payload list: 211 files; row JSONL counts: VL-SAT predictions 957,008, verification 957,008, failure rows 59,841; Open3DSG unmodified predictions 690,924, verification 690,924, failure rows 81,448; Open3DSG recovery raw 26,938, predictions 695,916, verification 695,916, failure rows 82,155 | Good candidate for Google Drive, Zenodo, or Hugging Face Dataset. |
 | C. Large feature-cache transfer bundle | Open3DSG train/dev features and H001 eval features | Fast full rerun without regenerating features | train/dev 131 GB; eval 13 GB | Optional; high storage cost but saves multi-day regeneration. |
 | D. External-only dependencies | raw 3RScan/3DSSG/VL-SAT data, official third-party checkpoints, Qwen-VL HF cache | Dataset/model access under original terms | Qwen cache 8.3 GB; raw datasets much larger | Prefer documented download/rebuild over redistribution. |
@@ -301,13 +303,13 @@ final submission-ready without this pass.
 
 ```text
 status: upload_bundle_file_list_and_verification_fixed_no_archive_created
-manifest: experiments/H001_geom_reliability/full_validation_transition/artifact_bundle/manifest.json
-commands: experiments/H001_geom_reliability/full_validation_transition/artifact_bundle/commands.md
-report: experiments/H001_geom_reliability/full_validation_transition/artifact_bundle/report.md
-payload file list: experiments/H001_geom_reliability/full_validation_transition/artifact_bundle/upload_payload_files.txt
-payload per-file checksums: experiments/H001_geom_reliability/full_validation_transition/artifact_bundle/upload_payload_sha256s.txt
-payload row counts: experiments/H001_geom_reliability/full_validation_transition/artifact_bundle/upload_payload_row_counts.txt
-verification script: experiments/H001_geom_reliability/full_validation_transition/artifact_bundle/verify_upload_bundle.sh
+manifest: results/h001_geom_reliability/full_validation_transition/artifact_bundle/manifest.json
+commands: results/h001_geom_reliability/full_validation_transition/artifact_bundle/commands.md
+report: results/h001_geom_reliability/full_validation_transition/artifact_bundle/report.md
+payload file list: results/h001_geom_reliability/full_validation_transition/artifact_bundle/upload_payload_files.txt
+payload per-file checksums: results/h001_geom_reliability/full_validation_transition/artifact_bundle/upload_payload_sha256s.txt
+payload row counts: results/h001_geom_reliability/full_validation_transition/artifact_bundle/upload_payload_row_counts.txt
+verification script: results/h001_geom_reliability/full_validation_transition/artifact_bundle/verify_upload_bundle.sh
 payload files: 211
 payload checksum records: 211
 payload file-list sha256: 392aa550557f64603a4548a9e494248d22eed899ecea3fefbc558451b39b716b
@@ -323,10 +325,10 @@ Fixed payload roots:
 
 ```text
 local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt
-experiments/H001_geom_reliability/full_validation_transition/scope_contract/
-experiments/H001_geom_reliability/manifest.lock.json
-experiments/H001_geom_reliability/report.md
-experiments/H001_geom_reliability/tables/
+results/h001_geom_reliability/full_validation_transition/scope_contract/
+results/h001_geom_reliability/manifest.lock.json
+results/h001_geom_reliability/report.md
+results/h001_geom_reliability/tables/
 experiments/H001_geom_reliability/sources/vlsat/full_validation/
 experiments/H001_geom_reliability/sources/open3dsg/full_validation/
 experiments/H001_geom_reliability/sources/open3dsg/checkpoint_selection/
@@ -360,7 +362,7 @@ Full-validation upload archive creation template:
 mkdir -p release logs
 ts=$(date +%Y%m%d_%H%M%S)
 tmux new-session -d -s h001_fullval_upload_archive_${ts} \
-  "cd /home/yoohyun/research && tar --zstd -cf release/h001_full_validation_results_${ts}.tar.zst -T experiments/H001_geom_reliability/full_validation_transition/artifact_bundle/upload_payload_files.txt experiments/H001_geom_reliability/full_validation_transition/artifact_bundle > logs/h001_fullval_upload_archive_${ts}.log 2>&1 && sha256sum release/h001_full_validation_results_${ts}.tar.zst > release/h001_full_validation_results_${ts}.sha256; rc=\$?; printf '%s\n' \"\$rc\" > logs/h001_fullval_upload_archive_${ts}.exit; exit \"\$rc\""
+  "cd /home/yoohyun/research && tar --zstd -cf release/h001_full_validation_results_${ts}.tar.zst -T results/h001_geom_reliability/full_validation_transition/artifact_bundle/upload_payload_files.txt results/h001_geom_reliability/full_validation_transition/artifact_bundle > logs/h001_fullval_upload_archive_${ts}.log 2>&1 && sha256sum release/h001_full_validation_results_${ts}.tar.zst > release/h001_full_validation_results_${ts}.sha256; rc=\$?; printf '%s\n' \"\$rc\" > logs/h001_fullval_upload_archive_${ts}.exit; exit \"\$rc\""
 ```
 
 Historical verified 127-scan bundle:
@@ -379,7 +381,7 @@ exit_code: 0
 checksum_status: OK
 row_counts: raw_dump 19,162; predictions 496,600; verification 496,600; failure_rows 57,736; qualitative_queue 36; total 1,070,134
 metric_status: ready
-exact command: tar --zstd -cf release/h001_core_results_20260526_160957.tar.zst local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt experiments/H001_geom_reliability/manifest.lock.json experiments/H001_geom_reliability/report.md experiments/H001_geom_reliability/tables experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json experiments/H001_geom_reliability/sources/open3dsg/failure_rows/rows.jsonl experiments/H001_geom_reliability/sources/open3dsg/failure_cases/queue.jsonl experiments/H001_geom_reliability/sources/open3dsg/*/manifest.json experiments/H001_geom_reliability/sources/open3dsg/*/report.md
+exact command: tar --zstd -cf release/h001_core_results_20260526_160957.tar.zst local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt results/h001_geom_reliability/manifest.lock.json results/h001_geom_reliability/report.md results/h001_geom_reliability/tables experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json experiments/H001_geom_reliability/sources/open3dsg/failure_rows/rows.jsonl experiments/H001_geom_reliability/sources/open3dsg/failure_cases/queue.jsonl experiments/H001_geom_reliability/sources/open3dsg/*/manifest.json experiments/H001_geom_reliability/sources/open3dsg/*/report.md
 verification: sha256sum -c release/h001_core_results_20260526_160957.sha256 && wc -l experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl experiments/H001_geom_reliability/sources/open3dsg/failure_rows/rows.jsonl experiments/H001_geom_reliability/sources/open3dsg/failure_cases/queue.jsonl && jq -r '.status' experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json
 boundary: historical/sensitivity bundle only; current paper-facing bundle is the full-validation plan above. The local tar/checksum copy was deleted on 2026-06-05 after the full-validation route became the default handoff path.
 ```
@@ -388,7 +390,7 @@ Full-validation bundle verification after download/extract:
 
 ```bash
 sha256sum -c release/h001_full_validation_results_<ts>.sha256
-bash experiments/H001_geom_reliability/full_validation_transition/artifact_bundle/verify_upload_bundle.sh
+bash results/h001_geom_reliability/full_validation_transition/artifact_bundle/verify_upload_bundle.sh
 ```
 
 Large feature-cache transfer template, only if full rerun speed matters:
@@ -407,8 +409,8 @@ Feature transfer verification:
 
 ```bash
 sha256sum -c release/h001_open3dsg_features_<ts>.sha256
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm feature_audit'
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm feature_audit_h001_eval'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm feature_audit'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm feature_audit_h001_eval'
 ```
 
 Do not put Qwen-VL model weights in the default core bundle. The Qwen path is
@@ -425,11 +427,11 @@ experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/
 experiments/H001_geom_reliability/sources/qwen_vl/status.json
 experiments/H001_geom_reliability/sources/qwen_vl/README.md
 experiments/H001_geom_reliability/sources/qwen_vl/report.md
-experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml
-experiments/H001_geom_reliability/sources/qwen_vl/Dockerfile.qwen
-experiments/H001_geom_reliability/scripts/run_qwen_vl_full_source_inference.py
-experiments/H001_geom_reliability/scripts/run_qwen_vl_full_source_shard_loop.sh
-experiments/H001_geom_reliability/scripts/plan_qwen_vl_full_source_inference.py
+configs/qwen_vl/compose.qwen.yaml
+configs/qwen_vl/Dockerfile.qwen
+src/geocalib/run_qwen_vl_full_source_inference.py
+scripts/run_qwen_vl_full_source_shard_loop.sh
+src/geocalib/plan_qwen_vl_full_source_inference.py
 logs/qwen_vl_full_source_infer_remaining_20260527_023111.log
 logs/qwen_vl_full_source_infer_remaining_20260527_023111.status.tsv
 logs/qwen_vl_full_source_infer_remaining_20260527_023111.exit
@@ -440,21 +442,21 @@ logs/qwen_vl_full_source_infer_remaining_20260527_023111.exit
 Build the main H001 table/evaluation image:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml build'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml build'
 ```
 
 Build and check the Open3DSG reproduction image:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml build'
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm env_check'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/open3dsg/compose.open3dsg.yaml build'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm env_check'
 ```
 
 Build and check the Qwen-VL runtime image/cache:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml build'
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_cache_verify'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/qwen_vl/compose.qwen.yaml build'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/qwen_vl/compose.qwen.yaml run --rm qwen_vl_cache_verify'
 ```
 
 ## Data Download And Staging
@@ -479,19 +481,19 @@ python -m gdown 'https://drive.google.com/uc?id=1V_QIDvu1fZqKkjP2Kg41HNCjX8TPfH6
 Audit current Open3DSG/3RScan payload readiness:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_payload --repo-root /workspace'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_payload --repo-root /workspace'
 ```
 
 Run a small resumable download/extract pilot:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_payload --repo-root /workspace --download-missing --extract-sequence --limit 1 --workers 2'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_payload --repo-root /workspace --download-missing --extract-sequence --limit 1 --workers 2'
 ```
 
 Run a resumable batch:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_payload --repo-root /workspace --download-missing --extract-sequence --limit 20 --workers 4 --timeout 300 --retries 1'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_payload --repo-root /workspace --download-missing --extract-sequence --limit 20 --workers 4 --timeout 300 --retries 1'
 ```
 
 For long batches, use `tmux` and timestamped logs under `logs/`. Example:
@@ -500,13 +502,13 @@ For long batches, use `tmux` and timestamped logs under `logs/`. Example:
 mkdir -p logs
 ts=$(date +%Y%m%d_%H%M%S)
 tmux new-session -d -s h001_open3dsg_payload_batch \
-  "cd /home/yoohyun/research && bash -lc 'set -o pipefail; sg docker -c '\''env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_payload --repo-root /workspace --download-missing --extract-sequence --limit 100 --workers 4 --timeout 300 --retries 1'\''; rc=\$?; printf \"%s\n\" \"\$rc\" > logs/open3dsg_payload_batch_${ts}.exit; exit \$rc' > logs/open3dsg_payload_batch_${ts}.log 2>&1"
+  "cd /home/yoohyun/research && bash -lc 'set -o pipefail; sg docker -c '\''env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_payload --repo-root /workspace --download-missing --extract-sequence --limit 100 --workers 4 --timeout 300 --retries 1'\''; rc=\$?; printf \"%s\n\" \"\$rc\" > logs/open3dsg_payload_batch_${ts}.exit; exit \$rc' > logs/open3dsg_payload_batch_${ts}.log 2>&1"
 ```
 
 Stage H001 held-out eval scan symlinks:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm h001_eval_payload'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm h001_eval_payload'
 ```
 
 ## Open3DSG Feature `.pt` Regeneration
@@ -536,21 +538,21 @@ export_rel_clip_emb_clip_BLIP_Topk_5_scales_3_vis_crit_0.19999999999999998/
 Build and check the Open3DSG image/cache first:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml build'
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm env_check'
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm cache_preflight'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/open3dsg/compose.open3dsg.yaml build'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm env_check'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm cache_preflight'
 ```
 
 Stage train/dev views and preprocessed-ready splits if starting from raw data:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_train_root'
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm train_views_full'
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm train_preprocess_full'
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm train_preprocess_filter'
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm validation_views_full'
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm validation_preprocess_full'
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm validation_preprocess_filter'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_train_root'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm train_views_full'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm train_preprocess_full'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm train_preprocess_filter'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm validation_views_full'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm validation_preprocess_full'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm validation_preprocess_filter'
 ```
 
 Check runtime pressure before launching feature dumps:
@@ -572,13 +574,13 @@ complete output directory.
 mkdir -p logs
 ts=$(date +%Y%m%d_%H%M%S)
 tmux new-session -d -s h001_open3dsg_dump_features \
-  "cd /home/yoohyun/research && bash -lc 'set -o pipefail; echo \"started_at=\$(date -Is)\"; echo \"cwd=\$(pwd)\"; nvidia-smi --query-gpu=timestamp,index,name,memory.total,memory.used,memory.free,utilization.gpu --format=csv,noheader,nounits || true; sg docker -c '\''env UID=\$(id -u) GID=\$(id -g) OPEN3DSG_DUMP_WORKERS=0 OPEN3DSG_BLIP_EMBED_CHUNK_SIZE=2 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True,max_split_size_mb:128 docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm dump_features_3rscan'\''; rc=\$?; echo \"finished_at=\$(date -Is)\"; echo \"exit_code=\$rc\"; printf \"%s\n\" \"\$rc\" > logs/open3dsg_dump_features_regen_${ts}.exit; exit \$rc' > logs/open3dsg_dump_features_regen_${ts}.log 2>&1"
+  "cd /home/yoohyun/research && bash -lc 'set -o pipefail; echo \"started_at=\$(date -Is)\"; echo \"cwd=\$(pwd)\"; nvidia-smi --query-gpu=timestamp,index,name,memory.total,memory.used,memory.free,utilization.gpu --format=csv,noheader,nounits || true; sg docker -c '\''env UID=\$(id -u) GID=\$(id -g) OPEN3DSG_DUMP_WORKERS=0 OPEN3DSG_BLIP_EMBED_CHUNK_SIZE=2 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True,max_split_size_mb:128 docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm dump_features_3rscan'\''; rc=\$?; echo \"finished_at=\$(date -Is)\"; echo \"exit_code=\$rc\"; printf \"%s\n\" \"\$rc\" > logs/open3dsg_dump_features_regen_${ts}.exit; exit \$rc' > logs/open3dsg_dump_features_regen_${ts}.log 2>&1"
 ```
 
 Verify train/dev feature completion:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm feature_audit'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm feature_audit'
 ```
 
 Expected verification result:
@@ -620,7 +622,7 @@ local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/features/clip_
 Stage held-out eval payload:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm h001_eval_payload'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm h001_eval_payload'
 ```
 
 Run the bounded shard loop. This is the preferred route because the full H001
@@ -630,13 +632,13 @@ eval feature dump had partial exit-137 failures before the shard loop was added.
 mkdir -p logs
 ts=$(date +%Y%m%d_%H%M%S)
 tmux new-session -d -s h001_open3dsg_dump_features_h001_eval_shard_loop \
-  "cd /home/yoohyun/research && bash -lc 'set -o pipefail; python experiments/H001_geom_reliability/scripts/run_open3dsg_h001_eval_feature_shards.py --repo-root /home/yoohyun/research --max-new-ids 5; rc=\$?; echo \"finished_at=\$(date -Is)\"; echo \"exit_code=\$rc\"; printf \"%s\n\" \"\$rc\" > logs/open3dsg_dump_features_h001_eval_shard_loop_${ts}.exit; exit \$rc' > logs/open3dsg_dump_features_h001_eval_shard_loop_${ts}.log 2>&1"
+  "cd /home/yoohyun/research && bash -lc 'set -o pipefail; python src/geocalib/run_open3dsg_h001_eval_feature_shards.py --repo-root /home/yoohyun/research --max-new-ids 5; rc=\$?; echo \"finished_at=\$(date -Is)\"; echo \"exit_code=\$rc\"; printf \"%s\n\" \"\$rc\" > logs/open3dsg_dump_features_h001_eval_shard_loop_${ts}.exit; exit \$rc' > logs/open3dsg_dump_features_h001_eval_shard_loop_${ts}.log 2>&1"
 ```
 
 Verify H001 eval feature completion:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm feature_audit_h001_eval'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm feature_audit_h001_eval'
 ```
 
 Expected verification result:
@@ -742,7 +744,7 @@ Exact Qwen-VL background download command used:
 
 ```bash
 mkdir -p logs experiments/H001_geom_reliability/sources/qwen_vl/model_cache
-tmux new-session -d -s h001_qwen_vl_model_download "cd /home/yoohyun/research && bash -lc 'set -o pipefail; sg docker -c '\''env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml build qwen_vl_model_download && env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_model_download && env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_cache_verify'\''; rc=$?; printf \"%s\n\" \"$rc\" > logs/qwen_vl_model_download_20260512_082830.exit; exit $rc' > logs/qwen_vl_model_download_20260512_082830.log 2>&1"
+tmux new-session -d -s h001_qwen_vl_model_download "cd /home/yoohyun/research && bash -lc 'set -o pipefail; sg docker -c '\''env UID=$(id -u) GID=$(id -g) docker compose -f configs/qwen_vl/compose.qwen.yaml build qwen_vl_model_download && env UID=$(id -u) GID=$(id -g) docker compose -f configs/qwen_vl/compose.qwen.yaml run --rm qwen_vl_model_download && env UID=$(id -u) GID=$(id -g) docker compose -f configs/qwen_vl/compose.qwen.yaml run --rm qwen_vl_cache_verify'\''; rc=$?; printf \"%s\n\" \"$rc\" > logs/qwen_vl_model_download_20260512_082830.exit; exit $rc' > logs/qwen_vl_model_download_20260512_082830.log 2>&1"
 ```
 
 ## Experiment Reproduction Commands
@@ -750,32 +752,32 @@ tmux new-session -d -s h001_qwen_vl_model_download "cd /home/yoohyun/research &&
 Regenerate paper-facing H001 tables/report from locked artifacts:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm table_builder'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm table_builder'
 ```
 
 Recreate Open3DSG adapter, geometry join, metrics, and Table 6 from the
 identity-audited raw dump:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) OPEN3DSG_RAW_DUMP_JSONL=/workspace/experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_adapter_raw_dump'
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_geometry_join'
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_metric_eval'
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm table_builder'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) OPEN3DSG_RAW_DUMP_JSONL=/workspace/experiments/H001_geom_reliability/sources/open3dsg/raw_dump/raw.jsonl docker compose -f configs/h001/compose.yaml run --rm open3dsg_adapter_raw_dump'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_geometry_join'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_metric_eval'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm table_builder'
 ```
 
 Regenerate Open3DSG failure-analysis rows and qualitative case queue:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_failure_generator_real'
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_failure_case_sampler'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_failure_generator_real'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_failure_case_sampler'
 ```
 
 Qwen-VL runtime smoke has already passed. Use these commands only if rebuilding
 or verifying a new computer:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_runtime_preflight'
-sg docker -c 'env UID=$(id -u) GID=$(id -g) QWEN_VL_TINY_INFERENCE_LIMIT=3 docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_tiny_inference_smoke'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/qwen_vl/compose.qwen.yaml run --rm qwen_vl_runtime_preflight'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) QWEN_VL_TINY_INFERENCE_LIMIT=3 docker compose -f configs/qwen_vl/compose.qwen.yaml run --rm qwen_vl_tiny_inference_smoke'
 ```
 
 Resume Qwen-VL full-source inference only after GPU guard is acceptable. The
@@ -789,7 +791,7 @@ free -h
 mkdir -p logs
 ts=$(date +%Y%m%d_%H%M%S)
 tmux new-session -d -s h001_qwen_vl_infer_remaining \
-  "cd /home/yoohyun/research && bash -lc 'set -o pipefail; QWEN_VL_LOOP_RUN_ID=${ts} QWEN_VL_LOOP_START_SUFFIX=0014 QWEN_VL_LOOP_END_SUFFIX=0133 bash experiments/H001_geom_reliability/scripts/run_qwen_vl_full_source_shard_loop.sh; rc=\$?; printf \"%s\n\" \"\$rc\" > logs/qwen_vl_full_source_infer_remaining_${ts}.exit; exit \$rc' > logs/qwen_vl_full_source_infer_remaining_${ts}.log 2>&1"
+  "cd /home/yoohyun/research && bash -lc 'set -o pipefail; QWEN_VL_LOOP_RUN_ID=${ts} QWEN_VL_LOOP_START_SUFFIX=0014 QWEN_VL_LOOP_END_SUFFIX=0133 bash scripts/run_qwen_vl_full_source_shard_loop.sh; rc=\$?; printf \"%s\n\" \"\$rc\" > logs/qwen_vl_full_source_infer_remaining_${ts}.exit; exit \$rc' > logs/qwen_vl_full_source_infer_remaining_${ts}.log 2>&1"
 ```
 
 After the loop finishes, Qwen still is not paper evidence until all-shard
@@ -804,7 +806,7 @@ exit 0, manifest status `raw_dump_stream_complete`, 377/377 completed batches,
 raw dump. Earlier exit-137 attempts are historical run records.
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) OPEN3DSG_CHECKPOINT=/workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm eval_h001_gt_objects'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) OPEN3DSG_CHECKPOINT=/workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm eval_h001_gt_objects'
 ```
 
 ## Verification Commands
@@ -832,7 +834,7 @@ Check Qwen-VL cache:
 ```bash
 cat logs/qwen_vl_model_download_20260512_082830.exit
 find local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17 -maxdepth 2 -type f | wc -l
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_cache_verify'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/qwen_vl/compose.qwen.yaml run --rm qwen_vl_cache_verify'
 ```
 
 ## Artifact And Evaluation Summary
@@ -907,7 +909,7 @@ Cleanup state, 2026-06-06 KST: the user-approved paths below were deleted from
 the local workspace. They were not required for the current paper-facing
 full-validation claim. Do not delete primary full-validation artifacts, raw
 datasets, selected checkpoints, feature caches needed for reruns, Qwen resume
-files, `sources/attachment_deferred/full_source_g5d/`, Open3DSG
+files, `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d/`, Open3DSG
 `raw_clean_exit_review/`, or Open3DSG `h001_covered_recovery/provenance_review/`
 unless the corresponding transfer/archive has been verified.
 
@@ -926,8 +928,8 @@ experiments/H001_geom_reliability/sources/open3dsg/full_validation/feature_seed/
 Deleted local generated Python cache:
 
 ```text
-experiments/H001_geom_reliability/scripts/__pycache__/
-hypothesis/CAND-001/H001_geometry-grounded-verification/tools/__pycache__/
+archive/cache/experiments_scripts_pycache/
+archive/cache/paper_scripts_pycache/
 paper/scripts/__pycache__/
 local_dataset/**/__pycache__/
 ```
@@ -935,7 +937,7 @@ local_dataset/**/__pycache__/
 Deleted superseded attachment/lateral intermediate artifacts:
 
 ```text
-experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d_smoke/
+archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d_smoke/
 ```
 
 Deleted failed or superseded logs whose important status is already summarized in the

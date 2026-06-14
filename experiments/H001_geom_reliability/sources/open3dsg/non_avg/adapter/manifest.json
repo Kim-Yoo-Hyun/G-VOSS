@@ -15,7 +15,7 @@
   "inputs": {
     "raw_dump_jsonl": "experiments/H001_geom_reliability/sources/open3dsg/non_avg/raw_dump/raw.jsonl",
     "relationships_file": "local_dataset/3DSSG_subset/relationships.txt",
-    "selected_scans": "hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_validation_hardened/scans.txt",
+    "selected_scans": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_validation_hardened/scans.txt",
     "smoke_test": false,
     "subset_json": "local_dataset/3DSSG_subset/relationships_validation.json"
   },

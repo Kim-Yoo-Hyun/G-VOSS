@@ -5,19 +5,19 @@
     "upgrade_condition": "Open3DSG checkpoint, identity-preserving raw dump, prediction JSONL, geometry join, and metric table exist"
   },
   "commands": {
-    "cache_preflight": "docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm cache_preflight",
-    "dump_features": "docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm dump_features_3rscan",
-    "env_check": "docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm env_check",
-    "eval_after_checkpoint": "docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm eval_h001_gt_objects",
-    "eval_preflight": "docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm eval_preflight",
-    "full_train": "docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm train_full",
-    "pilot_train": "docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm train_pilot",
-    "stage_train_root": "docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_train_root",
-    "train_preprocess_full": "docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm train_preprocess_full",
-    "train_preprocess_smoke": "docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm train_preprocess_smoke",
-    "train_views_audit": "docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm train_views_audit",
-    "train_views_full": "docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm train_views_full",
-    "train_views_smoke": "docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm train_views_smoke"
+    "cache_preflight": "docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm cache_preflight",
+    "dump_features": "docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm dump_features_3rscan",
+    "env_check": "docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm env_check",
+    "eval_after_checkpoint": "docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm eval_h001_gt_objects",
+    "eval_preflight": "docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm eval_preflight",
+    "full_train": "docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm train_full",
+    "pilot_train": "docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm train_pilot",
+    "stage_train_root": "docker compose -f configs/h001/compose.yaml run --rm open3dsg_train_root",
+    "train_preprocess_full": "docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm train_preprocess_full",
+    "train_preprocess_smoke": "docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm train_preprocess_smoke",
+    "train_views_audit": "docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm train_views_audit",
+    "train_views_full": "docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm train_views_full",
+    "train_views_smoke": "docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm train_views_smoke"
   },
   "created_at_utc": "2026-05-07T15:35:45.373151+00:00",
   "current_readiness": {
@@ -47,7 +47,7 @@
   "decision": "Generate the Open3DSG checkpoint ourselves through Dockerized reproduction, then run raw dump, JSONL export, geometry join, and H001 metrics.",
   "docker": {
     "base_image": "nvidia/cuda:12.8.1-cudnn-devel-ubuntu22.04",
-    "compose_file": "experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml",
+    "compose_file": "configs/open3dsg/compose.open3dsg.yaml",
     "core_pins": {
       "numpy": "1.23.3",
       "pytorch-lightning": "2.1.1",
@@ -56,7 +56,7 @@
       "torch-geometric": "2.5.0",
       "transformers": "4.46.3"
     },
-    "dockerfile": "experiments/H001_geom_reliability/sources/open3dsg/Dockerfile.repro",
+    "dockerfile": "configs/open3dsg/Dockerfile.repro",
     "image": "h001-open3dsg-repro:cu128",
     "pyg_wheels": "torch-scatter/sparse/cluster/spline-conv from https://data.pyg.org/whl/torch-2.8.0+cu128.html",
     "python": "3.9 via Miniforge",

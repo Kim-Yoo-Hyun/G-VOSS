@@ -38,8 +38,8 @@ Leakage guard: Do not train on H001 hardened validation/test scans used for seco
 - Python: `3.9 via Miniforge`
 - Torch: `torch==2.8.0 torchvision==0.23.0 torchaudio==2.8.0 with CUDA 12.8 wheels`
 - PyG wheels: `torch-scatter/sparse/cluster/spline-conv from https://data.pyg.org/whl/torch-2.8.0+cu128.html`
-- Dockerfile: `experiments/H001_geom_reliability/sources/open3dsg/Dockerfile.repro`
-- Compose file: `experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml`
+- Dockerfile: `configs/open3dsg/Dockerfile.repro`
+- Compose file: `configs/open3dsg/compose.open3dsg.yaml`
 
 ## Execution Sequence
 

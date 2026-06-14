@@ -7,25 +7,25 @@ Run from the repository root.
 ## Build
 
 ```bash
-docker compose -f experiments/H001_geom_reliability/compose.yaml build
+docker compose -f configs/h001/compose.yaml build
 ```
 
 ## Generate Tables And Report
 
 ```bash
-docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm table_builder
+docker compose -f configs/h001/compose.yaml run --rm table_builder
 ```
 
 If the current shell has not picked up docker group membership, use:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm table_builder'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm table_builder'
 ```
 
 Expected completion line:
 
 ```json
-{"out": "/workspace/experiments/H001_geom_reliability", "status": "ready"}
+{"out": "/workspace/results/h001_geom_reliability", "status": "ready"}
 ```
 
 The table builder also writes `sources/open3dsg/table6_hook.json`; Open3DSG rows in Table 6 are now ready when `sources/open3dsg/metrics/metrics.json` reports status `ready`.
@@ -36,19 +36,19 @@ Compute subgraph-level bootstrap confidence intervals for VL-SAT and Open3DSG
 source metrics:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm bootstrap_ci'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm bootstrap_ci'
 ```
 
 This creates:
 
-- `bootstrap_ci/manifest.json`
-- `bootstrap_ci/summary.json`
-- `bootstrap_ci/summary.md`
+- `results/h001_geom_reliability/bootstrap_ci/manifest.json`
+- `results/h001_geom_reliability/bootstrap_ci/summary.json`
+- `results/h001_geom_reliability/bootstrap_ci/summary.md`
 
 Expected completion line:
 
 ```json
-{"out": "experiments/H001_geom_reliability/bootstrap_ci", "sources": ["open3dsg_ov", "vlsat_closed_set"], "status": "ready"}
+{"out": "results/h001_geom_reliability/bootstrap_ci", "sources": ["open3dsg_ov", "vlsat_closed_set"], "status": "ready"}
 ```
 
 ## Open3DSG Non-Avg Downstream Branch
@@ -70,18 +70,18 @@ experiments/H001_geom_reliability/sources/open3dsg/non_avg/downstream_after_raw_
 The continuation runner is:
 
 ```bash
-experiments/H001_geom_reliability/scripts/run_open3dsg_nonavg_downstream_after_raw.sh
+scripts/run_open3dsg_nonavg_downstream_after_raw.sh
 ```
 
 After the raw-dump exit file contains `0`, run:
 
 ```bash
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_raw_dump_identity_nonavg
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_adapter_raw_dump_nonavg
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_geometry_join_nonavg
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_metric_eval_nonavg
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm bootstrap_ci_nonavg
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_non_avg_table6_caveats
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_raw_dump_identity_nonavg
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_adapter_raw_dump_nonavg
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_geometry_join_nonavg
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_metric_eval_nonavg
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm bootstrap_ci_nonavg
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_non_avg_table6_caveats
 ```
 
 This branch is not paper evidence until all downstream commands pass and the
@@ -94,17 +94,17 @@ Freeze the full official `3DSSG_subset` validation scope before any
 full-validation metric rerun:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm full_validation_scope_contract'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm full_validation_scope_contract'
 ```
 
 This creates:
 
-- `full_validation_transition/scope_contract/manifest.json`
-- `full_validation_transition/scope_contract/scope_contract.json`
-- `full_validation_transition/scope_contract/scans.txt`
-- `full_validation_transition/scope_contract/contexts.jsonl`
-- `full_validation_transition/scope_contract/commands.md`
-- `full_validation_transition/scope_contract/report.md`
+- `results/h001_geom_reliability/full_validation_transition/scope_contract/manifest.json`
+- `results/h001_geom_reliability/full_validation_transition/scope_contract/scope_contract.json`
+- `results/h001_geom_reliability/full_validation_transition/scope_contract/scans.txt`
+- `results/h001_geom_reliability/full_validation_transition/scope_contract/contexts.jsonl`
+- `results/h001_geom_reliability/full_validation_transition/scope_contract/commands.md`
+- `results/h001_geom_reliability/full_validation_transition/scope_contract/report.md`
 
 Current result: status
 `full_official_validation_scope_contract_ready_no_metric_execution`; target
@@ -119,19 +119,19 @@ join, metrics, controls, bootstrap CI, and caveat wording.
 Stage the full official validation runtime root:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm --build vlsat_full_validation_stage'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm --build vlsat_full_validation_stage'
 ```
 
 Refresh the runtime/job record:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm --build vlsat_full_validation_runtime_record'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm --build vlsat_full_validation_runtime_record'
 ```
 
 Run the raw-dump preflight:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm vlsat_full_validation_raw_preflight'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm vlsat_full_validation_raw_preflight'
 ```
 
 Current result: status `vlsat_full_validation_metric_bundle_ready`; 157/157
@@ -164,7 +164,7 @@ mkdir -p logs
 ts=$(date +%Y%m%d_%H%M%S)
 tmux new-session -d -s h001_vlsat_full_validation_raw "\
 cd /home/yoohyun/research && \
-env UID=\$(id -u) GID=\$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm vlsat_full_validation_raw_dump \
+env UID=\$(id -u) GID=\$(id -g) docker compose -f configs/h001/compose.yaml run --rm vlsat_full_validation_raw_dump \
 > logs/vlsat_full_validation_raw_${ts}.log 2>&1; \
 echo \$? > logs/vlsat_full_validation_raw_${ts}.exit"
 ```
@@ -176,11 +176,11 @@ full-validation scope.
 Downstream commands:
 
 ```bash
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm vlsat_full_validation_adapter_export
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm vlsat_full_validation_geometry_join
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm vlsat_full_validation_metric_eval
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm vlsat_full_validation_gt_verifier_eval
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm bootstrap_ci_full_validation_vlsat
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm vlsat_full_validation_adapter_export
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm vlsat_full_validation_geometry_join
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm vlsat_full_validation_metric_eval
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm vlsat_full_validation_gt_verifier_eval
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm bootstrap_ci_full_validation_vlsat
 ```
 
 Latest downstream result: predictions `957,008`, ground-truth rows `11,254`,
@@ -200,15 +200,15 @@ branches.
 Payload and source-runtime preparation:
 
 ```bash
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_full_validation_payload
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm feature_audit_full_validation
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_full_validation_feature_seed
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_full_validation_payload
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm feature_audit_full_validation
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_full_validation_feature_seed
 ```
 
 Feature generation, when not seeding from compatible feature caches:
 
 ```bash
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm dump_features_full_validation_nonavg
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm dump_features_full_validation_nonavg
 ```
 
 Raw dump should be launched as a background job:
@@ -218,7 +218,7 @@ mkdir -p logs
 ts=$(date +%Y%m%d_%H%M%S)
 tmux new-session -d -s h001_open3dsg_full_validation_raw "\
 cd /home/yoohyun/research && \
-env UID=\$(id -u) GID=\$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm eval_full_validation_gt_objects_nonavg \
+env UID=\$(id -u) GID=\$(id -g) docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm eval_full_validation_gt_objects_nonavg \
 > logs/open3dsg_full_validation_raw_${ts}.log 2>&1; \
 echo \$? > logs/open3dsg_full_validation_raw_${ts}.exit"
 ```
@@ -226,13 +226,13 @@ echo \$? > logs/open3dsg_full_validation_raw_${ts}.exit"
 After `raw_dump/stream_manifest.json` reports `raw_dump_stream_complete`, run:
 
 ```bash
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_adapter_raw_dump_full_validation
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_raw_dump_identity_full_validation
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_geometry_join_full_validation
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_metric_eval_full_validation
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm bootstrap_ci_full_validation
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_failure_generator_full_validation
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_full_validation_table6_caveats
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_adapter_raw_dump_full_validation
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_raw_dump_identity_full_validation
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_geometry_join_full_validation
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_metric_eval_full_validation
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm bootstrap_ci_full_validation
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_failure_generator_full_validation
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_full_validation_table6_caveats
 ```
 
 Latest result: status `open3dsg_full_validation_metric_bundle_ready_with_caveats`.
@@ -250,7 +250,7 @@ family_specific control R@50/R@100 `0.4612/0.5999`, V@50/@100
 Review the unmodified 533/548 branch clean-exit retry/equivalence closeout:
 
 ```bash
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_full_validation_raw_clean_exit_review
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_full_validation_raw_clean_exit_review
 ```
 
 Current result: `sources/open3dsg/full_validation/raw_clean_exit_review/`
@@ -264,15 +264,15 @@ Run the no-training, no-inference audit for the optional
 `relative_horizontal` expansion track:
 
 ```bash
-docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm relative_horizontal_scope_audit
+docker build -t h001-geom-reliability:latest -f configs/h001/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm relative_horizontal_scope_audit
 ```
 
 This creates:
 
-- `sources/relative_horizontal/scope_audit/manifest.json`
-- `sources/relative_horizontal/scope_audit/label_counts.json`
-- `sources/relative_horizontal/scope_audit/report.md`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/scope_audit/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/scope_audit/label_counts.json`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/scope_audit/report.md`
 
 Current result: status `relative_horizontal_scope_audit_ready_no_metric_execution`;
 expanded candidate denominator 6,115/7,505 if `relative_horizontal` is
@@ -285,17 +285,17 @@ Run the GT-only coordinate-frame semantics gate before any verifier or metric
 promotion:
 
 ```bash
-docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm relative_horizontal_coordinate_audit
+docker build -t h001-geom-reliability:latest -f configs/h001/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm relative_horizontal_coordinate_audit
 ```
 
 This creates:
 
-- `sources/relative_horizontal/coordinate_audit/manifest.json`
-- `sources/relative_horizontal/coordinate_audit/frame_metrics.json`
-- `sources/relative_horizontal/coordinate_audit/records.jsonl`
-- `sources/relative_horizontal/coordinate_audit/ambiguity_buckets.json`
-- `sources/relative_horizontal/coordinate_audit/report.md`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/coordinate_audit/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/coordinate_audit/frame_metrics.json`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/coordinate_audit/records.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/coordinate_audit/ambiguity_buckets.json`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/coordinate_audit/report.md`
 
 This is not source-prediction metric evidence. It only tests whether
 `left/right/front/behind` labels are stable under a deterministic coordinate
@@ -313,16 +313,16 @@ Inspect threshold-free `front` / `behind` ambiguity and contradiction buckets
 from the coordinate audit:
 
 ```bash
-docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm relative_horizontal_bucket_inspection
+docker build -t h001-geom-reliability:latest -f configs/h001/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm relative_horizontal_bucket_inspection
 ```
 
 This creates:
 
-- `sources/relative_horizontal/bucket_inspection/manifest.json`
-- `sources/relative_horizontal/bucket_inspection/summary.json`
-- `sources/relative_horizontal/bucket_inspection/examples.jsonl`
-- `sources/relative_horizontal/bucket_inspection/report.md`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/bucket_inspection/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/bucket_inspection/summary.json`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/bucket_inspection/examples.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/relative_horizontal/bucket_inspection/report.md`
 
 Use this only as scope-expansion diagnostic evidence. It is not a verifier,
 not a source metric, and not a main-claim result.
@@ -343,16 +343,16 @@ Run the no-training, no-inference audit for the preferred future
 `attachment_deferred` relation-family upgrade:
 
 ```bash
-docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm attachment_deferred_scope_audit
+docker build -t h001-geom-reliability:latest -f configs/h001/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm attachment_deferred_scope_audit
 ```
 
 This creates:
 
-- `sources/attachment_deferred/scope_audit/manifest.json`
-- `sources/attachment_deferred/scope_audit/label_counts.json`
-- `sources/attachment_deferred/scope_audit/evidence_schema.json`
-- `sources/attachment_deferred/scope_audit/report.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/scope_audit/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/scope_audit/label_counts.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/scope_audit/evidence_schema.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/scope_audit/report.md`
 
 Use this only as scope and evidence-schema planning. It is not a verifier,
 not a source metric, and not a main-claim result.
@@ -369,22 +369,22 @@ and existing verification status `unsupported` for both sources. Next gate is
 Run the G1 design/contract step for the future attachment evidence extractor:
 
 ```bash
-docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm attachment_deferred_extractor_contract
+docker build -t h001-geom-reliability:latest -f configs/h001/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm attachment_deferred_extractor_contract
 ```
 
 This creates:
 
-- `sources/attachment_deferred/evidence_extractor/manifest.json`
-- `sources/attachment_deferred/evidence_extractor/extractor_contract.json`
-- `sources/attachment_deferred/evidence_extractor/output_schema.json`
-- `sources/attachment_deferred/evidence_extractor/field_catalog.json`
-- `sources/attachment_deferred/evidence_extractor/subtype_policy.json`
-- `sources/attachment_deferred/evidence_extractor/extraction_plan.json`
-- `sources/attachment_deferred/evidence_extractor/validation_plan.json`
-- `sources/attachment_deferred/evidence_extractor/example_row.json`
-- `sources/attachment_deferred/evidence_extractor/commands.md`
-- `sources/attachment_deferred/evidence_extractor/report.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/extractor_contract.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/output_schema.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/field_catalog.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/subtype_policy.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/extraction_plan.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/validation_plan.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/example_row.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/commands.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/evidence_extractor/report.md`
 
 Use this only as extractor design and output-contract evidence. It is not a
 verifier, not a calibration run, not a source metric, and not a main-claim
@@ -399,17 +399,17 @@ used by the completed G1b dry run.
 Run the G1b schema-validated evidence-only dry run:
 
 ```bash
-docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm attachment_deferred_extractor_dry_run
+docker build -t h001-geom-reliability:latest -f configs/h001/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm attachment_deferred_extractor_dry_run
 ```
 
 This creates:
 
-- `sources/attachment_deferred/extractor_dry_run/rows.jsonl`
-- `sources/attachment_deferred/extractor_dry_run/manifest.json`
-- `sources/attachment_deferred/extractor_dry_run/summary.json`
-- `sources/attachment_deferred/extractor_dry_run/validation.json`
-- `sources/attachment_deferred/extractor_dry_run/report.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/extractor_dry_run/rows.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/extractor_dry_run/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/extractor_dry_run/summary.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/extractor_dry_run/validation.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/extractor_dry_run/report.md`
 
 Use this only as a small evidence-output dry run. It is not a verifier,
 calibration run, source metric, or main-claim result.
@@ -428,18 +428,18 @@ now complete.
 Run the G1c segmented-point contact and surface-normal validation:
 
 ```bash
-docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm attachment_deferred_point_surface_validation
+docker build -t h001-geom-reliability:latest -f configs/h001/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm attachment_deferred_point_surface_validation
 ```
 
 This creates:
 
-- `sources/attachment_deferred/point_surface_validation/rows.jsonl`
-- `sources/attachment_deferred/point_surface_validation/diagnostics.jsonl`
-- `sources/attachment_deferred/point_surface_validation/manifest.json`
-- `sources/attachment_deferred/point_surface_validation/summary.json`
-- `sources/attachment_deferred/point_surface_validation/validation.json`
-- `sources/attachment_deferred/point_surface_validation/report.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/point_surface_validation/rows.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/point_surface_validation/diagnostics.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/point_surface_validation/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/point_surface_validation/summary.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/point_surface_validation/validation.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/point_surface_validation/report.md`
 
 Use this only as point/surface estimator validation. It is not a verifier,
 calibration run, source metric, or main-claim result.
@@ -456,20 +456,20 @@ diagnostic threshold. Forbidden verifier/metric fields are absent. Next gate is
 Run the G2 conservative verifier-policy design step:
 
 ```bash
-docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm attachment_deferred_verifier_policy
+docker build -t h001-geom-reliability:latest -f configs/h001/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm attachment_deferred_verifier_policy
 ```
 
 This creates:
 
-- `sources/attachment_deferred/verifier_policy/manifest.json`
-- `sources/attachment_deferred/verifier_policy/verifier_policy.json`
-- `sources/attachment_deferred/verifier_policy/decision_schema.json`
-- `sources/attachment_deferred/verifier_policy/threshold_plan.json`
-- `sources/attachment_deferred/verifier_policy/reason_codes.json`
-- `sources/attachment_deferred/verifier_policy/calibration_plan.json`
-- `sources/attachment_deferred/verifier_policy/commands.md`
-- `sources/attachment_deferred/verifier_policy/report.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy/verifier_policy.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy/decision_schema.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy/threshold_plan.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy/reason_codes.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy/calibration_plan.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy/commands.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy/report.md`
 
 Use this only as a verifier-policy design artifact. It does not apply decisions
 to source predictions, fit calibration, compute metrics, or change the main
@@ -489,22 +489,22 @@ Prepare the G3 train-dev positive/counterfactual route before any held-out
 source metric execution:
 
 ```bash
-docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm attachment_deferred_calibration_counterfactuals
+docker build -t h001-geom-reliability:latest -f configs/h001/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm attachment_deferred_calibration_counterfactuals
 ```
 
 This creates:
 
-- `sources/attachment_deferred/calibration_counterfactuals/manifest.json`
-- `sources/attachment_deferred/calibration_counterfactuals/positive_seeds.jsonl`
-- `sources/attachment_deferred/calibration_counterfactuals/counterfactual_seeds.jsonl`
-- `sources/attachment_deferred/calibration_counterfactuals/split_plan.json`
-- `sources/attachment_deferred/calibration_counterfactuals/counterfactual_plan.json`
-- `sources/attachment_deferred/calibration_counterfactuals/policy_smoke_plan.json`
-- `sources/attachment_deferred/calibration_counterfactuals/gt_eval_inputs.json`
-- `sources/attachment_deferred/calibration_counterfactuals/threshold_freeze_protocol.json`
-- `sources/attachment_deferred/calibration_counterfactuals/commands.md`
-- `sources/attachment_deferred/calibration_counterfactuals/report.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/positive_seeds.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/counterfactual_seeds.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/split_plan.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/counterfactual_plan.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/policy_smoke_plan.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/gt_eval_inputs.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/threshold_freeze_protocol.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/commands.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/report.md`
 
 Current result: status
 `attachment_deferred_calibration_counterfactual_plan_ready_no_fit_no_metrics`;
@@ -519,23 +519,23 @@ Run the G4 policy-smoke and train-dev GT/counterfactual evaluation before any
 attachment source metrics:
 
 ```bash
-docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm attachment_deferred_gt_policy_smoke
+docker build -t h001-geom-reliability:latest -f configs/h001/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm attachment_deferred_gt_policy_smoke
 ```
 
 This creates:
 
-- `sources/attachment_deferred/gt_policy_smoke/manifest.json`
-- `sources/attachment_deferred/gt_policy_smoke/summary.json`
-- `sources/attachment_deferred/gt_policy_smoke/validation.json`
-- `sources/attachment_deferred/gt_policy_smoke/policy_smoke_decisions.jsonl`
-- `sources/attachment_deferred/gt_policy_smoke/gt_evidence_rows.jsonl`
-- `sources/attachment_deferred/gt_policy_smoke/gt_evidence_diagnostics.jsonl`
-- `sources/attachment_deferred/gt_policy_smoke/gt_policy_decisions.jsonl`
-- `sources/attachment_deferred/gt_policy_smoke/gt_eval_rows.jsonl`
-- `sources/attachment_deferred/gt_policy_smoke/visual_sanity_plan.json`
-- `sources/attachment_deferred/gt_policy_smoke/commands.md`
-- `sources/attachment_deferred/gt_policy_smoke/report.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/summary.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/validation.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/policy_smoke_decisions.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/gt_evidence_rows.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/gt_evidence_diagnostics.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/gt_policy_decisions.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/gt_eval_rows.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/visual_sanity_plan.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/commands.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/report.md`
 
 Current result: status
 `attachment_deferred_gt_policy_smoke_ready_no_source_metrics`; policy-smoke
@@ -556,20 +556,20 @@ optional G5d full-source scoring plus source metrics/controls.
 Run the G4b error taxonomy, calibration-filter, and visual-queue planning step:
 
 ```bash
-docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm attachment_deferred_error_visual_sanity
+docker build -t h001-geom-reliability:latest -f configs/h001/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm attachment_deferred_error_visual_sanity
 ```
 
 This creates:
 
-- `sources/attachment_deferred/error_visual_sanity/manifest.json`
-- `sources/attachment_deferred/error_visual_sanity/summary.json`
-- `sources/attachment_deferred/error_visual_sanity/review_cases.jsonl`
-- `sources/attachment_deferred/error_visual_sanity/visual_queue.jsonl`
-- `sources/attachment_deferred/error_visual_sanity/calibration_filter.jsonl`
-- `sources/attachment_deferred/error_visual_sanity/guide.md`
-- `sources/attachment_deferred/error_visual_sanity/commands.md`
-- `sources/attachment_deferred/error_visual_sanity/report.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity/summary.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity/review_cases.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity/visual_queue.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity/calibration_filter.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity/guide.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity/commands.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity/report.md`
 
 Current result: status
 `attachment_deferred_error_visual_sanity_plan_ready_no_source_metrics`; review
@@ -587,19 +587,19 @@ complete.
 Run the G4c strict-only calibration-filter freeze:
 
 ```bash
-docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm attachment_deferred_strict_filter_freeze
+docker build -t h001-geom-reliability:latest -f configs/h001/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm attachment_deferred_strict_filter_freeze
 ```
 
 This creates:
 
-- `sources/attachment_deferred/strict_filter_freeze/manifest.json`
-- `sources/attachment_deferred/strict_filter_freeze/summary.json`
-- `sources/attachment_deferred/strict_filter_freeze/freeze_policy.json`
-- `sources/attachment_deferred/strict_filter_freeze/strict_calibration_rows.jsonl`
-- `sources/attachment_deferred/strict_filter_freeze/excluded_rows.jsonl`
-- `sources/attachment_deferred/strict_filter_freeze/commands.md`
-- `sources/attachment_deferred/strict_filter_freeze/report.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/strict_filter_freeze/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/strict_filter_freeze/summary.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/strict_filter_freeze/freeze_policy.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/strict_filter_freeze/strict_calibration_rows.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/strict_filter_freeze/excluded_rows.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/strict_filter_freeze/commands.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/strict_filter_freeze/report.md`
 
 Current result: status
 `attachment_deferred_strict_filter_frozen_no_fit_no_source_metrics`; strict
@@ -619,18 +619,18 @@ controls.
 Run the G5a pooled strict calibration fit:
 
 ```bash
-docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm attachment_deferred_calibration_fit
+docker build -t h001-geom-reliability:latest -f configs/h001/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm attachment_deferred_calibration_fit
 ```
 
 This creates:
 
-- `sources/attachment_deferred/calibration_fit/manifest.json`
-- `sources/attachment_deferred/calibration_fit/model.json`
-- `sources/attachment_deferred/calibration_fit/metrics.json`
-- `sources/attachment_deferred/calibration_fit/scores.jsonl`
-- `sources/attachment_deferred/calibration_fit/commands.md`
-- `sources/attachment_deferred/calibration_fit/report.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit/model.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit/metrics.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit/scores.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit/commands.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit/report.md`
 
 Current result: status
 `attachment_deferred_calibration_fit_ready_no_source_metrics`; model id
@@ -648,20 +648,20 @@ Run the G5b bounded source evidence extraction and `p_geom_valid` scoring
 preflight:
 
 ```bash
-docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm attachment_deferred_source_scoring_preflight
+docker build -t h001-geom-reliability:latest -f configs/h001/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm attachment_deferred_source_scoring_preflight
 ```
 
 This creates:
 
-- `sources/attachment_deferred/source_scoring_preflight/manifest.json`
-- `sources/attachment_deferred/source_scoring_preflight/summary.json`
-- `sources/attachment_deferred/source_scoring_preflight/source_rows.jsonl`
-- `sources/attachment_deferred/source_scoring_preflight/evidence_rows.jsonl`
-- `sources/attachment_deferred/source_scoring_preflight/diagnostics.jsonl`
-- `sources/attachment_deferred/source_scoring_preflight/scored_rows.jsonl`
-- `sources/attachment_deferred/source_scoring_preflight/commands.md`
-- `sources/attachment_deferred/source_scoring_preflight/report.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/source_scoring_preflight/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/source_scoring_preflight/summary.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/source_scoring_preflight/source_rows.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/source_scoring_preflight/evidence_rows.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/source_scoring_preflight/diagnostics.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/source_scoring_preflight/scored_rows.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/source_scoring_preflight/commands.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/source_scoring_preflight/report.md`
 
 Current result: status
 `attachment_deferred_source_scoring_preflight_ready_no_metrics`; selected and
@@ -676,19 +676,19 @@ compute R@K, Violation@K, controls, bootstrap CI, or update the main AAAI claim.
 Run the G5c protocol freeze before any full-source attachment metric:
 
 ```bash
-docker build -t h001-geom-reliability:latest -f experiments/H001_geom_reliability/Dockerfile .
-env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm attachment_deferred_full_source_protocol
+docker build -t h001-geom-reliability:latest -f configs/h001/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm attachment_deferred_full_source_protocol
 ```
 
 This creates:
 
-- `sources/attachment_deferred/full_source_protocol/manifest.json`
-- `sources/attachment_deferred/full_source_protocol/protocol.json`
-- `sources/attachment_deferred/full_source_protocol/denominator_audit.json`
-- `sources/attachment_deferred/full_source_protocol/shards.jsonl`
-- `sources/attachment_deferred/full_source_protocol/validation.json`
-- `sources/attachment_deferred/full_source_protocol/commands.md`
-- `sources/attachment_deferred/full_source_protocol/report.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol/manifest.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol/protocol.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol/denominator_audit.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol/shards.jsonl`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol/validation.json`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol/commands.md`
+- `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol/report.md`
 
 Current result: status
 `attachment_deferred_full_source_protocol_frozen_no_metrics`; validation errors
@@ -708,8 +708,8 @@ Qwen-VL remains a third semantic source / modern VLM extension. Render and
 verify pair crops before any full-source Qwen inference:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) QWEN_VL_FULL_SOURCE_SHARD_ID=qwen_full_source_shard_0000 docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_source_crop_render'
-sg docker -c 'env UID=$(id -u) GID=$(id -g) QWEN_VL_FULL_SOURCE_SHARD_ID=qwen_full_source_shard_0000 docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_source_crop_preflight'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) QWEN_VL_FULL_SOURCE_SHARD_ID=qwen_full_source_shard_0000 docker compose -f configs/h001/compose.yaml run --rm qwen_vl_full_source_crop_render'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) QWEN_VL_FULL_SOURCE_SHARD_ID=qwen_full_source_shard_0000 docker compose -f configs/h001/compose.yaml run --rm qwen_vl_full_source_crop_preflight'
 ```
 
 The current shard smoke passed for `qwen_full_source_shard_0000`: 250 input
@@ -720,25 +720,25 @@ Launch the all-scope render as a background job:
 ```bash
 mkdir -p logs
 ts=$(date +%Y%m%d_%H%M%S)
-tmux new-session -d -s h001_qwen_vl_full_crop_render "cd /home/yoohyun/research && bash -lc 'sg docker -c '\''env UID=$(id -u) GID=$(id -g) QWEN_VL_FULL_SOURCE_SHARD_ID=all docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_source_crop_render'\''; rc=\$?; printf \"%s\n\" \"\$rc\" > logs/qwen_vl_full_source_crop_render_all_${ts}.exit; exit \"\$rc\"' > logs/qwen_vl_full_source_crop_render_all_${ts}.log 2>&1"
+tmux new-session -d -s h001_qwen_vl_full_crop_render "cd /home/yoohyun/research && bash -lc 'sg docker -c '\''env UID=$(id -u) GID=$(id -g) QWEN_VL_FULL_SOURCE_SHARD_ID=all docker compose -f configs/h001/compose.yaml run --rm qwen_vl_full_source_crop_render'\''; rc=\$?; printf \"%s\n\" \"\$rc\" > logs/qwen_vl_full_source_crop_render_all_${ts}.exit; exit \"\$rc\"' > logs/qwen_vl_full_source_crop_render_all_${ts}.log 2>&1"
 ```
 
 After exit code 0, run all-scope preflight:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) QWEN_VL_FULL_SOURCE_SHARD_ID=all docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_source_crop_preflight'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) QWEN_VL_FULL_SOURCE_SHARD_ID=all docker compose -f configs/h001/compose.yaml run --rm qwen_vl_full_source_crop_preflight'
 ```
 
 Freeze the full-source Qwen inference runner and resume policy:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_source_inference_plan'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm qwen_vl_full_source_inference_plan'
 ```
 
 Dry-run the first shard without model load or inference:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) QWEN_VL_FULL_SOURCE_SHARD_ID=qwen_full_source_shard_0000 docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_full_source_infer_dry_run'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) QWEN_VL_FULL_SOURCE_SHARD_ID=qwen_full_source_shard_0000 docker compose -f configs/qwen_vl/compose.qwen.yaml run --rm qwen_vl_full_source_infer_dry_run'
 ```
 
 Current result: runner plan status `full_source_inference_runner_frozen_no_inference`;
@@ -749,7 +749,7 @@ must run as a timestamped background job.
 ## Direct Docker Equivalent
 
 ```bash
-docker build -f experiments/H001_geom_reliability/Dockerfile -t h001-geom-reliability:latest .
+docker build -f configs/h001/Dockerfile -t h001-geom-reliability:latest .
 docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/workspace" -w /workspace h001-geom-reliability:latest --repo-root /workspace --out /workspace/experiments/H001_geom_reliability
 ```
 
@@ -762,15 +762,15 @@ Only outputs generated by these Docker commands may be promoted to paper experim
 Generate the Dockerized Open3DSG checkpoint reproduction plan:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_plan'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_plan'
 ```
 
 This creates:
 
 - `sources/open3dsg/checkpoint_plan.json`
 - `sources/open3dsg/checkpoint_plan.md`
-- `sources/open3dsg/Dockerfile.repro`
-- `sources/open3dsg/compose.open3dsg.yaml`
+- `configs/open3dsg/Dockerfile.repro`
+- `configs/open3dsg/compose.open3dsg.yaml`
 - `sources/open3dsg/commands.open3dsg.md`
 
 ## Open3DSG Failure Analysis Schema
@@ -778,7 +778,7 @@ This creates:
 Freeze the failure-analysis taxonomy before Open3DSG metric/failure inspection:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_failure_schema'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_failure_schema'
 ```
 
 This creates:
@@ -793,7 +793,7 @@ This creates:
 Validate the row generator skeleton with synthetic rows only:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_failure_generator_smoke'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_failure_generator_smoke'
 ```
 
 This creates:
@@ -806,10 +806,10 @@ This creates:
 Generate real failure rows and qualitative case inspection after Open3DSG metrics exist:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_failure_generator_real'
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_failure_case_sampler'
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_failure_case_inspection'
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_paper_caveats'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_failure_generator_real'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_failure_case_sampler'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_failure_case_inspection'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_paper_caveats'
 ```
 
 This creates:
@@ -827,7 +827,7 @@ This creates:
 Stage the leakage-guarded Open3DSG `training_repro` root metadata and scan symlinks:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_train_root'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_train_root'
 ```
 
 This creates:
@@ -843,7 +843,7 @@ This creates:
 Freeze the command order and gates for the transition after the official feature dump:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_post_dump_handoff'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_post_dump_handoff'
 ```
 
 This creates:
@@ -857,7 +857,7 @@ This creates:
 Freeze the checkpoint provenance schema and primary-selection policy before checkpoint outputs are inspected:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_checkpoint_selection'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_checkpoint_selection'
 ```
 
 This creates:
@@ -874,7 +874,7 @@ Freeze the optional retry order before launching any heavy non-avg BLIP or
 `388/388` covered-context job:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_caveat_reduction_plan'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_caveat_reduction_plan'
 ```
 
 This creates:
@@ -889,13 +889,13 @@ This creates:
 Stage H001 held-out scan symlinks under the `h001_runtime` root:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm h001_eval_payload'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm h001_eval_payload'
 ```
 
 Generate H001 held-out eval features under the `h001_runtime` root before raw dump:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) OPEN3DSG_CHECKPOINT=/workspace/<selected-ckpt> docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm dump_features_h001_eval'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) OPEN3DSG_CHECKPOINT=/workspace/<selected-ckpt> docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm dump_features_h001_eval'
 ```
 
 Resumable shard command for the current H001 eval feature cache. This keeps the full eval denominator for later metric runs, but limits this feature-cache job to missing ids only:
@@ -903,13 +903,13 @@ Resumable shard command for the current H001 eval feature cache. This keeps the 
 ```bash
 mkdir -p logs
 ts=$(date +%Y%m%d_%H%M%S)
-tmux new-session -d -s h001_open3dsg_dump_features_h001_eval_shard "cd /home/yoohyun/research && bash -lc 'set -o pipefail; env UID=\$(id -u) GID=\$(id -g) OPEN3DSG_CHECKPOINT=/workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt OPEN3DSG_FEATURE_SHARD_ONLY_MISSING=1 OPEN3DSG_FEATURE_SHARD_MAX_NEW_IDS=5 OPEN3DSG_BLIP_EMBED_CHUNK_SIZE=1 OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE=1 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True,max_split_size_mb:64 docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm dump_features_h001_eval; rc=\$?; echo \"finished_at=\$(date -Is)\"; echo \"exit_code=\$rc\"; printf \"%s\n\" \"\$rc\" > logs/open3dsg_dump_features_h001_eval_shard_${ts}.exit; exit \$rc' > logs/open3dsg_dump_features_h001_eval_shard_${ts}.log 2>&1"
+tmux new-session -d -s h001_open3dsg_dump_features_h001_eval_shard "cd /home/yoohyun/research && bash -lc 'set -o pipefail; env UID=\$(id -u) GID=\$(id -g) OPEN3DSG_CHECKPOINT=/workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt OPEN3DSG_FEATURE_SHARD_ONLY_MISSING=1 OPEN3DSG_FEATURE_SHARD_MAX_NEW_IDS=5 OPEN3DSG_BLIP_EMBED_CHUNK_SIZE=1 OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE=1 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True,max_split_size_mb:64 docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm dump_features_h001_eval; rc=\$?; echo \"finished_at=\$(date -Is)\"; echo \"exit_code=\$rc\"; printf \"%s\n\" \"\$rc\" > logs/open3dsg_dump_features_h001_eval_shard_${ts}.exit; exit \$rc' > logs/open3dsg_dump_features_h001_eval_shard_${ts}.log 2>&1"
 ```
 
 Audit the generated H001 eval feature run:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/open3dsg/compose.open3dsg.yaml run --rm feature_audit_h001_eval'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm feature_audit_h001_eval'
 ```
 
 This creates or checks:
@@ -926,7 +926,7 @@ This creates or checks:
 Freeze the raw-dump identity audit checklist before raw dump conversion:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_raw_dump_identity'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_raw_dump_identity'
 ```
 
 This creates:
@@ -941,7 +941,7 @@ This creates:
 Freeze the predicate-family mapping and filtered-denominator caveat before real metric execution:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_metric_scope'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_metric_scope'
 ```
 
 This creates:
@@ -957,7 +957,7 @@ This creates:
 Freeze the Open3DSG metric/join runner contract before runtime inputs exist:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_metric_join_contract'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_metric_join_contract'
 ```
 
 This creates blocked-input artifacts until real Open3DSG prediction and geometry JSONL files exist:
@@ -974,13 +974,13 @@ This creates blocked-input artifacts until real Open3DSG prediction and geometry
 Audit the current Open3DSG `training_repro` payload queue:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_payload --repo-root /workspace'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_payload --repo-root /workspace'
 ```
 
 Run a small download/extract pilot batch:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm open3dsg_payload --repo-root /workspace --download-missing --extract-sequence --limit 1 --workers 2'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_payload --repo-root /workspace --download-missing --extract-sequence --limit 1 --workers 2'
 ```
 
 This creates:
@@ -994,7 +994,7 @@ This creates:
 Generate the modern-VLM semantic-source adapter contract:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_adapter_contract'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm qwen_vl_adapter_contract'
 ```
 
 This creates:
@@ -1013,7 +1013,7 @@ This creates:
 Validate the frozen input/output JSONL contract and parser skeleton before any model download or inference:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_contract_validator'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm qwen_vl_contract_validator'
 ```
 
 This creates:
@@ -1027,13 +1027,13 @@ This creates:
 Select the non-held-out tiny pilot scope without model download or inference:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_tiny_pilot_scope'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm qwen_vl_tiny_pilot_scope'
 ```
 
 Validate the tiny pilot input JSONL and synthetic parser template:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_tiny_pilot_validator'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm qwen_vl_tiny_pilot_validator'
 ```
 
 This creates:
@@ -1050,7 +1050,7 @@ This creates:
 Plan crop rendering and model runtime lock without downloading a model:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_runtime_plan'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm qwen_vl_runtime_plan'
 ```
 
 This creates:
@@ -1064,7 +1064,7 @@ This creates:
 Render tiny-pilot pair crops without downloading a model or running inference:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_pair_crop_render'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm qwen_vl_pair_crop_render'
 ```
 
 This creates small tracked manifests and ignored crop images:
@@ -1077,8 +1077,8 @@ This creates small tracked manifests and ignored crop images:
 After rendering, rerun validation and runtime preflight:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_tiny_pilot_validator'
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_runtime_plan'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm qwen_vl_tiny_pilot_validator'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm qwen_vl_runtime_plan'
 ```
 
 ## Qwen-VL Runtime Smoke
@@ -1090,21 +1090,21 @@ background session:
 mkdir -p logs
 ts=$(date +%Y%m%d_%H%M%S)
 tmux new-session -d -s h001_qwen_vl_model_download \
-  "cd /home/yoohyun/research && bash -lc 'set -o pipefail; sg docker -c '\''env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml build qwen_vl_model_download && env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_model_download && env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_cache_verify'\''; rc=$?; printf \"%s\n\" \"$rc\" > logs/qwen_vl_model_download_${ts}.exit; exit $rc' > logs/qwen_vl_model_download_${ts}.log 2>&1"
+  "cd /home/yoohyun/research && bash -lc 'set -o pipefail; sg docker -c '\''env UID=$(id -u) GID=$(id -g) docker compose -f configs/qwen_vl/compose.qwen.yaml build qwen_vl_model_download && env UID=$(id -u) GID=$(id -g) docker compose -f configs/qwen_vl/compose.qwen.yaml run --rm qwen_vl_model_download && env UID=$(id -u) GID=$(id -g) docker compose -f configs/qwen_vl/compose.qwen.yaml run --rm qwen_vl_cache_verify'\''; rc=$?; printf \"%s\n\" \"$rc\" > logs/qwen_vl_model_download_${ts}.exit; exit $rc' > logs/qwen_vl_model_download_${ts}.log 2>&1"
 ```
 
 After the download job completes, verify the cache:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_cache_verify'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/qwen_vl/compose.qwen.yaml run --rm qwen_vl_cache_verify'
 ```
 
 Run GPU-dependent smoke only after the model cache is complete and the GPU is
 not occupied by the Open3DSG feature dump:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_runtime_preflight'
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/sources/qwen_vl/compose.qwen.yaml run --rm qwen_vl_tiny_inference_smoke'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/qwen_vl/compose.qwen.yaml run --rm qwen_vl_runtime_preflight'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/qwen_vl/compose.qwen.yaml run --rm qwen_vl_tiny_inference_smoke'
 ```
 
 These commands create or update:
@@ -1126,7 +1126,7 @@ Freeze the third-source promotion protocol before any full Qwen paper-metric
 run:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_source_plan'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm qwen_vl_full_source_plan'
 ```
 
 This command creates or updates:
@@ -1143,8 +1143,8 @@ family input universe, crop coverage, missing-row policy, and shard list.
 Current full-source input audit command:
 
 ```bash
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_full_source_input'
-sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f experiments/H001_geom_reliability/compose.yaml run --rm qwen_vl_contract_validator --repo-root /workspace --contract-dir /workspace/experiments/H001_geom_reliability/sources/qwen_vl --input-jsonl /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_source_input/input.jsonl --out /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_source_input/validation'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm qwen_vl_full_source_input'
+sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm qwen_vl_contract_validator --repo-root /workspace --contract-dir /workspace/experiments/H001_geom_reliability/sources/qwen_vl --input-jsonl /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_source_input/input.jsonl --out /workspace/experiments/H001_geom_reliability/sources/qwen_vl/full_source_input/validation'
 ```
 
 Current result: 77,748 universe query rows, 33,384 inferable input rows, 44,364

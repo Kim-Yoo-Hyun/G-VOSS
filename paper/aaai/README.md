@@ -3,7 +3,7 @@
 Last updated: 2026-06-14 KST
 
 This directory is the AAAI-style LaTeX source conversion of the GeoCalib/H001 paper.
-It is separate from `paper/iccv/` so venue-specific formatting decisions do not
+It is separate from `archive/paper/iccv/` so venue-specific formatting decisions do not
 overwrite each other.
 
 ## Template Route

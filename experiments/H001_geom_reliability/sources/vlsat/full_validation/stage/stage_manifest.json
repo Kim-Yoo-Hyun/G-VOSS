@@ -14690,7 +14690,7 @@
     "f2c76ff1-2239-29d0-87f5-8a0346584384",
     "fcf66d7b-622d-291c-86b8-7db96aebcee3"
   ],
-  "selected_scans_file": "experiments/H001_geom_reliability/full_validation_transition/scope_contract/scans.txt",
+  "selected_scans_file": "results/h001_geom_reliability/full_validation_transition/scope_contract/scans.txt",
   "source_dataset_mutated": false,
   "source_dataset_root": "/workspace/local_dataset",
   "stage_version": "vlsat-stage-v1",
