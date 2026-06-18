@@ -1,6 +1,6 @@
 # H002 RGA Framework
 
-Last updated: 2026-06-13
+Last updated: 2026-06-18
 
 ## Purpose
 
@@ -368,6 +368,130 @@ features, but it does not replace deterministic RGA buckets.
 ## Framework Pipeline
 
 RGA is implemented as a staged framework.
+
+### Current Full-Train Extension
+
+Documents:
+
+```text
+53_full_train_scope_contract.md
+54_full_train_source_runner.md
+55_full_train_runtime_stage.md
+56_full_train_raw_dump.md
+57_full_train_adapter_export.md
+58_full_train_geometry_join.md
+59_full_train_rga_rows.md
+60_full_train_controlled_mining.md
+84_full_train_independent_support_vertical_audit_packet.md
+85_full_train_independent_support_vertical_label_readiness.md
+86_full_train_independent_support_vertical_label_fill.md
+87_full_train_independent_support_vertical_label_ingestion.md
+88_full_train_independent_support_vertical_target_independence_audit.md
+89_full_train_independent_support_vertical_label_policy_revision.md
+90_full_train_independent_support_vertical_v2_label_readiness.md
+91_full_train_independent_support_vertical_v2_label_fill.md
+92_full_train_independent_support_vertical_v2_label_ingestion.md
+```
+
+Current full-train status:
+
+| Stage | Status |
+| --- | --- |
+| source contract | `ready` |
+| raw dump | `ready` |
+| adapter export | `ready` |
+| geometry join | `ready` |
+| RGA rows | `ready` |
+| controlled candidate mining | `ready_for_controlled_audit` |
+| controlled label readiness | `not_ready_no_filled_labels` |
+| controlled codex label fill | `ready_for_train_only_full_posterior_smoke` |
+| controlled posterior smoke | `full_train_posterior_proxy_blocked` |
+| selected support/vertical audit packet | `ready` |
+| selected support/vertical v1 label policy | `blocked_by_target_carryover` |
+| selected support/vertical v2 label readiness | `ready_for_fill` |
+| selected support/vertical v2 label fill | `filled_no_direct_target` |
+| selected support/vertical v2 label ingestion | `ingested_with_target_risk` |
+
+Full-train RGA rows:
+
+```text
+4,818,996 prediction rows
+```
+
+Full-train mismatch queues:
+
+| Queue | Rows |
+| --- | ---: |
+| `RGA-HL` | 1,828 |
+| `RGA-LH` | 455,598 |
+
+Controlled mining output:
+
+| Item | Count |
+| --- | ---: |
+| candidate rows | 360 |
+| unique scans | 92 |
+| `HL` candidates | 83 |
+| `LH` candidates | 277 |
+
+Interpretation:
+
+```text
+Full train confirms that the main available diagnostic mass is not only
+high-semantic/low-geometry overconfidence. Low-semantic/high-geometry candidates
+are much larger, so H002 remains a bidirectional RGA and audit framework.
+```
+
+Boundary:
+
+```text
+The full-train candidate roles are not labels. Posterior training still requires
+controlled label readiness.
+```
+
+Current label readiness:
+
+```text
+candidate sheet rows = 360
+started review rows = 0
+usable binary targets = 0
+binary target files = empty
+```
+
+Current bootstrap label readiness:
+
+```text
+label source = codex_ver_full_train_policy_bootstrap
+completed review rows = 360
+usable binary targets = 173
+positive rows = 74
+negative rows = 99
+status = ready_for_train_only_full_posterior_smoke
+```
+
+Boundary:
+
+```text
+codex_ver_full_train labels are not human-confirmed and do not support a
+paper-level posterior claim. They only unlock train-only posterior smoke and
+shortcut/proxy controls.
+```
+
+Posterior smoke result:
+
+```text
+factorized - semantic_plus_geometry grouped AUPRC = +0.0117
+factorized - semantic_plus_geometry grouped Brier = -0.0019
+proposed_role_only AUPRC = 1.0000
+label_status_only AUPRC = 0.9473
+```
+
+Interpretation:
+
+```text
+The current full-train bootstrap target is dominated by label-policy proxies.
+This supports RGA/audit framing, not a factorized posterior method claim.
+```
 
 ### Stage 1. Train Source Contract
 
@@ -1641,6 +1765,853 @@ residual reliability model -> gated evidence model -> pairwise rank-matched
 ranking diagnostic -> debiased factor audit
 ```
 
+### Stage 30. Independent Label Ingestion
+
+Document:
+
+```text
+47_independent_label_ingestion.md
+```
+
+Purpose:
+
+- validate completed rank-hidden blind sheets.
+- join completed labels back to `internal_key.jsonl`.
+- materialize independent binary and multiclass targets.
+- keep hidden semantic/geometry/rank provenance out of deployable input
+  features.
+
+Key artifacts:
+
+```text
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_ingestion/summary.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_ingestion/schema.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_ingestion/report.md
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_ingestion/validated_labels.jsonl
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_ingestion/binary_targets.jsonl
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_ingestion/multiclass_targets.jsonl
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_ingestion/ingestion_errors.jsonl
+```
+
+Result:
+
+```text
+status = independent_label_ingestion_waiting_for_completed_labels
+```
+
+Counts:
+
+| Item | Count |
+| --- | ---: |
+| blind sheet rows | 87 |
+| internal key rows | 87 |
+| completed label rows | 0 |
+| binary target rows | 0 |
+| ingestion errors | 0 |
+
+Decision:
+
+```text
+The ingestion path is ready, but no independent labels are completed yet.
+Residual/gated combiner diagnostics remain blocked until rank-hidden labels are
+filled and ingested.
+```
+
+### Stage 31. Blind Label Fill
+
+Document:
+
+```text
+48_blind_label_fill.md
+```
+
+Purpose:
+
+- fill rank-hidden blind labels with `(codex_ver_blind)` bootstrap labels.
+- fix asset-level leakage in the original contact sheets by generating sanitized
+  crop paths and sanitized contact sheets.
+- rerun independent label ingestion on the completed sheet.
+- produce binary targets for train-only residual/gated combiner diagnostics.
+
+Key artifacts:
+
+```text
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_protocol/blind_all_sheet_sanitized.tsv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_protocol/blind_all_sheet_codex_ver.tsv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_blind_codex_labels/summary.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_blind_codex_labels/labels.jsonl
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_blind_codex_labels/report.md
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_ingestion_codex_ver/summary.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_ingestion_codex_ver/binary_targets.jsonl
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_label_ingestion_codex_ver/report.md
+```
+
+Result:
+
+```text
+status = independent_label_targets_ready
+```
+
+Counts:
+
+| Item | Count |
+| --- | ---: |
+| completed label rows | 87 |
+| binary target rows | 75 |
+| positive rows | 46 |
+| negative rows | 29 |
+| excluded rows | 12 |
+| ingestion errors | 0 |
+
+Boundary:
+
+```text
+codex_ver_blind labels are bootstrap labels, not human-confirmed labels.
+```
+
+Decision:
+
+```text
+H002 can proceed to train-only independent combiner diagnostics, but cannot
+claim paper-level human-label evidence or posterior method advantage from these
+labels alone.
+```
+
+### Stage 32. Independent Combiner Smoke
+
+Document:
+
+```text
+49_independent_combiner_smoke.md
+```
+
+Purpose:
+
+- join `independent_label_ingestion_codex_ver/binary_targets.jsonl` to deployable
+  feature rows.
+- evaluate semantic-only, geometry-only, semantic+geometry, factorized,
+  residual, and gated evidence views.
+- compare against rank, family, predicate, and `p_geom_valid` proxy controls.
+- report grouped-by-scan, family-slice, and rank-matched pairwise diagnostics.
+
+Key artifacts:
+
+```text
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_combiner_smoke_codex_ver/summary.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_combiner_smoke_codex_ver/report.md
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_combiner_smoke_codex_ver/metrics.csv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_combiner_smoke_codex_ver/family_slices.csv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_combiner_smoke_codex_ver/pairwise.csv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/independent_combiner_smoke_codex_ver/matched_pairs.jsonl
+```
+
+Result:
+
+```text
+status = independent_combiner_no_strong_signal
+```
+
+Grouped-by-scan main deltas:
+
+| Comparison | Delta AUPRC | Delta Brier |
+| --- | ---: | ---: |
+| `factorized - semantic_plus_geometry` | -0.0013 | +0.0016 |
+| `residual - semantic_plus_geometry` | -0.1010 | +0.0184 |
+| `gated - semantic_plus_geometry` | -0.0969 | +0.0186 |
+| `factorized - negative_rank_only` | +0.1412 | -0.0289 |
+
+Interpretation:
+
+```text
+Factorized beats the negative-rank proxy, but it does not beat
+semantic_plus_geometry. Residual/gated variants are worse overall. The current
+bootstrap label policy is strongly entangled with family/predicate semantics.
+```
+
+Decision:
+
+```text
+Independent combiner plumbing is complete, but posterior method claims remain
+blocked. The next blocker is label-policy and family/predicate bias.
+```
+
+### Stage 33. Label Policy Audit
+
+Document:
+
+```text
+50_label_policy_audit.md
+```
+
+Purpose:
+
+- test whether `(codex_ver_blind)` labels are recoverable from family/predicate
+  policy.
+- export family-balanced, predicate-balanced, and proximity-only target variants.
+- rerun train-only grouped smoke on those variants.
+- decide whether posterior method claims remain plausible.
+
+Key artifacts:
+
+```text
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/label_policy_audit_codex_ver/summary.json
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/label_policy_audit_codex_ver/report.md
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/label_policy_audit_codex_ver/group_policy_table.csv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/label_policy_audit_codex_ver/metrics.csv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/label_policy_audit_codex_ver/comparisons.csv
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/label_policy_audit_codex_ver/family_balanced_codex_ver_blind.jsonl
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/label_policy_audit_codex_ver/predicate_balanced_codex_ver_blind.jsonl
+artifacts/train_rga_seed/open3dsg_train_pilot/rga/label_policy_audit_codex_ver/proximity_only_codex_ver_blind.jsonl
+```
+
+Result:
+
+```text
+status = label_policy_entangled
+```
+
+Main finding:
+
+| Key | Majority Accuracy | NMI |
+| --- | ---: | ---: |
+| `predicate_family` | 0.7067 | 0.1931 |
+| `predicate_label` | 0.7067 | 0.2505 |
+| `rank_band` | 0.6533 | 0.0980 |
+
+Balanced target result:
+
+| Target | Rows | Positive | Negative |
+| --- | ---: | ---: | ---: |
+| `family_balanced_codex_ver_blind` | 44 | 22 | 22 |
+| `predicate_balanced_codex_ver_blind` | 44 | 22 | 22 |
+| `proximity_only_codex_ver_blind` | 27 | 15 | 12 |
+
+Decision:
+
+```text
+The current bootstrap target is too entangled with predicate/family policy to
+support posterior novelty. H002 should not escalate the posterior method claim
+without new human labels or a much tighter target protocol.
+```
+
+### Stage 34. Posterior Path Decision
+
+Document:
+
+```text
+51_posterior_path_decision.md
+```
+
+Purpose:
+
+- decide whether the posterior remains a method candidate.
+- answer whether changing posterior combination could improve H002.
+- separate model-formulation potential from current label-policy blocker.
+- define minimum evidence required to revive posterior claims.
+
+Decision:
+
+```text
+posterior_path_deferred
+```
+
+Meaning:
+
+```text
+Posterior remains a conditional future method candidate, but it should not be
+the near-term H002 main contribution.
+```
+
+Current best main direction:
+
+```text
+RGA benchmark / diagnostic framework / failure taxonomy
+```
+
+Posterior revival candidates:
+
+| Candidate | Role |
+| --- | --- |
+| semantic-prior residual posterior | strongest conceptual match |
+| family-specific hierarchical posterior | useful after family-balanced labels |
+| coverage-gated geometry model | useful after uncertainty-rich labels |
+| pairwise rank-matched reliability ranking | useful for small controlled labels |
+| debiased/orthogonalized factor posterior | tests independent geometry signal |
+| selective/abstention-aware posterior | models uncertain/unsupported cases |
+| monotonic calibrated posterior | improves calibration defensibility |
+
+Feasibility-check reuse rule:
+
+```text
+feasibility_check.md is reused as the method map, but with staged entry.
+```
+
+Immediate use:
+
+- multi-view/mesh/contact-sheet evidence is audit evidence, not model input.
+- use it to distinguish `true_underconfidence`, `dense_relation_noise`,
+  `annotation_sparsity`, `ontology_mismatch`, and visual/mesh uncertainty.
+- keep relation-family expansion in the order
+  `support_contact -> attachment_deferred -> relative_vertical`.
+
+Deferred use:
+
+- `V_mv_e` enters the posterior only after the current
+  `S_e + G_e + C_e + U_e` target passes an independent-label gate.
+- residual/gated/pairwise/debiased/product-of-experts/hierarchical/monotonic
+  combiners are posterior revival candidates, not current main-claim evidence.
+
+Minimum revival gate:
+
+```text
+human-confirmed predicate/family-controlled labels, >=150 binary usable rows,
+per-family minority >=15, grouped CV gain over semantic_plus_geometry, and
+predicate/family/rank proxy controls passed.
+```
+
+### Stage 35. RGA Main Framing
+
+Document:
+
+```text
+52_rga_main_framing.md
+```
+
+Purpose:
+
+- reframe near-term H002 around RGA benchmark, diagnostic framework, and failure
+  taxonomy.
+- keep posterior as a conditional method candidate.
+- adopt full-train expansion before opening validation/test.
+- connect `feasibility_check.md` to audit evidence and posterior revival.
+
+Decision:
+
+```text
+full_train_expansion_before_validation
+```
+
+Meaning:
+
+```text
+Expand H002 from the Open3DSG train pilot to full train, keep validation/test
+closed, use RGA as the main framework, and use full train to mine controlled
+labels and test whether posterior signal survives shortcut controls.
+```
+
+Full-train expansion purpose:
+
+- pilot train failure does not falsify H002 posterior on the full train
+  distribution.
+- full train can provide more balanced family/predicate/rank-controlled targets.
+- validation/test must remain closed until target, features, metrics, baselines,
+  and posterior combiner are frozen.
+
+Immediate full-train gates:
+
+1. freeze full-train source scope and row identity.
+2. generate full-train RGA rows for train split only.
+3. measure RGA-HL/RGA-LH, coverage, uncertainty, and label-axis distributions.
+4. mine controlled label targets with at least 150 binary rows and family
+   minority support.
+5. run train-only grouped CV against semantic, geometry, semantic+geometry, and
+   proxy controls.
+
+Next document:
+
+```text
+53_full_train_scope_contract.md
+```
+
+### Stage 36. Full Train Scope Contract
+
+Document:
+
+```text
+53_full_train_scope_contract.md
+```
+
+Purpose:
+
+- define full-train source scope before any execution.
+- separate the full-train artifact root from the train-pilot root.
+- decide which pilot tools can be reused and which must be parameterized.
+- keep validation/test closed.
+
+Decision:
+
+```text
+full_train_scope_contract_ready_no_execution
+```
+
+Scope:
+
+```text
+open3dsg_train_full
+```
+
+Expected planning counts from the existing pilot manifest:
+
+| Item | Count |
+| --- | ---: |
+| official train subset contexts | 3,852 |
+| ready candidate train contexts | 3,738 |
+| dropped preprocess-not-ready contexts | 108 |
+| dropped no-relationship contexts | 6 |
+
+Artifact root:
+
+```text
+artifacts/train_rga_full/open3dsg_train_full/
+```
+
+Key implementation decision:
+
+```text
+The pilot source-contract runner is not reusable as-is because it selects one
+representative subgraph per scan. Full train requires all ready train contexts.
+```
+
+Next document:
+
+```text
+54_full_train_source_runner.md
+```
+
+### Stage 37. Full Train Source Runner
+
+Document:
+
+```text
+54_full_train_source_runner.md
+```
+
+Purpose:
+
+- implement the all-ready full-train source contract runner.
+- create the full-train source contract artifact.
+- verify train-only provenance and no validation/test source leakage.
+
+Added tool:
+
+```text
+tools/full_train_source_contract.py
+```
+
+Result:
+
+```text
+status = full_train_source_contract_ready
+```
+
+Output root:
+
+```text
+artifacts/train_rga_full/open3dsg_train_full/source_contract/
+```
+
+Counts:
+
+| Item | Count |
+| --- | ---: |
+| official train subset contexts | 3,852 |
+| ready candidate contexts | 3,738 |
+| selected contexts | 3,738 |
+| selected scans | 1,157 |
+| selected relationships | 79,704 |
+| dropped preprocess-not-ready | 108 |
+| dropped no-relationship | 6 |
+
+Primary family coverage:
+
+| Family | GT relations |
+| --- | ---: |
+| `support_contact` | 12,600 |
+| `proximity` | 12,300 |
+| `relative_vertical` | 3,552 |
+
+Next document:
+
+```text
+55_full_train_runtime_stage.md
+```
+
+### Stage 38. Full Train Runtime Stage
+
+Document:
+
+```text
+55_full_train_runtime_stage.md
+```
+
+Purpose:
+
+- parameterize the H002 runtime staging tool for full train.
+- create `compose.open3dsg_train_full.yaml`.
+- stage an isolated full-train Open3DSG runtime.
+- run Docker preflight before raw dump launch.
+
+Decision:
+
+```text
+full_train_runtime_preflight_ready
+```
+
+Runtime root:
+
+```text
+local_dataset/Open3DSG_staged/h002_train_full_runtime
+```
+
+Runtime stage result:
+
+| Item | Count |
+| --- | ---: |
+| contexts | 3,738 |
+| selected scans | 1,157 |
+| linked scans | 1,157 |
+| sequence-ready scans | 1,157 |
+| missing feature contexts | 0 |
+
+Docker preflight:
+
+| Gate | Passed |
+| --- | --- |
+| checkpoint | true |
+| runtime | true |
+| scope | true |
+| imports | true |
+
+Raw dump contract:
+
+```text
+contract_ready_raw_dump_missing
+```
+
+Next document:
+
+```text
+56_full_train_raw_dump.md
+```
+
+### Stage 39. Full Train Raw Dump
+
+Document:
+
+```text
+56_full_train_raw_dump.md
+```
+
+Purpose:
+
+- launch the full-train Open3DSG raw dump in a resumable background session.
+- keep log and exit files under `logs/`.
+- block adapter export until raw dump completeness is verified.
+
+Current status:
+
+```text
+full_train_raw_dump_complete
+```
+
+tmux session:
+
+```text
+h002_open3dsg_train_full_raw_20260615_180429
+```
+
+Log:
+
+```text
+logs/h002_open3dsg_train_full_raw_20260615_180429.log
+```
+
+Exit file:
+
+```text
+logs/h002_open3dsg_train_full_raw_20260615_180429.exit
+```
+
+Completion evidence:
+
+| Item | Count / Status |
+| --- | ---: |
+| process exit code | 0 |
+| stream manifest status | `raw_dump_stream_complete` |
+| completed batches | 3,738 |
+| raw rows | 186,218 |
+| completed rows | 3,738 |
+
+Raw repair/dedup:
+
+| Item | Count / Status |
+| --- | ---: |
+| repair status | `ready` |
+| input rows | 186,218 |
+| output rows | 186,139 |
+| duplicate groups | 79 |
+| duplicate extra rows | 79 |
+| malformed identity rows | 0 |
+| noncontiguous subgraph repeats | 0 |
+
+Key artifacts:
+
+```text
+artifacts/train_rga_full/open3dsg_train_full/raw_dump/raw.jsonl
+artifacts/train_rga_full/open3dsg_train_full/raw_dump/raw.dedup.jsonl
+artifacts/train_rga_full/open3dsg_train_full/raw_dump/stream_manifest.json
+artifacts/train_rga_full/open3dsg_train_full/raw_dump/repair_manifest.json
+```
+
+Next document:
+
+```text
+57_full_train_adapter_export.md
+```
+
+### Stage 40. Full Train Adapter Export
+
+Document:
+
+```text
+57_full_train_adapter_export.md
+```
+
+Purpose:
+
+- convert repaired full-train Open3DSG raw rows into identity-preserving
+  prediction rows.
+- avoid the existing pilot exporter's list-in-memory path at full-train scale.
+- preserve train subset provenance.
+- keep validation/test closed.
+
+Added tool:
+
+```text
+tools/export_full_train_adapter.py
+```
+
+Decision:
+
+```text
+full_train_adapter_export_ready
+```
+
+Result:
+
+| Item | Count / Status |
+| --- | ---: |
+| contexts | 3,738 |
+| raw rows read | 186,139 |
+| prediction rows | 4,818,996 |
+| subgraphs written | 3,738 |
+| conversion errors | 0 |
+| adapter warnings | 793 |
+| `relationships_validation`/`h001_validation` in prediction provenance | no match |
+
+Warning breakdown:
+
+| Warning | Count |
+| --- | ---: |
+| `raw_edge_outside_context_filtered` | 786 |
+| `same_endpoint_skipped` | 7 |
+
+Key artifact:
+
+```text
+artifacts/train_rga_full/open3dsg_train_full/adapter/predictions.jsonl
+```
+
+Family prediction rows:
+
+| Family | Rows |
+| --- | ---: |
+| `support_contact` | 556,038 |
+| `proximity` | 185,346 |
+| `relative_vertical` | 370,692 |
+| `relative_horizontal` | 741,384 |
+| `attachment_deferred` | 556,038 |
+| `unsupported_first_pass` | 2,409,498 |
+
+Next action:
+
+```text
+full_train_geometry_join
+```
+
+### Stage 41. Full Train Geometry Join
+
+Document:
+
+```text
+58_full_train_geometry_join.md
+```
+
+Purpose:
+
+- join full-train prediction rows with H001 frozen geometry verifier evidence.
+- preserve all full-train prediction rows.
+- produce deterministic geometry status and geometry-only `p_geom_valid`.
+- keep validation/test closed.
+
+Current status:
+
+```text
+full_train_geometry_join_ready_with_exit_file_caveat
+```
+
+tmux session:
+
+```text
+h002_open3dsg_train_full_geometry_20260616_120342
+```
+
+Input:
+
+| Item | Count |
+| --- | ---: |
+| prediction rows | 4,818,996 |
+| selected train scans | 1,157 |
+
+Output root:
+
+```text
+artifacts/train_rga_full/open3dsg_train_full/geometry/
+```
+
+Completion gate:
+
+```text
+manifest.status = ready
+counts.predictions = 4,818,996
+counts.verification_rows = 4,818,996
+counts.rows_preserved = true
+errors = []
+```
+
+Result:
+
+| Item | Count / Status |
+| --- | ---: |
+| manifest status | `ready` |
+| verification rows | 4,818,996 |
+| rows preserved | true |
+| primary family rows | 1,112,076 |
+| unsupported family rows | 3,706,920 |
+| calibration scored rows | 1,112,076 |
+| warnings | 9 |
+| exit file | missing wrapper caveat |
+
+Status counts:
+
+| Status | Rows |
+| --- | ---: |
+| `satisfied` | 474,898 |
+| `uncertain` | 490,410 |
+| `violated` | 146,768 |
+| `unsupported` | 3,706,920 |
+
+Next action:
+
+```text
+full_train_rga_rows
+```
+
+### Stage 42. Full Train RGA Rows
+
+Document:
+
+```text
+59_full_train_rga_rows.md
+```
+
+Purpose:
+
+- join full-train prediction rows, geometry verification rows, and train GT
+  relation labels.
+- compute full-train RGA buckets and label-axis distribution.
+- produce HL/LH queues for later controlled label mining.
+- keep validation/test closed.
+
+Current status:
+
+```text
+full_train_rga_rows_ready_with_exit_file_caveat
+```
+
+tmux session:
+
+```text
+h002_open3dsg_train_full_rga_20260616_161755
+```
+
+Input:
+
+| Item | Count |
+| --- | ---: |
+| prediction rows | 4,818,996 |
+| geometry rows | 4,818,996 |
+| selected train contexts | 3,738 |
+| selected train scans | 1,157 |
+| selected GT relations | 79,704 |
+
+Output root:
+
+```text
+artifacts/train_rga_full/open3dsg_train_full/rga/
+```
+
+Completion gate:
+
+```text
+summary.status = ready
+validation.rows_written = 4,818,996
+validation.prediction_geometry_mismatches = 0
+validation.validation_error_count = 0
+```
+
+Result:
+
+| Item | Count / Status |
+| --- | ---: |
+| summary status | `ready` |
+| prediction rows | 4,818,996 |
+| geometry rows | 4,818,996 |
+| rows written | 4,818,996 |
+| prediction-geometry mismatches | 0 |
+| validation errors | 0 |
+| HL queue rows | 1,828 |
+| LH queue rows | 455,598 |
+| exit file | missing wrapper caveat |
+
+Primary full-train RGA metrics:
+
+| Metric | K=50 | K=100 |
+| --- | ---: | ---: |
+| `RGA-HL@K` | 3.02% | 4.96% |
+| `RGA-valid@K` | 61.90% | 52.39% |
+| `RGA-coverage@K` | 2.91% | 9.86% |
+| `RGA-LH-tail@K` | 42.61% | 42.37% |
+
+Full-train top100 buckets:
+
+| Bucket | Rows |
+| --- | ---: |
+| `RGA-HH` | 19,300 |
+| `RGA-HL` | 1,828 |
+| `RGA-HU` | 15,714 |
+| `RGA-HM` | 336,910 |
+| `RGA-LH` | 455,598 |
+| `RGA-LL` | 144,940 |
+| `RGA-LU` | 474,696 |
+| `RGA-LM` | 3,370,010 |
+
+Next action:
+
+```text
+full_train_controlled_label_mining
+```
+
 ## RGA To Factorized Reliability
 
 RGA is the measurement framework. Factorized reliability posterior is the later
@@ -1725,6 +2696,171 @@ Primary observation:
   dense relation noise, and uncertain cases.
 - Therefore H002 must remain bidirectional and audit-aware.
 
+## Current Open3DSG Full Train Instantiation
+
+Scope:
+
+```text
+Open3DSG train full
+3,738 train subgraphs
+1,157 scans
+4,818,996 prediction rows
+```
+
+Current completed stages:
+
+- full-train source contract.
+- isolated full-train runtime stage.
+- Docker preflight.
+- raw dump completion.
+- raw repair/dedup.
+- streaming adapter export.
+- streaming geometry join.
+- full-train RGA row construction.
+- controlled HL/LH candidate mining.
+- controlled codex label readiness.
+- controlled `(codex_ver_full_train)` label fill.
+- train-only posterior smoke.
+- label-policy audit.
+- independent blind label protocol.
+- independent asset packet generation.
+- asset packet gap audit.
+
+Current full-train diagnostic status:
+
+```text
+full_train_independent_combiner_path_decision_factor_revision_first
+```
+
+Core finding:
+
+- Full-train RGA exposes large bidirectional mismatch mass:
+  `RGA-HL@100=4.96%`, `RGA-LH-tail@100=42.37%`.
+- The controlled bootstrap target is executable with 173 binary rows.
+- `factorized_reliability_posterior` is only slightly better than
+  `semantic_plus_geometry` on the bootstrap target.
+- `proposed_audit_role` and `label_match_status` recover the target almost
+  perfectly, so the current target cannot validate posterior novelty.
+- A rank/role-hidden independent label protocol is now ready.
+- Independent asset packets are ready for 347/360 rows and partial for 13/360
+  rows; label-facing leakage audit passes.
+- Asset packet gap audit keeps 355/360 rows for label fill and excludes 5 rows
+  before label fill.
+- Independent label readiness passes on 355/360 rows: schema/path/leakage errors
+  are 0, and the 179-row priority sheet is also ready.
+- Codex-version independent label fill produces 355 labels with 283 binary-usable
+  rows: 155 positive and 128 negative. These are bootstrap labels, not
+  human-confirmed paper evidence.
+- Independent label ingestion succeeds with 355 validated labels, 283 binary
+  targets, and 0 schema errors, but a basic target probe detects hidden metadata
+  correlation through `proposed_audit_role_hidden` (NMI 0.2897).
+- Target-independence audit confirms the original 283-row target is risky, but
+  `proposed_role_balanced_codex_ver` remains as a 158-row controlled slice with
+  79 positive and 79 negative rows and no hidden group risk under the audit
+  thresholds.
+- Controlled posterior smoke on that slice is executable but shows no strong
+  factorized advantage: grouped AUPRC delta is -0.0047 versus
+  `semantic_plus_geometry`, -0.0039 versus `semantic_only`, and +0.1155 versus
+  `geometry_only`.
+- Controlled error analysis shows why the current combiner is not enough:
+  factorized posterior creates more threshold mistakes than it fixes relative to
+  `semantic_plus_geometry` (`factorized_wrong_sg_correct=10`,
+  `factorized_correct_sg_wrong=1`). The failure is structured by relation family
+  and mismatch direction, so the next method step should design a family-gated,
+  residual, uncertainty-gated combiner rather than adding a larger generic
+  classifier.
+- Combiner upgrade design is now fixed as a train-only hypothesis-stage plan:
+  first smoke `C1_residual_logit_calibrator`, `C2_family_gated_residual`, and
+  `C3_uncertainty_gated_geometry`; defer generic high-capacity GBDT-style and
+  graph factor rescoring until edge-local evidence is stronger.
+- Combiner upgrade smoke shows no safe gain over `semantic_plus_geometry`:
+  `C2_family_gated_residual` gives the best upgraded AUPRC delta (+0.0070) but
+  worsens Brier (+0.0062), while `C3_uncertainty_gated_geometry` improves AUROC,
+  Brier, and threshold transfer but lowers AUPRC. No upgraded view passes the
+  pre-defined progression rule.
+- Combiner upgrade error analysis identifies the blocker: C2 is a
+  ranking-oriented family gate with calibration damage and support-contact
+  overcorrection, while C3 is safer for threshold/Brier and promising for
+  `relative_vertical` / high-semantic-low-geometry slices but hurts global
+  support-contact ranking. This points to a path decision before adding model
+  capacity.
+- Path decision keeps H002 active but freezes the current posterior performance
+  result as a negative/partial boundary. The selected next path is
+  relation-family-specific factor revision before any new smoke. Generic
+  high-capacity combiners remain deferred, and posterior improvement over
+  `semantic_plus_geometry` remains a blocked claim.
+- Factor revision design confirms that full-train raw geometry witness fields
+  are available for `support_contact`, `relative_vertical`, and `proximity`, but
+  not for unsupported families. The next step is to materialize revised factor
+  blocks from continuous raw geometry evidence rather than using
+  `geometry_status` as a reliability shortcut.
+- Revised factor dataset materialization joins raw geometry witness fields for
+  all 158 controlled rows and adds D1-D4 revised factor views with zero
+  forbidden feature-key hits. This prepares the train-only revised factor smoke
+  but still does not support any posterior performance claim.
+- Revised factor smoke is positive under train-only scan-grouped folds:
+  D1-D4 all improve over `semantic_plus_geometry`, with D4 reaching AUPRC
+  +0.1241 and Brier -0.0462. This is promising hypothesis-stage evidence, but
+  it remains blocked from paper-level posterior claims until error analysis,
+  shortcut controls, and stronger independent labels are complete.
+- Revised factor error analysis shows that D4's gain is not explained solely by
+  `predicate_family`: a family-only offset control has almost no AUPRC gain,
+  while raw-only witness control has strong train-only signal. This keeps the
+  raw-witness factorization path alive but makes raw-witness shortcut controls
+  the next required gate.
+- Revised factor shortcut controls show that row-specific raw witness alignment
+  matters: global raw-witness shuffle flips D4's AUPRC delta negative, and
+  within-family shuffle leaves only a small fraction of the original gain.
+  However, proximity remains unsafe as a ranking claim and typed family
+  interaction still needs family-wise audit. The next gate is therefore claim
+  boundary definition, not another capacity increase.
+- Revised factor claim boundary is now fixed as a hypothesis-stage diagnostic
+  claim. The selected scope is `support_contact + relative_vertical`; proximity
+  is excluded from the main posterior claim and preserved as a failure/risk
+  slice. The method boundary is `RGA-scoped raw-witness residual reliability
+  layer`, not D4 typed family interaction as a final combiner.
+- The selected support/vertical audit packet is ready: 127 selected train-only
+  rows, 72 support_contact and 55 relative_vertical, all with label-ready
+  evidence packets. Labeler-visible sheets expose relation candidate, raw
+  witness values, and asset pointers, while hidden target-construction metadata
+  is kept in a post-label internal reference only. Leakage audit is zero-hit.
+- Support/vertical label readiness is ready for fill: the 127-row sheet passes
+  header, path, hidden-reference, risk-slice, and leakage checks. Allowed review
+  values and the label-to-binary policy are frozen in a completion schema.
+- Support/vertical Codex-version label fill is complete for 127 selected rows:
+  114 binary-usable labels, 40 positives, 74 negatives, and 13 excluded rows.
+  The fill used only visible relation fields and raw witness values; hidden
+  internal reference and target-construction metadata were not read. These are
+  bootstrap labels, not human-confirmed paper evidence.
+- Support/vertical label ingestion is complete with 127 validated labels, 114
+  binary targets, 40 positives, 74 negatives, and 0 ingestion errors. The
+  post-label probe detects hidden metadata correlation
+  (`relation_validity_label_hidden` NMI 0.5710, `label_use_hidden` NMI 0.4506,
+  `rank_band_hidden` NMI 0.2128), so posterior smoke remains blocked until a
+  dedicated target-independence audit constructs or rejects a controlled slice.
+- Support/vertical target-independence audit rejects a strict controlled target:
+  no slice clears prior-label carryover from `relation_validity_label_hidden`
+  and `label_use_hidden`. A 70-row `rank_band_balanced_codex_ver` construction-only
+  diagnostic slice remains, but it is not sufficient for posterior method
+  validation. The next gate is label-policy revision, not posterior smoke.
+- Support/vertical label policy v2 is now defined: direct
+  `independent_relation_label` is removed from the labeler surface, review is
+  split into factual axes, and geometry validity / relation reliability targets
+  are derived only after label lock. The v2 sheet has 127 rows, with 72
+  support_contact and 55 relative_vertical rows.
+- Support/vertical v2 label readiness is complete: the 127-row fill sheet passes
+  schema, packet-path, family-partition, proximity-exclusion, and leakage checks.
+  This unlocks factual-axis fill, not posterior training or paper-level claims.
+- Support/vertical v2 factual-axis fill is complete: 127 rows are filled with
+  endpoint, visibility, geometry answer, evidence strength, informativeness,
+  ontology fit, and uncertainty fields. Direct reliability labels and binary
+  targets are still absent; ingestion must derive targets only after label lock.
+- Support/vertical v2 ingestion is complete: `geometry_validity_target_v2` has
+  100 binary rows with 79 positives and 21 negatives, while
+  `relation_reliability_target_v2` has 106 binary rows with 32 positives and 74
+  negatives. Basic probe still finds hidden prior-label/construction correlation,
+  so posterior smoke remains blocked until dedicated v2 target-independence audit.
+
 ## Claim Boundary
 
 Allowed current claim:
@@ -1738,10 +2874,27 @@ relation-edge level.
 Allowed current diagnostic claim:
 
 ```text
-On the Open3DSG train pilot, RGA exposes both high-semantic/low-geometry and
-low-semantic/high-geometry states. The low-semantic/high-geometry state is large
-but requires audit because it mixes true underconfidence, annotation sparsity,
-ontology mismatch, and dense relation noise.
+On the Open3DSG train full split, RGA exposes both high-semantic/low-geometry
+and low-semantic/high-geometry states. The low-semantic/high-geometry state is
+large but requires independent audit because it mixes true underconfidence,
+annotation sparsity, ontology mismatch, and dense relation noise.
+```
+
+Allowed current revised-factor diagnostic claim:
+
+```text
+Under train-only Codex bootstrap labels, revised raw-witness factorization is
+promising for support_contact and relative_vertical. Its gain largely disappears
+when raw witness blocks are shuffled, so the current positive smoke is not
+explained by predicate-family categorical shortcut alone.
+```
+
+Allowed current method-boundary claim:
+
+```text
+The defensible H002 method boundary is an RGA-scoped raw-witness residual
+reliability layer for support_contact and relative_vertical. D4-style typed
+family interactions are an experimental ablation, not the final method claim.
 ```
 
 Blocked claims:
@@ -1751,6 +2904,13 @@ Blocked claims:
 - working labels are paper-locked human annotations.
 - `p_geom_valid` is full relation reliability.
 - the factorized posterior outperforms rank-controlled baselines.
+- proximity is a safe main ranking claim.
+- typed family interaction is the final method design.
+- the current `(codex_ver_full_train)` bootstrap target validates posterior
+  novelty.
+- blind labels are human-confirmed.
+- label-ready status is a relation reliability label.
+- codex-version independent labels alone validate posterior novelty.
 - held-out validation/test conclusions.
 
 ## Next Step
@@ -1758,13 +2918,19 @@ Blocked claims:
 The next H002 step is:
 
 ```text
-47_independent_label_ingestion.md
+full_train_independent_support_vertical_v2_target_independence_audit
 ```
 
 Goal:
 
-- define completed blind-sheet validation and join-back to `internal_key.jsonl`.
-- prevent hidden fields from leaking into deployable features.
-- materialize independent binary/multiclass targets.
-- prepare residual/gated combiner diagnostics.
-- continue without validation/test rows.
+- determine whether strict controlled target slices exist for geometry validity
+  and relation reliability.
+- separate expected geometry alignment from harmful prior-label carryover.
+- decide whether posterior smoke can proceed or v2 label policy/selection must
+  be revised again.
+- keep proximity outside the main label-ingestion path and preserve it as risk slice.
+- keep generic high-capacity combiners deferred.
+- keep the decision hypothesis-stage and train-only.
+- keep multi-view as audit evidence only, not posterior input.
+- keep validation/test unavailable.
+- continue without paper-level posterior performance claims.

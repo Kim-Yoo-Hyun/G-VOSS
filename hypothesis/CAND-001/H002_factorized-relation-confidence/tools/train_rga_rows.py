@@ -41,6 +41,16 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--source-id", default="open3dsg_train_pilot")
     parser.add_argument("--scope-id", default="open3dsg_train_pilot_100_subgraphs")
     parser.add_argument(
+        "--label-source",
+        default="direct_join_relationships_train_pilot",
+        help="Provenance label for the GT relation join.",
+    )
+    parser.add_argument(
+        "--source-caveat",
+        default="Open3DSG train pilot; hypothesis-stage train-set diagnostic, not held-out paper result.",
+    )
+    parser.add_argument("--split-boundary", default="train pilot only")
+    parser.add_argument(
         "--queue-limit",
         type=int,
         default=0,
@@ -299,7 +309,7 @@ def load_ground_truth(path: Path) -> dict[str, Any]:
     }
 
 
-def match_ground_truth(prediction: dict[str, Any], gt: dict[str, Any]) -> dict[str, Any]:
+def match_ground_truth(prediction: dict[str, Any], gt: dict[str, Any], label_source: str) -> dict[str, Any]:
     key = prediction_key(prediction)
     if None in key[:4]:
         return {
@@ -310,7 +320,7 @@ def match_ground_truth(prediction: dict[str, Any], gt: dict[str, Any]) -> dict[s
             "matched_predicates": [],
             "matched_families": [],
             "in_h001_denominator": None,
-            "label_source": "direct_join_relationships_train_pilot",
+            "label_source": label_source,
         }
 
     exact_rows = gt["exact"].get(key, [])
@@ -323,7 +333,7 @@ def match_ground_truth(prediction: dict[str, Any], gt: dict[str, Any]) -> dict[s
             "matched_predicates": [row["predicate_label"] for row in exact_rows],
             "matched_families": [row["predicate_family"] for row in exact_rows],
             "in_h001_denominator": True,
-            "label_source": "direct_join_relationships_train_pilot",
+            "label_source": label_source,
         }
 
     pair_rows = gt["by_pair"].get(prediction_pair_key(prediction), [])
@@ -336,7 +346,7 @@ def match_ground_truth(prediction: dict[str, Any], gt: dict[str, Any]) -> dict[s
             "matched_predicates": [],
             "matched_families": [],
             "in_h001_denominator": False,
-            "label_source": "direct_join_relationships_train_pilot",
+            "label_source": label_source,
         }
 
     family = prediction_family(prediction)
@@ -350,7 +360,7 @@ def match_ground_truth(prediction: dict[str, Any], gt: dict[str, Any]) -> dict[s
             "matched_predicates": [row["predicate_label"] for row in family_rows],
             "matched_families": [row["predicate_family"] for row in family_rows],
             "in_h001_denominator": False,
-            "label_source": "direct_join_relationships_train_pilot",
+            "label_source": label_source,
         }
 
     return {
@@ -361,7 +371,7 @@ def match_ground_truth(prediction: dict[str, Any], gt: dict[str, Any]) -> dict[s
         "matched_predicates": [row["predicate_label"] for row in pair_rows],
         "matched_families": [row["predicate_family"] for row in pair_rows],
         "in_h001_denominator": False,
-        "label_source": "direct_join_relationships_train_pilot",
+        "label_source": label_source,
     }
 
 
@@ -478,6 +488,7 @@ def make_h002_row(
     context_count: int | None,
     input_paths: dict[str, str],
     created_at: str,
+    source_caveat: str,
 ) -> dict[str, Any]:
     semantic = make_semantic_block(prediction, context_count)
     geometry = make_geometry_block(geometry_row)
@@ -545,7 +556,7 @@ def make_h002_row(
             "selected_verification_policy": nested_get(
                 geometry_row or {}, ("provenance", "selected_verification_policy")
             ),
-            "source_caveat": "Open3DSG train pilot; hypothesis-stage train-set diagnostic, not held-out paper result.",
+            "source_caveat": source_caveat,
             "notes": [
                 "violated is mapped to unsatisfied for H002 RGA buckets",
                 "p_geom_valid is geometry-only continuous evidence, not posterior_edge_valid",
@@ -789,7 +800,7 @@ def build_rows(args: argparse.Namespace) -> tuple[dict[str, Any], list[dict[str,
             if rank is not None and context_count is not None and rank > context_count:
                 rank_gt_context += 1
 
-            gt_match = match_ground_truth(prediction, gt)
+            gt_match = match_ground_truth(prediction, gt, args.label_source)
             row = make_h002_row(
                 args.source_id,
                 args.scope_id,
@@ -799,6 +810,7 @@ def build_rows(args: argparse.Namespace) -> tuple[dict[str, Any], list[dict[str,
                 context_count,
                 input_paths,
                 created_at,
+                args.source_caveat,
             )
             output.write(json.dumps(row, sort_keys=True, ensure_ascii=False, separators=(",", ":")) + "\n")
             row_count += 1
@@ -913,6 +925,10 @@ def build_rows(args: argparse.Namespace) -> tuple[dict[str, Any], list[dict[str,
             "ground_truth_contexts": gt["contexts"],
             "prediction_contexts": len(context_counts),
             "source_contract_selected_contexts": nested_get(source_contract, ("counts", "pilot_subset_contexts")),
+            "source_contract_selected_contexts_v2": (
+                nested_get(source_contract, ("counts", "selected_contexts"))
+                or nested_get(source_contract, ("counts", "pilot_subset_contexts"))
+            ),
         },
         "counts": {
             "geometry_status": {
@@ -972,7 +988,7 @@ def build_rows(args: argparse.Namespace) -> tuple[dict[str, Any], list[dict[str,
             "validation_error_count": len(validation_errors),
         },
         "boundary": {
-            "split": "train pilot only",
+            "split": args.split_boundary,
             "not_paper_result": True,
             "geometry_bucket_rule": "deterministic H001 status, with violated mapped to H002 unsatisfied",
             "continuous_score_rule": "p_geom_valid is geometry-only evidence used for disagreement, not the H002 posterior",

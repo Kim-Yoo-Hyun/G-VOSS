@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Stage an isolated Open3DSG runtime for the H002 train pilot raw dump."""
+"""Stage an isolated Open3DSG runtime for H002 train-origin raw dumps."""
 
 from __future__ import annotations
 
@@ -39,6 +39,10 @@ def parse_args() -> argparse.Namespace:
             "train_rga_seed/open3dsg_train_pilot/source_contract"
         ),
     )
+    parser.add_argument("--contexts-file-name", default="pilot_contexts.jsonl")
+    parser.add_argument("--subset-file-name", default="relationships_train_pilot.json")
+    parser.add_argument("--scope-label", default="train_pilot")
+    parser.add_argument("--report-title", default="H002 Open3DSG Train Pilot Runtime Stage")
     parser.add_argument(
         "--feature-load-dir",
         type=Path,
@@ -220,14 +224,14 @@ def feature_gate(feature_load_dir: Path, contexts: list[dict[str, Any]]) -> dict
 
 def make_report(payload: dict[str, Any]) -> str:
     lines = [
-        "# H002 Open3DSG Train Pilot Runtime Stage",
+        f"# {payload['report_title']}",
         "",
         f"Status: `{payload['status']}`",
         "",
         "## Counts",
         "",
         f"- selected scans: `{payload['counts']['selected_scans']}`",
-        f"- pilot contexts: `{payload['counts']['pilot_contexts']}`",
+        f"- contexts: `{payload['counts']['contexts']}`",
         f"- linked scans: `{payload['counts']['linked_scans']}`",
         f"- sequence-ready scans: `{payload['counts']['sequence_ready_scans']}`",
         f"- missing feature contexts: `{payload['feature_gate']['missing_contexts']}`",
@@ -257,29 +261,29 @@ def main() -> int:
 
     source_contract = source_contract_dir / "source_contract.json"
     selected_scans_path = source_contract_dir / "selected_scans.txt"
-    pilot_contexts_path = source_contract_dir / "pilot_contexts.jsonl"
-    pilot_subset_path = source_contract_dir / "relationships_train_pilot.json"
+    contexts_path = source_contract_dir / args.contexts_file_name
+    source_subset_path = source_contract_dir / args.subset_file_name
 
     blockers: list[str] = []
     for label, path in {
         "source_contract": source_contract,
         "selected_scans": selected_scans_path,
-        "pilot_contexts": pilot_contexts_path,
-        "pilot_subset": pilot_subset_path,
+        "contexts": contexts_path,
+        "source_subset": source_subset_path,
     }.items():
         if not path.is_file():
             blockers.append(f"missing_{label}:{relpath(repo_root, path)}")
 
     selected_scans: list[str] = []
     contexts: list[dict[str, Any]] = []
-    pilot_subset: dict[str, Any] = EMPTY_SUBSET
+    source_subset: dict[str, Any] = EMPTY_SUBSET
     if not blockers:
         contract = load_json(source_contract)
         if contract.get("status") != "ready":
             blockers.append(f"source_contract_not_ready:{contract.get('status')}")
         selected_scans = read_lines(selected_scans_path)
-        contexts = load_jsonl(pilot_contexts_path)
-        pilot_subset = load_json(pilot_subset_path)
+        contexts = load_jsonl(contexts_path)
+        source_subset = load_json(source_subset_path)
 
     records: list[dict[str, Any]] = []
     subset_records: list[dict[str, Any]] = []
@@ -317,7 +321,7 @@ def main() -> int:
     for filename in ("classes.txt", "relationships.txt", "relationships.json"):
         subset_records.append(copy_file(repo_root, subset_src_root / filename, runtime_subset / filename))
 
-    subset_records.append(write_json_payload(repo_root, runtime_subset / "relationships_validation.json", pilot_subset))
+    subset_records.append(write_json_payload(repo_root, runtime_subset / "relationships_validation.json", source_subset))
     subset_records.append(write_json_payload(repo_root, runtime_subset / "relationships_train.json", EMPTY_SUBSET))
     subset_records.append(write_json_payload(repo_root, runtime_subset / "relationships_test.json", EMPTY_SUBSET))
     subset_records.append(write_lines(runtime_subset / "validation_scans.txt", selected_scans))
@@ -382,41 +386,50 @@ def main() -> int:
     if feature_result["status"] != "ready":
         blockers.append(f"features_missing:{feature_result['missing_contexts']}/{feature_result['checked_contexts']}")
 
+    paths_payload = {
+        "runtime_root": relpath(repo_root, runtime_root),
+        "runtime_r3scan_root": relpath(repo_root, runtime_r3scan),
+        "runtime_subset_root": relpath(repo_root, runtime_subset),
+        "runtime_source_root": relpath(repo_root, runtime_root / "source/open3dsg_source"),
+        "source_contract": relpath(repo_root, source_contract),
+        "selected_scans": relpath(repo_root, selected_scans_path),
+        "contexts": relpath(repo_root, contexts_path),
+        "source_subset": relpath(repo_root, source_subset_path),
+        "feature_load_dir": relpath(repo_root, feature_load_dir),
+        "records": relpath(repo_root, out_dir / "records.jsonl"),
+        "subset_records": relpath(repo_root, out_dir / "subset_records.jsonl"),
+        "metadata_records": relpath(repo_root, out_dir / "metadata_records.jsonl"),
+        "runtime_records": relpath(repo_root, out_dir / "runtime_records.jsonl"),
+    }
+    counts_payload = {
+        "selected_scans": len(selected_scans),
+        "contexts": len(source_subset.get("scans", [])),
+        "linked_scans": linked_scans,
+        "sequence_ready_scans": sequence_ready,
+    }
+    if args.scope_label == "train_pilot":
+        paths_payload["pilot_subset"] = relpath(repo_root, source_subset_path)
+        counts_payload["pilot_contexts"] = len(source_subset.get("scans", []))
+
     payload = {
         "schema_version": SCHEMA_VERSION,
         "created_at": utc_now(),
         "status": "ready" if not blockers else "blocked",
-        "paths": {
-            "runtime_root": relpath(repo_root, runtime_root),
-            "runtime_r3scan_root": relpath(repo_root, runtime_r3scan),
-            "runtime_subset_root": relpath(repo_root, runtime_subset),
-            "runtime_source_root": relpath(repo_root, runtime_root / "source/open3dsg_source"),
-            "source_contract": relpath(repo_root, source_contract),
-            "selected_scans": relpath(repo_root, selected_scans_path),
-            "pilot_subset": relpath(repo_root, pilot_subset_path),
-            "feature_load_dir": relpath(repo_root, feature_load_dir),
-            "records": relpath(repo_root, out_dir / "records.jsonl"),
-            "subset_records": relpath(repo_root, out_dir / "subset_records.jsonl"),
-            "metadata_records": relpath(repo_root, out_dir / "metadata_records.jsonl"),
-            "runtime_records": relpath(repo_root, out_dir / "runtime_records.jsonl"),
-        },
-        "counts": {
-            "selected_scans": len(selected_scans),
-            "pilot_contexts": len(pilot_subset.get("scans", [])),
-            "linked_scans": linked_scans,
-            "sequence_ready_scans": sequence_ready,
-        },
+        "paths": paths_payload,
+        "counts": counts_payload,
         "feature_gate": feature_result,
         "record_status_counts": dict(Counter(str(record.get("status")) for record in records)),
         "subset_status_counts": dict(Counter(str(record.get("status")) for record in subset_records)),
         "metadata_status_counts": dict(Counter(str(record.get("status")) for record in metadata_records)),
         "runtime_status_counts": dict(Counter(str(record.get("status")) for record in runtime_records)),
         "blockers": blockers,
+        "report_title": args.report_title,
+        "scope_label": args.scope_label,
         "claim_boundary": (
-            "This stages a train-origin pilot into the Open3DSG eval split because the upstream "
-            "Open3DSG --test path reads validation/test files. It is still train-set H002 evidence "
-            "only if provenance records point to relationships_train_pilot.json and no H001 "
-            "full_validation artifacts are used."
+            "This stages a train-origin H002 subset into the Open3DSG eval split because the "
+            "upstream Open3DSG --test path reads validation filenames. It is still train-set H002 "
+            "evidence only if provenance records point to the H002 train source subset and no "
+            "held-out source artifacts are used."
         ),
     }
 
@@ -436,7 +449,7 @@ def main() -> int:
                 "blockers": blockers,
                 "runtime_root": relpath(repo_root, runtime_root),
                 "selected_scans": len(selected_scans),
-                "pilot_contexts": len(pilot_subset.get("scans", [])),
+                "contexts": len(source_subset.get("scans", [])),
             },
             sort_keys=True,
         )

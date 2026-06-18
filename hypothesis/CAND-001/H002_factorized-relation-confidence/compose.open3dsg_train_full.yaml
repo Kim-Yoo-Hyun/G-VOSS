@@ -1,0 +1,117 @@
+services:
+  open3dsg_base: &open3dsg_base
+    build:
+      context: ../../..
+      dockerfile: experiments/H001_geom_reliability/sources/open3dsg/Dockerfile.repro
+    image: h001-open3dsg-repro:cu128
+    working_dir: /workspace
+    user: "${UID:-1001}:${GID:-1001}"
+    shm_size: "${OPEN3DSG_SHM_SIZE:-16gb}"
+    environment:
+      OPEN3DSG_HOME: /workspace
+      OPEN3DSG_BASE: /workspace/local_dataset/Open3DSG_staged/h002_train_full_runtime
+      OPEN3DSG_DATA: /workspace/local_dataset/Open3DSG_staged/h002_train_full_runtime/data
+      OPEN3DSG_DATA_OUT: /workspace/local_dataset/Open3DSG_staged/h002_train_full_runtime/output
+      HF_HOME: /workspace/local_dataset/model_cache/huggingface
+      TORCH_HOME: /workspace/local_dataset/model_cache/torch
+      TRANSFORMERS_CACHE: /workspace/local_dataset/model_cache/huggingface
+      HOME: /workspace/local_dataset/model_cache/home
+      XDG_CACHE_HOME: /workspace/local_dataset/model_cache/xdg
+      OPEN3DSG_DATASET_LOAD_WORKERS: ${OPEN3DSG_DATASET_LOAD_WORKERS:-1}
+      OPEN3DSG_LAZY_DATASET: ${OPEN3DSG_LAZY_DATASET:-1}
+      OPEN3DSG_EVAL_WORKERS: ${OPEN3DSG_EVAL_WORKERS:-0}
+      OPEN3DSG_CHECKPOINT: ${OPEN3DSG_CHECKPOINT:-/workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt}
+      OPEN3DSG_FEATURE_LOAD_DIR: ${OPEN3DSG_FEATURE_LOAD_DIR:-/workspace/local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3}
+      OPEN3DSG_RAW_DUMP_JSONL: ${OPEN3DSG_RAW_DUMP_JSONL:-/workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/raw_dump/raw.jsonl}
+      OPEN3DSG_RAW_DUMP_COMPLETED_JSONL: ${OPEN3DSG_RAW_DUMP_COMPLETED_JSONL:-/workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/raw_dump/raw.completed.jsonl}
+      OPEN3DSG_RAW_DUMP_MANIFEST_JSON: ${OPEN3DSG_RAW_DUMP_MANIFEST_JSON:-/workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/raw_dump/stream_manifest.json}
+      OPEN3DSG_RAW_DUMP_STREAM_BATCHES: ${OPEN3DSG_RAW_DUMP_STREAM_BATCHES:-1}
+      OPEN3DSG_RAW_DUMP_RESUME: ${OPEN3DSG_RAW_DUMP_RESUME:-1}
+      OPEN3DSG_RAW_DUMP_EXIT_AFTER_WRITE: ${OPEN3DSG_RAW_DUMP_EXIT_AFTER_WRITE:-1}
+      OPEN3DSG_BASELINE_RUN_ID: ${OPEN3DSG_BASELINE_RUN_ID:-open3dsg_train_full_epoch13_step13104}
+      OPEN3DSG_MODEL_SOURCE_STAGE: ${OPEN3DSG_MODEL_SOURCE_STAGE:-official_non_avg_blip_train_full}
+      OPEN3DSG_BLIP_GENERATE_MAX_NEW_TOKENS: ${OPEN3DSG_BLIP_GENERATE_MAX_NEW_TOKENS:-20}
+      OPEN3DSG_BLIP_EMBED_CHUNK_SIZE: ${OPEN3DSG_BLIP_EMBED_CHUNK_SIZE:-1}
+      OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE: ${OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE:-1}
+      PYTORCH_CUDA_ALLOC_CONF: ${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True,max_split_size_mb:64}
+    volumes:
+      - ../../..:/workspace
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  stage_runtime:
+    <<: *open3dsg_base
+    deploy: {}
+    command: >
+      bash -lc "python /workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/tools/stage_train_raw_dump_runtime.py
+      --repo-root /workspace
+      --runtime-root /workspace/local_dataset/Open3DSG_staged/h002_train_full_runtime
+      --source-contract-dir /workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/source_contract
+      --contexts-file-name train_contexts.jsonl
+      --subset-file-name relationships_train_full.json
+      --out-dir /workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/runtime_stage
+      --scope-label train_full
+      --report-title 'H002 Open3DSG Full Train Runtime Stage'
+      --write"
+
+  preflight:
+    <<: *open3dsg_base
+    working_dir: /workspace/local_dataset/Open3DSG_staged/h002_train_full_runtime/source/open3dsg_source
+    command: >
+      bash -lc "python /workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/tools/stage_train_raw_dump_runtime.py
+      --repo-root /workspace
+      --runtime-root /workspace/local_dataset/Open3DSG_staged/h002_train_full_runtime
+      --source-contract-dir /workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/source_contract
+      --contexts-file-name train_contexts.jsonl
+      --subset-file-name relationships_train_full.json
+      --out-dir /workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/runtime_stage
+      --scope-label train_full
+      --report-title 'H002 Open3DSG Full Train Runtime Stage'
+      --write &&
+      python /workspace/src/geocalib/open3dsg_eval_preflight.py
+      --repo-root /workspace
+      --runtime-root /workspace/local_dataset/Open3DSG_staged/h002_train_full_runtime
+      --selected-scans /workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/source_contract/selected_scans.txt
+      --subset-json /workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/source_contract/relationships_train_full.json
+      --checkpoint "$${OPEN3DSG_CHECKPOINT}"
+      --raw-dump-jsonl "$${OPEN3DSG_RAW_DUMP_JSONL}"
+      --out /workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/preflight
+      --expected-contexts 3738
+      --ensure-dirs
+      --check-imports"
+
+  raw_dump_train_full:
+    <<: *open3dsg_base
+    working_dir: /workspace/local_dataset/Open3DSG_staged/h002_train_full_runtime/source/open3dsg_source
+    command: >
+      bash -lc "python /workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/tools/stage_train_raw_dump_runtime.py
+      --repo-root /workspace
+      --runtime-root /workspace/local_dataset/Open3DSG_staged/h002_train_full_runtime
+      --source-contract-dir /workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/source_contract
+      --contexts-file-name train_contexts.jsonl
+      --subset-file-name relationships_train_full.json
+      --out-dir /workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/runtime_stage
+      --scope-label train_full
+      --report-title 'H002 Open3DSG Full Train Runtime Stage'
+      --write &&
+      python /workspace/src/geocalib/open3dsg_eval_preflight.py
+      --repo-root /workspace
+      --runtime-root /workspace/local_dataset/Open3DSG_staged/h002_train_full_runtime
+      --selected-scans /workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/source_contract/selected_scans.txt
+      --subset-json /workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/source_contract/relationships_train_full.json
+      --checkpoint "$${OPEN3DSG_CHECKPOINT}"
+      --raw-dump-jsonl "$${OPEN3DSG_RAW_DUMP_JSONL}"
+      --out /workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/preflight
+      --expected-contexts 3738
+      --ensure-dirs
+      --check-imports &&
+      mkdir -p \"$$(dirname \"$${OPEN3DSG_RAW_DUMP_JSONL}\")\" &&
+      python open3dsg/scripts/run.py --test --dataset 3rscan --checkpoint \"$${OPEN3DSG_CHECKPOINT}\"
+      --n_beams 5 --weight_2d 0.5 --clip_model OpenSeg --node_model ViT-L/14@336px --blip --gt_objects
+      --workers \"$${OPEN3DSG_EVAL_WORKERS}\"
+      --load_features \"$${OPEN3DSG_FEATURE_LOAD_DIR}\""
