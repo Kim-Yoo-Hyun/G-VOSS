@@ -1,6 +1,6 @@
 # CAND-001 Hypothesis Branches
 
-Last updated: 2026-06-18 KST
+Last updated: 2026-06-20 KST
 
 이 폴더는 CAND-001에서 H001 이후에 열린 hypothesis-stage branch를 관리한다. H001/GeoCalib의 paper-facing experiment, result, and manuscript files are not owned here and must not be modified from this branch.
 
@@ -22,5 +22,6 @@ Last updated: 2026-06-18 KST
 1. `H003_Embedding/01_overview.md`
 2. `H003_Embedding/02_method.md`
 3. `H003_Embedding/03_feasibility.md`
-4. `H003_Embedding/TODO.md`
-
+4. `H003_Embedding/04_dataset_contract.md`
+5. `H003_Embedding/05_smoke_protocol.md`
+6. `H003_Embedding/TODO.md`

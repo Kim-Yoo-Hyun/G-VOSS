@@ -1,6 +1,6 @@
 # H003 Semantic-Geometry Consistency Embedding
 
-Last updated: 2026-06-18 KST
+Last updated: 2026-06-20 KST
 
 ## Status
 
@@ -45,6 +45,28 @@ compatibility(predicate, object semantics, object-pair geometry, source score)
   -> relation validity / consistency score
 ```
 
+## Working Framing
+
+H003 is organized as five method components, but only the first three are active
+in the first gate.
+
+| Component | Role In H003 | Gate Status |
+| --- | --- | --- |
+| `M1 Dual-Channel Relation Edge Representation` | Common edge schema separating semantic, geometry, coverage, uncertainty, label provenance, and corruption provenance. | Active foundation |
+| `M5 Counterfactual Consistency Benchmark` | Evaluation protocol that tests whether a method reacts to geometry corruption instead of only semantic priors. | Active foundation |
+| `M3 Factorized Reliability Posterior` | First deployable method: estimate `P(R_e=1 | S_e, G_e, C_e, U_e, interactions)`. | First smoke target |
+| `M2 Semantic-Geometry Consistency Embedding` | Stronger representation-learning method: align semantic and geometry embeddings for valid tuples and separate counterfactuals. | Second-stage method |
+| `M9 Self-Supervised Consistency Pretraining` | Optional extension for annotation sparsity and transfer. | Future extension only |
+
+The current first-gate hypothesis is therefore:
+
+> If relation edges are represented with separated semantic, geometry, coverage,
+> uncertainty, and corruption provenance fields, a factorized reliability
+> posterior should reduce false-valid relation edges under counterfactual
+> consistency tests more reliably than semantic-only or naive semantic-times-
+> geometry scoring. The learned embedding variant is promoted only if it adds
+> hard-negative, calibration, or transfer value beyond that posterior baseline.
+
 ## Relation To Earlier Branches
 
 H001/GeoCalib:
@@ -63,6 +85,7 @@ H003:
 - turns semantic-geometry agreement into a learned representation problem.
 - treats explicit geometry rules and counterfactual corruptions as supervision, controls, or baselines rather than as the final method itself.
 - is methodologically stronger only if it shows transfer, hard-negative robustness, calibration, or generalization beyond explicit rule scoring.
+- starts with M3 factorized posterior as the interpretable first method and treats M2 embedding as a stronger second-stage method.
 
 ## Initial Claim Boundary
 
@@ -98,4 +121,3 @@ H003 should be deprioritized if:
 - missing GT annotations create excessive false negatives.
 - source transfer across VL-SAT/Open3DSG/Qwen-style outputs fails.
 - performance gains disappear under scene-level split or same-family/rank-matched controls.
-

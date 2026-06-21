@@ -1,6 +1,6 @@
 # H002 RGA Framework
 
-Last updated: 2026-06-18
+Last updated: 2026-06-21
 
 ## Purpose
 
@@ -391,6 +391,67 @@ Documents:
 90_full_train_independent_support_vertical_v2_label_readiness.md
 91_full_train_independent_support_vertical_v2_label_fill.md
 92_full_train_independent_support_vertical_v2_label_ingestion.md
+93_full_train_independent_support_vertical_v2_target_independence_audit.md
+94_full_train_independent_support_vertical_v2_target_path_decision.md
+95_full_train_independent_support_vertical_v2_independent_label_fill.md
+96_full_train_independent_support_vertical_v2_independent_label_ingestion.md
+97_full_train_independent_support_vertical_v2_independent_target_independence_audit.md
+98_full_train_independent_support_vertical_v2_human_label_path.md
+99_full_train_independent_support_vertical_v2_human_label_fill.md
+100_full_train_independent_support_vertical_v2_human_label_ingestion.md
+101_full_train_independent_support_vertical_v2_human_target_independence_audit.md
+102_full_train_independent_support_vertical_v2_external_review_protocol.md
+103_full_train_independent_support_vertical_v2_external_review_fill.md
+104_full_train_independent_support_vertical_v2_external_review_ingestion.md
+105_full_train_independent_support_vertical_v2_external_review_target_independence_audit.md
+106_full_train_independent_support_vertical_v2_true_user_review_path.md
+107_full_train_independent_support_vertical_v2_true_user_review_fill.md
+108_full_train_independent_support_vertical_v2_true_user_review_ingestion.md
+109_full_train_independent_support_vertical_v2_true_user_review_target_independence_audit.md
+110_full_train_independent_support_vertical_v2_true_user_review_target_path_decision.md
+111_full_train_independent_support_vertical_v2_user_submitted_review_ingestion.md
+112_full_train_independent_support_vertical_v2_user_submitted_review_target_independence_audit.md
+113_full_train_independent_support_vertical_v2_reviewer_provenance_decision.md
+114_full_train_independent_support_vertical_v2_user_confirmed_review_ingestion.md
+115_full_train_independent_support_vertical_v2_user_confirmed_review_target_independence_audit.md
+116_full_train_independent_support_vertical_v2_sampling_protocol_decision.md
+117_full_train_independent_support_vertical_v2_revised_sampling_fill.md
+118_full_train_independent_support_vertical_v2_revised_sampling_ingestion.md
+119_full_train_independent_support_vertical_v2_revised_sampling_target_independence_audit.md
+120_full_train_independent_support_vertical_v2_all_label_ready_expansion.md
+121_full_train_independent_support_vertical_v2_revised_sampling_source_feature_join.md
+122_full_train_independent_support_vertical_v2_revised_sampling_controlled_posterior_smoke.md
+123_full_train_independent_support_vertical_v2_revised_sampling_controlled_error_analysis.md
+124_full_train_independent_support_vertical_v2_revised_sampling_factor_definition_repair_plan.md
+125_full_train_independent_support_vertical_v2_revised_sampling_raw_witness_feature_join_v2.md
+126_full_train_independent_support_vertical_v2_revised_sampling_raw_witness_v2_posterior_smoke.md
+127_full_train_independent_support_vertical_v2_revised_sampling_raw_witness_v2_error_analysis.md
+128_full_train_independent_support_vertical_v2_revised_sampling_raw_witness_v2_combiner_repair_plan.md
+129_full_train_independent_support_vertical_v2_revised_sampling_raw_witness_v2_combiner_smoke.md
+130_full_train_independent_support_vertical_v2_revised_sampling_raw_witness_v2_combiner_error_analysis.md
+131_endpoint_controlled_resampling_plan.md
+132_endpoint_controlled_candidate_mining.md
+133_endpoint_controlled_asset_packets.md
+134_endpoint_controlled_label_fill.md
+135_endpoint_controlled_label_ingestion.md
+136_endpoint_controlled_target_independence_audit.md
+137_endpoint_controlled_target_path_decision.md
+138_reliability_target_v3_positive_anchor_plan.md
+139_reliability_target_v3_label_fill.md
+140_reliability_target_v3_label_ingestion.md
+141_reliability_target_v3_target_independence_audit.md
+142_reliability_target_v3_path_decision.md
+143_reliability_target_v3_object_endpoint_controlled_plan.md
+144_reliability_target_v3_object_endpoint_candidate_mining.md
+145_reliability_target_v3_object_endpoint_label_fill.md
+146_reliability_target_v3_object_endpoint_label_ingestion.md
+147_reliability_target_v3_object_endpoint_target_independence_audit.md
+148_reliability_target_v3_object_endpoint_path_decision.md
+149_reliability_target_v3_informative_anchor_plan.md
+150_reliability_target_v3_informative_anchor_candidate_mining.md
+151_reliability_target_v3_informative_anchor_asset_packets.md
+152_reliability_target_v3_informative_anchor_label_fill.md
+153_reliability_target_v3_informative_anchor_label_ingestion.md
 ```
 
 Current full-train status:
@@ -411,6 +472,76 @@ Current full-train status:
 | selected support/vertical v2 label readiness | `ready_for_fill` |
 | selected support/vertical v2 label fill | `filled_no_direct_target` |
 | selected support/vertical v2 label ingestion | `ingested_with_target_risk` |
+| selected support/vertical v2 target independence audit | `strict_blocked_construction_slice_available` |
+| selected support/vertical v2 target path decision | `collect_independent_labels` |
+| selected support/vertical v2 independent label fill | `filled_codex_independent_visible_only` |
+| selected support/vertical v2 independent label ingestion | `ingested_with_basic_probe_risk` |
+| selected support/vertical v2 independent target independence audit | `strict_blocked_construction_slice_available` |
+| selected support/vertical v2 human label path | `collect_human_confirmed_labels` |
+| selected support/vertical v2 human label fill | `filled_codex_proxy_user_review_pending` |
+| selected support/vertical v2 human label ingestion | `ingested_with_basic_probe_risk` |
+| selected support/vertical v2 human target independence audit | `strict_blocked_construction_slice_available` |
+| selected support/vertical v2 external review protocol | `ready` |
+| selected support/vertical v2 external review fill | `filled_codex_proxy_user_requested` |
+| selected support/vertical v2 external review ingestion | `ingested_with_basic_probe_risk` |
+| selected support/vertical v2 external review target independence audit | `strict_blocked_construction_slice_available` |
+| selected support/vertical v2 true user review path | `ready` |
+| selected support/vertical v2 true user review fill | `filled_codex_proxy_pending_confirmation` |
+| selected support/vertical v2 true user review ingestion | `ingested_with_basic_probe_risk` |
+| selected support/vertical v2 true user review target independence audit | `strict_blocked_construction_slice_available` |
+| selected support/vertical v2 true user review target path decision | `collect_real_independent_labels` |
+| selected support/vertical v2 user-submitted review ingestion | `ingested_with_basic_probe_risk` |
+| selected support/vertical v2 user-submitted review target independence audit | `blocked_no_controlled_slice` |
+| selected support/vertical v2 reviewer provenance decision | `collect_external_full127_labels` |
+| selected support/vertical v2 user-confirmed review ingestion | `ingested_with_basic_probe_risk` |
+| selected support/vertical v2 user-confirmed review target independence audit | `blocked_no_controlled_slice` |
+| selected support/vertical v2 sampling protocol decision | `revise_sampling_first_priority160_ready` |
+| selected support/vertical v2 revised sampling fill | `filled_user_confirmed` |
+| selected support/vertical v2 revised sampling ingestion | `ingested_with_basic_probe_risk` |
+| selected support/vertical v2 revised sampling target independence audit | `blocked_no_controlled_slice` |
+| selected support/vertical v2 all-label-ready expansion | `relation_strict_slice_ready` |
+| selected support/vertical v2 revised sampling source feature join | `posterior_ready` |
+| selected support/vertical v2 revised sampling controlled posterior smoke | `no_strong_signal` |
+| selected support/vertical v2 revised sampling controlled error analysis | `feature_family_misalignment` |
+| selected support/vertical v2 revised sampling factor definition repair plan | `ready` |
+| selected support/vertical v2 revised sampling raw witness feature join v2 | `ready` |
+| selected support/vertical v2 revised sampling raw witness v2 posterior smoke | `positive_smoke` |
+| selected support/vertical v2 revised sampling raw witness v2 error analysis | `support_driven_linear_gap` |
+| selected support/vertical v2 revised sampling raw witness v2 combiner repair plan | `ready` |
+| selected support/vertical v2 revised sampling raw witness v2 combiner smoke | `no_new_primary_endpoint_shortcut_risk` |
+| selected support/vertical v2 revised sampling raw witness v2 combiner error analysis | `endpoint_control_needed` |
+| selected support/vertical v2 endpoint-controlled resampling plan | `needs_label_expansion` |
+| selected support/vertical v2 endpoint-controlled candidate mining | `ready_needs_asset_packets` |
+| selected support/vertical v2 endpoint-controlled asset packets | `ready` |
+| selected support/vertical v2 endpoint-controlled label fill | `ready_for_ingestion_positive_sparse` |
+| selected support/vertical v2 endpoint-controlled label ingestion | `positive_sparse_target_audit_needed` |
+| selected support/vertical v2 endpoint-controlled target independence audit | `blocked_positive_sparse` |
+| selected support/vertical v2 endpoint-controlled target path decision | `revise_target_v3_positive_anchor_sampling` |
+| reliability target v3 positive-anchor plan | `ready` |
+| reliability target v3 label fill | `filled_codex_proxy_user_requested` |
+| reliability target v3 label ingestion | `ingested_with_probe_risk` |
+| reliability target v3 target independence audit | `blocked_no_controlled_slice` |
+| reliability target v3 path decision | `object_endpoint_controlled_sampling_first` |
+| reliability target v3 object/endpoint-controlled plan | `ready_broader_mining_required` |
+| reliability target v3 object/endpoint candidate mining | `ready_with_selection_deficit` |
+| reliability target v3 object/endpoint label fill | `filled_codex_proxy_user_requested` |
+| reliability target v3 object/endpoint label ingestion | `positive_sparse_with_probe_risk` |
+| reliability target v3 object/endpoint target independence audit | `reliability_blocked_geometry_support_available` |
+| reliability target v3 object/endpoint path decision | `informative_anchor_sampling` |
+| reliability target v3 informative anchor plan | `ready_with_asset_requests` |
+| reliability target v3 informative anchor candidate mining | `ready_needs_asset_packets` |
+| reliability target v3 informative anchor asset packets | `ready` |
+| reliability target v3 informative anchor label fill | `filled_codex_proxy_user_requested` |
+| reliability target v3 informative anchor label ingestion | `ingested_with_probe_risk` |
+| reliability target v3 informative anchor target independence audit | `blocked_no_controlled_slice` |
+| reliability target v3 informative anchor path decision | `matched_contrast_v4` |
+| reliability target v4 matched contrast plan | `ready_with_asset_requests` |
+| reliability target v4 matched contrast candidate mining | `ready_needs_asset_packets` |
+| reliability target v4 matched contrast asset packets | `partial_limited_endpoint_views` |
+| reliability target v4 matched contrast asset packet gap audit | `ready_for_label_readiness` |
+| reliability target v4 matched contrast label readiness | `ready_for_label_fill` |
+| reliability target v4 matched contrast label fill | `filled_codex_proxy_user_requested` |
+| reliability target v4 matched contrast label ingestion | `ingested_with_probe_risk` |
 
 Full-train RGA rows:
 
@@ -449,7 +580,7 @@ The full-train candidate roles are not labels. Posterior training still requires
 controlled label readiness.
 ```
 
-Current label readiness:
+Initial 360-row label readiness:
 
 ```text
 candidate sheet rows = 360
@@ -477,7 +608,548 @@ paper-level posterior claim. They only unlock train-only posterior smoke and
 shortcut/proxy controls.
 ```
 
-Posterior smoke result:
+Current v3 label readiness:
+
+```text
+label sheet rows = 160
+sampling buckets = 4 x 40
+label fields filled = yes
+labels ingested = yes
+filled_by = codex_proxy_user_requested_visible_heuristic
+reliable = 32
+unreliable_geometry = 21
+unreliable_trivial = 57
+unreliable_ontology = 0
+uncertain = 50
+validation errors = 0
+relation reliability binary target = 110 rows, 32 positive, 78 negative
+geometry support binary target = 113 rows, 92 positive, 21 negative
+relation usefulness binary target = 113 rows, 34 positive, 79 negative
+target-independence probe = hidden/visible shortcut risk
+target-independence audit = blocked_no_controlled_slice
+strict controlled slice = none
+diagnostic controlled slice = none
+path decision = object_endpoint_controlled_sampling_first
+object/endpoint plan = ready_broader_mining_required
+object/endpoint plan candidate rows = 302
+strict subject/object/family eligible rows = 73
+object/endpoint mined label sheet rows = 130
+object/endpoint mined residual rows = 28
+object/endpoint filled reliable = 8
+object/endpoint filled unreliable_geometry = 26
+object/endpoint filled unreliable_trivial = 73
+object/endpoint filled uncertain = 23
+object/endpoint relation reliability target = 107 rows, 8 positive, 99 negative
+object/endpoint geometry support target = 111 rows, 85 positive, 26 negative
+object/endpoint usefulness target = 111 rows, 10 positive, 101 negative
+object/endpoint target-independence audit = reliability_blocked_geometry_support_available
+object/endpoint reliability status = blocked_positive_sparse
+object/endpoint geometry-support status = blocked_no_controlled_slice
+object/endpoint usefulness status = blocked_positive_sparse
+object/endpoint path decision = informative_anchor_sampling
+selected next path = revise_v3_informative_positive_anchor_sampling
+informative anchor plan = ready_with_asset_requests
+informative anchor selected seeds = 160 rows, 126 packet-ready, 34 asset-needed
+informative anchor candidate mining = ready_needs_asset_packets
+informative anchor full label sheet = 160 rows
+informative anchor packet-ready fallback sheet = 126 rows
+informative anchor asset-needed rows = 34
+informative anchor asset packets = ready
+informative anchor generated packets = 34
+informative anchor full packet-ready label sheet = 160 rows
+informative anchor label fill = filled_codex_proxy_user_requested
+informative anchor reliable = 35
+informative anchor unreliable_geometry = 13
+informative anchor unreliable_trivial = 34
+informative anchor uncertain = 78
+informative anchor relation reliability target = 82 rows, 35 positive, 47 negative
+informative anchor geometry support target = 85 rows, 72 positive, 13 negative
+informative anchor usefulness target = 85 rows, 37 positive, 48 negative
+informative anchor target-independence probe = hidden/visible shortcut risk
+informative anchor target-independence audit = blocked_no_controlled_slice
+informative anchor reliability status = blocked_no_controlled_slice
+informative anchor geometry-support status = blocked_positive_sparse
+informative anchor usefulness status = blocked_no_controlled_slice
+informative anchor main risk = anchor/object/endpoint/rank shortcut
+informative anchor path decision = matched_contrast_v4
+selected next path = revise_to_matched_contrast_reliability_target_v4
+v4 matched contrast plan = ready_with_asset_requests
+v4 selected matching level = predicate_object_rank_controlled
+v4 selected rows = 160
+v4 selected pairs = 80
+v4 packet-ready rows = 5
+v4 asset-needed rows = 155
+v4 rank policy = post_selection_quota_and_audit_control
+v4 matched contrast candidate mining = ready_needs_asset_packets
+v4 full label sheet = 160 rows
+v4 packet-ready fallback sheet = 5 rows
+v4 asset request rows = 155
+v4 asset packets = partial_limited_endpoint_views
+v4 generated packets = 155
+v4 generated ready packets = 135
+v4 generated partial packets = 20
+v4 existing ready packets = 5
+v4 ready label rows = 140
+v4 partial label rows = 20
+v4 partial support_contact rows = 13
+v4 partial relative_vertical rows = 7
+v4 partial rows missing subject crop = 12
+v4 partial rows missing object crop = 8
+v4 asset packet gap audit = ready_for_label_readiness
+v4 label-ready rows after gap audit = 158
+v4 label-ready pairs after gap audit = 79
+v4 excluded pairs after gap audit = 1
+v4 limited-view rows kept = 19
+v4 role balance after gap audit = positive_proxy 79, negative_proxy 79
+v4 label-surface leakage hits = 0
+v4 packet path errors = 0
+v4 input validation errors = 0
+v4 label readiness = ready_for_label_fill
+v4 label-ready rows = 158
+v4 label-ready pairs = 79
+v4 ready rows = 139
+v4 limited-view rows = 19
+v4 ready family counts = support_contact 90, relative_vertical 68
+v4 role balance after readiness = positive_proxy 79, negative_proxy 79
+v4 expected columns match = true
+v4 label-readiness input validation errors = 0
+v4 label-readiness sheet validation errors = 0
+v4 label-readiness packet path errors = 0
+v4 label-readiness leakage hits = 0
+v4 label fill = filled_codex_proxy_user_requested
+v4 filled rows = 158
+v4 filled reliable = 23
+v4 filled unreliable = 24
+v4 filled uncertain = 111
+v4 binary target rows = 47
+v4 binary positive rows = 23
+v4 binary negative rows = 24
+v4 label fill input validation errors = 0
+v4 label fill validation errors = 0
+v4 matched role post-label distribution = negative_proxy 11/14/54, positive_proxy 12/10/57
+v4 direct reliable/unreliable contrast pairs = 1
+v4 label ingestion = ingested_with_probe_risk
+v4 relation reliability target = 47 rows, 23 positive, 24 negative
+v4 geometry support target = 47 rows, 30 positive, 17 negative
+v4 relation usefulness target = 50 rows, 25 positive, 25 negative
+v4 relation reliability probe = target_independence_risk_hidden_metadata_correlated
+v4 relation reliability probe hidden risks = 3
+v4 relation reliability probe visible risks = 2
+v4 ingestion errors = 0
+label-surface leakage hits = 0
+packet path errors = 0
+validation errors = 0
+posterior allowed = no
+next = reliability_target_v4_matched_contrast_target_independence_audit
+```
+
+## Reliability Target V3 Informative Anchor Target Independence Audit
+
+2026-06-20 KST에 `reliability_target_v3_informative_anchor_target_independence_audit`을
+진행했다. 이 단계는 informative-anchor v3 target이 posterior smoke로 넘어갈 만큼
+독립적인지 확인하는 gate다. Posterior는 실행하지 않았다.
+
+Result:
+
+```text
+status = h002_reliability_target_v3_informative_anchor_target_independence_audit_blocked
+relation reliability = 82 rows, 35 positive, 47 negative, blocked_no_controlled_slice
+geometry support = 85 rows, 72 positive, 13 negative, blocked_positive_sparse
+relation usefulness = 85 rows, 37 positive, 48 negative, blocked_no_controlled_slice
+validation errors = 0
+validation_used = False
+test_used = False
+posterior_allowed = False
+next = reliability_target_v3_informative_anchor_path_decision
+```
+
+Interpretation:
+
+- Informative-anchor sampling solved the earlier relation reliability positive-sparsity issue.
+- It did not solve target independence.
+- The main relation reliability target is still explained too strongly by
+  `anchor_category_hidden`, `endpoint_flag_pattern_hidden`, subject/object family cells,
+  object labels, subject labels, and `rank_band_hidden`.
+- Family-balanced and predicate-balanced slices keep enough rows, but they still carry
+  anchor/object/endpoint shortcut risks.
+- Anchor-matched or endpoint-matched slices collapse to tiny balanced sets such as
+  `6` rows or `4` rows, so they are not posterior-ready.
+- Therefore the blocker is target construction, not posterior capacity.
+
+## Reliability Target V3 Informative Anchor Path Decision
+
+2026-06-20 KST에 `reliability_target_v3_informative_anchor_path_decision`을 진행했다.
+이 단계는 informative-anchor v3 audit 이후 posterior를 진행할지, target construction을
+바꿀지 결정하는 gate다. Posterior는 실행하지 않았다.
+
+Result:
+
+```text
+status = h002_reliability_target_v3_informative_anchor_path_decision_matched_contrast_v4
+selected_path = revise_to_matched_contrast_reliability_target_v4
+relation reliability = 82 rows, 35 positive, 47 negative, blocked_no_controlled_slice
+posterior_allowed = False
+validation_used = False
+test_used = False
+next = reliability_target_v4_matched_contrast_plan
+```
+
+Decision:
+
+- posterior smoke는 진행하지 않는다.
+- full informative-anchor target도 posterior target으로 쓰지 않는다.
+- geometry-support를 main reliability target으로 바꾸지 않는다.
+- 같은 informative-anchor 방식으로 row만 더 모으지 않는다.
+- 다음 단계는 `matched_contrast_reliability_target_v4`다.
+
+Rationale:
+
+- v3는 positive-sparsity는 해결했지만 target independence는 해결하지 못했다.
+- `anchor_category_hidden`, endpoint/object structure, object labels, rank band가 target을
+  너무 강하게 설명한다.
+- 따라서 v4는 positive-like bucket과 negative-like bucket을 따로 뽑는 방식이 아니라,
+  같은 predicate / endpoint-object / rank stratum 안에서 reliable edge와 unreliable edge를
+  contrast해야 한다.
+- v4도 실패하면 H002를 posterior method claim으로 강제하지 않고 RGA diagnostic/decomposition
+  framework로 정리한다.
+
+## Reliability Target V4 Matched Contrast Plan
+
+2026-06-20 KST에 `reliability_target_v4_matched_contrast_plan`을 진행했다. 이 단계는
+train-only queue에서 v4 matched contrast target construction이 실제로 가능한지 확인하는
+planning gate다. Label fill이나 posterior smoke는 실행하지 않았다.
+
+Result:
+
+```text
+status = h002_reliability_target_v4_matched_contrast_plan_ready_with_asset_requests
+selected_matching_level = predicate_object_rank_controlled
+selected_matching_keys = predicate_label, endpoint_flag_pattern_hidden, object_family_cell_hidden
+rank_control_policy = post_selection_quota_and_audit_control
+selected rows = 160
+selected contrast pairs = 80
+packet_ready = 5
+asset_needed = 155
+validation_used = False
+test_used = False
+posterior_allowed = False
+next = reliability_target_v4_matched_contrast_candidate_mining
+```
+
+Interpretation:
+
+- Exact rank-band matching is infeasible in the current train queue.
+- `strict_predicate_object_rank`, `family_object_rank`, and `family_endpoint_rank` all have
+  `0` eligible contrast groups.
+- Feasible capacity appears only after rank is changed from exact matching to quota/audit
+  control.
+- The selected level is `predicate_object_rank_controlled`, with `114` eligible groups and
+  `275` balanced-pair capacity.
+- This is stricter than v3 because positive/negative proxy rows are drawn from the same
+  predicate + endpoint/object stratum, not from separate anchor buckets.
+- The next practical blocker is asset coverage: only `5/160` preview rows are packet-ready.
+
+## Reliability Target V4 Matched Contrast Candidate Mining
+
+2026-06-20 KST에 `reliability_target_v4_matched_contrast_candidate_mining`을 진행했다.
+이 단계는 v4 plan의 80개 contrast pair / 160개 row를 실제 label package와 asset request
+plan으로 고정하는 gate다. Label fill이나 posterior smoke는 실행하지 않았다.
+
+Result:
+
+```text
+status = h002_reliability_target_v4_matched_contrast_candidate_mining_ready_needs_asset_packets
+label rows = 160
+contrast pairs = 80
+packet-ready rows = 5
+asset-needed rows = 155
+support_contact rows = 90
+relative_vertical rows = 70
+label-surface leakage hits = 0
+packet path errors = 0
+input validation errors = 0
+validation_used = False
+test_used = False
+posterior_allowed = False
+next = reliability_target_v4_matched_contrast_asset_packets
+```
+
+Interpretation:
+
+- Matched-contrast label sheet와 post-label hidden manifest는 준비됐다.
+- Label surface에는 contrast role, stratum, rank, semantic score, geometry status, proxy field를
+  노출하지 않았다.
+- 그러나 `5/160` row만 packet-ready라서 full label fill을 바로 진행하면 evidence coverage가
+  부족하다.
+- 다음 단계는 155개 asset-needed row의 multi-view / pointcloud-or-mesh / contact-context
+  packet을 생성하는 것이다.
+- Posterior는 label fill, ingestion, target-independence audit이 통과하기 전까지 계속 blocked다.
+
+## Reliability Target V4 Matched Contrast Asset Packets
+
+2026-06-20 KST에 `reliability_target_v4_matched_contrast_asset_packets`을 진행했다.
+이 단계는 v4 candidate mining에서 남아 있던 155개 asset-needed row에 evidence packet을
+생성하고, 기존 5개 packet-ready row와 합쳐 full 160-row label sheet를 만드는 단계다.
+Label fill이나 posterior smoke는 실행하지 않았다.
+
+Result:
+
+```text
+status = h002_reliability_target_v4_matched_contrast_asset_packets_partial
+input selected rows = 160
+asset-needed input rows = 155
+generated packet rows = 155
+generated ready rows = 135
+generated partial rows = 20
+existing packet-ready rows = 5
+full label sheet rows = 160
+ready label rows = 140
+partial label rows = 20
+packet path errors = 0
+label-surface leakage hits = 0
+visible value leakage hits = 0
+validation errors = 0
+validation_used = False
+test_used = False
+posterior_allowed = False
+next = reliability_target_v4_matched_contrast_asset_packet_gap_audit
+```
+
+Interpretation:
+
+- 모든 row에 label-facing packet path는 존재한다.
+- Label surface와 packet text에는 contrast role, rank, semantic score, `p_geom`,
+  geometry status, target-construction proxy가 노출되지 않았다.
+- 하지만 20개 generated row는 한쪽 endpoint crop이 없다:
+  `support_contact` 13개, `relative_vertical` 7개이며, subject crop missing 12개,
+  object crop missing 8개다.
+- 따라서 바로 label fill로 넘어가지 않고, partial packet row를
+  `limited_view_evaluable`, `needs_more_evidence`, or replacement-needed로 판정하는
+  gap audit이 필요하다.
+
+## Reliability Target V4 Matched Contrast Asset Packet Gap Audit
+
+2026-06-20 KST에 `reliability_target_v4_matched_contrast_asset_packet_gap_audit`을
+진행했다. 이 단계는 20개 partial packet row를 label fill 전에 감사하고, v4의 pair integrity를
+보존하기 위해 replacement-needed row가 있는 matched pair를 제외하는 gate다.
+
+Result:
+
+```text
+status = h002_reliability_target_v4_matched_contrast_asset_packet_gap_audit_ready_for_label_readiness
+input rows = 160
+input pairs = 80
+label-ready rows = 158
+label-ready pairs = 79
+excluded rows = 2
+excluded pairs = 1
+limited-view rows kept = 19
+replacement-needed rows = 1
+role balance = positive_proxy 79, negative_proxy 79
+output path errors = 0
+visible leakage hits = 0
+input validation errors = 0
+validation_used = False
+test_used = False
+posterior_allowed = False
+next = reliability_target_v4_matched_contrast_label_readiness
+```
+
+Interpretation:
+
+- 19/20 partial rows are kept as `limited_view_evaluable` because mesh packet and
+  contact/context evidence are available.
+- 1 partial row is `replacement_needed` because the missing endpoint has the generic label
+  `object`.
+- Matched contrast는 pair integrity가 중요하므로 replacement-needed row가 포함된
+  `v4pair_0042` 전체를 label fill에서 제외했다.
+- 남은 label-ready slice는 79 matched pairs / 158 rows이고 positive/negative proxy role
+  balance가 `79/79`로 유지된다.
+- 다음 단계는 label fill이 아니라, 이 158-row sheet의 schema/path/leakage/pair-balance를
+  검증하는 label-readiness gate다.
+
+## Reliability Target V4 Matched Contrast Label Readiness
+
+2026-06-21 KST에 `reliability_target_v4_matched_contrast_label_readiness`를 진행했다.
+이 단계는 gap audit 이후 남은 158-row / 79-pair sheet의 visible schema, packet paths,
+excluded-pair removal, pair-role balance, and leakage를 검증하는 gate다. Label fill,
+ingestion, posterior smoke는 진행하지 않았다.
+
+Result:
+
+```text
+status = h002_reliability_target_v4_matched_contrast_label_readiness_ready_for_label_fill
+label-ready rows = 158
+label-ready pairs = 79
+ready rows = 139
+limited-view rows = 19
+family counts = support_contact 90, relative_vertical 68
+role balance = positive_proxy 79, negative_proxy 79
+expected columns match = true
+input validation errors = 0
+sheet validation errors = 0
+packet path errors = 0
+leakage hits = 0
+validation_used = False
+test_used = False
+posterior_allowed = False
+next = reliability_target_v4_matched_contrast_label_fill
+```
+
+Interpretation:
+
+- The 158-row / 79-pair v4 matched-contrast sheet is ready for label fill.
+- 이 결과는 posterior evidence가 아니라 label-fill readiness evidence다.
+- Multi-view, mesh, contact/context packets are audit/label evidence only and remain
+  excluded from posterior input.
+- Posterior smoke remains blocked until label fill, ingestion, and target-independence
+  audit pass.
+
+Main artifacts:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/160_reliability_target_v4_matched_contrast_label_readiness.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/tools/reliability_target_v4_matched_contrast_label_readiness.py
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_label_readiness/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_label_readiness/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_label_readiness/ready_label_sheet.tsv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_label_readiness/ready_manifest_post_label_only.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_label_readiness/label_schema.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_label_readiness/pair_readiness.csv
+```
+
+## Reliability Target V4 Matched Contrast Label Fill
+
+2026-06-21 KST에 `reliability_target_v4_matched_contrast_label_fill`을 진행했다. 이
+단계는 158-row / 79-pair v4 matched-contrast sheet의 review fields를 visible-only
+기준으로 채우는 단계다. Ingestion, target-independence audit, posterior smoke는 진행하지
+않았다.
+
+Result:
+
+```text
+status = h002_reliability_target_v4_matched_contrast_label_filled_codex_proxy_user_requested
+rows = 158
+reliable = 23
+unreliable = 24
+uncertain = 111
+binary target rows = 47
+binary positive rows = 23
+binary negative rows = 24
+geometry support = supports 30, contradicts 17, ambiguous 111
+input validation errors = 0
+fill validation errors = 0
+validation_used = False
+test_used = False
+posterior_allowed = False
+next = reliability_target_v4_matched_contrast_label_ingestion
+```
+
+Post-label diagnostics:
+
+| Hidden Group | Rows | Reliable | Unreliable | Uncertain |
+| --- | ---: | ---: | ---: | ---: |
+| `negative_proxy` / `HL` / `unsatisfied` | 79 | 11 | 14 | 54 |
+| `positive_proxy` / `LH` / `satisfied` | 79 | 12 | 10 | 57 |
+| `label_ready` rows | 139 | 23 | 24 | 92 |
+| `limited_view_evaluable` rows | 19 | 0 | 0 | 19 |
+
+Interpretation:
+
+- Binary target rows are balanced at `23` positive / `24` negative.
+- The fill is conservative: `111/158` rows remain `uncertain`.
+- Hidden matched role does not trivially decide labels; positive and negative proxy sides have similar
+  label distributions.
+- Pair-level contrast remains weak: only `1/79` pair has a direct `reliable/unreliable` contrast.
+- Therefore this unlocks ingestion and target-independence audit, not posterior smoke.
+
+Main artifacts:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/161_reliability_target_v4_matched_contrast_label_fill.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/tools/reliability_target_v4_matched_contrast_label_fill.py
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_label_fill_codex_proxy_user_requested/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_label_fill_codex_proxy_user_requested/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_label_fill_codex_proxy_user_requested/completed_v4_matched_contrast_label_sheet_codex_proxy_user_requested.tsv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_label_fill_codex_proxy_user_requested/v4_proxy_labels.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_label_fill_codex_proxy_user_requested/relation_reliability_v4_binary_targets.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_label_fill_codex_proxy_user_requested/post_label_diagnostics.csv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_label_fill_codex_proxy_user_requested/pair_post_label_diagnostics.csv
+```
+
+## Reliability Target V4 Matched Contrast Label Ingestion
+
+2026-06-21 KST에 `reliability_target_v4_matched_contrast_label_ingestion`을 진행했다.
+이 단계는 v4 proxy labels를 ingest해서 relation reliability, geometry support, relation
+usefulness target artifacts로 분리하는 단계다. Posterior candidate file은 만들지만 posterior
+smoke는 진행하지 않았다.
+
+Result:
+
+```text
+status = h002_reliability_target_v4_matched_contrast_label_ingested_with_probe_risk
+rows = 158
+relation reliability binary = 47 rows, 23 positive, 24 negative
+geometry support binary = 47 rows, 30 positive, 17 negative
+relation usefulness binary = 50 rows, 25 positive, 25 negative
+ingestion errors = 0
+relation reliability probe = target_independence_risk_hidden_metadata_correlated
+validation_used = False
+test_used = False
+posterior_allowed = False
+next = reliability_target_v4_matched_contrast_target_independence_audit
+```
+
+Probe summary:
+
+| Target | Probe Status | Hidden Risks | Visible Risks |
+| --- | --- | ---: | ---: |
+| `relation_reliability_v4_binary_target` | `target_independence_risk_hidden_metadata_correlated` | 3 | 2 |
+| `geometry_support_v4_binary_target` | `target_independence_risk_hidden_metadata_correlated` | 3 | 4 |
+| `relation_usefulness_v4_binary_target` | `target_independence_risk_hidden_metadata_correlated` | 3 | 2 |
+
+Top relation-reliability risks:
+
+| Source | Group Key | NMI | Majority Accuracy |
+| --- | --- | ---: | ---: |
+| hidden | `subject_object_family_cell_hidden` | 1.0000 | 1.0000 |
+| hidden | `endpoint_flag_pattern_hidden` | 0.5774 | 0.8085 |
+| hidden | `object_family_cell_hidden` | 0.3937 | 0.7447 |
+| visible | `subject_label` | 0.7764 | 0.9149 |
+| visible | `object_label` | 0.3914 | 0.7447 |
+
+Interpretation:
+
+- Relation reliability target mass is balanced and usable for audit: `23/24`.
+- However, target independence is not established because object/family cells and visible object labels
+  strongly correlate with the binary target.
+- This supports the current sequence: ingestion succeeded, but posterior remains blocked until a
+  dedicated target-independence audit identifies a controlled slice or decides another target revision is
+  needed.
+
+Main artifacts:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/162_reliability_target_v4_matched_contrast_label_ingestion.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/tools/reliability_target_v4_matched_contrast_label_ingestion.py
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_label_ingestion_codex_proxy_user_requested/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_label_ingestion_codex_proxy_user_requested/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_label_ingestion_codex_proxy_user_requested/validated_v4_labels.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_label_ingestion_codex_proxy_user_requested/relation_reliability_v4_binary_targets.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_label_ingestion_codex_proxy_user_requested/geometry_support_v4_binary_targets.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_label_ingestion_codex_proxy_user_requested/relation_usefulness_v4_binary_targets.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_label_ingestion_codex_proxy_user_requested/target_independence_probe.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_label_ingestion_codex_proxy_user_requested/target_independence_probe_summaries.csv
+```
+
+Earlier informative-anchor posterior-smoke boundary:
+
+```text
+The v3 ingestion is a Codex proxy artifact. It improves positive target mass but
+the follow-up independence audit found no posterior-ready controlled slice.
+```
+
+Earlier posterior smoke result:
 
 ```text
 factorized - semantic_plus_geometry grouped AUPRC = +0.0117
@@ -2860,6 +3532,97 @@ Core finding:
   `relation_reliability_target_v2` has 106 binary rows with 32 positives and 74
   negatives. Basic probe still finds hidden prior-label/construction correlation,
   so posterior smoke remains blocked until dedicated v2 target-independence audit.
+- Support/vertical v2 target-independence audit is complete: no strict
+  relation-reliability slice clears harmful prior-label carryover. A 62-row
+  `rank_band_balanced_v2` construction-only relation slice remains for
+  plumbing/error diagnostics, but it is not method-validation evidence.
+- Support/vertical v2 target path decision is complete: do not run posterior
+  smoke on the current target and do not keep revising rule-based Codex targets
+  as the main next step. A 127-row independent collection sheet is ready, with
+  hidden metadata and v2 Codex axes kept out of the labeler-visible surface.
+- Support/vertical v2 independent label fill is complete as a
+  `(codex_independent_ver)` visible-only bootstrap: 127 rows, 32 reliable, 70
+  unreliable, and 25 uncertain. It does not read hidden manifest, v2 Codex axes,
+  prior labels, score/rank, `p_geom_valid`, or geometry status. It is still not
+  human-confirmed paper evidence.
+- Support/vertical v2 independent label ingestion is complete with 127 validated
+  labels and 102 binary rows per target. `geometry_validity_independent_target`
+  has 81 positives / 21 negatives, while `relation_reliability_independent_target`
+  has 32 positives / 70 negatives. Basic probe still flags hidden prior-label
+  and construction correlation, so posterior smoke remains blocked until a
+  dedicated independent target-independence audit constructs or rejects a strict
+  slice. Source score/rank and `p_geom_valid` feature join is also pending.
+- Support/vertical v2 independent target-independence audit is complete: no
+  strict relation-reliability slice clears harmful prior-label carryover. A
+  62-row `rank_band_balanced_independent` relation slice remains for
+  plumbing/error diagnostics, but it is not posterior method-validation evidence.
+  This makes the next gate human-confirmed support/vertical label design or a
+  fundamentally revised target path, not another immediate posterior smoke.
+- Support/vertical v2 human label path decision is complete: stop treating
+  another Codex-derived target revision as the main path. The recommended next
+  evidence is a 127-row human-confirmed support/vertical batch; a 96-row minimum
+  batch is acceptable only as a first pass and must expand if target independence
+  fails. The generated sheets keep hidden metadata, prior labels, source scores,
+  `p_geom_valid`, and v2 Codex axes out of the labeler-visible surface.
+- Support/vertical v2 human label fill is complete as a Codex proxy at user
+  request. The workflow treats the filled rows as human-confirmed for the next
+  hypothesis steps, but provenance remains `codex_proxy_user_review_pending`.
+  The full batch has 127 rows, 102 binary rows, 32 positive reliability labels,
+  70 negative reliability labels, and 25 uncertain rows.
+- Support/vertical v2 human label ingestion is complete with 127 validated rows.
+  `geometry_validity_human_target` has 102 binary rows with 81 positives / 21
+  negatives. `relation_reliability_human_target` has 102 binary rows with 32
+  positives / 70 negatives. Basic probe still flags hidden metadata correlation
+  risk, so posterior smoke remains blocked until a dedicated human-target
+  independence audit.
+- Support/vertical v2 human target-independence audit is complete: no strict
+  relation-reliability slice clears harmful prior-label carryover. A 62-row
+  `rank_band_balanced_human` relation slice exists as construction diagnostic,
+  but not posterior method-validation evidence. The current blocker is target
+  and evidence independence, not combiner capacity.
+- Support/vertical v2 external review protocol is ready: 127 rows, 124 ready
+  packets, 3 `ready_with_packet_caveat` rows, 0 packet path errors, and 0
+  labeler-header leakage hits. The revised sheet hides numeric witness values,
+  previous proxy labels, hidden prior labels, source rank/score, `p_geom_valid`,
+  geometry status, and v2 reference axes. Multi-view/mesh/contact evidence is
+  used only for audit/labeling, not as posterior input.
+- Support/vertical v2 external review fill is complete as a user-requested
+  Codex proxy: 127 rows, 47 reliable, 69 unreliable, 11 uncertain, and 0 schema
+  validation errors. The fill did not read hidden manifest, numeric witness
+  values, previous proxy labels, source score/rank, or `p_geom_valid`. It is
+  treated as user review for workflow progression, but not paper-level external
+  human annotation before user confirmation.
+- Support/vertical v2 external review ingestion is complete: 127 labels, 116
+  binary `geometry_validity_external_target` rows with 105 positives / 11
+  negatives, and 116 binary `relation_reliability_external_target` rows with 47
+  positives / 69 negatives. Relation reliability has 0 visible non-target
+  shortcut flags in the basic probe, but still has 5 hidden correlation risks,
+  so posterior smoke remains blocked until dedicated target-independence audit.
+- Support/vertical v2 external review target-independence audit is complete:
+  no strict relation-reliability slice clears harmful prior-label carryover. A
+  70-row `rank_band_balanced_external` relation slice exists as a better
+  construction diagnostic with 35/35 class balance and 0 construction,
+  geometry-alignment, and visible non-target risks, but it still has 3 harmful
+  prior risks. Posterior smoke remains blocked.
+- Support/vertical v2 true user review path is ready: proxy labels are stopped
+  as method-validation evidence. The recommended first pass is the 70-row
+  `rank_band_balanced_external` batch, with 0 header leakage hits, 0 packet path
+  errors, and post-label-only hidden manifests. A full 127-row optional
+  expansion sheet is also available.
+- Endpoint-controlled candidate mining is complete for the support/vertical
+  revised sampling path: the capped strict endpoint deficit requested 62 labels,
+  and mining selected 53 packet-ready plus 9 asset-needed train-only candidates
+  with residual unfilled 0. This does not train a posterior and does not make
+  endpoint fields deployable model inputs; it only prepares a target-repair
+  batch before the next smoke.
+- Endpoint-controlled asset packet generation is complete: the 9 asset-needed
+  candidates were packetized, the full 62-row label sheet is packet-ready, packet
+  path errors are 0, and label-surface leakage passes. This unlocks label fill,
+  not posterior smoke.
+- Endpoint-controlled label fill is complete as a Codex proxy: 62 rows, 2
+  reliable, 32 unreliable, 28 uncertain, and 0 validation errors. This unlocks
+  ingestion and target-independence audit only; the positive-sparse target is
+  not ready for posterior smoke.
 
 ## Claim Boundary
 
@@ -2883,18 +3646,31 @@ annotation sparsity, ontology mismatch, and dense relation noise.
 Allowed current revised-factor diagnostic claim:
 
 ```text
-Under train-only Codex bootstrap labels, revised raw-witness factorization is
-promising for support_contact and relative_vertical. Its gain largely disappears
-when raw witness blocks are shuffled, so the current positive smoke is not
-explained by predicate-family categorical shortcut alone.
+Train-only diagnostics show that semantic score and legacy p_geom_valid are not
+sufficient as the main geometry evidence, while typed relation-specific raw
+witness evidence gives a positive posterior smoke signal on the revised
+all-label-ready support/vertical slice.
 ```
 
 Allowed current method-boundary claim:
 
 ```text
-The defensible H002 method boundary is an RGA-scoped raw-witness residual
-reliability layer for support_contact and relative_vertical. D4-style typed
-family interactions are an experimental ablation, not the final method claim.
+The defensible H002 method boundary is an RGA-scoped typed raw-witness residual
+reliability layer for support_contact and relative_vertical. The exact posterior
+combiner remains unsettled because C3 linear v2 remains the strongest train-only
+reference after the C4-C7 combiner smoke, C4 only improves calibration/Brier while
+losing AUPRC and threshold transfer, C6/C7 trade support_contact loss for partial
+relative_vertical gains, and combiner error analysis shows that endpoint-only
+controls explain the current target slice more strongly than the typed
+raw-witness posterior. Endpoint-controlled resampling is now planned with strict
+`endpoint_flag_pattern` matching, but the current all-label-ready pool is too
+small after strict matching, so label expansion is required before another
+posterior smoke. Endpoint-controlled candidate mining showed that the capped
+deficit is coverable, and endpoint-controlled asset packet generation removed
+the packet blocker by preparing a full 62-row packet-ready label sheet. Label
+fill is now complete but yields only 2 reliable labels, so ingestion and
+target-independence audit must determine whether this is a usable target or a
+failure diagnosis before any new posterior smoke.
 ```
 
 Blocked claims:
@@ -2903,34 +3679,1277 @@ Blocked claims:
 - RGA-LH rows are automatically valid missing positives.
 - working labels are paper-locked human annotations.
 - `p_geom_valid` is full relation reliability.
-- the factorized posterior outperforms rank-controlled baselines.
+- the factorized posterior is paper-level superior to rank-controlled baselines.
 - proximity is a safe main ranking claim.
 - typed family interaction is the final method design.
 - the current `(codex_ver_full_train)` bootstrap target validates posterior
   novelty.
 - blind labels are human-confirmed.
+- codex-proxy human fields are independent external human annotations before
+  user confirmation.
+- user-requested Codex external-review fill is paper-level external human
+  annotation before user confirmation.
+- Codex-filled true-user review is paper-level true user/external annotation before
+  user confirmation.
+- ingested Codex-proxy true-user review targets validate posterior novelty before
+  target-independence audit.
+- construction-only true-user review slices validate posterior method novelty.
+- upgrading the posterior combiner solves the current H002 blocker before target/evidence
+  independence is fixed.
+- proxy-only labels validate the posterior method after the true-user path has
+  been opened.
 - label-ready status is a relation reliability label.
 - codex-version independent labels alone validate posterior novelty.
+- user-submitted packet-only labels validate posterior novelty without reviewer-independence
+  confirmation and controlled target-independence evidence.
+- changing only reviewer provenance on the current 70-row labels is sufficient to open
+  posterior smoke.
+- user confirmation alone resolves the H002 target-independence blocker.
+- simply expanding the same full-127 protocol is enough to open posterior smoke.
+- endpoint/object-type features are valid deployable reliability evidence.
+- a stronger or higher-capacity combiner should be tested before endpoint-controlled
+  target repair.
+- family-separated posterior is the immediate next method step before endpoint
+  shortcut is reduced.
+- endpoint-controlled ingestion with `2/32` relation-reliability target balance is
+  enough to run posterior smoke.
+- endpoint-controlled target audit with no strict/diagnostic slice validates the
+  posterior method.
+- geometry validity can replace relation reliability as the main H002 target.
+- relaxing reliability to geometry-supported is a valid shortcut.
 - held-out validation/test conclusions.
+
+## Endpoint-Controlled Label Ingestion
+
+2026-06-20 KST에 `endpoint_controlled_label_ingestion`을 진행했다. 이 단계는
+packet-ready `62`-row Codex-proxy sheet를 target artifact로 변환하고, label lock
+이후 hidden endpoint manifest를 join해 target balance와 shortcut risk를 확인했다.
+Posterior model은 학습하지 않았다.
+
+Result:
+
+```text
+status = h002_endpoint_controlled_label_ingested_positive_sparse
+labels = 62
+geometry_validity_binary = 34
+geometry_validity_positive_negative = 23/11
+relation_reliability_binary = 34
+relation_reliability_positive_negative = 2/32
+ingestion_errors = 0
+validation_used = False
+test_used = False
+next = endpoint_controlled_target_independence_audit
+```
+
+Interpretation:
+
+- The geometry-validity target has usable diagnostic mass, but relation
+  reliability is severely positive-sparse.
+- This confirms the H002 distinction that `geometry validity != relation
+  reliability`.
+- The artifact is not posterior method evidence. It is a target viability and
+  failure-diagnosis artifact.
+- The next step must audit target independence and construction shortcuts before
+  any posterior smoke.
+
+## Endpoint-Controlled Target Independence Audit
+
+2026-06-20 KST에 `endpoint_controlled_target_independence_audit`을 진행했다.
+이 단계는 endpoint-controlled ingestion target이 posterior smoke로 넘어갈 수 있는지
+검증했다.
+
+Result:
+
+```text
+status = h002_endpoint_controlled_target_independence_audit_blocked_positive_sparse
+relation_rows = 34
+relation_positive_negative = 2/32
+relation_majority_baseline = 0.9412
+validation_errors = 0
+relation_strict_slice = none
+relation_diagnostic_slice = none
+validation_used = False
+test_used = False
+next = endpoint_controlled_target_path_decision
+```
+
+Interpretation:
+
+- Endpoint-controlled sampling did not produce a posterior-ready reliability
+  target.
+- Relation reliability has only 2 positives, so a negative-majority predictor
+  already reaches `0.9412`.
+- Hidden endpoint pattern, construction role/rank, and visible predicate effects
+  remain entangled with the target, but the dominant blocker is positive sparsity.
+- Geometry validity has more target mass (`23/11`) but still lacks a strict
+  controlled slice at this size.
+- This is a target-construction failure, not evidence that a stronger posterior
+  combiner is needed.
+
+## Endpoint-Controlled Target Path Decision
+
+2026-06-20 KST에 `endpoint_controlled_target_path_decision`을 진행했다. 이 단계는
+posterior smoke를 진행할지, combiner를 바꿀지, target/sampling을 수정할지 결정했다.
+
+Result:
+
+```text
+status = h002_endpoint_controlled_target_path_decision_revise_target_v3_positive_anchor_sampling
+selected = revise_reliability_target_v3_and_positive_anchor_sampling
+relation_reliability_positive_negative = 2/32
+geometry_validity_positive_negative = 23/11
+posterior_allowed = False
+validation_used = False
+test_used = False
+next = reliability_target_v3_positive_anchor_plan
+```
+
+Decision:
+
+- Do not run posterior smoke now.
+- Do not upgrade the combiner now.
+- Do not replace relation reliability with geometry validity.
+- Do not relax reliability to simply mean geometry-supported.
+- Revise relation reliability as a v3 multi-axis target.
+- Mine positive-anchor candidates under train-only controls.
+
+Interpretation:
+
+The endpoint-controlled artifact does not show semantic-geometry agreement is
+good. It shows that the current binary relation-reliability target collapses too
+many states into negative: uncertain, trivial-dense, ontology mismatch, and
+geometry contradiction. H002 should therefore preserve the distinction
+`geometry validity != relation reliability`, but fix the target schema before
+testing any posterior.
+
+## Reliability Target V3 Positive-Anchor Plan
+
+2026-06-20 KST에 `reliability_target_v3_positive_anchor_plan`을 진행했다. 이 단계는
+posterior smoke가 아니라 v3 target schema와 positive-anchor label sheet를 준비한 것이다.
+
+Result:
+
+```text
+status = h002_reliability_target_v3_positive_anchor_plan_ready
+selected_rows = 160
+label_surface_leakage_hits = 0
+packet_path_errors = 0
+validation_used = False
+test_used = False
+next = reliability_target_v3_label_fill
+```
+
+V3 target axes:
+
+| Axis | Values |
+| --- | --- |
+| `endpoint_identity_v3` | `both_valid`, `subject_invalid`, `object_invalid`, `pair_invalid`, `uncertain` |
+| `pair_evaluability_v3` | `evaluable`, `partially_evaluable`, `not_evaluable`, `uncertain` |
+| `geometry_support_v3` | `supports_predicate`, `contradicts_predicate`, `ambiguous`, `not_evaluable` |
+| `relation_usefulness_v3` | `informative`, `trivial_dense_or_room_structure`, `ontology_mismatch`, `uncertain` |
+| `relation_reliability_v3` | `reliable`, `unreliable_geometry`, `unreliable_trivial`, `unreliable_ontology`, `uncertain` |
+
+Sampling buckets:
+
+| Bucket | Rows | Support | Vertical | Unique Scans |
+| --- | ---: | ---: | ---: | ---: |
+| `reliable_positive_anchor` | 40 | 20 | 20 | 32 |
+| `geometry_contradiction_negative` | 40 | 20 | 20 | 31 |
+| `trivial_dense_negative` | 40 | 20 | 20 | 21 |
+| `ontology_or_uncertain_negative` | 40 | 30 | 10 | 21 |
+
+Interpretation:
+
+- This keeps `semantic score != geometry validity != relation reliability`.
+- It does not convert all geometry-supported rows into reliable positives.
+- It separates reliable positives from geometry contradiction, trivial dense
+  relation, and ontology/granularity mismatch.
+- The label sheet hides endpoint pattern, queue, rank, source score,
+  `p_geom_valid`, geometry status, label-match status, and expected role.
+- Posterior smoke remains blocked until v3 labels are filled, ingested, and
+  target-independence is audited.
+- This is train-only hypothesis-stage evidence, not paper-level posterior
+  performance evidence.
+
+## Reliability Target V3 Label Fill
+
+2026-06-20 KST에 `reliability_target_v3_label_fill`을 진행했다. 사용자가 직접 채워야 하는
+단계로 남기지 않고, 사용자 요청에 따라 Codex proxy로 160-row v3 sheet를 채웠다.
+
+Result:
+
+```text
+status = h002_reliability_target_v3_label_filled_codex_proxy_user_requested
+rows = 160
+reliable = 32
+unreliable_geometry = 21
+unreliable_trivial = 57
+unreliable_ontology = 0
+uncertain = 50
+validation_errors = 0
+validation_used = False
+test_used = False
+next = reliability_target_v3_label_ingestion
+```
+
+Axis counts:
+
+| Axis Value | Count |
+| --- | ---: |
+| `geometry_support_v3=supports_predicate` | 92 |
+| `geometry_support_v3=contradicts_predicate` | 21 |
+| `geometry_support_v3=ambiguous` | 47 |
+| `relation_usefulness_v3=informative` | 34 |
+| `relation_usefulness_v3=trivial_dense_or_room_structure` | 58 |
+| `relation_usefulness_v3=ontology_mismatch` | 21 |
+| `relation_usefulness_v3=uncertain` | 47 |
+
+Post-label hidden bucket diagnostic:
+
+| Hidden Bucket | Rows | Reliable | Unreliable Geometry | Unreliable Trivial | Uncertain |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| `reliable_positive_anchor` | 40 | 7 | 0 | 8 | 25 |
+| `geometry_contradiction_negative` | 40 | 1 | 18 | 14 | 7 |
+| `trivial_dense_negative` | 40 | 10 | 3 | 19 | 8 |
+| `ontology_or_uncertain_negative` | 40 | 14 | 0 | 16 | 10 |
+
+Interpretation:
+
+- Codex proxy fill did not use hidden sampling role, expected role, score/rank,
+  `p_geom_valid`, geometry status, label-match status, or numeric witness values
+  for label decisions.
+- Hidden manifest was joined only after fill for diagnostic bucket counts.
+- Positive-anchor sampling increased label coverage, but the positive-anchor
+  bucket is not automatically reliable under visible-heuristic proxy labels.
+- This strengthens the need for ingestion and target-independence audit before
+  reopening posterior smoke.
+- This is not independent human annotation and not paper-level evidence.
+
+## Reliability Target V3 Label Ingestion
+
+2026-06-20 KST에 `reliability_target_v3_label_ingestion`을 진행했다. 이 단계는 completed
+v3 sheet를 ingest하고, reliability / geometry / usefulness target을 분리해 materialize했다.
+Posterior는 학습하지 않았다.
+
+Result:
+
+```text
+status = h002_reliability_target_v3_label_ingested_with_probe_risk
+rows = 160
+ingestion_errors = 0
+validation_used = False
+test_used = False
+next = reliability_target_v3_target_independence_audit
+```
+
+Binary target counts:
+
+| Target | Rows | Positive | Negative | Positive Rate | Excluded |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| `relation_reliability_v3_binary_target` | 110 | 32 | 78 | 0.2909 | 50 |
+| `geometry_support_v3_binary_target` | 113 | 92 | 21 | 0.8142 | 47 |
+| `relation_usefulness_v3_binary_target` | 113 | 34 | 79 | 0.3009 | 47 |
+
+Probe result:
+
+| Target | Probe Status | Hidden Risks | Visible Risks |
+| --- | --- | ---: | ---: |
+| `relation_reliability_v3_binary_target` | `target_independence_risk_hidden_metadata_correlated` | 7 | 2 |
+| `geometry_support_v3_binary_target` | `target_independence_risk_hidden_metadata_correlated` | 7 | 4 |
+| `relation_usefulness_v3_binary_target` | `target_independence_risk_hidden_metadata_correlated` | 7 | 2 |
+
+Interpretation:
+
+- The positive-sparse target problem is improved: relation reliability now has
+  `32` positives and `78` negatives.
+- However, target-independence is not solved. `endpoint_flag_pattern_hidden`,
+  `sampling_category_hidden`, `geometry_status_hidden`, `label_match_status_hidden`,
+  `subject_label`, and `object_label` remain shortcut risks.
+- The target is therefore materialized but not posterior-ready.
+- The next step must be dedicated target-independence audit, not posterior smoke.
+- This remains train-only hypothesis-stage evidence and not paper-level human
+  annotation evidence.
+
+## Reliability Target V3 Target Independence Audit
+
+2026-06-20 KST에 `reliability_target_v3_target_independence_audit`을 진행했다. 이
+단계는 v3 target의 positive mass가 아니라 target independence를 확인했다. Posterior는
+학습하지 않았다.
+
+Result:
+
+```text
+status = h002_reliability_target_v3_target_independence_audit_blocked_no_controlled_slice
+relation_rows = 110
+relation_pos = 32
+relation_neg = 78
+errors = 0
+relation_strict = none
+relation_diagnostic = none
+validation_used = False
+test_used = False
+next = reliability_target_v3_path_decision
+```
+
+Per-target decisions:
+
+| Target | Status | Rows | Pos | Neg | Strict Slice | Diagnostic Slice |
+| --- | --- | ---: | ---: | ---: | --- | --- |
+| `relation_reliability_v3_binary_target` | `blocked_no_controlled_slice` | 110 | 32 | 78 | `none` | `none` |
+| `geometry_support_v3_binary_target` | `blocked_no_controlled_slice` | 113 | 92 | 21 | `none` | `none` |
+| `relation_usefulness_v3_binary_target` | `blocked_no_controlled_slice` | 113 | 34 | 79 | `none` | `none` |
+
+Main reliability target risks:
+
+| Risk | Key | Majority Acc | NMI | Pos Rate Range |
+| --- | --- | ---: | ---: | ---: |
+| endpoint pattern | `endpoint_flag_pattern_hidden` | 0.9182 | 0.5978 | 1.0000 |
+| visible object identity | `object_label` | 0.9545 | 0.8587 | 1.0000 |
+| visible object identity | `subject_label` | 0.9091 | 0.7070 | 1.0000 |
+| hidden provenance | `sampling_category_hidden` | 0.7091 | 0.1640 | 0.4364 |
+| construction | `rank_band_hidden` | 0.7182 | 0.1680 | 0.6667 |
+| expected geometry alignment | `geometry_status_hidden` | 0.7091 | 0.1499 | 0.3723 |
+
+Interpretation:
+
+- v3 target은 positive-sparse 문제를 줄였지만 posterior-ready target independence를
+  확보하지 못했다.
+- `sampling_category_balanced_v3`와 `rank_band_balanced_v3` 같은 balanced slice는
+  존재하지만 endpoint/object shortcut risk를 제거하지 못한다.
+- Endpoint/object-balanced slice는 너무 작거나 construction risk가 남는다.
+- 따라서 다음 단계는 posterior smoke나 combiner upgrade가 아니라 path decision이다.
+
+## Reliability Target V3 Path Decision
+
+2026-06-20 KST에 `reliability_target_v3_path_decision`을 진행했다. 이 단계는 posterior
+smoke를 열지, combiner를 바꿀지, 아니면 target pool 자체를 다시 통제할지 결정했다.
+
+Result:
+
+```text
+status = h002_reliability_target_v3_path_decision_object_endpoint_controlled_sampling_first
+selected = revise_v3_object_endpoint_controlled_sampling
+posterior_allowed = False
+validation_used = False
+test_used = False
+next = reliability_target_v3_object_endpoint_controlled_plan
+```
+
+Decision:
+
+- posterior smoke를 실행하지 않는다.
+- combiner upgrade도 진행하지 않는다.
+- `geometry_support_v3_binary_target`을 main reliability target으로 쓰지 않는다.
+- v3 multi-axis label schema는 유지한다.
+- 다음 label pool은 object/endpoint-controlled sampling으로 다시 만든다.
+
+Interpretation:
+
+The current issue is not model capacity. The relation reliability target has
+positive mass, but target independence is not established. Object labels are
+valid relation context, yet if subject/object label or endpoint flag can explain
+the target almost alone, H002 cannot claim that semantic/geometry/coverage
+factors are being combined into reliability. Therefore the next step controls
+object and endpoint strata before any feature join or posterior smoke.
+
+## Reliability Target V3 Object/Endpoint-Controlled Plan
+
+2026-06-20 KST에 `reliability_target_v3_object_endpoint_controlled_plan`을 진행했다.
+이 단계는 label fill이나 posterior가 아니라, object/endpoint shortcut을 끊기 위한
+sampling cell feasibility를 계산했다.
+
+Result:
+
+```text
+status = h002_reliability_target_v3_object_endpoint_controlled_plan_ready_broader_mining_required
+candidate rows = 302
+strict subject/object/family eligible rows = 73
+posterior_allowed = False
+validation_used = False
+test_used = False
+next = reliability_target_v3_object_endpoint_candidate_mining
+```
+
+Cell feasibility:
+
+| Cell Type | Cells | Eligible Cells | Strong Cells | Eligible Rows | Pos Proxy | Neg Proxy |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `subject_object_family` | 139 | 12 | 3 | 73 | 36 | 37 |
+| `subject_object` | 119 | 13 | 3 | 89 | 46 | 43 |
+| `object_family` | 54 | 10 | 4 | 163 | 91 | 72 |
+| `object_predicate` | 89 | 5 | 2 | 73 | 22 | 51 |
+| `endpoint_family` | 12 | 10 | 6 | 274 | 194 | 80 |
+
+Recommended tiers:
+
+| Tier | Suggested Total |
+| --- | ---: |
+| `T1_strict_subject_object_family` | 51 |
+| `T2_object_family_fallback` | 42 |
+| `T3_endpoint_family_balance` | 65 |
+
+Interpretation:
+
+- Strict object-matched cells are necessary but not sufficient.
+- `object_family` and `endpoint_family` fallback tiers are required to reach a
+  practical next label pool.
+- Candidate-positive/negative proxy is a sampling stratum only, not a label.
+- The next step is candidate mining into a label sheet with post-label-only
+  hidden manifest.
+
+## Reliability Target V3 Object/Endpoint Candidate Mining
+
+2026-06-20 KST에 `reliability_target_v3_object_endpoint_candidate_mining`을 진행했다.
+이 단계는 label fill이나 posterior가 아니라, recommended object/endpoint control cell을
+실제 train-only v3 label sheet로 변환한 것이다.
+
+Result:
+
+```text
+status = h002_reliability_target_v3_object_endpoint_candidate_mining_ready_with_selection_deficit
+requested rows = 158
+selected rows = 130
+selection residual = 28
+candidate-positive proxy strata = 68
+candidate-negative proxy strata = 62
+label_surface_leakage_hits = 0
+packet_path_errors = 0
+posterior_allowed = False
+validation_used = False
+test_used = False
+next = reliability_target_v3_object_endpoint_label_fill
+```
+
+Tier summary:
+
+| Tier | Rows | Pos Proxy | Neg Proxy | support_contact | relative_vertical | Unique Scans |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `T1_strict_subject_object_family` | 50 | 25 | 25 | 22 | 28 | 29 |
+| `T2_object_family_fallback` | 31 | 14 | 17 | 23 | 8 | 27 |
+| `T3_endpoint_family_balance` | 49 | 29 | 20 | 32 | 17 | 33 |
+
+Interpretation:
+
+- The label sheet is ready for hypothesis-stage v3 label fill.
+- The 28-row residual comes from tier overlap plus duplicate-pair / scan-diversity controls.
+- Proxy class, sampling tier/cell, semantic score/rank, `p_geom_valid`, geometry status,
+  label-match status, endpoint flag pattern, and matched-predicate hints are not labeler-visible.
+- Hidden construction fields are stored only in the post-label manifest.
+- This is not posterior evidence; posterior smoke remains blocked until label fill, ingestion,
+  and target-independence audit pass.
+
+## Reliability Target V3 Object/Endpoint Label Fill
+
+2026-06-20 KST에 `reliability_target_v3_object_endpoint_label_fill`을 진행했다.
+이 단계는 object/endpoint-controlled `130`-row sheet를 hypothesis-stage Codex proxy로
+채운 것이다.
+
+Result:
+
+```text
+status = h002_reliability_target_v3_object_endpoint_label_filled_codex_proxy_user_requested
+rows = 130
+reliable = 8
+unreliable_geometry = 26
+unreliable_trivial = 73
+unreliable_ontology = 0
+uncertain = 23
+input_errors = 0
+fill_validation_errors = 0
+posterior_allowed = False
+validation_used = False
+test_used = False
+next = reliability_target_v3_object_endpoint_label_ingestion
+```
+
+Interpretation:
+
+- `supports_predicate` and `relation_reliability` are now explicitly separated.
+- `85` rows support the geometry predicate, but only `8` rows are reliable because
+  `75` rows are `trivial_dense_or_room_structure`.
+- The label distribution may still be positive-sparse for the main reliability target.
+- The next step must ingest the labels and audit target independence before any posterior smoke.
+
+## Reliability Target V3 Object/Endpoint Label Ingestion
+
+2026-06-20 KST에 `reliability_target_v3_object_endpoint_label_ingestion`을 진행했다.
+이 단계는 채워진 `130`개 v3 label을 ingest하고, reliability / geometry-support /
+usefulness target을 분리해 만든 것이다.
+
+Result:
+
+```text
+status = h002_reliability_target_v3_object_endpoint_label_ingested_positive_sparse_with_probe_risk
+rows = 130
+relation reliability target = 107 rows, 8 positive, 99 negative
+geometry support target = 111 rows, 85 positive, 26 negative
+relation usefulness target = 111 rows, 10 positive, 101 negative
+ingestion_errors = 0
+probe = target_independence_risk_hidden_metadata_correlated
+posterior_allowed = False
+validation_used = False
+test_used = False
+next = reliability_target_v3_object_endpoint_target_independence_audit
+```
+
+Interpretation:
+
+- `geometry_support_v3_binary_target` has usable mass, but the main
+  `relation_reliability_v3_binary_target` is positive-sparse.
+- The quick probe flags hidden/visible shortcut risk, but it is imbalance-sensitive
+  because the reliability target has only `8/107` positives.
+- The next audit must separate true shortcut risk from positive-sparse majority-baseline artifact.
+- Posterior smoke remains blocked.
+
+## Reliability Target V3 Object/Endpoint Target Independence Audit
+
+2026-06-20 KST에 `reliability_target_v3_object_endpoint_target_independence_audit`을
+진행했다. 이 단계는 object/endpoint-controlled v3 target failure가 실제 shortcut인지,
+positive-sparse target artifact인지 분리하기 위한 train-only 감사다. Posterior smoke는
+실행하지 않았다.
+
+Result:
+
+```text
+status = h002_reliability_target_v3_object_endpoint_target_independence_audit_reliability_blocked_geometry_support_available
+relation reliability target = 107 rows, 8 positive, 99 negative, blocked_positive_sparse
+geometry support target = 111 rows, 85 positive, 26 negative, blocked_no_controlled_slice
+relation usefulness target = 111 rows, 10 positive, 101 negative, blocked_positive_sparse
+validation_errors = 0
+posterior_allowed = False
+validation_used = False
+test_used = False
+next = reliability_target_v3_object_endpoint_path_decision
+```
+
+Interpretation:
+
+- Main `relation_reliability_v3_binary_target`은 positive가 `8/107`뿐이라 posterior-ready가
+  아니다.
+- `relation_usefulness_v3_binary_target`도 `10/111` positive라 같은 positive-sparse
+  문제가 있다.
+- `geometry_support_v3_binary_target`은 `85/26`으로 mass가 있지만 strict/diagnostic
+  controlled slice가 없으므로, relation reliability target을 대체하면 안 된다.
+- 현재 병목은 posterior 결합 방식이 아니라 posterior가 배울 target 정의와 샘플링이다.
+
+## Reliability Target V3 Object/Endpoint Path Decision
+
+2026-06-20 KST에 `reliability_target_v3_object_endpoint_path_decision`을 진행했다.
+이 단계는 object/endpoint-controlled v3 target audit 이후 posterior를 열지, geometry-support를
+main target으로 바꿀지, 또는 target/sampling을 다시 고칠지 결정한 것이다. Posterior smoke와
+combiner upgrade는 실행하지 않았다.
+
+Result:
+
+```text
+status = h002_reliability_target_v3_object_endpoint_path_decision_informative_anchor_sampling
+selected = revise_v3_informative_positive_anchor_sampling
+relation reliability target = 107 rows, 8 positive, 99 negative
+geometry supports-predicate rows = 85
+unreliable_trivial rows = 73
+posterior_allowed = False
+validation_used = False
+test_used = False
+next = reliability_target_v3_informative_anchor_plan
+```
+
+Interpretation:
+
+- Geometry-support를 main target으로 바꾸면 H002의 핵심 구분인
+  `semantic score != geometry validity != relation reliability`가 사라진다.
+- 같은 object/endpoint sampling을 더 모으면 reliable positive보다 trivial negative가 더
+  많이 늘 가능성이 크다.
+- 현재 남은 병목은 object/endpoint shortcut만이 아니라 `trivial room/surface relation`
+  dominance다.
+- 따라서 다음 단계는 object/endpoint control을 유지하면서 informative reliable positive anchor를
+  별도로 찾는 sampling plan이다.
+- informative-anchor mining도 controlled reliability target을 만들지 못하면 H002는 posterior
+  method claim이 아니라 RGA diagnostic/decomposition framework로 정리한다.
+
+## Reliability Target V3 Informative Anchor Plan
+
+2026-06-20 KST에 `reliability_target_v3_informative_anchor_plan`을 진행했다. 이 단계는
+object/endpoint control을 유지하면서 `floor`, `wall`, `ceiling` 중심 trivial relation을
+cap하고, informative reliable positive가 될 가능성이 높은 row를 별도 sampling category로
+mine하기 위한 plan이다. Label fill과 posterior는 실행하지 않았다.
+
+Result:
+
+```text
+status = h002_reliability_target_v3_informative_anchor_plan_ready_with_asset_requests
+full train support/vertical rows = 286102
+informative positive proxy rows = 87054
+geometry contradiction negative proxy rows = 1828
+trivial room/surface negative proxy rows = 180518
+uncertain/ontology proxy rows = 16702
+selected seed rows = 160
+selected packet-ready rows = 126
+selected asset-needed rows = 34
+validation_used = False
+test_used = False
+posterior_allowed = False
+next = reliability_target_v3_informative_anchor_candidate_mining
+```
+
+Interpretation:
+
+- Informative positive proxy 후보는 충분히 존재한다.
+- 기존 object/endpoint attempt에서 빠진 것은 geometry support 자체가 아니라 non-trivial
+  reliable relation positive를 적극적으로 찾는 sampling axis다.
+- Selected seed는 `40/40/40/40` category로 구성한다:
+  informative positive, geometry contradiction negative, trivial room/surface negative,
+  uncertain/ontology negative.
+- `floor`, `wall`, `ceiling`은 제거하지 않고 trivial negative로 cap한다.
+- 34개 seed는 asset packet이 필요하므로 다음 candidate mining 단계에서 packet request 또는
+  packet-ready-only fallback을 명시해야 한다.
+- Posterior reopen gate는 그대로 유지한다.
+
+## Reliability Target V3 Informative Anchor Candidate Mining
+
+2026-06-20 KST에 `reliability_target_v3_informative_anchor_candidate_mining`을 진행했다.
+이 단계는 informative-anchor plan의 160개 train-only seed를 실제 label sheet로 바꾸고,
+labeler에게 보이면 안 되는 proxy/sampling field를 post-label manifest로 분리하는 단계다.
+Label fill과 posterior는 실행하지 않았다.
+
+Result:
+
+```text
+status = h002_reliability_target_v3_informative_anchor_candidate_mining_ready_needs_asset_packets
+full label sheet rows = 160
+packet-ready fallback label sheet rows = 126
+asset-needed rows = 34
+unique scans = 94
+unique physical pairs = 160
+support_contact rows = 76
+relative_vertical rows = 84
+label-surface leakage hits = 0
+packet path errors = 0
+validation errors = 0
+validation_used = False
+test_used = False
+posterior_allowed = False
+next = reliability_target_v3_informative_anchor_asset_packets
+```
+
+Category summary:
+
+| Category | Rows | Packet Ready | Asset Needed | support_contact | relative_vertical | Unique Scans |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| `informative_reliable_positive_proxy` | 40 | 40 | 0 | 18 | 22 | 20 |
+| `geometry_contradiction_negative_proxy` | 40 | 40 | 0 | 24 | 16 | 31 |
+| `trivial_room_surface_negative_proxy` | 40 | 21 | 19 | 18 | 22 | 31 |
+| `uncertain_or_ontology_negative_proxy` | 40 | 25 | 15 | 16 | 24 | 28 |
+
+Interpretation:
+
+- Preferred route는 160-row full sheet를 유지하는 것이다.
+- Packet-ready-only fallback은 126 rows로 가능하지만, trivial room/surface negative와
+  uncertain/ontology negative가 각각 21/40, 25/40으로 줄어든다.
+- 따라서 fallback은 category coverage caveat가 붙는 진단용 route이고, primary route는 34개
+  asset packet을 먼저 생성하거나 연결한 뒤 full sheet를 채우는 것이다.
+- Candidate mining은 target을 만든 것이 아니라 label surface를 준비한 단계다. Posterior smoke는
+  label fill, ingestion, target-independence audit이 통과하기 전까지 계속 block한다.
+
+Main artifacts:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/150_reliability_target_v3_informative_anchor_candidate_mining.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/tools/reliability_target_v3_informative_anchor_candidate_mining.py
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_candidate_mining/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_candidate_mining/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_candidate_mining/informative_anchor_label_sheet.tsv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_candidate_mining/informative_anchor_packet_ready_label_sheet.tsv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_candidate_mining/informative_anchor_manifest_post_label_only.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_candidate_mining/asset_request_plan.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_candidate_mining/category_summary.csv
+```
+
+## Reliability Target V3 Informative Anchor Asset Packets
+
+2026-06-20 KST에 `reliability_target_v3_informative_anchor_asset_packets`을 진행했다.
+이 단계는 informative-anchor candidate mining에서 남아 있던 34개 `asset_needed` row에 대해
+multi-view/mesh/contact evidence packet을 생성하고, 기존 packet-ready 126개와 합쳐 full
+160-row label sheet를 packet-complete 상태로 만드는 단계다. Label fill과 posterior는 실행하지
+않았다.
+
+Result:
+
+```text
+status = h002_reliability_target_v3_informative_anchor_asset_packets_ready
+input selected rows = 160
+asset-needed input rows = 34
+generated packet rows = 34
+generated non-ready rows = 0
+full label sheet rows = 160
+ready label rows = 160
+packet path errors = 0
+label-surface leakage hits = 0
+validation errors = 0
+validation_used = False
+test_used = False
+posterior_allowed = False
+next = reliability_target_v3_informative_anchor_label_fill
+```
+
+Category summary:
+
+| Category | Rows | Ready | Generated | Existing | support_contact | relative_vertical | Unique Scans |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `geometry_contradiction_negative_proxy` | 40 | 40 | 0 | 40 | 24 | 16 | 31 |
+| `informative_reliable_positive_proxy` | 40 | 40 | 0 | 40 | 18 | 22 | 20 |
+| `trivial_room_surface_negative_proxy` | 40 | 40 | 19 | 21 | 18 | 22 | 31 |
+| `uncertain_or_ontology_negative_proxy` | 40 | 40 | 15 | 25 | 16 | 24 | 28 |
+
+Interpretation:
+
+- Preferred route인 full 160-row informative-anchor label fill이 가능해졌다.
+- 이전 blocker는 target definition이 아니라 34개 row의 packet 부재였다.
+- 이 단계는 posterior evidence가 아니라 label-readiness evidence다.
+- Posterior smoke는 label fill, ingestion, target-independence audit이 통과하기 전까지 계속 block한다.
+
+Main artifacts:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/151_reliability_target_v3_informative_anchor_asset_packets.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/tools/reliability_target_v3_informative_anchor_asset_packets.py
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_asset_packets/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_asset_packets/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_asset_packets/informative_anchor_full_label_sheet.tsv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_asset_packets/informative_anchor_full_manifest_post_label_only.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_asset_packets/generated_packet_manifest.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_asset_packets/asset_needed_manifest_with_packets_post_label_only.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_asset_packets/category_summary.csv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_asset_packets/packets/
+```
+
+## Reliability Target V3 Informative Anchor Label Fill
+
+2026-06-20 KST에 `reliability_target_v3_informative_anchor_label_fill`을 진행했다.
+이 단계는 full 160-row packet-complete informative-anchor sheet를 user-requested Codex proxy로
+채우는 단계다. Hidden proxy/sampling field는 label decision 전에 사용하지 않았고, label fill
+이후 diagnostics에만 조인했다. Posterior는 실행하지 않았다.
+
+Result:
+
+```text
+status = h002_reliability_target_v3_informative_anchor_label_filled_codex_proxy_user_requested
+rows = 160
+reliable = 35
+unreliable_geometry = 13
+unreliable_trivial = 34
+unreliable_ontology = 0
+uncertain = 78
+input validation errors = 0
+fill validation errors = 0
+validation_used = False
+test_used = False
+posterior_allowed = False
+next = reliability_target_v3_informative_anchor_label_ingestion
+```
+
+Axis counts:
+
+| Axis | Value | Count |
+| --- | --- | ---: |
+| geometry_support | `supports_predicate` | 72 |
+| geometry_support | `contradicts_predicate` | 13 |
+| geometry_support | `ambiguous` | 75 |
+| relation_usefulness | `informative` | 37 |
+| relation_usefulness | `trivial_dense_or_room_structure` | 35 |
+| relation_usefulness | `ontology_mismatch` | 13 |
+| relation_usefulness | `uncertain` | 75 |
+
+Post-label anchor-category diagnostics:
+
+| Anchor Category | Rows | Reliable | Unreliable Geometry | Unreliable Trivial | Uncertain |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| `informative_reliable_positive_proxy` | 40 | 32 | 0 | 0 | 8 |
+| `geometry_contradiction_negative_proxy` | 40 | 1 | 13 | 18 | 8 |
+| `trivial_room_surface_negative_proxy` | 40 | 2 | 0 | 16 | 22 |
+| `uncertain_or_ontology_negative_proxy` | 40 | 0 | 0 | 0 | 40 |
+
+Interpretation:
+
+- Informative-anchor sampling improved positive mass from the object/endpoint attempt's 8 reliable rows to 35 reliable rows.
+- Geometry support still does not equal reliability: 72 rows support the predicate, but only 35 are reliable.
+- The target is still not posterior-ready until ingestion and target-independence audit pass.
+- A specific risk is packet-source confounding: the 34 newly generated packet rows are all uncertain under the proxy fill.
+- Therefore the next step must derive targets and audit shortcut risks before any posterior smoke.
+
+Main artifacts:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/152_reliability_target_v3_informative_anchor_label_fill.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/tools/reliability_target_v3_informative_anchor_label_fill.py
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_label_fill_codex_proxy_user_requested/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_label_fill_codex_proxy_user_requested/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_label_fill_codex_proxy_user_requested/completed_informative_anchor_label_sheet_codex_proxy_user_requested.tsv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_label_fill_codex_proxy_user_requested/informative_anchor_v3_proxy_labels.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_label_fill_codex_proxy_user_requested/post_label_diagnostics.csv
+```
+
+## Reliability Target V3 Informative Anchor Label Ingestion
+
+2026-06-20 KST에 `reliability_target_v3_informative_anchor_label_ingestion`을 진행했다.
+이 단계는 filled v3 labels를 ingest하고 relation reliability, geometry support, relation
+usefulness target을 분리해 만드는 단계다. Posterior는 실행하지 않았다.
+
+Result:
+
+```text
+status = h002_reliability_target_v3_informative_anchor_label_ingested_with_probe_risk
+rows = 160
+relation reliability binary = 82 rows, 35 positive, 47 negative
+geometry support binary = 85 rows, 72 positive, 13 negative
+relation usefulness binary = 85 rows, 37 positive, 48 negative
+ingestion errors = 0
+relation reliability probe = target_independence_risk_hidden_metadata_correlated
+validation_used = False
+test_used = False
+posterior_allowed = False
+next = reliability_target_v3_informative_anchor_target_independence_audit
+```
+
+Binary target counts:
+
+| Target | Rows | Positive | Negative | Positive Rate | Excluded |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| `relation_reliability_v3_binary_target` | 82 | 35 | 47 | 0.4268 | 78 |
+| `geometry_support_v3_binary_target` | 85 | 72 | 13 | 0.8471 | 75 |
+| `relation_usefulness_v3_binary_target` | 85 | 37 | 48 | 0.4353 | 75 |
+
+Probe summary:
+
+| Target | Probe Status | Hidden Risks | Visible Risks |
+| --- | --- | ---: | ---: |
+| `relation_reliability_v3_binary_target` | `target_independence_risk_hidden_metadata_correlated` | 11 | 2 |
+| `geometry_support_v3_binary_target` | `target_independence_risk_hidden_metadata_correlated` | 13 | 4 |
+| `relation_usefulness_v3_binary_target` | `target_independence_risk_hidden_metadata_correlated` | 11 | 2 |
+
+Interpretation:
+
+- Informative-anchor path finally produces usable relation reliability target mass: 35 positive / 47 negative.
+- This improves the object/endpoint attempt's positive-sparse 8 / 99 relation reliability target.
+- However, this is not posterior-ready because quick probes flag construction shortcuts.
+- The strongest risks are anchor category, endpoint pattern, object labels, subject/object family cells, and rank band.
+- Therefore the next step must be a target-independence audit, not posterior smoke.
+
+Main artifacts:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/153_reliability_target_v3_informative_anchor_label_ingestion.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/tools/reliability_target_v3_informative_anchor_label_ingestion.py
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_label_ingestion_codex_proxy_user_requested/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_label_ingestion_codex_proxy_user_requested/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_label_ingestion_codex_proxy_user_requested/validated_informative_anchor_v3_labels.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_label_ingestion_codex_proxy_user_requested/relation_reliability_v3_binary_targets.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_label_ingestion_codex_proxy_user_requested/geometry_support_v3_binary_targets.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_label_ingestion_codex_proxy_user_requested/relation_usefulness_v3_binary_targets.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_label_ingestion_codex_proxy_user_requested/target_independence_probe.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v3_informative_anchor_label_ingestion_codex_proxy_user_requested/target_independence_probe_summaries.csv
+```
 
 ## Next Step
 
 The next H002 step is:
 
 ```text
-full_train_independent_support_vertical_v2_target_independence_audit
+reliability_target_v4_matched_contrast_target_independence_audit
 ```
 
 Goal:
 
-- determine whether strict controlled target slices exist for geometry validity
-  and relation reliability.
-- separate expected geometry alignment from harmful prior-label carryover.
-- decide whether posterior smoke can proceed or v2 label policy/selection must
-  be revised again.
-- keep proximity outside the main label-ingestion path and preserve it as risk slice.
-- keep generic high-capacity combiners deferred.
-- keep the decision hypothesis-stage and train-only.
-- keep multi-view as audit evidence only, not posterior input.
+- test whether a controlled slice remains after object/family/rank/packet-source risks are removed.
+- decide whether posterior smoke is allowed, blocked, or needs another target construction revision.
+- keep relation reliability, geometry support, and relation usefulness targets separated.
+- keep multi-view as audit/label evidence only, not posterior input.
+- keep posterior smoke blocked until target-independence audit passes.
 - keep validation/test unavailable.
 - continue without paper-level posterior performance claims.
+
+## Reliability Target V4 Matched Contrast Target Independence Audit
+
+2026-06-21 KST에 `reliability_target_v4_matched_contrast_target_independence_audit`를
+진행했다. 이 단계는 v4 matched-contrast target이 posterior smoke로 넘어갈 만큼
+target-independent한지 확인하는 gate다. Posterior는 학습하지 않았고, validation/test는
+사용하지 않았다.
+
+결과:
+
+```text
+status = h002_reliability_target_v4_matched_contrast_target_independence_audit_blocked
+validation_errors = 0
+relation reliability = 47 rows, 23 positive, 24 negative
+geometry support = 47 rows, 30 positive, 17 negative
+relation usefulness = 50 rows, 25 positive, 25 negative
+posterior_allowed = False
+validation_used = False
+test_used = False
+next = reliability_target_v4_matched_contrast_path_decision
+```
+
+핵심 판단:
+
+- v4 matched-contrast target은 class balance를 확보했지만 posterior-ready는 아니다.
+- `matched_contrast_role_hidden` 자체는 original relation reliability target에서 strong risk로
+  잡히지 않았다.
+- 그러나 `subject_object_family_cell_hidden`이 relation reliability label을 완전히 설명한다
+  (`NMI=1.0000`, majority accuracy `1.0000`).
+- visible `subject_label`도 strong shortcut이다 (`NMI=0.7764`, majority accuracy `0.9149`).
+- `endpoint_flag_pattern_hidden`, `endpoint_family_cell_hidden`, `object_family_cell_hidden`,
+  visible `object_label`도 target과 강하게 묶여 있다.
+- 18개 controlled slice 중 strict 또는 diagnostic posterior-ready slice는 없다.
+
+해석:
+
+현재 target으로 posterior smoke를 돌리면 결합 방식이 좋아져도 relation reliability를 배운 것인지,
+object/family shortcut을 배운 것인지 방어할 수 없다. 따라서 다음 단계는 posterior가 아니라
+`reliability_target_v4_matched_contrast_path_decision`이다.
+
+Main artifacts:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/163_reliability_target_v4_matched_contrast_target_independence_audit.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/tools/reliability_target_v4_matched_contrast_target_independence_audit.py
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_target_independence_audit_codex_proxy_user_requested/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_target_independence_audit_codex_proxy_user_requested/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_target_independence_audit_codex_proxy_user_requested/slice_summaries.csv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_target_independence_audit_codex_proxy_user_requested/group_summaries.csv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_target_independence_audit_codex_proxy_user_requested/group_table.csv
+```
+
+## Next Step
+
+The next H002 step is:
+
+```text
+reliability_target_v4_matched_contrast_path_decision
+```
+
+Goal:
+
+- decide whether to rebuild the target with stronger endpoint/object controls.
+- keep relation reliability as the main target only if target-independence can be defended.
+- keep geometry support and relation usefulness as auxiliary evidence axes, not replacement main targets.
+- keep posterior smoke blocked until a strict controlled reliability slice exists.
+
+## Reliability Target V4 Matched Contrast Path Decision
+
+2026-06-21 KST에 `reliability_target_v4_matched_contrast_path_decision`을 진행했다.
+이 단계는 v4 target-independence audit이 blocked 된 뒤 posterior를 강행할지,
+같은 v4 sampling을 확장할지, target construction을 다시 바꿀지 결정하는 gate다.
+Posterior는 학습하지 않았고 validation/test는 사용하지 않았다.
+
+결과:
+
+```text
+status = h002_reliability_target_v4_matched_contrast_path_decision_select_v5_cell_contrast_feasibility
+selected_path = v5_cell_contrast_feasibility_scan
+relation reliability = 47 rows, 23 positive, 24 negative
+direct reliable/unreliable pair contrast = 1 / 79 pairs
+posterior_allowed = False
+validation_used = False
+test_used = False
+next = reliability_target_v5_cell_contrast_feasibility_scan
+```
+
+핵심 판단:
+
+- v4는 role/source/geometry balancing을 개선했지만 subject/object-family shortcut을 해결하지 못했다.
+- `subject_object_family_cell_hidden`이 relation reliability target을 완전히 설명한다.
+- current v4의 `subject_object_family_cell_balanced_v4` slice는 `0` rows다.
+- pairwise direct contrast도 `1/79` pairs로 너무 sparse하다.
+- 따라서 posterior smoke도, 같은 v4 sampling 단순 확장도 선택하지 않는다.
+
+선택한 다음 경로는 `v5_cell_contrast_feasibility_scan`이다. 이는 label fill이 아니라 full train pool에서
+same subject/object/family cell 안에 reliable-like와 unreliable-like 후보가 함께 존재하는지 먼저
+확인하는 단계다.
+
+Main artifacts:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/164_reliability_target_v4_matched_contrast_path_decision.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/tools/reliability_target_v4_matched_contrast_path_decision.py
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_path_decision_codex_proxy_user_requested/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_path_decision_codex_proxy_user_requested/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_path_decision_codex_proxy_user_requested/option_matrix.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_path_decision_codex_proxy_user_requested/failure_matrix.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v4_matched_contrast_path_decision_codex_proxy_user_requested/next_plan.json
+```
+
+## Next Step
+
+The next H002 step is:
+
+```text
+reliability_target_v5_cell_contrast_feasibility_scan
+```
+
+Goal:
+
+- scan full train-only support/vertical pool for within-cell positive/negative capacity.
+- use subject/object/family cell as a control axis, not a learned shortcut.
+- decide whether another label round is justified.
+- freeze H002 as an RGA diagnostic framework if the feasibility scan fails.
+
+## Reliability Target V5 Cell Contrast Feasibility Scan
+
+2026-06-21 KST에 `reliability_target_v5_cell_contrast_feasibility_scan`을 진행했다.
+이 단계는 v4에서 드러난 subject/object-family shortcut을 줄일 수 있는지 확인하기 위해,
+새 label fill 전에 full train-only support/vertical pool의 within-cell contrast capacity만
+측정하는 gate다. Label fill, posterior training, validation/test 사용은 하지 않았다.
+
+결과:
+
+```text
+status = h002_reliability_target_v5_cell_contrast_feasibility_ready_for_candidate_mining
+selected_level = strict_predicate_subject_object_endpoint
+selected rows = 80
+selected pairs = 40
+selected mixed cells = 21
+max_cell_share = 0.0500
+packet_ready = 2
+asset_needed = 78
+posterior_allowed = False
+validation_used = False
+test_used = False
+next = reliability_target_v5_cell_contrast_candidate_mining
+```
+
+핵심 판단:
+
+- strict predicate + subject/object label + endpoint pattern level에서도 mixed proxy capacity가 있다.
+- eligible groups는 `137`, balanced pair capacity는 `167`이다.
+- selected preview는 `40` pairs / `80` rows / `21` cells이고 single-cell share는 `0.05`다.
+- `support_contact`와 `relative_vertical`이 모두 포함된다 (`48/32` rows).
+- 다만 packet coverage는 낮다: `2/80` ready, `78/80` asset-needed.
+
+해석:
+
+v4의 실패는 H002 아이디어 자체의 불가능성이 아니라 v4 label construction이 exact object-cell
+control을 만들지 못한 문제에 가깝다. Full train pool에는 더 엄격한 cell contrast label round를
+시도할 capacity가 있다. Posterior smoke는 여전히 blocked이며, 다음 단계는 v5 candidate sheet와
+asset path를 만드는 것이다.
+
+Main artifacts:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/165_reliability_target_v5_cell_contrast_feasibility_scan.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/tools/reliability_target_v5_cell_contrast_feasibility_scan.py
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v5_cell_contrast_feasibility_scan/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v5_cell_contrast_feasibility_scan/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v5_cell_contrast_feasibility_scan/matching_level_inventory.csv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v5_cell_contrast_feasibility_scan/cell_inventory.csv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v5_cell_contrast_feasibility_scan/seed_preview_internal.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v5_cell_contrast_feasibility_scan/feasibility_contract.json
+```
+
+## Next Step
+
+The next H002 step is:
+
+```text
+reliability_target_v5_cell_contrast_candidate_mining
+```
+
+Goal:
+
+- turn the v5 strict-cell feasibility preview into a candidate/label sheet.
+- keep cell contrast roles hidden from the label surface.
+- prepare asset packet generation/readiness for the `78` asset-needed rows.
+- keep posterior smoke blocked until v5 labels are filled, ingested, and target-independence audit passes.
+
+## Reliability Target V5 Cell Contrast Candidate Mining
+
+2026-06-21 KST에 `reliability_target_v5_cell_contrast_candidate_mining`을 진행했다.
+이 단계는 v5 feasibility scan의 strict predicate+subject/object+endpoint contrast preview를
+blind label sheet, hidden manifest, asset request plan으로 변환하는 단계다. Label fill,
+posterior training, validation/test 사용은 하지 않았다.
+
+결과:
+
+```text
+status = h002_reliability_target_v5_cell_contrast_candidate_mining_ready_needs_asset_packets
+selected_level = strict_predicate_subject_object_endpoint
+label rows = 80
+contrast pairs = 40
+contrast cells = 21
+packet_ready = 2
+asset_needed = 78
+asset_request_rows = 78
+field/value leakage = 0 / 0
+packet/input errors = 0 / 0
+posterior_allowed = False
+validation_used = False
+test_used = False
+next = reliability_target_v5_cell_contrast_asset_packets
+```
+
+해석:
+
+- Candidate label surface는 blind contract를 만족한다. Cell contrast role, source queue,
+  rank band, geometry status, proxy label은 hidden manifest에만 남긴다.
+- Hidden role, source queue, geometry status는 각각 `40/40`으로 balanced다.
+- Family distribution은 `support_contact:48`, `relative_vertical:32`다.
+- 하지만 packet-ready row는 `2/80`뿐이다. 따라서 label fill이 아니라 asset packet
+  generation/readiness가 다음 gate다.
+- Posterior smoke는 v5 label fill, ingestion, target-independence audit 이후에만 다시 열 수 있다.
+
+Main artifacts:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/166_reliability_target_v5_cell_contrast_candidate_mining.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/tools/reliability_target_v5_cell_contrast_candidate_mining.py
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v5_cell_contrast_candidate_mining/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v5_cell_contrast_candidate_mining/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v5_cell_contrast_candidate_mining/cell_contrast_label_sheet.tsv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v5_cell_contrast_candidate_mining/asset_request_plan.jsonl
+```
+
+## Next Step
+
+The next H002 step is:
+
+```text
+reliability_target_v5_cell_contrast_asset_packets
+```
+
+Goal:
+
+- generate or verify asset packets for the `78` asset-needed rows.
+- keep label fill blocked until packet coverage is sufficient.
+- preserve the blind label-surface contract.
+- keep posterior smoke blocked until label fill, ingestion, and target-independence audit pass.
+
+## Reliability Target V5 Cell Contrast Asset Packets
+
+2026-06-21 KST에 `reliability_target_v5_cell_contrast_asset_packets`을 진행했다.
+이 단계는 v5 candidate mining의 `78` asset-needed rows에 multi-view / mesh /
+contact-context evidence packet을 생성하고, 기존 `2` packet-ready rows와 합쳐 full
+`80`-row label sheet를 만드는 단계다. Label fill, posterior training, validation/test
+사용은 하지 않았다.
+
+결과:
+
+```text
+status = h002_reliability_target_v5_cell_contrast_asset_packets_partial
+input selected rows = 80
+asset-needed input rows = 78
+generated packet rows = 78
+generated ready rows = 66
+generated non-ready rows = 12
+existing packet-ready rows = 2
+full label sheet rows = 80
+ready label rows = 68
+packet path errors = 1
+label-surface leakage hits = 0
+visible value leakage hits = 0
+validation errors = 0
+validation_used = False
+test_used = False
+posterior_allowed = False
+next = reliability_target_v5_cell_contrast_asset_packet_gap_audit
+```
+
+해석:
+
+- Label surface leakage와 packet text leakage는 `0`이다.
+- Full sheet는 `68/80` ready, `12/80` partial이다.
+- Partial rows는 `support_contact:6`, `relative_vertical:6`으로 나뉜다.
+- Partial 원인은 주로 endpoint crop 부족이다: subject crop missing `6`, object crop missing `7`.
+- Mesh packet은 모든 partial row에서 생성됐다. 단 `ftv5cc_0a7d66060905`는
+  `contact_or_context_sheet`가 비어 있어 packet path error `1`이 발생했다.
+- 따라서 label fill은 아직 blocked이고, 다음 단계는 partial rows를 limited-view evaluable로
+  볼 수 있는지 또는 replacement/needs-more-evidence로 보낼지 결정하는 gap audit이다.
+
+Main artifacts:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/167_reliability_target_v5_cell_contrast_asset_packets.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/tools/reliability_target_v5_cell_contrast_asset_packets.py
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v5_cell_contrast_asset_packets/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v5_cell_contrast_asset_packets/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v5_cell_contrast_asset_packets/cell_contrast_full_label_sheet.tsv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v5_cell_contrast_asset_packets/generated_non_ready_packet_rows.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v5_cell_contrast_asset_packets/packet_path_errors.jsonl
+```
+
+## Next Step
+
+The next H002 step is:
+
+```text
+reliability_target_v5_cell_contrast_asset_packet_gap_audit
+```
+
+Goal:
+
+- inspect the `12` partial rows and the `1` empty packet path.
+- decide limited-view-evaluable vs replacement/needs-more-evidence.
+- keep label fill and posterior smoke blocked until packet coverage is resolved.
+
+## Reliability Target V5 Cell Contrast Asset Packet Gap Audit
+
+2026-06-21 KST에 `reliability_target_v5_cell_contrast_asset_packet_gap_audit`을
+진행했다. 이 단계는 v5 asset packet generation의 partial packet rows를 label fill 전에
+감사하고, pair integrity를 유지하기 위해 replacement-needed row가 있는 pair 전체를 제외하는
+단계다. Label fill, posterior training, validation/test 사용은 하지 않았다.
+
+결과:
+
+```text
+status = h002_reliability_target_v5_cell_contrast_asset_packet_gap_audit_ready_for_label_readiness
+input rows = 80
+input pairs = 40
+label-ready rows = 72
+label-ready pairs = 36
+excluded rows = 8
+excluded pairs = 4
+limited-view rows kept = 6
+replacement-needed rows = 5
+output path errors = 0
+visible leakage hits = 0
+input validation errors = 0
+validation_used = False
+test_used = False
+posterior_allowed = False
+next = reliability_target_v5_cell_contrast_label_readiness
+```
+
+해석:
+
+- `36` cell-contrast pairs가 label-ready로 남았고, hidden role balance는
+  `positive_proxy:36`, `negative_proxy:36`이다.
+- Family balance는 `support_contact:44`, `relative_vertical:28`이다.
+- `6` limited-view rows는 mesh/contact evidence가 충분하다고 판단되어 유지했다.
+- `5` replacement-needed rows 때문에 `4` pairs를 제외했다:
+  `v5cell_0013`, `v5cell_0014`, `v5cell_0033`, `v5cell_0034`.
+- 이전 단계의 empty `contact_or_context_sheet` 문제는 해당 pair가 제외되면서 label-ready sheet에서
+  사라졌다. Output path errors와 visible leakage hits는 `0`이다.
+- Posterior smoke는 여전히 blocked이며, 다음 단계는 label fill이 아니라 label-readiness validation이다.
+
+Main artifacts:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/168_reliability_target_v5_cell_contrast_asset_packet_gap_audit.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/tools/reliability_target_v5_cell_contrast_asset_packet_gap_audit.py
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v5_cell_contrast_asset_packet_gap_audit/summary.json
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v5_cell_contrast_asset_packet_gap_audit/report.md
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v5_cell_contrast_asset_packet_gap_audit/label_ready_full_label_sheet.tsv
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v5_cell_contrast_asset_packet_gap_audit/label_ready_full_manifest_post_label_only.jsonl
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v5_cell_contrast_asset_packet_gap_audit/excluded_pair_ids.txt
+```
+
+## Next Step
+
+The next H002 step is:
+
+```text
+reliability_target_v5_cell_contrast_label_readiness
+```
+
+Goal:
+
+- validate the `72`-row / `36`-pair label-ready sheet.
+- check expected columns, packet paths, role balance, leakage, and readiness status.
+- keep label fill and posterior smoke blocked until readiness passes.

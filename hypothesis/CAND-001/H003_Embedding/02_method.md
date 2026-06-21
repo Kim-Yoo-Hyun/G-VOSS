@@ -1,6 +1,6 @@
 # H003 Method Contract
 
-Last updated: 2026-06-18 KST
+Last updated: 2026-06-20 KST
 
 ## Input Tuple
 
@@ -24,7 +24,27 @@ Do not start with raw point clouds or multi-view crops as the first H003 prototy
 
 ## Representation
 
-Two-tower or shared-encoder variants are possible.
+The first H003 gate uses M3 before M2.
+
+M3 factorized posterior:
+
+```text
+P(R_e = 1 | S_e, G_e, C_e, U_e, interactions)
+```
+
+where:
+
+- `S_e`: semantic evidence such as source score/rank and predicate/object semantics.
+- `G_e`: compact object-pair geometry evidence or explicit geometry score.
+- `C_e`: geometry coverage and evaluability state.
+- `U_e`: uncertainty / unsupported / low-evidence state.
+- `interactions`: combinations such as high-semantic / low-geometry.
+
+This is the first deployable reliability model because it is easier to audit and
+compare against existing score-combination baselines.
+
+M2 embedding is the second-stage representation-learning method. Two-tower or
+shared-encoder variants are possible.
 
 Recommended first contract:
 
@@ -87,7 +107,13 @@ Avoid treating all unannotated GT-missing relations as negatives. Sparse annotat
 
 ## Loss Candidates
 
-Preferred first-stage objective:
+Preferred first-stage objective for M3:
+
+```text
+binary reliability classification with calibrated probability
+```
+
+Preferred second-stage objective for M2:
 
 ```text
 binary consistency classification + margin ranking
@@ -99,7 +125,7 @@ Reason:
 - compatible with existing recall/violation metrics.
 - permits calibration metrics.
 
-Second-stage objectives:
+Later objectives:
 
 - contrastive loss.
 - triplet loss.
@@ -116,6 +142,8 @@ Required baselines:
 | `source_score_only` | source score/rank | Measures whether source confidence already contains the signal. |
 | `semantic_only` | predicate/object classes/source score | Tests object-class and language-prior shortcut. |
 | `geometry_only` | compact pair geometry | Tests whether semantics are unnecessary. |
+| `semantic_times_geometry` | source score x geometry score | Tests the naive H001-adjacent combination. |
+| `factorized_posterior` | semantic + geometry + coverage + uncertainty + interactions | First H003 method target. |
 | `explicit_rule_score` | deterministic geometry policy | Tests whether learning adds value beyond H001-style verification. |
 | `embedding_compatibility` | semantic + geometry representation | Candidate H003 method. |
 
@@ -170,4 +198,3 @@ H003 can move from hypothesis docs to prototype implementation only after:
 - shortcut controls are specified.
 - baseline list is fixed.
 - H001 artifacts remain read-only and untouched.
-

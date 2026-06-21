@@ -1,6 +1,6 @@
 # Research Index
 
-Last updated: 2026-06-14 KST
+Last updated: 2026-06-21 KST
 
 ## Docs Directory Usage
 
@@ -34,6 +34,17 @@ Current snapshot:
 - Low-K reporting decision is to expose K = `{5, 10, 20, 50, 100}` where table space and provenance support it; K=1 remains a sanity check only. The current checkout does not expose a tracked low-K result directory, so low-K metric/CI artifacts should be regenerated or restored before final upload/package claims.
 - Qwen-VL full official validation downstream is complete as a third-source / modern VLM extension: 157 scans, 548 contexts, 110,424 query rows, 46,506 inferable input rows, 35,131 exported predictions, 32,236 in-scope predictions, 3,972 H001-family GT rows, metrics/controls/bootstrap/failure rows, and 36 deterministic qualitative cases. It remains appendix/extension evidence unless explicitly promoted.
 - Latest known paper build is `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, exit 0, 9 pages. Older packages generated before GeoCalib/Figure-1 updates should be regenerated before upload.
+- H002 active hypothesis branch lives at
+  `hypothesis/CAND-001/H002_factorized-relation-confidence/`. It frames
+  semantic score / geometry validity mismatch as relation-level reliability.
+  Current H002 status: reliability target v5 cell contrast asset packet gap
+  audit is complete and ready for label-readiness validation. From the 80-row
+  / 40-pair sheet, the audit keeps 72 rows / 36 pairs label-ready, preserves
+  hidden role balance `positive_proxy:36` / `negative_proxy:36`, and excludes
+  4 pairs (`v5cell_0013`, `v5cell_0014`, `v5cell_0033`, `v5cell_0034`).
+  Output path errors, visible leakage hits, and input validation errors are 0.
+  Posterior smoke remains blocked. Next step is
+  `reliability_target_v5_cell_contrast_label_readiness`.
 
 CAND-001 H001은 H001-Mini, hardened `VL-SAT` evaluation, G2 point/subtype join, G3 controls, G4 structured audit, reduced 50-row visual sanity check, G5 baseline feasibility, G6 reportability, FROSS/Open3DSG second-source feasibility, final scoped evidence lock, GT-based verifier evaluation, scoped main experiment implementation spec, Docker scoped experiment result, Open3DSG second-source metric/failure evidence, paper preview, bilingual paper outline, first-pass manuscript draft, Figure 1-3 source lock, verified draft Figure 1-3 generation, top-tier novelty/layout figure review, ICCV-style source conversion, AAAI-style source conversion, and AAAI reproducibility checklist까지 완료했다. H001 문서는 `01_overview.md` through `07_experiment_spec.md`의 7개 canonical file로 병합했다.
 
@@ -152,6 +163,7 @@ CAND-003은 2026-04-30 P1 paper intake까지 통해 RieMind, `3D-VCD`, `SayPlan`
 - `literature/CAND-003.md`: CAND-003 literature survey
 - `archive/hypothesis_records/hypothesis/README.md`: hypothesis index
 - `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/`: active H001 files
+- `hypothesis/CAND-001/H002_factorized-relation-confidence/`: active H002 factorized relation reliability hypothesis branch
 - `experiments/H001_geom_reliability/`: active Docker experiment root
 - `results/h001_geom_reliability/`: compact paper-facing H001 tables, reports, manifests, and figure specs
 - `archive/README.md`: archived/superseded/optional material map

@@ -213,11 +213,11 @@ v2 target-derivation fields are kept under audit_only_target_derivation_fields.
 Next action:
 
 ```text
-full_train_independent_support_vertical_v2_target_independence_audit
+revise_full_train_independent_support_vertical_v2_target_or_collect_independent_labels
 ```
 
 Goal:
 
-- determine whether a strict controlled target slice exists for relation reliability.
-- separate expected geometry alignment from harmful prior-label carryover.
-- decide whether posterior smoke may proceed or label policy/selection must be revised again.
+- v2 target-independence audit은 `93_full_train_independent_support_vertical_v2_target_independence_audit.md`에서 완료됐다.
+- strict relation-reliability slice가 없으므로 posterior smoke는 계속 막는다.
+- target construction을 다시 수정할지, stronger independent labels를 수집할지 결정한다.
