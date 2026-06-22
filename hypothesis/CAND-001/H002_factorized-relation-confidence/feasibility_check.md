@@ -1,6 +1,6 @@
 # H002 Feasibility Check
 
-Last updated: 2026-06-14
+Last updated: 2026-06-22
 
 ## Question
 
@@ -207,13 +207,16 @@ Not yet feasible as a method claim:
 ## Decision
 
 Adopt this as a next H002 hypothesis extension, but do not inject `V_mv_e` into
-the immediate `33_codex_label_smoke.md`.
+the current base `S_e/G_e/C_e/U_e` posterior path.
 
 Current immediate path:
 
 ```text
-32_human_label_readiness.md -> 33_codex_label_smoke.md ->
-34_multiview_audit_protocol.md -> 35_factorized_validation_plan.md
+summary_branch_v2.md / stages/ -> v10/v11 proximity feasibility ->
+v12 LH-only path decision -> v13 label readiness -> v14 label fill -> v15 label ingestion ->
+v16 target-independence audit -> v17 path decision -> v18 scene/geometry-aware repair plan ->
+v19 scene/geometry-aware candidate mining -> v20 scene/geometry-aware label fill ->
+scene/geometry-aware label ingestion
 ```
 
 Future multi-view path:
@@ -349,8 +352,9 @@ Recommended pair condition:
 
 Why useful:
 
-- `43_within_rank_stability.md`와 `44_rank_matched_target.md`에서 pairwise accuracy는
-  grouped metric보다 H002에 더 우호적이었다.
+- Earlier rank-matched pilot results, now summarized in `summary_branch_v2.md`
+  and `stages/v1_rga_pilot.md`,
+  suggested pairwise accuracy can be more favorable than grouped metrics.
 - 현재 label size가 작기 때문에 pairwise objective가 target 구조에 더 맞을 수 있다.
 
 Risk:
@@ -490,8 +494,10 @@ after semantic/rank proxy is controlled.
 
 Reason:
 
-- `44_rank_matched_target.md` shows factorized posterior is still weaker than
-  `negative_rank_only` under grouped CV.
+- Earlier rank-matched target diagnostics, now consolidated in `summary_branch_v2.md`
+  and `stages/`,
+  showed that factorized posterior was still weaker than a rank-only proxy under
+  grouped CV.
 - Pairwise signal exists, but grouped method support is not stable.
 - Therefore the next problem is label/target independence and residual evidence,
   not model capacity.

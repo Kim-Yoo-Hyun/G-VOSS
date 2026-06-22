@@ -61,6 +61,6 @@ Before rerunning, uploading, transferring, or deleting H001 artifacts, read `doc
 
 - `summary.md`: current research story, evidence, claim boundary, and paper direction.
 - `TODO.md`: current task board.
-- `docs/index.md`: dashboard and file ownership pointers.
+- `docs/index.md`: documentation index and file ownership pointers.
 - `docs/reproducibility.md`: recovery, artifact bundle, dataset/checkpoint, and cleanup runbook.
 - `results/h001_geom_reliability/report.md`: compact H001 result summary.

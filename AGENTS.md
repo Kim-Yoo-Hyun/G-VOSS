@@ -22,7 +22,7 @@
 
 - 이 repo의 기본 구조는 `AGENTS.md = 상위 규칙과 파일 책임`, `docs/*.md` 및 각 폴더 `README.md = 세부 runbook/state`이다.
 - 이 파일에는 변하지 않는 rule, document ownership, claim boundary, experiment safety rule만 둔다.
-- 최신 실험 상태, 긴 artifact 목록, 실행 명령, row count, recovery checklist는 `docs/reproducibility.md`, `docs/index.md`, `summary.md`, `TODO.md`, `experiments/**/README.md`에 둔다.
+- 최신 실험 상태, 긴 artifact 목록, 실행 명령, row count, recovery checklist는 `docs/reproducibility.md`, `summary.md`, `TODO.md`, `experiments/**/README.md`에 둔다. `docs/index.md`는 색인과 문서 위치 안내만 소유한다.
 - 특정 폴더의 세부 규칙은 그 폴더의 `README.md` 또는 필요 시 nested `AGENTS.md`로 분리한다.
 - `AGENTS.md`를 run log, paper draft, artifact inventory, download checklist, or metric table로 사용하지 않는다.
 - Codex의 project instruction size limit을 고려해 이 파일은 간결하게 유지한다. 긴 목록은 owning document로 이동한다.
@@ -50,7 +50,7 @@ H001 resume, upload, deletion, or other-computer recovery work must start from `
 - `README.md`: human-facing project overview and current high-level phase. It should summarize where the work stands, not duplicate runbooks.
 - `TODO.md`: mutable task board. Owns `Now`, `Next`, and recently completed items. It should not contain long literature notes, full metrics, or large command logs.
 - `summary.md`: consolidated research summary. Owns problem definition, hypothesis, contribution, metric/baseline plan, current evidence, and top-level paper direction.
-- `docs/index.md`: state dashboard. Owns current status, active questions, and pointers to working files.
+- `docs/index.md`: documentation index. Owns navigation pointers and file-role links only; current status, active questions, metrics, and artifact inventories belong to the smallest authoritative owner such as `TODO.md`, `summary.md`, folder `README.md`, or reports.
 - `docs/literature.md`: literature workflow rulebook. Owns how to create paper cards, trend synthesis, and contribution scans.
 - `docs/hypothesis.md`: hypothesis workflow rulebook. Owns candidate/hypothesis stages, gate criteria, and hypothesis artifact conventions.
 - `docs/experiments.md`: Docker experiment workflow rulebook. Owns experiment promotion criteria, root-creation checklist, source adapter expectations, metric-freeze gates, and paper-result boundary rules.
@@ -72,7 +72,7 @@ H001 resume, upload, deletion, or other-computer recovery work must start from `
 ## Documentation Ownership Rules
 
 - If a change adds or changes a rule, update `AGENTS.md`.
-- If a change updates current status, active work, or completion history, update `TODO.md` and possibly `docs/index.md`.
+- If a change updates current status, active work, or completion history, update `TODO.md` and the smallest authoritative owner. Update `docs/index.md` only when document locations, role maps, or durable workflow roots change.
 - If a change affects research framing, contribution, novelty, or reviewer defense, update `docs/paper.md`, `summary.md`, and the relevant `paper/` planning file.
 - If a change affects commands, datasets, checkpoints, model caches, artifact transfer, or cleanup safety, update `docs/reproducibility.md`, the relevant config README/compose file, and the relevant experiment README.
 - If a change affects a folder-local workflow, update that folder's `README.md`; do not expand `AGENTS.md` with folder-local details.
@@ -162,7 +162,7 @@ tmux new-session -d -s <job_name> "cd <workdir> && <resumable command> > logs/<j
 
 - `AGENTS.md`: stable rule이나 file-role 책임이 바뀔 때만 수정한다.
 - `TODO.md`: 시작할 작업은 `Now`, 바로 다음 작업은 `Next`, 완료한 작업은 `Recently Completed`에 둔다.
-- `docs/index.md`: 연구 상태 dashboard와 active questions가 바뀔 때 갱신한다.
+- `docs/index.md`: 문서 위치, role map, durable workflow root 색인이 바뀔 때만 갱신한다. 연구 상태 dashboard나 active questions는 소유하지 않는다.
 - `summary.md`: 문제 정의, 가설, contribution, metric, baseline, experiment setting, claim boundary가 바뀔 때 갱신한다.
 - `docs/literature.md` / `literature/`: 문헌 조사 절차와 결과를 관리한다. 자세한 paper card와 trend synthesis는 `literature/`에 둔다.
 - `docs/hypothesis.md` / `archive/hypothesis_records/hypothesis/`: hypothesis gate, method sketch, smoke-test artifact convention, audit/evidence lock을 관리한다.
