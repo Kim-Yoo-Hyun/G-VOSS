@@ -1,6 +1,6 @@
 # Commands
 
-Last updated: 2026-06-04
+Last updated: 2026-06-23
 
 Run from the repository root.
 
@@ -183,12 +183,30 @@ env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --
 env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm bootstrap_ci_full_validation_vlsat
 ```
 
+Low-K metric sweep for the paper table, without overwriting locked
+`metrics/`:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm --entrypoint python table_builder \
+  /workspace/src/geocalib/evaluate_predictions.py \
+  --predictions-jsonl /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/predictions.jsonl \
+  --ground-truth-jsonl /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl \
+  --verification-jsonl /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/geometry/verification.jsonl \
+  --output-dir /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics_k_sweep \
+  --families support_contact proximity relative_vertical \
+  --ks 5 10 20 50 100 \
+  --policy filter_safe \
+  --rule-variants obb_only point_subtype point_subtype_no_soft_support \
+  --ablation-controls p_geom_valid_only distance_only family_specific_p_geom_valid shuffled_geometry wrong_pair_geometry \
+  --family-specific-model-json /workspace/archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json
+```
+
 Latest downstream result: predictions `957,008`, ground-truth rows `11,254`,
 H001-family GT rows `3,972`, geometry rows preserved `957,008/957,008`, metric
-status `ready`, GT verifier AUROC `0.9772`, bootstrap warnings `0`. This is
-valid VL-SAT full-validation metric evidence, but paper-wide full-validation
-promotion now depends on explicit user confirmation and table/report
-regeneration.
+status `ready`, GT verifier AUROC `0.9772`, bootstrap warnings `0`. Low-K
+point metrics are ready under `metrics_k_sweep/` for K=`{5,10,20,50,100}`;
+K=50/100 matches the locked `metrics/` bundle. This is the controlled-anchor
+source used by the current main source-result table.
 
 ## Open3DSG Full Validation Runtime
 
@@ -235,7 +253,8 @@ env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --
 env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_full_validation_table6_caveats
 ```
 
-Latest result: status `open3dsg_full_validation_metric_bundle_ready_with_caveats`.
+Unmodified-source full-validation result: status
+`open3dsg_full_validation_metric_bundle_ready_with_caveats`.
 Views are 157/157; preprocess is 533/548 with 15 missing contexts after
 recovery; covered-scope features are 533/533; raw stream wrote 26,746 rows and
 533 completed batches; adapter has 690,924 prediction rows; geometry preserves
@@ -246,6 +265,32 @@ R@50/R@100 `0.3943/0.5685`, V@50/@100 `0.0590/0.0807`;
 rule_verified_point_subtype R@50/R@100 `0.4242/0.5320`, V@50/@100 `0.0/0.0`;
 family_specific control R@50/R@100 `0.4612/0.5999`, V@50/@100
 `0.0265/0.0332`.
+
+Low-K metric sweep for the selected 548/548 Open3DSG recovery branch, without
+overwriting locked `metrics/`:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm --entrypoint python table_builder \
+  /workspace/src/geocalib/evaluate_predictions.py \
+  --predictions-jsonl /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/adapter/predictions.jsonl \
+  --ground-truth-jsonl /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl \
+  --verification-jsonl /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/geometry/verification.jsonl \
+  --output-dir /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep \
+  --families support_contact proximity relative_vertical \
+  --ks 5 10 20 50 100 \
+  --policy filter_safe \
+  --rule-variants obb_only point_subtype point_subtype_no_soft_support \
+  --ablation-controls p_geom_valid_only distance_only family_specific_p_geom_valid shuffled_geometry wrong_pair_geometry \
+  --family-specific-model-json /workspace/archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json
+```
+
+Selected recovery low-K result: predictions `695,916`, ground-truth rows
+`11,254`, H001-family GT rows `3,972`, geometry rows preserved
+`695,916/695,916`, metric status `ready`. K=50/100 matches the locked recovery
+`metrics/` bundle. Main low-K pattern: Open3DSG semantic_only has
+R@5/R@10 `0.0368/0.1002` and V@5/V@10 `0.5131/0.3255`;
+family_specific_p_geom_valid has R@5/R@10 `0.0984/0.1921` and V@5/V@10
+`0.0420/0.0482`.
 
 Review the unmodified 533/548 branch clean-exit retry/equivalence closeout:
 

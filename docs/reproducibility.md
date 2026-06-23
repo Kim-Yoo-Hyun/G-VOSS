@@ -127,8 +127,8 @@ Facts:
   replacement/verification, appendix/provenance and Open3DSG caveat-consistency
   pass, GeoCalib naming, and Figure-1 update. Docker build verification for
   `paper/aaai/` is complete with `h001-aaai-tex:20260526`; the latest
-  GeoCalib/Figure-1 rebuild log is
-  `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, with 9 total
+  low-K table rebuild log is
+  `logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log`, with 9 total
   pages, technical content on pages 1-7, references on page 8, and the
   reproducibility checklist on page 9. The manuscript uses Open3DSG as the main
   open-vocabulary relation-source case study and VL-SAT as the controlled
@@ -140,11 +140,14 @@ Facts:
   110,424 query rows / 46,506 inferable input rows / 35,131 exported
   predictions / 32,236 in-scope predictions / 3,972 H001-family GT rows. Treat
   Qwen as appendix/extension evidence unless explicitly promoted.
-- Low-K reporting has been accepted for K = `{5,10,20,50,100}` where table
-  space/provenance support it; K=1 remains sanity-check only. This checkout does
-  not expose a tracked low-K result directory, so restore or regenerate the
-  low-K metric/CI artifacts before final release/package upload if those rows
-  are reported.
+- Low-K reporting has been accepted for K = `{5,10,20,50,100}` in the main
+  source-result table; K=1 remains sanity-check only. Docker-regenerated
+  point-metric artifacts are available under
+  `experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics_k_sweep/`
+  and
+  `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/`.
+  K=50/100 values match each source's locked `metrics/metrics.json`; low-K
+  bootstrap CI is not claimed unless separately regenerated.
 - Runtime pressure is volatile: check `docker ps`, `tmux ls`, `nvidia-smi`, and
   `free -h` before launching heavy Open3DSG or Qwen jobs. The historical
   2026-05-26 Qwen-VL runtime-preflight retry was blocked by GPU guard, but the
@@ -945,17 +948,19 @@ sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/qwen_vl/co
 
 - artifact root:
   `experiments/H001_geom_reliability/sources/vlsat/full_validation/`
+- low-K metric root:
+  `experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics_k_sweep/`
 - command index: `experiments/H001_geom_reliability/commands.md`
 - status: `vlsat_full_validation_metric_bundle_ready`
 - scope: 157 scans, 548 contexts, 957,008 prediction rows, 11,254 GT rows,
   3,972 H001-family GT rows
 
-| Condition | R@50 | R@100 | Violation@50 | Violation@100 |
-| --- | ---: | ---: | ---: | ---: |
-| `semantic_only` | 0.9272 | 0.9635 | 0.0268 | 0.0476 |
-| `probabilistic_recalibrated` | 0.9305 | 0.9688 | 0.0229 | 0.0404 |
-| `rule_verified_point_subtype` | 0.9257 | 0.9627 | 0.0000 | 0.0000 |
-| `family_specific_p_geom_valid` | 0.9288 | 0.9683 | 0.0206 | 0.0333 |
+| Condition | R@5 | R@10 | R@20 | R@50 | R@100 | V@5 | V@10 | V@20 | V@50 | V@100 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `semantic_only` | 0.4194 | 0.6322 | 0.8074 | 0.9272 | 0.9635 | 0.0029 | 0.0082 | 0.0142 | 0.0268 | 0.0476 |
+| `probabilistic_recalibrated` | 0.4154 | 0.6322 | 0.8107 | 0.9305 | 0.9688 | 0.0015 | 0.0071 | 0.0120 | 0.0229 | 0.0404 |
+| `rule_verified_point_subtype` | 0.4197 | 0.6317 | 0.8074 | 0.9257 | 0.9627 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 |
+| `family_specific_p_geom_valid` | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 |
 
 Additional `VL-SAT` verifier/audit evidence:
 
@@ -967,12 +972,17 @@ Additional `VL-SAT` verifier/audit evidence:
 
 Open3DSG full-validation recovery result:
 
-| Condition | R@50 | R@100 | Violation@50 | Violation@100 |
-| --- | ---: | ---: | ---: | ---: |
-| `semantic_only` | 0.4096 | 0.5161 | 0.1386 | 0.1242 |
-| `probabilistic_recalibrated` | 0.3975 | 0.5723 | 0.0606 | 0.0811 |
-| `rule_verified_point_subtype` | 0.4295 | 0.5368 | 0.0000 | 0.0000 |
-| `family_specific_p_geom_valid` | 0.4658 | 0.6047 | 0.0286 | 0.0341 |
+- artifact root:
+  `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/`
+- low-K metric root:
+  `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/`
+
+| Condition | R@5 | R@10 | R@20 | R@50 | R@100 | V@5 | V@10 | V@20 | V@50 | V@100 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `semantic_only` | 0.0368 | 0.1002 | 0.1991 | 0.4096 | 0.5161 | 0.5131 | 0.3255 | 0.2088 | 0.1386 | 0.1242 |
+| `probabilistic_recalibrated` | 0.0826 | 0.1581 | 0.2603 | 0.3975 | 0.5723 | 0.0628 | 0.0699 | 0.0654 | 0.0606 | 0.0811 |
+| `rule_verified_point_subtype` | 0.0707 | 0.1314 | 0.2422 | 0.4295 | 0.5368 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 |
+| `family_specific_p_geom_valid` | 0.0984 | 0.1921 | 0.3291 | 0.4658 | 0.6047 | 0.0420 | 0.0482 | 0.0441 | 0.0286 | 0.0341 |
 
 Open3DSG historical 127-scan second-source result:
 

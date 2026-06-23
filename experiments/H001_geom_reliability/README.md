@@ -1,6 +1,6 @@
 # H001 Geometry Reliability Experiment
 
-Last updated: 2026-06-14 KST
+Last updated: 2026-06-23 KST
 
 This is the first paper-body experiment workflow for H001. It is Docker-based by rule.
 
@@ -10,7 +10,7 @@ Current experiment snapshot:
 
 - Main source-result route: VL-SAT full official validation plus Open3DSG full-validation `recovery_relaxed_views_min2/`.
 - Main claim boundary: scoped relation reliability for `support_contact`, `proximity`, and `relative_vertical`.
-- Low-K reporting: K = `{5, 10, 20, 50, 100}` is the accepted paper-facing grid where provenance is available; K=1 is sanity-check only. The current checkout does not expose a tracked low-K result directory, so regenerate/restore low-K artifacts before final upload if low-K rows remain in the paper table.
+- Low-K reporting: K = `{5, 10, 20, 50, 100}` is the accepted paper-facing grid; K=1 is sanity-check only. Current low-K provenance lives in `sources/vlsat/full_validation/metrics_k_sweep/` and `sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/`; K=50/100 values match the locked `metrics/` bundles exactly.
 - Qwen-VL full official validation downstream is complete as an appendix/extension third source, not as a main-source replacement.
 
 ## Scope
@@ -114,14 +114,14 @@ raw dump/export, ground-truth JSONL, geometry join, metrics, controls, GT
 verifier check, VL-SAT-only bootstrap CI, failure-analysis rows, and
 deterministic qualitative failure-case inspection under the same
 full-validation scope. Failure rows: 59,841; selected qualitative cases: 36.
-Key metrics:
+Key metrics from `sources/vlsat/full_validation/metrics_k_sweep/`:
 
-| condition | R@50 | R@100 | V@50 | V@100 |
-| --- | ---: | ---: | ---: | ---: |
-| semantic_only | 0.9272 | 0.9635 | 0.0268 | 0.0476 |
-| probabilistic_recalibrated | 0.9305 | 0.9688 | 0.0229 | 0.0404 |
-| rule_verified_point_subtype | 0.9257 | 0.9627 | 0.0000 | 0.0000 |
-| control_family_specific_p_geom_valid | 0.9288 | 0.9683 | 0.0206 | 0.0333 |
+| condition | R@5 | R@10 | R@20 | R@50 | R@100 | V@5 | V@10 | V@20 | V@50 | V@100 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| semantic_only | 0.4194 | 0.6322 | 0.8074 | 0.9272 | 0.9635 | 0.0029 | 0.0082 | 0.0142 | 0.0268 | 0.0476 |
+| probabilistic_recalibrated | 0.4154 | 0.6322 | 0.8107 | 0.9305 | 0.9688 | 0.0015 | 0.0071 | 0.0120 | 0.0229 | 0.0404 |
+| rule_verified_point_subtype | 0.4197 | 0.6317 | 0.8074 | 0.9257 | 0.9627 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 |
+| control_family_specific_p_geom_valid | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 |
 
 The Open3DSG full-validation metric bundle is also ready under
 `sources/open3dsg/full_validation/`. It was generated under separate output
@@ -142,14 +142,15 @@ Open3DSG full-validation coverage and row counts:
 - failure rows: 81,448
 - bootstrap CI: ready with 1,000 subgraph resamples
 
-Open3DSG full-validation metrics:
+Open3DSG full-validation recovery metrics from
+`sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/`:
 
-| condition | R@50 | R@100 | V@50 | V@100 |
-| --- | ---: | ---: | ---: | ---: |
-| semantic_only | 0.4043 | 0.5111 | 0.1387 | 0.1242 |
-| probabilistic_recalibrated | 0.3943 | 0.5685 | 0.0590 | 0.0807 |
-| rule_verified_point_subtype | 0.4242 | 0.5320 | 0.0000 | 0.0000 |
-| control_family_specific_p_geom_valid | 0.4612 | 0.5999 | 0.0265 | 0.0332 |
+| condition | R@5 | R@10 | R@20 | R@50 | R@100 | V@5 | V@10 | V@20 | V@50 | V@100 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| semantic_only | 0.0368 | 0.1002 | 0.1991 | 0.4096 | 0.5161 | 0.5131 | 0.3255 | 0.2088 | 0.1386 | 0.1242 |
+| probabilistic_recalibrated | 0.0826 | 0.1581 | 0.2603 | 0.3975 | 0.5723 | 0.0628 | 0.0699 | 0.0654 | 0.0606 | 0.0811 |
+| rule_verified_point_subtype | 0.0707 | 0.1314 | 0.2422 | 0.4295 | 0.5368 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 |
+| control_family_specific_p_geom_valid | 0.0984 | 0.1921 | 0.3291 | 0.4658 | 0.6047 | 0.0420 | 0.0482 | 0.0441 | 0.0286 | 0.0341 |
 
 Open3DSG full-validation caveats: the existing metric bundle uses the selected
 official non-avg BLIP checkpoint, the raw process exited `137` after stream
@@ -164,15 +165,13 @@ at 548/548. The recovery downstream branch is now complete under
 548/548, raw stream exit `0`, 26,938 raw rows / 548 completed batches, adapter
 695,916 prediction rows, geometry 695,916 rows, metrics/controls, bootstrap CI,
 82,155 failure rows, and Table 6/caveat regeneration are ready. Recovery
-metrics: semantic_only R@50/R@100 `0.4096/0.5161`, V@50/@100
-`0.1386/0.1242`; probabilistic_recalibrated R@50/R@100 `0.3975/0.5723`,
-V@50/@100 `0.0606/0.0811`; rule_verified_point_subtype R@50/R@100
-`0.4295/0.5368`, V@50/@100 `0.0/0.0`; family_specific control R@50/R@100
-`0.4658/0.6047`, V@50/@100 `0.0286/0.0341`. This branch removes the
-missing-context denominator caveat and is the selected paper-facing primary
-Open3DSG full-validation route, but it must be reported as a recovery-policy
-variant because it relaxes the visible-object gate and regenerates relaxed views
-for two scans. Recovery failure-case inspection is ready with 36 selected
+metrics are now reported on K=`{5,10,20,50,100}` in
+`metrics_k_sweep/metrics.json`; the K=50/100 entries match the locked
+`metrics/metrics.json` values exactly. This branch removes the missing-context
+denominator caveat and is the selected paper-facing primary Open3DSG
+full-validation route, but it must be reported as a recovery-policy variant
+because it relaxes the visible-object gate and regenerates relaxed views for
+two scans. Recovery failure-case inspection is ready with 36 selected
 high-severity cases: 25/36 demoted by geometry-aware reranking, 11/36 promoted
 or retained, and 8/36 violated rows with `p_geom_valid > 0.9`.
 

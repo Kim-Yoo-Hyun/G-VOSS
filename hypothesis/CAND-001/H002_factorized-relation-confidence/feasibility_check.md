@@ -216,7 +216,8 @@ summary_branch_v2.md / stages/ -> v10/v11 proximity feasibility ->
 v12 LH-only path decision -> v13 label readiness -> v14 label fill -> v15 label ingestion ->
 v16 target-independence audit -> v17 path decision -> v18 scene/geometry-aware repair plan ->
 v19 scene/geometry-aware candidate mining -> v20 scene/geometry-aware label fill ->
-scene/geometry-aware label ingestion
+v21 scene/geometry-aware label ingestion -> v22 scene/geometry-aware target-independence audit ->
+v23 path decision after audit -> v14 physical relation-family feasibility scan
 ```
 
 Future multi-view path:

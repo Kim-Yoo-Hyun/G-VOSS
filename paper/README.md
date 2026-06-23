@@ -1,6 +1,6 @@
 # GeoCalib / H001 Paper Workspace
 
-Last updated: 2026-06-14 KST
+Last updated: 2026-06-23 KST
 
 This directory contains paper-writing artifacts for GeoCalib/H001. It is a
 manuscript workspace, not an experiment-result root. Paper-result runtime
@@ -16,11 +16,10 @@ rules live in `docs/paper.md`.
 - Current claim style: scoped relation-reliability paper for
   geometry-checkable 3D Scene Graph relation families.
 - Non-claim: broad open-vocabulary 3DSSG generation improvement.
-- Latest known Docker build: `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, exit 0, 9 pages.
+- Latest known Docker build: `logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log`, exit 0, 9 pages.
 - Remaining paper-work class: portal/form verification, artifact URL/DOI,
-  supplementary/code-data decision, checklist answer pass, low-K provenance sync
-  if low-K rows remain in the main table, and release/package regeneration
-  after GeoCalib/Figure-1 updates.
+  supplementary/code-data decision, checklist answer pass, low-K artifact
+  inclusion in the release/package plan, and final PDF/source sanity checks.
 
 ## File Roles
 

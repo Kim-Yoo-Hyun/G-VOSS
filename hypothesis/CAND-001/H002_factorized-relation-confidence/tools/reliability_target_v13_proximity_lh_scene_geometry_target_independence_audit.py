@@ -1,0 +1,653 @@
+#!/usr/bin/env python3
+"""Audit target independence for H002 v13 proximity scene/geometry targets."""
+
+from __future__ import annotations
+
+import argparse
+import csv
+import json
+import math
+from collections import Counter, defaultdict
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any
+
+
+H002_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = Path(__file__).resolve().parents[4]
+RGA_ROOT = H002_ROOT / "artifacts/train_rga_full/open3dsg_train_full/rga"
+
+DEFAULT_INGESTION_DIR = RGA_ROOT / "reliability_target_v13_proximity_lh_scene_geometry_label_ingestion"
+DEFAULT_OUTPUT_DIR = RGA_ROOT / "reliability_target_v13_proximity_lh_scene_geometry_target_independence_audit"
+
+EXPECTED_INGESTION_STATUS = "h002_reliability_target_v13_proximity_lh_scene_geometry_label_ingested_positive_sparse_with_probe_risk"
+EXPECTED_NEXT_TODO = "reliability_target_v13_proximity_lh_scene_geometry_target_independence_audit"
+NEXT_TODO = "reliability_target_v13_proximity_lh_scene_geometry_path_decision_after_audit"
+
+SCHEMA_VERSION = "h002_reliability_target_v13_proximity_lh_scene_geometry_target_independence_audit_v1"
+
+POSTERIOR_MIN_PER_CLASS = 50
+STRICT_MIN_ROWS = 80
+STRICT_MIN_PER_CLASS = 40
+DIAGNOSTIC_MIN_ROWS = 40
+DIAGNOSTIC_MIN_PER_CLASS = 15
+
+RISK_THRESHOLDS = {
+    "majority_rule_accuracy": 0.85,
+    "majority_excess_over_baseline": 0.10,
+    "normalized_mutual_information": 0.20,
+    "large_group_rows": 8,
+    "large_group_purity": 0.90,
+}
+
+TARGET_SPECS = {
+    "relation_binary": {
+        "field": "relation_reliability_binary_target",
+        "usable": "relation_reliability_binary_usable",
+        "role": "primary",
+    },
+    "geometry_support_binary": {
+        "field": "geometry_support_binary_target",
+        "usable": "geometry_support_binary_usable",
+        "role": "auxiliary",
+    },
+    "usefulness_binary": {
+        "field": "scene_usefulness_binary_target",
+        "usable": "scene_usefulness_binary_usable",
+        "role": "auxiliary",
+    },
+    "relation_multiclass": {
+        "field": "relation_reliability_multiclass_target",
+        "usable": None,
+        "role": "diagnostic",
+    },
+}
+
+RISK_PREDICTORS = [
+    "scan_id",
+    "subject_label",
+    "object_label",
+    "subject_object_visible_pair",
+    "subject_object_label_pair_hidden",
+    "endpoint_cell_hidden",
+    "label_match_status_hidden",
+    "machine_hint_hidden",
+    "rank_band_hidden",
+    "semantic_rank_band_coarse",
+    "p_geom_bin_hidden",
+    "target_construction_block_hidden",
+    "scene_context_summary_v13",
+    "geometry_witness_summary_v13",
+    "nearest_neighbor_context_v13",
+    "local_density_context_v13",
+    "duplicate_or_many_alternatives_context_v13",
+]
+
+SLICE_SPECS = {
+    "full": [],
+    "same_block": ["target_construction_block_hidden"],
+    "same_visible_pair": ["subject_object_visible_pair"],
+    "same_hidden_label_pair": ["subject_object_label_pair_hidden"],
+    "same_rank_band": ["rank_band_hidden"],
+    "same_p_geom_bin": ["p_geom_bin_hidden"],
+    "same_label_match": ["label_match_status_hidden"],
+    "same_machine_hint": ["machine_hint_hidden"],
+    "same_geometry_witness": ["geometry_witness_summary_v13"],
+    "same_nearest_neighbor": ["nearest_neighbor_context_v13"],
+    "same_local_density": ["local_density_context_v13"],
+    "same_duplicate_context": ["duplicate_or_many_alternatives_context_v13"],
+    "same_block_rank": ["target_construction_block_hidden", "rank_band_hidden"],
+    "same_block_p_geom": ["target_construction_block_hidden", "p_geom_bin_hidden"],
+    "same_visible_pair_rank": ["subject_object_visible_pair", "rank_band_hidden"],
+    "same_visible_pair_p_geom": ["subject_object_visible_pair", "p_geom_bin_hidden"],
+    "same_rank_p_geom": ["rank_band_hidden", "p_geom_bin_hidden"],
+    "same_geometry_nearest": ["geometry_witness_summary_v13", "nearest_neighbor_context_v13"],
+}
+
+CONTROL_EQUIVALENCE = {
+    "subject_object_visible_pair": {"subject_object_visible_pair", "subject_object_label_pair_hidden"},
+    "subject_object_label_pair_hidden": {"subject_object_visible_pair", "subject_object_label_pair_hidden"},
+    "rank_band_hidden": {"rank_band_hidden", "semantic_rank_band_coarse"},
+    "semantic_rank_band_coarse": {"rank_band_hidden", "semantic_rank_band_coarse"},
+}
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--ingestion-dir", type=Path, default=DEFAULT_INGESTION_DIR)
+    parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
+    return parser.parse_args()
+
+
+def as_abs(path: Path) -> Path:
+    return path if path.is_absolute() else REPO_ROOT / path
+
+
+def rel_path(path: Path) -> str:
+    path = as_abs(path)
+    try:
+        return str(path.relative_to(REPO_ROOT))
+    except ValueError:
+        return str(path)
+
+
+def read_json(path: Path) -> dict[str, Any]:
+    with as_abs(path).open("r", encoding="utf-8") as handle:
+        return json.load(handle)
+
+
+def read_jsonl(path: Path) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    with as_abs(path).open("r", encoding="utf-8") as handle:
+        for line_no, line in enumerate(handle, start=1):
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                rows.append(json.loads(line))
+            except json.JSONDecodeError as exc:
+                raise ValueError(f"{path}:{line_no}: invalid JSON: {exc}") from exc
+    return rows
+
+
+def write_json(path: Path, payload: Any) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8") as handle:
+        json.dump(payload, handle, indent=2, sort_keys=True, ensure_ascii=False)
+        handle.write("\n")
+
+
+def write_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8") as handle:
+        for row in rows:
+            handle.write(json.dumps(row, sort_keys=True, ensure_ascii=False) + "\n")
+
+
+def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if not rows:
+        path.write_text("", encoding="utf-8")
+        return
+    fieldnames: list[str] = []
+    seen: set[str] = set()
+    for row in rows:
+        for key in row:
+            if key not in seen:
+                seen.add(key)
+                fieldnames.append(key)
+    with path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames, extrasaction="ignore")
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def validate_ingestion(summary: dict[str, Any], rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    errors: list[dict[str, Any]] = []
+    if summary.get("status") != EXPECTED_INGESTION_STATUS:
+        errors.append({"error_type": "unexpected_ingestion_status", "expected": EXPECTED_INGESTION_STATUS, "actual": summary.get("status")})
+    if summary.get("next_todo") != EXPECTED_NEXT_TODO:
+        errors.append({"error_type": "unexpected_ingestion_next_todo", "expected": EXPECTED_NEXT_TODO, "actual": summary.get("next_todo")})
+    if summary.get("validation_errors") != 0:
+        errors.append({"error_type": "ingestion_validation_errors_present", "actual": summary.get("validation_errors")})
+    boundary = summary.get("boundary", {})
+    for key in [
+        "validation_usage",
+        "test_usage",
+        "trains_new_posterior",
+        "posterior_smoke_allowed",
+        "paper_evidence_allowed",
+        "h001_artifacts_modified",
+        "rga_redefined_as_lh_only",
+        "multi_view_as_model_input",
+        "hidden_fields_as_model_input",
+    ]:
+        if boundary.get(key) is not False:
+            errors.append({"error_type": "ingestion_boundary_violation", "key": key, "actual": boundary.get(key)})
+    if summary.get("counts", {}).get("rows") != len(rows):
+        errors.append({"error_type": "row_count_mismatch", "expected": summary.get("counts", {}).get("rows"), "actual": len(rows)})
+    ids = [str(row.get("blind_review_id") or "") for row in rows]
+    for blind_id, count in Counter(ids).items():
+        if not blind_id or count > 1:
+            errors.append({"error_type": "blind_review_id_error", "blind_review_id": blind_id, "count": count})
+    for row in rows:
+        if row.get("split") != "train":
+            errors.append({"error_type": "non_train_row", "blind_review_id": row.get("blind_review_id"), "split": row.get("split")})
+        if row.get("predicate_label") != "close by":
+            errors.append({"error_type": "non_close_by_row", "blind_review_id": row.get("blind_review_id"), "predicate": row.get("predicate_label")})
+    return errors
+
+
+def semantic_rank_band_coarse(row: dict[str, Any]) -> str:
+    value = row.get("semantic_rank_hidden")
+    try:
+        rank = int(float(value))
+    except (TypeError, ValueError):
+        return "rank_missing"
+    if rank <= 200:
+        return "rank_001_200"
+    if rank <= 500:
+        return "rank_201_500"
+    if rank <= 1000:
+        return "rank_501_1000"
+    return "rank_gt1000"
+
+
+def enrich_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    enriched = []
+    for row in rows:
+        item = dict(row)
+        item["semantic_rank_band_coarse"] = semantic_rank_band_coarse(row)
+        enriched.append(item)
+    return enriched
+
+
+def target_rows(rows: list[dict[str, Any]], target_name: str) -> list[dict[str, Any]]:
+    spec = TARGET_SPECS[target_name]
+    usable = spec["usable"]
+    if usable is None:
+        return list(rows)
+    return [row for row in rows if row.get(usable) is True]
+
+
+def target_value(row: dict[str, Any], target_name: str) -> Any:
+    return row.get(TARGET_SPECS[target_name]["field"])
+
+
+def target_counts(rows: list[dict[str, Any]], target_name: str) -> Counter:
+    return Counter(str(target_value(row, target_name)) for row in rows)
+
+
+def min_class_count(counts: Counter) -> int:
+    return min(counts.values()) if counts else 0
+
+
+def entropy(counter: Counter) -> float:
+    total = sum(counter.values())
+    if total == 0:
+        return 0.0
+    result = 0.0
+    for count in counter.values():
+        if count:
+            p = count / total
+            result -= p * math.log(p, 2)
+    return result
+
+
+def nmi(rows: list[dict[str, Any]], predictor: str, target_name: str) -> float:
+    if not rows:
+        return 0.0
+    label_counts = Counter(str(target_value(row, target_name)) for row in rows)
+    group_counts = Counter(str(row.get(predictor, "missing")) for row in rows)
+    joint = Counter((str(row.get(predictor, "missing")), str(target_value(row, target_name))) for row in rows)
+    total = len(rows)
+    mi = 0.0
+    for (group, label), count in joint.items():
+        pxy = count / total
+        px = group_counts[group] / total
+        py = label_counts[label] / total
+        if pxy and px and py:
+            mi += pxy * math.log(pxy / (px * py), 2)
+    denom = math.sqrt(entropy(group_counts) * entropy(label_counts))
+    return mi / denom if denom else 0.0
+
+
+def majority_risk(rows: list[dict[str, Any]], predictor: str, target_name: str) -> dict[str, Any]:
+    if not rows:
+        return {
+            "predictor": predictor,
+            "target": target_name,
+            "rows": 0,
+            "groups": 0,
+            "risk_flag": False,
+            "majority_rule_accuracy": None,
+            "majority_baseline_accuracy": None,
+            "majority_excess_over_baseline": None,
+            "normalized_mutual_information": None,
+            "top_groups": [],
+        }
+    counts = target_counts(rows, target_name)
+    baseline = max(counts.values()) / len(rows)
+    groups: dict[str, Counter] = defaultdict(Counter)
+    for row in rows:
+        groups[str(row.get(predictor, "missing"))][str(target_value(row, target_name))] += 1
+    correct = sum(max(counter.values()) for counter in groups.values())
+    acc = correct / len(rows)
+    info = nmi(rows, predictor, target_name)
+    large_pure = False
+    top_groups = []
+    for group_value, counter in groups.items():
+        total = sum(counter.values())
+        majority_label, majority_count = counter.most_common(1)[0]
+        majority_rate = majority_count / total
+        if total >= RISK_THRESHOLDS["large_group_rows"] and majority_rate >= RISK_THRESHOLDS["large_group_purity"]:
+            large_pure = True
+        top_groups.append(
+            {
+                "group_value": group_value,
+                "rows": total,
+                "majority_label": majority_label,
+                "majority_rate": majority_rate,
+                "label_counts": dict(counter),
+            }
+        )
+    top_groups.sort(key=lambda item: (-item["rows"], str(item["group_value"])))
+    risk_flag = (
+        acc >= RISK_THRESHOLDS["majority_rule_accuracy"]
+        and acc - baseline >= RISK_THRESHOLDS["majority_excess_over_baseline"]
+    ) or info >= RISK_THRESHOLDS["normalized_mutual_information"] or large_pure
+    return {
+        "predictor": predictor,
+        "target": target_name,
+        "rows": len(rows),
+        "groups": len(groups),
+        "label_counts": dict(counts),
+        "majority_rule_accuracy": acc,
+        "majority_baseline_accuracy": baseline,
+        "majority_excess_over_baseline": acc - baseline,
+        "normalized_mutual_information": info,
+        "risk_flag": risk_flag,
+        "top_groups": top_groups[:12],
+    }
+
+
+def stable_sort_key(row: dict[str, Any]) -> tuple[str, str]:
+    return str(row.get("blind_review_id")), str(row.get("prediction_id"))
+
+
+def group_key(row: dict[str, Any], keys: list[str]) -> str:
+    if not keys:
+        return "__all__"
+    return "||".join(f"{key}={row.get(key, 'missing')}" for key in keys)
+
+
+def balanced_slice(rows: list[dict[str, Any]], keys: list[str], target_name: str) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    grouped: dict[str, dict[str, list[dict[str, Any]]]] = defaultdict(lambda: defaultdict(list))
+    for row in rows:
+        grouped[group_key(row, keys)][str(target_value(row, target_name))].append(row)
+    selected: list[dict[str, Any]] = []
+    mixed_groups = 0
+    for _, by_label in grouped.items():
+        if len(by_label) < 2:
+            continue
+        mixed_groups += 1
+        min_count = min(len(items) for items in by_label.values())
+        for items in by_label.values():
+            selected.extend(sorted(items, key=stable_sort_key)[:min_count])
+    counts = target_counts(selected, target_name)
+    return selected, {
+        "balanced_keys": keys,
+        "groups": len(grouped),
+        "mixed_groups": mixed_groups,
+        "selected_rows": len(selected),
+        "selected_counts": dict(counts),
+    }
+
+
+def controlled_predictors(keys: list[str]) -> set[str]:
+    controlled = set(keys)
+    for key in keys:
+        controlled.update(CONTROL_EQUIVALENCE.get(key, set()))
+    return controlled
+
+
+def slice_audit_for_target(rows: list[dict[str, Any]], target_name: str) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    audits: list[dict[str, Any]] = []
+    risks: list[dict[str, Any]] = []
+    rows_for_target = target_rows(rows, target_name)
+    for slice_name, keys in SLICE_SPECS.items():
+        selected, selection = balanced_slice(rows_for_target, keys, target_name)
+        counts = target_counts(selected, target_name)
+        controlled = controlled_predictors(keys)
+        slice_risks = [majority_risk(selected, predictor, target_name) for predictor in RISK_PREDICTORS]
+        for risk in slice_risks:
+            risks.append({"slice_name": slice_name, **risk})
+        blocking_risks = [risk for risk in slice_risks if risk.get("risk_flag") and risk["predictor"] not in controlled]
+        min_count = min_class_count(counts)
+        strict_mass = len(selected) >= STRICT_MIN_ROWS and min_count >= STRICT_MIN_PER_CLASS
+        diagnostic_mass = len(selected) >= DIAGNOSTIC_MIN_ROWS and min_count >= DIAGNOSTIC_MIN_PER_CLASS
+        strict_clear = strict_mass and not blocking_risks
+        diagnostic_clear = diagnostic_mass and not blocking_risks
+        audits.append(
+            {
+                "target": target_name,
+                "slice_name": slice_name,
+                "balanced_keys": "|".join(keys) if keys else "__none__",
+                "rows": len(selected),
+                "class_counts": dict(counts),
+                "min_class_count": min_count,
+                "groups": selection["groups"],
+                "mixed_groups": selection["mixed_groups"],
+                "strict_mass": strict_mass,
+                "diagnostic_mass": diagnostic_mass,
+                "blocking_risk_flags": len(blocking_risks),
+                "strict_clear": strict_clear,
+                "diagnostic_clear": diagnostic_clear,
+                "top_blocking_predictors": ",".join(risk["predictor"] for risk in blocking_risks[:8]),
+            }
+        )
+    return audits, risks
+
+
+def audit_target(rows: list[dict[str, Any]], target_name: str) -> dict[str, Any]:
+    rows_for_target = target_rows(rows, target_name)
+    counts = target_counts(rows_for_target, target_name)
+    class_mass_pass = bool(counts) and min_class_count(counts) >= POSTERIOR_MIN_PER_CLASS
+    slice_audits, _ = slice_audit_for_target(rows, target_name)
+    strict_clear_slices = [item for item in slice_audits if item["strict_clear"]]
+    diagnostic_clear_slices = [item for item in slice_audits if item["diagnostic_clear"]]
+    role = TARGET_SPECS[target_name]["role"]
+    posterior_allowed = target_name == "relation_binary" and class_mass_pass and bool(strict_clear_slices)
+    if target_name == "relation_binary" and not class_mass_pass:
+        status = "blocked_positive_sparse"
+    elif target_name == "relation_binary" and not strict_clear_slices:
+        status = "blocked_no_strict_independent_slice"
+    elif target_name == "relation_binary":
+        status = "ready_for_posterior_feature_join"
+    elif not class_mass_pass:
+        status = "auxiliary_or_diagnostic_positive_sparse"
+    elif not strict_clear_slices:
+        status = "auxiliary_or_diagnostic_no_strict_independent_slice"
+    else:
+        status = "auxiliary_or_diagnostic_strict_slice_available"
+    return {
+        "target": target_name,
+        "role": role,
+        "rows": len(rows_for_target),
+        "class_counts": dict(counts),
+        "min_class_count": min_class_count(counts),
+        "class_mass_pass": class_mass_pass,
+        "strict_clear_slice_count": len(strict_clear_slices),
+        "diagnostic_clear_slice_count": len(diagnostic_clear_slices),
+        "strict_clear_slices": [item["slice_name"] for item in strict_clear_slices],
+        "diagnostic_clear_slices": [item["slice_name"] for item in diagnostic_clear_slices],
+        "posterior_allowed": posterior_allowed,
+        "status": status,
+    }
+
+
+def quick_risks(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    risks = []
+    for target_name in TARGET_SPECS:
+        rows_for_target = target_rows(rows, target_name)
+        for predictor in RISK_PREDICTORS:
+            risks.append(majority_risk(rows_for_target, predictor, target_name))
+    return risks
+
+
+def write_report(path: Path, summary: dict[str, Any]) -> None:
+    lines = [
+        "# H002 V13 Proximity Scene/Geometry Target Independence Audit",
+        "",
+        f"Created at: `{summary['created_at']}`",
+        "",
+        "## Status",
+        "",
+        f"`{summary['status']}`",
+        "",
+        summary["decision"],
+        "",
+        "## Target Decisions",
+        "",
+        "| Target | Role | Rows | Classes | Class Mass | Strict Clear | Diagnostic Clear | Posterior | Status |",
+        "| --- | --- | ---: | --- | --- | ---: | ---: | --- | --- |",
+    ]
+    for target_name, decision in summary["target_decisions"].items():
+        lines.append(
+            "| "
+            f"`{target_name}` | `{decision['role']}` | {decision['rows']} | "
+            f"`{decision['class_counts']}` | {decision['class_mass_pass']} | "
+            f"{decision['strict_clear_slice_count']} | {decision['diagnostic_clear_slice_count']} | "
+            f"{decision['posterior_allowed']} | `{decision['status']}` |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Key Findings",
+            "",
+            f"- Primary reliability target has `min_class_count = {summary['target_decisions']['relation_binary']['min_class_count']}`, below the posterior gate `{POSTERIOR_MIN_PER_CLASS}`.",
+            f"- Full quick-probe risk flags: `{summary['counts']['full_quick_probe_risk_flags']}`.",
+            f"- Slice-level blocking risk flags: `{summary['counts']['slice_blocking_risk_flags']}`.",
+            "- Same-pair/block mixed contrast exists from v21, but it is not enough for posterior because class mass and shortcut controls still fail.",
+            "",
+            "## Boundary",
+            "",
+            "- Train-only rows.",
+            "- No validation/test rows.",
+            "- No posterior trained.",
+            "- Hidden fields are audit/control fields only, not model inputs.",
+            "",
+            "## Next",
+            "",
+            f"`{summary['next_todo']}`",
+            "",
+        ]
+    )
+    path.write_text("\n".join(lines), encoding="utf-8")
+
+
+def run(args: argparse.Namespace) -> dict[str, Any]:
+    ingestion_dir = as_abs(args.ingestion_dir)
+    output_dir = as_abs(args.output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    ingestion_summary = read_json(ingestion_dir / "summary.json")
+    raw_rows = read_jsonl(ingestion_dir / "ingested_rows.jsonl")
+    rows = enrich_rows(raw_rows)
+
+    validation_errors = validate_ingestion(ingestion_summary, rows)
+
+    target_decisions = {target_name: audit_target(rows, target_name) for target_name in TARGET_SPECS}
+    full_risks = quick_risks(rows)
+    full_risk_flags = [risk for risk in full_risks if risk.get("risk_flag")]
+
+    slice_audits: list[dict[str, Any]] = []
+    slice_risks: list[dict[str, Any]] = []
+    for target_name in TARGET_SPECS:
+        target_slice_audits, target_slice_risks = slice_audit_for_target(rows, target_name)
+        slice_audits.extend(target_slice_audits)
+        slice_risks.extend(target_slice_risks)
+    slice_blocking_risk_flags = sum(item["blocking_risk_flags"] for item in slice_audits)
+
+    relation = target_decisions["relation_binary"]
+    if validation_errors:
+        status = "h002_reliability_target_v13_proximity_lh_scene_geometry_target_independence_audit_errors"
+        decision = "Validation errors remain; posterior smoke is not allowed."
+    elif relation["posterior_allowed"]:
+        status = "h002_reliability_target_v13_proximity_lh_scene_geometry_target_independence_audit_ready"
+        decision = "Primary relation reliability target has enough class mass and a strict clear controlled slice."
+    elif relation["status"] == "blocked_positive_sparse":
+        status = "h002_reliability_target_v13_proximity_lh_scene_geometry_target_independence_audit_blocked_positive_sparse_and_shortcut_risk"
+        decision = "Primary relation reliability target is blocked by positive sparsity; remaining shortcut risk also prevents posterior smoke."
+    else:
+        status = "h002_reliability_target_v13_proximity_lh_scene_geometry_target_independence_audit_blocked_shortcut_risk"
+        decision = "Primary relation reliability target has no strict clear independent slice; posterior smoke remains blocked."
+
+    posterior_allowed = bool(relation["posterior_allowed"]) and not validation_errors
+
+    output_paths = {
+        "summary": output_dir / "summary.json",
+        "report": output_dir / "report.md",
+        "target_decisions": output_dir / "target_decisions.json",
+        "full_shortcut_risks": output_dir / "full_shortcut_risks.json",
+        "slice_audit": output_dir / "slice_audit.csv",
+        "slice_risks": output_dir / "slice_risks.json",
+        "validation_errors": output_dir / "validation_errors.jsonl",
+    }
+
+    summary = {
+        "schema_version": SCHEMA_VERSION,
+        "status": status,
+        "decision": decision,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "input_paths": {
+            "ingestion_summary": rel_path(ingestion_dir / "summary.json"),
+            "ingested_rows": rel_path(ingestion_dir / "ingested_rows.jsonl"),
+        },
+        "output_dir": rel_path(output_dir),
+        "output_paths": {key: rel_path(value) for key, value in output_paths.items()},
+        "counts": {
+            "rows": len(rows),
+            "full_quick_probe_risk_flags": len(full_risk_flags),
+            "slice_audit_rows": len(slice_audits),
+            "slice_risk_rows": len(slice_risks),
+            "slice_blocking_risk_flags": slice_blocking_risk_flags,
+        },
+        "target_decisions": target_decisions,
+        "risk_thresholds": RISK_THRESHOLDS,
+        "slice_thresholds": {
+            "posterior_min_per_class": POSTERIOR_MIN_PER_CLASS,
+            "strict_min_rows": STRICT_MIN_ROWS,
+            "strict_min_per_class": STRICT_MIN_PER_CLASS,
+            "diagnostic_min_rows": DIAGNOSTIC_MIN_ROWS,
+            "diagnostic_min_per_class": DIAGNOSTIC_MIN_PER_CLASS,
+        },
+        "boundary": {
+            "split": "train_only",
+            "validation_usage": False,
+            "test_usage": False,
+            "fills_new_labels": False,
+            "ingests_existing_labels": False,
+            "reads_hidden_audit_manifest_after_label_lock": True,
+            "hidden_fields_as_model_input": False,
+            "trains_new_posterior": False,
+            "posterior_smoke_allowed": posterior_allowed,
+            "paper_evidence_allowed": False,
+            "h001_artifacts_modified": False,
+            "rga_redefined_as_lh_only": False,
+            "multi_view_as_model_input": False,
+        },
+        "validation_errors": len(validation_errors),
+        "next_todo": NEXT_TODO,
+    }
+
+    write_json(output_paths["target_decisions"], target_decisions)
+    write_json(output_paths["full_shortcut_risks"], full_risks)
+    write_csv(output_paths["slice_audit"], slice_audits)
+    write_json(output_paths["slice_risks"], slice_risks)
+    write_jsonl(output_paths["validation_errors"], validation_errors)
+    write_json(output_paths["summary"], summary)
+    write_report(output_paths["report"], summary)
+    return summary
+
+
+def main() -> int:
+    summary = run(parse_args())
+    relation = summary["target_decisions"]["relation_binary"]
+    print(f"status={summary['status']}")
+    print(f"rows={summary['counts']['rows']}")
+    print(f"relation_binary_rows={relation['rows']}")
+    print(f"relation_binary_counts={relation['class_counts']}")
+    print(f"relation_class_mass_pass={relation['class_mass_pass']}")
+    print(f"relation_strict_clear_slices={relation['strict_clear_slice_count']}")
+    print(f"relation_diagnostic_clear_slices={relation['diagnostic_clear_slice_count']}")
+    print(f"full_quick_probe_risk_flags={summary['counts']['full_quick_probe_risk_flags']}")
+    print(f"slice_blocking_risk_flags={summary['counts']['slice_blocking_risk_flags']}")
+    print(f"posterior_allowed={summary['boundary']['posterior_smoke_allowed']}")
+    print(f"validation_errors={summary['validation_errors']}")
+    print(f"next={summary['next_todo']}")
+    return 0 if summary["validation_errors"] == 0 else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

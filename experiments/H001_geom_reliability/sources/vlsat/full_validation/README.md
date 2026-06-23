@@ -2,7 +2,7 @@
 
 Status: `vlsat_full_validation_metric_and_failure_analysis_ready`
 
-Last updated: `2026-06-05 KST`
+Last updated: `2026-06-23 KST`
 
 This directory owns the Docker-generated VL-SAT rerun on the full official
 `3DSSG_subset` validation scope. It is separate from the older 127-scan
@@ -26,6 +26,7 @@ hardened VL-SAT artifact.
 - adapter export: `adapter/`, status `ready`
 - geometry join: `geometry/`, status `ready`
 - metric eval: `metrics/`, status `ready`
+- low-K metric sweep: `metrics_k_sweep/`, status `ready`, K=`{5,10,20,50,100}`
 - GT verifier eval: `gt_eval/`, status `ready`
 - bootstrap CI: `bootstrap_ci/`, status `ready`
 - failure-analysis rows: `failure_rows/`, status `failure_analysis_real_ready`
@@ -34,12 +35,15 @@ hardened VL-SAT artifact.
 
 ## Key Metrics
 
-| condition | R@50 | R@100 | V@50 | V@100 |
-| --- | ---: | ---: | ---: | ---: |
-| semantic_only | 0.9272 | 0.9635 | 0.0268 | 0.0476 |
-| probabilistic_recalibrated | 0.9305 | 0.9688 | 0.0229 | 0.0404 |
-| rule_verified_point_subtype | 0.9257 | 0.9627 | 0.0000 | 0.0000 |
-| control_family_specific_p_geom_valid | 0.9288 | 0.9683 | 0.0206 | 0.0333 |
+Low-K sweep artifact: `metrics_k_sweep/metrics.json`. K=50/100 values match
+the locked `metrics/metrics.json` exactly.
+
+| condition | R@5 | R@10 | R@20 | R@50 | R@100 | V@5 | V@10 | V@20 | V@50 | V@100 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| semantic_only | 0.4194 | 0.6322 | 0.8074 | 0.9272 | 0.9635 | 0.0029 | 0.0082 | 0.0142 | 0.0268 | 0.0476 |
+| probabilistic_recalibrated | 0.4154 | 0.6322 | 0.8107 | 0.9305 | 0.9688 | 0.0015 | 0.0071 | 0.0120 | 0.0229 | 0.0404 |
+| rule_verified_point_subtype | 0.4197 | 0.6317 | 0.8074 | 0.9257 | 0.9627 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 |
+| control_family_specific_p_geom_valid | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 |
 
 GT verifier full-validation check:
 

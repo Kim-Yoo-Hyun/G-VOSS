@@ -7,7 +7,7 @@ spatial reasoning. The 3RScan/3DSSG setting established predicate recall for
 edge reasoning, point-cloud features, multimodal cues, and spatial knowledge to
 improve closed-set predicates
 \cite{zhang2021sggpoint,feng2023smka,wang2023vlsat,koch2024sgrec3d}. These
-methods already use geometry; H001 instead targets the post-source reliability
+methods already use geometry; \method{} instead targets the post-source reliability
 gap that a high semantic relation score need not be calibrated to physical
 validity for the same object pair.
 
@@ -22,7 +22,7 @@ to object pairs that satisfy the corresponding spatial relation.
 ZING-3D, VIZOR, and Open-World 3DSG-RAG further connect VLMs, zero-shot graph
 construction, and retrieval-augmented reasoning
 \cite{saxena2025zing3d,madhavaram2026vizor,yu2025openworld3dsg}. We cite them
-as trend and boundary evidence, not direct H001 baselines. Qwen-VL remains an
+as trend and boundary evidence, not direct \method{} baselines. Qwen-VL remains an
 optional semantic-source extension unless promoted with the same Docker,
 denominator, metric, and audit treatment.
 
@@ -38,7 +38,7 @@ matching, alignment, and downstream geometric tasks
 
 RelWitness uses visual-geometric witnesses, calibrated witness quality, and
 witness-consistent decoding for open-vocabulary 3D scene graph generation
-\cite{nguyen2026relwitness}. H001 therefore does not claim novelty from
+\cite{nguyen2026relwitness}. \method{} therefore does not claim novelty from
 visual-geometric evidence or calibration alone. It studies a different
 post-source contract: identity-preserving geometry joins, recall/violation
 operating points, and controls over existing relation-source outputs.
@@ -46,6 +46,6 @@ operating points, and controls over existing relation-source outputs.
 \paragraph{Reliability and calibration for structured relation outputs.}
 Standard \rAt{K} asks whether the correct predicate appears near the top, not
 whether the predicted relation is physically valid in the reconstructed scene.
-H001 instantiates this reliability view for geometry-checkable 3DSSG families
+\method{} instantiates this reliability view for geometry-checkable 3DSSG families
 by standardizing prediction rows, joining same-pair 3D evidence, estimating
 \pgeom{}, and reporting recall with violation.

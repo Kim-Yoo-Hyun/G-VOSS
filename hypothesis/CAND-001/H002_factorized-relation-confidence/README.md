@@ -12,11 +12,11 @@ semantic score != geometry validity != relation reliability
 ## Current Status
 
 ```text
-current_gate = v13 proximity LH scene/geometry label fill completed
-current_status = visible-only scene/geometry proxy labels filled; positive-mass risk noted
+current_gate = v19 attachment-deferred independent-evidence audit packet label fill completed
+current_status = packet labels filled; ingestion and target-independence audit are still required
 posterior_smoke_allowed = false
 validation_or_test_used = false
-next_todo = reliability_target_v13_proximity_lh_scene_geometry_label_ingestion
+next_todo = reliability_target_v19_attachment_deferred_independent_evidence_audit_packet_label_ingestion
 ```
 
 현재 결론은 H002 가설이 틀렸다는 것이 아니다. 현재까지의 반복은 relation reliability를
@@ -48,7 +48,85 @@ candidate sheet를 만드는 것이다. v13 candidate mining 결과, 30개 visib
 evidence만 사용해 `accept/reject/abstain = 39/137/64`, binary usable row `176`개를 만들었다.
 다만 positive row가 `39`개로 이전 post-label gate의 minimum-per-class `50` 기준에는 못
 미치므로 posterior smoke는 계속 금지된다. 다음 단계는 hidden audit manifest join과
-target-independence audit을 위한 label ingestion이다.
+target-independence audit을 위한 label ingestion이다. v13 label-ingestion 결과, multiclass
+240개, binary 176개, geometry-support 176개, usefulness 176개 target을 만들었고 validation
+error는 0개다. 그러나 reliability positive는 여전히 39개이며 quick probe risk flag가 32개라
+posterior smoke는 계속 금지된다. 같은 block / visible object-pair 내부 mixed accept/reject
+group은 22개로 v12보다 개선됐지만, 다음 단계에서 target-independence audit이 필요하다.
+v13 target-independence audit 결과, primary reliability target은 `39/137`로 positive-sparse이며
+strict/diagnostic clear slice가 모두 0개다. Geometry-support target은 class mass 자체는
+`121/55`로 통과하지만 auxiliary target이고 strict independent slice가 없다. 따라서 v13 proximity
+scene-geometry branch는 posterior로 넘어갈 수 없고 path decision이 필요하다.
+v13 path decision 결과, proximity branch는 diagnostic/generality evidence로 고정하고 primary
+target repair route는 `v14_physical_relation_family_feasibility_scan`으로 이동했다. v14
+feasibility scan 결과, `support_contact`는 match rows `556,038`, checkable rows `556,038`,
+HL/LH queue rows `1,069/160,429`, same-predicate HL/LH capacity `2,138`로 다음 sampling
+anchor가 가능하다. 다만 HL/LH imbalance와 `lying on` 중심 capacity concentration이 있어
+posterior로 바로 가지 않는다. `relative_vertical`은 control family로 유지하고,
+`attachment_deferred`는 current geometry policy에서 `unsupported_family`라 witness schema 전까지
+posterior target으로 쓰지 않는다. v14 sampling plan 결과, target queue는 총 240개로 고정했다.
+`support_contact`가 160개 primary anchor이고 `relative_vertical`이 80개 control이다. 세부 quota는
+`lying on` HL/LH `68/68`, `standing on` HL/LH `12/12`, `lower than` HL/LH `40/40`이다.
+`supported by`, `higher than`, `attachment_deferred`는 현재 primary target에서 제외한다. 다음 단계는
+이 quota와 cap policy에 맞춰 실제 candidate rows를 mining하는 것이다. v14 candidate mining 결과,
+240-row label-ready sheet를 만들었다. `support_contact` 160개, `relative_vertical` 80개,
+unique scans 202개, unique subgraphs 222개, raw feature join 240/240, visible leakage 0,
+validation error 0이다. 다만 `standing on` HL row 17개가 모두 hard room-surface subject를
+포함해 hard filter를 통과하지 못했으므로, 계획된 12개를 `lying on` HL로 옮겼다.
+v14 label-fill 결과, hidden audit manifest를 읽지 않고 reviewer-visible evidence만 사용해
+`accept/reject/abstain = 48/152/40`, binary usable row `200`개를 만들었다. 그러나 positive
+row가 `48`개로 이전 post-label gate의 minimum-per-class `50` 기준보다 2개 부족하므로
+posterior smoke는 계속 금지된다. 다음 단계는 hidden audit manifest join과 target-independence
+audit을 위한 label ingestion이다. v14 label-ingestion 결과, locked labels를 hidden audit
+manifest와 join해 multiclass 240개, binary 200개, geometry-support 200개, usefulness 200개,
+endpoint 240개, coverage 240개 target artifact를 만들었고 validation error는 0개다. 그러나
+reliability positive는 `48`개라 class-mass gate를 통과하지 못했고, quick probe risk flag가
+64개이므로 posterior smoke는 계속 금지된다. 같은 visible object-pair 내부 mixed binary group은
+11개로 완전히 identity-determined target은 아니지만, target-independence audit이 필요하다.
+v14 target-independence audit 결과, primary relation binary target은 `48/152`로 positive-sparse이고
+strict/diagnostic clear slice가 모두 0개다. Full quick-probe risk flag는 65개, slice-level blocking
+risk flag는 1,171개다. Balanced full slice는 `48/48`로 만들 수 있지만 shortcut risk가 남아
+posterior smoke는 계속 금지된다. v14 path decision 결과, 현재 v14 target은 diagnostic
+target-construction evidence로 고정하고, 다음 route는 `v15_witness_matched_physical_relation_repair_plan`으로
+선택했다. 단순히 positive 2개를 추가하는 방식은 shortcut 문제를 해결하지 못하므로 rejected다.
+v15 repair plan 결과, selected route는
+`support_contact_witness_matched_repair_with_relative_vertical_control`로 고정했다.
+새 plan은 `support_contact`를 primary target으로 두고 `relative_vertical`은 최대 16-row
+control로 축소한다. Post-label gate는 positive/negative 각각 최소 60개, pre-label gate는
+matched witness strata 8개 이상으로 고정했다. Posterior smoke는 계속 금지되며, 다음 단계는
+이 contract를 만족하는 후보 capacity가 실제 train queue에 있는지 확인하는 capacity scan이다.
+v15 capacity scan 결과, support/contact row 수량은 충분했다. Hard filter 이후
+`support_contact` 후보는 51,491개이고, cap 적용 preview도 `lying on` 192개,
+`standing on` 32개까지 채울 수 있다. 그러나 selected preview 240개가 모두 `LH` /
+`satisfied`였고, support/contact mixed witness stratum은 0개였다. 따라서 v15 contract는
+row capacity가 아니라 mixed-stratum independence gate에서 막혔으며, posterior smoke와 label
+sheet 생성은 계속 금지된다.
+v15 path decision after capacity scan 결과, same-witness HL/LH matching은 H002의
+semantic-geometry mismatch 정의와 맞지 않는 과도한 조건으로 판단했다. 다음 route는
+`controlled_cross_stratum_support_contact_contrast`로 선택했다. `support_contact`는 유지하되,
+HL과 LH를 같은 witness bucket에 넣지 않고 서로 다른 disagreement state로 비교한다. 대신
+predicate, source queue, rank band, scan/object distribution, endpoint type, coverage, reason
+family, `p_geom_bin`, `geometry_status`를 control/audit axis로 강하게 고정한다.
+v16 cross-stratum plan 결과, primary balanced target은 `lying on` HL 100개와 LH 100개로
+고정했다. `standing on`은 hard filter 이후 eligible HL이 0개라 primary target이 아니라
+24-row diversity/diagnostic으로 둔다. `relative_vertical lower than`은 16-row small control이다.
+Visible label surface에는 `queue_kind`, `rank_band`, `geometry_status`, `p_geom_valid`,
+`machine_hint`, `label_match_status`, quota cell, `RGA-HL`, `RGA-LH`를 노출하지 않는다.
+v16 capacity scan 결과, raw quota capacity는 충분했지만 controlled selection은 막혔다.
+`lying on` HL은 hard filter 이후 896개, LH는 26,882개였지만, HL은 전부 `unsatisfied`,
+LH는 전부 `satisfied`였고 primary mixed block도 4개뿐이라 40-block gate를 통과하지 못했다.
+따라서 label sheet와 posterior smoke는 계속 금지된다. v16 path decision에서는 이 route를
+diagnostic-only로 고정하고, 다음 route로 `attachment_deferred_witness_schema_probe`를
+선택했다. 다음 단계는 `attached to`, `hanging on`, `connected to`에 대해 typed witness schema를
+정의하고 train-only capacity를 볼 수 있는 계획을 만드는 것이다. v17 plan 결과, attachment
+row는 556,038개이지만 schema 전 checkable row는 0개임을 확인했고, `near_contact_distance`,
+`projected_overlap`, `relative_vertical_anchor`, `floor_support_confound`,
+`anchor_affordance_bucket`, `coverage`, `uncertainty`를 typed witness axis로 고정했다.
+다음 단계는 같은 directed pair의 support/vertical raw geometry를 join해 capacity scan을
+수행하는 것이다. v17 capacity scan 결과, 556,038 attachment rows가 모두 raw geometry에
+join됐고, typed witness cell capacity와 240-row capped preview가 모두 통과했다. 그러나 이
+결과는 label sheet나 posterior evidence가 아니며, 다음 단계는 candidate mining을 허용할지
+결정하는 path decision이다.
 
 ## Canonical Files
 
@@ -58,7 +136,7 @@ target-independence audit을 위한 label ingestion이다.
 | `summary_branch_v2.md` | H002의 긴 누적 research log와 근거/claim boundary |
 | `RGA_framework.md` | RGA framework 정의, axis, bucket, metric, gate 원칙 |
 | `feasibility_check.md` | multi-view와 posterior 결합 방식 관련 feasibility 판단 |
-| `stages/` | v1~v20 stage별 진행 내용, 문제점, 다음 단계로 넘어간 이유 |
+| `stages/` | v1~v50 stage별 진행 내용, 문제점, 다음 단계로 넘어간 이유 |
 
 ## Consolidation
 
@@ -85,8 +163,33 @@ Core target construction은 현재 `support_contact`와 `relative_vertical` 중�
 
 - `standing on`, `lying on`
 - `higher than`, `lower than`
-- `close by`는 v10/v11 feasibility, v12 path decision, v13 label readiness, v14 visible-only label fill, v15 label ingestion, v16 target-independence audit, v17 path decision, v18 repair plan, v19 candidate mining, v20 scene/geometry-aware label fill을 거쳐 label ingestion 대기 상태다.
-- `attached to`, `hanging on`, `connected to`는 multi-view/contact evidence 확장 후보로 유지한다.
+- `close by`는 v10/v11 feasibility, v12 path decision, v13 label readiness, v14 visible-only label fill, v15 label ingestion, v16 target-independence audit, v17 path decision, v18 repair plan, v19 candidate mining, v20 scene/geometry-aware label fill, v21 label ingestion, v22 target-independence audit, v23 path decision을 거쳐 diagnostic/generality evidence로 고정됐다.
+- `support_contact`는 v24 physical relation-family feasibility scan에서 primary sampling anchor로 선택됐고, v25 sampling plan에서 160-row primary quota로 고정됐으며, v26에서 160-row label-ready candidates로 materialized 됐다.
+- `relative_vertical`은 v24에서 control family로 유지됐고, v25 sampling plan에서 80-row control quota로 고정됐으며, v26에서 80-row label-ready candidates로 materialized 됐다.
+- v27에서 `support_contact`/`relative_vertical` visible-only proxy labels를 채웠지만, positive class mass가 `48`이라 ingestion/audit 전까지 posterior target으로 쓰지 않는다.
+- v28에서 target artifacts를 만들었지만, positive class mass fail과 quick-probe risk 때문에 target-independence audit 전까지 posterior target으로 쓰지 않는다.
+- v29에서 target-independence audit을 완료했지만, strict/diagnostic clear slice가 0개라 posterior target으로 쓰지 않는다.
+- v30에서 v14를 diagnostic evidence로 고정하고 v15 witness-matched repair plan을 다음 route로 선택했다.
+- v31에서 v15 repair contract를 고정했다. `support_contact` primary target을 224-row 후보로 늘리고 `relative_vertical`은 16-row control로 축소하는 plan이며, label fill 전 capacity scan을 요구한다.
+- v32에서 v15 capacity scan을 완료했다. 수량과 capped preview는 충분하지만 mixed witness stratum이 0개라 label sheet 생성 전 path decision이 필요하다.
+- v33에서 same-witness HL/LH matching을 reject하고 v16 controlled cross-stratum support/contact contrast plan을 다음 route로 선택했다.
+- v34에서 v16 cross-stratum quota, block construction, label-surface, target-independence audit plan을 고정했다. 다음은 capacity scan이다.
+- v35에서 v16 capacity scan을 완료했다. Raw quota capacity는 충분하지만 `lying on` HL이 전부 `unsatisfied`, LH가 전부 `satisfied`라 side-level geometry/status shortcut이 남고 primary mixed block도 4개뿐이다. Label sheet 생성은 중단하고 path decision이 필요하다.
+- v36에서 v16을 diagnostic-only로 고정하고 다음 route로 `attachment_deferred_witness_schema_probe`를 선택했다. 바로 label mining을 하지 않고 `attached to`, `hanging on`, `connected to`의 typed geometry/coverage witness schema를 먼저 정의한다.
+- v37에서 `attachment_deferred` witness schema plan을 고정했다. 현재 attachment rows는 556,038개지만 schema 전에는 전부 unsupported이므로, 다음 단계는 directed pair raw geometry join과 typed witness capacity scan이다.
+- v38에서 attachment witness capacity scan을 완료했다. Raw geometry join coverage는 1.0이고, all witness cells pass, 240-row capped preview deficits는 0이다. 다음은 candidate mining 허용 여부를 결정하는 path decision이다.
+- v39에서 attachment path decision을 완료했다. `attached to`와 `hanging on`은 primary candidate mining으로 진행하고, `connected to`는 functional connection ambiguity 때문에 diagnostic-only로 유지한다. 다음은 hidden-field-safe v18 candidate mining이다.
+- v40에서 v18 attachment candidate mining을 완료했다. 240-row label-ready sheet와 hidden audit manifest를 만들었고, primary `attached to`/`hanging on` 160개, diagnostic `connected to` 60개, uncertainty audit 20개이며 visible leakage와 validation error는 0이다. 다음은 visible-only label fill이다.
+- v41에서 v18 visible-only label fill을 완료했다. Hidden manifest는 읽지 않았고 validation error는 0이다. Primary binary usable row는 114개, positive는 33개, negative는 81개라 posterior smoke는 계속 금지된다. 다음은 label ingestion이다.
+- v42에서 v18 label ingestion을 완료했다. 240개 labels를 hidden manifest와 join했고 binary target 114개, diagnostic connected target 62개, geometry-support target 154개를 만들었다. Positive 33개로 class-mass gate를 통과하지 못하고 quick-probe risk flag가 102개라 posterior smoke는 계속 금지된다. 다음은 target-independence audit이다.
+- v43에서 v18 target-independence audit을 완료했다. Primary relation binary는 `114`개(`33/81`)로 positive-sparse이고 strict/diagnostic clear slice가 모두 `0`개다. Full quick-probe risk flag는 `119`개, slice-level blocking risk flag는 `3,163`개다. `connected to` diagnostic target은 `62`개(`37/25`)지만 clear slice가 없고, geometry-support는 class mass는 통과해도 auxiliary target이라 main reliability target을 대체할 수 없다. 다음은 path decision이다.
+- v44에서 v18 path decision을 완료했다. v18 attachment target은 diagnostic-only negative target-construction evidence로 고정하고, 다음 route로 `v19_attachment_deferred_independent_evidence_repair_plan`을 선택했다. Multi-view/mesh는 현재 model input이 아니라 audit/confirmation evidence로만 허용한다. Posterior smoke는 계속 금지된다.
+- v45에서 v19 independent-evidence repair plan을 완료했다. Selected route는 `independent_visual_or_mesh_audit_packet_before_labels`이며, primary scope는 `attached to` / `hanging on`, diagnostic scope는 `connected to`다. Local probe에서는 3RScan `multi_view`와 `sequence` directory가 sampled scan 40개에서 확인됐지만, 이는 full inventory가 아니므로 다음 단계는 row별 source inventory다. Label fill, candidate mining, posterior smoke는 아직 금지된다.
+- v46에서 v19 source inventory를 완료했다. 240개 row / 202개 scan 모두 scan, `multi_view`, `sequence`, mesh asset이 존재했고, primary 160개 row 모두 subject/object crop과 audit-ready evidence를 갖는다. 다만 strong same-frame co-visible row는 43개뿐이고 나머지 197개는 individual-view-plus-mesh evidence이므로, 다음 단계는 두 evidence tier를 분리하는 audit packet plan이다. Label fill과 posterior smoke는 계속 금지된다.
+- v47에서 v19 audit packet plan을 완료했다. Reviewer-visible schema와 hidden asset manifest plan을 분리했고, visible packet에서 scan/subgraph/id, geometry status, rank, machine hint, raw feature, v18 label/reason/review note를 금지했다. Packet plan은 240개 row이며 primary 160개, connected diagnostic-only 62개, uncertainty/coverage audit-only 18개다. Primary evidence tier는 T1 strong pair visual 31개와 T2 individual visual plus mesh 129개다. 다음은 실제 packet materialization이다.
+- v48에서 v19 audit packet materialization을 완료했다. 240개 reviewer-visible rows, 240개 packet dirs, 4,466개 neutral packet-local image copies, 240개 hidden manifest rows를 생성했고 visible leakage hit와 validation error는 모두 0개다. Source path, scan/subgraph/id, instance id, original filename은 hidden manifest에만 남겼다. 다음은 label fill 전 formal leakage review다.
+- v49에서 formal leakage review를 완료했다. Visible sheet 240개 row, packet markdown 240개, neutral image files 4,466개를 검사했고 source path, scan/subgraph id, instance id, construction metadata, old label/reason/review note leakage는 0개다. Hidden manifest에는 source path와 scan id가 240개 row 모두에 보존됐다. 다음은 packet 기반 label fill이다.
+- v50에서 v19 packet label fill을 완료했다. Hidden manifest를 읽지 않고 leakage-reviewed visible sheet, packet markdown, packet-local image availability만 사용했으며 validation error는 0개다. Label 분포는 `accept/reject/abstain = 26/99/53`, connected diagnostic `possible/ambiguous = 15/47`, primary binary preview는 `26/99`다. Positive-sparse risk가 남아 posterior smoke는 계속 금지되며, 다음 단계는 label ingestion이다.
 - `front`, `behind`, `left`, `right`는 현재 H002 primary posterior target이 아니라 future relation-family expansion이다.
 
 ## Guardrails

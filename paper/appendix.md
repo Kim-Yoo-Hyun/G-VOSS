@@ -1,6 +1,6 @@
 # H001 Appendix And Supplement Plan
 
-Last updated: 2026-06-14 KST
+Last updated: 2026-06-23 KST
 
 This file owns appendix/supplement material that is too detailed for the AAAI
 main text but important for reviewer defense. It is not a new experiment-result
@@ -10,10 +10,10 @@ remain under `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-groun
 
 ## Current Appendix Role
 
-The current main paper keeps three tables in the AAAI body: fixed H001 scope,
-source-specific claim boundary, and Open3DSG-first source results. Appendix
-material should defend provenance, denominator discipline, and residual risk
-without broadening the claim.
+The current main paper keeps three tables in the AAAI body: fixed GeoCalib
+scope, source-specific claim boundary, and Open3DSG-first low-K source results.
+Appendix material should defend provenance, denominator discipline, and
+residual risk without broadening the claim.
 
 Use this appendix only for:
 
@@ -27,8 +27,11 @@ Use this appendix only for:
   next-step physical relation family;
 - Qwen-VL full-validation extension evidence only as third-source material,
   unless explicitly promoted.
-- low-K K = `{5,10,20,50,100}` provenance/details if the main table keeps the
-  expanded K grid; K=1 remains sanity-check only.
+- low-K K = `{5,10,20,50,100}` provenance/details for the main table; K=1
+  remains sanity-check only. Current point-metric roots are
+  `experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics_k_sweep/`
+  and
+  `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/`.
 
 Do not use it to hide caveats that must remain visible in the main text.
 
@@ -37,7 +40,7 @@ Do not use it to hide caveats that must remain visible in the main text.
 | Component | Frozen source | Key values / scope | Held-out use | Reviewer defense |
 | --- | --- | --- | --- | --- |
 | Predicate-family map | `experiments/H001_geom_reliability/sources/open3dsg/metric_scope/predicate_mapping.json`; H001 tools `select_scope.py`, `export_calibration.py`, `prepare_open3dsg_adapter.py` | `support_contact`: `standing on`, `lying on`, `supported by`; `proximity`: `close by`; `relative_vertical`: `higher than`, `lower than` | Defines the H001 geometry-checkable denominator before source-result reporting; exact predicate-label recall is still used | Prevents post-hoc family selection and avoids relaxing recall labels into family matches |
-| H001 denominator policy | `results/h001_geom_reliability/full_validation_transition/scope_contract/{scope_contract.json,report.md}` | 11,254 GT rows; 3,972 in-scope H001-family GT rows; support/contact 1,816, proximity 1,766, relative vertical 390 | Used for VL-SAT full-validation and Open3DSG full-validation source-result metrics | Makes excluded families and denominator accounting explicit |
+| H001 denominator policy | `results/h001_geom_reliability/full_validation_transition/scope_contract/{scope_contract.json,report.md}` | 11,254 GT rows; 3,972 in-scope measured-family GT rows; support/contact 1,816, proximity 1,766, relative vertical 390 | Used for VL-SAT full-validation and Open3DSG full-validation source-result metrics | Makes excluded families and denominator accounting explicit |
 | Initial OBB rule thresholds | `artifacts/one_scan/f62fd5fd-9a3f-2f44-883a-1e5cf819608e/thresholds.json` | `h001-rules-v0`; `near_distance_norm_max=1.5`; `z_order_margin_m=0.02`; `z_gap_abs_max_m=0.1`; `geometry_score_pass_min=0.6` | Historical smoke-test rule source, not final held-out tuning | Shows rule development started before held-out source metrics; final claim uses later point/subtype policy |
 | Proximity hard status policy | `src/geocalib/join_predictions.py` | Satisfied if projected overlap exists or `normalized_distance_xy <= 2.5`; violated if `normalized_distance_xy >= 3.5`; otherwise uncertain | Applied during row-preserving geometry join for prediction rows | Defends the distance-family rule as fixed and identity-preserving, not tuned per source result |
 | Relative-vertical hard status policy | `src/geocalib/join_predictions.py` | Predicate-aligned vertical relation satisfied when aligned delta is at least `0.25m` and normalized aligned delta at least `0.15`; violated when both are at most `-0.25m` and `-0.15` | Applied during geometry join for `higher than` / `lower than` rows | Makes the vertical-order rule auditable and separate from semantic score |
@@ -60,7 +63,7 @@ Open3DSG `recovery_relaxed_views_min2/` is the primary full-denominator
 Open3DSG result. The original 533/548 Open3DSG covered branch remains appendix
 sensitivity / unmodified-source-route evidence. The target full split has 157
 scans, 548 contexts, 36,808 candidate directed pairs, 957,008 expected VL-SAT
-prediction rows, 11,254 GT rows, and 3,972 in-scope H001-family GT rows.
+prediction rows, 11,254 GT rows, and 3,972 in-scope measured-family GT rows.
 
 Scope contract:
 
@@ -218,7 +221,7 @@ Qwen-VL remains a third semantic source / modern VLM extension. It is not a
 VL-SAT/Open3DSG replacement. Full official validation downstream is complete for
 the extension route: 157 scans / 548 contexts / 110,424 query rows / 46,506
 inferable input rows / 35,131 exported predictions / 32,236 in-scope
-predictions / 3,972 H001-family GT rows, with parser validation, adapter
+predictions / 3,972 measured-family GT rows, with parser validation, adapter
 export, geometry join, metrics/controls, bootstrap CI, 31,881 failure rows, and
 36 deterministic qualitative cases. Keep it in appendix/extension framing
 unless the user explicitly promotes it into the main claim.
@@ -237,7 +240,7 @@ unless the user explicitly promotes it into the main claim.
 - Docker `table_builder` rerun:
   `logs/h001_table_builder_caveat_consistency_20260527_202425.log`, exit 0.
 - AAAI PDF rebuild:
-  `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, exit 0.
+  `logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log`, exit 0.
 - PDF status: `paper/aaai/main.pdf`, 9 pages, US Letter, technical content
   pages 1-7, references page 8, checklist page 9; no missing citations,
   undefined references, overfull hboxes, LaTeX errors, or AAAI package errors

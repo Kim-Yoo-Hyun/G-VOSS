@@ -1,6 +1,6 @@
 # GeoCalib / H001 Figure Source Lock
 
-Last updated: 2026-06-14 KST
+Last updated: 2026-06-23 KST
 
 Status: `figure1_geocalib_framework_and_figure2_3_assets_generated`
 
@@ -12,6 +12,11 @@ conflicts, especially for Figure 3.
 Generated Figure 1-3 draft outputs and the geometry-backed Figure 3 upgrade are
 available under `paper/generated/figures/`. They are manuscript-planning figures,
 not camera-ready final artwork.
+
+Current table note: the main source-result table now reports K =
+`{5,10,20,50,100}` from `metrics_k_sweep/`. Figure 2 remains a compact
+R@100/Violation@100 tradeoff view because it is a diagnostic figure rather than
+the full source-result table.
 
 ## Global Rules
 
@@ -94,7 +99,9 @@ Locked data:
 Source artifacts:
 
 - `experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics/metrics.json`.
+- `experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics_k_sweep/metrics.json`.
 - `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics/metrics.json`.
+- `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/metrics.json`.
 - `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/table_caveats/report.md`.
 
 Caption constraint:

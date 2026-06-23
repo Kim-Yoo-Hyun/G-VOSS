@@ -80,8 +80,8 @@ Docker-based experiment artifact described in the paper.
     should include the exact GPU/CPU model and software versions used for the
     released artifact bundle.
     \item Evaluation metrics: yes. The paper defines exact-label
-    \rAt{50}/\rAt{100}, \vAt{50}/\vAt{100}, verifier GT/counterfactual
-    metrics, controls, and failure-analysis criteria.
+    \rAt{K} and \vAt{K} on the fixed $K=\{5,10,20,50,100\}$ grid, verifier
+    GT/counterfactual metrics, controls, and failure-analysis criteria.
     \item Number of runs: yes. Reported source-result tables use one fixed
     reproduced source run per source/condition under locked manifests.
     \item Variation or distributional information beyond averages: partial.
@@ -96,7 +96,7 @@ Docker-based experiment artifact described in the paper.
     denominator policy, and source caveats. The paper-facing Open3DSG route is
     the 548/548 recovery-policy branch with
     \texttt{OPEN3DSG\_MIN\_VISIBLE\_OBJECTS=2} and relaxed view regeneration
-    for two scans; the exact-label H001 denominator is 3,972, and residual
+    for two scans; the exact-label measured-family denominator is 3,972, and residual
     calibration risk is reported through the failure-analysis artifacts. A
     final release table should collect every threshold and configuration in one
     place.

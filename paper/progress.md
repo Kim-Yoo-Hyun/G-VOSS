@@ -1,6 +1,6 @@
 # H001 Experiment Progress Rationale
 
-Last updated: 2026-06-14 KST
+Last updated: 2026-06-23 KST
 
 This document explains why H001 moved from hypothesis checks to Docker paper
 experiments, why each next experiment was introduced, and how the key results
@@ -12,10 +12,10 @@ Paper-facing name: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D 
 Current progress snapshot:
 
 - Main source-result evidence is complete for the scoped GeoCalib claim.
-- Low-K reporting is accepted for K = `{5,10,20,50,100}` where artifact provenance is present; K=1 remains sanity-check only.
+- Low-K reporting is accepted for K = `{5,10,20,50,100}`; point-metric provenance is present in both paper-facing `metrics_k_sweep/` roots, and K=1 remains sanity-check only.
 - Qwen-VL full official validation downstream is complete as appendix/extension evidence, not as a main-source replacement.
-- Latest known paper build is `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, exit 0, 9 pages.
-- Remaining work is submission/package hygiene and provenance sync, not new main-source experiments.
+- Latest known paper build is `logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log`, exit 0, 9 pages.
+- Remaining work is submission/package hygiene and artifact packaging, not new main-source experiments.
 
 ## Research Claim Being Tested
 
@@ -249,7 +249,7 @@ Historical 127-scan caveats:
   canonical R2 raw dump after excluding run metadata, while the process-level
   exit-137 teardown caveat remains.
 - Recall is exact predicate-label recall over the historical 2,545-row
-  H001-family denominator.
+  measured-family denominator.
 
 Historical Open3DSG 127-scan sensitivity result:
 
@@ -266,7 +266,7 @@ Historical Open3DSG 127-scan sensitivity result:
 
 Interpretation:
 
-- Open3DSG supports the cross-source reliability claim within measured H001
+- Open3DSG supports the cross-source reliability claim within the measured
   families.
 - In the historical 127-scan scope, R2 388/388 should be the representative
   appendix/sensitivity branch, with old 377/388 kept as the comparison row.
@@ -331,7 +331,7 @@ What was run:
 
 - Docker scope contract for 157 scans, 548 contexts, 36,808 directed candidate
   pairs, 957,008 expected VL-SAT prediction rows, 11,254 GT rows, and 3,972
-  H001-family GT rows.
+  measured-family GT rows.
 - VL-SAT full-validation staging/runtime/raw dump, adapter export,
   ground-truth JSONL export, geometry join, metric eval, GT verifier eval, and
   VL-SAT-only bootstrap CI under
@@ -353,12 +353,12 @@ What was run:
 
 Key VL-SAT full-validation result:
 
-| condition | R@50 | R@100 | Violation@50 | Violation@100 | reading |
-| --- | ---: | ---: | ---: | ---: | --- |
-| `semantic_only` | 0.9272 | 0.9635 | 0.0268 | 0.0476 | full official source ranking |
-| `probabilistic_recalibrated` | 0.9305 | 0.9688 | 0.0229 | 0.0404 | recall-first calibrated setting |
-| `family_specific_p_geom_valid` | 0.9288 | 0.9683 | 0.0206 | 0.0333 | stricter violation-first setting |
-| `rule_verified_point_subtype` | 0.9257 | 0.9627 | 0.0000 | 0.0000 | hard-filter diagnostic |
+| condition | R@5 | R@10 | R@20 | R@50 | R@100 | V@5 | V@10 | V@20 | V@50 | V@100 | reading |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| `semantic_only` | 0.4194 | 0.6322 | 0.8074 | 0.9272 | 0.9635 | 0.0029 | 0.0082 | 0.0142 | 0.0268 | 0.0476 | full official source ranking |
+| `probabilistic_recalibrated` | 0.4154 | 0.6322 | 0.8107 | 0.9305 | 0.9688 | 0.0015 | 0.0071 | 0.0120 | 0.0229 | 0.0404 | recall-first calibrated setting |
+| `family_specific_p_geom_valid` | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 | stricter violation-first setting |
+| `rule_verified_point_subtype` | 0.4197 | 0.6317 | 0.8074 | 0.9257 | 0.9627 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | hard-filter diagnostic |
 
 Interpretation:
 
@@ -376,12 +376,12 @@ Interpretation:
 
 Key Open3DSG recovery full-validation result:
 
-| condition | R@50 | R@100 | Violation@50 | Violation@100 | reading |
-| --- | ---: | ---: | ---: | ---: | --- |
-| `semantic_only` | 0.4096 | 0.5161 | 0.1386 | 0.1242 | recovery full official source ranking |
-| `probabilistic_recalibrated` | 0.3975 | 0.5723 | 0.0606 | 0.0811 | recall-first calibrated setting |
-| `family_specific_p_geom_valid` | 0.4658 | 0.6047 | 0.0286 | 0.0341 | stricter violation-first setting |
-| `rule_verified_point_subtype` | 0.4295 | 0.5368 | 0.0000 | 0.0000 | hard-filter diagnostic |
+| condition | R@5 | R@10 | R@20 | R@50 | R@100 | V@5 | V@10 | V@20 | V@50 | V@100 | reading |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| `semantic_only` | 0.0368 | 0.1002 | 0.1991 | 0.4096 | 0.5161 | 0.5131 | 0.3255 | 0.2088 | 0.1386 | 0.1242 | recovery full official source ranking |
+| `probabilistic_recalibrated` | 0.0826 | 0.1581 | 0.2603 | 0.3975 | 0.5723 | 0.0628 | 0.0699 | 0.0654 | 0.0606 | 0.0811 | recall-first calibrated setting |
+| `family_specific_p_geom_valid` | 0.0984 | 0.1921 | 0.3291 | 0.4658 | 0.6047 | 0.0420 | 0.0482 | 0.0441 | 0.0286 | 0.0341 | stricter violation-first setting |
+| `rule_verified_point_subtype` | 0.0707 | 0.1314 | 0.2422 | 0.4295 | 0.5368 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | hard-filter diagnostic |
 
 Full-validation uncertainty and verifier checks:
 
@@ -454,7 +454,7 @@ Current status:
 - Qwen-VL full official validation downstream is complete as a third-source /
   modern VLM extension: 157 scans, 548 contexts, 110,424 query rows, 46,506
   inferable input rows, 35,131 exported predictions, 32,236 in-scope
-  predictions, 3,972 H001-family GT rows, metrics/controls/bootstrap, failure
+  predictions, 3,972 measured-family GT rows, metrics/controls/bootstrap, failure
   rows, and deterministic qualitative cases.
 
 Why not main evidence:
@@ -483,7 +483,7 @@ Allowed:
 
 - H001 is a calibrated geometry-consistency evaluation/re-ranking framework.
 - It reduces geometry violations under measurable recall tradeoffs on measured
-  `VL-SAT` and Open3DSG H001-family scopes.
+  `VL-SAT` and Open3DSG measured-family scopes.
 - It provides controls, GT-based verifier support, denominator transparency,
   and failure-analysis evidence.
 
@@ -504,15 +504,17 @@ The current paper body is in `paper/draft.md` and now runs from Title through
 Conclusion. The current target-venue LaTeX source is in `paper/aaai/`, using
 the checked AAAI-26 style route until the exact target-year AAAI kit/form is
 reconfirmed. Docker PDF build verification is complete with
-`h001-aaai-tex:20260526`: latest GeoCalib/Figure-1 rebuild
-`logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log` exits 0.
+`h001-aaai-tex:20260526`: latest low-K table rebuild
+`logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log` exits 0.
 `main.pdf` builds to 9 total pages, technical content occupies pages 1-7,
 references are on page 8, the AAAI reproducibility checklist is on page 9,
 BibTeX uses 19 entries, and targeted grep found no missing citations, undefined
-refs, overfull hboxes, LaTeX errors, or AAAI package errors. The next work is
-submission package hygiene: portal form, artifact URL/DOI, supplementary/code-
-data decision, checklist answer pass, low-K provenance sync if used, and final
-package regeneration.
+  refs, overfull hboxes, LaTeX errors, or AAAI package errors. Low-K source
+  metrics are now regenerated in `metrics_k_sweep/` for both paper-facing
+  sources, with K=50/100 matching locked `metrics/`. The next work is
+  submission package hygiene: portal form, artifact URL/DOI, supplementary/code-
+  data decision, checklist answer pass, low-K artifact packaging, and final
+  package regeneration.
 Open3DSG-first table ordering is preserved: the manuscript treats Open3DSG as
 the main open-vocabulary case study and VL-SAT as the controlled anchor.
 The latest reviewer-defense pass adds explicit main-text answers to the

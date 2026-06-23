@@ -1,6 +1,6 @@
 # Research Documentation Index
 
-Last updated: 2026-06-22 KST
+Last updated: 2026-06-23 KST
 
 ## Purpose
 
@@ -29,7 +29,7 @@ External convention checked on 2026-06-22 KST:
 | H001 paper framing and reviewer-defense rules | `docs/paper.md`, `paper/` |
 | H001_v2 risk-controlled reranking branch | `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/README.md` |
 | H002 current branch state and next gate | `hypothesis/CAND-001/H002_factorized-relation-confidence/README.md` |
-| H002 research framing and v1-v20 overview | `hypothesis/CAND-001/H002_factorized-relation-confidence/summary_branch_v2.md` |
+| H002 research framing and v1-v50 overview | `hypothesis/CAND-001/H002_factorized-relation-confidence/summary_branch_v2.md` |
 | H002 stage-specific history | `hypothesis/CAND-001/H002_factorized-relation-confidence/stages/` |
 | Long-running job logs | `logs/` |
 

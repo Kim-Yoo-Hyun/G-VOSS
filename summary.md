@@ -1,6 +1,6 @@
 # GeoCalib / H001 Research Summary
 
-Last updated: 2026-06-14 KST
+Last updated: 2026-06-23 KST
 
 이 문서는 CAND-001 / H001의 현재 연구 정의, 필요성, 가설, metric,
 비교군, 실험 세팅, contribution, 구현 방향, baseline 재현 가능성을 한곳에
@@ -8,20 +8,20 @@ Last updated: 2026-06-14 KST
 
 Paper-facing name: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations`. Use `GeoCalib` in manuscript-facing prose and keep `H001` for internal hypothesis/experiment paths.
 
-## Current Snapshot, 2026-06-14 KST
+## Current Snapshot, 2026-06-23 KST
 
 Facts:
 
 - Main evidence route is complete for the scoped three-family reliability claim: VL-SAT full official validation and Open3DSG full-validation `recovery_relaxed_views_min2/` are the paper-facing main sources.
 - Release-oriented repo layout is in place: `src/geocalib/` for executable code, `scripts/` for shell wrappers, `configs/` for Docker/compose entry points, `experiments/` for source-specific run records, `results/` for compact paper-facing outputs, and `archive/` for preserved hypothesis records plus superseded or optional material.
-- Low-K reporting decision is to show K = `{5, 10, 20, 50, 100}` where the paper table can support it; K=1 is excluded from paper metrics and kept only as a sanity check. The current checkout does not expose a tracked low-K result directory, so regenerate or restore low-K metric/CI artifacts before final package upload.
+- Low-K reporting decision is to show K = `{5, 10, 20, 50, 100}` in the main source-result table; K=1 is excluded from paper metrics and kept only as a sanity check. Docker-regenerated low-K metric artifacts now live under `sources/vlsat/full_validation/metrics_k_sweep/` and `sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/`; K=50/100 values match the locked `metrics/metrics.json` point estimates.
 - Qwen-VL full official validation downstream is complete as a third-source / modern VLM extension with 157 scans / 548 contexts / 110,424 query rows / 46,506 inferable input rows / 35,131 exported predictions / 32,236 in-scope predictions / 3,972 H001-family GT rows. It remains appendix/extension evidence unless explicitly promoted.
-- Latest known paper build is `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, exit 0, 9 pages, with GeoCalib/Figure-1 updates. Any older release package generated before these updates must be regenerated before upload.
+- Latest known paper build is `logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log`, exit 0, 9 pages, with GeoCalib, Figure-1, and low-K table updates. Any older release package generated before these updates must be regenerated before upload.
 
 Inference:
 
 - The defensible paper claim is still a scoped calibrated geometry-consistency reliability layer, not broad 3DSSG generation, broad SOTA, or arbitrary-baseline improvement.
-- Immediate work is submission/package hygiene rather than new main-source experiments: portal form, artifact URL/DOI, supplementary policy, checklist answers, package regeneration, and low-K provenance sync.
+- Immediate work is submission/package hygiene rather than new main-source experiments: portal form, artifact URL/DOI, supplementary policy, checklist answers, package regeneration, and final PDF/source sanity checks.
 
 ## One-Line Summary
 
@@ -234,12 +234,11 @@ Full official validation branch:
   adapter 695,916 prediction rows, geometry 695,916 rows, 160,596
   H001-family geometry-checkable rows, metrics/controls, bootstrap CI, 82,155
   failure rows, 36-case qualitative failure inspection, and Table 6/caveat
-  regeneration. Recovery metrics:
-  semantic_only R@50/R@100 `0.4096/0.5161`, V@50/@100 `0.1386/0.1242`;
-  probabilistic_recalibrated R@50/R@100 `0.3975/0.5723`, V@50/@100
-  `0.0606/0.0811`; rule_verified_point_subtype R@50/R@100
-  `0.4295/0.5368`, V@50/@100 `0.0/0.0`; family_specific control
-  R@50/R@100 `0.4658/0.6047`, V@50/@100 `0.0286/0.0341`.
+  regeneration. Low-K sweep artifacts are ready in `metrics_k_sweep/` with
+  K=`{5,10,20,50,100}`; K=50/100 matches the locked `metrics/` point estimates.
+  Key recovery pattern: at K=5/10, semantic-only violation is `0.5131/0.3255`,
+  while `family_specific_p_geom_valid` reduces it to `0.0420/0.0482` and raises
+  recall from `0.0368/0.1002` to `0.0984/0.1921`.
 - Open3DSG recovery caveat: this removes the missing-context denominator caveat
   but must be described as a recovery-policy variant, not as the unmodified
   Open3DSG preprocess route.
@@ -408,10 +407,8 @@ Attachment-deferred upgrade track:
 
 Prediction metrics:
 
-- `R@50`
-- `R@100`
-- `Violation@50`
-- `Violation@100`
+- `R@K` for K = `{5, 10, 20, 50, 100}`
+- `Violation@K` for K = `{5, 10, 20, 50, 100}`
 - delta versus `semantic_only`
 - relative violation reduction versus `semantic_only`
 - recall retention
@@ -506,23 +503,23 @@ semantic source is a modern VLM rather than a trained 3DSSG predictor?
 
 ## Current Evidence
 
-Fact, paper-facing full-validation primary route:
+Fact, paper-facing VL-SAT full-validation primary route:
 
-| Condition | R@50 | R@100 | Violation@50 | Violation@100 |
-| --- | ---: | ---: | ---: | ---: |
-| `semantic_only` | 0.9272 | 0.9635 | 0.0268 | 0.0476 |
-| `probabilistic_recalibrated` | 0.9305 | 0.9688 | 0.0229 | 0.0404 |
-| `family_specific_p_geom_valid` | 0.9288 | 0.9683 | 0.0206 | 0.0333 |
-| `rule_verified_point_subtype` | 0.9257 | 0.9627 | 0.0000 | 0.0000 |
+| Condition | R@5 | R@10 | R@20 | R@50 | R@100 | V@5 | V@10 | V@20 | V@50 | V@100 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `semantic_only` | 0.4194 | 0.6322 | 0.8074 | 0.9272 | 0.9635 | 0.0029 | 0.0082 | 0.0142 | 0.0268 | 0.0476 |
+| `probabilistic_recalibrated` | 0.4154 | 0.6322 | 0.8107 | 0.9305 | 0.9688 | 0.0015 | 0.0071 | 0.0120 | 0.0229 | 0.0404 |
+| `rule_verified_point_subtype` | 0.4197 | 0.6317 | 0.8074 | 0.9257 | 0.9627 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 |
+| `family_specific_p_geom_valid` | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 |
 
 Open3DSG full-validation recovery result:
 
-| Condition | R@50 | R@100 | Violation@50 | Violation@100 |
-| --- | ---: | ---: | ---: | ---: |
-| `semantic_only` | 0.4096 | 0.5161 | 0.1386 | 0.1242 |
-| `probabilistic_recalibrated` | 0.3975 | 0.5723 | 0.0606 | 0.0811 |
-| `rule_verified_point_subtype` | 0.4295 | 0.5368 | 0.0000 | 0.0000 |
-| `family_specific_p_geom_valid` | 0.4658 | 0.6047 | 0.0286 | 0.0341 |
+| Condition | R@5 | R@10 | R@20 | R@50 | R@100 | V@5 | V@10 | V@20 | V@50 | V@100 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `semantic_only` | 0.0368 | 0.1002 | 0.1991 | 0.4096 | 0.5161 | 0.5131 | 0.3255 | 0.2088 | 0.1386 | 0.1242 |
+| `probabilistic_recalibrated` | 0.0826 | 0.1581 | 0.2603 | 0.3975 | 0.5723 | 0.0628 | 0.0699 | 0.0654 | 0.0606 | 0.0811 |
+| `rule_verified_point_subtype` | 0.0707 | 0.1314 | 0.2422 | 0.4295 | 0.5368 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 |
+| `family_specific_p_geom_valid` | 0.0984 | 0.1921 | 0.3291 | 0.4658 | 0.6047 | 0.0420 | 0.0482 | 0.0441 | 0.0286 | 0.0341 |
 
 Bootstrap CI:
 
@@ -818,8 +815,8 @@ Current paper handoff:
   uses AAAI-26 style files until the exact target-year official kit is fixed,
   splits the manuscript into `main.tex` plus `sec/*.tex`, and points the
   bibliography to `paper/references.bib`. Docker build verification is complete
-  with `h001-aaai-tex:20260526`; latest GeoCalib/Figure-1 rebuild
-  `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log` exits 0.
+  with `h001-aaai-tex:20260526`; latest low-K table rebuild
+  `logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log` exits 0.
   `main.pdf` builds to 9 total pages, technical content pages 1-7, references
   page 8, AAAI reproducibility checklist page 9, and
   targeted grep found no missing citations, undefined refs, overfull hboxes,
@@ -831,8 +828,8 @@ Current paper handoff:
   9-page build. Latest visual/layout inspection passes with wide floats delayed
   but readable before references.
 - The 2026-05-27 appendix/caveat PDF rebuild and the 2026-06-06 compression
-  rebuild are historical checks. The latest current check is
-  `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`, exit 0, with
+  rebuild are historical checks. The latest current low-K table check is
+  `logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log`, exit 0, with
   9 pages and no blocking LaTeX or AAAI warnings in targeted grep.
 - `paper/figures.md` is ready and locks Figure 1-3 claims/assets before drawing:
   Figure 1 method framework, Figure 2 two-panel R@100/Violation@100 tradeoff,
@@ -849,16 +846,16 @@ Current paper handoff:
 
 Next required drafting step:
 
-1. Full-validation AAAI source regeneration, GeoCalib/Figure-1 update, and
-   Docker PDF build are complete:
-   `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log` exits 0 and
+1. Full-validation AAAI source regeneration, GeoCalib/Figure-1 update, low-K
+   table update, and Docker PDF build are complete:
+   `logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log` exits 0 and
    `paper/aaai/main.pdf` has 9 pages. Next work is submission/package hygiene,
    not source-result regeneration.
 2. Confirm portal/form/style/checklist requirements, decide artifact URL/DOI
    and supplementary/code-data policy, and regenerate any flattened release
-   package created before the GeoCalib/Figure-1 update.
-3. Restore or regenerate low-K metric/CI artifacts if K = `{5,10,20,50,100}`
-   remains in the main source-result table.
+   package created before the low-K table update.
+3. Include `metrics_k_sweep/` in the final artifact/release bundle and keep the
+   Docker regeneration commands in `experiments/H001_geom_reliability/commands.md`.
 4. Keep Open3DSG caveats explicit during any further polish; the current
    consistency target is selected official non-avg checkpoint provenance,
    filtered train/dev provenance, full-validation exact-label denominator,

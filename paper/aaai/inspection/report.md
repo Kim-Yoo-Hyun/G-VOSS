@@ -1,14 +1,16 @@
 # AAAI PDF Visual/Layout Inspection
 
-Last updated: 2026-06-11 KST
+Last updated: 2026-06-23 KST
 
 ## Build Checked
 
 - PDF: `paper/aaai/main.pdf`
 - Image build log: `logs/h001_aaai_tex_image_build_full_validation_20260605_100108.log`
-- PDF build log: `logs/h001_aaai_pdf_build_claim_qa_20260611_000409.log`
+- PDF build log: `logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log`
 - Preview files generated locally: `/tmp/h001_aaai_pages/page-4.png` through
-  `/tmp/h001_aaai_pages/page-7.png` for the latest focused check
+  `/tmp/h001_aaai_pages/page-7.png` for the 2026-06-11 focused visual check.
+  The 2026-06-23 low-K table rebuild has build/log validation but not a new
+  page-image inspection.
 - Page count: 9 total pages, US Letter
 - Technical content: pages 1-7
 - References: page 8
@@ -28,11 +30,13 @@ Facts:
 - QA status: `claim_caveat_qa_pass_after_table_artifact_patch`
 - Checked consistency targets: full official validation as the primary route,
   Open3DSG 548/548 `recovery_relaxed_views_min2` branch, exact-label
-  H001-family denominator 3,972, and residual calibration risk.
+  measured-family denominator 3,972, and residual calibration risk.
 - Patched paper-facing experiment table artifacts that still had historical
   127-scan values: Table 1, Table 2, Table 3, and Table 5 boundary wording.
 - Docker PDF rebuild after the QA patch exited 0:
   `logs/h001_aaai_pdf_build_claim_qa_20260611_000409.log`
+- Later low-K table rebuild exited 0:
+  `logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log`
 
 Inference:
 

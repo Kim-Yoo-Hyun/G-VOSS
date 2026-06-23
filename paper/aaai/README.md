@@ -1,6 +1,6 @@
 # AAAI-Style Manuscript Source
 
-Last updated: 2026-06-14 KST
+Last updated: 2026-06-23 KST
 
 This directory is the AAAI-style LaTeX source conversion of the GeoCalib/H001 paper.
 It is separate from `archive/paper/iccv/` so venue-specific formatting decisions do not
@@ -54,8 +54,9 @@ Important AAAI-26 constraints from the official submission page:
   reserve `H001` for internal experiment/provenance paths.
 - Open3DSG is framed as the main open-vocabulary relation-source case study.
 - VL-SAT is framed as the controlled reproduced anchor.
-- Low-K reporting is accepted for K = `{5,10,20,50,100}` where current-source
-  provenance is available; K=1 is not a paper metric.
+- Low-K reporting is accepted for K = `{5,10,20,50,100}`. Current-source
+  point-metric provenance is available in the paper-facing `metrics_k_sweep/`
+  roots, and K=1 is not a paper metric.
 - Qwen-VL is a completed third-source extension and should not replace the
   VL-SAT/Open3DSG main-source framing unless explicitly promoted.
 - The Results section includes Docker subgraph bootstrap CIs as
@@ -84,15 +85,16 @@ ICCV preamble blindly into this directory.
 Verified run:
 
 - Image build log: `logs/h001_aaai_tex_image_build_full_validation_20260605_100108.log`
-- PDF build log: `logs/h001_aaai_pdf_build_geocalib_figure_20260613_104500.log`
+- PDF build log: `logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log`
 - Output: `paper/aaai/main.pdf`
 - Page count: 9 total pages
 - Technical content: pages 1-7
 - References: page 8
 - Reproducibility checklist: page 9
-- Current warnings: no missing citations, undefined references, overfull hboxes,
-  LaTeX errors, Type 3 fonts, or AAAI package errors in the latest known build
-  log. One tiny overfull vbox warning is non-blocking.
+- Current warnings: targeted grep found no missing citations, undefined
+  references, overfull hboxes, LaTeX errors, Type 3 fonts, or AAAI package
+  errors in the latest known build log. Remaining underfull box warnings are
+  non-blocking.
 - Visual inspection: `paper/aaai/inspection/report.md`
 
 ## Source Boundary

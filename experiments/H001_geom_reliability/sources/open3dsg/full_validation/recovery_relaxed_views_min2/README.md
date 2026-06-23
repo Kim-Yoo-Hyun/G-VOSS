@@ -2,7 +2,7 @@
 
 Status: `open3dsg_full_validation_recovery_relaxed_views_min2_metric_and_failure_analysis_ready`
 
-Last updated: `2026-06-05 KST`
+Last updated: `2026-06-23 KST`
 
 This branch is the paper-facing primary Open3DSG full-validation result for
 H001. It covers all 548 official validation contexts by using a documented
@@ -29,6 +29,7 @@ unmodified-source-route sensitivity check.
 - adapter export: `adapter/`
 - geometry join: `geometry/`
 - metrics/controls: `metrics/`
+- low-K metric sweep: `metrics_k_sweep/`, status `ready`, K=`{5,10,20,50,100}`
 - bootstrap CI: `bootstrap_ci/`
 - failure-analysis rows: `failure_rows/`
 - qualitative failure queue/inspection: `failure_cases/`
@@ -36,12 +37,15 @@ unmodified-source-route sensitivity check.
 
 ## Key Metrics
 
-| condition | R@50 | R@100 | V@50 | V@100 |
-| --- | ---: | ---: | ---: | ---: |
-| semantic_only | 0.4096 | 0.5161 | 0.1386 | 0.1242 |
-| probabilistic_recalibrated | 0.3975 | 0.5723 | 0.0606 | 0.0811 |
-| rule_verified_point_subtype | 0.4295 | 0.5368 | 0.0000 | 0.0000 |
-| control_family_specific_p_geom_valid | 0.4658 | 0.6047 | 0.0286 | 0.0341 |
+Low-K sweep artifact: `metrics_k_sweep/metrics.json`. K=50/100 values match
+the locked `metrics/metrics.json` exactly.
+
+| condition | R@5 | R@10 | R@20 | R@50 | R@100 | V@5 | V@10 | V@20 | V@50 | V@100 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| semantic_only | 0.0368 | 0.1002 | 0.1991 | 0.4096 | 0.5161 | 0.5131 | 0.3255 | 0.2088 | 0.1386 | 0.1242 |
+| probabilistic_recalibrated | 0.0826 | 0.1581 | 0.2603 | 0.3975 | 0.5723 | 0.0628 | 0.0699 | 0.0654 | 0.0606 | 0.0811 |
+| rule_verified_point_subtype | 0.0707 | 0.1314 | 0.2422 | 0.4295 | 0.5368 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 |
+| control_family_specific_p_geom_valid | 0.0984 | 0.1921 | 0.3291 | 0.4658 | 0.6047 | 0.0420 | 0.0482 | 0.0441 | 0.0286 | 0.0341 |
 
 Failure-analysis summary:
 
