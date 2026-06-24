@@ -1,6 +1,6 @@
 # GeoCalib / H001 Research Summary
 
-Last updated: 2026-06-23 KST
+Last updated: 2026-06-24 KST
 
 이 문서는 CAND-001 / H001의 현재 연구 정의, 필요성, 가설, metric,
 비교군, 실험 세팅, contribution, 구현 방향, baseline 재현 가능성을 한곳에
@@ -8,7 +8,7 @@ Last updated: 2026-06-23 KST
 
 Paper-facing name: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations`. Use `GeoCalib` in manuscript-facing prose and keep `H001` for internal hypothesis/experiment paths.
 
-## Current Snapshot, 2026-06-23 KST
+## Current Snapshot, 2026-06-24 KST
 
 Facts:
 
@@ -16,7 +16,21 @@ Facts:
 - Release-oriented repo layout is in place: `src/geocalib/` for executable code, `scripts/` for shell wrappers, `configs/` for Docker/compose entry points, `experiments/` for source-specific run records, `results/` for compact paper-facing outputs, and `archive/` for preserved hypothesis records plus superseded or optional material.
 - Low-K reporting decision is to show K = `{5, 10, 20, 50, 100}` in the main source-result table; K=1 is excluded from paper metrics and kept only as a sanity check. Docker-regenerated low-K metric artifacts now live under `sources/vlsat/full_validation/metrics_k_sweep/` and `sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/`; K=50/100 values match the locked `metrics/metrics.json` point estimates.
 - Qwen-VL full official validation downstream is complete as a third-source / modern VLM extension with 157 scans / 548 contexts / 110,424 query rows / 46,506 inferable input rows / 35,131 exported predictions / 32,236 in-scope predictions / 3,972 H001-family GT rows. It remains appendix/extension evidence unless explicitly promoted.
-- Latest known paper build is `logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log`, exit 0, 9 pages, with GeoCalib, Figure-1, and low-K table updates. Any older release package generated before these updates must be regenerated before upload.
+- H001_v2 fixed-`tau*` risk-controlled reranking and pooled lambda-soft
+  reranking are locked as diagnostic candidate evidence only. Fixed-`tau*`
+  shows geometry-specific signal but has VL-SAT recall collapse. Lambda-soft
+  selects `lambda*=1.25` from calibration dev rows only, but source metrics are
+  mixed against the current `lambda=1` `probabilistic_recalibrated` condition.
+- The current H001_v2 method-development direction is family-conditional
+  calibrated geometry risk: `semantic_score * p_geom_valid_family`. It
+  reinterprets the existing frozen `family_specific_p_geom_valid` artifact as
+  the paper-facing `family_conditional_risk` operating point rather than a
+  generic control.
+  Open3DSG improves over pooled risk across K in both recall and violation;
+  VL-SAT lowers violation with near-flat recall. The current H001/GeoCalib
+  paper main route remains the existing calibrated soft re-ranking score unless
+  family-conditional risk is explicitly promoted.
+- Latest known paper build is `logs/h001_aaai_pdf_build_h001v2_family_conditional_naming_20260624_130846.log`, exit 0, 9 pages, with GeoCalib, Figure-1, low-K table updates, H001_v2 risk-aware method prose, and family-conditional risk naming. Any older release package generated before these updates must be regenerated before upload.
 
 Inference:
 
@@ -237,7 +251,7 @@ Full official validation branch:
   regeneration. Low-K sweep artifacts are ready in `metrics_k_sweep/` with
   K=`{5,10,20,50,100}`; K=50/100 matches the locked `metrics/` point estimates.
   Key recovery pattern: at K=5/10, semantic-only violation is `0.5131/0.3255`,
-  while `family_specific_p_geom_valid` reduces it to `0.0420/0.0482` and raises
+  while `family_conditional_risk` reduces it to `0.0420/0.0482` and raises
   recall from `0.0368/0.1002` to `0.0984/0.1921`.
 - Open3DSG recovery caveat: this removes the missing-context denominator caveat
   but must be described as a recovery-policy variant, not as the unmodified
@@ -358,7 +372,7 @@ Attachment-deferred upgrade track:
   446 counterfactual negative seeds, held-out scan overlap 0, no verifier
   application, no fitted calibration, no source scoring, and no metrics; warning
   that dev split has no `connected to` positive seed, so future connected-to
-  family-specific calibration requires pooled calibration, augmented dev
+  family-conditional calibration requires pooled calibration, augmented dev
   selection, or explicit limitation
 - G4 GT policy-smoke result: 36/36 smoke decisions and 761/761 train/dev seed
   decisions pass schema validation; point/surface evidence is ready for
@@ -443,7 +457,7 @@ Primary conditions:
 | `semantic_only` | reproduced base predictor ranking |
 | `probabilistic_recalibrated` | main recall-first H001 condition, semantic score combined with frozen pooled `p_geom_valid` |
 | `rule_verified_point_subtype` | hard-filter diagnostic / zero-violation operating point |
-| `family_specific_p_geom_valid` | stricter violation-first operating point |
+| `family_conditional_risk` | family-conditional calibrated risk operating point |
 
 Control conditions:
 
@@ -510,7 +524,7 @@ Fact, paper-facing VL-SAT full-validation primary route:
 | `semantic_only` | 0.4194 | 0.6322 | 0.8074 | 0.9272 | 0.9635 | 0.0029 | 0.0082 | 0.0142 | 0.0268 | 0.0476 |
 | `probabilistic_recalibrated` | 0.4154 | 0.6322 | 0.8107 | 0.9305 | 0.9688 | 0.0015 | 0.0071 | 0.0120 | 0.0229 | 0.0404 |
 | `rule_verified_point_subtype` | 0.4197 | 0.6317 | 0.8074 | 0.9257 | 0.9627 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 |
-| `family_specific_p_geom_valid` | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 |
+| `family_conditional_risk` | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 |
 
 Open3DSG full-validation recovery result:
 
@@ -519,15 +533,15 @@ Open3DSG full-validation recovery result:
 | `semantic_only` | 0.0368 | 0.1002 | 0.1991 | 0.4096 | 0.5161 | 0.5131 | 0.3255 | 0.2088 | 0.1386 | 0.1242 |
 | `probabilistic_recalibrated` | 0.0826 | 0.1581 | 0.2603 | 0.3975 | 0.5723 | 0.0628 | 0.0699 | 0.0654 | 0.0606 | 0.0811 |
 | `rule_verified_point_subtype` | 0.0707 | 0.1314 | 0.2422 | 0.4295 | 0.5368 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 |
-| `family_specific_p_geom_valid` | 0.0984 | 0.1921 | 0.3291 | 0.4658 | 0.6047 | 0.0420 | 0.0482 | 0.0441 | 0.0286 | 0.0341 |
+| `family_conditional_risk` | 0.0984 | 0.1921 | 0.3291 | 0.4658 | 0.6047 | 0.0420 | 0.0482 | 0.0441 | 0.0286 | 0.0341 |
 
 Bootstrap CI:
 
 - Docker `bootstrap_ci` status: `ready`, 1,000 subgraph resamples, warnings none.
-- Open3DSG `family_specific` vs `semantic_only`: R@100 delta `+8.86 pp`
+- Open3DSG `family_conditional_risk` vs `semantic_only`: R@100 delta `+8.86 pp`
   with 95% CI `[+6.69,+10.96]`; Violation@100 delta `-9.01 pp` with 95% CI
   `[-9.49,-8.53]`.
-- VL-SAT `family_specific` vs `semantic_only`: R@100 delta `+0.48 pp` with
+- VL-SAT `family_conditional_risk` vs `semantic_only`: R@100 delta `+0.48 pp` with
   95% CI `[+0.11,+0.93]`; Violation@100 delta `-1.43 pp` with 95% CI
   `[-1.60,-1.28]`.
 
@@ -755,7 +769,7 @@ Current data/runtime status:
   Violation@50/@100 `0.1326/0.1195`; probabilistic_recalibrated
   R@50/R@100 `0.3843/0.5580`, Violation@50/@100 `0.0575/0.0803`;
   rule_verified_point_subtype R@50/R@100 `0.4149/0.5238`,
-  Violation@50/@100 `0.0/0.0`; family_specific control R@50/R@100
+  Violation@50/@100 `0.0/0.0`; `family_conditional_risk` R@50/R@100
   `0.4530/0.5984`, Violation@50/@100 `0.0228/0.0311`.
 - Historical 127-scan Docker `table_builder` regenerated Table 6 from
   `sources/open3dsg/metrics/metrics.json`; Open3DSG Table 6 hook status is
@@ -964,8 +978,8 @@ Required defenses:
 - keep method framing as calibrated geometry-consistency evaluation and
   re-ranking, not a rule script;
 - report recall and violation together;
-- include semantic-only, calibrated, hard-filter, family-specific, and control
-  conditions;
+- include semantic-only, calibrated, hard-filter, family-conditional risk, and
+  true control conditions;
 - report in-scope denominator, excluded rows, filtered train/validation counts,
   and covered Open3DSG contexts;
 - add Open3DSG second-source metrics before making cross-predictor claims;

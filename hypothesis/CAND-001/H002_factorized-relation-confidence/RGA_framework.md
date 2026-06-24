@@ -1,6 +1,6 @@
 # H002 RGA Framework
 
-Last updated: 2026-06-23 KST
+Last updated: 2026-06-24 KST
 
 ## Purpose
 
@@ -124,6 +124,14 @@ no_gt_for_pair
 accept_reliable
 reject_unreliable
 abstain_uncertain
+```
+
+Current H002 target policy:
+
+```text
+human-audited reliability label = primary target
+existing GT relation match = auxiliary analysis axis
+GT/reliability mismatch table = required analysis
 ```
 
 ### Coverage Axis
@@ -250,11 +258,11 @@ These fields can be used only for sampling control or audit.
 ## Current Status
 
 ```text
-current_gate = v19 attachment-deferred independent-evidence audit packet label fill completed
-status = h002_reliability_target_v19_attachment_deferred_independent_evidence_audit_packet_label_filled_codex_visible_packet
+current_gate = v22 hanging-on strict candidate mining completed
+status = h002_reliability_target_v22_hanging_on_strict_conditional_contrast_candidate_mining_ready_for_source_inventory
 posterior_smoke_allowed = false
 validation_or_test_used = false
-next = reliability_target_v19_attachment_deferred_independent_evidence_audit_packet_label_ingestion
+next = reliability_target_v22_hanging_on_strict_conditional_contrast_source_inventory
 ```
 
 Current finding:
@@ -286,7 +294,32 @@ attachment_deferred_audit_packet_materialization = packets240_images4466_visible
 attachment_deferred_audit_packet_leakage_review = passed_visible_leakage0_validation0
 attachment_deferred_audit_packet_label_fill = accept26_reject99_abstain53_connected15_47
 attachment_deferred_audit_packet_primary_binary = positive26_negative99
-attachment_deferred_next_question = audit_packet_label_ingestion
+attachment_deferred_audit_packet_label_ingestion = multiclass240_primary_binary125_geometry140_connected62
+attachment_deferred_audit_packet_target_viability = positive_sparse_26_99_quick_probe_risk43
+attachment_deferred_audit_packet_target_independence = blocked_positive_sparse_strict0_diagnostic0_risk56_slice1185
+attachment_deferred_audit_packet_path_decision = freeze_v19_diagnostic_select_v20_endpoint_balanced_counterfactual_repair
+attachment_deferred_endpoint_balanced_counterfactual_repair_plan = ready_for_capacity_scan_primary_attached_hanging_connected_diagnostic
+attachment_deferred_endpoint_balanced_counterfactual_capacity_scan = passed_exact_endpoint_pair_mixed_groups4616_preview320_feasible
+attachment_deferred_endpoint_balanced_counterfactual_candidate_mining = selected320_primary256_connected64_visible_leakage0
+attachment_deferred_endpoint_balanced_counterfactual_source_inventory = gate_pass_audit_ready320_strong75_t2_245
+attachment_deferred_endpoint_balanced_counterfactual_audit_packet_plan = ready_for_materialization_rows320_t1_75_t2_245
+attachment_deferred_endpoint_balanced_counterfactual_audit_packet_materialization = packets320_images5836_visible_leakage0_gt_axis320
+attachment_deferred_endpoint_balanced_counterfactual_audit_packet_leakage_review = passed_visible_leakage0_validation0_ready_for_label_fill
+attachment_deferred_endpoint_balanced_counterfactual_audit_packet_label_fill = user_filled_accept25_reject182_abstain113
+attachment_deferred_endpoint_balanced_counterfactual_audit_packet_label_ingestion = primary_binary25_182_quick_probe_risk70_gt_mismatch_ready
+attachment_deferred_endpoint_balanced_counterfactual_audit_packet_target_independence = blocked_positive_sparse_strict0_diagnostic0_risk82_slice1112
+attachment_deferred_endpoint_balanced_counterfactual_audit_packet_path_decision = freeze_v20_diagnostic_select_v21_conditional_contrast_capacity_scan
+attachment_deferred_conditional_contrast_capacity_scan = blocked_predicate_imbalanced_strict_capacity
+attachment_deferred_v21_primary_rows = 370692
+attachment_deferred_v21_diagnostic_connected_rows = 185346
+attachment_deferred_v21_strict_mixed_groups = 258
+attachment_deferred_v21_strict_balanced_capacity = 4507
+attachment_deferred_v21_strict_by_predicate = hanging_on_only
+attachment_deferred_v21_diagnostic_mixed_groups = 591
+attachment_deferred_v21_path_decision = hanging_on_strict_primary_attached_to_diagnostic
+attachment_deferred_v22_packet_plan = ready_for_candidate_mining_rows240_proxy120_120_groups95_scans192
+attachment_deferred_v22_candidate_mining = ready_for_source_inventory_rows240_visible_leakage0
+attachment_deferred_next_question = hanging_on_strict_conditional_contrast_source_inventory
 eligible_pairs = 9984
 eligible_rows = 19968
 strict_v9_exact_pair_feasible = false
@@ -327,7 +360,7 @@ physical_family_v15_repair_plan = support_contact_witness_matched_ready_for_capa
 physical_family_v15_capacity_scan = row_capacity_sufficient_mixed_witness_strata_0
 physical_family_v15_path_decision = reject_same_witness_select_cross_stratum_support_contact
 physical_family_v16_cross_stratum_plan = lying_on_hl100_lh100_standing_lh24_vertical_control16
-selected_next_path = v16_cross_stratum_support_contact_contrast_capacity_scan
+selected_next_path = v20_attachment_deferred_endpoint_balanced_counterfactual_audit_packet_plan
 ```
 
 Interpretation:
@@ -376,20 +409,45 @@ Interpretation:
 - v48 materializes the packet set: 240 visible rows, 240 packet directories, 4,466 neutral packet-local image copies, and 0 visible leakage hits. The next step is a formal leakage review before labels.
 - v49 passes formal leakage review: visible sheet, packet markdown, and neutral image filenames have 0 leakage hits. The next step is packet-based label fill; posterior smoke remains blocked.
 - v50 fills leakage-reviewed packet labels without reading the hidden manifest. The label material is cleanly generated, but the primary binary preview is positive-sparse (`26/99`), so posterior smoke remains blocked until ingestion and target-independence audit.
+- v51 ingests the filled packet labels after label lock. Target artifacts are created (`240` multiclass, `125` primary binary, `140` geometry-support, `62` connected diagnostic), but class mass fails and quick probes flag `43` shortcut risks. Posterior smoke remains blocked.
+- v52 audits target independence. The primary relation target remains blocked (`26/99`, strict clear slices `0`, diagnostic clear slices `0`), and endpoint/scan/subject-label shortcuts remain strong. Posterior smoke remains blocked.
+- v53 freezes the v19 audit-packet target as diagnostic negative target-construction evidence and selects a v20 endpoint-balanced counterfactual repair plan. Stronger posterior combiners remain blocked because the current label target is still shortcut-explainable.
+- v54 freezes the v20 repair contract. `attached to` and `hanging on` stay primary, `connected to` stays diagnostic-only, sample sizes `240/320/400` must be capacity-scanned, and post-label gates require at least `60/60` accept/reject plus controlled non-shortcut slices before posterior smoke.
+- v55 scans full train capacity. Exact visible endpoint-pair mixed contrast passes with `4,616` mixed groups and `26,054` balanced pairs; sample sizes `240/320/400` are all feasible. This unlocks candidate mining, not posterior smoke.
+- v56 materializes the default 320-row candidate set with 256 primary `attached to`/`hanging on` rows and 64 `connected to` diagnostic rows. Visible leakage is 0, but source inventory is required before label fill.
+- v57 inventories v56 rows and passes the source gate: 320/320 rows are audit-ready, with 75 strong same-frame co-visible rows and 245 individual-view-plus-mesh rows. The next audit packet plan must preserve this tier distinction before label fill.
+- v58 fixes the tiered audit-packet plan: 320 visible packet rows, 256 primary attachment rows, 64 connected diagnostic-only rows, T1/T2 = 75/245, and validation errors 0. The next step is materialization, still before label fill or posterior smoke.
+- v59 materializes the tiered packets: 320 packet directories, 5,836 neutral packet-local images, visible leakage 0, validation errors 0, and existing GT-match auxiliary axis joined for 320/320 hidden rows. The next step is formal leakage review before label fill.
+- v60 passes formal leakage review: 320 visible rows, 320 packet markdown files, 5,836 neutral image filenames, 0 visible leakage hits, 0 validation errors, and GT-match auxiliary axis preserved only in hidden manifest. The next step is packet label fill, still before posterior smoke.
+- v61 locks user-filled visible packet labels: `accept/reject/abstain = 25/182/113`, with primary binary preview `25/182`, hidden manifest not read, validation errors 0, and posterior smoke blocked.
+- v62 ingests locked labels with hidden manifest and GT-match axis after label lock: multiclass 320, primary binary 207 (`25/182`), geometry-support 219, endpoint/coverage/uncertainty 320, quick-probe risk 70, validation errors 0. The next step is target-independence audit.
+- v63 audits target independence. Primary relation binary remains positive-sparse (`25/182`) with `0` strict and `0` diagnostic clear slices. Full quick probes flag `82` risks and slice-level blocking risk totals `1,112`, so posterior smoke remains blocked and the next step is path decision.
+- v64 freezes v20 as diagnostic negative target-construction evidence and selects a full-train conditional contrast capacity scan. This keeps open the possibility that the 320-row packet was a sampling artifact, while still blocking posterior smoke until factorization-requiring strata are shown to exist.
+- v65 scans the full-train attachment pool. Conditional contrast proxy exists, but strict `same_predicate_rank_geometry_family` mixed strata remain only for `hanging on`; `attached to` survives only under a relaxed diagnostic spec. Therefore the next step is path decision, not label packet creation or posterior smoke.
+- v66 completes that path decision. The strict condition is recorded as an H002 control rule, not a dataset GT rule. The selected route is `hanging on` strict primary, with `attached to` and `connected to` kept diagnostic until stronger evidence or a separate target route exists.
+- v67 completes the `hanging on` strict packet plan. A hidden-only dry-run preview can select 240 rows with 120/120 proxy balance across 95 strict groups, 192 scans, and 193 visible endpoint pairs. This unlocks candidate mining, not label fill or posterior smoke.
+- v68 materializes a hidden-field-safe 240-row candidate sheet for `hanging on`. Visible leakage is 0; source ids and construction fields are hidden. This unlocks source inventory, not packet assets, label fill, or posterior smoke.
 
 ## Current Relation Scope
 
 Core target construction currently focuses on:
 
 ```text
+attachment_deferred: hanging on strict source inventory, attached to and connected to diagnostic
+```
+
+Previous train-only/full-train branches remain diagnostic or control evidence:
+
+```text
 support_contact: standing on, lying on
 relative_vertical: higher than, lower than
+proximity: close by
 ```
 
 Active empirical branch:
 
 ```text
-attachment_deferred_independent_evidence_audit_packet_label_ingestion: ingest filled packet labels and test target readiness
+reliability_target_v22_hanging_on_strict_conditional_contrast_source_inventory
 ```
 
 Deferred expansion:
@@ -406,9 +464,9 @@ or used for posterior smoke until the repaired target passes target-independence
 
 ```text
 README.md = H002 folder map and current status
-summary_branch_v2.md = research framing, claim boundary, latest summary, and v1-v50 overview
+summary_branch_v2.md = research framing, claim boundary, latest summary, and v1-v68 overview
 RGA_framework.md = RGA definitions, axes, buckets, metrics, gates
 feasibility_check.md = posterior combiner and multi-view feasibility notes
-stages/ = v1-v50 stage-specific progress, problems, and transition rationale
+stages/ = v1-v68 stage-specific progress, problems, and transition rationale
 artifacts/ = raw per-stage outputs
 ```

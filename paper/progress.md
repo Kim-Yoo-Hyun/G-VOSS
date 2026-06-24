@@ -83,7 +83,7 @@ Historical key result:
 | --- | ---: | ---: | ---: | ---: | --- |
 | `semantic_only` | 0.9599 | 0.9894 | 0.0247 | 0.0469 | reproduced source ranking |
 | `probabilistic_recalibrated` | 0.9642 | 0.9921 | 0.0234 | 0.0391 | recall-first calibrated setting |
-| `family_specific_p_geom_valid` | 0.9619 | 0.9914 | 0.0204 | 0.0310 | stricter violation-first setting |
+| `family_conditional_risk` | 0.9619 | 0.9914 | 0.0204 | 0.0310 | family-conditional calibrated risk setting |
 | `rule_verified_point_subtype` | 0.9587 | 0.9890 | 0.0000 | 0.0000 | hard-filter diagnostic |
 
 Interpretation:
@@ -93,8 +93,8 @@ Interpretation:
 - `rule_verified_point_subtype` is useful as a zero-violation diagnostic, but
   it should not be framed as the default method because a reviewer could read
   it as simply filtering away difficult relations.
-- `family_specific_p_geom_valid` shows a stronger violation-reduction
-  operating point and motivates family-specific calibration as an ablation.
+- `family_conditional_risk` shows a stronger violation-reduction
+  operating point and motivates family-conditional calibration as a method variant.
 
 Why we moved on:
 
@@ -258,11 +258,11 @@ Historical Open3DSG 127-scan sensitivity result:
 | old 377/388 | `semantic_only` | 0.3945 | 0.4963 | 0.1326 | 0.1195 |
 | old 377/388 | `probabilistic_recalibrated` | 0.3843 | 0.5580 | 0.0575 | 0.0803 |
 | old 377/388 | `rule_verified_point_subtype` | 0.4149 | 0.5238 | 0.0000 | 0.0000 |
-| old 377/388 | `family_specific_p_geom_valid` | 0.4530 | 0.5984 | 0.0228 | 0.0311 |
+| old 377/388 | `family_conditional_risk` | 0.4530 | 0.5984 | 0.0228 | 0.0311 |
 | R2 388/388 | `semantic_only` | 0.3972 | 0.4990 | 0.1331 | 0.1199 |
 | R2 388/388 | `probabilistic_recalibrated` | 0.3870 | 0.5607 | 0.0594 | 0.0811 |
 | R2 388/388 | `rule_verified_point_subtype` | 0.4177 | 0.5265 | 0.0000 | 0.0000 |
-| R2 388/388 | `family_specific_p_geom_valid` | 0.4558 | 0.6012 | 0.0254 | 0.0323 |
+| R2 388/388 | `family_conditional_risk` | 0.4558 | 0.6012 | 0.0254 | 0.0323 |
 
 Interpretation:
 
@@ -306,7 +306,7 @@ Interpretation:
   can be semantically plausible but physically inconsistent for the object pair.
 - The 10 high-confidence rule-violated cases show residual calibration risk.
   This is why the paper reports probabilistic, rule-verified, and
-  family-specific operating points separately.
+  family-conditional risk operating points separately.
 
 Why we moved on:
 
@@ -357,13 +357,13 @@ Key VL-SAT full-validation result:
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
 | `semantic_only` | 0.4194 | 0.6322 | 0.8074 | 0.9272 | 0.9635 | 0.0029 | 0.0082 | 0.0142 | 0.0268 | 0.0476 | full official source ranking |
 | `probabilistic_recalibrated` | 0.4154 | 0.6322 | 0.8107 | 0.9305 | 0.9688 | 0.0015 | 0.0071 | 0.0120 | 0.0229 | 0.0404 | recall-first calibrated setting |
-| `family_specific_p_geom_valid` | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 | stricter violation-first setting |
+| `family_conditional_risk` | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 | family-conditional calibrated risk setting |
 | `rule_verified_point_subtype` | 0.4197 | 0.6317 | 0.8074 | 0.9257 | 0.9627 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | hard-filter diagnostic |
 
 Interpretation:
 
 - The full official validation route preserves the main qualitative pattern:
-  calibrated/family-specific reranking reduces violation while maintaining or
+  calibrated/family-conditional risk reranking reduces violation while maintaining or
   slightly improving recall, and rule filtering reaches zero violation with a
   small recall tradeoff.
 - The absolute recall is lower than the 127-scan result because the denominator
@@ -380,15 +380,15 @@ Key Open3DSG recovery full-validation result:
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
 | `semantic_only` | 0.0368 | 0.1002 | 0.1991 | 0.4096 | 0.5161 | 0.5131 | 0.3255 | 0.2088 | 0.1386 | 0.1242 | recovery full official source ranking |
 | `probabilistic_recalibrated` | 0.0826 | 0.1581 | 0.2603 | 0.3975 | 0.5723 | 0.0628 | 0.0699 | 0.0654 | 0.0606 | 0.0811 | recall-first calibrated setting |
-| `family_specific_p_geom_valid` | 0.0984 | 0.1921 | 0.3291 | 0.4658 | 0.6047 | 0.0420 | 0.0482 | 0.0441 | 0.0286 | 0.0341 | stricter violation-first setting |
+| `family_conditional_risk` | 0.0984 | 0.1921 | 0.3291 | 0.4658 | 0.6047 | 0.0420 | 0.0482 | 0.0441 | 0.0286 | 0.0341 | family-conditional calibrated risk setting |
 | `rule_verified_point_subtype` | 0.0707 | 0.1314 | 0.2422 | 0.4295 | 0.5368 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | hard-filter diagnostic |
 
 Full-validation uncertainty and verifier checks:
 
-- Open3DSG `family_specific` vs `semantic_only`: R@100 delta `+8.86 pp`
+- Open3DSG `family_conditional_risk` vs `semantic_only`: R@100 delta `+8.86 pp`
   with 95% CI `[+6.69,+10.96]`; Violation@100 delta `-9.01 pp` with
   95% CI `[-9.49,-8.53]`.
-- VL-SAT `family_specific` vs `semantic_only`: R@100 delta `+0.48 pp`
+- VL-SAT `family_conditional_risk` vs `semantic_only`: R@100 delta `+0.48 pp`
   with 95% CI `[+0.11,+0.93]`; Violation@100 delta `-1.43 pp` with
   95% CI `[-1.60,-1.28]`.
 - Full-validation GT verifier: 3,972 positives and 3,972 counterfactual

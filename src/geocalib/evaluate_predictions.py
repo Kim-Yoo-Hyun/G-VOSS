@@ -83,7 +83,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--family-specific-model-json",
         type=Path,
-        help="Optional p_geom_valid family-specific control model from fit_family_calibration.py.",
+        help="Optional p_geom_valid family-specific calibrator from fit_family_calibration.py.",
     )
     parser.add_argument("--dry-run", action="store_true")
     return parser.parse_args()

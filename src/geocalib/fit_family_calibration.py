@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fit per-family H001 p_geom_valid calibration control models."""
+"""Fit per-family H001 p_geom_valid calibration models."""
 
 from __future__ import annotations
 
@@ -42,7 +42,9 @@ SCORE_SCHEMA_VERSION = "h001_p_geom_valid_family_score_v1"
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Fit H001 family-specific p_geom_valid controls.")
+    parser = argparse.ArgumentParser(
+        description="Fit H001 family-specific p_geom_valid calibrators."
+    )
     parser.add_argument("--input-dir", type=Path, default=DEFAULT_INPUT_DIR)
     parser.add_argument("--pilot-root", type=Path, default=DEFAULT_PILOT_ROOT)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
@@ -245,9 +247,9 @@ def main() -> int:
     status = "ready" if not errors else "blocked"
 
     notes = [
-        "This is a train/dev family-specific calibration control, not final held-out hypothesis evidence.",
+        "This is a train/dev family-specific calibration artifact, not source-metric-tuned evidence.",
         "Each predicate family is fit with its own logistic model using only train_dev_calib rows from that family.",
-        "The control tests whether the pooled p_geom_valid result depends on pooling across predicate families.",
+        "The artifact tests whether the pooled p_geom_valid result depends on pooling across predicate families.",
         "Semantic scores are not used during calibration fitting.",
     ]
     created_at = date.today().isoformat()

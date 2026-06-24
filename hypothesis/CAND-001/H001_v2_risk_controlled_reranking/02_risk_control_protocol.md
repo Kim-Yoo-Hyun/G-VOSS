@@ -1,6 +1,6 @@
 # H001_v2 Risk-Control Protocol
 
-Last updated: 2026-06-22 KST
+Last updated: 2026-06-24 KST
 
 ## Protocol Version
 
@@ -8,10 +8,18 @@ Last updated: 2026-06-22 KST
 h001_v2_risk_controlled_reranking_protocol_v0
 ```
 
-This is a protocol freeze document. It does not execute metrics. After the
-2026-06-22 schema probe, the first executable protocol is edge-level threshold
-selection from held-out calibration score rows, followed by fixed-threshold
-top-K source evaluation.
+This is the diagnostic fixed-threshold protocol. It records the hard-risk
+variant that was executed after the 2026-06-22 schema probe: edge-level
+threshold selection from held-out calibration score rows, followed by
+fixed-threshold top-K source evaluation.
+
+It is no longer the preferred H001_v2 main-method framing. The selected method
+framing is risk-aware soft reranking, where the current GeoCalib
+`semantic_score * p_geom_valid` score is interpreted as the `lambda=1`
+log-linear utility-risk objective. The current H001_v2 development direction is
+the family-conditional calibrated-risk variant documented in
+`11_family_conditional_risk_result.md`. See
+`09_risk_aware_soft_reranking.md` for the shared objective framing.
 
 ## Fixed Inputs
 
@@ -72,9 +80,9 @@ A_tau = {e | r(e) <= tau}
 TopK_tau(g) = top-K edges in subgraph g from A_tau, sorted by semantic_score
 ```
 
-H001_v2 does not multiply semantic score by geometry score. Geometry determines
-which edges are eligible under the risk budget. Semantic score remains the
-utility ranking inside the feasible set.
+This hard-threshold diagnostic does not multiply semantic score by geometry
+score. Geometry determines which edges are eligible under the risk budget.
+Semantic score remains the utility ranking inside the feasible set.
 
 If fewer than K eligible in-scope predictions exist in a subgraph, select the
 available eligible predictions and report selected-count / coverage.
@@ -206,7 +214,7 @@ Allowed diagnostic policies:
 
 | Policy | Purpose | Main-claim status |
 | --- | --- | --- |
-| `family_tau_bonferroni` | Test whether family-specific risk control is needed. | appendix/diagnostic |
+| `family_tau_bonferroni` | Test whether family-specific hard-threshold risk control is needed. | appendix/diagnostic |
 | `source_tau_bonferroni` | Test source calibration mismatch. | diagnostic only |
 | `alpha_0_10_pooled` | Sensitivity to a looser violation budget. | diagnostic only |
 
@@ -228,7 +236,8 @@ Required comparisons:
 
 ## Claim Conditions
 
-H001_v2 can be claimed as an improvement over H001_v1 only if:
+The fixed-threshold diagnostic can be claimed as an improvement over the current
+GeoCalib main method only if:
 
 - `tau*` is selected using the frozen calibration protocol only.
 - full-validation source metrics use the fixed `tau*`.
@@ -239,3 +248,8 @@ H001_v2 can be claimed as an improvement over H001_v1 only if:
 - top-K source `Violation@K` is reported as fixed-threshold evaluation, not as
   a calibration guarantee.
 - controls show that shuffled/wrong-pair geometry cannot reproduce the result.
+
+The executed `tau*=0.20` result does not satisfy this promotion condition
+because it has geometry-specific controls but causes VL-SAT recall collapse and
+does not dominate `probabilistic_recalibrated`. It should remain diagnostic
+evidence.

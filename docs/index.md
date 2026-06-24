@@ -1,6 +1,6 @@
 # Research Documentation Index
 
-Last updated: 2026-06-23 KST
+Last updated: 2026-06-24 KST
 
 ## Purpose
 
@@ -27,9 +27,9 @@ External convention checked on 2026-06-22 KST:
 | High-level research summary and claim boundary | `summary.md` |
 | H001 reproducibility, artifact transfer, cleanup safety | `docs/reproducibility.md` |
 | H001 paper framing and reviewer-defense rules | `docs/paper.md`, `paper/` |
-| H001_v2 risk-controlled reranking branch | `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/README.md` |
+| H001_v2 diagnostic risk-controlled reranking branch | `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/README.md` |
 | H002 current branch state and next gate | `hypothesis/CAND-001/H002_factorized-relation-confidence/README.md` |
-| H002 research framing and v1-v50 overview | `hypothesis/CAND-001/H002_factorized-relation-confidence/summary_branch_v2.md` |
+| H002 research framing and v1-v68 overview | `hypothesis/CAND-001/H002_factorized-relation-confidence/summary_branch_v2.md` |
 | H002 stage-specific history | `hypothesis/CAND-001/H002_factorized-relation-confidence/stages/` |
 | Long-running job logs | `logs/` |
 
@@ -50,7 +50,7 @@ External convention checked on 2026-06-22 KST:
 | --- | --- |
 | Literature | `literature/README.md`, `literature/PAPER.md`, `literature/CAND-001.md`, `literature/CAND-003.md` |
 | Hypothesis archive | `archive/hypothesis_records/hypothesis/README.md` |
-| Active H001_v2 hypothesis | `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/README.md`, `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/02_risk_control_protocol.md`, `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/05_source_inventory.md`, `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/06_schema_probe.md`, `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/07_source_eval_contract.md` |
+| H001_v2 diagnostic branch | `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/README.md`, `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/02_risk_control_protocol.md`, `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/05_source_inventory.md`, `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/06_schema_probe.md`, `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/07_source_eval_contract.md`, `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/08_source_eval_result.md` |
 | Active H002 hypothesis | `hypothesis/CAND-001/H002_factorized-relation-confidence/README.md` |
 | H002 RGA framework | `hypothesis/CAND-001/H002_factorized-relation-confidence/RGA_framework.md` |
 | H002 feasibility notes | `hypothesis/CAND-001/H002_factorized-relation-confidence/feasibility_check.md` |

@@ -12,11 +12,11 @@ semantic score != geometry validity != relation reliability
 ## Current Status
 
 ```text
-current_gate = v19 attachment-deferred independent-evidence audit packet label fill completed
-current_status = packet labels filled; ingestion and target-independence audit are still required
+current_gate = v22 hanging-on strict candidate mining completed
+current_status = hanging-on strict 240-row candidate sheet is ready for source inventory
 posterior_smoke_allowed = false
 validation_or_test_used = false
-next_todo = reliability_target_v19_attachment_deferred_independent_evidence_audit_packet_label_ingestion
+next_todo = reliability_target_v22_hanging_on_strict_conditional_contrast_source_inventory
 ```
 
 현재 결론은 H002 가설이 틀렸다는 것이 아니다. 현재까지의 반복은 relation reliability를
@@ -136,7 +136,7 @@ join됐고, typed witness cell capacity와 240-row capped preview가 모두 통�
 | `summary_branch_v2.md` | H002의 긴 누적 research log와 근거/claim boundary |
 | `RGA_framework.md` | RGA framework 정의, axis, bucket, metric, gate 원칙 |
 | `feasibility_check.md` | multi-view와 posterior 결합 방식 관련 feasibility 판단 |
-| `stages/` | v1~v50 stage별 진행 내용, 문제점, 다음 단계로 넘어간 이유 |
+| `stages/` | v1~v68 stage별 진행 내용, 문제점, 다음 단계로 넘어간 이유 |
 
 ## Consolidation
 
@@ -157,7 +157,9 @@ v1~v10 stage별 문서(`stages/`)와 전체 흐름 요약(`summary_branch_v2.md`
 
 ## Current Relation Scope
 
-Core target construction은 현재 `support_contact`와 `relative_vertical` 중심이다.
+Core target construction은 현재 `attachment_deferred`의 `hanging on` strict source inventory다.
+이전 `support_contact`, `relative_vertical`, `proximity` branch는 full-train에서 확인했지만
+현재는 diagnostic/generalization evidence로 둔다.
 
 포함 또는 예정:
 
@@ -190,6 +192,24 @@ Core target construction은 현재 `support_contact`와 `relative_vertical` 중�
 - v48에서 v19 audit packet materialization을 완료했다. 240개 reviewer-visible rows, 240개 packet dirs, 4,466개 neutral packet-local image copies, 240개 hidden manifest rows를 생성했고 visible leakage hit와 validation error는 모두 0개다. Source path, scan/subgraph/id, instance id, original filename은 hidden manifest에만 남겼다. 다음은 label fill 전 formal leakage review다.
 - v49에서 formal leakage review를 완료했다. Visible sheet 240개 row, packet markdown 240개, neutral image files 4,466개를 검사했고 source path, scan/subgraph id, instance id, construction metadata, old label/reason/review note leakage는 0개다. Hidden manifest에는 source path와 scan id가 240개 row 모두에 보존됐다. 다음은 packet 기반 label fill이다.
 - v50에서 v19 packet label fill을 완료했다. Hidden manifest를 읽지 않고 leakage-reviewed visible sheet, packet markdown, packet-local image availability만 사용했으며 validation error는 0개다. Label 분포는 `accept/reject/abstain = 26/99/53`, connected diagnostic `possible/ambiguous = 15/47`, primary binary preview는 `26/99`다. Positive-sparse risk가 남아 posterior smoke는 계속 금지되며, 다음 단계는 label ingestion이다.
+- v51에서 v19 label ingestion을 완료했다. Hidden manifest는 label lock 이후에만 읽었고 validation error는 0개다. Multiclass 240개, primary binary 125개(`26/99`), connected diagnostic 62개, geometry-support 140개, uncertainty 240개 target을 만들었다. Class mass fail과 quick-probe risk 43개 때문에 posterior smoke는 계속 금지되며, 다음 단계는 target-independence audit이다.
+- v52에서 v19 target-independence audit을 완료했다. Primary relation binary는 125개(`26/99`)로 class mass gate를 통과하지 못했고 strict/diagnostic clear slice는 모두 0개다. Full quick-probe risk flag는 56개, slice blocking risk flag는 1,185개이며 visible endpoint pair, scan/subgraph id, subject label, primary reason shortcut이 강하다. Posterior smoke는 계속 금지되고 다음 단계는 path decision이다.
+- v53에서 v19 audit-packet path decision을 완료했다. v19 target은 diagnostic-only negative target-construction evidence로 고정하고, 다음 route로 `v20_attachment_deferred_endpoint_balanced_counterfactual_repair_plan`을 선택했다. Posterior smoke와 stronger combiner는 계속 금지하며, 다음 target은 full train attachment pool에서 endpoint/object/predicate/scan shortcut을 직접 통제하도록 설계해야 한다.
+- v54에서 v20 endpoint-balanced counterfactual repair plan을 완료했다. Primary predicate는 `attached to` / `hanging on`, diagnostic predicate는 `connected to`로 고정했다. 다음 capacity scan은 sample size `240/320/400`, exact visible endpoint-pair mixed contrast, object-family/predicate/evidence-tier/scan-balanced fallback, post-label `60/60` accept/reject gate를 평가해야 한다. Posterior smoke는 계속 금지된다.
+- v55에서 v20 capacity scan을 완료했다. Full train attachment pool은 556,038 rows이며 exact visible endpoint-pair mixed group 4,616개, balanced pair capacity 26,054개가 있어 exact endpoint-pair mixed contrast route가 통과했다. `240/320/400` preview가 모두 quota deficit 없이 feasible하며, default next candidate size는 `320`이다. 다음 단계는 hidden-field-safe candidate mining이다.
+- v56에서 v20 candidate mining을 완료했다. 320-row candidate sheet와 hidden manifest를 만들었고 visible leakage hit는 0이다. Primary binary candidate는 256개(`attached to`/`hanging on`), `connected to` diagnostic은 64개다. 다음 단계는 새 candidate rows에 대해 multi-view/mesh/source inventory를 확인하는 것이다.
+- v57에서 v20 source inventory를 완료했다. 320개 row 모두 audit-ready이고, primary 256개와 `connected to` diagnostic 64개 모두 subject/object crop과 mesh/sequence/multi-view source를 갖는다. 다만 strong same-frame co-visible evidence는 75개뿐이고 245개는 individual-view-plus-mesh tier이므로, 다음 audit packet plan은 이 evidence tier를 보존해야 한다.
+- v58에서 v20 audit packet plan을 완료했다. 320-row visible packet template, hidden asset manifest plan, visible schema, packet contract를 만들었고 validation error는 0이다. Evidence tier는 T1 75개, T2 245개이며 primary rows는 T1 62개, T2 194개다. 다음 단계는 이 plan에 따라 packet assets를 neutral packet-local names로 materialize하는 것이다.
+- v59에서 v20 audit packet materialization을 완료했다. 320개 packet directory와 5,836개 neutral packet-local image를 만들었고 visible leakage hit와 validation error는 0이다. Hidden materialized manifest에는 existing GT relation match axis도 320/320 join해 보존했다. 다음 단계는 label fill 전 formal leakage review다.
+- v60에서 v20 audit packet formal leakage review를 완료했다. Visible sheet 320개 row, packet markdown 320개, neutral image files 5,836개를 검사했고 visible leakage hit와 validation error는 0이다. Hidden manifest에는 source path, scan id, existing GT-match auxiliary axis가 320/320 보존됐지만 visible packet에는 노출되지 않는다. 다음 단계는 packet 기반 label fill이다.
+- v61에서 user-filled visible packet labels를 검증하고 label-fill artifact로 잠갔다. Hidden manifest, source path, scan id, GT-match axis, rank/score, geometry status, `p_geom_valid`를 보지 않았고 validation error는 0이다. 전체 `accept/reject/abstain = 25/182/113`, primary binary preview는 `25/182`, connected diagnostic rows는 전부 `abstain_uncertain`으로 유지했다. 다음 단계는 label ingestion이다.
+- v62에서 locked labels를 hidden materialized manifest와 사후 join했다. Multiclass target 320개, primary binary 207개(`25/182`), geometry-support 219개, endpoint/coverage/uncertainty target 320개를 만들었고 validation error는 0이다. GT/reliability mismatch table도 생성했지만, positive-sparse와 quick-probe risk 70개 때문에 posterior smoke는 계속 금지된다. 다음 단계는 target-independence audit이다.
+- v63에서 v20 target-independence audit을 완료했다. Primary relation binary는 207개(`25/182`)로 class-mass gate를 통과하지 못했고 strict/diagnostic clear slice가 모두 0개다. Full quick-probe risk flag는 82개, slice-level blocking risk flag는 1,112개이며, geometry-support/coverage/endpoint auxiliary target도 strict independent slice가 없다. Posterior smoke는 계속 금지되고 다음 단계는 path decision이다.
+- v64에서 v20 path decision을 완료했다. v20 audit packet은 diagnostic negative target-construction evidence로 고정하고 posterior smoke, balanced `25/25` slice, stronger combiner, geometry-support-as-primary, connected-to-primary를 모두 reject했다. 다만 320-row packet이 우연히 reject-heavy였을 가능성은 남아 있으므로, 다음 route는 full-train `v21_attachment_deferred_conditional_contrast_capacity_scan`으로 선택했다.
+- v65에서 v21 conditional contrast capacity scan을 완료했다. Full-train attachment pool은 primary `attached to`/`hanging on` 370,692 rows와 diagnostic `connected to` 185,346 rows로 확인됐고 raw geometry join validation error는 0이다. Strict spec `same_predicate_rank_geometry_family`는 mixed groups 258, balanced capacity 4,507로 수량은 있지만 `hanging on`에만 남고 `attached to`는 빠진다. Relaxed diagnostic spec `same_predicate_rank_family`는 `attached to`와 `hanging on` 모두 mixed group을 갖지만 shortcut risk가 커서 바로 posterior로 갈 수 없다. 다음 단계는 strict primary를 `hanging on`으로 좁힐지, `attached to`를 diagnostic으로 낮출지 결정하는 path decision이다.
+- v66에서 v21 path decision을 완료했다. Strict condition은 GT rule이 아니라 predicate/rank/geometry bucket/object-family shortcut을 막기 위한 H002 control rule로 명시했다. 결정은 `hanging on`을 strict primary 후보로 남기고, `attached to`는 diagnostic/relaxed probe로 낮추며, `connected to`는 diagnostic-only로 유지하는 것이다. 다음 단계는 `reliability_target_v22_hanging_on_strict_conditional_contrast_packet_plan`이다.
+- v67에서 v22 hanging-on strict packet plan을 완료했다. Full-train `hanging on` rows 185,346개에서 strict groups 2,222개, mixed strict groups 258개, balanced capacity 4,507개를 확인했다. Hidden-only dry-run preview는 240 rows, proxy role `120/120`, selected strict groups 95개, scan 192개, visible endpoint pair 193개로 구성되며 max scan/endpoint/group cap이 모두 통과했다. Visible label sheet나 packet asset은 아직 만들지 않았고, 다음 단계는 hidden-field-safe candidate mining이다.
+- v68에서 v22 hanging-on strict candidate mining을 완료했다. 240-row visible candidate sheet, 240-row hidden manifest, 240-row candidate rows를 만들었고 visible leakage hit와 validation error는 모두 0이다. Visible sheet에는 relation text와 blank review fields만 두고, rank/geometry bucket/object-family/GT match/planned proxy role/strict group/source ids는 hidden manifest에만 보존했다. Packet assets와 labels는 아직 만들지 않았으므로 다음 단계는 source inventory다.
 - `front`, `behind`, `left`, `right`는 현재 H002 primary posterior target이 아니라 future relation-family expansion이다.
 
 ## Guardrails

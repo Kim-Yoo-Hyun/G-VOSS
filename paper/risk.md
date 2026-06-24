@@ -1,6 +1,6 @@
 # H001 Paper Reviewer-Risk Register
 
-Last updated: 2026-06-23 KST
+Last updated: 2026-06-24 KST
 
 Scope: this file tracks paper-body risks for the current AAAI manuscript under
 `paper/aaai/`. The goal is not sentence polish; it is to prevent reviewer attacks
@@ -36,6 +36,8 @@ The main rejection risks are not that the topic is unimportant. They are:
   exclusion are described as a frozen diagnostic/reporting decision.
 - Qwen-VL can dilute the contribution if presented as a new main baseline
   rather than appendix/extension evidence.
+- H001_v2 fixed-`tau*` can dilute the main method if presented as a replacement
+  despite mixed source metrics; keep it as diagnostic candidate evidence only.
 - submission-package risk is now practical rather than scientific: target-year
   form/style/supplement policy, artifact URL/DOI, checklist answers, and
   flattened package regeneration must match the latest GeoCalib/Figure-1 source.
@@ -69,8 +71,15 @@ Persona C, reproducibility/area-chair reviewer:
 
 ## Mitigation Status
 
-Updated on 2026-06-23 KST after low-K source metric regeneration and main-table
-patches:
+Updated on 2026-06-24 KST after low-K source metric regeneration, main-table
+patches, and the H001_v2 diagnostic-only decision:
+
+- P11 H001_v2 method-variant risk: resolved for the current paper route.
+  Fixed-`tau*` H001_v2 is locked as diagnostic candidate evidence only. It has
+  positive shuffled/wrong-pair tau controls, but VL-SAT recall collapse and
+  mixed comparison to `probabilistic_recalibrated` block main-table promotion.
+  The current GeoCalib main results and `semantic_score * p_geom_valid` style
+  calibrated soft re-ranking route stay unchanged.
 
 - P10 2026-06-14 GeoCalib/package risk: active. Latest known build is
   `logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log`, exit 0, 9
@@ -103,7 +112,7 @@ patches:
 - P6 main-text mitigation: completed. Downstream claims were softened to
   motivation/future evaluation rather than measured downstream performance.
 - P7 Docker bootstrap CI: completed. `bootstrap_ci` reports 1,000 subgraph
-  resamples with status `ready` and no warnings. Open3DSG family-specific
+  resamples with status `ready` and no warnings. Open3DSG family-conditional risk
   deltas remain positive for \rAt{100} and negative for \vAt{100}; VL-SAT
   recall deltas remain modest while violation reductions are stable.
 - P8 appendix/provenance pass: completed. `paper/appendix.md` now records the
@@ -224,7 +233,7 @@ patches:
   the rule uses object class affordance as proof rather than as optional
   context; the current contract explicitly forbids that. A secondary risk is
   that the dev split has no `connected to` positive seed, so any connected-to
-  family-specific calibration claim needs pooled calibration, augmented dev
+  family-conditional calibration claim needs pooled calibration, augmented dev
   selection, or explicit limitation.
 - Verification: Docker bootstrap log `logs/h001_bootstrap_ci_20260526_182034.log`
   exited 0. Docker PDF rebuild `logs/h001_aaai_pdf_build_20260526_182458.log`
@@ -256,7 +265,7 @@ Remaining after P0-P10:
   protocol freeze, and G5d full-source source metrics are complete. The current
   G5a-G5d result has enough strict rows for pooled calibration, a working
   source-scoring contract, and a frozen denominator/control protocol, but
-  `connected to` has no dev strict rows, so a family-specific calibration claim
+  `connected to` has no dev strict rows, so a family-conditional calibration claim
   needs pooled calibration, augmented dev selection, or an explicit caveat.
   Function reasoning should remain a secondary case study until the attachment
   relation reliability result itself is established.
@@ -573,16 +582,16 @@ Status:
   `results/h001_geom_reliability/bootstrap_ci/`.
 - The CI is a subgraph-level evaluation-context bootstrap, not repeated training
   variance.
-- Main use: defend that the Open3DSG family-specific tradeoff is not a single
+- Main use: defend that the Open3DSG family-conditional risk tradeoff is not a single
   aggregate artifact; keep VL-SAT as controlled-anchor evidence because its
   recall deltas are small.
 
 Key result:
 
-- Open3DSG `family_specific` vs `semantic_only`: \rAt{100} delta +10.22
+- Open3DSG `family_conditional_risk` vs `semantic_only`: \rAt{100} delta +10.22
   percentage points, 95% CI +7.94 to +12.54; \vAt{100} delta -8.84 points, 95%
   CI -9.41 to -8.28.
-- VL-SAT `family_specific` vs `semantic_only`: \rAt{100} delta +0.20 points with
+- VL-SAT `family_conditional_risk` vs `semantic_only`: \rAt{100} delta +0.20 points with
   CI crossing zero; \vAt{100} delta -1.59 points with negative CI.
 
 Evidence / affected files:

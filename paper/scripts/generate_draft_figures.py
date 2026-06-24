@@ -49,7 +49,7 @@ LAYOUT_REVIEW = OUT_DIR / "layout_review.md"
 COLORS = {
     "semantic_only": "#4b5563",
     "probabilistic_recalibrated": "#2563eb",
-    "family_specific_p_geom_valid": "#059669",
+    "family_conditional_risk": "#059669",
     "rule_verified_point_subtype": "#dc2626",
     "axis": "#111827",
     "grid": "#d1d5db",
@@ -62,13 +62,13 @@ EXPECTED_FIGURE2 = {
     "VL-SAT": {
         "semantic_only": {"r100": 0.9635, "violation100": 0.0476},
         "probabilistic_recalibrated": {"r100": 0.9688, "violation100": 0.0404},
-        "family_specific_p_geom_valid": {"r100": 0.9683, "violation100": 0.0333},
+        "family_conditional_risk": {"r100": 0.9683, "violation100": 0.0333},
         "rule_verified_point_subtype": {"r100": 0.9627, "violation100": 0.0},
     },
     "Open3DSG": {
         "semantic_only": {"r100": 0.5161, "violation100": 0.1242},
         "probabilistic_recalibrated": {"r100": 0.5723, "violation100": 0.0811},
-        "family_specific_p_geom_valid": {"r100": 0.6047, "violation100": 0.0341},
+        "family_conditional_risk": {"r100": 0.6047, "violation100": 0.0341},
         "rule_verified_point_subtype": {"r100": 0.5368, "violation100": 0.0},
     },
 }
@@ -83,7 +83,7 @@ EXPECTED_FIGURE3_CASES = [
 LABELS = {
     "semantic_only": "semantic",
     "probabilistic_recalibrated": "prob.",
-    "family_specific_p_geom_valid": "family",
+    "family_conditional_risk": "fam. risk",
     "rule_verified_point_subtype": "rule",
 }
 
@@ -212,7 +212,7 @@ def load_figure2_data() -> dict[str, list[dict[str, float | str]]]:
     keep = [
         ("semantic_only", "semantic_only"),
         ("probabilistic_recalibrated", "probabilistic_recalibrated"),
-        ("family_specific_p_geom_valid", "control_family_specific_p_geom_valid"),
+        ("family_conditional_risk", "control_family_specific_p_geom_valid"),
         ("rule_verified_point_subtype", "rule_verified_point_subtype"),
     ]
     vlsat_metrics = json.loads(VLSAT_FULL_METRICS.read_text())
@@ -264,7 +264,7 @@ def generate_figure2(data: dict[str, list[dict[str, float | str]]]) -> str:
                 float(row["violation100"]), float(row["r100"]), px, py, pw, ph, xr, yr
             )
         semantic = points["semantic_only"]
-        for condition in ["probabilistic_recalibrated", "family_specific_p_geom_valid", "rule_verified_point_subtype"]:
+        for condition in ["probabilistic_recalibrated", "family_conditional_risk", "rule_verified_point_subtype"]:
             x2, y2 = points[condition]
             parts.append(
                 f'<line x1="{semantic[0]:.1f}" y1="{semantic[1]:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" '
@@ -282,7 +282,7 @@ def generate_figure2(data: dict[str, list[dict[str, float | str]]]) -> str:
 
     legend_x, legend_y = 70, 540
     parts.append(svg_text(legend_x, legend_y, "Operating points:", 13, 700))
-    for idx, condition in enumerate(["semantic_only", "probabilistic_recalibrated", "family_specific_p_geom_valid", "rule_verified_point_subtype"]):
+    for idx, condition in enumerate(["semantic_only", "probabilistic_recalibrated", "family_conditional_risk", "rule_verified_point_subtype"]):
         x = legend_x + 132 + idx * 190
         parts.append(f'<circle cx="{x}" cy="{legend_y-4}" r="6" fill="{COLORS[condition]}"/>')
         parts.append(svg_text(x + 12, legend_y, LABELS[condition], 12, 400))
@@ -336,7 +336,7 @@ def write_figure2_png(data: dict[str, list[dict[str, float | str]]]) -> None:
             for row in data[source]
         }
         semantic = points["semantic_only"]
-        for condition in ["probabilistic_recalibrated", "family_specific_p_geom_valid", "rule_verified_point_subtype"]:
+        for condition in ["probabilistic_recalibrated", "family_conditional_risk", "rule_verified_point_subtype"]:
             x2, y2 = points[condition]
             draw.line((semantic[0], semantic[1], x2, y2), fill="#64748b", width=2)
         for row in data[source]:
@@ -348,7 +348,7 @@ def write_figure2_png(data: dict[str, list[dict[str, float | str]]]) -> None:
             draw.text((x + dx, y - 18), LABELS[condition], fill=color, font=small_bold)
 
     text(70, 530, "Operating points:", bold=True)
-    for idx, condition in enumerate(["semantic_only", "probabilistic_recalibrated", "family_specific_p_geom_valid", "rule_verified_point_subtype"]):
+    for idx, condition in enumerate(["semantic_only", "probabilistic_recalibrated", "family_conditional_risk", "rule_verified_point_subtype"]):
         x = 205 + idx * 190
         y = 532
         draw.ellipse((x - 6, y - 6, x + 6, y + 6), fill=COLORS[condition])

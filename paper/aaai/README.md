@@ -1,6 +1,6 @@
 # AAAI-Style Manuscript Source
 
-Last updated: 2026-06-23 KST
+Last updated: 2026-06-24 KST
 
 This directory is the AAAI-style LaTeX source conversion of the GeoCalib/H001 paper.
 It is separate from `archive/paper/iccv/` so venue-specific formatting decisions do not
@@ -57,6 +57,14 @@ Important AAAI-26 constraints from the official submission page:
 - Low-K reporting is accepted for K = `{5,10,20,50,100}`. Current-source
   point-metric provenance is available in the paper-facing `metrics_k_sweep/`
   roots, and K=1 is not a paper metric.
+- The active Method section frames `semantic_score * p_geom_valid` as the
+  `lambda=1` instance of a risk-aware soft re-ranking utility; this is a prose
+  clarification of the existing GeoCalib score, not a new tuned metric.
+- Family-conditional calibrated geometry risk is the active H001_v2
+  method-development direction. Paper-facing text may report the frozen
+  family-calibrator artifact as `family_conditional_risk`; legacy metric JSON
+  keys remain unchanged unless full metric/table regeneration is intentionally
+  rerun.
 - Qwen-VL is a completed third-source extension and should not replace the
   VL-SAT/Open3DSG main-source framing unless explicitly promoted.
 - The Results section includes Docker subgraph bootstrap CIs as
@@ -85,16 +93,16 @@ ICCV preamble blindly into this directory.
 Verified run:
 
 - Image build log: `logs/h001_aaai_tex_image_build_full_validation_20260605_100108.log`
-- PDF build log: `logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log`
+- PDF build log: `logs/h001_aaai_pdf_build_h001v2_family_conditional_naming_20260624_130846.log`
 - Output: `paper/aaai/main.pdf`
 - Page count: 9 total pages
 - Technical content: pages 1-7
 - References: page 8
 - Reproducibility checklist: page 9
 - Current warnings: targeted grep found no missing citations, undefined
-  references, overfull hboxes, LaTeX errors, Type 3 fonts, or AAAI package
-  errors in the latest known build log. Remaining underfull box warnings are
-  non-blocking.
+  references, overfull hboxes, LaTeX errors, or AAAI package errors in the
+  latest `main.log`; `pdffonts` reports Type 1 fonts only. Remaining underfull
+  box warnings are non-blocking.
 - Visual inspection: `paper/aaai/inspection/report.md`
 
 ## Source Boundary

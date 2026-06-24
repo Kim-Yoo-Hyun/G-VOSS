@@ -199,6 +199,108 @@ def h001_v2_predictions(
     return output, summary
 
 
+def h001_v2_tau_control_predictions(
+    predictions: list[dict[str, Any]],
+    verification_by_id: dict[str, dict[str, Any]],
+    families: set[str],
+    p_geom_valid_threshold: float,
+    control_name: str,
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    if control_name == "shuffled_geometry_tau":
+        donor_map = h001_eval.shifted_p_geom_by_family(
+            predictions,
+            verification_by_id,
+            families,
+        )
+        donor_field = "shuffled_geometry_p_geom_valid"
+        shuffle_policy = "deterministic_half_rotation_within_predicate_family"
+    elif control_name == "wrong_pair_geometry_tau":
+        donor_map = h001_eval.shifted_p_geom_by_wrong_pair(
+            predictions,
+            verification_by_id,
+            families,
+        )
+        donor_field = "wrong_pair_geometry_p_geom_valid"
+        shuffle_policy = "deterministic_rotation_within_subgraph_family_different_pair"
+    else:
+        raise ValueError(f"unknown_tau_control:{control_name}")
+
+    output: list[dict[str, Any]] = []
+    donor_p_values: list[float] = []
+    eligible_donor_p_values: list[float] = []
+    counts: Counter[str] = Counter()
+    by_family: dict[str, Counter[str]] = defaultdict(Counter)
+
+    for row in predictions:
+        family = row["predicate"]["predicate_family"]
+        if family not in families:
+            counts["family_out_of_scope"] += 1
+            continue
+        counts["in_scope_predictions"] += 1
+        by_family[family]["in_scope_predictions"] += 1
+
+        prediction_id = row["prediction_id"]
+        donor_p_geom_valid = h001_eval.finite_float(donor_map.get(prediction_id))
+        if donor_p_geom_valid is None:
+            counts["missing_control_p_geom_valid"] += 1
+            by_family[family]["missing_control_p_geom_valid"] += 1
+            continue
+        donor_p_values.append(donor_p_geom_valid)
+
+        semantic_score = h001_eval.semantic_score(row)
+        if semantic_score is None:
+            counts["missing_semantic_score"] += 1
+            by_family[family]["missing_semantic_score"] += 1
+            continue
+        if donor_p_geom_valid < p_geom_valid_threshold:
+            counts["threshold_excluded"] += 1
+            by_family[family]["threshold_excluded"] += 1
+            continue
+
+        verification = verification_by_id.get(prediction_id)
+        status = h001_eval.verification_status(verification)
+        counts[f"eligible_status_{status}"] += 1
+        by_family[family][f"eligible_status_{status}"] += 1
+        eligible_donor_p_values.append(donor_p_geom_valid)
+        output.append(
+            h001_eval.copy_with_ranking_score(
+                row,
+                semantic_score,
+                f"semantic_ranking_score_after_{control_name}_threshold",
+                extra_scores={
+                    donor_field: donor_p_geom_valid,
+                    "h001_v2_p_geom_valid_threshold": p_geom_valid_threshold,
+                    "tau_control": control_name,
+                },
+            )
+        )
+        counts["eligible_predictions"] += 1
+        by_family[family]["eligible_predictions"] += 1
+
+    summary = {
+        "policy": f"control_{control_name}",
+        "selection_rule": (
+            "corrupted/control p_geom_valid >= threshold, then semantic ranking; "
+            "violation is still measured against the original geometry verification"
+        ),
+        "p_geom_valid_threshold": p_geom_valid_threshold,
+        "score_formula": f"semantic_ranking_score_after_{control_name}_threshold",
+        "control_name": control_name,
+        "donor_field": donor_field,
+        "shuffle_policy": shuffle_policy,
+        "counts": dict(sorted(counts.items())),
+        "by_family": {
+            family: dict(sorted(counter.items()))
+            for family, counter in sorted(by_family.items())
+        },
+        "control_p_geom_valid": h001_eval.summarize_values(donor_p_values),
+        "eligible_control_p_geom_valid": h001_eval.summarize_values(
+            eligible_donor_p_values
+        ),
+    }
+    return output, summary
+
+
 def selected_predictions_for_max_k(
     predictions: list[dict[str, Any]],
     verification_by_id: dict[str, dict[str, Any]],
@@ -355,10 +457,31 @@ def make_report(metrics: dict[str, Any]) -> str:
             f"- missing verification: `{h2['counts'].get('missing_verification', 0)}`",
             f"- missing p_geom_valid: `{h2['counts'].get('missing_p_geom_valid', 0)}`",
             "",
-            "## Deltas",
-            "",
         ]
     )
+    control_names = [
+        "control_shuffled_geometry_tau",
+        "control_wrong_pair_geometry_tau",
+    ]
+    available_controls = [
+        name for name in control_names if name in metrics.get("conditions", {})
+    ]
+    if available_controls:
+        lines.extend(["## Tau Control Summaries", ""])
+        for name in available_controls:
+            summary = metrics["conditions"][name]["selection_summary"]
+            counts = summary["counts"]
+            lines.extend(
+                [
+                    f"### {name}",
+                    f"- eligible predictions: `{counts.get('eligible_predictions', 0)}`",
+                    f"- threshold-excluded predictions: `{counts.get('threshold_excluded', 0)}`",
+                    "- missing control p_geom_valid: "
+                    f"`{counts.get('missing_control_p_geom_valid', 0)}`",
+                    "",
+                ]
+            )
+    lines.extend(["## Deltas", ""])
     for name, delta in metrics["deltas"].items():
         lines.append(f"### {name}")
         for k, item in delta["by_k"].items():
@@ -520,6 +643,29 @@ def main() -> int:
         ),
     }
 
+    control_selection_summaries: dict[str, Any] = {}
+    for control_name in ("shuffled_geometry_tau", "wrong_pair_geometry_tau"):
+        condition_name = f"control_{control_name}"
+        control_predictions, control_summary = h001_v2_tau_control_predictions(
+            predictions,
+            verification_by_id,
+            families,
+            p_geom_valid_threshold=p_threshold,
+            control_name=control_name,
+        )
+        control_selection_summaries[condition_name] = control_summary
+        metrics["conditions"][condition_name] = {
+            "selection_summary": control_summary,
+            "selected_count_summary": selected_count_summary(control_predictions, ks, families),
+            "recall": h001_eval.recall_at_k(control_predictions, ground_truth, ks, families),
+            "violation_rate": h001_eval.violation_rate_at_k(
+                control_predictions,
+                verification_by_id,
+                ks,
+                families,
+            ),
+        }
+
     metrics["deltas"]["h001_v2_minus_semantic_only"] = metric_delta(
         metrics,
         "h001_v2_risk_controlled_pooled_tau",
@@ -532,12 +678,25 @@ def main() -> int:
         "probabilistic_recalibrated",
         ks,
     )
+    metrics["deltas"]["h001_v2_minus_control_shuffled_geometry_tau"] = metric_delta(
+        metrics,
+        "h001_v2_risk_controlled_pooled_tau",
+        "control_shuffled_geometry_tau",
+        ks,
+    )
+    metrics["deltas"]["h001_v2_minus_control_wrong_pair_geometry_tau"] = metric_delta(
+        metrics,
+        "h001_v2_risk_controlled_pooled_tau",
+        "control_wrong_pair_geometry_tau",
+        ks,
+    )
 
     selection_summary = {
         "schema_version": "h001_v2_selection_summary_v1",
         "source_id": args.source_id,
         "policy": threshold_policy,
         "h001_v2_selection_summary": h2_summary,
+        "control_selection_summaries": control_selection_summaries,
         "selected_count_summary": h2_selected_summary,
         "status_counts_all_in_scope": status_counts_for(
             in_scope_predictions(predictions, families),
@@ -565,6 +724,7 @@ def main() -> int:
         "policy": threshold_policy,
         "notes": [
             "H001_v2 source metrics use a fixed calibration-selected threshold.",
+            "Tau controls apply the same threshold to deterministic corrupted/control geometry scores.",
             "No threshold is selected from source evaluation metrics.",
             "Existing H001 source metrics and paper files are read-only.",
         ],
@@ -585,6 +745,10 @@ def main() -> int:
                 "output_dir": repo_rel(output_dir, repo_root),
                 "h001_v2_eligible": h2_summary["counts"].get("eligible_predictions", 0),
                 "h001_v2_selected_max_k": len(h2_selected),
+                "control_eligible": {
+                    name: summary["counts"].get("eligible_predictions", 0)
+                    for name, summary in control_selection_summaries.items()
+                },
             },
             sort_keys=True,
         )

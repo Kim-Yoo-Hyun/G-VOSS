@@ -13,19 +13,19 @@ Generated inventory status:
 - per-file checksum records: 211
 - row-count snapshot records: 18
 - payload file-list sha256:
-  `392aa550557f64603a4548a9e494248d22eed899ecea3fefbc558451b39b716b`
+  `d706f00ec75ad3b7a4103bd543485f0181b7694f715c69b24432085711ddc95f`
 - payload checksum-manifest sha256:
-  `923bfde4e39921f5dd3fc10f0ec1a98eea606b50b83d4495d0d5b3afd1e4ff2b`
+  `cd191c9ba2fe612005e285ccb52a630f7c974cc7ca6aa5374748223e607a9de9`
 - payload row-count-file sha256:
   `2e86fe118260300bae6379f763f39f0cda0e4b07dd38455878de5d832d121943`
 - checksum generation log:
-  `logs/h001_fullval_upload_checksums_20260611_002243.log`
+  `logs/h001_fullval_upload_checksums_h001v2_family_naming_20260624_130414.log`
 - checksum generation exit:
-  `logs/h001_fullval_upload_checksums_20260611_002243.exit` = 0
+  `logs/h001_fullval_upload_checksums_h001v2_family_naming_20260624_130414.exit` = 0
 - verification log:
-  `logs/h001_fullval_upload_verify_20260611_002319.log`
+  `logs/h001_fullval_upload_verify_h001v2_family_naming_final_20260624_130514.log`
 - verification exit:
-  `logs/h001_fullval_upload_verify_20260611_002319.exit` = 0
+  `logs/h001_fullval_upload_verify_h001v2_family_naming_final_20260624_130514.exit` = 0
 
 ## Included Sources
 

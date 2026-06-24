@@ -1,6 +1,6 @@
 # GeoCalib / H001 Paper Workspace
 
-Last updated: 2026-06-23 KST
+Last updated: 2026-06-24 KST
 
 This directory contains paper-writing artifacts for GeoCalib/H001. It is a
 manuscript workspace, not an experiment-result root. Paper-result runtime
@@ -16,7 +16,9 @@ rules live in `docs/paper.md`.
 - Current claim style: scoped relation-reliability paper for
   geometry-checkable 3D Scene Graph relation families.
 - Non-claim: broad open-vocabulary 3DSSG generation improvement.
-- Latest known Docker build: `logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log`, exit 0, 9 pages.
+- Latest known Docker build: `logs/h001_aaai_pdf_build_h001v2_family_conditional_naming_20260624_130846.log`, exit 0, 9 pages.
+- H001_v2 fixed-`tau*` risk-controlled reranking is diagnostic candidate
+  evidence only; it does not replace the current GeoCalib main result route.
 - Remaining paper-work class: portal/form verification, artifact URL/DOI,
   supplementary/code-data decision, checklist answer pass, low-K artifact
   inclusion in the release/package plan, and final PDF/source sanity checks.
@@ -40,6 +42,9 @@ rules live in `docs/paper.md`.
 - `risk.md`: reviewer-risk register. Owns attack surface, weakness/mitigation
   tracking, and priority order for logic, novelty, evidence, and
   reproducibility defenses.
+- `review.md`: orthogonal persona review. Owns the current multi-reviewer
+  assessment of claim, contribution, method, experiment design, and submission
+  risks.
 - `appendix.md`: appendix/supplement plan. Owns calibrator/threshold
   provenance, detailed caveat consistency checks, appendix table candidates,
   optional Figure 3 decision notes, and Qwen-VL extension boundary.
@@ -61,11 +66,12 @@ For paper-writing work:
 2. `paper/README.md`
 3. `paper/preview.md`
 4. `paper/risk.md`
-5. `paper/appendix.md`
-6. `paper/outline.md`
-7. `paper/draft.md`
-8. `paper/figures.md`
-9. `paper/aaai/README.md`
+5. `paper/review.md`
+6. `paper/appendix.md`
+7. `paper/outline.md`
+8. `paper/draft.md`
+9. `paper/figures.md`
+10. `paper/aaai/README.md`
 
 For experiment result or artifact recovery, start from
 `docs/reproducibility.md`, not this folder.

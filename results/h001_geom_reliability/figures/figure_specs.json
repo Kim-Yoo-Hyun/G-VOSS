@@ -6,7 +6,7 @@
     "status": "spec_ready"
   },
   {
-    "content": "reliability-recall tradeoff across semantic_only, probabilistic_recalibrated, rule_verified_point_subtype, family_specific_p_geom_valid",
+    "content": "reliability-recall tradeoff across semantic_only, probabilistic_recalibrated, rule_verified_point_subtype, family_conditional_risk",
     "figure": "Figure 2",
     "source": "tables/table1_main_prediction.json",
     "status": "spec_ready"

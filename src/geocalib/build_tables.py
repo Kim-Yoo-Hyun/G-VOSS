@@ -190,7 +190,11 @@ def build_table1(hardened: dict[str, Any], g3: dict[str, Any]) -> tuple[list[dic
         "semantic_only": (hardened, "semantic_only", "reproduced VL-SAT semantic ranking"),
         "probabilistic_recalibrated": (hardened, "probabilistic_recalibrated", "main recall-first H001 condition"),
         "rule_verified_point_subtype": (hardened, "rule_verified_point_subtype", "hard-filter zero-violation diagnostic"),
-        "family_specific_p_geom_valid": (g3, "control_family_specific_p_geom_valid", "stricter violation-first operating point"),
+        "family_conditional_risk": (
+            g3,
+            "control_family_specific_p_geom_valid",
+            "family-conditional calibrated risk operating point",
+        ),
     }
     rows: list[dict[str, Any]] = []
     md_rows: list[list[str]] = []
@@ -240,7 +244,6 @@ def build_table2(g3: dict[str, Any]) -> tuple[list[dict[str, Any]], list[list[st
         ("control_distance_only", "simple distance heuristic control"),
         ("control_shuffled_geometry", "breaks geometry identity while preserving distribution"),
         ("control_wrong_pair_geometry", "tests object-pair identity"),
-        ("control_family_specific_p_geom_valid", "stricter family-specific calibration"),
     ]
     main = metric_row(g3, "probabilistic_recalibrated")
     rows: list[dict[str, Any]] = []
@@ -521,7 +524,7 @@ def build_open3dsg_table6_hook(out_root: Path) -> dict[str, Any]:
             "semantic_only": condition_summary("semantic_only"),
             "probabilistic_recalibrated": condition_summary("probabilistic_recalibrated"),
             "rule_verified_point_subtype": condition_summary("rule_verified_point_subtype"),
-            "control_family_specific_p_geom_valid": condition_summary(
+            "family_conditional_risk": condition_summary(
                 "control_family_specific_p_geom_valid"
             ),
         },
@@ -650,7 +653,7 @@ def write_outputs(repo_root: Path, out_root: Path) -> dict[str, Any]:
         {
             "figure": "Figure 2",
             "status": "spec_ready",
-            "content": "reliability-recall tradeoff across semantic_only, probabilistic_recalibrated, rule_verified_point_subtype, family_specific_p_geom_valid",
+            "content": "reliability-recall tradeoff across semantic_only, probabilistic_recalibrated, rule_verified_point_subtype, family_conditional_risk",
             "source": "tables/table1_main_prediction.json",
         },
         {
@@ -800,7 +803,7 @@ def build_report(
         bootstrap_fact = (
             "- Docker subgraph bootstrap CI status: "
             f"`{bootstrap.get('status')}`, {bootstrap.get('n_bootstrap')} resamples; "
-            "Open3DSG family-specific vs semantic-only R@100 delta "
+            "Open3DSG family-conditional risk vs semantic-only R@100 delta "
             f"`{pp(recall_delta.get('point'))}` with 95% CI "
             f"`[{pp((recall_delta.get('ci95') or [None, None])[0])},"
             f"{pp((recall_delta.get('ci95') or [None, None])[1])}]`; "
@@ -926,7 +929,7 @@ Likely reviewer attacks:
 Required defenses:
 
 - Frame the method as a calibrated geometry-consistency evaluation and re-ranking framework, not as a standalone verifier script.
-- Report semantic-only, rule-only, calibrated global, family-specific, and score-preserving/control variants with R@K, Violation@K, recall retention, and Pareto-style tradeoff.
+- Report semantic-only, rule-only, pooled calibrated risk, family-conditional risk, and score-preserving/control variants with R@K, Violation@K, recall retention, and Pareto-style tradeoff.
 - Keep all claim wording scoped to measured geometry-checkable relation reliability; do not upgrade to broad open-vocabulary 3DSSG generation improvement.
 - Report denominator transparency: in-scope rows, excluded rows, filtered train/validation counts, covered Open3DSG contexts, and missing-context caveats.
 - Use the real Open3DSG failure-analysis rows and qualitative queue to explain failure mechanisms without changing the locked taxonomy.

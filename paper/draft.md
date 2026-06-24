@@ -63,11 +63,11 @@ a calibrated geometry-consistency evaluation and re-ranking framework for
 geometry-checkable relation families. The framework standardizes prediction
 rows across relation sources, preserves subject-object identity, joins explicit
 3D evidence, estimates a calibrated geometry-validity score `p_geom_valid`, and
-reports probabilistic, rule-verified, and family-specific operating points
+reports probabilistic, rule-verified, and family-conditional risk operating points
 under a recall-violation protocol. On the reproduced VL-SAT source,
 probabilistic re-ranking improves R@50/R@100 from 0.9599/0.9894 to
 0.9642/0.9921 while reducing Violation@100 from 0.0469 to 0.0391; the
-family-specific operating point further reduces Violation@100 to 0.0310. GT
+family-conditional risk operating point further reduces Violation@100 to 0.0310. GT
 positive/counterfactual checks separate valid and invalid geometry with
 AUROC/AUPRC of 0.9779/0.9737, and controls rule out geometry-only,
 distance-only, shuffled-geometry, and wrong-pair explanations. On Open3DSG, a
@@ -136,7 +136,7 @@ Our contributions are threefold:
 2. We introduce a calibrated geometry-consistency evaluation and re-ranking
    framework that standardizes prediction rows, joins identity-preserving 3D
    evidence, estimates `p_geom_valid`, and exposes probabilistic,
-   rule-verified, and family-specific operating points.
+   rule-verified, and family-conditional risk operating points.
 3. We define a recall-violation evaluation protocol for geometry-checkable
    relation families, including exact-label `R@K`, `Violation@K`,
    GT-positive/counterfactual verifier evaluation, and geometry identity
@@ -306,7 +306,7 @@ p_geom_valid_i = P(v_i != violated | g_i, a_i).
 
 The score is a calibrated reliability signal, not a hard proof of correctness.
 For this reason, the paper reports probabilistic, rule-verified, and
-family-specific operating points separately.
+family-conditional risk operating points separately.
 
 The main recall metric is exact predicate-label `R@K` over the fixed in-scope
 ground-truth denominator. Family grouping defines the geometry-checkable
@@ -371,19 +371,29 @@ p_geom_valid_i = C_a(phi(g_i)),
 
 where `phi(g_i)` is the geometry feature vector and `C_a` is either the pooled
 or family-specific calibrator trained on `train_dev_calib` positives and
-counterfactual negatives. The main probabilistic re-ranking score is
+counterfactual negatives. We use `p_geom_valid` as a calibrated geometry-risk
+term rather than as a hard accept/reject gate:
 
 ```text
+R_geom_i = -log p_geom_valid_i
+U_lambda(i) = log score_sem_i - lambda * R_geom_i
 score_prob_i = score_sem_i * p_geom_valid_i.
 ```
+
+The reported probabilistic operating point fixes `lambda = 1`, so the product
+score is the equivalent risk-aware soft re-ranking utility. This preserves the
+source semantic ranking signal while continuously penalizing calibrated
+geometric inconsistency. We do not tune `lambda` on held-out source results;
+hard-rule variants are reported separately as diagnostics.
 
 We report four main operating points. `semantic_only` ranks by the source
 semantic score and serves as the reproduced source baseline.
 `probabilistic_recalibrated` ranks by the product of semantic confidence and
-calibrated geometry validity. `rule_verified_point_subtype` removes hard
-violations before ranking and is reported as a zero-violation diagnostic.
-`family_specific_p_geom_valid` uses family-specific calibration and provides a
-stricter violation-first operating point.
+calibrated geometry validity, equivalently the `lambda = 1` risk-aware soft
+re-ranking utility. `rule_verified_point_subtype` removes hard violations
+before ranking and is reported as a zero-violation diagnostic.
+`family_conditional_risk` uses family-conditional calibration and provides a
+family-conditioned calibrated geometry-risk operating point.
 
 ### 4.5 Controls
 
@@ -435,7 +445,7 @@ reduces Violation@100 to 0.0391. This supports the intended recall-first use
 case: calibrated geometry validity can reduce violations while preserving, and
 slightly improving, exact-label recall.
 
-The stricter `family_specific_p_geom_valid` setting reaches R@50/R@100 of
+The `family_conditional_risk` operating point reaches R@50/R@100 of
 0.9619/0.9914 and Violation@50/@100 of 0.0204/0.0310. This provides a stronger
 violation-first operating point. The `rule_verified_point_subtype` setting
 achieves zero measured violations while keeping R@50/R@100 at 0.9587/0.9890,
@@ -472,7 +482,7 @@ SOTA claim. Under the measured H001-family scope, Open3DSG `semantic_only`
 ranking reaches R@50/R@100 of 0.3945/0.4963 with Violation@50/@100 of
 0.1326/0.1195. The `probabilistic_recalibrated` setting reduces violations to
 0.0575/0.0803 while shifting recall to 0.3843/0.5580. The rule-verified setting
-again gives a zero-violation diagnostic, and the family-specific setting reaches
+again gives a zero-violation diagnostic, and the family-conditional risk setting reaches
 R@50/R@100 of 0.4530/0.5984 with Violation@50/@100 of 0.0228/0.0311. These
 results support a cross-source relation-reliability claim within measured H001
 families, with the averaged-BLIP, filtered-split, covered-scope, exact-label
@@ -493,7 +503,7 @@ the actual object pair.
 The same qualitative analysis also exposes a limitation. Ten of the 36 sampled
 rule-violated cases still have `p_geom_valid > 0.9`. This means the calibrated
 score should not be interpreted as a hard validity label. It also justifies why
-the paper reports probabilistic, rule-verified, and family-specific variants
+the paper reports probabilistic, rule-verified, and family-conditional risk variants
 separately rather than collapsing them into a single "geometry-corrected"
 output.
 

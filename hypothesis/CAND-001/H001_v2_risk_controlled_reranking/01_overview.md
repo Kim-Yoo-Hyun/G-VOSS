@@ -1,86 +1,117 @@
 # H001_v2 Overview
 
-Last updated: 2026-06-22 KST
+Last updated: 2026-06-24 KST
 
 ## Status
 
-- Stage: hypothesis/protocol freeze.
+- Stage: method-framing update.
 - Branch: `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/`
-- Working name: `Risk-Controlled Geometry Reranking`
+- Working name: `Family-Conditional Risk-Aware Soft Reranking`
 - Relation to H001: same scoped reliability layer, upgraded combination rule.
 
 ## Motivation
 
-H001_v1 uses a simple calibrated late-fusion rule:
+GeoCalib currently uses a simple calibrated late-fusion rule:
 
 ```text
-score_v1(e) = semantic_score(e) * p_geom_valid(e)
+score(e) = semantic_score(e) * p_geom_valid(e)
 ```
 
-This is interpretable and strong as a reliability baseline, but it makes a fixed
-implicit assumption: semantic utility and geometry validity should always be
-combined by multiplication. That assumption is not the core H001 thesis. The
-core thesis is that semantic relation ranking should be constrained by
-relation-level physical consistency.
-
-H001_v2 therefore reframes the combination problem:
+This rule should not be framed as an arbitrary heuristic. It is the deployed
+log-linear form of a risk-aware soft reranking objective:
 
 ```text
-maximize semantic recall / semantic utility
-subject to a pre-specified edge-level geometry violation-risk constraint
+U_lambda(e) = log semantic_score(e) - lambda * R_geom(e)
+R_geom(e) = -log p_geom_valid(e)
 ```
+
+Equivalently:
+
+```text
+U_lambda(e) = log semantic_score(e) + lambda * log p_geom_valid(e)
+score_lambda(e) = semantic_score(e) * p_geom_valid(e)^lambda
+```
+
+The current GeoCalib operating point is `lambda = 1`, which gives the existing
+`semantic_score * p_geom_valid` ranking. This preserves top-K semantic utility
+softly while penalizing calibrated geometric inconsistency risk.
+
+The current H001_v2 method-development direction keeps the same soft-risk
+objective but makes the geometry-risk surface relation-family conditional:
+
+```text
+p_geom_valid_family(e) = C_family(phi(g_e))
+score_family(e) = semantic_score(e) * p_geom_valid_family(e)
+```
+
+This avoids forcing support/contact, proximity, and relative-vertical relations
+to share one pooled geometry-validity calibration surface.
+
+The earlier fixed-threshold H001_v2 experiment tested a hard-risk variant:
+
+```text
+maximize semantic utility subject to p_geom_valid >= 0.80
+```
+
+That variant is now diagnostic only because it confirms geometry-specific
+signal but collapses VL-SAT recall.
 
 ## Core Hypothesis
 
-For geometry-checkable 3D Scene Graph relation families, a predeclared
-risk-controlled reranking rule can preserve the semantic-source ranking
-objective while enforcing a calibration-split-derived eligibility threshold for
-geometry violation risk. Top-K recall and violation are then evaluated after
-semantic ranking within the fixed eligible set.
+For geometry-checkable 3D Scene Graph relation families, relation-source
+semantic utility should be preserved in top-K ranking while calibrated
+geometry-inconsistency risk is penalized continuously. A soft risk objective is
+preferred over hard filtering because it can reduce violations without throwing
+away useful semantic candidates.
 
 ## What Changes From H001_v1
 
 | Item | H001_v1 | H001_v2 |
 | --- | --- | --- |
-| Combination | `semantic_score * p_geom_valid` | semantic ranking under geometry-risk constraint |
-| Main object | ranking score | feasible edge set plus semantic top-K selection |
-| Tuning surface | fixed multiplication | predeclared `alpha`, `delta`, K grid, and threshold-selection rule |
-| Geometry use | continuous multiplicative weight | calibrated violation-risk constraint |
-| Claim | calibrated geometry-aware reranking reduces violations | risk-bounded reliability layer preserves semantic utility under a declared violation budget |
+| Combination | `semantic_score * p_geom_valid` | risk-aware soft reranking objective whose `lambda=1` instance is the current deployed score |
+| Main object | ranking score | semantic utility minus calibrated geometry-risk penalty |
+| Tuning surface | fixed multiplication | predeclared risk-penalty interpretation; family-conditional risk is frozen from train/dev calibration |
+| Geometry use | continuous multiplicative weight | continuous calibrated family-conditional inconsistency-risk penalty |
+| Claim | calibrated geometry-aware reranking reduces violations | calibrated family-conditional soft risk penalty preserves top-K utility while reducing geometry-inconsistent edges |
 
 ## Claim Boundary
 
-Allowed H001_v2 claim if protocol passes:
+Allowed H001_v2 method-framing claim:
 
-> H001_v2 provides risk-controlled semantic reranking for geometry-checkable
-> relation families: it preserves semantic ranking as the utility objective and
-> uses calibrated geometry-validity risk to define a predeclared eligible set
-> before selecting top-K predictions by semantic utility.
+> GeoCalib performs risk-aware soft reranking for geometry-checkable relation
+> families: it preserves semantic source utility while penalizing calibrated
+> relation-level geometric inconsistency risk. The deployed pooled
+> `semantic_score * p_geom_valid` score is the `lambda=1` log-linear
+> instantiation of this objective, and the H001_v2 family-conditional variant
+> replaces the pooled risk surface with relation-family-specific calibrators.
 
 Not allowed:
 
 - broad 3DSSG generation improvement.
 - source-specific post-hoc threshold tuning.
 - validation/test-selected risk budgets.
-- claiming distribution-free deployment guarantees without the calibration
-  exchangeability assumption and finite-sample caveats.
+- claiming the fixed-`tau*` hard-threshold variant as the main method.
+- claiming the multiplication itself is the novelty independent of calibrated
+  risk estimation, controls, and recall/violation evaluation.
 
 ## Why This Is Stronger Than A Better Fusion Heuristic
 
-H001_v2 is not a learned black-box fusion model. It is a decision rule with a
-testable contract:
+H001_v2 is not a learned black-box fusion model. It turns the existing
+semantic+geometry combination into an explicit utility-risk objective:
 
 ```text
-given alpha, delta, K grid, calibration split, and candidate threshold set,
-choose the least restrictive geometry-risk threshold whose calibration upper
-confidence bound satisfies the edge-level violation budget, then evaluate the
-fixed threshold across the K grid.
+rank(e) by semantic utility - geometry inconsistency risk penalty
 ```
 
 That makes the contribution easier to defend:
 
-- the objective is explicit.
-- the risk budget is fixed before evaluation.
-- the selection rule is deterministic.
-- the full-validation set is not used to pick the threshold.
-- failure to satisfy the risk budget is reportable as falsification.
+- the objective is explicit rather than described as ad hoc multiplication.
+- `p_geom_valid` has a calibrated probabilistic meaning.
+- top-K utility is preserved by soft penalization instead of hard removal.
+- hard-threshold results are retained as diagnostic evidence showing why fixed
+  eligibility constraints are too aggressive for the current main method.
+- future changes to `lambda` or coverage-aware fallbacks require a new protocol
+  freeze before source evaluation.
+- the family-conditional risk route is now documented in
+  `11_family_conditional_risk_result.md` and should not be described as a
+  generic control if promoted.

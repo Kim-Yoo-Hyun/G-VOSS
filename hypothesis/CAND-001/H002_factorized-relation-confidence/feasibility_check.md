@@ -1,6 +1,6 @@
 # H002 Feasibility Check
 
-Last updated: 2026-06-22
+Last updated: 2026-06-24
 
 ## Question
 
@@ -502,6 +502,186 @@ Reason:
 - Pairwise signal exists, but grouped method support is not stable.
 - Therefore the next problem is label/target independence and residual evidence,
   not model capacity.
+
+## Risk-Aware Soft Reranking Objective
+
+### Motivation
+
+현재 H001/H002에서 사용해 온 단순 결합은 다음 형태다.
+
+```text
+score(e) = semantic_score(e) * p_geom_valid(e)
+```
+
+이 식은 단순 heuristic으로만 볼 필요가 없다. 더 principled하게는 다음 risk-aware
+soft reranking objective의 특수형으로 해석할 수 있다.
+
+```text
+utility(e) = log semantic_score(e) - lambda * geometry_risk(e)
+
+geometry_risk(e) = -log p_geom_valid(e)
+```
+
+따라서:
+
+```text
+utility(e) = log semantic_score(e) + lambda * log p_geom_valid(e)
+```
+
+`lambda = 1`이면:
+
+```text
+utility(e) = log(semantic_score(e) * p_geom_valid(e))
+```
+
+즉 기존 `S * G` reranking은 다음 목표의 한 점으로 볼 수 있다.
+
+```text
+top-K semantic utility를 최대한 유지하면서,
+geometry-inconsistent relation risk를 낮춘다.
+```
+
+### More General Constrained View
+
+이 방식은 constrained reranking으로도 쓸 수 있다.
+
+```text
+maximize    sum_{e in TopK} semantic_utility(e)
+subject to  expected_geometry_risk(TopK) <= epsilon
+```
+
+이 constrained objective의 Lagrangian relaxation이 다음 형태다.
+
+```text
+semantic_utility(e) - lambda * geometry_risk(e)
+```
+
+여기서 `lambda`는 단순한 score mixing coefficient가 아니라 geometry-inconsistent
+relation을 얼마나 강하게 penalize할지 정하는 risk-budget multiplier로 해석할 수 있다.
+
+### Is This An Existing Kind Of Method?
+
+이 exact formula가 3D Scene Graph relation reranking에서 이미 표준 baseline으로
+굳어진 것은 아니다. 그러나 원리 자체는 매우 자연스럽고 기존 machine learning /
+ranking / constrained inference literature와 잘 맞는다.
+
+Relevant grounding:
+
+- Product-of-Experts / log-linear combination:
+  Geoffrey Hinton의 Product-of-Experts는 여러 확률 expert를 곱해 결합하고,
+  log-space에서는 expert log score의 합으로 해석된다. H002의 `S * G`는 semantic
+  expert와 geometry-validity expert를 곱하는 간단한 PoE/log-linear 결합으로 볼 수 있다.
+  Sources: [Products of Experts, ICANN 1999](https://www.cs.utoronto.ca/~hinton/absps/icann-99.html),
+  [Training Products of Experts by Minimizing Contrastive Divergence, Neural Computation 2002](https://pubmed.ncbi.nlm.nih.gov/12180402/).
+
+- Constrained inference:
+  Constrained Conditional Models는 learned model 위에 declarative constraints를 얹어
+  decision을 조정하는 framework다. H002의 geometry risk penalty는 hard constraint가
+  아니라 soft constraint이지만, "base model score + constraint/risk term"이라는 해석과
+  잘 맞는다. Source: [Chang, Ratinov, Roth, Machine Learning 2012](https://link.springer.com/article/10.1007/s10994-012-5296-5).
+
+- Posterior regularization:
+  Posterior Regularization은 posterior distribution이 특정 구조적 constraint를 만족하도록
+  regularize한다. H002의 soft reranking은 posterior learning까지 가지 않는 inference-time
+  objective지만, geometry consistency를 posterior/decision에 반영한다는 원리적 배경으로
+  연결할 수 있다. Source: [Ganchev et al., JMLR 2010](https://jmlr.org/papers/v11/ganchev10a.html).
+
+- Risk-sensitive ranking:
+  Robust ranking literature는 ranking effectiveness와 robustness/risk 사이 trade-off를
+  명시적으로 최적화한다. H002의 objective도 top-K semantic utility와 geometry-inconsistency
+  risk 사이의 trade-off로 볼 수 있다. Source: [Wang et al., SIGIR 2012](https://www.cs.cmu.edu/~pbennett/papers/wang-et-al-sigir-2012.pdf).
+
+따라서 이 방향은 "없는 trick을 만든다"기보다, 기존 `S * G`를 다음 세 계열과 연결해
+방어하는 framing이다.
+
+```text
+1. product-of-experts / log-linear evidence combination
+2. constrained inference / posterior regularization
+3. risk-sensitive ranking objective
+```
+
+### What Changes And What Does Not
+
+이 방향은 `p_geom_valid`의 계산법을 바꾸는 것이 아니다.
+
+변하지 않는 것:
+
+```text
+G_e = geometry evidence
+p_geom_valid = geometry-only calibrated validity evidence
+geometry_status = deterministic RGA bucket / audit axis
+```
+
+바뀌는 것:
+
+```text
+p_geom_valid를 final relation reliability로 직접 쓰지 않고,
+reranking objective 안에서 geometry risk penalty로 사용한다.
+```
+
+즉:
+
+```text
+geometry_risk(e) = -log clamp(p_geom_valid(e), eps, 1)
+```
+
+는 `G_e`를 대체하는 새 geometry factor가 아니다. `G_e`에서 나온 calibrated geometry
+validity를 ranking objective에 넣기 위한 risk transform이다.
+
+### Relationship To Factorized Posterior
+
+기존 H002 posterior는 그대로 유지한다.
+
+```text
+P(R_e = 1 | S_e, G_e, C_e, U_e)
+```
+
+여기서 `G_e`는 바뀌지 않는다. `G_e`는 여전히 point/OBB/contact/distance/overlap 등
+relation-specific geometry evidence와 `p_geom_valid`를 포함하는 geometry evidence axis다.
+
+Risk-aware soft reranking은 posterior 내부의 `G_e`를 교체하는 것이 아니라, posterior와
+비교할 별도 principled reranking baseline 또는 bridge objective로 둔다.
+
+Recommended baseline placement:
+
+```text
+semantic_only
+geometry_only
+product_score: S * G
+risk_aware_soft: log S - lambda * (-log G)
+risk_budgeted: lambda chosen under target Violation@K budget
+factorized_reliability_posterior: P(R_e = 1 | S_e, G_e, C_e, U_e)
+```
+
+이렇게 두면 H002의 핵심 분리도 유지된다.
+
+```text
+semantic score != geometry validity != relation reliability
+```
+
+`risk_aware_soft`는 semantic utility와 geometry validity를 결합하는 ranking objective이고,
+`factorized_reliability_posterior`는 semantic, geometry, coverage, uncertainty를 모두 사용해
+relation reliability 자체를 추정하는 model이다.
+
+### Caveats
+
+1. `semantic_score`가 calibrated probability가 아니면 `log semantic_score`라고 강하게
+   주장하면 안 된다. 이 경우 `semantic_utility` 또는 normalized rank utility로 표기한다.
+
+2. `p_geom_valid`가 calibrated되어야 `-log p_geom_valid`를 geometry risk로 해석할 수 있다.
+   calibration이 약하면 `geometry witness penalty` 또는 `soft geometry penalty`로 낮춰
+   표현한다.
+
+3. `lambda`는 validation/test에서 튜닝하지 않는다. H002 hypothesis 단계에서는 train-only
+   calibration 또는 predeclared sweep으로만 다룬다.
+
+4. Relation family별 `lambda`가 달라질 수 있다. `support_contact`는 penalty를 강하게 줄 수
+   있지만, `close by`는 annotation sparsity와 dense relation noise 때문에 penalty가 너무 강하면
+   recall을 과하게 희생할 수 있다.
+
+5. 이 objective가 좋아져도 factorized posterior claim이 자동으로 증명되지는 않는다. Posterior
+   claim은 여전히 independent human-audited reliability target과 target-independence audit이
+   필요하다.
 
 ## Multi-View Extension By Relation Family
 

@@ -58,20 +58,24 @@ or family-specific calibrator trained on train-dev calibration positives and
 counterfactual negatives. The predicate-family map, hard-rule thresholds,
 counterfactual construction, and calibrator files are fixed from train-dev
 calibration artifacts before held-out source-result reporting; held-out
-prediction rows are not used to retune them. The main probabilistic re-ranking
-score is
+prediction rows are not used to retune them. We use \pgeom{} as a soft
+geometry-risk term, with $R^{geom}_i=-\log \pgeom_i$ and utility
+\begin{equation}
+U_{\lambda}(i)=\log \mathrm{score}^{sem}_i-\lambda R^{geom}_i.
+\end{equation}
+The reported probabilistic operating point fixes $\lambda=1$, giving
 \begin{equation}
 \mathrm{score}^{prob}_i = \mathrm{score}^{sem}_i \cdot \pgeom_i.
 \end{equation}
-
-We report four main operating points. \texttt{semantic\_only} ranks by the
-source semantic score and serves as the reproduced source baseline.
-\texttt{probabilistic\_recalibrated} ranks by the product of semantic
-confidence and calibrated geometry validity.
-\texttt{rule\_verified\_point\_subtype} removes hard violations before ranking
-and is reported as a zero-violation diagnostic.
-\texttt{family\_specific\_p\_geom\_valid} uses family-specific calibration and
-provides a stricter violation-first operating point.
+This preserves the source ranking signal while continuously penalizing
+calibrated inconsistency; $\lambda$ is not tuned on held-out source results.
+We report \texttt{semantic\_only}, \texttt{probabilistic\_recalibrated},
+\texttt{rule\_verified\_point\_subtype}, and
+\texttt{family\_conditional\_risk}. The last ranks by
+$\mathrm{score}^{sem}_i \cdot \pgeomfam_i$, where
+$\pgeomfam_i$ is produced by a frozen relation-family-specific
+calibrator, testing whether support/contact, proximity, and vertical relations
+should share one pooled geometry-risk surface.
 
 \subsection{Controls}
 

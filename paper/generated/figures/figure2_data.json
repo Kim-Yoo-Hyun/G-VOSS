@@ -13,7 +13,7 @@
       "violation100": 0.08113356965080323
     },
     {
-      "condition": "family_specific_p_geom_valid",
+      "condition": "family_conditional_risk",
       "r100": 0.6047331319234642,
       "source": "Open3DSG",
       "violation100": 0.03407119692284486
@@ -39,7 +39,7 @@
       "violation100": 0.04043795620437956
     },
     {
-      "condition": "family_specific_p_geom_valid",
+      "condition": "family_conditional_risk",
       "r100": 0.9682779456193353,
       "source": "VL-SAT",
       "violation100": 0.0333029197080292

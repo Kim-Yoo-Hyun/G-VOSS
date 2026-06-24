@@ -49,7 +49,7 @@ Locked visual form:
   `relation source predictions` -> `standardized row contract` ->
   `identity-preserving geometry join` -> `family-specific verifier` ->
   `p_geom_valid calibration` -> `probabilistic / rule-verified /
-  family-specific operating points` -> `R@K + Violation@K evaluation`.
+  family-conditional risk operating points` -> `R@K + Violation@K evaluation`.
 
 Source artifacts:
 
@@ -80,7 +80,7 @@ Locked visual form:
   directly comparable across the closed-set VL-SAT source and the Open3DSG
   open-vocabulary relation source.
 - Draw arrows from `semantic_only` to `probabilistic_recalibrated`,
-  `family_specific_p_geom_valid`, and `rule_verified_point_subtype`.
+  `family_conditional_risk`, and `rule_verified_point_subtype`.
 - Lower `Violation@100` is better; higher `R@100` is better.
 
 Locked data:
@@ -89,11 +89,11 @@ Locked data:
 | --- | --- | ---: | ---: |
 | VL-SAT | `semantic_only` | 0.9635 | 0.0476 |
 | VL-SAT | `probabilistic_recalibrated` | 0.9688 | 0.0404 |
-| VL-SAT | `family_specific_p_geom_valid` | 0.9683 | 0.0333 |
+| VL-SAT | `family_conditional_risk` | 0.9683 | 0.0333 |
 | VL-SAT | `rule_verified_point_subtype` | 0.9627 | 0.0000 |
 | Open3DSG | `semantic_only` | 0.5161 | 0.1242 |
 | Open3DSG | `probabilistic_recalibrated` | 0.5723 | 0.0811 |
-| Open3DSG | `family_specific_p_geom_valid` | 0.6047 | 0.0341 |
+| Open3DSG | `family_conditional_risk` | 0.6047 | 0.0341 |
 | Open3DSG | `rule_verified_point_subtype` | 0.5368 | 0.0000 |
 
 Source artifacts:

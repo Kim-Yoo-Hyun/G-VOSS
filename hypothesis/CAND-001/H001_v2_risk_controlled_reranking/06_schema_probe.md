@@ -80,8 +80,11 @@ be used to select `tau*`.
 
 `p_geom_valid_family/scores.jsonl` also exists, but it uses
 `p_geom_valid_family_specific` rather than the source-join field
-`calibration.p_geom_valid`. It should remain a diagnostic/family-specific
-control unless the H001_v2 protocol is explicitly re-frozen.
+`calibration.p_geom_valid`. At this schema-probe stage it was treated as a
+diagnostic/family-specific control. The later H001_v2 family-conditional risk
+formalization in `11_family_conditional_risk_result.md` supersedes that
+interpretation for method-development purposes while keeping the legacy metric
+JSON key unchanged.
 
 ## Source Geometry Findings
 

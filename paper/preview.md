@@ -102,13 +102,13 @@ Fact:
 | `semantic_only` | 0.9599 | 0.9894 | 0.0247 | 0.0469 | reproduced semantic ranking |
 | `probabilistic_recalibrated` | 0.9642 | 0.9921 | 0.0234 | 0.0391 | main recall-first H001 condition |
 | `rule_verified_point_subtype` | 0.9587 | 0.9890 | 0.0000 | 0.0000 | hard-filter zero-violation diagnostic |
-| `family_specific_p_geom_valid` | 0.9619 | 0.9914 | 0.0204 | 0.0310 | stricter violation-first operating point |
+| `family_conditional_risk` | 0.9619 | 0.9914 | 0.0204 | 0.0310 | family-conditional calibrated risk operating point |
 
 Interpretation:
 
 - `probabilistic_recalibrated` improves recall and lowers violation relative to `semantic_only`.
 - `rule_verified_point_subtype` demonstrates zero-violation behavior but should be reported as a diagnostic, not the default main operating point.
-- `family_specific_p_geom_valid` gives a clearer violation reduction but is a stricter operating point.
+- `family_conditional_risk` gives a clearer violation reduction as a family-conditioned risk operating point.
 
 Paper-facing full official validation:
 
@@ -117,12 +117,12 @@ Paper-facing full official validation:
 | `semantic_only` | 0.4194 | 0.6322 | 0.8074 | 0.9272 | 0.9635 | 0.0029 | 0.0082 | 0.0142 | 0.0268 | 0.0476 | full official validation source ranking |
 | `probabilistic_recalibrated` | 0.4154 | 0.6322 | 0.8107 | 0.9305 | 0.9688 | 0.0015 | 0.0071 | 0.0120 | 0.0229 | 0.0404 | full-validation recall-first GeoCalib condition |
 | `rule_verified_point_subtype` | 0.4197 | 0.6317 | 0.8074 | 0.9257 | 0.9627 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | full-validation zero-violation diagnostic |
-| `family_specific_p_geom_valid` | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 | full-validation stricter violation-first operating point |
+| `family_conditional_risk` | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 | full-validation family-conditional calibrated risk operating point |
 
 Full-validation interpretation:
 
 - The direction is consistent with the hardened result on a broader official
-  validation scope: calibrated/family-specific variants reduce violations, and
+  validation scope: calibrated/family-conditional risk variants reduce violations, and
   rule filtering reaches zero violation with only a small recall tradeoff.
 - Recall is lower than the 127-scan hardened result because the full official
   validation denominator is broader and includes all 157 scans / 548 contexts.
@@ -136,7 +136,7 @@ Full-validation interpretation:
 | `semantic_only` | 0.0368 | 0.1002 | 0.1991 | 0.4096 | 0.5161 | 0.5131 | 0.3255 | 0.2088 | 0.1386 | 0.1242 | recovery full-validation source ranking |
 | `probabilistic_recalibrated` | 0.0826 | 0.1581 | 0.2603 | 0.3975 | 0.5723 | 0.0628 | 0.0699 | 0.0654 | 0.0606 | 0.0811 | recovery recall-first GeoCalib condition |
 | `rule_verified_point_subtype` | 0.0707 | 0.1314 | 0.2422 | 0.4295 | 0.5368 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | recovery zero-violation diagnostic |
-| `family_specific_p_geom_valid` | 0.0984 | 0.1921 | 0.3291 | 0.4658 | 0.6047 | 0.0420 | 0.0482 | 0.0441 | 0.0286 | 0.0341 | recovery stricter violation-first operating point |
+| `family_conditional_risk` | 0.0984 | 0.1921 | 0.3291 | 0.4658 | 0.6047 | 0.0420 | 0.0482 | 0.0441 | 0.0286 | 0.0341 | recovery family-conditional calibrated risk operating point |
 
 Recovery caveat: this removes the 15-context missing-preprocess denominator
 caveat, but it is a recovery-policy variant rather than the unmodified Open3DSG
@@ -194,11 +194,11 @@ Interpretation:
 | old 377/388 | `semantic_only` | 0.3945 | 0.4963 | 0.1326 | 0.1195 | comparison row |
 | old 377/388 | `probabilistic_recalibrated` | 0.3843 | 0.5580 | 0.0575 | 0.0803 | comparison row |
 | old 377/388 | `rule_verified_point_subtype` | 0.4149 | 0.5238 | 0.0000 | 0.0000 | comparison row |
-| old 377/388 | `family_specific_p_geom_valid` | 0.4530 | 0.5984 | 0.0228 | 0.0311 | comparison row |
+| old 377/388 | `family_conditional_risk` | 0.4530 | 0.5984 | 0.0228 | 0.0311 | comparison row |
 | R2 388/388 | `semantic_only` | 0.3972 | 0.4990 | 0.1331 | 0.1199 | representative historical sensitivity |
 | R2 388/388 | `probabilistic_recalibrated` | 0.3870 | 0.5607 | 0.0594 | 0.0811 | representative historical sensitivity |
 | R2 388/388 | `rule_verified_point_subtype` | 0.4177 | 0.5265 | 0.0000 | 0.0000 | representative historical sensitivity |
-| R2 388/388 | `family_specific_p_geom_valid` | 0.4558 | 0.6012 | 0.0254 | 0.0323 | representative historical sensitivity |
+| R2 388/388 | `family_conditional_risk` | 0.4558 | 0.6012 | 0.0254 | 0.0323 | representative historical sensitivity |
 
 Interpretation:
 
@@ -211,7 +211,7 @@ Interpretation:
   score equivalent to the canonical R2 raw dump after excluding run metadata;
   the process-level exit-137 teardown caveat remains visible.
 - The best Open3DSG pattern is not identical to `VL-SAT`; use it to support cross-source reliability evidence, not to claim universal behavior.
-- `family_specific_p_geom_valid` is strong on Open3DSG but must be presented as a family-specific operating point.
+- `family_conditional_risk` is strong on Open3DSG but must be presented as a family-conditional risk operating point.
 
 ## Open3DSG Caveats To Preserve
 
@@ -402,7 +402,7 @@ Recommended paper narrative:
 | --- | --- | --- |
 | "This is just a hand-coded verifier." | Frame as calibrated evaluation/re-ranking framework with calibration, controls, GT counterfactuals, and failure analysis. | Avoid script-level method wording. |
 | "It only works on VL-SAT." | Open3DSG second-source metric evidence is ready. | Keep claim within measured families. |
-| "It trades recall for filtering." | Report R@K and Violation@K together; `probabilistic_recalibrated` and `family_specific_p_geom_valid` show different operating points. | Include Pareto/tradeoff wording. |
+| "It trades recall for filtering." | Report R@K and Violation@K together; `probabilistic_recalibrated` and `family_conditional_risk` show different operating points. | Include Pareto/tradeoff wording. |
 | "Rules were tuned on test set." | Denominator policy, metric scope, checkpoint selection, and caveat wording are fixed before paper writing; GT-based verifier eval exists. | State selection/provenance clearly. |
 | "Open3DSG reproduction is not exact." | Docker provenance, selected official non-avg checkpoint record, full-validation recovery-policy disclosure, and 533/548 covered-branch sensitivity evidence. | Do not claim Open3DSG leaderboard/SOTA reproduction; frame as source-output reliability evidence. |
 | "Open-vocabulary claim is too broad." | Current claim is measured reliability-layer evidence, not broad generation improvement. | Keep non-claims visible. |
@@ -414,7 +414,7 @@ Qwen-VL:
 - Current status: third semantic source / modern VLM extension with full official validation downstream complete.
 - Full-validation scope: 157 scans, 548 contexts, 110,424 query rows, 46,506 inferable input rows, 63,918 missing query rows, 187 shards, 35,131 exported predictions, 32,236 in-scope predictions, and 3,972 measured-family GT rows.
 - Downstream artifacts: parser validation, adapter export, geometry join, metrics/controls, bootstrap CI, 31,881 failure rows, and 36 deterministic qualitative cases.
-- Key diagnostic metrics: semantic_only R@50/R@100 `0.2815/0.3600`, V@50/@100 `0.1226/0.1246`; probabilistic_recalibrated `0.3215/0.3653`, V `0.0795/0.1166`; rule_verified_point_subtype `0.3009/0.3630`, V `0.0/0.0`; family_specific `0.3379/0.3653`, V `0.0510/0.1113`.
+- Key diagnostic metrics: semantic_only R@50/R@100 `0.2815/0.3600`, V@50/@100 `0.1226/0.1246`; probabilistic_recalibrated `0.3215/0.3653`, V `0.0795/0.1166`; rule_verified_point_subtype `0.3009/0.3630`, V `0.0/0.0`; family_conditional_risk `0.3379/0.3653`, V `0.0510/0.1113`.
 - It should stay appendix/extension evidence unless the main claim is explicitly widened.
 
 FROSS:
