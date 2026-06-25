@@ -43,6 +43,14 @@ filtered train/dev subgraphs, and the main full-validation branch reaches
 view regeneration for two scans. The 533/548 covered branch and historical
 old 377/388 vs R2 388/388 branch remain sensitivity evidence only.
 
+Condition names are fixed before reporting. \texttt{family\_conditional\_risk}
+is the main GeoCalib score, ranking by
+$\mathrm{score}^{sem}\cdot\pgeomfam$. \texttt{probabilistic\_recalibrated} is
+the pooled calibrated-risk ablation
+$\mathrm{score}^{sem}\cdot\pgeom$. Geometry-only controls rank by \pgeom{}
+without semantic confidence and are reported separately from pooled
+calibrated re-ranking.
+
 Table~\ref{tab:claim-boundary} fixes how each source may be used. This is part
 of the experimental design: a result can support the paper only if it passes
 the same row contract, geometry join, denominator, metric, and caveat reporting

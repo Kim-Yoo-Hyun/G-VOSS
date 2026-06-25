@@ -114,7 +114,7 @@ Allowed:
 - Use demoted cases to show semantically plausible but physically inconsistent relations.
 - Use promoted or retained cases to explain recall/violation tradeoffs.
 - Use high-p but rule-violated cases to disclose residual calibration risk.
-- Use family-specific reason codes to justify family-specific controls and denominator reporting.
+- Use family-specific reason codes to justify family-conditional calibrated-risk factors and denominator reporting.
 
 Not allowed:
 

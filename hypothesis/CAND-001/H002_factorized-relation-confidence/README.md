@@ -12,11 +12,11 @@ semantic score != geometry validity != relation reliability
 ## Current Status
 
 ```text
-current_gate = v22 hanging-on strict candidate mining completed
-current_status = hanging-on strict 240-row candidate sheet is ready for source inventory
+current_gate = v23 hanging-on positive-anchor repair plan completed
+current_status = positive-anchor capacity scan contract ready
 posterior_smoke_allowed = false
 validation_or_test_used = false
-next_todo = reliability_target_v22_hanging_on_strict_conditional_contrast_source_inventory
+next_todo = reliability_target_v23_hanging_on_positive_anchor_capacity_scan
 ```
 
 현재 결론은 H002 가설이 틀렸다는 것이 아니다. 현재까지의 반복은 relation reliability를
@@ -136,7 +136,7 @@ join됐고, typed witness cell capacity와 240-row capped preview가 모두 통�
 | `summary_branch_v2.md` | H002의 긴 누적 research log와 근거/claim boundary |
 | `RGA_framework.md` | RGA framework 정의, axis, bucket, metric, gate 원칙 |
 | `feasibility_check.md` | multi-view와 posterior 결합 방식 관련 feasibility 판단 |
-| `stages/` | v1~v68 stage별 진행 내용, 문제점, 다음 단계로 넘어간 이유 |
+| `stages/` | v1~v77 stage별 진행 내용, 문제점, 다음 단계로 넘어간 이유 |
 
 ## Consolidation
 
@@ -157,7 +157,7 @@ v1~v10 stage별 문서(`stages/`)와 전체 흐름 요약(`summary_branch_v2.md`
 
 ## Current Relation Scope
 
-Core target construction은 현재 `attachment_deferred`의 `hanging on` strict source inventory다.
+Core target construction은 현재 `attachment_deferred`의 `hanging on` positive-anchor capacity scan 단계다.
 이전 `support_contact`, `relative_vertical`, `proximity` branch는 full-train에서 확인했지만
 현재는 diagnostic/generalization evidence로 둔다.
 
@@ -210,6 +210,15 @@ Core target construction은 현재 `attachment_deferred`의 `hanging on` strict 
 - v66에서 v21 path decision을 완료했다. Strict condition은 GT rule이 아니라 predicate/rank/geometry bucket/object-family shortcut을 막기 위한 H002 control rule로 명시했다. 결정은 `hanging on`을 strict primary 후보로 남기고, `attached to`는 diagnostic/relaxed probe로 낮추며, `connected to`는 diagnostic-only로 유지하는 것이다. 다음 단계는 `reliability_target_v22_hanging_on_strict_conditional_contrast_packet_plan`이다.
 - v67에서 v22 hanging-on strict packet plan을 완료했다. Full-train `hanging on` rows 185,346개에서 strict groups 2,222개, mixed strict groups 258개, balanced capacity 4,507개를 확인했다. Hidden-only dry-run preview는 240 rows, proxy role `120/120`, selected strict groups 95개, scan 192개, visible endpoint pair 193개로 구성되며 max scan/endpoint/group cap이 모두 통과했다. Visible label sheet나 packet asset은 아직 만들지 않았고, 다음 단계는 hidden-field-safe candidate mining이다.
 - v68에서 v22 hanging-on strict candidate mining을 완료했다. 240-row visible candidate sheet, 240-row hidden manifest, 240-row candidate rows를 만들었고 visible leakage hit와 validation error는 모두 0이다. Visible sheet에는 relation text와 blank review fields만 두고, rank/geometry bucket/object-family/GT match/planned proxy role/strict group/source ids는 hidden manifest에만 보존했다. Packet assets와 labels는 아직 만들지 않았으므로 다음 단계는 source inventory다.
+- v69에서 v22 hanging-on strict source inventory를 완료했다. 240개 row 모두 subject/object crop과 audit-ready visual/mesh evidence를 갖고, 192개 scan 모두 `multi_view`, `sequence`, mesh source가 존재한다. Strong same-frame co-visible row는 73개이고 167개는 individual-view-plus-mesh audit-ready tier다. Source inventory gate와 validation error는 각각 pass/0이며, 다음 단계는 evidence tier를 보존하는 audit packet plan이다.
+- v70에서 v22 hanging-on strict audit packet plan을 완료했다. 240개 row 모두 `primary_hanging_on_reliability_candidate`로 계획했고, T1/T2 evidence tier는 73/167, hidden proxy balance는 120/120이다. Visible packet template, hidden asset manifest plan, visible schema, audit packet contract를 만들었고 validation error는 0이다. 실제 packet asset은 아직 materialize하지 않았으므로 다음 단계는 packet materialization이다.
+- v71에서 v22 hanging-on strict audit packet materialization을 완료했다. 240개 visible review rows, 240개 packet dirs, 4,406개 neutral packet-local images, 240개 materialized hidden manifest rows를 생성했고 visible leakage hit와 validation error는 모두 0이다. Existing GT-match auxiliary axis는 hidden manifest에만 240/240 join했다. 다음 단계는 label fill 전 formal leakage review다.
+- v72에서 v22 hanging-on strict audit packet leakage review를 완료했다. Visible review sheet 240개 row, packet markdown 240개, packet dirs 240개, neutral packet-local images 4,406개, hidden manifest 240개 row를 검사했고 visible leakage hit와 validation error는 모두 0이다. Source paths, scan ids, instance ids, rank band, geometry bucket, GT-match axis, proxy role, strict group id는 hidden-only로 유지된다. 다음 단계는 leakage-reviewed packet을 사용한 visible-only label fill이다.
+- v73에서 v22 hanging-on strict audit packet label fill을 완료했다. Hidden manifest를 읽지 않고 leakage-reviewed visible packet만 사용해 `accept/reject/abstain = 9/193/38`을 만들었고 validation error는 0이다. Binary preview는 `202` rows with `9/193`이라 severe positive-sparse 상태이며 posterior smoke는 계속 금지된다. 다음 단계는 label lock 이후 hidden manifest와 사후 join하는 label ingestion이다.
+- v74에서 v22 hanging-on strict label ingestion을 완료했다. Hidden manifest와 GT-match auxiliary axis를 label lock 이후에만 join했고, multiclass 240개, primary binary 202개(`9/193`), geometry-support 202개, endpoint/coverage/uncertainty 240개 target을 만들었다. Class mass gate는 실패했고 quick-probe risk flag는 97개라 posterior smoke는 계속 금지된다. 다음 단계는 target-independence audit이다.
+- v75에서 v22 hanging-on strict target-independence audit을 완료했다. Primary relation binary는 202개(`9/193`)이고 minimum per-class gate 60을 통과하지 못했다. Strict/diagnostic clear slice는 모두 0개, full quick-probe risk flag는 107개, slice-level blocking risk flag는 1,666개다. 따라서 같은 target-construction 병목이 반복 확인됐고 posterior smoke는 계속 금지된다. 다음 단계는 path decision이다.
+- v76에서 v22 path decision을 완료했다. v22 `hanging on` strict target은 posterior로 승격하지 않고 diagnostic-only negative target-construction evidence로 고정했다. 다음 route는 `reliability_target_v23_hanging_on_positive_anchor_repair_plan`으로 선택했다. 핵심은 generic `hanging on` 후보를 더 라벨링하는 것이 아니라, curtain/towel/bag/clothes류 subject와 window/door/rack/hook/stand류 anchor 같은 positive-anchor cell 안에서 matched hard negative가 충분히 존재하는지 먼저 검증하는 것이다.
+- v77에서 v23 positive-anchor repair plan을 완료했다. v22 accept 9개는 `curtain/blinds/bag/towel` subject와 `door/window/stand` anchor에 집중됐고, positive-anchor candidate cell은 `accept:9, reject:2`였다. 다음 단계는 full train에서 positive-anchor 후보 300개 이상, matched positive/negative cell 30개 이상, balanced proxy capacity 160개 이상이 존재하는지 확인하는 capacity scan이다. Posterior smoke와 label fill은 계속 금지된다.
 - `front`, `behind`, `left`, `right`는 현재 H002 primary posterior target이 아니라 future relation-family expansion이다.
 
 ## Guardrails

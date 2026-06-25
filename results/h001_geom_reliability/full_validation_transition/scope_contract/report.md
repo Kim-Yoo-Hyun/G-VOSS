@@ -6,7 +6,10 @@ Created at: `2026-06-03T09:05:41+00:00`
 ## Boundary
 
 - This is a protocol-freeze artifact, not metric evidence.
-- The current 127-scan results remain current evidence until full-validation artifacts are regenerated.
+- At creation time, the 127-scan results remained the active evidence until
+  full-validation artifacts were regenerated. This warning is now superseded:
+  the selected paper-facing route is VL-SAT full-validation plus Open3DSG
+  `recovery_relaxed_views_min2/`.
 - H001-Mini is hypothesis/feasibility evidence only.
 - Final method design, verifier policy, counterfactuals, and `p_geom_valid` calibration are train/train-dev-derived.
 

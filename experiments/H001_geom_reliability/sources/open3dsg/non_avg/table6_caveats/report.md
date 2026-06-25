@@ -21,7 +21,7 @@ Created at: `2026-06-04T11:43:27.450286+00:00`
 | semantic_only | 0.4963 | 0.5320 | 0.0358 | 0.1195 | 0.1256 | 0.0061 |
 | probabilistic_recalibrated | 0.5580 | 0.5639 | 0.0059 | 0.0803 | 0.0782 | -0.0021 |
 | rule_verified_point_subtype | 0.5238 | 0.5481 | 0.0244 | 0.0000 | 0.0000 | 0.0000 |
-| control_family_specific_p_geom_valid | 0.5984 | 0.6047 | 0.0063 | 0.0311 | 0.0310 | -0.0001 |
+| family_conditional_risk | 0.5984 | 0.6047 | 0.0063 | 0.0311 | 0.0310 | -0.0001 |
 
 ## Caveat Wording
 

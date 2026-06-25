@@ -1,6 +1,6 @@
 # GeoCalib / H001 Figure Source Lock
 
-Last updated: 2026-06-23 KST
+Last updated: 2026-06-25 KST
 
 Status: `figure1_geocalib_framework_and_figure2_3_assets_generated`
 
@@ -17,6 +17,10 @@ Current table note: the main source-result table now reports K =
 `{5,10,20,50,100}` from `metrics_k_sweep/`. Figure 2 remains a compact
 R@100/Violation@100 tradeoff view because it is a diagnostic figure rather than
 the full source-result table.
+
+Current scoring note: `family_conditional_risk` is the GeoCalib main score.
+`probabilistic_recalibrated` is the pooled calibrated-risk ablation, and
+geometry-only control is not shown in Figure 2.
 
 ## Global Rules
 
@@ -48,8 +52,8 @@ Locked visual form:
 - Show the pipeline:
   `relation source predictions` -> `standardized row contract` ->
   `identity-preserving geometry join` -> `family-specific verifier` ->
-  `p_geom_valid calibration` -> `probabilistic / rule-verified /
-  family-conditional risk operating points` -> `R@K + Violation@K evaluation`.
+  `p_geom_valid calibration` -> `family-conditioned GeoCalib score / pooled
+  ablation / rule-verified diagnostic` -> `R@K + Violation@K evaluation`.
 
 Source artifacts:
 
@@ -79,8 +83,8 @@ Locked visual form:
 - Use separate panel axes or clear panel labels, because absolute recall is not
   directly comparable across the closed-set VL-SAT source and the Open3DSG
   open-vocabulary relation source.
-- Draw arrows from `semantic_only` to `probabilistic_recalibrated`,
-  `family_conditional_risk`, and `rule_verified_point_subtype`.
+- Draw arrows from `semantic_only` to the main `family_conditional_risk`,
+  pooled `probabilistic_recalibrated`, and `rule_verified_point_subtype`.
 - Lower `Violation@100` is better; higher `R@100` is better.
 
 Locked data:

@@ -2,7 +2,7 @@
 
 Status: `vlsat_full_validation_metric_and_failure_analysis_ready`
 
-Last updated: `2026-06-23 KST`
+Last updated: `2026-06-25 KST`
 
 This directory owns the Docker-generated VL-SAT rerun on the full official
 `3DSSG_subset` validation scope. It is separate from the older 127-scan
@@ -43,7 +43,7 @@ the locked `metrics/metrics.json` exactly.
 | semantic_only | 0.4194 | 0.6322 | 0.8074 | 0.9272 | 0.9635 | 0.0029 | 0.0082 | 0.0142 | 0.0268 | 0.0476 |
 | probabilistic_recalibrated | 0.4154 | 0.6322 | 0.8107 | 0.9305 | 0.9688 | 0.0015 | 0.0071 | 0.0120 | 0.0229 | 0.0404 |
 | rule_verified_point_subtype | 0.4197 | 0.6317 | 0.8074 | 0.9257 | 0.9627 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 |
-| control_family_specific_p_geom_valid | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 |
+| family_conditional_risk | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 |
 
 GT verifier full-validation check:
 

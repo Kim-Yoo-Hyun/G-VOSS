@@ -1,16 +1,16 @@
 # GeoCalib / H001 Paper Outline
 
-Last updated: 2026-06-23 KST
+Last updated: 2026-06-25 KST
 
 This outline turns `paper/preview.md` into a paper-writing skeleton. It is not the final manuscript. It fixes the section logic, evidence placement, reviewer-defense responsibilities, title candidates, and contribution statements before drafting the abstract and manuscript sections.
 
-Status: `planning_outline_superseded_by_current_aaai_lowk_source`
+Status: `planning_outline_superseded_by_current_aaai_family_main_source`
 
 The authoritative current manuscript state is `paper/aaai/`, `paper/preview.md`,
 and `paper/progress.md`. The outline below preserves older planning rationale
-and may still contain historical H001/127-scan wording; do not use its body
-metrics as final submission values without checking the current AAAI source and
-`metrics_k_sweep/` artifacts.
+and historical sensitivity wording; do not use its body metrics as final
+submission values without checking the current AAAI source, `metrics_k_sweep/`
+artifacts, and the 2026-06-25 family-main scoring decision.
 
 ## Drafting Constraints
 
@@ -21,6 +21,11 @@ Fact:
 - Method framing: calibrated geometry-consistency evaluation and re-ranking framework.
 - Main evidence sources: VL-SAT full official validation and Open3DSG
   full-validation `recovery_relaxed_views_min2/`.
+- Main GeoCalib score: `family_conditional_risk =
+  semantic_score * p_geom_valid_family`.
+- Pooled calibrated ablation: `probabilistic_recalibrated =
+  semantic_score * p_geom_valid`.
+- Geometry-only control: `p_geom_valid` without semantic score.
 - Main relation families: `support_contact`, `proximity`, `relative_vertical`.
 - Paper-result experiments must remain Docker reproducible.
 
@@ -97,7 +102,7 @@ Recommended contribution wording:
    We identify and formalize a relation-level reliability failure in 3D Scene Graph prediction: semantic relation confidence can rank plausible predicates that are physically inconsistent because it is not calibrated to object-pair geometry.
 
 2. Method framework:
-   We introduce a calibrated geometry-consistency evaluation and re-ranking framework that standardizes prediction rows across relation sources, joins identity-preserving 3D geometry evidence, estimates `p_geom_valid`, and exposes multiple operating points including probabilistic, rule-verified, and family-conditional risk variants.
+   We introduce a calibrated geometry-consistency evaluation and re-ranking framework that standardizes prediction rows across relation sources, joins identity-preserving 3D geometry evidence, and ranks by a family-conditional calibrated geometry-risk score while retaining pooled and rule-verified variants as ablation/diagnostic conditions.
 
 3. Evaluation protocol:
    We define a recall-violation evaluation protocol for geometry-checkable relation families, including exact-label `R@K`, `Violation@K`, GT-positive/counterfactual verifier evaluation, and nontriviality controls such as geometry-only, distance-only, shuffled-geometry, and wrong-pair geometry variants.
@@ -155,25 +160,25 @@ Abstract skeleton:
 ```text
 3D Scene Graphs represent objects and relations in a form useful for spatial reasoning, but relation prediction can remain unreliable even when predicted predicates appear semantically plausible.
 We identify a relation-level failure mode: semantic relation confidence is not necessarily calibrated to object-pair geometry, so predictors can rank physically inconsistent relations highly.
-To study this failure, we introduce a calibrated geometry-consistency evaluation and re-ranking framework for geometry-checkable relation families, standardizing prediction rows, joining identity-preserving 3D geometry evidence, estimating p_geom_valid, and exposing probabilistic, rule-verified, and family-conditional risk operating points.
+To study this failure, we introduce a calibrated geometry-consistency evaluation and re-ranking framework for geometry-checkable relation families, standardizing prediction rows, joining identity-preserving 3D geometry evidence, and re-ranking with a family-conditional calibrated geometry-risk score while retaining pooled and rule-verified variants as ablation/diagnostic conditions.
 We further define a recall-violation evaluation protocol with exact-label R@K, Violation@K, GT-positive/counterfactual verifier checks, and geometry identity controls.
-On VL-SAT, the calibrated setting improves R@50/R@100 while reducing Violation@100 relative to semantic-only ranking; controls show that the effect is not explained by geometry-only ranking, distance-only heuristics, shuffled geometry, or wrong-pair geometry.
-On Open3DSG, measured H001-family results provide second-source evidence that geometry-consistency can reduce violations under explicit recall tradeoffs, while failure analysis exposes residual calibration risk.
+On VL-SAT, the family-conditional score improves R@50/R@100 while reducing Violation@100 relative to semantic-only ranking; controls show that the effect is not explained by geometry-only ranking, distance-only heuristics, shuffled geometry, or wrong-pair geometry.
+On Open3DSG, the full-validation recovery branch provides open-vocabulary relation-source evidence that geometry-consistency can reduce violations under explicit recall tradeoffs, while failure analysis exposes residual calibration risk.
 These results support a scoped relation-reliability claim for geometry-checkable 3DSSG families, not a broad open-vocabulary 3D Scene Graph generation claim.
 ```
 
 Shorter abstract skeleton:
 
 ```text
-Semantic 3D Scene Graph relation predictors can produce plausible relation labels that violate object-pair geometry. We formalize this as a relation-level reliability failure and introduce a calibrated geometry-consistency evaluation and re-ranking framework for geometry-checkable relation families. The framework standardizes prediction rows, joins identity-preserving 3D evidence, estimates p_geom_valid, and reports probabilistic, rule-verified, and family-conditional risk operating points under a recall-violation protocol. Experiments on VL-SAT and Open3DSG show that calibrated geometry-consistency reduces geometric violations under measurable recall tradeoffs, with controls ruling out geometry-only, distance-only, shuffled-geometry, and wrong-pair explanations. Failure analysis further reveals residual overconfidence in probabilistic geometry scores, motivating separate reporting of calibrated and rule-verified variants. The claim is scoped to measured geometry-checkable 3DSSG relations rather than broad open-vocabulary graph generation.
+Semantic 3D Scene Graph relation predictors can produce plausible relation labels that violate object-pair geometry. We formalize this as a relation-level reliability failure and introduce a calibrated geometry-consistency evaluation and re-ranking framework for geometry-checkable relation families. The framework standardizes prediction rows, joins identity-preserving 3D evidence, and ranks by a family-conditional calibrated geometry-risk score under a recall-violation protocol, with pooled and rule-verified variants retained as ablation/diagnostic conditions. Experiments on VL-SAT and Open3DSG show that calibrated geometry-consistency reduces geometric violations under measurable recall tradeoffs, with controls ruling out geometry-only, distance-only, shuffled-geometry, and wrong-pair explanations. Failure analysis further reveals residual overconfidence in probabilistic geometry scores. The claim is scoped to measured geometry-checkable 3DSSG relations rather than broad open-vocabulary graph generation.
 ```
 
 Numbers to insert only if the target venue expects quantitative abstract evidence:
 
-- `VL-SAT` full-validation: `probabilistic_recalibrated` R@50/R@100 `0.9305/0.9688` vs `semantic_only` `0.9272/0.9635`; Violation@100 `0.0404` vs `0.0476`.
-- `VL-SAT` full-validation: `family_conditional_risk` Violation@100 `0.0333`.
+- `VL-SAT` full-validation main `family_conditional_risk` R@50/R@100 `0.9288/0.9683` vs `semantic_only` `0.9272/0.9635`; Violation@100 `0.0333` vs `0.0476`.
+- `VL-SAT` full-validation pooled `probabilistic_recalibrated` R@50/R@100 `0.9305/0.9688`; Violation@100 `0.0404`.
 - Open3DSG full-validation 548/548 recovery: `family_conditional_risk` R@50/R@100 `0.4658/0.6047` and Violation@50/@100 `0.0286/0.0341` vs `semantic_only` `0.4096/0.5161` and `0.1386/0.1242`.
-- GT verifier: `p_geom_valid` AUROC/AUPRC `0.9779/0.9737`.
+- GT verifier: `p_geom_valid` AUROC/AUPRC `0.9772/0.9729`.
 
 Abstract wording constraints:
 
@@ -231,7 +236,7 @@ We study a failure mode in which semantic relation predictors rank plausible rel
 
 This failure is not simply a lack of geometry features. Rather, semantic relation confidence is not necessarily calibrated to relation-level physical consistency. A relation score can therefore behave as a semantic plausibility score without providing a calibrated estimate of whether the relation is geometrically valid.
 
-This motivates a calibrated geometry-consistency evaluation and re-ranking framework. The framework standardizes prediction rows across relation sources, preserves object-pair identity, joins 3D geometry evidence, estimates p_geom_valid, and reports probabilistic, rule-verified, and family-conditional risk operating points under a recall-violation protocol.
+This motivates a calibrated geometry-consistency evaluation and re-ranking framework. The framework standardizes prediction rows across relation sources, preserves object-pair identity, joins 3D geometry evidence, and ranks by a family-conditional calibrated geometry-risk score while retaining pooled and rule-verified variants under a recall-violation protocol.
 
 We evaluate the framework on geometry-checkable relation families using Open3DSG as the main open-vocabulary relation-source case study and VL-SAT as a controlled reproduced anchor. Controls test whether the effect can be explained by geometry-only ranking, distance-only heuristics, shuffled geometry, or wrong-pair geometry, while GT-positive and counterfactual checks evaluate the verifier signal.
 
@@ -418,7 +423,8 @@ Method formalization:
 5. Re-ranking operating points:
 
    ```text
-   score_prob_i = score_sem_i * p_geom_valid_i
+   score_geocalib_i = score_sem_i * p_geom_valid_family_i
+   score_pooled_i = score_sem_i * p_geom_valid_i
    ```
 
    Main reported variants:
@@ -426,9 +432,9 @@ Method formalization:
    | variant | ranking/filter rule | role |
    | --- | --- | --- |
    | `semantic_only` | rank by `score_sem` | reproduced source baseline |
-   | `probabilistic_recalibrated` | rank by `score_sem * p_geom_valid` | recall-first calibrated operating point |
+   | `family_conditional_risk` | rank by `score_sem * p_geom_valid_family` | GeoCalib main score |
+   | `probabilistic_recalibrated` | rank by `score_sem * p_geom_valid` | pooled calibrated-risk ablation |
    | `rule_verified_point_subtype` | remove hard `violated` rows before ranking | zero-violation diagnostic |
-   | `family_conditional_risk` | use family-specific calibrator | family-conditional calibrated risk operating point |
 
 6. Nontriviality controls:
 
@@ -449,8 +455,8 @@ Output: ranked relation rows with semantic score, geometry evidence, p_geom_vali
 2. For each row, map predicate to a geometry-checkable family when possible.
 3. Join object-pair geometry evidence by scan/subgraph/subject/object ids.
 4. Run family-specific geometry checks and assign satisfied/uncertain/violated status.
-5. Estimate p_geom_valid with the frozen pooled or family-specific calibrator.
-6. Produce operating-point rankings: semantic-only, probabilistic, rule-verified, and family-conditional risk.
+5. Estimate p_geom_valid with the frozen pooled and family-specific calibrators.
+6. Produce rankings: semantic-only, main family-conditional GeoCalib, pooled calibrated ablation, and rule-verified diagnostic.
 7. Evaluate exact-label R@K and Violation@K on the fixed in-scope denominator.
 ```
 
@@ -523,7 +529,7 @@ Reviewer defense:
 Results prose skeleton:
 
 ```text
-The main question is whether geometry-consistency scoring reduces physically inconsistent relation predictions without collapsing recall. On VL-SAT, probabilistic recalibration slightly improves exact-label recall while reducing violations relative to semantic-only ranking, and the family-conditional risk operating point further reduces violations. The hard rule-verified variant is reported as a diagnostic zero-violation operating point rather than the default method, because it exposes the upper end of the reliability-recall tradeoff.
+The main question is whether geometry-consistency scoring reduces physically inconsistent relation predictions without collapsing recall. On VL-SAT, the main family-conditional score improves exact-label recall while reducing violations relative to semantic-only ranking. The pooled calibrated score is reported as a recall-favoring ablation, and the hard rule-verified variant is reported as a diagnostic zero-violation point rather than the default method because it exposes the upper end of the reliability-recall tradeoff.
 ```
 
 Control prose skeleton:
@@ -556,13 +562,13 @@ Evidence:
 Reviewer defense:
 
 - Report residual calibration risk as a limitation and design insight.
-- Use it to justify separating probabilistic, rule-verified, and family-conditional risk variants.
+- Use it to justify reporting the main family-conditional score alongside pooled and rule-verified variants.
 - Do not claim the calibrated score is a hard validity label.
 
 Failure-analysis prose skeleton:
 
 ```text
-The qualitative cases support the failure mechanism: some relation predictions remain semantically plausible from object categories but are contradicted by contact, distance, or vertical arrangement in the reconstructed scene. Geometry-aware reranking demotes many such cases, which explains the reduction in Violation@K. At the same time, residual high-confidence but rule-violated cases show that p_geom_valid should not be interpreted as a hard validity label. This is why the paper reports probabilistic, rule-verified, and family-conditional risk operating points separately.
+The qualitative cases support the failure mechanism: some relation predictions remain semantically plausible from object categories but are contradicted by contact, distance, or vertical arrangement in the reconstructed scene. Geometry-aware reranking demotes many such cases, which explains the reduction in Violation@K. At the same time, residual high-confidence but rule-violated cases show that p_geom_valid should not be interpreted as a hard validity label. This is why the paper reports the main family-conditional score alongside pooled and rule-verified variants.
 ```
 
 ### 8. Limitations
@@ -625,7 +631,7 @@ Figure 1:
 
 Figure 2:
 
-- Reliability-recall tradeoff across semantic-only, probabilistic calibrated, rule-verified, and family-conditional risk operating points.
+- Reliability-recall tradeoff across semantic-only, main family-conditional GeoCalib, pooled calibrated ablation, and rule-verified diagnostic points.
 - Show why recall and violation must be reported together.
 
 Figure 3:
@@ -685,7 +691,7 @@ Do not generate new visual claims unless source rows, scan/object ids, and geome
 Figure 1 caption draft:
 
 ```text
-Overview of calibrated geometry-consistency evaluation and re-ranking. A relation source first produces semantic predicate scores for object pairs. We standardize these predictions into identity-preserving relation rows, join 3D geometry evidence for the same object pair, estimate relation-family-specific geometric validity scores, and report probabilistic, rule-verified, and family-conditional risk operating points. This framing treats geometry consistency as a calibrated reliability layer, not as a replacement relation predictor.
+Overview of calibrated geometry-consistency evaluation and re-ranking. A relation source first produces semantic predicate scores for object pairs. We standardize these predictions into identity-preserving relation rows, join 3D geometry evidence for the same object pair, estimate relation-family-specific geometric validity scores, and report the main family-conditional GeoCalib score with pooled and rule-verified variants. This framing treats geometry consistency as a calibrated reliability layer, not as a replacement relation predictor.
 ```
 
 Reviewer-defense role:
@@ -696,13 +702,18 @@ Reviewer-defense role:
 Figure 2 caption draft:
 
 ```text
-Recall-violation tradeoff across semantic-only and geometry-consistency operating points on the H001 held-out relation scope. The probabilistic calibrated condition preserves or improves recall while reducing violation relative to semantic-only ranking, the rule-verified condition provides a zero-violation diagnostic with a small recall tradeoff, and the family-conditional risk condition gives a family-conditional calibrated risk operating point. This figure should be read as a reliability tradeoff, not as a standalone SOTA leaderboard.
+Recall-violation tradeoff across semantic-only and geometry-consistency
+operating points on the H001 held-out relation scope. The family-conditional
+risk condition is the GeoCalib main score, the pooled calibrated condition is
+an ablation, and the rule-verified condition provides a zero-violation
+diagnostic with a recall tradeoff. This figure should be read as a reliability
+tradeoff, not as a standalone SOTA leaderboard.
 ```
 
 Reviewer-defense role:
 
 - Defends against "violation reduction only comes from pruning recall" by showing recall and violation jointly.
-- Clarifies why probabilistic, rule-verified, and family-conditional risk variants are reported separately.
+- Clarifies why main family-conditional, pooled, and rule-verified variants are reported separately.
 
 Figure 3 caption draft:
 
@@ -851,7 +862,7 @@ Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations
    3D Scene Graph prediction에서 relation-level reliability failure를 식별하고 formalize한다. Semantic relation confidence는 object-pair geometry와 calibration되어 있지 않기 때문에, 그럴듯하지만 물리적으로 일관되지 않은 predicate를 높게 rank할 수 있다.
 
 2. Method framework:
-   calibrated geometry-consistency evaluation and re-ranking framework를 제안한다. 이 framework는 prediction row를 source 간 표준화하고, identity-preserving 3D geometry evidence를 join하며, `p_geom_valid`를 추정하고, probabilistic / rule-verified / family-conditional risk operating point를 분리해 보고한다.
+   calibrated geometry-consistency evaluation and re-ranking framework를 제안한다. 이 framework는 prediction row를 source 간 표준화하고, identity-preserving 3D geometry evidence를 join하며, main `family_conditional_risk`, pooled calibrated ablation, rule-verified diagnostic을 분리해 보고한다.
 
 3. Evaluation protocol:
    geometry-checkable relation family를 위한 recall-violation evaluation protocol을 정의한다. 여기에는 exact-label `R@K`, `Violation@K`, GT-positive/counterfactual verifier evaluation, geometry-only / distance-only / shuffled-geometry / wrong-pair geometry control이 포함된다.
@@ -908,7 +919,7 @@ Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations
 3D Scene Graph는 spatial reasoning에 유용한 object-relation 구조를 제공하지만, relation prediction은 predicate가 semantic하게 그럴듯해 보여도 물리적으로 일관되지 않을 수 있다.
 본 연구는 semantic relation confidence가 object-pair geometry와 반드시 calibration되어 있지 않기 때문에 physically inconsistent relation이 높은 순위에 놓일 수 있다는 relation-level failure mode를 정의한다.
 이를 검증하기 위해 geometry-checkable relation family를 대상으로 calibrated geometry-consistency evaluation and re-ranking framework를 제안한다.
-이 framework는 prediction row를 표준화하고, identity-preserving 3D geometry evidence를 join하며, `p_geom_valid`를 추정하고, probabilistic / rule-verified / family-conditional risk operating point를 분리해 보고한다.
+이 framework는 prediction row를 표준화하고, identity-preserving 3D geometry evidence를 join하며, main `family_conditional_risk`, pooled calibrated ablation, rule-verified diagnostic을 분리해 보고한다.
 또한 exact-label `R@K`, `Violation@K`, GT-positive/counterfactual verifier check, geometry identity control을 포함하는 recall-violation evaluation protocol을 정의한다.
 `VL-SAT` 실험에서는 calibrated setting이 semantic-only ranking 대비 recall을 유지하거나 개선하면서 violation을 줄이며, controls는 이 효과가 geometry-only ranking, distance-only heuristic, shuffled geometry, wrong-pair geometry로 설명되지 않음을 보인다.
 Open3DSG 결과는 measured H001-family scope에서 second-source evidence를 제공하고, failure analysis는 probabilistic geometry score의 residual overconfidence를 드러낸다.
@@ -918,15 +929,15 @@ Open3DSG 결과는 measured H001-family scope에서 second-source evidence를 �
 짧은 초록 skeleton:
 
 ```text
-Semantic 3D Scene Graph relation predictor는 그럴듯하지만 object-pair geometry와 충돌하는 relation을 생성할 수 있다. 본 연구는 이를 relation-level reliability failure로 formalize하고, geometry-checkable relation family를 위한 calibrated geometry-consistency evaluation and re-ranking framework를 제안한다. 이 framework는 identity-preserving 3D evidence를 join하고 `p_geom_valid`를 추정하며 probabilistic, rule-verified, family-conditional risk operating point를 recall-violation protocol로 평가한다. `VL-SAT`와 Open3DSG 실험은 calibrated geometry-consistency가 measurable recall tradeoff 아래 geometric violation을 줄일 수 있음을 보이고, controls와 failure analysis는 geometry signal의 nontriviality와 residual calibration risk를 함께 드러낸다. 본 claim은 measured geometry-checkable 3DSSG relation reliability에 한정된다.
+Semantic 3D Scene Graph relation predictor는 그럴듯하지만 object-pair geometry와 충돌하는 relation을 생성할 수 있다. 본 연구는 이를 relation-level reliability failure로 formalize하고, geometry-checkable relation family를 위한 calibrated geometry-consistency evaluation and re-ranking framework를 제안한다. 이 framework는 identity-preserving 3D evidence를 join하고 main `family_conditional_risk`, pooled calibrated ablation, rule-verified diagnostic을 recall-violation protocol로 평가한다. `VL-SAT`와 Open3DSG 실험은 calibrated geometry-consistency가 measurable recall tradeoff 아래 geometric violation을 줄일 수 있음을 보이고, controls와 failure analysis는 geometry signal의 nontriviality와 residual calibration risk를 함께 드러낸다. 본 claim은 measured geometry-checkable 3DSSG relation reliability에 한정된다.
 ```
 
 초록에 수치를 넣을 때만 사용할 후보:
 
-- `VL-SAT`: `probabilistic_recalibrated` R@50/R@100 `0.9642/0.9921` vs `semantic_only` `0.9599/0.9894`; Violation@100 `0.0391` vs `0.0469`.
-- `VL-SAT`: `family_conditional_risk` Violation@100 `0.0310`.
-- Open3DSG: `family_conditional_risk` R@50/R@100 `0.4530/0.5984` and Violation@50/@100 `0.0228/0.0311` vs `semantic_only` `0.3945/0.4963` and `0.1326/0.1195`.
-- GT verifier: `p_geom_valid` AUROC/AUPRC `0.9779/0.9737`.
+- `VL-SAT` full-validation main `family_conditional_risk` R@50/R@100 `0.9288/0.9683` vs `semantic_only` `0.9272/0.9635`; Violation@100 `0.0333` vs `0.0476`.
+- `VL-SAT` full-validation pooled `probabilistic_recalibrated` R@50/R@100 `0.9305/0.9688`; Violation@100 `0.0404`.
+- Open3DSG full-validation recovery main `family_conditional_risk` R@50/R@100 `0.4658/0.6047` and Violation@50/@100 `0.0286/0.0341` vs `semantic_only` `0.4096/0.5161` and `0.1386/0.1242`.
+- GT verifier: `p_geom_valid` AUROC/AUPRC `0.9772/0.9729`.
 
 ### 1. Introduction
 
@@ -961,7 +972,7 @@ reviewer 방어:
    이 문제는 단순히 "geometry feature가 없다"가 아니다. 핵심은 semantic relation confidence가 relation-level geometry와 calibration되어 있지 않다는 점이다. Relation score는 semantic plausibility score처럼 동작하지만, 그 relation이 geometrically valid한지에 대한 calibrated estimate가 아닐 수 있다.
 
 4. 왜 이런 method 형태가 필요한가:
-   failure 원인 때문에 calibrated geometry-consistency evaluation and re-ranking framework가 필요하다고 연결한다. 이 framework는 prediction row를 표준화하고, object-pair identity를 보존하며, 3D geometry evidence를 join하고, `p_geom_valid`를 추정하고, probabilistic / rule-verified / family-conditional risk operating point를 recall-violation protocol로 보고해야 한다.
+   failure 원인 때문에 calibrated geometry-consistency evaluation and re-ranking framework가 필요하다고 연결한다. 이 framework는 prediction row를 표준화하고, object-pair identity를 보존하며, 3D geometry evidence를 join하고, main `family_conditional_risk`, pooled calibrated ablation, rule-verified diagnostic을 recall-violation protocol로 보고해야 한다.
 
 5. evidence preview:
    `VL-SAT`는 primary reproduced source, Open3DSG는 measured H001-family second-source evidence로 제시한다. Controls는 geometry-only ranking, distance-only heuristic, shuffled geometry, wrong-pair geometry로 효과가 설명되지 않는지 확인한다. GT-positive/counterfactual check는 verifier signal의 근거로 사용한다.
@@ -978,7 +989,7 @@ reviewer 방어:
 
 이 failure는 단순한 geometry feature 부재가 아니다. 핵심은 semantic relation confidence가 relation-level physical consistency와 반드시 calibration되어 있지 않다는 점이다. 따라서 relation score는 semantic plausibility는 나타내지만, 해당 relation이 geometrically valid한지에 대한 calibrated estimate는 아닐 수 있다.
 
-이 원인은 calibrated geometry-consistency evaluation and re-ranking framework를 필요로 한다. 이 framework는 relation source 간 prediction row를 표준화하고, object-pair identity를 보존하며, 3D geometry evidence를 join하고, `p_geom_valid`를 추정하고, probabilistic / rule-verified / family-conditional risk operating point를 recall-violation protocol 아래 보고한다.
+이 원인은 calibrated geometry-consistency evaluation and re-ranking framework를 필요로 한다. 이 framework는 relation source 간 prediction row를 표준화하고, object-pair identity를 보존하며, 3D geometry evidence를 join하고, main `family_conditional_risk`, pooled calibrated ablation, rule-verified diagnostic을 recall-violation protocol 아래 보고한다.
 
 우리는 `VL-SAT`를 primary reproduced source로, Open3DSG를 measured H001-family second-source evidence로 사용해 framework를 평가한다. Geometry-only ranking, distance-only heuristic, shuffled geometry, wrong-pair geometry control은 효과의 nontriviality를 검증하고, GT-positive/counterfactual check는 verifier signal을 평가한다.
 
@@ -1142,7 +1153,7 @@ reviewer 방어:
 reviewer 방어:
 
 - residual calibration risk를 limitation과 design insight로 보고한다.
-- probabilistic, rule-verified, family-conditional risk variant를 분리해서 보고해야 하는 이유로 사용한다.
+- main family-conditional score, pooled ablation, rule-verified diagnostic을 분리해서 보고해야 하는 이유로 사용한다.
 - calibrated score를 hard validity label이라고 주장하지 않는다.
 
 ### 8. Limitations
@@ -1189,7 +1200,7 @@ Figure 1:
 Figure 2:
 
 - reliability-recall tradeoff.
-- semantic-only, probabilistic calibrated, rule-verified, family-conditional risk operating point를 비교한다.
+- semantic-only, main family-conditional GeoCalib, pooled calibrated ablation, rule-verified diagnostic을 비교한다.
 
 Figure 3:
 

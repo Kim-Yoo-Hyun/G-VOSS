@@ -1,8 +1,8 @@
 # GeoCalib / H001 First-Pass Manuscript Draft
 
-Last updated: 2026-06-23 KST
+Last updated: 2026-06-25 KST
 
-Status: `historical_first_pass_superseded_by_current_aaai_lowk_source`
+Status: `planning_draft_superseded_by_current_aaai_family_main_source`
 
 This is a first-pass manuscript prose draft derived from `paper/outline.md`.
 It is not camera-ready text. The purpose is to make the paper-body logic
@@ -12,11 +12,11 @@ now lives under `archive/paper/iccv/`.
 
 Current paper-facing title is `GeoCalib: Calibrating Geometric Consistency for
 Reliable 3D Scene Graph Relations`. The active manuscript source is
-`paper/aaai/`. This draft predates the current AAAI low-K source-result table,
-full official validation main-route polish, Qwen-VL extension completion, and
-GeoCalib/Figure-1 build; numerical claims in the body may reflect the historical
-127-scan route and should not be used as final submission text without checking
-`paper/aaai/`, `paper/preview.md`, `paper/progress.md`, and `summary.md`.
+`paper/aaai/`. This draft is a planning prose copy only; final submission text,
+tables, captions, and current metrics should be checked against `paper/aaai/`,
+`paper/preview.md`, `paper/progress.md`, and `summary.md`. The current
+paper-facing route uses `family_conditional_risk` as the GeoCalib main score
+and keeps pooled `probabilistic_recalibrated` as an ablation/baseline.
 
 Related Work citation placeholders have been replaced with BibTeX-style keys.
 The 2026-05-23 literature pass keeps recent open-world/VLM graph and
@@ -62,17 +62,16 @@ inconsistent relations highly. To expose and reduce this failure, we introduce
 a calibrated geometry-consistency evaluation and re-ranking framework for
 geometry-checkable relation families. The framework standardizes prediction
 rows across relation sources, preserves subject-object identity, joins explicit
-3D evidence, estimates a calibrated geometry-validity score `p_geom_valid`, and
-reports probabilistic, rule-verified, and family-conditional risk operating points
-under a recall-violation protocol. On the reproduced VL-SAT source,
-probabilistic re-ranking improves R@50/R@100 from 0.9599/0.9894 to
-0.9642/0.9921 while reducing Violation@100 from 0.0469 to 0.0391; the
-family-conditional risk operating point further reduces Violation@100 to 0.0310. GT
-positive/counterfactual checks separate valid and invalid geometry with
-AUROC/AUPRC of 0.9779/0.9737, and controls rule out geometry-only,
-distance-only, shuffled-geometry, and wrong-pair explanations. On Open3DSG, a
-Docker-reproduced averaged-BLIP variant provides second-source evidence that
-geometry-consistency reduces violations under explicit recall tradeoffs. These
+3D evidence, estimates calibrated geometry-validity risk, and reports a main
+family-conditional score with pooled and rule-verified variants under a
+recall-violation protocol. On the full official validation split, GeoCalib
+re-ranking improves VL-SAT R@50/R@100 from 0.9272/0.9635 to 0.9288/0.9683
+while reducing Violation@100 from 0.0476 to 0.0333. On the Open3DSG
+full-validation recovery branch, the same family-conditional score improves
+R@100 from 0.5161 to 0.6047 while reducing Violation@100 from 0.1242 to
+0.0341. GT positive/counterfactual checks separate valid and invalid geometry
+with AUROC/AUPRC of 0.9772/0.9729, and controls rule out geometry-only,
+distance-only, shuffled-geometry, and wrong-pair explanations. These
 results support a scoped relation-reliability claim for measured
 geometry-checkable 3D Scene Graph relations, not a broad open-vocabulary graph
 generation claim.
@@ -135,8 +134,9 @@ Our contributions are threefold:
    object-pair geometry.
 2. We introduce a calibrated geometry-consistency evaluation and re-ranking
    framework that standardizes prediction rows, joins identity-preserving 3D
-   evidence, estimates `p_geom_valid`, and exposes probabilistic,
-   rule-verified, and family-conditional risk operating points.
+   evidence, and ranks by a family-conditional calibrated geometry-risk score
+   while retaining pooled and rule-verified variants as ablation/diagnostic
+   conditions.
 3. We define a recall-violation evaluation protocol for geometry-checkable
    relation families, including exact-label `R@K`, `Violation@K`,
    GT-positive/counterfactual verifier evaluation, and geometry identity
@@ -305,8 +305,8 @@ p_geom_valid_i = P(v_i != violated | g_i, a_i).
 ```
 
 The score is a calibrated reliability signal, not a hard proof of correctness.
-For this reason, the paper reports probabilistic, rule-verified, and
-family-conditional risk operating points separately.
+For this reason, the paper reports the main family-conditional score alongside
+pooled and rule-verified variants.
 
 The main recall metric is exact predicate-label `R@K` over the fixed in-scope
 ground-truth denominator. Family grouping defines the geometry-checkable
@@ -361,95 +361,103 @@ relations, the evidence includes centroid and extent ordering along the vertical
 axis. The verifier returns `violated` only when the evidence is strong enough;
 otherwise ambiguous or weak geometry can be marked `uncertain`.
 
-### 4.4 Calibrated Geometry Validity And Re-Ranking
+### 4.4 Family-Conditional Calibrated Risk Re-Ranking
 
-The probabilistic operating point uses a frozen calibrator:
+The main GeoCalib score uses a frozen relation-family-conditioned calibrator:
 
 ```text
-p_geom_valid_i = C_a(phi(g_i)),
+p_geom_valid_family_i = C_family(phi(g_i)),
 ```
 
-where `phi(g_i)` is the geometry feature vector and `C_a` is either the pooled
-or family-specific calibrator trained on `train_dev_calib` positives and
-counterfactual negatives. We use `p_geom_valid` as a calibrated geometry-risk
-term rather than as a hard accept/reject gate:
+where `phi(g_i)` is the geometry feature vector and `C_family` is the calibrator
+for the mapped relation family. The pooled calibrator
 
 ```text
-R_geom_i = -log p_geom_valid_i
+p_geom_valid_i = C_pooled(phi(g_i))
+```
+
+is retained as an ablation. Both calibrators are trained on train-dev
+calibration positives and counterfactual negatives. The predicate-family map,
+hard-rule thresholds, counterfactual construction, and calibrator files are
+fixed before held-out source-result reporting.
+
+We use geometry validity as a calibrated risk term rather than as a hard
+accept/reject gate:
+
+```text
+R_geom_i = -log p_geom_valid_family_i
 U_lambda(i) = log score_sem_i - lambda * R_geom_i
-score_prob_i = score_sem_i * p_geom_valid_i.
+score_geocalib_i = score_sem_i * p_geom_valid_family_i.
 ```
 
-The reported probabilistic operating point fixes `lambda = 1`, so the product
-score is the equivalent risk-aware soft re-ranking utility. This preserves the
-source semantic ranking signal while continuously penalizing calibrated
-geometric inconsistency. We do not tune `lambda` on held-out source results;
-hard-rule variants are reported separately as diagnostics.
+The reported GeoCalib score fixes `lambda = 1`. This preserves the source
+semantic ranking signal while continuously penalizing calibrated geometric
+inconsistency. We do not tune `lambda` on held-out source results; pooled and
+hard-rule variants are reported separately as ablation/diagnostic conditions.
 
 We report four main operating points. `semantic_only` ranks by the source
 semantic score and serves as the reproduced source baseline.
-`probabilistic_recalibrated` ranks by the product of semantic confidence and
-calibrated geometry validity, equivalently the `lambda = 1` risk-aware soft
-re-ranking utility. `rule_verified_point_subtype` removes hard violations
-before ranking and is reported as a zero-violation diagnostic.
-`family_conditional_risk` uses family-conditional calibration and provides a
-family-conditioned calibrated geometry-risk operating point.
+`family_conditional_risk` is the main GeoCalib score. It ranks by the product
+of semantic confidence and family-conditioned calibrated geometry validity.
+`probabilistic_recalibrated` ranks by semantic confidence times pooled
+`p_geom_valid` and is the pooled calibrated-risk ablation.
+`rule_verified_point_subtype` removes hard violations before ranking and is
+reported as a zero-violation diagnostic.
 
 ### 4.5 Controls
 
 The control conditions test whether the result can be explained by simpler
-signals. Geometry-only ranking tests whether semantic confidence remains
-necessary. Distance-only ranking tests whether a generic spatial heuristic
-explains the result. Shuffled-geometry and wrong-pair-geometry controls test
-whether relation-level object-pair identity is necessary. If these controls
-perform worse than the calibrated setting, the result supports the framework
-design rather than a generic "add geometry" explanation.
+signals. Geometry-only ranking uses `p_geom_valid` without semantic score and
+is therefore distinct from pooled calibrated reranking. Distance-only ranking
+tests whether a generic spatial heuristic explains the result. Shuffled-geometry
+and wrong-pair-geometry controls test whether relation-level object-pair
+identity is necessary. If these controls perform worse than the calibrated
+setting, the result supports the framework design rather than a generic "add
+geometry" explanation.
 
 ## 5. Experimental Setup
 
 This section fixes the experimental scope before reporting results, because
-H001's claim depends on denominator transparency as much as on metric values.
-The primary source is the reproduced VL-SAT closed-set relation prediction
-setting on the fixed H001 held-out scope. The scope contains 127 scans, 388
-subgraphs, 25,916 directed pairs, 673,816 prediction rows, 7,505 ground-truth
-rows, and 2,545 in-scope GT relation instances across the measured
-geometry-checkable families. These counts are the fixed denominator for the
-VL-SAT result in Table 1 and the claim-boundary accounting in Table 5.
+GeoCalib's claim depends on denominator transparency as much as on metric
+values. The paper-facing scope is the full official validation split: 157
+scans, 548 contexts, 36,808 directed object pairs, 957,008 VL-SAT prediction
+rows, 11,254 ground-truth rows, and 3,972 in-scope GT relation instances across
+the measured geometry-checkable families.
 
-Open3DSG provides second-source evidence within the same H001-family metric
-scope. The Open3DSG result is reported as a Docker-reproduced averaged-BLIP
-variant. The selected checkpoint is `epoch=13-step=13104.ckpt`, chosen by
-train-dev validation loss before H001 held-out inspection. The Open3DSG runtime
-uses a filtered preprocessed-ready train split of 3,744/3,852 subgraphs, a
-train-dev validation split of 156/160 subgraphs, and an H001 covered loadable
-evaluation scope of 377/388 contexts with `validation_missing_preprocessed:11`
-reported as a caveat. These caveats must remain visible in Table 6 and in the
-main text wherever Open3DSG is used as second-source evidence.
+Open3DSG provides the main open-vocabulary relation-source case study within
+the same measured-family metric scope. The selected checkpoint is the official
+non-averaged BLIP route `epoch=13-step=13104.ckpt`, chosen by train-dev
+validation loss before held-out source-result inspection. The paper-facing
+Open3DSG route is the full-validation `recovery_relaxed_views_min2/` branch,
+which reaches 548/548 contexts by using `OPEN3DSG_MIN_VISIBLE_OBJECTS=2` plus
+relaxed view regeneration for two scans. The 533/548 covered branch and the
+historical 377/388 versus R2 388/388 branches remain sensitivity evidence.
 
 All paper-body experiment results are generated through Docker under
 `experiments/H001_geom_reliability/`. The paper reports exact-label `R@50` and
-`R@100`, `Violation@50` and `Violation@100`, GT-positive/counterfactual
-verifier evaluation, nontriviality controls, Open3DSG second-source metrics,
-and qualitative failure analysis. Host-only outputs are not promoted to paper
-evidence.
+`R@100`, `Violation@50` and `Violation@100`, the fixed low-K grid
+K = `{5,10,20,50,100}`, GT-positive/counterfactual verifier evaluation,
+nontriviality controls, Open3DSG source metrics, and qualitative failure
+analysis. Host-only outputs are not promoted to paper evidence.
 
 ## 6. Results And Discussion
 
 The central question is whether calibrated geometry consistency reduces
 physically inconsistent relation predictions without collapsing recall. Figure
-2 visualizes the main recall-violation operating points, and Table 1 gives the
-corresponding VL-SAT values. The reproduced `semantic_only` ranking reaches
-R@50/R@100 of 0.9599/0.9894 with Violation@50/@100 of 0.0247/0.0469. The main
-`probabilistic_recalibrated` setting improves R@50/R@100 to 0.9642/0.9921 and
-reduces Violation@100 to 0.0391. This supports the intended recall-first use
-case: calibrated geometry validity can reduce violations while preserving, and
-slightly improving, exact-label recall.
+2 visualizes the recall-violation tradeoff, and the main table reports VL-SAT
+and Open3DSG on the full-validation K grid. On VL-SAT, the main
+`family_conditional_risk` score improves R@50/R@100 from 0.9272/0.9635 to
+0.9288/0.9683 while reducing Violation@100 from 0.0476 to 0.0333. The pooled
+`probabilistic_recalibrated` ablation reaches 0.9305/0.9688 but leaves a
+higher Violation@100 of 0.0404, so it is a recall-favoring ablation rather
+than the main score.
 
-The `family_conditional_risk` operating point reaches R@50/R@100 of
-0.9619/0.9914 and Violation@50/@100 of 0.0204/0.0310. This provides a stronger
-violation-first operating point. The `rule_verified_point_subtype` setting
-achieves zero measured violations while keeping R@50/R@100 at 0.9587/0.9890,
-but we treat it as a diagnostic rather than the default method because hard
+On Open3DSG, `semantic_only` has R@50/R@100 of 0.4096/0.5161 and
+Violation@50/@100 of 0.1386/0.1242. The main `family_conditional_risk` score
+improves recall to 0.4658/0.6047 and reduces violations to 0.0286/0.0341. The
+pooled ablation improves R@100 to 0.5723 but leaves Violation@100 at 0.0811.
+The `rule_verified_point_subtype` setting achieves zero measured violations and
+is treated as a diagnostic rather than the default method because hard
 filtering exposes one end of the reliability-recall tradeoff.
 
 Table 2 reports the nontriviality controls. They show that the effect is not explained by geometry
@@ -463,10 +471,10 @@ geometry evidence must be joined to the correct object pair and calibrated as a
 relation-level reliability signal.
 
 Table 3 tests the geometry signal independently from
-prediction re-ranking. GT-positive rows remain nonviolated at a rate of 0.9972,
-while GT-derived counterfactual negatives are nonsatisfied at a rate of 0.9694.
+prediction re-ranking. GT-positive rows remain nonviolated at a rate of 0.9965,
+while GT-derived counterfactual negatives are nonsatisfied at a rate of 0.9673.
 The calibrated `p_geom_valid` score separates these groups with AUROC/AUPRC of
-0.9779/0.9737 and Brier score 0.0538. This supports the use of `p_geom_valid`
+0.9772/0.9729 and Brier score 0.0543. This supports the use of `p_geom_valid`
 as a reliability signal while still leaving room for residual calibration risk.
 
 Table 4 reports audit and visual sanity checks as supporting evidence rather
@@ -477,16 +485,18 @@ contradiction rate 0.0333. We use these checks to support failure-mechanism
 interpretation and to detect annotation or verifier issues, not as a
 large-scale independent human audit.
 
-Table 6 reports Open3DSG as second-source evidence rather than a broad open-vocabulary
-SOTA claim. Under the measured H001-family scope, Open3DSG `semantic_only`
-ranking reaches R@50/R@100 of 0.3945/0.4963 with Violation@50/@100 of
-0.1326/0.1195. The `probabilistic_recalibrated` setting reduces violations to
-0.0575/0.0803 while shifting recall to 0.3843/0.5580. The rule-verified setting
-again gives a zero-violation diagnostic, and the family-conditional risk setting reaches
-R@50/R@100 of 0.4530/0.5984 with Violation@50/@100 of 0.0228/0.0311. These
-results support a cross-source relation-reliability claim within measured H001
-families, with the averaged-BLIP, filtered-split, covered-scope, exact-label
-denominator, and residual-calibration caveats kept explicit.
+The Open3DSG result is source-output reliability evidence rather than a broad
+open-vocabulary SOTA claim. Under the measured family scope, Open3DSG
+`semantic_only` ranking reaches R@50/R@100 of 0.4096/0.5161 with
+Violation@50/@100 of 0.1386/0.1242. The pooled
+`probabilistic_recalibrated` ablation reduces violations to 0.0606/0.0811 while
+shifting recall to 0.3975/0.5723. The rule-verified setting again gives a
+zero-violation diagnostic, and the main `family_conditional_risk` score reaches
+R@50/R@100 of 0.4658/0.6047 with Violation@50/@100 of 0.0286/0.0341. These
+results support a cross-source relation-reliability claim within measured
+families, with the selected non-averaged checkpoint, filtered-split,
+full-validation recovery policy, exact-label denominator, and
+residual-calibration caveats kept explicit.
 
 The qualitative failure analysis explains why the metric changes occur and
 provides candidate source rows for Figure 3. Open3DSG failure rows produce
@@ -500,12 +510,12 @@ contradictions. This supports the failure mechanism: a relation can be
 semantically plausible from object categories but physically inconsistent for
 the actual object pair.
 
-The same qualitative analysis also exposes a limitation. Ten of the 36 sampled
+The same qualitative analysis also exposes a limitation. Eight of the 36 sampled
 rule-violated cases still have `p_geom_valid > 0.9`. This means the calibrated
 score should not be interpreted as a hard validity label. It also justifies why
-the paper reports probabilistic, rule-verified, and family-conditional risk variants
-separately rather than collapsing them into a single "geometry-corrected"
-output.
+the paper reports the main family-conditional score alongside pooled and
+rule-verified variants rather than collapsing them into a single
+"geometry-corrected" output.
 
 ## 7. Limitations
 
@@ -516,13 +526,14 @@ The evaluation also uses closed-set/GT-object relation rows and exact
 predicate-label recall, so the results should be read as relation-reliability
 evidence rather than full open-vocabulary scene graph generation performance.
 
-The Open3DSG experiment is a reproduced averaged-BLIP variant with explicit
-filtering and coverage caveats. The checkpoint is selected by train-dev
-validation loss before H001 held-out inspection, the training and validation
-splits are filtered to preprocessed-ready subgraphs, and H001 evaluation covers
-the loadable Open3DSG scope. These choices do not invalidate the scoped
-reliability result, but they prevent claims of exact non-averaged Open3DSG
-reproduction or broad open-vocabulary SOTA.
+The Open3DSG experiment uses a selected official non-averaged checkpoint with
+explicit filtering and recovery-policy caveats. The checkpoint is selected by
+train-dev validation loss before held-out inspection, the training and
+validation splits are filtered to preprocessed-ready subgraphs, and the
+paper-facing branch uses `recovery_relaxed_views_min2/` to cover 548/548
+validation contexts. These choices do not invalidate the scoped reliability
+result, but they prevent broad Open3DSG leaderboard or open-vocabulary SOTA
+claims.
 
 The visual and qualitative evidence should also be read with the correct scope.
 The reduced visual sanity check and Open3DSG qualitative case inspection are
@@ -547,16 +558,17 @@ prediction: semantic relation confidence can rank plausible predicates that are
 physically inconsistent for the same object pair. We address this failure with
 a calibrated geometry-consistency evaluation and re-ranking framework that
 standardizes relation rows, preserves subject-object identity, joins explicit
-3D evidence, estimates `p_geom_valid`, and reports recall and geometric
-violation together.
+3D evidence, estimates calibrated geometry risk, and reports recall and
+geometric violation together.
 
-Across VL-SAT and a Docker-reproduced Open3DSG averaged-BLIP variant, the
-results show that geometry-consistency can reduce violations under measurable
-recall tradeoffs. The GT-positive/counterfactual verifier checks, geometry
-identity controls, and qualitative failure analysis support the central claim:
-the useful contribution is not merely adding geometry, but making relation-level
-physical consistency calibrated, identity-preserving, and reportable. The
-remaining limitations point to the next stage: attachment-style physical
+Across VL-SAT and the Docker-reproduced Open3DSG full-validation recovery
+branch, the results show that family-conditional geometry-consistency
+re-ranking can reduce violations under measurable recall tradeoffs. The
+GT-positive/counterfactual verifier checks, geometry identity controls, and
+qualitative failure analysis support the central claim: the useful contribution
+is not merely adding geometry, but making relation-level physical consistency
+calibrated, identity-preserving, and reportable. The remaining limitations
+point to the next stage: attachment-style physical
 relations as the nearest family upgrade, modern VLM relation sources, and
 downstream tests where reliable relation edges directly affect embodied
 reasoning.
@@ -617,7 +629,7 @@ Review result:
 | Title/Abstract/Introduction | filled and reviewed | The draft now includes a scoped title, quantitative abstract, and Introduction that links failure mechanism to method necessity before Related Work. Current front matter is about 701 words excluding title, with a 201-word abstract and 500-word Introduction, which is acceptable for an ICCV-style content draft before final compression. |
 | Paper-body gap review | patched | Added Figure 1-3 callouts, Table 4 audit/sanity prose, and a Conclusion section before LaTeX/template conversion. |
 | Method framing | pass | The method is described as a calibrated geometry-consistency evaluation and re-ranking framework, not as a standalone verifier script. |
-| Open3DSG caveats | pass | The averaged-BLIP variant, filtered train/dev split, covered loadable scope, `validation_missing_preprocessed:11`, exact-label denominator, and residual calibration risk remain explicit. |
+| Open3DSG caveats | pass | The selected non-averaged checkpoint, filtered train/dev split, full-validation recovery policy, 533/548 sensitivity branch, exact-label denominator, and residual calibration risk remain explicit. |
 | Appendix provenance | pass | `paper/appendix.md` records calibrator/threshold provenance, Open3DSG caveat consistency, Figure 3 optionality, and Qwen-VL third-source boundary. |
 | Qwen-VL boundary | pass | Qwen-VL remains third-source extension evidence and is not used as a main metric result before full-source promotion. |
 | Citation keys | scaffolded | Related Work placeholders have been replaced with BibTeX-style keys; `paper/references.bib` contains draft entries for all inserted keys. Final ICCV-style build still needs verification once a manuscript source exists. |

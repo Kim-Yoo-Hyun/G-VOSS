@@ -1,81 +1,61 @@
 # TODO
 
-Last updated: 2026-06-24 KST
+Last updated: 2026-06-25 KST
 
 이 파일은 에이전트가 다음 작업 계획과 진행 상태를 관리하는 루트 작업판이다. 자세한 문헌 조사 내용은 `literature/`에 기록하고, 자세한 hypothesis 근거는 `archive/hypothesis_records/hypothesis/`에 기록한다.
 
-## Current Snapshot, 2026-06-24 KST
+## Current Snapshot, 2026-06-25 KST
 
 - Paper-facing name is now `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations`; keep `H001` as an internal hypothesis/experiment identifier only.
 - Repository structure is now release-oriented: core Python in `src/geocalib/`, shell wrappers in `scripts/`, Docker/compose files in `configs/`, compact outputs in `results/`, preserved hypothesis records in `archive/hypothesis_records/hypothesis/`, and superseded/optional material in `archive/`.
 - Main claim remains scoped relation reliability for `support_contact`, `proximity`, and `relative_vertical`, with VL-SAT as the controlled reproduced anchor and Open3DSG 548/548 recovery as the main open-vocabulary relation-source case study.
 - Low-K result reporting decision is to expose K = `{5, 10, 20, 50, 100}` in the main source-result table. K=1 stays out of paper metrics. Docker-regenerated point-metric artifacts now live under `sources/vlsat/full_validation/metrics_k_sweep/` and `sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/`; K=50/100 matches the locked `metrics/metrics.json` point estimates.
 - Qwen-VL full official validation downstream is complete as a third-source / modern VLM extension: 157 scans / 548 contexts / 110,424 query rows / 46,506 inferable input rows / 35,131 exported predictions / 32,236 in-scope predictions / 3,972 H001-family GT rows, plus metrics/controls/bootstrap/failure rows/36 deterministic qualitative cases. It remains appendix/extension evidence unless explicitly promoted.
-- Latest known paper build is `logs/h001_aaai_pdf_build_h001v2_family_conditional_naming_20260624_130846.log`, exit 0, 9 pages, with GeoCalib, Figure-1, low-K table updates, H001_v2 risk-aware method prose, and family-conditional risk naming. Any older flattened release package generated before these updates must be regenerated before upload.
+- Latest known paper build is `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`, exit 0, 10 total pages, with technical content on pages 1-7, references on pages 8-9, and checklist on page 10. It includes GeoCalib, Figure-1/2 label updates, low-K table updates, and family-conditional risk promoted as the main score. Any older flattened release package generated before these updates must be regenerated before upload.
 - Immediate TODO: confirm final OpenReview/AAAI portal form, decide artifact URL/DOI, decide supplementary/code-data upload policy, recheck partial checklist answers, include low-K artifacts in the package plan, and run final PDF/source sanity checks from the current checkout.
-- H002 under `hypothesis/CAND-001/H002_factorized-relation-confidence/` is the active factorized relation reliability hypothesis branch. Current status: v22 hanging-on strict candidate mining completed with status `h002_reliability_target_v22_hanging_on_strict_conditional_contrast_candidate_mining_ready_for_source_inventory`. It created a 240-row visible candidate sheet, 240-row hidden manifest, and 240-row candidate rows for `hanging on`; visible leakage hits `0`, validation errors `0`, hidden proxy balance `120/120`, strict groups `95`, scans `192`, visible endpoint pairs `193`. Multi-view/mesh remains audit/confirmation evidence only, posterior smoke remains blocked, and next H002 TODO is `reliability_target_v22_hanging_on_strict_conditional_contrast_source_inventory`.
-- H001_v2 under `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/` now serves two roles: fixed-`tau*`/lambda-soft diagnostic evidence and method framing for GeoCalib risk-aware reranking. Protocol skeleton, read-only source inventory, schema probe, calibration threshold dry run, source-eval contract, source-eval runner, fixed-`tau*` source point metrics, tau corruption controls, source-result path decision, risk-aware soft reranking reframing, paper prose pass, lambda-soft source evaluation, family-conditional risk formalization, and paper-facing naming pass are complete. Fixed-`tau*` remains diagnostic only: `tau*=0.20`, equivalent `p_geom_valid >= 0.80`. Lambda-soft selected `lambda*=1.25` from calibration dev rows and generated VL-SAT/Open3DSG K={5,10,20,50,100} metrics, but it is mixed against current `lambda=1` GeoCalib and remains diagnostic-only. The selected H001_v2 method-development direction is now `family_conditional_risk`: reinterpret frozen `family_specific_p_geom_valid` as `semantic_score * p_geom_valid_family`, a relation-family-conditioned calibrated geometry-risk score. The current H001/GeoCalib paper main results stay unchanged unless this direction is explicitly promoted.
+- H002 under `hypothesis/CAND-001/H002_factorized-relation-confidence/` is the active factorized relation reliability hypothesis branch. Current status: v23 hanging-on positive-anchor repair plan completed with status `h002_reliability_target_v23_hanging_on_positive_anchor_repair_plan_ready_for_capacity_scan`. v22 is frozen as diagnostic-only evidence; v23 found the accept seed concentrated in `curtain/blinds/bag/towel` subjects and `door/window/stand` anchors, with positive-anchor candidate cell `accept:9, reject:2`. Multi-view/mesh remains audit/confirmation evidence only, posterior smoke remains blocked, and next H002 TODO is `reliability_target_v23_hanging_on_positive_anchor_capacity_scan`.
+- H001_v2 under `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/` now serves two roles: fixed-`tau*`/lambda-soft diagnostic evidence and method framing for GeoCalib risk-aware reranking. Protocol skeleton, read-only source inventory, schema probe, calibration threshold dry run, source-eval contract, source-eval runner, fixed-`tau*` source point metrics, tau corruption controls, source-result path decision, risk-aware soft reranking reframing, paper prose pass, lambda-soft source evaluation, family-conditional risk formalization, and paper-facing naming pass are complete. Fixed-`tau*` remains diagnostic only: `tau*=0.20`, equivalent `p_geom_valid >= 0.80`. Lambda-soft selected `lambda*=1.25` from calibration dev rows and generated VL-SAT/Open3DSG K={5,10,20,50,100} metrics, but it is mixed against current fixed `lambda=1` calibrated scores and remains diagnostic-only. Decision fixed on 2026-06-25: `family_conditional_risk` is the GeoCalib main score (`semantic_score * p_geom_valid_family`); pooled `probabilistic_recalibrated` is an ablation/baseline (`semantic_score * p_geom_valid`); geometry-only control is `p_geom_valid` without semantic score.
 
 ## Current Phase
 
 Parallel candidate tracking.
 
-CAND-001은 hypothesis prep / verifier implementation 트랙이다. H001 hypothesis-stage evidence lock, GT-based verifier evaluation, reduced 50-row visual sanity check, and scoped main experiment implementation spec are complete. H001 markdown records have been consolidated into seven canonical files:
+CAND-001 / H001 is in paper/package hygiene, not new main-source metric generation. Current GeoCalib evidence is complete for the scoped `support_contact`, `proximity`, and `relative_vertical` claim:
 
-- `01_overview.md`
-- `02_method.md`
-- `03_data_baseline.md`
-- `04_results.md`
-- `05_audit.md`
-- `06_second_source.md`
-- `07_experiment_spec.md`
+- VL-SAT full official validation is the controlled reproduced anchor.
+- Open3DSG full-validation `recovery_relaxed_views_min2/` is the main open-vocabulary relation-source case study.
+- `family_conditional_risk` is the GeoCalib main score.
+- pooled `probabilistic_recalibrated` is an ablation/baseline.
+- geometry-only ranking is a separate control.
+- Qwen-VL, `relative_horizontal`, `relative_lateral`, and `attachment_deferred` are appendix/extension/future-work evidence only unless explicitly promoted.
 
-Docker-based scoped H001 experiment workflow entry는 완료했다. `experiments/H001_geom_reliability/`에서 Docker build/run으로 locked `VL-SAT` artifact를 검증하고 Table 1-6, figure specs, locked input manifest, report를 생성했다. Method contribution은 verifier script가 아니라 calibrated geometry-consistency evaluation/re-ranking framework로 정리한다. Top-tier main path는 single-baseline-only justification보다 Open3DSG evidence를 우선하며, manuscript에서는 Open3DSG를 main open-vocabulary relation-source case study로 두고 VL-SAT는 controlled reproduced anchor로 둔다. Qwen2.5-VL/Qwen3-VL은 VL-SAT/Open3DSG를 대체하지 않는 third semantic source / modern VLM extension으로만 진행한다.
+Current H001 owners:
 
-`relative_horizontal`은 현재 main claim에 포함하지 않고, framework 확장 가능성을 검증하는 별도 relation-scope expansion track으로 진행한다. Docker scope audit, coordinate audit, and bucket inspection are complete; coordinate audit is blocked for promotion with best-frame macro strict purity 0.7725 and `front`/`behind` strict purity 0.7445. Bucket inspection confirms nontrivial threshold-free signal through inverse consistency 1.0 and wrong-frame gap 0.1231, but recommends `do_not_promote_relative_horizontal_to_main_claim` because `front`/`behind` still has substantial ambiguity and contradiction buckets. Current AAAI-path decision is to stop this track as appendix/limitation evidence rather than run expanded-family metrics.
+- research summary: `summary.md`
+- experiment runbook: `experiments/H001_geom_reliability/README.md`
+- exact commands: `experiments/H001_geom_reliability/commands.md`
+- compact results: `results/h001_geom_reliability/`
+- reproducibility and bundle transfer: `docs/reproducibility.md`
+- paper source: `paper/aaai/`
 
-`attachment_deferred` is now the preferred future relation-family expansion if H001 is upgraded. Docker G0 scope/schema audit, G1 extractor contract, G1b evidence-only dry run, G1c point/surface estimator validation, G2 conservative verifier-policy design, G3 train-dev calibration/counterfactual route, G4 GT policy smoke, G4b error/visual sanity planning, G4c strict-only calibration-filter freeze, G5a pooled strict calibration fit, G5b bounded source evidence/scoring preflight, G5c full-source scoring/metric protocol freeze, and G5d full-source scoring/metrics/controls/bootstrap are complete. Current G5d status is `attachment_deferred_g5d_full_source_metrics_ready`: 69/69 shards complete, 135,048 scored rows, validation errors 0, 300 failure rows, log `logs/h001_attachment_g5d_full_20260606_113803.log`, exit file `logs/h001_attachment_g5d_full_20260606_113803.exit` with exit 0, outputs `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d/`. Source metrics: VL-SAT denominator 967/967, semantic_only R@100/V@100 `1.0000/0.2126`, probabilistic_recalibrated `0.9979/0.2210`, rule_verified_attachment_policy `0.9380/0.0215`; Open3DSG denominator 768/967 with 199 missing exact-label GT rows, semantic_only R@100/V@100 `0.9297/0.3021`, probabilistic_recalibrated `0.6628/0.2460`, rule_verified_attachment_policy `0.9245/0.0842`. Warning: `connected to` has no dev strict rows, so pooled calibration or explicit caveat is required. This G5d job is source metric evidence only; the current main claim remains unchanged, and adding this family to the main AAAI claim requires explicit final user confirmation. The Open3DSG main-source caveat-reduction R1 path is now complete through non-avg downstream metrics/bootstrap/Table 6 caveat wording under `sources/open3dsg/non_avg/`. R2 covered-loadable context retry reached 388/388 preprocess contexts and 388/388 complete feature ids; branch-local raw stream finalized 388/388 batches and 19,224 rows, but the old H001 streaming hook exited with process code `137` after finalization. The H001 Open3DSG source patch and active runtime `trainer.py` files were updated to use clean `return` after raw stream finalization instead of `raise SystemExit(0)`. On 2026-06-06 KST, a patched clean-return provenance rerun completed under `sources/open3dsg/h001_covered_recovery/raw_dump_clean_return_20260606_003130/`: manifest status `raw_dump_stream_complete`, 388/388 batches, 19,224 rows, dropped/invalid partial rows 0/0, and log contains `returning cleanly`; however Docker still returned exit `137`. Docker events confirm `container oom` for `open3dsg-eval_h001_gt_objects-run-494244438c14` at 2026-06-06 01:05:41 KST, followed by `exitCode=137`, so the artifact is complete but process-level clean-exit promotion failed due to container OOM during/after teardown. Retry2 after swap reset also completed the artifact under `sources/open3dsg/h001_covered_recovery/raw_dump_clean_return_retry2_20260606_021154/`: manifest status `raw_dump_stream_complete`, 388/388 batches, 19,224 rows, dropped/invalid partial rows 0/0, and log contains `returning cleanly`; Docker again emitted `container oom` at 2026-06-06 02:54:41 KST and exit `137` even though initial swap use was 0B. R2 downstream sensitivity refresh is now complete under `sources/open3dsg/h001_covered_recovery/`: raw identity `ready`, adapter 498,212 prediction rows, geometry 498,212 preserved rows / 114,972 H001-family geometry rows, metrics `ready`, bootstrap CI `ready`, and table/caveat report `open3dsg_h001_covered_recovery_sensitivity_ready`. R2 increases historical avg-BLIP R@100 by about +0.28 pp across conditions and leaves the qualitative conclusion unchanged; use it as appendix robustness evidence that the old 377/388 missing-context caveat did not drive the trend, not as a main-route replacement. Raw-dump-only runner implementation is not recommended now; implement it only if R2 is promoted from appendix sensitivity to process-clean provenance. These retries strengthen Open3DSG source credibility; for attachment they can reduce only the missing-preprocessed-context portion of the Open3DSG denominator caveat, not the larger candidate-pair-universe gap.
+Current H001 immediate work:
 
-Open3DSG `training_repro` metadata/split/full payload, official BLIP TopK5/scales3 feature dump, avg-BLIP full training, checkpoint selection, eval preflight, H001 held-out eval feature-cache generation, raw-dump identity audit, clean v14 streaming raw-dump source provenance, adapter export, geometry join, metric eval, Table 6 regeneration, Docker subgraph bootstrap CI, paper claim-consistency review, paper-body content block planning, first-pass manuscript prose draft, draft claim/evidence review, Figure 1-3 source lock, verified draft Figure 1-3 SVG generation, top-tier novelty/layout figure review, Figure 3 geometry-backed panel upgrade, ICCV-style source conversion, AAAI-style source conversion, AAAI reproducibility checklist insertion, and appendix/provenance caveat-consistency pass are complete. Current target venue route is AAAI; ICCV source is historical/alternate. 논문 본문용 실제 experiment 구현은 계속 Docker 기반으로 진행한다. Host-only outputs must not be promoted to paper experiment results.
-
-Reproducibility/GitHub portability status: `docs/reproducibility.md` is updated for the 2026-05-21 `.gitignore` audit, the historical 2026-05-26 127-scan bundle, and the 2026-06-05 full-validation paper-facing bundle plan. Core runbooks, Dockerfiles, compose files, scripts, reports, compact manifests, paper planning docs, and metric summaries can be committed. The selected official non-avg Open3DSG checkpoint plus full-validation row-level JSONL outputs are bundled separately for external release. Large datasets, feature caches, and model caches are intentionally ignored and must be rebuilt/downloaded or transferred separately on another computer. Cleanup candidates are documented in `docs/reproducibility.md`; do not delete primary full-validation artifacts, Qwen resume files, or source datasets unless the corresponding bundle/transfer has been verified.
-
-Historical H001 Open3DSG 127-scan status, 2026-05-26 KST: H001 eval feature shard loop completed with exit `0` and `377/377` covered loadable feature ids. Clean v14 streaming raw-dump same-path resume completed with exit `0`; stream manifest status is `raw_dump_stream_complete`, `377/377` completed batches, `19162` rows, dropped/invalid partial rows `0/0`, and SHA256 matches existing `raw_dump/raw.jsonl` exactly (`7072c77939a84f8739671025534cf09d5b834c507efad22fec3e3172e46ed2c2`). Docker adapter `v1` exports `496600` prediction rows, filtering `62` raw rows outside the fixed H001 object context. Docker geometry join preserves `496600/496600` rows and scores `114600` geometry-checkable rows. Docker metric eval status is `ready` with no blockers; Table 6 hook is `ready`. Docker real failure-analysis rows status is `failure_analysis_real_ready` with 57,736 rows and 0 validation errors. Docker qualitative inspection status is `qualitative_case_inspection_ready`: 36 cases, 23 demoted by geometry-aware reranking, 13 promoted/retained, 10 rule-violated cases with `p_geom_valid > 0.9`, and no taxonomy change. Docker paper caveat wording status is `open3dsg_paper_caveats_ready`: filtered train 3,744/3,852 subgraphs, train-dev validation 156/160 subgraphs, H001 covered loadable scope 377/388 contexts with `validation_missing_preprocessed:11`, averaged-BLIP variant, exact-label 2,545-row H001-family denominator, and residual calibration-risk caveat. Key Open3DSG metrics: semantic_only R@50/R@100 `0.3945/0.4963`, Violation@50/@100 `0.1326/0.1195`; probabilistic_recalibrated R@50/R@100 `0.3843/0.5580`, Violation@50/@100 `0.0575/0.0803`; rule_verified_point_subtype R@50/R@100 `0.4149/0.5238`, Violation@50/@100 `0.0/0.0`; family_specific control R@50/R@100 `0.4530/0.5984`, Violation@50/@100 `0.0228/0.0311`. Docker `bootstrap_ci` status is `ready` with 1,000 subgraph resamples and no warnings; Open3DSG family_specific vs semantic_only R@100 delta is `+10.22 pp` with 95% CI `[+7.94,+12.54]`, and Violation@100 delta is `-8.84 pp` with 95% CI `[-9.41,-8.28]`. Current paper-facing route is the full official validation branch recorded below, not this historical 127-scan branch.
-
-Open3DSG caveat-reduction plan is frozen under `experiments/H001_geom_reliability/sources/open3dsg/caveat_reduction_plan/`. It orders optional future work as R1 exact non-averaged BLIP retry, R2 H001 covered-loadable context retry toward `388/388`, then R3 `attachment_deferred` G5d only after those decisions. R1 was launched as a Docker/tmux background job on 2026-06-01 KST and completed with exit `0` at `2026-06-04T17:01:07+09:00`. Docker `open3dsg_checkpoint_selection` status is `checkpoint_selection_ready_official_non_avg_blip` and selected `local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt`, sha256 `ca86d429b19e846aec2bfff014256bf36f6f90da07e566b90c461d6eca8d76bb`, by train-dev `val/loss=0.5724539160728455` at step 13103 before selected-route H001 held-out metrics. Route comparison is unfavorable to non-avg for the historical 127-scan comparison: best avg-BLIP train-dev `val/loss=0.32881081104278564`, delta `+0.24364310503005981`. Separate non-avg downstream artifacts are complete under `experiments/H001_geom_reliability/sources/open3dsg/non_avg/`: raw stream 19,162 rows / 377 batches, raw-dump identity, adapter export, geometry join, metric eval, bootstrap CI, and Table 6/caveat report are ready. The paper-facing primary Open3DSG route is now the full-validation 548/548 recovery branch. The plan records attachment Open3DSG missing exact-label GT rows as 199 total: 23 from missing preprocessed H001 contexts and 176 from absent Open3DSG candidate pairs.
-
-2026-06-05 direction update: paper-facing primary evaluation is now the full
-official `3DSSG_subset` validation split rather than the pilot-excluded
-127-scan hardened scope. This is methodologically acceptable under the
-provenance statement that final method design, thresholds, verifier policy, and
-`p_geom_valid` calibration are frozen from train/train-dev calibration artifacts
-before validation source-result reporting. H001-Mini remains
-hypothesis/feasibility evidence, not a paper metric or tuning split. The
-completed 127-scan results are historical/sensitivity evidence. VL-SAT
-full-validation is the primary controlled-anchor result, and Open3DSG
-`recovery_relaxed_views_min2/` is the primary full-denominator Open3DSG result;
-the original 533/548 covered branch remains an unmodified-source-route
-sensitivity check. Table policy is fixed: the main source-result table uses
-VL-SAT full-validation plus Open3DSG full-validation 548/548 recovery, while
-the appendix/sensitivity table uses Open3DSG historical old 377/388 versus R2
-388/388. AAAI table/prose regeneration and explicit recovery-policy caveat
-wording are complete; next paper work is PDF/layout/content polish.
+1. Confirm final OpenReview/AAAI portal form and target-year constraints.
+2. Decide artifact/code-release URL or DOI.
+3. Decide supplementary/code-data upload policy.
+4. Recheck partial/no reproducibility checklist answers.
+5. Regenerate any flattened release package created before the low-K and family-main table/prose update.
+6. Run final PDF/source sanity checks from the current checkout.
 
 Research target rule: goal and direction are judged against AI, ML, CV, and Robotics top-tier journal/conference standards.
 
-CAND-003은 literature survey 트랙이다. 2026-04-30 기준으로 LLM/VLM task reasoning on 3DSG, geometry-aware refinement, object placement/search/navigation decision evaluation을 primary source 중심으로 재확인했고, `literature/CAND-003.md`에 survey pass와 P1 intake 결과를 작성했다. 다음 CAND-003 단계는 사용자가 hypothesis workflow 승격 여부를 판단하는 것이다.
+CAND-003 is the literature-survey track. Its next step remains user judgment on whether to promote a survey result into a hypothesis workflow.
 
 ## Active Objective
 
-- CAND-001: Open3DSG official feature dump, Docker `feature_audit`, avg-BLIP checkpoint reproduction, H001 raw dump, identity audit, clean v14 streaming raw-dump source provenance, adapter export, geometry join, metric eval, real failure-analysis rows, qualitative case inspection, paper caveat wording, and regenerated Table 6 are complete. Historical exit-137 attempts stay in run records, not as final raw-dump provenance caveats.
-- CAND-001: `relative_horizontal` expansion is selected as a non-GPU relation-scope track while preserving the current paper claim. Docker coordinate audit and bucket inspection are complete but blocked for promotion: selected frame `scan_left_neg_x_front_neg_y`, macro strict purity 0.7725, strict eligible share 0.6403, `left`/`right` purity 0.8005, `front`/`behind` purity 0.7445, inverse consistency 1.0, wrong-frame gap 0.1231, `front`/`behind` match:contradiction 2.9143, ambiguity flags `axis_margin_ambiguous` 230, `conflicting_axis_dominates` 430, and `strong_projected_overlap` 44. Recommendation is `do_not_promote_relative_horizontal_to_main_claim`. Current AAAI-path decision is to keep it as appendix/limitation evidence; it can only be promoted in a future expansion if the `front`/`behind` ambiguity is resolved and it reaches the current H001 evidence level: verifier policy, calibration/counterfactuals, GT verifier evaluation, VL-SAT/Open3DSG source metrics, controls, bootstrap CI, and failure/audit evidence.
-- CAND-001: `relative_lateral` is now split from the broader `relative_horizontal` track as a narrower left/right-only candidate family. Docker `relative_lateral_policy_freeze` completed with status `relative_lateral_policy_threshold_provenance_frozen_no_source_metrics`; outputs live under `archive/experiments/H001_geom_reliability/sources/relative_lateral/policy_freeze/`. It freezes `left/right` denominator 2,264 rows (`left` 1,132 + `right` 1,132), defers `front/behind` as `relative_depth_deferred` with 1,306 rows, freezes geometry policy `relative_lateral_scan_x_sign_policy_v1` with selected frame `scan_left_neg_x_front_neg_y` and selected left axis `[-1.0, 0.0]`, and records threshold provenance as operational-gate evidence rather than tuned metric thresholds. Train/dev lateral rows are 1,538/378. No source metrics were run and the AAAI main claim remains unchanged.
-- CAND-001: `relative_lateral` next gate completed as Docker `relative_lateral_train_dev_policy_lock` with status `relative_lateral_train_dev_policy_lock_ready_with_caveats_no_source_metrics`; outputs live under `archive/experiments/H001_geom_reliability/sources/relative_lateral/train_dev_policy_lock/`. It uses train/dev GT positives plus left/right label-flip counterfactuals only: 3,832 decision rows = 1,916 positives + 1,916 counterfactuals. Train positive strict purity / lenient nonviolated rate is `0.8738/0.9168`; dev positive strict purity / lenient nonviolated rate is `0.6975/0.8095`; dev counterfactual strict negative purity / lenient nonsatisfied rate is `0.6975/0.8095`; train-only calibration dev AUROC is `0.7401`. Gate failed because dev strict purity checks are below 0.80, so paper-facing lateral source metrics are blocked unless the result is explicitly kept as caveated appendix evidence or dev failure diagnosis resolves the issue without validation tuning.
-- CAND-001: `relative_lateral` dev failure diagnosis completed as Docker `relative_lateral_dev_failure_diagnosis` with status `relative_lateral_dev_failure_diagnosis_ready_no_policy_change_no_source_metrics`; outputs live under `archive/experiments/H001_geom_reliability/sources/relative_lateral/dev_failure_diagnosis/`. It reads only the frozen policy-lock rows. Positive strict contradictions are 72 rows but 36 physical pairs, all concentrated in two dev scans, with same-label share `0.5278`. Positive uncertain rows are 140 rows but 70 physical pairs, same-label share `0.4857`, and the dominant cause is orthogonal/front-back-axis dominance rather than pure lateral sign failure. Conclusion: this is a coordinate/frame-orientation boundary case; keep `relative_lateral` caveated unless a separate predeclared frame/annotation study is added.
-- CAND-001: `relative_lateral` current-path stop decision is now fixed. It is appendix/future-work boundary evidence only, not a source-metric or main-claim expansion track. The consolidated relation-expansion status file is `archive/experiments/H001_geom_reliability/sources/relation_expansion_status.md`.
-- CAND-001: `attachment_deferred` is the preferred future relation-family upgrade, not current AAAI main-claim evidence. Docker G0 scope/schema audit through G5d full-source scoring/metrics/controls/bootstrap are complete under `archive/experiments/H001_geom_reliability/sources/attachment_deferred/`; it covers `attached to`, `hanging on`, and `connected to`, adds 967 GT rows, and aligns better with H001's physical-consistency thesis than `relative_horizontal`. G5d status is `attachment_deferred_g5d_full_source_metrics_ready` with 69/69 shards, 135,048 scored rows, validation errors 0. Main-claim promotion still requires user confirmation and likely failure/visual audit.
-- CAND-001: Qwen-VL은 third semantic source / modern VLM extension으로 고정한다. Full official validation downstream route is complete: parser validation, adapter export, geometry join, metrics/controls, bootstrap CI, failure rows, and deterministic qualitative inspection are ready for 157 scans / 548 contexts / 110,424 query rows / 46,506 inferable input rows / 63,918 missing query rows / 187 shards / 35,131 exported predictions / 32,236 in-scope predictions / 3,972 H001-family GT rows. Key metrics: semantic_only R@50/R@100 `0.2815/0.3600`, V@50/@100 `0.1226/0.1246`; probabilistic_recalibrated `0.3215/0.3653`, V `0.0795/0.1166`; rule_verified_point_subtype `0.3009/0.3630`, V `0.0/0.0`; family_specific `0.3379/0.3653`, V `0.0510/0.1113`. It remains extension/appendix evidence unless explicitly promoted into the main claim.
-- CAND-003: P1 결과물을 보고 hypothesis workflow 승격 여부를 판단한다.
+- CAND-001 / H001: main-source experiments are complete; next action is submission/package hygiene as listed above.
+- CAND-001 / H001 extensions: Qwen-VL, lateral/horizontal, and attachment-deferred remain appendix/future-work evidence unless explicitly promoted.
+- CAND-003: decide whether to promote the survey output into a hypothesis workflow.
 
 ## Now
 
@@ -84,19 +64,20 @@ CAND-003은 literature survey 트랙이다. 2026-04-30 기준으로 LLM/VLM task
 - No active H001_v2 source-metric rerun task. Fixed-`tau*` H001_v2 is locked as
   diagnostic candidate evidence only, pooled lambda-soft H001_v2 is also
   diagnostic-only, and family-conditional calibrated risk is now the selected
-  H001_v2 method-development direction.
+  GeoCalib main score.
 - [x] H001_v2 `paper_facing_family_conditional_naming_pass`: reported the
       frozen family-calibrator artifact as `family_conditional_risk` in
-      paper-facing summaries, tables, figure inputs, and AAAI prose while
-      preserving legacy metric JSON keys such as
-      `control_family_specific_p_geom_valid`.
+      paper-facing summaries, tables, figure inputs, and AAAI prose. Raw metric
+      JSON may still expose the legacy key
+      `control_family_specific_p_geom_valid`; treat it as an implementation
+      key for the same paper-facing condition.
 - [x] H001_v2 `family_conditional_risk_formalization`: promoted the existing
-      frozen `family_specific_p_geom_valid` artifact from a control-like
-      interpretation to a family-conditional calibrated geometry-risk operating
-      point; wrote `11_family_conditional_risk_result.md`. Open3DSG improves
-      over pooled risk across K in both recall and violation; VL-SAT lowers
-      violation with near-flat recall. Current H001/GeoCalib paper main results
-      remain unchanged unless explicitly promoted.
+      frozen family-conditional geometry-risk artifact from a control-like
+      interpretation to the GeoCalib main family-conditional calibrated
+      geometry-risk score; wrote `11_family_conditional_risk_result.md`.
+      Open3DSG improves over pooled risk across K in both recall and violation;
+      VL-SAT lowers violation with near-flat recall. Pooled
+      `probabilistic_recalibrated` is retained as an ablation/baseline.
 - [x] H001_v2 `lambda_soft_protocol_and_source_eval`: selected `lambda*=1.25` from calibration dev rows only using NLL over `p_geom_valid^lambda`, generated VL-SAT/Open3DSG K={5,10,20,50,100} metrics under `artifacts/source_eval_lambda/`, and wrote `10_lambda_soft_reranking_result.md`; result is mixed against current `lambda=1` GeoCalib and remains diagnostic-only.
 - [x] H001_v2 `paper_prose_pass`: updated `paper/aaai/sec/4_method.tex` and `paper/draft.md` so GeoCalib's `semantic_score * p_geom_valid` score is presented as the `lambda=1` risk-aware soft re-ranking objective; locked metrics and result tables unchanged.
 - [x] H001_v2 `source_result_path_decision`: selected diagnostic-only stop for fixed-`tau*` H001_v2. Do not promote it to the current main table or run fixed-`tau*` bootstrap unless appendix/supplement diagnostic uncertainty is explicitly needed.
@@ -111,7 +92,13 @@ CAND-003은 literature survey 트랙이다. 2026-04-30 기준으로 LLM/VLM task
 
 ### CAND-001 / H002
 
-- [ ] H002 `reliability_target_v22_hanging_on_strict_conditional_contrast_source_inventory`: inventory scan, multi-view, sequence, mesh, subject/object crop, and packet-source availability for the 240 `hanging on` candidates; do not materialize packet assets, fill labels, ingest labels, or run posterior smoke.
+- [ ] H002 `reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_target_independence_audit`: audit the v74 ingested targets for class mass, controlled slices, shortcut risk, hidden proxy/strict-group/rank/geometry/scan/object/GT axes, and decide whether v22 is diagnostic-only or repairable; do not run posterior smoke.
+- [x] H002 `reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_label_ingestion`: completed with status `h002_reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_label_ingested_positive_sparse_with_probe_risk`; joined locked v73 labels with hidden manifest and GT axis only after label lock, created multiclass `240`, primary binary `202` (`9/193`), geometry-support `202`, endpoint/coverage/uncertainty `240`, GT mismatch `No_GT/current relation accept/reject/abstain = 9/193/38`, quick-probe risk flags `97`, class-mass pass `false`, validation errors `0`, posterior smoke blocked.
+- [x] H002 `reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_label_fill`: completed with status `h002_reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_label_filled_codex_visible_packet`; filled `240` leakage-reviewed visible packet rows with `accept/reject/abstain = 9/193/38`, geometry support `supports/contradicts/ambiguous = 9/193/38`, binary preview `202` rows with `9/193`, hidden manifest read `false`, validation errors `0`, validation/test usage `false`, no posterior.
+- [x] H002 `reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_leakage_review`: completed with status `h002_reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_leakage_review_passed_ready_for_label_fill`; reviewed `240` visible rows, `240` packet markdown files, `240` packet dirs, `4,406` neutral packet-local images, and `240` hidden manifest rows; source paths/scan ids/GT-match axis remain hidden-only, visible leakage hits `0`, validation errors `0`, validation/test usage `false`, no labels/posterior.
+- [x] H002 `reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_materialization`: completed with status `h002_reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_materialization_ready_for_leakage_review`; materialized `240` visible review rows, `240` packet dirs, `4,406` neutral packet-local images, and `240` hidden manifest rows; T1/T2 evidence tiers `73/167`, GT-match auxiliary axis joined `240/240` with `no_gt_for_pair:164` and `pair_has_other_predicate:76`, visible leakage hits `0`, validation errors `0`, validation/test usage `false`, no labels/posterior.
+- [x] H002 `reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_plan`: completed with status `h002_reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_plan_ready_for_materialization`; created visible packet template, packet plan rows, visible schema, audit packet contract, and hidden asset manifest plan for `240` train-only `hanging on` rows; T1/T2 evidence tiers `73/167`, hidden accept/reject proxy balance `120/120`, validation errors `0`, validation/test usage `false`, no asset materialization, no labels/posterior.
+- [x] H002 `reliability_target_v22_hanging_on_strict_conditional_contrast_source_inventory`: completed with status `h002_reliability_target_v22_hanging_on_strict_conditional_contrast_source_inventory_ready_for_audit_packet_plan`; inventoried 240 selected `hanging on` rows, found audit-ready rows `240/240`, both-have-crop rows `240/240`, strong same-frame co-visible rows `73`, individual-view-plus-mesh rows `167`, unique scans `192`, scan/`multi_view`/`sequence`/mesh ready `192/192/192/192`, accept/reject proxy audit-ready `120/120`, source inventory gates pass, validation errors `0`, validation/test usage `false`, no labels/posterior.
 - [x] H002 `reliability_target_v22_hanging_on_strict_conditional_contrast_candidate_mining`: completed with status `h002_reliability_target_v22_hanging_on_strict_conditional_contrast_candidate_mining_ready_for_source_inventory`; created 240 visible candidate rows, 240 hidden manifest rows, and 240 candidate rows for `hanging on`, kept source ids/rank/geometry/object-family/GT/proxy/strict-group fields hidden, visible leakage hits `0`, validation errors `0`, validation/test usage `false`, posterior smoke remains blocked.
 - [x] H002 `reliability_target_v22_hanging_on_strict_conditional_contrast_packet_plan`: completed with status `h002_reliability_target_v22_hanging_on_strict_conditional_contrast_packet_plan_ready_for_candidate_mining`; planned a train-only 240-row hidden-only preview for `hanging on` strict primary with `120/120` proxy balance, `95` selected strict groups, `192` scans, `193` visible endpoint pairs, max scan `4`, max endpoint `5`, max strict group `4`, validation errors `0`, validation/test usage `false`, posterior smoke remains blocked.
 - [x] H002 `reliability_target_v21_attachment_deferred_conditional_contrast_path_decision_after_capacity_scan`: completed with status `h002_reliability_target_v21_attachment_deferred_conditional_contrast_path_decision_select_v22_hanging_on_strict_packet_plan`; documented strict condition as an H002 control rule rather than a dataset GT rule, selected `hanging on` as strict primary, lowered `attached to` to diagnostic/relaxed probe, kept `connected to` diagnostic-only, validation errors `0`, validation/test usage `false`, posterior smoke remains blocked.
@@ -254,7 +241,7 @@ Data-dependent:
       `0.4154/0.6322/0.8107/0.9305/0.9688`, V
       `0.0015/0.0071/0.0120/0.0229/0.0404`;
       rule_verified_point_subtype R `0.4197/0.6317/0.8074/0.9257/0.9627`,
-      V `0.0/0.0/0.0/0.0/0.0`; family_specific control R
+      V `0.0/0.0/0.0/0.0/0.0`; family_conditional_risk R
       `0.4162/0.6309/0.8087/0.9288/0.9683`, V
       `0.0011/0.0051/0.0109/0.0206/0.0333`.
       Open3DSG full-validation metric bundle is also ready under
@@ -272,7 +259,7 @@ Data-dependent:
       V@50/@100 `0.1387/0.1242`; probabilistic_recalibrated R@50/R@100
       `0.3943/0.5685`, V@50/@100 `0.0590/0.0807`;
       rule_verified_point_subtype R@50/R@100 `0.4242/0.5320`, V@50/@100
-      `0.0/0.0`; family_specific control R@50/R@100 `0.4612/0.5999`,
+      `0.0/0.0`; family_conditional_risk R@50/R@100 `0.4612/0.5999`,
       V@50/@100 `0.0265/0.0332`. Caveats: Open3DSG uses the selected official
       non-avg BLIP checkpoint for this separate full-validation branch, the
       raw process exited `137` after stream finalization, and the 15 missing
@@ -307,7 +294,7 @@ Data-dependent:
       probabilistic_recalibrated R `0.0826/0.1581/0.2603/0.3975/0.5723`, V
       `0.0628/0.0699/0.0654/0.0606/0.0811`;
       rule_verified_point_subtype R `0.0707/0.1314/0.2422/0.4295/0.5368`,
-      V `0.0/0.0/0.0/0.0/0.0`; family_specific control R
+      V `0.0/0.0/0.0/0.0/0.0`; family_conditional_risk R
       `0.0984/0.1921/0.3291/0.4658/0.6047`, V
       `0.0420/0.0482/0.0441/0.0286/0.0341`. Caveat: report this as a
       recovery-policy variant, not the unmodified Open3DSG source preprocess
@@ -442,18 +429,21 @@ Non-data:
       Related Work, Experimental Setup, Results, Limitations, and Conclusion
       without changing the source-result policy. Docker rebuild
       `logs/h001_aaai_pdf_build_compression_20260606_105126.log` exited 0; this
-      was later superseded by the low-K table build
-      `logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log`, which is
-      the latest known 9-page `paper/aaai/main.pdf` check. Targeted grep found
-      no missing citations, undefined references, overfull hboxes, LaTeX errors,
-      Type 3 fonts, or AAAI package errors in the latest known check.
+      was later superseded by the low-K table build and then by the
+      family-main build
+      `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`, which is
+      the latest known `paper/aaai/main.pdf` check. The PDF is 10 total pages
+      with technical content on pages 1-7, references on pages 8-9, and
+      checklist on page 10. Targeted grep found no missing citations,
+      undefined references, overfull hboxes, LaTeX errors, Type 3 fonts, or
+      AAAI package errors in the latest known check.
 - [x] Latest AAAI PDF visual/layout inspection after compression: inspect
       pages, table/figure placement, caption readability, and whether the
       full-validation main table plus appendix/sensitivity policy remains
       visible after compression. Result recorded in
-      `paper/aaai/inspection/report.md`: 9 pages, technical content pages 1-7,
-      references page 8, checklist page 9, Open3DSG-main framing preserved,
-      full-validation main table policy preserved, and no blocking visual issue.
+      latest build now has 10 total pages, technical content pages 1-7,
+      references pages 8-9, checklist page 10, Open3DSG-main framing preserved,
+      full-validation main table policy preserved, and no blocking build issue.
 - [x] AAAI paper content/claim QA for the full-validation route completed on
       2026-06-11 KST. Checked main text, appendix/checklist wording, source
       result captions, and paper-facing experiment table artifacts for
@@ -634,6 +624,14 @@ Non-data:
 
 ## Recently Completed
 
+Historical note for H001: entries below this line are provenance logs from
+earlier paper/experiment passes. For current H001 decisions, use `Current
+Snapshot`, `Current Phase`, `summary.md`,
+`experiments/H001_geom_reliability/README.md`, and
+`paper/aaai/README.md`. Older 9-page AAAI or ICCV build notes are superseded by
+the 2026-06-25 10-page family-main AAAI build unless explicitly marked as an
+archived venue/source branch.
+
 - [x] H002 `reliability_target_v13_proximity_lh_scene_geometry_candidate_mining` completed: status `h002_reliability_target_v13_proximity_lh_scene_geometry_candidate_mining_ready_for_label_fill`; generated the v13 scene/geometry-aware proximity LH label-ready sheet with `240` rows from `30` visible object-pair blocks, `8` rows per block, `182` scans, `196` subgraphs, `240/240` raw feature joins, visible leakage hits `0`, validation errors `0`, and no validation/test usage. Hidden source rank, machine hint, label-match status, target construction block, raw geometry features, and raw scores are kept only in `hidden_audit_manifest_v13.jsonl`. Posterior smoke remains blocked. Main artifact: `hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v13_proximity_lh_scene_geometry_candidate_mining/report.md`; stage record: `hypothesis/CAND-001/H002_factorized-relation-confidence/stages/v19_proximity_scene_geometry_candidate_mining.md`.
 - [x] H002 `reliability_target_v13_proximity_lh_scene_geometry_repair_plan` completed: status `h002_reliability_target_v13_proximity_lh_scene_geometry_repair_plan_ready`; defined the scene/geometry-aware evidence contract, target schema, candidate mining contract, and repair group inventory for proximity LH. Capacity check: repair pool `50,966`, visible pair groups `5,122`, v13 block candidate groups `1,510`, strong block groups `778`, cap-8 candidate capacity `11,520`. Validation errors `0`; no validation/test usage; posterior smoke remains blocked. Main artifact: `hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v13_proximity_lh_scene_geometry_repair_plan/report.md`; stage record: `hypothesis/CAND-001/H002_factorized-relation-confidence/stages/v18_proximity_scene_geometry_repair_plan.md`.
 - [x] H002 `reliability_target_v12_proximity_lh_only_path_decision_after_audit` completed: status `h002_reliability_target_v12_proximity_lh_path_decision_select_scene_geometry_repair`; froze the visible-only proximity LH branch as diagnostic-only negative evidence and selected `v13_proximity_lh_scene_geometry_repair_plan` as the next route. Key blockers were strict slices `0`, diagnostic slices `0`, same visible object-pair mixed binary groups `0`, and posterior smoke allowed `false`. Validation errors `0`; no validation/test usage. Main artifact: `hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/train_rga_full/open3dsg_train_full/rga/reliability_target_v12_proximity_lh_only_path_decision_after_audit/report.md`; stage record: `hypothesis/CAND-001/H002_factorized-relation-confidence/stages/v17_proximity_lh_path_after_audit.md`.
@@ -749,7 +747,7 @@ Non-data:
       regeneration ready. Low-K metrics are ready in `metrics_k_sweep/` for
       K=`{5,10,20,50,100}` and K=50/100 matches locked `metrics/`. Key
       Open3DSG pattern: semantic_only R@5/R@10 `0.0368/0.1002`, V@5/V@10
-      `0.5131/0.3255`; family_specific control R@5/R@10
+      `0.5131/0.3255`; family_conditional_risk R@5/R@10
       `0.0984/0.1921`, V@5/V@10 `0.0420/0.0482`. Caveat:
       this is a recovery-policy variant using `OPEN3DSG_MIN_VISIBLE_OBJECTS=2`
       and relaxed view regeneration for two scans, not the unmodified Open3DSG
@@ -875,7 +873,7 @@ Non-data:
 - [x] H001 Open3DSG v12 raw dump retry wrote identity-audited raw dump: `raw_dump/raw.jsonl` has `19162` rows; source eval exit file contains `137` after raw dump writing; Docker `open3dsg_raw_dump_identity` reports `raw_dump_identity_audit_ready` with no blockers.
 - [x] H001 Open3DSG adapter export 완료: Docker `open3dsg_adapter_raw_dump` generated `adapter/predictions.jsonl` with status `ready`, `496600` prediction rows from `19162` raw rows, and `62` raw rows filtered outside the fixed H001 object context; adapter version is `v1`.
 - [x] H001 Open3DSG geometry join 완료: Docker `open3dsg_geometry_join` generated `geometry/verification.jsonl` with status `ready`, row preservation `496600/496600`, geometry/calibration scored rows `114600`, and G2 variants `obb_only`, `point_subtype`, `point_subtype_no_soft_support`.
-- [x] H001 Open3DSG metric eval 완료: Docker `open3dsg_metric_eval` generated `metrics/metrics.json` status `ready` with no blockers. Key metrics: semantic_only R@50/R@100 `0.3945/0.4963`, Violation@50/@100 `0.1326/0.1195`; probabilistic_recalibrated R@50/R@100 `0.3843/0.5580`, Violation@50/@100 `0.0575/0.0803`; rule_verified_point_subtype R@50/R@100 `0.4149/0.5238`, Violation@50/@100 `0.0/0.0`; family_specific control R@50/R@100 `0.4530/0.5984`, Violation@50/@100 `0.0228/0.0311`.
+- [x] H001 Open3DSG metric eval 완료: Docker `open3dsg_metric_eval` generated `metrics/metrics.json` status `ready` with no blockers. Key metrics: semantic_only R@50/R@100 `0.3945/0.4963`, Violation@50/@100 `0.1326/0.1195`; probabilistic_recalibrated R@50/R@100 `0.3843/0.5580`, Violation@50/@100 `0.0575/0.0803`; rule_verified_point_subtype R@50/R@100 `0.4149/0.5238`, Violation@50/@100 `0.0/0.0`; family_conditional_risk R@50/R@100 `0.4530/0.5984`, Violation@50/@100 `0.0228/0.0311`.
 - [x] H001 Open3DSG Table 6 재생성 완료: Docker `table_builder` now reads `sources/open3dsg/metrics/metrics.json`; `sources/open3dsg/table6_hook.json` and `tables/table6_cross_source_status.*` report Open3DSG status `ready` with no blockers.
 - [x] H001 Open3DSG real failure-analysis rows 완료: Docker `open3dsg_failure_generator_real` generated `sources/open3dsg/failure_rows/{rows.jsonl,summary.json,manifest.json,report.md}` with status `failure_analysis_real_ready`, 57,736 rows from semantic top-100 or geometry-reranked top-100 union per subgraph, validation errors 0, and visual-audit queue rows 6,162.
 - [x] H001 Open3DSG H001 eval feature dump lower-memory chunk1 resume completed partially: tmux ended, exit file `logs/open3dsg_dump_features_h001_eval_resume_chunk1_20260518_091944.exit` contains `137`; settings `OPEN3DSG_BLIP_EMBED_CHUNK_SIZE=1`, `OPEN3DSG_BLIP_PROJECTOR_CHUNK_SIZE=1`, `OPEN3DSG_FEATURE_SKIP_EXISTING=1`, `PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True,max_split_size_mb:64`; complete feature ids advanced from 194/377 to 195/377, newly writing `10b1794e-3938-2467-89a7-ebc89e84cf88-2`; next first missing loadable id is `10b17940-3938-2467-8a7a-958300ba83d3-1`.
@@ -974,7 +972,7 @@ Non-data:
 - [x] H001 FROSS source/runtime feasibility 완료: FROSS is support/contact-only for H001 and blocked by missing runtime artifacts.
 - [x] H001 G3/G4/G5/G6 hardening completed: family-specific calibration control, structured audit, baseline feasibility, and reportability gate recorded.
 - [x] H001 hardened `VL-SAT` raw/export/join/metrics completed: 127 scans, 388 subgraphs, 673,816 prediction rows, 7,505 ground-truth rows.
-- [x] H001 calibration track completed: calibration data contract, train/dev split/export, `p_geom_valid` smoke, family-specific control, and held-out application.
+- [x] H001 calibration track completed: calibration data contract, train/dev split/export, `p_geom_valid` smoke, family-conditional calibrated risk, and held-out application.
 - [x] CAND-003 literature survey pass completed through P1 paper intake.
 
 ## Pending / Blocked

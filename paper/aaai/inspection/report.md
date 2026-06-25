@@ -1,22 +1,23 @@
 # AAAI PDF Visual/Layout Inspection
 
-Last updated: 2026-06-23 KST
+Last updated: 2026-06-25 KST
 
 ## Build Checked
 
 - PDF: `paper/aaai/main.pdf`
 - Image build log: `logs/h001_aaai_tex_image_build_full_validation_20260605_100108.log`
-- PDF build log: `logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log`
+- PDF build log: `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`
 - Preview files generated locally: `/tmp/h001_aaai_pages/page-4.png` through
   `/tmp/h001_aaai_pages/page-7.png` for the 2026-06-11 focused visual check.
-  The 2026-06-23 low-K table rebuild has build/log validation but not a new
-  page-image inspection.
-- Page count: 9 total pages, US Letter
+  The 2026-06-25 family-main rebuild has build/log/font/text validation but not
+  a new page-image inspection.
+- Page count: 10 total pages, US Letter
 - Technical content: pages 1-7
-- References: page 8
-- Reproducibility checklist: page 9
+- References: pages 8-9
+- Reproducibility checklist: page 10
 - Build status: no missing citations, no undefined references, no overfull
-  hboxes, no LaTeX errors, and no AAAI package errors in the latest build log
+  hboxes, no LaTeX errors, no AAAI package errors, and Type 1 fonts only in the
+  latest build/font checks
 
 The PNG preview files are generated inspection artifacts and are ignored by
 `paper/aaai/.gitignore`. This report is the tracked inspection record.
@@ -35,8 +36,8 @@ Facts:
   127-scan values: Table 1, Table 2, Table 3, and Table 5 boundary wording.
 - Docker PDF rebuild after the QA patch exited 0:
   `logs/h001_aaai_pdf_build_claim_qa_20260611_000409.log`
-- Later low-K table rebuild exited 0:
-  `logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log`
+- Later family-main rebuild exited 0:
+  `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`
 
 Inference:
 
@@ -59,8 +60,8 @@ Facts:
 - Page 6: Figure 1, manuscript Table 3, and Figure 2 are readable. Open3DSG is
   the first block in Table 3; VL-SAT is the controlled anchor block.
 - Page 7: Figure 3 appears before references and remains in technical content.
-- Page 8: references start and fill the page.
-- Page 9: AAAI reproducibility checklist appears after the references.
+- Page 8-9: references start after technical content and continue onto page 9.
+- Page 10: AAAI reproducibility checklist appears after the references.
 
 Inference:
 
@@ -73,9 +74,8 @@ Inference:
   fixed.
 - Figure 2 and Figure 3 are single-column in the AAAI version to avoid wide
   floats drifting after references.
-- The 2026-06-06 table-policy pass temporarily expanded the PDF to 10 pages;
-  the compression pass restored 9 pages while preserving the full-validation
-  main table policy and historical sensitivity wording.
+- The 2026-06-25 family-main pass currently builds to 10 total pages while
+  preserving the 7-page technical-content boundary.
 - Wide floats are delayed to pages 5-7, but they stay before references and are
   readable. This is acceptable for the current draft; final submission polish
   can still revisit float flow if needed.

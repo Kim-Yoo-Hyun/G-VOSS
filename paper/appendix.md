@@ -1,6 +1,6 @@
 # H001 Appendix And Supplement Plan
 
-Last updated: 2026-06-23 KST
+Last updated: 2026-06-25 KST
 
 This file owns appendix/supplement material that is too detailed for the AAAI
 main text but important for reviewer defense. It is not a new experiment-result
@@ -240,8 +240,8 @@ unless the user explicitly promotes it into the main claim.
 - Docker `table_builder` rerun:
   `logs/h001_table_builder_caveat_consistency_20260527_202425.log`, exit 0.
 - AAAI PDF rebuild:
-  `logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log`, exit 0.
-- PDF status: `paper/aaai/main.pdf`, 9 pages, US Letter, technical content
-  pages 1-7, references page 8, checklist page 9; no missing citations,
-  undefined references, overfull hboxes, LaTeX errors, or AAAI package errors
-  found in the latest targeted check.
+  `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`, exit 0.
+- PDF status: `paper/aaai/main.pdf`, 10 pages, US Letter, technical content
+  pages 1-7, references pages 8-9, checklist page 10; Type 1 fonts only; no
+  missing citations, undefined references, overfull hboxes, LaTeX errors, or
+  AAAI package errors found in the latest targeted check.

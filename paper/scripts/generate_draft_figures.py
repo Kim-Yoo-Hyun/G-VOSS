@@ -82,8 +82,8 @@ EXPECTED_FIGURE3_CASES = [
 
 LABELS = {
     "semantic_only": "semantic",
-    "probabilistic_recalibrated": "prob.",
-    "family_conditional_risk": "fam. risk",
+    "probabilistic_recalibrated": "pooled",
+    "family_conditional_risk": "GeoCalib",
     "rule_verified_point_subtype": "rule",
 }
 
@@ -180,9 +180,9 @@ def generate_figure1() -> str:
     parts.extend(
         [
             svg_text(55, y, "Operating points", 17, 700),
-            box(55, y + 22, 245, 90, "Probabilistic", "score_sem * p_geom_valid; recall-first re-ranking", "#eff6ff"),
+            box(55, y + 22, 245, 90, "Pooled risk", "score_sem * pooled p_geom_valid; ablation", "#eff6ff"),
             box(330, y + 22, 245, 90, "Rule-verified", "remove hard violations; zero-violation diagnostic", "#fff1f2"),
-            box(605, y + 22, 245, 90, "Family-specific", "stricter calibration for violation-first operation", "#ecfdf5"),
+            box(605, y + 22, 245, 90, "GeoCalib", "score_sem * family-conditioned p_geom_valid", "#ecfdf5"),
             box(880, y + 22, 310, 90, "Controls", "geometry-only, distance-only, shuffled geometry, wrong-pair geometry", "#f8fafc"),
             svg_text(
                 55,

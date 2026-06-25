@@ -81,28 +81,28 @@ This is the preferred direction because it contains both cause diagnosis and met
   VL-SAT/Open3DSG main-source route and should not widen the main claim unless
   explicitly promoted.
 - Latest known Docker PDF build:
-  `logs/h001_aaai_pdf_build_h001v2_prose_inplace_20260624_120713.log`, exit 0,
-  9 pages. Regenerate any release package created before the low-K table and
-  H001_v2 method-prose update.
+  `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`, exit 0,
+  10 total pages with technical content on pages 1-7, references on pages 8-9,
+  and the reproducibility checklist on page 10. Regenerate any release package
+  created before the low-K and family-main table/prose updates.
 
-2026-06-24 H001_v2 decision:
+2026-06-25 H001_v2 decision:
 
 - H001_v2 fixed-`tau*` risk-controlled reranking and pooled lambda-soft
   reranking are diagnostic candidate evidence only. Neither should replace the
   current H001/GeoCalib main result route or be added to the main table.
-- The current paper keeps the existing calibrated soft re-ranking route. Its
-  `semantic_score * p_geom_valid` score should be explained as the `lambda=1`
-  log-linear instance of risk-aware soft reranking, where calibrated geometry
-  validity imposes a continuous inconsistency-risk penalty while preserving
-  top-K semantic utility. A later calibration-selected pooled `lambda=1.25`
-  source evaluation is mixed against `lambda=1`, so it remains diagnostic.
-- The stronger H001_v2 method direction is now family-conditional calibrated
-  geometry risk: reinterpret frozen `family_specific_p_geom_valid` as
-  `semantic_score * p_geom_valid_family`, where each relation family has its
-  own calibrated geometry-risk surface. This should not be described as a
-  generic control if promoted; geometry-only, distance-only, shuffled-geometry,
-  and wrong-pair variants remain the true controls. Paper main results still
-  stay unchanged unless the user explicitly promotes family-conditional risk.
+- The current paper promotes family-conditional calibrated geometry risk as the
+  GeoCalib main score: `semantic_score * p_geom_valid_family`, where each
+  relation family has its own calibrated geometry-risk surface.
+- The pooled `semantic_score * p_geom_valid` score is now an ablation/baseline,
+  not the main score. It can be explained as the pooled `lambda=1` log-linear
+  risk-aware reranking instance. The calibration-selected pooled `lambda=1.25`
+  source evaluation remains diagnostic because it is mixed against the fixed
+  paper scores.
+- Geometry-only, distance-only, shuffled-geometry, and wrong-pair variants
+  remain true controls. In particular, geometry-only means `p_geom_valid`
+  ranking without semantic score; it is not the same as pooled calibrated
+  reranking.
 
 Current paper workspace:
 
@@ -113,7 +113,7 @@ Current paper workspace:
 - `paper/draft.md` provides first-pass manuscript prose for Title, Abstract, Introduction, Related Work, Problem Formulation, Method, Experimental Setup, Results/Discussion, Limitations, and Conclusion. It has passed claim-scope/evidence-link review and now uses BibTeX-style citation keys in Related Work.
 - `paper/risk.md` tracks reviewer-risk attacks, mitigation status, and priority for logic/evidence/novelty/reproducibility defenses.
 - `paper/appendix.md` owns appendix/supplement provenance tables, detailed Open3DSG caveat consistency checks, optional Figure 3 decisions, and Qwen-VL extension boundary notes.
-- `paper/aaai/` is the current target-venue LaTeX source. It uses the official AAAI-26 Author Kit style files checked on 2026-05-27 KST until the exact target-year kit/form is rechecked, splits the draft into `main.tex` plus `sec/*.tex`, points bibliography to `paper/references.bib`, and includes the reproducibility checklist after references. Docker PDF build is verified with `h001-aaai-tex:20260526`; latest known log is `logs/h001_aaai_pdf_build_h001v2_prose_inplace_20260624_120713.log`.
+- `paper/aaai/` is the current target-venue LaTeX source. It uses the official AAAI-26 Author Kit style files checked on 2026-05-27 KST until the exact target-year kit/form is rechecked, splits the draft into `main.tex` plus `sec/*.tex`, points bibliography to `paper/references.bib`, and includes the reproducibility checklist after references. Docker PDF build is verified with `h001-aaai-tex:20260526`; latest known log is `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`.
 - `archive/paper/iccv/` remains a historical/alternate ICCV-style source route.
 - `paper/figures.md` locks Figure 1-3 source claims, exact values, case IDs, artifacts, and caption constraints; draft SVGs are generated, verified, and layout-reviewed under `paper/generated/figures/`.
 
@@ -258,7 +258,8 @@ Likely reviewer questions:
 Required defense:
 
 - Present the method as a calibrated framework with explicit design choices, not as a script.
-- Include semantic-only, rule-only, pooled calibrated, family-conditional risk, and true control variants.
+- Include semantic-only, main family-conditional risk, pooled calibrated
+  ablation, rule-only diagnostic, and true control variants.
 - Include wrong-pair or shuffled-geometry controls to show the geometry signal is not accidental.
 - Report recall and violation metrics together.
 - Keep denominator and filtered-split caveats visible in every table using Open3DSG.
@@ -296,7 +297,9 @@ Minimum table/figure set before paper writing:
 - Table 3: Open3DSG-first main source results with VL-SAT as the controlled anchor.
 - Prose: controls, GT verifier evaluation, audit, and visual sanity checks unless an appendix is added.
 - Figure 1: failure mechanism and framework overview.
-- Figure 2: recall-violation tradeoff across semantic-only, probabilistic calibrated, rule-verified, and family-conditional risk operating points.
+- Figure 2: recall-violation tradeoff across semantic-only, main GeoCalib
+  family-conditional risk, pooled calibrated ablation, and rule-verified
+  diagnostic points.
 - Figure 3: qualitative failure taxonomy with geometry-backed examples where semantic plausibility and physical consistency diverge.
 
 ## Non-Claims
@@ -344,8 +347,8 @@ Do not claim these until evidence exists:
 - AAAI-style source conversion is complete under `paper/aaai/` using the official AAAI-26 Author Kit. The 2026-05-27 check confirms `aaai2026.sty` was replaced from `AuthorKit26/AnonymousSubmission/LaTeX/aaai2026.sty`, `aaai2026.bst` already matched the official kit, and no official AAAI-27 author kit was confirmed.
 - The `paper/aaai/` manuscript-content pass is complete: it includes fixed scope/denominator accounting, a source-specific claim-boundary table, an Open3DSG-first main source-results table, prose controls/verifier/audit evidence, explicit Open3DSG caveat captioning, and limitation wording.
 - Figure 1-3 PNG build assets are ready and `paper/aaai/sec/6_results.tex` points to them. Figure 2 and Figure 3 are single-column in the AAAI source to keep technical content before references.
-- Docker build verification is complete: `paper/aaai/main.pdf` builds with `h001-aaai-tex:20260526`, BibTeX uses 19 entries, and there are no missing citations, undefined refs, overfull hboxes, LaTeX errors, Type 3 fonts, or AAAI package errors. Latest H001_v2 prose rebuild log: `logs/h001_aaai_pdf_build_h001v2_prose_inplace_20260624_120713.log`.
-- AAAI reproducibility checklist insertion is complete: `paper/aaai/sec/9_reproducibility_checklist.tex` is included after references. Latest Docker rebuild `logs/h001_aaai_pdf_build_h001v2_prose_inplace_20260624_120713.log` exits 0; the PDF has 9 total pages, technical content on pages 1-7, references on page 8, checklist on page 9, and no missing citations, undefined refs, overfull hboxes, LaTeX errors, Type 3 fonts, or AAAI package errors in targeted checks.
+- Docker build verification is complete: `paper/aaai/main.pdf` builds with `h001-aaai-tex:20260526`, BibTeX uses 19 entries, and there are no missing citations, undefined refs, overfull hboxes, LaTeX errors, Type 3 fonts, or AAAI package errors. Latest family-main rebuild log: `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`.
+- AAAI reproducibility checklist insertion is complete: `paper/aaai/sec/9_reproducibility_checklist.tex` is included after references. Latest Docker rebuild `logs/h001_aaai_pdf_build_family_main_20260625_084157.log` exits 0; the PDF has 10 total pages, technical content on pages 1-7, references on pages 8-9, checklist on page 10, and no missing citations, undefined refs, overfull hboxes, LaTeX errors, Type 3 fonts, or AAAI package errors in targeted checks.
 - AAAI reviewer-defense main-text pass is updated for the selected
   full-validation route: Introduction, Method, Experimental Setup, Results, and
   Limitations directly answer the high-risk attacks, including hand-coded

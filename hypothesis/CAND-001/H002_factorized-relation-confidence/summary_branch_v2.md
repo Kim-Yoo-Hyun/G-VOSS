@@ -1,6 +1,6 @@
 # H002 Summary Branch V2
 
-Last updated: 2026-06-24 KST
+Last updated: 2026-06-25 KST
 
 ## Research Direction
 
@@ -22,12 +22,12 @@ H002의 목표는 이 mismatch를 양방향 relation-level reliability 문제로
 현재 상태:
 
 ```text
-current_gate = v22 hanging-on strict candidate mining completed
-current_status = hanging-on strict 240-row candidate sheet is ready for source inventory
+current_gate = v23 hanging-on positive-anchor repair plan completed
+current_status = positive-anchor capacity scan contract ready
 posterior_evidence = false
 paper_metric_evidence = false
 validation_or_test_used = false
-next_gate = reliability_target_v22_hanging_on_strict_conditional_contrast_source_inventory
+next_gate = reliability_target_v23_hanging_on_positive_anchor_capacity_scan
 ```
 
 ## Motivation
@@ -258,6 +258,15 @@ relation reliability를 요구하는지 단계적으로 검증한 흐름이다. 
 | v66 | `stages/v66_attachment_conditional_contrast_path_decision.md` | v21 capacity 이후 route 결정 | two-predicate strict primary는 불가, relaxed two-predicate는 shortcut risk | v22 hanging-on strict packet plan |
 | v67 | `stages/v67_hanging_on_strict_packet_plan.md` | `hanging on` strict packet plan과 hidden-only dry-run preview | 아직 visible packet/candidate sheet/label/posterior evidence 아님 | v22 hanging-on strict candidate mining |
 | v68 | `stages/v68_hanging_on_strict_candidate_mining.md` | `hanging on` strict 240-row visible candidate sheet와 hidden manifest 생성 | 아직 source inventory/packet assets/label/posterior evidence 아님 | v22 source inventory |
+| v69 | `stages/v69_hanging_on_strict_source_inventory.md` | v22 selected rows의 scan/multi-view/sequence/mesh/crop availability inventory | source inventory는 통과했지만 audit packet/label/posterior evidence 아님 | v22 audit packet plan |
+| v70 | `stages/v70_hanging_on_strict_audit_packet_plan.md` | v22 tiered visible packet schema와 hidden asset manifest plan | packet materialization/label/posterior evidence 아님 | v22 audit packet materialization |
+| v71 | `stages/v71_hanging_on_strict_audit_packet_materialization.md` | v22 neutral packet-local assets와 visible review sheet materialization | leakage review/label/posterior evidence 아님 | v22 leakage review |
+| v72 | `stages/v72_hanging_on_strict_audit_packet_leakage_review.md` | v22 visible sheet, packet markdown, packet-local image names, hidden manifest separation formal leakage review | label/posterior evidence 아님 | v22 visible-only label fill |
+| v73 | `stages/v73_hanging_on_strict_audit_packet_label_fill.md` | v22 leakage-reviewed visible packet labels를 채움 | primary binary가 `9/193`으로 severe positive-sparse | v22 label ingestion |
+| v74 | `stages/v74_hanging_on_strict_audit_packet_label_ingestion.md` | v73 locked labels와 hidden manifest/GT axis 사후 join | class mass fail `9/193`, quick-probe risk 97개 | v22 target-independence audit |
+| v75 | `stages/v75_hanging_on_strict_audit_packet_target_independence.md` | v22 target class mass와 shortcut-controlled slice audit | primary binary `9/193`, strict/diagnostic clear slice `0/0`, risk flag 107개 | path decision after audit |
+| v76 | `stages/v76_hanging_on_strict_audit_packet_path_decision.md` | v22 audit 이후 posterior 진행 여부와 다음 route 결정 | v22는 diagnostic-only로 고정, positive-anchor repair가 남은 로컬 route | v23 positive-anchor repair plan |
+| v77 | `stages/v77_hanging_on_positive_anchor_repair_plan.md` | v22 accept seed에서 positive-anchor affordance plan과 capacity-scan contract 고정 | 아직 capacity scan 전이라 candidate/label/posterior evidence 아님 | v23 positive-anchor capacity scan |
 
 현재 v9 결과는 다음과 같다.
 
@@ -1884,6 +1893,365 @@ role, strict group id를 hidden manifest에만 보존하고, visible candidate s
 blank review fields만 노출한다. 이 단계는 source inventory를 시작하기 위한 candidate artifact이지,
 label-ready audit packet이나 posterior evidence가 아니다.
 
+v69 hanging-on strict source inventory 결과는 다음과 같다.
+
+```text
+status = h002_reliability_target_v22_hanging_on_strict_conditional_contrast_source_inventory_ready_for_audit_packet_plan
+next_todo = reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_plan
+rows = 240
+source_inventory_gate_pass = true
+validation_errors = 0
+posterior_smoke_allowed = false
+```
+
+Source/evidence availability:
+
+```text
+unique_scans = 192
+scan_exists = 192
+multi_view_exists = 192
+sequence_exists = 192
+mesh_ready = 192
+both_have_crop_rows = 240
+possible_covisible_or_same_view_rows = 240
+audit_ready_rows = 240
+strong_pair_visual_ready_rows = 73
+individual_visual_plus_mesh_audit_ready_rows = 167
+```
+
+Proxy-role inventory balance:
+
+```text
+accept_proxy_supported_candidate = 120 rows, 120 audit-ready
+reject_proxy_contradicted_candidate = 120 rows, 120 audit-ready
+```
+
+v69의 의미는 `hanging on` strict route가 source availability 관점에서는 다음 audit packet
+plan으로 넘어갈 수 있다는 것이다. 다만 아직 packet-local neutral assets를 materialize하지
+않았고, human reliability label도 만들지 않았으므로 posterior smoke는 계속 금지된다. 다음
+audit packet plan은 same-frame co-visible strong tier 73개와 individual-view-plus-mesh tier
+167개를 hidden/visible packet contract에서 구분해야 한다.
+
+v70 hanging-on strict audit packet plan 결과는 다음과 같다.
+
+```text
+status = h002_reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_plan_ready_for_materialization
+next_todo = reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_materialization
+rows = 240
+primary_rows = 240
+audit_packet_plan_gate_pass = true
+validation_errors = 0
+posterior_smoke_allowed = false
+```
+
+Packet/evidence distribution:
+
+```text
+rows_by_packet_role = primary_hanging_on_reliability_candidate: 240
+rows_by_predicate = hanging on: 240
+T1_strong_pair_visual = 73
+T2_individual_visual_plus_mesh = 167
+hidden_proxy_balance = accept_proxy_supported_candidate: 120, reject_proxy_contradicted_candidate: 120
+accept_proxy_tier = T1: 36, T2: 84
+reject_proxy_tier = T1: 37, T2: 83
+```
+
+v70은 reviewer-visible packet template와 hidden asset manifest plan을 분리한다. Visible packet은
+relation text, neutral evidence tier, neutral evidence summary, blank review fields만 갖고,
+scan/subgraph/instance id, source path, rank band, geometry bucket, object family, GT-match
+status, planned proxy role, strict group id는 hidden manifest에만 남긴다. 이 단계도 아직 packet
+asset materialization, label fill, label ingestion, target-independence audit, posterior evidence가
+아니다.
+
+v71 hanging-on strict audit packet materialization 결과는 다음과 같다.
+
+```text
+status = h002_reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_materialization_ready_for_leakage_review
+next_todo = reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_leakage_review
+visible_review_rows = 240
+packet_dirs = 240
+materialized_hidden_manifest_rows = 240
+total_materialized_images = 4406
+visible_leakage_hits = 0
+validation_errors = 0
+posterior_smoke_allowed = false
+```
+
+Evidence and auxiliary GT distribution:
+
+```text
+rows_by_packet_role = primary_hanging_on_reliability_candidate: 240
+rows_by_evidence_tier = T1_strong_pair_visual: 73, T2_individual_visual_plus_mesh: 167
+gt_match_axis_joined_rows = 240
+gt_label_match_status = no_gt_for_pair: 164, pair_has_other_predicate: 76
+```
+
+v71은 packet-local neutral image names와 visible review sheet를 생성했지만, formal leakage
+review는 아직 별도 gate로 남아 있다. Existing GT relation match axis는 hidden manifest에만
+보존했으므로, 이후 human reliability label과 GT axis를 비교하는 mismatch table을 만들 수 있다.
+
+v72 hanging-on strict audit packet leakage review 결과는 다음과 같다.
+
+```text
+status = h002_reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_leakage_review_passed_ready_for_label_fill
+next_todo = reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_label_fill
+formal_leakage_review_pass = true
+visible_sheet_rows = 240
+packet_markdown_files = 240
+packet_dirs = 240
+neutral_image_files = 4406
+hidden_manifest_rows = 240
+hidden_rows_with_source_paths = 240
+hidden_rows_with_scan_ids = 240
+hidden_rows_with_gt_match_axis = 240
+visible_leakage_hits = 0
+validation_errors = 0
+posterior_smoke_allowed = false
+```
+
+GT auxiliary axis remains hidden:
+
+```text
+gt_label_match_status = no_gt_for_pair: 164, pair_has_other_predicate: 76
+```
+
+v72는 visible review sheet, packet markdown, packet-local neutral image names, packet index,
+hidden manifest separation을 formal gate로 검사했다. Visible artifacts에는 source path, scan/subgraph
+id, instance id, construction metadata, rank band, geometry bucket, planned proxy role,
+strict group id, GT-match field가 노출되지 않았다. 따라서 다음 단계는 leakage-reviewed packet을
+사용한 visible-only reliability label fill이다. 단, label fill 자체도 posterior evidence가 아니며,
+hidden manifest와 사후 join하는 label ingestion 및 target-independence audit을 통과해야 posterior
+smoke가 허용된다.
+
+v73 hanging-on strict audit packet label fill 결과는 다음과 같다.
+
+```text
+status = h002_reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_label_filled_codex_visible_packet
+next_todo = reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_label_ingestion
+rows = 240
+validation_errors = 0
+hidden_manifest_read = false
+posterior_smoke_allowed = false
+```
+
+Label distribution:
+
+```text
+accept_reliable = 9
+reject_unreliable = 193
+abstain_uncertain = 38
+
+geometry_supports = 9
+geometry_contradicts = 193
+geometry_ambiguous = 38
+```
+
+Primary binary preview:
+
+```text
+binary_primary_usable_rows = 202
+primary_positive_rows = 9
+primary_negative_rows = 193
+abstain_rows = 38
+```
+
+Main decision reasons:
+
+```text
+implausible_hanging_subject = 71
+support_or_proximity_confound = 71
+missing_hanging_anchor_or_wrong_relation_family = 35
+generic_endpoint_label = 25
+duplicate_or_self_like_endpoint = 16
+mountable_pair_limited_pair_context = 13
+strong_hanging_subject_anchor_pair = 9
+```
+
+v73은 v22 strict packet이 바로 posterior target으로 좋아졌다는 증거가 아니다. 오히려
+visible-only reliability label 기준에서는 `hanging on` relation이 severe positive-sparse target임을
+보여준다. Accept는 `curtain/blinds/towel/bag`이 `door/window/stand` 계열 anchor에 걸린 경우에
+제한됐고, 대부분의 row는 support/proximity confound, implausible subject, generic endpoint,
+same-label endpoint, wrong relation family로 판정됐다. 따라서 다음 단계는 posterior가 아니라
+label lock 이후 hidden manifest와 GT auxiliary axis를 사후 join하는 label ingestion이다.
+
+v74 hanging-on strict audit packet label ingestion 결과는 다음과 같다.
+
+```text
+status = h002_reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_label_ingested_positive_sparse_with_probe_risk
+next_todo = reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_target_independence_audit
+rows = 240
+validation_errors = 0
+posterior_smoke_allowed = false
+```
+
+Target artifacts:
+
+```text
+multiclass_rows = 240
+primary_binary_rows = 202
+geometry_support_rows = 202
+endpoint_identity_rows = 240
+coverage_rows = 240
+uncertainty_rows = 240
+abstain_rows = 38
+```
+
+Primary relation reliability target:
+
+```text
+positive = 9
+negative = 193
+minimum_per_class_for_posterior = 60
+class_mass_pass = false
+```
+
+GT/reliability mismatch table:
+
+```text
+GT match & reliability accept = 0
+GT match & reliability reject = 0
+GT match & abstain = 0
+No GT/current relation & reliability accept = 9
+No GT/current relation & reliability reject = 193
+No GT/current relation & abstain = 38
+```
+
+Shortcut diagnostics:
+
+```text
+quick_probe_risk_flags = 97
+same_scan_mixed_primary_binary_groups = 2
+same_visible_pair_mixed_primary_binary_groups = 0
+same_evidence_tier_mixed_primary_binary_groups = 2
+same_proxy_role_mixed_primary_binary_groups = 2
+same_strict_group_mixed_primary_binary_groups = 5
+same_geometry_bucket_mixed_primary_binary_groups = 4
+same_rank_band_mixed_primary_binary_groups = 2
+same_gt_status_mixed_primary_binary_groups = 2
+```
+
+v74 ingestion은 정상적으로 완료됐지만, target은 posterior-ready가 아니다. Positive count가
+9개뿐이라 class-mass gate를 크게 실패했고, quick-probe risk도 97개다. `review_geometry_support`
+와 `primary_reason_v22` 같은 label-derived field가 target을 잘 설명하는 것은 당연하지만,
+scan/subgraph/object-family/strict-group 계열 hidden axis에서도 risk가 나타난다. 따라서 다음
+단계는 posterior smoke가 아니라 target-independence audit이다.
+
+v75 hanging-on strict audit packet target-independence audit 결과는 다음과 같다.
+
+```text
+status = h002_reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_target_independence_audit_blocked_positive_sparse_and_shortcut_risk
+next_todo = reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_path_decision_after_audit
+rows = 240
+validation_errors = 0
+posterior_smoke_allowed = false
+```
+
+Primary relation reliability target:
+
+```text
+binary_rows = 202
+positive = 9
+negative = 193
+minimum_per_class_for_posterior = 60
+class_mass_pass = false
+strict_clear_slices = 0
+diagnostic_clear_slices = 0
+```
+
+Shortcut and controlled-slice audit:
+
+```text
+full_quick_probe_risk_flags = 107
+slice_audit_rows = 138
+slice_risk_rows = 4278
+slice_blocking_risk_flags = 1666
+```
+
+Important balanced slices:
+
+```text
+full_balanced_slice = 18 rows, 9/9
+same_visible_pair_slice = 0 rows
+same_strict_group_slice = 12 rows, 6/6
+same_scan_slice = 4 rows, 2/2
+same_subject_label_slice = 14 rows, 7/7
+same_object_label_slice = 18 rows, 9/9
+```
+
+v75의 결론은 명확하다. Full train에서 `hanging on` strict 후보와 packet evidence는 만들 수
+있었지만, visible/mesh reliability 기준 accept가 9개뿐이라 posterior class mass가 성립하지
+않는다. 또한 shortcut-controlled slice도 strict/diagnostic clear가 0개다. 따라서 이전 단계들과
+같은 target-construction 병목이 반복 확인됐으며, 다음 단계는 posterior smoke나 combiner 개선이
+아니라 path decision이다.
+
+v76 hanging-on strict audit packet path decision 결과는 다음과 같다.
+
+```text
+status = h002_reliability_target_v22_hanging_on_strict_conditional_contrast_audit_packet_path_decision_select_v23_positive_anchor_repair_plan
+selected_path = freeze_v22_hanging_on_strict_diagnostic_select_v23_positive_anchor_repair_plan
+next_todo = reliability_target_v23_hanging_on_positive_anchor_repair_plan
+validation_errors = 0
+posterior_smoke_allowed = false
+```
+
+v76의 결정은 v22 `hanging on` strict target을 posterior target으로 승격하지 않고
+diagnostic-only negative target-construction evidence로 고정하는 것이다. 선택한 다음 route는
+`v23_hanging_on_positive_anchor_repair_plan`이다.
+
+핵심 판단:
+
+```text
+run_posterior_smoke_now = reject
+train_on_balanced_9_9_slice = reject
+try_stronger_posterior_combiner_now = reject
+use_geometry_support_as_primary_target = reject
+label_more_rows_with_same_v22_recipe = reject_for_now
+freeze_v22_as_diagnostic_only = select
+positive_anchor_repair_plan = select_next
+```
+
+v23의 목적은 generic `hanging on` 후보를 더 많이 라벨링하는 것이 아니다. v22에서 accept된
+9개 사례가 curtain/towel/bag/clothes류 subject와 window/door/rack/hook/stand류 anchor에
+집중됐기 때문에, positive-anchor affordance cell 안에서 matched hard negative가 충분히
+존재하는지 먼저 검증한다. 단순히 쉬운 positive를 추가하면 object-label/anchor-label shortcut을
+강화하므로, v23은 subject-anchor affordance, rank band, geometry bucket, coverage, scan,
+visible endpoint pair를 통제한 capacity plan이어야 한다.
+
+v77 hanging-on positive-anchor repair plan 결과는 다음과 같다.
+
+```text
+status = h002_reliability_target_v23_hanging_on_positive_anchor_repair_plan_ready_for_capacity_scan
+next_todo = reliability_target_v23_hanging_on_positive_anchor_capacity_scan
+validation_errors = 0
+posterior_smoke_allowed = false
+```
+
+v22 accept seed:
+
+```text
+accept_rows = 9
+reject_rows = 193
+abstain_rows = 38
+accept_subject_counts = curtain:4, blinds:2, bag:2, towel:1
+accept_object_counts = door:5, window:3, stand:1
+accept_subject_object_counts = curtain|door:2, curtain|window:1, curtain|stand:1, blinds|window:2, bag|door:2, towel|door:1
+```
+
+Affordance-cell summary:
+
+```text
+positive_anchor_candidate_cell = accept:9, reject:2
+soft_subject_with_non_anchor_or_uncertain_object = reject:10, abstain:3
+anchor_object_with_non_hanging_subject = reject:27, abstain:15
+non_anchor_generic_or_confound_cell = reject:154, abstain:20
+```
+
+v77은 positive-anchor cell을 label로 확정하지 않는다. 이것은 다음 capacity scan에서 사용할
+sampling hypothesis다. 다음 gate는 full train에서 `positive_anchor_candidate_rows >= 300`,
+`matched_positive_negative_cells >= 30`, `balanced_proxy_capacity >= 160`을 만족하는지
+검사하는 것이다. 이 gate가 실패하면 attachment-deferred target construction은 posterior route로
+계속 밀지 않고 blocker synthesis로 정리해야 한다.
+
 ## Current Claim Boundary
 
 Allowed:
@@ -1931,7 +2299,7 @@ These are not next until target-independence is fixed.
 Current core:
 
 ```text
-attachment_deferred: hanging on strict source inventory, attached to and connected to diagnostic
+attachment_deferred: hanging on positive-anchor capacity scan, attached to and connected to diagnostic
 ```
 
 Previous train-only/full-train branches:
@@ -1945,7 +2313,7 @@ proximity: close by as LH-only diagnostic/generality evidence
 Active empirical branch:
 
 ```text
-reliability_target_v22_hanging_on_strict_conditional_contrast_source_inventory
+reliability_target_v23_hanging_on_positive_anchor_capacity_scan
 ```
 
 Deferred for generality:
@@ -1957,24 +2325,25 @@ relative_horizontal: left, right, front, behind
 `close by` has now passed the train-only feasibility count gate only as an LH-only
 branch, but the visible-only proxy target is blocked by object-pair shortcut risk.
 The visible-only branch is frozen as diagnostic-only; the active path is
-attachment-deferred conditional contrast path decision.
+attachment-deferred `hanging on` positive-anchor capacity scan after v23 repair planning.
 
 ## Next TODO
 
 ```text
-reliability_target_v22_hanging_on_strict_conditional_contrast_source_inventory
+reliability_target_v23_hanging_on_positive_anchor_capacity_scan
 ```
 
-v22 source-inventory requirements:
+v23 positive-anchor capacity scan requirements:
 
 1. Use train-only rows only.
 2. Do not run posterior smoke.
 3. Fix primary relation scope to `hanging on`.
 4. Keep `attached to` and `connected to` diagnostic-only.
-5. Use v68 `hidden_candidate_manifest.jsonl` and `candidate_rows.jsonl` as inputs.
-6. Inventory scan, multi-view, sequence, mesh, subject/object crop, and packet-source availability for all 240 candidates.
-7. Do not expose source paths or construction metadata in the visible sheet.
-8. Keep multi-view/mesh as audit/confirmation evidence only.
-9. Do not run packet materialization, label fill, ingestion, target-independence audit, or posterior smoke in source inventory.
+5. Use v77 repair plan and `capacity_scan_contract.json` as the locked input.
+6. Do not fill labels or materialize packets.
+7. Scan full-train `hanging on` candidates for positive-anchor candidate cells.
+8. Require matched hard negatives inside or near the same affordance, rank, geometry, coverage, scan, and endpoint controls.
+9. Capacity gates: positive-anchor candidate rows >= 300, matched positive/negative cells >= 30, balanced proxy capacity >= 160, rank/geometry bucket coverage >= 2.
+10. If capacity fails, stop attachment-deferred target construction as a posterior route and write blocker synthesis rather than weakening controls.
 
 Posterior smoke remains blocked until the selected target passes target-independence audit.

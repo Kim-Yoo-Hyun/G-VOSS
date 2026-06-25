@@ -23,7 +23,7 @@ Created at: `2026-06-04T18:23:54+00:00`
 | semantic_only | 0.4096 | 0.5161 | 0.1386 | 0.1242 |
 | probabilistic_recalibrated | 0.3975 | 0.5723 | 0.0606 | 0.0811 |
 | rule_verified_point_subtype | 0.4295 | 0.5368 | 0.0000 | 0.0000 |
-| family_specific_p_geom_valid | 0.4658 | 0.6047 | 0.0286 | 0.0341 |
+| family_conditional_risk | 0.4658 | 0.6047 | 0.0286 | 0.0341 |
 
 ## Caveats
 

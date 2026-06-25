@@ -23,7 +23,7 @@
     "r50": 0.9305135951661632,
     "relative_violation_reduction100": 0.15128501534629555,
     "relative_violation_reduction50": 0.14323607427055705,
-    "role": "full-validation recall-first H001 condition",
+    "role": "pooled calibrated-risk ablation; semantic score times pooled p_geom_valid",
     "violation100": 0.04043795620437956,
     "violation50": 0.02291970802919708
   },
@@ -51,7 +51,7 @@
     "r50": 0.9287512588116817,
     "relative_violation_reduction100": 0.3010354056094433,
     "relative_violation_reduction50": 0.22919540229885062,
-    "role": "family-conditional calibrated risk operating point",
+    "role": "GeoCalib main score; semantic score times family-conditioned p_geom_valid",
     "violation100": 0.0333029197080292,
     "violation50": 0.020620437956204378
   }

@@ -60,7 +60,7 @@ K values: `50, 100`
 - Violation@50: `0.07237226277372263` (1983/27400)
 - Violation@100: `0.09808394160583941` (5375/54800)
 
-## control_family_specific_p_geom_valid
+## family_conditional_risk
 
 - Score formula: `semantic_ranking_score*p_geom_valid_family_specific`
 - Scored: `220848` / `220848` in-scope predictions

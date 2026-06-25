@@ -1,6 +1,13 @@
 # Open3DSG Source
 
-Open3DSG is the selected second-source expansion for the top-tier path.
+Last updated: `2026-06-25 KST`
+
+Open3DSG is the main open-vocabulary relation-source case study for the
+GeoCalib paper route. The selected paper-facing Open3DSG result is the full
+official validation `recovery_relaxed_views_min2/` branch with
+`family_conditional_risk` as the main score. Older 127-scan, non-avg, R2, and
+attachment branches are preserved as sensitivity/provenance or optional
+extension evidence.
 
 Current status:
 
@@ -16,12 +23,12 @@ Current caveat-reduction plan:
 - artifacts: `caveat_reduction_plan/{manifest.json,retry_plan.json,commands.md,report.md}`
 - frozen order: R1 exact non-averaged BLIP route retry, R2 H001 covered-loadable context retry toward `388/388`, R3 attachment G5d only after Open3DSG caveat-reduction decisions are resolved or explicitly waived
 - current decomposition for attachment impact: Open3DSG missing exact-label GT rows 199 total, with 23 tied to missing preprocessed H001 contexts and 176 tied to absent Open3DSG candidate pairs
-- interpretation: R1 selected an official non-avg BLIP checkpoint and the full
-  downstream non-avg H001 branch is now regenerated under `non_avg/`. Current
-  paper-facing Open3DSG metrics remain avg-BLIP unless the user explicitly
-  promotes the non-avg branch. Non-avg BLIP and `388/388` success strengthen
-  Open3DSG source credibility, but they do not by themselves make
-  `attachment_deferred_G5d` successful.
+- interpretation: R1 selected an official non-avg BLIP checkpoint before
+  held-out H001 metrics/failure inspection. The 127-scan `non_avg/` branch is
+  retained as a separately regenerated sensitivity branch; the current
+  paper-facing Open3DSG evidence is the full-validation 548/548 recovery
+  branch. Non-avg BLIP and `388/388` success strengthen source provenance but
+  do not promote `attachment_deferred_G5d` into the main claim.
 
 Current R1 non-averaged BLIP retry:
 
@@ -38,7 +45,9 @@ Current R1 non-averaged BLIP retry:
 - selected checkpoint sha256: `ca86d429b19e846aec2bfff014256bf36f6f90da07e566b90c461d6eca8d76bb`
 - selection signal: train-dev `val/loss=0.5724539160728455` at step `13103`, before selected-route H001 held-out metrics/failure/visual inspection
 - route comparison: best avg-BLIP variant train-dev `val/loss=0.32881081104278564`; non-avg minus avg delta `+0.24364310503005981`
-- boundary: the non-avg route is now feasible and selected, but it is not paper metric evidence unless the full H001 downstream Open3DSG chain is regenerated under separate non-avg output paths
+- boundary: the non-avg route is feasible and has a separate regenerated
+  127-scan downstream branch, but the paper-facing Open3DSG main result is the
+  full-validation `recovery_relaxed_views_min2/` branch.
 
 Current non-avg downstream branch:
 
@@ -61,7 +70,7 @@ Current non-avg downstream branch:
   Violation@50/@100 `0.1395/0.1256`; probabilistic_recalibrated
   R@50/R@100 `0.3945/0.5639`, Violation@50/@100 `0.0570/0.0782`;
   rule_verified_point_subtype R@50/R@100 `0.4507/0.5481`,
-  Violation@50/@100 `0.0/0.0`; family_specific control R@50/R@100
+  Violation@50/@100 `0.0/0.0`; family_conditional_risk R@50/R@100
   `0.4750/0.6047`, Violation@50/@100 `0.0243/0.0310`
 - boundary: non-avg is complete enough to report as a separately regenerated
   official branch. For the historical 127-scan route, avg-BLIP remains stronger
@@ -232,7 +241,7 @@ Open3DSG full-validation recovery metrics:
 | semantic_only | 0.4096 | 0.5161 | 0.1386 | 0.1242 |
 | probabilistic_recalibrated | 0.3975 | 0.5723 | 0.0606 | 0.0811 |
 | rule_verified_point_subtype | 0.4295 | 0.5368 | 0.0000 | 0.0000 |
-| control_family_specific_p_geom_valid | 0.4658 | 0.6047 | 0.0286 | 0.0341 |
+| family_conditional_risk | 0.4658 | 0.6047 | 0.0286 | 0.0341 |
 
 Open3DSG full-validation metrics:
 
@@ -241,7 +250,7 @@ Open3DSG full-validation metrics:
 | semantic_only | 0.4043 | 0.5111 | 0.1387 | 0.1242 |
 | probabilistic_recalibrated | 0.3943 | 0.5685 | 0.0590 | 0.0807 |
 | rule_verified_point_subtype | 0.4242 | 0.5320 | 0.0000 | 0.0000 |
-| control_family_specific_p_geom_valid | 0.4612 | 0.5999 | 0.0265 | 0.0332 |
+| family_conditional_risk | 0.4612 | 0.5999 | 0.0265 | 0.0332 |
 
 Full-validation caveats:
 

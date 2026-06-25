@@ -1,6 +1,6 @@
 # H001 Paper Reviewer-Risk Register
 
-Last updated: 2026-06-24 KST
+Last updated: 2026-06-25 KST
 
 Scope: this file tracks paper-body risks for the current AAAI manuscript under
 `paper/aaai/`. The goal is not sentence polish; it is to prevent reviewer attacks
@@ -16,6 +16,12 @@ broad open-vocabulary 3DSSG generation paper. The strongest contribution remains
 > geometry-consistency evaluation and re-ranking framework that makes this
 > failure measurable, reduces violations under explicit recall tradeoffs, and
 > reports controls, GT/counterfactual verifier checks, and failure analysis.
+
+Current scoring decision: `family_conditional_risk` is the GeoCalib main score
+(`semantic_score * p_geom_valid_family`). Pooled
+`probabilistic_recalibrated` is an ablation/baseline
+(`semantic_score * p_geom_valid`), and geometry-only control is `p_geom_valid`
+without semantic score.
 
 The main rejection risks are not that the topic is unimportant. They are:
 
@@ -36,8 +42,12 @@ The main rejection risks are not that the topic is unimportant. They are:
   exclusion are described as a frozen diagnostic/reporting decision.
 - Qwen-VL can dilute the contribution if presented as a new main baseline
   rather than appendix/extension evidence.
-- H001_v2 fixed-`tau*` can dilute the main method if presented as a replacement
-  despite mixed source metrics; keep it as diagnostic candidate evidence only.
+- H001_v2 fixed-`tau*` and pooled lambda-soft can dilute the main method if
+  presented as replacements despite mixed source metrics; keep them as
+  diagnostic candidate evidence only.
+- family-conditional calibration can be attacked as a family-specific trick if
+  the manuscript does not present it as a calibration design choice and does
+  not keep pooled and geometry-only variants as explicit comparisons.
 - submission-package risk is now practical rather than scientific: target-year
   form/style/supplement policy, artifact URL/DOI, checklist answers, and
   flattened package regeneration must match the latest GeoCalib/Figure-1 source.
@@ -71,24 +81,29 @@ Persona C, reproducibility/area-chair reviewer:
 
 ## Mitigation Status
 
-Updated on 2026-06-24 KST after low-K source metric regeneration, main-table
-patches, and the H001_v2 diagnostic-only decision:
+Updated on 2026-06-25 KST after promoting family-conditional risk to the main
+GeoCalib score and demoting pooled calibrated risk to ablation/baseline:
 
 - P11 H001_v2 method-variant risk: resolved for the current paper route.
   Fixed-`tau*` H001_v2 is locked as diagnostic candidate evidence only. It has
   positive shuffled/wrong-pair tau controls, but VL-SAT recall collapse and
-  mixed comparison to `probabilistic_recalibrated` block main-table promotion.
-  The current GeoCalib main results and `semantic_score * p_geom_valid` style
-  calibrated soft re-ranking route stay unchanged.
+  mixed comparison to fixed paper scores block main-table promotion.
+  Lambda-soft selected `lambda*=1.25` is also diagnostic-only. The main paper
+  score is now `family_conditional_risk =
+  semantic_score * p_geom_valid_family`; pooled
+  `probabilistic_recalibrated = semantic_score * p_geom_valid` is retained as
+  an ablation/baseline, not as geometry-only control.
 
 - P10 2026-06-14 GeoCalib/package risk: active. Latest known build is
-  `logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log`, exit 0, 9
-  pages. Before upload, regenerate any flattened package made before the low-K
-  table update, verify target-year form/style/supplement policy, decide
-  artifact URL/DOI, and include the low-K point-metric artifacts if
-  K = `{5,10,20,50,100}` stays in the main source-result table. Low-K point
-  metrics now exist under both paper-facing `metrics_k_sweep/` roots and K=50/100
-  matches locked `metrics/`; low-K CI should not be claimed unless regenerated.
+  `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`, exit 0,
+  10 total pages with technical content on pages 1-7. Before upload, regenerate
+  any flattened package made before
+  the low-K and family-main table/prose updates, verify target-year
+  form/style/supplement policy, decide artifact URL/DOI, and include the
+  low-K point-metric artifacts if K = `{5,10,20,50,100}` stays in the main
+  source-result table. Low-K point metrics now exist under both paper-facing
+  `metrics_k_sweep/` roots and K=50/100 matches locked `metrics/`; low-K CI
+  should not be claimed unless regenerated.
 
 - P0 main-text mitigation: completed. `paper/aaai/sec/6_results.tex` no longer
   names the internal reviewer id or reports private-reference matching.
@@ -235,15 +250,14 @@ patches, and the H001_v2 diagnostic-only decision:
   that the dev split has no `connected to` positive seed, so any connected-to
   family-conditional calibration claim needs pooled calibration, augmented dev
   selection, or explicit limitation.
-- Verification: Docker bootstrap log `logs/h001_bootstrap_ci_20260526_182034.log`
-  exited 0. Docker PDF rebuild `logs/h001_aaai_pdf_build_20260526_182458.log`
-  exited 0; `paper/aaai/main.pdf` remains 9 pages with technical content before
-  references/checklist, and no missing citations, undefined references,
-  overfull hboxes, LaTeX errors, or AAAI package errors were found.
-- Latest appendix/caveat PDF rebuild:
-  `logs/h001_aaai_pdf_build_appendix_caveat_20260527_202734.log` exited 0;
-  `paper/aaai/main.pdf` remains 9 pages, US Letter, with no missing citations,
-  undefined references, overfull hboxes, LaTeX errors, or AAAI package errors.
+- Historical verification logs from 2026-05-26 and 2026-05-27 exited 0 and are
+  retained as completed-history records. They are superseded for current
+  paper-facing status by
+  `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`, exit 0:
+  `paper/aaai/main.pdf` is 10 pages total, technical content pages 1-7,
+  references pages 8-9, checklist page 10, with Type 1 fonts and no missing
+  citations, undefined references, overfull hboxes, LaTeX errors, or AAAI
+  package errors in targeted checks.
 
 Remaining after P0-P10:
 
@@ -397,11 +411,12 @@ Reviewer attack:
 
 Current weakness:
 
-- Mitigated in `paper/aaai/sec/6_results.tex` on 2026-05-26. The text now
-  states that the original control-suite numbers are from the VL-SAT controlled
-  anchor under the 2,545-row denominator and adds Open3DSG control numbers for
-  the main source-output case study. The main text still compresses controls
-  into prose to preserve the AAAI page budget.
+- Mitigated in `paper/aaai/sec/6_results.tex` and refreshed on 2026-06-25. The
+  text now separates geometry-only control from pooled calibrated reranking and
+  uses the full-validation controlled-anchor/control numbers under the
+  3,972-row measured-family denominator, with Open3DSG control numbers retained
+  for the main source-output case study. The main text still compresses
+  controls into prose to preserve the AAAI page budget.
 
 Required fix:
 
@@ -588,11 +603,12 @@ Status:
 
 Key result:
 
-- Open3DSG `family_conditional_risk` vs `semantic_only`: \rAt{100} delta +10.22
-  percentage points, 95% CI +7.94 to +12.54; \vAt{100} delta -8.84 points, 95%
-  CI -9.41 to -8.28.
-- VL-SAT `family_conditional_risk` vs `semantic_only`: \rAt{100} delta +0.20 points with
-  CI crossing zero; \vAt{100} delta -1.59 points with negative CI.
+- Open3DSG full-validation recovery `family_conditional_risk` vs
+  `semantic_only`: \rAt{100} delta +8.86 percentage points, 95% CI +6.69 to
+  +10.96; \vAt{100} delta -9.01 points, 95% CI -9.49 to -8.53.
+- VL-SAT full-validation `family_conditional_risk` vs `semantic_only`:
+  \rAt{100} delta +0.48 points with 95% CI +0.11 to +0.93; \vAt{100} delta
+  -1.43 points with 95% CI -1.60 to -1.28.
 
 Evidence / affected files:
 

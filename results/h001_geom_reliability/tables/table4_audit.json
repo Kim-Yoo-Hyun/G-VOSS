@@ -17,7 +17,7 @@
   },
   {
     "metric": "target-bucket quality-issue rate",
-    "note": "reduced 50-row visual sanity check, reviewer yhkim",
+    "note": "reduced 50-row visual sanity check",
     "rows": 50,
     "source": "visual_spotcheck",
     "status": "ready_sanity_pass",

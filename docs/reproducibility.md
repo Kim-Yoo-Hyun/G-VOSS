@@ -1,6 +1,6 @@
 # H001 Reproducibility Runbook
 
-Last updated: 2026-06-14 KST
+Last updated: 2026-06-25 KST
 
 This document consolidates dataset, checkpoint, environment, Docker, reproduction,
 and evaluation-summary information for `experiments/H001_geom_reliability/`.
@@ -125,14 +125,18 @@ Facts:
   insertion, reviewer-defense main-text passes, Docker subgraph bootstrap CI,
   reproducibility artifact bundle planning, official AAAI-26 Author Kit
   replacement/verification, appendix/provenance and Open3DSG caveat-consistency
-  pass, GeoCalib naming, and Figure-1 update. Docker build verification for
+  pass, GeoCalib naming, Figure-1/2 updates, low-K table updates, and
+  family-conditional risk promotion. Docker build verification for
   `paper/aaai/` is complete with `h001-aaai-tex:20260526`; the latest
-  low-K table rebuild log is
-  `logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log`, with 9 total
-  pages, technical content on pages 1-7, references on page 8, and the
-  reproducibility checklist on page 9. The manuscript uses Open3DSG as the main
-  open-vocabulary relation-source case study and VL-SAT as the controlled
+  family-main build log is
+  `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`, with 10 total
+  pages, technical content on pages 1-7, references on pages 8-9, and the
+  reproducibility checklist on page 10. The manuscript uses Open3DSG as the
+  main open-vocabulary relation-source case study and VL-SAT as the controlled
   reproduced anchor.
+- Current scoring convention: `family_conditional_risk` is the GeoCalib main
+  score, pooled `probabilistic_recalibrated` is an ablation/baseline, and
+  `control_p_geom_valid_only` is the geometry-only control.
 - Qwen-VL is a third semantic source / modern VLM extension path. Full official
   validation downstream is complete: parser validation, adapter export,
   geometry join, metrics/controls, bootstrap CI, 31,881 failure rows, and 36
@@ -922,9 +926,12 @@ wc -l \
 Check Open3DSG metric status and key conditions:
 
 ```bash
-jq -r '.status' experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json
-jq -r '.conditions | to_entries[] | select(.key=="semantic_only" or .key=="probabilistic_recalibrated" or .key=="rule_verified_point_subtype" or .key=="control_family_specific_p_geom_valid") | [.key, (.value.recall.by_k["50"].recall|tostring), (.value.recall.by_k["100"].recall|tostring), (.value.violation_rate.by_k["50"].violation_rate|tostring), (.value.violation_rate.by_k["100"].violation_rate|tostring)] | @tsv' experiments/H001_geom_reliability/sources/open3dsg/metrics/metrics.json
+jq -r '.status' experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics/metrics.json
+jq -r '.conditions | to_entries[] | select(.key=="semantic_only" or .key=="probabilistic_recalibrated" or .key=="rule_verified_point_subtype" or .key=="control_family_specific_p_geom_valid") | [.key, (.value.recall.by_k["50"].recall|tostring), (.value.recall.by_k["100"].recall|tostring), (.value.violation_rate.by_k["50"].violation_rate|tostring), (.value.violation_rate.by_k["100"].violation_rate|tostring)] | @tsv' experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics/metrics.json
 ```
+
+In paper-facing prose and tables, interpret the legacy JSON key
+`control_family_specific_p_geom_valid` as `family_conditional_risk`.
 
 Check Qwen-VL cache:
 
@@ -942,7 +949,7 @@ sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/qwen_vl/co
 | --- | ---: | ---: | ---: | ---: |
 | `semantic_only` | 0.9599 | 0.9894 | 0.0247 | 0.0469 |
 | `probabilistic_recalibrated` | 0.9642 | 0.9921 | 0.0234 | 0.0391 |
-| `family_specific_p_geom_valid` | 0.9619 | 0.9914 | 0.0204 | 0.0310 |
+| `family_conditional_risk` | 0.9619 | 0.9914 | 0.0204 | 0.0310 |
 
 `VL-SAT` full official validation rerun:
 
@@ -960,7 +967,7 @@ sg docker -c 'env UID=$(id -u) GID=$(id -g) docker compose -f configs/qwen_vl/co
 | `semantic_only` | 0.4194 | 0.6322 | 0.8074 | 0.9272 | 0.9635 | 0.0029 | 0.0082 | 0.0142 | 0.0268 | 0.0476 |
 | `probabilistic_recalibrated` | 0.4154 | 0.6322 | 0.8107 | 0.9305 | 0.9688 | 0.0015 | 0.0071 | 0.0120 | 0.0229 | 0.0404 |
 | `rule_verified_point_subtype` | 0.4197 | 0.6317 | 0.8074 | 0.9257 | 0.9627 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 |
-| `family_specific_p_geom_valid` | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 |
+| `family_conditional_risk` | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 |
 
 Additional `VL-SAT` verifier/audit evidence:
 
@@ -982,7 +989,7 @@ Open3DSG full-validation recovery result:
 | `semantic_only` | 0.0368 | 0.1002 | 0.1991 | 0.4096 | 0.5161 | 0.5131 | 0.3255 | 0.2088 | 0.1386 | 0.1242 |
 | `probabilistic_recalibrated` | 0.0826 | 0.1581 | 0.2603 | 0.3975 | 0.5723 | 0.0628 | 0.0699 | 0.0654 | 0.0606 | 0.0811 |
 | `rule_verified_point_subtype` | 0.0707 | 0.1314 | 0.2422 | 0.4295 | 0.5368 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 |
-| `family_specific_p_geom_valid` | 0.0984 | 0.1921 | 0.3291 | 0.4658 | 0.6047 | 0.0420 | 0.0482 | 0.0441 | 0.0286 | 0.0341 |
+| `family_conditional_risk` | 0.0984 | 0.1921 | 0.3291 | 0.4658 | 0.6047 | 0.0420 | 0.0482 | 0.0441 | 0.0286 | 0.0341 |
 
 Open3DSG historical 127-scan second-source result:
 
@@ -991,7 +998,7 @@ Open3DSG historical 127-scan second-source result:
 | `semantic_only` | 0.3945 | 0.4963 | 0.1326 | 0.1195 |
 | `probabilistic_recalibrated` | 0.3843 | 0.5580 | 0.0575 | 0.0803 |
 | `rule_verified_point_subtype` | 0.4149 | 0.5238 | 0.0000 | 0.0000 |
-| `family_specific_p_geom_valid` | 0.4530 | 0.5984 | 0.0228 | 0.0311 |
+| `family_conditional_risk` | 0.4530 | 0.5984 | 0.0228 | 0.0311 |
 
 Open3DSG historical 127-scan artifact summary:
 

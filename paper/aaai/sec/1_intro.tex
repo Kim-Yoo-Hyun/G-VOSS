@@ -32,12 +32,15 @@ that contradicts the underlying world state.
 This motivates a \method{} framework. The framework treats an existing
 predictor as a relation source, standardizes its outputs into
 identity-preserving prediction rows, joins object-pair geometry evidence by
-subject and object instance identifiers, estimates \pgeom{}, and evaluates
-relation rankings with both exact-label recall and geometric violation. This
-design is necessary because hard physical rules and probabilistic reliability
-scores answer different questions: rule-verified variants diagnose strict
-consistency, while calibrated variants expose a usable recall-violation
-operating point. Figure~\ref{fig:framework} summarizes this path.
+subject and object instance identifiers, estimates calibrated geometry-validity
+risk, and evaluates relation rankings with both exact-label recall and
+geometric violation. The main GeoCalib score is family-conditional: semantic
+confidence is penalized by a relation-family-specific estimate of geometry
+validity. This design is necessary because hard physical rules, pooled
+calibration, and family-conditioned calibration answer different questions:
+rule-verified variants diagnose strict consistency, pooled calibration is an
+ablation, and family-conditioned calibration is the paper's primary
+recall-violation score. Figure~\ref{fig:framework} summarizes this path.
 
 We evaluate the framework on geometry-checkable relation families:
 \texttt{support\_contact}, \texttt{proximity}, and
@@ -61,8 +64,9 @@ Our contributions are threefold:
     predicates that are physically inconsistent because it is not calibrated to
     object-pair geometry.
     \item We introduce a \method{} framework that standardizes prediction rows,
-    joins identity-preserving 3D evidence, estimates \pgeom{}, and exposes
-    probabilistic, rule-verified, and family-conditional risk operating points.
+    joins identity-preserving 3D evidence, estimates calibrated geometry
+    validity, and re-ranks by a family-conditional geometry-risk score while
+    retaining pooled and rule-verified variants as ablations and diagnostics.
     \item We define a recall-violation evaluation protocol for
     geometry-checkable relation families, including exact-label \rAt{K},
     \vAt{K}, GT-positive/counterfactual verifier evaluation, and geometry

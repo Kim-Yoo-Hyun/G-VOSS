@@ -1,6 +1,6 @@
 # GeoCalib / H001 Paper Workspace
 
-Last updated: 2026-06-24 KST
+Last updated: 2026-06-25 KST
 
 This directory contains paper-writing artifacts for GeoCalib/H001. It is a
 manuscript workspace, not an experiment-result root. Paper-result runtime
@@ -16,9 +16,14 @@ rules live in `docs/paper.md`.
 - Current claim style: scoped relation-reliability paper for
   geometry-checkable 3D Scene Graph relation families.
 - Non-claim: broad open-vocabulary 3DSSG generation improvement.
-- Latest known Docker build: `logs/h001_aaai_pdf_build_h001v2_family_conditional_naming_20260624_130846.log`, exit 0, 9 pages.
-- H001_v2 fixed-`tau*` risk-controlled reranking is diagnostic candidate
-  evidence only; it does not replace the current GeoCalib main result route.
+- Latest known Docker build: `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`, exit 0, 10 total pages; technical content remains pages 1-7.
+- Current main GeoCalib score is `family_conditional_risk`
+  (`semantic_score * p_geom_valid_family`). Pooled
+  `probabilistic_recalibrated` is an ablation/baseline, and geometry-only
+  control is `p_geom_valid` without semantic score.
+- H001_v2 fixed-`tau*` and pooled lambda-soft reranking are diagnostic
+  candidate evidence only; they do not replace the current GeoCalib main
+  result route.
 - Remaining paper-work class: portal/form verification, artifact URL/DOI,
   supplementary/code-data decision, checklist answer pass, low-K artifact
   inclusion in the release/package plan, and final PDF/source sanity checks.

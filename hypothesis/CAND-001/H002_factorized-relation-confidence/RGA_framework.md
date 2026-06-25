@@ -258,11 +258,11 @@ These fields can be used only for sampling control or audit.
 ## Current Status
 
 ```text
-current_gate = v22 hanging-on strict candidate mining completed
-status = h002_reliability_target_v22_hanging_on_strict_conditional_contrast_candidate_mining_ready_for_source_inventory
+current_gate = v23 hanging-on positive-anchor repair plan completed
+status = h002_reliability_target_v23_hanging_on_positive_anchor_repair_plan_ready_for_capacity_scan
 posterior_smoke_allowed = false
 validation_or_test_used = false
-next = reliability_target_v22_hanging_on_strict_conditional_contrast_source_inventory
+next = reliability_target_v23_hanging_on_positive_anchor_capacity_scan
 ```
 
 Current finding:
@@ -319,7 +319,16 @@ attachment_deferred_v21_diagnostic_mixed_groups = 591
 attachment_deferred_v21_path_decision = hanging_on_strict_primary_attached_to_diagnostic
 attachment_deferred_v22_packet_plan = ready_for_candidate_mining_rows240_proxy120_120_groups95_scans192
 attachment_deferred_v22_candidate_mining = ready_for_source_inventory_rows240_visible_leakage0
-attachment_deferred_next_question = hanging_on_strict_conditional_contrast_source_inventory
+attachment_deferred_v22_source_inventory = ready_for_audit_packet_plan_rows240_audit_ready240_strong73_t2_167
+attachment_deferred_v22_audit_packet_plan = ready_for_materialization_rows240_t1_73_t2_167_proxy120_120
+attachment_deferred_v22_audit_packet_materialization = ready_for_leakage_review_packets240_images4406_visible_leakage0_gt_axis240
+attachment_deferred_v22_audit_packet_leakage_review = passed_visible_leakage0_validation0_ready_for_label_fill
+attachment_deferred_v22_audit_packet_label_fill = codex_visible_accept9_reject193_abstain38
+attachment_deferred_v22_audit_packet_label_ingestion = primary_binary9_193_quick_probe_risk97_gt_no_current240
+attachment_deferred_v22_audit_packet_target_independence = blocked_positive_sparse_strict0_diagnostic0_risk107_slice1666
+attachment_deferred_v22_audit_packet_path_decision = freeze_v22_diagnostic_select_v23_positive_anchor_repair_plan
+attachment_deferred_v23_positive_anchor_repair_plan = ready_for_capacity_scan_accept_seed9_cell9_2
+attachment_deferred_next_question = hanging_on_positive_anchor_capacity_scan
 eligible_pairs = 9984
 eligible_rows = 19968
 strict_v9_exact_pair_feasible = false
@@ -360,7 +369,7 @@ physical_family_v15_repair_plan = support_contact_witness_matched_ready_for_capa
 physical_family_v15_capacity_scan = row_capacity_sufficient_mixed_witness_strata_0
 physical_family_v15_path_decision = reject_same_witness_select_cross_stratum_support_contact
 physical_family_v16_cross_stratum_plan = lying_on_hl100_lh100_standing_lh24_vertical_control16
-selected_next_path = v20_attachment_deferred_endpoint_balanced_counterfactual_audit_packet_plan
+selected_next_path = v22_hanging_on_strict_conditional_contrast_audit_packet_target_independence_audit
 ```
 
 Interpretation:
@@ -427,13 +436,23 @@ Interpretation:
 - v66 completes that path decision. The strict condition is recorded as an H002 control rule, not a dataset GT rule. The selected route is `hanging on` strict primary, with `attached to` and `connected to` kept diagnostic until stronger evidence or a separate target route exists.
 - v67 completes the `hanging on` strict packet plan. A hidden-only dry-run preview can select 240 rows with 120/120 proxy balance across 95 strict groups, 192 scans, and 193 visible endpoint pairs. This unlocks candidate mining, not label fill or posterior smoke.
 - v68 materializes a hidden-field-safe 240-row candidate sheet for `hanging on`. Visible leakage is 0; source ids and construction fields are hidden. This unlocks source inventory, not packet assets, label fill, or posterior smoke.
+- v69 inventories source evidence for the 240 `hanging on` rows. All rows are audit-ready, all 192 scans have `multi_view`, sequence, and mesh source, 73 rows have strong same-frame co-visible evidence, and 167 rows use individual-view-plus-mesh evidence. This unlocks audit packet planning, not packet materialization, label fill, or posterior smoke.
+- v70 fixes the audit packet plan for the 240 `hanging on` rows. Visible packet templates, hidden asset manifest plan, visible schema, and audit packet contract are ready, with T1/T2 = 73/167 and hidden proxy balance 120/120. This unlocks packet materialization, not label fill or posterior smoke.
+- v71 materializes the v22 packet set: 240 visible review rows, 240 packet directories, 4,406 neutral packet-local images, hidden GT-match axis joined for 240/240, visible leakage hits 0, validation errors 0. This unlocks formal leakage review, not label fill or posterior smoke.
+- v72 passes formal leakage review for the v22 packet surface: 240 visible rows, 240 packet markdown files, 240 packet directories, 4,406 neutral packet-local images, hidden manifest rows 240, visible leakage hits 0, validation errors 0. This unlocks visible-only label fill, not label ingestion, target-independence audit, or posterior smoke.
+- v73 fills the v22 leakage-reviewed packet labels from visible packet evidence only. The result is `accept/reject/abstain = 9/193/38`, binary preview `9/193`, validation errors 0, hidden manifest read false. This unlocks label ingestion, not target-independence audit or posterior smoke.
+- v74 ingests the locked v73 labels with hidden manifest and GT axis after label lock. It creates multiclass 240, primary binary 202 (`9/193`), geometry-support 202, endpoint/coverage/uncertainty 240 targets. Class mass fails and quick-probe risk flags are 97, so posterior smoke remains blocked and the next step is target-independence audit.
+- v75 audits target independence for the v22 `hanging on` packet target. Primary relation binary remains `9/193`, minimum class mass is 9 versus required 60, strict/diagnostic clear slices are `0/0`, full quick-probe risk flags are 107, and slice-level blocking risk totals 1,666. This repeats the target-construction bottleneck and routes next to path decision, not posterior smoke.
+- v76 completes the path decision after v75. v22 is frozen as diagnostic-only negative target-construction evidence, and the selected next route is `v23_hanging_on_positive_anchor_repair_plan`. The repair route must test accept-rich subject-anchor affordance cells with matched hard negatives; it must not simply add easy positives.
+- v77 freezes the v23 positive-anchor repair plan. The v22 accept seed is concentrated in `curtain/blinds/bag/towel` subjects and `door/window/stand` anchors; the positive-anchor candidate cell has `accept:9, reject:2`. The next step is a full-train capacity scan requiring at least 300 positive-anchor candidates, 30 matched positive/negative cells, and 160 balanced proxy capacity before any candidate mining or labels.
 
 ## Current Relation Scope
 
 Core target construction currently focuses on:
 
 ```text
-attachment_deferred: hanging on strict source inventory, attached to and connected to diagnostic
+attachment_deferred: hanging on positive-anchor capacity scan
+attachment_deferred_diagnostic: attached to and connected to
 ```
 
 Previous train-only/full-train branches remain diagnostic or control evidence:
@@ -447,7 +466,7 @@ proximity: close by
 Active empirical branch:
 
 ```text
-reliability_target_v22_hanging_on_strict_conditional_contrast_source_inventory
+reliability_target_v23_hanging_on_positive_anchor_capacity_scan
 ```
 
 Deferred expansion:
@@ -464,9 +483,9 @@ or used for posterior smoke until the repaired target passes target-independence
 
 ```text
 README.md = H002 folder map and current status
-summary_branch_v2.md = research framing, claim boundary, latest summary, and v1-v68 overview
+summary_branch_v2.md = research framing, claim boundary, latest summary, and v1-v77 overview
 RGA_framework.md = RGA definitions, axes, buckets, metrics, gates
 feasibility_check.md = posterior combiner and multi-view feasibility notes
-stages/ = v1-v68 stage-specific progress, problems, and transition rationale
+stages/ = v1-v77 stage-specific progress, problems, and transition rationale
 artifacts/ = raw per-stage outputs
 ```

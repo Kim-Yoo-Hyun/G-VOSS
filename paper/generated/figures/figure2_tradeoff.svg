@@ -28,9 +28,9 @@
 <circle cx="565.5" cy="360.6" r="7" fill="#4b5563" stroke="#ffffff" stroke-width="2"/>
 <text x="575.5" y="352.6" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#4b5563" text-anchor="start">semantic</text>
 <circle cx="490.6" cy="187.6" r="7" fill="#2563eb" stroke="#ffffff" stroke-width="2"/>
-<text x="500.6" y="179.6" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#2563eb" text-anchor="start">prob.</text>
+<text x="500.6" y="179.6" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#2563eb" text-anchor="start">pooled</text>
 <circle cx="416.4" cy="204.1" r="7" fill="#059669" stroke="#ffffff" stroke-width="2"/>
-<text x="426.4" y="196.1" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#059669" text-anchor="start">fam. risk</text>
+<text x="426.4" y="196.1" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#059669" text-anchor="start">GeoCalib</text>
 <circle cx="70.0" cy="385.4" r="7" fill="#dc2626" stroke="#ffffff" stroke-width="2"/>
 <text x="62.0" y="377.4" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#dc2626" text-anchor="end">rule</text>
 <rect x="675" y="70" width="560" height="465" rx="8" fill="#f8fafc" stroke="#e5e7eb"/>
@@ -58,18 +58,18 @@
 <circle cx="1186.8" cy="426.7" r="7" fill="#4b5563" stroke="#ffffff" stroke-width="2"/>
 <text x="1196.8" y="418.7" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#4b5563" text-anchor="start">semantic</text>
 <circle cx="1014.5" cy="258.2" r="7" fill="#2563eb" stroke="#ffffff" stroke-width="2"/>
-<text x="1024.5" y="250.2" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#2563eb" text-anchor="start">prob.</text>
+<text x="1024.5" y="250.2" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#2563eb" text-anchor="start">pooled</text>
 <circle cx="826.3" cy="160.8" r="7" fill="#059669" stroke="#ffffff" stroke-width="2"/>
-<text x="836.3" y="152.8" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#059669" text-anchor="start">fam. risk</text>
+<text x="836.3" y="152.8" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#059669" text-anchor="start">GeoCalib</text>
 <circle cx="690.0" cy="364.7" r="7" fill="#dc2626" stroke="#ffffff" stroke-width="2"/>
 <text x="682.0" y="356.7" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#dc2626" text-anchor="end">rule</text>
 <text x="70.0" y="540.0" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#111827" text-anchor="start">Operating points:</text>
 <circle cx="202" cy="536" r="6" fill="#4b5563"/>
 <text x="214.0" y="540.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#111827" text-anchor="start">semantic</text>
 <circle cx="392" cy="536" r="6" fill="#2563eb"/>
-<text x="404.0" y="540.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#111827" text-anchor="start">prob.</text>
+<text x="404.0" y="540.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#111827" text-anchor="start">pooled</text>
 <circle cx="582" cy="536" r="6" fill="#059669"/>
-<text x="594.0" y="540.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#111827" text-anchor="start">fam. risk</text>
+<text x="594.0" y="540.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#111827" text-anchor="start">GeoCalib</text>
 <circle cx="772" cy="536" r="6" fill="#dc2626"/>
 <text x="784.0" y="540.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#111827" text-anchor="start">rule</text>
 <text x="70.0" y="585.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#6b7280" text-anchor="start">Open3DSG panel uses the full-validation 548/548 recovery branch; 533/548 covered branch is sensitivity evidence.</text>

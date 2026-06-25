@@ -159,11 +159,15 @@ improves relation reliability for geometry-checkable families while preserving
 explicit recall tradeoffs.
 ```
 
-Blocked until rerun:
+Superseded pre-rerun warning:
 
 ```text
-The current 127-scan results already prove the full official validation claim.
+127-scan results alone prove the full official validation claim.
 ```
+
+This statement is no longer used as a blocker because the full-validation
+VL-SAT and Open3DSG recovery artifacts are complete. The 127-scan branch remains
+historical/sensitivity evidence only.
 
 Blocked regardless:
 

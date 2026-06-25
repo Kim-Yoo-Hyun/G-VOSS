@@ -25,7 +25,7 @@ This is an appendix/sensitivity branch for the historical 127-scan H001 covered 
 | semantic_only | 0.3972 | 0.4990 | 0.1331 | 0.1199 |
 | probabilistic_recalibrated | 0.3870 | 0.5607 | 0.0594 | 0.0811 |
 | rule_verified_point_subtype | 0.4177 | 0.5265 | 0.0000 | 0.0000 |
-| control_family_specific_p_geom_valid | 0.4558 | 0.6012 | 0.0254 | 0.0323 |
+| family_conditional_risk | 0.4558 | 0.6012 | 0.0254 | 0.0323 |
 
 ## Decision
 

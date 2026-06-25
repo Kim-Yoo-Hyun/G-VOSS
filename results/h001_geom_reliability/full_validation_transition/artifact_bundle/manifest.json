@@ -1,7 +1,7 @@
 {
   "schema_version": "h001_full_validation_artifact_bundle_manifest_v2",
   "status": "upload_bundle_file_list_and_verification_fixed_no_archive_created",
-  "updated_at": "2026-06-24T13:04:14+09:00",
+  "updated_at": "2026-06-25T08:53:54+09:00",
   "claim_scope": "paper-facing full official 3DSSG_subset validation route",
   "bundle_name_template": "release/h001_full_validation_results_<timestamp>.tar.zst",
   "archive_created": false,
@@ -31,13 +31,13 @@
     "payload_checksum_count": 211,
     "payload_row_count_records": 18,
     "payload_file_list_sha256": "d706f00ec75ad3b7a4103bd543485f0181b7694f715c69b24432085711ddc95f",
-    "payload_sha256_manifest_sha256": "cd191c9ba2fe612005e285ccb52a630f7c974cc7ca6aa5374748223e607a9de9",
+    "payload_sha256_manifest_sha256": "40e554828f1a73e7866a9d645eb18dadddb13b545a884ca403372756faab2eb4",
     "payload_row_counts_sha256": "2e86fe118260300bae6379f763f39f0cda0e4b07dd38455878de5d832d121943",
-    "checksum_generation_log": "logs/h001_fullval_upload_checksums_h001v2_family_naming_20260624_130414.log",
-    "checksum_generation_exit_file": "logs/h001_fullval_upload_checksums_h001v2_family_naming_20260624_130414.exit",
+    "checksum_generation_log": "logs/h001_fullval_upload_checksums_family_main_20260625_085344.log",
+    "checksum_generation_exit_file": "logs/h001_fullval_upload_checksums_family_main_20260625_085344.exit",
     "checksum_generation_exit_code": 0,
-    "verification_log": "logs/h001_fullval_upload_verify_h001v2_family_naming_final_20260624_130514.log",
-    "verification_exit_file": "logs/h001_fullval_upload_verify_h001v2_family_naming_final_20260624_130514.exit",
+    "verification_log": "logs/h001_fullval_upload_verify_family_main_20260625_085354.log",
+    "verification_exit_file": "logs/h001_fullval_upload_verify_family_main_20260625_085354.exit",
     "verification_exit_code": 0
   },
   "fixed_payload_roots": [

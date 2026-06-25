@@ -29,13 +29,16 @@ violation claim.
 
 The geometry verifier assigns a row-level status
 $v_i \in \{\mathrm{satisfied},\mathrm{uncertain},\mathrm{violated}\}$, and the
-calibrator estimates
+calibrator estimates pooled and family-conditioned geometry-validity
+probabilities:
 \begin{equation}
 \pgeom_i = P(v_i \neq \mathrm{violated} \mid g_i,a_i).
 \end{equation}
-The score is a calibrated reliability signal, not a proof of correctness. For
-this reason, the paper reports probabilistic, rule-verified, and
-family-conditional risk operating points separately.
+The main GeoCalib score uses the family-conditioned version of this probability,
+denoted \pgeomfam{}, while the pooled \pgeom{} score remains a calibrated
+ablation. These scores are reliability signals, not proofs of correctness. For
+this reason, the paper reports the main family-conditional score together with
+pooled, rule-verified, and control variants.
 
 The main recall metric is exact predicate-label \rAt{K} over the fixed in-scope
 ground-truth denominator. Family grouping defines the geometry-checkable

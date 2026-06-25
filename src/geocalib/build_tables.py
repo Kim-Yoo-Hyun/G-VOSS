@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 """Build Docker-reproducible H001 geometry reliability tables.
 
-This script reads locked hypothesis-stage artifacts and emits paper-facing
-tables/reports for the scoped VL-SAT result. It does not train, tune, or rerun
-the predictor.
+This script reads locked H001 artifacts and emits compact paper-facing
+tables/reports. It does not train, tune, or rerun the predictor. Current
+GeoCalib paper-facing interpretation treats family-conditional risk as the main
+score and pooled semantic-score times p_geom_valid as an ablation. The
+historical expected-count constants are retained only for legacy artifact
+validation paths.
 """
 
 from __future__ import annotations
@@ -188,12 +191,16 @@ def build_table1(hardened: dict[str, Any], g3: dict[str, Any]) -> tuple[list[dic
     semantic = metric_row(hardened, "semantic_only")
     source = {
         "semantic_only": (hardened, "semantic_only", "reproduced VL-SAT semantic ranking"),
-        "probabilistic_recalibrated": (hardened, "probabilistic_recalibrated", "main recall-first H001 condition"),
+        "probabilistic_recalibrated": (
+            hardened,
+            "probabilistic_recalibrated",
+            "pooled calibrated-risk ablation; semantic score times pooled p_geom_valid",
+        ),
         "rule_verified_point_subtype": (hardened, "rule_verified_point_subtype", "hard-filter zero-violation diagnostic"),
         "family_conditional_risk": (
             g3,
             "control_family_specific_p_geom_valid",
-            "family-conditional calibrated risk operating point",
+            "GeoCalib main score; semantic score times family-conditioned p_geom_valid",
         ),
     }
     rows: list[dict[str, Any]] = []
@@ -240,12 +247,12 @@ def build_table1(hardened: dict[str, Any], g3: dict[str, Any]) -> tuple[list[dic
 
 def build_table2(g3: dict[str, Any]) -> tuple[list[dict[str, Any]], list[list[str]]]:
     conditions = [
-        ("control_p_geom_valid_only", "geometry-only ranking control"),
+        ("control_p_geom_valid_only", "geometry-only ranking control; p_geom_valid without semantic score"),
         ("control_distance_only", "simple distance heuristic control"),
         ("control_shuffled_geometry", "breaks geometry identity while preserving distribution"),
         ("control_wrong_pair_geometry", "tests object-pair identity"),
     ]
-    main = metric_row(g3, "probabilistic_recalibrated")
+    main = metric_row(g3, "control_family_specific_p_geom_valid")
     rows: list[dict[str, Any]] = []
     md_rows: list[list[str]] = []
     for condition, purpose in conditions:
@@ -749,7 +756,8 @@ def build_report(
     open3dsg_hook: dict[str, Any],
     out_root: Path,
 ) -> str:
-    main = next(row for row in table1 if row["condition"] == "probabilistic_recalibrated")
+    main = next(row for row in table1 if row["condition"] == "family_conditional_risk")
+    pooled = next(row for row in table1 if row["condition"] == "probabilistic_recalibrated")
     semantic = next(row for row in table1 if row["condition"] == "semantic_only")
     gt_auroc = next(row for row in table3 if row["metric"] == "p_geom_valid AUROC")
     gt_auprc = next(row for row in table3 if row["metric"] == "p_geom_valid AUPRC")
@@ -759,13 +767,16 @@ def build_report(
     open3dsg_metrics = open3dsg_hook.get("key_metrics", {})
     open3dsg_semantic = open3dsg_metrics.get("semantic_only") or {}
     open3dsg_prob = open3dsg_metrics.get("probabilistic_recalibrated") or {}
+    open3dsg_family = open3dsg_metrics.get("family_conditional_risk") or {}
     open3dsg_fact = (
         "- Open3DSG second-source metrics are ready: semantic_only R@50/R@100 "
         f"{pct(open3dsg_semantic.get('r50'))}/{pct(open3dsg_semantic.get('r100'))}; "
-        "probabilistic_recalibrated R@50/R@100 "
+        "pooled probabilistic_recalibrated R@50/R@100 "
         f"{pct(open3dsg_prob.get('r50'))}/{pct(open3dsg_prob.get('r100'))}; "
-        "Violation@50/@100 "
-        f"{pct(open3dsg_prob.get('violation50'))}/{pct(open3dsg_prob.get('violation100'))}."
+        "main family_conditional_risk R@50/R@100 "
+        f"{pct(open3dsg_family.get('r50'))}/{pct(open3dsg_family.get('r100'))}; "
+        "main Violation@50/@100 "
+        f"{pct(open3dsg_family.get('violation50'))}/{pct(open3dsg_family.get('violation100'))}."
         if open3dsg_ready
         else "- Open3DSG numbers are blocked until feature dump, checkpoint reproduction, raw dump, adapter export, geometry join, and metric execution are complete."
     )
@@ -783,7 +794,7 @@ def build_report(
         "- Blocked now: baseline-agnostic or broad open-vocabulary 3DSSG improvement claim."
     )
     open3dsg_completion = (
-        "- Open3DSG second-source defense is now stronger because feature audit, checkpoint reproduction, clean raw-dump source provenance, adapter export, geometry join, metric eval, real failure-analysis rows, qualitative case queue, deterministic qualitative case inspection, and paper-facing caveat wording all exist. The remaining paper risk is claim discipline: keep Open3DSG wording scoped to the measured H001-family, averaged-BLIP, covered-loadable setting."
+        "- Open3DSG second-source defense is now stronger because selected-checkpoint provenance, recovery-policy preprocessing, raw-dump identity, adapter export, geometry join, metric eval, real failure-analysis rows, qualitative case queue, deterministic qualitative case inspection, and paper-facing caveat wording all exist. The remaining paper risk is claim discipline: keep Open3DSG wording scoped to the measured H001-family, selected-checkpoint full-validation recovery setting."
         if open3dsg_ready
         else "- Completion of the background Open3DSG feature dump helps the defense mainly by enabling second-source checkpoint reproduction and metrics. It does not by itself answer reviewer concerns; the stronger defense comes only after feature audit, checkpoint reproduction, raw dump identity pass, adapter export, geometry join, metric tables, and real failure-analysis rows are completed."
     )
@@ -791,10 +802,10 @@ def build_report(
     bootstrap_fact = "- Docker subgraph bootstrap CI status: not generated."
     if bootstrap_path.exists():
         bootstrap = load_json(bootstrap_path)
+        sources = bootstrap.get("sources", {})
+        open3dsg_source = sources.get("open3dsg_ov_full_validation_recovery_relaxed_views_min2") or sources.get("open3dsg_ov") or {}
         open3dsg_delta = (
-            bootstrap.get("sources", {})
-            .get("open3dsg_ov", {})
-            .get("deltas_vs_semantic_only", {})
+            open3dsg_source.get("deltas_vs_semantic_only", {})
             .get("control_family_specific_p_geom_valid", {})
             .get("100", {})
         )
@@ -839,16 +850,18 @@ def build_report(
 
     return f"""# H001 Geometry Reliability Experiment Report
 
-Generated by Docker-oriented table builder from locked hypothesis artifacts.
+Generated by Docker-oriented table builder from locked H001 artifacts.
 
 ## Fact
 
 - Method framing: calibrated geometry-consistency evaluation and re-ranking framework.
 - Prediction sources currently evaluated for the paper claim: `VL-SAT` / `vlsat_closed_set` and `Open3DSG` / `open3dsg_ov`.
 - `semantic_only` R@50/R@100: {pct(semantic['r50'])}/{pct(semantic['r100'])}.
-- `probabilistic_recalibrated` R@50/R@100: {pct(main['r50'])}/{pct(main['r100'])}.
+- Main `family_conditional_risk` R@50/R@100: {pct(main['r50'])}/{pct(main['r100'])}.
+- Pooled `probabilistic_recalibrated` R@50/R@100: {pct(pooled['r50'])}/{pct(pooled['r100'])}.
 - `semantic_only` Violation@50/@100: {pct(semantic['violation50'])}/{pct(semantic['violation100'])}.
-- `probabilistic_recalibrated` Violation@50/@100: {pct(main['violation50'])}/{pct(main['violation100'])}.
+- Main `family_conditional_risk` Violation@50/@100: {pct(main['violation50'])}/{pct(main['violation100'])}.
+- Pooled `probabilistic_recalibrated` Violation@50/@100: {pct(pooled['violation50'])}/{pct(pooled['violation100'])}.
 - `p_geom_valid` GT AUROC/AUPRC: {pct(gt_auroc['value'])}/{pct(gt_auprc['value'])}.
 - Reduced visual sanity-check target quality-issue rate: {pct(visual_quality['value'])}.
 - Reduced visual sanity-check contradiction rate: {pct(visual_contra['value'])}.
@@ -880,10 +893,8 @@ Fact:
 - Cache verification is ready: 43 files, 8.277 GB, 3 weight/index files.
 - Frozen Qwen-VL files already exist under `sources/qwen_vl/`: input schema, output JSONL contract, prompt templates, model candidates, tiny-pilot input scope, rendered pair-crop manifest, runtime plan, and contract validators.
 - Runtime preflight and tiny inference smoke have passed when the runtime status above is `tiny_inference_smoke_passed_non_metric`.
-- Full-source promotion protocol is frozen under `sources/qwen_vl/full_source_plan/`: 127 scans, 388 contexts, 25,916 directed pairs, maximum all-pairs x family query rows 77,748, and in-scope GT denominator 2,545.
-- Full-source input audit is ready under `sources/qwen_vl/full_source_input/`: 77,748 universe query rows, 33,384 inferable input rows, 44,364 missing rows with explicit reasons, 134 inference shards, and contract validation with 0 input errors.
-- Full-source crop rendering/preflight is ready: shard smoke `qwen_full_source_shard_0000` covered 250 input rows / 84 unique pair crops / 0 errors, and all-scope preflight covered 33,384 input rows / 11,128 unique pair crops / 0 errors.
-- Full-source inference runner plan is frozen: 134 shard command/resume records and `record_id` resume key. Shard 0000 completed and contract-validated as a non-metric pilot shard: 250 prediction rows, 250 raw responses, parser status `parsed:250`, and 0 validation errors/warnings. Qwen has not completed all-shard paper-metric validation/evaluation.
+- Full official validation downstream is complete as appendix/extension evidence: 157 scans, 548 contexts, 110,424 query rows, 46,506 inferable input rows, 63,918 missing query rows, 187 shards, 35,131 exported predictions, 32,236 in-scope predictions, and 3,972 H001-family GT rows.
+- Qwen-VL remains a third semantic source / modern VLM extension. It is not the main Open3DSG/VL-SAT evidence path unless explicitly promoted through the same claim-boundary review.
 
 Potential advantages:
 
@@ -910,11 +921,11 @@ Inference:
 Fact:
 
 {open3dsg_fact}
-- The Open3DSG predicate-family mapping and denominator policy are frozen before metric inspection; in-scope GT denominator is 2,545 rows across support_contact 1,199 / proximity 1,128 / relative_vertical 218.
+- The Open3DSG predicate-family mapping and denominator policy are frozen before metric inspection; full-validation in-scope GT denominator is 3,972 rows across support_contact 1,816 / proximity 1,766 / relative_vertical 390.
 - Recall matching for Open3DSG remains exact predicate-label matching. Family grouping is used for reliability and violation reporting, not for collapsing recall labels.
-- Open3DSG real failure-analysis rows and qualitative inspection are ready: 57,736 rows, 0 validation errors, 6,162 visual-audit queue rows, 36 qualitative case candidates, 23/36 demoted by geometry-aware reranking, and 10/36 rule-violated cases with p_geom_valid > 0.9.
-- Open3DSG raw dump has clean source-process provenance via v14 streaming same-path resume: exit `0`, 377/377 completed batches, 19,162 rows, dropped/invalid partial rows 0/0, and SHA256 matching the identity-audited canonical `raw_dump/raw.jsonl`. Historical v12/v13/v14 exit-137 attempts are retained as run records, not final raw-dump provenance caveats.
-- Open3DSG paper caveats are frozen: filtered train split 3,744/3,852 subgraphs, train-dev validation split 156/160 subgraphs, H001 covered loadable scope 377/388 contexts, averaged-BLIP checkpoint variant, exact-label 2,545-row H001-family denominator, and residual calibration risk.
+- Open3DSG recovery failure-analysis rows and qualitative inspection are ready: 82,155 rows, 0 validation errors, 36 qualitative case candidates, 25/36 demoted by geometry-aware reranking, and 8/36 rule-violated cases with p_geom_valid > 0.9.
+- Open3DSG recovery raw dump has selected full-validation provenance: 548/548 contexts, 26,938 raw rows, 695,916 prediction rows after adapter export, and identity-preserving geometry join.
+- Open3DSG paper caveats are frozen: selected official non-avg checkpoint, filtered train/dev provenance, 548/548 recovery policy with `OPEN3DSG_MIN_VISIBLE_OBJECTS=2` plus relaxed two-scan views, exact-label 3,972-row H001-family denominator, 533/548 unmodified-source sensitivity, appendix historical 377/388 vs R2 388/388 sensitivity, and residual calibration risk.
 - The reduced 50-row visual sanity check is provenance-limited and must not be described as a large-scale or strictly blinded human audit.
 
 Likely reviewer attacks:

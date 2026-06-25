@@ -1,6 +1,6 @@
 metric,rows,value,note
-GT-positive nonviolated rate,2545,0.9972495088408644,valid GT relations should not be flagged as violated
-GT-derived negative nonsatisfied rate,2545,0.9693516699410609,counterfactual negatives should not be satisfied
-p_geom_valid AUROC,5090,0.9779406440456846,probability discriminates GT positives from counterfactual negatives
-p_geom_valid AUPRC,5090,0.9736732648482089,precision-recall discrimination
-p_geom_valid Brier,5090,0.05375387565816732,calibration error on GT/counterfactual verifier evaluation
+GT-positive nonviolated rate,3972,0.9964753272910373,valid full-validation GT relations should not be flagged as violated
+GT-derived negative nonsatisfied rate,3972,0.9672708962739174,counterfactual negatives should not be satisfied
+p_geom_valid AUROC,7944,0.9771915493043449,probability discriminates full-validation GT positives from counterfactual negatives
+p_geom_valid AUPRC,7944,0.9728973123059211,precision-recall discrimination
+p_geom_valid Brier,7944,0.054288200834003875,calibration error on GT/counterfactual verifier evaluation

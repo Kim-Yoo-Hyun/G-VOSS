@@ -1,5 +1,7 @@
 # VL-SAT Source
 
+Last updated: `2026-06-25 KST`
+
 This source currently provides the controlled-anchor full-validation H001
 result. The older 127-scan H001 result is retained as historical/sensitivity
 evidence.
@@ -92,7 +94,7 @@ Key full-validation metric pattern:
 | semantic_only | 0.9272 | 0.9635 | 0.0268 | 0.0476 |
 | probabilistic_recalibrated | 0.9305 | 0.9688 | 0.0229 | 0.0404 |
 | rule_verified_point_subtype | 0.9257 | 0.9627 | 0.0000 | 0.0000 |
-| control_family_specific_p_geom_valid | 0.9288 | 0.9683 | 0.0206 | 0.0333 |
+| family_conditional_risk | 0.9288 | 0.9683 | 0.0206 | 0.0333 |
 
 This is now valid VL-SAT full-validation metric and failure-taxonomy evidence
 for the current H001 families. Treat `failure_cases/` as deterministic

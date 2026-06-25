@@ -23,7 +23,7 @@ Created at: `2026-05-18T09:00:16+00:00`
 
 ## Output Contract
 
-- `metrics.json` must expose semantic-only, probabilistic rerank, rule-verified, and family-specific control conditions when real inputs exist.
+- `metrics.json` must expose semantic-only, probabilistic rerank, rule-verified, and family-conditional calibrated risk conditions when real inputs exist.
 - Table 6 must remain blocked until `metrics.json` status is `ready`.
 
 ## Claim Boundary

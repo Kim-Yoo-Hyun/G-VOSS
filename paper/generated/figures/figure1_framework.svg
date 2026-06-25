@@ -52,20 +52,19 @@
 <line x1="1058.0" y1="277.5" x2="1082.0" y2="277.5" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
 <text x="55.0" y="405.0" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#111827" text-anchor="start">Operating points</text>
 <rect x="55" y="427" width="245" height="90" rx="7" fill="#eff6ff" stroke="#94a3b8" stroke-width="1.4"/>
-<text x="71.0" y="453.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Probabilistic</text>
-<text x="71.0" y="479.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">score_sem *</text>
-<text x="71.0" y="496.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">p_geom_valid;</text>
-<text x="71.0" y="513.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">recall-first re-ranking</text>
+<text x="71.0" y="453.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Pooled risk</text>
+<text x="71.0" y="479.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">score_sem * pooled</text>
+<text x="71.0" y="496.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">p_geom_valid; ablation</text>
 <rect x="330" y="427" width="245" height="90" rx="7" fill="#fff1f2" stroke="#94a3b8" stroke-width="1.4"/>
 <text x="346.0" y="453.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Rule-verified</text>
 <text x="346.0" y="479.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">remove hard violations;</text>
 <text x="346.0" y="496.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">zero-violation</text>
 <text x="346.0" y="513.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">diagnostic</text>
 <rect x="605" y="427" width="245" height="90" rx="7" fill="#ecfdf5" stroke="#94a3b8" stroke-width="1.4"/>
-<text x="621.0" y="453.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Family-specific</text>
-<text x="621.0" y="479.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">stricter calibration for</text>
-<text x="621.0" y="496.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">violation-first</text>
-<text x="621.0" y="513.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">operation</text>
+<text x="621.0" y="453.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">GeoCalib</text>
+<text x="621.0" y="479.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">score_sem *</text>
+<text x="621.0" y="496.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">family-conditioned</text>
+<text x="621.0" y="513.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">p_geom_valid</text>
 <rect x="880" y="427" width="310" height="90" rx="7" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.4"/>
 <text x="896.0" y="453.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Controls</text>
 <text x="896.0" y="479.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">geometry-only,</text>

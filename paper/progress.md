@@ -1,6 +1,6 @@
 # H001 Experiment Progress Rationale
 
-Last updated: 2026-06-23 KST
+Last updated: 2026-06-25 KST
 
 This document explains why H001 moved from hypothesis checks to Docker paper
 experiments, why each next experiment was introduced, and how the key results
@@ -12,9 +12,14 @@ Paper-facing name: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D 
 Current progress snapshot:
 
 - Main source-result evidence is complete for the scoped GeoCalib claim.
+- `family_conditional_risk` is the paper-facing GeoCalib main score
+  (`semantic_score * p_geom_valid_family`); pooled
+  `probabilistic_recalibrated` is an ablation/baseline
+  (`semantic_score * p_geom_valid`), and geometry-only control ranks by
+  `p_geom_valid` without semantic score.
 - Low-K reporting is accepted for K = `{5,10,20,50,100}`; point-metric provenance is present in both paper-facing `metrics_k_sweep/` roots, and K=1 remains sanity-check only.
 - Qwen-VL full official validation downstream is complete as appendix/extension evidence, not as a main-source replacement.
-- Latest known paper build is `logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log`, exit 0, 9 pages.
+- Latest known paper build is `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`, exit 0, 10 pages total: technical content pages 1-7, references pages 8-9, reproducibility checklist page 10.
 - Remaining work is submission/package hygiene and artifact packaging, not new main-source experiments.
 
 ## Research Claim Being Tested
@@ -88,13 +93,15 @@ Historical key result:
 
 Interpretation:
 
-- The main signal is not just hard pruning. `probabilistic_recalibrated`
-  preserves or slightly improves exact-label recall while reducing violations.
+- The historical signal was not just hard pruning. Pooled
+  `probabilistic_recalibrated` preserved or slightly improved exact-label recall
+  while reducing violations.
 - `rule_verified_point_subtype` is useful as a zero-violation diagnostic, but
   it should not be framed as the default method because a reviewer could read
   it as simply filtering away difficult relations.
-- `family_conditional_risk` shows a stronger violation-reduction
-  operating point and motivates family-conditional calibration as a method variant.
+- `family_conditional_risk` showed a stronger violation-reduction operating
+  point; in the current paper-facing narrative it is promoted to the GeoCalib
+  main score, while pooled `probabilistic_recalibrated` remains an ablation.
 
 Why we moved on:
 
@@ -305,8 +312,9 @@ Interpretation:
 - Qualitative rows support the paper's failure mechanism: predicted relations
   can be semantically plausible but physically inconsistent for the object pair.
 - The 10 high-confidence rule-violated cases show residual calibration risk.
-  This is why the paper reports probabilistic, rule-verified, and
-  family-conditional risk operating points separately.
+  This is why the paper reports the main family-conditional score alongside
+  pooled and rule-verified variants instead of treating any score as proof of
+  physical correctness.
 
 Why we moved on:
 
@@ -356,16 +364,16 @@ Key VL-SAT full-validation result:
 | condition | R@5 | R@10 | R@20 | R@50 | R@100 | V@5 | V@10 | V@20 | V@50 | V@100 | reading |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
 | `semantic_only` | 0.4194 | 0.6322 | 0.8074 | 0.9272 | 0.9635 | 0.0029 | 0.0082 | 0.0142 | 0.0268 | 0.0476 | full official source ranking |
-| `probabilistic_recalibrated` | 0.4154 | 0.6322 | 0.8107 | 0.9305 | 0.9688 | 0.0015 | 0.0071 | 0.0120 | 0.0229 | 0.0404 | recall-first calibrated setting |
-| `family_conditional_risk` | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 | family-conditional calibrated risk setting |
+| `probabilistic_recalibrated` | 0.4154 | 0.6322 | 0.8107 | 0.9305 | 0.9688 | 0.0015 | 0.0071 | 0.0120 | 0.0229 | 0.0404 | pooled calibrated-risk ablation |
+| `family_conditional_risk` | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 | GeoCalib main score |
 | `rule_verified_point_subtype` | 0.4197 | 0.6317 | 0.8074 | 0.9257 | 0.9627 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | hard-filter diagnostic |
 
 Interpretation:
 
 - The full official validation route preserves the main qualitative pattern:
-  calibrated/family-conditional risk reranking reduces violation while maintaining or
-  slightly improving recall, and rule filtering reaches zero violation with a
-  small recall tradeoff.
+  the family-conditional GeoCalib score reduces violation while maintaining or
+  slightly improving recall, pooled calibration is a recall-favoring ablation,
+  and rule filtering reaches zero violation with a small recall tradeoff.
 - The absolute recall is lower than the 127-scan result because the denominator
   is broader, which is expected and should be reported rather than hidden.
 - This is now the selected cross-source full-validation primary route. The
@@ -379,8 +387,8 @@ Key Open3DSG recovery full-validation result:
 | condition | R@5 | R@10 | R@20 | R@50 | R@100 | V@5 | V@10 | V@20 | V@50 | V@100 | reading |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
 | `semantic_only` | 0.0368 | 0.1002 | 0.1991 | 0.4096 | 0.5161 | 0.5131 | 0.3255 | 0.2088 | 0.1386 | 0.1242 | recovery full official source ranking |
-| `probabilistic_recalibrated` | 0.0826 | 0.1581 | 0.2603 | 0.3975 | 0.5723 | 0.0628 | 0.0699 | 0.0654 | 0.0606 | 0.0811 | recall-first calibrated setting |
-| `family_conditional_risk` | 0.0984 | 0.1921 | 0.3291 | 0.4658 | 0.6047 | 0.0420 | 0.0482 | 0.0441 | 0.0286 | 0.0341 | family-conditional calibrated risk setting |
+| `probabilistic_recalibrated` | 0.0826 | 0.1581 | 0.2603 | 0.3975 | 0.5723 | 0.0628 | 0.0699 | 0.0654 | 0.0606 | 0.0811 | pooled calibrated-risk ablation |
+| `family_conditional_risk` | 0.0984 | 0.1921 | 0.3291 | 0.4658 | 0.6047 | 0.0420 | 0.0482 | 0.0441 | 0.0286 | 0.0341 | GeoCalib main score |
 | `rule_verified_point_subtype` | 0.0707 | 0.1314 | 0.2422 | 0.4295 | 0.5368 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | hard-filter diagnostic |
 
 Full-validation uncertainty and verifier checks:
@@ -482,6 +490,9 @@ Why not main evidence:
 Allowed:
 
 - H001 is a calibrated geometry-consistency evaluation/re-ranking framework.
+- The paper-facing main score is `family_conditional_risk`; pooled
+  `probabilistic_recalibrated` is an ablation/baseline and geometry-only is a
+  true control.
 - It reduces geometry violations under measurable recall tradeoffs on measured
   `VL-SAT` and Open3DSG measured-family scopes.
 - It provides controls, GT-based verifier support, denominator transparency,
@@ -504,17 +515,17 @@ The current paper body is in `paper/draft.md` and now runs from Title through
 Conclusion. The current target-venue LaTeX source is in `paper/aaai/`, using
 the checked AAAI-26 style route until the exact target-year AAAI kit/form is
 reconfirmed. Docker PDF build verification is complete with
-`h001-aaai-tex:20260526`: latest low-K table rebuild
-`logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log` exits 0.
-`main.pdf` builds to 9 total pages, technical content occupies pages 1-7,
-references are on page 8, the AAAI reproducibility checklist is on page 9,
-BibTeX uses 19 entries, and targeted grep found no missing citations, undefined
-  refs, overfull hboxes, LaTeX errors, or AAAI package errors. Low-K source
-  metrics are now regenerated in `metrics_k_sweep/` for both paper-facing
-  sources, with K=50/100 matching locked `metrics/`. The next work is
-  submission package hygiene: portal form, artifact URL/DOI, supplementary/code-
-  data decision, checklist answer pass, low-K artifact packaging, and final
-  package regeneration.
+`h001-aaai-tex:20260526`: latest family-main rebuild
+`logs/h001_aaai_pdf_build_family_main_20260625_084157.log` exits 0.
+`main.pdf` builds to 10 total pages: technical content occupies pages 1-7,
+references are on pages 8-9, and the AAAI reproducibility checklist is on page
+10. BibTeX uses 19 entries, Type 1 fonts are used, and targeted grep found no
+missing citations, undefined refs, overfull hboxes, LaTeX errors, or AAAI
+package errors. Low-K source metrics are now regenerated in `metrics_k_sweep/`
+for both paper-facing sources, with K=50/100 matching locked `metrics/`. The
+next work is submission package hygiene: portal form, artifact URL/DOI,
+supplementary/code-data decision, checklist answer pass, low-K artifact
+packaging, and final package regeneration.
 Open3DSG-first table ordering is preserved: the manuscript treats Open3DSG as
 the main open-vocabulary case study and VL-SAT as the controlled anchor.
 The latest reviewer-defense pass adds explicit main-text answers to the

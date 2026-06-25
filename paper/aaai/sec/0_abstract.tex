@@ -8,12 +8,15 @@ inconsistent relations highly. To expose and reduce this failure, we introduce
 a \method{} framework for geometry-checkable relation families. The framework
 standardizes prediction rows across relation sources, preserves subject-object
 identity, joins explicit 3D evidence, estimates \pgeom{}, and reports
-probabilistic, rule-verified, and family-conditional risk operating points
-under a recall-violation protocol. On the full official validation split, probabilistic
-re-ranking improves VL-SAT \rAt{50}/\rAt{100} from 0.9272/0.9635 to
-0.9305/0.9688 while reducing \vAt{100} from 0.0476 to 0.0404. On the main
+family-conditional calibrated geometry risk under a recall-violation protocol.
+The main GeoCalib score ranks by semantic confidence multiplied by a
+relation-family-conditioned geometry-validity probability; pooled calibration
+and hard-rule variants are retained as ablations and diagnostics. On the full
+official validation split, GeoCalib re-ranking improves VL-SAT
+\rAt{50}/\rAt{100} from 0.9272/0.9635 to 0.9288/0.9683 while reducing
+\vAt{100} from 0.0476 to 0.0333. On the main
 open-vocabulary relation-source case study, the Open3DSG full-validation
-recovery branch, the family-conditional risk operating point improves
+recovery branch, the same family-conditional score improves
 \rAt{100} from 0.5161 to 0.6047 while reducing \vAt{100} from 0.1242 to 0.0341 under explicit
 selected-checkpoint and recovery-policy caveats. GT positive/counterfactual checks
 separate valid and invalid geometry with AUROC/AUPRC of 0.9772/0.9729, and

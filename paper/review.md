@@ -1,6 +1,6 @@
 # GeoCalib Orthogonal Persona Review
 
-Last updated: 2026-06-24 KST
+Last updated: 2026-06-25 KST
 
 Scope reviewed: current GeoCalib/H001 claim, contribution framing, method
 definition, main AAAI manuscript source, compact result tables, bootstrap CI,
@@ -21,10 +21,12 @@ Fact:
   full-validation `recovery_relaxed_views_min2/`.
 - The main metric table reports K = `{5,10,20,50,100}` and keeps K=1 outside
   paper metrics.
-- `semantic_score * p_geom_valid` is now presented as the `lambda=1` case of a
-  risk-aware soft re-ranking objective.
-- `family_conditional_risk` is reported as a family-conditional calibrated risk
-  operating point, while legacy metric JSON keys remain unchanged.
+- `family_conditional_risk` is now the GeoCalib main score:
+  `semantic_score * p_geom_valid_family`.
+- `probabilistic_recalibrated` is the pooled calibrated-risk ablation:
+  `semantic_score * p_geom_valid`.
+- Geometry-only control is separate: `p_geom_valid` ranking without semantic
+  score.
 
 Inference:
 
@@ -85,24 +87,24 @@ from tuning leakage?
 
 Strengths:
 
-- Recasting `semantic_score * p_geom_valid` as the `lambda=1` case of
-  risk-aware soft re-ranking is a strong improvement over describing it as
-  simple multiplication.
+- Recasting the score family as risk-aware soft re-ranking is stronger than
+  describing it as simple multiplication, and making the main score
+  family-conditioned gives a principled calibration-design argument.
 - The train-dev provenance for `p_geom_valid`, hard-rule thresholds,
   counterfactual construction, and predicate-family mapping is essential and
   should remain prominent.
 - GT-positive/counterfactual verifier evidence gives the geometry signal a
   calibration story beyond source-result post-processing.
-- `family_conditional_risk` is a principled extension: relation families have
-  different geometry-risk surfaces, so a pooled calibrator may be miscalibrated.
+- `family_conditional_risk` is a principled main score: relation families have
+  different geometry-risk surfaces, so a pooled calibrator can be miscalibrated.
 
 Concerns:
 
 - `lambda=1` is defensible as a fixed objective case, but reviewers may still
   ask why not calibrate semantic scores or learn the optimal combination.
-- `family_conditional_risk` is strong empirically, especially on Open3DSG, but
-  it should be described as an operating point unless the paper explicitly
-  promotes it as the main method.
+- The manuscript must keep pooled calibration and geometry-only control
+  clearly separated; otherwise reviewers may think the family score is just a
+  tuned geometry-only heuristic.
 - If family-specific calibration rows are small, the paper should avoid
   implying a broad learned relation-validity model.
 - `p_geom_valid > 0.9` residual failure cases must stay visible; otherwise
@@ -144,12 +146,13 @@ Strengths:
 
 Concerns:
 
-- Some paper-facing documents still mix historical 127-scan numbers,
-  full-validation numbers, and recovery-branch numbers. This is a real
-  consistency risk before submission.
-- `results/h001_geom_reliability/report.md` still opens with older-looking
-  VL-SAT/Open3DSG summary values while later tables and manuscript use the
-  full-validation route. This can confuse artifact reviewers.
+- Historical 127-scan numbers still exist in progress/appendix/sensitivity
+  documents by design. The submission-facing risk is now to keep those sections
+  explicitly labeled as historical/sensitivity and to avoid copying them into
+  the main source-result table.
+- The current compact report, manifest, bootstrap mirror, and AAAI prose now
+  use the full-validation route with `family_conditional_risk` as the main
+  score; future regenerated tables must preserve that convention.
 - Bootstrap CI is currently explained as evaluation-context uncertainty, not
   training variance. That distinction must be preserved.
 - Low-K results should not be described as newly discovered post-hoc evidence.
@@ -163,9 +166,9 @@ Likely review stance:
 
 Required defense:
 
-- Before final submission, run a consistency pass over `paper/preview.md`,
-  `paper/README.md`, `results/h001_geom_reliability/report.md`, and artifact
-  bundle docs.
+- Maintain the completed consistency pass over `paper/preview.md`,
+  `paper/README.md`, `results/h001_geom_reliability/report.md`, artifact bundle
+  docs, and the AAAI source.
 - Use one canonical source-result table for full-validation claims.
 - Keep historical 127-scan and R2 results in appendix/sensitivity only.
 - Do not claim low-K CI unless low-K bootstrap is explicitly generated and
@@ -183,8 +186,9 @@ Strengths:
 - Artifact bundle inventory, checksums, row counts, and verification script are
   already present.
 - The latest artifact bundle verification passed after checksum regeneration.
-- AAAI PDF build is reproducible by Docker and currently produces a 9-page US
-  Letter PDF with Type 1 fonts.
+- AAAI PDF build is reproducible by Docker and currently produces a 10-page US
+  Letter PDF: technical content pages 1-7, references pages 8-9, checklist page
+  10, with Type 1 fonts.
 
 Concerns:
 
@@ -236,10 +240,10 @@ Concerns:
 
 - The method can still read procedural if the manuscript over-describes scripts
   and under-emphasizes the failure mechanism and design necessity.
-- The strongest empirical row may be `family_conditional_risk`, while the paper
-  still says the current main route remains pooled `probabilistic_recalibrated`
-  unless explicitly promoted. The manuscript should not leave readers unsure
-  which operating point is the method's default.
+- The strongest empirical row is now also the declared main score:
+  `family_conditional_risk`. The remaining risk is whether the manuscript
+  explains why family-conditioned calibration is a design choice rather than a
+  post-hoc trick.
 - Qwen-VL, H002, attachment, and lateral tracks are useful research context but
   can dilute the paper if they appear in the main story.
 - Figure 1 and Figure 2 must visually communicate the contribution; if they look
@@ -257,9 +261,8 @@ Required defense:
 - Keep the three contributions short and specific.
 - In the abstract and introduction, say "calibrated geometry-consistency
   evaluation and re-ranking framework" rather than "geometry verifier".
-- Put `family_conditional_risk` in the paper as a named operating point, but
-  explicitly state whether it is reported as an additional operating point or as
-  the promoted main score.
+- State that `family_conditional_risk` is the promoted main score and that
+  pooled `probabilistic_recalibrated` is an ablation/baseline.
 - Avoid adding more experiments unless they close a specific reviewer attack.
 
 ## Cross-Persona Consensus
@@ -288,22 +291,19 @@ Main residual risks:
 - Open3DSG selected-checkpoint and recovery-policy caveats.
 - Potential reading as rule-based post-processing.
 - Stale/inconsistent planning documents and compact result summaries.
-- Ambiguity over whether `family_conditional_risk` is only an operating point or
-  the promoted main method.
+- Need to defend family-conditioned calibration as a principled design choice,
+  not a post-hoc family-specific trick.
 - Release/package correctness.
 
 ## Recommended Priority
 
 P0 before submission:
 
-- Make all current paper-facing docs agree on the latest build log and selected
-  full-validation route.
-- Fix or clearly annotate stale `results/h001_geom_reliability/report.md` fields
-  that still reflect historical values.
-- Decide one final wording for the default method:
-  `probabilistic_recalibrated` as default with `family_conditional_risk` as an
-  additional operating point, or explicitly promote family-conditional risk.
-- Regenerate the final flattened/upload package only after this decision.
+- Preserve the completed decision that `family_conditional_risk` is the main
+  GeoCalib score, `probabilistic_recalibrated` is pooled ablation, and
+  geometry-only is a separate control.
+- Keep the final upload package tied to the regenerated checksum manifest and
+  verification log after the family-main documentation/table pass.
 
 P1 before submission:
 

@@ -1,17 +1,25 @@
 # H001 Paper Preview
 
-Last updated: 2026-06-23 KST
+Last updated: 2026-06-25 KST
 
 이 문서는 H001을 paper/experiment writing phase로 넘기기 직전에 현재까지의 연구 결과, 주장 범위, 실험 근거, caveat, 그리고 재시작 시 반드시 읽어야 할 파일을 한곳에 고정한 preview다. 최종 manuscript가 아니라 paper draft를 쓰기 위한 handoff 문서다.
 
 Paper-facing name: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations`. `H001` remains an internal identifier.
 
-Current 2026-06-23 snapshot:
+Current 2026-06-25 snapshot:
 
 - Main paper evidence remains VL-SAT full official validation plus Open3DSG full-validation `recovery_relaxed_views_min2/`.
 - Low-K source-result reporting is accepted for K = `{5,10,20,50,100}`; point-metric provenance is present in both paper-facing `metrics_k_sweep/` roots, and K=1 stays sanity-check only.
+- Main GeoCalib score is now `family_conditional_risk`
+  (`semantic_score * p_geom_valid_family`). Pooled
+  `probabilistic_recalibrated` (`semantic_score * p_geom_valid`) is an
+  ablation/baseline, and geometry-only control ranks by `p_geom_valid` without
+  semantic score.
 - Qwen-VL full official validation downstream is complete and should be treated as appendix/extension evidence unless explicitly promoted.
-- Latest known PDF build: `logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log`, exit 0, 9 pages.
+- Latest known PDF build:
+  `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`, exit 0,
+  10 total pages; technical content remains pages 1-7, references are pages
+  8-9, and the checklist is page 10.
 - Remaining paper work is submission/package hygiene, not new main-source result generation.
 
 ## Paper Direction
@@ -78,7 +86,7 @@ Fact:
   adapter, geometry, metrics, bootstrap CI, failure rows, and Table 6/caveat
   regeneration are complete. A new recovery-branch 36-case qualitative failure
   inspection is also complete.
-- The current 127-scan results remain historical/sensitivity evidence. Within
+- The earlier 127-scan results remain historical/sensitivity evidence. Within
   that historical scope, the completed R2 388/388 branch is the representative
   sensitivity result, and the old 377/388 branch is retained as the comparison
   row. The manuscript main table route is regenerated from the full official
@@ -97,33 +105,39 @@ Fact:
 
 ### VL-SAT Historical 127-Scan Sensitivity
 
+This section is historical/sensitivity evidence only. Do not use these values
+as the current paper-facing main table.
+
 | condition | R@50 | R@100 | Violation@50 | Violation@100 | role |
 | --- | ---: | ---: | ---: | ---: | --- |
 | `semantic_only` | 0.9599 | 0.9894 | 0.0247 | 0.0469 | reproduced semantic ranking |
-| `probabilistic_recalibrated` | 0.9642 | 0.9921 | 0.0234 | 0.0391 | main recall-first H001 condition |
+| `probabilistic_recalibrated` | 0.9642 | 0.9921 | 0.0234 | 0.0391 | historical pooled calibrated-risk ablation |
 | `rule_verified_point_subtype` | 0.9587 | 0.9890 | 0.0000 | 0.0000 | hard-filter zero-violation diagnostic |
-| `family_conditional_risk` | 0.9619 | 0.9914 | 0.0204 | 0.0310 | family-conditional calibrated risk operating point |
+| `family_conditional_risk` | 0.9619 | 0.9914 | 0.0204 | 0.0310 | historical family-conditional GeoCalib score |
 
 Interpretation:
 
-- `probabilistic_recalibrated` improves recall and lowers violation relative to `semantic_only`.
+- `probabilistic_recalibrated` is the pooled calibrated-risk ablation, not the
+  current main score.
 - `rule_verified_point_subtype` demonstrates zero-violation behavior but should be reported as a diagnostic, not the default main operating point.
-- `family_conditional_risk` gives a clearer violation reduction as a family-conditioned risk operating point.
+- `family_conditional_risk` gives a clearer violation reduction and is the
+  current GeoCalib main score in the full-validation paper route.
 
 Paper-facing full official validation:
 
 | condition | R@5 | R@10 | R@20 | R@50 | R@100 | V@5 | V@10 | V@20 | V@50 | V@100 | role |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
 | `semantic_only` | 0.4194 | 0.6322 | 0.8074 | 0.9272 | 0.9635 | 0.0029 | 0.0082 | 0.0142 | 0.0268 | 0.0476 | full official validation source ranking |
-| `probabilistic_recalibrated` | 0.4154 | 0.6322 | 0.8107 | 0.9305 | 0.9688 | 0.0015 | 0.0071 | 0.0120 | 0.0229 | 0.0404 | full-validation recall-first GeoCalib condition |
+| `probabilistic_recalibrated` | 0.4154 | 0.6322 | 0.8107 | 0.9305 | 0.9688 | 0.0015 | 0.0071 | 0.0120 | 0.0229 | 0.0404 | full-validation pooled calibrated-risk ablation |
 | `rule_verified_point_subtype` | 0.4197 | 0.6317 | 0.8074 | 0.9257 | 0.9627 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | full-validation zero-violation diagnostic |
-| `family_conditional_risk` | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 | full-validation family-conditional calibrated risk operating point |
+| `family_conditional_risk` | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 | GeoCalib main family-conditional calibrated risk score |
 
 Full-validation interpretation:
 
 - The direction is consistent with the hardened result on a broader official
-  validation scope: calibrated/family-conditional risk variants reduce violations, and
-  rule filtering reaches zero violation with only a small recall tradeoff.
+  validation scope: the main family-conditional score reduces violations, the
+  pooled score is a recall-favoring ablation, and rule filtering reaches zero
+  violation with only a small recall tradeoff.
 - Recall is lower than the 127-scan hardened result because the full official
   validation denominator is broader and includes all 157 scans / 548 contexts.
 - This is now part of the selected paper-facing primary route. Paper tables/prose
@@ -134,9 +148,9 @@ Full-validation interpretation:
 | condition | R@5 | R@10 | R@20 | R@50 | R@100 | V@5 | V@10 | V@20 | V@50 | V@100 | role |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
 | `semantic_only` | 0.0368 | 0.1002 | 0.1991 | 0.4096 | 0.5161 | 0.5131 | 0.3255 | 0.2088 | 0.1386 | 0.1242 | recovery full-validation source ranking |
-| `probabilistic_recalibrated` | 0.0826 | 0.1581 | 0.2603 | 0.3975 | 0.5723 | 0.0628 | 0.0699 | 0.0654 | 0.0606 | 0.0811 | recovery recall-first GeoCalib condition |
+| `probabilistic_recalibrated` | 0.0826 | 0.1581 | 0.2603 | 0.3975 | 0.5723 | 0.0628 | 0.0699 | 0.0654 | 0.0606 | 0.0811 | recovery pooled calibrated-risk ablation |
 | `rule_verified_point_subtype` | 0.0707 | 0.1314 | 0.2422 | 0.4295 | 0.5368 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | recovery zero-violation diagnostic |
-| `family_conditional_risk` | 0.0984 | 0.1921 | 0.3291 | 0.4658 | 0.6047 | 0.0420 | 0.0482 | 0.0441 | 0.0286 | 0.0341 | recovery family-conditional calibrated risk operating point |
+| `family_conditional_risk` | 0.0984 | 0.1921 | 0.3291 | 0.4658 | 0.6047 | 0.0420 | 0.0482 | 0.0441 | 0.0286 | 0.0341 | GeoCalib main family-conditional calibrated risk score |
 
 Recovery caveat: this removes the 15-context missing-preprocess denominator
 caveat, but it is a recovery-policy variant rather than the unmodified Open3DSG
@@ -146,14 +160,15 @@ preprocess route.
 
 | condition | R@50 | R@100 | Violation@50 | Violation@100 | purpose |
 | --- | ---: | ---: | ---: | ---: | --- |
-| `control_p_geom_valid_only` | 0.2110 | 0.5184 | 0.0661 | 0.0711 | geometry-only ranking control |
+| `control_p_geom_valid_only` | 0.2110 | 0.5184 | 0.0661 | 0.0711 | geometry-only ranking control; no semantic score |
 | `control_distance_only` | 0.3746 | 0.5554 | 0.0724 | 0.0981 | simple distance heuristic control |
 | `control_shuffled_geometry` | 0.8890 | 0.9494 | 0.0295 | 0.0588 | breaks geometry identity while preserving distribution |
 | `control_wrong_pair_geometry` | 0.8915 | 0.9529 | 0.0320 | 0.0601 | tests object-pair identity |
 
 Interpretation:
 
-- Geometry alone is not enough.
+- Geometry-only control is `p_geom_valid` ranking without semantic score; it is
+  separate from pooled calibrated reranking.
 - Simple distance is not enough.
 - Wrong-pair and shuffled-geometry controls degrade performance, supporting the claim that relation-level object-pair geometry matters.
 
@@ -211,7 +226,9 @@ Interpretation:
   score equivalent to the canonical R2 raw dump after excluding run metadata;
   the process-level exit-137 teardown caveat remains visible.
 - The best Open3DSG pattern is not identical to `VL-SAT`; use it to support cross-source reliability evidence, not to claim universal behavior.
-- `family_conditional_risk` is strong on Open3DSG but must be presented as a family-conditional risk operating point.
+- `family_conditional_risk` is the current GeoCalib main score; present
+  `probabilistic_recalibrated` as pooled ablation and geometry-only as a
+  separate control.
 
 ## Open3DSG Caveats To Preserve
 
@@ -402,7 +419,7 @@ Recommended paper narrative:
 | --- | --- | --- |
 | "This is just a hand-coded verifier." | Frame as calibrated evaluation/re-ranking framework with calibration, controls, GT counterfactuals, and failure analysis. | Avoid script-level method wording. |
 | "It only works on VL-SAT." | Open3DSG second-source metric evidence is ready. | Keep claim within measured families. |
-| "It trades recall for filtering." | Report R@K and Violation@K together; `probabilistic_recalibrated` and `family_conditional_risk` show different operating points. | Include Pareto/tradeoff wording. |
+| "It trades recall for filtering." | Report R@K and Violation@K together; main `family_conditional_risk`, pooled `probabilistic_recalibrated`, and rule-verified diagnostics show different tradeoffs. | Include Pareto/tradeoff wording. |
 | "Rules were tuned on test set." | Denominator policy, metric scope, checkpoint selection, and caveat wording are fixed before paper writing; GT-based verifier eval exists. | State selection/provenance clearly. |
 | "Open3DSG reproduction is not exact." | Docker provenance, selected official non-avg checkpoint record, full-validation recovery-policy disclosure, and 533/548 covered-branch sensitivity evidence. | Do not claim Open3DSG leaderboard/SOTA reproduction; frame as source-output reliability evidence. |
 | "Open-vocabulary claim is too broad." | Current claim is measured reliability-layer evidence, not broad generation improvement. | Keep non-claims visible. |
@@ -546,7 +563,7 @@ Recommended next action:
 
 1. Use `paper/draft.md` as the active reviewed first-pass manuscript prose, `paper/aaai/` as the current AAAI-style LaTeX source, and `paper/generated/figures/` as the active draft figure output.
 2. Treat the claim-consistency review in `paper/outline.md` as the current paper guardrail: title, contributions, abstract, Introduction, table captions, and figure captions must stay within the scoped relation-reliability claim.
-3. Treat the reproducibility checklist as inserted after references: latest known Docker build `logs/h001_aaai_pdf_build_lowk_full_20260623_191806.log` gives 9 total pages, technical content pages 1-7, references page 8, checklist page 9, and no blocking build warnings. Remaining paper work is portal/form, artifact URL/DOI, supplement/checklist, and release-package hygiene, not source-result regeneration.
+3. Treat the reproducibility checklist as inserted after references: latest known Docker build `logs/h001_aaai_pdf_build_family_main_20260625_084157.log` gives 10 total pages, technical content pages 1-7, references pages 8-9, checklist page 10, and no blocking build warnings. Remaining paper work is portal/form, artifact URL/DOI, supplement/checklist, and release-package hygiene, not source-result regeneration.
 4. Treat the AAAI reviewer-defense pass as updated for the selected full-validation route: hand-coded verifier, geometry-only/distance, recall-tradeoff, Open3DSG recovery-policy provenance, family-selection, and AAAI-relevance attacks must all remain answered during polish.
 5. Treat `paper/appendix.md` as the current appendix/provenance owner: calibrator/threshold provenance, Open3DSG caveat consistency, Figure 3 optionality, and Qwen-VL third-source boundary are recorded there.
 6. Keep Open3DSG caveats explicit during any further polish; caption compression must not hide selected-checkpoint provenance, filtered split, exact-label denominator, recovery policy, 533/548 sensitivity branch, or residual calibration risk.

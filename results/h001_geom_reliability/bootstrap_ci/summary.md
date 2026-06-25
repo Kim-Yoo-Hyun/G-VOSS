@@ -1,30 +1,33 @@
 # H001 Bootstrap CI
 
-Created at UTC: `2026-05-26T09:20:35.278762+00:00`
+Created at UTC: `2026-06-04T18:20:45.272707+00:00`
 Status: `ready`
 Bootstrap samples: `1000`
 Seed: `20260526`
 
 Subgraphs are resampled with replacement. Point estimates are recomputed from the same per-subgraph contributions used for the bootstrap and checked against the locked metrics JSON.
 
+`family_conditional_risk` is the paper-facing GeoCalib main score. Pooled
+`probabilistic_recalibrated` remains an ablation/baseline.
+
 | source | condition | K | R@K point | R@K 95% CI | V@K point | V@K 95% CI | dR vs semantic | dV vs semantic |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| vlsat_closed_set | semantic_only | 50 | 95.99% | [94.81%, 96.96%] | 2.47% | [2.19%, 2.80%] | n/a | n/a |
-| vlsat_closed_set | semantic_only | 100 | 98.94% | [98.45%, 99.40%] | 4.69% | [4.34%, 5.06%] | n/a | n/a |
-| vlsat_closed_set | probabilistic_recalibrated | 50 | 96.42% | [95.34%, 97.33%] | 2.34% | [2.06%, 2.63%] | +0.43 pp | -0.14 pp |
-| vlsat_closed_set | probabilistic_recalibrated | 100 | 99.21% | [98.87%, 99.53%] | 3.91% | [3.61%, 4.24%] | +0.28 pp | -0.78 pp |
-| vlsat_closed_set | rule_verified_point_subtype | 50 | 95.87% | [94.69%, 96.85%] | 0.00% | [0.00%, 0.00%] | -0.12 pp | -2.47 pp |
-| vlsat_closed_set | rule_verified_point_subtype | 100 | 98.90% | [98.50%, 99.30%] | 0.00% | [0.00%, 0.00%] | -0.04 pp | -4.69 pp |
-| vlsat_closed_set | family_conditional_risk | 50 | 96.19% | [95.07%, 97.13%] | 2.04% | [1.78%, 2.29%] | +0.20 pp | -0.44 pp |
-| vlsat_closed_set | family_conditional_risk | 100 | 99.14% | [98.75%, 99.49%] | 3.10% | [2.83%, 3.38%] | +0.20 pp | -1.59 pp |
-| open3dsg_ov | semantic_only | 50 | 39.45% | [36.98%, 42.32%] | 13.26% | [12.61%, 13.96%] | n/a | n/a |
-| open3dsg_ov | semantic_only | 100 | 49.63% | [46.59%, 52.71%] | 11.95% | [11.40%, 12.51%] | n/a | n/a |
-| open3dsg_ov | probabilistic_recalibrated | 50 | 38.43% | [36.00%, 40.80%] | 5.75% | [5.26%, 6.24%] | -1.02 pp | -7.52 pp |
-| open3dsg_ov | probabilistic_recalibrated | 100 | 55.80% | [52.98%, 58.87%] | 8.03% | [7.56%, 8.49%] | +6.17 pp | -3.92 pp |
-| open3dsg_ov | rule_verified_point_subtype | 50 | 41.49% | [38.88%, 44.32%] | 0.00% | [0.00%, 0.00%] | +2.04 pp | -13.26 pp |
-| open3dsg_ov | rule_verified_point_subtype | 100 | 52.38% | [49.23%, 55.47%] | 0.00% | [0.00%, 0.00%] | +2.75 pp | -11.95 pp |
-| open3dsg_ov | family_conditional_risk | 50 | 45.30% | [42.68%, 48.28%] | 2.28% | [1.99%, 2.61%] | +5.85 pp | -10.99 pp |
-| open3dsg_ov | family_conditional_risk | 100 | 59.84% | [56.75%, 63.15%] | 3.11% | [2.74%, 3.48%] | +10.22 pp | -8.84 pp |
+| vlsat_closed_set_full_validation | semantic_only | 50 | 92.72% | [90.56%, 94.83%] | 2.68% | [2.40%, 2.97%] | n/a | n/a |
+| vlsat_closed_set_full_validation | semantic_only | 100 | 96.35% | [94.63%, 97.96%] | 4.76% | [4.44%, 5.09%] | n/a | n/a |
+| vlsat_closed_set_full_validation | probabilistic_recalibrated | 50 | 93.05% | [90.89%, 95.14%] | 2.29% | [2.03%, 2.54%] | +0.33 pp | -0.38 pp |
+| vlsat_closed_set_full_validation | probabilistic_recalibrated | 100 | 96.88% | [95.33%, 98.32%] | 4.04% | [3.75%, 4.31%] | +0.53 pp | -0.72 pp |
+| vlsat_closed_set_full_validation | rule_verified_point_subtype | 50 | 92.57% | [90.44%, 94.69%] | 0.00% | [0.00%, 0.00%] | -0.15 pp | -2.68 pp |
+| vlsat_closed_set_full_validation | rule_verified_point_subtype | 100 | 96.27% | [94.65%, 97.81%] | 0.00% | [0.00%, 0.00%] | -0.08 pp | -4.76 pp |
+| vlsat_closed_set_full_validation | family_conditional_risk | 50 | 92.88% | [90.71%, 94.94%] | 2.06% | [1.84%, 2.28%] | +0.15 pp | -0.61 pp |
+| vlsat_closed_set_full_validation | family_conditional_risk | 100 | 96.83% | [95.31%, 98.22%] | 3.33% | [3.08%, 3.57%] | +0.48 pp | -1.43 pp |
+| open3dsg_ov_full_validation_recovery_relaxed_views_min2 | semantic_only | 50 | 40.96% | [38.49%, 43.59%] | 13.86% | [13.28%, 14.47%] | n/a | n/a |
+| open3dsg_ov_full_validation_recovery_relaxed_views_min2 | semantic_only | 100 | 51.61% | [49.10%, 54.28%] | 12.42% | [11.98%, 12.83%] | n/a | n/a |
+| open3dsg_ov_full_validation_recovery_relaxed_views_min2 | probabilistic_recalibrated | 50 | 39.75% | [37.78%, 41.72%] | 6.06% | [5.67%, 6.47%] | -1.21 pp | -7.80 pp |
+| open3dsg_ov_full_validation_recovery_relaxed_views_min2 | probabilistic_recalibrated | 100 | 57.23% | [54.86%, 59.52%] | 8.11% | [7.74%, 8.51%] | +5.61 pp | -4.31 pp |
+| open3dsg_ov_full_validation_recovery_relaxed_views_min2 | rule_verified_point_subtype | 50 | 42.95% | [40.53%, 45.49%] | 0.00% | [0.00%, 0.00%] | +1.99 pp | -13.86 pp |
+| open3dsg_ov_full_validation_recovery_relaxed_views_min2 | rule_verified_point_subtype | 100 | 53.68% | [51.11%, 56.26%] | 0.00% | [0.00%, 0.00%] | +2.06 pp | -12.42 pp |
+| open3dsg_ov_full_validation_recovery_relaxed_views_min2 | family_conditional_risk | 50 | 46.58% | [44.41%, 48.82%] | 2.86% | [2.55%, 3.18%] | +5.61 pp | -11.00 pp |
+| open3dsg_ov_full_validation_recovery_relaxed_views_min2 | family_conditional_risk | 100 | 60.47% | [58.10%, 62.94%] | 3.41% | [3.07%, 3.77%] | +8.86 pp | -9.01 pp |
 
 ## Warnings
 

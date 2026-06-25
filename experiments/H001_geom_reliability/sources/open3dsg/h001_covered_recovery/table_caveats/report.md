@@ -21,7 +21,7 @@ Created at: `2026-06-05T18:11:32+00:00`
 | semantic_only | 0.3972 | 0.4990 | 0.1331 | 0.1199 | +0.28 pp | +0.04 pp |
 | probabilistic_recalibrated | 0.3870 | 0.5607 | 0.0594 | 0.0811 | +0.28 pp | +0.08 pp |
 | rule_verified_point_subtype | 0.4177 | 0.5265 | 0.0000 | 0.0000 | +0.28 pp | +0.00 pp |
-| control_family_specific_p_geom_valid | 0.4558 | 0.6012 | 0.0254 | 0.0323 | +0.28 pp | +0.13 pp |
+| family_conditional_risk | 0.4558 | 0.6012 | 0.0254 | 0.0323 | +0.28 pp | +0.13 pp |
 
 ## Interpretation
 

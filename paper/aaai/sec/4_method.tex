@@ -47,42 +47,50 @@ depends primarily on function, social context, affordance, or language
 pragmatics, because those predicates do not have a stable geometric validity
 test from the available reconstruction alone.
 
-\subsection{Calibrated Geometry Validity and Re-Ranking}
+\subsection{Family-Conditional Calibrated Risk Re-Ranking}
 
-The probabilistic operating point uses a frozen calibrator:
+The main GeoCalib score uses a frozen relation-family-conditioned calibrator:
 \begin{equation}
-\pgeom_i = C_a(\phi(g_i)),
+\pgeomfam_i = C_{a_i}(\phi(g_i)),
 \end{equation}
-where $\phi(g_i)$ is the geometry feature vector and $C_a$ is either the pooled
-or family-specific calibrator trained on train-dev calibration positives and
-counterfactual negatives. The predicate-family map, hard-rule thresholds,
+where $\phi(g_i)$ is the geometry feature vector and $C_{a_i}$ is the
+calibrator for the mapped relation family. This is the paper's primary
+calibration design: support/contact, proximity, and vertical relations need not
+share one pooled geometry-risk surface. The pooled calibrator,
+\begin{equation}
+\pgeom_i = C_{\mathrm{pooled}}(\phi(g_i)),
+\end{equation}
+is retained as the \texttt{pooled\_risk} ablation. Both calibrators are trained
+on train-dev calibration positives and counterfactual negatives. The
+predicate-family map, hard-rule thresholds,
 counterfactual construction, and calibrator files are fixed from train-dev
 calibration artifacts before held-out source-result reporting; held-out
-prediction rows are not used to retune them. We use \pgeom{} as a soft
-geometry-risk term, with $R^{geom}_i=-\log \pgeom_i$ and utility
+prediction rows are not used to retune them.
+
+We use geometry validity as a soft risk term. For the main score,
+$R^{geom}_i=-\log \pgeomfam_i$ and
 \begin{equation}
 U_{\lambda}(i)=\log \mathrm{score}^{sem}_i-\lambda R^{geom}_i.
 \end{equation}
-The reported probabilistic operating point fixes $\lambda=1$, giving
+The reported GeoCalib score fixes $\lambda=1$, giving
 \begin{equation}
-\mathrm{score}^{prob}_i = \mathrm{score}^{sem}_i \cdot \pgeom_i.
+\mathrm{score}^{\mathrm{GeoCalib}}_i =
+\mathrm{score}^{sem}_i \cdot \pgeomfam_i.
 \end{equation}
 This preserves the source ranking signal while continuously penalizing
 calibrated inconsistency; $\lambda$ is not tuned on held-out source results.
-We report \texttt{semantic\_only}, \texttt{probabilistic\_recalibrated},
-\texttt{rule\_verified\_point\_subtype}, and
-\texttt{family\_conditional\_risk}. The last ranks by
-$\mathrm{score}^{sem}_i \cdot \pgeomfam_i$, where
-$\pgeomfam_i$ is produced by a frozen relation-family-specific
-calibrator, testing whether support/contact, proximity, and vertical relations
-should share one pooled geometry-risk surface.
+We report \texttt{family\_conditional\_risk} as the main score,
+\texttt{probabilistic\_recalibrated} as the pooled calibrated-risk ablation
+$\mathrm{score}^{sem}_i \cdot \pgeom_i$, and
+\texttt{rule\_verified\_point\_subtype} as a hard zero-violation diagnostic.
 
 \subsection{Controls}
 
 The control conditions test whether the result can be explained by simpler
-signals. Geometry-only ranking tests whether semantic confidence remains
-necessary. Distance-only ranking tests whether a generic spatial heuristic
-explains the result. Shuffled-geometry and wrong-pair-geometry controls test
-whether relation-level object-pair identity is necessary. If these controls
-perform worse than the calibrated setting, the result supports the framework
-design rather than a generic ``add geometry'' explanation.
+signals. Geometry-only ranking uses \pgeom{} alone and is therefore distinct
+from the pooled calibrated-risk ablation, which still multiplies semantic
+confidence by \pgeom{}. Distance-only ranking tests whether a generic spatial
+heuristic explains the result. Shuffled-geometry and wrong-pair-geometry
+controls test whether relation-level object-pair identity is necessary. If
+these controls perform worse than the calibrated setting, the result supports
+the framework design rather than a generic ``add geometry'' explanation.

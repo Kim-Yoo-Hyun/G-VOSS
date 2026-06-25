@@ -58,7 +58,7 @@ env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --
 | semantic_only | 0.4310 | 0.5320 | 0.1395 | 0.1256 |
 | probabilistic_recalibrated | 0.3945 | 0.5639 | 0.0570 | 0.0782 |
 | rule_verified_point_subtype | 0.4507 | 0.5481 | 0.0000 | 0.0000 |
-| control_family_specific_p_geom_valid | 0.4750 | 0.6047 | 0.0243 | 0.0310 |
+| family_conditional_risk | 0.4750 | 0.6047 | 0.0243 | 0.0310 |
 
 Compared with the avg-BLIP branch, non-avg improves R@100 for all listed
 conditions. Semantic-only violation is slightly higher, while the
