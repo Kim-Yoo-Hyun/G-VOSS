@@ -1,0 +1,80 @@
+{
+  "boundary": {
+    "diagnostic_only_blocks": [
+      "Q_e",
+      "Z_e"
+    ],
+    "h001_artifacts_modified": false,
+    "h001_artifacts_read_only_bridge_only": true,
+    "main_C_e_allowed_blocks": [
+      "T_e",
+      "G_e"
+    ],
+    "model_safe_blocks": [
+      "T_e",
+      "G_e",
+      "Q_e",
+      "Z_e",
+      "extra_safe_blocks"
+    ]
+  },
+  "created_at_utc": "2026-07-01T14:40:59+00:00",
+  "input_artifacts": {
+    "protocol_dir": "hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_official_candidate_materialization_protocol_after_source_inventory",
+    "relationships_validation": "local_dataset/3DSSG_subset/relationships_validation.json",
+    "scan_dir": "local_dataset/3RScan/scans"
+  },
+  "next_todo": "compatibility_dataset_v3_official_candidate_materialization_schema_audit_after_docker_implementation",
+  "official_test_usage": false,
+  "official_validation_metric_produced": false,
+  "output_artifacts": {
+    "candidate_rows": "experiments/H002_compatibility_routing/official_materialization/latest/candidate_rows.jsonl",
+    "hidden_manifest": "experiments/H002_compatibility_routing/official_materialization/latest/hidden_manifest.jsonl",
+    "model_safe_view": "experiments/H002_compatibility_routing/official_materialization/latest/model_safe_view.jsonl",
+    "row_manifest": "experiments/H002_compatibility_routing/official_materialization/latest/row_manifest.json",
+    "validation_errors": "experiments/H002_compatibility_routing/official_materialization/latest/validation_errors.jsonl"
+  },
+  "p_obs_claim_enabled": false,
+  "p_rel_claim_enabled": false,
+  "paper_metric_produced": false,
+  "row_counts": {
+    "candidate_origin_counts": {
+      "official_gt_positive": 7623,
+      "official_same_pair_predicate_counterfactual": 15439
+    },
+    "candidate_rows": 23062,
+    "family_counts": {
+      "relative_horizontal": 18764,
+      "relative_vertical": 780,
+      "size_relative": 340,
+      "support_contact": 3178
+    },
+    "family_label_counts": {
+      "relative_horizontal|0": 13290,
+      "relative_horizontal|1": 5474,
+      "relative_vertical|0": 390,
+      "relative_vertical|1": 390,
+      "size_relative|0": 170,
+      "size_relative|1": 170,
+      "support_contact|0": 1589,
+      "support_contact|1": 1589
+    },
+    "hidden_manifest": 23062,
+    "model_safe_view": 23062,
+    "predicate_counts": {
+      "relative_horizontal|behind": 4691,
+      "relative_horizontal|front": 4691,
+      "relative_horizontal|left": 4691,
+      "relative_horizontal|right": 4691,
+      "relative_vertical|higher than": 390,
+      "relative_vertical|lower than": 390,
+      "size_relative|bigger than": 170,
+      "size_relative|smaller than": 170,
+      "support_contact|lying on": 1589,
+      "support_contact|standing on": 1589
+    }
+  },
+  "schema_version": "h002_official_candidate_materialization_v1",
+  "status": "h002_official_candidate_materialization_ready",
+  "validation_errors": 0
+}

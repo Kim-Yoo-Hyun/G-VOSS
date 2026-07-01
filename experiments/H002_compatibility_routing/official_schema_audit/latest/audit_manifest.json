@@ -1,0 +1,34 @@
+{
+  "boundary": {
+    "family_macro_metric_required_next": true,
+    "official_test_usage": false,
+    "official_validation_metric_produced": false,
+    "p_obs_claim_enabled": false,
+    "p_rel_claim_enabled": false,
+    "paper_metric_produced": false,
+    "support_contact_claim": "challenging_not_solved",
+    "z_e_excluded_from_main_c_e": true
+  },
+  "created_at_utc": "2026-07-01T14:44:14+00:00",
+  "input_artifacts": {
+    "hidden_manifest": "experiments/H002_compatibility_routing/official_materialization/latest/hidden_manifest.jsonl",
+    "model_safe_view": "experiments/H002_compatibility_routing/official_materialization/latest/model_safe_view.jsonl",
+    "row_manifest": "experiments/H002_compatibility_routing/official_materialization/latest/row_manifest.json"
+  },
+  "next_todo": "compatibility_dataset_v3_official_metric_protocol_freeze_after_schema_audit",
+  "output_artifacts": {
+    "blocked_field_hits": "experiments/H002_compatibility_routing/official_schema_audit/latest/blocked_field_hits.jsonl",
+    "control_readiness": "experiments/H002_compatibility_routing/official_schema_audit/latest/control_readiness.csv",
+    "high_shortcut_warnings": "experiments/H002_compatibility_routing/official_schema_audit/latest/high_shortcut_warnings.csv",
+    "label_balance": "experiments/H002_compatibility_routing/official_schema_audit/latest/label_balance.csv",
+    "report": "experiments/H002_compatibility_routing/official_schema_audit/latest/report.md",
+    "schema_violations": "experiments/H002_compatibility_routing/official_schema_audit/latest/schema_violations.jsonl",
+    "separation_audit": "experiments/H002_compatibility_routing/official_schema_audit/latest/separation_audit.csv",
+    "shortcut_risk_table": "experiments/H002_compatibility_routing/official_schema_audit/latest/shortcut_risk_table.csv"
+  },
+  "schema_version": "h002_official_materialization_schema_audit_v1",
+  "selected_path": "schema_audit_ready_select_metric_protocol_freeze_with_caveats",
+  "shortcut_warnings": 1,
+  "status": "h002_official_materialization_schema_audit_ready_with_shortcut_warnings",
+  "validation_errors": 0
+}

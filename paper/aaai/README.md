@@ -105,6 +105,45 @@ Verified run:
   box warnings are non-blocking.
 - Visual inspection: `paper/aaai/inspection/report.md`
 
+Top-tier style review build:
+
+- Review note: `paper/top_tier_review.md`
+- PDF build log: `logs/h001_aaai_pdf_build_top_tier_review_20260625_095933.log`
+- Output: `paper/aaai/main_top_tier_review.pdf`
+- The original `paper/aaai/main.pdf` is preserved.
+- Main deltas: Figure 1 is now a failure-example-to-method schematic; the old
+  claim-boundary table was demoted to prose; controls moved to a compact
+  diagnostics table; implementation-facing condition names were replaced by
+  manuscript-facing names in tables; references now start without a forced
+  page break to avoid an empty final technical-content column.
+
+Reference-expansion source-validation build:
+
+- Survey note: `literature/geocalib_reference_expansion_20260625.md`
+- PDF build log: `logs/h001_aaai_pdf_build_reference_expansion_20260625_130811.log`
+- Output: `paper/aaai/main_reference_expansion.pdf`
+- Page count: 9 total pages
+- References: start on page 7
+- Reproducibility checklist: page 9
+- The original `paper/aaai/main.pdf` is preserved.
+- Main deltas: `paper/references.bib` now has 34 used entries; Related Work is
+  grouped into direct relation predictors, open-vocabulary 3D graphs,
+  geometry-aware relation evidence, and calibration/reliability; `\method`
+  now expands to the paper-facing name `GeoCalib`.
+
+Reviewer-process cleanup validation build:
+
+- Output: `paper/aaai/main_reviewer_cleanup.pdf`
+- Page count: 9 total pages
+- Page size: US Letter
+- The original `paper/aaai/main.pdf` is preserved.
+- Main deltas: paper-planning docs now match the current table order
+  (`Table 1` scope, `Table 2` main source results, `Table 3`
+  controls/diagnostics), and Qwen-VL boundary wording moved out of Related Work
+  into Experimental Setup / Limitations.
+- Targeted checks found no stale current-table wording, missing citations,
+  undefined references, overfull hboxes, LaTeX errors, or package errors.
+
 ## Source Boundary
 
 This is a venue-style conversion, not a final submission. Before upload,
@@ -112,4 +151,4 @@ verify the exact target-year author kit, portal form, page limit,
 supplementary/code-data policy, reproducibility checklist format,
 artifact-link/DOI requirements, and ethics/review instructions from the official
 AAAI/OpenReview site. Regenerate any flattened release package created before
-the GeoCalib/Figure-1 update.
+the GeoCalib/Figure-1/reference-expansion update.

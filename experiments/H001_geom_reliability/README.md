@@ -1,6 +1,6 @@
 # H001 Geometry Reliability Experiment
 
-Last updated: 2026-06-25 KST
+Last updated: 2026-06-28 KST
 
 This is the Docker-based experiment root for GeoCalib/H001. Paper-facing
 summaries are promoted to `results/h001_geom_reliability/`; row-level runtime
@@ -26,6 +26,7 @@ Paper-facing name: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D 
 | VL-SAT | controlled reproduced anchor | `sources/vlsat/full_validation/` |
 | Open3DSG | main open-vocabulary relation-source case study | `sources/open3dsg/full_validation/recovery_relaxed_views_min2/` |
 | Qwen-VL | appendix/extension third semantic source | `sources/qwen_vl/` |
+| attachment_deferred | extension diagnostic, not promoted | `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_validation_g5d/` |
 | Open3DSG 533/548 branch | unmodified-source sensitivity | `sources/open3dsg/full_validation/` |
 | historical 127-scan branches | appendix/sensitivity/provenance only | older source subfolders and `archive/` |
 
@@ -132,3 +133,10 @@ relative-horizontal/lateral experiments, and attachment-deferred experiments
 are provenance, appendix, or future-work material. Keep their detailed logs in
 their owning subfolders or `archive/`; do not copy them into current main
 tables unless the claim boundary is intentionally changed.
+
+Latest attachment-deferred full-validation extension artifact:
+
+- protocol: `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_validation_protocol/`
+- metrics: `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_validation_g5d/`
+- scope: VL-SAT/Open3DSG full-validation attachment labels `attached to`, `hanging on`, `connected to`, K = `{5,10,20,50,100}`
+- status: source metrics ready, validation errors 0, not promoted to the main GeoCalib claim

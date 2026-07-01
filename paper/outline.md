@@ -509,9 +509,14 @@ Main job:
 Tables:
 
 - AAAI Table 1: fixed H001 evaluation scope and denominator.
-- AAAI Table 2: source-specific claim boundary.
-- AAAI Table 3: main source results, with Open3DSG first as the main open-vocabulary case study and `VL-SAT` second as the controlled reproduced anchor.
-- Controls, GT-based verifier evaluation, structured audit, visual sanity check, and detailed family rows are summarized in prose unless an appendix is added.
+- AAAI Table 2: main source results, with Open3DSG first as the main
+  open-vocabulary case study and `VL-SAT` second as the controlled reproduced
+  anchor.
+- AAAI Table 3: controls and diagnostics for geometry-only, distance-only,
+  shuffled-geometry, and wrong-pair explanations.
+- Source-specific claim boundary / non-claims, GT-based verifier evaluation,
+  structured audit, visual sanity check, and detailed family rows are summarized
+  in prose unless an appendix is added.
 
 Result interpretation:
 
@@ -738,9 +743,9 @@ Korean caption notes:
 | table | purpose | source artifact |
 | --- | --- | --- |
 | AAAI Table 1 | Fixed H001 evaluation scope and denominator | `paper/aaai/sec/5_experiments.tex`, `results/h001_geom_reliability/tables/table5_claim_boundary.md` |
-| AAAI Table 2 | Source-specific claim boundary | `paper/aaai/sec/5_experiments.tex`, `results/h001_geom_reliability/tables/table5_claim_boundary.md` |
-| AAAI Table 3 | Main source results: Open3DSG first, `VL-SAT` controlled anchor second | `paper/aaai/sec/6_results.tex`, `results/h001_geom_reliability/tables/table6_cross_source_status.md`, `results/h001_geom_reliability/tables/table1_main_prediction.md` |
-| Prose evidence | Nontriviality controls, GT verifier, structured audit, visual sanity check, and family details | `results/h001_geom_reliability/tables/table2_controls.md`, `table3_gt_verifier.md`, `table4_audit.md` |
+| AAAI Table 2 | Main source results: Open3DSG first, `VL-SAT` controlled anchor second | `paper/aaai/sec/6_results.tex`, `results/h001_geom_reliability/tables/table6_cross_source_status.md`, `results/h001_geom_reliability/tables/table1_main_prediction.md` |
+| AAAI Table 3 | Controls and diagnostics for geometry-only, distance-only, shuffled-geometry, and wrong-pair alternatives | `paper/aaai/sec/6_results.tex`, `results/h001_geom_reliability/tables/table2_controls.md` |
+| Prose evidence | Source-specific claim boundary / non-claims, GT verifier, structured audit, visual sanity check, and family details | `paper/aaai/sec/5_experiments.tex`, `paper/aaai/sec/7_limitations.tex`, `results/h001_geom_reliability/tables/table5_claim_boundary.md`, `table3_gt_verifier.md`, `table4_audit.md` |
 
 ## Table And Appendix Placement
 
@@ -751,15 +756,16 @@ Recommended main-paper tables:
 | table | placement | reason |
 | --- | --- | --- |
 | Table 1 | main | fixed H001 denominator and source outputs |
-| Table 2 | main | source-specific claim boundary and blocked extensions |
-| Table 3 | main | Open3DSG-first source results with VL-SAT as controlled anchor |
+| Table 2 | main | Open3DSG-first source results with VL-SAT as controlled anchor |
+| Table 3 | main | controls and diagnostics that rule out simpler explanations |
 
 Recommended appendix tables:
 
 | table | placement | reason |
 | --- | --- | --- |
 | Calibrator / threshold provenance | appendix | shows family mapping, rule thresholds, counterfactual construction, calibrator artifacts, and held-out use were fixed before source-result reporting |
-| Table 4 | appendix with short main-text summary | structured audit and 50-row visual sanity check are reviewer-defense evidence, not the primary metric result |
+| Source-specific claim boundary | prose or appendix | keeps blocked extensions and non-claims visible without consuming a main table |
+| Audit / visual sanity detail | appendix with short main-text summary | structured audit and 50-row visual sanity check are reviewer-defense evidence, not the primary metric result |
 | Detailed family-conditional risk rows | appendix | useful for transparency without crowding main result |
 | Full Open3DSG caveat/coverage accounting | appendix with main-text caveat summary | keeps denominator/filter details traceable |
 | Qwen-VL runtime smoke, if run | appendix/future-work only | not main metric evidence unless promoted with full Docker metric/audit treatment |
@@ -767,7 +773,7 @@ Recommended appendix tables:
 Space-risk fallback:
 
 - Keep controls, GT verifier, audit, and visual sanity checks as prose evidence unless an appendix is added.
-- Do not remove Open3DSG caveats from manuscript Table 3; move details to appendix only if the main text still states the variant, covered scope, denominator, and residual calibration risk.
+- Do not remove Open3DSG caveats from manuscript Table 2; move details to appendix only if the main text still states the variant, covered scope, denominator, and residual calibration risk.
 - The current provenance appendix owner is `paper/appendix.md`; update it before changing calibration, thresholds, Open3DSG caveat wording, Figure 3 final-polish status, or Qwen-VL boundary.
 
 ## Next Drafting Tasks
@@ -1118,9 +1124,13 @@ reviewer 방어:
 사용할 표:
 
 - AAAI Table 1: fixed H001 evaluation scope and denominator.
-- AAAI Table 2: source-specific claim boundary.
-- AAAI Table 3: main source results. Open3DSG를 main open-vocabulary case study로 먼저 제시하고 `VL-SAT`를 controlled reproduced anchor로 둔다.
-- Controls, GT-based verifier evaluation, structured audit, visual sanity check, detailed family row는 appendix가 추가되기 전까지 prose-backed reviewer-defense evidence로 압축한다.
+- AAAI Table 2: main source results. Open3DSG를 main open-vocabulary case
+  study로 먼저 제시하고 `VL-SAT`를 controlled reproduced anchor로 둔다.
+- AAAI Table 3: controls and diagnostics. Geometry-only, distance-only,
+  shuffled geometry, wrong-pair geometry 설명을 분리한다.
+- Source-specific claim boundary / non-claims, GT-based verifier evaluation,
+  structured audit, visual sanity check, detailed family row는 appendix가
+  추가되기 전까지 prose-backed reviewer-defense evidence로 압축한다.
 
 결과 해석:
 
@@ -1218,9 +1228,9 @@ Figure 3:
 | table | 목적 | source artifact |
 | --- | --- | --- |
 | AAAI Table 1 | Fixed H001 evaluation scope and denominator | `paper/aaai/sec/5_experiments.tex`, `results/h001_geom_reliability/tables/table5_claim_boundary.md` |
-| AAAI Table 2 | Source-specific claim boundary | `paper/aaai/sec/5_experiments.tex`, `results/h001_geom_reliability/tables/table5_claim_boundary.md` |
-| AAAI Table 3 | Main source results: Open3DSG first, `VL-SAT` controlled anchor second | `paper/aaai/sec/6_results.tex`, `results/h001_geom_reliability/tables/table6_cross_source_status.md`, `results/h001_geom_reliability/tables/table1_main_prediction.md` |
-| Prose evidence | Nontriviality controls, GT verifier, structured audit, visual sanity check, and family details | `results/h001_geom_reliability/tables/table2_controls.md`, `table3_gt_verifier.md`, `table4_audit.md` |
+| AAAI Table 2 | Main source results: Open3DSG first, `VL-SAT` controlled anchor second | `paper/aaai/sec/6_results.tex`, `results/h001_geom_reliability/tables/table6_cross_source_status.md`, `results/h001_geom_reliability/tables/table1_main_prediction.md` |
+| AAAI Table 3 | Controls and diagnostics for geometry-only, distance-only, shuffled-geometry, and wrong-pair alternatives | `paper/aaai/sec/6_results.tex`, `results/h001_geom_reliability/tables/table2_controls.md` |
+| Prose evidence | Source-specific claim boundary / non-claims, GT verifier, structured audit, visual sanity check, and family details | `paper/aaai/sec/5_experiments.tex`, `paper/aaai/sec/7_limitations.tex`, `results/h001_geom_reliability/tables/table5_claim_boundary.md`, `table3_gt_verifier.md`, `table4_audit.md` |
 
 ## Manuscript-Ready Table Captions
 
@@ -1238,18 +1248,7 @@ Reviewer-defense role:
 AAAI Table 2 caption draft:
 
 ```text
-Source-specific claim boundary for H001. Open3DSG is the main open-vocabulary relation-source case study, VL-SAT is a controlled reproduced anchor, and Qwen-VL remains a third semantic source / modern VLM extension unless promoted with the same denominator, Docker, metric, bootstrap, and audit treatment. FROSS remains blocked as a full-family source. Broad open-vocabulary 3DSSG improvement is not claimed from the current evidence.
-```
-
-Reviewer-defense role:
-
-- Makes non-claims explicit.
-- Prevents the paper from drifting from scoped reliability evidence to baseline-agnostic or broad open-vocabulary claims.
-
-AAAI Table 3 caption draft:
-
-```text
-Main source results for the measured H001-family reliability claim. Open3DSG is reported first as the main open-vocabulary case study after Docker checkpoint reproduction, identity-preserving raw dump, prediction export, geometry join, and metric evaluation; VL-SAT is reported second as a controlled reproduced anchor. The main table uses VL-SAT full-validation and Open3DSG full-validation 548/548 recovery. Open3DSG must retain the selected-checkpoint, filtered train/dev, recovery-policy, exact-label denominator, 533/548 sensitivity, appendix historical 377/388 versus R2 388/388 sensitivity, and residual calibration-risk caveats.
+Main source results for the measured H001-family reliability claim. Open3DSG is reported first as the main open-vocabulary case study after Docker checkpoint reproduction, identity-preserving raw dump, prediction export, geometry join, and metric evaluation; VL-SAT is reported second as a controlled reproduced anchor. The table uses the full official 3,972-row denominator and the fixed K={5,10,20,50,100} grid. Open3DSG caveats must retain selected-checkpoint, filtered train/dev, recovery-policy, exact-label denominator, 533/548 sensitivity, appendix historical 377/388 versus R2 388/388 sensitivity, and residual calibration-risk wording.
 ```
 
 Reviewer-defense role:
@@ -1258,16 +1257,27 @@ Reviewer-defense role:
 - Defends against denominator/caveat attacks by placing Open3DSG limitations directly in the caption.
 - Prevents broad open-vocabulary generation claims.
 
-Prose evidence caption/note draft for controls:
+AAAI Table 3 caption draft:
 
 ```text
-Nontriviality controls for the geometry-consistency signal. Geometry-only and distance-only variants test whether simple geometric heuristics explain the result, while shuffled-geometry and wrong-pair-geometry variants break object-pair identity while preserving parts of the geometry distribution. The degradation under these controls supports the need for identity-preserving relation-level geometry rather than generic spatial priors.
+Controls and diagnostics for the geometry-consistency signal. Geometry-only and distance-only variants test whether simple geometric heuristics explain the result, while shuffled-geometry and wrong-pair-geometry variants break object-pair identity while preserving parts of the geometry distribution. The degradation under these controls supports the need for identity-preserving relation-level geometry rather than generic spatial priors.
 ```
 
 Reviewer-defense role:
 
 - Defends against "this is just distance" or "geometry alone explains the result."
 - Supports the novelty rule by linking the failure cause to object-pair geometry consistency.
+
+Prose claim-boundary note draft:
+
+```text
+Source-specific claim boundary for H001. Open3DSG is the main open-vocabulary relation-source case study, VL-SAT is a controlled reproduced anchor, and Qwen-VL remains a third semantic source / modern VLM extension unless promoted with the same denominator, Docker, metric, bootstrap, and audit treatment. FROSS remains blocked as a full-family source. Broad open-vocabulary 3DSSG improvement is not claimed from the current evidence.
+```
+
+Reviewer-defense role:
+
+- Makes non-claims explicit.
+- Prevents the paper from drifting from scoped reliability evidence to baseline-agnostic or broad open-vocabulary claims.
 
 Prose evidence caption/note draft for GT verifier:
 
@@ -1294,8 +1304,9 @@ Reviewer-defense role:
 Korean caption notes:
 
 - AAAI Table 1은 denominator/scope를 잠근다.
-- AAAI Table 2는 claim boundary와 non-claim을 명시하는 방어용 표다.
-- AAAI Table 3은 Open3DSG-first main source result이며 Open3DSG caveat을 caption에 직접 넣어야 한다.
+- AAAI Table 2는 Open3DSG-first main source result이며 Open3DSG caveat을 caption에 직접 넣어야 한다.
+- AAAI Table 3은 controls and diagnostics 표이며 geometry-only/distance-only/identity-breaking 대안을 분리한다.
+- Claim boundary와 non-claim은 main table이 아니라 Experimental Setup, Limitations, and Results prose에서 명시한다.
 - Calibrator / threshold provenance는 `paper/appendix.md`가 소유한다. Family mapping, rule threshold, counterfactual construction, calibrator artifact, held-out 사용 여부가 바뀌면 먼저 이 파일을 갱신한다.
 - Controls, GT verifier, audit는 본문 prose evidence로 남기되 appendix가 생기면 상세 표로 옮길 수 있다.
 
@@ -1321,7 +1332,7 @@ Review result:
 | Abstract | pass | The abstract states a scoped reliability claim for geometry-checkable relation families and explicitly excludes broad open-vocabulary 3D Scene Graph generation. |
 | Introduction | pass | The logic ties the observed failure cause to method necessity: semantic relation confidence is not calibrated to relation-level physical consistency. |
 | Figure captions | pass | Figures frame the method as a reliability layer, show recall-violation tradeoffs, and disclose residual calibration risk. |
-| Table captions | pass | AAAI Table 1 fixes denominator/scope, Table 2 keeps non-claims visible, and Table 3 reports Open3DSG-first source results with caveats. Controls, GT verifier, and audit evidence are summarized in prose unless an appendix is added. |
+| Table captions | pass | AAAI Table 1 fixes denominator/scope, Table 2 reports Open3DSG-first source results with caveats, and Table 3 reports controls/diagnostics. Claim boundary, GT verifier, and audit evidence are summarized in prose unless an appendix is added. |
 
 Allowed manuscript claim:
 
@@ -1341,7 +1352,7 @@ Do not drift into these claims:
 Korean review note:
 
 - 현재 abstract, Introduction, table caption, figure caption은 모두 scoped relation-reliability claim과 일치한다.
-- AAAI Table 3는 caveat을 숨기지 않는 점이 중요하다. 지금은 압축보다 필수 content와 limitation을 모두 확보하는 것이 우선이다.
+- AAAI Table 2는 caveat을 숨기지 않는 점이 중요하다. Table 3는 controls/diagnostics 방어 역할을 유지한다.
 - Qwen-VL은 third semantic source / modern VLM extension으로만 두며, full-source Docker metric, bootstrap, audit가 끝나기 전에는 본문 main evidence로 승격하지 않는다.
 
 ## Paper Content Coverage Checklist
@@ -1358,13 +1369,13 @@ Content already secured:
 | --- | --- | --- |
 | Problem and failure mechanism | secured | `paper/outline.md`, `docs/paper.md`, qualitative failure inspection |
 | Three contribution structure | secured | failure mechanism, calibrated framework, recall-violation protocol |
-| Primary `VL-SAT` result | secured | AAAI Table 3 plus prose-backed controls, GT verifier, and audit evidence |
+| `VL-SAT` controlled-anchor result | secured | AAAI Table 2 plus Table 3 controls, GT verifier, and audit evidence |
 | Nontriviality controls | secured | geometry-only, distance-only, shuffled-geometry, wrong-pair controls |
 | GT-based verifier evaluation | secured | GT-positive/counterfactual metrics |
-| Open3DSG second-source evidence | secured with caveats | AAAI Table 3, Open3DSG metrics, raw-dump provenance, failure rows |
+| Open3DSG main open-vocabulary case study | secured with caveats | AAAI Table 2, Open3DSG metrics, raw-dump provenance, failure rows |
 | Failure analysis | secured as qualitative/reviewer-defense evidence | 57,736 rows and 36 inspected cases |
 | Reproducibility | secured | Docker experiment root, `docs/reproducibility.md`, locked manifests, AAAI checklist after references |
-| Claim boundary | secured | `docs/paper.md`, AAAI Table 2, Open3DSG caveat wording |
+| Claim boundary | secured | `docs/paper.md`, Experimental Setup / Limitations prose, Open3DSG caveat wording |
 | Qwen-VL optional extension boundary | secured as optional/non-metric | contract/cache ready, no main metric claim |
 
 Content blocks secured in this outline pass:

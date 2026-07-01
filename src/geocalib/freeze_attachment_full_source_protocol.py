@@ -50,6 +50,23 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--open3dsg-verification", type=Path, default=DEFAULT_OPEN3DSG_VERIFICATION)
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
     parser.add_argument("--rows-per-shard", type=int, default=2000)
+    parser.add_argument("--ks", type=int, nargs="+", default=[50, 100])
+    parser.add_argument(
+        "--derive-shards-from-source",
+        action="store_true",
+        help=(
+            "Build shard counts from the provided source verification files instead of "
+            "the historical scope audit manifest. Use this for full-validation extension runs."
+        ),
+    )
+    parser.add_argument(
+        "--allow-scope-denominator-mismatch",
+        action="store_true",
+        help=(
+            "Allow the active ground-truth denominator to differ from the historical "
+            "scope audit denominator. The mismatch is still recorded in validation."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -289,6 +306,48 @@ def build_shards(scope_manifest: dict[str, Any], rows_per_shard: int) -> list[di
     return shards
 
 
+def build_shards_from_source_stats(
+    source_stats: dict[str, dict[str, Any]],
+    rows_per_shard: int,
+) -> list[dict[str, Any]]:
+    if rows_per_shard <= 0:
+        raise ValueError("rows_per_shard must be positive")
+    source_specs = [
+        ("vlsat", "vlsat_closed_set"),
+        ("open3dsg", "open3dsg_ov"),
+    ]
+    shards: list[dict[str, Any]] = []
+    for source_key, source_name in source_specs:
+        label_counts = source_stats.get(source_name, {}).get("label_counts", {})
+        for label in ATTACHMENT_LABELS:
+            total = int(label_counts.get(label, 0))
+            label_slug = label.replace(" ", "_")
+            shard_index = 0
+            for start in range(0, total, rows_per_shard):
+                end = min(start + rows_per_shard, total)
+                shards.append(
+                    {
+                        "schema_version": SCHEMA_VERSION,
+                        "shard_id": f"{source_name}_{label_slug}_{shard_index:04d}",
+                        "source_key": source_key,
+                        "source_name": source_name,
+                        "predicate_family": TARGET_FAMILY,
+                        "predicate_label": label,
+                        "start_ordinal_in_source_label": start,
+                        "end_ordinal_exclusive": end,
+                        "expected_rows": end - start,
+                        "rows_per_shard": rows_per_shard,
+                        "selection_rule": (
+                            "iterate the provided source verification JSONL in file order, "
+                            "keep attachment_deferred rows for this label, and select "
+                            "[start_ordinal_in_source_label, end_ordinal_exclusive)"
+                        ),
+                    }
+                )
+                shard_index += 1
+    return shards
+
+
 def protocol_payload(
     *,
     model: dict[str, Any],
@@ -296,6 +355,7 @@ def protocol_payload(
     rows_per_shard: int,
     shard_count: int,
     expected_rows: int,
+    ks: list[int],
 ) -> dict[str, Any]:
     return {
         "schema_version": SCHEMA_VERSION,
@@ -369,7 +429,7 @@ def protocol_payload(
             ),
         },
         "metric_protocol": {
-            "ks": [50, 100],
+            "ks": ks,
             "recall": {
                 "match_rule": "exact scan/subgraph/subject/object/predicate-label match",
                 "denominator": denominator["policy"]["primary_recall_denominator"],
@@ -461,6 +521,16 @@ def commands_md() -> str:
 
 Run from repository root.
 
+Current full-validation extension:
+
+```bash
+docker build -t h001-geom-reliability:latest -f configs/h001/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm \\
+  attachment_deferred_full_validation_protocol
+```
+
+Historical 127-scan provenance branch:
+
 ```bash
 docker build -t h001-geom-reliability:latest -f configs/h001/Dockerfile .
 env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm \\
@@ -476,9 +546,9 @@ Validation:
 
 ```bash
 python -m py_compile src/geocalib/freeze_attachment_full_source_protocol.py
-python -m json.tool archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol/manifest.json >/dev/null
-python -m json.tool archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol/protocol.json >/dev/null
-python -m json.tool archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_protocol/denominator_audit.json >/dev/null
+python -m json.tool <active-output-root>/manifest.json >/dev/null
+python -m json.tool <active-output-root>/protocol.json >/dev/null
+python -m json.tool <active-output-root>/denominator_audit.json >/dev/null
 ```
 """
 
@@ -549,6 +619,9 @@ def report_md(manifest: dict[str, Any], denominator: dict[str, Any], shards: lis
 def main() -> int:
     args = parse_args()
     repo_root = args.repo_root.resolve()
+    ks = sorted(set(int(k) for k in args.ks))
+    if not ks or any(k <= 0 for k in ks):
+        raise ValueError("--ks must contain one or more positive integers")
     scope_dir = abs_path(repo_root, args.scope_audit_dir)
     calibration_dir = abs_path(repo_root, args.calibration_dir)
     preflight_dir = abs_path(repo_root, args.source_preflight_dir)
@@ -604,22 +677,36 @@ def main() -> int:
 
     denominator = denominator_audit(gt_rows, source_keys, source_stats)
     expected_gt = int(scope_manifest.get("denominator", {}).get("attachment_deferred_gt_rows", 0))
+    allowed_mismatches: list[str] = []
     if denominator["global_exact_label_gt_denominator"] != expected_gt:
-        validation_errors.append(
+        mismatch = (
             "denominator_mismatch:"
             f"{denominator['global_exact_label_gt_denominator']}!={expected_gt}"
         )
+        if not args.allow_scope_denominator_mismatch:
+            validation_errors.append(mismatch)
+        else:
+            allowed_mismatches.append(mismatch)
 
-    shards = build_shards(scope_manifest, args.rows_per_shard)
-    expected_rows = sum(int(row["expected_rows"]) for row in shards)
-    scoped_expected = sum(
-        int(
-            scope_manifest.get("source_prediction_rows", {})
-            .get(source_key, {})
-            .get("attachment_deferred_rows", 0)
+    if args.derive_shards_from_source:
+        shards = build_shards_from_source_stats(source_stats, args.rows_per_shard)
+        scoped_expected = sum(
+            int(source_stats[source_name]["attachment_rows_used"])
+            for source_name in ("vlsat_closed_set", "open3dsg_ov")
         )
-        for source_key in ("vlsat", "open3dsg")
-    )
+        shard_validation_target = "source_stats"
+    else:
+        shards = build_shards(scope_manifest, args.rows_per_shard)
+        scoped_expected = sum(
+            int(
+                scope_manifest.get("source_prediction_rows", {})
+                .get(source_key, {})
+                .get("attachment_deferred_rows", 0)
+            )
+            for source_key in ("vlsat", "open3dsg")
+        )
+        shard_validation_target = "scope_manifest"
+    expected_rows = sum(int(row["expected_rows"]) for row in shards)
     if expected_rows != scoped_expected:
         validation_errors.append(f"shard_expected_rows_mismatch:{expected_rows}!={scoped_expected}")
 
@@ -628,6 +715,7 @@ def main() -> int:
         "protocol_only_no_source_metrics",
         "main_AAAI_claim_unchanged_until_user_confirmation",
     ]
+    warnings.extend(f"allowed_{item}" for item in allowed_mismatches)
     blockers = [
         "full_source_scoring_not_run",
         "source_metrics_not_run",
@@ -645,6 +733,7 @@ def main() -> int:
         rows_per_shard=args.rows_per_shard,
         shard_count=len(shards),
         expected_rows=expected_rows,
+        ks=ks,
     )
     status = STATUS if not validation_errors else "attachment_deferred_full_source_protocol_failed_validation"
     created_at = utc_now()
@@ -676,6 +765,9 @@ def main() -> int:
             "expected_full_source_rows": expected_rows,
             "rows_per_shard": args.rows_per_shard,
             "shards": len(shards),
+            "derive_shards_from_source": args.derive_shards_from_source,
+            "shard_validation_target": shard_validation_target,
+            "ks": ks,
             "vlsat_attachment_rows": source_stats["vlsat_closed_set"]["attachment_rows_used"],
             "open3dsg_attachment_rows": source_stats["open3dsg_ov"]["attachment_rows_used"],
         },
@@ -692,9 +784,11 @@ def main() -> int:
             "attachment_denominator_matches_scope": not any(
                 error.startswith("denominator_mismatch") for error in validation_errors
             ),
-            "shard_expected_rows_matches_scope": not any(
+            "scope_denominator_mismatch_allowed": args.allow_scope_denominator_mismatch,
+            "shard_expected_rows_matches_target": not any(
                 error.startswith("shard_expected_rows_mismatch") for error in validation_errors
             ),
+            "shard_validation_target": shard_validation_target,
         },
     }
 

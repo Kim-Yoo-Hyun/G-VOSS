@@ -1,0 +1,31 @@
+route_family,protocol_split,predicate_label,rows
+relative_horizontal,internal_dev,behind,97
+relative_horizontal,internal_dev,front,97
+relative_horizontal,internal_dev,left,83
+relative_horizontal,internal_dev,right,83
+relative_horizontal,internal_heldout,behind,89
+relative_horizontal,internal_heldout,front,89
+relative_horizontal,internal_heldout,left,91
+relative_horizontal,internal_heldout,right,91
+relative_horizontal,internal_train,behind,414
+relative_horizontal,internal_train,front,414
+relative_horizontal,internal_train,left,426
+relative_horizontal,internal_train,right,426
+relative_vertical,internal_dev,higher than,118
+relative_vertical,internal_dev,lower than,109
+relative_vertical,internal_heldout,higher than,114
+relative_vertical,internal_heldout,lower than,112
+relative_vertical,internal_train,higher than,528
+relative_vertical,internal_train,lower than,531
+size_relative,internal_dev,bigger than,180
+size_relative,internal_dev,smaller than,180
+size_relative,internal_heldout,bigger than,180
+size_relative,internal_heldout,smaller than,180
+size_relative,internal_train,bigger than,840
+size_relative,internal_train,smaller than,840
+support_contact,internal_dev,lying on,51
+support_contact,internal_dev,standing on,46
+support_contact,internal_heldout,lying on,45
+support_contact,internal_heldout,standing on,49
+support_contact,internal_train,lying on,224
+support_contact,internal_train,standing on,225

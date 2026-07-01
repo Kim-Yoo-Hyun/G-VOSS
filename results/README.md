@@ -9,6 +9,7 @@
 - `h001_geom_reliability/bootstrap_ci/`: bootstrap CI summaries.
 - `h001_geom_reliability/figures/`: figure specifications.
 - `h001_geom_reliability/manifest*.json`: compact locked manifests.
+- `h002_compatibility_routing/README.md`: skeleton compact-result root for future H002 promotion; no paper-level H002 metrics exist yet.
 
 ## Boundary
 

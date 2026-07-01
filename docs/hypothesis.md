@@ -213,8 +213,16 @@ Hypothesis 문서를 갱신한 에이전트는 아래를 함께 확인한다.
 - evaluation protocol과 subset strategy 전에는 full baseline reproduction plan을 확정하지 않는다.
 - hypothesis 문서는 연구 방향을 좁히는 도구이지 최종 논문 초안이 아니다.
 
-## Current Active Hypothesis
+## Archived H001 Transition Note
+
+This note is a stable transition pointer, not the live hypothesis dashboard.
+Current task state belongs to `TODO.md`, active H002 state belongs to
+`hypothesis/CAND-001/H002_factorized-relation-confidence/README.md`, and
+preserved H001 hypothesis evidence belongs to
+`archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/`.
 
 - Candidate: `CAND-001`
-- Hypothesis: `H001 Geometry-grounded verification of open-vocabulary 3DSSG relations`
-- Status: H001 hypothesis-stage evidence, scoped main experiment spec, Docker `VL-SAT` table/report reproduction, Docker-reproduced Open3DSG second-source metrics, clean v14 Open3DSG streaming raw-dump provenance, Open3DSG qualitative case inspection, Open3DSG paper caveat wording, and Qwen-VL third-source full-validation extension are complete; active notes are consolidated into `01_overview.md` through `07_experiment_spec.md`; active experiment root is `experiments/H001_geom_reliability/`; current gate is GeoCalib paper/submission package hygiene, not hypothesis expansion.
+- Preserved hypothesis: `H001 Geometry-grounded verification of open-vocabulary 3DSSG relations`
+- Transition: H001 hypothesis-stage evidence was promoted into the Docker
+  experiment route under `experiments/H001_geom_reliability/` and the
+  GeoCalib manuscript route under `paper/aaai/`.

@@ -1,0 +1,9 @@
+{
+  "schema_version": "h001_attachment_deferred_g5d_full_source_v1",
+  "shard_status_counts": {
+    "complete": 99
+  },
+  "status": "passed",
+  "validation_error_count": 0,
+  "validation_errors": []
+}

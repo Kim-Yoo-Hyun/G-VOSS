@@ -16,7 +16,10 @@ rules live in `docs/paper.md`.
 - Current claim style: scoped relation-reliability paper for
   geometry-checkable 3D Scene Graph relation families.
 - Non-claim: broad open-vocabulary 3DSSG generation improvement.
-- Latest known Docker build: `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`, exit 0, 10 total pages; technical content remains pages 1-7.
+- Latest source-validation Docker build:
+  `logs/h001_aaai_pdf_build_reference_expansion_20260625_130811.log`, exit 0,
+  output `paper/aaai/main_reference_expansion.pdf`, 9 total pages; the original
+  `paper/aaai/main.pdf` is preserved.
 - Current main GeoCalib score is `family_conditional_risk`
   (`semantic_score * p_geom_valid_family`). Pooled
   `probabilistic_recalibrated` is an ablation/baseline, and geometry-only
@@ -55,6 +58,8 @@ rules live in `docs/paper.md`.
   optional Figure 3 decision notes, and Qwen-VL extension boundary.
 - `references.bib`: shared BibTeX bibliography for draft and venue-specific
   LaTeX sources.
+- `top_tier_review.md`: comparison-driven paper style review and table/figure
+  layout decision log.
 - `aaai/`: current AAAI-style LaTeX source, official style files, Docker build
   route, PDF build status, and venue-local README.
 - `archive/paper/iccv/`: historical ICCV-style LaTeX source route. Keep as

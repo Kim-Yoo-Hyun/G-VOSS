@@ -291,6 +291,113 @@ def generate_figure2(data: dict[str, list[dict[str, float | str]]]) -> str:
     return "\n".join(parts)
 
 
+def write_figure1_png() -> None:
+    width, height = 1280, 650
+    image = Image.new("RGB", (width, height), "white")
+    draw = ImageDraw.Draw(image)
+    title = ImageFont.truetype("DejaVuSans-Bold.ttf", 25)
+    head = ImageFont.truetype("DejaVuSans-Bold.ttf", 17)
+    body = ImageFont.truetype("DejaVuSans.ttf", 14)
+    body_bold = ImageFont.truetype("DejaVuSans-Bold.ttf", 14)
+    small = ImageFont.truetype("DejaVuSans.ttf", 12)
+    small_bold = ImageFont.truetype("DejaVuSans-Bold.ttf", 12)
+
+    def text(x: int, y: int, value: str, fill: str = "#111827", font: ImageFont.FreeTypeFont = body) -> None:
+        draw.text((x, y), value, fill=fill, font=font)
+
+    def wrap_text(
+        x: int,
+        y: int,
+        value: str,
+        width_chars: int,
+        fill: str = "#374151",
+        font: ImageFont.FreeTypeFont = body,
+        line_h: int = 18,
+    ) -> None:
+        for idx, line in enumerate(wrapped_lines(value, width_chars)):
+            draw.text((x, y + idx * line_h), line, fill=fill, font=font)
+
+    def panel(x: int, y: int, w: int, h: int, label: str, fill: str, stroke: str = "#94a3b8") -> None:
+        draw.rounded_rectangle((x, y, x + w, y + h), radius=10, fill=fill, outline=stroke, width=2)
+        text(x + 16, y + 13, label, font=head)
+
+    def arrow(x1: int, y1: int, x2: int, y2: int, color: str = "#374151") -> None:
+        draw.line((x1, y1, x2, y2), fill=color, width=3)
+        draw.polygon([(x2, y2), (x2 - 12, y2 - 7), (x2 - 12, y2 + 7)], fill=color)
+
+    text(50, 30, "GeoCalib: calibrating geometric consistency for relation rows", font=title)
+    text(
+        50,
+        64,
+        "A semantically plausible edge is not necessarily reliable for the same 3D object pair.",
+        "#4b5563",
+        body,
+    )
+
+    panel(50, 105, 330, 168, "1. Failure example", "#fff7ed", "#fb923c")
+    draw.ellipse((82, 176, 162, 236), fill="#fef3c7", outline="#d97706", width=2)
+    draw.ellipse((246, 176, 326, 236), fill="#fee2e2", outline="#dc2626", width=2)
+    text(105, 198, "chair", "#92400e", small_bold)
+    text(270, 198, "wall", "#991b1b", small_bold)
+    arrow(164, 206, 244, 206, "#b45309")
+    text(178, 181, "standing on", "#92400e", small_bold)
+    text(72, 238, "semantic score: high", "#7c2d12", small)
+    text(72, 256, "geometry: violated", "#991b1b", small_bold)
+    text(205, 238, "plausible label", "#7c2d12", small)
+    text(205, 256, "wrong physical state", "#991b1b", small_bold)
+
+    panel(430, 105, 360, 168, "2. Same-pair geometry", "#eff6ff", "#60a5fa")
+    wrap_text(
+        452,
+        154,
+        "Join evidence by scan, subgraph, subject id, and object id rather than by category names.",
+        43,
+        "#1e3a8a",
+    )
+    text(452, 226, "Evidence: distance, contact, overlap, vertical order", "#1e3a8a", body)
+
+    panel(850, 105, 380, 168, "3. Calibrated re-ranking", "#ecfdf5", "#34d399")
+    text(872, 153, "GeoCalib score", "#065f46", body_bold)
+    text(872, 179, "semantic_score x p_geom_valid_family", "#065f46", body)
+    wrap_text(872, 213, "Family-conditioned risk keeps top-K utility while penalizing inconsistency.", 43, "#065f46")
+
+    arrow(390, 190, 420, 190)
+    arrow(800, 190, 840, 190)
+
+    text(50, 318, "What changes in the top-K list?", font=head)
+    panel(50, 348, 360, 135, "Semantic-only", "#f8fafc")
+    text(76, 394, "rank 1  chair -- standing on -- wall", font=small_bold)
+    text(76, 418, "high semantic confidence, violated geometry", "#991b1b", small)
+    text(76, 446, "failure: symbolic edge contradicts 3D evidence", "#6b7280", small)
+
+    panel(460, 348, 360, 135, "GeoCalib", "#f0fdf4", "#22c55e")
+    text(486, 394, "same semantic score + same-pair geometry", "#065f46", small_bold)
+    text(486, 418, "invalid edges are softly demoted", "#065f46", small)
+    text(486, 446, "evaluate recall and violation together", "#6b7280", small)
+
+    panel(870, 348, 360, 135, "Controls", "#f8fafc")
+    text(896, 394, "geometry-only / distance-only", font=small_bold)
+    text(896, 418, "shuffled geometry / wrong-pair geometry", font=small_bold)
+    text(896, 446, "test whether same-pair calibration matters", "#6b7280", small)
+
+    text(50, 545, "Paper-facing names:", font=body_bold)
+    text(
+        228,
+        545,
+        "GeoCalib = main score; pooled risk = ablation; strict rule = diagnostic; controls = simpler explanations.",
+        "#374151",
+        body,
+    )
+    text(
+        50,
+        585,
+        "Caption guard: scoped relation-reliability framework, not a broad open-vocabulary generation method.",
+        "#6b7280",
+        small,
+    )
+    image.save(OUT_DIR / "figure1_framework.png")
+
+
 def write_figure2_png(data: dict[str, list[dict[str, float | str]]]) -> None:
     width, height = 1280, 620
     image = Image.new("RGB", (width, height), "white")
@@ -445,6 +552,7 @@ def write_outputs() -> None:
     }
     for filename, content in outputs.items():
         (OUT_DIR / filename).write_text(content + "\n")
+    write_figure1_png()
     write_figure2_png(figure2_data)
 
     (OUT_DIR / "figure2_data.json").write_text(json.dumps(figure2_data, indent=2, sort_keys=True) + "\n")
@@ -457,6 +565,7 @@ def write_outputs() -> None:
         "created_at": datetime.now(timezone.utc).isoformat(),
         "outputs": {key: str((OUT_DIR / key).relative_to(ROOT)) for key in outputs},
         "png_outputs": {
+            "figure1_framework.png": str((OUT_DIR / "figure1_framework.png").relative_to(ROOT)),
             "figure2_tradeoff.png": str((OUT_DIR / "figure2_tradeoff.png").relative_to(ROOT)),
         },
         "source_lock": "paper/figures.md",
@@ -486,6 +595,7 @@ Status: `{manifest["status"]}`
 Generated outputs:
 
 - `figure1_framework.svg`: method/framework schematic.
+- `figure1_framework.png`: LaTeX-facing PNG conversion of the Figure 1 framework.
 - `figure2_tradeoff.svg`: two-panel R@100 / Violation@100 tradeoff.
 - `figure2_tradeoff.png`: LaTeX-facing PNG conversion of the Figure 2 tradeoff.
 - `figure3_failure_cases.svg`: Open3DSG qualitative row-card panels.

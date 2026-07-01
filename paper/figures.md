@@ -47,9 +47,12 @@ Locked claim:
 
 Locked visual form:
 
-- Method/framework diagram.
+- Failure-example-to-method framework diagram.
 - No numerical result claim.
-- Show the pipeline:
+- Show a motivating semantic-only failure before the pipeline:
+  `chair -- standing on -- wall` can be semantically plausible but physically
+  unsupported for the same object pair.
+- Show the design path:
   `relation source predictions` -> `standardized row contract` ->
   `identity-preserving geometry join` -> `family-specific verifier` ->
   `p_geom_valid calibration` -> `family-conditioned GeoCalib score / pooled
@@ -166,7 +169,7 @@ Caption constraint:
 Completed:
 
 1. Figure 2 was generated first from locked numeric values.
-2. Figure 1 was generated as a clean framework schematic.
+2. Figure 1 was regenerated as a failure-example-to-method framework schematic.
 3. Figure 3 was generated as row-card evidence panels.
 4. Figure 3 was upgraded to geometry-backed point-cloud panels for the same
    locked case IDs.

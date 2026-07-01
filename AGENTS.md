@@ -20,11 +20,21 @@
 
 `AGENTS.md`는 작업 전에 읽히는 project instruction이며, 세부 연구 로그가 아니라 에이전트용 상위 운영 규칙이다. OpenAI Codex guidance처럼 repo-level instruction에는 setup/rules/expectations, file responsibilities, verification expectations만 두고, 상세 지침은 가까운 하위 문서나 nested instruction으로 분리한다.
 
-- 이 repo의 기본 구조는 `AGENTS.md = 상위 규칙과 파일 책임`, `docs/*.md` 및 각 폴더 `README.md = 세부 runbook/state`이다.
+- 이 repo의 기본 구조는 `AGENTS.md = 상위 규칙과 파일 책임`,
+  `docs/*.md = repository-wide workflow rulebook / navigation / recovery
+  runbook`, 각 폴더 `README.md`와 가까운 report = folder-local state/runbook
+  이다.
 - 이 파일에는 변하지 않는 rule, document ownership, claim boundary, experiment safety rule만 둔다.
-- 최신 실험 상태, 긴 artifact 목록, 실행 명령, row count, recovery checklist는 `docs/reproducibility.md`, `summary.md`, `TODO.md`, `experiments/**/README.md`에 둔다. `docs/index.md`는 색인과 문서 위치 안내만 소유한다.
+- 최신 실험 상태, 긴 artifact 목록, 실행 명령, row count, completion log는
+  `summary.md`, `TODO.md`, folder `README.md`, closest report artifact, 또는
+  recovery 성격일 때만 `docs/reproducibility.md`에 둔다. `docs/index.md`는
+  색인과 문서 위치 안내만 소유한다.
 - 특정 폴더의 세부 규칙은 그 폴더의 `README.md` 또는 필요 시 nested `AGENTS.md`로 분리한다.
 - `AGENTS.md`를 run log, paper draft, artifact inventory, download checklist, or metric table로 사용하지 않는다.
+- `docs/*.md`도 progress dump로 사용하지 않는다. `docs/paper.md`는
+  reviewer-facing writing rulebook, `docs/experiments.md`는 Docker promotion
+  rulebook, `docs/hypothesis.md`와 `docs/literature.md`는 workflow rulebook,
+  `docs/reproducibility.md`는 recovery/runbook 예외로 유지한다.
 - Codex의 project instruction size limit을 고려해 이 파일은 간결하게 유지한다. 긴 목록은 owning document로 이동한다.
 
 ## Reading Protocol
@@ -54,7 +64,7 @@ H001 resume, upload, deletion, or other-computer recovery work must start from `
 - `docs/literature.md`: literature workflow rulebook. Owns how to create paper cards, trend synthesis, and contribution scans.
 - `docs/hypothesis.md`: hypothesis workflow rulebook. Owns candidate/hypothesis stages, gate criteria, and hypothesis artifact conventions.
 - `docs/experiments.md`: Docker experiment workflow rulebook. Owns experiment promotion criteria, root-creation checklist, source adapter expectations, metric-freeze gates, and paper-result boundary rules.
-- `docs/paper.md`: paper-framing rulebook. Owns top-tier novelty standard, claim boundary, reviewer-risk checklist, and table/ablation/failure-analysis requirements.
+- `docs/paper.md`: paper-framing rulebook. Owns top-tier novelty standard, claim boundary, reviewer-process interpretation, reviewer-risk checklist, and table/ablation/failure-analysis requirements. It should not become a manuscript changelog or PDF build log.
 - `docs/reproducibility.md`: recovery and reproducibility runbook. Owns dataset/checkpoint/model locations, artifact bundles, Docker commands, verification commands, transfer guidance, and cleanup implications.
 - `literature/`: paper evidence base. Owns source-grounded paper cards, field maps, cross-paper synthesis, reading queue, and contribution candidates.
 - `archive/hypothesis_records/hypothesis/`: preserved pre-paper validation records. Owns H001 hypothesis statements, method sketches, smoke tests, audits, scoped results, and experiment-transition gates.
@@ -78,6 +88,11 @@ H001 resume, upload, deletion, or other-computer recovery work must start from `
 - If a change affects a folder-local workflow, update that folder's `README.md`; do not expand `AGENTS.md` with folder-local details.
 - When a new durable root-level research/workflow folder is created or activated, add it to `docs/index.md` and the relevant README role map before substantive work in that folder. Create a matching `docs/<folder>.md` only if the folder needs workflow rules beyond its local README. This applies to durable workflow roots such as `src/`, `configs/`, `experiments/`, `results/`, `paper/`, `literature/`, or reactivated hypothesis work, not transient/ignored roots such as `logs/`, `local_dataset/`, or `release/`.
 - If a detailed list appears in more than one place, keep the authoritative copy in the owning document and replace other copies with a pointer.
+- Documentation-system convention: `docs/index.md` and `docs/README.md` are
+  entry points, similar to MkDocs/Docusaurus/Sphinx index pages. They should
+  point to owning documents, not reproduce the content. When a `docs/*.md` file
+  starts accumulating live progress, move that progress to `TODO.md`,
+  `summary.md`, folder `README.md`, or the closest report and leave a pointer.
 
 ## Working Language
 

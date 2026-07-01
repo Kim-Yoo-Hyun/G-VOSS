@@ -5,6 +5,7 @@ Status: `draft_figures_generated_verified`
 Generated outputs:
 
 - `figure1_framework.svg`: method/framework schematic.
+- `figure1_framework.png`: LaTeX-facing PNG conversion of the Figure 1 framework.
 - `figure2_tradeoff.svg`: two-panel R@100 / Violation@100 tradeoff.
 - `figure2_tradeoff.png`: LaTeX-facing PNG conversion of the Figure 2 tradeoff.
 - `figure3_failure_cases.svg`: Open3DSG qualitative row-card panels.

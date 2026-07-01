@@ -1,0 +1,19 @@
+{
+  "counts": {
+    "complete_shards": 4,
+    "scored_rows": 8000,
+    "selected_shards": 4,
+    "validation_errors": 0
+  },
+  "created_at": "2026-06-28T08:34:24+00:00",
+  "schema_version": "h001_attachment_deferred_g5d_full_source_v1",
+  "selected_shards": [
+    "open3dsg_ov_attached_to_0012",
+    "open3dsg_ov_hanging_on_0006",
+    "open3dsg_ov_connected_to_0000",
+    "open3dsg_ov_connected_to_0008"
+  ],
+  "status": "complete",
+  "validation_errors": [],
+  "worker_id": "tail5"
+}

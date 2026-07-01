@@ -1,6 +1,6 @@
 # Paper Workflow
 
-Last updated: 2026-06-24 KST
+Last updated: 2026-06-25 KST
 
 This document manages paper-level framing for GeoCalib/H001/CAND-001: novelty, contribution boundary, reviewer-defense logic, and the minimum experiment evidence needed before paper writing. It does not replace `docs/hypothesis.md`, `07_experiment_spec.md`, or Docker experiment artifacts.
 
@@ -11,12 +11,28 @@ This document manages paper-level framing for GeoCalib/H001/CAND-001: novelty, c
 - `paper/README.md` owns the paper workspace map and file-role guide.
 - Manuscript prose, figures, tables, venue-specific LaTeX source, and draft history live under `paper/`.
 - Preserved hypothesis validation details live under `archive/hypothesis_records/hypothesis/`; executable code lives under `src/geocalib/`; Docker entry points live under `configs/`; source-specific experiment records live under `experiments/`; compact paper-facing summaries live under `results/`; reproducibility and artifact transfer details live in `docs/reproducibility.md`.
+- Treat this file as a reviewer-facing writing rulebook. Live PDF build status,
+  task status, long metric tables, row counts, and completion logs belong in
+  `paper/README.md`, `paper/preview.md`, `TODO.md`,
+  `docs/reproducibility.md`, or the closest experiment/report artifact.
+  Durable claim decisions may be summarized here only when they change how the
+  manuscript should be written.
 
 ## Source Note
 
 - Checked on: 2026-05-14
 - Reference: [Motivation is not Novelty](https://gisbi-kim.github.io/motivation-is-not-novelty/)
 - Usage: paper-framing heuristic, not scientific evidence about 3D Scene Graphs.
+
+Reviewer-process source:
+
+- Checked on: 2026-06-25
+- Reference: [CVPR 2026 Reviewer Training Material](https://cvpr.thecvf.com/Conferences/2026/ReviewerTrainingMaterial)
+- Usage: venue-adjacent reviewer-process guidance. CVPR-specific policies are
+  not copied as AAAI requirements, but the general evaluation lens is used:
+  reviewers make evidence-based recommendations, assess core claims against
+  support, weigh novelty/significance/technical soundness, avoid SOTA-only
+  reasoning, and communicate specific strengths/weaknesses to the AC.
 
 ## Novelty Rule
 
@@ -31,7 +47,56 @@ H001 rule:
 - Do not claim novelty as "we add geometry", "we combine semantic and geometry", "we use a VLM", or "we implement a verifier".
 - Claim novelty as a calibrated geometry-consistency evaluation/re-ranking framework that targets a specific failure: semantically plausible 3D relation predictions can be physically inconsistent because semantic confidence is not calibrated to relation-level geometry.
 
-## Current One-Liner
+## Reviewer-Process Writing Rule
+
+Interpret the reviewer as someone writing a recommendation to an Area Chair,
+not as someone merely checking whether a table beats SOTA. The manuscript
+should make that recommendation easy to justify.
+
+Author-side implications:
+
+- A reviewer should be able to summarize the paper in 2-4 sentences after
+  reading the abstract, introduction, Figure 1, and the main result table. If
+  the intended claim cannot be summarized this way, the claim is too diffuse.
+- Every central claim must point to specific evidence: a table, figure,
+  ablation, control, failure taxonomy, calibration result, or source-grounded
+  citation. Avoid relying on prose emphasis alone.
+- Novelty must be positioned against named prior work. If the paper implies
+  "done before" or "not done before", the text must cite the closest works and
+  explain the relationship.
+- Do not make the reviewer infer the acceptance case from SOTA numbers alone.
+  Explain the experimental design, the failure mechanism, the insight, and the
+  recall/violation tradeoff.
+- Minor fixable issues should not be allowed to obscure the contribution, but
+  fundamental soundness issues must be answered in the main text before
+  submission. The paper should not depend on rebuttal-only new experiments.
+- Limitations and caveats should be framed as scope discipline, not hidden
+  weakness. A reviewer should be able to cite the limitation wording as evidence
+  that the claim is honest and technically bounded.
+- Tables and figures should support reviewer reasoning: Table captions must
+  state denominator/scope/provenance; figures should show failure mechanism or
+  evidence, not only static decoration.
+- Reviewer-facing wording should use "the paper shows" style logic: problem,
+  cause, method form, evidence, boundary. Avoid unsupported excitement,
+  broad-field claims, or policy-like demands not required by the venue.
+
+Reviewer-side checklist to simulate before submission:
+
+- Can the reviewer identify the paper's core claim and non-claim without
+  reading internal docs?
+- Is there a clear reason why the method has this form rather than being a
+  generic geometry filter, distance heuristic, or post-hoc verifier script?
+- Are the closest novelty threats cited and distinguished without weakening the
+  contribution?
+- Are the main results reproducible and scoped enough that an AC can trust the
+  denominator, source route, and caveats?
+- Are weaknesses concrete and bounded, or do they suggest the contribution is
+  under-evidenced?
+- If the reviewer writes a weak-reject justification, which missing evidence or
+  ambiguous claim would they point to? Address that point in prose, table,
+  figure, or limitation wording before submission.
+
+## GeoCalib Claim Contract
 
 Paper-facing name: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations`. Use `GeoCalib` in title/abstract/main prose and keep `H001` for internal paths, provenance, and runbooks.
 
@@ -80,11 +145,13 @@ This is the preferred direction because it contains both cause diagnosis and met
   as third-source modern-VLM extension evidence. It does not replace the
   VL-SAT/Open3DSG main-source route and should not widen the main claim unless
   explicitly promoted.
-- Latest known Docker PDF build:
-  `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`, exit 0,
-  10 total pages with technical content on pages 1-7, references on pages 8-9,
-  and the reproducibility checklist on page 10. Regenerate any release package
-  created before the low-K and family-main table/prose updates.
+- Latest source-validation Docker PDF build:
+  `logs/h001_aaai_pdf_build_reference_expansion_20260625_130811.log`, exit 0,
+  output `paper/aaai/main_reference_expansion.pdf`, 9 total pages with
+  references starting on page 7 and the reproducibility checklist on page 9.
+  The original `paper/aaai/main.pdf` is preserved. Regenerate any release
+  package created before the low-K, family-main, top-tier layout, and
+  reference-expansion updates.
 
 2026-06-25 H001_v2 decision:
 
@@ -104,7 +171,7 @@ This is the preferred direction because it contains both cause diagnosis and met
   ranking without semantic score; it is not the same as pooled calibrated
   reranking.
 
-Current paper workspace:
+Paper workspace ownership:
 
 - `paper/README.md` is the folder-local entry point and records the roles of the paper files, reading order, and update ownership.
 - `paper/preview.md` summarizes current evidence, caveats, reviewer-defense map, optional extension boundary, and recovery files.
@@ -113,7 +180,7 @@ Current paper workspace:
 - `paper/draft.md` provides first-pass manuscript prose for Title, Abstract, Introduction, Related Work, Problem Formulation, Method, Experimental Setup, Results/Discussion, Limitations, and Conclusion. It has passed claim-scope/evidence-link review and now uses BibTeX-style citation keys in Related Work.
 - `paper/risk.md` tracks reviewer-risk attacks, mitigation status, and priority for logic/evidence/novelty/reproducibility defenses.
 - `paper/appendix.md` owns appendix/supplement provenance tables, detailed Open3DSG caveat consistency checks, optional Figure 3 decisions, and Qwen-VL extension boundary notes.
-- `paper/aaai/` is the current target-venue LaTeX source. It uses the official AAAI-26 Author Kit style files checked on 2026-05-27 KST until the exact target-year kit/form is rechecked, splits the draft into `main.tex` plus `sec/*.tex`, points bibliography to `paper/references.bib`, and includes the reproducibility checklist after references. Docker PDF build is verified with `h001-aaai-tex:20260526`; latest known log is `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`.
+- `paper/aaai/` is the current target-venue LaTeX source. It uses the official AAAI-26 Author Kit style files checked on 2026-05-27 KST until the exact target-year kit/form is rechecked, splits the draft into `main.tex` plus `sec/*.tex`, points bibliography to `paper/references.bib`, and includes the reproducibility checklist after references. Docker PDF build is verified with `h001-aaai-tex:20260526`; latest source-validation log is `logs/h001_aaai_pdf_build_reference_expansion_20260625_130811.log`.
 - `archive/paper/iccv/` remains a historical/alternate ICCV-style source route.
 - `paper/figures.md` locks Figure 1-3 source claims, exact values, case IDs, artifacts, and caption constraints; draft SVGs are generated, verified, and layout-reviewed under `paper/generated/figures/`.
 
@@ -293,9 +360,14 @@ Required defense:
 Minimum table/figure set before paper writing:
 
 - Table 1: dataset/split/scope and denominator audit.
-- Table 2: source-specific claim boundary and blocked extensions.
-- Table 3: Open3DSG-first main source results with VL-SAT as the controlled anchor.
-- Prose: controls, GT verifier evaluation, audit, and visual sanity checks unless an appendix is added.
+- Table 2: main source results with Open3DSG as the open-vocabulary case study,
+  VL-SAT as the controlled anchor, and the fixed
+  `K={5,10,20,50,100}` grid.
+- Table 3: controls and diagnostics separating GeoCalib from geometry-only,
+  distance-only, shuffled-geometry, and wrong-pair explanations.
+- Prose: source-specific claim boundary / non-claims, GT verifier evaluation,
+  audit, visual sanity checks, and detailed family rows unless an appendix is
+  added. The old claim-boundary table is demoted to prose.
 - Figure 1: failure mechanism and framework overview.
 - Figure 2: recall-violation tradeoff across semantic-only, main GeoCalib
   family-conditional risk, pooled calibrated ablation, and rule-verified
@@ -329,7 +401,7 @@ Do not claim these until evidence exists:
 - Broad Open3DSG reproduction/SOTA claims; current evidence is a selected
   full-validation source-output branch with explicit recovery-policy caveat.
 
-## Next Paper-Framing Step
+## Paper-Framing Guardrails
 
 - Claim-consistency review is complete in `paper/outline.md`: title, contribution statements, abstract, Introduction, Figure 1-3 captions, and Table 1-6 captions preserve the scoped relation-reliability claim.
 - Paper-body content blocks are secured in `paper/outline.md`: related-work positioning, problem/method formalization, re-ranking algorithm skeleton, Results/controls/Open3DSG prose skeleton, failure-analysis prose skeleton, limitation prose, Figure 1-3 asset plan, and table/appendix placement.
@@ -343,12 +415,12 @@ Do not claim these until evidence exists:
 - Target venue direction is AAAI-style main conference writing. Content stability and AAAI page/checklist compliance come before final camera-ready polish.
 - `paper/draft.md` Title/Abstract/Introduction quick review is complete; front matter is about 701 words excluding title, with a 201-word abstract and 500-word Introduction before final compression.
 - Paper-body gap review patch is complete: Figure 1-3 callouts, Table 4 audit/sanity prose, and Conclusion are now in `paper/draft.md`.
-- Paper-body budget review is complete: Title-through-Conclusion prose is about 3,507 words. The current AAAI manuscript uses three main tables: fixed scope/denominator, source-specific claim boundary, and Open3DSG-first source results with `VL-SAT` as controlled anchor. Controls, GT verifier, audit, and detailed family rows stay as prose-backed evidence unless an appendix is added.
+- Paper-body budget review is complete. The current AAAI manuscript uses three main paper tables: fixed scope/denominator, source results, and controls/diagnostics. The old claim-boundary table is demoted to prose. GT verifier, audit, and detailed family rows stay as prose-backed evidence unless an appendix is added.
 - AAAI-style source conversion is complete under `paper/aaai/` using the official AAAI-26 Author Kit. The 2026-05-27 check confirms `aaai2026.sty` was replaced from `AuthorKit26/AnonymousSubmission/LaTeX/aaai2026.sty`, `aaai2026.bst` already matched the official kit, and no official AAAI-27 author kit was confirmed.
-- The `paper/aaai/` manuscript-content pass is complete: it includes fixed scope/denominator accounting, a source-specific claim-boundary table, an Open3DSG-first main source-results table, prose controls/verifier/audit evidence, explicit Open3DSG caveat captioning, and limitation wording.
+- The `paper/aaai/` manuscript-content pass is complete: it includes fixed scope/denominator accounting, a main source-results table, a controls/diagnostics table, prose claim-boundary/verifier/audit evidence, explicit Open3DSG caveat captioning, and limitation wording.
 - Figure 1-3 PNG build assets are ready and `paper/aaai/sec/6_results.tex` points to them. Figure 2 and Figure 3 are single-column in the AAAI source to keep technical content before references.
-- Docker build verification is complete: `paper/aaai/main.pdf` builds with `h001-aaai-tex:20260526`, BibTeX uses 19 entries, and there are no missing citations, undefined refs, overfull hboxes, LaTeX errors, Type 3 fonts, or AAAI package errors. Latest family-main rebuild log: `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`.
-- AAAI reproducibility checklist insertion is complete: `paper/aaai/sec/9_reproducibility_checklist.tex` is included after references. Latest Docker rebuild `logs/h001_aaai_pdf_build_family_main_20260625_084157.log` exits 0; the PDF has 10 total pages, technical content on pages 1-7, references on pages 8-9, checklist on page 10, and no missing citations, undefined refs, overfull hboxes, LaTeX errors, Type 3 fonts, or AAAI package errors in targeted checks.
+- Docker build verification is complete: the source builds with `h001-aaai-tex:20260526`, BibTeX uses 34 entries, and there are no missing citations, undefined refs, overfull hboxes, LaTeX errors, Type 3 fonts, or AAAI package errors. Latest reference-expansion source-validation rebuild log: `logs/h001_aaai_pdf_build_reference_expansion_20260625_130811.log`.
+- AAAI reproducibility checklist insertion is complete: `paper/aaai/sec/9_reproducibility_checklist.tex` is included after references. Latest Docker source-validation rebuild `logs/h001_aaai_pdf_build_reference_expansion_20260625_130811.log` exits 0; `paper/aaai/main_reference_expansion.pdf` has 9 total pages, references start on page 7, checklist is page 9, and no missing citations, undefined refs, overfull hboxes, LaTeX errors, Type 3 fonts, or AAAI package errors were found in targeted checks.
 - AAAI reviewer-defense main-text pass is updated for the selected
   full-validation route: Introduction, Method, Experimental Setup, Results, and
   Limitations directly answer the high-risk attacks, including hand-coded
@@ -358,7 +430,7 @@ Do not claim these until evidence exists:
 - The 2026-05-27 appendix/caveat pass is complete: `paper/appendix.md` records the calibrator/threshold provenance table and caveat consistency pass; experiment Table 6 includes `caveat_note`; Docker PDF rebuild `logs/h001_aaai_pdf_build_appendix_caveat_20260527_202734.log` exits 0 with 9 total pages and no blocking warnings.
 - Draft bibliography scaffold is complete in `paper/references.bib`; citation keys used by `paper/aaai/sec/*.tex` match the bibliography entries.
 - Use `paper/generated/figures/figure3_geometry_panels.svg` as the preferred Figure 3 draft; keep `figure3_failure_cases.svg` as the traceable row-card fallback. A rendered scene-crop upgrade is optional only if a deterministic crop/render path is added.
-- Keep Open3DSG caveats explicit in manuscript Table 3 and experiment artifact
+- Keep Open3DSG caveats explicit in manuscript Table 2 and experiment artifact
   Table 6; later compression must retain selected official non-avg checkpoint
   provenance, filtered-train/dev provenance, exact-label denominator, residual
   calibration risk, and the `recovery_relaxed_views_min2/` policy. If reporting

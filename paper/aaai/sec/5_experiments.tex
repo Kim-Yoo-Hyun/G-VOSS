@@ -18,18 +18,18 @@ predicate-label recall over the 3,972-row in-scope GT denominator; family
 grouping is used for reliability and violation reporting, not for relaxing
 predicate matches.}
 \label{tab:scope}
-\begin{tabularx}{0.96\linewidth}{lrlX}
+\begin{tabularx}{0.90\linewidth}{lrX}
 \toprule
-Item & Count & Source & Role in claim \\
+Item & Count & Role in claim \\
 \midrule
-Validation scans & 157 & 3DSSG subset & Full official validation scan set. \\
-Subgraphs / contexts & 548 & 3DSSG subset & Object-pair identity denominator. \\
-Directed object pairs & 36,808 & \method{} scope contract & Relation-row candidate universe. \\
-VL-SAT prediction rows & 957,008 & VL-SAT & Controlled reproduced closed-set anchor. \\
-Ground-truth rows & 11,254 & 3DSSG & Full validation relation annotation rows. \\
-In-scope GT rows & 3,972 & measured families & Exact-label denominator for the three measured relation families. \\
-Open3DSG prediction rows & 695,916 & Open3DSG & Main open-vocabulary source output. \\
-Geometry-scored rows & 160,596 & \method{} verifier & Open3DSG geometry-checkable rows joined to calibrated evidence. \\
+Validation scans & 157 & Full official validation scan set. \\
+Subgraphs / contexts & 548 & Object-pair identity denominator. \\
+Directed object pairs & 36,808 & Candidate relation-row universe. \\
+Ground-truth rows & 11,254 & Full validation relation annotation rows. \\
+In-scope GT rows & 3,972 & Exact-label denominator for the three measured relation families. \\
+VL-SAT prediction rows & 957,008 & Controlled reproduced closed-set anchor output. \\
+Open3DSG prediction rows & 695,916 & Main open-vocabulary source output. \\
+Geometry-scored rows & 160,596 & Open3DSG geometry-checkable rows joined to calibrated evidence. \\
 \bottomrule
 \end{tabularx}
 \end{table*}
@@ -51,30 +51,11 @@ $\mathrm{score}^{sem}\cdot\pgeom$. Geometry-only controls rank by \pgeom{}
 without semantic confidence and are reported separately from pooled
 calibrated re-ranking.
 
-Table~\ref{tab:claim-boundary} fixes how each source may be used. This is part
-of the experimental design: a result can support the paper only if it passes
-the same row contract, geometry join, denominator, metric, and caveat reporting
-discipline.
-
-\begin{table*}[t]
-\centering
-\small
-\caption{\textbf{Source-specific claim boundary.} Open3DSG is the main
-open-vocabulary relation-source case study; VL-SAT is the controlled anchor.
-Other sources require the same Docker, denominator, metric, and audit treatment.}
-\label{tab:claim-boundary}
-\begin{tabularx}{0.96\linewidth}{l l X X}
-\toprule
-Source or claim & Status & Allowed use & Blocked extension \\
-\midrule
-Open3DSG & metric ready & Main open-vocabulary relation-source reliability case study within measured families. & Not broad open-vocabulary generation improvement by itself. \\
-VL-SAT & ready & Controlled anchor for the same scoped geometry-consistency protocol. & Not baseline-agnostic by itself. \\
-FROSS & runtime blocked & Future support/contact smoke if runtime artifact exists. & Not current full-family evidence. \\
-Qwen-VL & contract/cache ready & Optional modern semantic-source smoke. & Not main metric evidence without full prediction rows, joins, metrics, and audit. \\
-Broad open-vocabulary 3DSSG & blocked & Not claimed from current evidence. & Requires broader measured task/source evidence. \\
-\bottomrule
-\end{tabularx}
-\end{table*}
-
-All paper-body experiment results are generated through the Docker experiment
-root. Host-only outputs are not promoted to paper evidence.
+Source boundaries are enforced in prose rather than as a main result table.
+Open3DSG supports the open-vocabulary relation-source case study; VL-SAT
+supports the controlled-anchor comparison. FROSS remains runtime-blocked,
+Qwen-VL is an optional third-source extension, and broad open-vocabulary 3DSSG
+generation improvement is not claimed without the same Docker, denominator,
+metric, and audit treatment. All paper-body experiment results are generated
+through the Docker experiment root. Host-only outputs are not promoted to paper
+evidence.

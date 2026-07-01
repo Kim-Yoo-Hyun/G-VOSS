@@ -1,0 +1,61 @@
+{
+  "boundary": {
+    "h001_p_geom_valid_excluded_from_main_G_e": true,
+    "main_C_e_allowed_blocks": [
+      "T_e",
+      "G_e"
+    ],
+    "official_test_usage": false,
+    "official_validation_eval_only": true,
+    "official_validation_metric_produced": true,
+    "p_obs_claim_enabled": false,
+    "p_rel_claim_enabled": false,
+    "paper_metric_produced": false,
+    "q_e_excluded_from_main_C_e": true,
+    "support_contact_claim": "challenging_not_solved",
+    "z_e_excluded_from_main_C_e": true
+  },
+  "created_at_utc": "2026-07-01T15:09:54+00:00",
+  "input_artifacts": {
+    "hidden_manifest": "experiments/H002_compatibility_routing/official_materialization/latest/hidden_manifest.jsonl",
+    "internal_split_view": "experiments/H002_compatibility_routing/splits/latest/model_safe_split_view.jsonl",
+    "model_safe_view": "experiments/H002_compatibility_routing/official_materialization/latest/model_safe_view.jsonl",
+    "protocol_summary": "hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_official_metric_protocol_freeze_after_schema_audit/summary.json"
+  },
+  "model_views": [
+    "M0_constant",
+    "M1_T_semantic_only",
+    "M2_G_geometry_only",
+    "M3_T_plus_G_concat",
+    "M4_TxG_compatibility",
+    "C1_wrong_T_within_route",
+    "C2_wrong_T_across_route",
+    "C3_shuffled_G_global",
+    "C4_shuffled_G_within_family",
+    "C5_subject_object_swap",
+    "C6_sign_flip",
+    "C7_horizontal_frame_swap",
+    "D1_Z_source_confidence_diagnostic",
+    "D2_Q_observability_diagnostic"
+  ],
+  "next_required_gate": "official_metric_result_review_and_claim_boundary",
+  "row_counts": {
+    "family_label_counts": {
+      "relative_horizontal|0": 13290,
+      "relative_horizontal|1": 5474,
+      "relative_vertical|0": 390,
+      "relative_vertical|1": 390,
+      "size_relative|0": 170,
+      "size_relative|1": 170,
+      "support_contact|0": 1589,
+      "support_contact|1": 1589
+    },
+    "internal_dev": 1044,
+    "internal_train": 4868,
+    "official_validation": 23062,
+    "prediction_rows": 23062
+  },
+  "schema_version": "h002_official_metric_runner_v1",
+  "status": "ready",
+  "validation_errors": 0
+}

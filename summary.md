@@ -9,8 +9,8 @@ experiment paths and archived hypothesis records.
 ## Current Status
 
 - Current paper route: AAAI-style manuscript under `paper/aaai/`.
-- Latest verified build: `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`, exit 0.
-- PDF status: 10 total pages, technical content pages 1-7, references pages 8-9, reproducibility checklist page 10.
+- Latest source-validation build: `logs/h001_aaai_pdf_build_reference_expansion_20260625_130811.log`, exit 0, output `paper/aaai/main_reference_expansion.pdf`.
+- PDF status: 9 total pages, references start on page 7, reproducibility checklist page 9. The original `paper/aaai/main.pdf` is preserved.
 - Main sources: VL-SAT full official validation and Open3DSG full-validation `recovery_relaxed_views_min2/`.
 - Main score: `family_conditional_risk = semantic_score * p_geom_valid_family`.
 - Pooled ablation: `probabilistic_recalibrated = semantic_score * p_geom_valid`.

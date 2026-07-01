@@ -1072,6 +1072,86 @@ services:
       - --n-bootstrap
       - "1000"
 
+  attachment_deferred_full_validation_protocol:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/freeze_attachment_full_source_protocol.py
+    command:
+      - --repo-root
+      - /workspace
+      - --scope-audit-dir
+      - /workspace/archive/experiments/H001_geom_reliability/sources/attachment_deferred/scope_audit
+      - --calibration-dir
+      - /workspace/archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit
+      - --source-preflight-dir
+      - /workspace/archive/experiments/H001_geom_reliability/sources/attachment_deferred/source_scoring_preflight
+      - --ground-truth
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl
+      - --vlsat-verification
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/geometry/verification.jsonl
+      - --open3dsg-verification
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/geometry/verification.jsonl
+      - --out
+      - /workspace/archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_validation_protocol
+      - --rows-per-shard
+      - "2000"
+      - --ks
+      - "5"
+      - "10"
+      - "20"
+      - "50"
+      - "100"
+      - --derive-shards-from-source
+      - --allow-scope-denominator-mismatch
+
+  attachment_deferred_full_validation_g5d:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/run_attachment_full_source_g5d.py
+    command:
+      - --repo-root
+      - /workspace
+      - --dataset-root
+      - /workspace/local_dataset
+      - --protocol-dir
+      - /workspace/archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_validation_protocol
+      - --calibration-dir
+      - /workspace/archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit
+      - --policy-dir
+      - /workspace/archive/experiments/H001_geom_reliability/sources/attachment_deferred/verifier_policy
+      - --ground-truth
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl
+      - --vlsat-verification
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/geometry/verification.jsonl
+      - --open3dsg-verification
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/geometry/verification.jsonl
+      - --out
+      - /workspace/archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_validation_g5d
+      - --ks
+      - "5"
+      - "10"
+      - "20"
+      - "50"
+      - "100"
+      - --n-bootstrap
+      - "1000"
+
   open3dsg_metric_join_contract:
     build:
       context: ../..

@@ -1,0 +1,5 @@
+route_family,rows,cv_group_count,mixed_label_group_count,pure_label_0_group_count,pure_label_1_group_count,max_group_rows,group_majority_accuracy_metadata_only,split_ready
+relative_horizontal,2400,1200,1200,0,0,2,0.5,True
+relative_vertical,1512,1026,486,270,270,2,0.678571,True
+size_relative,2400,1200,1200,0,0,2,0.5,True
+support_contact,640,258,155,51,52,15,0.653125,True

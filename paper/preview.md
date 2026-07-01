@@ -16,10 +16,11 @@ Current 2026-06-25 snapshot:
   ablation/baseline, and geometry-only control ranks by `p_geom_valid` without
   semantic score.
 - Qwen-VL full official validation downstream is complete and should be treated as appendix/extension evidence unless explicitly promoted.
-- Latest known PDF build:
-  `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`, exit 0,
-  10 total pages; technical content remains pages 1-7, references are pages
-  8-9, and the checklist is page 10.
+- Latest source-validation PDF build:
+  `logs/h001_aaai_pdf_build_reference_expansion_20260625_130811.log`, exit 0,
+  output `paper/aaai/main_reference_expansion.pdf`, 9 total pages; references
+  start on page 7 and the checklist is page 9. The original
+  `paper/aaai/main.pdf` is preserved.
 - Remaining paper work is submission/package hygiene, not new main-source result generation.
 
 ## Paper Direction
@@ -398,9 +399,15 @@ Fact:
   Figure 1-3 source rows and caveat wording are locked in `paper/figures.md`;
   verified/layout-reviewed draft SVGs are under `paper/generated/figures/`.
 - AAAI Table 1: fixed GeoCalib evaluation scope and denominator.
-- AAAI Table 2: source-specific claim boundary.
-- AAAI Table 3: main source results, with Open3DSG first as the main open-vocabulary case study and `VL-SAT` second as the controlled reproduced anchor.
-- Controls, GT-based verifier evaluation, structured audit, visual sanity check, and detailed family rows are kept as prose-backed reviewer-defense evidence unless an appendix is added.
+- AAAI Table 2: main source results, with Open3DSG first as the main
+  open-vocabulary case study and `VL-SAT` second as the controlled reproduced
+  anchor.
+- AAAI Table 3: controls and diagnostics separating the main GeoCalib score
+  from geometry-only, distance-only, shuffled-geometry, and wrong-pair
+  explanations.
+- Source-specific claim boundary / non-claims, GT-based verifier evaluation,
+  structured audit, visual sanity check, and detailed family rows are kept as
+  prose-backed reviewer-defense evidence unless an appendix is added.
 - Figure specs are already generated under `results/h001_geom_reliability/figures/`.
 
 Recommended paper narrative:
@@ -563,7 +570,7 @@ Recommended next action:
 
 1. Use `paper/draft.md` as the active reviewed first-pass manuscript prose, `paper/aaai/` as the current AAAI-style LaTeX source, and `paper/generated/figures/` as the active draft figure output.
 2. Treat the claim-consistency review in `paper/outline.md` as the current paper guardrail: title, contributions, abstract, Introduction, table captions, and figure captions must stay within the scoped relation-reliability claim.
-3. Treat the reproducibility checklist as inserted after references: latest known Docker build `logs/h001_aaai_pdf_build_family_main_20260625_084157.log` gives 10 total pages, technical content pages 1-7, references pages 8-9, checklist page 10, and no blocking build warnings. Remaining paper work is portal/form, artifact URL/DOI, supplement/checklist, and release-package hygiene, not source-result regeneration.
+3. Treat the reproducibility checklist as inserted after references: latest source-validation Docker build `logs/h001_aaai_pdf_build_reference_expansion_20260625_130811.log` produces `paper/aaai/main_reference_expansion.pdf` with 9 total pages, references starting on page 7, checklist page 9, and no blocking build warnings. Remaining paper work is portal/form, artifact URL/DOI, supplement/checklist, and release-package hygiene, not source-result regeneration.
 4. Treat the AAAI reviewer-defense pass as updated for the selected full-validation route: hand-coded verifier, geometry-only/distance, recall-tradeoff, Open3DSG recovery-policy provenance, family-selection, and AAAI-relevance attacks must all remain answered during polish.
 5. Treat `paper/appendix.md` as the current appendix/provenance owner: calibrator/threshold provenance, Open3DSG caveat consistency, Figure 3 optionality, and Qwen-VL third-source boundary are recorded there.
 6. Keep Open3DSG caveats explicit during any further polish; caption compression must not hide selected-checkpoint provenance, filtered split, exact-label denominator, recovery policy, 533/548 sensitivity branch, or residual calibration risk.

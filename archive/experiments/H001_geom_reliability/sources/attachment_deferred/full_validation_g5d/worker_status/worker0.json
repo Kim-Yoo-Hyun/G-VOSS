@@ -1,0 +1,28 @@
+{
+  "counts": {
+    "complete_shards": 13,
+    "scored_rows": 24808,
+    "selected_shards": 13,
+    "validation_errors": 0
+  },
+  "created_at": "2026-06-28T08:44:14+00:00",
+  "schema_version": "h001_attachment_deferred_g5d_full_source_v1",
+  "selected_shards": [
+    "vlsat_closed_set_attached_to_0000",
+    "vlsat_closed_set_attached_to_0008",
+    "vlsat_closed_set_attached_to_0016",
+    "vlsat_closed_set_hanging_on_0005",
+    "vlsat_closed_set_hanging_on_0013",
+    "vlsat_closed_set_connected_to_0002",
+    "vlsat_closed_set_connected_to_0010",
+    "vlsat_closed_set_connected_to_0018",
+    "open3dsg_ov_attached_to_0007",
+    "open3dsg_ov_hanging_on_0001",
+    "open3dsg_ov_hanging_on_0009",
+    "open3dsg_ov_connected_to_0003",
+    "open3dsg_ov_connected_to_0011"
+  ],
+  "status": "complete",
+  "validation_errors": [],
+  "worker_id": "worker0"
+}

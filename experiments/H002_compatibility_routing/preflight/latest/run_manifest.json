@@ -1,0 +1,114 @@
+{
+  "boundary": {
+    "grouped_holdout_run": false,
+    "h001_artifacts_modified": false,
+    "official_validation_usage": false,
+    "paper_metric_produced": false
+  },
+  "created_at_utc": "2026-07-01T04:04:56+00:00",
+  "git_commit": "d4999aaa6485814b0a05267304ad5e8efda46fb6",
+  "h001_readonly_probes": {
+    "h001_archive_experiment": {
+      "errno": 30,
+      "error": "OSError: [Errno 30] Read-only file system: '/workspace/archive/experiments/H001_geom_reliability/.h002_readonly_probe'",
+      "path": "/workspace/archive/experiments/H001_geom_reliability",
+      "read_only_like_error": true,
+      "write_succeeded": false
+    },
+    "h001_results": {
+      "errno": 30,
+      "error": "OSError: [Errno 30] Read-only file system: '/workspace/results/h001_geom_reliability/.h002_readonly_probe'",
+      "path": "/workspace/results/h001_geom_reliability",
+      "read_only_like_error": true,
+      "write_succeeded": false
+    }
+  },
+  "outputs": {
+    "mount_check": "/workspace/experiments/H002_compatibility_routing/preflight/latest/mount_check.json",
+    "run_manifest": "/workspace/experiments/H002_compatibility_routing/preflight/latest/run_manifest.json",
+    "validation_errors": "/workspace/experiments/H002_compatibility_routing/preflight/latest/validation_errors.jsonl"
+  },
+  "path_checks": {
+    "h001_archive_experiment": {
+      "exists": true,
+      "is_dir": true,
+      "is_file": false,
+      "path": "/workspace/archive/experiments/H001_geom_reliability"
+    },
+    "h001_results": {
+      "exists": true,
+      "is_dir": true,
+      "is_file": false,
+      "path": "/workspace/results/h001_geom_reliability"
+    },
+    "h002_commands": {
+      "exists": true,
+      "is_dir": false,
+      "is_file": true,
+      "path": "/workspace/experiments/H002_compatibility_routing/commands.md"
+    },
+    "h002_compose": {
+      "exists": true,
+      "is_dir": false,
+      "is_file": true,
+      "path": "/workspace/configs/h002/compose.yaml"
+    },
+    "h002_config_readme": {
+      "exists": true,
+      "is_dir": false,
+      "is_file": true,
+      "path": "/workspace/configs/h002/README.md"
+    },
+    "h002_dockerfile": {
+      "exists": true,
+      "is_dir": false,
+      "is_file": true,
+      "path": "/workspace/configs/h002/Dockerfile"
+    },
+    "h002_experiment_readme": {
+      "exists": true,
+      "is_dir": false,
+      "is_file": true,
+      "path": "/workspace/experiments/H002_compatibility_routing/README.md"
+    },
+    "h002_preflight_script": {
+      "exists": true,
+      "is_dir": false,
+      "is_file": true,
+      "path": "/workspace/experiments/H002_compatibility_routing/scripts/preflight.py"
+    },
+    "h002_results_readme": {
+      "exists": true,
+      "is_dir": false,
+      "is_file": true,
+      "path": "/workspace/results/h002_compatibility_routing/README.md"
+    },
+    "local_dataset_root": {
+      "exists": true,
+      "is_dir": true,
+      "is_file": false,
+      "path": "/data/local_dataset"
+    },
+    "repo_root": {
+      "exists": true,
+      "is_dir": true,
+      "is_file": false,
+      "path": "/workspace"
+    }
+  },
+  "protocol_summary": {
+    "exists": true,
+    "path": "/workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_docker_heldout_protocol_plan_after_promotion_gap_plan/summary.json",
+    "status": "h002_compatibility_dataset_v3_docker_heldout_protocol_plan_after_promotion_gap_plan_ready",
+    "validation_errors": 0
+  },
+  "schema_version": "h002_docker_preflight_v1",
+  "skeleton_summary": {
+    "exists": true,
+    "path": "/workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_experiment_root_skeleton_after_docker_heldout_protocol_plan/summary.json",
+    "status": "h002_compatibility_dataset_v3_experiment_root_skeleton_after_docker_heldout_protocol_plan_ready",
+    "validation_errors": 0
+  },
+  "status": "ready",
+  "validation_errors": 0
+}

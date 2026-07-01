@@ -42,6 +42,17 @@ rule-verified variants diagnose strict consistency, pooled calibration is an
 ablation, and family-conditioned calibration is the paper's primary
 recall-violation score. Figure~\ref{fig:framework} summarizes this path.
 
+\begin{figure*}[t]
+    \centering
+    \figmaybe[width=0.92\linewidth]{../generated/figures/figure1_framework.png}
+    \caption{\textbf{GeoCalib in one relation-row example.} A semantically
+    plausible relation can be physically inconsistent for the same object pair.
+    GeoCalib preserves row identity, joins pair geometry, estimates
+    family-conditioned geometry validity, and re-ranks top-$K$ relations while
+    reporting recall and violation together.}
+    \label{fig:framework}
+\end{figure*}
+
 We evaluate the framework on geometry-checkable relation families:
 \texttt{support\_contact}, \texttt{proximity}, and
 \texttt{relative\_vertical}. These families are selected because their

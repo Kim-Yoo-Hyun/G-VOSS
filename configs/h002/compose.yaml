@@ -1,0 +1,171 @@
+services:
+  h002-protocol-check:
+    build:
+      context: ../..
+      dockerfile: configs/h002/Dockerfile
+    image: h002-compatibility-routing:latest
+    working_dir: /workspace
+    user: "${HOST_UID:-1001}:${HOST_GID:-1001}"
+    volumes:
+      - ../..:/workspace
+      - ../../local_dataset:/data/local_dataset:ro
+      - ../../results/h001_geom_reliability:/workspace/results/h001_geom_reliability:ro
+      - ../../archive/experiments/H001_geom_reliability:/workspace/archive/experiments/H001_geom_reliability:ro
+    command:
+      - /workspace/experiments/H002_compatibility_routing/scripts/preflight.py
+      - --repo-root
+      - /workspace
+      - --local-dataset-root
+      - /data/local_dataset
+      - --out
+      - /workspace/experiments/H002_compatibility_routing/preflight/latest
+  h002-materialize-routes:
+    build:
+      context: ../..
+      dockerfile: configs/h002/Dockerfile
+    image: h002-compatibility-routing:latest
+    working_dir: /workspace
+    user: "${HOST_UID:-1001}:${HOST_GID:-1001}"
+    volumes:
+      - ../..:/workspace
+      - ../../local_dataset:/data/local_dataset:ro
+      - ../../results/h001_geom_reliability:/workspace/results/h001_geom_reliability:ro
+      - ../../archive/experiments/H001_geom_reliability:/workspace/archive/experiments/H001_geom_reliability:ro
+    command:
+      - /workspace/experiments/H002_compatibility_routing/scripts/materialize_routes.py
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H002_compatibility_routing/materialization/latest
+  h002-materialization-schema-audit:
+    build:
+      context: ../..
+      dockerfile: configs/h002/Dockerfile
+    image: h002-compatibility-routing:latest
+    working_dir: /workspace
+    user: "${HOST_UID:-1001}:${HOST_GID:-1001}"
+    volumes:
+      - ../..:/workspace
+      - ../../local_dataset:/data/local_dataset:ro
+      - ../../results/h001_geom_reliability:/workspace/results/h001_geom_reliability:ro
+      - ../../archive/experiments/H001_geom_reliability:/workspace/archive/experiments/H001_geom_reliability:ro
+    command:
+      - /workspace/experiments/H002_compatibility_routing/scripts/audit_materialization_schema.py
+      - --repo-root
+      - /workspace
+      - --materialization-dir
+      - /workspace/experiments/H002_compatibility_routing/materialization/latest
+      - --out
+      - /workspace/experiments/H002_compatibility_routing/schema_audit/latest
+  h002-grouped-split:
+    build:
+      context: ../..
+      dockerfile: configs/h002/Dockerfile
+    image: h002-compatibility-routing:latest
+    working_dir: /workspace
+    user: "${HOST_UID:-1001}:${HOST_GID:-1001}"
+    volumes:
+      - ../..:/workspace
+      - ../../local_dataset:/data/local_dataset:ro
+      - ../../results/h001_geom_reliability:/workspace/results/h001_geom_reliability:ro
+      - ../../archive/experiments/H001_geom_reliability:/workspace/archive/experiments/H001_geom_reliability:ro
+    command:
+      - /workspace/experiments/H002_compatibility_routing/scripts/make_grouped_split.py
+      - --repo-root
+      - /workspace
+      - --materialization-dir
+      - /workspace/experiments/H002_compatibility_routing/materialization/latest
+      - --schema-audit-dir
+      - /workspace/experiments/H002_compatibility_routing/schema_audit/latest
+      - --out
+      - /workspace/experiments/H002_compatibility_routing/splits/latest
+  h002-grouped-eval:
+    build:
+      context: ../..
+      dockerfile: configs/h002/Dockerfile
+    image: h002-compatibility-routing:latest
+    working_dir: /workspace
+    user: "${HOST_UID:-1001}:${HOST_GID:-1001}"
+    volumes:
+      - ../..:/workspace
+      - ../../local_dataset:/data/local_dataset:ro
+      - ../../results/h001_geom_reliability:/workspace/results/h001_geom_reliability:ro
+      - ../../archive/experiments/H001_geom_reliability:/workspace/archive/experiments/H001_geom_reliability:ro
+    command:
+      - /workspace/experiments/H002_compatibility_routing/scripts/run_grouped_eval.py
+      - --repo-root
+      - /workspace
+      - --split-dir
+      - /workspace/experiments/H002_compatibility_routing/splits/latest
+      - --protocol-dir
+      - /workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_grouped_eval_protocol_after_grouped_split
+      - --out
+      - /workspace/experiments/H002_compatibility_routing/evaluation/latest
+  h002-official-materialize-candidates:
+    build:
+      context: ../..
+      dockerfile: configs/h002/Dockerfile
+    image: h002-compatibility-routing:latest
+    working_dir: /workspace
+    user: "${HOST_UID:-1001}:${HOST_GID:-1001}"
+    volumes:
+      - ../..:/workspace
+      - ../../local_dataset:/data/local_dataset:ro
+      - ../../results/h001_geom_reliability:/workspace/results/h001_geom_reliability:ro
+      - ../../archive/experiments/H001_geom_reliability:/workspace/archive/experiments/H001_geom_reliability:ro
+    command:
+      - /workspace/experiments/H002_compatibility_routing/scripts/official_materialize_candidates.py
+      - --repo-root
+      - /workspace
+      - --protocol-dir
+      - /workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_official_candidate_materialization_protocol_after_source_inventory
+      - --subset-dir
+      - /workspace/local_dataset/3DSSG_subset
+      - --scan-dir
+      - /workspace/local_dataset/3RScan/scans
+      - --out
+      - /workspace/experiments/H002_compatibility_routing/official_materialization/latest
+  h002-official-materialization-schema-audit:
+    build:
+      context: ../..
+      dockerfile: configs/h002/Dockerfile
+    image: h002-compatibility-routing:latest
+    working_dir: /workspace
+    user: "${HOST_UID:-1001}:${HOST_GID:-1001}"
+    volumes:
+      - ../..:/workspace
+      - ../../local_dataset:/data/local_dataset:ro
+      - ../../results/h001_geom_reliability:/workspace/results/h001_geom_reliability:ro
+      - ../../archive/experiments/H001_geom_reliability:/workspace/archive/experiments/H001_geom_reliability:ro
+    command:
+      - /workspace/experiments/H002_compatibility_routing/scripts/audit_official_materialization_schema.py
+      - --repo-root
+      - /workspace
+      - --materialization-dir
+      - /workspace/experiments/H002_compatibility_routing/official_materialization/latest
+      - --out
+      - /workspace/experiments/H002_compatibility_routing/official_schema_audit/latest
+  h002-official-metric-runner:
+    build:
+      context: ../..
+      dockerfile: configs/h002/Dockerfile
+    image: h002-compatibility-routing:latest
+    working_dir: /workspace
+    user: "${HOST_UID:-1001}:${HOST_GID:-1001}"
+    volumes:
+      - ../..:/workspace
+      - ../../local_dataset:/data/local_dataset:ro
+      - ../../results/h001_geom_reliability:/workspace/results/h001_geom_reliability:ro
+      - ../../archive/experiments/H001_geom_reliability:/workspace/archive/experiments/H001_geom_reliability:ro
+    command:
+      - /workspace/experiments/H002_compatibility_routing/scripts/run_official_metric.py
+      - --repo-root
+      - /workspace
+      - --internal-split-dir
+      - /workspace/experiments/H002_compatibility_routing/splits/latest
+      - --official-materialization-dir
+      - /workspace/experiments/H002_compatibility_routing/official_materialization/latest
+      - --protocol-dir
+      - /workspace/hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_official_metric_protocol_freeze_after_schema_audit
+      - --out
+      - /workspace/experiments/H002_compatibility_routing/official_evaluation/latest

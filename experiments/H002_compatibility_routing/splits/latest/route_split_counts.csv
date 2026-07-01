@@ -1,0 +1,13 @@
+route_family,protocol_split,rows,label_0,label_1,cv_groups,group_label_0,group_label_1
+relative_horizontal,internal_train,1680,840,840,840,840,840
+relative_horizontal,internal_dev,360,180,180,180,180,180
+relative_horizontal,internal_heldout,360,180,180,180,180,180
+relative_vertical,internal_train,1059,519,540,717,519,540
+relative_vertical,internal_dev,227,115,112,153,115,112
+relative_vertical,internal_heldout,226,122,104,156,122,104
+size_relative,internal_train,1680,840,840,840,840,840
+size_relative,internal_dev,360,180,180,180,180,180
+size_relative,internal_heldout,360,180,180,180,180,180
+support_contact,internal_train,449,223,226,182,223,226
+support_contact,internal_dev,97,49,48,44,49,48
+support_contact,internal_heldout,94,48,46,32,48,46

@@ -96,6 +96,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--n-bootstrap", type=int, default=1000)
     parser.add_argument("--seed", type=int, default=20260606)
     parser.add_argument("--limit-shards", type=int, default=0)
+    parser.add_argument("--ks", type=int, nargs="+", default=list(KS))
+    parser.add_argument("--shard-start-index", type=int, default=0)
+    parser.add_argument("--shard-end-index", type=int, default=0)
+    parser.add_argument("--shard-stride", type=int, default=1)
+    parser.add_argument("--worker-id", type=str, default="")
+    parser.add_argument("--skip-finalize", action="store_true")
+    parser.add_argument("--finalize-existing-shards", action="store_true")
+    parser.add_argument("--resume-complete-shards", action=argparse.BooleanOptionalAction, default=True)
     return parser.parse_args()
 
 
@@ -341,6 +349,21 @@ def score_shard(
     return scored_rows, status_payload, validation_errors
 
 
+def load_complete_shard(out: Path, shard: dict[str, Any]) -> tuple[list[dict[str, Any]], dict[str, Any]] | None:
+    shard_dir = out / "shards" / shard["shard_id"]
+    status_path = shard_dir / "status.json"
+    scored_path = shard_dir / "scored_rows.jsonl"
+    if not status_path.exists() or not scored_path.exists():
+        return None
+    status = read_json(status_path)
+    if status.get("status") != "complete":
+        return None
+    rows = load_jsonl(scored_path)
+    if len(rows) != int(shard["expected_rows"]):
+        return None
+    return rows, status
+
+
 def donor_map_shuffled(rows: list[dict[str, Any]]) -> dict[str, float]:
     result: dict[str, float] = {}
     grouped: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
@@ -427,6 +450,7 @@ def source_metrics(
     rows: list[dict[str, Any]],
     ground_truth: list[dict[str, Any]],
     denominator_audit: dict[str, Any],
+    ks: list[int],
     n_bootstrap: int,
     seed: int,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
@@ -439,7 +463,7 @@ def source_metrics(
         "created_at": utc_now(),
         "family": TARGET_FAMILY,
         "labels": list(TARGET_LABELS),
-        "ks": list(KS),
+        "ks": list(ks),
         "conditions": {},
         "counts": {},
         "warnings": [],
@@ -495,7 +519,7 @@ def source_metrics(
                 "violation_rate": {"by_k": {}},
             }
             boot_condition: dict[str, Any] = {}
-            for k in KS:
+            for k in ks:
                 selected_by_sg = select_topk_by_subgraph(source_rows, score_maps[condition], k)
                 selected = [row for group in selected_by_sg.values() for row in group]
                 selected_keys = {exact_key_from_parts(row) for row in selected}
@@ -623,6 +647,16 @@ def commands_md() -> str:
 
 Run from repository root.
 
+Current full-validation extension:
+
+```bash
+docker build -t h001-geom-reliability:latest -f configs/h001/Dockerfile .
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm \\
+  attachment_deferred_full_validation_g5d
+```
+
+Historical 127-scan provenance branch:
+
 ```bash
 docker build -t h001-geom-reliability:latest -f configs/h001/Dockerfile .
 env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm \\
@@ -632,10 +666,19 @@ env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --
 This runs full-source attachment-deferred scoring, source metrics, controls,
 and subgraph bootstrap CI under the frozen G5c protocol. It does not promote
 `attachment_deferred` to the AAAI main claim.
+
+For long full-validation runs, shard workers can be launched with
+`--skip-finalize --shard-start-index <i> --shard-stride <n>` and then merged
+with `--finalize-existing-shards`.
 """
 
 
 def report_md(manifest: dict[str, Any], metrics: dict[str, Any]) -> str:
+    ks = [int(k) for k in metrics.get("ks", list(KS))]
+    uncertainty_k = 100 if 100 in ks else ks[-1]
+    header_cols = ["condition"] + [f"R@{k}" for k in ks] + [f"V@{k}" for k in ks] + [f"U@{uncertainty_k}"]
+    header = "| " + " | ".join(header_cols) + " |"
+    divider = "|" + "|".join(["---"] + ["---:"] * (len(header_cols) - 1)) + "|"
     lines = [
         "# Attachment Deferred G5d Full-Source Metrics",
         "",
@@ -665,19 +708,20 @@ def report_md(manifest: dict[str, Any], metrics: dict[str, Any]) -> str:
                 f"- covered denominator: `{source_block['covered_exact_label_gt_denominator']}` / `{source_block['global_exact_label_gt_denominator']}`",
                 f"- missing exact-label GT rows: `{source_block['missing_exact_label_gt_rows']}`",
                 "",
-                "| condition | R@50 | R@100 | V@50 | V@100 | U@100 |",
-                "|---|---:|---:|---:|---:|---:|",
+                header,
+                divider,
             ]
         )
         for condition in CONDITIONS:
             cond = source_block["conditions"][condition]
-            r50 = cond["recall"]["by_k"]["50"]["recall"]
-            r100 = cond["recall"]["by_k"]["100"]["recall"]
-            v50 = cond["violation_rate"]["by_k"]["50"]["violation_rate"]
-            v100 = cond["violation_rate"]["by_k"]["100"]["violation_rate"]
-            u100 = cond["violation_rate"]["by_k"]["100"]["uncertain_rate"]
+            values = []
+            for k in ks:
+                values.append(fmt(cond["recall"]["by_k"][str(k)]["recall"]))
+            for k in ks:
+                values.append(fmt(cond["violation_rate"]["by_k"][str(k)]["violation_rate"]))
+            values.append(fmt(cond["violation_rate"]["by_k"][str(uncertainty_k)]["uncertain_rate"]))
             lines.append(
-                f"| `{condition}` | {fmt(r50)} | {fmt(r100)} | {fmt(v50)} | {fmt(v100)} | {fmt(u100)} |"
+                f"| `{condition}` | " + " | ".join(values) + " |"
             )
         lines.append("")
     lines.extend(
@@ -703,6 +747,15 @@ def fmt(value: Any) -> str:
 def main() -> int:
     args = parse_args()
     repo_root = args.repo_root.resolve()
+    ks = sorted(set(int(k) for k in args.ks))
+    if not ks or any(k <= 0 for k in ks):
+        raise ValueError("--ks must contain one or more positive integers")
+    if args.shard_start_index < 0:
+        raise ValueError("--shard-start-index must be non-negative")
+    if args.shard_end_index < 0:
+        raise ValueError("--shard-end-index must be non-negative")
+    if args.shard_stride <= 0:
+        raise ValueError("--shard-stride must be positive")
     dataset_root = resolve(repo_root, args.dataset_root)
     protocol_dir = resolve(repo_root, args.protocol_dir)
     calibration_dir = resolve(repo_root, args.calibration_dir)
@@ -721,55 +774,117 @@ def main() -> int:
     shards = load_jsonl(protocol_dir / "shards.jsonl")
     if args.limit_shards > 0:
         shards = shards[: args.limit_shards]
+    all_expected_shards = list(shards)
+    shard_end = args.shard_end_index if args.shard_end_index > 0 else len(all_expected_shards)
+    if shard_end > len(all_expected_shards):
+        shard_end = len(all_expected_shards)
+    selected_shards = [
+        shard
+        for index, shard in enumerate(all_expected_shards)
+        if args.shard_start_index <= index < shard_end
+        and (index - args.shard_start_index) % args.shard_stride == 0
+    ]
+    if not selected_shards and not args.finalize_existing_shards:
+        raise ValueError("selected shard slice is empty")
     if protocol_manifest.get("status") != "attachment_deferred_full_source_protocol_frozen_no_metrics":
         raise ValueError(f"unexpected_protocol_status:{protocol_manifest.get('status')}")
     if model.get("status") != "attachment_deferred_calibration_fit_ready_no_source_metrics":
         raise ValueError(f"unexpected_model_status:{model.get('status')}")
+    protocol_ks = sorted(set(int(k) for k in protocol.get("metric_protocol", {}).get("ks", [])))
 
     source_rows_by_source_label: dict[tuple[str, str], list[dict[str, Any]]] = {}
     source_load_summary: dict[str, Any] = {}
-    for source_key, source_name, path in (
-        ("vlsat", "vlsat_closed_set", vlsat_path),
-        ("open3dsg", "open3dsg_ov", open3dsg_path),
-    ):
-        by_label, summary = load_source_rows(path=path, source_name=source_name)
-        source_load_summary[source_name] = summary
-        for label, rows in by_label.items():
-            source_rows_by_source_label[(source_key, label)] = rows
+    if not args.finalize_existing_shards:
+        for source_key, source_name, path in (
+            ("vlsat", "vlsat_closed_set", vlsat_path),
+            ("open3dsg", "open3dsg_ov", open3dsg_path),
+        ):
+            by_label, summary = load_source_rows(path=path, source_name=source_name)
+            source_load_summary[source_name] = summary
+            for label, rows in by_label.items():
+                source_rows_by_source_label[(source_key, label)] = rows
 
     scored_rows: list[dict[str, Any]] = []
     shard_statuses: list[dict[str, Any]] = []
     validation_errors: list[dict[str, Any]] = []
-    for shard in shards:
-        rows = source_rows_by_source_label[(shard["source_key"], shard["predicate_label"])][
-            int(shard["start_ordinal_in_source_label"]) : int(shard["end_ordinal_exclusive"])
-        ]
-        shard_scored, shard_status, shard_errors = score_shard(
-            shard=shard,
-            rows=rows,
-            dataset_root=dataset_root,
-            model=model,
-            thresholds=thresholds,
-            out=out,
-            contact_threshold_m=args.contact_threshold_m,
-            max_points_per_object=args.max_points_per_object,
-        )
-        scored_rows.extend(shard_scored)
-        shard_statuses.append(shard_status)
-        validation_errors.extend({"shard_id": shard["shard_id"], **error} for error in shard_errors)
+    if args.finalize_existing_shards:
+        for shard in all_expected_shards:
+            cached = load_complete_shard(out, shard)
+            if cached is None:
+                validation_errors.append({"shard_id": shard["shard_id"], "errors": ["missing_or_incomplete_shard"]})
+                continue
+            shard_scored, shard_status = cached
+            scored_rows.extend(shard_scored)
+            shard_statuses.append(shard_status)
+    else:
+        for shard in selected_shards:
+            cached = load_complete_shard(out, shard) if args.resume_complete_shards else None
+            if cached is not None:
+                shard_scored, shard_status = cached
+                scored_rows.extend(shard_scored)
+                shard_statuses.append(shard_status)
+                continue
+            rows = source_rows_by_source_label[(shard["source_key"], shard["predicate_label"])][
+                int(shard["start_ordinal_in_source_label"]) : int(shard["end_ordinal_exclusive"])
+            ]
+            shard_scored, shard_status, shard_errors = score_shard(
+                shard=shard,
+                rows=rows,
+                dataset_root=dataset_root,
+                model=model,
+                thresholds=thresholds,
+                out=out,
+                contact_threshold_m=args.contact_threshold_m,
+                max_points_per_object=args.max_points_per_object,
+            )
+            scored_rows.extend(shard_scored)
+            shard_statuses.append(shard_status)
+            validation_errors.extend({"shard_id": shard["shard_id"], **error} for error in shard_errors)
+
+    if args.skip_finalize:
+        worker_id = args.worker_id or f"start{args.shard_start_index}_stride{args.shard_stride}"
+        worker_status = {
+            "schema_version": SCHEMA_VERSION,
+            "status": "complete" if not validation_errors and all(item["status"] == "complete" for item in shard_statuses) else "failed",
+            "created_at": utc_now(),
+            "worker_id": worker_id,
+            "selected_shards": [shard["shard_id"] for shard in selected_shards],
+            "counts": {
+                "selected_shards": len(selected_shards),
+                "complete_shards": sum(1 for item in shard_statuses if item["status"] == "complete"),
+                "scored_rows": len(scored_rows),
+                "validation_errors": len(validation_errors),
+            },
+            "validation_errors": validation_errors[:1000],
+        }
+        worker_dir = out / "worker_status"
+        ensure_dir(worker_dir)
+        write_json(worker_dir / f"{worker_id}.json", worker_status)
+        print(json.dumps(worker_status, sort_keys=True))
+        return 0 if worker_status["status"] == "complete" else 1
 
     metrics, bootstrap = source_metrics(
         rows=scored_rows,
         ground_truth=load_jsonl(ground_truth_path),
         denominator_audit=denominator_audit,
+        ks=ks,
         n_bootstrap=args.n_bootstrap,
         seed=args.seed,
     )
     failures = failure_rows(scored_rows, metrics)
-    status = STATUS if not validation_errors and all(item["status"] == "complete" for item in shard_statuses) else "attachment_deferred_g5d_full_source_metrics_failed_validation"
+    final_has_all_shards = len(shard_statuses) == len(all_expected_shards)
+    status = (
+        STATUS
+        if not validation_errors and final_has_all_shards and all(item["status"] == "complete" for item in shard_statuses)
+        else "attachment_deferred_g5d_full_source_metrics_failed_validation"
+    )
     warnings = list(metrics.get("warnings", []))
     if args.limit_shards > 0:
         warnings.append(f"limit_shards_active:{args.limit_shards}")
+    if not final_has_all_shards:
+        warnings.append(f"finalized_shard_count_mismatch:{len(shard_statuses)}!={len(all_expected_shards)}")
+    if protocol_ks and protocol_ks != ks:
+        warnings.append(f"runtime_ks_differ_from_protocol:{ks}!={protocol_ks}")
     if "connected_to_dev_absent_use_pooled_or_train_only_caveat" not in warnings:
         warnings.append("connected_to_dev_absent_use_pooled_or_train_only_caveat")
     manifest = {
@@ -805,12 +920,14 @@ def main() -> int:
             "shards": "shards/<shard_id>/",
         },
         "counts": {
-            "shards": len(shard_statuses),
+            "shards": len(all_expected_shards),
             "complete_shards": sum(1 for item in shard_statuses if item["status"] == "complete"),
+            "finalized_shards": len(shard_statuses),
             "scored_rows": len(scored_rows),
             "validation_errors": len(validation_errors),
             "failure_rows": len(failures),
             "expected_total_source_rows": protocol.get("full_source_scoring", {}).get("expected_total_source_rows"),
+            "ks": ks,
         },
         "source_load_summary": source_load_summary,
         "warnings": warnings,

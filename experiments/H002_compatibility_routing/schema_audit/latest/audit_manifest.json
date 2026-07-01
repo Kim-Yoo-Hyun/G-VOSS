@@ -1,0 +1,69 @@
+{
+  "audit_counts": {
+    "blocked_C_e_field_hit_count": 0,
+    "high_C_e_allowed_shortcut_warning_count": 0,
+    "schema_error_count": 0,
+    "shortcut_probe_count": 50,
+    "split_readiness_family_count": 4
+  },
+  "block_presence_table": [
+    {
+      "G_e_present": 2400,
+      "Q_e_present": 0,
+      "T_e_present": 2400,
+      "Z_e_present": 0,
+      "extra_safe_blocks_present": 0,
+      "label_0": 1200,
+      "label_1": 1200,
+      "route_family": "relative_horizontal",
+      "rows": 2400
+    },
+    {
+      "G_e_present": 1512,
+      "Q_e_present": 1512,
+      "T_e_present": 1512,
+      "Z_e_present": 1512,
+      "extra_safe_blocks_present": 0,
+      "label_0": 756,
+      "label_1": 756,
+      "route_family": "relative_vertical",
+      "rows": 1512
+    },
+    {
+      "G_e_present": 2400,
+      "Q_e_present": 0,
+      "T_e_present": 2400,
+      "Z_e_present": 0,
+      "extra_safe_blocks_present": 0,
+      "label_0": 1200,
+      "label_1": 1200,
+      "route_family": "size_relative",
+      "rows": 2400
+    },
+    {
+      "G_e_present": 640,
+      "Q_e_present": 640,
+      "T_e_present": 640,
+      "Z_e_present": 0,
+      "extra_safe_blocks_present": 0,
+      "label_0": 320,
+      "label_1": 320,
+      "route_family": "support_contact",
+      "rows": 640
+    }
+  ],
+  "boundary": {
+    "grouped_holdout_run": false,
+    "h001_artifacts_modified": false,
+    "official_validation_usage": false,
+    "paper_metric_produced": false,
+    "runtime_output_root": "experiments/H002_compatibility_routing/schema_audit/latest"
+  },
+  "created_at_utc": "2026-07-01T04:42:55+00:00",
+  "input_manifest_status": "ready",
+  "input_schema_version": "h002_route_materialization_v1",
+  "next_required_gate": "grouped_split_protocol",
+  "row_count": 6952,
+  "schema_version": "h002_materialization_schema_audit_v1",
+  "status": "ready"
+}

@@ -266,6 +266,14 @@ Latest check: 2026-05-23, focused on H001/CAND-001 novelty-threat expansion for 
 - Inference: For a top-tier target, Related Work should separate four groups: direct 3DSSG relation predictors, open-vocabulary/open-world 3DSG generators, geometry/witness/reliability methods, and graph-mediated downstream reasoning. H001 must explicitly state which group it competes with and which groups are only motivation/boundary.
 - Confidence: High.
 
+### Insight: GeoCalib Related Work should cite calibration and downstream graph systems without broadening the claim
+
+- Date: 2026-06-25
+- Based on: `literature/geocalib_reference_expansion_20260625.md` and primary-source checks for foundational 3DSG, open-vocabulary graph systems, recent relation predictors, confidence rescoring, and calibration/risk literature.
+- Facts: The AAAI Related Work now cites foundational 3DSG construction, recent relation predictors, open-vocabulary 3D perception and graph systems, 3DGraphLLM/3D-VCD-style downstream reasoning, SCRSSG confidence rescoring, and standard calibration/selective-risk papers.
+- Inference: This improves reviewer defense because GeoCalib no longer looks isolated from recent graph/LLM/reliability literature, but the citations must remain role-separated. ConceptGraphs/HOV-SG/Clio/3DGraphLLM/3D-VCD motivate why relation edges matter downstream; RelWitness/SCRSSG sharpen novelty boundaries; Guo/Geifman support terminology. None should be presented as direct baselines for the current Docker result tables.
+- Confidence: High.
+
 ## Open Questions
 
 1. 3D Scene Graph 연구는 최근 어떤 방향으로 이동하고 있는가?

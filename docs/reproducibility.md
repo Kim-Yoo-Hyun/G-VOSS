@@ -125,14 +125,15 @@ Facts:
   insertion, reviewer-defense main-text passes, Docker subgraph bootstrap CI,
   reproducibility artifact bundle planning, official AAAI-26 Author Kit
   replacement/verification, appendix/provenance and Open3DSG caveat-consistency
-  pass, GeoCalib naming, Figure-1/2 updates, low-K table updates, and
-  family-conditional risk promotion. Docker build verification for
-  `paper/aaai/` is complete with `h001-aaai-tex:20260526`; the latest
-  family-main build log is
-  `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`, with 10 total
-  pages, technical content on pages 1-7, references on pages 8-9, and the
-  reproducibility checklist on page 10. The manuscript uses Open3DSG as the
-  main open-vocabulary relation-source case study and VL-SAT as the controlled
+  pass, GeoCalib naming, Figure-1/2 updates, low-K table updates,
+  family-conditional risk promotion, top-tier layout/table edits, and
+  reference expansion. Docker build verification for `paper/aaai/` is complete
+  with `h001-aaai-tex:20260526`; the latest source-validation build log is
+  `logs/h001_aaai_pdf_build_reference_expansion_20260625_130811.log`, output
+  `paper/aaai/main_reference_expansion.pdf`, with 9 total pages, references
+  starting on page 7, and the reproducibility checklist on page 9. The original
+  `paper/aaai/main.pdf` is preserved. The manuscript uses Open3DSG as the main
+  open-vocabulary relation-source case study and VL-SAT as the controlled
   reproduced anchor.
 - Current scoring convention: `family_conditional_risk` is the GeoCalib main
   score, pooled `probabilistic_recalibrated` is an ablation/baseline, and
