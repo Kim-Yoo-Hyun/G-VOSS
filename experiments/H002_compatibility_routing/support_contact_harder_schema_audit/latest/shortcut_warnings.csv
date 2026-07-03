@@ -1,0 +1,4 @@
+probe,scope,rows,unique_values,max_bucket_rows,pure_value_count,majority_accuracy,risk,blocks_metric,blocks_solved_claim
+primary_predicate_only,primary_main_input,3178,2,1589,0,0.853996,medium,False,False
+hidden_predicate_x_class_pair,hidden_audit_only,3178,350,171,342,0.993707,high,False,True
+class_ablation_predicate_x_class_pair,ablation_only,3178,350,171,342,0.993707,high,False,True

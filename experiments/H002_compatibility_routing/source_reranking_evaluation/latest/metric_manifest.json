@@ -1,0 +1,118 @@
+{
+  "boundary": {
+    "C_e_excludes_Z_e": true,
+    "Z_e_combined_only_after_C_e": true,
+    "official_test_usage": false,
+    "official_validation_eval_only": true,
+    "p_obs_claim_enabled": false,
+    "p_rel_claim_enabled": false,
+    "paper_metric_promoted": false,
+    "post_hoc_lambda_tuning": false,
+    "source_reranking_metric_produced": true,
+    "support_contact_success_aggregation": "excluded_diagnostic"
+  },
+  "created_at_utc": "2026-07-02T11:01:02+00:00",
+  "input_artifacts": {
+    "internal_split_view": "experiments/H002_compatibility_routing/splits/latest/model_safe_split_view.jsonl",
+    "materialization_dir": "experiments/H002_compatibility_routing/source_reranking_materialization/latest",
+    "protocol_dir": "hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_source_reranking_metric_protocol_freeze_after_schema_audit"
+  },
+  "model": {
+    "C_e_train_split": "internal_train",
+    "feature_blocks": [
+      "T_e",
+      "G_e"
+    ],
+    "fit_or_tune_on_official_validation": false,
+    "fit_summary": {
+      "feature_count": 498,
+      "mode": "logistic",
+      "train_rows": 4868
+    },
+    "official_test_usage": false
+  },
+  "next_todo": "compatibility_dataset_v3_source_reranking_metric_result_review_after_runner",
+  "outputs": {
+    "control_metrics": "experiments/H002_compatibility_routing/source_reranking_evaluation/latest/control_metrics.csv",
+    "metric_manifest": "experiments/H002_compatibility_routing/source_reranking_evaluation/latest/metric_manifest.json",
+    "score_condition_metrics": "experiments/H002_compatibility_routing/source_reranking_evaluation/latest/score_condition_metrics.csv",
+    "score_manifest": "experiments/H002_compatibility_routing/source_reranking_evaluation/latest/score_manifest.json",
+    "selected_predictions": "experiments/H002_compatibility_routing/source_reranking_evaluation/latest/selected_predictions.jsonl",
+    "source_family_metrics": "experiments/H002_compatibility_routing/source_reranking_evaluation/latest/source_family_metrics.csv",
+    "validation_errors": "experiments/H002_compatibility_routing/source_reranking_evaluation/latest/validation_errors.jsonl"
+  },
+  "row_counts": {
+    "internal_train": 4868,
+    "selected_prediction_rows": 932732,
+    "source_rows_scored": 762888
+  },
+  "schema_version": "h002_source_reranking_metric_runner_v1",
+  "score_summary": {
+    "ce_score_bounds": {
+      "open3dsg_recovery_relaxed_views_min2|proximity": {
+        "max": 0.5040176799484343,
+        "min": 0.2909563046273438
+      },
+      "open3dsg_recovery_relaxed_views_min2|relative_horizontal": {
+        "max": 0.9999999997904911,
+        "min": 2.0589028768449068e-10
+      },
+      "open3dsg_recovery_relaxed_views_min2|relative_vertical": {
+        "max": 0.9999999999996232,
+        "min": 1.9150658488707113e-13
+      },
+      "open3dsg_recovery_relaxed_views_min2|size_relative": {
+        "max": 0.999604232256321,
+        "min": 0.00038791236997866654
+      },
+      "open3dsg_recovery_relaxed_views_min2|support_contact": {
+        "max": 0.9849973071891178,
+        "min": 0.0012022971905122518
+      },
+      "vlsat_full_validation|proximity": {
+        "max": 0.5040176799484343,
+        "min": 0.2909563046273438
+      },
+      "vlsat_full_validation|relative_horizontal": {
+        "max": 0.9999999997904911,
+        "min": 2.0589028768449068e-10
+      },
+      "vlsat_full_validation|relative_vertical": {
+        "max": 0.9999999999996232,
+        "min": 1.9150658488707113e-13
+      },
+      "vlsat_full_validation|size_relative": {
+        "max": 0.9999446416348028,
+        "min": 5.425490411182674e-05
+      },
+      "vlsat_full_validation|support_contact": {
+        "max": 0.9849973071891178,
+        "min": 0.0012022971905122518
+      }
+    },
+    "family_counts": {
+      "proximity": 63574,
+      "relative_horizontal": 254296,
+      "relative_vertical": 127148,
+      "size_relative": 127148,
+      "support_contact": 190722
+    },
+    "row_count": 762888,
+    "source_counts": {
+      "open3dsg_recovery_relaxed_views_min2": 321192,
+      "vlsat_full_validation": 441696
+    },
+    "source_score_bounds": {
+      "open3dsg_recovery_relaxed_views_min2": {
+        "max": 0.9706317186355591,
+        "min": 0.596280038356781
+      },
+      "vlsat_full_validation": {
+        "max": 0.999504566192627,
+        "min": 4.478577613561542e-23
+      }
+    }
+  },
+  "status": "h002_source_reranking_metric_runner_ready",
+  "validation_errors": 0
+}

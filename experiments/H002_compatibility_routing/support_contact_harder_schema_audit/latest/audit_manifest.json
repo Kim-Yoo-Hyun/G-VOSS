@@ -1,0 +1,60 @@
+{
+  "boundary": {
+    "class_ablation_only": true,
+    "metrics_run": false,
+    "official_test_usage": false,
+    "paper_metric_produced": false,
+    "primary_view": "model_safe_main_no_class",
+    "q_e_diagnostic_only": true
+  },
+  "created_at_utc": "2026-07-02T04:22:39+00:00",
+  "decision": {
+    "metric_protocol_freeze_next": true,
+    "official_test_usage": false,
+    "paper_metric_promoted": false,
+    "schema_audit_passed": true,
+    "shortcut_warnings_require_controls": true,
+    "support_contact_solved_claim_allowed": false
+  },
+  "group_summary": {
+    "bad_group_count": 0,
+    "groups": 1589,
+    "pair_integrity_ok_rate": 1.0
+  },
+  "high_shortcut_warnings": 2,
+  "input_artifacts": {
+    "materialization_dir": "experiments/H002_compatibility_routing/support_contact_harder_materialization/latest",
+    "row_manifest": "experiments/H002_compatibility_routing/support_contact_harder_materialization/latest/row_manifest.json"
+  },
+  "main_view": {
+    "blocked_field_hits": 0,
+    "feature_count": 43,
+    "label_0": 1589,
+    "label_1": 1589,
+    "lying_on": 1589,
+    "policy_violations": 0,
+    "rows": 3178,
+    "standing_on": 1589
+  },
+  "next_todo": "compatibility_dataset_v3_support_contact_harder_route_metric_protocol_freeze_after_schema_shortcut_audit",
+  "output_artifacts": {
+    "audit_manifest": "experiments/H002_compatibility_routing/support_contact_harder_schema_audit/latest/audit_manifest.json",
+    "blocked_field_hits": "experiments/H002_compatibility_routing/support_contact_harder_schema_audit/latest/blocked_field_hits.jsonl",
+    "control_readiness": "experiments/H002_compatibility_routing/support_contact_harder_schema_audit/latest/control_readiness.csv",
+    "feature_availability": "experiments/H002_compatibility_routing/support_contact_harder_schema_audit/latest/feature_availability.csv",
+    "file_counts": "experiments/H002_compatibility_routing/support_contact_harder_schema_audit/latest/file_counts.csv",
+    "group_integrity": "experiments/H002_compatibility_routing/support_contact_harder_schema_audit/latest/group_integrity.csv",
+    "main_view_summary": "experiments/H002_compatibility_routing/support_contact_harder_schema_audit/latest/main_view_summary.csv",
+    "next_contract": "experiments/H002_compatibility_routing/support_contact_harder_schema_audit/latest/next_contract.json",
+    "report": "experiments/H002_compatibility_routing/support_contact_harder_schema_audit/latest/report.md",
+    "shortcut_risk_table": "experiments/H002_compatibility_routing/support_contact_harder_schema_audit/latest/shortcut_risk_table.csv",
+    "shortcut_warnings": "experiments/H002_compatibility_routing/support_contact_harder_schema_audit/latest/shortcut_warnings.csv",
+    "validation_errors": "experiments/H002_compatibility_routing/support_contact_harder_schema_audit/latest/validation_errors.jsonl",
+    "view_alignment": "experiments/H002_compatibility_routing/support_contact_harder_schema_audit/latest/view_alignment.csv"
+  },
+  "schema_version": "h002_support_contact_harder_schema_shortcut_audit_v1",
+  "selected_path": "schema_shortcut_audit_ready_select_metric_protocol_freeze",
+  "shortcut_warnings": 3,
+  "status": "h002_support_contact_harder_schema_shortcut_audit_ready_with_warnings",
+  "validation_errors": 0
+}

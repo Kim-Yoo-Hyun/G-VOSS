@@ -1,0 +1,61 @@
+{
+  "boundary": {
+    "excluded_from_main_C_e": [
+      "Z_e",
+      "Q_e",
+      "class labels",
+      "H001 p_geom_valid",
+      "source score/rank"
+    ],
+    "h001_artifacts_modified": false,
+    "main_C_e_allowed_blocks": [
+      "T_e",
+      "G_e"
+    ],
+    "main_view": "model_safe_main_no_class",
+    "metrics_run": false
+  },
+  "created_at_utc": "2026-07-02T03:54:14+00:00",
+  "next_todo": "compatibility_dataset_v3_support_contact_harder_route_docker_materialization_stage_review",
+  "official_test_usage": false,
+  "official_validation_eval_only": true,
+  "output_artifacts": {
+    "candidate_rows": "experiments/H002_compatibility_routing/support_contact_harder_materialization/latest/candidate_rows.jsonl",
+    "feature_availability": "experiments/H002_compatibility_routing/support_contact_harder_materialization/latest/feature_availability.csv",
+    "group_manifest": "experiments/H002_compatibility_routing/support_contact_harder_materialization/latest/group_manifest.jsonl",
+    "hidden_manifest": "experiments/H002_compatibility_routing/support_contact_harder_materialization/latest/hidden_manifest.jsonl",
+    "model_safe_geometry_only": "experiments/H002_compatibility_routing/support_contact_harder_materialization/latest/model_safe_geometry_only.jsonl",
+    "model_safe_main_no_class": "experiments/H002_compatibility_routing/support_contact_harder_materialization/latest/model_safe_main_no_class.jsonl",
+    "model_safe_main_with_class_ablation": "experiments/H002_compatibility_routing/support_contact_harder_materialization/latest/model_safe_main_with_class_ablation.jsonl",
+    "model_safe_qe_diagnostic": "experiments/H002_compatibility_routing/support_contact_harder_materialization/latest/model_safe_qe_diagnostic.jsonl",
+    "row_manifest": "experiments/H002_compatibility_routing/support_contact_harder_materialization/latest/row_manifest.json",
+    "schema_precheck": "experiments/H002_compatibility_routing/support_contact_harder_materialization/latest/schema_precheck.json",
+    "validation_errors": "experiments/H002_compatibility_routing/support_contact_harder_materialization/latest/validation_errors.jsonl"
+  },
+  "p_obs_claim_enabled": false,
+  "p_rel_claim_enabled": false,
+  "paper_metric_produced": false,
+  "row_counts": {
+    "bad_group_count": 0,
+    "candidate_rows": 3178,
+    "feature_count": 43,
+    "group_manifest": 1589,
+    "hidden_manifest": 3178,
+    "label_counts": {
+      "0": 1589,
+      "1": 1589
+    },
+    "model_safe_geometry_only": 3178,
+    "model_safe_main_no_class": 3178,
+    "model_safe_main_with_class_ablation": 3178,
+    "model_safe_qe_diagnostic": 3178,
+    "predicate_counts": {
+      "lying on": 1589,
+      "standing on": 1589
+    }
+  },
+  "schema_version": "h002_support_contact_harder_route_materialization_v1",
+  "source_reranking_run": false,
+  "status": "h002_support_contact_harder_route_materialization_ready",
+  "validation_errors": 0
+}

@@ -1,6 +1,6 @@
 # H002 Summary Branch V2
 
-Last updated: 2026-07-01 KST
+Last updated: 2026-07-02 KST
 
 ## Current Title
 
@@ -34,6 +34,332 @@ to be separated before final decision.
 
 이제 H002의 main method candidate는 단순한 posterior smoke가 아니라
 `Predicate-Geometry Compatibility Learning for Factorized Relation Reliability`다.
+
+## Current Locked Scope
+
+2026-07-02 기준 H002의 final scope는 route-specific `C_e` mechanism evidence로 lock한다.
+`support_contact` hard route는 official validation inversion 때문에 success claim이 아니라
+diagnostic/failure taxonomy로 고정한다.
+
+| Route family | Relation types | Current role |
+| --- | --- | --- |
+| `relative_vertical` | `higher than`, `lower than` | primary clean `C_e` mechanism |
+| `size_relative` | `bigger than`, `smaller than` | primary clean `C_e` mechanism |
+| `relative_horizontal` | `left`, `right`, `front`, `behind` | caveated frame-aware `C_e` mechanism |
+| `proximity` | `close by` | geometry-only route control |
+| `support_contact` | `standing on`, `lying on`, `supported by` | diagnostic failure taxonomy |
+| `attachment_observability` | `attached to`, `hanging on`, `connected to` | future observability route |
+| `containment_occlusion_identity_structural` | `inside`, `cover`, `leaning against`, `same as`, `same symmetry as`, `part of`, `belonging to` 등 | future route taxonomy |
+
+현재 primary metric은 family-wise `C_e` mechanism metric이다. `Recall@K`와
+`Violation@K`는 버리지 않지만, source reranking protocol을 연 뒤 downstream top-K graph
+selection metric으로만 사용한다.
+
+## Source Reranking Protocol Status
+
+Final scope lock 이후 `Recall@K`와 `Violation@K`를 downstream source-reranking metric으로
+다시 열었다. 현재는 source-wide `C_e` materialization, schema audit, metric protocol
+freeze, Docker metric runner, result review, and claim-boundary lock까지 완료한 상태다.
+Official test는 사용하지 않았고, 결과는 validation-level source-reranking evidence로만
+고정했다.
+
+고정된 원칙:
+
+- Source candidates는 official validation에서만 사용한다.
+- Source bridge는 `vlsat_full_validation`과 `open3dsg_recovery_relaxed_views_min2`다.
+- `C_e = compatibility(T_e, G_e)` 내부에는 `Z_e`를 넣지 않는다.
+- Source score/rank는 `source_rank_view`에서 관리하고 reranking stage에서만 결합한다.
+- Primary bridge score 후보는 `normalized_source_score * normalized_C_e_score`다.
+- `Recall@K`와 `Violation@K`는 downstream metric이다.
+- `support_contact`는 diagnostic only이며 success aggregation에서 제외한다.
+
+Source-reranking inventory 결과:
+
+- `vlsat_full_validation`: in-scope source rows `441696`.
+- `open3dsg_recovery_relaxed_views_min2`: in-scope source rows `321192`.
+- source prediction join key, source score, and source rank are available.
+- `Recall@K` with `S0_source_score` is computable.
+- At this stage, `S2_source_x_Ce` still required source-wide `C_e` materialization;
+  that blocker has since been cleared by the materialization and schema-audit stages below.
+
+Materialization protocol 결과:
+
+- source-wide materialization protocol is locked.
+- planned runtime output is
+  `experiments/H002_compatibility_routing/source_reranking_materialization/latest`.
+- total source-family rows to materialize: `762888`.
+- primary success-family rows: `254296`.
+- `model_safe_ce_view.jsonl` must contain `T_e + G_e` only.
+- `source_rank_view.jsonl` owns `Z_e` and is reranking-only.
+- `hidden_metric_manifest.jsonl` owns GT match and violation labels for metric computation only.
+
+Docker materialization 결과:
+
+- runtime output:
+  `experiments/H002_compatibility_routing/source_reranking_materialization/latest`.
+- total rows: `762888`.
+- `vlsat_full_validation`: `441696` rows.
+- `open3dsg_recovery_relaxed_views_min2`: `321192` rows.
+- primary success-family rows: `254296`.
+- `model_safe_ce_view.jsonl`, `model_safe_geometry_only_view.jsonl`,
+  `source_rank_view.jsonl`, and `hidden_metric_manifest.jsonl` each contain
+  `762888` rows.
+- runtime validation errors: `0`.
+- `model_safe_ce_view` contains only `T_e` and `G_e`.
+- source reranking metrics were not run.
+- official test was not used.
+
+다음 단계는 materialization schema audit이다. 여기서 blocked field deep scan, hidden/source-score
+separation, family-balanced success aggregation, and control-generation readiness를 확인한 뒤에야
+source reranking metric freeze로 넘어갈 수 있다.
+
+Materialization schema audit 결과:
+
+- runtime audit output:
+  `experiments/H002_compatibility_routing/source_reranking_schema_audit/latest`.
+- validation errors: `0`.
+- blocked `C_e` feature hits: `0`.
+- candidate-id alignment across source candidate, `C_e`, geometry-only, rank, and hidden views passed.
+- `model_safe_ce_view` contains `T_e + G_e` only.
+- `source_rank_view` owns `Z_e` and is reranking-only.
+- `hidden_metric_manifest` is metric-only.
+- primary success aggregation is balanced:
+  `relative_vertical 127148`, `size_relative 127148`.
+- `support_contact` remains diagnostic and excluded from success aggregation.
+- wrong-`T` and shuffled-`G` controls are ready for primary success families.
+
+Metric protocol freeze 결과:
+
+- artifact:
+  `artifacts/compatibility_dataset_v3_source_reranking_metric_protocol_freeze_after_schema_audit/`.
+- status: `h002_source_reranking_metric_protocol_freeze_after_schema_audit_ready`.
+- validation errors: `0`.
+- primary score: `S2_source_x_Ce = normalized_source_score * normalized_C_e_score`.
+- source baseline: `S0_source_score`.
+- diagnostic score: `S1_Ce_only`.
+- fixed ablation: `S3_log_source_plus_Ce`, lambda fixed to `1.0`.
+- controls: `C1_source_x_shuffled_Ce`, `C2_source_x_wrong_T_Ce`.
+- K grid: `{5, 10, 20, 50, 100}`.
+- downstream metrics: `Recall@K`, `Violation@K`, `Selected@K`.
+- primary success families: `relative_vertical`, `size_relative`.
+- `relative_horizontal` is caveated, `proximity` is geometry-only control, and
+  `support_contact` is diagnostic/excluded.
+
+Metric runner 결과:
+
+- runtime output:
+  `experiments/H002_compatibility_routing/source_reranking_evaluation/latest`.
+- artifact:
+  `artifacts/compatibility_dataset_v3_source_reranking_metric_runner_after_protocol_freeze/`.
+- status: `h002_source_reranking_metric_runner_after_protocol_freeze_ready`.
+- validation errors: `0`.
+- source rows scored: `762888`.
+- internal train rows for `C_e` scorer: `4868`.
+- selected prediction rows written: `932732`.
+- official validation was eval-only; official test was not used.
+- `C_e` used only `T_e + G_e`; `Z_e` was combined only after `C_e` scoring.
+
+Primary weighted `S2_source_x_Ce` vs `S0_source_score`:
+
+| K | Delta Recall@K | Delta Violation@K |
+| ---: | ---: | ---: |
+| 5 | +0.007937 | -0.240690 |
+| 10 | +0.041950 | -0.229859 |
+| 20 | +0.081633 | -0.243091 |
+| 50 | +0.103175 | -0.259199 |
+| 100 | +0.004535 | -0.142873 |
+
+Metric result review 결과:
+
+- artifact:
+  `artifacts/compatibility_dataset_v3_source_reranking_metric_result_review_after_runner/`.
+- status: `h002_source_reranking_metric_result_review_after_runner_ready`.
+- validation errors: `0`.
+- decision: source-reranking validation evidence is positive.
+- source/family/K cells reviewed: `20`.
+- negative Recall@K cells: `3`.
+- Violation@K non-improvement cells: `0`.
+- next: `compatibility_dataset_v3_source_reranking_claim_boundary_lock_after_result_review`.
+
+Review interpretation:
+
+- Weighted primary result는 모든 K에서 `S2`가 `S0`보다 recall-violation tradeoff가 좋다.
+- 그러나 source/family/K 전체 cell에서 uniform improvement는 아니다.
+- `C_e` alone은 low-K recall이 낮으므로 deployable score로 주장하지 않는다.
+- Claim은 "official validation source candidates에서 clean comparison families의
+  primary recall-violation tradeoff를 개선한다" 정도로 제한해야 한다.
+- Official test, final paper promotion, `support_contact` success, and `p_obs/p_rel`
+  claims remain blocked until separate gates.
+
+Claim boundary lock 결과:
+
+- artifact:
+  `artifacts/compatibility_dataset_v3_source_reranking_claim_boundary_lock_after_result_review/`.
+- status: `h002_source_reranking_claim_boundary_lock_after_result_review_locked`.
+- validation errors: `0`.
+- selected path: `source_reranking_claim_boundary_locked_select_validation_table_skeleton`.
+- table role: `secondary_validation_table_candidate_or_appendix`.
+- main text usage: validation-only qualifier가 있을 때만 conditional allowed.
+- final official-test table: blocked.
+- next: `compatibility_dataset_v3_source_reranking_validation_table_skeleton_after_claim_boundary_lock`.
+
+Locked interpretation:
+
+- Source-reranking evidence는 `Z_e`와 `C_e`를 분리한 뒤 reranking stage에서 결합하는
+  구조가 downstream `Recall@K`/`Violation@K` tradeoff에도 유효하다는 validation evidence다.
+- 이 결과는 H002의 main `C_e = compatibility(T_e, G_e)` mechanism evidence를 보조하는
+  deployability evidence이지, final paper result나 SOTA/full 3DSSG improvement가 아니다.
+
+Validation table skeleton 결과:
+
+- artifact:
+  `artifacts/compatibility_dataset_v3_source_reranking_validation_table_skeleton_after_claim_boundary_lock/`.
+- status: `h002_source_reranking_validation_table_skeleton_after_claim_boundary_lock_ready`.
+- validation errors: `0`.
+- selected path: `source_reranking_validation_table_skeleton_ready_select_table_review`.
+- primary rows: `5` K rows for `S2_source_x_Ce` vs `S0_source_score`.
+- control rows: `15` rows covering `C_e` only, shuffled-`C_e`, and wrong-`T`.
+- required caveat rows: `3`.
+- next: `compatibility_dataset_v3_source_reranking_validation_table_review_after_skeleton`.
+
+Primary table skeleton:
+
+| K | Delta Recall@K | Delta Violation@K |
+| ---: | ---: | ---: |
+| 5 | +0.007937 | -0.240690 |
+| 10 | +0.041950 | -0.229859 |
+| 20 | +0.081633 | -0.243091 |
+| 50 | +0.103175 | -0.259199 |
+| 100 | +0.004535 | -0.142873 |
+
+Skeleton interpretation:
+
+- 이 표는 main mechanism table을 대체하지 않는 validation-level deployability table 후보다.
+- 3개 recall-regression caveat row를 표/footnote/appendix 중 하나로 반드시 노출해야 한다.
+
+Validation table review 결과:
+
+- artifact:
+  `artifacts/compatibility_dataset_v3_source_reranking_validation_table_review_after_skeleton/`.
+- status: `h002_source_reranking_validation_table_review_after_skeleton_ready`.
+- validation errors: `0`.
+- selected path: `downgrade_validation_table_select_test_benchmark_preflight`.
+- validation table position: `appendix_or_secondary_analysis_only`.
+- main benchmark table: independent test set 또는 accepted official evaluation server 필요.
+- test benchmark ready now: `false`.
+- next: `compatibility_dataset_v3_test_benchmark_preflight_after_validation_downgrade`.
+
+Test benchmark preflight rationale:
+
+- canonical `local_dataset/3DSSG_subset/relationships_test.json`은 현재 없다.
+- Open3DSG staged runtime 아래 `relationships_test.json` 후보는 관찰됐지만, non-empty 후보는
+  canonical validation scan과 전부 overlap한다.
+- 따라서 staged test file은 독립 test로 바로 사용할 수 없고, provenance와 split-disjointness를
+  먼저 검증해야 한다.
+
+Experiment 전 추가 gate:
+
+- test label provenance / evaluation server availability.
+- split disjointness.
+- source prediction availability on exact test split.
+- frozen `C_e` model, feature schema, score contract, family scope, K grid.
+- normalization/calibration freeze without test-label or post-hoc test tuning.
+- test materialization schema audit.
+- metric/claim freeze and single final test run policy.
+
+Test benchmark preflight 결과:
+
+- artifact:
+  `artifacts/compatibility_dataset_v3_test_benchmark_preflight_after_validation_downgrade/`.
+- status: `h002_test_benchmark_preflight_after_validation_downgrade_ready_blocked`.
+- validation errors: `0`.
+- selected path: `test_benchmark_blocked_select_independent_test_provenance_or_eval_server`.
+- test benchmark ready: `false`.
+- experiments test run allowed: `false`.
+- next: `compatibility_dataset_v3_test_benchmark_source_resolution_after_preflight`.
+
+Key blockers:
+
+- canonical `local_dataset/3DSSG_subset/relationships_test.json` does not exist.
+- observed non-empty staged `relationships_test.json` candidates overlap canonical validation scans.
+- current source-reranking materialization contains `762888` official-validation rows and `0`
+  official-test rows.
+
+따라서 다음 단계는 test metric runner가 아니라 source resolution이다. 가능한 경로는:
+
+- accepted official evaluation server 확인;
+- independent test label/provenance 확보;
+- test benchmark를 포기하고 validation-only appendix evidence로 유지;
+- source-reranking benchmark를 validation bridge로만 제한.
+
+Test benchmark source resolution 결과:
+
+- artifact:
+  `artifacts/compatibility_dataset_v3_test_benchmark_source_resolution_after_preflight/`.
+- status: `h002_test_benchmark_source_resolution_after_preflight_ready_blocked`.
+- validation errors: `0`.
+- selected path:
+  `official_eval_server_not_confirmed_keep_validation_appendix_request_external_provenance`.
+- next: `compatibility_dataset_v3_test_benchmark_external_provenance_request_after_source_resolution`.
+
+판정:
+
+- accepted official evaluation server confirmed: `false`.
+- independent relation test label confirmed: `false`.
+- 3RScan scan-level test split exists: `true`.
+- scan-level split is sufficient for H002 relation benchmark: `false`.
+- relation-test source predictions available: `false`.
+- experiments test run allowed: `false`.
+
+해석:
+
+- 사용자의 판단처럼 official evaluation server를 먼저 확인하는 순서가 맞다.
+- 그러나 현재 확인된 것은 3RScan의 scan-level test split 존재이지, H002가 필요한
+  3DSSG relation-label GT 또는 accepted public evaluation server availability가 아니다.
+- Open3DSG local code의 `test_scans_3rscan` route도 3DSSG relation-GT benchmark로
+  바로 쓸 수 없다. 해당 route는 3RScan test scans가 3DSSG에 labeled되어 있지 않다는
+  설명을 포함한다.
+- 따라서 source-reranking validation table은 appendix/secondary evidence로 유지하고,
+  test benchmark table은 external provenance 또는 official server route가 확인되기
+  전까지 block한다.
+
+External provenance request 결과:
+
+- artifact:
+  `artifacts/compatibility_dataset_v3_test_benchmark_external_provenance_request_after_source_resolution/`.
+- status: `h002_test_benchmark_external_provenance_request_after_source_resolution_ready`.
+- validation errors: `0`.
+- selected path: `external_request_packet_ready_keep_test_benchmark_blocked`.
+- next completed: `compatibility_dataset_v3_test_benchmark_external_response_ingestion_after_request`.
+
+핵심 정리:
+
+- VL-SAT checkpoint/source predictor route는 존재한다.
+- Open3DSG test execution route도 존재한다.
+- 그러나 checkpoint나 test-scan prediction export는 GT를 만들지 않는다.
+- H002 test `Recall@K`에는 3DSSG relation-label test GT 또는 accepted hidden evaluation
+  server가 필요하다.
+- Response/provenance ingestion 결과, external response file은 아직 발견되지 않았고
+  test benchmark runner는 계속 block한다.
+
+External response ingestion 결과:
+
+- artifact:
+  `artifacts/compatibility_dataset_v3_test_benchmark_external_response_ingestion_after_request/`.
+- status:
+  `h002_test_benchmark_external_response_ingestion_after_request_ready_blocked_no_external_response`.
+- validation errors: `0`.
+- external response found: `false`.
+- next: `compatibility_dataset_v3_validation_only_position_lock_after_no_external_response`.
+
+Request packet은 다음을 묻도록 고정했다.
+
+- 3DSSG가 3RScan test split relation labels를 public 또는 hidden evaluator로 제공하는가.
+- official 3DSSG relation/triplet evaluation server가 있는가.
+- official distribution에 `relationships_test.json`이 있어야 하는가, 아니면 public labels가
+  train/validation으로 제한되는가.
+- 3RScan test scans prediction을 relationship labels 기준으로 평가할 수 있는가.
+- test relation evaluation이 없으면 validation split이 표준 paper-reporting split인가.
 
 ## Why H002 Pivoted
 
@@ -286,11 +612,17 @@ RGA가 하지 않는 일:
 
 ### Main Metrics
 
-- official GT relation Recall@K or mAP
-- Geometry Violation@K
+- family-wise AUROC / macro-family AUROC for `C_e = compatibility(T_e, G_e)`
+- wrong-`T`, shuffled-`G`, endpoint-swap, sign-flip controls
+- balanced accuracy and AUPRC where family-level targets support them
 - semantic-geometry counterfactual sensitivity
+
+### Downstream Future Metrics
+
+- official GT relation Recall@K or mAP after source reranking protocol
+- Geometry Violation@K after source reranking protocol
 - source transfer across VL-SAT and Open3DSG-style relation sources
-- selective reliability under abstain
+- selective reliability under abstain after independent `p_obs` / `p_rel` labels
 - calibration: ECE, Brier, AUPRC where target is valid
 
 ### Baselines
@@ -8745,3 +9077,597 @@ Blocked claims:
 ```text
 report/report_0702.md
 ```
+
+## 2026-07-02 Official Metric Claim Boundary Lock
+
+Official metric result review 이후 paper-facing claim boundary를 lock했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_official_metric_claim_boundary_lock_after_result_review/
+status = h002_compatibility_dataset_v3_official_metric_claim_boundary_lock_after_result_review_locked
+selected_path = official_claim_boundary_locked_select_paper_table_skeleton
+validation_errors = 0
+next_todo = compatibility_dataset_v3_paper_table_skeleton_after_claim_boundary_lock
+```
+
+Locked table role:
+
+- `relative_vertical`: main mechanism table primary row
+- `size_relative`: main mechanism table primary row
+- `relative_horizontal`: caveated frame-aware mechanism row
+- `support_contact`: diagnostic failure-taxonomy row
+
+Allowed claim:
+
+- official validation candidates에서 `C_e = compatibility(T_e, G_e)`는 route-specific
+  predicate-geometry compatibility의 bounded paper-table evidence로 사용할 수 있다.
+- `relative_vertical`과 `size_relative`는 primary mechanism evidence로 사용할 수 있다.
+- `relative_horizontal`은 frame-aware evidence로 사용할 수 있지만 frame-invariant
+  해결 claim은 금지한다.
+- `support_contact`는 current evidence limitation과 shortcut risk를 보여주는
+  diagnostic/challenging route로만 사용한다.
+
+Blocked claim:
+
+- all-relation 3DSSG generalization
+- solved `support_contact`
+- strong frame-invariant horizontal relation reasoning
+- calibrated `p_rel` / `p_obs` reliability or abstention
+- source reranking / recall-violation tradeoff
+- official test result
+- SOTA or full 3DSSG improvement
+- human-audited reliability/abstention label performance
+
+Decision:
+
+- bounded paper-table draft is now allowed.
+- final paper result promotion is still not allowed.
+- next stage should create a paper table skeleton from this locked boundary.
+
+## 2026-07-02 Paper Table Skeleton
+
+Claim-boundary lock에 맞춰 bounded paper-table skeleton을 생성했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_paper_table_skeleton_after_claim_boundary_lock/
+status = h002_compatibility_dataset_v3_paper_table_skeleton_after_claim_boundary_lock_ready
+selected_path = paper_table_skeleton_ready_select_table_review
+validation_errors = 0
+next_todo = compatibility_dataset_v3_paper_table_skeleton_review_after_claim_boundary_lock
+```
+
+Main table skeleton:
+
+| Block | Scope | Method | AUROC | AUPRC | Balanced Acc. | Role |
+| --- | --- | --- | ---: | ---: | ---: | --- |
+| primary mechanism macro | `relative_vertical + size_relative` | `T_e only` | 0.500000 | 0.499505 | 0.500000 | baseline |
+| primary mechanism macro | `relative_vertical + size_relative` | `G_e only` | 0.500000 | 0.507762 | 0.500000 | baseline |
+| primary mechanism macro | `relative_vertical + size_relative` | `T_e + G_e concat` | 0.498994 | 0.527248 | 0.509615 | baseline |
+| primary mechanism macro | `relative_vertical + size_relative` | `C_e compatibility` | 0.995453 | 0.995505 | 0.972964 | proposed mechanism |
+| caveated row | `relative_horizontal` | `C_e compatibility` | 0.719568 | 0.444788 | 0.701522 | frame-aware only |
+| diagnostic row | `support_contact` | `C_e compatibility` | 0.631712 | 0.643417 | 0.566394 | diagnostic only |
+
+Control interpretation:
+
+- Primary signed-comparison macro에서 `C_e compatibility`는 semantic-only,
+  geometry-only, plain concat, wrong-`T`, shuffled-`G`, subject/object swap, sign
+  flip control보다 높다.
+- `relative_horizontal`은 frame-swap delta가 `0.104163`으로 modest하므로
+  frame-aware caveat가 필요하다.
+- `support_contact`는 wrong-`T` across-route control이 M4보다 높고 shuffled-`G`
+  within-family delta가 약하므로 diagnostic/failure-taxonomy row로 유지한다.
+
+Decision:
+
+- paper table skeleton is ready for review.
+- final paper result promotion remains `not_yet`.
+- next review should decide whether this table shape is paper-claim strong enough
+  or should remain a bounded hypothesis/report artifact.
+
+## 2026-07-02 Paper Table Skeleton Review
+
+Paper table skeleton이 원리적으로 자연스러운지와 paper-level claim으로 승격 가능한지
+검토했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_paper_table_skeleton_review_after_claim_boundary_lock/
+status = h002_compatibility_dataset_v3_paper_table_skeleton_review_after_claim_boundary_lock_reviewed
+selected_path = table_review_keep_as_bounded_mechanism_evidence_select_gap_plan
+validation_errors = 0
+next_todo = compatibility_dataset_v3_principled_design_gap_plan_after_table_review
+```
+
+Core judgment:
+
+- H002의 factorization은 원리적으로 자연스럽다.
+- `T_e`와 `Z_e` 분리는 source confidence shortcut을 막기 위해 필요하다.
+- predicate-independent `G_e`는 semantic-geometry compatibility를 검증하기 위해 필요하다.
+- `C_e = compatibility(T_e, G_e)`는 relation reliability의 핵심 mechanism으로 유지할 수 있다.
+- `Q_e`, `p_obs`, `p_rel` 분리도 원리적으로 맞지만 현재 official table에서는 아직 평가하지 않았다.
+
+Paper-claim judgment:
+
+- 현재 table의 primary signal은 강하다: primary signed-comparison macro에서
+  `C_e compatibility` AUROC `0.995453`, best baseline `0.500000`.
+- 그러나 primary rows가 `relative_vertical`과 `size_relative`에 집중되어 있어
+  reviewer가 direct geometry sign task로 볼 수 있다.
+- 따라서 standalone final paper result로 승격하지 않는다.
+- 현재 table은 bounded mechanism evidence로 유지한다.
+- stronger paper claim을 위해서는 harder compatibility route 또는 source-deployable
+  evidence가 필요하다.
+
+## 2026-07-02 Principled Design Gap Plan
+
+Paper table skeleton review 이후 다음 evidence gap을 계획했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_principled_design_gap_plan_after_table_review/
+status = h002_compatibility_dataset_v3_principled_design_gap_plan_after_table_review_ready
+selected_path = select_harder_support_contact_route_protocol_before_source_deployable_promotion
+validation_errors = 0
+next_todo = compatibility_dataset_v3_support_contact_harder_route_protocol_after_gap_plan
+```
+
+Core decision:
+
+- H002 factorization은 유지한다.
+- 현재 table은 bounded mechanism evidence로 유지한다.
+- final paper result promotion은 하지 않는다.
+- 다음 gap은 `harder_support_contact_route`로 선택한다.
+- source-deployable experiment는 hard-route protocol이 안정화된 뒤 진행한다.
+- `p_obs`/`p_rel` branch는 독립 observability label이 안정화될 때까지 defer한다.
+
+Why support/contact:
+
+- 현재 primary evidence는 `relative_vertical + size_relative`라 signed geometry rule로
+  보일 위험이 있다.
+- `standing on` / `lying on`은 단순 sign이 아니라 pose, contact, overlap, support
+  surface, gap, point/mesh evidence를 필요로 한다.
+- 기존 support/contact probe는 interaction signal을 보였지만 official validation에서는
+  아직 diagnostic 상태이므로 protocol repair가 필요하다.
+
+Next protocol boundary:
+
+- main predicates: `standing on`, `lying on`
+- diagnostic predicate: `supported by`
+- `T_e`: predicate semantic content only
+- `G_e`: predicate-independent pose/contact/overlap/gap/point/mesh evidence
+- `Z_e`, `Q_e`: main `C_e` input에서 제외
+- controls: semantic-only, geometry-only, concat, wrong-`T`, shuffled-`G`,
+  subject/object swap, class-pair shortcut audit
+- blocked claims: solved support/contact, calibrated `p_rel`/`p_obs`, source
+  reranking, official test, all-relation generalization
+
+### 2026-07-02 Support/Contact Harder Route Protocol
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_support_contact_harder_route_protocol_after_gap_plan/
+status = h002_compatibility_dataset_v3_support_contact_harder_route_protocol_after_gap_plan_ready
+selected_path = support_contact_harder_route_protocol_locked_select_source_inventory
+validation_errors = 0
+next_todo = compatibility_dataset_v3_support_contact_harder_route_source_inventory_after_protocol
+```
+
+이 단계는 새 metric 실행이 아니라 hard-route protocol freeze다. 현재 H002의
+primary table이 `relative_vertical` / `size_relative` 같은 signed comparison에 강하게
+의존하므로, 더 어려운 relation route로 `support_contact`를 다시 설계한다.
+
+Locked scope:
+
+- main: `standing on`, `lying on`
+- diagnostic: `supported by`
+- main compatibility input: `T_e + G_e`
+- `G_e`: predicate-independent pose/contact/overlap/gap/point/mesh evidence
+- excluded from main `C_e`: `Z_e`, `Q_e`, target labels, hidden construction fields,
+  H001 `p_geom_valid` / rule labels
+
+핵심 evidence:
+
+- vertical gap
+- XY support overlap
+- contact patch ratio
+- support surface normal alignment
+- subject principal axis / pose
+- bottom surface proximity
+- local contact point density
+- mesh gap / intersection
+- surface alignment
+
+Promotion gate:
+
+- `T_e x G_e`가 semantic-only, geometry-only, plain concat보다 강해야 한다.
+- wrong-`T`와 shuffled-`G` control이 무너져야 한다.
+- predicate/class/class-pair/source-rank/scan/instance shortcut probe가 gain을 설명하면
+  paper-facing hard-route claim으로 올리지 않는다.
+- `support_contact solved`, calibrated `p_rel`/`p_obs`, source reranking, official test,
+  all-relation claim은 여전히 blocked다.
+
+다음 단계는 richer `G_e` source inventory다. full-train과 official validation에서 위
+feature들이 실제로 얼마나 안정적으로 만들 수 있는지, `standing on` / `lying on`
+class-pair balance가 충분한지, model-safe/hidden manifest가 protocol대로 분리 가능한지
+확인한다.
+
+### 2026-07-02 Support/Contact Harder Route Source Inventory
+
+Support/contact hard route protocol 이후 source inventory를 완료했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_support_contact_harder_route_source_inventory_after_protocol/
+status = h002_compatibility_dataset_v3_support_contact_harder_route_source_inventory_after_protocol_ready
+selected_path = support_contact_harder_route_source_inventory_ready_select_materialization_plan
+validation_errors = 0
+next_todo = compatibility_dataset_v3_support_contact_harder_route_materialization_plan_after_source_inventory
+```
+
+이 단계의 의미는 `support_contact`를 바로 paper result로 올리는 것이 아니라, official
+validation source에서 더 어려운 `G_e` materialization이 실제로 가능한지 확인하는 것이다.
+
+확인 결과:
+
+- official validation support/contact는 `3178` rows / `156` scans로 구성된다.
+- `standing on`과 `lying on`은 각각 `1589` rows로 균형적이다.
+- 현재 official materialization의 `G_e`는 OBB proxy 중심이다.
+- semseg, aligned PLY, mesh, segment, dominant normal, sequence asset은 모든
+  support/contact row에서 접근 가능하다.
+- train-side point/multiview materialization은 `800` rows 중 `640` main rows를 갖고,
+  point/pose/contact feature template로 재사용 가능하다.
+
+따라서 다음 단계는 richer support/contact `G_e` materialization plan이다. 유지해야 할
+원칙은 그대로다.
+
+- main `C_e` input은 `T_e + G_e`
+- `Z_e`와 `Q_e`는 main `C_e`에서 제외
+- official test는 사용하지 않음
+- current support/contact validation metric은 diagnostic
+- `predicate_x_class_pair` shortcut risk가 해결되기 전까지 `support_contact solved`
+  claim은 금지
+
+### 2026-07-02 Support/Contact Harder Route Materialization Plan
+
+Source inventory 이후 materialization plan을 고정했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_support_contact_harder_route_materialization_plan_after_source_inventory/
+status = h002_support_contact_harder_route_materialization_plan_after_source_inventory_ready
+selected_path = support_contact_harder_route_materialization_plan_ready_select_docker_materializer_implementation
+validation_errors = 0
+next_todo = compatibility_dataset_v3_support_contact_harder_route_docker_materialization_after_plan
+```
+
+이 단계의 핵심은 “support/contact를 곧바로 성공 relation으로 올리는 것”이 아니라,
+current OBB-proxy `G_e`를 더 원리적인 pose/contact/surface evidence로 바꾸는 Docker
+materializer contract를 고정하는 것이다.
+
+Frozen materialization scope:
+
+- official validation support/contact rows: `3178`
+- same-pair predicate-flip groups: `1589`
+- paired groups passing integrity check: `1589`
+- `standing on` / `lying on`: 각각 `1589` rows
+- mixed `predicate x class-pair` cells: `8`
+- mixed `predicate x class-pair` balanced rows: `40`
+
+Feature contract:
+
+- direct current: vertical gap, XY support overlap, bottom surface proximity
+- derived/updated: subject principal axis, support surface normal alignment, surface alignment
+- extractor update: contact patch ratio, local contact point density
+- optional or Q_e-masked: mesh gap/intersection
+
+Model view decision:
+
+- primary view: `model_safe_main_no_class`
+- primary main `C_e`: `T_e.predicate_text + G_e_hard_route_numeric`
+- excluded: `Z_e`, `Q_e`, class labels, IDs, GT/source/construction fields, H001 `p_geom_valid`
+- class labels: ablation view only
+
+이 결정은 H002 전체 factor contract를 버리는 것이 아니다. Class semantics는 넓은
+`T_e`에 포함될 수 있지만, 이번 support/contact hard route에서는 `predicate x class-pair`
+shortcut이 너무 강하므로 first main view에서 제외한다. 따라서 다음 Docker materializer는
+feature를 늘리는 동시에 schema separation과 shortcut controls를 통과해야 한다.
+
+### 2026-07-02 Support/Contact Harder Route Docker Materialization
+
+Docker 기반 richer support/contact `G_e` materializer를 구현하고 실행했다.
+
+```text
+runtime_output = experiments/H002_compatibility_routing/support_contact_harder_materialization/latest/
+artifact_root = artifacts/compatibility_dataset_v3_support_contact_harder_route_docker_materialization_after_plan/
+status = h002_support_contact_harder_route_docker_materialization_after_plan_ready
+selected_path = support_contact_harder_route_materialized_select_schema_shortcut_audit
+validation_errors = 0
+next_todo = compatibility_dataset_v3_support_contact_harder_route_schema_shortcut_audit_after_docker_materialization
+```
+
+Generated views:
+
+- `candidate_rows.jsonl`: `3178`
+- `model_safe_main_no_class.jsonl`: `3178`
+- `model_safe_main_with_class_ablation.jsonl`: `3178`
+- `model_safe_geometry_only.jsonl`: `3178`
+- `model_safe_qe_diagnostic.jsonl`: `3178`
+- `hidden_manifest.jsonl`: `3178`
+- `group_manifest.jsonl`: `1589`
+
+Richer `G_e`는 `43`개 feature를 가진다. 기존 OBB gap/overlap에 더해 subject/object
+pose, flatness, normal upness, surface alignment, local contact point density,
+contact patch proxy를 포함한다. Mesh gap/intersection은 아직 main extractor가 아니라
+`Q_e` missing-mask로 둔다.
+
+중요한 점은 이 단계가 아직 metric이 아니라는 것이다. Docker materialization은 다음
+schema/shortcut audit의 입력을 만든 것이며, support/contact를 paper result로 승격하지
+않는다.
+
+### 2026-07-02 Support/Contact Harder Route Schema Shortcut Audit
+
+Docker 기반 schema/shortcut audit를 완료했다.
+
+```text
+runtime_audit_root = experiments/H002_compatibility_routing/support_contact_harder_schema_audit/latest/
+artifact_root = artifacts/compatibility_dataset_v3_support_contact_harder_route_schema_shortcut_audit_after_docker_materialization/
+status = h002_support_contact_harder_route_schema_shortcut_audit_after_docker_materialization_ready_with_warnings
+selected_path = support_contact_harder_route_schema_ready_select_metric_protocol_freeze
+validation_errors = 0
+next_todo = compatibility_dataset_v3_support_contact_harder_route_metric_protocol_freeze_after_schema_shortcut_audit
+```
+
+Audit 결과:
+
+- primary view rows: `3178`
+- groups: `1589`
+- richer `G_e` feature count: `43`
+- blocked field hits: `0`
+- view alignment mismatch: `0`
+- bad groups: `0`
+- control readiness: `7/7`
+- shortcut warnings: `3`
+
+해석은 보수적이다. Schema와 control readiness는 metric protocol freeze로 넘어갈 만큼
+충분하지만, `predicate x class-pair` shortcut majority accuracy가 `0.993707`로 높다.
+따라서 support/contact는 아직 solved relation family가 아니며, 다음 단계에서는
+predicate-only, `predicate x class-pair`, wrong-`T`, global shuffled-`G`,
+within-class-pair shuffled-`G`를 포함한 metric protocol을 결과 확인 전에 고정해야 한다.
+
+### 2026-07-02 Support/Contact Harder Route Metric Protocol Freeze
+
+Schema/shortcut audit 이후 support/contact hard route metric protocol을 고정했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_support_contact_harder_route_metric_protocol_freeze_after_schema_shortcut_audit/
+status = h002_support_contact_harder_route_metric_protocol_freeze_after_schema_shortcut_audit_ready
+selected_path = support_contact_hard_metric_protocol_frozen_select_train_eval_alignment
+validation_errors = 0
+next_todo = compatibility_dataset_v3_support_contact_harder_route_train_eval_alignment_after_metric_protocol_freeze
+```
+
+고정된 protocol은 다음과 같다.
+
+- target: `C_e`
+- route family: `support_contact`
+- predicates: `standing on`, `lying on`
+- primary metric: `support_contact_AUROC`
+- primary comparison: `M4_TxG_compatibility` vs `M1_predicate_only`,
+  `M2_geometry_only`, `M3_T_plus_G_concat`
+- diagnostics: class-ablation, `Q_e`, `predicate x class-pair`
+- required controls: wrong-`T`, shuffled-`G` global, shuffled-`G` within class-pair
+
+이 단계에서 metric runner로 바로 가지 않는 이유가 중요하다. Official validation hard-route
+view는 `43`개 canonical `G_e` feature를 갖고 있지만, 사용 가능한 train
+point/multiview reference는 `640` main rows와 다른 prefixed `63`-feature schema를 갖는다.
+Official validation은 eval-only이므로 여기서 학습하거나 threshold를 고르면 안 된다.
+
+따라서 다음 단계는 train-side features를 official 43-feature canonical schema에 맞출 수
+있는지 검증하는 train/eval feature alignment audit다.
+
+### 2026-07-02 Support/Contact Harder Route Train/Eval Alignment
+
+Metric protocol freeze 이후 train/eval alignment를 완료했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_support_contact_harder_route_train_eval_alignment_after_metric_protocol_freeze/
+status = h002_support_contact_harder_route_train_eval_alignment_after_metric_protocol_freeze_ready
+selected_path = support_contact_train_eval_aligned_select_metric_runner_protocol
+validation_errors = 0
+next_todo = compatibility_dataset_v3_support_contact_harder_route_metric_runner_after_train_eval_alignment
+```
+
+핵심 결과:
+
+- official canonical `G_e` features: `43`
+- mapped train features: `43`
+- direct/direct-transform mappings: `31`
+- derived/proxy mappings: `12`
+- aligned train/dev rows: `640`
+- internal train/dev split: `531` / `109`
+- official validation scan overlap: `0`
+- official validation endpoint overlap: `0`
+- primary no-class view policy violations: `0`
+
+이제 support/contact hard-route metric runner를 실행할 준비가 됐다. 단, feature-map
+provenance를 숨기면 안 된다. 특히 contact-band count/density, vertical overlap,
+AABB intersection 같은 일부 feature는 train side에서 derived/proxy로 맞춘 것이므로,
+다음 metric review에서 이 점을 caveat로 유지해야 한다.
+
+### 2026-07-02 Support/Contact Harder Route Metric Runner
+
+Train/eval alignment 이후 Docker metric runner를 실행했다.
+
+```text
+runtime_root = experiments/H002_compatibility_routing/support_contact_harder_evaluation/latest/
+artifact_root = artifacts/compatibility_dataset_v3_support_contact_harder_route_metric_runner_after_train_eval_alignment/
+status = h002_support_contact_harder_route_metric_runner_after_train_eval_alignment_ready
+validation_errors = 0
+metric_warnings = 4
+next_todo = compatibility_dataset_v3_support_contact_harder_route_metric_result_review_after_runner
+```
+
+실행 조건:
+
+- fit: `internal_train` only
+- selection/sanity: `internal_dev` only
+- official validation: eval-only
+- official test: unused
+- main `C_e`: `T_e + G_e`
+- `Z_e`, `Q_e`, H001 `p_geom_valid`, class labels: primary `C_e`에서 제외
+
+결과:
+
+| Split/View | AUROC | 해석 |
+| --- | ---: | --- |
+| internal dev `M4_TxG_compatibility` | 0.721356 | 내부 train/dev에서는 compatibility signal 존재 |
+| official validation `M4_TxG_compatibility` | 0.077539 | official validation transfer 실패 |
+| official validation `M2_geometry_only` | 0.500000 | geometry-only baseline |
+| official validation `M3_T_plus_G_concat` | 0.454660 | simple concat baseline |
+| official validation wrong-`T` | 0.922461 | wrong predicate가 오히려 강함 |
+
+Runner 자체는 protocol대로 완료됐지만, official validation 결과는 support/contact hard
+route를 paper-facing 성공 결과로 올릴 수 없다는 방향이다. 특히 wrong-`T` control이
+correct `T`보다 높게 나왔고, feature drift audit에서
+`support_contact_likelihood_proxy`와 `xy_overlap_min_ratio`가 train-aligned view와
+official validation view 사이에 큰 분포 차이를 보였다.
+
+따라서 다음 result review는 model을 더 키우는 단계가 아니라 다음 원인을 분리하는 단계다.
+
+- train-side label target과 official GT predicate-flip target의 의미 불일치
+- train-aligned `G_e`와 official canonical `G_e`의 feature distribution shift
+- `standing on`/`lying on` predicate sign convention mismatch
+- current `G_e`가 support/contact official validation으로 transfer되지 않는 문제
+
+현재 결론:
+
+- metric runner completed: yes
+- official validation eval-only: yes
+- official test usage: no
+- paper metric promotion: no
+- support/contact solved claim: blocked
+
+### 2026-07-03 External Response Ingestion
+
+External provenance request packet 이후 response inbox를 확인해 official evaluation
+server, independent relation-test label, 또는 official validation-as-standard protocol이
+실제로 들어왔는지 점검했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_test_benchmark_external_response_ingestion_after_request/
+status = h002_test_benchmark_external_response_ingestion_after_request_ready_blocked_no_external_response
+selected_path = no_external_response_keep_test_benchmark_blocked_select_validation_position_lock
+validation_errors = 0
+external_response_found = false
+candidate_response_files = 0
+next_todo = compatibility_dataset_v3_validation_only_position_lock_after_no_external_response
+```
+
+판단:
+
+- official evaluation server confirmed: `false`.
+- independent relation-test label confirmed: `false`.
+- official validation-as-standard protocol confirmed: `false`.
+- checkpoint reproduction is still not sufficient for test `Recall@K`.
+- prediction-only 3RScan test export is still not sufficient for benchmark reporting.
+- validation source-reranking table remains appendix/secondary analysis only.
+
+따라서 H002는 현재 test benchmark runner로 넘어가지 않는다. 다음 단계는 공식 응답이 없는
+상태에서 validation-only evidence의 paper position과 blocked claim wording을 고정하는
+것이다.
+
+### 2026-07-03 Validation-Only Position Lock
+
+External response가 없는 상태에서 H002 source-reranking 결과의 논문 내 위치와 reopen
+조건을 잠갔다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_validation_only_position_lock_after_no_external_response/
+status = h002_validation_only_position_lock_after_no_external_response_ready
+selected_path = validation_only_appendix_secondary_lock_keep_test_benchmark_blocked
+validation_errors = 0
+next_todo = compatibility_dataset_v3_h002_post_validation_position_path_decision
+```
+
+Locked position:
+
+- 현재 H002 source-reranking은 official 3DSSG validation split 기반 custom evaluation이다.
+- Paper position은 appendix 또는 secondary analysis다.
+- Official 3DSSG test benchmark가 아니다.
+- Validation table은 final benchmark table로 쓰지 않는다.
+
+Allowed claim:
+
+- VL-SAT / Open3DSG validation predictions에 H002 reranking을 적용했다.
+- Frozen custom validation protocol에서 `Recall@K`, `Violation@K` 변화를 보였다.
+- Open3DSG는 open-vocabulary relation source지만, 정량 평가는 closed-vocabulary 3DSSG
+  label mapping 기준이다.
+
+Blocked claim:
+
+- official 3DSSG test result.
+- SOTA / leaderboard claim.
+- unconstrained open-set relation-GT evaluation.
+- prediction-only 3RScan test scan export as `Recall@K`.
+
+Reopen conditions:
+
+- official `relationships_test.json` provenance.
+- hidden evaluation server.
+- official validation-as-standard reporting statement.
+- separate human-audited reliability benchmark, clearly separated from official
+  3DSSG test.
+
+### 2026-07-03 Post-Validation Position Path Decision
+
+이전 lock은 no-test-provenance 상황에서 validation result를 appendix/secondary로 낮췄다.
+하지만 H002의 비교 대상인 VL-SAT와 Open3DSG의 공개 relation evaluation 흐름과 source
+prediction은 validation split 중심이므로, H002 main claim도 official 3DSSG validation
+split에서 진행하는 것이 더 적절하다고 판단했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_h002_post_validation_position_path_decision/
+status = h002_post_validation_position_path_decision_ready
+selected_path = promote_official_validation_as_main_comparative_claim_keep_test_blocked
+validation_errors = 0
+next_todo = compatibility_dataset_v3_main_validation_claim_table_lock_after_path_decision
+```
+
+Updated claim position:
+
+- main claim split: official 3DSSG validation split.
+- main table: validation benchmark table.
+- source comparison: VL-SAT / Open3DSG validation predictions.
+- metrics: `Recall@K`, `Violation@K`.
+- Open3DSG: open-vocabulary source, closed-vocabulary 3DSSG label mapping for quantitative evaluation.
+
+Still blocked:
+
+- official 3DSSG test result.
+- leaderboard/SOTA wording without exact benchmark protocol and comparable baselines.
+- unconstrained open-set GT evaluation.
+- prediction-only 3RScan test `Recall@K`.
+
+### 2026-07-03 Main Validation Claim Table Lock
+
+Post-validation path decision 이후 main validation benchmark table의 caption과 claim
+boundary를 고정했다. 이 단계는 새 metric을 실행하지 않고, 이미 생성된 validation
+source-reranking evidence를 어떻게 paper main table로 표현할지 잠근다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_main_validation_claim_table_lock_after_path_decision/
+status = h002_main_validation_claim_table_lock_after_path_decision_ready
+selected_path = main_validation_table_claim_locked_keep_official_test_blocked
+validation_errors = 0
+next_todo = compatibility_dataset_v3_main_validation_table_materialization_after_claim_lock
+```
+
+Locked table claim:
+
+- main split: official 3DSSG validation split.
+- source comparison: VL-SAT / Open3DSG validation predictions.
+- baseline: `S0_source_score`.
+- H002 score: `S2_source_x_Ce`.
+- metrics: `Recall@K`, `Violation@K`.
+- method role: factorized reliability/reranking layer, not new relation predictor.
+
+H003 position:
+
+- H003 embedding is a future/optional extension of H002 `C_e`.
+- It can enter the paper only if prototype evidence improves over explicit `C_e`
+  on hard negatives, transfer, calibration, or family generalization.
+- It is not part of the current H002 main claim.

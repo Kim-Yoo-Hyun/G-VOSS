@@ -1,0 +1,88 @@
+{
+  "model_fit_summary": {
+    "feature_count": 498,
+    "mode": "logistic",
+    "train_rows": 4868
+  },
+  "normalization": {
+    "C_e_score": "per_source_family_minmax",
+    "lambda": "fixed_1_for_S3_only",
+    "source_score": "per_source_minmax"
+  },
+  "primary_score": "S2_source_x_Ce",
+  "schema_version": "h002_source_reranking_metric_runner_v1_score_manifest",
+  "score_ids": [
+    "S0_source_score",
+    "S1_Ce_only",
+    "S2_source_x_Ce",
+    "S3_log_source_plus_Ce",
+    "C1_source_x_shuffled_Ce",
+    "C2_source_x_wrong_T_Ce"
+  ],
+  "score_summary": {
+    "ce_score_bounds": {
+      "open3dsg_recovery_relaxed_views_min2|proximity": {
+        "max": 0.5040176799484343,
+        "min": 0.2909563046273438
+      },
+      "open3dsg_recovery_relaxed_views_min2|relative_horizontal": {
+        "max": 0.9999999997904911,
+        "min": 2.0589028768449068e-10
+      },
+      "open3dsg_recovery_relaxed_views_min2|relative_vertical": {
+        "max": 0.9999999999996232,
+        "min": 1.9150658488707113e-13
+      },
+      "open3dsg_recovery_relaxed_views_min2|size_relative": {
+        "max": 0.999604232256321,
+        "min": 0.00038791236997866654
+      },
+      "open3dsg_recovery_relaxed_views_min2|support_contact": {
+        "max": 0.9849973071891178,
+        "min": 0.0012022971905122518
+      },
+      "vlsat_full_validation|proximity": {
+        "max": 0.5040176799484343,
+        "min": 0.2909563046273438
+      },
+      "vlsat_full_validation|relative_horizontal": {
+        "max": 0.9999999997904911,
+        "min": 2.0589028768449068e-10
+      },
+      "vlsat_full_validation|relative_vertical": {
+        "max": 0.9999999999996232,
+        "min": 1.9150658488707113e-13
+      },
+      "vlsat_full_validation|size_relative": {
+        "max": 0.9999446416348028,
+        "min": 5.425490411182674e-05
+      },
+      "vlsat_full_validation|support_contact": {
+        "max": 0.9849973071891178,
+        "min": 0.0012022971905122518
+      }
+    },
+    "family_counts": {
+      "proximity": 63574,
+      "relative_horizontal": 254296,
+      "relative_vertical": 127148,
+      "size_relative": 127148,
+      "support_contact": 190722
+    },
+    "row_count": 762888,
+    "source_counts": {
+      "open3dsg_recovery_relaxed_views_min2": 321192,
+      "vlsat_full_validation": 441696
+    },
+    "source_score_bounds": {
+      "open3dsg_recovery_relaxed_views_min2": {
+        "max": 0.9706317186355591,
+        "min": 0.596280038356781
+      },
+      "vlsat_full_validation": {
+        "max": 0.999504566192627,
+        "min": 4.478577613561542e-23
+      }
+    }
+  }
+}

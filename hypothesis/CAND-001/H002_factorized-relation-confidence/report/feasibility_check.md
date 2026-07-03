@@ -802,3 +802,113 @@ Important rule:
 V_mv_e should first be used as audit/confirmation evidence, not deployable model
 input, until S_e + G_e + C_e + U_e passes an independent-target gate.
 ```
+
+## H003 Embedding Extension Feasibility
+
+### Current H002 Factorized Compatibility Score
+
+현재 H002의 deployable score는 relation candidate edge를 다음처럼 분리한다.
+
+```text
+edge e = (subject, predicate, object)
+
+T_e = predicate / relation-family semantic content
+G_e = predicate-independent object-pair geometry evidence
+Z_e = source confidence, score, rank
+C_e = compatibility(T_e, G_e)
+
+final reranking score:
+S2(e) = normalized_source_score(Z_e) * normalized_C_e
+```
+
+핵심 원칙:
+
+- `G_e`에는 predicate나 source score를 넣지 않는다.
+- `C_e`에는 source score/rank인 `Z_e`를 넣지 않는다.
+- `Z_e`는 마지막 source reranking stage에서만 사용한다.
+- 따라서 `C_e`는 "기존 model이 높게 줬는가"가 아니라 "이 predicate가 이 geometry와 맞는가"를 본다.
+
+이 구조는 H002의 현재 main claim에 적합하다.
+
+```text
+source confidence != predicate-geometry compatibility
+```
+
+그리고 source prediction을 버리지 않고 다음처럼 reliability-aware reranking layer로 사용한다.
+
+```text
+source_score x C_e
+```
+
+### Relation To H003
+
+H003는 H002를 대체하는 방향이 아니라, H002의 `C_e`를 더 강한 learned representation으로
+일반화하는 확장이다.
+
+```text
+H002:
+  C_e = compatibility(T_e, G_e)
+  with compact / auditable predicate-geometry features
+
+H003:
+  learn semantic-geometry embedding space
+  where valid relation tuples are close
+  and counterfactual / geometry-inconsistent tuples are far
+```
+
+따라서 관계는 다음처럼 정리한다.
+
+| Branch | Role |
+| --- | --- |
+| H002 | current paper framework candidate; factorized compatibility and source reranking |
+| H003 | representation-learning extension of H002 `C_e` |
+| Paper status now | H003 is not required for the current H002 claim |
+| Paper status if successful | H003 can become an additional method extension or stronger ablation |
+
+### Why H003 Could Strengthen A Top-Tier Claim
+
+H003가 성공하면 H002보다 method novelty가 강해질 수 있다.
+
+- explicit relation-family feature/rule 의존도를 줄일 수 있다.
+- open-vocabulary relation source와 더 자연스럽게 연결된다.
+- hard-negative, source-transfer, calibration에서 explicit `C_e`보다 나으면 top-tier claim이 강해진다.
+- "semantic and geometry are separated"에서 더 나아가 "semantic-geometry agreement is represented in a learned compatibility space"로 claim을 확장할 수 있다.
+
+그러나 H003를 paper에 넣으려면 다음 중 적어도 하나를 H002보다 명확히 개선해야 한다.
+
+```text
+hard-negative robustness
+Open3DSG / VL-SAT source transfer
+calibration or selective reliability
+family generalization beyond clean signed relations
+```
+
+### Risks
+
+H003는 원리적으로 매력적이지만, 현재 H002 main claim에 바로 넣기에는 위험이 있다.
+
+1. Embedding이 object-class prior shortcut을 배울 수 있다.
+2. Learned embedding이 explicit `C_e`보다 나은지 증명해야 한다.
+3. Geometry-rule negatives가 너무 쉬우면 representation claim이 약해진다.
+4. Validation main table에 넣으려면 additional smoke/prototype result가 필요하다.
+5. 결과가 약하면 H002의 깔끔한 factorized compatibility claim을 흐릴 수 있다.
+
+### Recommended Position
+
+현재 paper core는 H002로 둔다.
+
+```text
+H002 defines factorized predicate-geometry compatibility.
+H003 learns this compatibility as a semantic-geometry embedding space.
+```
+
+H003는 다음 조건이 만족될 때 paper에 반영한다.
+
+- `C_e` explicit compatibility보다 hard-negative controls에서 개선된다.
+- wrong-pair, shuffled-geometry, subject/object swap, predicate flip control에서 score가 무너진다.
+- Open3DSG validation source로 transfer된다.
+- class-pair shortcut audit를 통과한다.
+- recall gain 또는 violation reduction이 H002 `source_score x C_e`보다 의미 있게 좋아진다.
+
+그 전까지는 H003를 main contribution이 아니라 H002의 follow-up extension / future method
+candidate로 둔다.

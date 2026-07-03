@@ -1,0 +1,4 @@
+gate,status,blocking_errors,allows_next_metric_protocol_freeze,allows_metric_run_now,note
+source_reranking_materialization_schema_audit,pass,0,True,False,metric freeze next; metric run remains blocked until protocol freeze
+official_test_usage,pass,,True,False,official test unused
+support_contact_success_exclusion,pass,,True,False,support_contact diagnostic only

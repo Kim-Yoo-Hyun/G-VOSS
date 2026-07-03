@@ -1,0 +1,11 @@
+view_id,mode,feature_count,train_rows,role
+M0_constant,logistic,0,531,sanity
+M1_predicate_only,logistic,6,531,primary_baseline
+M2_geometry_only,logistic,86,531,primary_baseline
+M3_T_plus_G_concat,logistic,92,531,primary_baseline
+M4_TxG_compatibility,logistic,221,531,primary
+A1_class_ablation,logistic,235,531,diagnostic
+D1_Q_e_diagnostic,logistic,0,531,diagnostic
+C1_wrong_T_same_route,no_refit_m4_control,221,531,control
+C2_shuffled_G_global,no_refit_m4_control,221,531,control
+C3_shuffled_G_within_class_pair,no_refit_m4_control,221,531,control

@@ -10,12 +10,13 @@ Semantic-Geometry Compatibility Learning for Reliable 3D Scene Graph Relations
 
 ```text
 current_direction = predicate_geometry_compatibility_learning
-current_gate = compatibility_dataset_v3_official_metric_result_review_after_runner_ready_with_boundaries
+current_gate = compatibility_dataset_v3_main_validation_claim_table_lock_after_path_decision_ready
 previous_route = RGA benchmark / target-identifiability first, posterior later
 new_route = T_e + Z_e + G_e + C_e + Q_e with two-head p_obs / p_rel decision
 posterior_smoke_allowed = false
 learned_smoke_allowed_next = completed_internal_grouped_eval_with_family_review
-validation_or_test_used = false
+official_validation_eval_only_used = true
+official_test_used = false
 paper_level_ready = false
 framework_ready_hypothesis_stage = true
 experiment_root_skeleton_created = true
@@ -28,7 +29,7 @@ grouped_eval_runner_run = true
 grouped_holdout_run = true_internal_candidate_pool_only
 claim_boundary_review_run = true
 official_validation_test_protocol_plan_run = true
-official_validation_usage = false
+official_validation_eval_only_usage = true
 official_validation_inventory_counted = true
 official_source_inventory_run = true
 official_source_inventory_ready = true
@@ -44,9 +45,172 @@ official_validation_metric_produced = true
 official_metric_runner_ready = true_with_caveats
 official_metric_result_review_run = true
 paper_level_experiment_execution_gate = passed_with_caveats
-paper_result_promotion = not_yet
+official_metric_claim_boundary_lock_run = true
+paper_claim_boundary_locked = true
+paper_table_draft_allowed = true
+paper_table_skeleton_run = true
+paper_table_skeleton_ready = true
+paper_table_skeleton_review_run = true
+principled_structure = true
+natural_design_flow = true
+table_is_standalone_paper_result = false
+bounded_mechanism_evidence_only = true
+principled_design_gap_plan_run = true
+selected_gap = harder_support_contact_route
+support_contact_harder_route_protocol_run = true
+support_contact_harder_route_source_inventory_run = true
+support_contact_harder_route_materialization_plan_run = true
+support_contact_harder_route_docker_materialization_run = true
+support_contact_harder_route_schema_shortcut_audit_run = true
+support_contact_harder_route_schema_shortcut_audit_ready = true_with_shortcut_warnings
+support_contact_harder_route_shortcut_warnings = 3
+support_contact_harder_route_high_shortcut_warnings = 2
+support_contact_harder_route_metric_protocol_freeze_run = true
+support_contact_harder_route_metric_protocol_ready = true
+support_contact_harder_route_train_eval_alignment_run = true
+support_contact_harder_route_train_eval_feature_parity = ready_with_derived_proxy_mappings
+support_contact_harder_route_aligned_train_dev_rows = 640
+support_contact_harder_route_internal_train_dev = 531_109
+support_contact_harder_route_metric_runner_run = true
+support_contact_harder_route_metric_runner_validation_errors = 0
+support_contact_harder_route_internal_dev_m4_auroc = 0.721356
+support_contact_harder_route_official_validation_m4_auroc = 0.077539
+support_contact_harder_route_wrong_t_auroc = 0.922461
+support_contact_harder_route_metric_expectation_passed = false
+support_contact_harder_route_result_review_run = true
+support_contact_harder_route_path_decision_run = true
+support_contact_harder_route_selected_path = freeze_as_diagnostic_failure_taxonomy
+support_contact_harder_route_success_claim_allowed = false
+final_h002_scope_lock_run = true
+final_h002_scope_locked = true
+final_h002_primary_clean_Ce_families = relative_vertical,size_relative
+final_h002_caveated_Ce_families = relative_horizontal
+final_h002_geometry_only_control_families = proximity
+final_h002_diagnostic_failure_families = support_contact
+violation_at_k_primary_Ce_metric = false
+violation_at_k_downstream_metric = true_after_source_reranking_protocol
+source_deployable_experiment = defer_until_source_reranking_protocol_plan
+source_reranking_protocol_plan_run = true
+source_reranking_protocol_locked = true
+source_reranking_metrics_run = true
+source_reranking_sources = vlsat_full_validation,open3dsg_recovery_relaxed_views_min2
+source_reranking_k_grid = 5,10,20,50,100
+source_reranking_primary_downstream_metrics = Recall@K,Violation@K
+source_reranking_score_bridge = source_score_x_Ce
+source_reranking_Ce_excludes_Ze = true
+source_reranking_source_inventory_run = true
+source_reranking_join_keys_available = true
+source_reranking_source_score_rank_available = true
+source_reranking_recall_at_k_S0_computable = true
+source_reranking_S2_source_x_Ce_ready = true
+source_reranking_blocker = none_validation_table_skeleton_next
+source_reranking_vlsat_rows_in_scope = 441696
+source_reranking_open3dsg_rows_in_scope = 321192
+source_reranking_materialization_protocol_run = true
+source_reranking_materialization_protocol_locked = true
+source_reranking_materialization_metrics_run = false
+source_reranking_total_rows_to_materialize = 762888
+source_reranking_primary_success_family_rows = 254296
+source_reranking_materialization_output_dir = experiments/H002_compatibility_routing/source_reranking_materialization/latest
+source_reranking_model_safe_ce_view = T_e,G_e_only
+source_reranking_source_rank_view = Z_e_reranking_only
+source_reranking_hidden_metric_manifest = gt_match_violation_metric_only
+source_reranking_docker_materialization_run = true
+source_reranking_docker_materialization_ready = true
+source_reranking_docker_materialization_validation_errors = 0
+source_reranking_source_wide_Ce_materialization_done = true
+source_reranking_vlsat_materialized_rows = 441696
+source_reranking_open3dsg_materialized_rows = 321192
+source_reranking_runtime_output_dir = experiments/H002_compatibility_routing/source_reranking_materialization/latest
+source_reranking_materialization_schema_audit_run = true
+source_reranking_materialization_schema_audit_ready = true
+source_reranking_materialization_schema_audit_validation_errors = 0
+source_reranking_blocked_field_hits = 0
+source_reranking_ready_for_metric_protocol_freeze = true
+source_reranking_metric_protocol_freeze_run = true
+source_reranking_metric_protocol_freeze_ready = true
+source_reranking_metric_protocol_validation_errors = 0
+source_reranking_primary_score = S2_source_x_Ce
+source_reranking_metric_runner_allowed_next = true
+source_reranking_metric_runner_run = true
+source_reranking_metric_runner_ready = true
+source_reranking_metric_runner_validation_errors = 0
+source_reranking_source_rows_scored = 762888
+source_reranking_internal_train_rows = 4868
+source_reranking_selected_prediction_rows = 932732
+source_reranking_S2_vs_S0_recall_nonnegative_all_K = true
+source_reranking_S2_vs_S0_violation_nonpositive_all_K = true
+source_reranking_metric_result_review_run = true
+source_reranking_metric_result_review_ready = true
+source_reranking_validation_evidence = positive
+source_reranking_negative_recall_cells = 3
+source_reranking_violation_nonimprove_cells = 0
+source_reranking_claim_boundary_lock_run = true
+source_reranking_claim_boundary_locked = true
+source_reranking_table_role = main_validation_benchmark
+source_reranking_main_text_allowed = true_validation_benchmark
+source_reranking_final_test_table_allowed = false
+source_reranking_official_test_usage = false
+source_reranking_claim_boundary_validation_errors = 0
+source_reranking_validation_table_skeleton_run = true
+source_reranking_validation_table_skeleton_ready = true
+source_reranking_validation_table_skeleton_validation_errors = 0
+source_reranking_validation_table_primary_rows = 5
+source_reranking_validation_table_control_rows = 15
+source_reranking_validation_table_caveat_rows = 3
+source_reranking_validation_table_review_run = true
+source_reranking_validation_table_downgraded = true
+source_reranking_validation_table_position = main_validation_benchmark
+test_benchmark_table_required = true
+test_benchmark_ready_now = false
+test_benchmark_blocker = test_label_provenance_and_split_disjointness_not_verified
+test_benchmark_preflight_run = true
+test_benchmark_preflight_ready = true_blocked
+test_benchmark_preflight_validation_errors = 0
+canonical_test_file_exists = false
+staged_non_empty_test_candidates = 2
+validation_alias_test_candidates = 2
+official_test_source_rows = 0
+official_validation_source_rows = 762888
+experiments_test_run_allowed = false
+test_benchmark_source_resolution_run = true
+test_benchmark_source_resolution_ready = true_blocked
+accepted_official_eval_server_confirmed = false
+independent_relation_test_label_confirmed = false
+scan_level_3rscan_test_split_exists = true
+scan_level_split_is_sufficient_for_h002 = false
+relation_test_source_predictions_available = false
+source_resolution_selected_path = keep_validation_appendix_request_external_provenance
+external_provenance_request_run = true
+external_provenance_request_ready = true
+checkpoint_reproduction_is_sufficient_for_test_recall = false
+prediction_only_test_scan_export_is_sufficient_for_test_recall = false
+external_response_required_before_test_benchmark = true
+external_response_ingestion_run = true
+external_response_found = false
+external_response_candidate_files = 0
+external_response_ingestion_validation_errors = 0
+official_validation_standard_confirmed = false
+test_benchmark_execution_allowed_after_response_ingestion = false
+validation_only_position_lock_run = true
+validation_only_position_locked = true
+validation_only_position = superseded_by_main_validation_path_decision
+post_validation_position_path_decision_run = true
+post_validation_position_selected_path = promote_official_validation_as_main_comparative_claim_keep_test_blocked
+main_validation_claim_allowed = true
+main_validation_table_allowed = true
+main_validation_table_locked = true
+main_validation_split = official_3DSSG_validation_split
+official_test_benchmark_claim_allowed = false
+sota_or_leaderboard_claim_allowed = false
+unconstrained_open_set_gt_claim_allowed = false
+open3dsg_source_boundary = open_vocabulary_source_closed_vocabulary_3dssg_mapping
+h003_embedding_extension_in_main_claim_now = false
+h003_embedding_extension_future_optional = true
+p_obs_p_rel_branch = defer_until_independent_observability_labels
+final_paper_result_promotion = not_yet
 h001_artifacts_read_only_inventory = true
-next_todo = compatibility_dataset_v3_official_metric_claim_boundary_lock_after_result_review
+next_todo = compatibility_dataset_v3_main_validation_table_materialization_after_claim_lock
 ```
 
 H002는 기존 `factorized posterior target fitting` route에서 전환했다. 전환 이유는
@@ -81,6 +245,72 @@ p_rel = P(relation is reliable | evidence is observable)
 | `tools/compatibility_dataset_v3_official_metric_runner_after_protocol_freeze.py` | validates Docker official metric outputs and writes runner-stage artifacts |
 | `compatibility_dataset_v3_official_metric_result_review_after_runner.md` | official metric result review and paper-level execution gate decision |
 | `tools/compatibility_dataset_v3_official_metric_result_review_after_runner.py` | validates official metric outputs and writes result-review gate artifacts |
+| `compatibility_dataset_v3_official_metric_claim_boundary_lock_after_result_review.md` | locked paper-facing claim boundary after official metric result review |
+| `tools/compatibility_dataset_v3_official_metric_claim_boundary_lock_after_result_review.py` | validates result-review artifacts and writes allowed/blocked wording and table-role locks |
+| `compatibility_dataset_v3_paper_table_skeleton_after_claim_boundary_lock.md` | bounded paper-table skeleton after claim-boundary lock |
+| `tools/compatibility_dataset_v3_paper_table_skeleton_after_claim_boundary_lock.py` | validates claim lock and writes main/family/control table skeleton artifacts |
+| `compatibility_dataset_v3_paper_table_skeleton_review_after_claim_boundary_lock.md` | reviews whether the table skeleton is principled and paper-claim ready |
+| `tools/compatibility_dataset_v3_paper_table_skeleton_review_after_claim_boundary_lock.py` | validates the table skeleton and writes principle/claim/risk/recommendation review artifacts |
+| `compatibility_dataset_v3_principled_design_gap_plan_after_table_review.md` | gap plan after table review; selects the next evidence route |
+| `tools/compatibility_dataset_v3_principled_design_gap_plan_after_table_review.py` | validates review inputs and writes gap inventory, option decision, and support/contact protocol contract |
+| `compatibility_dataset_v3_support_contact_harder_route_protocol_after_gap_plan.md` | support/contact hard-route protocol after gap plan |
+| `tools/compatibility_dataset_v3_support_contact_harder_route_protocol_after_gap_plan.py` | validates gap-plan inputs and writes relation scope, richer `G_e`, schema, controls, gates, and next source-inventory contract |
+| `compatibility_dataset_v3_support_contact_harder_route_source_inventory_after_protocol.md` | support/contact hard-route source inventory after protocol lock |
+| `tools/compatibility_dataset_v3_support_contact_harder_route_source_inventory_after_protocol.py` | inventories official validation support/contact asset availability, train point/multiview feature templates, current `G_e` coverage, and shortcut caveats before materialization planning |
+| `compatibility_dataset_v3_support_contact_harder_route_materialization_plan_after_source_inventory.md` | support/contact hard-route materialization plan after source inventory |
+| `tools/compatibility_dataset_v3_support_contact_harder_route_materialization_plan_after_source_inventory.py` | validates source inventory and writes richer `G_e` materialization contract, model views, controls, Docker implementation plan, and promotion gates |
+| `compatibility_dataset_v3_support_contact_harder_route_docker_materialization_after_plan.md` | support/contact hard-route Docker materialization result and stage review |
+| `tools/compatibility_dataset_v3_support_contact_harder_route_docker_materialization_after_plan.py` | validates richer support/contact Docker materialization outputs and writes the next schema/shortcut audit contract |
+| `compatibility_dataset_v3_support_contact_harder_route_schema_shortcut_audit_after_docker_materialization.md` | support/contact hard-route schema/shortcut audit result and next metric-protocol freeze contract |
+| `tools/compatibility_dataset_v3_support_contact_harder_route_schema_shortcut_audit_after_docker_materialization.py` | validates Docker schema/shortcut audit outputs and writes hypothesis-stage review artifacts |
+| `compatibility_dataset_v3_support_contact_harder_route_metric_protocol_freeze_after_schema_shortcut_audit.md` | support/contact hard-route metric protocol freeze after schema/shortcut audit |
+| `tools/compatibility_dataset_v3_support_contact_harder_route_metric_protocol_freeze_after_schema_shortcut_audit.py` | validates schema-audit inputs and writes metric, model-view, control, train/eval, and claim-boundary contracts |
+| `compatibility_dataset_v3_support_contact_harder_route_train_eval_alignment_after_metric_protocol_freeze.md` | support/contact hard-route train/eval feature alignment after metric protocol freeze |
+| `tools/compatibility_dataset_v3_support_contact_harder_route_train_eval_alignment_after_metric_protocol_freeze.py` | canonicalizes train-side point/OBB/contact features to the official 43-feature schema and writes runner-ready inputs |
+| `compatibility_dataset_v3_support_contact_harder_route_metric_runner_after_train_eval_alignment.md` | support/contact hard-route Docker metric runner output and non-promotion warnings |
+| `tools/compatibility_dataset_v3_support_contact_harder_route_metric_runner_after_train_eval_alignment.py` | validates metric runner outputs, records official-validation failures, feature drift warnings, and next result-review contract |
+| `compatibility_dataset_v3_support_contact_harder_route_metric_result_review_after_runner.md` | support/contact hard-route result review; freezes the inversion failure interpretation before path decision |
+| `tools/compatibility_dataset_v3_support_contact_harder_route_metric_result_review_after_runner.py` | validates metric result artifacts and writes gate/root-cause review outputs |
+| `compatibility_dataset_v3_support_contact_harder_route_path_decision_after_result_review.md` | path decision after support/contact hard-route failure; freezes support/contact as diagnostic and selects final H002 scope lock |
+| `tools/compatibility_dataset_v3_support_contact_harder_route_path_decision_after_result_review.py` | validates result-review inputs and writes option decision, locked scope, blocked claims, and next contract artifacts |
+| `compatibility_dataset_v3_final_h002_scope_lock_after_support_contact_freeze.md` | final H002 route, metric, allowed-claim, and blocked-claim scope lock after support/contact freeze |
+| `tools/compatibility_dataset_v3_final_h002_scope_lock_after_support_contact_freeze.py` | validates path-decision and official-boundary inputs and writes final scope-lock artifacts |
+| `compatibility_dataset_v3_source_reranking_protocol_plan_after_final_scope_lock.md` | source-reranking protocol plan after final H002 scope lock |
+| `tools/compatibility_dataset_v3_source_reranking_protocol_plan_after_final_scope_lock.py` | validates final scope/source inventory inputs and writes source-reranking score, metric, route, and blocked-field contracts |
+| `compatibility_dataset_v3_source_reranking_source_inventory_after_protocol_plan.md` | source-reranking source inventory after protocol plan |
+| `tools/compatibility_dataset_v3_source_reranking_source_inventory_after_protocol_plan.py` | inventories source join keys, source score/rank, GT match, H001 geometry, H2 `C_e` direct joins, and reranking metric readiness |
+| `compatibility_dataset_v3_source_reranking_materialization_protocol_after_source_inventory.md` | source-wide `C_e` materialization protocol after source inventory |
+| `tools/compatibility_dataset_v3_source_reranking_materialization_protocol_after_source_inventory.py` | validates source-inventory readiness and writes model-safe, hidden-metric, score, Docker, and next-step materialization contracts |
+| `compatibility_dataset_v3_source_reranking_docker_materialization_after_protocol.md` | Docker source-wide materialization result after protocol lock |
+| `tools/compatibility_dataset_v3_source_reranking_docker_materialization_after_protocol.py` | validates Docker source-wide materialization outputs, row counts, view alignment, and `T_e/G_e` separation before schema audit |
+| `compatibility_dataset_v3_source_reranking_materialization_schema_audit_after_docker_materialization.md` | source-reranking materialization schema audit after Docker materialization |
+| `tools/compatibility_dataset_v3_source_reranking_materialization_schema_audit_after_docker_materialization.py` | validates Docker schema-audit outputs and writes metric-protocol-freeze contract |
+| `compatibility_dataset_v3_source_reranking_metric_protocol_freeze_after_schema_audit.md` | source-reranking score, metric, normalization, family aggregation, and control protocol freeze |
+| `tools/compatibility_dataset_v3_source_reranking_metric_protocol_freeze_after_schema_audit.py` | validates schema-audit readiness and writes downstream source-reranking metric runner contract |
+| `compatibility_dataset_v3_source_reranking_metric_runner_after_protocol_freeze.md` | Docker source-reranking metric runner result and validation-level metric summary |
+| `tools/compatibility_dataset_v3_source_reranking_metric_runner_after_protocol_freeze.py` | validates source-reranking runtime outputs and writes result-review contract |
+| `compatibility_dataset_v3_source_reranking_metric_result_review_after_runner.md` | source-reranking result review and claim-boundary-lock recommendation |
+| `tools/compatibility_dataset_v3_source_reranking_metric_result_review_after_runner.py` | validates/reviews source-reranking metric outputs and writes allowed/blocked claim recommendations |
+| `compatibility_dataset_v3_source_reranking_claim_boundary_lock_after_result_review.md` | source-reranking allowed/blocked wording and validation table role lock |
+| `tools/compatibility_dataset_v3_source_reranking_claim_boundary_lock_after_result_review.py` | validates result-review readiness and locks source-reranking paper wording boundaries |
+| `compatibility_dataset_v3_source_reranking_validation_table_skeleton_after_claim_boundary_lock.md` | bounded source-reranking validation table skeleton and caveat rows |
+| `tools/compatibility_dataset_v3_source_reranking_validation_table_skeleton_after_claim_boundary_lock.py` | validates claim-lock readiness and writes source-reranking table skeleton artifacts |
+| `compatibility_dataset_v3_source_reranking_validation_table_review_after_skeleton.md` | downgrades validation table to appendix/secondary analysis and defines test benchmark preflight gates |
+| `tools/compatibility_dataset_v3_source_reranking_validation_table_review_after_skeleton.py` | validates table skeleton readiness, probes local test files, and writes test benchmark preflight gate list |
+| `compatibility_dataset_v3_test_benchmark_preflight_after_validation_downgrade.md` | test benchmark readiness preflight after validation-table downgrade |
+| `tools/compatibility_dataset_v3_test_benchmark_preflight_after_validation_downgrade.py` | audits test-label provenance, split overlap, source prediction availability, frozen protocol, and test-run gates |
+| `compatibility_dataset_v3_test_benchmark_source_resolution_after_preflight.md` | resolves official-server / independent-test provenance after blocked preflight |
+| `tools/compatibility_dataset_v3_test_benchmark_source_resolution_after_preflight.py` | validates preflight inputs and writes source-resolution, blocked-claim, and next-contract artifacts |
+| `compatibility_dataset_v3_test_benchmark_external_provenance_request_after_source_resolution.md` | official-server / independent-test provenance request packet after source resolution |
+| `tools/compatibility_dataset_v3_test_benchmark_external_provenance_request_after_source_resolution.py` | validates source-resolution inputs and writes request packet, request questions, readiness matrix, and next response-ingestion contract |
+| `compatibility_dataset_v3_test_benchmark_external_response_ingestion_after_request.md` | external response/provenance ingestion gate after request packet |
+| `tools/compatibility_dataset_v3_test_benchmark_external_response_ingestion_after_request.py` | inventories response inbox, keeps benchmark blocked if no official response/provenance is ingested, and writes validation-only positioning contract |
+| `compatibility_dataset_v3_validation_only_position_lock_after_no_external_response.md` | validation-only paper-position lock after no external test response |
+| `tools/compatibility_dataset_v3_validation_only_position_lock_after_no_external_response.py` | validates no-response ingestion and writes allowed/blocked claims, source-vocabulary boundary, metric-position, and reopen-condition artifacts |
+| `compatibility_dataset_v3_h002_post_validation_position_path_decision.md` | path decision that promotes official validation split to H002 main comparative claim while keeping official-test claims blocked |
+| `tools/compatibility_dataset_v3_h002_post_validation_position_path_decision.py` | validates validation-position lock and writes main-validation claim boundary, table-position, allowed/blocked wording, and next table-lock contract |
+| `compatibility_dataset_v3_main_validation_claim_table_lock_after_path_decision.md` | main validation table caption and claim-boundary lock after path decision |
+| `tools/compatibility_dataset_v3_main_validation_claim_table_lock_after_path_decision.py` | validates path decision and writes table caption, baseline wording, blocked wording, required caveats, H003 extension position, and next materialization contract |
 | `report/report_0702.md` | Korean paper-level experiment gate report after official metric runner |
 | `report_0701.md` | Korean hypothesis-stage synthesis report covering claim, method, validation purpose, metrics, relation-family results, blockers, and next steps |
 | `compatibility_dataset_v3_paper_framework_readiness_review_after_route_specific_probes.md` | paper/framework readiness review after route-specific probes; separates candidate main rows, diagnostic boundaries, promotion gaps, and blocked claims |
@@ -7829,3 +8059,984 @@ Blocked claims:
 - calibrated `p_rel` / `p_obs`
 - source reranking / recall tradeoff
 - official test result
+
+## 2026-07-02 Official Metric Claim Boundary Lock
+
+Official metric result review 이후 paper-facing claim boundary를 lock했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_official_metric_claim_boundary_lock_after_result_review/
+status = h002_compatibility_dataset_v3_official_metric_claim_boundary_lock_after_result_review_locked
+selected_path = official_claim_boundary_locked_select_paper_table_skeleton
+validation_errors = 0
+next_todo = compatibility_dataset_v3_paper_table_skeleton_after_claim_boundary_lock
+```
+
+Locked paper role:
+
+- `relative_vertical`: main mechanism table primary row
+- `size_relative`: main mechanism table primary row
+- `relative_horizontal`: main mechanism table caveated row; frame-aware only
+- `support_contact`: diagnostic failure-taxonomy row; not a solved success case
+
+Decision:
+
+- bounded paper-table draft is now allowed.
+- final paper result promotion is still not allowed.
+- official test, source reranking, calibrated `p_rel`/`p_obs`, all-relation generalization, and solved support/contact claims remain blocked.
+
+## 2026-07-02 Paper Table Skeleton
+
+Claim-boundary lock 이후 bounded paper-table skeleton을 만들었다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_paper_table_skeleton_after_claim_boundary_lock/
+status = h002_compatibility_dataset_v3_paper_table_skeleton_after_claim_boundary_lock_ready
+selected_path = paper_table_skeleton_ready_select_table_review
+validation_errors = 0
+next_todo = compatibility_dataset_v3_paper_table_skeleton_review_after_claim_boundary_lock
+```
+
+Skeleton policy:
+
+- primary mechanism macro scope: `relative_vertical + size_relative`
+- primary method row: `C_e compatibility`, AUROC `0.995453`
+- baselines: `T_e only` AUROC `0.500000`, `G_e only` AUROC `0.500000`, `T_e + G_e concat` AUROC `0.498994`
+- `relative_horizontal`: caveated frame-aware row, AUROC `0.719568`
+- `support_contact`: diagnostic/failure-taxonomy row, AUROC `0.631712`
+
+Decision:
+
+- paper table skeleton is ready for review.
+- final paper result promotion remains `not_yet`.
+- next review must decide whether this table shape is strong enough for a paper claim or should remain a bounded hypothesis/report artifact.
+
+## 2026-07-02 Paper Table Skeleton Review
+
+Paper table skeleton이 원리적으로 자연스러운지와 paper claim으로 승격 가능한지
+검토했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_paper_table_skeleton_review_after_claim_boundary_lock/
+status = h002_compatibility_dataset_v3_paper_table_skeleton_review_after_claim_boundary_lock_reviewed
+selected_path = table_review_keep_as_bounded_mechanism_evidence_select_gap_plan
+validation_errors = 0
+next_todo = compatibility_dataset_v3_principled_design_gap_plan_after_table_review
+```
+
+Review decision:
+
+- H002 factorization is principled and natural.
+- `C_e = compatibility(T_e, G_e)` is the correct mechanism to keep.
+- The table should remain bounded mechanism evidence, not a standalone final paper result.
+- Main blocker: primary rows are too clean and signed-comparison-heavy.
+- `Q_e`, `p_obs`, and `p_rel` remain principled but unevaluated in the official table.
+- Next step should plan a harder route or source-deployable evidence before paper-result promotion.
+
+## 2026-07-02 Principled Design Gap Plan
+
+Paper table skeleton review 이후 다음 evidence gap을 계획했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_principled_design_gap_plan_after_table_review/
+status = h002_compatibility_dataset_v3_principled_design_gap_plan_after_table_review_ready
+selected_path = select_harder_support_contact_route_protocol_before_source_deployable_promotion
+validation_errors = 0
+next_todo = compatibility_dataset_v3_support_contact_harder_route_protocol_after_gap_plan
+```
+
+Decision:
+
+- H002 factorization은 유지한다.
+- 현재 table은 bounded mechanism evidence로 유지한다.
+- final paper result promotion은 여전히 `not_yet`.
+- 다음 gap은 `harder_support_contact_route`로 고정한다.
+- source-deployable experiment는 hard-route 안정화 이후로 미룬다.
+- `p_obs`/`p_rel` branch는 독립 observability label이 안정화될 때까지 미룬다.
+
+Selected next route:
+
+- main predicates: `standing on`, `lying on`
+- diagnostic predicate: `supported by`
+- next focus: richer predicate-independent `G_e` with pose/contact/overlap/gap/point/mesh evidence
+- blocked next-stage claims: solved support/contact, calibrated `p_rel`/`p_obs`, source reranking, official test, all-relation generalization
+
+## 2026-07-02 Support/Contact Harder Route Protocol
+
+Principled design gap plan 이후 support/contact hard route protocol을 고정했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_support_contact_harder_route_protocol_after_gap_plan/
+status = h002_compatibility_dataset_v3_support_contact_harder_route_protocol_after_gap_plan_ready
+selected_path = support_contact_harder_route_protocol_locked_select_source_inventory
+validation_errors = 0
+next_todo = compatibility_dataset_v3_support_contact_harder_route_source_inventory_after_protocol
+```
+
+Locked route:
+
+- main predicates: `standing on`, `lying on`
+- diagnostic predicate: `supported by`
+- main `C_e` input: `T_e + G_e`
+- `G_e`: predicate-independent pose/contact/overlap/gap/point/mesh evidence
+- `Z_e`, `Q_e`: main `C_e` input에서 제외
+- official test usage: false
+- paper metric promoted: false
+
+Required evidence protocol:
+
+- vertical gap
+- XY support overlap
+- contact patch ratio
+- support surface normal alignment
+- subject principal axis / pose
+- bottom surface proximity
+- local contact point density
+- mesh gap/intersection
+- surface alignment
+
+Required controls:
+
+- semantic-only, geometry-only, plain concat
+- wrong-`T` same-route
+- shuffled-`G` global and within class-pair/family
+- subject/object swap
+- predicate/class/class-pair/source-rank/scan/instance shortcut probe
+
+Decision:
+
+- `support_contact`를 solved relation family로 올리지 않는다.
+- 현재 단계는 hard-route `C_e` protocol freeze이며, source reranking과 `p_obs`/`p_rel`
+  실험은 여전히 defer한다.
+- 다음 단계는 richer `G_e` source inventory와 class-pair balance 점검이다.
+
+## 2026-07-02 Support/Contact Harder Route Source Inventory
+
+Support/contact hard route protocol 이후 source inventory를 완료했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_support_contact_harder_route_source_inventory_after_protocol/
+status = h002_compatibility_dataset_v3_support_contact_harder_route_source_inventory_after_protocol_ready
+selected_path = support_contact_harder_route_source_inventory_ready_select_materialization_plan
+validation_errors = 0
+next_todo = compatibility_dataset_v3_support_contact_harder_route_materialization_plan_after_source_inventory
+```
+
+Core inventory:
+
+- official validation support/contact rows: `3178`
+- official validation scans: `156`
+- predicates: `standing on` `1589`, `lying on` `1589`
+- labels: positive `1589`, negative `1589`
+- current official `G_e`: OBB proxy feature set only
+- official source assets: semseg, aligned PLY, mesh, segments, sequence, OBB, dominant normal all available for the `3178` rows
+- train point/multiview reference rows: `800`, with `640` main and `160` diagnostic rows
+
+Decision:
+
+- source inventory is ready and materialization planning is allowed.
+- richer support/contact `G_e` should add normal/pose/contact-density/mesh or explicit missing-mask features.
+- `Z_e` and `Q_e` remain excluded from main `C_e`.
+- official test remains unused.
+- `support_contact` remains blocked as a solved family claim because `predicate_x_class_pair` majority accuracy is still `0.993707`.
+
+## 2026-07-02 Support/Contact Harder Route Materialization Plan
+
+Source inventory 이후 richer support/contact hard route materialization plan을 고정했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_support_contact_harder_route_materialization_plan_after_source_inventory/
+status = h002_support_contact_harder_route_materialization_plan_after_source_inventory_ready
+selected_path = support_contact_harder_route_materialization_plan_ready_select_docker_materializer_implementation
+validation_errors = 0
+next_todo = compatibility_dataset_v3_support_contact_harder_route_docker_materialization_after_plan
+```
+
+Frozen scope:
+
+- official validation support/contact rows: `3178`
+- same-pair predicate-flip groups: `1589`
+- paired groups passing integrity check: `1589`
+- mixed `predicate x class-pair` cells: `8`
+- mixed `predicate x class-pair` balanced rows: `40`
+- official test usage: `false`
+- paper metric promoted: `false`
+
+Plan decision:
+
+- 다음 단계는 Docker materializer implementation이다.
+- output root는 `experiments/H002_compatibility_routing/support_contact_harder_materialization/latest/`로 계획한다.
+- primary model-safe view는 `model_safe_main_no_class`로 고정한다.
+- main `C_e` 입력은 `T_e.predicate_text + G_e_hard_route_numeric`만 사용한다.
+- `Z_e`, `Q_e`, class labels, hidden construction/provenance fields, H001 `p_geom_valid`는 primary view에서 제외한다.
+- class labels는 shortcut risk 때문에 ablation view에서만 사용한다.
+- `support_contact`는 richer materialization 이후에도 schema/shortcut/control gate를 통과하기 전까지 solved claim으로 올리지 않는다.
+
+## 2026-07-02 Support/Contact Harder Route Docker Materialization
+
+Docker 기반 richer support/contact hard-route materializer를 구현하고 실행했다.
+
+```text
+runtime_output = experiments/H002_compatibility_routing/support_contact_harder_materialization/latest/
+artifact_root = artifacts/compatibility_dataset_v3_support_contact_harder_route_docker_materialization_after_plan/
+status = h002_support_contact_harder_route_docker_materialization_after_plan_ready
+selected_path = support_contact_harder_route_materialized_select_schema_shortcut_audit
+validation_errors = 0
+next_todo = compatibility_dataset_v3_support_contact_harder_route_schema_shortcut_audit_after_docker_materialization
+```
+
+Runtime output:
+
+- `candidate_rows.jsonl`: `3178`
+- `model_safe_main_no_class.jsonl`: `3178`
+- `model_safe_main_with_class_ablation.jsonl`: `3178`
+- `model_safe_geometry_only.jsonl`: `3178`
+- `model_safe_qe_diagnostic.jsonl`: `3178`
+- `hidden_manifest.jsonl`: `3178`
+- `group_manifest.jsonl`: `1589`
+- richer `G_e` feature count: `43`
+- validation errors: `0`
+
+Boundary:
+
+- official validation is eval-only.
+- official test is unused.
+- metrics were not run.
+- primary main `C_e` view remains `T_e + G_e` only.
+- `Z_e`, `Q_e`, class labels, source score/rank, H001 `p_geom_valid`, and hidden provenance remain outside the primary view.
+- next step is schema/shortcut audit, not metric execution.
+
+## 2026-07-02 Support/Contact Harder Route Schema Shortcut Audit
+
+Docker 기반 schema/shortcut audit를 구현하고 실행했다.
+
+```text
+runtime_audit_root = experiments/H002_compatibility_routing/support_contact_harder_schema_audit/latest/
+artifact_root = artifacts/compatibility_dataset_v3_support_contact_harder_route_schema_shortcut_audit_after_docker_materialization/
+status = h002_support_contact_harder_route_schema_shortcut_audit_after_docker_materialization_ready_with_warnings
+selected_path = support_contact_harder_route_schema_ready_select_metric_protocol_freeze
+validation_errors = 0
+shortcut_warnings = 3
+high_shortcut_warnings = 2
+next_todo = compatibility_dataset_v3_support_contact_harder_route_metric_protocol_freeze_after_schema_shortcut_audit
+```
+
+Audit result:
+
+- primary view `model_safe_main_no_class` rows: `3178`
+- labels: `1589` / `1589`
+- predicates: `standing on` `1589`, `lying on` `1589`
+- richer `G_e` feature count: `43`
+- blocked field hits: `0`
+- view alignment mismatches: `0`
+- bad group count: `0`
+- control readiness: `7/7`
+
+Shortcut result:
+
+- `primary_predicate_only` majority accuracy: `0.853996`, medium risk
+- `hidden_class_pair` majority accuracy: `0.5`, low risk
+- `hidden_predicate_x_class_pair` majority accuracy: `0.993707`, high risk
+- class-ablation `predicate_x_class_pair` majority accuracy: `0.993707`, high risk
+
+Decision:
+
+- schema and control readiness are sufficient to move to metric protocol freeze.
+- shortcut warnings do not block metric protocol freeze.
+- `support_contact` solved-family claim remains blocked.
+- next metric protocol must include predicate-only, `predicate x class-pair`,
+  wrong-`T`, global shuffled-`G`, and within-class-pair shuffled-`G` controls.
+
+## 2026-07-02 Support/Contact Harder Route Metric Protocol Freeze
+
+Schema/shortcut audit 이후 support/contact hard route metric protocol을 고정했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_support_contact_harder_route_metric_protocol_freeze_after_schema_shortcut_audit/
+status = h002_support_contact_harder_route_metric_protocol_freeze_after_schema_shortcut_audit_ready
+selected_path = support_contact_hard_metric_protocol_frozen_select_train_eval_alignment
+validation_errors = 0
+next_todo = compatibility_dataset_v3_support_contact_harder_route_train_eval_alignment_after_metric_protocol_freeze
+```
+
+Frozen metric:
+
+- target: `C_e`
+- route family: `support_contact`
+- predicates: `standing on`, `lying on`
+- primary metric: `support_contact_AUROC`
+- secondary metrics: AUPRC, balanced accuracy, macro-F1, Brier if probabilistic,
+  paired-group accuracy, per-predicate AUROC
+- primary comparison: `M4_TxG_compatibility` vs `M1_predicate_only`,
+  `M2_geometry_only`, `M3_T_plus_G_concat`
+
+Frozen views and controls:
+
+- `M0_constant`
+- `M1_predicate_only`
+- `M2_geometry_only`
+- `M3_T_plus_G_concat`
+- `M4_TxG_compatibility`
+- `A1_class_ablation` diagnostic only
+- `D1_Q_e_diagnostic` diagnostic only
+- wrong-`T` same-route
+- shuffled-`G` global
+- shuffled-`G` within class-pair
+- predicate-only and `predicate x class-pair` shortcut reporting
+
+Decision:
+
+- official validation remains eval-only.
+- no metric runner yet.
+- no official test.
+- no paper result promotion.
+- `support_contact solved` claim remains blocked.
+- next is train/eval feature alignment because official validation has `43`
+  canonical hard-route `G_e` features while the existing train point/multiview
+  reference has a different prefixed `63`-feature schema.
+
+## 2026-07-02 Support/Contact Harder Route Train/Eval Alignment
+
+Metric protocol freeze 이후 train/eval feature alignment를 완료했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_support_contact_harder_route_train_eval_alignment_after_metric_protocol_freeze/
+status = h002_support_contact_harder_route_train_eval_alignment_after_metric_protocol_freeze_ready
+selected_path = support_contact_train_eval_aligned_select_metric_runner_protocol
+validation_errors = 0
+next_todo = compatibility_dataset_v3_support_contact_harder_route_metric_runner_after_train_eval_alignment
+```
+
+Alignment result:
+
+- official canonical features: `43`
+- mapped train features: `43`
+- direct/direct-transform mappings: `31`
+- derived/proxy mappings: `12`
+- aligned rows: `640`
+- internal train/dev rows: `531` / `109`
+- official validation scan overlap: `0`
+- official validation endpoint overlap: `0`
+- primary view policy violations: `0`
+
+Generated runner inputs:
+
+- `model_safe_no_class_train_dev.jsonl`
+- `class_ablation_train_dev.jsonl`
+- `hidden_train_dev_manifest.jsonl`
+- `feature_map.csv`
+- `runner_input_contract.json`
+
+Decision:
+
+- metric runner is now allowed as the next stage.
+- fit is allowed only on `internal_train`.
+- model selection is allowed only on `internal_dev`.
+- official validation remains eval-only.
+- feature-map provenance must be reported because `12/43` features are derived/proxy.
+- no official test, no paper result promotion, and no solved `support_contact` claim.
+
+## 2026-07-02 Support/Contact Harder Route Metric Runner
+
+Train/eval alignment 이후 Docker metric runner를 실행했다.
+
+```text
+runtime_root = experiments/H002_compatibility_routing/support_contact_harder_evaluation/latest/
+artifact_root = artifacts/compatibility_dataset_v3_support_contact_harder_route_metric_runner_after_train_eval_alignment/
+status = h002_support_contact_harder_route_metric_runner_after_train_eval_alignment_ready
+validation_errors = 0
+metric_warnings = 4
+next_todo = compatibility_dataset_v3_support_contact_harder_route_metric_result_review_after_runner
+```
+
+Primary result:
+
+- internal dev `M4_TxG_compatibility` AUROC: `0.721356`
+- official validation `M4_TxG_compatibility` AUROC: `0.077539`
+- official validation `M2_geometry_only` AUROC: `0.500000`
+- official validation `M3_T_plus_G_concat` AUROC: `0.454660`
+- official validation wrong-`T` AUROC: `0.922461`
+- official validation rows: `3178`, eval-only
+- official test usage: `false`
+
+Decision:
+
+- metric runner completed, but metric expectation did not pass.
+- support/contact remains blocked as a solved family.
+- no paper metric is promoted.
+- next review must inspect target construction mismatch, feature distribution
+  shift, and predicate sign convention.
+
+## 2026-07-02 Support/Contact Harder Route Path Decision
+
+Result review 이후 support/contact hard route를 계속 수리할지, diagnostic으로
+고정할지 결정했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_support_contact_harder_route_path_decision_after_result_review/
+status = h002_support_contact_harder_route_path_decision_after_result_review_freeze_diagnostic
+selected_path = freeze_support_contact_harder_route_as_diagnostic_scope_h002_to_clean_routes
+validation_errors = 0
+next_todo = compatibility_dataset_v3_final_h002_scope_lock_after_support_contact_freeze
+```
+
+Decision:
+
+- support/contact hard route is frozen as diagnostic / failure taxonomy.
+- support/contact is not a paper success row and not a solved relation-family claim.
+- no post-hoc score flip is allowed.
+- source reranking, official test evaluation, and calibrated `p_obs` / `p_rel`
+  are deferred until final H002 scope/method lock.
+- `relative_vertical` and `size_relative` remain clean `C_e` evidence.
+- `relative_horizontal` remains frame-aware evidence with caveat.
+
+## 2026-07-02 Final H002 Scope Lock
+
+Support/contact freeze 이후 H002의 final paper-facing scope를 고정했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_final_h002_scope_lock_after_support_contact_freeze/
+status = h002_compatibility_dataset_v3_final_h002_scope_lock_after_support_contact_freeze_ready
+selected_path = final_scope_locked_clean_Ce_routes_support_contact_diagnostic
+validation_errors = 0
+next_todo = compatibility_dataset_v3_source_reranking_protocol_plan_after_final_scope_lock
+```
+
+Locked scope:
+
+- `relative_vertical`, `size_relative`: primary clean `C_e` mechanism evidence.
+- `relative_horizontal`: caveated frame-aware `C_e` evidence.
+- `proximity`: geometry-only route control.
+- `support_contact`: diagnostic / failure taxonomy only.
+- attachment, containment, identity, and semantic/structural routes: future/deferred.
+
+Metric role:
+
+- Current primary: family-wise AUROC, macro-family AUROC, wrong-`T`, shuffled-`G`,
+  endpoint/sign controls.
+- Current secondary: balanced accuracy / AUPRC where available.
+- Future downstream: `Recall@K` and `Violation@K` after source-reranking protocol.
+- Deferred: `p_obs`, `p_rel`, risk-coverage, official test.
+
+## 2026-07-02 Source Reranking Protocol Plan
+
+Final scope lock 이후 source reranking protocol을 열었다. 이 단계에서는 metric을
+실행하지 않고, `Recall@K`와 `Violation@K`를 downstream metric으로만 사용할 score,
+route, control 계약을 고정했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_source_reranking_protocol_plan_after_final_scope_lock/
+status = h002_compatibility_dataset_v3_source_reranking_protocol_plan_after_final_scope_lock_ready
+selected_path = source_reranking_protocol_ready_select_source_inventory
+validation_errors = 0
+next_todo = compatibility_dataset_v3_source_reranking_source_inventory_after_protocol_plan
+```
+
+Decision:
+
+- source candidates are limited to official validation for now.
+- `VL-SAT` and `Open3DSG` H001 validation artifacts are read-only source bridges.
+- `C_e` must exclude `Z_e`; source score is combined with `C_e` only at the reranking stage.
+- primary bridge score candidate is `normalized_source_score * normalized_C_e_score`.
+- `Recall@K` and `Violation@K` are downstream metrics over K = `{5,10,20,50,100}`.
+- `support_contact` stays diagnostic-only and is excluded from success aggregation.
+- official test, post-hoc lambda tuning, and `p_obs` / `p_rel` claims remain blocked.
+
+## 2026-07-02 Source Reranking Source Inventory
+
+Source reranking protocol 이후 VL-SAT/Open3DSG source candidates의 실제 준비 상태를
+점검했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_source_reranking_source_inventory_after_protocol_plan/
+status = h002_compatibility_dataset_v3_source_reranking_source_inventory_after_protocol_plan_ready
+selected_path = source_inventory_ready_select_source_candidate_materialization_protocol
+validation_errors = 0
+next_todo = compatibility_dataset_v3_source_reranking_materialization_protocol_after_source_inventory
+```
+
+Inventory result:
+
+- `vlsat_full_validation`: in-scope source rows `441696`.
+- `open3dsg_recovery_relaxed_views_min2`: in-scope source rows `321192`.
+- source prediction join keys, source score, and source ranks are available.
+- `Recall@K` for `S0_source_score` baseline is computable.
+- `S2_source_x_Ce` is not metric-ready because current H002 `C_e` scores cover
+  official GT/counterfactual rows, not the full source prediction universe.
+- source-wide `C_e` materialization is required before running source reranking metrics.
+
+## 2026-07-02 Source Reranking Materialization Protocol
+
+Source reranking inventory 이후 source-wide `C_e` materialization protocol을 고정했다.
+이 단계는 metric 실행이 아니라 Docker materializer가 생성해야 할 model-safe view와
+hidden metric manifest의 schema를 잠그는 gate다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_source_reranking_materialization_protocol_after_source_inventory/
+status = h002_compatibility_dataset_v3_source_reranking_materialization_protocol_after_source_inventory_ready
+selected_path = source_reranking_materialization_protocol_ready_select_docker_implementation
+validation_errors = 0
+next_todo = compatibility_dataset_v3_source_reranking_docker_materialization_after_protocol
+```
+
+Decision:
+
+- planned runtime output is
+  `experiments/H002_compatibility_routing/source_reranking_materialization/latest`.
+- total source-family rows to materialize: `762888`.
+- primary success-family rows: `254296`.
+- `model_safe_ce_view.jsonl` is `T_e + G_e` only.
+- `source_rank_view.jsonl` owns `Z_e` and is reranking-only.
+- `hidden_metric_manifest.jsonl` owns GT match and violation labels for metric computation only.
+- no source reranking metric, official test, or paper metric promotion was run.
+
+## 2026-07-02 Source Reranking Docker Materialization
+
+Source-wide materialization protocol 이후 Docker materializer를 구현하고 실행했다.
+
+```text
+runtime_root = experiments/H002_compatibility_routing/source_reranking_materialization/latest/
+artifact_root = artifacts/compatibility_dataset_v3_source_reranking_docker_materialization_after_protocol/
+status = h002_source_reranking_docker_materialization_after_protocol_ready
+selected_path = source_reranking_docker_materialized_select_schema_audit
+validation_errors = 0
+next_todo = compatibility_dataset_v3_source_reranking_materialization_schema_audit_after_docker_materialization
+```
+
+Result:
+
+- total source-family rows materialized: `762888`.
+- `vlsat_full_validation`: `441696` rows.
+- `open3dsg_recovery_relaxed_views_min2`: `321192` rows.
+- primary success-family rows: `254296`.
+- `model_safe_ce_view.jsonl`, `model_safe_geometry_only_view.jsonl`,
+  `source_rank_view.jsonl`, and `hidden_metric_manifest.jsonl` all have
+  `762888` rows.
+- runtime validation errors: `0`.
+- `model_safe_ce_view` has only `T_e` and `G_e` feature blocks.
+- candidate-id alignment across model-safe, rank, geometry-only, and hidden views passed.
+- no source reranking metric, official test, or paper result promotion was run.
+
+## 2026-07-02 Source Reranking Materialization Schema Audit
+
+Source-wide Docker materialization 이후 schema/leakage/control-readiness audit을 실행했다.
+
+```text
+runtime_root = experiments/H002_compatibility_routing/source_reranking_schema_audit/latest/
+artifact_root = artifacts/compatibility_dataset_v3_source_reranking_materialization_schema_audit_after_docker_materialization/
+status = h002_source_reranking_materialization_schema_audit_after_docker_materialization_ready
+selected_path = source_reranking_schema_audit_passed_select_metric_protocol_freeze
+validation_errors = 0
+next_todo = compatibility_dataset_v3_source_reranking_metric_protocol_freeze_after_schema_audit
+```
+
+Result:
+
+- candidate-id alignment: pass.
+- `model_safe_ce_view`: `T_e + G_e` only.
+- blocked `C_e` feature hits: `0`.
+- `source_rank_view` owns `Z_e`: pass.
+- `hidden_metric_manifest` is metric-only: pass.
+- primary success aggregation is balanced:
+  `relative_vertical 127148`, `size_relative 127148`.
+- `support_contact` remains diagnostic and excluded from success aggregation.
+- wrong-`T` and shuffled-`G` controls are ready for primary success families.
+- no source reranking metric, official test, or paper result promotion was run.
+
+## 2026-07-02 Source Reranking Metric Protocol Freeze
+
+Schema audit 이후 source reranking metric runner를 실행하기 전에 score/metric/control
+계약을 고정했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_source_reranking_metric_protocol_freeze_after_schema_audit/
+status = h002_source_reranking_metric_protocol_freeze_after_schema_audit_ready
+selected_path = source_reranking_metric_protocol_frozen_select_metric_runner
+validation_errors = 0
+next_todo = compatibility_dataset_v3_source_reranking_metric_runner_after_protocol_freeze
+```
+
+Frozen protocol:
+
+- primary score: `S2_source_x_Ce = normalized_source_score * normalized_C_e_score`.
+- source baseline: `S0_source_score`.
+- diagnostic compatibility score: `S1_Ce_only`.
+- fixed ablation: `S3_log_source_plus_Ce` with lambda fixed to `1.0`.
+- negative controls: `C1_source_x_shuffled_Ce`, `C2_source_x_wrong_T_Ce`.
+- K grid: `{5, 10, 20, 50, 100}`.
+- metrics: `Recall@K`, `Violation@K`, `Selected@K`.
+- primary success families: `relative_vertical`, `size_relative`.
+- `relative_horizontal` remains caveated, `proximity` remains geometry-only control,
+  and `support_contact` remains diagnostic/excluded.
+
+Boundary:
+
+- metric runner was not executed in this stage.
+- official test was not used.
+- `C_e` still excludes `Z_e`; source score/rank is combined only after `C_e`
+  scoring at reranking time.
+- no post-hoc lambda tuning is allowed.
+
+## 2026-07-02 Source Reranking Metric Runner
+
+Frozen protocol 이후 Docker source-reranking metric runner를 구현하고 실행했다.
+
+```text
+runtime_root = experiments/H002_compatibility_routing/source_reranking_evaluation/latest/
+artifact_root = artifacts/compatibility_dataset_v3_source_reranking_metric_runner_after_protocol_freeze/
+status = h002_source_reranking_metric_runner_after_protocol_freeze_ready
+selected_path = source_reranking_metric_runner_ready_select_result_review
+validation_errors = 0
+next_todo = compatibility_dataset_v3_source_reranking_metric_result_review_after_runner
+```
+
+Result:
+
+- source rows scored: `762888`.
+- `C_e` train split: internal train only, `4868` rows.
+- official validation use: eval-only.
+- official test usage: `false`.
+- primary score: `S2_source_x_Ce`.
+- outputs:
+  `source_family_metrics.csv`, `score_condition_metrics.csv`,
+  `control_metrics.csv`, `selected_predictions.jsonl`, `metric_manifest.json`.
+
+Primary weighted `S2` vs `S0`:
+
+| K | Delta Recall@K | Delta Violation@K |
+| ---: | ---: | ---: |
+| 5 | +0.007937 | -0.240690 |
+| 10 | +0.041950 | -0.229859 |
+| 20 | +0.081633 | -0.243091 |
+| 50 | +0.103175 | -0.259199 |
+| 100 | +0.004535 | -0.142873 |
+
+Interpretation boundary:
+
+- This is source-reranking validation evidence, not official test evidence.
+- The result is not yet final paper promotion.
+- Result review must inspect source/family asymmetry, control behavior, and
+  recall-violation tradeoff before claim wording is updated.
+
+## 2026-07-02 Source Reranking Metric Result Review
+
+Source-reranking metric runner 결과를 claim promotion 전에 review했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_source_reranking_metric_result_review_after_runner/
+status = h002_source_reranking_metric_result_review_after_runner_ready
+selected_path = source_reranking_validation_evidence_ready_select_claim_boundary_lock
+validation_errors = 0
+next_todo = compatibility_dataset_v3_source_reranking_claim_boundary_lock_after_result_review
+```
+
+Decision:
+
+- source-reranking validation evidence is positive.
+- weighted primary `S2_source_x_Ce` improves/preserves Recall@K and lowers
+  Violation@K versus `S0_source_score` for all frozen K.
+- shuffled-`C_e` and wrong-`T` controls underperform `S2` on primary Recall@K.
+- source/family/K cells reviewed: `20`.
+- small negative Recall@K cells: `3`.
+- Violation@K non-improvement cells: `0`.
+
+Claim boundary recommendation:
+
+- Allowed with validation boundary: `S2 = source_score x C_e` improves the
+  primary validation recall-violation tradeoff for clean comparison families.
+
+## 2026-07-02 Source Reranking Claim Boundary Lock
+
+Source-reranking result review 이후 paper-facing wording boundary를 고정했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_source_reranking_claim_boundary_lock_after_result_review/
+status = h002_source_reranking_claim_boundary_lock_after_result_review_locked
+selected_path = source_reranking_claim_boundary_locked_select_validation_table_skeleton
+validation_errors = 0
+next_todo = compatibility_dataset_v3_source_reranking_validation_table_skeleton_after_claim_boundary_lock
+```
+
+Locked role:
+
+- source-reranking evidence is validation-level deployability evidence.
+- table role is `secondary_validation_table_candidate_or_appendix`.
+- main text usage is allowed only with validation-only qualifier.
+- final official-test table, uniform-improvement wording, `C_e`-alone deployable
+  claim, `support_contact` solved claim, and `p_obs`/`p_rel` validation claim are
+  blocked.
+
+Next:
+
+- Build a validation table skeleton that respects the locked boundary.
+
+## 2026-07-02 Source Reranking Validation Table Skeleton
+
+Source-reranking claim boundary에 맞는 validation table skeleton을 작성했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_source_reranking_validation_table_skeleton_after_claim_boundary_lock/
+status = h002_source_reranking_validation_table_skeleton_after_claim_boundary_lock_ready
+selected_path = source_reranking_validation_table_skeleton_ready_select_table_review
+validation_errors = 0
+next_todo = compatibility_dataset_v3_source_reranking_validation_table_review_after_skeleton
+```
+
+Generated tables:
+
+- `primary_tradeoff_table.csv`: `S2_source_x_Ce` vs `S0_source_score` weighted
+  Recall@K / Violation@K rows for K `{5,10,20,50,100}`.
+- `control_table.csv`: `C_e` only, shuffled-`C_e`, and wrong-`T` controls.
+- `source_family_caveat_table.csv`: required 3 recall-regression caveat rows.
+- `source_family_full_table.csv`: all 20 source-family-K rows.
+
+Decision:
+
+- table role remains `secondary_validation_table_candidate_or_appendix`.
+- final paper result, official test, uniform improvement, SOTA/full 3DSSG, and
+  `C_e`-alone deployable claims remain blocked.
+
+## 2026-07-02 Source Reranking Validation Table Review
+
+Validation table skeleton을 review했고, 사용자 결정에 따라 benchmark table에서 낮췄다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_source_reranking_validation_table_review_after_skeleton/
+status = h002_source_reranking_validation_table_review_after_skeleton_ready
+selected_path = downgrade_validation_table_select_test_benchmark_preflight
+validation_errors = 0
+next_todo = compatibility_dataset_v3_test_benchmark_preflight_after_validation_downgrade
+```
+
+Decision:
+
+- validation table position: `appendix_or_secondary_analysis_only`.
+- main benchmark table requires independent test set or accepted official evaluation server.
+- current test benchmark ready: `false`.
+- canonical `local_dataset/3DSSG_subset/relationships_test.json` is missing.
+- staged Open3DSG `relationships_test.json` candidates exist, but non-empty candidates overlap
+  canonical validation scans and require provenance/split audit before any benchmark use.
+
+Required before experiment:
+
+- test label provenance.
+- split disjointness.
+- test source prediction availability.
+- frozen `C_e` model/features/normalization.
+- test materialization schema audit.
+- metric/claim freeze.
+- single final test run policy.
+
+## 2026-07-02 Test Benchmark Preflight
+
+Validation table downgrade 이후 test benchmark readiness를 preflight했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_test_benchmark_preflight_after_validation_downgrade/
+status = h002_test_benchmark_preflight_after_validation_downgrade_ready_blocked
+selected_path = test_benchmark_blocked_select_independent_test_provenance_or_eval_server
+validation_errors = 0
+next_todo = compatibility_dataset_v3_test_benchmark_source_resolution_after_preflight
+```
+
+Decision:
+
+- test benchmark ready: `false`.
+- experiments test run allowed: `false`.
+- canonical `relationships_test.json`: missing.
+- non-empty staged test candidates: `2`.
+- validation-alias staged candidates: `2`.
+- official-test source rows: `0`.
+- official-validation source rows: `762888`.
+
+Conclusion:
+
+- Do not run a test benchmark experiment yet.
+- Resolve independent test provenance or official evaluation-server availability first.
+- Blocked: uniform improvement in every source/family/K cell.
+- Blocked: `C_e` alone is deployable.
+- Blocked: official test/final paper promotion wording.
+- Blocked: `support_contact` success and `p_obs`/`p_rel` claims.
+
+## 2026-07-02 Test Benchmark Source Resolution
+
+Blocked preflight 이후 official evaluation server 또는 independent relation-test
+provenance가 확인되는지 source-resolution gate를 실행했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_test_benchmark_source_resolution_after_preflight/
+status = h002_test_benchmark_source_resolution_after_preflight_ready_blocked
+selected_path = official_eval_server_not_confirmed_keep_validation_appendix_request_external_provenance
+validation_errors = 0
+next_todo = compatibility_dataset_v3_test_benchmark_external_provenance_request_after_source_resolution
+```
+
+Decision:
+
+- accepted official evaluation server confirmed: `false`.
+- independent relation test label confirmed: `false`.
+- 3RScan scan-level test split exists: `true`.
+- scan-level split is sufficient for H002 relation benchmark: `false`.
+- relation-test source predictions available: `false`.
+- experiments test run allowed: `false`.
+- validation source-reranking table stays appendix/secondary analysis only.
+
+Interpretation:
+
+- 3RScan test split 존재는 확인되지만, 이는 scan-level split이지 H002 relation-label
+  GT benchmark availability가 아니다.
+- Official 3DSSG/Open3DSG sources checked in this pass do not confirm an accepted
+  public relation evaluation server.
+- Local Open3DSG `test_scans_3rscan` route is not sufficient because its help text
+  says the 3RScan test scans are not labeled in 3DSSG.
+- Therefore no test benchmark metric runner should be opened until external
+  provenance or an official evaluation-server route is confirmed.
+
+## 2026-07-03 External Provenance Request
+
+Source-resolution gate 이후 official evaluation server 또는 independent
+relation-test provenance를 확인하기 위한 request packet을 생성했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_test_benchmark_external_provenance_request_after_source_resolution/
+status = h002_test_benchmark_external_provenance_request_after_source_resolution_ready
+selected_path = external_request_packet_ready_keep_test_benchmark_blocked
+validation_errors = 0
+next_todo = compatibility_dataset_v3_test_benchmark_external_response_ingestion_after_request
+```
+
+Generated packet:
+
+- `request_packet.md`: maintainer/contact request draft.
+- `request_questions.csv`: relation-test GT, official server, `relationships_test.json`,
+  test-scan evaluation, standard split, and submission-payload questions.
+- `readiness_matrix.csv`: VL-SAT/Open3DSG checkpoint/source prediction readiness is not
+  sufficient without relation GT or accepted evaluation server.
+- `source_evidence.csv`: 3RScan/3DSSG/Open3DSG/VL-SAT evidence checked on 2026-07-03.
+
+Decision:
+
+- checkpoint reproduction is sufficient for test `Recall@K`: `false`.
+- prediction-only 3RScan test export is sufficient for test `Recall@K`: `false`.
+- test benchmark execution allowed: `false`.
+- validation table position remains appendix/secondary analysis only.
+
+## 2026-07-03 External Response Ingestion
+
+External provenance request 이후 실제 응답 또는 공식 문서 증빙이 들어왔는지 response
+inbox를 확인했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_test_benchmark_external_response_ingestion_after_request/
+status = h002_test_benchmark_external_response_ingestion_after_request_ready_blocked_no_external_response
+selected_path = no_external_response_keep_test_benchmark_blocked_select_validation_position_lock
+validation_errors = 0
+next_todo = compatibility_dataset_v3_validation_only_position_lock_after_no_external_response
+```
+
+Decision:
+
+- external response found: `false`.
+- candidate response files: `0`.
+- official evaluation server confirmed: `false`.
+- independent relation-test label confirmed: `false`.
+- official validation-as-standard protocol confirmed: `false`.
+- test benchmark execution allowed: `false`.
+
+Interpretation:
+
+현재는 official test benchmark를 열 근거가 없다. Checkpoint reproduction and
+prediction-only 3RScan test export remain insufficient for test `Recall@K`.
+Validation source-reranking table stays appendix/secondary analysis unless a later
+official response changes the provenance state.
+
+## 2026-07-03 Validation-Only Position Lock
+
+No-response ingestion 이후 현재 H002 source-reranking 결과의 논문 내 위치와 claim
+boundary를 잠갔다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_validation_only_position_lock_after_no_external_response/
+status = h002_validation_only_position_lock_after_no_external_response_ready
+selected_path = validation_only_appendix_secondary_lock_keep_test_benchmark_blocked
+validation_errors = 0
+next_todo = compatibility_dataset_v3_h002_post_validation_position_path_decision
+```
+
+Locked position:
+
+- dataset basis: official 3DSSG validation split.
+- evaluation protocol: custom H002 source-reranking / reliability protocol.
+- paper position: appendix or secondary analysis.
+- official test benchmark: `false`.
+- validation table as final benchmark: `false`.
+
+Allowed:
+
+- H002 reranking on VL-SAT / Open3DSG validation predictions.
+- `Recall@K` and `Violation@K` validation-level changes under the frozen custom
+  protocol.
+- Open3DSG as an open-vocabulary relation source, with quantitative evaluation
+  mapped to closed-vocabulary 3DSSG labels.
+
+Blocked:
+
+- official 3DSSG test result.
+- SOTA / leaderboard claim.
+- unconstrained open-set relation-GT evaluation.
+- validation table as final benchmark table.
+
+## 2026-07-03 Post-Validation Position Path Decision
+
+사용자 판단을 반영해 H002의 empirical main claim을 official 3DSSG validation split에서
+진행하는 방향으로 재고정했다. 이전 position lock은 너무 보수적이었고, VL-SAT /
+Open3DSG와의 비교 가능성을 살리려면 validation split을 main comparative evaluation으로
+사용하는 편이 더 자연스럽다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_h002_post_validation_position_path_decision/
+status = h002_post_validation_position_path_decision_ready
+selected_path = promote_official_validation_as_main_comparative_claim_keep_test_blocked
+validation_errors = 0
+next_todo = compatibility_dataset_v3_main_validation_claim_table_lock_after_path_decision
+```
+
+Updated position:
+
+- H002 main claim split: official 3DSSG validation split.
+- H002 main table: validation benchmark table.
+- Source comparison: VL-SAT / Open3DSG validation predictions.
+- Metrics: `Recall@K`, `Violation@K`.
+- Open3DSG boundary: open-vocabulary source, closed-vocabulary 3DSSG evaluation.
+- Official test benchmark: still blocked.
+- SOTA / leaderboard wording: still blocked unless exact official benchmark protocol and comparable baselines are reproduced.
+
+## 2026-07-03 Main Validation Claim Table Lock
+
+Path decision 이후 main validation benchmark table의 caption, baseline wording, blocked
+wording, required caveat를 고정했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_main_validation_claim_table_lock_after_path_decision/
+status = h002_main_validation_claim_table_lock_after_path_decision_ready
+selected_path = main_validation_table_claim_locked_keep_official_test_blocked
+validation_errors = 0
+next_todo = compatibility_dataset_v3_main_validation_table_materialization_after_claim_lock
+```
+
+Locked:
+
+- main split: official 3DSSG validation split.
+- sources: VL-SAT and Open3DSG validation predictions.
+- baseline: `S0_source_score`.
+- primary H002 score: `S2_source_x_Ce`.
+- metrics: `Recall@K`, `Violation@K`.
+- method role: factorized reliability/reranking layer.
+- H003 embedding: future/optional extension, not current main claim.
+
+Required wording:
+
+- Open3DSG is an open-vocabulary source, but quantitative evaluation uses
+  closed-vocabulary 3DSSG mapping.
+- `Violation@K` is an H002 custom geometry-consistency metric.
+- No official 3DSSG test result or leaderboard/SOTA claim is made.

@@ -1,0 +1,21 @@
+{
+  "must_include": [
+    "primary no-class view",
+    "geometry-only baseline",
+    "predicate-only baseline",
+    "plain concat baseline",
+    "T_e x G_e compatibility model",
+    "wrong-T same-route control",
+    "shuffled-G global control",
+    "shuffled-G within class-pair control",
+    "class-ablation view reported separately"
+  ],
+  "must_not_do": [
+    "do not use official test",
+    "do not use class labels in primary metric",
+    "do not claim support_contact solved if shortcut controls explain the gain"
+  ],
+  "next_todo": "compatibility_dataset_v3_support_contact_harder_route_metric_protocol_freeze_after_schema_shortcut_audit",
+  "purpose": "Freeze metric protocol for richer support/contact hard route after schema/shortcut audit.",
+  "selected_path": "schema_shortcut_audit_ready_select_metric_protocol_freeze"
+}

@@ -1,0 +1,7 @@
+check,status,rows,duplicate_ids,violations,hits
+candidate_id_alignment,pass,762888,0,,
+ce_feature_blocks_are_Te_Ge_only,pass,,,0,
+blocked_Ce_feature_absence,pass,,,,0
+source_rank_view_owns_Ze,pass,,,0,
+hidden_manifest_metric_only,pass,,,0,
+geometry_only_view_is_Ge_only,pass,,,0,

@@ -329,645 +329,173 @@ Attachment/connected/support-superordinate relations are solved.
 
 다음 grouped split과 Docker evaluation이 완료되어야 H002를 paper-result-ready 방향으로 판단할 수 있다.
 
-## 11. 2026-07-01 추가 진행: Grouped Split Protocol
+## 2026-07-01 Grouped Split Protocol
 
-`compatibility_dataset_v3_grouped_split_protocol_after_materialization_schema_audit`를 완료했다.
+목적:
 
-현재 상태:
+H002 candidate pool 안에서 scan/endpoint leakage를 막고, train/dev/heldout을 분리해 internal heldout 평가를 할 수 있는지 확인했다.
+이 단계는 official validation/test가 아니라 hypothesis-stage grouped split gate다.
 
-```text
-status = h002_compatibility_dataset_v3_grouped_split_protocol_after_materialization_schema_audit_ready
-validation_errors = 0
-next_todo = compatibility_dataset_v3_grouped_eval_protocol_after_grouped_split
-```
+결과:
 
-`6952`개 materialized row와 `3684`개 `cv_group_id` group을 내부 split으로 나누었다.
+총 `6952` materialized rows를 grouped split했고 group leakage는 없었다. Split은 `relative_horizontal`, `relative_vertical`,
+`size_relative`, `support_contact`를 포함한다. 다음 step은 metric runner가 아니라, 어떤 model view와 controls를 평가할지 먼저
+고정하는 grouped evaluation protocol이었다.
 
-| Route family | Train rows | Dev rows | Heldout rows |
-| --- | ---: | ---: | ---: |
-| `relative_horizontal` | 1680 | 360 | 360 |
-| `relative_vertical` | 1059 | 227 | 226 |
-| `size_relative` | 1680 | 360 | 360 |
-| `support_contact` | 449 | 97 | 94 |
+## 2026-07-01 Grouped Evaluation Protocol
 
-누수 검증 결과:
+목적:
 
-- `cv_group_single_split` violation: `0`
-- official validation/test usage: `0`
-- split validation errors: `0`
+Grouped split 결과를 바로 metric으로 돌리기 전에, `C_e` claim에 허용되는 input과 비교군을 고정했다. 특히 source confidence `Z_e`와
+observability `Q_e`가 compatibility metric에 섞이지 않도록 막는 것이 중요했다.
 
-해석:
+결과:
 
-- 이제 H002 candidate pool 안에서 grouped train/dev/heldout 분리는 준비됐다.
-- 아직 성능 metric은 없다.
-- 이 heldout은 official validation/test가 아니라 H002 내부 candidate-pool heldout이다.
-- 다음 단계는 grouped evaluation protocol을 먼저 정의하는 것이다.
+Main `C_e` metric은 `T_e`와 `G_e`만 사용하도록 고정했다. 비교군은 semantic-only, geometry-only, plain concat, `T_e x G_e`
+compatibility, wrong-`T`, shuffled-`G` control이다. `Z_e`는 source-confidence baseline/final reliability용으로, `Q_e`는 selective
+abstention용으로 분리했다.
 
-다음 단계에서 바로 실행할 비교군:
+## 2026-07-01 Grouped Evaluation Runner
 
-- semantic-only
-- geometry-only
-- `T_e + G_e` concat
-- `T_e x G_e` compatibility
-- wrong-`T_e` control
-- shuffled-`G_e` control
+목적:
 
-`Q_e`와 `Z_e`는 아직 `C_e` metric에 섞지 않는다. `Q_e`는 selective /
-abstention 평가에서, `Z_e`는 source-confidence baseline 또는 final reliability
-head에서 별도로 검증한다.
+고정된 grouped protocol로 internal heldout에서 `T_e x G_e` compatibility가 baselines와 controls보다 강한지 확인했다.
 
-## 12. 2026-07-01 추가 진행: Grouped Evaluation Protocol
+결과:
 
-`compatibility_dataset_v3_grouped_eval_protocol_after_grouped_split`를 완료했다.
+전체 heldout에서는 `M4_TxG_compatibility`가 AUROC `0.925990`으로 강했고, wrong-`T`와 shuffled-`G` controls는 무너졌다. 하지만
+family별로 보면 `size_relative`와 `relative_horizontal`은 강하고, `support_contact`는 partial, `relative_vertical`은 실패처럼 보였다.
+다음 step은 aggregate success가 아니라 family별 result review였다.
 
-현재 상태:
+## 2026-07-01 Grouped Evaluation Result Review
 
-```text
-status = h002_compatibility_dataset_v3_grouped_eval_protocol_after_grouped_split_ready
-validation_errors = 0
-next_todo = compatibility_dataset_v3_grouped_eval_runner_after_protocol
-```
+목적:
 
-이번 단계에서 한 일:
+전체 평균이 좋은 결과를 그대로 claim으로 올리지 않고, family별로 claim-supporting / partial / failed 상태를 구분했다.
 
-- `internal_train`, `internal_dev`, `internal_heldout` 사용 방식을 고정했다.
-- `C_e` target의 model view를 고정했다.
-- main `C_e`에서 사용할 수 있는 factor를 `T_e`, `G_e`로 제한했다.
-- `Z_e`, `Q_e`는 diagnostic-only로 남겼다.
-- required metrics와 breakdown을 고정했다.
-- wrong-`T_e`, shuffled-`G_e` controls를 필수화했다.
+결과:
 
-이번 단계에서 하지 않은 일:
+`size_relative`와 `relative_horizontal`은 main internal compatibility evidence로 유지했다. `support_contact`는 challenging route로
+해석했고, `relative_vertical`은 failure analysis가 필요하다고 판단했다. 다음 step은 relative-vertical failure가 scientific negative인지
+implementation issue인지 확인하는 것이었다.
 
-- grouped metric 실행하지 않음.
-- official validation/test 사용하지 않음.
-- paper-level result 생성하지 않음.
-- `p_obs` / `p_rel` calibration claim 생성하지 않음.
+## 2026-07-01 Relative-Vertical Failure Analysis
 
-다음 runner가 비교해야 하는 model view:
+목적:
 
-| View | 역할 |
-| --- | --- |
-| `M1_T_semantic_only` | semantic-content baseline |
-| `M2_G_geometry_only` | geometry-only baseline |
-| `M3_T_plus_G_concat` | simple fusion baseline |
-| `M4_TxG_compatibility` | primary compatibility model |
-| `C1_wrong_T_control` | semantic condition counterfactual |
-| `C2_shuffled_G_control` | geometry counterfactual |
+`relative_vertical`이 이전 train-only smoke에서는 강했는데 grouped heldout에서 실패한 이유를 확인했다.
 
-해석:
+결과:
 
-이제 H002는 metric 실행 직전 단계까지 왔다. 다음 단계에서 runner를 구현해도
-되지만, 결과는 여전히 internal H002 candidate-pool heldout 결과로 표현해야 한다.
-official validation/test 또는 paper-level claim으로 부르려면 별도의 external
-evaluation protocol과 result-review가 필요하다.
+실패 원인은 method failure가 아니라 feature extractor bug였다. Runner가 실제 `center_delta_z` 값을 읽지 않고 availability mask를
+먼저 잡아 `predicate_sign * 1.0`에 가까운 feature를 만들고 있었다. 따라서 `relative_vertical`을 제외하지 않고 explicit raw geometry
+path를 읽도록 runner를 수정하기로 했다.
 
-## 13. 2026-07-01 추가 진행: Grouped Evaluation Runner
+## 2026-07-01 Grouped Eval Feature Extractor Repair
 
-`compatibility_dataset_v3_grouped_eval_runner_after_protocol`를 완료했다.
+목적:
 
-현재 상태:
+Suffix 기반 numeric lookup을 제거하고, relation-specific geometry를 explicit raw path에서 읽도록 고쳐 grouped evaluation을 다시 실행했다.
 
-```text
-status = h002_compatibility_dataset_v3_grouped_eval_runner_after_protocol_ready
-validation_errors = 0
-next_todo = compatibility_dataset_v3_grouped_eval_result_review_after_runner
-```
+결과:
 
-실행한 Docker command:
-
-```bash
-HOST_UID=$(id -u) HOST_GID=$(id -g) docker compose -f configs/h002/compose.yaml run --rm h002-grouped-eval
-```
+Repair 후 `relative_vertical` AUROC는 `0.999921`로 회복됐다. Overall `M4_TxG_compatibility`는 AUROC `0.984976`이며, wrong-`T`와
+shuffled-`G` controls도 적절히 무너졌다. `relative_horizontal`, `relative_vertical`, `size_relative`는 main internal evidence가 됐고,
+`support_contact`는 partial/challenging으로 남겼다.
 
-출력 위치:
+## 2026-07-01 Repaired Grouped-Eval Claim Boundary Review
 
-- `experiments/H002_compatibility_routing/evaluation/latest/`
-- `hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_grouped_eval_runner_after_protocol/`
-
-Internal heldout overall:
-
-| Model view | AUROC | Balanced acc | Macro-F1 |
-| --- | ---: | ---: | ---: |
-| `M1_T_semantic_only` | 0.454321 | 0.473511 | 0.472981 |
-| `M2_G_geometry_only` | 0.487690 | 0.487514 | 0.439911 |
-| `M3_T_plus_G_concat` | 0.465868 | 0.487921 | 0.487420 |
-| `M4_TxG_compatibility` | 0.925990 | 0.819719 | 0.819214 |
-| `C1_wrong_T_control` | 0.066622 | 0.177321 | 0.176676 |
-| `C2_shuffled_G_control` | 0.500808 | 0.496282 | 0.494069 |
+목적:
 
-Internal heldout `M4_TxG_compatibility` by family:
+Repaired grouped result를 어디까지 주장할 수 있는지 정리했다. Internal candidate-pool heldout과 paper-level official result를
+구분하는 것이 핵심이었다.
 
-| Family | AUROC | Balanced acc | Macro-F1 | Rows |
-| --- | ---: | ---: | ---: | ---: |
-| `relative_horizontal` | 0.969537 | 0.908333 | 0.908333 | 360 |
-| `relative_vertical` | 0.457834 | 0.499606 | 0.488899 | 226 |
-| `size_relative` | 0.999969 | 0.994444 | 0.994444 | 360 |
-| `support_contact` | 0.616395 | 0.595109 | 0.595011 | 94 |
+결과:
 
-해석:
+허용 claim은 internal grouped holdout에서 `C_e = compatibility(T_e, G_e)`가 baselines와 controls보다 강하다는 것이다. 금지 claim은
+official validation/test improvement, calibrated `p_rel/p_obs`, support/contact solved claim, all-relation generalization이다. 다음 step은
+official validation/test protocol을 별도로 정의하는 것이었다.
 
-- 전체 aggregate에서는 `T_e x G_e` compatibility가 매우 강하게 보인다.
-- wrong-`T_e`와 shuffled-`G_e` control이 무너져서, 단순한 source confidence 또는
-  geometry-only shortcut만은 아니라는 근거가 있다.
-- 하지만 relation family별로 보면 결과가 다르다.
-- `size_relative`, `relative_horizontal`은 강한 compatibility-route evidence다.
-- `support_contact`는 partial evidence이며 challenging route로 해석해야 한다.
-- `relative_vertical`은 현재 target/feature/split 구성에서 실패했다.
+## 2026-07-01 Official Validation/Test Protocol Plan
 
-따라서 다음 H002 TODO는 추가 model fitting이 아니라 result review다. Review에서는
-family별로 claim-supporting, diagnostic, failed, target-repair-needed 상태를
-나누고, official validation/test 또는 paper-level claim으로 확장하기 전에 어떤
-external protocol이 필요한지 정해야 한다.
+목적:
 
-## 14. 2026-07-01 추가 진행: Grouped Evaluation Result Review
+Internal grouped result를 paper-level result로 착각하지 않도록, official validation/test 사용 정책과 source protocol을 먼저 고정했다.
 
-`compatibility_dataset_v3_grouped_eval_result_review_after_runner`를 완료했다.
+결과:
 
-현재 상태:
+Official validation은 inventory/metric-freeze 대상으로 먼저 사용하고, test는 protocol과 wording이 모두 고정된 뒤 single final evaluation으로만
+사용하기로 했다. Local test label은 없었고, validation에는 promoted families를 구성할 충분한 GT capacity가 있었다. 다음 step은 official
+validation source inventory였다.
 
-```text
-status = h002_compatibility_dataset_v3_grouped_eval_result_review_after_runner_ready
-validation_errors = 0
-next_todo = compatibility_dataset_v3_relative_vertical_failure_analysis_after_grouped_review
-```
+## 2026-07-01 Official Source Inventory
 
-Family-level 판정:
+목적:
 
-| Family | Heldout M4 AUROC | Status | 현재 역할 |
-| --- | ---: | --- | --- |
-| `relative_horizontal` | 0.969537 | claim-supporting | main compatibility-route evidence |
-| `relative_vertical` | 0.457834 | failed | repair/exclude 필요 |
-| `size_relative` | 0.999969 | claim-supporting | main compatibility-route evidence |
-| `support_contact` | 0.616395 | partial | challenging compatibility-route evidence |
+Official validation에서 H002 promoted routes를 구성할 수 있는지, GT relation과 object geometry, VL-SAT/Open3DSG source candidate가
+join 가능한지 확인했다.
 
-해석:
+결과:
 
-- 전체 평균만 보면 H002의 `T_e x G_e` compatibility가 매우 강해 보인다.
-- 하지만 family별로 보면 모든 relation이 같은 방식으로 풀리지 않는다.
-- `size_relative`와 `relative_horizontal`은 현재 H002의 핵심 compatibility evidence로
-  사용할 수 있다.
-- `support_contact`는 의미 있는 partial signal이 있지만 solved relation family로
-  주장하면 안 된다.
-- `relative_vertical`은 현재 grouped heldout에서 실패했다. 특히 wrong-`T_e`와
-  shuffled-`G_e` control이 compatibility signal을 충분히 입증하지 못한다.
+`relative_horizontal`, `relative_vertical`, `size_relative`, `support_contact` 모두 validation GT와 OBB pair coverage가 충분했다. 다만
+H001 `p_geom_valid`는 `relative_horizontal`과 `size_relative`에 그대로 쓸 수 없기 때문에 H002용 `G_e`를 새로 구성해야 했다. 다음 step은
+candidate materialization protocol freeze였다.
 
-따라서 다음 작업은 `relative_vertical` failure analysis다. 확인해야 할 항목은
-target construction, predicate direction/sign feature, wrong-`T_e` control behavior,
-split composition, 그리고 해당 family를 repair할지 main claim에서 제외할지의 판단이다.
+## 2026-07-01 Official Candidate Materialization Protocol
 
-## 15. 2026-07-01 추가 진행: Relative-Vertical Failure Analysis
+목적:
 
-`compatibility_dataset_v3_relative_vertical_failure_analysis_after_grouped_review`를
-완료했다.
+Official validation row를 만들기 전에 anchor, counterfactual, model-safe field, hidden field, source bridge 사용 원칙을 고정했다.
 
-현재 상태:
+결과:
 
-```text
-status = h002_compatibility_dataset_v3_relative_vertical_failure_analysis_after_grouped_review_ready
-validation_errors = 0
-next_todo = compatibility_dataset_v3_grouped_eval_feature_extractor_repair_after_relative_vertical_failure_analysis
-```
+Official validation GT relation을 primary anchor로 사용하고, 같은 object pair에서 predicate counterfactual을 생성하는 방향을 택했다.
+VL-SAT/Open3DSG rows는 source bridge/provenance로만 사용하고, `Z_e`, H001 `p_geom_valid`, construction buckets는 main `C_e` model-safe
+view에서 제외했다. 다음 step은 Docker materialization이었다.
 
-핵심 결과:
+## 2026-07-01 Official Candidate Materialization Docker Implementation
 
-| Probe | Internal heldout AUROC |
-| --- | ---: |
-| intended `predicate_sign * raw_geometry_feature_vector.center_delta_z` | 1.000000 |
-| runner suffix-based `center_delta_z` candidate | 0.504808 |
-| reported grouped `M4_TxG_compatibility` | 0.457834 |
+목적:
 
-원인:
+Hypothesis 폴더의 host-only 산출물이 아니라 Docker 기반으로 official validation candidate rows를 재생성할 수 있는지 확인했다.
 
-- grouped runner의 `numeric_value(..., "center_delta_z")`가 실제 raw z difference를
-  읽지 않았다.
-- 대신 `raw_geometry_feature_available_mask.center_delta_z=True`를 먼저 선택했다.
-- 그래서 `C.sign_x_center_delta_z`가 `predicate_sign * actual_z_delta`가 아니라
-  사실상 `predicate_sign * 1.0`이 됐다.
+결과:
 
-판단:
+Docker materialization으로 `23062` rows를 생성했고 validation errors는 없었다. Family 구성은 `relative_horizontal 18764`,
+`relative_vertical 780`, `size_relative 340`, `support_contact 3178`이다. 아직 metric은 계산하지 않았고, 다음 step은 schema/shortcut audit였다.
 
-- `relative_vertical`을 main claim에서 제외할 단계가 아니다.
-- 현재 실패는 scientific negative result가 아니라 implementation repair-needed 상태다.
-- `higher than` / `lower than`은 predicate-conditioned geometry interpretation이 필요한
-  대표 case이므로, H002 claim에는 오히려 중요한 family다.
+## 2026-07-01 Official Candidate Schema Audit
 
-다음 작업:
+목적:
 
-`h002-grouped-eval` runner가 suffix match가 아니라 explicit raw geometry path를 읽도록
-수정하고, grouped evaluation을 재실행해야 한다.
+Official materialized model-safe view에 hidden construction field, label-derived field, source score, H001 `p_geom_valid`, GT leakage가
+들어가지 않았는지 확인했다.
 
-## 16. 2026-07-01 추가 진행: Grouped Eval Feature Extractor Repair
+결과:
 
-`compatibility_dataset_v3_grouped_eval_feature_extractor_repair_after_relative_vertical_failure_analysis`를
-완료했다.
+Schema violations와 blocked field hits는 없었다. 다만 `support_contact`에서 `predicate_x_class_pair` shortcut이 매우 강해
+challenging/diagnostic route로만 해석해야 한다는 caveat가 남았다. 다음 step은 family imbalance와 controls를 반영한 metric protocol freeze였다.
 
-현재 상태:
+## 2026-07-01 Official Metric Protocol Freeze
 
-```text
-status = h002_compatibility_dataset_v3_grouped_eval_feature_extractor_repair_after_relative_vertical_failure_analysis_ready
-validation_errors = 0
-next_todo = compatibility_dataset_v3_repaired_grouped_eval_claim_boundary_review
-```
+목적:
 
-수정 내용:
+Official validation metric을 실행하기 전에 primary metric, aggregation, allowed input, controls, claim boundary를 고정했다.
 
-- grouped eval runner의 `compatibility_features()`에서 suffix 기반 numeric lookup을 제거했다.
-- relation-specific geometry를 explicit raw path로 읽도록 수정했다.
-- `center_delta_z`는 이제 `G_e_raw.raw_geometry_feature_vector.center_delta_z`를 읽는다.
-- Docker `h002-grouped-eval`을 다시 실행했고, grouped runner/review validators도 다시 통과했다.
+결과:
 
-Repaired internal heldout:
+Primary metric은 `macro_family_AUROC`로 고정했고, weighted/overall AUROC는 secondary로 두었다. Main `C_e` input은 `T_e`와 `G_e`만
+허용했다. wrong-`T`, shuffled-`G`, subject/object swap, sign flip, horizontal frame control을 required control로 두고, `support_contact`는
+solved claim에서 제외했다.
 
-| Family | Heldout M4 AUROC | Status |
-| --- | ---: | --- |
-| `relative_horizontal` | 0.969568 | claim-supporting |
-| `relative_vertical` | 0.999921 | claim-supporting |
-| `size_relative` | 0.999969 | claim-supporting |
-| `support_contact` | 0.610960 | partial/challenging |
+## 2026-07-01 Official Metric Runner
 
-Overall heldout:
+목적:
 
-| View | AUROC |
-| --- | ---: |
-| `M1_T_semantic_only` | 0.454321 |
-| `M2_G_geometry_only` | 0.487690 |
-| `M3_T_plus_G_concat` | 0.465868 |
-| `M4_TxG_compatibility` | 0.984976 |
-| `C1_wrong_T_control` | 0.014425 |
-| `C2_shuffled_G_control` | 0.493975 |
+Frozen protocol에 따라 Docker official validation metric을 실행해 paper-level review 후보 결과를 만들었다.
 
-해석:
+결과:
 
-- `relative_vertical`은 repaired grouped result에서 강한 claim-supporting evidence가 됐다.
-- 세 clean route인 `relative_horizontal`, `relative_vertical`, `size_relative`는
-  `T_e x G_e` compatibility claim을 지지한다.
-- `support_contact`는 여전히 partial/challenging으로 남기며 solved family로 주장하면 안 된다.
-- 이 결과는 여전히 H002 internal candidate-pool heldout이며 official validation/test나
-  paper-level result가 아니다.
-
-## 17. 2026-07-01 추가 진행: Repaired Grouped-Eval Claim Boundary Review
-
-`compatibility_dataset_v3_repaired_grouped_eval_claim_boundary_review`를 완료했다.
-
-현재 상태:
-
-```text
-status = h002_compatibility_dataset_v3_repaired_grouped_eval_claim_boundary_review_ready
-validation_errors = 0
-next_todo = compatibility_dataset_v3_official_validation_test_protocol_plan_after_claim_boundary_review
-```
-
-이 단계의 목적은 repaired grouped result를 그대로 paper claim으로 올리는 것이 아니라,
-현재 가설 단계에서 허용되는 claim과 아직 막힌 claim을 분리하는 것이다.
-
-허용되는 claim:
-
-- `C_e = compatibility(T_e, G_e)`는 internal grouped holdout에서 semantic-only,
-  geometry-only, plain concat, wrong-`T_e`, shuffled-`G_e`보다 강한 discrimination을
-  보인다.
-- relation family마다 필요한 evidence route가 다르므로, fixed semantic-geometry fusion
-  하나로 모든 relation reliability를 판단하면 안 된다.
-- `relative_horizontal`, `relative_vertical`, `size_relative`는 main internal
-  compatibility evidence로 사용할 수 있다.
-- `support_contact`는 partial/challenging evidence로만 둔다.
-
-Family claim role:
-
-| Family | Heldout M4 AUROC | 현재 claim role |
-| --- | ---: | --- |
-| `relative_horizontal` | 0.969568 | main internal compatibility evidence |
-| `relative_vertical` | 0.999921 | main internal compatibility evidence |
-| `size_relative` | 0.999969 | main internal compatibility evidence |
-| `support_contact` | 0.610960 | partial/challenging evidence |
-
-Blocked claim:
-
-- official validation/test 개선 claim.
-- calibrated `p_rel` / selective `p_obs` claim.
-- `support_contact` solved claim.
-- all-relation generalization claim.
-- aggregate `M4` AUROC만으로 H002가 성립했다는 claim.
-
-따라서 다음 단계는 official validation/test protocol plan이다. 즉, 어떤 official split과
-source candidate를 사용할지, metric과 baseline/control을 어떻게 고정할지, 그리고 현재
-internal candidate-pool 결과를 어떤 조건에서 paper metric으로 승격할 수 있는지 먼저
-정의해야 한다.
-
-## 18. 2026-07-01 추가 진행: Official Validation/Test Protocol Plan
-
-`compatibility_dataset_v3_official_validation_test_protocol_plan_after_claim_boundary_review`를
-완료했다.
-
-현재 상태:
-
-```text
-status = h002_compatibility_dataset_v3_official_validation_test_protocol_plan_after_claim_boundary_review_ready
-validation_errors = 0
-next_todo = compatibility_dataset_v3_official_source_inventory_after_protocol_plan
-```
-
-이 단계는 official validation metric을 실행한 것이 아니라, official split 사용 정책과
-metric/source protocol을 정의한 것이다.
-
-정책:
-
-- official validation을 먼저 inventory 및 metric-freeze 대상으로 사용한다.
-- test는 local label file 또는 evaluation server가 있고, protocol/code/metric/wording이
-  모두 freeze된 뒤에만 single final evaluation으로 사용한다.
-- 현재 internal grouped metric은 paper metric이 아니다.
-- 현재 공식 route는 `C_e` mechanism 검증이며, `p_rel` / `p_obs`는 아직 optional future
-  protocol이다.
-
-Local `3DSSG_subset` split inventory:
-
-| Split | Scans | Relations | 역할 |
-| --- | ---: | ---: | --- |
-| `train` | 3852 | 81190 | reference only |
-| `validation` | 548 | 11254 | primary official inventory / future metric split |
-| `test` | 0 | 0 | local `relationships_test.json` 없음 |
-
-Validation family capacity:
-
-| Family | Validation count | Predicate counts |
-| --- | ---: | --- |
-| `relative_horizontal` | 5474 | `left=1713`, `right=1713`, `front=1024`, `behind=1024` |
-| `relative_vertical` | 390 | `higher than=195`, `lower than=195` |
-| `size_relative` | 170 | `bigger than=85`, `smaller than=85` |
-| `support_contact` | 1589 | `standing on=1357`, `lying on=232` |
-
-다음 source route:
-
-- Primary: `GT_counterfactual_mechanism`
-- Secondary bridge: `VL-SAT_source_candidates`
-- Secondary bridge: `Open3DSG_source_candidates`
-- Test: deferred
-
-다음 단계에서는 official validation의 GT relation, object geometry join, VL-SAT source
-candidate, Open3DSG source candidate availability를 실제로 inventory해야 한다.
-
-## 19. 2026-07-01 추가 진행: Official Source Inventory After Protocol Plan
-
-`compatibility_dataset_v3_official_source_inventory_after_protocol_plan`을 완료했다.
-
-현재 상태:
-
-```text
-status = h002_compatibility_dataset_v3_official_source_inventory_after_protocol_plan_ready
-validation_errors = 0
-next_todo = compatibility_dataset_v3_official_candidate_materialization_protocol_after_source_inventory
-```
-
-이 단계는 official validation metric을 만든 것이 아니라, official validation에서 H002
-promoted route를 구성할 수 있는지 확인한 inventory 단계다.
-
-Official validation GT/object geometry inventory:
-
-| Family | GT relations | Unique scans | OBB pair coverage | 판단 |
-| --- | ---: | ---: | ---: | --- |
-| `relative_horizontal` | 5474 | 155 | 1.000000 | candidate-ready |
-| `relative_vertical` | 390 | 63 | 1.000000 | candidate-ready |
-| `size_relative` | 170 | 35 | 1.000000 | candidate-ready |
-| `support_contact` | 1589 | 156 | 1.000000 | diagnostic/challenging |
-
-Read-only source candidate inventory:
-
-| Source | `relative_horizontal` | `relative_vertical` | `size_relative` | `support_contact` |
-| --- | ---: | ---: | ---: | ---: |
-| `vlsat_full_validation` | 147232 | 73616 | 73616 | 73616 |
-| `open3dsg_recovery_relaxed_views_min2` | 107064 | 53532 | 53532 | 53532 |
-
-중요한 caveat:
-
-- H001 geometry verification은 `relative_vertical`과 `support_contact`만 checkable하다.
-- `relative_horizontal`과 `size_relative`은 H001 verification에서는 unsupported라서,
-  H002 official materialization에서 새 `G_e`를 구성해야 한다.
-- 따라서 H001 `p_geom_valid`를 그대로 H002 main geometry evidence로 재사용하면 안 된다.
-- `support_contact`는 source row와 geometry row가 충분하지만 내부 결과상 partial/challenging
-  route이므로 solved claim으로 올리면 안 된다.
-
-현재까지의 결론:
-
-- official validation에서 candidate materialization protocol로 넘어갈 재료는 있다.
-- 하지만 아직 official validation/test 성능 개선, paper metric, calibrated `p_rel/p_obs`
-  claim은 없다.
-- 당시 다음 단계는 metric runner가 아니라 official candidate materialization protocol이었다.
-
-## 20. 2026-07-01 추가 진행: Official Candidate Materialization Protocol
-
-`compatibility_dataset_v3_official_candidate_materialization_protocol_after_source_inventory`를
-완료했다.
-
-현재 상태:
-
-```text
-status = h002_compatibility_dataset_v3_official_candidate_materialization_protocol_after_source_inventory_ready
-validation_errors = 0
-next_todo = compatibility_dataset_v3_official_candidate_materialization_docker_implementation_after_protocol
-```
-
-이 단계는 paper-level metric 실행이 아니라 official validation row materialization으로
-넘어가기 위한 protocol freeze다.
-
-핵심 protocol:
-
-- official validation GT relation을 primary anchor로 사용한다.
-- 같은 object pair에서 predicate counterfactual을 생성한다.
-- `relative_horizontal`, `relative_vertical`, `size_relative`, `support_contact`별로
-  다른 `G_e`를 구성한다.
-- VL-SAT/Open3DSG recovery rows는 source bridge/provenance로만 사용한다.
-- `Z_e`인 source score/rank와 H001 `p_geom_valid`는 main `C_e` model-safe view에서
-  제외한다.
-
-Family route:
-
-| Family | GT rows | 현재 역할 |
-| --- | ---: | --- |
-| `relative_horizontal` | 5474 | main frame-aware compatibility route |
-| `relative_vertical` | 390 | main signed-geometry compatibility route |
-| `size_relative` | 170 | main size compatibility route |
-| `support_contact` | 1589 | diagnostic/challenging support-contact route |
-
-Blocked fields:
-
-- source score/rank/source id,
-- H001 `p_geom_valid`와 verification status,
-- label/geometry/candidate/construction bucket,
-- distance/rank band,
-- GT exact-match flag,
-- counterfactual generation rule.
-
-다음 단계부터는 실제 구현 위치가 hypothesis 폴더가 아니라
-`experiments/H002_compatibility_routing`이다. 다음 Docker service는
-`h002-official-materialize-candidates`이며, 아직 metric runner가 아니라 materialization
-runner다.
-
-## 21. 2026-07-01 추가 진행: Official Candidate Materialization Docker Implementation
-
-`h002-official-materialize-candidates` Docker service를 구현하고 실행했다.
-
-현재 상태:
-
-```text
-status = h002_compatibility_dataset_v3_official_candidate_materialization_docker_implementation_after_protocol_ready
-validation_errors = 0
-next_todo = compatibility_dataset_v3_official_candidate_materialization_schema_audit_after_docker_implementation
-```
-
-생성 위치:
-
-```text
-experiments/H002_compatibility_routing/official_materialization/latest/
-```
-
-생성된 row:
-
-| Output | Rows |
-| --- | ---: |
-| `candidate_rows.jsonl` | 23062 |
-| `model_safe_view.jsonl` | 23062 |
-| `hidden_manifest.jsonl` | 23062 |
-| `validation_errors.jsonl` | 0 |
-
-Family별 label 구성:
-
-| Family | Reject/counterfactual | Accept/GT | Total |
-| --- | ---: | ---: | ---: |
-| `relative_horizontal` | 13290 | 5474 | 18764 |
-| `relative_vertical` | 390 | 390 | 780 |
-| `size_relative` | 170 | 170 | 340 |
-| `support_contact` | 1589 | 1589 | 3178 |
-
-중요한 경계:
-
-- official validation candidate rows는 생성됐지만 metric은 아직 계산하지 않았다.
-- official test는 사용하지 않았다.
-- paper-level result도 아니다.
-- 다음 단계는 schema/shortcut audit이다. 특히 `relative_horizontal`의 1:3 label imbalance,
-  object class/predicate shortcut, counterfactual construction leakage, hidden field leakage를
-  먼저 확인해야 한다.
-
-## 22. 2026-07-01 추가 진행: Official Candidate Materialization Schema Audit
-
-Official materialized rows에 대한 schema/shortcut/control-readiness audit을 완료했다.
-
-현재 상태:
-
-```text
-status = h002_compatibility_dataset_v3_official_candidate_materialization_schema_audit_after_docker_implementation_ready_with_caveats
-validation_errors = 0
-shortcut_warnings = 1
-next_todo = compatibility_dataset_v3_official_metric_protocol_freeze_after_schema_audit
-```
-
-통과한 항목:
-
-| 항목 | 결과 |
-| --- | ---: |
-| schema violations | 0 |
-| blocked field hits | 0 |
-| runtime validation errors | 0 |
-| model-safe rows | 23062 |
-| hidden rows | 23062 |
-| model-safe/hidden mismatch | 0 |
-| control-readiness blockers | 0 |
-
-핵심 caveat:
-
-- `support_contact`에서 `predicate_x_class_pair` shortcut이 매우 강하다.
-- Majority accuracy는 `0.993707`이다.
-- 따라서 `support_contact`는 official metric에 포함하더라도 challenging/diagnostic route로
-  해석해야 하며 solved claim으로 올리면 안 된다.
-
-Metric protocol에 반드시 들어가야 하는 것:
-
-- per-family AUROC,
-- macro-family AUROC,
-- weighted-family AUROC,
-- overall AUROC는 secondary,
-- wrong-`T` control,
-- shuffled-`G` control,
-- route-specific control,
-- `Z_e` source score/rank exclusion,
-- `support_contact` challenging-route wording.
-
-## 23. 2026-07-01 추가 진행: Official Metric Protocol Freeze
-
-Schema audit 이후 official validation metric을 실행하기 전, metric protocol을 고정했다.
-
-현재 상태:
-
-```text
-status = h002_compatibility_dataset_v3_official_metric_protocol_freeze_after_schema_audit_ready
-validation_errors = 0
-next_todo = compatibility_dataset_v3_official_metric_runner_after_protocol_freeze
-```
-
-고정된 내용:
-
-- official validation rows는 eval-only로만 사용한다.
-- trainable model view는 internal train에서 fit하고 internal dev에서만 selection/threshold를 정한다.
-- primary metric은 `macro_family_AUROC`이다.
-- weighted-family AUROC와 overall AUROC는 secondary다.
-- main `C_e` input은 `T_e`와 `G_e`만 허용한다.
-- `Z_e`, `Q_e`, H001 `p_geom_valid`, hidden construction fields는 main `C_e`에서 제외한다.
-- wrong-`T`, shuffled-`G`, subject/object swap, sign flip, horizontal frame control을 required control로 둔다.
-- `support_contact`는 challenging/diagnostic route이며 solved claim으로 올리지 않는다.
-
-출력 artifact:
-
-```text
-artifacts/compatibility_dataset_v3_official_metric_protocol_freeze_after_schema_audit/
-```
-
-이 단계도 metric runner가 아니므로 official validation metric, official test result, paper-level
-result는 아직 없다.
-
-## 24. 2026-07-01 추가 진행: Official Metric Runner
-
-Frozen protocol을 따르는 Docker official validation metric runner를 구현하고 실행했다.
-
-현재 상태:
-
-```text
-status = h002_compatibility_dataset_v3_official_metric_runner_after_protocol_freeze_ready_with_caveats
-validation_errors = 0
-next_todo = compatibility_dataset_v3_official_metric_result_review_after_runner
-```
-
-Docker command:
-
-```bash
-HOST_UID=$(id -u) HOST_GID=$(id -g) docker compose -f configs/h002/compose.yaml run --rm h002-official-metric-runner
-```
-
-결과 위치:
-
-```text
-experiments/H002_compatibility_routing/official_evaluation/latest/
-artifacts/compatibility_dataset_v3_official_metric_runner_after_protocol_freeze/
-```
-
-주요 metric:
-
-| View | Macro-family AUROC | Weighted-family AUROC | Overall AUROC |
-| --- | ---: | ---: | ---: |
-| `M1_T_semantic_only` | 0.417633 | 0.455374 | 0.404333 |
-| `M2_G_geometry_only` | 0.500000 | 0.500000 | 0.528329 |
-| `M3_T_plus_G_concat` | 0.416923 | 0.454625 | 0.406137 |
-| `M4_TxG_compatibility` | 0.835547 | 0.720781 | 0.724835 |
-
-Family-level M4:
-
-- `relative_vertical`: AUROC `0.991321`
-- `size_relative`: AUROC `0.999585`
-- `relative_horizontal`: AUROC `0.719568`
-- `support_contact`: AUROC `0.631712`
-
-해석 전 caveat:
-
-- `support_contact`는 여전히 challenging/diagnostic이다.
-- `relative_horizontal`은 horizontal frame-swap control delta가 `0.038149`로 약해서
-  frame-aware claim을 강하게 쓰기 전에 result review가 필요하다.
-- official validation metric은 생성됐지만 paper-level result로 승격하지 않았다.
-  다음 단계는 result review와 claim-boundary lock이다.
+Official validation에서 `M4_TxG_compatibility`는 macro-family AUROC `0.835547`, weighted-family AUROC `0.720781`, overall AUROC
+`0.724835`를 보였다. Family별로는 `relative_vertical 0.991321`, `size_relative 0.999585`, `relative_horizontal 0.719568`,
+`support_contact 0.631712`다. 이 결과는 생성됐지만 아직 paper-level result로 승격하지 않았고, 다음 step은 result review와 claim-boundary lock이다.
