@@ -1,0 +1,7 @@
+route_family,rows,median_p_obs_calibrated,accept_rows,reject_rows,asset_audit_rows,failure_route_connection
+relative_horizontal,18764,0.999999,5474,13290,18764,non-failure-control route
+relative_vertical,780,0.999999,390,390,780,non-failure-control route
+size_relative,340,0.999999,170,170,340,non-failure-control route
+support_contact,3178,0.999999,1589,1589,3178,support/contact hard route
+attachment_like,0,,0,0,0,not materialized in current p_obs/p_rel runtime; empirical claim blocked until route rows exist
+containment,0,,0,0,0,not materialized in current p_obs/p_rel runtime; empirical claim blocked until route rows exist

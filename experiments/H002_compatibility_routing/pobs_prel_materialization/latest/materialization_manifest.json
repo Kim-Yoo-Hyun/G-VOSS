@@ -1,0 +1,56 @@
+{
+  "claim_boundary": {
+    "independent_human_observability_labels_used": false,
+    "official_test_used": false,
+    "pobs_prel_main_framework_claim_allowed": true,
+    "pobs_prel_quantitative_result_claim_allowed": false,
+    "synthetic_missing_evidence_controls_used": true
+  },
+  "created_at_utc": "2026-07-03T08:18:53.986458+00:00",
+  "internal_split_dir": "experiments/H002_compatibility_routing/splits/latest",
+  "next_todo": "compatibility_dataset_v3_pobs_prel_schema_audit_after_materialization",
+  "official_materialization_dir": "experiments/H002_compatibility_routing/official_materialization/latest",
+  "outputs": {
+    "hidden_selective_labels": "experiments/H002_compatibility_routing/pobs_prel_materialization/latest/hidden_selective_labels.jsonl",
+    "model_safe_prel_view": "experiments/H002_compatibility_routing/pobs_prel_materialization/latest/model_safe_prel_view.jsonl",
+    "model_safe_qe_view": "experiments/H002_compatibility_routing/pobs_prel_materialization/latest/model_safe_qe_view.jsonl",
+    "validation_errors": "experiments/H002_compatibility_routing/pobs_prel_materialization/latest/validation_errors.jsonl"
+  },
+  "protocol_dir": "hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_pobs_prel_main_claim_protocol_after_report_0703",
+  "row_counts": {
+    "decision_counts": {
+      "abstain": 120056,
+      "accept": 11099,
+      "reject": 18915
+    },
+    "input_observed_rows": 30014,
+    "missing_control_types": [
+      "no_view_control",
+      "low_visibility_control",
+      "missing_mesh_control",
+      "shuffled_view_control"
+    ],
+    "obs_counts": {
+      "0": 120056,
+      "1": 30014
+    },
+    "output_rows_per_view": 150070,
+    "rel_counts_observed_only": {
+      "0": 18915,
+      "1": 11099
+    },
+    "role_counts": {
+      "real_observable": 30014,
+      "synthetic_unobservable_control": 120056
+    },
+    "split_counts": {
+      "internal_dev": 5220,
+      "internal_heldout": 5200,
+      "internal_train": 24340,
+      "official_validation": 115310
+    }
+  },
+  "schema_version": "h002_pobs_prel_selective_materialization_v1",
+  "status": "h002_pobs_prel_selective_materialization_ready",
+  "validation_errors": 0
+}

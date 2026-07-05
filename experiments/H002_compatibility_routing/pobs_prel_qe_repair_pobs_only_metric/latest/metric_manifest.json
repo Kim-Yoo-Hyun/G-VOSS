@@ -1,0 +1,80 @@
+{
+  "baseline_metrics": {
+    "direct_qe_state_code_auroc": 1.0,
+    "direct_qe_state_code_ece_10": 0.16641509433962304,
+    "legacy_all_sufficient_abstain_recall": 0.0,
+    "legacy_all_sufficient_auroc": 0.5
+  },
+  "boundary": {
+    "diagnostic_feature_policy": "Q_e v2 only; qe_v2_diagnostic_source excluded from model input",
+    "eval_qe_v2_uses_audit_proxy": true,
+    "full_selective_decision_rerun_allowed": true,
+    "official_test_used": false,
+    "paper_level_pobs_prel_solved_claim_allowed": false,
+    "pobs_only_diagnostic_metric_allowed": true
+  },
+  "created_at_utc": "2026-07-05T10:48:10+00:00",
+  "decision": {
+    "next_todo": "pobs_prel_qe_repair_pobs_metric_review",
+    "selected_path": "pobs_repair_diagnostic_pass_review_before_selective_rerun"
+  },
+  "diagnostic_pass": true,
+  "fit_summary": {
+    "feature_count": 38,
+    "mode": "logistic",
+    "train_rows": 14604
+  },
+  "outputs": {
+    "manifest": "experiments/H002_compatibility_routing/pobs_prel_qe_repair_pobs_only_metric/latest/metric_manifest.json",
+    "observability_label_metrics": "experiments/H002_compatibility_routing/pobs_prel_qe_repair_pobs_only_metric/latest/observability_label_metrics.csv",
+    "pobs_metrics": "experiments/H002_compatibility_routing/pobs_prel_qe_repair_pobs_only_metric/latest/pobs_metrics.csv",
+    "prediction_scores": "experiments/H002_compatibility_routing/pobs_prel_qe_repair_pobs_only_metric/latest/prediction_scores.jsonl",
+    "reliability_diagram": "experiments/H002_compatibility_routing/pobs_prel_qe_repair_pobs_only_metric/latest/reliability_diagram.csv",
+    "risk_coverage_curve": "experiments/H002_compatibility_routing/pobs_prel_qe_repair_pobs_only_metric/latest/risk_coverage_curve.csv",
+    "threshold_metrics": "experiments/H002_compatibility_routing/pobs_prel_qe_repair_pobs_only_metric/latest/threshold_metrics.csv",
+    "validation_errors": "experiments/H002_compatibility_routing/pobs_prel_qe_repair_pobs_only_metric/latest/validation_errors.jsonl"
+  },
+  "pass_checks": {
+    "abstain_recall_ge_0_70": true,
+    "observable_false_abstain_le_0_30": true,
+    "p_obs_auroc_ge_0_70": true,
+    "p_obs_ece_le_0_20": true,
+    "schema_gate_passed": true
+  },
+  "primary_metrics": {
+    "AURC": 0.14670236174029552,
+    "abstain_precision": 1.0,
+    "abstain_recall": 1.0,
+    "false_observable_rate": 0.0,
+    "observable_false_abstain_rate": 0.0,
+    "p_obs_auroc": 1.0,
+    "p_obs_brier": 0.004222025044037683,
+    "p_obs_ece_10": 0.04926599420683767,
+    "p_obs_nll": 0.05151769767384846
+  },
+  "row_counts": {
+    "eval_label_counts": {
+      "ambiguous_evidence": 126,
+      "observable_clear": 135,
+      "unobservable_missing_evidence": 4
+    },
+    "eval_obs_counts": {
+      "0": 130,
+      "1": 135
+    },
+    "eval_rows": 265,
+    "train_label_counts": {
+      "ambiguous_evidence": 4868,
+      "observable_clear": 4868,
+      "unobservable_missing_evidence": 4868
+    },
+    "train_rows": 14604
+  },
+  "schema_version": "h002_pobs_prel_qe_repair_pobs_only_metric_v1",
+  "source_artifacts": {
+    "materialization": "experiments/H002_compatibility_routing/pobs_prel_qe_repair_materialization/latest",
+    "schema_audit": "experiments/H002_compatibility_routing/pobs_prel_qe_repair_schema_audit/latest"
+  },
+  "status": "h002_pobs_prel_qe_repair_pobs_only_metric_ready",
+  "validation_errors": 0
+}

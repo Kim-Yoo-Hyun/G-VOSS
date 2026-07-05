@@ -1,0 +1,7 @@
+gate,pass_condition,current_state,decision,next_needed
+schema_separation,"model-safe view excludes Z_e, class labels, target construction fields, GT flags, and Q_e from C_e",previous materialization passed; must recheck after repair,required,run schema audit on repaired rows
+feature_coverage,canonical G_e features available or explicitly masked; no hidden label-derived feature,43/43 current features available on all rows,coverage_ok_but_not_sufficient,"add pose/visual audit labels, not just more numeric G_e"
+support_contact_metric,official validation M4 AUROC >= 0.70 and > T-only/G-only/concat,official hard-route M4 AUROC=0.077539,failed,repair subtype labels and rematerialize before re-running metric
+control_collapse,wrong-T and shuffled-G controls degrade below primary M4,"previous wrong-T outperformed M4, indicating inversion",failed,rebuild controls after pose-aware target repair
+class_pair_control,within class-pair accept/reject/abstain strata exist for top support pairs,high-confidence failures concentrate in floor support class pairs,required,cap and balance class-pair strata
+paper_claim,support/contact can be described as solved compatibility route,not solved,blocked,keep as diagnostic until repaired metrics pass

@@ -36,11 +36,89 @@ services:
               count: 1
               capabilities: [gpu]
 
+  open3dsg_legacy_base: &open3dsg_legacy_base
+    build:
+      context: ../..
+      dockerfile: configs/open3dsg/Dockerfile.legacy
+    image: h001-open3dsg-repro:legacy-cu118
+    working_dir: /workspace/local_dataset/Open3DSG_staged/baseline_repro/source/open3dsg_public
+    user: "${UID:-1000}:${GID:-1000}"
+    shm_size: "${OPEN3DSG_SHM_SIZE:-16gb}"
+    environment:
+      OPEN3DSG_HOME: /workspace
+      OPEN3DSG_BASE: /workspace/local_dataset/Open3DSG_staged/baseline_repro
+      OPEN3DSG_DATA: /workspace/local_dataset/Open3DSG_staged/baseline_repro/data
+      OPEN3DSG_DATA_OUT: /workspace/local_dataset/Open3DSG_staged/baseline_repro/output
+      HF_HOME: /workspace/local_dataset/model_cache/huggingface
+      TORCH_HOME: /workspace/local_dataset/model_cache/torch
+      TRANSFORMERS_CACHE: /workspace/local_dataset/model_cache/huggingface
+      HOME: /workspace/local_dataset/model_cache/home
+      XDG_CACHE_HOME: /workspace/local_dataset/model_cache/xdg
+      OPEN3DSG_FEATURE_RUN_DIR: ${OPEN3DSG_BASELINE_FEATURE_RUN_DIR:-/workspace/local_dataset/Open3DSG_staged/baseline_repro/output/features/open3dsg_public_blip_top5_scales3}
+      OPEN3DSG_FEATURE_LOAD_DIR: ${OPEN3DSG_BASELINE_FEATURE_LOAD_DIR:-/workspace/local_dataset/Open3DSG_staged/baseline_repro/output/features/open3dsg_public_blip_top5_scales3}
+      PYTORCH_CUDA_ALLOC_CONF: ${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}
+    volumes:
+      - ../..:/workspace
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
   env_check:
     <<: *open3dsg_base
     command: >
       bash -lc "python -c 'import torch, pytorch_lightning, tensorflow, open3d, transformers;
       print(torch.cuda.is_available(), torch.cuda.device_count(), torch.__version__)'"
+
+  baseline_prepare:
+    <<: *open3dsg_base
+    command: >
+      bash -lc "python /workspace/src/geocalib/prepare_open3dsg_baseline_repro.py
+      --repo-root /workspace --patch-path-config"
+
+  baseline_legacy_env_check:
+    <<: *open3dsg_legacy_base
+    command: >
+      bash -lc "python - <<'PY'
+      import torch, pytorch_lightning, tensorflow, open3d, transformers
+      print('torch', torch.__version__)
+      print('transformers', transformers.__version__)
+      print('cuda_available', torch.cuda.is_available())
+      print('cuda_devices', torch.cuda.device_count())
+      if torch.cuda.is_available():
+          x = torch.zeros(1, device='cuda')
+          print('cuda_tensor_ok', x.item())
+      PY"
+
+  baseline_views_train:
+    <<: *open3dsg_legacy_base
+    command: >
+      bash -lc "pip install -e . &&
+      python open3dsg/data/get_object_frame.py --mode train --dataset R3SCAN"
+
+  baseline_views_validation:
+    <<: *open3dsg_legacy_base
+    command: >
+      bash -lc "pip install -e . &&
+      python open3dsg/data/get_object_frame.py --mode validation --dataset R3SCAN"
+
+  baseline_preprocess_3rscan:
+    <<: *open3dsg_legacy_base
+    command: >
+      bash -lc "pip install -e . &&
+      python open3dsg/data/preprocess_3rscan.py"
+
+  baseline_dump_features_3rscan:
+    <<: *open3dsg_legacy_base
+    command: >
+      bash -lc "pip install -e . &&
+      python open3dsg/scripts/run.py --dump_features --dataset 3rscan --epochs 1 --gpus 1
+      --workers ${OPEN3DSG_DUMP_WORKERS:-0} --scales ${OPEN3DSG_DUMP_SCALES:-3}
+      --top_k_frames ${OPEN3DSG_DUMP_TOP_K_FRAMES:-5} --clip_model OpenSeg --blip
+      --run_name open3dsg_public_feature_dump"
 
   cache_preflight:
     <<: *open3dsg_base

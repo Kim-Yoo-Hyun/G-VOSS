@@ -1,0 +1,4 @@
+component,metric,value,pass,decision,interpretation
+p_obs,AUROC,0.500000,False,fail_keep_abstention_unsolved,Q_e cannot separate observable_clear from ambiguous/missing evidence
+p_rel,AUROC,0.774704,True,keep_as_diagnostic_signal,relation reliability signal exists on observable rows
+selective_decision,macro_F1,0.331637,False,fail_due_to_no_abstain_behavior,p_obs never triggers abstain on ambiguous/missing evidence

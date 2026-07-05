@@ -1,0 +1,7 @@
+field,value,score_id,rows,obs_positive_rows,mean_score,min_score,max_score,pred_abstain_rows,pred_abstain_rate
+observability_label,ambiguous_evidence,p_obs_learned,126,0,0.09375842566879722,0.09375842566879707,0.09375842566879707,126,1.0
+observability_label,observable_clear,p_obs_learned,135,135,0.9912248243949374,0.9912248243949401,0.9912248243949401,0,0.0
+observability_label,unobservable_missing_evidence,p_obs_learned,4,0,0.014319530965022064,0.014319530965022064,0.014319530965022064,4,1.0
+q_e_state_v2_hidden,ambiguous,p_obs_learned,126,0,0.09375842566879722,0.09375842566879707,0.09375842566879707,126,1.0
+q_e_state_v2_hidden,missing,p_obs_learned,4,0,0.014319530965022064,0.014319530965022064,0.014319530965022064,4,1.0
+q_e_state_v2_hidden,sufficient,p_obs_learned,135,135,0.9912248243949374,0.9912248243949401,0.9912248243949401,0,0.0

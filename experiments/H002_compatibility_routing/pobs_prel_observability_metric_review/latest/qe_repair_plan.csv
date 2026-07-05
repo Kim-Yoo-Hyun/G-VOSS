@@ -1,0 +1,6 @@
+priority,repair_item,why_needed,expected_effect
+1,replace_static_Qe_state_with_audit_aligned_Qe_features,current Q_e marks ambiguous/missing labels as sufficient,allow p_obs to learn abstention rather than always predict observable
+2,add_visual_mesh_coverage_features,"observability requires view count, crop quality, mesh/contact surface availability, and occlusion signals",separate observable_clear from unobservable_missing_evidence
+3,add_support_contact_pose_ambiguity_features,"most abstain rows are support/contact single-subtype ambiguity, not missing geometry",separate ambiguous_evidence from true observable binary rows
+4,materialize_balanced_observability_train_rows,"current p_obs train protocol uses synthetic missing controls, while eval labels are user-confirmed ambiguity labels",reduce train/eval target mismatch for p_obs
+5,rerun_pobs_only_before_full_prel_decision,p_rel already has signal; p_obs is the bottleneck,avoid conflating reliability scoring with observability gating

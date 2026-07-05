@@ -1,6 +1,6 @@
 # H002 Summary Branch V2
 
-Last updated: 2026-07-02 KST
+Last updated: 2026-07-03 KST
 
 ## Current Title
 
@@ -54,6 +54,128 @@ diagnostic/failure taxonomy로 고정한다.
 현재 primary metric은 family-wise `C_e` mechanism metric이다. `Recall@K`와
 `Violation@K`는 버리지 않지만, source reranking protocol을 연 뒤 downstream top-K graph
 selection metric으로만 사용한다.
+
+## p_obs / p_rel Main-Framework Status
+
+2026-07-03 기준 `p_obs/p_rel`은 H002 main framework의 selective decision layer로
+포함한다. Protocol freeze 이후 materialization, schema audit, selective metric
+runner까지 실행했고, selective metric은 통과했다. 단, calibration과 proxy-label
+boundary 때문에 paper-ready quantitative result claim은 아직 보류한다.
+
+Current protocol artifact:
+
+```text
+artifacts/compatibility_dataset_v3_pobs_prel_main_claim_protocol_after_report_0703/
+status = h002_pobs_prel_main_claim_protocol_after_report_0703_ready
+selected_path = include_pobs_prel_as_main_framework_claim_not_yet_quantitative_result
+next_todo = compatibility_dataset_v3_pobs_prel_materialization_plan_after_protocol
+```
+
+Current result-review artifact:
+
+```text
+artifacts/compatibility_dataset_v3_pobs_prel_result_review_after_metric_runner/
+status = h002_pobs_prel_result_review_after_metric_runner_ready
+selective_metric_pass = true
+paper_promotion_pass = false
+next_todo = compatibility_dataset_v3_ci_qualitative_failure_wording_after_pobs_prel_review
+```
+
+Current CI/qualitative/failure wording artifact:
+
+```text
+artifacts/compatibility_dataset_v3_ci_qualitative_failure_wording_after_pobs_prel_review/
+status = h002_ci_qualitative_failure_wording_after_pobs_prel_review_ready
+selected_path = keep_pobs_prel_as_framework_component_ci_qualitative_wording_ready
+superseded_by = compatibility_dataset_v3_h002_paper_outline_or_integration_decision_after_insertion_plan
+```
+
+Bootstrap CI:
+
+| Metric | Point | 95% CI |
+| --- | ---: | --- |
+| `p_obs` AUROC | 1.000000 | [1.000000, 1.000000] |
+| `p_rel` AUROC | 0.724615 | [0.715937, 0.730900] |
+| decision macro-F1 | 0.778449 | [0.773312, 0.782656] |
+| missing-control abstain rate | 1.000000 | [1.000000, 1.000000] |
+
+Key metric:
+
+| Metric | Value | Status |
+| --- | ---: | --- |
+| `p_obs` AUROC | 1.000000 | pass |
+| `p_rel` AUROC | 0.724615 | pass |
+| accept/reject/abstain macro-F1 | 0.778449 | pass |
+| missing-control abstain rate | 1.000000 | pass |
+| `p_rel` ECE@10 | 0.171030 | paper-promotion warning |
+
+Frozen decision rule:
+
+```text
+p_obs low -> abstain
+p_obs high + p_rel high -> accept
+p_obs high + p_rel low -> reject
+```
+
+Protocol freeze includes `Q_e` schema, observable/unobservable label,
+accept/reject/abstain target, selective prediction metrics, calibration metrics,
+missing-evidence controls, and support/contact, attachment, containment failure
+route mapping. The first selective stress-test supports the component, but
+unobservable examples are synthetic missing-evidence controls rather than
+independent human observability labels.
+
+## Paper Outline / Integration Decision
+
+2026-07-03 기준 H002는 독립 paper-outline candidate로 선택했다. 단, 아직 새
+top-level paper workspace를 만들지는 않고, H001/GeoCalib manuscript도 수정하지
+않는다.
+
+Decision artifact:
+
+```text
+artifacts/compatibility_dataset_v3_h002_paper_outline_or_integration_decision_after_insertion_plan/
+status = h002_paper_outline_or_integration_decision_after_insertion_plan_ready
+selected_path = open_h002_standalone_outline_candidate_no_h001_edit_no_new_paper_root
+next_todo = compatibility_dataset_v3_h002_standalone_outline_gap_review_after_decision
+```
+
+판단:
+
+- H002는 `T_e/G_e/Z_e/Q_e`, `C_e`, `p_obs/p_rel` 구조를 가진 독립 방법론 후보다.
+- H001은 calibrated geometry-consistency reranking paper로 이미 scope가 잠겨 있다.
+- 지금 H002를 H001에 섞으면 H001의 claim이 흐려지고 H002의 validation-only,
+  support/contact failure, p_obs/p_rel calibration caveat까지 H001이 떠안게 된다.
+- 따라서 H002는 H002 폴더 내부의 standalone outline candidate로 유지한다.
+- 새 paper workspace는 outline-gap review와 사용자 명시 승인 이후에만 만든다.
+
+## Standalone Outline Gap Review
+
+2026-07-03 기준 outline-gap review를 완료했다. 결론은 H002를 standalone outline
+candidate로 유지하되, 아직 새 paper workspace로 승격하지 않는 것이다.
+
+Gap review artifact:
+
+```text
+artifacts/compatibility_dataset_v3_h002_standalone_outline_gap_review_after_decision/
+status = h002_standalone_outline_gap_review_after_decision_ready
+selected_path = keep_outline_candidate_do_not_promote_paper_workspace_yet_resolve_gap_pack
+next_todo = compatibility_dataset_v3_h002_gap_resolution_plan_after_outline_review
+```
+
+Blocking gates:
+
+- `G1_claim_thesis`: design-necessity narrative가 더 필요하다.
+- `G2_table_plan`: main/appendix table placement가 고정되지 않았다.
+- `G3_figure_plan`: figure spec이 없다.
+- `G4_related_work`: related-work matrix와 novelty-threat map이 없다.
+- `G5_ablation_contract`: final ablation/control contract가 필요하다.
+- `G8_failure_taxonomy`: support/contact qualitative taxonomy가 부족하다.
+- `G9_workspace_promotion`: 새 paper root는 아직 만들지 않는다.
+
+Ready gates:
+
+- `G6_calibration_boundary`: `p_obs/p_rel`은 stress-test only로 경계가 명확하다.
+- `G7_benchmark_boundary`: validation-only, no-SOTA, no-official-test wording이 잠겨 있다.
 
 ## Source Reranking Protocol Status
 
@@ -9671,3 +9793,99 @@ H003 position:
 - It can enter the paper only if prototype evidence improves over explicit `C_e`
   on hard negatives, transfer, calibration, or family generalization.
 - It is not part of the current H002 main claim.
+
+### 2026-07-03 Main Validation Table Materialization
+
+`main_validation_claim_table_lock`에서 고정한 boundary를 바탕으로, 기존 validation
+source-reranking 결과를 caption-ready main table 형태로 정리했다. 새 metric run이나
+official test 사용은 없다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_main_validation_table_materialization_after_claim_lock/
+status = h002_main_validation_table_materialization_after_claim_lock_ready
+selected_path = main_validation_table_materialized_select_review
+validation_errors = 0
+main_table_rows = 5
+source_family_caveat_rows = 3
+control_rows = 15
+next_todo = compatibility_dataset_v3_main_validation_table_review_after_materialization
+```
+
+Materialized claim:
+
+- main table은 official 3DSSG validation split 기준이다.
+- baseline은 `S0_source_score`, H002 score는 `S2_source_x_Ce`다.
+- primary rows는 `relative_vertical + size_relative`에 대한 K `{5,10,20,50,100}` tradeoff다.
+- 3개 source-family-K Recall@K regression caveat을 반드시 같이 보고한다.
+- official test, SOTA, unconstrained open-set GT, H003 main-contribution claim은 막는다.
+
+### 2026-07-03 Main Validation Table Review
+
+Materialized table review도 완료했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_main_validation_table_review_after_materialization/
+status = h002_main_validation_table_review_after_materialization_ready
+selected_path = main_validation_table_reviewed_select_paper_insertion_plan
+validation_errors = 0
+next_todo = compatibility_dataset_v3_paper_draft_insertion_plan_after_main_validation_table_review
+```
+
+Review 결과:
+
+- main validation table은 `official_3DSSG_validation_split` 기준 paper table candidate로 허용한다.
+- `S0_source_score` 대비 `S2_source_x_Ce`는 primary success families에서 모든 K의 Recall@K를 올리고 Violation@K를 낮춘다.
+- 3개 source/family/K Recall@K regression caveat은 반드시 노출한다.
+- `C_e only`는 deployable score가 아니라 diagnostic ablation으로 둔다.
+- wrong-T / shuffled-C_e controls는 violation-risk specificity 근거로 쓰되, universal recall-collapse claim은 금지한다.
+- official test, SOTA/leaderboard, uniform-improvement, H003 main-contribution wording은 계속 막는다.
+
+### 2026-07-03 Paper Draft Insertion Plan
+
+Reviewed validation table을 실제 manuscript에 바로 쓰기 전에, hypothesis 단계에서 paper draft
+insertion plan을 lock했다.
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_paper_draft_insertion_plan_after_main_validation_table_review/
+status = h002_paper_draft_insertion_plan_after_main_validation_table_review_ready
+selected_path = paper_draft_insertion_plan_locked_no_manuscript_edit
+validation_errors = 0
+next_todo = compatibility_dataset_v3_h002_paper_outline_or_integration_decision_after_insertion_plan
+```
+
+Lock된 결정:
+
+- reviewed validation table은 H002 paper/results draft의 validation-level main table candidate로 둔다.
+- 현재 H001 manuscript는 이 gate에서 수정하지 않는다.
+- Method에는 `C_e = compatibility(T_e, G_e)`와 `S2 = normalized_source_score(Z_e) * C_e`를 넣는다.
+- Experiments에는 official 3DSSG validation split, VL-SAT/Open3DSG validation predictions, closed-label mapping, custom `Violation@K`를 명시한다.
+- Results에는 `S0_source_score` vs `S2_source_x_Ce` table을 넣고 validation-only caption과 3개 caveat footnote를 함께 둔다.
+- `C_e only`는 diagnostic ablation이고, wrong-T / shuffled-C_e는 violation-risk control로만 표현한다.
+- official test, SOTA/leaderboard, open-set GT, uniform-improvement wording은 계속 금지한다.
+
+### 2026-07-03 Paper-Facing Folder Cleanup
+
+H002 root가 hypothesis-stage exploration 파일로 과도하게 커져 paper claim 확인이 어려워졌다.
+따라서 paper claim에 직접 필요한 core files, source-reranking chain, main validation table
+artifacts만 active H002 폴더에 남기고, 과거 target mining / smoke / diagnostic / path-search
+stage는 archive로 이동했다.
+
+```text
+archive_root = archive/hypothesis_records/hypothesis/H002_factorized-relation-confidence_cleanup_20260703/
+root_stage_files = 236 -> 7
+tools_py = 501 -> 26
+artifact_dirs = 238 -> 28
+pre_cleanup_readme = archive/.../root_files/README_before_cleanup.md
+```
+
+Active H002 owner files:
+
+- `README.md`: compact current status and file map.
+- `paper_claim_core.md`: paper claim, score definition, core code, output map.
+- `summary_branch_v2.md`: full research-history synthesis.
+- `RGA_framework.md`, `method_contract_v1.md`, `geometry_evidence_schema_v1.md`: method/framework references.
+- `compatibility_dataset_v3_main_validation_table_materialization_after_claim_lock.md`: latest table materialization stage.
+- `compatibility_dataset_v3_main_validation_table_review_after_materialization.md`: latest table review stage.
+
+실제 score/evaluation runtime code는 H002 `tools/`가 아니라
+`experiments/H002_compatibility_routing/scripts/`가 소유한다.

@@ -1,0 +1,38 @@
+{
+  "created_at_utc": "2026-07-05T04:28:37+00:00",
+  "outputs": {
+    "observability_label_metrics": "experiments/H002_compatibility_routing/pobs_prel_observability_metric_review/latest/observability_label_metrics.csv",
+    "paper_boundary": "experiments/H002_compatibility_routing/pobs_prel_observability_metric_review/latest/paper_boundary.csv",
+    "qe_feature_gap": "experiments/H002_compatibility_routing/pobs_prel_observability_metric_review/latest/qe_feature_gap.csv",
+    "queue_kind_metrics": "experiments/H002_compatibility_routing/pobs_prel_observability_metric_review/latest/queue_kind_metrics.csv",
+    "repair_plan": "experiments/H002_compatibility_routing/pobs_prel_observability_metric_review/latest/qe_repair_plan.csv",
+    "report": "experiments/H002_compatibility_routing/pobs_prel_observability_metric_review/latest/report.md",
+    "review_decision": "experiments/H002_compatibility_routing/pobs_prel_observability_metric_review/latest/review_decision.csv",
+    "validation_errors": "experiments/H002_compatibility_routing/pobs_prel_observability_metric_review/latest/validation_errors.jsonl"
+  },
+  "primary_metrics": {
+    "decision_accuracy": 0.33584905660377357,
+    "decision_macro_F1": 0.3316369804919423,
+    "p_obs_auroc": 0.5,
+    "p_obs_ece_10": 0.44617441385245515,
+    "p_rel_auroc": 0.7747035573122529,
+    "p_rel_ece_10": 0.08381915095648042
+  },
+  "review_decision": {
+    "next_todo": "pobs_prel_qe_repair_plan",
+    "p_obs_status": "failed_observability_gate",
+    "p_rel_status": "diagnostic_signal_present",
+    "paper_promotion_pass": false,
+    "pobs_prel_framework_component_allowed": true,
+    "pobs_prel_solved_claim_allowed": false,
+    "selected_next_step": "qe_feature_repair_before_any_new_pobs_prel_claim",
+    "selective_decision_status": "failed_due_to_no_abstain_behavior"
+  },
+  "schema_version": "h002_pobs_prel_observability_metric_review_v1",
+  "source_artifacts": {
+    "ingestion": "experiments/H002_compatibility_routing/pobs_prel_observability_ingestion/latest",
+    "metric": "experiments/H002_compatibility_routing/pobs_prel_observability_metric/latest"
+  },
+  "status": "h002_pobs_prel_observability_metric_result_review_ready",
+  "validation_errors": 0
+}

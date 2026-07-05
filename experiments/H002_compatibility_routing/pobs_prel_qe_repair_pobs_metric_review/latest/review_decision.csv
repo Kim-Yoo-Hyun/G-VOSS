@@ -1,0 +1,5 @@
+item,value,decision,reason
+p_obs_only_diagnostic_pass,True,pass_as_diagnostic,repaired Q_e v2 separates observable from ambiguous/missing rows
+proxy_shortcut_risk,high,block_solved_claim,direct Q_e state matches learned p_obs and eval Q_e v2 is audit-proxy material
+pobs_required_for_core_claim,False,exclude_from_core_claim,"core H002 claim is C_e source reranking, not selective observability"
+full_selective_decision_rerun_now,False,do_not_run_now,p_obs is not necessary for the core claim and independent observability GT is still insufficient

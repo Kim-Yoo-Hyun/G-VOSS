@@ -1,0 +1,46 @@
+{
+  "counts": {
+    "candidate_rows": 3178,
+    "failure_rows": 80,
+    "feature_count": 43,
+    "fully_available_feature_count": 43,
+    "hidden_rows": 3178,
+    "label_counts": {
+      "0": 1589,
+      "1": 1589
+    },
+    "predicate_counts": {
+      "lying on": 1589,
+      "standing on": 1589
+    }
+  },
+  "decision": {
+    "next_todo": "support_contact_generalization_repair_materialization",
+    "reason": "current G_e coverage is complete but hard official route inverts; target semantics and pose observability must be repaired",
+    "selected_path": "pose_aware_relabel_abstain_repair_before_more_model_capacity",
+    "support_contact_paper_role": "diagnostic_failure_taxonomy_until_repaired_metric_passes",
+    "support_contact_solved": false
+  },
+  "metrics": {
+    "broad_official_support_contact_M4_AUROC": 0.6317116456316851,
+    "current_hard_official_pass": false,
+    "hard_internal_dev_M4_AUROC": 0.7213559322033898,
+    "hard_official_G_only_AUROC": 0.5,
+    "hard_official_M4_AUROC": 0.0775390596379055,
+    "hard_official_M4_balanced_accuracy": 0.18093140339836375,
+    "hard_official_concat_AUROC": 0.4546601656051813
+  },
+  "schema_version": "h002_support_contact_generalization_repair_v1",
+  "source_artifacts": {
+    "evaluation": "experiments/H002_compatibility_routing/support_contact_harder_evaluation/latest",
+    "general_framework_gap": "experiments/H002_compatibility_routing/general_framework_gap/latest",
+    "materialization": "experiments/H002_compatibility_routing/support_contact_harder_materialization/latest"
+  },
+  "source_status": {
+    "eval_manifest_status": "h002_support_contact_harder_metric_runner_ready",
+    "general_framework_claim": "blocked_continue_experiment_stage",
+    "row_manifest_status": "h002_support_contact_harder_route_materialization_ready"
+  },
+  "status": "h002_support_contact_generalization_repair_ready",
+  "validation_errors": 0
+}

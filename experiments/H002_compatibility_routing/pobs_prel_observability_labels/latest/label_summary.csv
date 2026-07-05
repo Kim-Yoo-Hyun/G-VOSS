@@ -1,0 +1,11 @@
+field,value,rows
+observability_label,ambiguous_evidence,126
+observability_label,observable_clear,135
+observability_label,unobservable_missing_evidence,4
+queue_kind,route_observable_control,45
+queue_kind,support_contact_binary_control,40
+queue_kind,support_contact_mixed_overflow_abstain,60
+queue_kind,support_contact_single_subtype_abstain,120
+decision_label_after_audit,abstain,130
+decision_label_after_audit,accept,66
+decision_label_after_audit,reject,69

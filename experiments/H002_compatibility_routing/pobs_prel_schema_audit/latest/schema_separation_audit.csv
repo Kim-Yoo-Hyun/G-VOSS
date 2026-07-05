@@ -1,0 +1,5 @@
+check,status,qe_rows,prel_rows,hidden_rows,blocked_hit_count,blocks
+view_count_alignment,pass,150070,150070,150070,,
+blocked_field_hits,pass,,,,0,
+qe_view_blocks,pass,,,,,Q_e
+prel_view_blocks,pass,,,,,G_e|Q_e|T_e|Z_e

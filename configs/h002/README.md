@@ -1,12 +1,12 @@
 # H002 Docker Config
 
-This folder will own Docker configuration for H002 compatibility-routing promotion.
+This folder owns Docker configuration for H002 compatibility-routing runtime.
 
 ## Current Status
 
 ```text
-status = main_validation_claim_table_locked_test_blocked
-paper_metric_ready = false
+status = h002_ce_candidate_ci_family_review_ready
+paper_metric_ready = true_validation_only_with_caveats
 paper_table_draft_allowed = true
 paper_table_skeleton_ready = true
 paper_table_skeleton_reviewed = true
@@ -39,6 +39,10 @@ source_reranking_metric_runner_ready = true
 source_reranking_metric_runner_validation_errors = 0
 source_reranking_source_rows_scored = 762888
 source_reranking_internal_train_rows = 4868
+source_reranking_bootstrap_ci_ready = true
+source_reranking_bootstrap_ci_validation_errors = 0
+source_reranking_bootstrap_ci_samples = 1000
+source_reranking_bootstrap_ci_point_mismatch_count = 0
 source_reranking_metric_result_review_ready = true
 source_reranking_validation_evidence = positive
 source_reranking_negative_recall_cells = 3
@@ -72,14 +76,145 @@ post_validation_position_path_decision_ready = true
 main_validation_claim_allowed = true
 main_validation_table_allowed = true
 main_validation_table_locked = true
+main_validation_table_materialized = true
+main_validation_table_reviewed = true
+paper_draft_insertion_plan_locked = true
+standalone_outline_gap_review_ready = true
+h002_gap_resolution_pack_ready = true
+h002_gap_resolution_pack_validation_errors = 0
+pobs_prel_calibration_upgrade_ready = true
+pobs_prel_calibration_upgrade_claim_pass = false
+h002_paper_workspace_promotion_decision_ready = true
+h002_paper_workspace_initial_sync_ready = true
+new_paper_workspace_created = true
+h002_paper_workspace = paper/h002_compatibility_routing/
+main_validation_table_rows = 5
+main_validation_table_caveat_rows = 3
+main_validation_table_control_rows = 15
 official_test_benchmark_claim_allowed = false
 open3dsg_source_boundary = open_vocabulary_source_closed_vocabulary_3dssg_mapping
 h003_embedding_extension_in_main_claim_now = false
 h003_embedding_extension_future_optional = true
+h002_source_reranking_ablation_expansion_plan_ready = true
+h002_source_reranking_ablation_expansion_implementation_ready = true
+source_reranking_ablation_expansion_primary_ci_pass = true
+h002_source_reranking_ablation_expansion_result_review_ready = true
+source_reranking_ablation_expansion_familywise_caveat = violation_stable_recall_mixed
+h002_source_reranking_sensitivity_ready = true
+h002_source_reranking_sensitivity_validation_errors = 0
+h002_source_reranking_sensitivity_rows = 762888
+h002_source_reranking_sensitivity_decision = minmax_main_allowed_with_raw_product_sensitivity_and_rankpct_caveat
+h002_no_route_g_only_sensitivity_passed = true
+h002_ce_improvement_path_ready = true
+h002_ce_improvement_path_validation_errors = 0
+h002_ce_improvement_source_rows_scored = 762888
+h002_ce_improvement_best_primary_score = I4_calibrated_route_aware_source_x_Ce
+h002_ce_improvement_calibrated_candidate_pass = true
+h002_ce_improvement_calibrated_main_promotion = false
+h002_ce_improvement_support_contact_promotion = false
+h002_ce_candidate_ci_family_review_ready = true
+h002_ce_candidate_ci_family_review_validation_errors = 0
+h002_ce_candidate_ci_family_review_bootstrap_samples = 1000
+h002_ce_candidate_ci_family_review_promote_to_main_score = false
+h002_ce_candidate_ci_family_review_selected_path = keep_current_main_score_report_I4_as_candidate_or_ablation
+h002_ce_candidate_ci_family_review_k5_s2_recall_violation = 0.352608,0.054491
+h002_ce_candidate_ci_family_review_k5_i4_recall_violation = 0.358277,0.047554
+h002_ce_candidate_ci_family_review_violation_regression_cells = 5
+h002_ce_candidate_ci_family_review_double_regression_cells = 1
+h002_general_framework_gap_synthesis_ready = true
+h002_general_framework_gap_validation_errors = 0
+h002_general_framework_claim = blocked_continue_experiment_stage
+h002_support_contact_solved = false
+h002_calibrated_pobs_prel_solved = false
+h002_normalization_invariant_improvement = false
+h002_route_aware_source_wide_generalization = false
+h002_support_contact_generalization_repair_ready = true
+h002_support_contact_generalization_repair_validation_errors = 0
+h002_support_contact_generalization_repair_selected_path = pose_aware_relabel_abstain_repair_before_more_model_capacity
+h002_support_contact_repair_materialization_ready = true
+h002_support_contact_repair_materialization_validation_errors = 0
+h002_support_contact_repair_materialization_gate_failures = 1
+h002_support_contact_repair_metric_rerun_ready = false
+h002_support_contact_capacity_decision_ready = true
+h002_support_contact_capacity_decision_validation_errors = 0
+h002_support_contact_capacity_decision_selected_path = freeze_support_contact_as_diagnostic_failure_taxonomy_no_metric_rerun
+h002_support_contact_metric_rerun_allowed = false
+h002_pobs_prel_observability_repair_ready = true
+h002_pobs_prel_observability_repair_validation_errors = 0
+h002_pobs_prel_observability_queue_rows = 265
+h002_pobs_prel_observability_label_fill_ready = true
+h002_pobs_prel_observability_label_fill_validation_errors = 0
+h002_pobs_prel_observability_label_fill_rows = 265
+h002_pobs_prel_observability_label_counts = observable_clear:135,ambiguous_evidence:126,unobservable_missing_evidence:4
+h002_pobs_prel_observability_ingestion_ready = true
+h002_pobs_prel_observability_ingestion_validation_errors = 0
+h002_pobs_prel_observability_ingestion_rows = 265
+h002_pobs_prel_observability_schema_audit_ready = true
+h002_pobs_prel_observability_schema_audit_validation_errors = 0
+h002_pobs_prel_observability_schema_audit_blocked_field_hits = 0
+h002_pobs_prel_observability_labels_human_confirmed = false
+h002_pobs_prel_observability_metric_gate_ready = true
+h002_pobs_prel_observability_metric_gate_validation_errors = 0
+h002_pobs_prel_observability_user_review_completed = true
+h002_pobs_prel_observability_metric_rerun_allowed = true
+h002_pobs_prel_observability_metric_ready = true
+h002_pobs_prel_observability_metric_validation_errors = 0
+h002_pobs_prel_observability_metric_diagnostic_pass = false
+h002_pobs_prel_observability_metric_p_obs_auroc = 0.500000
+h002_pobs_prel_observability_metric_p_rel_auroc = 0.774704
+h002_pobs_prel_observability_metric_decision_macro_f1 = 0.331637
+h002_pobs_prel_observability_metric_result_review_ready = true
+h002_pobs_prel_observability_metric_result_review_validation_errors = 0
+h002_pobs_status = failed_observability_gate
+h002_prel_status = diagnostic_signal_present
+h002_selective_decision_status = failed_due_to_no_abstain_behavior
+h002_qe_repair_needed = true
+h002_pobs_prel_qe_repair_plan_ready = true
+h002_pobs_prel_qe_repair_plan_validation_errors = 0
+h002_qe_repair_failure_cause = qe_feature_label_mismatch
+h002_qe_repair_ambiguous_rows_marked_sufficient = 126
+h002_qe_repair_missing_rows_marked_sufficient = 4
+h002_pobs_prel_qe_repair_materialization_ready = true
+h002_pobs_prel_qe_repair_materialization_validation_errors = 0
+h002_pobs_prel_qe_repair_materialization_train_rows = 14604
+h002_pobs_prel_qe_repair_materialization_eval_rows = 265
+h002_pobs_prel_qe_repair_materialization_blocked_field_hits = 0
+h002_pobs_prel_qe_repair_schema_audit_ready = true
+h002_pobs_prel_qe_repair_schema_audit_validation_errors = 0
+h002_pobs_prel_qe_repair_schema_audit_blocked_field_hits = 0
+h002_pobs_prel_qe_repair_pobs_only_metric_allowed = true
+h002_pobs_prel_qe_repair_full_selective_rerun_allowed = false
+h002_pobs_prel_qe_repair_pobs_only_metric_ready = true
+h002_pobs_prel_qe_repair_pobs_only_metric_validation_errors = 0
+h002_pobs_prel_qe_repair_pobs_only_metric_diagnostic_pass = true
+h002_pobs_prel_qe_repair_pobs_auroc = 1.000000
+h002_pobs_prel_qe_repair_pobs_ece_10 = 0.049266
+h002_pobs_prel_qe_repair_abstain_recall = 1.000000
+h002_pobs_prel_qe_repair_observable_false_abstain = 0.000000
+h002_pobs_prel_qe_repair_pobs_metric_review_ready = true
+h002_pobs_prel_qe_repair_pobs_metric_review_validation_errors = 0
+h002_pobs_proxy_shortcut_risk = high
+h002_pobs_required_for_core_claim = false
+h002_pobs_main_claim_allowed = false
+h002_pobs_optional_framework_component = true
+h002_pobs_full_selective_decision_rerun_now = false
+h002_pobs_prel_metric_rerun_allowed = completed_diagnostic_only
+h002_pobs_prel_calibrated_solved_claim_allowed = false
+h002_method_principle = natural_and_principled_for_scoped_problem
+h002_relation_aware_evidence_routing_framework = constructed_as_framework_and_partially_validated
+h002_general_reliable_3d_relation_framework = not_yet_validated
+h002_paper_framework_direction = relation_aware_evidence_routing
+h002_validated_mechanism_claim = predicate_geometry_compatibility_route
+h002_validated_mechanism_relations = relative_vertical,size_relative
+h002_validated_main_score = S2_current_source_x_Ce
+h002_i4_position = secondary_candidate_ablation_not_main_score
+h002_claim_hierarchy_and_route_protocol_ready = true
+h002_paper_section_sync_after_protocol_freeze_ready = true
+h002_next_todo_type = full_draft_plan_not_metric_run
 checkpoint_reproduction_is_sufficient_for_test_recall = false
 prediction_only_test_scan_export_is_sufficient_for_test_recall = false
-final_paper_result_promotion = not_yet
-next_todo = compatibility_dataset_v3_main_validation_table_materialization_after_claim_lock
+final_paper_result_promotion = validation_table_candidate_only
+next_todo = h002_route_aware_full_draft_plan_after_section_sync
 ```
 
 ## Planned Services
@@ -101,7 +236,30 @@ next_todo = compatibility_dataset_v3_main_validation_table_materialization_after
 | `h002-source-rerank-materialize` | materialize full VL-SAT/Open3DSG source prediction universe for downstream source reranking; completed once, no metrics |
 | `h002-source-rerank-schema-audit` | audit source-reranking materialization view separation, aggregation, and control readiness; completed once, no metrics |
 | `h002-source-rerank-metric-runner` | compute frozen source-reranking `Recall@K`, `Violation@K`, and controls; completed once |
-| `h002-calibration` | optional calibration/selective-risk evaluation for `p_rel` / `p_obs` |
+| `h002-source-rerank-bootstrap-ci` | compute bootstrap CI for frozen source-reranking `Recall@K`, `Violation@K`, and `S2-S0` deltas; completed once |
+| `h002-source-rerank-sensitivity` | run normalization and no-route G-only source-reranking sensitivity; completed once |
+| `h002-ce-improvement-path` | run hard-negative/structured, route-aware, richer-G_e gate, and calibrated-C_e diagnostics; completed once |
+| `h002-ce-candidate-ci-family-review` | run bootstrap CI, K=5 result, family blocker review, and promotion gate for I4; completed once |
+| `h002-general-framework-gap` | synthesize experiment-stage gates for general-framework promotion; completed once |
+| `h002-support-contact-generalization-repair` | synthesize pose-aware relabel/abstain repair gates for support/contact; completed once |
+| `h002-support-contact-repair-materialize` | materialize mixed-class-pair support/contact repair rows and capacity gate; completed once |
+| `h002-support-contact-capacity-decision` | decide support/contact metric rerun capacity and paper boundary; completed once |
+| `h002-pobs-prel-observability-repair` | create real-observability label schema and visual/mesh audit queue; completed once |
+| `h002-pobs-prel-materialize` | materialize `Q_e`, `p_rel`, and hidden selective labels; completed once |
+| `h002-pobs-prel-schema-audit` | audit p_obs/p_rel schema separation; completed once |
+| `h002-pobs-prel-metric-runner` | evaluate p_obs/p_rel selective stress test and calibration; completed once |
+| `h002-pobs-prel-calibration-upgrade` | run fixed-split calibration, asset observability audit, CI, controls, and failure-route connection; completed once |
+| `h002-pobs-prel-observability-label-fill` | fill the 265-row visual/mesh observability queue with Codex labels; completed once |
+| `h002-pobs-prel-observability-ingest` | ingest filled observability labels into model-safe and hidden views; completed once |
+| `h002-pobs-prel-observability-schema-audit` | audit model-safe / hidden separation for observability labels; completed once |
+| `h002-pobs-prel-observability-metric-gate` | record user-confirmation and allow diagnostic p_obs/p_rel observability metric rerun; completed once |
+| `h002-pobs-prel-observability-metric-runner` | run diagnostic p_obs/p_rel metrics on the 265-row user-confirmed observability subset; completed once |
+| `h002-pobs-prel-observability-metric-review` | review the diagnostic rerun and freeze Q_e repair as the next step; completed once |
+| `h002-pobs-prel-qe-repair-plan` | define repaired Q_e v2 schema, materialization contract, and gates; completed once |
+| `h002-pobs-prel-qe-repair-materialize` | materialize repaired Q_e v2 train/eval views and hidden observability v2 labels; completed once |
+| `h002-pobs-prel-qe-repair-schema-audit` | audit repaired Q_e v2 leakage, required blocks, row alignment, and state alignment; completed once |
+| `h002-pobs-prel-qe-repair-pobs-only-metric` | run repaired Q_e v2 p_obs-only diagnostic smoke test; completed once |
+| `h002-pobs-prel-qe-repair-pobs-metric-review` | review p_obs-only diagnostic pass and freeze p_obs claim boundary; completed once |
 
 ## Boundary
 
@@ -114,7 +272,25 @@ next_todo = compatibility_dataset_v3_main_validation_table_materialization_after
 `h002-support-contact-hard-schema-audit`,
 `h002-support-contact-hard-metric-runner`,
 `h002-source-rerank-materialize`, `h002-source-rerank-schema-audit`, and
-`h002-source-rerank-metric-runner`.
+`h002-source-rerank-metric-runner`, `h002-source-rerank-bootstrap-ci`,
+`h002-source-rerank-sensitivity`, `h002-general-framework-gap`,
+`h002-support-contact-generalization-repair`,
+`h002-support-contact-repair-materialize`,
+`h002-support-contact-capacity-decision`,
+`h002-pobs-prel-observability-repair`, `h002-pobs-prel-materialize`,
+`h002-pobs-prel-schema-audit`,
+`h002-pobs-prel-metric-runner`, `h002-pobs-prel-calibration-upgrade`,
+`h002-pobs-prel-observability-label-fill`,
+`h002-pobs-prel-observability-ingest`,
+`h002-pobs-prel-observability-schema-audit`,
+`h002-pobs-prel-observability-metric-gate`,
+`h002-pobs-prel-observability-metric-runner`,
+`h002-pobs-prel-observability-metric-review`, and
+`h002-pobs-prel-qe-repair-plan`,
+`h002-pobs-prel-qe-repair-materialize`, and
+`h002-pobs-prel-qe-repair-schema-audit`, and
+`h002-pobs-prel-qe-repair-pobs-only-metric`, and
+`h002-pobs-prel-qe-repair-pobs-metric-review`.
 
 Docker preflight passed with exit 0. Route materialization also passed with exit
 0 and wrote row-level runtime outputs under:
@@ -135,7 +311,7 @@ Grouped split protocol also passed with exit 0 and wrote split outputs under:
 experiments/H002_compatibility_routing/splits/latest/
 ```
 
-Official metric result review, official metric claim-boundary lock, source-reranking result review, and source-reranking claim-boundary lock artifacts now exist under the H002 hypothesis folder. Do not add calibration or `p_rel`/`p_obs` services to paper-result use until their own protocol, Docker run, review, and claim-lock artifacts exist.
+Official metric result review, official metric claim-boundary lock, source-reranking result review, source-reranking claim-boundary lock, p_obs/p_rel stress-test review, p_obs/p_rel calibration-upgrade review, source-reranking CI, and H002 gap-resolution artifacts now exist under the H002 hypothesis folder. Do not promote p_obs/p_rel as a calibrated quantitative paper result because the calibration-upgrade gate did not pass.
 
 Grouped evaluation protocol now exists under:
 
@@ -404,7 +580,62 @@ Main validation claim/table lock has completed under:
 hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_main_validation_claim_table_lock_after_path_decision/
 ```
 
-The next config-level step should materialize compact table rows from existing
-validation artifacts. Do not open an official-test service.
+Compact table materialization from existing validation artifacts has since
+completed. Do not open an official-test service.
+
+Main validation table materialization has completed under:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_main_validation_table_materialization_after_claim_lock/
+```
+
+Table review has since completed. Do not add a new metric service or
+official-test service from this state.
+
+Main validation table review has also completed under:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_main_validation_table_review_after_materialization/
+```
+
+Paper draft insertion planning was the next step at that time, not a new Docker
+service. It has since completed. Keep official-test services closed unless
+independent relation-test labels or an accepted evaluation server are confirmed.
+
+Paper draft insertion planning has completed under:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_paper_draft_insertion_plan_after_main_validation_table_review/
+```
+
+The source-reranking ablation expansion implementation has completed. The
+Docker/runtime path now adds `A1_source_x_G_only` and `A2_source_x_TG_concat`,
+then regenerates absolute control/ablation metrics and family-wise CI.
+
+The ablation expansion plan is frozen under:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_h002_source_reranking_ablation_expansion_plan_after_route_goal_update/
+```
+
+The implementation artifact is:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_h002_source_reranking_ablation_expansion_implementation_after_plan/
+```
+
+The result-review artifact is:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_h002_source_reranking_ablation_expansion_result_review_after_implementation/
+```
+
+Historical H002 hypothesis-stage files were moved to:
+
+```text
+archive/hypothesis_records/hypothesis/H002_factorized-relation-confidence_cleanup_20260703/
+```
+
+Use the active H002 `paper_claim_core.md` for the current score/code/artifact map.
 
 H001 artifacts must be mounted read-only if referenced.

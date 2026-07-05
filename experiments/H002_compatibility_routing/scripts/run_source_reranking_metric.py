@@ -50,8 +50,18 @@ SCORE_IDS = [
     "S3_log_source_plus_Ce",
     "C1_source_x_shuffled_Ce",
     "C2_source_x_wrong_T_Ce",
+    "A1_source_x_G_only",
+    "A2_source_x_TG_concat",
 ]
-SELECTED_PREDICTION_SCORE_IDS = {"S0_source_score", "S2_source_x_Ce"}
+SELECTED_PREDICTION_SCORE_IDS = {
+    "S0_source_score",
+    "S1_Ce_only",
+    "S2_source_x_Ce",
+    "C1_source_x_shuffled_Ce",
+    "C2_source_x_wrong_T_Ce",
+    "A1_source_x_G_only",
+    "A2_source_x_TG_concat",
+}
 SELECTED_PREDICTION_K = 100
 CONTROL_SEED = "h002_source_reranking_metric_v1"
 
@@ -115,8 +125,12 @@ def ce_feature_fn(row: dict[str, Any]) -> dict[str, float]:
     return merge_features(t_features(row), common_g_features(row), compatibility_features(row))
 
 
-def fit_ce_model(train_rows: list[dict[str, Any]], epochs: int, lr: float, l2: float) -> tuple[Any, float, dict[str, Any]]:
-    return fit_model(train_rows, ce_feature_fn, epochs, lr, l2)
+def geometry_only_feature_fn(row: dict[str, Any]) -> dict[str, float]:
+    return common_g_features(row)
+
+
+def concat_feature_fn(row: dict[str, Any]) -> dict[str, float]:
+    return merge_features(t_features(row), common_g_features(row))
 
 
 def predict_one(model: Any, prior: float, row: dict[str, Any], feature_fn: Any) -> float:
@@ -150,17 +164,23 @@ def frozen_score_values(
     record: dict[str, Any],
     source_bounds: dict[str, tuple[float, float]],
     ce_bounds: dict[tuple[str, str], tuple[float, float]],
+    g_only_bounds: dict[tuple[str, str], tuple[float, float]],
+    concat_bounds: dict[tuple[str, str], tuple[float, float]],
 ) -> dict[str, float]:
     source_key = str(record["source_id"])
-    ce_key = (str(record["source_id"]), str(record["route_family"]))
+    family_key = (str(record["source_id"]), str(record["route_family"]))
     norm_source = minmax_norm(record["source_score"], source_bounds.get(source_key))
-    norm_ce = minmax_norm(record["ce_score"], ce_bounds.get(ce_key))
-    norm_wrong = minmax_norm(record["wrong_ce_score"], ce_bounds.get(ce_key))
-    norm_shuffled = minmax_norm(record["shuffled_ce_score"], ce_bounds.get(ce_key))
+    norm_ce = minmax_norm(record["ce_score"], ce_bounds.get(family_key))
+    norm_wrong = minmax_norm(record["wrong_ce_score"], ce_bounds.get(family_key))
+    norm_shuffled = minmax_norm(record["shuffled_ce_score"], ce_bounds.get(family_key))
+    norm_g_only = minmax_norm(record["g_only_score"], g_only_bounds.get(family_key))
+    norm_concat = minmax_norm(record["concat_score"], concat_bounds.get(family_key))
     s = clipped(norm_source)
     c = clipped(norm_ce)
     w = clipped(norm_wrong)
     h = clipped(norm_shuffled)
+    g = clipped(norm_g_only)
+    x = clipped(norm_concat)
     return {
         "S0_source_score": norm_source,
         "S1_Ce_only": norm_ce,
@@ -168,6 +188,8 @@ def frozen_score_values(
         "S3_log_source_plus_Ce": math.log(s) + math.log(c),
         "C1_source_x_shuffled_Ce": s * h,
         "C2_source_x_wrong_T_Ce": s * w,
+        "A1_source_x_G_only": s * g,
+        "A2_source_x_TG_concat": s * x,
     }
 
 
@@ -354,6 +376,8 @@ def metric_tables(records: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], 
             ("S1_Ce_only", "C_e_only_diagnostic"),
             ("C1_source_x_shuffled_Ce", "shuffled_Ce_control_should_degrade"),
             ("C2_source_x_wrong_T_Ce", "wrong_T_control_should_degrade"),
+            ("A1_source_x_G_only", "geometry_only_ablation"),
+            ("A2_source_x_TG_concat", "plain_TG_concat_ablation"),
         ]:
             baseline = by_key.get(("primary_success_weighted", baseline_id, k))
             if not baseline:
@@ -379,6 +403,17 @@ def metric_tables(records: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], 
                 }
             )
     return source_family_rows, aggregate_rows, controls, selected_rows
+
+
+def absolute_primary_metrics(aggregate_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    rows = [
+        row
+        for row in aggregate_rows
+        if row.get("level") == "primary_success_weighted"
+        and row.get("route_family") == "PRIMARY"
+        and row.get("score_id") in SCORE_IDS
+    ]
+    return sorted(rows, key=lambda row: (str(row.get("score_id")), int(row.get("K", 0))))
 
 
 def validate_inputs(protocol_dir: Path, materialization_dir: Path, protocol: dict[str, Any], materialization: dict[str, Any]) -> list[dict[str, Any]]:
@@ -414,7 +449,7 @@ def validate_inputs(protocol_dir: Path, materialization_dir: Path, protocol: dic
                 "actual": materialization.get("row_counts", {}).get("primary_success_family_rows"),
             }
         )
-    for filename in ["model_safe_ce_view.jsonl", "source_rank_view.jsonl", "hidden_metric_manifest.jsonl"]:
+    for filename in ["model_safe_ce_view.jsonl", "model_safe_geometry_only_view.jsonl", "source_rank_view.jsonl", "hidden_metric_manifest.jsonl"]:
         if not (materialization_dir / filename).exists():
             errors.append({"error_type": "missing_required_input", "file": filename})
     for filename in ["score_contract.csv", "metric_protocol.csv", "recall_protocol.csv", "violation_protocol.csv"]:
@@ -423,31 +458,56 @@ def validate_inputs(protocol_dir: Path, materialization_dir: Path, protocol: dic
     return errors
 
 
-def score_source_rows(args: argparse.Namespace, model: Any, prior: float) -> tuple[list[dict[str, Any]], dict[str, Any], list[dict[str, Any]]]:
+def score_source_rows(
+    args: argparse.Namespace,
+    ce_model: Any,
+    ce_prior: float,
+    g_only_model: Any,
+    g_only_prior: float,
+    concat_model: Any,
+    concat_prior: float,
+) -> tuple[list[dict[str, Any]], dict[str, Any], list[dict[str, Any]]]:
     materialization_dir = args.materialization_dir
     ce_path = materialization_dir / "model_safe_ce_view.jsonl"
+    geometry_only_path = materialization_dir / "model_safe_geometry_only_view.jsonl"
     rank_path = materialization_dir / "source_rank_view.jsonl"
     hidden_path = materialization_dir / "hidden_metric_manifest.jsonl"
 
     records: list[dict[str, Any]] = []
     source_bounds_raw: dict[str, list[float]] = {}
     ce_bounds_raw: dict[tuple[str, str], list[float]] = {}
+    g_only_bounds_raw: dict[tuple[str, str], list[float]] = {}
+    concat_bounds_raw: dict[tuple[str, str], list[float]] = {}
     row_errors: list[dict[str, Any]] = []
     source_counts = Counter()
     family_counts = Counter()
 
-    with ce_path.open("r", encoding="utf-8") as ce_handle, rank_path.open("r", encoding="utf-8") as rank_handle, hidden_path.open("r", encoding="utf-8") as hidden_handle:
-        for line_index, (ce_line, rank_line, hidden_line) in enumerate(zip(ce_handle, rank_handle, hidden_handle), start=1):
+    with (
+        ce_path.open("r", encoding="utf-8") as ce_handle,
+        geometry_only_path.open("r", encoding="utf-8") as geometry_only_handle,
+        rank_path.open("r", encoding="utf-8") as rank_handle,
+        hidden_path.open("r", encoding="utf-8") as hidden_handle,
+    ):
+        for line_index, (ce_line, geometry_only_line, rank_line, hidden_line) in enumerate(
+            zip(ce_handle, geometry_only_handle, rank_handle, hidden_handle),
+            start=1,
+        ):
             ce_row = json.loads(ce_line)
+            geometry_only_row = json.loads(geometry_only_line)
             rank_row = json.loads(rank_line)
             hidden_row = json.loads(hidden_line)
             candidate_id = str(ce_row.get("candidate_id"))
-            if candidate_id != rank_row.get("candidate_id") or candidate_id != hidden_row.get("candidate_id"):
+            if (
+                candidate_id != geometry_only_row.get("candidate_id")
+                or candidate_id != rank_row.get("candidate_id")
+                or candidate_id != hidden_row.get("candidate_id")
+            ):
                 row_errors.append(
                     {
                         "line": line_index,
                         "error_type": "candidate_id_alignment_mismatch",
                         "ce": candidate_id,
+                        "geometry_only": geometry_only_row.get("candidate_id"),
                         "rank": rank_row.get("candidate_id"),
                         "hidden": hidden_row.get("candidate_id"),
                     }
@@ -459,8 +519,10 @@ def score_source_rows(args: argparse.Namespace, model: Any, prior: float) -> tup
             source_id = str(ce_row.get("source_id"))
             family = str(ce_row.get("route_family"))
             source_score = safe_float(rank_row.get("Z_e", {}).get("ranking_score"), 0.0)
-            ce_score = predict_one(model, prior, ce_row, ce_feature_fn)
-            wrong_ce_score = predict_one(model, prior, ce_row, wrong_within_route_features)
+            ce_score = predict_one(ce_model, ce_prior, ce_row, ce_feature_fn)
+            wrong_ce_score = predict_one(ce_model, ce_prior, ce_row, wrong_within_route_features)
+            g_only_score = predict_one(g_only_model, g_only_prior, geometry_only_row, geometry_only_feature_fn)
+            concat_score = predict_one(concat_model, concat_prior, ce_row, concat_feature_fn)
             violation_checkable = bool(hidden_row.get("h2_violation_checkable")) and family != "support_contact"
             record = {
                 "candidate_id": candidate_id,
@@ -476,6 +538,8 @@ def score_source_rows(args: argparse.Namespace, model: Any, prior: float) -> tup
                 "ce_score": ce_score,
                 "wrong_ce_score": wrong_ce_score,
                 "shuffled_ce_score": ce_score,
+                "g_only_score": g_only_score,
+                "concat_score": concat_score,
                 "gt_exact_match": bool(hidden_row.get("gt_exact_match")),
                 "violation_status": str(hidden_row.get("h2_relation_status")),
                 "violation_checkable": violation_checkable,
@@ -486,6 +550,8 @@ def score_source_rows(args: argparse.Namespace, model: Any, prior: float) -> tup
             family_counts[family] += 1
             update_bounds(source_bounds_raw, source_id, source_score)
             update_bounds(ce_bounds_raw, (source_id, family), ce_score)
+            update_bounds(g_only_bounds_raw, (source_id, family), g_only_score)
+            update_bounds(concat_bounds_raw, (source_id, family), concat_score)
 
     buckets: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
     for record in records:
@@ -500,8 +566,10 @@ def score_source_rows(args: argparse.Namespace, model: Any, prior: float) -> tup
 
     source_bounds = {key: (values[0], values[1]) for key, values in source_bounds_raw.items()}
     ce_bounds = {key: (values[0], values[1]) for key, values in ce_bounds_raw.items()}
+    g_only_bounds = {key: (values[0], values[1]) for key, values in g_only_bounds_raw.items()}
+    concat_bounds = {key: (values[0], values[1]) for key, values in concat_bounds_raw.items()}
     for record in records:
-        record["scores"] = frozen_score_values(record, source_bounds, ce_bounds)
+        record["scores"] = frozen_score_values(record, source_bounds, ce_bounds, g_only_bounds, concat_bounds)
 
     score_summary = {
         "row_count": len(records),
@@ -509,6 +577,12 @@ def score_source_rows(args: argparse.Namespace, model: Any, prior: float) -> tup
         "family_counts": dict(sorted(family_counts.items())),
         "source_score_bounds": {key: {"min": lo, "max": hi} for key, (lo, hi) in sorted(source_bounds.items())},
         "ce_score_bounds": {f"{source}|{family}": {"min": lo, "max": hi} for (source, family), (lo, hi) in sorted(ce_bounds.items())},
+        "g_only_score_bounds": {
+            f"{source}|{family}": {"min": lo, "max": hi} for (source, family), (lo, hi) in sorted(g_only_bounds.items())
+        },
+        "concat_score_bounds": {
+            f"{source}|{family}": {"min": lo, "max": hi} for (source, family), (lo, hi) in sorted(concat_bounds.items())
+        },
     }
     return records, score_summary, row_errors
 
@@ -523,24 +597,45 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     if not train_rows:
         errors.append({"error_type": "empty_internal_train_rows"})
 
-    model = None
-    prior = 0.5
+    ce_model = None
+    ce_prior = 0.5
+    g_only_model = None
+    g_only_prior = 0.5
+    concat_model = None
+    concat_prior = 0.5
     fit_summary: dict[str, Any] = {}
     records: list[dict[str, Any]] = []
     score_summary: dict[str, Any] = {}
     source_family_metrics: list[dict[str, Any]] = []
     score_condition_metrics: list[dict[str, Any]] = []
+    absolute_primary_metric_rows: list[dict[str, Any]] = []
     control_metrics: list[dict[str, Any]] = []
     selected_rows: list[dict[str, Any]] = []
 
     if not errors:
-        model, prior, fit_summary = fit_ce_model(train_rows, args.epochs, args.lr, args.l2)
-        records, score_summary, row_errors = score_source_rows(args, model, prior)
+        ce_model, ce_prior, ce_fit_summary = fit_model(train_rows, ce_feature_fn, args.epochs, args.lr, args.l2)
+        g_only_model, g_only_prior, g_only_fit_summary = fit_model(train_rows, geometry_only_feature_fn, args.epochs, args.lr, args.l2)
+        concat_model, concat_prior, concat_fit_summary = fit_model(train_rows, concat_feature_fn, args.epochs, args.lr, args.l2)
+        fit_summary = {
+            "C_e_TxG_compatibility": ce_fit_summary,
+            "G_only": g_only_fit_summary,
+            "T_plus_G_concat": concat_fit_summary,
+        }
+        records, score_summary, row_errors = score_source_rows(
+            args,
+            ce_model,
+            ce_prior,
+            g_only_model,
+            g_only_prior,
+            concat_model,
+            concat_prior,
+        )
         errors.extend(row_errors)
         if len(records) != EXPECTED_TOTAL_ROWS:
             errors.append({"error_type": "scored_row_count_mismatch", "actual": len(records), "expected": EXPECTED_TOTAL_ROWS})
         if not errors:
             source_family_metrics, score_condition_metrics, control_metrics, selected_rows = metric_tables(records)
+            absolute_primary_metric_rows = absolute_primary_metrics(score_condition_metrics)
 
     status = STATUS_READY if not errors else STATUS_ERROR
     manifest = {
@@ -561,7 +656,11 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             "C_e_train_split": TRAIN_SPLIT,
             "fit_or_tune_on_official_validation": False,
             "official_test_usage": False,
-            "feature_blocks": ["T_e", "G_e"],
+            "feature_blocks": {
+                "C_e_TxG_compatibility": ["T_e", "G_e", "T_e_x_G_e_interaction_features"],
+                "G_only": ["G_e"],
+                "T_plus_G_concat": ["T_e", "G_e"],
+            },
             "fit_summary": fit_summary,
         },
         "score_summary": score_summary,
@@ -570,6 +669,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             "score_manifest": rel_path(args.repo_root, args.out / "score_manifest.json"),
             "source_family_metrics": rel_path(args.repo_root, args.out / "source_family_metrics.csv"),
             "score_condition_metrics": rel_path(args.repo_root, args.out / "score_condition_metrics.csv"),
+            "absolute_primary_metrics": rel_path(args.repo_root, args.out / "absolute_primary_metrics.csv"),
             "control_metrics": rel_path(args.repo_root, args.out / "control_metrics.csv"),
             "selected_predictions": rel_path(args.repo_root, args.out / "selected_predictions.jsonl"),
             "validation_errors": rel_path(args.repo_root, args.out / "validation_errors.jsonl"),
@@ -585,8 +685,12 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             "support_contact_success_aggregation": "excluded_diagnostic",
             "p_obs_claim_enabled": False,
             "p_rel_claim_enabled": False,
+            "A1_source_x_G_only_added": True,
+            "A2_source_x_TG_concat_added": True,
+            "A1_A2_fit_on_internal_train_only": True,
+            "A1_A2_use_Z_e_only_at_final_reranking": True,
         },
-        "next_todo": "compatibility_dataset_v3_source_reranking_metric_result_review_after_runner",
+        "next_todo": "h002_source_reranking_ablation_expansion_result_review_after_implementation",
         "validation_errors": len(errors),
     }
 
@@ -594,9 +698,12 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "schema_version": f"{SCHEMA_VERSION}_score_manifest",
         "score_ids": SCORE_IDS,
         "primary_score": "S2_source_x_Ce",
+        "required_ablation_score_ids": ["A1_source_x_G_only", "A2_source_x_TG_concat"],
         "normalization": {
             "source_score": "per_source_minmax",
             "C_e_score": "per_source_family_minmax",
+            "G_only_score": "per_source_family_minmax",
+            "T_plus_G_concat_score": "per_source_family_minmax",
             "lambda": "fixed_1_for_S3_only",
         },
         "score_summary": score_summary,
@@ -607,6 +714,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     write_json(args.out / "score_manifest.json", score_manifest)
     write_csv(args.out / "source_family_metrics.csv", source_family_metrics)
     write_csv(args.out / "score_condition_metrics.csv", score_condition_metrics)
+    write_csv(args.out / "absolute_primary_metrics.csv", absolute_primary_metric_rows)
     write_csv(args.out / "control_metrics.csv", control_metrics)
     write_jsonl(args.out / "selected_predictions.jsonl", selected_rows)
     write_jsonl(args.out / "validation_errors.jsonl", errors)

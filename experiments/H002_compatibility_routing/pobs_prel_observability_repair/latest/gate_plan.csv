@@ -1,0 +1,6 @@
+gate,required,current,passed,decision
+real_observability_label_classes,observable_clear plus at least one of unobservable_missing_evidence or ambiguous_evidence,{'observable': 23062},False,blocked
+audit_queue_created,>= 200 candidate rows for visual/mesh audit,265,True,passed_for_label_collection_not_for_metric
+support_contact_ambiguous_candidates,support/contact abstain rows available for ambiguity audit,1536,True,passed_as_audit_source
+attachment_containment_route_presence,nonzero attachment_like or containment rows,"{'attachment_like': '0', 'containment': '0'}",False,blocked_for_general_observability_claim
+calibrated_pobs_prel_claim,"real observability labels, p_rel ECE <= 0.10, route coverage",not met,False,blocked

@@ -1,0 +1,6 @@
+gate,value,pass,interpretation
+schema_valid,0,True,materialization is valid
+binary_capacity,40,False,too few rows for support/contact metric evidence
+mixed_class_pair_capacity,4,False,too few class-pairs after shortcut control
+metric_rerun_ready,False,False,metric rerun is blocked
+diagnostic_value,3138,True,failure is useful as diagnostic evidence for observability/abstain route

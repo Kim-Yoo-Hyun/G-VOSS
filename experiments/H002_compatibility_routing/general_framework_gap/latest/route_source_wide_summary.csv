@@ -1,0 +1,6 @@
+route_family,cells,pass_cells,recall_nonnegative_cells,violation_nonpositive_cells,route_source_wide_status
+proximity,4,4,1,4,supported
+relative_horizontal,4,0,2,1,mixed_or_blocked
+relative_vertical,4,4,4,4,supported
+size_relative,4,3,3,4,mixed_or_blocked
+support_contact,4,2,1,4,mixed_or_blocked

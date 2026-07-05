@@ -1,5 +1,9 @@
 {
   "boundary": {
+    "A1_A2_fit_on_internal_train_only": true,
+    "A1_A2_use_Z_e_only_at_final_reranking": true,
+    "A1_source_x_G_only_added": true,
+    "A2_source_x_TG_concat_added": true,
     "C_e_excludes_Z_e": true,
     "Z_e_combined_only_after_C_e": true,
     "official_test_usage": false,
@@ -11,7 +15,7 @@
     "source_reranking_metric_produced": true,
     "support_contact_success_aggregation": "excluded_diagnostic"
   },
-  "created_at_utc": "2026-07-02T11:01:02+00:00",
+  "created_at_utc": "2026-07-03T23:52:00+00:00",
   "input_artifacts": {
     "internal_split_view": "experiments/H002_compatibility_routing/splits/latest/model_safe_split_view.jsonl",
     "materialization_dir": "experiments/H002_compatibility_routing/source_reranking_materialization/latest",
@@ -19,20 +23,43 @@
   },
   "model": {
     "C_e_train_split": "internal_train",
-    "feature_blocks": [
-      "T_e",
-      "G_e"
-    ],
+    "feature_blocks": {
+      "C_e_TxG_compatibility": [
+        "T_e",
+        "G_e",
+        "T_e_x_G_e_interaction_features"
+      ],
+      "G_only": [
+        "G_e"
+      ],
+      "T_plus_G_concat": [
+        "T_e",
+        "G_e"
+      ]
+    },
     "fit_or_tune_on_official_validation": false,
     "fit_summary": {
-      "feature_count": 498,
-      "mode": "logistic",
-      "train_rows": 4868
+      "C_e_TxG_compatibility": {
+        "feature_count": 498,
+        "mode": "logistic",
+        "train_rows": 4868
+      },
+      "G_only": {
+        "feature_count": 68,
+        "mode": "logistic",
+        "train_rows": 4868
+      },
+      "T_plus_G_concat": {
+        "feature_count": 142,
+        "mode": "logistic",
+        "train_rows": 4868
+      }
     },
     "official_test_usage": false
   },
-  "next_todo": "compatibility_dataset_v3_source_reranking_metric_result_review_after_runner",
+  "next_todo": "h002_source_reranking_ablation_expansion_result_review_after_implementation",
   "outputs": {
+    "absolute_primary_metrics": "experiments/H002_compatibility_routing/source_reranking_evaluation/latest/absolute_primary_metrics.csv",
     "control_metrics": "experiments/H002_compatibility_routing/source_reranking_evaluation/latest/control_metrics.csv",
     "metric_manifest": "experiments/H002_compatibility_routing/source_reranking_evaluation/latest/metric_manifest.json",
     "score_condition_metrics": "experiments/H002_compatibility_routing/source_reranking_evaluation/latest/score_condition_metrics.csv",
@@ -43,7 +70,7 @@
   },
   "row_counts": {
     "internal_train": 4868,
-    "selected_prediction_rows": 932732,
+    "selected_prediction_rows": 3264562,
     "source_rows_scored": 762888
   },
   "schema_version": "h002_source_reranking_metric_runner_v1",
@@ -90,12 +117,96 @@
         "min": 0.0012022971905122518
       }
     },
+    "concat_score_bounds": {
+      "open3dsg_recovery_relaxed_views_min2|proximity": {
+        "max": 0.5283747942248518,
+        "min": 0.2125894390996411
+      },
+      "open3dsg_recovery_relaxed_views_min2|relative_horizontal": {
+        "max": 0.5462027163786306,
+        "min": 0.19973261929930028
+      },
+      "open3dsg_recovery_relaxed_views_min2|relative_vertical": {
+        "max": 0.6730645677160946,
+        "min": 0.1928944584790595
+      },
+      "open3dsg_recovery_relaxed_views_min2|size_relative": {
+        "max": 0.5336498344938221,
+        "min": 0.2082071285912432
+      },
+      "open3dsg_recovery_relaxed_views_min2|support_contact": {
+        "max": 0.6590936136345967,
+        "min": 0.13037804265323197
+      },
+      "vlsat_full_validation|proximity": {
+        "max": 0.5283747942248518,
+        "min": 0.2125894390996411
+      },
+      "vlsat_full_validation|relative_horizontal": {
+        "max": 0.5462042190683786,
+        "min": 0.19973261929930028
+      },
+      "vlsat_full_validation|relative_vertical": {
+        "max": 0.7162747546332829,
+        "min": 0.19042348870011566
+      },
+      "vlsat_full_validation|size_relative": {
+        "max": 0.5336498344938221,
+        "min": 0.2081976998480153
+      },
+      "vlsat_full_validation|support_contact": {
+        "max": 0.6599144627708092,
+        "min": 0.13037804265323197
+      }
+    },
     "family_counts": {
       "proximity": 63574,
       "relative_horizontal": 254296,
       "relative_vertical": 127148,
       "size_relative": 127148,
       "support_contact": 190722
+    },
+    "g_only_score_bounds": {
+      "open3dsg_recovery_relaxed_views_min2|proximity": {
+        "max": 0.4993359874892674,
+        "min": 0.4993359874892674
+      },
+      "open3dsg_recovery_relaxed_views_min2|relative_horizontal": {
+        "max": 0.4980083355516128,
+        "min": 0.4979891762548288
+      },
+      "open3dsg_recovery_relaxed_views_min2|relative_vertical": {
+        "max": 0.663374574207082,
+        "min": 0.3069415762832097
+      },
+      "open3dsg_recovery_relaxed_views_min2|size_relative": {
+        "max": 0.49844322161635457,
+        "min": 0.4984248321570293
+      },
+      "open3dsg_recovery_relaxed_views_min2|support_contact": {
+        "max": 0.6174740655165977,
+        "min": 0.3771839581114511
+      },
+      "vlsat_full_validation|proximity": {
+        "max": 0.4993359874892674,
+        "min": 0.4993359874892674
+      },
+      "vlsat_full_validation|relative_horizontal": {
+        "max": 0.49801091306206224,
+        "min": 0.4979865987452762
+      },
+      "vlsat_full_validation|relative_vertical": {
+        "max": 0.7101795406086611,
+        "min": 0.27997743339221287
+      },
+      "vlsat_full_validation|size_relative": {
+        "max": 0.4984455285019066,
+        "min": 0.4984225252720754
+      },
+      "vlsat_full_validation|support_contact": {
+        "max": 0.6186871497533722,
+        "min": 0.37515935241248477
+      }
     },
     "row_count": 762888,
     "source_counts": {

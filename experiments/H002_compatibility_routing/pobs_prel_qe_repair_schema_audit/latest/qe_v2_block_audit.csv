@@ -1,0 +1,5 @@
+view,rows,feature_blocks,missing_qe_rows,bad_qe_only_rows,missing_required_qe_blocks,status
+model_safe_qe_v2_train,14604,Q_e,0,0,{},pass
+model_safe_qe_v2_eval,265,Q_e,0,0,{},pass
+model_safe_prel_v2_train,14604,G_e|Q_e|T_e|Z_e,0,0,{},pass
+model_safe_prel_v2_eval,265,G_e|Q_e|T_e|Z_e,0,0,{},pass

@@ -1,0 +1,40 @@
+{
+  "current_blockers": {
+    "asset_observability_label_counts": {
+      "observable": 23062
+    },
+    "attachment_containment_rows_available": false,
+    "has_real_negative_or_ambiguous_observability_labels": false,
+    "p_rel_calibrated_ECE_10": 0.22345786060584388,
+    "support_contact_metric_rerun_allowed": false
+  },
+  "decision": {
+    "next_todo": "pobs_prel_observability_label_fill",
+    "pobs_prel_calibrated_solved_claim_allowed": false,
+    "pobs_prel_metric_rerun_allowed": false,
+    "reason": "current p_obs labels are single-class observable under asset audit; synthetic controls are useful stress tests but not real negative/ambiguous observability GT",
+    "selected_path": "create_visual_mesh_observability_audit_queue_no_metric_rerun"
+  },
+  "repair_outputs": {
+    "gate_plan": "experiments/H002_compatibility_routing/pobs_prel_observability_repair/latest/gate_plan.csv",
+    "label_schema": "experiments/H002_compatibility_routing/pobs_prel_observability_repair/latest/label_schema.csv",
+    "next_steps": "experiments/H002_compatibility_routing/pobs_prel_observability_repair/latest/next_steps.csv",
+    "observability_gap": "experiments/H002_compatibility_routing/pobs_prel_observability_repair/latest/observability_gap.csv",
+    "observability_label_queue": "experiments/H002_compatibility_routing/pobs_prel_observability_repair/latest/observability_label_queue.jsonl",
+    "observability_label_queue_rows": 265,
+    "queue_counts": {
+      "route_observable_control": 45,
+      "support_contact_binary_control": 40,
+      "support_contact_mixed_overflow_abstain": 60,
+      "support_contact_single_subtype_abstain": 120
+    }
+  },
+  "schema_version": "h002_pobs_prel_observability_repair_v1",
+  "source_artifacts": {
+    "pobs_calibration_upgrade": "experiments/H002_compatibility_routing/pobs_prel_calibration_upgrade/latest",
+    "support_contact_capacity_decision": "experiments/H002_compatibility_routing/support_contact_capacity_decision/latest",
+    "support_contact_repair_materialization": "experiments/H002_compatibility_routing/support_contact_repair_materialization/latest"
+  },
+  "status": "h002_pobs_prel_observability_repair_ready",
+  "validation_errors": 0
+}

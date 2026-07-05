@@ -1,6 +1,6 @@
 # Research Documentation Index
 
-Last updated: 2026-07-01 KST
+Last updated: 2026-07-04 KST
 
 ## Purpose
 
@@ -31,9 +31,11 @@ External convention checked on 2026-06-25 KST:
 | H001 paper framing and reviewer-defense rules | `docs/paper.md`, `paper/` |
 | H001_v2 diagnostic risk-controlled reranking branch | `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/README.md` |
 | H002 current branch state and next gate | `hypothesis/CAND-001/H002_factorized-relation-confidence/README.md` |
+| H002 standalone paper workspace | `paper/h002_compatibility_routing/README.md` |
+| H002 relation-family route map | `paper/h002_compatibility_routing/route_framework.md` |
 | H002 research framing and grouped v1-v81 overview | `hypothesis/CAND-001/H002_factorized-relation-confidence/summary_branch_v2.md` |
 | H002 grouped stage history | `hypothesis/CAND-001/H002_factorized-relation-confidence/stages/` |
-| H002 Docker promotion skeleton | `experiments/H002_compatibility_routing/README.md`, `configs/h002/README.md`, `results/h002_compatibility_routing/README.md` |
+| H002 Docker/runtime experiment map | `experiments/H002_compatibility_routing/README.md`, `configs/h002/README.md`, `results/h002_compatibility_routing/README.md` |
 | Long-running job logs | `logs/` |
 
 ## Workflow Rulebooks
@@ -55,14 +57,15 @@ External convention checked on 2026-06-25 KST:
 | Hypothesis archive | `archive/hypothesis_records/hypothesis/README.md` |
 | H001_v2 diagnostic branch | `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/README.md`, `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/02_risk_control_protocol.md`, `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/05_source_inventory.md`, `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/06_schema_probe.md`, `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/07_source_eval_contract.md`, `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/08_source_eval_result.md` |
 | Active H002 hypothesis | `hypothesis/CAND-001/H002_factorized-relation-confidence/README.md` |
+| H002 paper claim / file map | `hypothesis/CAND-001/H002_factorized-relation-confidence/paper_claim_core.md` |
 | H002 RGA framework | `hypothesis/CAND-001/H002_factorized-relation-confidence/RGA_framework.md` |
-| H002 feasibility notes | `hypothesis/CAND-001/H002_factorized-relation-confidence/feasibility_check.md` |
+| H002 feasibility notes | `hypothesis/CAND-001/H002_factorized-relation-confidence/report/feasibility_check.md` |
 | Paper experiment root | `experiments/H001_geom_reliability/README.md` |
-| H002 experiment skeleton | `experiments/H002_compatibility_routing/README.md`, `experiments/H002_compatibility_routing/commands.md` |
-| H002 Docker config skeleton | `configs/h002/README.md` |
+| H002 experiment runtime | `experiments/H002_compatibility_routing/README.md`, `experiments/H002_compatibility_routing/commands.md` |
+| H002 Docker config | `configs/h002/README.md` |
 | Compact paper-facing results | `results/h001_geom_reliability/` |
-| H002 compact result skeleton | `results/h002_compatibility_routing/README.md` |
-| Manuscript workspace | `paper/README.md`, `paper/preview.md`, `paper/outline.md`, `paper/draft.md`, `paper/risk.md`, `paper/appendix.md`, `paper/figures.md` |
+| H002 compact result boundary | `results/h002_compatibility_routing/README.md` |
+| Manuscript workspace | `paper/README.md`, `paper/preview.md`, `paper/outline.md`, `paper/draft.md`, `paper/risk.md`, `paper/appendix.md`, `paper/figures.md`, `paper/h002_compatibility_routing/README.md` |
 | Archive and optional evidence | `archive/README.md` |
 
 ## Update Rule

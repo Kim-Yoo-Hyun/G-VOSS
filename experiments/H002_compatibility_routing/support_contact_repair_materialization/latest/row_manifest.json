@@ -1,0 +1,143 @@
+{
+  "boundary": {
+    "Q_e_policy": "not_in_C_e_main_input",
+    "Z_e_policy": "excluded_from_C_e_hidden_or_future_p_rel_only",
+    "h001_artifacts_modified": false,
+    "main_C_e_allowed_blocks": [
+      "T_e",
+      "G_e"
+    ],
+    "metric_rerun_ready": false,
+    "official_test_used": false,
+    "official_validation_eval_only": true,
+    "paper_metric_ready": false
+  },
+  "class_pair_quota": [
+    {
+      "class_pair": "box->floor",
+      "class_pair_role": "main_binary_mixed_class_pair",
+      "lying_positive_groups": 5,
+      "selected_binary_rows": 20,
+      "selected_groups": 10,
+      "selected_per_positive_predicate": 5,
+      "standing_positive_groups": 23
+    },
+    {
+      "class_pair": "item->floor",
+      "class_pair_role": "main_binary_mixed_class_pair",
+      "lying_positive_groups": 2,
+      "selected_binary_rows": 8,
+      "selected_groups": 4,
+      "selected_per_positive_predicate": 2,
+      "standing_positive_groups": 4
+    },
+    {
+      "class_pair": "object->floor",
+      "class_pair_role": "main_binary_mixed_class_pair",
+      "lying_positive_groups": 2,
+      "selected_binary_rows": 8,
+      "selected_groups": 4,
+      "selected_per_positive_predicate": 2,
+      "standing_positive_groups": 12
+    },
+    {
+      "class_pair": "shoes->floor",
+      "class_pair_role": "main_binary_mixed_class_pair",
+      "lying_positive_groups": 1,
+      "selected_binary_rows": 4,
+      "selected_groups": 2,
+      "selected_per_positive_predicate": 1,
+      "standing_positive_groups": 4
+    }
+  ],
+  "created_at_utc": "2026-07-04T14:20:05+00:00",
+  "decision": {
+    "main_binary_capacity_sufficient": false,
+    "next_todo": "support_contact_generalization_repair_capacity_decision",
+    "reason": "only a small number of class-pairs contain both standing-on and lying-on positives; class-pair shortcut remains the limiting issue",
+    "selected_path": "mixed_class_pair_main_binary_plus_single_subtype_abstain_diagnostic",
+    "support_contact_solved": false
+  },
+  "decision_counts": {
+    "abstain": 3138,
+    "accept": 20,
+    "reject": 20
+  },
+  "gate_failure_policy": "capacity_below_gate_blocks_metric_rerun_but_is_not_schema_validation_error",
+  "gate_failures": 1,
+  "label_counts": {
+    "0": 20,
+    "1": 20
+  },
+  "output_artifacts": {
+    "class_pair_quota": "experiments/H002_compatibility_routing/support_contact_repair_materialization/latest/class_pair_quota.csv",
+    "gate_failures": "experiments/H002_compatibility_routing/support_contact_repair_materialization/latest/gate_failures.jsonl",
+    "group_manifest": "experiments/H002_compatibility_routing/support_contact_repair_materialization/latest/group_manifest.jsonl",
+    "hidden_manifest": "experiments/H002_compatibility_routing/support_contact_repair_materialization/latest/hidden_manifest.jsonl",
+    "model_safe_binary_geometry_only": "experiments/H002_compatibility_routing/support_contact_repair_materialization/latest/model_safe_binary_geometry_only.jsonl",
+    "model_safe_binary_no_class": "experiments/H002_compatibility_routing/support_contact_repair_materialization/latest/model_safe_binary_no_class.jsonl",
+    "model_safe_binary_with_class_semantic": "experiments/H002_compatibility_routing/support_contact_repair_materialization/latest/model_safe_binary_with_class_semantic.jsonl",
+    "model_safe_selective_no_class": "experiments/H002_compatibility_routing/support_contact_repair_materialization/latest/model_safe_selective_no_class.jsonl",
+    "pose_proxy_diagnostics": "experiments/H002_compatibility_routing/support_contact_repair_materialization/latest/pose_proxy_diagnostics.csv",
+    "row_manifest": "experiments/H002_compatibility_routing/support_contact_repair_materialization/latest/row_manifest.json",
+    "schema_precheck": "experiments/H002_compatibility_routing/support_contact_repair_materialization/latest/schema_precheck.json",
+    "validation_errors": "experiments/H002_compatibility_routing/support_contact_repair_materialization/latest/validation_errors.jsonl"
+  },
+  "predicate_counts": {
+    "lying on": 20,
+    "standing on": 20
+  },
+  "row_counts": {
+    "group_manifest": 1589,
+    "hard_input_groups": 1589,
+    "hard_input_rows": 3178,
+    "hidden_manifest": 3178,
+    "main_binary_groups": 20,
+    "mixed_class_pairs": 4,
+    "mixed_overflow_groups": 33,
+    "model_safe_binary_geometry_only": 40,
+    "model_safe_binary_no_class": 40,
+    "model_safe_binary_with_class_semantic": 40,
+    "model_safe_selective_no_class": 3178,
+    "single_subtype_groups": 1536
+  },
+  "schema_precheck": {
+    "binary_class_pair_counts": {
+      "box->floor": 20,
+      "item->floor": 8,
+      "object->floor": 8,
+      "shoes->floor": 4
+    },
+    "binary_label_counts": {
+      "0": 20,
+      "1": 20
+    },
+    "binary_predicate_counts": {
+      "lying on": 20,
+      "standing on": 20
+    },
+    "blocked_field_hit_examples": [],
+    "blocked_field_hits": 0,
+    "capacity_gate_pass": false,
+    "metric_rerun_ready": false,
+    "paper_metric_ready": false,
+    "schema_version": "h002_support_contact_generalization_repair_materialization_v1",
+    "selective_decision_counts": {
+      "abstain": 3138,
+      "accept": 20,
+      "reject": 20
+    },
+    "selective_role_counts": {
+      "abstain_mixed_class_pair_overflow": 66,
+      "abstain_single_subtype_class_pair": 3072,
+      "main_binary_mixed_class_pair": 40
+    }
+  },
+  "schema_version": "h002_support_contact_generalization_repair_materialization_v1",
+  "source_artifacts": {
+    "hard_materialization": "experiments/H002_compatibility_routing/support_contact_harder_materialization/latest",
+    "repair_plan": "experiments/H002_compatibility_routing/support_contact_generalization_repair/latest"
+  },
+  "status": "h002_support_contact_generalization_repair_materialization_ready",
+  "validation_errors": 0
+}

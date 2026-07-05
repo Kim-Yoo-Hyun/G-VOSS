@@ -1,0 +1,34 @@
+{
+  "decision": {
+    "capacity_pass": false,
+    "next_todo": "pobs_prel_observability_repair",
+    "paper_role": "diagnostic_failure_taxonomy_and_observability_abstain_motivation",
+    "reason": "strict shortcut-controlled support/contact leaves only 40 binary rows over 4 class-pairs; relaxing the target reintroduces class-pair shortcut",
+    "selected_path": "freeze_support_contact_as_diagnostic_failure_taxonomy_no_metric_rerun",
+    "support_contact_metric_rerun_allowed": false,
+    "support_contact_solved": false,
+    "support_contact_solved_claim_allowed": false
+  },
+  "input_counts": {
+    "abstain_rows": 3138,
+    "binary_rows": 40,
+    "gate_failures": 1,
+    "mixed_class_pairs": 4,
+    "selective_rows": 3178
+  },
+  "output_artifacts": {
+    "capacity_options": "experiments/H002_compatibility_routing/support_contact_capacity_decision/latest/capacity_options.csv",
+    "class_pair_capacity": "experiments/H002_compatibility_routing/support_contact_capacity_decision/latest/class_pair_capacity.csv",
+    "decision_matrix": "experiments/H002_compatibility_routing/support_contact_capacity_decision/latest/decision_matrix.csv",
+    "paper_boundary": "experiments/H002_compatibility_routing/support_contact_capacity_decision/latest/paper_boundary.csv",
+    "reopen_conditions": "experiments/H002_compatibility_routing/support_contact_capacity_decision/latest/reopen_conditions.csv",
+    "summary": "experiments/H002_compatibility_routing/support_contact_capacity_decision/latest/summary.json",
+    "validation_errors": "experiments/H002_compatibility_routing/support_contact_capacity_decision/latest/validation_errors.jsonl"
+  },
+  "schema_version": "h002_support_contact_generalization_repair_capacity_decision_v1",
+  "source_artifacts": {
+    "repair_materialization": "experiments/H002_compatibility_routing/support_contact_repair_materialization/latest"
+  },
+  "status": "h002_support_contact_generalization_repair_capacity_decision_ready",
+  "validation_errors": 0
+}

@@ -1,0 +1,17 @@
+class_pair,failure_rows,lying_on_false_positive,standing_on_false_negative,repair_implication
+sofa->floor,16,8,8,class_pair_pose_prior_or_counterfactual_label_ambiguity
+couch->floor,11,6,5,class_pair_pose_prior_or_counterfactual_label_ambiguity
+kitchen cabinet->floor,11,4,7,class_pair_pose_prior_or_counterfactual_label_ambiguity
+table->floor,10,6,4,class_pair_pose_prior_or_counterfactual_label_ambiguity
+shelf->floor,8,3,5,class_pair_pose_prior_or_counterfactual_label_ambiguity
+bookshelf->floor,5,2,3,class_pair_pose_prior_or_counterfactual_label_ambiguity
+cabinet->floor,4,2,2,class_pair_pose_prior_or_counterfactual_label_ambiguity
+counter->floor,4,2,2,class_pair_pose_prior_or_counterfactual_label_ambiguity
+couch table->floor,2,2,0,class_pair_pose_prior_or_counterfactual_label_ambiguity
+cupboard->floor,2,1,1,class_pair_pose_prior_or_counterfactual_label_ambiguity
+washing machine->floor,2,1,1,class_pair_pose_prior_or_counterfactual_label_ambiguity
+bench->floor,1,1,0,class_pair_pose_prior_or_counterfactual_label_ambiguity
+dining table->floor,1,1,0,class_pair_pose_prior_or_counterfactual_label_ambiguity
+fireplace->floor,1,1,0,class_pair_pose_prior_or_counterfactual_label_ambiguity
+wall->floor,1,0,1,class_pair_pose_prior_or_counterfactual_label_ambiguity
+wardrobe->floor,1,0,1,class_pair_pose_prior_or_counterfactual_label_ambiguity

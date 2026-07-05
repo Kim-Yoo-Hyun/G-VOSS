@@ -1,0 +1,4 @@
+check,learned_value,baseline_value,risk,interpretation
+learned_p_obs_vs_direct_qe_state,1.000000,1.000000,high,p_obs is likely learning the repaired Q_e state rather than independent observability reasoning
+audit_proxy_eval_qe_v2,true,,high,eval Q_e v2 is diagnostic proxy material
+missing_evidence_slice_size,4,,high,missing-evidence generalization is under-covered

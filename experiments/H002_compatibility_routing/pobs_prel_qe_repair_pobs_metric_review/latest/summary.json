@@ -1,0 +1,57 @@
+{
+  "baseline_metrics": {
+    "direct_qe_state_code_auroc": 1.0,
+    "direct_qe_state_code_ece_10": 0.16641509433962304,
+    "legacy_all_sufficient_abstain_recall": 0.0,
+    "legacy_all_sufficient_auroc": 0.5
+  },
+  "created_at_utc": "2026-07-05T11:44:50+00:00",
+  "decision": {
+    "full_selective_decision_rerun_now": false,
+    "next_todo": "h002_core_claim_without_pobs_boundary_update",
+    "pobs_main_claim_allowed": false,
+    "pobs_optional_framework_component": true,
+    "pobs_required_for_core_claim": false,
+    "proxy_shortcut_risk": "high",
+    "selected_path": "demote_pobs_to_optional_diagnostic_keep_core_claim_on_Ce_source_reranking"
+  },
+  "diagnostic_decision": {
+    "audit_proxy_eval_qe_v2": true,
+    "direct_qe_state_tie": true,
+    "low_missing_evidence_coverage": true,
+    "pobs_only_diagnostic_pass": true
+  },
+  "outputs": {
+    "claim_boundary": "experiments/H002_compatibility_routing/pobs_prel_qe_repair_pobs_metric_review/latest/claim_boundary.csv",
+    "next_steps": "experiments/H002_compatibility_routing/pobs_prel_qe_repair_pobs_metric_review/latest/next_steps.csv",
+    "proxy_shortcut_audit": "experiments/H002_compatibility_routing/pobs_prel_qe_repair_pobs_metric_review/latest/proxy_shortcut_audit.csv",
+    "report": "experiments/H002_compatibility_routing/pobs_prel_qe_repair_pobs_metric_review/latest/report.md",
+    "review_decision": "experiments/H002_compatibility_routing/pobs_prel_qe_repair_pobs_metric_review/latest/review_decision.csv",
+    "summary": "experiments/H002_compatibility_routing/pobs_prel_qe_repair_pobs_metric_review/latest/summary.json",
+    "validation_errors": "experiments/H002_compatibility_routing/pobs_prel_qe_repair_pobs_metric_review/latest/validation_errors.jsonl"
+  },
+  "primary_metrics": {
+    "abstain_recall": 1.0,
+    "observable_false_abstain_rate": 0.0,
+    "p_obs_auroc": 1.0,
+    "p_obs_brier": 0.004222025044037683,
+    "p_obs_ece_10": 0.04926599420683767,
+    "p_obs_nll": 0.05151769767384846
+  },
+  "row_counts": {
+    "eval_label_counts": {
+      "ambiguous_evidence": 126,
+      "observable_clear": 135,
+      "unobservable_missing_evidence": 4
+    },
+    "eval_rows": 265,
+    "train_rows": 14604
+  },
+  "schema_version": "h002_pobs_prel_qe_repair_pobs_metric_review_v1",
+  "source_artifacts": {
+    "metric_dir": "experiments/H002_compatibility_routing/pobs_prel_qe_repair_pobs_only_metric/latest",
+    "schema_audit_dir": "experiments/H002_compatibility_routing/pobs_prel_qe_repair_schema_audit/latest"
+  },
+  "status": "h002_pobs_prel_qe_repair_pobs_metric_review_ready",
+  "validation_errors": 0
+}

@@ -1,0 +1,5 @@
+queue_kind,rows,obs_positive_rows,median_p_obs,median_p_rel,decision_counts,pred_decision_counts,abstain_rate
+route_observable_control,45,45,0.9556083761166082,0.423645262715664,"{'accept': 21, 'reject': 24}","{'accept': 21, 'reject': 24}",0.0
+support_contact_binary_control,40,40,0.9556083761166082,0.4942080351960071,"{'accept': 20, 'reject': 20}","{'accept': 20, 'reject': 20}",0.0
+support_contact_mixed_overflow_abstain,60,50,0.9556083761166082,0.5,"{'abstain': 10, 'accept': 25, 'reject': 25}","{'accept': 35, 'reject': 25}",0.0
+support_contact_single_subtype_abstain,120,0,0.9556083761166082,0.5,{'abstain': 120},{'accept': 120},0.0

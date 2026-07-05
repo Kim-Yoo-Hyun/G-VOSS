@@ -1,6 +1,6 @@
 # Paper Workflow
 
-Last updated: 2026-06-25 KST
+Last updated: 2026-07-04 KST
 
 This document manages paper-level framing for GeoCalib/H001/CAND-001: novelty, contribution boundary, reviewer-defense logic, and the minimum experiment evidence needed before paper writing. It does not replace `docs/hypothesis.md`, `07_experiment_spec.md`, or Docker experiment artifacts.
 
@@ -105,6 +105,101 @@ Draft:
 > Semantic relation predictors can rank plausible 3D Scene Graph relations without calibrating them to relation-level physical consistency; calibrated geometry-consistency scoring exposes this failure mode and re-ranks predictions to reduce geometric violations while making recall tradeoffs measurable.
 
 This is the preferred direction because it contains both cause diagnosis and method principle. Open3DSG second-source metrics are now available, so the paper wording should stay scoped to measured H001 families rather than broaden to full open-vocabulary 3DSSG generation.
+
+## H002 Compatibility Routing Claim Contract
+
+Paper-facing workspace:
+
+```text
+paper/h002_compatibility_routing/
+```
+
+H002 is a separate standalone paper route from the active H001/GeoCalib
+manuscript. Do not edit `paper/aaai/` when working on H002 unless the user
+explicitly requests H001 manuscript integration.
+
+Preferred H002 claim pattern:
+
+```text
+3D Scene Graph relation reliability cannot be inferred from source confidence
+alone or from fixed semantic-geometry fusion. H002 is a route-aware framework:
+some relation families are geometry-decidable, some require predicate-geometry
+compatibility, some require observability-aware abstention, and some should be
+handled by semantic/structural reasoning rather than geometry-only evidence.
+```
+
+Current H002 paper boundary:
+
+- Main quantitative evidence is validation-level source reranking on the
+  official 3DSSG validation split.
+- Sources are VL-SAT and Open3DSG validation predictions.
+- Main score is `S2_source_x_Ce = normalized_source_score(Z_e) * C_e`, where
+  `C_e` is computed from `T_e + G_e` and excludes `Z_e`.
+- Source-reranking ablations now include `A1_source_x_G_only` and
+  `A2_source_x_TG_concat`; the Docker runtime exports absolute metrics,
+  `S2-A1` / `S2-A2` delta CI, and family-wise CI.
+- Current main quantitative success route is geometry-checkable comparison
+  relations: `relative_vertical` and `size_relative`.
+- The broader route-aware reliable 3D relation framework is the goal and paper
+  framing; it is not yet a completed all-relation success claim.
+- Main metrics are Recall@K and custom `Violation@K`.
+- Open3DSG can be described as an open-vocabulary source, but quantitative
+  Recall@K uses closed-vocabulary 3DSSG mapping.
+- New H002 experiment outputs should not be promoted directly into final
+  paper-level wording. They must first pass experiment-stage result review,
+  table-placement review, family-wise caveat review, and claim-boundary review.
+- A1/A2 result review is now complete at the experiment stage: aggregate
+  primary-route evidence supports `S2_source_x_Ce` over geometry-only and plain
+  concat ablations, but family-wise Recall caveats remain. Do not broaden this
+  into all-relation wording.
+- Remaining experiment-stage gap review is also complete: H002 is paper-possible
+  if scoped to validation-level comparison-route reranking. The next paper gate
+  is not more broad-route claiming; it is resolving or explicitly caveating two
+  sensitivities: label-free validation candidate-pool normalization and the
+  route-aware nature of the `A1_source_x_G_only` geometry baseline.
+- Normalization/no-route geometry sensitivity is complete. No-route G-only
+  sensitivity passed, so S2's gain is not explained by route-family one-hot
+  geometry features. Raw `source_score*C_e` preserves the improvement direction
+  over S0 at K `{10,20,50}`, but rank-percentile normalization loses low-K
+  recall. Therefore H002 may use minmax as the selected risk-utility score with
+  raw-product sensitivity support, but it must not claim normalization-invariant
+  improvement.
+- H002 is now judged principled for the scoped comparison-route problem. It has
+  constructed and partially validated a relation-aware evidence routing
+  framework, but it has not validated a completed general reliable 3D relation
+  framework.
+- H002 paper claim boundary after sensitivity review is locked. The allowed
+  paper claim is validation-level comparison-route source reranking with
+  factor-isolated predicate-geometry compatibility. Relation-aware evidence
+  routing may be described as a constructed and partially validated framework
+  and route map; completed general reliable 3D relation framework wording
+  remains blocked.
+
+Blocked H002 wording:
+
+- official 3DSSG test benchmark
+- SOTA or leaderboard result
+- unconstrained open-set GT evaluation
+- support/contact solved as a success route
+- calibrated `p_obs/p_rel` reliability is solved
+- completed all-relation reliable 3D relation framework
+- "pure predicate-agnostic geometry-only" wording for `A1_source_x_G_only`,
+  because current `G_e` excludes predicate label and source score but includes a
+  `route_family` one-hot
+- normalization-invariant improvement wording
+- completed general reliable 3D relation framework wording
+- claiming the route-aware framework as more than partially validated
+
+Required H002 reviewer defense:
+
+- leakage-boundary figure showing `T_e + G_e`, `Z_e`, and hidden metric fields
+  separated
+- source-score baseline versus `S2_source_x_Ce`
+- bootstrap CI for Recall@K / Violation@K deltas
+- geometry-only and plain `T_e/G_e` concat ablations with absolute metrics and
+  CI before claiming factorized compatibility is necessary
+- counterfactual controls such as shuffled-C_e and wrong-T
+- support/contact failure taxonomy as a limitation, not success evidence
 
 2026-06-05 paper-facing evaluation direction:
 

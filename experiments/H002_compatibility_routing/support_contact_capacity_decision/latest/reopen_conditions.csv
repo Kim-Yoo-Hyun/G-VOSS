@@ -1,0 +1,5 @@
+condition,requirement,current,status
+independent_pose_audit_capacity,>= 200 binary accept/reject rows and >= 10 mixed class-pairs after class-pair control,40 rows and 4 mixed class-pairs,not_met
+observability_label_capacity,"observable / unobservable / ambiguous labels from visual or mesh evidence, separated from C_e inputs",not available in current support/contact materialization,not_met
+superordinate_support_decomposition,supported_by relabel/abstain target with subtype mapping and independent audit,official validation materialization only covers standing on / lying on,not_met
+shortcut_control,predicate/class-pair/source/rank-only probes cannot solve target,single-subtype class-pairs dominate; strict control leaves low capacity,not_met

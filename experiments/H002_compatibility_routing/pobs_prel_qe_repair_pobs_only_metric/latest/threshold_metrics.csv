@@ -1,0 +1,4 @@
+score_id,threshold,rows,abstain_tp,abstain_fp,observable_tn,abstain_fn,abstain_precision,abstain_recall,observable_false_abstain_rate,false_observable_rate,accuracy
+p_obs_learned,0.5,265,130,0,135,0,1.0,1.0,0.0,0.0,1.0
+p_obs_qe_state_code,0.5,265,130,0,135,0,1.0,1.0,0.0,0.0,1.0
+p_obs_legacy_all_sufficient,0.5,265,0,0,135,130,0.0,0.0,0.0,1.0,0.5094339622641509

@@ -1,0 +1,7 @@
+split,observability_label,rows,q_e_state_sufficient_v2,q_e_state_limited_v2,q_e_state_ambiguous_v2,q_e_state_missing_v2,q_e_state_none
+internal_train,ambiguous_evidence,4868,0,2425,2443,0,0
+internal_train,observable_clear,4868,4868,0,0,0,0
+internal_train,unobservable_missing_evidence,4868,0,0,0,4868,0
+official_validation_diagnostic_subset,ambiguous_evidence,126,0,0,126,0,0
+official_validation_diagnostic_subset,observable_clear,135,135,0,0,0,0
+official_validation_diagnostic_subset,unobservable_missing_evidence,4,0,0,0,4,0

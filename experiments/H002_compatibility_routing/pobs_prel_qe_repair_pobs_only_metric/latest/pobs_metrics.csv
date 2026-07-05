@@ -1,0 +1,4 @@
+rows,positive,negative,auroc,auprc,balanced_accuracy,macro_F1,Brier,NLL,tp,fp,tn,fn,scope,score_id,ECE_10
+265,135,130,1.0,1.0,1.0,1.0,0.004222025044037683,0.05151769767384846,135,0,130,0,official_validation_diagnostic_subset,p_obs_learned,0.04926599420683767
+265,135,130,1.0,1.0,1.0,1.0,0.05824528301886799,0.2048250851571654,135,0,130,0,official_validation_diagnostic_subset,p_obs_qe_state_code,0.16641509433962304
+265,135,130,0.5,0.4073657661677087,0.5,0.33749999999999997,0.49056603773584906,10.166130411086899,135,130,0,0,official_validation_diagnostic_subset,p_obs_legacy_all_sufficient,0.49056603773584906

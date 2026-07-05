@@ -1823,3 +1823,67 @@ Locked claim boundary:
 
 `main_validation_table_materialization`에서 caption-ready compact table rows와 caveat rows를
 생성한다.
+
+## 41. Main Validation Table Materialization
+
+목적:
+
+H002 main validation benchmark claim lock 이후, 이미 생성된 validation source-reranking
+metric을 paper에 넣을 수 있는 compact table 형태로 정리했다. 이 단계는 새 metric 실행,
+threshold tuning, official test 사용이 아니다.
+
+결과:
+
+```text
+artifact_root = artifacts/compatibility_dataset_v3_main_validation_table_materialization_after_claim_lock/
+status = h002_main_validation_table_materialization_after_claim_lock_ready
+selected_path = main_validation_table_materialized_select_review
+validation_errors = 0
+main_table_rows = 5
+source_family_caveat_rows = 3
+control_rows = 15
+next_todo = compatibility_dataset_v3_main_validation_table_review_after_materialization
+```
+
+Materialized files:
+
+- `main_validation_table.csv`: K `{5,10,20,50,100}`에서 `S0_source_score`와 `S2_source_x_Ce` 비교.
+- `main_validation_table.md`: caption-ready table.
+- `source_family_caveats.csv`: 3개 Recall@K regression caveat.
+- `control_table_compact.csv`: `C_e only`, shuffled-`C_e`, wrong-`T` control.
+- `blocked_wording_checklist.csv`: official test, SOTA, open-set GT, uniform improvement, H003 main claim 차단.
+
+현재 해석:
+
+- Main validation benchmark material은 준비됐다.
+- Official test benchmark result는 여전히 아니다.
+- Open3DSG는 open-vocabulary source지만, 정량 평가는 closed-vocabulary 3DSSG mapping 기준이다.
+- `Violation@K`는 H002 custom geometry-consistency metric으로 설명해야 한다.
+
+## 42. Paper-Facing Folder Cleanup
+
+목적:
+
+H002 root, `tools/`, `artifacts/`가 hypothesis-stage exploration 파일로 과도하게 커져
+현재 paper claim과 핵심 코드 경로를 파악하기 어려웠다. 따라서 paper claim에 직접 필요한
+파일만 active H002 폴더에 남기고, 과거 target mining, smoke, diagnostic, path-search stage는
+archive로 이동했다.
+
+결과:
+
+```text
+archive_root = archive/hypothesis_records/hypothesis/H002_factorized-relation-confidence_cleanup_20260703/
+root_stage_files = 236 -> 7
+tools_py = 501 -> 26
+artifact_dirs = 238 -> 28
+pre_cleanup_readme = archive/.../root_files/README_before_cleanup.md
+```
+
+Active core:
+
+- `README.md`: 현재 상태와 paper-facing file map.
+- `paper_claim_core.md`: score 정의, runtime code, output artifact map.
+- `summary_branch_v2.md`: full research-history synthesis.
+- `artifacts/compatibility_dataset_v3_main_validation_table_materialization_after_claim_lock/`: main validation table.
+- `tools/`: current paper-claim chain validators only.
+- `experiments/H002_compatibility_routing/scripts/`: 실제 materialization, score extraction, geometry-only view, evaluation runtime code.

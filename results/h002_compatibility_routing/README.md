@@ -1,14 +1,16 @@
 # H002 Compatibility Routing Results
 
-This folder will hold compact paper-facing H002 summaries if the branch is promoted.
+This folder records the compact-result boundary for H002. The current
+paper-facing validation table still lives under the H002 hypothesis artifact
+root; row-level runtime outputs stay under `experiments/H002_compatibility_routing/`.
 
 ## Current Status
 
 ```text
-status = main_validation_claim_table_locked_no_final_test_results
-paper_level_ready = false
+status = h002_route_aware_goal_synced_no_official_test_results
+paper_level_ready = true_validation_only_with_caveats
 grouped_holdout_metrics_exist = true_internal_candidate_pool_only
-calibration_metrics_exist = false
+calibration_metrics_exist = true_pobs_prel_upgrade_not_promoted
 row_level_runtime_outputs_exist = true
 schema_audit_runtime_outputs_exist = true
 grouped_split_runtime_outputs_exist = true
@@ -66,15 +68,40 @@ post_validation_position_path_decision_ready = true
 main_validation_claim_allowed = true
 main_validation_table_allowed = true
 main_validation_table_locked = true
+main_validation_table_materialized = true
+main_validation_table_reviewed = true
+paper_draft_insertion_plan_locked = true
+source_reranking_bootstrap_ci_exists = true
+source_reranking_bootstrap_ci_validation_errors = 0
+source_reranking_bootstrap_ci_point_mismatch_count = 0
+standalone_outline_gap_review_exists = true
+h002_gap_resolution_pack_exists = true
+h002_gap_resolution_pack_validation_errors = 0
+claim_thesis_exists = true
+table_ablation_contract_exists = true
+figure_specs_exist = true
+related_work_novelty_map_exists = true
+failure_taxonomy_exists = true
+new_paper_workspace_created = true
+h002_paper_workspace = paper/h002_compatibility_routing/
+h002_paper_workspace_promotion_decision_exists = true
+h002_paper_workspace_initial_sync_exists = true
+main_validation_table_rows = 5
+main_validation_table_caveat_rows = 3
+main_validation_table_control_rows = 15
 official_test_benchmark_claim_allowed = false
 open3dsg_source_boundary = open_vocabulary_source_closed_vocabulary_3dssg_mapping
 h003_embedding_extension_in_main_claim_now = false
 h003_embedding_extension_future_optional = true
 checkpoint_reproduction_is_sufficient_for_test_recall = false
 prediction_only_test_scan_export_is_sufficient_for_test_recall = false
-p_obs_p_rel_branch = deferred
-final_paper_result_promotion = not_yet
-paper_metric_exists = false
+p_obs_p_rel_branch = framework_component_stress_test_completed
+p_obs_prel_paper_promotion_pass = false
+pobs_prel_calibration_upgrade_exists = true
+pobs_prel_calibration_upgrade_claim_pass = false
+final_paper_result_promotion = validation_table_candidate_only
+paper_metric_exists = validation_candidate_only
+official_test_metric_exists = false
 ```
 
 ## Boundary
@@ -137,6 +164,99 @@ official validation `M4_TxG_compatibility` AUROC `0.077539`, wrong-`T` AUROC
 `0.922461`, validation errors `0`. This fails the support/contact hard-route
 metric expectation, so no compact paper-facing result should be copied here
 until result review resolves or freezes the failure boundary.
+
+Source-reranking bootstrap CI now exists under:
+
+```text
+experiments/H002_compatibility_routing/source_reranking_ci/latest/
+```
+
+It is a validation-level uncertainty analysis for the frozen source-reranking
+metrics. It does not use official test labels. Current snapshot:
+
+```text
+n_bootstrap = 1000
+bootstrap_unit = source_id/subgraph_id/route_family
+unit_count = 2192
+point_metric_mismatch_count = 0
+validation_errors = 0
+```
+
+The H002 gap-resolution pack now exists under:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_h002_gap_resolution_pack_after_outline_review/
+```
+
+It closes the internal claim thesis, table/ablation, figure, related-work, and
+failure-taxonomy gaps. That gap-resolution step did not itself create a paper
+workspace or allow official-test, SOTA, or leaderboard claims.
+
+The H002 paper-workspace promotion decision now exists under:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_h002_paper_workspace_promotion_decision_after_gap_resolution_pack/
+```
+
+It promotes H002 to:
+
+```text
+paper/h002_compatibility_routing/
+```
+
+This is a `paper/` subfolder, not a new top-level paper root. The active H001
+manuscript remains untouched. Official-test, SOTA/leaderboard, solved
+support/contact, and calibrated p_obs/p_rel solved claims remain blocked.
+
+The route-aware paper-workspace sync now exists under:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_h002_paper_workspace_initial_draft_and_figure_table_sync/
+```
+
+It updates the H002 goal to a route-aware reliable 3D relation framework while
+keeping the current main quantitative success limited to comparison relations
+(`relative_vertical`, `size_relative`). The next experiment need is source
+reranking ablation expansion: `source x geometry-only`, `source x T+G concat`,
+absolute control metrics, and family-wise CI.
+
+The source-reranking ablation expansion plan is now frozen under:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_h002_source_reranking_ablation_expansion_plan_after_route_goal_update/
+```
+
+It freezes `A1_source_x_G_only`, `A2_source_x_TG_concat`, absolute
+control/ablation metrics, and family-wise CI as required before broadening the
+route-aware framework claim.
+
+The implementation has since completed under:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_h002_source_reranking_ablation_expansion_implementation_after_plan/
+```
+
+Runtime outputs now include `absolute_primary_metrics.csv`,
+`familywise_reranking_ci.csv`, and `familywise_reranking_delta_ci.csv`.
+
+p_obs / p_rel calibration-upgrade runtime outputs now exist under:
+
+```text
+experiments/H002_compatibility_routing/pobs_prel_calibration_upgrade/latest/
+```
+
+The review artifact exists under:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_pobs_prel_calibration_upgrade_result_review_after_runner/
+```
+
+Current snapshot: fixed-split calibration and asset observability audit ran with
+validation errors `0`. `p_rel` AUROC is `0.723800`, but calibrated ECE@10 is
+`0.223458`, worse than raw ECE@10 `0.171030`; asset-audit labels are
+`observable 23062 / unobservable 0 / ambiguous 0`; attachment and containment
+runtime rows are absent. Therefore calibrated p_obs / p_rel is not promoted as a
+quantitative paper result.
 
 Current schema-audit runtime outputs are intentionally stored under:
 
@@ -454,11 +574,57 @@ Main validation claim/table lock now exists under:
 hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_main_validation_claim_table_lock_after_path_decision/
 ```
 
-This is still not a compact table itself. The next step should write
-caption-ready compact rows under this results root or an H002 artifact root,
-depending on the promotion decision.
+This was the claim/table boundary lock, not the compact table itself. The
+caption-ready rows were later written under the H002 artifact root.
 
-Expected future compact files include:
+Main validation table materialization now exists under:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_main_validation_table_materialization_after_claim_lock/
+```
+
+This is compact table material for H002's main validation benchmark. It is not an
+official test result. The review gate below has since passed.
+
+Main validation table review now exists under:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_main_validation_table_review_after_materialization/
+```
+
+This review allows the table as a validation-level paper candidate with required
+caveats. It does not create official-test, SOTA, leaderboard, or uniform
+improvement claims.
+
+Paper draft insertion planning now exists under:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_paper_draft_insertion_plan_after_main_validation_table_review/
+```
+
+This is still a hypothesis-owned insertion plan. It freezes caption, footnote,
+snippets, and blocked wording, but does not edit manuscript files.
+
+H002 A1/A2 ablation result review now exists under:
+
+```text
+hypothesis/CAND-001/H002_factorized-relation-confidence/artifacts/compatibility_dataset_v3_h002_source_reranking_ablation_expansion_result_review_after_implementation/
+```
+
+Experiment-stage conclusion: aggregate primary comparison-route metrics support
+`S2_source_x_Ce` over `A1_source_x_G_only` and `A2_source_x_TG_concat`; family-wise
+Violation reduction is stable, but Recall gains are mixed. Paper promotion stays
+held until remaining experiment-stage gaps are reviewed.
+
+Historical H002 hypothesis-stage files were moved to:
+
+```text
+archive/hypothesis_records/hypothesis/H002_factorized-relation-confidence_cleanup_20260703/
+```
+
+Use the active H002 `paper_claim_core.md` for the current score/code/artifact map.
+
+Possible future result-bundle additions include:
 
 - route metric summaries,
 - control metric summaries,

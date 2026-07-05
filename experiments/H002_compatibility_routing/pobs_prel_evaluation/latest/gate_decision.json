@@ -1,0 +1,62 @@
+{
+  "claim_boundary": {
+    "independent_human_observability_labels_used": false,
+    "official_test_used": false,
+    "paper_promotion_blocker": "calibration_or_proxy_label_boundary_review_required",
+    "pobs_prel_quantitative_result_claim_allowed": false,
+    "synthetic_missing_evidence_controls_used": true
+  },
+  "created_at_utc": "2026-07-03T08:20:29.230565+00:00",
+  "fit_summary": {
+    "p_obs": {
+      "feature_count": 38,
+      "mode": "logistic",
+      "train_rows": 24340
+    },
+    "p_rel": {
+      "feature_count": 538,
+      "mode": "logistic",
+      "train_rows": 4868
+    }
+  },
+  "materialization_dir": "experiments/H002_compatibility_routing/pobs_prel_materialization/latest",
+  "next_todo": "compatibility_dataset_v3_pobs_prel_result_review_after_metric_runner",
+  "outputs": {
+    "decision_metrics": "experiments/H002_compatibility_routing/pobs_prel_evaluation/latest/decision_metrics.csv",
+    "missing_evidence_control_metrics": "experiments/H002_compatibility_routing/pobs_prel_evaluation/latest/missing_evidence_control_metrics.csv",
+    "pobs_metrics": "experiments/H002_compatibility_routing/pobs_prel_evaluation/latest/pobs_metrics.csv",
+    "prediction_scores": "experiments/H002_compatibility_routing/pobs_prel_evaluation/latest/prediction_scores.jsonl",
+    "prel_metrics": "experiments/H002_compatibility_routing/pobs_prel_evaluation/latest/prel_metrics.csv",
+    "risk_coverage_curve": "experiments/H002_compatibility_routing/pobs_prel_evaluation/latest/risk_coverage_curve.csv",
+    "validation_errors": "experiments/H002_compatibility_routing/pobs_prel_evaluation/latest/validation_errors.jsonl"
+  },
+  "paper_promotion_pass": false,
+  "pass_checks": {
+    "calibration_ece_warn_only_le_0_15": false,
+    "decision_macro_f1_ge_0_70": true,
+    "missing_controls_abstain_ge_0_90": true,
+    "p_obs_auroc_ge_0_95": true,
+    "p_rel_auroc_ge_0_70": true
+  },
+  "primary_metrics": {
+    "AURC": 0.16356220746891592,
+    "decision_accuracy": 0.9364755875466135,
+    "decision_macro_F1": 0.7784493503613538,
+    "p_obs_auroc": 1.0,
+    "p_obs_ece_10": 0.04364712548736155,
+    "p_rel_auroc": 0.7246147357612419,
+    "p_rel_ece_10": 0.17102956314273765
+  },
+  "row_counts": {
+    "eval_records": 115310,
+    "pobs_eval": 115310,
+    "pobs_train": 24340,
+    "prel_eval": 23062,
+    "prel_train": 4868
+  },
+  "schema_audit_dir": "experiments/H002_compatibility_routing/pobs_prel_schema_audit/latest",
+  "schema_version": "h002_pobs_prel_selective_metric_v1",
+  "selective_metric_pass": true,
+  "status": "h002_pobs_prel_selective_metric_ready",
+  "validation_errors": 0
+}

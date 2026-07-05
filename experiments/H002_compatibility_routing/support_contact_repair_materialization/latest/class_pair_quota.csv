@@ -1,0 +1,5 @@
+class_pair,standing_positive_groups,lying_positive_groups,selected_per_positive_predicate,selected_groups,selected_binary_rows,class_pair_role
+box->floor,23,5,5,10,20,main_binary_mixed_class_pair
+item->floor,4,2,2,4,8,main_binary_mixed_class_pair
+object->floor,12,2,2,4,8,main_binary_mixed_class_pair
+shoes->floor,4,1,1,2,4,main_binary_mixed_class_pair

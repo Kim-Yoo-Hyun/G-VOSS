@@ -1,0 +1,7 @@
+control_type,rows,median_p_obs_calibrated,delta_vs_observed_median,abstain_rate
+low_visibility_control,23062,1e-06,-0.9999979999999999,1.0
+missing_mesh_control,23062,1e-06,-0.9999979999999999,1.0
+no_view_control,23062,1e-06,-0.9999979999999999,1.0
+observed_original,23062,0.999999,0.0,0.0
+shuffled_view_control,23062,1e-06,-0.9999979999999999,1.0
+wrong_pair_evidence_control,23062,1e-06,-0.9999979999999999,1.0

@@ -1,0 +1,63 @@
+{
+  "asset_observability_label_counts": {
+    "observable": 23062
+  },
+  "calibrated_quantitative_claim_pass": false,
+  "claim_boundary": {
+    "asset_audited_observability_labels_used": true,
+    "attachment_containment_empirical_rows_available": false,
+    "calibration_selected_without_official_validation_tuning": true,
+    "calibration_split": "internal_dev",
+    "human_observability_labels_used": false,
+    "official_test_used": false,
+    "pobs_prel_calibrated_quantitative_result_claim_allowed": false,
+    "synthetic_missing_evidence_controls_still_used": true
+  },
+  "created_at_utc": "2026-07-03T16:56:33.284964+00:00",
+  "next_todo": "compatibility_dataset_v3_pobs_prel_calibration_upgrade_result_review_after_runner",
+  "pass_checks": {
+    "asset_observability_has_negative_or_ambiguous": false,
+    "asset_observability_labels_created": true,
+    "attachment_containment_rows_present": false,
+    "decision_macro_f1_ge_0_70": true,
+    "missing_controls_abstain_ge_0_90": true,
+    "p_obs_ece_le_0_10": true,
+    "p_rel_auroc_ge_0_70": true,
+    "p_rel_ece_le_0_10": false
+  },
+  "primary_metrics": {
+    "AURC": 0.14759016260461777,
+    "decision_macro_F1_calibrated": 0.7780715049835566,
+    "p_obs_calibrated_ECE_10": 1.0000000454876134e-06,
+    "p_obs_raw_ECE_10": 0.04092586249373823,
+    "p_rel_calibrated_AUROC": 0.7238001824379887,
+    "p_rel_calibrated_ECE_10": 0.22345786060584388,
+    "p_rel_raw_ECE_10": 0.17102956314273765
+  },
+  "row_counts": {
+    "asset_audit_rows": 23062,
+    "pobs_calib": 5220,
+    "pobs_eval_with_wrong_pair": 138372,
+    "pobs_train": 24340,
+    "prel_calib": 1044,
+    "prel_eval": 23062,
+    "prel_train": 4868
+  },
+  "schema_version": "h002_pobs_prel_calibration_upgrade_v1",
+  "selected_calibrators": {
+    "p_obs": {
+      "name": "isotonic",
+      "params": {
+        "block_count": 5220
+      }
+    },
+    "p_rel": {
+      "name": "isotonic",
+      "params": {
+        "block_count": 472
+      }
+    }
+  },
+  "status": "h002_pobs_prel_calibration_upgrade_ready",
+  "validation_errors": 0
+}

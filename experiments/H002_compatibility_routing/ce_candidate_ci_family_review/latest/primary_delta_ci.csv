@@ -1,0 +1,11 @@
+level,source_id,route_family,candidate_score,baseline_score,metric,K,baseline_point,candidate_point,point_delta,ci_low_95,ci_high_95,n_bootstrap,unit_count
+primary_success_weighted,ALL,PRIMARY,I4_calibrated_route_aware_source_x_Ce,S2_current_source_x_Ce,Recall@K,5,0.3526077097505669,0.35827664399092973,0.005668934240362855,-0.00634721660381297,0.01786252151462994,1000,2192
+primary_success_weighted,ALL,PRIMARY,I4_calibrated_route_aware_source_x_Ce,S2_current_source_x_Ce,Violation@K,5,0.05449069003285871,0.04755385177071924,-0.006936838262139471,-0.00913044987522265,-0.004833980599556735,1000,2192
+primary_success_weighted,ALL,PRIMARY,I4_calibrated_route_aware_source_x_Ce,S2_current_source_x_Ce,Recall@K,10,0.5136054421768708,0.5294784580498866,0.015873015873015817,0.0009710475580667151,0.03146155887817392,1000,2192
+primary_success_weighted,ALL,PRIMARY,I4_calibrated_route_aware_source_x_Ce,S2_current_source_x_Ce,Violation@K,10,0.07234198027036902,0.06357325538911217,-0.00876872488125685,-0.010635384334489685,-0.006850472504375926,1000,2192
+primary_success_weighted,ALL,PRIMARY,I4_calibrated_route_aware_source_x_Ce,S2_current_source_x_Ce,Recall@K,20,0.7244897959183674,0.746031746031746,0.02154195011337867,0.0023118894993894553,0.04203730702050935,1000,2192
+primary_success_weighted,ALL,PRIMARY,I4_calibrated_route_aware_source_x_Ce,S2_current_source_x_Ce,Violation@K,20,0.10048659566654425,0.08997429305912596,-0.010512302607418283,-0.012192941855161123,-0.008920340677190355,1000,2192
+primary_success_weighted,ALL,PRIMARY,I4_calibrated_route_aware_source_x_Ce,S2_current_source_x_Ce,Recall@K,50,0.9523809523809523,0.9603174603174603,0.00793650793650802,-0.0043217952255449775,0.0213055866016392,1000,2192
+primary_success_weighted,ALL,PRIMARY,I4_calibrated_route_aware_source_x_Ce,S2_current_source_x_Ce,Violation@K,50,0.16599788007268323,0.1519628255602665,-0.01403505451241674,-0.0154846115689624,-0.012709113585590202,1000,2192
+primary_success_weighted,ALL,PRIMARY,I4_calibrated_route_aware_source_x_Ce,S2_current_source_x_Ce,Recall@K,100,1.0,1.0,0.0,0.0,0.0,1000,2192
+primary_success_weighted,ALL,PRIMARY,I4_calibrated_route_aware_source_x_Ce,S2_current_source_x_Ce,Violation@K,100,0.3419191919191919,0.3410070088641517,-0.0009121830550402055,-0.0012327908832913362,-0.0006333528705358764,1000,2192

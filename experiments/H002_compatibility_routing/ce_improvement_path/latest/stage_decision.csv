@@ -1,0 +1,5 @@
+stage,decision,reason
+1_hard_negative_structured_Ce,diagnostic_ablation_ready,added 2446 inverse-predicate hard negatives and structured signed-margin features
+2_route_aware_Ce,candidate_method_but_not_auto_promoted,"route-specific models match H002 route-aware design, but source-reranking promotion depends on Recall/Violation tradeoff"
+3_richer_Ge_support_contact,blocked_for_main_route,"support/contact capacity gate remains insufficient: binary_rows=40, mixed_class_pairs=4"
+4_calibrated_Ce,calibration_diagnostic_only,temperature=0.35 selected on internal_dev; does not by itself solve hard-route generalization

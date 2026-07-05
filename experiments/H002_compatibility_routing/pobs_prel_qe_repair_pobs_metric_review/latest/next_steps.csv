@@ -1,0 +1,4 @@
+priority,todo,action
+1,h002_core_claim_without_pobs_boundary_update,"update H002 claim docs so p_obs is optional diagnostic/future, not a core solved claim"
+2,source_reranking_claim_strengthening,"keep focus on C_e/source-reranking ablations, CI, qualitative cases, and route caveats"
+3,pobs_reopen_condition,only reopen p_obs/p_rel if independent visual/mesh observability labels and full selective metrics are available

@@ -1,0 +1,65 @@
+{
+  "K_grid": [
+    5,
+    10,
+    20,
+    50,
+    100
+  ],
+  "baseline_score": "S2_current_source_x_Ce",
+  "boundary": {
+    "Z_e_combined_only_after_C_e": true,
+    "candidate_score_uses_Z_e_inside_C_e": false,
+    "fit_or_tune_on_official_validation": false,
+    "official_test_used": false
+  },
+  "candidate_score": "I4_calibrated_route_aware_source_x_Ce",
+  "ce_improvement_status": "h002_ce_improvement_path_ready",
+  "created_at_utc": "2026-07-05T13:22:42+00:00",
+  "decision": {
+    "candidate_position": "candidate_ablation_or_secondary_table",
+    "main_score_after_review": "S2_current_source_x_Ce",
+    "next_todo": "h002_ce_family_mitigation_or_keep_s2_boundary_update",
+    "promote_to_main_score": false,
+    "selected_path": "keep_current_main_score_report_I4_as_candidate_or_ablation"
+  },
+  "n_bootstrap": 1000,
+  "outputs": {
+    "family_delta_ci": "/workspace/experiments/H002_compatibility_routing/ce_candidate_ci_family_review/latest/family_delta_ci.csv",
+    "family_review": "/workspace/experiments/H002_compatibility_routing/ce_candidate_ci_family_review/latest/family_review.csv",
+    "point_metrics": "/workspace/experiments/H002_compatibility_routing/ce_candidate_ci_family_review/latest/point_metrics.csv",
+    "primary_delta_ci": "/workspace/experiments/H002_compatibility_routing/ce_candidate_ci_family_review/latest/primary_delta_ci.csv",
+    "promotion_gate": "/workspace/experiments/H002_compatibility_routing/ce_candidate_ci_family_review/latest/promotion_gate.csv",
+    "report": "/workspace/experiments/H002_compatibility_routing/ce_candidate_ci_family_review/latest/report.md",
+    "summary": "/workspace/experiments/H002_compatibility_routing/ce_candidate_ci_family_review/latest/summary.json",
+    "validation_errors": "/workspace/experiments/H002_compatibility_routing/ce_candidate_ci_family_review/latest/validation_errors.jsonl"
+  },
+  "promotion_K": [
+    5,
+    10,
+    20,
+    50
+  ],
+  "row_counts": {
+    "internal_dev": 1044,
+    "internal_train": 4868,
+    "source_rows_scored": 762888
+  },
+  "schema_version": "h002_ce_candidate_ci_family_review_v1",
+  "score_summary": {
+    "family_counts": {
+      "proximity": 63574,
+      "relative_horizontal": 254296,
+      "relative_vertical": 127148,
+      "size_relative": 127148,
+      "support_contact": 190722
+    },
+    "source_counts": {
+      "open3dsg_recovery_relaxed_views_min2": 321192,
+      "vlsat_full_validation": 441696
+    }
+  },
+  "seed": 20260706,
+  "status": "h002_ce_candidate_ci_family_review_ready",
+  "validation_errors": 0
+}

@@ -1,0 +1,3 @@
+rows,accuracy,macro_F1,accept_tp,reject_tp,abstain_tp,scope,metric_name,AURC
+138372,0.9467233255282861,0.7780715049835566,5546,10144,115310,official_validation_all_plus_wrong_pair_control,accept_reject_abstain_calibrated,
+,,,,,,official_validation_all_plus_wrong_pair_control,AURC,0.14759016260461777
