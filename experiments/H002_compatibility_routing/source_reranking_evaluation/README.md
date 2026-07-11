@@ -34,8 +34,11 @@ latest/validation_errors.jsonl
 
 ## Paper Status
 
-This is the current main validation benchmark runtime output. The caption-ready
-table is materialized under the H002 hypothesis artifact root.
+This is the current validation-level custom-evaluation runtime output. Compact
+metrics are retained; `selected_predictions.jsonl` is intentionally removed
+after CI and qualitative artifacts are generated and can be regenerated. The
+caption-ready table is materialized under
+`../main_validation_table_refresh/latest/`.
 
 The latest run includes ablation expansion scores:
 

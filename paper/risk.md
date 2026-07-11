@@ -1,6 +1,6 @@
 # H001 Paper Reviewer-Risk Register
 
-Last updated: 2026-06-25 KST
+Last updated: 2026-07-11 KST
 
 Scope: this file tracks paper-body risks for the current AAAI manuscript under
 `paper/aaai/`. The goal is not sentence polish; it is to prevent reviewer attacks
@@ -17,15 +17,28 @@ broad open-vocabulary 3DSSG generation paper. The strongest contribution remains
 > failure measurable, reduces violations under explicit recall tradeoffs, and
 > reports controls, GT/counterfactual verifier checks, and failure analysis.
 
-Current scoring decision: `family_conditional_risk` is the GeoCalib main score
-(`semantic_score * p_geom_valid_family`). Pooled
-`probabilistic_recalibrated` is an ablation/baseline
-(`semantic_score * p_geom_valid`), and geometry-only control is `p_geom_valid`
-without semantic score.
+Current framing decision: GeoCalib is the calibrated geometry-consistency
+framework, not one uniquely optimal formula. The calibrated product
+(`family_conditional_risk = semantic_score * p_geom_valid_family`) and fixed
+rank-average are two soft fusion instantiations. Pooled calibration is an
+ablation, RRF a strong comparator, hard filtering a diagnostic, and
+calibrator-only/no-source-score ranking a control.
+
+Factor-isolation decision: define `T_e` as predicate/family semantics, `G_e`
+as raw predicate-independent same-pair geometry, `Z_e` as source confidence,
+and `C_e=P(y_cal=1|T_e,G_e)`, with `Z_e notin C_e`. `y_cal` is a constructed
+GT-positive/counterfactual calibration target, not direct human validity. The
+legacy `p_geom_valid`-only row is calibrator-only/no-`Z`; calling it true
+geometry-only would be inaccurate because the model retains `T_e` and
+predicate-aligned interactions.
 
 The main rejection risks are not that the topic is unimportant. They are:
 
 - the method could be read as a hand-coded verifier/post-processing script;
+- factor isolation is now demonstrated under the strict train-only audit, but
+  the pooled interaction model fails structural controls and support/contact
+  remains unsolved; compatibility claims must stay with the selected family
+  model and exact counterfactual tests;
 - Open3DSG is the main source but uses a reproduced selected checkpoint and a
   recovery-policy full-validation branch;
 - the measured relation-family scope may look narrow if reviewers expect broad
@@ -48,9 +61,38 @@ The main rejection risks are not that the topic is unimportant. They are:
 - family-conditional calibration can be attacked as a family-specific trick if
   the manuscript does not present it as a calibration design choice and does
   not keep pooled and geometry-only variants as explicit comparisons.
-- submission-package risk is now practical rather than scientific: target-year
-  form/style/supplement policy, artifact URL/DOI, checklist answers, and
-  flattened package regeneration must match the latest GeoCalib/Figure-1 source.
+- the aggregate Violation reduction is not family-uniform: verifier-derived
+  `support_contact` Violation increases under the calibrated product in both sources,
+  including the global-top-100 family slice; claiming every-family improvement
+  would be directly contradicted by the frozen decomposition.
+- fixed Reciprocal Rank Fusion is a serious comparison: it lowers VL-SAT V@100
+  relative to the product without a statistically resolved recall loss, even
+  though the product retains a much lower Open3DSG V@100. The method should
+  be framed as a source-dependent reliability tradeoff, not universal fusion
+  dominance.
+- Fresh SGFN confirmation passes the aggregate semantic-vs-product gate, and fixed
+  rank-average fusion also passes the same recall/lower-V joint gate against the
+  product at K=100 (R/V `0.9476/0.0277` vs `0.9416/0.0381`). This supports a
+  two-instantiation framework claim while blocking formula superiority.
+- SGFN reproduces the `support_contact` verifier-V regression (`+0.00450`, 95%
+  CI `[+0.00370,+0.00532]`) while `proximity` is unchanged and
+  `relative_vertical` improves. Aggregate confirmation is therefore not a
+  family-uniform mechanism confirmation.
+- the family calibrator predates source results, but the product was formerly
+  promoted to the paper main score after those results were observed. Existing
+  VL-SAT/Open3DSG comparisons are retrospective; hiding this chronology is a
+  larger risk than stating it and adding prospective confirmation.
+- Human V@K and human semantic calibration are not claimed in the selected
+  paper route; the frozen human evaluator is dormant unless an explicit later
+  human-alignment study is approved.
+- two blinded Codex LLM proxy annotation passes show high stability and zero
+  binary polarity flips, but they are automatic proxy evidence rather than
+  independent human annotations; presenting kappa 0.845 as inter-rater
+  agreement would be invalid.
+- target-year style, standalone checklist, supplement policy, and anonymous
+  OpenReview upload ZIP are verified and built. Remaining submission risk is
+  author-controlled metadata (profiles, countries, reciprocal reviewer) plus
+  the final public license/post-acceptance artifact URL.
 
 ## Orthogonal Persona Review, 2026-06-14
 
@@ -77,9 +119,93 @@ Persona C, reproducibility/area-chair reviewer:
   must be frozen after the GeoCalib/Figure-1 source state.
 - If low-K rows are in the paper, the matching point-metric artifacts must exist
   in the release bundle or be regenerated by a documented Docker command. Low-K
-  CI should be included only if the paper claims low-K confidence intervals.
+  bootstrap ranges should stay in artifacts unless the paper explicitly needs
+  uncertainty tables.
 
 ## Mitigation Status
+
+### P12 Independent validity, family decomposition, and provenance, 2026-07-10
+
+- Protocol frozen: 488 unique relation items over 137 scans, balanced through
+  126 nonempty source/context/family/membership/rank-band strata; raw 3D
+  projection and pair PLY coverage is 488/488, RGB pair-crop coverage is
+  248/488 and explicitly optional rather than a post-hoc eligibility filter.
+- Blinding frozen: public sheets omit source, scores, ranks, verifier result,
+  GT, stratum, inclusion probability, and design weight. The selected route
+  uses two separately locked Codex passes; the stronger human route would still
+  require two independent first-pass sheets plus blinded adjudication.
+- Evaluation frozen: design-weighted Human Violation@K, semantic Brier/AUROC/
+  AUPRC/ECE, agreement, coverage exclusions, and cluster-bootstrap CIs are
+  implemented but correctly return `awaiting_independent_human_labels` with
+  0/488 labels rather than generating proxy human evidence.
+- Family-wise diagnostic completed: overall gains are concentrated in
+  geometry-aware family/composition effects; `support_contact` verifier-V
+  regresses in VL-SAT, Open3DSG, and fresh SGFN. On SGFN, `proximity` is
+  unchanged and `relative_vertical` supplies the main V reduction. Main text
+  must not claim uniform family improvement. The Codex audit is a proxy
+  diagnostic, not a replacement human family-wise result.
+- Strong fusion comparisons completed: rank-average and Reciprocal Rank Fusion
+  were fixed before SGFN inference. They expose a real source-dependent
+  tradeoff. Fresh SGFN rank-average passes the same recall/lower-V joint gate
+  against the product, supporting framework robustness but not calibrated-
+  product superiority.
+- Provenance frozen: family calibrator creation predates source evaluation, but
+  main-score promotion follows source results. Current source tables are
+  retrospective; the physical-validity audit is prospectively confirmatory for
+  validity only. Fresh SGFN target v3 was frozen before correct-checkpoint
+  download and passes its aggregate exact-label Recall and verifier-V gates;
+  earlier VL-SAT/Open3DSG tables remain retrospective.
+
+Current status: fresh source confirmation, strict factor controls, and the
+two-pass Codex LLM proxy audit are complete. The manuscript must not promote
+proxy agreement into Human V@K. If SGFN is reported, disclose v1/v2/v3
+pre-inference errata, the 11 retained self-GT rows, family nonuniformity, and
+rank-average challenge.
+
+2026-07-10 fresh-source addendum: the official `3DSSG_full_l160` SGPN source
+was frozen before checkpoint download/inference on the 157-scan official
+validation annotations. Calibrated product independently passes the same
+aggregate Recall/lower-verifier-V gate. Rank-average lowers V more, but its
+paired dR CI lower is `-0.010053` against the strict `>-0.01` rule; the
+cross-source two-formula joint gate therefore fails. Do not generalize SGFN's
+two-instantiation result into a universal framework-gate claim. Factor
+isolation also remains diagnostic: `M_int` performs strongly on constructed
+calibration labels but fails close-by swap and vertical inverse structural
+checks, while the all-candidate wrong-T aggregate is symmetry-cancelled and
+uninformative. This is the official unified SceneGraphFusion-release
+implementation/checkpoint of `3DSSG`, which its README distinguishes from the
+original-paper implementation; use it as a fresh semantic-source case, not an
+original-3DSSG reproduction or leaderboard claim.
+
+2026-07-11 strict train-only addendum: `train_only_reestablishment_v1` rebuilds
+the calibrators behind a disjoint 1,061/117/157 firewall and uses zero final-
+validation rows for fit statistics or weights. The default product passes the
+354-context internal-dev gate, is hash-locked, and then passes the 548-context
+final gate: dR@100 `+0.007553` `[+0.004079,+0.011854]`, verifier dV@100
+`-0.027901` `[-0.030347,-0.025656]`. This answers the parameter-leakage attack,
+not the historical method-selection attack. The same official final target was
+already observed during earlier method/score development, so label the result
+`leakage-controlled reconstruction`, never untouched prospective confirmation.
+Support/contact verifier V still regresses in family-wise views. A stronger
+prospective claim requires a genuinely untouched target; a separate optional
+human-alignment study could strengthen the Codex judge but is not active.
+Rerunning or repartitioning the 157-scan validation target does not qualify.
+
+2026-07-11 untouched-dataset addendum: the official ReplicaSSG test split and
+official VisualGenome-trained FROSS source were frozen before source prediction
+with 11 test scenes, 172 exact `near/above/under` GT rows, the strict train-only
+model hash, K grid, primary K=100, paired scene bootstrap, four main methods,
+factor diagnostics, and controls. ReplicaSSG validation scenes were never used,
+and all 24 final provenance/firewall checks pass. This is a valid prospective
+dataset-and-source test, but its primary framework gate fails. Product is
+identical to semantic at K=100 (R/V `0.36047/0.19674`, dR/dV `0/0`), while
+rank-average has dR `-0.02907` `[-0.07407,+0.01333]` and dV `-0.15835`
+`[-0.19292,-0.12190]`. Lower-K product gains do not authorize changing the
+primary endpoint after inspection. The reviewer-safe position is: SGFN
+provides positive source-level prospective support on a known dataset target;
+ReplicaSSG/FROSS exposes a dataset-transfer limitation. Do not claim universal
+or dataset-level satisfaction of the joint gate, and do not launch repeated
+targets merely to obtain a pass.
 
 Updated on 2026-06-25 KST after promoting family-conditional risk to the main
 GeoCalib score and demoting pooled calibrated risk to ablation/baseline:
@@ -94,16 +220,15 @@ GeoCalib score and demoting pooled calibrated risk to ablation/baseline:
   `probabilistic_recalibrated = semantic_score * p_geom_valid` is retained as
   an ablation/baseline, not as geometry-only control.
 
-- P10 2026-06-14 GeoCalib/package risk: active. Latest known build is
-  `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`, exit 0,
-  10 total pages with technical content on pages 1-7. Before upload, regenerate
-  any flattened package made before
-  the low-K and family-main table/prose updates, verify target-year
-  form/style/supplement policy, decide artifact URL/DOI, and include the
-  low-K point-metric artifacts if K = `{5,10,20,50,100}` stays in the main
-  source-result table. Low-K point metrics now exist under both paper-facing
-  `metrics_k_sweep/` roots and K=50/100 matches locked `metrics/`; low-K CI
-  should not be claimed unless regenerated.
+- P10 GeoCalib/package risk: partially resolved on 2026-07-12. The current
+  main/supplement source was independently rebuilt in Docker and the verified
+  compact package is
+  `release/h001_aaai27_submission_20260712_005127.tar.zst`. It includes the
+  low-K compact results plus SGFN, factor/train-only, Codex proxy,
+  ReplicaSSG/FROSS, and Open3DSG provenance evidence. Remaining external
+  submission risks are the target-year form/style/supplement policy and final
+  artifact URL/DOI decision; low-K bootstrap ranges still should not be printed
+  in the main paper.
 
 - P0 main-text mitigation: completed. `paper/aaai/sec/6_results.tex` no longer
   names the internal reviewer id or reports private-reference matching.
@@ -126,7 +251,7 @@ GeoCalib score and demoting pooled calibrated risk to ablation/baseline:
   reliability evidence`, avoiding broad generation or SOTA framing.
 - P6 main-text mitigation: completed. Downstream claims were softened to
   motivation/future evaluation rather than measured downstream performance.
-- P7 Docker bootstrap CI: completed. `bootstrap_ci` reports 1,000 subgraph
+- P7 Docker bootstrap stability check: completed. `bootstrap_ci` reports 1,000 subgraph
   resamples with status `ready` and no warnings. Open3DSG family-conditional risk
   deltas remain positive for \rAt{100} and negative for \vAt{100}; VL-SAT
   recall deltas remain modest while violation reductions are stable.
@@ -269,7 +394,7 @@ Remaining after P0-P10:
   than as a broader-coverage claim. It can strengthen the "framework can scale
   to more spatial relations" defense only if a follow-up resolves the
   `front`/`behind` frame ambiguity and then passes verifier design, calibration,
-  controls, Open3DSG/VL-SAT metrics, bootstrap CI, and failure/audit gates.
+  controls, Open3DSG/VL-SAT metrics, bootstrap stability checks, and failure/audit gates.
 - P10 is a future-upgrade track, not a current-paper blocker. G0 scope/schema
   audit, G1 extractor contract, G1b evidence-only dry run, G1c
   point/surface validation, G2 verifier-policy design, G3
@@ -302,10 +427,10 @@ Remaining after P0-P10:
   source-result reporting. H001-Mini should be described as
   hypothesis/feasibility evidence, not as threshold fitting, calibrator fitting,
   or primary paper metric evidence. VL-SAT full-validation raw/export,
-  geometry join, metrics, GT verifier eval, and bootstrap CI now exist under
+  geometry join, metrics, GT verifier eval, and bootstrap stability artifacts now exist under
   separate output paths. Open3DSG full-validation now also has a complete
   recovery branch with 548/548 coverage, clean-exit raw dump, adapter, geometry,
-  metrics, controls, bootstrap CI, failure rows, and table/caveat regeneration.
+  metrics, controls, bootstrap stability artifacts, failure rows, and table/caveat regeneration.
   Use the 548/548 recovery-policy branch as the primary Open3DSG
   full-denominator result and the 533-context covered branch as sensitivity /
   unmodified-source-route evidence.
@@ -585,7 +710,7 @@ Evidence / affected files:
 - `paper/aaai/sec/6_results.tex`
 - `paper/aaai/sec/8_conclusion.tex`
 
-### P7. Add Confidence Intervals
+### P7. Add Bootstrap Stability Check
 
 Reviewer attack:
 
@@ -595,20 +720,23 @@ Status:
 
 - Completed as a Docker paper experiment artifact under
   `results/h001_geom_reliability/bootstrap_ci/`.
-- The CI is a subgraph-level evaluation-context bootstrap, not repeated training
-  variance.
+- The check is a subgraph-level evaluation-context bootstrap, not repeated
+  training variance.
 - Main use: defend that the Open3DSG family-conditional risk tradeoff is not a single
   aggregate artifact; keep VL-SAT as controlled-anchor evidence because its
   recall deltas are small.
+- Paper-facing decision: do not print direct bootstrap ranges in the main table
+  or primary results prose. Use point estimates in the paper and keep raw
+  bootstrap ranges in the experiment artifact.
 
 Key result:
 
 - Open3DSG full-validation recovery `family_conditional_risk` vs
-  `semantic_only`: \rAt{100} delta +8.86 percentage points, 95% CI +6.69 to
-  +10.96; \vAt{100} delta -9.01 points, 95% CI -9.49 to -8.53.
+  `semantic_only`: \rAt{100} delta +8.86 percentage points and \vAt{100}
+  delta -9.01 points; bootstrap stability supports the same direction.
 - VL-SAT full-validation `family_conditional_risk` vs `semantic_only`:
-  \rAt{100} delta +0.48 points with 95% CI +0.11 to +0.93; \vAt{100} delta
-  -1.43 points with 95% CI -1.60 to -1.28.
+  \rAt{100} delta +0.48 points and \vAt{100} delta -1.43 points; the effect is
+  smaller but favorable under the controlled-anchor route.
 
 Evidence / affected files:
 
@@ -671,7 +799,7 @@ Promotion gates before main-claim use:
    included, preserving exact predicate-label recall.
 7. Add nontriviality controls: geometry-only, distance-only if relevant,
    shuffled geometry, wrong-pair geometry, and wrong-frame/axis-flip geometry.
-8. Run bootstrap CI and failure analysis at the same standard used for the
+8. Run bootstrap stability checks and failure analysis at the same standard used for the
    current paper claim.
 
 Pass / fail rule:
@@ -730,5 +858,5 @@ Evidence / affected files:
 - Do not describe the 50-row visual spot-check as large-scale, strictly blinded,
   or independent.
 - Do not add `relative_horizontal` to the main claim until coordinate-frame
-  semantics, denominator, calibration, controls, metrics, bootstrap CI, and
+  semantics, denominator, calibration, controls, metrics, bootstrap checks, and
   failure/audit evidence reach the current H001 evidence standard.

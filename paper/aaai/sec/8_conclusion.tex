@@ -1,16 +1,6 @@
 \section{Conclusion}
 
-This paper studies a scoped reliability failure in 3D Scene Graph relation
-prediction: semantic relation confidence can rank plausible predicates that are
-physically inconsistent for the same object pair. We address this failure with
-a \method{} framework that standardizes relation rows, preserves
-subject-object identity, joins explicit 3D evidence, estimates \pgeom{}, and
-reports recall and geometric violation together.
-
-On Open3DSG as the main open-vocabulary relation-source case study and VL-SAT
-as a controlled anchor, geometry-consistency reduces violations under measurable
-recall tradeoffs. GT/counterfactual checks, identity controls, and qualitative
-failures support the central claim: the contribution is not merely adding
-geometry, but making relation-level physical consistency calibrated,
-identity-preserving, and reportable. Remaining limits point to attachment-style
-relations, modern VLM sources, and downstream embodied-reasoning tests.
+\method{} addresses semantic--geometry mismatch by calibrating $C(T,G)$
+without source confidence $Z$ and evaluating $F(Z,C)$ with recall and
+violation. Across three sources, results support the scoped framework, not
+formula dominance.

@@ -1,4 +1,0 @@
-split,observability_label,rows,q_e_state_sufficient_v2,q_e_state_limited_v2,q_e_state_ambiguous_v2,q_e_state_missing_v2
-eval,ambiguous_evidence,126,0,0,126,0
-eval,observable_clear,135,135,0,0,0
-eval,unobservable_missing_evidence,4,0,0,0,4

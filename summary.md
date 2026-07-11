@@ -1,187 +1,95 @@
 # GeoCalib / H001 Research Summary
 
-Last updated: 2026-07-05 KST
+Last updated: 2026-07-12 KST
 
 Paper-facing name: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations`.
 Use `GeoCalib` in manuscript-facing prose. Keep `H001` only for internal
 experiment paths and archived hypothesis records.
 
-Parallel H002 paper route:
+## Parallel H002 Route
 
-- Workspace: `paper/h002_compatibility_routing/`
+H002 is a separate scoped paper branch and does not modify H001 artifacts.
+
 - Title: `Semantic-Geometry Compatibility Learning for Reliable 3D Scene Graph Relations`
-- Role: standalone validation-level paper candidate, separate from the active
-  H001/GeoCalib manuscript.
-- Updated goal: route-aware reliable 3D relation framework.
-- Current main quantitative success route: comparison compatibility
-  (`relative_vertical`, `size_relative`).
-- Claim boundary: source reranking with `S2_source_x_Ce` on VL-SAT/Open3DSG
-  validation predictions; no official-test/SOTA claim; no completed
-  all-relation framework claim; calibrated p_obs/p_rel solved claim remains
-  blocked.
-- Latest H002 ablation status: `A1_source_x_G_only` and
-  `A2_source_x_TG_concat` are implemented and reviewed in the Docker
-  source-reranking path. Aggregate primary comparison-route evidence supports
-  `S2_source_x_Ce` over both ablations; family-wise Violation reduction is
-  stable, but Recall improvement is mixed in saturated/low-denominator cells.
-- Latest H002 global review: the experiment-stage remaining-gap review is
-  complete with validation errors `0`. H002 is paper-possible only as a scoped
-  validation-level comparison-route reranking claim. Broad all-relation
-  reliability, support/contact solved, official-test/SOTA, and calibrated
-  p_obs/p_rel solved claims remain blocked. Before final paper wording, resolve
-  or explicitly caveat two sensitivities: validation candidate-pool
-  normalization and the fact that the G-only ablation is route-aware because
-  `G_e` includes a `route_family` one-hot.
-- Latest H002 sensitivity status: normalization/no-route geometry sensitivity is
-  complete with validation errors `0`. No-route G-only passed, so the S2 gain is
-  not explained by route-family one-hot geometry features. Raw
-  `source_score*C_e` preserves the improvement direction over S0 at K
-  `{10,20,50}`; rank-percentile normalization reduces violations but loses
-  low-K recall. Current method is natural and principled for the scoped
-  comparison-route problem. Relation-aware evidence routing is constructed and
-  partially validated, but a completed general reliable 3D relation framework is
-  not yet validated.
-- Latest H002 paper boundary status: claim-boundary update after sensitivity
-  review is complete, and the selected paper direction is now relation-aware
-  evidence routing. The framework claim is broad: reliable 3D relation
-  estimation requires route-specific evidence rather than one fixed
-  semantic-geometry fusion. The validated quantitative mechanism remains
-  narrower: validation-level comparison-route source reranking with
-  factor-isolated predicate-geometry compatibility.
-- Next H002 work stays in the experiment stage before further paper
-  strengthening. The current focus is no longer calibrated `p_obs/p_rel`; it is
-  improving and reviewing `C_e = compatibility(T_e, G_e)` as the core signal.
-- Latest H002 experiment-stage synthesis: Docker service
-  `h002-general-framework-gap` produced
-  `experiments/H002_compatibility_routing/general_framework_gap/latest/` with
-  validation errors `0`. The general framework claim remains blocked:
-  support/contact solved, calibrated `p_obs/p_rel` solved,
-  normalization-invariant improvement, and route-aware source-wide
-  generalization all failed current promotion gates. Next experiment-stage step
-  was `support_contact_generalization_repair`.
-- Latest H002 support/contact repair status: Docker service
-  `h002-support-contact-generalization-repair` produced
-  `experiments/H002_compatibility_routing/support_contact_generalization_repair/latest/`
-  with validation errors `0`. Current support/contact failure is not missing
-  current feature coverage (`43/43` current `G_e` features available on
-  `3178/3178` rows); it is a pose-subtype/observability target problem. Hard
-  official M4 AUROC remains `0.077539`, so support/contact solved wording is
-  blocked. Next experiment-stage step is
-  `support_contact_generalization_repair_materialization`.
-- Latest H002 support/contact repair materialization: Docker service
-  `h002-support-contact-repair-materialize` produced
-  `experiments/H002_compatibility_routing/support_contact_repair_materialization/latest/`
-  with validation errors `0` and gate failures `1`. After enforcing
-  mixed-class-pair control, only `40` binary rows over `4` class-pairs remain;
-  `3138` rows are abstain/diagnostic. Metric rerun is blocked because the
-  capacity is too small. Next experiment-stage step is
-  `support_contact_generalization_repair_capacity_decision`.
-- Latest H002 support/contact capacity decision: Docker service
-  `h002-support-contact-capacity-decision` produced
-  `experiments/H002_compatibility_routing/support_contact_capacity_decision/latest/`
-  with validation errors `0`. Support/contact is frozen as
-  diagnostic/failure-taxonomy evidence for the current H002 path; metric rerun
-  and solved-route wording are blocked. Reopening requires independent
-  pose/observability labels with at least `200` binary rows and `10` mixed
-  class-pairs after shortcut control. Next experiment-stage step is
-  `pobs_prel_observability_repair`.
-- Latest H002 p_obs/p_rel observability repair and label ingestion: Docker service
-  `h002-pobs-prel-observability-repair` produced
-  `experiments/H002_compatibility_routing/pobs_prel_observability_repair/latest/`
-  with validation errors `0`. Current real asset-observability labels remain
-  single-class (`observable:23062`), synthetic missing-evidence controls remain
-  controls rather than GT, and calibrated `p_rel` ECE@10 is `0.223458`. A
-  `265`-row visual/mesh audit queue was created. Codex label fill, ingestion,
-  and schema audit have now completed with validation errors `0`: labels are
-  `observable_clear:135`, `ambiguous_evidence:126`, and
-  `unobservable_missing_evidence:4`; blocked model-safe field hits are `0`.
-  The user confirmed these Codex-filled labels for a diagnostic rerun, so the
-  metric gate opened and Docker service
-  `h002-pobs-prel-observability-metric-runner` evaluated the `265`-row subset
-  with validation errors `0`. Result: `p_obs` AUROC `0.500000`, ECE@10
-  `0.446174`, `p_rel` AUROC `0.774704`, ECE@10 `0.083819`, decision macro-F1
-  `0.331637`. The rerun shows useful `p_rel` signal but `p_obs` failure on
-  ambiguous/missing-evidence rows. The result review completed with validation
-  errors `0` and identified the cause as `Q_e` feature/label mismatch:
-  `ambiguous_evidence` `126/126` rows and `unobservable_missing_evidence` `4/4`
-  rows are still marked as Q_e-sufficient in the model-safe view. Calibrated
-  p_obs/p_rel solved-claim wording remains blocked. The Q_e repair plan is now
-  complete with validation errors `0`: it freezes Q_e v2 blocks for asset
-  availability, visual coverage, geometry quality, ambiguity, and Q_e state v2.
-  The repaired Q_e v2 materialization is also complete with validation errors
-  `0` and blocked field hits `0`: train rows are balanced at `4868` each for
-  observable/ambiguous/missing, and the 265-row diagnostic eval view maps
-  `observable_clear` to sufficient (`135`), `ambiguous_evidence` to ambiguous
-  (`126`), and `unobservable_missing_evidence` to missing (`4`). It is still
-  audit-proxy diagnostic material, not paper-level calibrated p_obs/p_rel
-  solved evidence. The Q_e v2 schema audit also completed with validation
-  errors `0`: blocked field hits `0`, row alignment passed, required Q_e blocks
-  are present, train labels are balanced, and ambiguous/missing eval rows are not
-  sufficient. The p_obs-only diagnostic smoke test is now complete with
-  validation errors `0`: AUROC `1.000000`, ECE@10 `0.049266`, abstain recall
-  `1.000000`, and observable false-abstain rate `0.000000`, while the legacy
-  all-sufficient baseline has AUROC `0.500000` and abstain recall `0.000000`.
-  The p_obs metric review also completed with validation errors `0`: proxy
-  shortcut risk is `high` because direct `Q_e state_code` reaches the same
-  AUROC `1.000000`, eval `Q_e v2` is audit-proxy material, and the
-  missing-evidence slice has only `4` rows. Therefore `p_obs` is not required
-  for the current H002 core claim and is demoted to optional diagnostic/future
-  evidence; full p_obs/p_rel selective-decision rerun is not justified now.
-- Latest H002 C_e improvement path: Docker service
-  `h002-ce-improvement-path` produced
-  `experiments/H002_compatibility_routing/ce_improvement_path/latest/` with
-  validation errors `0` over `762888` source rows. The run evaluated
-  hard-negative + structured C_e, route-aware C_e, richer-G_e hard-route
-  feasibility, and calibrated C_e. Best primary-route candidate is
-  `I4_calibrated_route_aware_source_x_Ce`: compared with current
-  `S2_source_x_Ce`, it improves Recall@K by `+0.015873/+0.021542/+0.007937`
-  and reduces Violation@K by `-0.008769/-0.010512/-0.014035` at K
-  `{10,20,50}`. Internal heldout calibration improves Brier/NLL
-  (`0.045925` / `0.139495`) but family-wise caveats remain, especially
-  Open3DSG `relative_vertical` Violation. Therefore I4 is a promising
-  candidate, not the promoted main score.
-- Latest H002 C_e candidate CI/family review: Docker service
-  `h002-ce-candidate-ci-family-review` produced
-  `experiments/H002_compatibility_routing/ce_candidate_ci_family_review/latest/`
-  with validation errors `0` and `1000` bootstrap samples. K=5 point result is
-  `S2_current_source_x_Ce` Recall/Violation `0.352608/0.054491` versus
-  `I4_calibrated_route_aware_source_x_Ce` `0.358277/0.047554`. Aggregate
-  primary-route deltas at K `{5,10,20,50}` are positive for Recall and negative
-  for Violation, but K=5 and K=50 Recall CIs include zero, and family-wise
-  review finds `5` violation-regression cells plus `1` double-regression cell
-  concentrated in Open3DSG `relative_vertical`. Therefore I4 stays a candidate
-  ablation/secondary result, and the current main score remains
-  `S2_current_source_x_Ce`.
-- Latest H002 route-framework protocol: `h002_relation_aware_framework_claim_hierarchy_and_route_protocol`
-  is complete. The frozen hierarchy is: relation-aware evidence routing as the
-  framework claim, predicate-geometry compatibility as the validated mechanism
-  claim, route taxonomy as analysis/diagnostic evidence, and explicit boundary
-  wording for unsolved routes. The route-assignment protocol is based on
-  evidence requirements, not metric outcomes. The main result table remains
-  comparison-route only; route-readiness, support/contact, p_obs/p_rel, and
-  semantic/structural routes remain diagnostic/future unless separately
-  validated.
-- Latest H002 paper-section sync: `h002_route_aware_paper_section_sync_after_protocol_freeze`
-  is complete. The frozen hierarchy is now reflected in the H002 paper
-  workspace's draft, outline, table captions, figure captions, and risk
-  register. The sync adds section-ready introduction/method/experiment/boundary
-  text and caption-ready wording without changing metrics, score promotion, or
-  route status.
-- Latest H002 report: `hypothesis/CAND-001/H002_factorized-relation-confidence/report/report_0706.md`.
-  Next step is `h002_route_aware_full_draft_plan_after_section_sync`: plan the
-  full H002 manuscript expansion from the synced paper workspace.
+- Claim: source confidence does not guarantee predicate-geometry compatibility;
+  H002 separates `T_e`, predicate-independent `G_e`, source confidence
+  `Z_e`, and `C_e=f_C(T_e,G_e)`.
+- Leakage boundary: `Z_e` is excluded from `C_e` and enters only final
+  reranking.
+- Implementation: a logistic `C_e` model is fit on 4,868 internal-train rows.
+  Source score is normalized per source, raw compatibility per source-family,
+  and the primary score is
+  `S2_source_x_Ce = normalized_source_score * normalized_C_e`.
+- Evaluation: VL-SAT and Open3DSG predictions on the official 3DSSG validation
+  split; Recall@K, custom Violation@K, and 1,000 grouped bootstrap replicates.
+- Main validated routes: relative vertical (higher/lower) and relative size
+  (bigger/smaller).
+- Caveated route: left/right. It consistently lowers Violation, but VL-SAT has
+  a bounded Recall tradeoff.
+- Controls/failures: close by is geometry-only; front/behind is a
+  reference-frame/depth failure; support/contact is diagnostic because its
+  repaired target is positive-sparse and exactly reconstructed by its
+  construction rule.
+- Main comparison deltas for S2 versus source-only:
+  K=10 dRecall +0.0420 [0.0232, 0.0621], dViolation -0.2299
+  [-0.2397, -0.2202]; K=20 dRecall +0.0816 [0.0481, 0.1180],
+  dViolation -0.2431 [-0.2519, -0.2351]; K=50 dRecall +0.1032
+  [0.0689, 0.1407], dViolation -0.2592 [-0.2662, -0.2524].
+- Boundary: validation-level custom evaluation only. H002 does not claim hidden
+  test, SOTA, all-relation reliability, solved support/contact, learned-G_e
+  improvement, calibrated p_obs/p_rel, or normalization invariance.
+- Package status: compact tables, CI, sensitivity, controls, qualitative cases,
+  and support/contact diagnostic freeze are complete. The verified AAAI package
+  is main/supplement/checklist 7/3/2 pages.
+- Current action: no automatic experiment is open. External release/submission
+  or a broader route requires an explicit decision and a frozen protocol.
+
+Authoritative owners:
+
+- hypothesis state: `hypothesis/CAND-001/H002_factorized-relation-confidence/README.md`
+- claim and method: `hypothesis/CAND-001/H002_factorized-relation-confidence/paper_claim_core.md`, `hypothesis/CAND-001/H002_factorized-relation-confidence/method_contract_v1.md`
+- consolidated evidence: `hypothesis/CAND-001/H002_factorized-relation-confidence/report/report_0706.md`
+- runtime: `experiments/H002_compatibility_routing/`
+- manuscript: `paper/h002_compatibility_routing/aaai2027/`
+
 
 ## Current Status
 
 - Current paper route: AAAI-style manuscript under `paper/aaai/`.
-- Latest source-validation build: `logs/h001_aaai_pdf_build_reference_expansion_20260625_130811.log`, exit 0, output `paper/aaai/main_reference_expansion.pdf`.
-- PDF status: 9 total pages, references start on page 7, reproducibility checklist page 9. The original `paper/aaai/main.pdf` is preserved.
+- Active AAAI-27 outputs: `paper/aaai/main_aaai27.pdf` (9 US-Letter pages;
+  technical content through page 7, references only on pages 8--9),
+  `paper/aaai/supplement_aaai27.pdf` (1 page), and
+  `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Final main log:
+  `logs/h001_aaai27_main_build_20260712.log`; triplet verification log:
+  `logs/h001_aaai27_final_triplet_build_20260712.log`. All three have
+  zero Type 3 fonts and no unresolved citations/references or blocking
+  LaTeX/overfull errors.
+- Active OpenReview upload set:
+  `release/h001_aaai27_openreview_20260712_083625/`. Older factorized,
+  LLM-proxy, Replica-disclosure, and reference-expansion PDFs remain historical
+  provenance snapshots rather than upload candidates.
 - Main sources: VL-SAT full official validation and Open3DSG full-validation `recovery_relaxed_views_min2/`.
-- Main score: `family_conditional_risk = semantic_score * p_geom_valid_family`.
+- Framework instantiations: calibrated product
+  (`family_conditional_risk = semantic_score * p_geom_valid_family`) and fixed
+  scale-robust rank-average fusion. Neither is claimed universally dominant.
 - Pooled ablation: `probabilistic_recalibrated = semantic_score * p_geom_valid`.
-- Geometry-only control: rank by `p_geom_valid` without semantic score.
+- Factorization: `T_e` is predicate/family semantics, `G_e` is
+  predicate-independent same-pair geometry, `Z_e` is source confidence, and
+  `C_e = P(y_cal=1 | T_e,G_e)` is calibrated compatibility for the constructed
+  train/dev target. The leakage boundary is `Z_e notin C_e`; final ranking is
+  `S_e = F(Z_e,C_e)`.
+- Legacy `control_p_geom_valid_only`: calibrator-only/no-`Z_e` control. It is
+  not true `G_e`-only because the calibrator includes predicate/family and
+  predicate-aligned interaction features.
 - Main K grid: `{5, 10, 20, 50, 100}`. K=1 is sanity-check only.
 - Qwen-VL is complete as a third-source / modern VLM extension, but it is not part of the main claim unless explicitly promoted.
+- Strict train-only reestablishment is complete under
+  `experiments/H001_geom_reliability/train_only_reestablishment_v1/`. It uses
+  an exact 1,061/117/157 train/internal-dev/final firewall, zero final rows in
+  fitting, a pre-source-inference execution contract, and a post-internal-dev
+  model/score hash lock. It passes the final aggregate joint gate, but its
+  classification is leakage-controlled reconstruction rather than untouched
+  prospective confirmation.
 
 ## Claim Boundary
 
@@ -212,6 +120,23 @@ Not claimed:
 GeoCalib is a calibrated geometry-consistency evaluation and re-ranking
 framework over existing relation-source outputs.
 
+Factor contract:
+
+| Factor | Definition | Boundary |
+| --- | --- | --- |
+| `T_e` | predicate label and relation-family semantics | may condition compatibility |
+| `G_e` | raw, predicate-independent geometry of the same ordered object pair | excludes predicate-aligned transforms |
+| `Z_e` | source relation confidence | excluded from `C_e` |
+| `C_e` | `P(y_cal=1 | T_e,G_e)` | constructed-target calibrated compatibility |
+| `S_e` | `F(Z_e,C_e)` | product and rank-average are frozen instantiations |
+
+`y_cal` is built from train/dev GT-positive rows and high-margin
+counterfactual negatives. It must not be described as direct human physical
+validity. Predicate-aligned center-delta features are interaction terms
+`T_e x G_e`, while raw center/extent/contact/distance quantities belong to
+`G_e`. Existing artifacts exclude the source score, but factor necessity is
+not yet established uniformly across families.
+
 Core steps:
 
 1. Standardize relation predictions into identity-preserving rows.
@@ -226,10 +151,11 @@ Main scoring conditions:
 | Condition | Role |
 | --- | --- |
 | `semantic_only` | source ranking baseline |
-| `family_conditional_risk` | GeoCalib main score |
+| `family_conditional_risk` | calibrated-product instantiation |
+| `rank_average_fusion` | pre-specified scale-robust instantiation |
 | `probabilistic_recalibrated` | pooled calibrated-risk ablation |
 | `rule_verified_point_subtype` | hard-rule diagnostic |
-| `control_p_geom_valid_only` | geometry-only control |
+| `control_p_geom_valid_only` | calibrator-only/no-source-score control; not true `G`-only |
 | `control_distance_only` | distance-only control |
 | `control_shuffled_geometry` | geometry distribution control |
 | `control_wrong_pair_geometry` | object-pair identity control |
@@ -271,6 +197,112 @@ Bootstrap CI summary:
 - Open3DSG `family_conditional_risk` vs `semantic_only`: R@100 delta `+8.86 pp`, 95% CI `[+6.69, +10.96]`; Violation@100 delta `-9.01 pp`, 95% CI `[-9.49, -8.53]`.
 - VL-SAT `family_conditional_risk` vs `semantic_only`: R@100 delta `+0.48 pp`, 95% CI `[+0.11, +0.93]`; Violation@100 delta `-1.43 pp`, 95% CI `[-1.60, -1.28]`.
 
+Strict train-only reconstruction, frozen 2026-07-11:
+
+- Split firewall: 1,061 train scans / 117 internal-dev scans / 157 final-
+  validation scans; overlap zero. The strict table has 66,454 rows. Fit uses
+  60,208 train rows; 6,246 internal-dev rows are diagnostic only; final-
+  validation fit rows are zero.
+- Internal-dev K=100: semantic R/V `0.988278/0.057431`; strict family product
+  `0.990110/0.031689`; dR `+0.001832`
+  `[-0.000382,+0.004345]`; dV `-0.025742`
+  `[-0.028405,-0.023109]`. Both frozen gates pass.
+- Hash lock before final evaluation: model
+  `bf52a2d7c90d3f11e024f74ac6f3ba7a88f04d2865fb0df7a34a079b200f3c6f`;
+  score definition
+  `e9186633c6514f7eb2804e0cc91d2bc0fbb089be2680bcecaa61ecaaee718fac`.
+- Final-validation K=100: semantic R/V `0.951410/0.062153`; strict family
+  product `0.958963/0.034252`; dR `+0.007553`
+  `[+0.004079,+0.011854]`; dV `-0.027901`
+  `[-0.030347,-0.025656]`. The full 548 contexts, 3,972 GT rows, and actual
+  candidate counts are retained.
+- Final default controls: GT vertical correct-T win rate `0.97436`, close-by
+  swap mean absolute error `0.01542`, vertical inverse mean absolute error
+  `0.00124`, and correct-minus-wrong-pair compatibility `+0.42341` over 3,961
+  recoverable GT rows. Support/contact endpoint swap remains prohibited.
+- Boundary: support/contact verifier V still regresses in family-wise views;
+  V is verifier-derived; and the official final-validation target had already
+  informed historical method/score provenance. This result is not prospective
+  confirmation and does not authorize family-uniform or support/contact-solved
+  claims.
+
+Reviewer-extension result, frozen 2026-07-10:
+
+- The aggregate result reproduces the locked point estimates exactly and adds
+  family-wise/global-family-slice paired CIs plus fixed rank-average and
+  Reciprocal Rank Fusion baselines.
+- The verifier-derived improvement is not family-uniform. At within-family
+  K=50, `support_contact` V increases from `0.0433` to `0.0518` on VL-SAT and
+  from `0.0475` to `0.0520` on Open3DSG; paired 95% delta CIs are strictly
+  positive. The global-top-100 family slice shows the same direction. Overall
+  V reduction is driven by `proximity`, `relative_vertical`, and ranking
+  composition, so claims are limited to overall scoped reliability rather than
+  every-family improvement.
+- Reciprocal Rank Fusion at K=100 has VL-SAT R/V `0.9698/0.0251` versus product
+  `0.9683/0.0333`; its recall delta CI versus product crosses zero and its V delta
+  CI is strictly negative. On Open3DSG it has R/V `0.6196/0.0789` versus product
+  `0.6047/0.0341`; product has much lower V while the RRF recall-delta CI narrowly
+  crosses zero. This is a source-dependent recall/reliability tradeoff, not a
+  universal dominance result.
+- Independent physical-validity audit protocol is frozen with 488 unique items,
+  137 scans, 126 nonempty probability-sampling strata, and 488/488 raw 3D
+  evidence coverage. Two blinded annotator sheets and adjudication are empty by
+  design; Human V@K and semantic-calibration metrics remain pending rather than
+  replaced with proxy labels.
+- Two blinded Codex LLM proxy annotation passes are locked as separate runs of
+  the same agent family. Pass v1 counts
+  valid/invalid/ambiguous/unobservable `180/185/120/3`; pass v2 counts
+  `175/178/132/3`. Post-lock agreement is `438/488` (`89.75%`, four-class
+  kappa `0.845`). All `334/334` rows resolved to binary by both passes have the
+  same polarity; all 50 disagreements involve `ambiguous`. This is
+  automatic-evaluator stability evidence only, not independent human
+  agreement. Paper-facing naming is `LLM-based physical-validity proxy audit`;
+  model identity, prompt/rubric, visible evidence scope, and same-agent-family
+  dependence must remain disclosed.
+- Provenance audit finds the family calibrator predates source metrics, but the
+  family-conditioned operating point was formerly promoted to paper main after
+  the source results were observed. It is now the calibrated-product
+  instantiation. Existing VL-SAT/Open3DSG source tables are
+  retrospective. The human-audit protocol remains frozen but is not active in
+  the current route. The completed 488-row two-pass Codex audit is reported as
+  an LLM-based physical-validity proxy diagnostic, not independent human
+  evidence.
+- `sgfn_official_full_l160` was selected as the untouched exact-label source
+  before inference and before any SGFN score existed. V2 corrected the source
+  split identity to the exactly matching official 157-scan test list; the user
+  authorized v3 before correct-checkpoint download to replace the mistaken l20
+  URL with official full_l160. Correct checkpoint 160/26 tensor audit, 157-scan
+  preprocess, full inference, identity adapter, geometry join, 1,000-resample
+  paired bootstrap, and final execution audit all pass.
+- SGFN frozen primary K=100 confirms the calibrated-product instantiation
+  against semantic:
+  exact-label R rises `0.9235 -> 0.9416`, delta `+0.0181`, 95% CI
+  `[+0.0134,+0.0233]`; verifier V falls `0.0630 -> 0.0381`, delta `-0.0249`,
+  95% CI `[-0.0270,-0.0229]`. Both preregistered gates pass on the unchanged
+  3,972-row denominator. Coverage is 548/548 contexts and 36,808/36,808
+  nonself directed pairs; 11 self-`supported by` GT rows are retained in the
+  denominator with no synthesized predictions.
+- The fresh result strengthens the framework rather than a single formula.
+  `support_contact` verifier V again regresses by `+0.00450`
+  (95% CI `[+0.00370,+0.00532]`), `proximity` is unchanged at within-family
+  K=100, and `relative_vertical` drives the gain. Fixed rank-average fusion
+  reaches R/V `0.9476/0.0277` and passes the same recall/lower-V joint gate
+  against the calibrated product. The prospective result therefore supports
+  calibrated geometry-consistency integration across two pre-specified soft
+  fusion forms, not family-uniform improvement or formula dominance.
+- A stronger dataset-and-source prospective test was then frozen before any
+  source prediction on the official 11-scene ReplicaSSG test split with the
+  official VisualGenome-trained FROSS source. Validation scenes were never
+  used; all 24 final provenance/firewall checks pass. Exact mappings are only
+  `near/above/under`, yielding 172 GT rows and 4,290 candidates.
+- The ReplicaSSG/FROSS K=100 primary gate fails. The calibrated product matches
+  semantic-only exactly at R/V `0.36047/0.19674`; rank-average reaches
+  `0.33140/0.03839`, with dR `-0.02907`
+  `[-0.07407,+0.01333]` and dV `-0.15835`
+  `[-0.19292,-0.12190]`. Product gains at K=20/50 are positive diagnostics,
+  but cannot replace the frozen K=100 endpoint. This is honest external
+  failure evidence, not dataset-level confirmation of the joint gate.
+
 Verifier evidence:
 
 - GT positives: 3,972.
@@ -287,6 +319,8 @@ Verifier evidence:
 | VL-SAT | controlled reproduced anchor |
 | Open3DSG | main open-vocabulary relation-source case study |
 | Qwen-VL | appendix/extension third semantic source |
+| SGFN full_l160 | fresh exact-label confirmation; aggregate gate passed with verifier-V and baseline caveats |
+| ReplicaSSG + FROSS | untouched dataset/source prospective test; provenance passed, frozen K=100 framework gate failed |
 | `relative_horizontal` | stopped appendix/limitation scope-expansion evidence |
 | `relative_lateral` | stopped appendix/future-work boundary evidence |
 | `attachment_deferred` | preferred future family expansion, not current main claim |
@@ -312,6 +346,11 @@ Primary current locations:
 - `results/h001_geom_reliability/bootstrap_ci/`: compact bootstrap mirror.
 - `experiments/H001_geom_reliability/sources/vlsat/full_validation/`: VL-SAT full-validation runtime results.
 - `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/`: selected Open3DSG full-validation recovery route.
+- `experiments/H001_geom_reliability/sources/sgfn/`: fresh SGFN v3 raw,
+  adapter, geometry, coverage, and confirmatory-metric artifacts.
+- `experiments/H001_geom_reliability/train_only_reestablishment_v1/`: strict
+  split firewall, provenance audit, train-only models, execution contract,
+  internal-dev metrics, final hash lock, and official final-validation metrics.
 - `results/h001_geom_reliability/full_validation_transition/artifact_bundle/`: external upload payload list, checksums, and verification script.
 
 Latest bundle verification:
@@ -347,13 +386,61 @@ Current figures:
 
 ## Remaining TODO
 
+Method-strengthening sequence:
+
+1. Completed: froze `h001_factor_isolation_protocol_v1` with validation errors
+   `0` and `59/59` passing self-validation gates before computing factor
+   metrics. Final Docker log:
+   `logs/h001_factor_isolation_protocol_freeze_final_20260710.log`.
+2. Completed: classified the 29-feature union as `T=10`, raw `G=17`, and
+   `T x G=2` with no forbidden `Z/source` hits; independently reproduced the
+   existing compatibility/product scores bit-exactly on 602,292 in-scope rows
+   across VL-SAT, Open3DSG, and SGFN.
+3. Completed: fit `M_T/M_G/M_add/M_int` on the 4,616 calibration-train rows
+   only and report the 1,193-row dev diagnostics without selection. Dev AUROC
+   is `0.6124/0.8809/0.9193/0.9822`, respectively.
+4. Completed: freeze a previously unseen official `3DSSG_full_l160` (SGPN)
+   semantic source before checkpoint download/inference and evaluate all 548
+   official-validation contexts. The calibrated product passes the frozen
+   K=100 joint gate: dR `+0.00730` `[+0.00348,+0.01160]`, verifier dV
+   `-0.02746` `[-0.02982,-0.02520]`. Rank-average lowers V more but misses the
+   Recall guardrail by `0.000053` at its CI lower bound, so the two-score joint
+   framework gate fails exactly as pre-registered.
+5. Completed: factor metrics and controls. `product_M_int` improves aggregate
+   dR by `+0.00780` and dV by `-0.01215`, but large close-by swap and vertical
+   inverse errors (`0.22183`, `0.10085`) prevent promotion to a structurally
+   valid compatibility claim. The all-candidate wrong-T stream is symmetric
+   and therefore uninformative; do not cite its zero mean as positive evidence.
+   The final artifact also contains the pre-registered direct contrasts,
+   global-top-K family slices, simultaneous family-wise bands, and control
+   median/p95 values; the first incomplete output is archived.
+6. Completed: strict train-only reestablishment, internal-dev acceptance,
+   model/score hash freeze, and locked 548-context final evaluation. Next
+   scientific action is a genuinely untouched prospective target. The current
+   audit route uses two blinded Codex LLM proxy passes; a human-alignment study
+   is optional and not active. Do not reuse the observed official validation
+   target as prospective evidence.
+7. Completed: entirely untouched ReplicaSSG/FROSS prospective evaluation. All
+   hash, split, timestamp, source, and validation firewalls pass, but the
+   product has no K=100 effect and rank-average trades too much aggregate
+   recall for its large V reduction. Preserve this as a negative external
+   diagnostic; do not strengthen the manuscript to a dataset-level joint-gate
+   claim.
+
 Submission/package hygiene:
 
-1. Confirm final OpenReview/AAAI portal form and exact target-year style constraints.
-2. Decide artifact/code-release URL or DOI.
-3. Decide supplementary/code-data upload policy.
-4. Recheck partial/no reproducibility checklist answers.
-5. Regenerate any flattened release package created before the low-K and family-main table/prose update.
-6. Run final PDF/source sanity checks from the current checkout.
+1. Completed: verified the live AAAI-27/OpenReview form, official target-year
+   style, deadlines, page limits, separate checklist, and supplement policy.
+2. Completed: built and verified the field bundle at
+   `release/h001_aaai27_openreview_20260712_083625/`.
+3. Author action: enter author order/profiles, countries, conflicts, and the
+   qualified reciprocal reviewer.
+4. Author decision: final public code license and post-acceptance artifact URL.
+5. Optional scientific decision: activate the frozen independent-human
+   alignment study; otherwise retain the explicit Codex-proxy-only claim.
 
-No new main-source metric experiment is required for the current GeoCalib claim.
+No new main-source metric experiment is required to preserve the current
+GeoCalib claim. SGFN remains source-level prospective confirmation on the
+known 3DSSG target. ReplicaSSG/FROSS is a valid untouched dataset/source test
+whose primary gate failed; another prospective target must not be launched
+automatically to chase a passing result.

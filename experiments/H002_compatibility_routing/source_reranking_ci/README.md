@@ -5,7 +5,7 @@
 This folder owns bootstrap confidence intervals for the frozen H002
 source-reranking validation result.
 
-It uses:
+It is generated from:
 
 ```text
 source_reranking_evaluation/latest/selected_predictions.jsonl
@@ -13,6 +13,9 @@ source_reranking_materialization/latest/hidden_metric_manifest.jsonl
 ```
 
 and does not fit, tune, threshold, or change any H002 score.
+
+Those two row-level inputs are regenerable and are not retained in the compact
+workspace. The CI tables below are the retained outputs.
 
 ## Latest Outputs
 

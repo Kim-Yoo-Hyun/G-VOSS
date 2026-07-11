@@ -40,7 +40,7 @@ Docker-based experiment artifact described in the paper.
     \item Novel datasets introduced by this paper: no.
     \item Novel dataset release and license: NA.
     \item Citations for existing datasets and sources: yes. The paper cites the
-    relevant 3DSSG, VL-SAT, and Open3DSG sources.
+    relevant 3DSSG, VL-SAT, Open3DSG, ReplicaSSG, and FROSS sources.
     \item Public availability of existing datasets: partial. The method uses
     public research datasets and code routes, but large raw data, meshes,
     features, checkpoints, and model caches are subject to their original access
@@ -86,11 +86,12 @@ Docker-based experiment artifact described in the paper.
     reproduced source run per source/condition under locked manifests.
     \item Variation or distributional information beyond averages: partial.
     The paper reports source/family operating points, counterfactual verifier
-    metrics, controls, structured audit, and failure rows, but it does not yet
-    report repeated-run variance.
-    \item Statistical significance tests: no. The current draft reports
-    deterministic held-out recall and violation tradeoffs; no paired
-    significance test is included.
+    metrics, controls, two blinded Codex LLM proxy passes, and paired
+    subgraph-bootstrap confidence intervals; repeated-training variance is not
+    claimed.
+    \item Statistical significance tests: yes. Recall and violation deltas
+    use 1,000 shared-index paired subgraph-bootstrap resamples; the same indices
+    are reused across compared conditions.
     \item Final hyperparameters and operating points: partial. The paper and
     artifact reports list the final operating points, checkpoint choice,
     denominator policy, and source caveats. The paper-facing Open3DSG route is

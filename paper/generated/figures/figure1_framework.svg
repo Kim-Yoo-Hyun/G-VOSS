@@ -21,54 +21,55 @@
 <text x="50.0" y="207.0" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#374151" text-anchor="start">Framework instantiated by this failure-to-design link</text>
 <rect x="50" y="220" width="160" height="115" rx="7" fill="#ffffff" stroke="#94a3b8" stroke-width="1.4"/>
 <text x="66.0" y="246.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Relation source</text>
-<text x="66.0" y="272.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">VL-SAT / Open3DSG scored</text>
-<text x="66.0" y="289.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">predicate rows</text>
+<text x="66.0" y="272.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">scored predicate rows</text>
+<text x="66.0" y="289.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">with source confidence</text>
+<text x="66.0" y="306.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">Z_e</text>
 <rect x="250" y="220" width="170" height="115" rx="7" fill="#ffffff" stroke="#94a3b8" stroke-width="1.4"/>
-<text x="266.0" y="246.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Row contract</text>
-<text x="266.0" y="272.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">scan, subgraph, subject,</text>
-<text x="266.0" y="289.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">object, predicate, score</text>
+<text x="266.0" y="246.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Semantics T_e</text>
+<text x="266.0" y="272.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">predicate and mapped</text>
+<text x="266.0" y="289.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">relation-family</text>
+<text x="266.0" y="306.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">semantics</text>
 <rect x="460" y="220" width="170" height="115" rx="7" fill="#ffffff" stroke="#94a3b8" stroke-width="1.4"/>
-<text x="476.0" y="246.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Geometry join</text>
-<text x="476.0" y="272.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">identity-preserving</text>
-<text x="476.0" y="289.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">object-pair evidence</text>
+<text x="476.0" y="246.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Raw geometry G_e</text>
+<text x="476.0" y="272.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">predicate-independent</text>
+<text x="476.0" y="289.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">same-pair evidence</text>
 <rect x="670" y="220" width="170" height="115" rx="7" fill="#ffffff" stroke="#94a3b8" stroke-width="1.4"/>
 <text x="686.0" y="246.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Verifier</text>
 <text x="686.0" y="272.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">family-specific</text>
 <text x="686.0" y="289.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">satisfied / uncertain /</text>
 <text x="686.0" y="306.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">violated</text>
 <rect x="880" y="220" width="170" height="115" rx="7" fill="#ffffff" stroke="#94a3b8" stroke-width="1.4"/>
-<text x="896.0" y="246.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Calibration</text>
-<text x="896.0" y="272.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">estimate p_geom_valid</text>
-<text x="896.0" y="289.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">from frozen geometry</text>
-<text x="896.0" y="306.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">features</text>
+<text x="896.0" y="246.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Compatibility C_e</text>
+<text x="896.0" y="272.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">calibrate y_cal from T_e</text>
+<text x="896.0" y="289.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">and G_e; exclude Z_e</text>
 <rect x="1090" y="220" width="150" height="115" rx="7" fill="#ffffff" stroke="#94a3b8" stroke-width="1.4"/>
-<text x="1106.0" y="246.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Evaluation</text>
-<text x="1106.0" y="272.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">R@K and Violation@K</text>
-<text x="1106.0" y="289.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">reported together</text>
+<text x="1106.0" y="246.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Fusion + eval</text>
+<text x="1106.0" y="272.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">F(Z_e,C_e); report R@K</text>
+<text x="1106.0" y="289.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">and V@K</text>
 <line x1="218.0" y1="277.5" x2="242.0" y2="277.5" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
 <line x1="428.0" y1="277.5" x2="452.0" y2="277.5" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
 <line x1="638.0" y1="277.5" x2="662.0" y2="277.5" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
 <line x1="848.0" y1="277.5" x2="872.0" y2="277.5" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
 <line x1="1058.0" y1="277.5" x2="1082.0" y2="277.5" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
 <text x="55.0" y="405.0" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#111827" text-anchor="start">Operating points</text>
-<rect x="55" y="427" width="245" height="90" rx="7" fill="#eff6ff" stroke="#94a3b8" stroke-width="1.4"/>
-<text x="71.0" y="453.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Pooled risk</text>
-<text x="71.0" y="479.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">score_sem * pooled</text>
-<text x="71.0" y="496.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">p_geom_valid; ablation</text>
-<rect x="330" y="427" width="245" height="90" rx="7" fill="#fff1f2" stroke="#94a3b8" stroke-width="1.4"/>
-<text x="346.0" y="453.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Rule-verified</text>
-<text x="346.0" y="479.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">remove hard violations;</text>
-<text x="346.0" y="496.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">zero-violation</text>
-<text x="346.0" y="513.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">diagnostic</text>
-<rect x="605" y="427" width="245" height="90" rx="7" fill="#ecfdf5" stroke="#94a3b8" stroke-width="1.4"/>
-<text x="621.0" y="453.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">GeoCalib</text>
-<text x="621.0" y="479.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">score_sem *</text>
-<text x="621.0" y="496.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">family-conditioned</text>
-<text x="621.0" y="513.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">p_geom_valid</text>
+<rect x="55" y="427" width="245" height="90" rx="7" fill="#ecfdf5" stroke="#94a3b8" stroke-width="1.4"/>
+<text x="71.0" y="453.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Calibrated product</text>
+<text x="71.0" y="479.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">score_sem *</text>
+<text x="71.0" y="496.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">family-conditioned</text>
+<text x="71.0" y="513.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">p_geom_valid</text>
+<rect x="330" y="427" width="245" height="90" rx="7" fill="#ecfeff" stroke="#94a3b8" stroke-width="1.4"/>
+<text x="346.0" y="453.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Rank-average</text>
+<text x="346.0" y="479.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">mean semantic and</text>
+<text x="346.0" y="496.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">geometry rank</text>
+<text x="346.0" y="513.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">percentiles</text>
+<rect x="605" y="427" width="245" height="90" rx="7" fill="#eff6ff" stroke="#94a3b8" stroke-width="1.4"/>
+<text x="621.0" y="453.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Diagnostics</text>
+<text x="621.0" y="479.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">pooled calibration and</text>
+<text x="621.0" y="496.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">strict rule</text>
 <rect x="880" y="427" width="310" height="90" rx="7" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.4"/>
 <text x="896.0" y="453.0" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#111827" text-anchor="start">Controls</text>
-<text x="896.0" y="479.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">geometry-only,</text>
-<text x="896.0" y="496.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">distance-only, shuffled</text>
+<text x="896.0" y="479.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">calibrator-only (no Z),</text>
+<text x="896.0" y="496.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">distance, shuffled</text>
 <text x="896.0" y="513.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">geometry, wrong-pair</text>
 <text x="896.0" y="530.0" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#374151" text-anchor="start">geometry</text>
 <text x="55.0" y="588.0" font-family="Arial, sans-serif" font-size="13" font-weight="400" fill="#6b7280" text-anchor="start">Caption guard: describe this as a framework, not a verifier script or broad open-vocabulary generation method.</text>

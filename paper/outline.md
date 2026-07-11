@@ -1,6 +1,27 @@
 # GeoCalib / H001 Paper Outline
 
-Last updated: 2026-06-25 KST
+Framework-first override, 2026-07-10: GeoCalib is the calibrated
+geometry-consistency framework. The calibrated product
+(`family_conditional_risk`) and pre-specified rank-average are two soft fusion
+instantiations; pooled calibration is an ablation, RRF a strong comparator, and
+hard filtering a diagnostic. Any older wording below that calls the product the
+unique or universally dominant main method is superseded. The prospective SGFN
+claim is that both pre-specified soft instantiations satisfy the frozen K=100
+joint recall/verifier-violation gate, with explicit `support_contact` and human-
+validity limitations.
+
+Factorization override, 2026-07-10: `T_e` is predicate/family semantics,
+`G_e` raw predicate-independent same-pair geometry, `Z_e` source confidence,
+and `C_e=P(y_cal=1|T_e,G_e)`, with `Z_e notin C_e` and
+`S_e=F(Z_e,C_e)`. `y_cal` is the constructed GT-positive/counterfactual
+calibration target. Any older “geometry-only” label for the
+`p_geom_valid`-only row means calibrator-only/no-`Z`, not true `G_e`-only.
+The strict train-only factor/counterfactual package is complete. Exact
+wrong-$T$/pair, close-by swap, and vertical inverse controls support the
+selected family model, while failed pooled-interaction structural controls
+block a generic interaction claim. The SGFN gate remains unchanged.
+
+Last updated: 2026-07-10 KST
 
 This outline turns `paper/preview.md` into a paper-writing skeleton. It is not the final manuscript. It fixes the section logic, evidence placement, reviewer-defense responsibilities, title candidates, and contribution statements before drafting the abstract and manuscript sections.
 
@@ -21,11 +42,13 @@ Fact:
 - Method framing: calibrated geometry-consistency evaluation and re-ranking framework.
 - Main evidence sources: VL-SAT full official validation and Open3DSG
   full-validation `recovery_relaxed_views_min2/`.
-- Main GeoCalib score: `family_conditional_risk =
-  semantic_score * p_geom_valid_family`.
+- GeoCalib soft instantiations: calibrated product
+  (`family_conditional_risk = semantic_score * p_geom_valid_family`) and fixed
+  rank-average fusion; no universal formula-dominance claim.
 - Pooled calibrated ablation: `probabilistic_recalibrated =
   semantic_score * p_geom_valid`.
-- Geometry-only control: `p_geom_valid` without semantic score.
+- Calibrator-only/no-`Z` control: `p_geom_valid` without semantic score; the
+  separate strict factor audit now supplies true `G`-only.
 - Main relation families: `support_contact`, `proximity`, `relative_vertical`.
 - Paper-result experiments must remain Docker reproducible.
 

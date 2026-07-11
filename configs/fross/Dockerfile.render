@@ -1,0 +1,39 @@
+FROM mambaorg/micromamba:1.5.8-jammy
+
+USER root
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libgl1 libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+USER $MAMBA_USER
+
+ENV PATH=/opt/conda/bin:$PATH
+
+RUN micromamba install -y -n base -c aihabitat -c conda-forge \
+        python=3.8 \
+        habitat-sim=0.2.2 \
+        headless \
+        noise=1.2.2 \
+    && micromamba clean --all --yes
+
+RUN python -m pip install --no-cache-dir \
+        numpy==1.24.4 \
+        scipy==1.10.1 \
+        pillow==9.5.0 \
+        opencv-python-headless==4.8.1.78 \
+        tqdm==4.66.4 \
+        plyfile==1.0.3 \
+        pyquaternion==0.9.9
+
+USER root
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libegl1 libopengl0 \
+    && rm -rf /var/lib/apt/lists/*
+USER $MAMBA_USER
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV MAGNUM_LOG=quiet
+ENV HABITAT_SIM_LOG=quiet
+
+WORKDIR /workspace
+ENTRYPOINT ["python"]

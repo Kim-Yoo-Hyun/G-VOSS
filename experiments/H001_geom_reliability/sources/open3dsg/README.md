@@ -1,13 +1,15 @@
 # Open3DSG Source
 
-Last updated: `2026-06-25 KST`
+Last updated: `2026-07-12 KST`
 
 Open3DSG is the main open-vocabulary relation-source case study for the
 GeoCalib paper route. The selected paper-facing Open3DSG result is the full
 official validation `recovery_relaxed_views_min2/` branch with
-`family_conditional_risk` as the main score. Older 127-scan, non-avg, R2, and
-attachment branches are preserved as sensitivity/provenance or optional
-extension evidence.
+`family_conditional_risk` as the calibrated-product score. The current main
+route uses the non-averaged-BLIP checkpoint from run `25da9c4c...`; the
+averaged-BLIP checkpoint from run `2a23a9af...` belongs only to the historical
+127-scan sensitivity route. Older 127-scan, R2, and attachment branches are
+preserved as sensitivity/provenance or optional extension evidence.
 
 Current status:
 
@@ -16,6 +18,18 @@ open3dsg_full_validation_metric_bundle_ready_with_caveats
 open3dsg_full_validation_recovery_relaxed_views_min2_metric_bundle_ready
 open3dsg_full_validation_primary_route_selected_recovery_branch
 ```
+
+Checkpoint provenance lock:
+
+- paper-facing full-validation checkpoint: run
+  `25da9c4c00214f3b880cedbb2a124177`, `avg_blip_emb=False`, SHA-256
+  `ca86d429b19e846aec2bfff014256bf36f6f90da07e566b90c461d6eca8d76bb`;
+- historical 127-scan averaged-BLIP checkpoint: run
+  `2a23a9af581b4666a207423aa6217853`, SHA-256
+  `c1302882da43a7b985c10dd4f50177d5161ff6619090cd0eb4d5ff0411d64511`;
+- both files are retained because they reproduce different, explicitly named
+  routes; neither path may be substituted for the other in a command or
+  release manifest.
 
 Current caveat-reduction plan:
 

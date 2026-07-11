@@ -1,329 +1,144 @@
 # H002 Method Contract V1
 
-Date: 2026-06-25 KST
-
-Working title:
-
-```text
-Semantic-Geometry Compatibility Learning for Reliable 3D Scene Graph Relations
-```
+Last updated: 2026-07-11 KST
 
 ## Purpose
 
-이 문서는 H002의 factor boundary를 고정한다. 목표는 relation reliability를 단일
-confidence prediction으로 보지 않고, semantic content, source confidence, geometry evidence,
-compatibility, observability를 분리한 뒤 최종 decision을 만드는 것이다.
+이 문서는 현재 scoped H002 구현의 factor boundary, score, training/evaluation
+firewall과 route claim을 고정한다. 확장 아이디어인 learned geometry encoder,
+observability head, all-relation routing은 현재 구현 계약에 포함하지 않는다.
 
-## Factor Contract
+## Factor Boundary
 
-```text
-T_e = semantic content
-Z_e = source confidence
-G_e = predicate-independent geometry evidence
-C_e = compatibility(T_e, G_e)
-Q_e = evidence quality / observability
-p_obs = P(evidence is sufficient to decide)
-p_rel = P(relation is reliable | evidence is observable)
-```
+각 relation candidate $e=(s,p,o)$를 다음처럼 분리한다.
 
-## Route-Specific Target Contract
+\[
+T_e=f_T(p,c_s,c_o),\qquad
+G_e=f_G(x_s,x_o),\qquad
+Z_e=(s_{\rm src},r_{\rm src}).
+\]
 
-H002는 모든 relation을 하나의 binary target이나 하나의 fixed fusion head로 처리하지 않는다.
-각 relation family는 서로 다른 evidence route와 target semantics를 가진다.
+- $T_e$: predicate와 subject/object class semantics
+- $G_e$: 같은 ordered object pair의 predicate-independent geometry evidence
+- $Z_e$: source score와 rank
+- $C_e=f_C(T_e,G_e)$: predicate-geometry compatibility
 
-```text
-relation-specific reliability target = route-specific target definition
-```
+핵심 leakage boundary는 다음과 같다.
 
-Frozen route taxonomy:
+\[
+Z_e\notin f_C.
+\]
 
-| Route | Relations | Target Meaning |
+따라서 $C_e$는 기존 source confidence를 복사할 수 없고, source confidence는
+compatibility 계산이 끝난 뒤 final reranking에서만 사용한다.
+
+## Implemented Compatibility Model
+
+현재 $f_C$는 internal train split의 4,868개 row로 학습한 logistic model이다.
+입력은 $T_e$, $G_e$, 명시적 $T_e\times G_e$ interaction feature이며 source
+score/rank, validation GT, Violation label과 construction-only hidden field는 제외한다.
+
+비교 조건은 동일 train split에서 학습한다.
+
+| Condition | Input | Role |
 | --- | --- | --- |
-| geometry-only learned/evaluated route | `close by` | `G_e`만으로 relation을 설명할 수 있는지 학습/평가한다. |
-| predicate-geometry interaction route | `higher than`, `lower than`, `bigger than`, `smaller than`, `left`, `right`, `front`, `behind`, `standing on`, `lying on` | 같은 `G_e`라도 `T_e`에 따라 compatible/incompatible가 바뀌는지 검증한다. |
-| superordinate support decomposition / relabel / abstain route | `supported by` | broad support label을 accept/relabel/abstain 또는 subtype decomposition으로 다룬다. |
-| observability-aware route | `attached to`, `hanging on`, `connected to` | relation 판단 전에 필요한 visual/mesh/contact/topology evidence가 관측 가능한지 `Q_e`/`p_obs`로 판단한다. |
-| contact-orientation feasibility route | `leaning against` | contact, normal alignment, tilt, support plausibility를 함께 본다. |
-| occlusion/coverage feasibility route | `cover` | projected overlap, occlusion, visibility reduction, coverage를 함께 본다. |
-| containment feasibility route | `standing in`, `lying in`, `hanging in`, `inside` | containment ratio, point-in-container, occlusion/completeness를 함께 본다. |
-| identity/symmetry route | `same as`, `same symmetry as` | duplicate/identity/symmetry compatibility를 별도 route로 본다. |
-| semantic/structural route | `part of`, `belonging to` | metric geometry보다 ontology/part-whole/association evidence가 필요한 route로 둔다. |
-| embedded-structure feasibility route | `build in` | cavity/wall/mesh context가 필요한 embedded structure route로 둔다. |
+| semantic-only | $T_e$ | semantic shortcut probe |
+| geometry-only | $G_e$ | geometry sufficiency ablation |
+| plain concat | $T_e+G_e$ | generic fusion ablation |
+| compatibility | $T_e,G_e,T_e\times G_e$ | main $C_e$ model |
+| wrong predicate | mismatched $T_e$, same $G_e$ | predicate dependence control |
+| shuffled/wrong-pair geometry | same $T_e$, mismatched $G_e$ | pair geometry dependence control |
 
-Important correction:
+Official 3DSSG validation rows are evaluation-only and do not fit the model or tune
+the score weight.
 
-```text
-close by is not excluded from learned/evaluated targets.
-close by is a geometry-only route, not a predicate-geometry interaction route.
-```
+## Score Definition
 
-Therefore, H002's central question is:
+Raw source score is min-max normalized per source. Raw compatibility probability is
+min-max normalized per source and relation family over the label-free candidate pool:
 
-```text
-Which evidence route and target definition does each relation family require?
-```
+\[
+\widetilde Z_e=\operatorname{MinMax}_{\rm source}(Z_e),\qquad
+\widetilde C_e=\operatorname{MinMax}_{\rm source,family}(f_C(T_e,G_e)).
+\]
 
-## `T_e`: Semantic Content
+The implemented primary score is
 
-Meaning:
+\[
+S_2(e)=\operatorname{clip}(\widetilde Z_e,\epsilon,1)
+       \operatorname{clip}(\widetilde C_e,\epsilon,1),
+\qquad \epsilon=10^{-6}.
+\]
 
-```text
-what relation is being claimed
-```
+Its log-space interpretation is
 
-Allowed inputs:
+\[
+\log S_2(e)=\log\widetilde Z_e-\lambda[-\log\widetilde C_e],
+\qquad \lambda=1.
+\]
 
-- predicate text or closed-set predicate label
-- relation family
-- subject/object class label
-- subject/object class text embedding
-- ontology group or coarse object type, if not derived from target construction
+$\lambda=1$ is the parameter-free product form; it is not selected using
+validation labels. H002 reports normalization sensitivity and does not claim
+normalization invariance.
 
-Blocked inputs:
+## Route Assignment Protocol
 
-- source score
-- source rank
-- source id
-- model confidence calibration metadata
-- official GT match
-- audit label
-- RGA bucket
-- target construction key
+Route assignment follows the evidence needed to decide a relation, not a post-hoc
+success table.
 
-Role:
-
-- Used by the compatibility head with `G_e`.
-- May be used by final reliability interaction term.
-- Must not carry source confidence.
-
-## `Z_e`: Source Confidence
-
-Meaning:
-
-```text
-how strongly the existing relation source believes the candidate
-```
-
-Allowed inputs:
-
-- source relation score
-- semantic rank
-- normalized rank score
-- source id
-- source-specific score calibration metadata
-
-Blocked inputs:
-
-- official GT match
-- audit label
-- RGA bucket
-- target construction key
-- geometry status generated by the current target sampler
-
-Role:
-
-- Used by final `p_rel`.
-- Not used by `C_e`.
-- Must be evaluated with source-score/rank shuffle controls.
-
-## `G_e`: Predicate-Independent Geometry Evidence
-
-Meaning:
-
-```text
-what geometry exists between the subject-object pair before knowing the predicate
-```
-
-Allowed inputs:
-
-- metric object-pair features
-- point/mesh geometry features
-- distance, vertical offset, overlap, contact gap, containment, support-surface proxy
-- generic shape and pair-layout features
-
-Blocked inputs:
-
-- predicate text or predicate id
-- relation family
-- source score/rank/source id
-- official GT or audit label
-- rule-derived target bucket if it is tied to the target construction
-
-Role:
-
-- Input to `C_e`.
-- May be supervised by auxiliary geometry reconstruction or H001 rule-derived teacher.
-- Should be vector/token evidence, not only scalar `p_geom_valid`.
-
-H001 `p_geom_valid` role:
-
-- allowed as geometry-only baseline;
-- allowed as teacher/auxiliary supervision;
-- allowed as ablation input only in a separately named condition;
-- not the final relation reliability.
-
-## `C_e`: Predicate-Geometry Compatibility
-
-Definition:
-
-```text
-C_e = compatibility(T_e, G_e)
-```
-
-Hard rule:
-
-```text
-C_e must not use Z_e.
-```
-
-Reason:
-
-If source score or rank enters `C_e`, compatibility can become a copy of the existing relation
-source rather than a test of whether the predicate semantics agree with geometry evidence.
-
-Training positives:
-
-- official GT relation;
-- human/audit accepted relation;
-- high-precision rule-verified subset;
-- cross-source agreement plus geometry-supported subset.
-
-Training negatives:
-
-- wrong-pair geometry;
-- shuffled geometry;
-- predicate flip;
-- subject/object swap;
-- same-scene hard negative;
-- same-family hard negative;
-- same-rank-band hard negative;
-- same-coverage hard negative;
-- relation-specific perturbation such as contact removal or vertical-order flip.
-
-Blocked negative definition:
-
-```text
-No-GT row != automatic negative
-```
-
-because 3DSSG/Open3DSG-style relation annotations can be incomplete.
-
-## `Q_e`: Evidence Quality / Observability
-
-Meaning:
-
-```text
-can the current evidence support a decision?
-```
-
-Allowed inputs:
-
-- view availability
-- same-frame visibility
-- subject/object crop availability
-- mesh completeness
-- point count and point coverage
-- normal availability
-- evidence agreement/conflict
-- missing geometry
-- unsupported family state
-- low-quality or partial asset flags
-
-Blocked inputs:
-
-- source score/rank as a proxy for confidence
-- audit accept/reject label
-- target construction key
-
-Role:
-
-- Used by `p_obs`.
-- Should not directly decide relation truth.
-- Converts low-evidence cases to abstain rather than false reject.
-
-## Decision Heads
-
-H002 uses two heads.
-
-```text
-p_obs = P(evidence is sufficient to decide | Q_e, optional geometry-quality fields)
-p_rel = P(relation is reliable | evidence is observable, Z_e, C_e, optional T_e)
-```
-
-Decision rule:
-
-```text
-if p_obs < tau_obs:
-  abstain
-elif p_rel >= tau_rel:
-  accept
-else:
-  reject
-```
-
-## Energy Form
-
-Default reliability energy:
-
-```text
-E_rel(e)
- = E_src(Z_e)
- + E_comp(C_e)
- + E_interaction(Z_e, C_e, T_e)
-
-p_rel = sigmoid(-E_rel(e))
-```
-
-Optional geometry-quality penalty:
-
-```text
-E_geom_quality(G_e)
-```
-
-This term may be used only for geometry artifact, missing geometry, impossible overlap, or
-point/mesh quality issues. Predicate-specific relation validity belongs to `E_comp(C_e)`, not
-to standalone `E_geom(G_e)`.
-
-## Field Provenance Classes
-
-| Class | Use | Examples |
+| Decision question | Route | Current evidence status |
 | --- | --- | --- |
-| Train input | deployable model input | `T_e`, `Z_e`, `G_e`, `Q_e` fields after filtering |
-| Auxiliary teacher | training signal or baseline only | H001 `p_geom_valid`, rule-derived geometry status |
-| Audit/control | shortcut and slice analysis | rank band, endpoint pair, object family, scan id |
-| Label-only | evaluation/calibration label | official GT, human/audit accept/reject/abstain |
-| Hidden construction | never model input | proxy role, machine hint, reviewer packet id, target sampler key |
+| Is metric geometry sufficient? | geometry-only | close by control |
+| Does predicate meaning change geometry interpretation? | compatibility | higher/lower, bigger/smaller validated |
+| Is a directional reference frame required? | frame-aware | left/right caveated; front/behind failure |
+| Are local contact and pose cues required? | hard physical | support/contact diagnostic only |
+| Is evidence availability itself uncertain? | observability-aware | defined extension, not solved |
+| Is the relation primarily ontological/structural? | semantic/structural | scope boundary, not evaluated |
 
-## Required Ablations
+This protocol is a framework map. It does not establish that every route is solved.
 
-- `Z_e` only
-- `T_e + Z_e`
-- geometry-only rule score, including H001 `p_geom_valid`
-- `semantic_score * p_geom_valid`
-- concat MLP over `T_e, Z_e, G_e, Q_e`
-- compatibility-only `C_e`
-- reliability without `Q_e`
-- full two-head model
+## Metric Contract
 
-## Required Controls
+- Dataset: official 3DSSG validation split
+- Sources: VL-SAT and Open3DSG validation predictions
+- Metrics: Recall@K and custom Violation@K
+- K grid: 5, 10, 20, 50, 100
+- Uncertainty: 1,000 grouped bootstrap replicates
+- Main interpretation: improve or preserve semantic utility while reducing geometric
+  violation risk
 
-- `C_e` with `Z_e` removed by design;
-- source-score/rank shuffle;
-- wrong-pair geometry;
-- shuffled geometry;
-- predicate flip;
-- subject/object swap;
-- same-family/rank/coverage hard negatives;
-- low-observability abstain stress test.
+Violation@K is a custom diagnostic over geometrically evaluable rows, not an official
+3DSSG leaderboard metric.
 
-## Current Follow-Up
+## Current Claim Boundary
 
-```text
-counterfactual_protocol_v1 = completed
-prototype_dataset_contract_v1 = completed
-smoke_baseline_plan_v1 = completed
-prototype_dataset_materialization_v1 = completed
-next = smoke_baseline_runner_v1
-```
+Validated:
 
-The next step should run or specify controlled smoke baselines on the materialized prototype dataset.
+- relative vertical: higher than, lower than
+- relative size: bigger than, smaller than
+
+Caveated:
+
+- left/right as a frame-aware lateral route with source-dependent Recall tradeoff
+
+Control or failure analysis:
+
+- close by: geometry-only control
+- front/behind: depth/reference-frame failure
+- standing on, lying on, supported by: target-dependent support/contact diagnostic
+
+Not claimed:
+
+- official hidden-test or SOTA result
+- all-relation reliability solved
+- support/contact solved
+- learned $G_e$ final-score improvement
+- calibrated $p_{\rm obs}/p_{\rm rel}$
+- normalization-invariant improvement
+
+## Authoritative Runtime
+
+- implementation: `experiments/H002_compatibility_routing/scripts/`
+- commands: `experiments/H002_compatibility_routing/commands.md`
+- score manifest: `experiments/H002_compatibility_routing/source_reranking_evaluation/latest/score_manifest.json`
+- compact table: `experiments/H002_compatibility_routing/main_validation_table_refresh/latest/`

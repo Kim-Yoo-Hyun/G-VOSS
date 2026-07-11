@@ -1,0 +1,67 @@
+{
+  "appendix_analysis_routes": [
+    "frame_depth_ambiguity",
+    "geometry_only_control",
+    "hard_contact_pose"
+  ],
+  "blocked_routes": [
+    "full_relative_horizontal_solved",
+    "front_behind_solved",
+    "support_contact_solved",
+    "calibrated_pobs_prel_solved"
+  ],
+  "created_at_utc": "2026-07-10T15:16:45+00:00",
+  "main_validated_routes": [
+    "predicate_geometry_comparison",
+    "caveated_lateral_compatibility"
+  ],
+  "next_todo": "none_scoped_h002_outputs_ready",
+  "outputs": {
+    "appendix_table_csv": "experiments/H002_compatibility_routing/main_validation_table_refresh/latest/appendix_table.csv",
+    "appendix_table_md": "experiments/H002_compatibility_routing/main_validation_table_refresh/latest/appendix_table.md",
+    "claim_boundary_csv": "experiments/H002_compatibility_routing/main_validation_table_refresh/latest/claim_boundary.csv",
+    "main_table_csv": "experiments/H002_compatibility_routing/main_validation_table_refresh/latest/main_table.csv",
+    "main_table_md": "experiments/H002_compatibility_routing/main_validation_table_refresh/latest/main_table.md",
+    "report": "experiments/H002_compatibility_routing/main_validation_table_refresh/latest/report.md",
+    "summary": "experiments/H002_compatibility_routing/main_validation_table_refresh/latest/summary.json",
+    "table_placement_csv": "experiments/H002_compatibility_routing/main_validation_table_refresh/latest/table_placement.csv",
+    "validation_errors": "experiments/H002_compatibility_routing/main_validation_table_refresh/latest/validation_errors.jsonl"
+  },
+  "paper_draft_files_edited": false,
+  "route_lock": {
+    "front_behind": {
+      "axis_sign_control_failure_cells": 0,
+      "max_recall_loss_abs": 0.203125,
+      "mean_violation_reduction_abs": 0.3156931200168022,
+      "metric_cells": 20,
+      "recall_loss_gt_0p05_cells": 8,
+      "selected_path": "classify_as_depth_reference_frame_failure_case",
+      "total_win_cells": 11,
+      "violation_regression_cells": 0,
+      "win_fraction": 0.55
+    },
+    "left_right": {
+      "axis_sign_control_failure_cells": 0,
+      "max_recall_loss_abs": 0.045242265032107376,
+      "mean_violation_reduction_abs": 0.24985111697229184,
+      "metric_cells": 20,
+      "recall_loss_gt_0p05_cells": 0,
+      "selected_path": "include_as_caveated_lateral_main_route",
+      "total_win_cells": 15,
+      "violation_regression_cells": 0,
+      "win_fraction": 0.75
+    }
+  },
+  "row_counts": {
+    "appendix_table_rows": 13,
+    "claim_boundary_rows": 7,
+    "core_main_rows": 5,
+    "lateral_caveated_rows": 8,
+    "main_table_rows": 13,
+    "placement_rows": 6
+  },
+  "schema_version": "h002_main_validation_table_refresh_after_lateral_lock_v1",
+  "selected_path": "main_appendix_table_refreshed_after_lateral_lock",
+  "status": "h002_main_validation_table_refresh_after_lateral_lock_ready",
+  "validation_errors": 0
+}

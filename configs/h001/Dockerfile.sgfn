@@ -1,0 +1,4 @@
+FROM h001-open3dsg-repro:cu128
+
+WORKDIR /workspace
+

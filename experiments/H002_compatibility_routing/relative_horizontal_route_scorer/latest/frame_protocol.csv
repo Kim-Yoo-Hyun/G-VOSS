@@ -1,0 +1,9 @@
+step,item,value,decision
+1,route_definition,frame_aware_directional_compatibility,frozen_for_audit
+1,relations,"left,right,front,behind",candidate_main_route_only_if_gates_pass
+2,frame_protocol,dataset_world_xy_reference_frame_from_3rscan_obb_centroids,frozen_before_metric_review
+3,left_right_residual,"signed normalized_center_delta_x, subject_minus_object","left expects negative x, right expects positive x"
+3,front_behind_residual,"signed normalized_center_delta_y, subject_minus_object","front expects positive y, behind expects negative y"
+4,required_controls,"source-only,G-only,concat,wrong-T,shuffled-G,axis-swap,sign-flip",all must be reviewed before promotion
+5,slice_policy,"left,right,front,behind per source and K",aggregate alone is insufficient
+6,promotion_policy,"no violation regression at K=10,20,50 on both sources; no large recall loss; controls degrade",strict gate for main validated route

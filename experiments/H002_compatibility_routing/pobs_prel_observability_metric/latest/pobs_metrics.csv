@@ -1,2 +1,0 @@
-rows,positive,negative,auroc,auprc,balanced_accuracy,macro_F1,Brier,NLL,tp,fp,tn,fn,scope,metric_name,ECE_10
-265,135,130,0.5,0.4073657661677087,0.5,0.33749999999999997,0.44898260793258493,1.5511001527808612,135,130,0,0,user_confirmed_observability_subset,p_obs,0.44617441385245515

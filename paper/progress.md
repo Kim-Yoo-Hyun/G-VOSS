@@ -1,6 +1,6 @@
 # H001 Experiment Progress Rationale
 
-Last updated: 2026-06-25 KST
+Last updated: 2026-07-12 KST
 
 This document explains why H001 moved from hypothesis checks to Docker paper
 experiments, why each next experiment was introduced, and how the key results
@@ -19,8 +19,15 @@ Current progress snapshot:
   `p_geom_valid` without semantic score.
 - Low-K reporting is accepted for K = `{5,10,20,50,100}`; point-metric provenance is present in both paper-facing `metrics_k_sweep/` roots, and K=1 remains sanity-check only.
 - Qwen-VL full official validation downstream is complete as appendix/extension evidence, not as a main-source replacement.
-- Latest known paper build is `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`, exit 0, 10 pages total: technical content pages 1-7, references pages 8-9, reproducibility checklist page 10.
-- Remaining work is submission/package hygiene and artifact packaging, not new main-source experiments.
+- Active target-year main build is `logs/h001_aaai27_main_build_20260712.log`,
+  exit 0; triplet verification is
+  `logs/h001_aaai27_final_triplet_build_20260712.log`, exit 0.
+  `main_aaai27.pdf` is 9 pages with technical content on pages 1--7
+  and references only on 8--9; supplement/checklist are separate 1/2-page
+  PDFs. The verified OpenReview bundle is
+  `release/h001_aaai27_openreview_20260712_083625/`.
+- Remaining work is author-side OpenReview metadata, public-license/artifact
+  choice, and the optional human-alignment study, not new main-source metrics.
 
 ## Research Claim Being Tested
 
@@ -251,7 +258,7 @@ Historical 127-scan caveats:
 - H001 covered loadable eval scope started at 377/388 contexts with
   `validation_missing_preprocessed:11`. The R2 covered-recovery sensitivity
   branch now reaches 388/388 contexts and completes raw identity, adapter,
-  geometry, metrics, bootstrap CI, table/caveat reporting, and provenance
+  geometry, metrics, bootstrap stability checks, table/caveat reporting, and provenance
   review. The clean-return raw files are row/predicate-score equivalent to the
   canonical R2 raw dump after excluding run metadata, while the process-level
   exit-137 teardown caveat remains.
@@ -342,7 +349,7 @@ What was run:
   measured-family GT rows.
 - VL-SAT full-validation staging/runtime/raw dump, adapter export,
   ground-truth JSONL export, geometry join, metric eval, GT verifier eval, and
-  VL-SAT-only bootstrap CI under
+  VL-SAT-only bootstrap stability artifacts under
   `experiments/H001_geom_reliability/sources/vlsat/full_validation/`.
 - Open3DSG full-validation covered branch under
   `experiments/H001_geom_reliability/sources/open3dsg/full_validation/`, plus
@@ -351,7 +358,7 @@ What was run:
   The recovery branch diagnoses the 15 missing contexts as Open3DSG's
   fewer-than-4-visible-objects preprocess gate, recovers them with
   `min_visible=2` plus relaxed two-scan view generation, and completes feature
-  audit, clean-exit raw dump, adapter, geometry, metrics, bootstrap CI, failure
+  audit, clean-exit raw dump, adapter, geometry, metrics, bootstrap checks, failure
   rows, deterministic qualitative case inspection, and Table 6/caveat
   regeneration.
 - VL-SAT full-validation failure rows and deterministic qualitative case
@@ -391,14 +398,14 @@ Key Open3DSG recovery full-validation result:
 | `family_conditional_risk` | 0.0984 | 0.1921 | 0.3291 | 0.4658 | 0.6047 | 0.0420 | 0.0482 | 0.0441 | 0.0286 | 0.0341 | GeoCalib main score |
 | `rule_verified_point_subtype` | 0.0707 | 0.1314 | 0.2422 | 0.4295 | 0.5368 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | hard-filter diagnostic |
 
-Full-validation uncertainty and verifier checks:
+Full-validation stability and verifier checks:
 
 - Open3DSG `family_conditional_risk` vs `semantic_only`: R@100 delta `+8.86 pp`
-  with 95% CI `[+6.69,+10.96]`; Violation@100 delta `-9.01 pp` with
-  95% CI `[-9.49,-8.53]`.
+  and Violation@100 delta `-9.01 pp`; Docker subgraph bootstrap supports the
+  same qualitative direction.
 - VL-SAT `family_conditional_risk` vs `semantic_only`: R@100 delta `+0.48 pp`
-  with 95% CI `[+0.11,+0.93]`; Violation@100 delta `-1.43 pp` with
-  95% CI `[-1.60,-1.28]`.
+  and Violation@100 delta `-1.43 pp`; the effect is smaller because VL-SAT is
+  already near ceiling, but the violation reduction direction remains stable.
 - Full-validation GT verifier: 3,972 positives and 3,972 counterfactual
   negatives; positive nonviolated `0.9965`, negative nonsatisfied `0.9673`,
   AUROC/AUPRC `0.9772/0.9729`, Brier `0.0543`.
@@ -513,19 +520,16 @@ Not allowed:
 
 The current paper body is in `paper/draft.md` and now runs from Title through
 Conclusion. The current target-venue LaTeX source is in `paper/aaai/`, using
-the checked AAAI-26 style route until the exact target-year AAAI kit/form is
-reconfirmed. Docker PDF build verification is complete with
-`h001-aaai-tex:20260526`: latest family-main rebuild
-`logs/h001_aaai_pdf_build_family_main_20260625_084157.log` exits 0.
-`main.pdf` builds to 10 total pages: technical content occupies pages 1-7,
-references are on pages 8-9, and the AAAI reproducibility checklist is on page
-10. BibTeX uses 19 entries, Type 1 fonts are used, and targeted grep found no
-missing citations, undefined refs, overfull hboxes, LaTeX errors, or AAAI
-package errors. Low-K source metrics are now regenerated in `metrics_k_sweep/`
+the official AAAI-27 style. Docker verification with
+`h001-aaai27-tex:20260712` builds `main_aaai27.pdf` to 9 pages: technical
+content occupies pages 1--7 and references only pages 8--9. Supplement and
+checklist are separate 1/2-page PDFs. BibTeX uses 34 entries, Type 3 fonts are
+zero, and targeted checks found no missing citations, undefined refs, overfull
+boxes, LaTeX errors, or AAAI package errors. Low-K source metrics are now
+regenerated in `metrics_k_sweep/`
 for both paper-facing sources, with K=50/100 matching locked `metrics/`. The
-next work is submission package hygiene: portal form, artifact URL/DOI,
-supplementary/code-data decision, checklist answer pass, low-K artifact
-packaging, and final package regeneration.
+next work is author metadata and the public license/artifact URL; portal policy,
+supplement/code-data choice, checklist build, and upload package are complete.
 Open3DSG-first table ordering is preserved: the manuscript treats Open3DSG as
 the main open-vocabulary case study and VL-SAT as the controlled anchor.
 The latest reviewer-defense pass adds explicit main-text answers to the

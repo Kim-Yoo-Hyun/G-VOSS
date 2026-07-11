@@ -1,5 +1,0 @@
-artifact,split,role,source,requirement
-model_safe_qe_v2_train.jsonl,internal_train,train p_obs only,existing internal rows plus repaired support/contact ambiguity proxies,balanced observable_clear / ambiguous / missing-style rows without using official eval labels
-model_safe_qe_v2_eval.jsonl,official_validation_diagnostic_subset,evaluate p_obs repair,265 user-confirmed observability subset,"same candidate IDs as current metric subset, but Q_e v2 states must reflect coverage/ambiguity features"
-hidden_observability_v2_labels.jsonl,train/eval,hidden labels,"train labels from repaired protocol, eval labels from user-confirmed subset",never included in model-safe views
-qe_v2_schema_audit/latest,all,leakage audit,model-safe and hidden views,blocked field hits = 0; no direct label copy in Q_e v2

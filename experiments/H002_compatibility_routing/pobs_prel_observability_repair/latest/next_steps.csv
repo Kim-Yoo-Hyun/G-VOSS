@@ -1,4 +1,0 @@
-order,todo,description,run_metric_after
-1,pobs_prel_observability_label_fill,"Fill the audit queue with visual/mesh-grounded observable_clear, unobservable_missing_evidence, and ambiguous_evidence labels.",False
-2,pobs_prel_observability_label_ingestion,Convert filled labels into model-safe Q_e and hidden selective-label artifacts.,False
-3,pobs_prel_observability_metric_after_ingestion,Rerun p_obs/p_rel selective metrics only if label-class and capacity gates pass.,True

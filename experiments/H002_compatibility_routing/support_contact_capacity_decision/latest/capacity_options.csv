@@ -1,5 +1,0 @@
-option_id,option,evidence,risk,decision,reason
-A,run_metric_on_strict_mixed_class_pair_binary_rows,40 rows over 4 mixed class-pairs,underpowered_metric_and_unstable_CI,reject,below frozen capacity gate
-B,include_single_subtype_class_pairs_for_more_rows,3138 rows are abstain/diagnostic under current repair,class_pair_shortcut_returns_and_predicate_geometry_claim_collapses,reject_for_main_metric,most class-pairs contain only one positive subtype
-C,continue_support_contact_with_additional_visual_mesh_audit,would require new independent pose/observability labels,new benchmark_building_scope_and_not_immediate_validation_metric,defer_reopen_condition,scientifically possible but not available from current official validation GT
-D,freeze_support_contact_as_diagnostic_and_move_to_observability_repair,schema is valid; capacity gate fails; failure mode is informative,support_contact_not_a_solved_route_in_current_H002,select,most principled current path without reintroducing shortcuts

@@ -1,6 +1,6 @@
 # H001 Reproducibility Runbook
 
-Last updated: 2026-06-25 KST
+Last updated: 2026-07-11 KST
 
 This document consolidates dataset, checkpoint, environment, Docker, reproduction,
 and evaluation-summary information for `experiments/H001_geom_reliability/`.
@@ -43,6 +43,77 @@ H001 Docker experiment and result state:
 6. `results/h001_geom_reliability/tables/`
 7. `results/h001_geom_reliability/figures/figure_specs.md`
 8. `results/h001_geom_reliability/bootstrap_ci/summary.md`
+9. `experiments/H001_geom_reliability/factor_isolation_protocol/frozen_v1/`
+10. `experiments/H001_geom_reliability/sources/3dssg_full_l160/`
+11. `experiments/H001_geom_reliability/train_only_reestablishment_v1/`
+
+The factor-isolation freeze requires the three source prediction/verification
+JSONL pairs from the full result bundle, not raw datasets or model inference.
+With those row-level artifacts present, reproduce the protocol and bit-exact
+existing-score audit with:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm factor_isolation_protocol_freeze
+```
+
+Expected status is
+`frozen_ready_for_post_hoc_mechanism_implementation`, validation errors `0`,
+and `59/59` passing gates. This command does not fit the new factor models or
+produce factor-performance metrics.
+
+The completed train-only model freeze and fresh official-source evaluation are
+reproduced in this order:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm factor_isolation_model_fit
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm 3dssg_confirmatory_target_freeze
+wget -c https://www.campar.in.tum.de/public_datasets/2023_cvpr_wusc/trained_models/3DSSG_full_l160.zip -O local_dataset/SceneGraphFusion_checkpoints/3DSSG_full_l160.zip
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm 3dssg_checkpoint_stage
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm 3dssg_inference_smoke
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm 3dssg_inference
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm 3dssg_adapter_export
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm 3dssg_adapter_coverage_audit
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm 3dssg_geometry_join
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm 3dssg_confirmatory_metrics
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm 3dssg_confirmatory_audit
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm factor_isolation_metrics_3dssg
+```
+
+The stricter 1,061/117/157 reestablishment is a separate, later route. Its
+frozen Docker order is:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_reestablishment_freeze
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_calibration_export
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_calibrator_fit
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_internal_dev_stage
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_internal_dev_preprocess
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_internal_dev_preprocess_finalize
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_execution_freeze
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_internal_dev_inference
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_internal_dev_adapter
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_internal_dev_geometry
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_internal_dev_evaluation
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_final_lock
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_final_validation_evaluation
+```
+
+Expected final statuses are
+`strict_train_only_models_ready_pre_internal_dev_source_metrics`,
+`execution_contract_frozen_pre_internal_dev_source_inference`,
+`internal_dev_evaluation_ready`,
+`final_method_locked_after_internal_dev_accept`, and
+`final_validation_evaluation_ready`. The final evaluation can be regenerated
+from the preserved 3DSSG geometry JSONL even when the redundant final adapter
+prediction JSONL is absent, because each verification row preserves prediction
+identity, semantic score, endpoint, predicate, and geometry features.
+
+`3DSSG_full_l160.zip` SHA-256 is
+`0adc59922ca700e131136dc9b055eb30c2e209da35c61c6dd00e478f98dd2da6`;
+the extracted `model_best.pt` SHA-256 is
+`5322bb0738b20312baba9cb0622d82368c3e5fa355fe726808f3470f4465ccf8`.
+Preserve the raw/adapter/geometry JSONL files for exact reruns; the geometry
+JSONL is large and is not a GitHub artifact.
 
 Open3DSG source-specific state:
 
@@ -84,6 +155,23 @@ Qwen-VL extension state:
 10. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/failure_rows/`
 11. `experiments/H001_geom_reliability/sources/qwen_vl/full_validation/failure_cases/`
 
+Fresh SGFN confirmatory state:
+
+1. `experiments/H001_geom_reliability/confirmatory_evaluation/sgfn_target_v1/`
+2. `experiments/H001_geom_reliability/confirmatory_evaluation/sgfn_target_v2/`
+3. `experiments/H001_geom_reliability/confirmatory_evaluation/sgfn_target_v2/checkpoint_audit.json`
+4. `experiments/H001_geom_reliability/confirmatory_evaluation/sgfn_target_v3/`
+5. `experiments/H001_geom_reliability/sources/sgfn/README.md`
+6. `local_dataset/SceneGraphFusion_code/3DSSG/` at commit `4b783ecdc6caba1515b361f8a0643d0c2d568f52`
+7. `local_dataset/SceneGraphFusion_checkpoints/SGFN_full_l20.zip` (downloaded
+   audit failure; do not use for full_l160 inference)
+8. `local_dataset/SceneGraphFusion_checkpoints/SGFN_full_l160.zip` (v3 locked,
+   downloaded, checksum and 160/26 tensor audit passed)
+9. `experiments/H001_geom_reliability/sources/sgfn/raw/manifest.json`
+10. `experiments/H001_geom_reliability/sources/sgfn/adapter/coverage_audit.json`
+11. `experiments/H001_geom_reliability/sources/sgfn/geometry/manifest.json`
+12. `experiments/H001_geom_reliability/sources/sgfn/confirmatory_metrics/decision.json`
+
 Paper writing state:
 
 1. `paper/README.md`
@@ -121,19 +209,15 @@ Facts:
   boundary, appendix/provenance table, paper skeleton, first-pass prose,
   reviewer-risk register, venue-specific LaTeX sources, figure locks, and
   reviewer-defense guardrails.
-- Latest paper/reproducibility tasks completed: AAAI reproducibility checklist
-  insertion, reviewer-defense main-text passes, Docker subgraph bootstrap CI,
-  reproducibility artifact bundle planning, official AAAI-26 Author Kit
-  replacement/verification, appendix/provenance and Open3DSG caveat-consistency
-  pass, GeoCalib naming, Figure-1/2 updates, low-K table updates,
-  family-conditional risk promotion, top-tier layout/table edits, and
-  reference expansion. Docker build verification for `paper/aaai/` is complete
-  with `h001-aaai-tex:20260526`; the latest source-validation build log is
-  `logs/h001_aaai_pdf_build_reference_expansion_20260625_130811.log`, output
-  `paper/aaai/main_reference_expansion.pdf`, with 9 total pages, references
-  starting on page 7, and the reproducibility checklist on page 9. The original
-  `paper/aaai/main.pdf` is preserved. The manuscript uses Open3DSG as the main
-  open-vocabulary relation-source case study and VL-SAT as the controlled
+- Current target-year submission route uses the official `aaai2027` kit and a
+  standalone reproducibility-checklist upload. Verified Docker outputs are
+  `paper/aaai/main_aaai27.pdf` (9 pages; technical content through page 7,
+  references only on pages 8--9), `paper/aaai/supplement_aaai27.pdf` (1 page),
+  and `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Build image:
+  `h001-aaai27-tex:20260712`; final main log:
+  `logs/h001_aaai27_main_build_20260712.log`; triplet verification log:
+  `logs/h001_aaai27_final_triplet_build_20260712.log`. The manuscript keeps
+  Open3DSG as the main open-vocabulary case study and VL-SAT as the controlled
   reproduced anchor.
 - Current scoring convention: `family_conditional_risk` is the GeoCalib main
   score, pooled `probabilistic_recalibrated` is an ablation/baseline, and
@@ -158,6 +242,39 @@ Facts:
   2026-05-26 Qwen-VL runtime-preflight retry was blocked by GPU guard, but the
   later 2026-05-27 runtime preflight, tiny inference smoke, crop preflight, and
   shard 0000 inference contract validation passed.
+- SGFN target v3 was explicitly authorized and frozen before correct-checkpoint
+  download. Target v2 records the earlier pre-inference split identity
+  correction: the 548 H001 contexts use 157 scans
+  exactly equal to official SGFN `files/cvpr/test_scans.txt`; the official
+  117-scan validation list has zero overlap. The completed background download
+  is `local_dataset/SceneGraphFusion_checkpoints/SGFN_full_l20.zip`, size
+  `84,830,654`, SHA-256
+  `9831357f4a04d996be48f7a9e3184525c33eab3712a08d7a98b4f984e85789b2`;
+  log/exit are `logs/h001_sgfn_ckpt_20260710_155321.log` and
+  `logs/h001_sgfn_ckpt_20260710_155321.exit` (`0`). Docker audit found object
+  and relation heads `[20,256]` and `[8,256]`, so it is incompatible with the
+  frozen full_l160 `[160,256]`/`[26,256]` contract. The official README exposes
+  a separate `SGFN_full_l160.zip`. Target v3 downloaded it through background
+  job `h001_sgfn_l160_ckpt`; log/exit are
+  `logs/h001_sgfn_l160_ckpt_20260710_161227.log` and
+  `logs/h001_sgfn_l160_ckpt_20260710_161227.exit` (`0`). Size is `86,777,444`,
+  SHA-256 is
+  `8e5af8f42cca5920d1b571b815f980e8884d931138462c30b5c8a70d9f747fa9`,
+  and Docker audit confirms full_l160 object/relation heads `[160,256]` and
+  `[26,256]`. Official test preprocessing is ready for 157 scans / 4,480 nodes
+  / 27,712 relationship rows. One-scan inference smoke passes. Full inference
+  completed with exit 0 under tmux `h001_sgfn_inference`; log
+  `logs/h001_sgfn_inference_20260710_163351.log`, exit file
+  `logs/h001_sgfn_inference_20260710_163351.exit`, output
+  `experiments/H001_geom_reliability/sources/sgfn/raw/`. It produced 157 scans,
+  4,480 nodes, 160,526 directed edges, and 4,173,676 relation scores. Adapter
+  and geometry outputs preserve 957,008 rows each. Coverage is 548/548
+  contexts and 36,808/36,808 nonself directed pairs; 11 self-`supported by` GT
+  rows remain in the frozen 3,972-row denominator without synthesized edges.
+  The 1,000-resample confirmatory audit status is
+  `confirmatory_primary_gate_passed`; see
+  `experiments/H001_geom_reliability/sources/sgfn/confirmatory_metrics/decision.json`
+  for exact CIs and the verifier-V, family-wise, and rank-average boundaries.
 
 ## Reproduction Tiers And Dataset-Absent Path
 
@@ -258,14 +375,16 @@ Large runtime data is intentionally under ignored local roots:
 | VL-SAT source/runtime checkout | `local_dataset/VLSAT_code/CVPR2023-VLSAT/` |
 | VL-SAT full-validation staged root | `local_dataset/VLSAT_staged/h001_full_validation/CVPR2023-VLSAT/` |
 | Open3DSG training root | `local_dataset/Open3DSG_staged/training_repro/` |
-| Open3DSG H001 eval root | `local_dataset/Open3DSG_staged/h001_runtime/` |
+| Open3DSG historical H001 eval root | `local_dataset/Open3DSG_staged/h001_runtime/` (deleted locally 2026-07-12; regenerate only for the 127-scan sensitivity route) |
 | Open3DSG full-validation runtime root | `local_dataset/Open3DSG_staged/h001_full_validation_runtime/` |
+| Open3DSG paper-facing checkpoint | `local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt` |
+| Open3DSG historical avg-BLIP checkpoint | `local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt` |
 | Open3DSG train/dev features | `local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3/` |
-| Open3DSG H001 eval features | `local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3/` |
+| Open3DSG historical H001 eval features | `local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3/` (deleted locally 2026-07-12) |
 | Open3DSG full-validation recovery features | `local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/features/clip_features_h001_full_validation_recovery_relaxed_views_min2/` |
-| Qwen-VL model cache | `local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/` |
-| Qwen-VL tiny crops | `local_dataset/qwen_vl_crops/tiny_pilot/` |
-| Qwen-VL full-source crops | `local_dataset/qwen_vl_crops/full_source/` |
+| Qwen-VL model cache | `local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/` (deleted locally 2026-07-12) |
+| Qwen-VL tiny crops | `local_dataset/qwen_vl_crops/tiny_pilot/` (deleted locally 2026-07-12) |
+| Qwen-VL full-source crops | `local_dataset/qwen_vl_crops/full_source/` (deleted locally 2026-07-12) |
 
 Tracked experiment artifacts and runbooks live under:
 
@@ -404,6 +523,40 @@ provenance, but any final public upload package must be regenerated or
 reverified after the GeoCalib/Figure-1 update, the low-K table decision, and any
 Qwen extension inclusion decision. Do not treat an older flattened archive as
 final submission-ready without this pass.
+
+Historical compact handoff package, 2026-07-12 KST:
+
+```text
+directory: release/h001_aaai27_submission_20260712_005127/
+archive: release/h001_aaai27_submission_20260712_005127.tar.zst
+archive sha256: e0543f392ac40b7bc518900b61f691563cb97bd0ba010bc009425bbabae9de8e
+archive size: approximately 3.3 MB
+package files: 499 including MANIFEST.sha256
+verification logs: logs/h001_release_manifest_verify_20260712.log; logs/h001_release_archive_verify_20260712.log
+```
+
+This package contains self-contained main/supplement source and PDFs, compact
+SGFN/factor/train-only/Codex/Replica/Open3DSG evidence, code, configs, and
+runbooks. It intentionally excludes large datasets, checkpoint binaries,
+feature caches, row-level predictions, and external Docker images. The copied
+paper source was rebuilt independently in Docker before archive creation.
+
+Active AAAI-27 OpenReview field bundle, verified 2026-07-12 KST:
+
+```text
+root: release/h001_aaai27_openreview_20260712_083625/
+paper: main.pdf (552,775 bytes; SHA256 0413b546b9fc6420a3f98a099d51795e447a05cf851e3445c8031ab425d0ff3d)
+checklist: reproducibility_checklist.pdf (98,638 bytes; SHA256 6f1566a94fe39352fda630d15bce10bc8e358df031e639f21e6e46fe90579900)
+technical supplement: technical_supplement.pdf (137,671 bytes; SHA256 294f7e62ab33ea86ec81a83b4e33969b1ef6117d66812f64b8c78f1d578ca0d4)
+code/data: code_and_data_supplement.zip (3,188,347 bytes; SHA256 876a464aa5b9afb78f5327e9bdd9d4fe1bcff51249cae523c3d1be35a31cb2cd)
+upload manifest: UPLOAD_MANIFEST.sha256
+```
+
+The ZIP passes archive integrity, its internal `MANIFEST.sha256`, and targeted
+author-identity/path scans. It contains no `.git` directory or external Docker
+image. `README.md` maps files to the live OpenReview fields;
+`submission_metadata.md` records deadlines, topics, form fields, and policy.
+Do not upload the historical compact tarball in place of these field files.
 
 ```text
 status: upload_bundle_file_list_and_verification_fixed_no_archive_created
@@ -900,7 +1053,7 @@ is included in a release artifact, verify the full-validation input, runtime,
 validation, adapter, geometry, metrics/bootstrap, failure rows, and qualitative
 case files rather than restarting the old loop.
 
-Raw Open3DSG source eval has clean provenance through the v14 streaming
+Historical 127-scan averaged-BLIP source eval has clean provenance through the v14 streaming
 same-path resume. The canonical raw dump remains `raw_dump/raw.jsonl`, and the
 streaming resume output `raw_stream_retry_20260519_092628.jsonl` completed with
 exit 0, manifest status `raw_dump_stream_complete`, 377/377 completed batches,
@@ -910,6 +1063,11 @@ raw dump. Earlier exit-137 attempts are historical run records.
 ```bash
 sg docker -c 'env UID=$(id -u) GID=$(id -g) OPEN3DSG_CHECKPOINT=/workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt docker compose -f configs/open3dsg/compose.open3dsg.yaml run --rm eval_h001_gt_objects'
 ```
+
+The command above is historical-only. The paper-facing full-validation route
+must use the command and manifest under
+`sources/open3dsg/full_validation/recovery_relaxed_views_min2/`, which lock run
+`25da9c4c00214f3b880cedbb2a124177` and `avg_blip_emb=False`.
 
 ## Verification Commands
 
@@ -1015,7 +1173,106 @@ Open3DSG historical 127-scan artifact summary:
   filtered train split, averaged-BLIP Open3DSG variant, covered loadable H001
   eval scope, residual calibration risk, and `validation_missing_preprocessed:11`.
 
+## ReplicaSSG / FROSS Prospective Runtime
+
+The untouched dataset/source run originally used these workspace roots:
+
+```text
+local_dataset/ReplicaSSG_download/
+local_dataset/ReplicaSSG_runtime/
+local_dataset/ReplicaSSG_code/
+local_dataset/FROSS_code/
+local_dataset/FROSS_weights/
+local_dataset/model_cache/fross_home/
+experiments/H001_geom_reliability/sources/replicassg/fross_raw/shards/
+```
+
+The large local source/runtime roots and row-level shards were deleted in the
+2026-07-12 user-approved non-main cleanup. Compact protocol manifests,
+provenance hashes, evaluation summaries, and the paper-facing negative result
+remain tracked. A local source regeneration now requires restoring the official
+ReplicaSSG archive, FROSS weights/code, and engine/runtime dependencies first.
+
+The source runner is storage-streamed. Use the stdin-isolation shim so Docker
+does not consume the scan loop input:
+
+```bash
+PATH="$PWD/scripts/no_stdin_bin:$PATH" env UID=$(id -u) GID=$(id -g) \
+  bash scripts/run_replicassg_fross_streaming.sh
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/fross/compose.yaml run --rm replicassg_fross_adapter
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/fross/compose.yaml run --rm replicassg_geometry
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/fross/compose.yaml run --rm replicassg_evaluation
+```
+
+Verify the tracked compact result and upstream chain with:
+
+```bash
+sha256sum results/h001_geom_reliability/replicassg_prospective/{summary.json,summary.md}
+jq '.validations | to_entries | map(select(.value != true))' \
+  experiments/H001_geom_reliability/sources/replicassg/evaluation/summary.json
+```
+
+Expected values are compact hashes
+`35338ff18cb8eb507c6e644a8668dd032f93de24a440b4ef55e739ef396992fa`
+and `f21e6ce56d91250eebc863e766914ba1ab7cce6de65da3a8e8e5f8326e4d24c5`,
+zero failed validations in the preserved summary. The former 11 local shards
+are no longer expected after cleanup. No external file or Docker image was
+modified by the 2026-07-12 cleanup.
+
 ## Cleanup Candidates
+
+Cleanup state, 2026-07-12 KST: the user-approved first-priority non-main cleanup
+removed 270 workspace entries and reclaimed 71,784,480,768 bytes
+(approximately 66.9 GiB). Deletions were restricted to
+`/home/yoohyun/research`; no external file or Docker image was touched. Removed
+classes were ReplicaSSG/FROSS runtime and row-level shards, Qwen model/crop and
+large runtime payloads, attachment aggregate/shard scored rows, historical
+VL-SAT and Open3DSG row-level duplicates, non-main 3DSSG/SGFN payloads, the
+stale release package, and rendered paper-inspection PNGs. Compact manifests,
+metrics, reports, protocol locks, main datasets, and both Open3DSG checkpoints
+were preserved.
+
+Cleanup state, 2026-07-11 KST: disk-pressure cleanup was restricted to
+duplicate, failed, historical row-level, or deterministically regenerable
+artifacts inside `/home/yoohyun/research`. After the user clarified the scope,
+no external file or Docker image was modified. The following workspace paths
+were removed:
+
+```text
+local_dataset/3DSSG_staged/checkpoint_failed_audit_v1/
+experiments/H001_geom_reliability/sources/3dssg_full_l160/inference_smoke_failed_audit_v1/
+experiments/H001_geom_reliability/sources/3dssg_full_l160/inference_smoke/
+experiments/H001_geom_reliability/sources/3dssg_full_l160/adapter/predictions.jsonl
+experiments/H001_geom_reliability/sources/sgfn/adapter/predictions.jsonl
+experiments/H001_geom_reliability/sources/open3dsg/geometry/verification.jsonl
+experiments/H001_geom_reliability/sources/open3dsg/adapter/predictions.jsonl
+experiments/H001_geom_reliability/sources/open3dsg/non_avg/geometry/verification.jsonl
+experiments/H001_geom_reliability/sources/open3dsg/non_avg/adapter/predictions.jsonl
+experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/geometry/verification.jsonl
+experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/adapter/predictions.jsonl
+experiments/H001_geom_reliability/sources/open3dsg/full_validation/geometry/verification.jsonl
+experiments/H001_geom_reliability/sources/open3dsg/full_validation/adapter/predictions.jsonl
+local_dataset/Open3DSG_staged/training_repro/output/datasets/OpenSG_3RScan/
+release/h001_full_validation_results_20260611_025158.tar.zst
+logs/open3dsg_train_full_avg_blip_20260515_172644.log
+logs/open3dsg_train_full_nonavg_retry_20260601_071908.log
+```
+
+The failed/incomplete factor-metric artifact was also removed. Compact
+manifests, metrics, reports, the selected Open3DSG checkpoint, the 131-GB
+feature cache, raw 3RScan scans, and the authoritative 3DSSG final geometry
+JSONL were preserved. Removing `OpenSG_3RScan/` only removes derived
+preprocessing and requires deterministic regeneration before a new Open3DSG
+source rerun; it does not invalidate existing compact results. The redundant
+release archive was removed without deleting its manifest or source artifacts.
+
+Pre-clarification exception: an aborted cleanup command had already removed the
+local Docker image tags `h001-open3dsg-repro:cu128` and
+`h001-aaai-tex:20260611`. No external source file or dataset was deleted, and
+the images were not required by the train-only run completed here. They have
+not been rebuilt or otherwise touched after the user restricted cleanup to the
+workspace; rebuild from the tracked Dockerfiles only if a future rerun needs
+them.
 
 Cleanup state, 2026-06-06 KST: the user-approved paths below were deleted from
 the local workspace. They were not required for the current paper-facing

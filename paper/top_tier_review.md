@@ -1,6 +1,6 @@
 # Top-Tier Style Review for GeoCalib
 
-Last updated: 2026-06-25 KST
+Last updated: 2026-07-09 KST
 
 ## Compared Papers
 
@@ -30,6 +30,11 @@ Primary sources checked:
 
 5. The overall paper structure is basically sound: Introduction -> Related Work -> Problem -> Method -> Experimental Setup -> Results -> Limitations -> Conclusion. The main risk was not section order, but over-defensive artifacts in the main body and dense inline result prose.
 
+6. Direct bootstrap-interval notation is not typical in the closest 3DSSG
+   result tables. Action: keep the main source-result table as point estimates,
+   describe bootstrap as an internal stability check in prose, and leave raw
+   interval details in the experiment artifact rather than the main manuscript.
+
 ## Current Editorial Decision
 
 - Keep Table 1 as scope/denominator table because the claim depends on denominator transparency.
@@ -40,3 +45,10 @@ Primary sources checked:
 - Keep Figure 3 as qualitative/failure evidence, but it remains less central than Figure 1 and the main result table.
 - Do not force a page break before references; the reviewed build lets
   references start after the conclusion to avoid a visibly empty column.
+- Do not print bootstrap confidence ranges in the main source-result table or
+  primary results prose. Use point estimates for the paper-facing comparison
+  and cite bootstrap only as a stability check if needed.
+- `paper/aaai/main_top_tier_review.pdf` is the reviewed manuscript snapshot.
+  Do not refresh it by simply copying the ignored `main.pdf` artifact; the
+  reviewed PDF should reflect the current paper-facing edits made from this
+  checklist.

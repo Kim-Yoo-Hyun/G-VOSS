@@ -1,4 +1,0 @@
-claim,status,allowed_wording,blocked_wording
-support_contact_solved_route,blocked,support/contact is a challenging diagnostic route with pose-subtype and class-pair capacity limits,support/contact is solved or metric-ready
-relation_aware_evidence_routing,allowed_with_caveat,support/contact shows why some relation families require observability-aware abstain or relabel handling,the route-aware framework is validated for all physical relations
-metric_rerun,blocked,no support/contact metric rerun after repair due to capacity gate failure,rerun support/contact metric on 40 binary rows as paper evidence

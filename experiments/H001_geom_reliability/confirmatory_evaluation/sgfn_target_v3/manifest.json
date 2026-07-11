@@ -1,0 +1,114 @@
+{
+  "authorization": {
+    "actor": "user",
+    "date_kst": "2026-07-10",
+    "decision": "v3 pre-inference erratum allowed"
+  },
+  "correction": {
+    "correct_url": "https://www.campar.in.tum.de/public_datasets/2023_cvpr_wusc/trained_models/SGFN_full_l160.zip",
+    "expected_http_content_length": 86777444,
+    "field": "checkpoint_url",
+    "from": "SGFN_full_l20.zip",
+    "timing": "pre-correct-checkpoint-download, pre-inference, pre-metric",
+    "to": "SGFN_full_l160.zip"
+  },
+  "coverage_policy": {
+    "missing_source_edges": "not synthesized; reported as missing coverage",
+    "missing_subgraphs": "retained in GT denominator with zero matching predictions",
+    "posthoc_recovery_forbidden": true
+  },
+  "created_at_utc": "2026-07-10T07:12:19.110148+00:00",
+  "docker_command": "UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm sgfn_confirmatory_target_v3_freeze",
+  "inputs": {
+    "checkpoint_audit": {
+      "path": "experiments/H001_geom_reliability/confirmatory_evaluation/sgfn_target_v2/checkpoint_audit.json",
+      "sha256": "1d9103b427715365af470e76a69d50c4eac781312da91d11624f13d681830c51"
+    },
+    "h001_ground_truth": {
+      "path": "experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl",
+      "sha256": "f1b11210efa3bc349e765bfeb11b6f0016c4142667f9afbe48b61df0c5042a5c"
+    },
+    "official_readme": {
+      "path": "local_dataset/SceneGraphFusion_code/3DSSG/README.md",
+      "sha256": "8b5c8b6bc831bebb30df7f1b5640886411de1ed5e4ed3506072073ca6002fa1d"
+    },
+    "official_test_scans": {
+      "path": "local_dataset/SceneGraphFusion_code/3DSSG/files/cvpr/test_scans.txt",
+      "sha256": "a3ce6f256add950ea74e15680c5743e34351bc3ce663dc3a3aa5bd9cf4a6c2d9"
+    },
+    "source_config": {
+      "path": "local_dataset/SceneGraphFusion_code/3DSSG/configs/config_SGFN_full_l160.yaml",
+      "sha256": "aa69553ef6465bd35c044841dccc181e58b04c2992b24f7df6f31bca4d63ffbf"
+    },
+    "target_v1_manifest": {
+      "path": "experiments/H001_geom_reliability/confirmatory_evaluation/sgfn_target_v1/manifest.json",
+      "sha256": "bf48b2b2be62b4b64140bb77cc206cf5e3d6931584335fb5a560a74440c3a530"
+    },
+    "target_v2_manifest": {
+      "path": "experiments/H001_geom_reliability/confirmatory_evaluation/sgfn_target_v2/manifest.json",
+      "sha256": "7709d204582faeaaf22f7de94f90d1213d7d86e9b7194466472d1852907b519c"
+    }
+  },
+  "locked_analysis": {
+    "bootstrap_unit": "H001 subgraph_id",
+    "comparators": [
+      "semantic_only",
+      "pooled_calibration",
+      "geometry_only_family",
+      "rank_average_fusion",
+      "reciprocal_rank_fusion_c60"
+    ],
+    "families": [
+      "support_contact",
+      "proximity",
+      "relative_vertical"
+    ],
+    "ks": [
+      5,
+      10,
+      20,
+      50,
+      100
+    ],
+    "main_score": "semantic_score * p_geom_valid_family",
+    "n_bootstrap": 1000,
+    "primary_k": 100,
+    "recall_guardrail": "delta_R_at_100_ci95_lower_gt_-0.01",
+    "seed": 20260710,
+    "validity_gate": "delta_V_at_100_ci95_upper_lt_0"
+  },
+  "next_gates": [
+    "download_correct_archive_and_sha256",
+    "audit_160_object_26_relation_classifier_shapes",
+    "freeze_pinned_sgfn_runtime",
+    "source_native_test_split_inference",
+    "identity_preserving_h001_projection",
+    "geometry_join_and_locked_confirmatory_metrics"
+  ],
+  "preserved_history": [
+    "sgfn_target_v1",
+    "sgfn_target_v2"
+  ],
+  "schema_version": "h001_sgfn_confirmatory_target_v3",
+  "status": "target_v3_frozen_pre_correct_checkpoint_pre_inference",
+  "supersedes_for_execution": "sgfn_target_v2",
+  "target": {
+    "expected_object_classes": 160,
+    "expected_relation_classes": 26,
+    "h001_in_scope_gt_denominator": 3972,
+    "h001_subgraphs": 548,
+    "h001_unique_scans": 157,
+    "source_config": "configs/config_SGFN_full_l160.yaml",
+    "source_id": "sgfn_official_full_l160",
+    "source_native_split": "official files/cvpr/test_scans.txt"
+  },
+  "validations": {
+    "audit_confirms_no_result_information_seen": true,
+    "correct_checkpoint_not_downloaded_at_v3_freeze": true,
+    "no_sgfn_downstream_results_exist": true,
+    "official_readme_contains_correct_url": true,
+    "target_v2_split_identity_passed": true,
+    "user_authorized_v3_pre_inference_erratum_2026_07_10_kst": true,
+    "wrong_archive_audit_failed_as_expected": true
+  }
+}

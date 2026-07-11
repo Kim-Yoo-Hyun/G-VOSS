@@ -1,0 +1,16 @@
+target,probe,category,rows,majority_baseline,group_majority_accuracy,group_macro_recall,group_positive_recall,leave_one_out_accuracy,leave_one_out_macro_recall,leave_one_out_positive_recall,delta_vs_baseline,groups,max_group_rows,mixed_groups,pure_groups,singleton_groups,risk,blocks_metric_rerun
+multiclass,endpoint_id,endpoint_memorization,480,0.722917,1.0,1.0,1.0,0.722917,0.166667,0.0,-0.0,480,1,0,480,480,high,True
+multiclass,geometry_rule_state,geometry_construction,480,0.722917,0.997917,0.833333,1.0,0.997917,0.833333,1.0,0.275,13,193,1,12,0,high,True
+multiclass,geometry_core_signature,geometry_construction,480,0.722917,0.983333,0.987435,0.971429,0.83125,0.461159,0.485714,0.108333,207,21,7,200,131,high,True
+binary,predicate_x_class_pair,route_metadata,382,0.908377,0.942408,0.724249,0.457143,0.929319,0.704199,0.428571,0.020942,69,8,13,56,4,high,True
+binary,class_pair_x_token_tier,route_metadata,382,0.908377,0.945026,0.802758,0.628571,0.884817,0.576945,0.2,-0.02356,118,8,20,98,26,high,True
+binary,endpoint_id,endpoint_memorization,382,0.908377,1.0,1.0,1.0,0.908377,0.5,0.0,-0.0,382,1,0,382,382,high,True
+binary,scan_id,endpoint_memorization,382,0.908377,0.931937,0.628571,0.257143,0.900524,0.547056,0.114286,-0.007853,139,10,25,114,32,medium,True
+binary,geometry_gap_bin,geometry_construction,382,0.908377,0.91623,0.748374,0.542857,0.884817,0.576945,0.2,-0.02356,5,236,4,1,0,high,True
+binary,geometry_rule_state,geometry_construction,382,0.908377,1.0,1.0,1.0,1.0,1.0,1.0,0.091623,10,193,0,10,0,high,True
+binary,geometry_core_signature,geometry_construction,382,0.908377,1.0,1.0,1.0,0.95288,0.742857,0.485714,0.044503,143,21,0,143,83,high,True
+decide_vs_nondecide,predicate_x_class_pair,route_metadata,480,0.795833,0.854167,0.688375,0.968586,0.829167,0.672668,0.937173,0.033334,72,8,42,30,0,medium,True
+decide_vs_nondecide,class_pair_x_token_tier,route_metadata,480,0.795833,0.8375,0.662731,0.958115,0.760417,0.542232,0.910995,-0.035416,120,8,57,63,17,medium,True
+decide_vs_nondecide,endpoint_id,endpoint_memorization,480,0.795833,1.0,1.0,1.0,0.795833,0.5,1.0,0.0,480,1,0,480,480,high,True
+decide_vs_nondecide,geometry_rule_state,geometry_construction,480,0.795833,0.997917,0.994898,1.0,0.997917,0.994898,1.0,0.202084,13,193,1,12,0,high,True
+decide_vs_nondecide,geometry_core_signature,geometry_construction,480,0.795833,0.983333,0.96677,0.994764,0.866667,0.692435,0.986911,0.070834,207,21,7,200,131,high,True

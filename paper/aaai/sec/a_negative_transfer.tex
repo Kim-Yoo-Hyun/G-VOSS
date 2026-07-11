@@ -1,0 +1,45 @@
+\section{Untouched Dataset/Source Transfer Stress Test}
+
+We prospectively froze an untouched dataset/source target before source
+prediction: the 11-scene official ReplicaSSG test split and the official
+VisualGenome-trained FROSS RT-DETR-EGTR release. ReplicaSSG validation scenes
+were excluded from method, mapping, threshold, and score selection. The exact
+mapping is \texttt{near}$\rightarrow$\texttt{close by},
+\texttt{above}$\rightarrow$\texttt{higher than}, and
+\texttt{under}$\rightarrow$\texttt{lower than}; support/contact predicates are
+excluded because no exact subtype mapping was available. The run contains
+4,290 candidates, 172 exact-label GT relations, 11 paired bootstrap units, and
+passes all 24 frozen provenance/firewall checks.
+
+\begin{table}[h]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\caption{\textbf{Negative ReplicaSSG/FROSS transfer at $K=100$.} Deltas and
+95\% CIs are paired over the same 1,000 scene-bootstrap samples. The frozen
+joint gate requires the recall CI lower bound to exceed $-0.01$ and the
+violation CI upper bound to be below zero.}
+\label{tab:replica-transfer}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lrrrr}
+\toprule
+Condition & R & $\Delta$R [95\% CI] & V & $\Delta$V [95\% CI] \\
+\midrule
+Semantic & .3605 & -- & .1967 & -- \\
+Product & .3605 & .0000 [.0000,.0000] & .1967 & .0000 [.0000,.0000] \\
+Rank-average & .3314 & $-.0291$ [$-.0741$,.0133] & .0384 & $-.1583$ [$-.1929$,$-.1219$] \\
+RRF ($c=60$) & .3314 & $-.0291$ [$-.0579$,$-.0051$] & .0595 & $-.1372$ [$-.1682$,$-.1045$] \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+Neither frozen GeoCalib instantiation passes. Product is identical to semantic
+ranking at the primary endpoint, so it fails the strict violation-improvement
+gate. Rank-average sharply lowers verifier-derived V but fails the recall
+guardrail. Product improves secondary $K=20$ and $K=50$ tradeoffs, but these do
+not replace the preregistered $K=100$ decision. We therefore retain SGFN as
+positive source-level prospective evidence and treat ReplicaSSG/FROSS as a
+transparent negative-transfer result and limitation, not as dataset-level
+confirmation. V remains verifier-derived rather than independent human
+physical validity.

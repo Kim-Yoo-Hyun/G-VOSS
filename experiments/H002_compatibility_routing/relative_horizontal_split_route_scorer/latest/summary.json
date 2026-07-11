@@ -1,0 +1,48 @@
+{
+  "created_at_utc": "2026-07-06T04:30:28+00:00",
+  "input_route_scorer_status": "h002_relative_horizontal_route_scorer_ready",
+  "n_bootstrap": 1000,
+  "next_todo": "h002_relative_horizontal_lateral_user_decision_after_split_route_scorer",
+  "outputs": {
+    "lateral_bootstrap_ci": "experiments/H002_compatibility_routing/relative_horizontal_split_route_scorer/latest/lateral_bootstrap_ci.csv",
+    "lateral_compact_table": "experiments/H002_compatibility_routing/relative_horizontal_split_route_scorer/latest/lateral_compact_table.csv",
+    "promotion_gate": "experiments/H002_compatibility_routing/relative_horizontal_split_route_scorer/latest/promotion_gate.csv",
+    "report": "experiments/H002_compatibility_routing/relative_horizontal_split_route_scorer/latest/report.md",
+    "selected_predictions": "experiments/H002_compatibility_routing/relative_horizontal_split_route_scorer/latest/selected_predictions.jsonl",
+    "subroute_delta_metrics": "experiments/H002_compatibility_routing/relative_horizontal_split_route_scorer/latest/subroute_delta_metrics.csv",
+    "subroute_metrics": "experiments/H002_compatibility_routing/relative_horizontal_split_route_scorer/latest/subroute_metrics.csv",
+    "subroute_win_count": "experiments/H002_compatibility_routing/relative_horizontal_split_route_scorer/latest/subroute_win_count.csv",
+    "summary": "experiments/H002_compatibility_routing/relative_horizontal_split_route_scorer/latest/summary.json",
+    "validation_errors": "experiments/H002_compatibility_routing/relative_horizontal_split_route_scorer/latest/validation_errors.jsonl"
+  },
+  "schema_version": "h002_relative_horizontal_split_route_scorer_v2",
+  "selected_path": "promote_lateral_as_caveated_route_depth_as_failure_case",
+  "source_rows_scored": 254296,
+  "status": "h002_relative_horizontal_split_route_scorer_ready",
+  "subroute_group_count": 2192,
+  "subroutes": {
+    "depth_front_behind": {
+      "axis_sign_control_failure_cells": 0,
+      "max_recall_loss_abs": 0.203125,
+      "mean_violation_reduction_abs": 0.3156931200168022,
+      "metric_cells": 20,
+      "recall_loss_gt_0p05_cells": 8,
+      "selected_path": "classify_as_depth_reference_frame_failure_case",
+      "total_win_cells": 11,
+      "violation_regression_cells": 0,
+      "win_fraction": 0.55
+    },
+    "lateral_left_right": {
+      "axis_sign_control_failure_cells": 0,
+      "max_recall_loss_abs": 0.045242265032107376,
+      "mean_violation_reduction_abs": 0.24985111697229184,
+      "metric_cells": 20,
+      "recall_loss_gt_0p05_cells": 0,
+      "selected_path": "include_as_caveated_lateral_main_route",
+      "total_win_cells": 15,
+      "violation_regression_cells": 0,
+      "win_fraction": 0.75
+    }
+  },
+  "validation_errors": 0
+}

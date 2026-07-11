@@ -1,5 +1,0 @@
-label,p_obs_target,p_rel_target_allowed,definition,allowed_source,not_allowed_source
-observable_clear,1,True,Visual/mesh/geometry evidence is sufficient to decide accept/reject for the relation.,human_or_visual_mesh_audit,file_existence_only
-unobservable_missing_evidence,0,False,"Required relation evidence is absent, occluded, corrupted, or unavailable.",human_or_visual_mesh_audit,synthetic_no_view_control_as_final_gt
-ambiguous_evidence,0,False,Evidence exists but is insufficient to disambiguate relation subtype or accept/reject.,human_or_visual_mesh_audit,class_pair_or_predicate_prior_only
-unsupported_route,,False,Route is not materialized with the evidence needed for p_obs/p_rel evaluation.,route_inventory,treat_as_negative_observability

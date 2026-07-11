@@ -1,0 +1,10 @@
+control_name,auroc,best_accuracy,interpretation,provenance
+normalized_distance_xy,1.0,1.0,scale-normalized XY distance solves the route target,frozen H002 close-by control
+normalized_distance_3d,1.0,1.0,scale-normalized 3D distance solves the route target,frozen H002 close-by control
+distance_xy,0.99955625,0.9925,raw XY distance nearly solves geometry support,frozen H002 close-by control
+distance_3d,0.998975,0.9875,raw 3D distance nearly solves geometry support,frozen H002 close-by control
+source_score_rank,0.552103125,0.54625,source confidence does not explain geometry support,frozen H002 close-by control
+class_pair_only,,0.50375,class-pair shortcut is near chance,frozen H002 close-by control
+p_geom_valid_hidden_baseline,0.99959375,0.99125,hidden geometry-rule reference is strong but not model input,frozen H002 close-by control
+shuffled_G,0.336178125,0.5,shuffled geometry collapses,frozen H002 close-by control
+wrong_pair_geometry,0.006271875,0.5,wrong-pair geometry collapses,frozen H002 close-by control

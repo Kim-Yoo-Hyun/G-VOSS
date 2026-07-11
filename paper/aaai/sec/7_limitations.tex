@@ -1,34 +1,28 @@
 \section{Limitations}
 
-The study is scoped to geometry-checkable relation families. Functional, social,
-affordance, and language-pragmatic predicates are outside the \method{} metric claim.
-The selected families cover contact/support, proximity, and vertical ordering,
-where reconstructed geometry supports falsifiable checks. Because evaluation
-uses GT-object relation rows and exact predicate-label recall, even Open3DSG is
+The claim covers contact/support, proximity, and vertical ordering, where
+reconstructed geometry supports falsifiable checks. Functional and pragmatic
+predicates remain outside scope. Front/behind is frame-ambiguous, and a
+left/right variant fails its train/dev strict gate; these are reported as
+negative scope evidence. Exact-label GT-object evaluation also makes Open3DSG
 relation-reliability evidence rather than full open-vocabulary generation.
-We also audited broader horizontal relations and did not promote them:
-front/behind remains frame-ambiguous, and a left/right-only variant fails the
-train/dev strict gate because dev contradictions concentrate in repeated-object
-and orthogonal-axis-dominant cases. These failed expansion gates are treated as
-scope-boundary evidence rather than hidden negative results.
 
-Open3DSG uses the selected official non-averaged checkpoint but is not a
-leaderboard reproduction. The paper-facing result uses a documented recovery
-branch to cover 548/548 contexts, while the 533/548 full-validation branch and
-historical 377/388 vs R2 388/388 comparison remain sensitivity evidence. These
-choices preserve the scoped within-source comparison but block broad Open3DSG
-SOTA or arbitrary-source generality claims.
+Open3DSG uses a selected non-averaged checkpoint and documented 548/548 recovery
+branch, not an official leaderboard reproduction. The 533/548 route and
+historical 377/388--388/388 comparison are sensitivity evidence; broad SOTA and
+arbitrary-source generality remain blocked.
 
-The visual sanity check and qualitative case inspection are reviewer-defense and
-failure-mechanism evidence, not large-scale independent human audits. The
-quantitative claim remains tied to the fixed denominator and Docker-generated
-tables.
+V is verifier-derived; two blinded Codex passes share a model family and lack
+human alignment, so they are proxy diagnostics. Fusion is source-dependent:
+\texttt{support\_contact} V regresses, while on untouched 11-scene
+ReplicaSSG/FROSS, product is unchanged at $K=100$ and rank-average fails the
+recall guardrail (supplement). Thus we claim no formula, family, or dataset-wide
+generality.
 
-Finally, \pgeom{} and \pgeomfam{} are calibrated reliability scores, not proof
-of correctness.
-Residual high-confidence violations motivate attachment-style physical
-relations before broader functional predicates, plus larger visual audits,
-modern VLM sources, and downstream planning, navigation, or alignment tests.
-Modern VLM sources such as Qwen-VL remain extension evidence unless promoted
-with the same Docker, denominator, metric, bootstrap, and audit treatment as the
-main source results.
+SGFN preserves two pre-inference errata for split identity and the
+\texttt{full\_l160} URL. Eleven self-\texttt{supported by} GT rows lack model
+edges; no predictions are synthesized, and all remain in the 3,972-row recall
+denominator. The scores remain constructed-target reliability, not human
+validity; factor controls do not expand SGFN or support a generic interaction
+claim. Future work requires human alignment, broader relations, and embodied
+tests.

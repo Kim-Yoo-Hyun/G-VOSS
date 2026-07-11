@@ -1,0 +1,87 @@
+{
+  "archive": {
+    "checkpoint_top_level_keys": [
+      "epoch_it",
+      "it",
+      "loss_val_best",
+      "model",
+      "optimizer",
+      "patient",
+      "scheduler",
+      "smoother"
+    ],
+    "member_count": 17,
+    "model_member": "SGFN_full_l20/model_best.pt",
+    "path": "local_dataset/SceneGraphFusion_checkpoints/SGFN_full_l20.zip",
+    "sha256": "9831357f4a04d996be48f7a9e3184525c33eab3712a08d7a98b4f984e85789b2",
+    "size_bytes": 84830654,
+    "state_dict_key_count": 60
+  },
+  "compatibility_gate_passed": false,
+  "created_at_utc": "2026-07-10T07:01:01.442652+00:00",
+  "decision_required": {
+    "option_recommended": "freeze_v3_pre_inference_erratum_with_official_full_l160_url_then_continue",
+    "option_strict": "mark_sgfn_target_blocked_and_select_a_new_untouched_source_under_a_new_protocol",
+    "reason": "target v1 explicitly forbids checkpoint substitution after an incompatible archive",
+    "result_information_seen": false,
+    "sgfn_predictions_or_metrics_exist": false
+  },
+  "docker_command": "UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm sgfn_checkpoint_audit",
+  "expected_full_l160_classifier_shapes": {
+    "obj_predictor.fc3.bias": [
+      160
+    ],
+    "obj_predictor.fc3.weight": [
+      160,
+      256
+    ],
+    "rel_predictor.fc3.bias": [
+      26
+    ],
+    "rel_predictor.fc3.weight": [
+      26,
+      256
+    ]
+  },
+  "finding": "archive contains a 20-object/8-relation model, not the locked 160-object/26-relation model",
+  "inputs": {
+    "target_manifest": {
+      "path": "experiments/H001_geom_reliability/confirmatory_evaluation/sgfn_target_v2/manifest.json",
+      "sha256": "7709d204582faeaaf22f7de94f90d1213d7d86e9b7194466472d1852907b519c"
+    }
+  },
+  "observed_classifier_shapes": {
+    "obj_predictor.fc3.bias": [
+      20
+    ],
+    "obj_predictor.fc3.weight": [
+      20,
+      256
+    ],
+    "rel_predictor.fc3.bias": [
+      8
+    ],
+    "rel_predictor.fc3.weight": [
+      8,
+      256
+    ]
+  },
+  "official_source_evidence": {
+    "correct_full_l160_url": "https://www.campar.in.tum.de/public_datasets/2023_cvpr_wusc/trained_models/SGFN_full_l160.zip",
+    "correct_url_http_head_observed_2026_07_10": {
+      "content_length": 86777444,
+      "status": 200
+    },
+    "readme_declares_separate_160_26_checkpoint": true,
+    "source_readme": "local_dataset/SceneGraphFusion_code/3DSSG/README.md"
+  },
+  "schema_version": "h001_sgfn_checkpoint_audit_v1",
+  "shape_checks": {
+    "obj_predictor.fc3.bias": false,
+    "obj_predictor.fc3.weight": false,
+    "rel_predictor.fc3.bias": false,
+    "rel_predictor.fc3.weight": false
+  },
+  "status": "blocked_checkpoint_incompatible_full_l160",
+  "target_status": "target_v2_frozen_pre_checkpoint_audit_pre_inference"
+}

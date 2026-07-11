@@ -1,0 +1,152 @@
+{
+  "created_at_utc": "2026-07-10T11:56:37.519012+00:00",
+  "docker_command": "env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm 3dssg_confirmatory_target_freeze",
+  "freshness": {
+    "calibration_target_scan_overlap": [],
+    "dataset_target": "3DSSG official validation annotations, source-native alias files/cvpr/test_scans.txt",
+    "dataset_target_previously_observed": true,
+    "fresh_dimension": "previously_unseen_semantic_source",
+    "semantic_source": "official SceneGraphFusion 3DSSG_full_l160 (SGPN implementation)",
+    "semantic_source_predictions_previously_observed": false
+  },
+  "inputs": {
+    "calibration_dev_scans": {
+      "path": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_calib_pilot/dev_scans.txt",
+      "sha256": "3c4ff879d1c7c0ce1d2d7eb76155e1946e1d5b635f2e063e92162ed8087b3cff"
+    },
+    "calibration_train_scans": {
+      "path": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_calib_pilot/train_scans.txt",
+      "sha256": "74087d220a87fc8f27fc1976e893bfbb86ca12e3753c580dc4fbdc8cb3cbf375"
+    },
+    "existing_family_model": {
+      "path": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json",
+      "sha256": "ebc176cd093786b6af5c20fdfe917b9c8bfcc02f0d1e2f2593d5676c627e57b8"
+    },
+    "factor_model_manifest": {
+      "path": "experiments/H001_geom_reliability/factor_isolation_protocol/fitted_v1/manifest.json",
+      "sha256": "6b516685d90cbf253be56f8dc97ee923cb82a5cb1a5b8c9e5f20ee09071121b0"
+    },
+    "factor_models": {
+      "path": "experiments/H001_geom_reliability/factor_isolation_protocol/fitted_v1/models.json",
+      "sha256": "1620cb98e533ab57225c983ab17659fec0e17cd3ed32e9b9a36105cf1b7ac4ab"
+    },
+    "factor_protocol": {
+      "path": "experiments/H001_geom_reliability/factor_isolation_protocol/frozen_v1/manifest.json",
+      "sha256": "2aee4a669b4078290326a34ff584262a659b3fd83474cff9a9b8ee3b9e22a114"
+    },
+    "ground_truth": {
+      "path": "experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl",
+      "sha256": "f1b11210efa3bc349e765bfeb11b6f0016c4142667f9afbe48b61df0c5042a5c"
+    },
+    "official_readme": {
+      "path": "local_dataset/SceneGraphFusion_code/3DSSG/README.md",
+      "sha256": "8b5c8b6bc831bebb30df7f1b5640886411de1ed5e4ed3506072073ca6002fa1d"
+    },
+    "official_source_config": {
+      "path": "local_dataset/SceneGraphFusion_code/3DSSG/configs/config_3DSSG_full_l160.yaml",
+      "sha256": "01e38703e017e98060caa268510781fa543a0bed4031b106562fb7ca3ae8e0cc"
+    },
+    "official_test_scans": {
+      "path": "local_dataset/SceneGraphFusion_code/3DSSG/files/cvpr/test_scans.txt",
+      "sha256": "a3ce6f256add950ea74e15680c5743e34351bc3ce663dc3a3aa5bd9cf4a6c2d9"
+    },
+    "official_validation_annotations": {
+      "path": "local_dataset/3DSSG_subset/relationships_validation.json",
+      "sha256": "a3b96637df20dac27f03f631bee9db409f4b22f65ec6205ff007ced73e52911e"
+    },
+    "runtime_config": {
+      "path": "configs/h001/3dssg_full_l160_confirmatory.yaml",
+      "sha256": "6e2c2da2b5adb7a0f0fb209b281e3eab8a8cc2bb641b228e53241456ebec9563"
+    }
+  },
+  "interpretation_boundary": {
+    "confirmatory_for": "cross-source generalization of the frozen framework scores to an unseen official semantic source",
+    "not_confirmatory_for": [
+      "a new dataset",
+      "human physical validity",
+      "broad SOTA",
+      "unique optimality of a fusion formula"
+    ],
+    "verifier_V_is_diagnostic": true
+  },
+  "locked_evaluation": {
+    "bootstrap_resamples": 1000,
+    "bootstrap_seed": 20260710,
+    "bootstrap_unit": "subgraph_id",
+    "denominators": "exact-label Recall denominator 3972; verifier V denominator actual selected checkable rows",
+    "family_reporting": [
+      "support_contact",
+      "proximity",
+      "relative_vertical"
+    ],
+    "joint_framework_gate": "both calibrated_product and rank_average must independently pass recall_guardrail and validity_gate",
+    "ks": [
+      5,
+      10,
+      20,
+      50,
+      100
+    ],
+    "primary_k": 100,
+    "recall_guardrail": "paired delta_R_at_100_ci95_lower_gt_-0.01 versus semantic_only",
+    "validity_gate": "paired delta_verifier_V_at_100_ci95_upper_lt_0 versus semantic_only"
+  },
+  "locked_scores": {
+    "continuity_comparators": [
+      "semantic_only",
+      "pooled_calibration",
+      "geometry_only_family",
+      "reciprocal_rank_fusion_c60"
+    ],
+    "factor_conditions_all_reported_no_winner_selection": [
+      "M_T",
+      "M_G",
+      "M_add",
+      "M_int"
+    ],
+    "factor_fusions": [
+      "semantic_score_times_C_condition",
+      "equal_percentile_rank_average"
+    ],
+    "forbidden": [
+      "source_specific_recalibration",
+      "lambda_tuning",
+      "temperature_tuning",
+      "threshold_tuning",
+      "feature_selection",
+      "condition_winner_promotion"
+    ],
+    "framework_instantiations": {
+      "calibrated_product": "semantic_score * p_geom_valid_family",
+      "rank_average": "equal mean of deterministic within-context percentile ranks of semantic_score and p_geom_valid_family"
+    }
+  },
+  "pre_inference_output_absence": [
+    "experiments/H001_geom_reliability/sources/3dssg_full_l160/raw/raw.jsonl",
+    "experiments/H001_geom_reliability/sources/3dssg_full_l160/adapter/predictions.jsonl",
+    "experiments/H001_geom_reliability/sources/3dssg_full_l160/geometry/verification.jsonl",
+    "experiments/H001_geom_reliability/sources/3dssg_full_l160/confirmatory_metrics/summary.json"
+  ],
+  "schema_version": "h001_3dssg_confirmatory_target_v1",
+  "status": "target_frozen_pre_checkpoint_download_pre_inference",
+  "target": {
+    "checkpoint_url": "https://www.campar.in.tum.de/public_datasets/2023_cvpr_wusc/trained_models/3DSSG_full_l160.zip",
+    "coverage_policy": "all 548 contexts; no GT-conditioned filtering; no synthetic source edges",
+    "evaluation_contexts": 548,
+    "expected_object_classes": 160,
+    "expected_relation_classes": 26,
+    "in_scope_exact_label_denominator": 3972,
+    "method": "sgpn",
+    "official_scans": 157,
+    "source_id": "3dssg_official_full_l160"
+  },
+  "validations": {
+    "factor_models_frozen": true,
+    "ground_truth_hash_matches_frozen_protocol": true,
+    "no_prior_target_results": true,
+    "official_checkpoint_url_in_readme": true,
+    "official_source_is_sgpn": true,
+    "official_source_split_157_scans": true,
+    "target_disjoint_from_calibration_32_scans": true
+  }
+}

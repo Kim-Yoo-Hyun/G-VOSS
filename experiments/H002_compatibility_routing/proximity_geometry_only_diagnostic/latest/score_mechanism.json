@@ -1,0 +1,17 @@
+{
+  "c_e_formula": "compatibility(T_e,G_e)",
+  "c_e_input_excludes": [
+    "Z_e/source_score/source_rank",
+    "Q_e/observability",
+    "hidden construction labels",
+    "H001 p_geom_valid"
+  ],
+  "ce_excludes_z_e": true,
+  "ce_feature_count": 498,
+  "ce_model_mode": "logistic",
+  "ce_score_normalization": "per_source_family_minmax",
+  "ce_train_rows": 4868,
+  "primary_score": "S2_source_x_Ce",
+  "s2_formula": "normalized_source_score(Z_e) * normalized_C_e(T_e,G_e)",
+  "source_score_normalization": "per_source_minmax"
+}

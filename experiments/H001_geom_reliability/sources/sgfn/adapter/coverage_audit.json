@@ -1,0 +1,38 @@
+{
+  "counts": {
+    "covered_gt_rows": 3961,
+    "in_scope_gt_rows": 3972,
+    "missing_gt_rows": 11,
+    "missing_nonself_rows": 0,
+    "missing_self_relation_rows": 11,
+    "prediction_directed_pairs": 36808
+  },
+  "created_at_utc": "2026-07-10T07:41:12.842845+00:00",
+  "interpretation": "SGFN covers every nonself directed pair; 11 malformed/self supported-by GT rows have no model edge by construction",
+  "missing_by_family_label": {
+    "support_contact:supported by": 11
+  },
+  "missing_gt_ids": [
+    "gt:full_official_validation:c7895f78-339c-2d13-82bb-cc990cbbc90f:1:1:1:supported by",
+    "gt:full_official_validation:c7895f78-339c-2d13-82bb-cc990cbbc90f:2:1:1:supported by",
+    "gt:full_official_validation:c7895f78-339c-2d13-82bb-cc990cbbc90f:3:1:1:supported by",
+    "gt:full_official_validation:c7895f7a-339c-2d13-82ac-09ef1c9001ba:1:1:1:supported by",
+    "gt:full_official_validation:c7895f7a-339c-2d13-82ac-09ef1c9001ba:2:1:1:supported by",
+    "gt:full_official_validation:c7895f7a-339c-2d13-82ac-09ef1c9001ba:3:1:1:supported by",
+    "gt:full_official_validation:c7895f7a-339c-2d13-82ac-09ef1c9001ba:4:1:1:supported by",
+    "gt:full_official_validation:c7895f7c-339c-2d13-819f-3bb0b26c91f6:1:1:1:supported by",
+    "gt:full_official_validation:c7895f7c-339c-2d13-819f-3bb0b26c91f6:2:1:1:supported by",
+    "gt:full_official_validation:c7895f7c-339c-2d13-819f-3bb0b26c91f6:3:1:1:supported by",
+    "gt:full_official_validation:c7895f7c-339c-2d13-819f-3bb0b26c91f6:4:1:1:supported by"
+  ],
+  "policy": "retain all 3,972 GT rows in recall denominator; synthesize no self-edge prediction",
+  "schema_version": "h001_sgfn_adapter_coverage_audit_v1",
+  "status": "sgfn_coverage_audit_ready",
+  "validations": {
+    "all_missing_gt_rows_are_self_relations": true,
+    "all_missing_labels_supported_by": true,
+    "frozen_gt_denominator_3972": true,
+    "missing_gt_rows_11": true,
+    "no_nonself_source_pair_missing": true
+  }
+}

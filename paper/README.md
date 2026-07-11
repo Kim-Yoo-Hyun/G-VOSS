@@ -1,6 +1,6 @@
 # Paper Workspaces
 
-Last updated: 2026-07-04 KST
+Last updated: 2026-07-12 KST
 
 This directory contains paper-writing artifacts. It is a manuscript workspace,
 not an experiment-result root. Paper-result runtime records live under
@@ -22,20 +22,42 @@ paper-level framing rules live in `docs/paper.md`.
 - Current claim style: scoped relation-reliability paper for
   geometry-checkable 3D Scene Graph relation families.
 - Non-claim: broad open-vocabulary 3DSSG generation improvement.
-- Latest source-validation Docker build:
-  `logs/h001_aaai_pdf_build_reference_expansion_20260625_130811.log`, exit 0,
-  output `paper/aaai/main_reference_expansion.pdf`, 9 total pages; the original
-  `paper/aaai/main.pdf` is preserved.
-- Current main GeoCalib score is `family_conditional_risk`
-  (`semantic_score * p_geom_valid_family`). Pooled
-  `probabilistic_recalibrated` is an ablation/baseline, and geometry-only
-  control is `p_geom_valid` without semantic score.
+- Active AAAI-27 Docker build: `paper/aaai/main_aaai27.pdf` (9 pages: technical
+  content through page 7 and references only on pages 8--9),
+  `paper/aaai/supplement_aaai27.pdf` (1 page), and
+  `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Final main log:
+  `logs/h001_aaai27_main_build_20260712.log`; triplet verification log:
+  `logs/h001_aaai27_final_triplet_build_20260712.log`; image:
+  `h001-aaai27-tex:20260712`. Type 3 fonts, unresolved references/citations,
+  LaTeX errors, and overfull boxes are zero.
+- Active OpenReview field bundle:
+  `release/h001_aaai27_openreview_20260712_083625/`. The prior
+  Replica-disclosure PDF and compact tarball are historical snapshots.
+- GeoCalib is framework-first. Its two soft fusion instantiations are the
+  calibrated product (`family_conditional_risk = semantic_score *
+  p_geom_valid_family`) and the pre-specified scale-robust rank-average.
+  Neither is claimed universally dominant. Pooled calibration is an ablation,
+  RRF a strong comparator, and calibrator-only/no-source-score ranking a
+  control.
+- H001 now uses the factor contract `T_e` = predicate/family semantics, `G_e`
+  = raw predicate-independent same-pair geometry, `Z_e` = source confidence,
+  and `C_e = P(y_cal=1 | T_e,G_e)`, with `Z_e notin C_e` and
+  `S_e = F(Z_e,C_e)`. `y_cal` is the constructed calibration target rather
+  than direct human validity. The legacy `p_geom_valid`-only condition is not
+  true `G_e`-only because its calibrator retains `T_e`/interaction features.
+- `h001_factor_isolation_protocol_v1` implementation is complete. The later
+  `train_only_reestablishment_v1` strict reconstruction is also complete and
+  passes its frozen internal-dev/final aggregate gates. Detailed provenance
+  classification is owned by `docs/paper.md` and the experiment report rather
+  than duplicated in this workspace index.
 - H001_v2 fixed-`tau*` and pooled lambda-soft reranking are diagnostic
   candidate evidence only; they do not replace the current GeoCalib main
   result route.
-- Remaining paper-work class: portal/form verification, artifact URL/DOI,
-  supplementary/code-data decision, checklist answer pass, low-K artifact
-  inclusion in the release/package plan, and final PDF/source sanity checks.
+- Remaining paper-work class: enter author profiles/countries and reciprocal
+  reviewer in OpenReview, decide the final public license/post-acceptance
+  artifact URL, and optionally run the independent human-alignment study.
+  Target-year policy, standalone checklist, supplement choice, upload ZIP, and
+  current PDF/source sanity checks are complete.
 
 ## Current H002 Route
 
@@ -43,11 +65,13 @@ paper-level framing rules live in `docs/paper.md`.
 - Workspace: `paper/h002_compatibility_routing/`
 - Current claim style: validation-level source-reranking and reliability-layer
   paper over VL-SAT/Open3DSG validation predictions.
-- Main score: `S2_source_x_Ce = normalized_source_score(Z_e) * C_e`, where
-  `C_e` is computed from `T_e + G_e` before source score is used.
-- Updated H002 goal: route-aware reliable 3D relation framework. Current main
-  quantitative success is the comparison route (`relative_vertical`,
-  `size_relative`); support/contact remains hard-route failure taxonomy.
+- Main score: `S2_source_x_Ce = normalized_source_score(Z_e) * normalized_C_e`,
+  where raw `C_e` is computed from `T_e`, `G_e`, and their explicit interaction
+  before source score is used.
+- Framework map: relation-aware evidence routing. Current quantitative claim is
+  deliberately scoped to the comparison route (`relative_vertical`,
+  `size_relative`) plus caveated `left/right`; support/contact remains
+  hard-route failure taxonomy.
 - Current split: official 3DSSG validation split, not official test.
 - Non-claims: SOTA/leaderboard, official test benchmark, solved
   support/contact, calibrated `p_obs/p_rel` solved reliability.
@@ -60,8 +84,9 @@ paper-level framing rules live in `docs/paper.md`.
   reading order, and update ownership.
 - `h002_compatibility_routing/README.md`: H002 standalone paper workspace entry
   point. Owns H002 claim boundary, paper file roles, and source artifact map.
-- `h002_compatibility_routing/route_framework.md`: H002 relation-family route
-  map and expansion plan toward a general reliable 3D relation framework.
+- `h002_compatibility_routing/aaai2027/`: canonical H002 AAAI manuscript,
+  supplement, checklist, bibliography, figure/table assets, and build runbook.
+- `h002_compatibility_routing/risk.md`: H002 reviewer-risk and claim-boundary register.
 - `preview.md`: current paper handoff snapshot. Owns current claim, secured
   evidence, key metrics, caveats, reviewer-defense map, and recovery file list.
 - `progress.md`: experiment progression rationale. Owns why each hypothesis and
@@ -115,12 +140,12 @@ For H002 paper-writing work:
 1. `docs/paper.md`
 2. `hypothesis/CAND-001/H002_factorized-relation-confidence/README.md`
 3. `hypothesis/CAND-001/H002_factorized-relation-confidence/paper_claim_core.md`
-4. `paper/h002_compatibility_routing/README.md`
-5. `paper/h002_compatibility_routing/outline.md`
-6. `paper/h002_compatibility_routing/tables.md`
-7. `paper/h002_compatibility_routing/figures.md`
-8. `paper/h002_compatibility_routing/risk.md`
-9. `paper/h002_compatibility_routing/draft.md`
+4. `hypothesis/CAND-001/H002_factorized-relation-confidence/method_contract_v1.md`
+5. `hypothesis/CAND-001/H002_factorized-relation-confidence/report/report_0706.md`
+6. `paper/h002_compatibility_routing/README.md`
+7. `paper/h002_compatibility_routing/risk.md`
+8. `paper/h002_compatibility_routing/aaai2027/README.md`
+9. `paper/h002_compatibility_routing/aaai2027/main.tex`
 
 For experiment result or artifact recovery, start from
 `docs/reproducibility.md`, not this folder.

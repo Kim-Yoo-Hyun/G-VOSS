@@ -1,0 +1,7 @@
+route,relations,placement,status,reason
+predicate_geometry_comparison,"higher/lower, bigger/smaller",main_table,main_validated,validated S2 source x C_e route with bootstrap CI and controls
+caveated_lateral_compatibility,left/right,main_table_caveated_rows,caveated_main_validated,"15/20 win cells, no Violation regression, no recall-loss cell above 0.05, controls pass"
+frame_depth_ambiguity,front/behind,appendix_failure_analysis,failure_case,"Violation improves, but Recall loss is too large; reference-frame/depth ambiguity remains"
+geometry_only_control,close by,appendix_or_analysis_control,control_route,geometry-only route is sufficient; not a T_e x G_e interaction success
+hard_contact_pose,"standing on, lying on, supported by",appendix_failure_taxonomy,diagnostic_failure,capacity and shortcut-controlled labels block support/contact solved claim
+full_relative_horizontal,left/right/front/behind,not_single_main_route,blocked_as_whole,left/right and front/behind have different route behavior

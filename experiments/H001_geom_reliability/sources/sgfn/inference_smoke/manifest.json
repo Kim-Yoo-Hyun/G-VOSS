@@ -1,0 +1,57 @@
+{
+  "compatibility": {
+    "full_edge_export": "data.max_num_edge=-1 to satisfy frozen every-available-edge export contract",
+    "pyg_edge_descriptor": "removed PyG 1.x private __collect__/__check_input__ calls replaced by mathematically identical source/target tensor gathers",
+    "pytictoc": "timer-compatible local stub",
+    "rgb_alignment": "same OBJ-texture nearest-vertex mapping as source, using scipy cKDTree instead of unavailable knn_cuda",
+    "rgb_alignment_max_query_distance_m": 2.6500655561512164e-07,
+    "rgb_alignment_p95_query_distance_m_max": 1.7643719878253593e-07,
+    "wandb": "non-network import stub; logging.method=none"
+  },
+  "counts": {
+    "directed_edges": 5112,
+    "max_nodes": 72,
+    "min_nodes": 72,
+    "nodes": 72,
+    "relation_scores": 132912,
+    "scans": 1
+  },
+  "created_at_utc": "2026-07-10T07:33:41.233270+00:00",
+  "docker_command": "UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm sgfn_inference",
+  "inputs": {
+    "checkpoint": {
+      "path": "local_dataset/SGFN_staged/checkpoint/model_best.pt",
+      "sha256": "c7a55e862a0a8f0a15a30a5746495d366e6c1cc76b2a975d71216296acb42e5e"
+    },
+    "config": {
+      "path": "configs/h001/sgfn_full_l160_confirmatory.yaml",
+      "sha256": "94c22a74f738a5935cbd198c2853a442c1d47850aa520fc164b4c45a4dcb92cb"
+    },
+    "preprocess_manifest": "experiments/H001_geom_reliability/sources/sgfn/preprocess/manifest.json",
+    "target_manifest": "experiments/H001_geom_reliability/confirmatory_evaluation/sgfn_target_v3/manifest.json"
+  },
+  "outputs": {
+    "raw_jsonl": "experiments/H001_geom_reliability/sources/sgfn/inference_smoke/raw.jsonl",
+    "sha256": "5110e73b06821f2755c71f555beadffafb9ce8312fa8f3686916f9129a072142"
+  },
+  "runtime": {
+    "cuda": "12.8",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "max_scans": 1,
+    "pythonhashseed": "0",
+    "seconds": 2.0522117614746094,
+    "seed": 2021,
+    "torch": "2.8.0+cu128"
+  },
+  "schema_version": "h001_sgfn_raw_inference_manifest_v1",
+  "source_id": "sgfn_official_full_l160",
+  "status": "sgfn_inference_smoke_ready",
+  "validations": {
+    "all_graphs_full_directed": true,
+    "checkpoint_loaded_strict": true,
+    "color_alignment_applied_per_scan": true,
+    "raw_scan_count_matches_mode": true,
+    "raw_scans_match_scope": true,
+    "source_vocab_160_26": true
+  }
+}

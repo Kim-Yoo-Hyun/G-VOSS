@@ -59,7 +59,7 @@
     "paper_metric_produced": false,
     "runtime_output_root": "experiments/H002_compatibility_routing/schema_audit/latest"
   },
-  "created_at_utc": "2026-07-01T04:42:55+00:00",
+  "created_at_utc": "2026-07-10T15:28:07+00:00",
   "input_manifest_status": "ready",
   "input_schema_version": "h002_route_materialization_v1",
   "next_required_gate": "grouped_split_protocol",

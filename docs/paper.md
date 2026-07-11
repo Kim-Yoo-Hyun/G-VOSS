@@ -1,8 +1,11 @@
 # Paper Workflow
 
-Last updated: 2026-07-04 KST
+Last updated: 2026-07-11 KST
 
-This document manages paper-level framing for GeoCalib/H001/CAND-001: novelty, contribution boundary, reviewer-defense logic, and the minimum experiment evidence needed before paper writing. It does not replace `docs/hypothesis.md`, `07_experiment_spec.md`, or Docker experiment artifacts.
+This document manages paper-level framing for GeoCalib/H001 and the separate
+H002 compatibility-routing paper: novelty, contribution boundary,
+reviewer-defense logic, and the minimum experiment evidence needed before paper
+writing. It does not replace `docs/hypothesis.md` or Docker experiment artifacts.
 
 ## Ownership
 
@@ -106,100 +109,163 @@ Draft:
 
 This is the preferred direction because it contains both cause diagnosis and method principle. Open3DSG second-source metrics are now available, so the paper wording should stay scoped to measured H001 families rather than broaden to full open-vocabulary 3DSSG generation.
 
+Reviewer-defense rules after the independent-validity/family review:
+
+- GeoCalib uses the factorization `T_e` = predicate/family semantics, `G_e` =
+  predicate-independent same-pair geometry, `Z_e` = source confidence, and
+  `C_e = P(y_cal=1 | T_e,G_e)`. Here `y_cal` is the constructed calibration
+  target from train/dev GT positives and high-margin counterfactual negatives;
+  it is not an unqualified human physical-validity label.
+- Enforce the leakage boundary `Z_e notin C_e`: neither source confidence nor
+  source identity is an input to the compatibility calibrator. `Z_e` enters
+  only in final ranking `S_e = F(Z_e,C_e)`. Predicate-aligned quantities
+  derived from geometry belong to `T_e x G_e`, not predicate-independent raw
+  `G_e`.
+- Current evidence supports a calibrated geometry-consistency framework, not a
+  uniformly validated compatibility learner for every family. Before stronger
+  factor-necessity wording, compare `T`-only, true-`G`-only, additive `T+G`,
+  and interaction-aware `T x G` under a frozen mechanism-audit protocol.
+- The legacy `control_p_geom_valid_only` removes `Z_e` but retains the
+  predicate/family-conditioned calibrator. Call it `calibrator-only (no Z)` or
+  `validity-score-only`, never true geometry-only. Reserve `true G-only` for a
+  calibrator that removes predicate/family one-hot and every
+  predicate-aligned feature.
+- Wrong-`T` and endpoint controls must respect relation algebra. Wrong-`T` is
+  primary for inverse-predicate vertical relations, `close by` is endpoint-swap
+  invariant, and support/contact receives no blanket subject/object transform
+  until an exact family rule is frozen. New factor/control results are post-hoc
+  mechanism diagnostics, not part of the original prospective SGFN gate.
+
+- GeoCalib is a calibrated geometry-consistency framework, not a claim that one
+  fusion formula is uniquely optimal. Treat the calibrated product
+  (`semantic_score * p_geom_valid_family`) and the pre-specified scale-robust
+  rank-average as two soft fusion instantiations. Pooled calibration remains an
+  ablation, hard filtering a diagnostic, and RRF a strong comparator.
+- The strongest prospective wording is framework-level: on the frozen SGFN
+  target, both the calibrated product and pre-specified rank-average satisfy the
+  joint recall/verifier-violation gate. This supports incorporating calibrated
+  same-pair geometry, not universal equivalence or dominance of either fusion.
+- The untouched ReplicaSSG/FROSS target is a valid negative prospective test,
+  not failed provenance. Keep SGFN as positive source-level confirmation,
+  disclose ReplicaSSG/FROSS in the supplement and main limitation, and state
+  that its K=100 product has no effect while rank-average fails the frozen
+  recall guardrail. It blocks dataset-level generality and must not be omitted
+  or reframed as confirmation.
+
+- Aggregate improvement does not authorize every-family wording. If any
+  family-wise Violation CI regresses, state the aggregate scope, report that
+  family explicitly, and connect it to failure analysis or abstention limits.
+- A top-K aggregate can improve by changing family composition. Report both
+  within-family top-K and the family slices inside the actual global top-K when
+  composition is a plausible explanation.
+- When semantic and geometry scores have source-dependent scales, include a
+  fixed scale-robust fusion comparison such as rank-average or Reciprocal Rank
+  Fusion. Do not claim calibrated-product superiority if a strong fusion
+  baseline exposes a source-dependent tradeoff.
+- Distinguish calibrator provenance from operating-point selection provenance.
+  A calibrator fit before evaluation does not make a main-score choice
+  confirmatory when that score was promoted after results were observed.
+- Existing H001 VL-SAT/Open3DSG source metrics are retrospective evidence.
+  Independent human labels collected under the frozen blinded protocol may be
+  called prospective confirmation of physical validity only; a fresh
+  exact-label confirmatory claim needs a genuinely untouched target.
+- A strict train-only refit removes parameter leakage but does not erase
+  historical method-selection leakage. The 1,061/117/157
+  `train_only_reestablishment_v1` result may be described as a
+  leakage-controlled reconstruction because final-validation rows do not enter
+  fitting, normalization, or internal-dev acceptance. It must not be described
+  as untouched prospective confirmation because the same official validation
+  target informed earlier family/score framing. Prospective wording requires a
+  new target or independently collected labels after the model and score hash
+  are frozen.
+- When the strict reconstruction is reported, include both acceptance stages:
+  the 354-context internal-dev accept/reject gate and the post-hash 548-context
+  final evaluation. Do not report only the favorable final table while hiding
+  the split firewall, provenance classification, or support/contact
+  family-wise regression.
+- On a fresh source, exact-label Recall may be called confirmatory only for the
+  locked target and denominator. Verifier-derived Violation remains separate
+  from independent human physical validity even when its preregistered CI gate
+  passes.
+- A fresh aggregate pass against semantic-only does not establish that the
+  chosen fusion form is uniquely necessary. If a frozen rank-based baseline
+  meets the same recall/violation gate against the calibrated product, claim
+  the scoped framework benefit of geometry-aware reranking and report
+  source-dependent operating points.
+- Human Violation@K, semantic calibration, and inter-rater agreement must stay
+  absent or explicitly pending until two independent first-pass label sets and
+  blinded adjudication are complete. Codex/proxy labels are not substitutes.
+
 ## H002 Compatibility Routing Claim Contract
 
-Paper-facing workspace:
+H002 is a standalone paper route under
+`paper/h002_compatibility_routing/aaai2027/`. H002 work must not edit the
+H001 manuscript under `paper/aaai/` unless the user explicitly requests
+integration.
+
+Preferred claim:
 
 ```text
-paper/h002_compatibility_routing/
+Source confidence does not guarantee predicate-geometry compatibility. We
+separate semantic content, predicate-independent geometry, source confidence,
+and compatibility, then validate scoped compatibility reranking on
+geometry-checkable comparison relations.
 ```
 
-H002 is a separate standalone paper route from the active H001/GeoCalib
-manuscript. Do not edit `paper/aaai/` when working on H002 unless the user
-explicitly requests H001 manuscript integration.
+Method boundary:
 
-Preferred H002 claim pattern:
+- `T_e`: predicate and endpoint semantics.
+- `G_e`: predicate-independent same-pair geometry.
+- `Z_e`: source confidence and rank.
+- raw `C_e=f_C(T_e,G_e)`; `Z_e` is prohibited from `C_e`.
+- source score is normalized per source; raw compatibility is normalized per
+  source-family candidate pool.
+- final score is
+  `S2_source_x_Ce = normalized_source_score * normalized_C_e`.
+- the logistic compatibility model is fit on internal-train rows only;
+  official validation rows are evaluation-only.
 
-```text
-3D Scene Graph relation reliability cannot be inferred from source confidence
-alone or from fixed semantic-geometry fusion. H002 is a route-aware framework:
-some relation families are geometry-decidable, some require predicate-geometry
-compatibility, some require observability-aware abstention, and some should be
-handled by semantic/structural reasoning rather than geometry-only evidence.
-```
+Current claim boundary:
 
-Current H002 paper boundary:
+- main validated: higher/lower and bigger/smaller.
+- caveated validated: left/right, with source-dependent Recall tradeoff.
+- geometry-only control: close by.
+- failure analysis: front/behind.
+- diagnostic only: standing on, lying on, supported by.
+- evaluation split: official 3DSSG validation.
+- sources: VL-SAT and Open3DSG validation predictions.
+- metrics: Recall@K and custom Violation@K with grouped bootstrap CI.
+- Open3DSG is an open-vocabulary source, but quantitative Recall uses the
+  closed-vocabulary 3DSSG mapping.
 
-- Main quantitative evidence is validation-level source reranking on the
-  official 3DSSG validation split.
-- Sources are VL-SAT and Open3DSG validation predictions.
-- Main score is `S2_source_x_Ce = normalized_source_score(Z_e) * C_e`, where
-  `C_e` is computed from `T_e + G_e` and excludes `Z_e`.
-- Source-reranking ablations now include `A1_source_x_G_only` and
-  `A2_source_x_TG_concat`; the Docker runtime exports absolute metrics,
-  `S2-A1` / `S2-A2` delta CI, and family-wise CI.
-- Current main quantitative success route is geometry-checkable comparison
-  relations: `relative_vertical` and `size_relative`.
-- The broader route-aware reliable 3D relation framework is the goal and paper
-  framing; it is not yet a completed all-relation success claim.
-- Main metrics are Recall@K and custom `Violation@K`.
-- Open3DSG can be described as an open-vocabulary source, but quantitative
-  Recall@K uses closed-vocabulary 3DSSG mapping.
-- New H002 experiment outputs should not be promoted directly into final
-  paper-level wording. They must first pass experiment-stage result review,
-  table-placement review, family-wise caveat review, and claim-boundary review.
-- A1/A2 result review is now complete at the experiment stage: aggregate
-  primary-route evidence supports `S2_source_x_Ce` over geometry-only and plain
-  concat ablations, but family-wise Recall caveats remain. Do not broaden this
-  into all-relation wording.
-- Remaining experiment-stage gap review is also complete: H002 is paper-possible
-  if scoped to validation-level comparison-route reranking. The next paper gate
-  is not more broad-route claiming; it is resolving or explicitly caveating two
-  sensitivities: label-free validation candidate-pool normalization and the
-  route-aware nature of the `A1_source_x_G_only` geometry baseline.
-- Normalization/no-route geometry sensitivity is complete. No-route G-only
-  sensitivity passed, so S2's gain is not explained by route-family one-hot
-  geometry features. Raw `source_score*C_e` preserves the improvement direction
-  over S0 at K `{10,20,50}`, but rank-percentile normalization loses low-K
-  recall. Therefore H002 may use minmax as the selected risk-utility score with
-  raw-product sensitivity support, but it must not claim normalization-invariant
-  improvement.
-- H002 is now judged principled for the scoped comparison-route problem. It has
-  constructed and partially validated a relation-aware evidence routing
-  framework, but it has not validated a completed general reliable 3D relation
-  framework.
-- H002 paper claim boundary after sensitivity review is locked. The allowed
-  paper claim is validation-level comparison-route source reranking with
-  factor-isolated predicate-geometry compatibility. Relation-aware evidence
-  routing may be described as a constructed and partially validated framework
-  and route map; completed general reliable 3D relation framework wording
-  remains blocked.
+Blocked wording:
 
-Blocked H002 wording:
+- official hidden-test, leaderboard, or SOTA result.
+- solved all-relation reliable 3D Scene Graph framework.
+- support/contact solved.
+- learned-G_e final-score improvement.
+- calibrated p_obs/p_rel solved.
+- normalization-invariant improvement.
+- uniform left/right improvement across sources.
+- treating Violation@K as an official 3DSSG metric.
 
-- official 3DSSG test benchmark
-- SOTA or leaderboard result
-- unconstrained open-set GT evaluation
-- support/contact solved as a success route
-- calibrated `p_obs/p_rel` reliability is solved
-- completed all-relation reliable 3D relation framework
-- "pure predicate-agnostic geometry-only" wording for `A1_source_x_G_only`,
-  because current `G_e` excludes predicate label and source score but includes a
-  `route_family` one-hot
-- normalization-invariant improvement wording
-- completed general reliable 3D relation framework wording
-- claiming the route-aware framework as more than partially validated
+Required reviewer defense:
 
-Required H002 reviewer defense:
+- model-safe `T_e+G_e`, reranking-only `Z_e`, and hidden metric views stay
+  separated.
+- compare source-only, geometry-only, plain concatenation, and matched
+  compatibility.
+- include wrong-predicate, shuffled-geometry, and wrong-pair controls.
+- report Recall and Violation jointly, with K-specific grouped CI.
+- disclose label-free candidate-pool normalization and sensitivity.
+- keep support/contact target imbalance and construction-rule recovery in the
+  limitation/failure taxonomy.
+- distinguish the proposed route map from routes that are quantitatively solved.
 
-- leakage-boundary figure showing `T_e + G_e`, `Z_e`, and hidden metric fields
-  separated
-- source-score baseline versus `S2_source_x_Ce`
-- bootstrap CI for Recall@K / Violation@K deltas
-- geometry-only and plain `T_e/G_e` concat ablations with absolute metrics and
-  CI before claiming factorized compatibility is necessary
-- counterfactual controls such as shuffled-C_e and wrong-T
-- support/contact failure taxonomy as a limitation, not success evidence
+Current metrics and progress do not belong in this rulebook. They are owned by
+`hypothesis/CAND-001/H002_factorized-relation-confidence/paper_claim_core.md`,
+`report/report_0706.md`, and the H002 experiment README.
+
 
 2026-06-05 paper-facing evaluation direction:
 
@@ -240,31 +306,34 @@ Required H002 reviewer defense:
   as third-source modern-VLM extension evidence. It does not replace the
   VL-SAT/Open3DSG main-source route and should not widen the main claim unless
   explicitly promoted.
-- Latest source-validation Docker PDF build:
-  `logs/h001_aaai_pdf_build_reference_expansion_20260625_130811.log`, exit 0,
-  output `paper/aaai/main_reference_expansion.pdf`, 9 total pages with
-  references starting on page 7 and the reproducibility checklist on page 9.
-  The original `paper/aaai/main.pdf` is preserved. Regenerate any release
-  package created before the low-K, family-main, top-tier layout, and
-  reference-expansion updates.
+- Active target-year build uses official `aaai2027` source. Outputs are
+  `paper/aaai/main_aaai27.pdf` (9 pages; technical content through page 7,
+  references only on pages 8--9), `paper/aaai/supplement_aaai27.pdf` (1 page),
+  and `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Final main
+  log: `logs/h001_aaai27_main_build_20260712.log`; triplet verification log:
+  `logs/h001_aaai27_final_triplet_build_20260712.log`. The active OpenReview
+  bundle is `release/h001_aaai27_openreview_20260712_083625/`; earlier
+  source-validation PDFs and compact tarballs are historical snapshots.
 
-2026-06-25 H001_v2 decision:
+2026-06-25 H001_v2 decision, superseded in scoring role by the 2026-07-10
+framework-first decision:
 
 - H001_v2 fixed-`tau*` risk-controlled reranking and pooled lambda-soft
   reranking are diagnostic candidate evidence only. Neither should replace the
   current H001/GeoCalib main result route or be added to the main table.
-- The current paper promotes family-conditional calibrated geometry risk as the
-  GeoCalib main score: `semantic_score * p_geom_valid_family`, where each
-  relation family has its own calibrated geometry-risk surface.
+- The family-conditional calibrated product remains a soft GeoCalib
+  instantiation: `semantic_score * p_geom_valid_family`, where each relation
+  family has its own calibrated geometry-risk surface. It is not the unique
+  method definition or a universally dominant score.
 - The pooled `semantic_score * p_geom_valid` score is now an ablation/baseline,
   not the main score. It can be explained as the pooled `lambda=1` log-linear
   risk-aware reranking instance. The calibration-selected pooled `lambda=1.25`
   source evaluation remains diagnostic because it is mixed against the fixed
   paper scores.
-- Geometry-only, distance-only, shuffled-geometry, and wrong-pair variants
-  remain true controls. In particular, geometry-only means `p_geom_valid`
-  ranking without semantic score; it is not the same as pooled calibrated
-  reranking.
+- Calibrator-only, distance-only, shuffled-geometry, and wrong-pair variants
+  remain controls. The legacy `p_geom_valid`-only ranking is calibrator-only
+  because its model includes predicate/family features; it is not the new true
+  `G`-only factor baseline and is not the same as pooled calibrated reranking.
 
 Paper workspace ownership:
 
@@ -275,7 +344,14 @@ Paper workspace ownership:
 - `paper/draft.md` provides first-pass manuscript prose for Title, Abstract, Introduction, Related Work, Problem Formulation, Method, Experimental Setup, Results/Discussion, Limitations, and Conclusion. It has passed claim-scope/evidence-link review and now uses BibTeX-style citation keys in Related Work.
 - `paper/risk.md` tracks reviewer-risk attacks, mitigation status, and priority for logic/evidence/novelty/reproducibility defenses.
 - `paper/appendix.md` owns appendix/supplement provenance tables, detailed Open3DSG caveat consistency checks, optional Figure 3 decisions, and Qwen-VL extension boundary notes.
-- `paper/aaai/` is the current target-venue LaTeX source. It uses the official AAAI-26 Author Kit style files checked on 2026-05-27 KST until the exact target-year kit/form is rechecked, splits the draft into `main.tex` plus `sec/*.tex`, points bibliography to `paper/references.bib`, and includes the reproducibility checklist after references. Docker PDF build is verified with `h001-aaai-tex:20260526`; latest source-validation log is `logs/h001_aaai_pdf_build_reference_expansion_20260625_130811.log`.
+- `paper/aaai/` is the current target-venue LaTeX source. It uses the official
+  AAAI-27 style (`aaai2027.sty`, template version 2027.1), splits the draft
+  into `main.tex` plus `sec/*.tex`, points bibliography to
+  `paper/references.bib`, and builds the reproducibility checklist as a
+  separate OpenReview PDF. Docker PDF build is verified with
+  `h001-aaai27-tex:20260712`; final main/triplet logs are
+  `logs/h001_aaai27_main_build_20260712.log` and
+  `logs/h001_aaai27_final_triplet_build_20260712.log`.
 - `archive/paper/iccv/` remains a historical/alternate ICCV-style source route.
 - `paper/figures.md` locks Figure 1-3 source claims, exact values, case IDs, artifacts, and caption constraints; draft SVGs are generated, verified, and layout-reviewed under `paper/generated/figures/`.
 
@@ -420,8 +496,8 @@ Likely reviewer questions:
 Required defense:
 
 - Present the method as a calibrated framework with explicit design choices, not as a script.
-- Include semantic-only, main family-conditional risk, pooled calibrated
-  ablation, rule-only diagnostic, and true control variants.
+- Include semantic-only, calibrated product, pre-specified rank-average, RRF,
+  pooled calibrated ablation, rule-only diagnostic, and true control variants.
 - Include wrong-pair or shuffled-geometry controls to show the geometry signal is not accidental.
 - Report recall and violation metrics together.
 - Keep denominator and filtered-split caveats visible in every table using Open3DSG.
@@ -511,11 +587,17 @@ Do not claim these until evidence exists:
 - `paper/draft.md` Title/Abstract/Introduction quick review is complete; front matter is about 701 words excluding title, with a 201-word abstract and 500-word Introduction before final compression.
 - Paper-body gap review patch is complete: Figure 1-3 callouts, Table 4 audit/sanity prose, and Conclusion are now in `paper/draft.md`.
 - Paper-body budget review is complete. The current AAAI manuscript uses three main paper tables: fixed scope/denominator, source results, and controls/diagnostics. The old claim-boundary table is demoted to prose. GT verifier, audit, and detailed family rows stay as prose-backed evidence unless an appendix is added.
-- AAAI-style source conversion is complete under `paper/aaai/` using the official AAAI-26 Author Kit. The 2026-05-27 check confirms `aaai2026.sty` was replaced from `AuthorKit26/AnonymousSubmission/LaTeX/aaai2026.sty`, `aaai2026.bst` already matched the official kit, and no official AAAI-27 author kit was confirmed.
+- AAAI-style source conversion is complete under `paper/aaai/` using the
+  official AAAI-27 Author Kit preserved in the repository. The active source
+  uses `aaai2027.sty`/`aaai2027.bst` and template version 2027.1.
 - The `paper/aaai/` manuscript-content pass is complete: it includes fixed scope/denominator accounting, a main source-results table, a controls/diagnostics table, prose claim-boundary/verifier/audit evidence, explicit Open3DSG caveat captioning, and limitation wording.
 - Figure 1-3 PNG build assets are ready and `paper/aaai/sec/6_results.tex` points to them. Figure 2 and Figure 3 are single-column in the AAAI source to keep technical content before references.
-- Docker build verification is complete: the source builds with `h001-aaai-tex:20260526`, BibTeX uses 34 entries, and there are no missing citations, undefined refs, overfull hboxes, LaTeX errors, Type 3 fonts, or AAAI package errors. Latest reference-expansion source-validation rebuild log: `logs/h001_aaai_pdf_build_reference_expansion_20260625_130811.log`.
-- AAAI reproducibility checklist insertion is complete: `paper/aaai/sec/9_reproducibility_checklist.tex` is included after references. Latest Docker source-validation rebuild `logs/h001_aaai_pdf_build_reference_expansion_20260625_130811.log` exits 0; `paper/aaai/main_reference_expansion.pdf` has 9 total pages, references start on page 7, checklist is page 9, and no missing citations, undefined refs, overfull hboxes, LaTeX errors, Type 3 fonts, or AAAI package errors were found in targeted checks.
+- Docker verification is complete with `h001-aaai27-tex:20260712`: BibTeX
+  uses 34 entries and targeted checks find no missing citations, undefined
+  references, overfull boxes, LaTeX errors, Type 3 fonts, or AAAI package
+  errors. The checklist is built separately from
+  `paper/aaai/reproducibility_checklist_main.tex`; the legacy
+  `sec/9_reproducibility_checklist.tex` is not included in the active paper.
 - AAAI reviewer-defense main-text pass is updated for the selected
   full-validation route: Introduction, Method, Experimental Setup, Results, and
   Limitations directly answer the high-risk attacks, including hand-coded

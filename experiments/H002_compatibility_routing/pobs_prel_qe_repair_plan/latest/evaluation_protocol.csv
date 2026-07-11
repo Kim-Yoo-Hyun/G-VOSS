@@ -1,4 +1,0 @@
-stage,train,eval,metrics,purpose
-p_obs_only_repair_smoke,model_safe_qe_v2_train.jsonl,model_safe_qe_v2_eval.jsonl,"p_obs AUROC, ECE, abstain precision/recall, coverage-risk",confirm Q_e repair before touching p_rel or final decision head
-missing_and_ambiguity_controls,same as p_obs_only_repair_smoke,"no-view, low-visibility, missing-mesh, pose-ambiguity, shuffled-view controls","p_obs drop, abstain rate, false-observable rate",ensure p_obs is not just memorizing route family
-selective_decision_rerun,frozen p_rel plus repaired p_obs,265-row user-confirmed subset,"decision macro-F1, AURC, accept/reject/abstain confusion",only after p_obs-only gate passes

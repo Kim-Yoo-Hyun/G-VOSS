@@ -155,3 +155,21 @@ K values: `5, 10, 20, 50, 100`
 - Violation@20: `0.19353070175438597` (2118/10944)
 - Violation@50: `0.20503279050917397` (5565/27142)
 - Violation@100: `0.19845010935968022` (10525/53036)
+
+## Bootstrap CI
+
+K-sweep bootstrap CI was regenerated on `2026-07-09` using
+`metrics_k_sweep/metrics.json` with `K={5,10,20,50,100}`, 1,000 subgraph
+resamples, and seed `20260526`.
+
+Output:
+
+`experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/bootstrap_ci_k_sweep/summary.md`
+
+Validation:
+
+- status: `ready`
+- warnings: `none`
+- `metrics_k_sweep/metrics.json` point-estimate mismatches: `0`
+- K=50/100 point estimates exactly match the previous locked bootstrap summary
+  for VL-SAT and Open3DSG across all reported conditions.

@@ -1,0 +1,305 @@
+{
+  "counts": {
+    "covered_contexts": 548,
+    "covered_directed_pairs": 36808,
+    "covered_in_scope_gt_rows": 3961,
+    "global_in_scope_gt_rows": 3972,
+    "in_scope_prediction_rows": 220848,
+    "missing_contexts": 0,
+    "missing_directed_pairs": 0,
+    "missing_in_scope_gt_rows": 11,
+    "prediction_rows": 957008,
+    "raw_scans": 157,
+    "target_contexts": 548,
+    "target_directed_pairs": 36808
+  },
+  "coverage": {
+    "context_rate": 1.0,
+    "in_scope_gt_rate": 0.9972306143001007,
+    "missing_source_edges_synthesized": 0,
+    "pair_rate": 1.0
+  },
+  "created_at_utc": "2026-07-10T07:43:25.803705+00:00",
+  "docker_command": "UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm sgfn_confirmatory_audit",
+  "execution_validations": {
+    "adapter_ready": true,
+    "all_nonself_pairs_covered": true,
+    "bootstrap_1000_seed_20260710": true,
+    "checkpoint_full_l160_compatible": true,
+    "conditions_match_frozen_six": true,
+    "eleven_self_gt_rows_retained_without_synthesis": true,
+    "global_gt_denominator_3972": true,
+    "no_missing_edge_synthesis": true,
+    "primary_k_100_present": true,
+    "raw_inference_ready": true,
+    "target_v3_frozen": true
+  },
+  "family_results": {
+    "proximity": {
+      "delta_recall": {
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "point": 0.0,
+        "prob_delta_ge_zero": 1.0,
+        "prob_delta_le_zero": 1.0
+      },
+      "delta_violation": {
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "point": 0.0,
+        "prob_delta_ge_zero": 1.0,
+        "prob_delta_le_zero": 1.0
+      },
+      "recall_guardrail_pass": true,
+      "validity_gate_pass": false
+    },
+    "relative_vertical": {
+      "delta_recall": {
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "point": 0.0,
+        "prob_delta_ge_zero": 1.0,
+        "prob_delta_le_zero": 1.0
+      },
+      "delta_violation": {
+        "ci95": [
+          -0.0883720006493362,
+          -0.08105369028324613
+        ],
+        "point": -0.08469852104664388,
+        "prob_delta_ge_zero": 0.0,
+        "prob_delta_le_zero": 1.0
+      },
+      "recall_guardrail_pass": true,
+      "validity_gate_pass": true
+    },
+    "support_contact": {
+      "delta_recall": {
+        "ci95": [
+          -0.0010858502125154518,
+          0.003293129732339592
+        ],
+        "point": 0.0011013215859031478,
+        "prob_delta_ge_zero": 0.904,
+        "prob_delta_le_zero": 0.22
+      },
+      "delta_violation": {
+        "ci95": [
+          0.003701578772740668,
+          0.005319576635939553
+        ],
+        "point": 0.004499166820959084,
+        "prob_delta_ge_zero": 1.0,
+        "prob_delta_le_zero": 0.0
+      },
+      "recall_guardrail_pass": true,
+      "validity_gate_pass": false
+    }
+  },
+  "frozen_gates": {
+    "joint_primary_gate_pass": true,
+    "recall_guardrail": "delta_R_at_100_ci95_lower_gt_-0.01",
+    "recall_guardrail_pass": true,
+    "validity_gate": "delta_V_at_100_ci95_upper_lt_0",
+    "validity_gate_pass": true
+  },
+  "inputs": {
+    "adapter": {
+      "path": "experiments/H001_geom_reliability/sources/sgfn/adapter/manifest.json",
+      "sha256": "33489b69c9c408f1d25538e259f9b4f6a685ae394c3ef800bfbb566109f6663e"
+    },
+    "checkpoint_audit": {
+      "path": "experiments/H001_geom_reliability/confirmatory_evaluation/sgfn_target_v3/checkpoint_audit.json",
+      "sha256": "fc18c9f4e0a08f13c85729f0f42ff860b7be567e1f4f90e7db09017262573a3c"
+    },
+    "coverage_audit": {
+      "path": "experiments/H001_geom_reliability/sources/sgfn/adapter/coverage_audit.json",
+      "sha256": "5038bc9b083ea3604d1321d8af9d2e358687aea137bac8dabeb367011af3d05c"
+    },
+    "metrics": {
+      "path": "experiments/H001_geom_reliability/sources/sgfn/confirmatory_metrics/summary.json",
+      "sha256": "0b027afdb5dd2e9e0f130ea622cc312736968bf02654384f07b9d16de8f09b32"
+    },
+    "raw_manifest": {
+      "path": "experiments/H001_geom_reliability/sources/sgfn/raw/manifest.json",
+      "sha256": "9516bd05d886df724223506cf2e854d1d402887903009065295e31cdbb026ee6"
+    },
+    "target": {
+      "path": "experiments/H001_geom_reliability/confirmatory_evaluation/sgfn_target_v3/manifest.json",
+      "sha256": "1916471ad60e25d6ec92a4e4eda5e6810489bd82c72d1c33d518209fc6f8f1d4"
+    }
+  },
+  "interpretation_boundary": {
+    "broad_sota_claim_authorized": false,
+    "earlier_source_tables_remain_retrospective": true,
+    "exact_label_recall_is_confirmatory_for_sgfn_target_v3": true,
+    "independent_human_validity_still_required": true,
+    "main_score_unique_or_dominant_claim_authorized": false,
+    "strong_baseline_caveat": "rank-average fusion passes the same recall/lower-violation joint gate against the locked main score on SGFN",
+    "violation_is_frozen_geometry_verifier_derived": true
+  },
+  "primary_k": 100,
+  "primary_result": {
+    "family_conditional_risk": {
+      "recall": {
+        "ci95": [
+          0.9226898475948767,
+          0.9587731548090415
+        ],
+        "denominator": 3972,
+        "numerator": 3740,
+        "point": 0.9415911379657603
+      },
+      "violation_rate": {
+        "ci95": [
+          0.0356021897810219,
+          0.04069343065693431
+        ],
+        "denominator": 54800,
+        "numerator": 2087,
+        "point": 0.038083941605839416
+      }
+    },
+    "paired_delta_vs_semantic": {
+      "recall": {
+        "ci95": [
+          0.013411566371758171,
+          0.023250371568620115
+        ],
+        "point": 0.01812688821752262,
+        "prob_delta_ge_zero": 1.0,
+        "prob_delta_le_zero": 0.0
+      },
+      "violation_rate": {
+        "ci95": [
+          -0.026989507299270073,
+          -0.022901459854014594
+        ],
+        "point": -0.024890510948905112,
+        "prob_delta_ge_zero": 0.0,
+        "prob_delta_le_zero": 1.0
+      }
+    },
+    "semantic_only": {
+      "recall": {
+        "ci95": [
+          0.903654339375205,
+          0.9420524163970221
+        ],
+        "denominator": 3972,
+        "numerator": 3668,
+        "point": 0.9234642497482377
+      },
+      "violation_rate": {
+        "ci95": [
+          0.059725821167883206,
+          0.0663330291970803
+        ],
+        "denominator": 54800,
+        "numerator": 3451,
+        "point": 0.06297445255474453
+      }
+    }
+  },
+  "schema_version": "h001_sgfn_confirmatory_decision_v1",
+  "source_id": "sgfn_official_full_l160_confirmatory",
+  "status": "confirmatory_primary_gate_passed",
+  "strong_baseline_results": {
+    "rank_average_fusion": {
+      "joint_gate_vs_main_pass": true,
+      "lower_violation_vs_main_pass": true,
+      "paired_delta_vs_main": {
+        "recall": {
+          "ci95": [
+            -0.002168891145184473,
+            0.014458130444551506
+          ],
+          "point": 0.0060422960725075026,
+          "prob_delta_ge_zero": 0.919,
+          "prob_delta_le_zero": 0.087
+        },
+        "violation_rate": {
+          "ci95": [
+            -0.011788321167883208,
+            -0.009051094890510952
+          ],
+          "point": -0.010364963503649634,
+          "prob_delta_ge_zero": 0.0,
+          "prob_delta_le_zero": 1.0
+        }
+      },
+      "recall_guardrail_vs_main_pass": true,
+      "result": {
+        "recall": {
+          "ci95": [
+            0.9311764576074727,
+            0.9618824295991383
+          ],
+          "denominator": 3972,
+          "numerator": 3764,
+          "point": 0.9476334340382678
+        },
+        "violation_rate": {
+          "ci95": [
+            0.025491788321167885,
+            0.030146897810218978
+          ],
+          "denominator": 54800,
+          "numerator": 1519,
+          "point": 0.027718978102189783
+        }
+      }
+    },
+    "reciprocal_rank_fusion": {
+      "joint_gate_vs_main_pass": false,
+      "lower_violation_vs_main_pass": true,
+      "paired_delta_vs_main": {
+        "recall": {
+          "ci95": [
+            -0.03336536833941241,
+            -0.009682547352496422
+          ],
+          "point": -0.022406847935548813,
+          "prob_delta_ge_zero": 0.0,
+          "prob_delta_le_zero": 1.0
+        },
+        "violation_rate": {
+          "ci95": [
+            -0.01116788321167883,
+            -0.008265967153284669
+          ],
+          "point": -0.009689781021897811,
+          "prob_delta_ge_zero": 0.0,
+          "prob_delta_le_zero": 1.0
+        }
+      },
+      "recall_guardrail_vs_main_pass": false,
+      "result": {
+        "recall": {
+          "ci95": [
+            0.9035958260052693,
+            0.9344196107581589
+          ],
+          "denominator": 3972,
+          "numerator": 3651,
+          "point": 0.9191842900302115
+        },
+        "violation_rate": {
+          "ci95": [
+            0.026093521897810217,
+            0.030821167883211677
+          ],
+          "denominator": 54800,
+          "numerator": 1556,
+          "point": 0.028394160583941605
+        }
+      }
+    }
+  }
+}

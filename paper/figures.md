@@ -1,8 +1,8 @@
 # GeoCalib / H001 Figure Source Lock
 
-Last updated: 2026-06-25 KST
+Last updated: 2026-07-10 KST
 
-Status: `figure1_geocalib_framework_and_figure2_3_assets_generated`
+Status: `figure1_factor_isolated_framework_and_figure2_3_assets_generated`
 
 This file locks the paper-facing source claims and data artifacts for Figure
 1-3 before drawing. It is a planning artifact, not a generated figure output.
@@ -18,9 +18,17 @@ Current table note: the main source-result table now reports K =
 R@100/Violation@100 tradeoff view because it is a diagnostic figure rather than
 the full source-result table.
 
-Current scoring note: `family_conditional_risk` is the GeoCalib main score.
-`probabilistic_recalibrated` is the pooled calibrated-risk ablation, and
-geometry-only control is not shown in Figure 2.
+Current scoring note: GeoCalib is framework-first. Calibrated product
+(`family_conditional_risk`) and pre-specified rank-average are soft fusion
+instantiations; neither is universally dominant. `probabilistic_recalibrated`
+is the pooled calibrated-risk ablation, RRF is a strong comparator, and
+calibrator-only/no-source-score control is not shown in Figure 2.
+
+Current factor note: Figure 1 must separate predicate/family semantics `T_e`,
+raw predicate-independent same-pair geometry `G_e`, source confidence `Z_e`,
+and constructed-target compatibility `C_e`, with an explicit `Z_e notin C_e`
+boundary before product/rank-average fusion. It must not imply that pending
+factor-ablation controls have already passed.
 
 ## Global Rules
 
@@ -54,9 +62,10 @@ Locked visual form:
   unsupported for the same object pair.
 - Show the design path:
   `relation source predictions` -> `standardized row contract` ->
-  `identity-preserving geometry join` -> `family-specific verifier` ->
-  `p_geom_valid calibration` -> `family-conditioned GeoCalib score / pooled
-  ablation / rule-verified diagnostic` -> `R@K + Violation@K evaluation`.
+  `T_e + identity-preserving raw G_e` -> `C_e calibration with Z_e excluded` ->
+  `calibrated-product / rank-average soft
+  instantiations, pooled ablation, rule-verified diagnostic` -> `R@K +
+  Violation@K evaluation`.
 
 Source artifacts:
 
@@ -86,7 +95,8 @@ Locked visual form:
 - Use separate panel axes or clear panel labels, because absolute recall is not
   directly comparable across the closed-set VL-SAT source and the Open3DSG
   open-vocabulary relation source.
-- Draw arrows from `semantic_only` to the main `family_conditional_risk`,
+- Draw arrows from `semantic_only` to the calibrated-product
+  `family_conditional_risk`,
   pooled `probabilistic_recalibrated`, and `rule_verified_point_subtype`.
 - Lower `Violation@100` is better; higher `R@100` is better.
 

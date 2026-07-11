@@ -1,5 +1,0 @@
-class_pair,standing_positive_groups,lying_positive_groups,selected_binary_rows,decision
-box->floor,23,5,20,kept_but_capacity_insufficient
-item->floor,4,2,8,kept_but_capacity_insufficient
-object->floor,12,2,8,kept_but_capacity_insufficient
-shoes->floor,4,1,4,kept_but_capacity_insufficient

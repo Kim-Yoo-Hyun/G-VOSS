@@ -1,6 +1,6 @@
 # Literature Index
 
-Last updated: 2026-05-23
+Last updated: 2026-07-11
 
 이 폴더는 3D Scene Graph 문헌 조사 결과를 저장한다. workflow와 작성 규칙은 `docs/literature.md`를 따른다.
 
@@ -106,6 +106,33 @@ Latest check: 2026-05-23, focused on H001/CAND-001 novelty-threat expansion for 
 - What remains unsolved: Many systems still need relation-level reliability accounting: which relation edge is geometrically valid, which source produced it, whether re-ranking reduces contradictions, and how much recall is lost.
 - Possible thesis angle: keep H001 as a paper about relation-source reliability under geometry-checkable families; treat Qwen-VL and downstream task reasoning as optional extension evidence only after the core claim is stable.
 - Confidence: Medium.
+
+### Trend: LLM annotators and judges are publishable automatic evaluators, but human alignment is the validation contract
+
+- Date checked: 2026-07-11
+- Evidence: ChatGPT text annotation (PNAS 2023), G-Eval (EMNLP 2023),
+  MT-Bench LLM-as-a-Judge (2023), GPT-4V text-to-3D evaluation (CVPR 2024),
+  AnnoLLM (NAACL Industry 2024), GPT-4/crowd annotation pipeline (CHI 2024),
+  and MEGAnno+ (EACL Demo 2024).
+- What is established: papers do use strong LLMs to assign labels, score model
+  outputs, compare alternatives, and reduce annotation cost. The closest 3D
+  precedent uses GPT-4V to evaluate rendered 3D assets.
+- Shared validation pattern: the papers compare LLM judgments against trained
+  annotators, crowd labels, expert/gold labels, or human preferences; report
+  agreement/accuracy/correlation; and analyze judge bias or failure modes.
+- What is not established: two stochastic passes from one LLM are not two
+  independent human annotators, and intra-LLM consistency alone does not turn
+  LLM labels into physical-validity ground truth.
+- H001 application: the 488-item Codex passes may be reported as `two blinded
+  Codex LLM proxy annotation passes` or an `LLM-based physical-validity proxy
+  audit`. Their 438/488 agreement, kappa 0.845, zero direct valid/invalid flips,
+  ambiguity pattern, visible evidence, rubric, and model/protocol provenance
+  are legitimate automatic-evaluator diagnostics.
+- H001 boundary: without an independent human-alignment study on this exact 3D
+  physical-validity rubric, use the Codex labels as diagnostic/automatic proxy
+  evidence rather than `human V@K`, human ground truth, or independent-human
+  agreement. A human-reviewed subset can validate the LLM judge in the same
+  style as the cited work.
 
 ### Insight: Recent 2025-2026 papers should enter H001 Related Work with separated roles
 

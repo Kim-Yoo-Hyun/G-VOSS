@@ -1,2 +1,0 @@
-rows,accuracy,macro_F1,accept_tp,reject_tp,abstain_tp,scope,metric_name
-115310,0.9364755875466135,0.7784493503613538,5443,10294,92248,official_validation_all,accept_reject_abstain

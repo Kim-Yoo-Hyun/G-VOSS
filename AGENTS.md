@@ -86,6 +86,7 @@ H001 resume, upload, deletion, or other-computer recovery work must start from `
 - If a change affects research framing, contribution, novelty, or reviewer defense, update `docs/paper.md`, `summary.md`, and the relevant `paper/` planning file.
 - If a change affects commands, datasets, checkpoints, model caches, artifact transfer, or cleanup safety, update `docs/reproducibility.md`, the relevant config README/compose file, and the relevant experiment README.
 - If a change affects a folder-local workflow, update that folder's `README.md`; do not expand `AGENTS.md` with folder-local details.
+- Report files: 새 `report_*.md` 파일은 사용자가 명시적으로 요청한 경우에만 만든다. 사용자가 새 report 작성을 요청하지 않은 진행 사항은 현재 작업 범위의 기존 authoritative report 파일에 계속 반영한다. 중복된 stage report를 늘리지 말고 기존 report에 누적하거나 병합한다.
 - When a new durable root-level research/workflow folder is created or activated, add it to `docs/index.md` and the relevant README role map before substantive work in that folder. Create a matching `docs/<folder>.md` only if the folder needs workflow rules beyond its local README. This applies to durable workflow roots such as `src/`, `configs/`, `experiments/`, `results/`, `paper/`, `literature/`, or reactivated hypothesis work, not transient/ignored roots such as `logs/`, `local_dataset/`, or `release/`.
 - If a detailed list appears in more than one place, keep the authoritative copy in the owning document and replace other copies with a pointer.
 - Documentation-system convention: `docs/index.md` and `docs/README.md` are
@@ -115,7 +116,7 @@ H001/CAND를 논문으로 정리할 때 motivation만으로 novelty를 주장하
 ## H001 Claim Boundary And Extension Rules
 
 - H001의 현재 paper claim은 broad SOTA가 아니라 scoped relation reliability layer다. Claim을 "open-vocabulary 3DSSG 전체 성능 향상", "baseline-agnostic improvement", "Open3DSG SOTA/reproduction benchmark"로 넓히려면 별도 source metrics, denominator caveat, controls, and audit evidence가 먼저 있어야 한다.
-- Open3DSG는 현재 main open-vocabulary relation-source case study로 lock한다. 논문에서는 averaged-BLIP variant, filtered train/dev split, covered H001 scope, exact-label denominator, `validation_missing_preprocessed:11`, and residual calibration-risk caveat를 Table/results/provenance wording에서 숨기지 않는다.
+- Open3DSG는 현재 main open-vocabulary relation-source case study로 lock한다. 현재 paper-facing full-validation route는 MLflow run `25da9c4c00214f3b880cedbb2a124177`의 non-averaged-BLIP checkpoint를 사용한다. `2a23a9af581b4666a207423aa6217853` averaged-BLIP checkpoint는 historical 127-scan sensitivity로만 구분한다. 논문에서는 filtered train/dev split, recovery/covered scope, exact-label denominator, historical averaged-BLIP sensitivity, and residual calibration-risk caveat를 Table/results/provenance wording에서 숨기지 않는다.
 - Open3DSG 관련 필수 실험은 현재 scoped H001 claim 기준으로 완료된 것으로 본다. 추가 Open3DSG 실험은 claim을 넓히거나 full reproduction 자체를 목표로 바꿀 때만 진행한다.
 - Qwen-VL은 VL-SAT/Open3DSG를 대체하는 main baseline이 아니라 third semantic source / modern VLM extension이다. Qwen 결과는 sharded inference, parser validation, adapter export, geometry join, metrics, controls, bootstrap CI if reported, and audit가 Docker로 완료되기 전까지 paper metric evidence가 아니다.
 - Cross-source results, failure rows, qualitative inspection, and Qwen extension은 세 번째/네 번째 contribution으로 부풀리지 말고, calibrated geometry-consistency framework를 검증하는 empirical evidence로 둔다.

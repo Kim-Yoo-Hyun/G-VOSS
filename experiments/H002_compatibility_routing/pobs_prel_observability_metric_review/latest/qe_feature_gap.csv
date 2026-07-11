@@ -1,4 +1,0 @@
-observability_label,rows,q_e_sufficient_rows,q_e_uncertain_rows,q_e_limited_rows,q_e_state_code_counts,feature_label_alignment
-ambiguous_evidence,126,126,0,0,{'1.0': 126},mismatch
-observable_clear,135,135,0,0,{'1.0': 135},aligned_or_partial
-unobservable_missing_evidence,4,4,0,0,{'1.0': 4},mismatch

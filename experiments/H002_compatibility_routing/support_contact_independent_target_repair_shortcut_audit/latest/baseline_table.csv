@@ -1,0 +1,4 @@
+target,rows,label_counts,majority_baseline,positive_like_count,positive_like_rate
+multiclass,480,"{""abstain"": 85, ""accept"": 35, ""evidence_gap"": 1, ""reject"": 347, ""relabel_lying_on"": 4, ""relabel_standing_on"": 8}",0.722917,35,0.072917
+binary,382,"{""0"": 347, ""1"": 35}",0.908377,35,0.091623
+decide_vs_nondecide,480,"{""decide"": 382, ""nondecide"": 98}",0.795833,0,0.0

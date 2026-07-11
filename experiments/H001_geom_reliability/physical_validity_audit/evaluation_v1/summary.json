@@ -1,0 +1,50 @@
+{
+  "agreement": {
+    "cohen_kappa": null,
+    "n": 0,
+    "observed_agreement": null
+  },
+  "audit_dir": "experiments/H001_geom_reliability/physical_validity_audit/frozen_v1",
+  "audit_manifest_status": "frozen_awaiting_independent_human_labels",
+  "created_at_utc": "2026-07-10T15:27:53.888106+00:00",
+  "human_reviewer_provenance": {
+    "adjudicator": {
+      "forbidden_proxy_reviewer_ids": [],
+      "labeled_rows": 0,
+      "missing_reviewer_rows": 0,
+      "missing_timestamp_rows": 0,
+      "reviewer_ids": []
+    },
+    "adjudicator_distinct_nonproxy_if_used": true,
+    "annotator_a": {
+      "forbidden_proxy_reviewer_ids": [],
+      "labeled_rows": 0,
+      "missing_reviewer_rows": 0,
+      "missing_timestamp_rows": 0,
+      "reviewer_ids": []
+    },
+    "annotator_b": {
+      "forbidden_proxy_reviewer_ids": [],
+      "labeled_rows": 0,
+      "missing_reviewer_rows": 0,
+      "missing_timestamp_rows": 0,
+      "reviewer_ids": []
+    },
+    "first_pass_distinct_nonproxy_reviewers": false,
+    "policy": "two complete first-pass sheets require distinct non-proxy reviewer IDs and timestamps; adjudication requires a third distinct non-proxy reviewer when used"
+  },
+  "human_violation_at_k": {},
+  "label_counts": {
+    "adjudicated": 0,
+    "annotator_a": 0,
+    "annotator_b": 0,
+    "expected": 488,
+    "unresolved_disagreements": 0
+  },
+  "label_policy": "valid/invalid binary denominator; ambiguous and unobservable reported as coverage exclusions",
+  "n_bootstrap": 1000,
+  "schema_version": "h001_physical_validity_audit_evaluation_v1",
+  "seed": 20260710,
+  "semantic_calibration": {},
+  "status": "awaiting_independent_human_labels"
+}

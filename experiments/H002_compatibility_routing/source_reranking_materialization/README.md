@@ -17,6 +17,11 @@ latest/row_manifest.json
 latest/validation_errors.jsonl
 ```
 
+The five row-level JSONL files are large, deterministic runtime products and are
+currently removed after compact metrics and qualitative cases are generated.
+`row_manifest.json` and validation metadata are retained; rerun the materialize
+service before downstream jobs that require row-level views.
+
 ## View Semantics
 
 | View | Meaning |
@@ -28,4 +33,5 @@ latest/validation_errors.jsonl
 
 ## Paper Status
 
-This is a paper-facing input root for source reranking.
+This is a reproducible paper-facing input stage, not a permanent row-level data
+release.

@@ -13,7 +13,7 @@ records the denominator and source outputs used by Table~\ref{tab:source-results
 \centering
 \small
 \setlength{\tabcolsep}{5pt}
-\caption{\textbf{Full official \method{} evaluation scope.} Recall is exact
+\caption{\textbf{Shared \method{} evaluation scope.} Recall is exact
 predicate-label recall over the 3,972-row in-scope GT denominator; family
 grouping is used for reliability and violation reporting, not for relaxing
 predicate matches.}
@@ -22,13 +22,14 @@ predicate matches.}
 \toprule
 Item & Count & Role in claim \\
 \midrule
-Validation scans & 157 & Full official validation scan set. \\
+Validation scans & 157 & Shared scope; SGFN's official test list matches it exactly. \\
 Subgraphs / contexts & 548 & Object-pair identity denominator. \\
 Directed object pairs & 36,808 & Candidate relation-row universe. \\
 Ground-truth rows & 11,254 & Full validation relation annotation rows. \\
 In-scope GT rows & 3,972 & Exact-label denominator for the three measured relation families. \\
 VL-SAT prediction rows & 957,008 & Controlled reproduced closed-set anchor output. \\
 Open3DSG prediction rows & 695,916 & Main open-vocabulary source output. \\
+SGFN prediction rows & 957,008 & Prospectively frozen exact-label confirmation output. \\
 Geometry-scored rows & 160,596 & Open3DSG geometry-checkable rows joined to calibrated evidence. \\
 \bottomrule
 \end{tabularx}
@@ -43,19 +44,39 @@ filtered train/dev subgraphs, and the main full-validation branch reaches
 view regeneration for two scans. The 533/548 covered branch and historical
 old 377/388 vs R2 388/388 branch remain sensitivity evidence only.
 
-Condition names are fixed before reporting. \texttt{family\_conditional\_risk}
-is the main GeoCalib score, ranking by
-$\mathrm{score}^{sem}\cdot\pgeomfam$. \texttt{probabilistic\_recalibrated} is
-the pooled calibrated-risk ablation
-$\mathrm{score}^{sem}\cdot\pgeom$. Geometry-only controls rank by \pgeom{}
-without semantic confidence and are reported separately from pooled
-calibrated re-ranking.
+Condition names are fixed before reporting. The calibrated product
+\texttt{family\_conditional\_risk} ranks by
+$\mathrm{score}^{sem}\cdot\pgeomfam$; rank-average combines within-subgraph
+semantic and family-geometry percentiles with fixed equal weight.
+\texttt{probabilistic\_recalibrated} is the pooled calibrated-risk ablation
+$\mathrm{score}^{sem}\cdot\pgeom$. RRF is a fixed strong comparison, while
+the calibrator-only control ranks by \pgeom{} without source confidence. It is
+not true raw-$G$-only because the frozen calibrator retains predicate/family
+and predicate-aligned interaction features.
 
-Source boundaries are enforced in prose rather than as a main result table.
-Open3DSG supports the open-vocabulary relation-source case study; VL-SAT
-supports the controlled-anchor comparison. FROSS remains runtime-blocked,
-Qwen-VL is an optional third-source extension, and broad open-vocabulary 3DSSG
-generation improvement is not claimed without the same Docker, denominator,
-metric, and audit treatment. All paper-body experiment results are generated
-through the Docker experiment root. Host-only outputs are not promoted to paper
-evidence.
+Calibration inputs are classified as $T$, raw predicate-independent $G$, or
+$T\times G$; $Z$ and source identity are excluded. A separate strict train-only
+factor audit does not alter the frozen SGFN gate.
+
+SGFN \texttt{full\_l160} is the prospective exact-label target. Its source
+test list exactly matches the frozen 157-scan H001 scope. The target, K=100,
+families, denominator, calibrated product, rank-average, RRF, and bootstrap
+gates were fixed before correct-checkpoint download and inference. Two
+pre-inference errata corrected the split identity and an initially mistaken
+\texttt{l20} checkpoint URL; all versions remain in provenance. SGFN covers all
+36,808 nonself directed pairs. Eleven self-\texttt{supported by} GT rows have no
+model edge, receive no synthesized prediction, and remain in the 3,972-row
+recall denominator.
+
+Open3DSG and VL-SAT retain the case-study/anchor roles above. The untouched
+ReplicaSSG/FROSS transfer stress test is negative evidence (supplement), while
+Qwen-VL remains optional. Broad 3DSSG generation gains are not claimed. All
+promoted results use Docker; host-only outputs are excluded.
+
+\paragraph{Blinded Codex LLM proxy audit.}
+Following LLM annotator/evaluator and 3D-judge precedent
+\cite{gilardi2023chatgpt,liu2023geval,wu2024gpt4vision}, two locked Codex passes
+label 488 items from 137 scans as
+\texttt{valid}/\texttt{invalid}/\texttt{ambiguous}/\texttt{unobservable}
+from blinded relation/pair evidence; pass two does not see pass one before lock.
+Their shared model family makes this a proxy stability test, not human evidence.

@@ -32,24 +32,27 @@ that contradicts the underlying world state.
 This motivates a \method{} framework. The framework treats an existing
 predictor as a relation source, standardizes its outputs into
 identity-preserving prediction rows, joins object-pair geometry evidence by
-subject and object instance identifiers, estimates calibrated geometry-validity
-risk, and evaluates relation rankings with both exact-label recall and
-geometric violation. The main GeoCalib score is family-conditional: semantic
-confidence is penalized by a relation-family-specific estimate of geometry
-validity. This design is necessary because hard physical rules, pooled
-calibration, and family-conditioned calibration answer different questions:
-rule-verified variants diagnose strict consistency, pooled calibration is an
-ablation, and family-conditioned calibration is the paper's primary
-recall-violation score. Figure~\ref{fig:framework} summarizes this path.
+subject and object instance identifiers, and separates predicate/family
+semantics $T$, predicate-independent same-pair geometry $G$, and source
+confidence $Z$. A compatibility factor
+$C=P(y^{cal}=1\mid T,G)$ is calibrated without $Z$; source confidence enters
+only in the final ranking $F(Z,C)$. GeoCalib also separates the framework from
+any one fusion formula. A calibrated product preserves semantic-score
+magnitudes while penalizing family-conditioned geometry risk; a pre-specified rank-average
+combines semantic and geometry percentiles without assuming shared source
+scales. Hard physical rules diagnose strict consistency, pooled calibration is
+an ablation, and Reciprocal Rank Fusion is a strong comparison.
+Figure~\ref{fig:framework} summarizes this path.
 
 \begin{figure*}[t]
     \centering
     \figmaybe[width=0.92\linewidth]{../generated/figures/figure1_framework.png}
     \caption{\textbf{GeoCalib in one relation-row example.} A semantically
     plausible relation can be physically inconsistent for the same object pair.
-    GeoCalib preserves row identity, joins pair geometry, estimates
-    family-conditioned geometry validity, and re-ranks top-$K$ relations while
-    reporting recall and violation together.}
+    GeoCalib separates predicate semantics $T$, raw same-pair geometry $G$, and
+    source confidence $Z$, calibrates $C(T,G)$ without $Z$, and supports calibrated-product and
+    scale-robust rank-average re-ranking while reporting recall and violation
+    together.}
     \label{fig:framework}
 \end{figure*}
 
@@ -62,7 +65,7 @@ relation sources with a fixed exact-label denominator. Open3DSG is the main
 open-vocabulary relation source case study, and VL-SAT is a controlled
 reproduced closed-set anchor within the same geometry-checkable family scope
 \cite{wang2023vlsat,koch2024open3dsg}. Controls test
-whether the effect can be explained by geometry-only ranking, a generic
+whether the effect can be explained by calibrator-only ranking, a generic
 distance heuristic, shuffled geometry, or wrong-pair geometry. GT-positive and
 counterfactual checks test the geometry-validity signal independently from
 prediction re-ranking, while qualitative failure analysis shows how semantic
@@ -75,18 +78,20 @@ Our contributions are threefold:
     predicates that are physically inconsistent because it is not calibrated to
     object-pair geometry.
     \item We introduce a \method{} framework that standardizes prediction rows,
-    joins identity-preserving 3D evidence, estimates calibrated geometry
-    validity, and re-ranks by a family-conditional geometry-risk score while
-    retaining pooled and rule-verified variants as ablations and diagnostics.
+    factorizes $T$, raw $G$, and $Z$, calibrates $C(T,G)$ under the leakage
+    boundary $Z\notin C$, and exposes calibrated-product and scale-robust rank-average soft
+    fusion instantiations while retaining pooled, RRF, and rule-verified
+    comparisons.
     \item We define a recall-violation evaluation protocol for
     geometry-checkable relation families, including exact-label \rAt{K},
     \vAt{K}, GT-positive/counterfactual verifier evaluation, and geometry
     identity controls.
 \end{enumerate}
 
-We validate these contributions with Docker-reproducible evidence on VL-SAT and
-Open3DSG, including nontriviality controls, Open3DSG failure analysis, and
-explicit reproduction caveats. The claim is intentionally scoped: \method{} measures
+We validate these contributions with Docker-reproducible evidence on VL-SAT,
+Open3DSG, and a prospectively frozen SGFN target, including nontriviality
+controls, family decomposition, failure analysis, and explicit reproduction
+caveats. The claim is intentionally scoped: \method{} measures
 and improves relation reliability for geometry-checkable 3DSSG families. It
 does not claim general open-vocabulary 3D Scene Graph generation improvement,
-arbitrary-source generality, or guaranteed physical correctness.
+arbitrary-source generality, formula dominance, or guaranteed physical correctness.

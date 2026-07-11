@@ -1,0 +1,28 @@
+FROM h001-sgfn-confirmatory:cu128
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV CUDA_MODULE_LOADING=LAZY
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        libvips42 \
+        libgl1 \
+        libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN python -m pip install --no-cache-dir \
+        numpy==1.26.4 \
+        transformers==4.53.2 \
+        onnx==1.16.0 \
+        tensorrt-cu12==10.8.0.43 \
+        pycocotools==2.0.8 \
+        pyvips==2.2.3 \
+        tqdm==4.66.4
+
+WORKDIR /workspace/local_dataset/FROSS_code
+
+ENV PYTHONPATH=/workspace/local_dataset/FROSS_code:/workspace/local_dataset/FROSS_code/EGTR
+
+ENTRYPOINT ["python"]

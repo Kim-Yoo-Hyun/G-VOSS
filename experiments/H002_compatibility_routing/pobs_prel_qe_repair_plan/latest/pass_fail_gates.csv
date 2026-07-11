@@ -1,7 +1,0 @@
-gate,threshold,reason
-schema_separation,validation_errors=0 and blocked_field_hits=0,Q_e v2 must not leak hidden observability labels
-qe_label_alignment,ambiguous/missing rows are not all q_e_sufficient_v2=1,directly fixes the observed Q_e mismatch
-p_obs_signal,p_obs AUROC >= 0.70 on user-confirmed subset,minimum evidence that observability is learnable
-abstain_behavior,ambiguous/missing abstain recall >= 0.70 and observable abstain false-positive <= 0.30,p_obs must actually abstain on uncertain evidence
-calibration_sanity,"p_obs ECE@10 <= 0.20 for diagnostic, <= 0.10 for paper promotion",avoid claiming calibrated observability from uncalibrated scores
-paper_promotion,all diagnostic gates pass plus independently authored or clearly user-confirmed label provenance,paper-level p_obs/p_rel solved claim requires more than diagnostic rerun

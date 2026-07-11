@@ -1,6 +1,6 @@
 # H001 Commands
 
-Last updated: 2026-06-25
+Last updated: 2026-07-11
 
 Run from the repository root.
 
@@ -62,6 +62,152 @@ Expected outputs:
 The paper-facing compact bootstrap mirror should report
 `family_conditional_risk` as the main GeoCalib score and keep pooled
 `probabilistic_recalibrated` as an ablation/baseline.
+
+## Independent Physical-Validity And Reviewer-Extension Gates
+
+Freeze or reproducibly regenerate the blinded audit queue and raw 3D evidence:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm physical_validity_audit_freeze
+```
+
+After both independent annotator sheets and required adjudication are complete,
+run the pre-frozen human Violation@K and semantic-calibration evaluator:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm physical_validity_audit_evaluate
+```
+
+Generate family-wise paired CIs and the fixed rank-average/RRF fusion baselines:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm reviewer_extension_metrics
+```
+
+Freeze/check post-hoc provenance and the prospective confirmatory contract:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm confirmatory_protocol_freeze
+```
+
+Freeze and verify the H001 factor-isolation protocol before any factor metric:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm factor_isolation_protocol_freeze
+```
+
+Frozen outputs are under
+`factor_isolation_protocol/frozen_v1/`: `feature_ledger.json`,
+`conditions.json`, `controls.json`, `evaluation.json`,
+`equivalence_audit.json`, and `manifest.json`. Fit the pre-registered models,
+then run the fresh official source in the exact order recorded in
+`docs/reproducibility.md`; the final metric commands are:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm 3dssg_confirmatory_metrics
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm 3dssg_confirmatory_audit
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm factor_isolation_metrics_3dssg
+```
+
+Do not delete and rerun the target freeze after seeing metrics. Existing output
+guards intentionally require a fresh output root for scientific reruns.
+
+## Strict Train-only Reestablishment
+
+The authoritative execution order is fixed. Existing nonempty frozen outputs
+must not be overwritten after seeing metrics:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_reestablishment_freeze
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_calibration_export
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_calibrator_fit
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_internal_dev_stage
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_internal_dev_preprocess
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_internal_dev_preprocess_finalize
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_execution_freeze
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_internal_dev_inference
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_internal_dev_adapter
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_internal_dev_geometry
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_internal_dev_evaluation
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_final_lock
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_final_validation_evaluation
+```
+
+Primary compact artifacts:
+
+- `train_only_reestablishment_v1/split_firewall.json`
+- `train_only_reestablishment_v1/provenance_audit.json`
+- `train_only_reestablishment_v1/calibration/fitted/manifest.json`
+- `train_only_reestablishment_v1/execution_contract.json`
+- `train_only_reestablishment_v1/internal_dev/evaluation/summary.json`
+- `train_only_reestablishment_v1/final_lock.json`
+- `train_only_reestablishment_v1/final_validation/evaluation/summary.json`
+
+The first inference attempt on 2026-07-11 stopped before any prediction because
+the generalized wrapper expected the legacy preprocess status. The wrapper-only
+`--preprocess-status internal_dev_preprocess_ready` correction was applied
+before source output existed; model, score, evaluator, K, denominator, and
+controls were unchanged.
+
+Regenerate the leakage-safe Codex proxy draft and local user-review UI:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm physical_validity_codex_proxy
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm physical_validity_codex_rereview_v2
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm physical_validity_codex_compare
+```
+
+The draft is not human evidence. Review `physical_validity_audit/codex_proxy_v1/review.html`
+or fill `user_review.csv`.
+
+SGFN pre-inference split erratum and checkpoint audit:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm sgfn_confirmatory_target_amend
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm sgfn_checkpoint_audit
+```
+
+The checkpoint audit intentionally exits `2` for the downloaded
+`SGFN_full_l20.zip`: its `[20,256]` object head and `[8,256]` relation head do
+not match the locked full_l160 contract. The user subsequently authorized v3
+before correct-checkpoint download. The frozen v3 execution order is:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm sgfn_confirmatory_target_v3_freeze
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm sgfn_checkpoint_audit_v3
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm sgfn_runtime_stage
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm sgfn_preprocess
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm sgfn_preprocess_finalize
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm sgfn_inference_smoke
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm sgfn_inference
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm sgfn_adapter_export
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm sgfn_geometry_join
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm sgfn_confirmatory_metrics
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm sgfn_confirmatory_audit
+```
+
+Primary outputs:
+
+- `physical_validity_audit/frozen_v1/`: 488-row blinded audit protocol, two
+  separately shuffled annotator sheets, private probability-sampling sidecar,
+  and adjudication sheet.
+- `physical_validity_audit/evaluation_v1/`: label-ready human V@K and semantic
+  calibration evaluation; it remains `awaiting_independent_human_labels` while
+  either first-pass sheet is incomplete.
+- `reviewer_extension_metrics/frozen_v1/`: family-wise/global-slice metrics,
+  paired 95% CIs, and fixed strong fusion baselines.
+- `confirmatory_evaluation/frozen_v1/`: main-score chronology, retrospective vs
+  confirmatory classification, and no-change protocol.
+- `factor_isolation_protocol/frozen_v1/`: frozen feature/condition/control/
+  evaluation contracts and bit-exact existing-score equivalence audit; no new
+  factor metric result.
+- `confirmatory_evaluation/sgfn_target_v2/`: pre-inference split identity
+  erratum plus blocked checkpoint audit; no prediction or metric output.
+- `confirmatory_evaluation/sgfn_target_v3/`: user-authorized correct-checkpoint
+  erratum and passing full_l160 checkpoint audit.
+- `physical_validity_audit/codex_rereview_v2/` and
+  `codex_review_comparison/`: second same-agent blinded pass, comparison, and
+  all-disagreement visual follow-up; not human agreement evidence.
 
 ## Low-K Metric Sweeps
 

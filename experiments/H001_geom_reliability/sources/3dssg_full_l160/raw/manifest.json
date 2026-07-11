@@ -1,0 +1,60 @@
+{
+  "compatibility": {
+    "full_edge_export": "data.max_num_edge=-1 to satisfy frozen every-available-edge export contract",
+    "pyg_edge_descriptor": "removed PyG 1.x private __collect__/__check_input__ calls replaced by mathematically identical source/target tensor gathers",
+    "pytictoc": "timer-compatible local stub",
+    "rgb_alignment": "same OBJ-texture nearest-vertex mapping as source, using scipy cKDTree instead of unavailable knn_cuda",
+    "rgb_alignment_max_query_distance_m": 0.0,
+    "rgb_alignment_p95_query_distance_m_max": null,
+    "rgb_alignment_required_by_method": false,
+    "wandb": "non-network import stub; logging.method=none"
+  },
+  "counts": {
+    "directed_edges": 160526,
+    "max_nodes": 81,
+    "min_nodes": 5,
+    "nodes": 4480,
+    "relation_scores": 4173676,
+    "scans": 157
+  },
+  "created_at_utc": "2026-07-10T12:04:57.542519+00:00",
+  "docker_command": "env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm 3dssg_inference",
+  "inputs": {
+    "checkpoint": {
+      "path": "local_dataset/3DSSG_staged/checkpoint/model_best.pt",
+      "sha256": "5322bb0738b20312baba9cb0622d82368c3e5fa355fe726808f3470f4465ccf8"
+    },
+    "config": {
+      "path": "configs/h001/3dssg_full_l160_confirmatory.yaml",
+      "sha256": "6e2c2da2b5adb7a0f0fb209b281e3eab8a8cc2bb641b228e53241456ebec9563"
+    },
+    "preprocess_manifest": "experiments/H001_geom_reliability/sources/sgfn/preprocess/manifest.json",
+    "target_manifest": "experiments/H001_geom_reliability/confirmatory_evaluation/3dssg_target_v1/manifest.json"
+  },
+  "outputs": {
+    "raw_jsonl": "experiments/H001_geom_reliability/sources/3dssg_full_l160/raw/raw.jsonl",
+    "sha256": "a2616e23be85a88a388da499dc5ff70db96a4040b7a5fc1c6f3e60bcee3eb124"
+  },
+  "runtime": {
+    "cuda": "12.8",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "max_scans": 0,
+    "pythonhashseed": "0",
+    "seconds": 204.28494262695312,
+    "seed": 2021,
+    "torch": "2.8.0+cu128"
+  },
+  "schema_version": "h001_3dssg_raw_inference_manifest_v1",
+  "source_id": "3dssg_official_full_l160",
+  "source_method": "sgpn",
+  "status": "3dssg_raw_inference_ready",
+  "validations": {
+    "all_graphs_full_directed": true,
+    "checkpoint_loaded_strict": true,
+    "color_alignment_applied_per_scan_or_not_used_by_method": true,
+    "raw_scan_count_matches_mode": true,
+    "raw_scans_match_scope": true,
+    "source_method_matches_frozen": true,
+    "source_vocab_160_26": true
+  }
+}

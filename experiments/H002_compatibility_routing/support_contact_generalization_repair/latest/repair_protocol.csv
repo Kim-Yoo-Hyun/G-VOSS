@@ -1,6 +1,0 @@
-step,scope,action,input_view,output_artifact,gate
-R1,standing on,define upright-support subtype target,G_e without predicate/source score; hidden visual/mesh audit for label only,standing_on_pose_safe_rows.jsonl,accept/reject/abstain labels balanced within class-pair strata
-R2,lying on,define horizontal-support subtype target,G_e pose/orientation/contact features; visual/mesh audit for label only,lying_on_pose_safe_rows.jsonl,lying pose evidence must not be inferred only from class pair
-R3,supported by,route to superordinate support decomposition,support existence evidence plus subtype uncertainty,supported_by_relabel_abstain_rows.jsonl,no direct binary solved claim; report relabel/abstain diagnostic
-R4,Q_e,separate pose observability from geometry compatibility,"mesh completeness, point density, multi-view confirmation, occlusion flags",support_contact_qe_pose_observability.jsonl,Q_e not allowed inside C_e main compatibility input
-R5,controls,add pose-aware controls,"wrong predicate, shuffled G_e, within-class-pair shuffled G_e, subject/object swap",support_contact_repair_controls.csv,T_x_G improves over T-only/G-only/concat and controls collapse

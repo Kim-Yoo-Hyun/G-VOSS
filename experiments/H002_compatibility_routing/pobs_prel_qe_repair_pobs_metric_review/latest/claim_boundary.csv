@@ -1,5 +1,0 @@
-claim_component,paper_position,allowed,condition
-C_e compatibility reranking,main_candidate,True,validation-level source reranking with T_e/G_e/Z_e separation and existing caveats
-p_obs observability head,optional_diagnostic_or_future,False,not a main solved claim; reopen with independent visual/mesh observability labels
-p_obs/p_rel calibrated selective decision,blocked,False,"needs full selective rerun, calibration, independent observability labels, and missing-evidence controls"
-general reliable 3D relation framework,design_goal_not_completed_result,False,needs support/contact solved or observability-heavy route validation

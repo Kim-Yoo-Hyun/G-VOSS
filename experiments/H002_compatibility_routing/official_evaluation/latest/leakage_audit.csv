@@ -1,7 +1,0 @@
-check,status,violations
-official_validation_eval_only,pass,0
-official_test_usage,pass,0
-hidden_fields_not_used_as_features,pass,0
-Z_e_excluded_from_main_C_e,pass,0
-Q_e_excluded_from_main_C_e,pass,0
-H001_p_geom_valid_excluded_from_main_G_e,pass,0

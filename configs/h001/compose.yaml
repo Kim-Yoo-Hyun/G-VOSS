@@ -2165,3 +2165,1359 @@ services:
       - h001_covered_recovery_sensitivity
       - --out
       - /workspace/experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/provenance_review
+
+  physical_validity_audit_freeze:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/freeze_physical_validity_audit.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/frozen_v1
+      - --evidence-root
+      - /workspace/local_dataset/h001_physical_validity_audit/frozen_v1/evidence
+      - --quota-per-stratum
+      - "4"
+
+  physical_validity_audit_evaluate:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/evaluate_physical_validity_audit.py
+    command:
+      - --repo-root
+      - /workspace
+      - --audit-dir
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/frozen_v1
+      - --out
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/evaluation_v1
+      - --n-bootstrap
+      - "1000"
+
+  reviewer_extension_metrics:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/run_reviewer_extension_metrics.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/reviewer_extension_metrics/frozen_v1
+      - --n-bootstrap
+      - "1000"
+
+  factor_isolation_protocol_freeze:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/freeze_factor_isolation_protocol.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/factor_isolation_protocol/frozen_v1
+
+  factor_isolation_model_fit:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/fit_factor_isolation_models.py
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/factor_isolation_protocol/frozen_v1/manifest.json
+      - --calibration-table
+      - /workspace/archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/train_dev_calib/table.jsonl
+      - --train-scans
+      - /workspace/archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_calib_pilot/train_scans.txt
+      - --dev-scans
+      - /workspace/archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/subset/h001_calib_pilot/dev_scans.txt
+      - --out
+      - /workspace/experiments/H001_geom_reliability/factor_isolation_protocol/fitted_v1
+
+  train_only_reestablishment_freeze:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/freeze_train_only_reestablishment.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1
+
+  train_only_calibration_export:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/export_calibration.py
+    command:
+      - --dataset-root
+      - /workspace/local_dataset
+      - --subset-json
+      - /workspace/local_dataset/3DSSG_subset/relationships_train.json
+      - --relationships-file
+      - /workspace/local_dataset/3DSSG_subset/relationships.txt
+      - --selected-scans
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/splits/method_development_scans.txt
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/calibration/export
+      - --split-name
+      - train_only_reestablishment_v1
+      - --include-counterfactuals
+      - --max-negatives-per-positive
+      - "2"
+      - --max-negatives-per-subgraph-family
+      - "200"
+      - --max-negative-to-positive-ratio-per-family
+      - "3.0"
+      - --allow-selected-scans-without-positive-rows
+
+  train_only_calibrator_fit:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/fit_strict_train_only_calibrators.py
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/protocol.json
+      - --calibration-table
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/calibration/export/table.jsonl
+      - --train-scans
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/splits/train_scans.txt
+      - --dev-scans
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/splits/internal_dev_scans.txt
+      - --final-scans
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/splits/final_validation_scans.txt
+      - --out
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/calibration/fitted
+
+  train_only_internal_dev_stage:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/prepare_train_only_internal_dev_runtime.py
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/protocol.json
+      - --scans
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/splits/internal_dev_scans.txt
+      - --final-scans
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/splits/final_validation_scans.txt
+      - --stage-root
+      - /workspace/local_dataset/3DSSG_internal_dev_staged
+      - --out
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev/runtime_manifest.json
+
+  train_only_internal_dev_preprocess:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile.sgfn
+    image: h001-sgfn-confirmatory:cu128
+    working_dir: /workspace/local_dataset/3DSSG_internal_dev_staged/runtime
+    user: "${UID:-1000}:${GID:-1000}"
+    environment:
+      PYTHONPATH: /workspace/src/geocalib/sgfn_compat:/workspace/local_dataset/SceneGraphFusion_code/3DSSG
+      PYTHONHASHSEED: "0"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/local_dataset/SceneGraphFusion_code/3DSSG/data_processing/gen_data.py
+    command:
+      - --config
+      - /workspace/configs/h001/3dssg_full_l160_internal_dev.yaml
+      - --pth_out
+      - /workspace/local_dataset/3DSSG_internal_dev_staged/preprocessed/3RScan_3RScan160
+      - --target_scan
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/splits/internal_dev_scans.txt
+      - --label_type
+      - 3RScan160
+      - --segment_type
+      - GT
+
+  train_only_internal_dev_preprocess_finalize:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile.sgfn
+    image: h001-sgfn-confirmatory:cu128
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/finalize_sgfn_preprocess.py
+    command:
+      - --repo-root
+      - /workspace
+      - --preprocessed
+      - /workspace/local_dataset/3DSSG_internal_dev_staged/preprocessed/3RScan_3RScan160
+      - --official-scans
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/splits/internal_dev_scans.txt
+      - --expected-scans
+      - "117"
+      - --ready-status
+      - internal_dev_preprocess_ready
+      - --docker-service
+      - train_only_internal_dev_preprocess_finalize
+      - --out
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev/preprocess_manifest.json
+
+  train_only_internal_dev_inference:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile.sgfn
+    image: h001-sgfn-confirmatory:cu128
+    working_dir: /workspace/local_dataset/3DSSG_internal_dev_staged/runtime
+    user: "${UID:-1000}:${GID:-1000}"
+    shm_size: "${SGFN_SHM_SIZE:-16gb}"
+    environment:
+      PYTHONPATH: /workspace/src/geocalib/sgfn_compat:/workspace/local_dataset/SceneGraphFusion_code/3DSSG
+      PYTHONHASHSEED: "0"
+      HOME: /workspace/local_dataset/model_cache/home
+      TORCH_HOME: /workspace/local_dataset/model_cache/torch
+    volumes:
+      - ../..:/workspace
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/run_sgfn_confirmatory_inference.py
+    command:
+      - --repo-root
+      - /workspace
+      - --source-root
+      - /workspace/local_dataset/SceneGraphFusion_code/3DSSG
+      - --config
+      - /workspace/configs/h001/3dssg_full_l160_internal_dev.yaml
+      - --checkpoint
+      - /workspace/local_dataset/3DSSG_staged/checkpoint/model_best.pt
+      - --preprocess-manifest
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev/preprocess_manifest.json
+      - --target-manifest
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/protocol.json
+      - --target-status
+      - protocol_frozen_before_strict_calibration_and_internal_dev_inference
+      - --dataset-mode
+      - validation
+      - --official-scans-file
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/splits/internal_dev_scans.txt
+      - --expected-scans
+      - "117"
+      - --preprocess-status
+      - internal_dev_preprocess_ready
+      - --out
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev/raw
+      - --source-id
+      - 3dssg_official_full_l160
+      - --source-split
+      - official_internal_validation_117
+      - --model-name
+      - 3DSSG_full_l160
+      - --expected-method
+      - sgpn
+      - --raw-schema
+      - h001_train_only_internal_dev_raw_v1
+      - --raw-record-type
+      - 3dssg_internal_dev_full_scan_scores
+      - --manifest-schema
+      - h001_train_only_internal_dev_inference_manifest_v1
+      - --ready-status
+      - internal_dev_raw_inference_ready
+      - --smoke-status
+      - internal_dev_inference_smoke_ready
+      - --docker-service
+      - train_only_internal_dev_inference
+
+  train_only_internal_dev_adapter:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/export_sgfn_confirmatory_predictions.py
+    command:
+      - --repo-root
+      - /workspace
+      - --raw
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev/raw/raw.jsonl
+      - --subset
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev_subset.json
+      - --ground-truth
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev_ground_truth.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev/adapter
+      - --source-id
+      - 3dssg_official_full_l160
+      - --baseline-run-id
+      - train_only_internal_dev_v1
+      - --prediction-split-id
+      - official_internal_validation
+      - --raw-schema
+      - h001_train_only_internal_dev_raw_v1
+      - --split-name
+      - train_only_internal_dev
+      - --edge-source
+      - 3dssg_full_directed_graph
+      - --predicate-vocab
+      - 3DSSG_full_l160_sorted_26_no_none
+      - --predicate-index-field
+      - 3dssg_predicate_index
+      - --adapter-name
+      - train_only_internal_dev_3dssg_to_h001
+      - --manifest-schema
+      - h001_train_only_internal_dev_adapter_v1
+      - --ready-status
+      - internal_dev_adapter_ready
+      - --docker-service
+      - train_only_internal_dev_adapter
+      - --expected-raw-scans
+      - "117"
+      - --expected-contexts
+      - "354"
+      - --expected-gt-denominator
+      - "2730"
+      - --in-scope-only
+
+  train_only_internal_dev_geometry:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/join_predictions.py
+    command:
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev/adapter/predictions.jsonl
+      - --dataset-root
+      - /workspace/local_dataset
+      - --model-json
+      - /workspace/archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_smoke/model.json
+      - --selected-scans
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/splits/internal_dev_scans.txt
+      - --verification-policy
+      - point_subtype
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev/geometry
+
+  train_only_execution_freeze:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/freeze_train_only_execution_contract.py
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/protocol.json
+      - --models
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/calibration/fitted/models.json
+      - --fit-manifest
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/calibration/fitted/manifest.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/execution_contract.json
+
+  train_only_internal_dev_evaluation:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/run_train_only_evaluation.py
+    command:
+      - --repo-root
+      - /workspace
+      - --verification
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev/geometry/verification.jsonl
+      - --ground-truth
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev_ground_truth.jsonl
+      - --models
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/calibration/fitted/models.json
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/protocol.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev/evaluation
+      - --role
+      - internal_dev
+      - --expected-contexts
+      - "354"
+      - --expected-gt-denominator
+      - "2730"
+      - --n-bootstrap
+      - "1000"
+      - --seed
+      - "20260711"
+      - --docker-service
+      - train_only_internal_dev_evaluation
+
+  train_only_final_lock:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/freeze_train_only_final_model.py
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/protocol.json
+      - --execution-contract
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/execution_contract.json
+      - --models
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/calibration/fitted/models.json
+      - --internal-dev
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev/evaluation/summary.json
+      - --checkpoint
+      - /workspace/local_dataset/3DSSG_staged/checkpoint/model_best.pt
+      - --out
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/final_lock.json
+
+  train_only_final_validation_evaluation:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/run_train_only_evaluation.py
+    command:
+      - --repo-root
+      - /workspace
+      - --verification
+      - /workspace/experiments/H001_geom_reliability/sources/3dssg_full_l160/geometry/verification.jsonl
+      - --ground-truth
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl
+      - --models
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/calibration/fitted/models.json
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/protocol.json
+      - --lock-manifest
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/final_lock.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/final_validation/evaluation
+      - --role
+      - final_validation
+      - --expected-contexts
+      - "548"
+      - --expected-gt-denominator
+      - "3972"
+      - --n-bootstrap
+      - "1000"
+      - --seed
+      - "20260712"
+      - --docker-service
+      - train_only_final_validation_evaluation
+
+  3dssg_confirmatory_target_freeze:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/freeze_3dssg_confirmatory_target.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/confirmatory_evaluation/3dssg_target_v1/manifest.json
+
+  confirmatory_protocol_freeze:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/freeze_confirmatory_protocol.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/confirmatory_evaluation/frozen_v1
+
+  physical_validity_codex_proxy:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/draft_blinded_proxy_labels.py
+    command:
+      - --repo-root
+      - /workspace
+      - --public-queue
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/frozen_v1/public_queue.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_v1
+
+  sgfn_confirmatory_target_freeze:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/freeze_sgfn_confirmatory_target.py
+    command:
+      - --repo-root
+      - /workspace
+      - --source-code
+      - /workspace/local_dataset/SceneGraphFusion_code/3DSSG
+      - --out
+      - /workspace/experiments/H001_geom_reliability/confirmatory_evaluation/sgfn_target_v1
+
+  sgfn_confirmatory_target_amend:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/amend_sgfn_confirmatory_target.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/confirmatory_evaluation/sgfn_target_v2
+
+  sgfn_checkpoint_audit:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile.sgfn
+    image: h001-sgfn-confirmatory:cu128
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/audit_sgfn_checkpoint.py
+    command:
+      - --repo-root
+      - /workspace
+      - --archive
+      - /workspace/local_dataset/SceneGraphFusion_checkpoints/SGFN_full_l20.zip
+      - --target-manifest
+      - /workspace/experiments/H001_geom_reliability/confirmatory_evaluation/sgfn_target_v2/manifest.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/confirmatory_evaluation/sgfn_target_v2/checkpoint_audit.json
+
+  sgfn_confirmatory_target_v3_freeze:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/freeze_sgfn_confirmatory_target_v3.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/confirmatory_evaluation/sgfn_target_v3
+
+  physical_validity_codex_rereview_v2:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/draft_blinded_re_review.py
+    command:
+      - --repo-root
+      - /workspace
+      - --public-queue
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/frozen_v1/public_queue.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/codex_rereview_v2
+
+  physical_validity_codex_compare:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/compare_codex_blinded_reviews.py
+    command:
+      - --repo-root
+      - /workspace
+      - --pass-v1
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_v1/codex_proxy_draft.csv
+      - --pass-v2
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/codex_rereview_v2/labels.csv
+      - --out
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/codex_review_comparison
+
+  sgfn_checkpoint_audit_v3:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile.sgfn
+    image: h001-sgfn-confirmatory:cu128
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/audit_sgfn_checkpoint.py
+    command:
+      - --repo-root
+      - /workspace
+      - --archive
+      - /workspace/local_dataset/SceneGraphFusion_checkpoints/SGFN_full_l160.zip
+      - --target-manifest
+      - /workspace/experiments/H001_geom_reliability/confirmatory_evaluation/sgfn_target_v3/manifest.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/confirmatory_evaluation/sgfn_target_v3/checkpoint_audit.json
+
+  sgfn_runtime_stage:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile.sgfn
+    image: h001-sgfn-confirmatory:cu128
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/prepare_sgfn_confirmatory_runtime.py
+    command:
+      - --repo-root
+      - /workspace
+      - --stage-root
+      - /workspace/local_dataset/SGFN_staged
+
+  sgfn_preprocess:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile.sgfn
+    image: h001-sgfn-confirmatory:cu128
+    working_dir: /workspace/local_dataset/SGFN_staged/runtime
+    user: "${UID:-1000}:${GID:-1000}"
+    environment:
+      PYTHONPATH: /workspace/src/geocalib/sgfn_compat:/workspace/local_dataset/SceneGraphFusion_code/3DSSG
+      PYTHONHASHSEED: "0"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/local_dataset/SceneGraphFusion_code/3DSSG/data_processing/gen_data.py
+    command:
+      - --config
+      - /workspace/configs/h001/sgfn_full_l160_confirmatory.yaml
+      - --pth_out
+      - /workspace/local_dataset/SGFN_staged/preprocessed/3RScan_3RScan160
+      - --target_scan
+      - /workspace/local_dataset/SGFN_staged/runtime/files/cvpr/test_scans.txt
+      - --label_type
+      - 3RScan160
+      - --segment_type
+      - GT
+
+  sgfn_preprocess_finalize:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile.sgfn
+    image: h001-sgfn-confirmatory:cu128
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/finalize_sgfn_preprocess.py
+    command:
+      - --repo-root
+      - /workspace
+      - --preprocessed
+      - /workspace/local_dataset/SGFN_staged/preprocessed/3RScan_3RScan160
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/sgfn/preprocess/manifest.json
+
+  sgfn_inference:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile.sgfn
+    image: h001-sgfn-confirmatory:cu128
+    working_dir: /workspace/local_dataset/SGFN_staged/runtime
+    user: "${UID:-1000}:${GID:-1000}"
+    shm_size: "${SGFN_SHM_SIZE:-16gb}"
+    environment:
+      PYTHONPATH: /workspace/src/geocalib/sgfn_compat:/workspace/local_dataset/SceneGraphFusion_code/3DSSG
+      PYTHONHASHSEED: "0"
+      HOME: /workspace/local_dataset/model_cache/home
+      TORCH_HOME: /workspace/local_dataset/model_cache/torch
+    volumes:
+      - ../..:/workspace
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/run_sgfn_confirmatory_inference.py
+    command:
+      - --repo-root
+      - /workspace
+      - --source-root
+      - /workspace/local_dataset/SceneGraphFusion_code/3DSSG
+      - --config
+      - /workspace/configs/h001/sgfn_full_l160_confirmatory.yaml
+      - --checkpoint
+      - /workspace/local_dataset/SGFN_staged/checkpoint/model_best.pt
+      - --preprocess-manifest
+      - /workspace/experiments/H001_geom_reliability/sources/sgfn/preprocess/manifest.json
+      - --target-manifest
+      - /workspace/experiments/H001_geom_reliability/confirmatory_evaluation/sgfn_target_v3/manifest.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/sgfn/raw
+
+  sgfn_inference_smoke:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile.sgfn
+    image: h001-sgfn-confirmatory:cu128
+    working_dir: /workspace/local_dataset/SGFN_staged/runtime
+    user: "${UID:-1000}:${GID:-1000}"
+    shm_size: "${SGFN_SHM_SIZE:-16gb}"
+    environment:
+      PYTHONPATH: /workspace/src/geocalib/sgfn_compat:/workspace/local_dataset/SceneGraphFusion_code/3DSSG
+      PYTHONHASHSEED: "0"
+      HOME: /workspace/local_dataset/model_cache/home
+      TORCH_HOME: /workspace/local_dataset/model_cache/torch
+    volumes:
+      - ../..:/workspace
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/run_sgfn_confirmatory_inference.py
+    command:
+      - --repo-root
+      - /workspace
+      - --source-root
+      - /workspace/local_dataset/SceneGraphFusion_code/3DSSG
+      - --config
+      - /workspace/configs/h001/sgfn_full_l160_confirmatory.yaml
+      - --checkpoint
+      - /workspace/local_dataset/SGFN_staged/checkpoint/model_best.pt
+      - --preprocess-manifest
+      - /workspace/experiments/H001_geom_reliability/sources/sgfn/preprocess/manifest.json
+      - --target-manifest
+      - /workspace/experiments/H001_geom_reliability/confirmatory_evaluation/sgfn_target_v3/manifest.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/sgfn/inference_smoke
+      - --max-scans
+      - "1"
+
+  sgfn_adapter_export:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/export_sgfn_confirmatory_predictions.py
+    command:
+      - --repo-root
+      - /workspace
+      - --raw
+      - /workspace/experiments/H001_geom_reliability/sources/sgfn/raw/raw.jsonl
+      - --subset
+      - /workspace/local_dataset/3DSSG_subset/relationships_validation.json
+      - --ground-truth
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/sgfn/adapter
+
+  sgfn_adapter_coverage_audit:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/audit_sgfn_adapter_coverage.py
+    command:
+      - --repo-root
+      - /workspace
+      - --predictions
+      - /workspace/experiments/H001_geom_reliability/sources/sgfn/adapter/predictions.jsonl
+      - --ground-truth
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/sgfn/adapter/coverage_audit.json
+
+  sgfn_geometry_join:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/join_predictions.py
+    command:
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/sgfn/adapter/predictions.jsonl
+      - --dataset-root
+      - /workspace/local_dataset
+      - --model-json
+      - /workspace/archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_smoke/model.json
+      - --selected-scans
+      - /workspace/results/h001_geom_reliability/full_validation_transition/scope_contract/scans.txt
+      - --verification-policy
+      - point_subtype
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/sgfn/geometry
+
+  sgfn_confirmatory_metrics:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/run_sgfn_confirmatory_metrics.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/sgfn/confirmatory_metrics
+      - --n-bootstrap
+      - "1000"
+      - --seed
+      - "20260710"
+
+  sgfn_confirmatory_audit:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/audit_sgfn_confirmatory_result.py
+    command:
+      - --repo-root
+      - /workspace
+      - --metrics
+      - /workspace/experiments/H001_geom_reliability/sources/sgfn/confirmatory_metrics/summary.json
+      - --target
+      - /workspace/experiments/H001_geom_reliability/confirmatory_evaluation/sgfn_target_v3/manifest.json
+      - --adapter
+      - /workspace/experiments/H001_geom_reliability/sources/sgfn/adapter/manifest.json
+      - --coverage-audit
+      - /workspace/experiments/H001_geom_reliability/sources/sgfn/adapter/coverage_audit.json
+      - --raw-manifest
+      - /workspace/experiments/H001_geom_reliability/sources/sgfn/raw/manifest.json
+      - --checkpoint-audit
+      - /workspace/experiments/H001_geom_reliability/confirmatory_evaluation/sgfn_target_v3/checkpoint_audit.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/sgfn/confirmatory_metrics/decision.json
+
+  3dssg_checkpoint_stage:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/stage_scenegraphfusion_checkpoint.py
+    command:
+      - --repo-root
+      - /workspace
+      - --archive
+      - /workspace/local_dataset/SceneGraphFusion_checkpoints/3DSSG_full_l160.zip
+      - --member
+      - 3DSSG_full_l160/model_best.pt
+      - --target-manifest
+      - /workspace/experiments/H001_geom_reliability/confirmatory_evaluation/3dssg_target_v1/manifest.json
+      - --download-proof
+      - /workspace/logs/h001_3dssg_full_l160_download.exit
+      - --out
+      - /workspace/local_dataset/3DSSG_staged/checkpoint
+
+  3dssg_inference:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile.sgfn
+    image: h001-sgfn-confirmatory:cu128
+    working_dir: /workspace/local_dataset/SGFN_staged/runtime
+    user: "${UID:-1000}:${GID:-1000}"
+    shm_size: "${SGFN_SHM_SIZE:-16gb}"
+    environment:
+      PYTHONPATH: /workspace/src/geocalib/sgfn_compat:/workspace/local_dataset/SceneGraphFusion_code/3DSSG
+      PYTHONHASHSEED: "0"
+      HOME: /workspace/local_dataset/model_cache/home
+      TORCH_HOME: /workspace/local_dataset/model_cache/torch
+    volumes:
+      - ../..:/workspace
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/run_sgfn_confirmatory_inference.py
+    command:
+      - --repo-root
+      - /workspace
+      - --source-root
+      - /workspace/local_dataset/SceneGraphFusion_code/3DSSG
+      - --config
+      - /workspace/configs/h001/3dssg_full_l160_confirmatory.yaml
+      - --checkpoint
+      - /workspace/local_dataset/3DSSG_staged/checkpoint/model_best.pt
+      - --preprocess-manifest
+      - /workspace/experiments/H001_geom_reliability/sources/sgfn/preprocess/manifest.json
+      - --target-manifest
+      - /workspace/experiments/H001_geom_reliability/confirmatory_evaluation/3dssg_target_v1/manifest.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/3dssg_full_l160/raw
+      - --source-id
+      - 3dssg_official_full_l160
+      - --source-split
+      - official_3dssg_validation_source_alias_test_scans
+      - --model-name
+      - 3DSSG_full_l160
+      - --expected-method
+      - sgpn
+      - --target-status
+      - target_frozen_pre_checkpoint_download_pre_inference
+      - --raw-schema
+      - h001_scenegraphfusion_3dssg_raw_scan_scores_v1
+      - --raw-record-type
+      - 3dssg_full_scan_scores
+      - --manifest-schema
+      - h001_3dssg_raw_inference_manifest_v1
+      - --ready-status
+      - 3dssg_raw_inference_ready
+      - --smoke-status
+      - 3dssg_inference_smoke_ready
+      - --docker-service
+      - 3dssg_inference
+
+  3dssg_inference_smoke:
+    extends:
+      service: 3dssg_inference
+    command:
+      - --repo-root
+      - /workspace
+      - --source-root
+      - /workspace/local_dataset/SceneGraphFusion_code/3DSSG
+      - --config
+      - /workspace/configs/h001/3dssg_full_l160_confirmatory.yaml
+      - --checkpoint
+      - /workspace/local_dataset/3DSSG_staged/checkpoint/model_best.pt
+      - --preprocess-manifest
+      - /workspace/experiments/H001_geom_reliability/sources/sgfn/preprocess/manifest.json
+      - --target-manifest
+      - /workspace/experiments/H001_geom_reliability/confirmatory_evaluation/3dssg_target_v1/manifest.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/3dssg_full_l160/inference_smoke
+      - --source-id
+      - 3dssg_official_full_l160
+      - --source-split
+      - official_3dssg_validation_source_alias_test_scans
+      - --model-name
+      - 3DSSG_full_l160
+      - --expected-method
+      - sgpn
+      - --target-status
+      - target_frozen_pre_checkpoint_download_pre_inference
+      - --raw-schema
+      - h001_scenegraphfusion_3dssg_raw_scan_scores_v1
+      - --raw-record-type
+      - 3dssg_full_scan_scores
+      - --manifest-schema
+      - h001_3dssg_raw_inference_manifest_v1
+      - --ready-status
+      - 3dssg_raw_inference_ready
+      - --smoke-status
+      - 3dssg_inference_smoke_ready
+      - --docker-service
+      - 3dssg_inference_smoke
+      - --max-scans
+      - "1"
+
+  3dssg_adapter_export:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/export_sgfn_confirmatory_predictions.py
+    command:
+      - --repo-root
+      - /workspace
+      - --raw
+      - /workspace/experiments/H001_geom_reliability/sources/3dssg_full_l160/raw/raw.jsonl
+      - --subset
+      - /workspace/local_dataset/3DSSG_subset/relationships_validation.json
+      - --ground-truth
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/3dssg_full_l160/adapter
+      - --source-id
+      - 3dssg_official_full_l160
+      - --baseline-run-id
+      - 3dssg_target_v1_confirmatory
+      - --prediction-split-id
+      - official_validation
+      - --raw-schema
+      - h001_scenegraphfusion_3dssg_raw_scan_scores_v1
+      - --split-name
+      - official_3dssg_validation_h001_projection
+      - --edge-source
+      - 3dssg_full_directed_graph
+      - --predicate-vocab
+      - 3DSSG_full_l160_sorted_26_no_none
+      - --predicate-index-field
+      - 3dssg_predicate_index
+      - --adapter-name
+      - 3dssg_full_scan_to_h001_subgraph
+      - --manifest-schema
+      - h001_3dssg_adapter_manifest_v1
+      - --ready-status
+      - 3dssg_adapter_ready
+      - --docker-service
+      - 3dssg_adapter_export
+
+  3dssg_adapter_coverage_audit:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/audit_sgfn_adapter_coverage.py
+    command:
+      - --repo-root
+      - /workspace
+      - --predictions
+      - /workspace/experiments/H001_geom_reliability/sources/3dssg_full_l160/adapter/predictions.jsonl
+      - --ground-truth
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/3dssg_full_l160/adapter/coverage_audit.json
+
+  3dssg_geometry_join:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/join_predictions.py
+    command:
+      - --predictions-jsonl
+      - /workspace/experiments/H001_geom_reliability/sources/3dssg_full_l160/adapter/predictions.jsonl
+      - --dataset-root
+      - /workspace/local_dataset
+      - --model-json
+      - /workspace/archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_smoke/model.json
+      - --selected-scans
+      - /workspace/results/h001_geom_reliability/full_validation_transition/scope_contract/scans.txt
+      - --verification-policy
+      - point_subtype
+      - --output-dir
+      - /workspace/experiments/H001_geom_reliability/sources/3dssg_full_l160/geometry
+
+  3dssg_confirmatory_metrics:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/run_3dssg_confirmatory_metrics.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/3dssg_full_l160/confirmatory_metrics
+      - --n-bootstrap
+      - "1000"
+      - --seed
+      - "20260710"
+
+  3dssg_confirmatory_audit:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/audit_3dssg_confirmatory_result.py
+    command:
+      - --repo-root
+      - /workspace
+      - --metrics
+      - /workspace/experiments/H001_geom_reliability/sources/3dssg_full_l160/confirmatory_metrics/summary.json
+      - --target
+      - /workspace/experiments/H001_geom_reliability/confirmatory_evaluation/3dssg_target_v1/manifest.json
+      - --checkpoint
+      - /workspace/local_dataset/3DSSG_staged/checkpoint/manifest.json
+      - --raw
+      - /workspace/experiments/H001_geom_reliability/sources/3dssg_full_l160/raw/manifest.json
+      - --adapter
+      - /workspace/experiments/H001_geom_reliability/sources/3dssg_full_l160/adapter/manifest.json
+      - --coverage
+      - /workspace/experiments/H001_geom_reliability/sources/3dssg_full_l160/adapter/coverage_audit.json
+      - --annotations
+      - /workspace/local_dataset/3DSSG_subset/relationships_validation.json
+      - --official-scans
+      - /workspace/local_dataset/SceneGraphFusion_code/3DSSG/files/cvpr/test_scans.txt
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/3dssg_full_l160/confirmatory_metrics/decision.json
+
+  factor_isolation_metrics_3dssg:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/run_factor_isolation_metrics.py
+    command:
+      - --repo-root
+      - /workspace
+      - --predictions
+      - /workspace/experiments/H001_geom_reliability/sources/3dssg_full_l160/adapter/predictions.jsonl
+      - --verification
+      - /workspace/experiments/H001_geom_reliability/sources/3dssg_full_l160/geometry/verification.jsonl
+      - --ground-truth
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl
+      - --models
+      - /workspace/experiments/H001_geom_reliability/factor_isolation_protocol/fitted_v1/models.json
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/factor_isolation_protocol/frozen_v1/manifest.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/3dssg_full_l160/factor_isolation_metrics
+      - --n-bootstrap
+      - "1000"
+      - --seed
+      - "20260710"
+
+  replicassg_prospective_protocol_freeze:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/freeze_replicassg_prospective_protocol.py
+    command:
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/replicassg/prospective_protocol/frozen_v1

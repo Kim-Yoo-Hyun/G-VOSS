@@ -1,5 +1,0 @@
-step,todo,action,output_root
-1,pobs_prel_qe_repair_materialization,"materialize Q_e v2 train/eval views with asset, visual, geometry-quality, and ambiguity blocks",experiments/H002_compatibility_routing/pobs_prel_qe_repair_materialization/latest
-2,pobs_prel_qe_repair_schema_audit,audit Q_e v2 model-safe/hidden separation and feature-label alignment,experiments/H002_compatibility_routing/pobs_prel_qe_repair_schema_audit/latest
-3,pobs_prel_qe_repair_pobs_only_metric,run p_obs-only diagnostic metric before rerunning p_rel or full selective decision,experiments/H002_compatibility_routing/pobs_prel_qe_repair_evaluation/latest
-4,pobs_prel_qe_repair_result_review,decide whether Q_e repair is sufficient for selective-decision rerun,experiments/H002_compatibility_routing/pobs_prel_qe_repair_review/latest

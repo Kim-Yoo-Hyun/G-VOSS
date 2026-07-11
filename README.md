@@ -46,10 +46,13 @@ docker compose -f configs/qwen_vl/compose.qwen.yaml run --rm qwen_vl_cache_verif
 Build the current AAAI paper source with:
 
 ```bash
-docker build -f paper/aaai/Dockerfile.tex -t h001-aaai-tex:20260526 paper/aaai
-docker run --rm -v "$PWD/paper:/work" -w /work/aaai h001-aaai-tex:20260526 \
+docker build -f paper/aaai/Dockerfile.tex -t h001-aaai27-tex:20260712 paper/aaai
+docker run --rm -v "$PWD/paper:/work" -w /work/aaai h001-aaai27-tex:20260712 \
   latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 ```
+
+The verified AAAI-27 field files are under
+`release/h001_aaai27_openreview_20260712_083625/`.
 
 ## Artifact Policy
 

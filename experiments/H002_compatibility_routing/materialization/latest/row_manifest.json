@@ -6,7 +6,7 @@
     "paper_metric_produced": false,
     "runtime_output_root": "experiments/H002_compatibility_routing/materialization/latest"
   },
-  "created_at_utc": "2026-07-01T04:21:16+00:00",
+  "created_at_utc": "2026-07-10T15:28:06+00:00",
   "next_required_gate": "materialization_schema_shortcut_audit",
   "predicate_count_table": [
     {

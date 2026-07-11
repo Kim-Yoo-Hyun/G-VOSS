@@ -4,13 +4,11 @@
 not a replacement relation predictor and not a standalone hand-coded verifier.
 The geometric checks define the measurable validity target for families with
 observable physical constraints; the method contribution is the
-identity-preserving row contract, calibrated \pgeom{} signal, operating-point
-analysis, and controls that test whether geometry is used as a relation-level
-reliability signal rather than as a generic filter. The framework is built
-around four design requirements: preserve relation-row identity, join explicit
-object-pair geometry, calibrate geometry validity, and evaluate recall and
-violation jointly. Figure~\ref{fig:framework} presents these requirements as a
-pipeline from relation-source outputs to calibrated operating points.
+identity-preserving row contract, factor separation, calibrated compatibility,
+operating-point analysis, and controls. The design preserves row identity,
+joins predicate-independent same-pair geometry, excludes source confidence
+from compatibility calibration, and evaluates recall and violation jointly.
+Figure~\ref{fig:framework} presents this path to calibrated operating points.
 
 \subsection{Relation-Row Standardization}
 
@@ -47,49 +45,68 @@ depends primarily on function, social context, affordance, or language
 pragmatics, because those predicates do not have a stable geometric validity
 test from the available reconstruction alone.
 
-\subsection{Family-Conditional Calibrated Risk Re-Ranking}
+\subsection{Factor-Isolated Calibration and Fusion}
 
-The main GeoCalib score uses a frozen relation-family-conditioned calibrator:
+For each row, $T_i$ denotes predicate/family semantics, $G_i$ raw
+predicate-independent same-pair geometry, and $Z_i$ source confidence. The
+frozen family-conditioned calibrator is
 \begin{equation}
-\pgeomfam_i = C_{a_i}(\phi(g_i)),
+\begin{split}
+\pgeomfam_i=C_i &={} C_{a_i}(\Phi(T_i,G_i)),\\
+                 &={} P(y_i^{cal}=1\mid T_i,G_i),
+\end{split}
 \end{equation}
-where $\phi(g_i)$ is the geometry feature vector and $C_{a_i}$ is the
-calibrator for the mapped relation family. This is the paper's primary
-calibration design: support/contact, proximity, and vertical relations need not
-share one pooled geometry-risk surface. The pooled calibrator,
+Here $\Phi=(\phi_T,\phi_G,\phi_{\times})$; $\phi_{\times}$ contains explicit
+predicate-aligned transforms such as signed vertical displacement while raw
+$G_i$ remains predicate-independent.
+The leakage boundary is
 \begin{equation}
-\pgeom_i = C_{\mathrm{pooled}}(\phi(g_i)),
+Z_i\notin\operatorname{inputs}(C_i).
 \end{equation}
-is retained as the \texttt{pooled\_risk} ablation. Both calibrators are trained
-on train-dev calibration positives and counterfactual negatives. The
-predicate-family map, hard-rule thresholds,
-counterfactual construction, and calibrator files are fixed from train-dev
-calibration artifacts before held-out source-result reporting; held-out
-prediction rows are not used to retune them.
+Source confidence and identity are absent from calibrator features and enter
+only after $C_i$ is fixed. A pooled calibrator with the same boundary is the
+\texttt{pooled\_risk} ablation. Both use 2,565 train-dev GT positives and 3,244
+high-margin counterfactual negatives, so $y^{cal}$ is constructed rather than
+human validity. Family maps, rules, counterfactuals, and calibrators are frozen
+from train-dev artifacts without held-out retuning.
 
-We use geometry validity as a soft risk term. For the main score,
+We first use geometry validity as a soft risk term. For the calibrated product,
 $R^{geom}_i=-\log \pgeomfam_i$ and
 \begin{equation}
 U_{\lambda}(i)=\log \mathrm{score}^{sem}_i-\lambda R^{geom}_i.
 \end{equation}
-The reported GeoCalib score fixes $\lambda=1$, giving
+The reported product fixes $\lambda=1$, giving
 \begin{equation}
-\mathrm{score}^{\mathrm{GeoCalib}}_i =
+\mathrm{score}^{\mathrm{product}}_i =
 \mathrm{score}^{sem}_i \cdot \pgeomfam_i.
 \end{equation}
 This preserves the source ranking signal while continuously penalizing
 calibrated inconsistency; $\lambda$ is not tuned on held-out source results.
-We report \texttt{family\_conditional\_risk} as the main score,
+
+The second soft instantiation removes source-scale assumptions. Within each
+subgraph, let $q_i^{sem}$ and $q_i^{geom}$ be descending percentile ranks of
+$\mathrm{score}^{sem}_i$ and $\pgeomfam_i$. Rank-average assigns
+\begin{equation}
+\mathrm{score}^{\mathrm{rank}}_i =
+\tfrac{1}{2}(q_i^{sem}+q_i^{geom}).
+\end{equation}
+The equal weight is parameter-free and fixed before SGFN inference. The product
+uses calibrated probability magnitudes; rank-average is scale-robust. We treat
+them as two GeoCalib fusion instantiations rather than claiming one formula is
+universally optimal. We additionally report
 \texttt{probabilistic\_recalibrated} as the pooled calibrated-risk ablation
-$\mathrm{score}^{sem}_i \cdot \pgeom_i$, and
-\texttt{rule\_verified\_point\_subtype} as a hard zero-violation diagnostic.
+$\mathrm{score}^{sem}_i \cdot \pgeom_i$, fixed-constant Reciprocal Rank Fusion
+as a strong comparison, and \texttt{rule\_verified\_point\_subtype} as a hard
+zero-violation diagnostic.
 
 \subsection{Controls}
 
 The control conditions test whether the result can be explained by simpler
-signals. Geometry-only ranking uses \pgeom{} alone and is therefore distinct
-from the pooled calibrated-risk ablation, which still multiplies semantic
-confidence by \pgeom{}. Distance-only ranking tests whether a generic spatial
+signals. The legacy \pgeom{}-only ranking removes $Z_i$ and is therefore
+distinct from the pooled calibrated-risk ablation, which still multiplies
+source confidence by \pgeom{}. We call it calibrator-only, not true $G$-only,
+because the calibrator retains $T_i$ and $T_i\!\times\!G_i$ features.
+Distance-only ranking tests whether a generic spatial
 heuristic explains the result. Shuffled-geometry and wrong-pair-geometry
 controls test whether relation-level object-pair identity is necessary. If
 these controls perform worse than the calibrated setting, the result supports

@@ -77,6 +77,14 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Bootstrap only the VL-SAT source. Use for VL-SAT-only full-validation gates.",
     )
+    parser.add_argument(
+        "--metrics-dir-name",
+        default="metrics",
+        help=(
+            "Metrics subdirectory under each source root. Use metrics_k_sweep "
+            "for the K={5,10,20,50,100} sweep."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -119,6 +127,7 @@ def source_specs(
     vlsat_root_arg: Path | None,
     vlsat_source_name: str,
     skip_open3dsg: bool,
+    metrics_dir_name: str,
 ) -> list[SourceSpec]:
     hroot = repo_root / H001_HYPOTHESIS_REL
     open3dsg_root = open3dsg_root_arg if open3dsg_root_arg.is_absolute() else repo_root / open3dsg_root_arg
@@ -142,7 +151,7 @@ def source_specs(
             predictions_jsonl=vlsat_root / "adapter/predictions.jsonl",
             ground_truth_jsonl=gt,
             verification_jsonl=vlsat_root / "geometry/verification.jsonl",
-            metrics_json=vlsat_root / "metrics/metrics.json",
+            metrics_json=vlsat_root / metrics_dir_name / "metrics.json",
             family_model_json=family_model,
         )
     specs = [vlsat_spec]
@@ -153,7 +162,7 @@ def source_specs(
                 predictions_jsonl=open3dsg_root / "adapter/predictions.jsonl",
                 ground_truth_jsonl=gt,
                 verification_jsonl=open3dsg_root / "geometry/verification.jsonl",
-                metrics_json=open3dsg_root / "metrics/metrics.json",
+                metrics_json=open3dsg_root / metrics_dir_name / "metrics.json",
                 family_model_json=family_model,
             )
         )
@@ -535,6 +544,7 @@ def main() -> int:
         "n_bootstrap": args.n_bootstrap,
         "families": sorted(families),
         "ks": ks,
+        "metrics_dir_name": args.metrics_dir_name,
         "bootstrap_unit": "subgraph_id",
         "conditions": list(DEFAULT_CONDITIONS),
         "sources": {},
@@ -551,6 +561,7 @@ def main() -> int:
         vlsat_root_arg=args.vlsat_source_root,
         vlsat_source_name=args.vlsat_source_name,
         skip_open3dsg=args.skip_open3dsg,
+        metrics_dir_name=args.metrics_dir_name,
     ):
         missing = [
             path
@@ -598,6 +609,7 @@ def main() -> int:
         "docker_command": report["docker_command"],
         "n_bootstrap": args.n_bootstrap,
         "seed": args.seed,
+        "metrics_dir_name": args.metrics_dir_name,
     }
     write_json(out_dir / "manifest.json", manifest)
     print(

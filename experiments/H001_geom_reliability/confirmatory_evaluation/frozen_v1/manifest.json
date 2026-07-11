@@ -1,0 +1,123 @@
+{
+  "chronology": [
+    {
+      "date": "2026-05-06",
+      "event": "family_calibrator_artifact_created",
+      "evidence": "model.json created_at and source_split=train_dev_calib"
+    },
+    {
+      "commit": "45dc45f857f8160edc3080b6fbcb77785d4dd73d",
+      "date": "2026-06-23T20:12:53+09:00",
+      "event": "family_calibrator_first_committed"
+    },
+    {
+      "date": "2026-06-23",
+      "event": "full_validation_source_metrics_generated",
+      "evidence": "both metrics_k_sweep/metrics.json created_at fields"
+    },
+    {
+      "commit": "d8a07fa91641407daf6d6778dca658e3bc4794af",
+      "date": "2026-06-24T14:09:45+09:00",
+      "event": "family_condition_reframed_from_control_to_method_candidate",
+      "evidence": "H001_v2 11_family_conditional_risk_result.md introduced after source results"
+    },
+    {
+      "commit": "d4999aaa6485814b0a05267304ad5e8efda46fb6",
+      "date": "2026-06-25T09:38:00+09:00",
+      "event": "family_conditional_risk_promoted_to_paper_main_score",
+      "evidence": "paper/TODO/result wording explicitly promoted the condition"
+    },
+    {
+      "date": "2026-07-10",
+      "event": "independent_physical_validity_audit_protocol_frozen",
+      "evidence": "physical_validity_audit/frozen_v1 manifest; labels initially empty"
+    }
+  ],
+  "confirmatory_target": {
+    "blocked_reuse_targets": [
+      "VL-SAT full official validation already inspected",
+      "Open3DSG recovery full validation already inspected",
+      "Qwen full-validation outputs already inspected"
+    ],
+    "fresh_source_metric_target": null,
+    "human_physical_validity": "physical_validity_audit/frozen_v1"
+  },
+  "created_at_utc": "2026-07-10T06:18:51.186058+00:00",
+  "inputs": {
+    "audit_manifest": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/frozen_v1/manifest.json",
+      "sha256": "d6d860797370e3354557fa4659bc9dbdb8732c1418ee3497a2112c7d446f8267"
+    },
+    "family_model": {
+      "path": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json",
+      "sha256": "ebc176cd093786b6af5c20fdfe917b9c8bfcc02f0d1e2f2593d5676c627e57b8"
+    },
+    "open3dsg_metrics": {
+      "path": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/metrics.json",
+      "sha256": "5a3b2925212c7f9b13b49ae5011ea6b615113598f83951eaf1373f5495bb61f7"
+    },
+    "reviewer_extension_manifest": {
+      "path": "experiments/H001_geom_reliability/reviewer_extension_metrics/frozen_v1/manifest.json",
+      "sha256": "5daf99b3da4335dba4f04505d1f63bc1996f35bffb73f75a99019fbc3a6ceb6a"
+    },
+    "vlsat_metrics": {
+      "path": "experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics_k_sweep/metrics.json",
+      "sha256": "9f0decaea1e720925a8c9c30adc0d17139738ea02133a66259190ddd7e2b7525"
+    }
+  },
+  "locked_protocol": {
+    "bootstrap_unit": "subgraph_or_scene_cluster",
+    "comparators": [
+      "semantic_only",
+      "pooled_calibration",
+      "geometry_only_family",
+      "rank_average_fusion",
+      "reciprocal_rank_fusion_c60"
+    ],
+    "families": [
+      "support_contact",
+      "proximity",
+      "relative_vertical"
+    ],
+    "formula": "semantic_score * p_geom_valid_family",
+    "ks": [
+      5,
+      10,
+      20,
+      50,
+      100
+    ],
+    "main_score": "family_conditional_risk",
+    "n_bootstrap": 1000,
+    "primary_human_hypothesis": "paired_delta_human_violation_at_100_main_minus_semantic_below_zero",
+    "primary_k": 100,
+    "source_recall_guardrail": "paired_delta_recall_at_100_ci95_lower_above_minus_0.01"
+  },
+  "provenance_verdict": {
+    "calibrator_fit_before_source_results": true,
+    "existing_source_metrics_classification": "retrospective_exploratory_evidence",
+    "fresh_source_metric_confirmatory_status": "requires_user_selected_untouched_target",
+    "independent_human_audit_classification": "prospective_confirmatory_for_physical_validity_after_two_rater_completion",
+    "main_score_selected_after_source_results": true
+  },
+  "schema_version": "h001_confirmatory_protocol_v1",
+  "status": "human_confirmatory_open_source_metric_confirmatory_requires_target",
+  "user_decision_required": {
+    "decision": "select whether and where to run a fresh exact-label source-metric confirmatory evaluation",
+    "minimum_record_before_run": [
+      "target dataset/source and checkpoint",
+      "untouched split identity",
+      "prediction export and denominator contract",
+      "compute/time budget",
+      "confirmation that main score/families/K remain frozen"
+    ],
+    "recommended": "new genuinely untouched semantic source or dataset target; keep existing source tables explicitly retrospective"
+  },
+  "validations": {
+    "audit_labels_initially_empty_by_status": true,
+    "family_model_created_before_source_metrics": true,
+    "family_model_source_split_train_dev_calib": true,
+    "reviewer_extension_ready": true,
+    "source_metrics_same_locked_date": true
+  }
+}

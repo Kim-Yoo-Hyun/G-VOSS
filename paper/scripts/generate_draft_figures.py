@@ -83,7 +83,7 @@ EXPECTED_FIGURE3_CASES = [
 LABELS = {
     "semantic_only": "semantic",
     "probabilistic_recalibrated": "pooled",
-    "family_conditional_risk": "GeoCalib",
+    "family_conditional_risk": "Calibrated product",
     "rule_verified_point_subtype": "rule",
 }
 
@@ -134,12 +134,12 @@ def box(x: int, y: int, w: int, h: int, title: str, body: str, fill: str = "#fff
 def generate_figure1() -> str:
     width, height = 1280, 650
     boxes = [
-        (50, 220, 160, 115, "Relation source", "VL-SAT / Open3DSG scored predicate rows"),
-        (250, 220, 170, 115, "Row contract", "scan, subgraph, subject, object, predicate, score"),
-        (460, 220, 170, 115, "Geometry join", "identity-preserving object-pair evidence"),
+        (50, 220, 160, 115, "Relation source", "scored predicate rows with source confidence Z_e"),
+        (250, 220, 170, 115, "Semantics T_e", "predicate and mapped relation-family semantics"),
+        (460, 220, 170, 115, "Raw geometry G_e", "predicate-independent same-pair evidence"),
         (670, 220, 170, 115, "Verifier", "family-specific satisfied / uncertain / violated"),
-        (880, 220, 170, 115, "Calibration", "estimate p_geom_valid from frozen geometry features"),
-        (1090, 220, 150, 115, "Evaluation", "R@K and Violation@K reported together"),
+        (880, 220, 170, 115, "Compatibility C_e", "calibrate y_cal from T_e and G_e; exclude Z_e"),
+        (1090, 220, 150, 115, "Fusion + eval", "F(Z_e,C_e); report R@K and V@K"),
     ]
     parts = [
         '<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="650" viewBox="0 0 1280 650">',
@@ -180,10 +180,10 @@ def generate_figure1() -> str:
     parts.extend(
         [
             svg_text(55, y, "Operating points", 17, 700),
-            box(55, y + 22, 245, 90, "Pooled risk", "score_sem * pooled p_geom_valid; ablation", "#eff6ff"),
-            box(330, y + 22, 245, 90, "Rule-verified", "remove hard violations; zero-violation diagnostic", "#fff1f2"),
-            box(605, y + 22, 245, 90, "GeoCalib", "score_sem * family-conditioned p_geom_valid", "#ecfdf5"),
-            box(880, y + 22, 310, 90, "Controls", "geometry-only, distance-only, shuffled geometry, wrong-pair geometry", "#f8fafc"),
+            box(55, y + 22, 245, 90, "Calibrated product", "score_sem * family-conditioned p_geom_valid", "#ecfdf5"),
+            box(330, y + 22, 245, 90, "Rank-average", "mean semantic and geometry rank percentiles", "#ecfeff"),
+            box(605, y + 22, 245, 90, "Diagnostics", "pooled calibration and strict rule", "#eff6ff"),
+            box(880, y + 22, 310, 90, "Controls", "calibrator-only (no Z), distance, shuffled geometry, wrong-pair geometry", "#f8fafc"),
             svg_text(
                 55,
                 588,
@@ -343,23 +343,21 @@ def write_figure1_png() -> None:
     text(178, 181, "standing on", "#92400e", small_bold)
     text(72, 238, "semantic score: high", "#7c2d12", small)
     text(72, 256, "geometry: violated", "#991b1b", small_bold)
-    text(205, 238, "plausible label", "#7c2d12", small)
-    text(205, 256, "wrong physical state", "#991b1b", small_bold)
 
-    panel(430, 105, 360, 168, "2. Same-pair geometry", "#eff6ff", "#60a5fa")
+    panel(430, 105, 360, 168, "2. Factor-isolated evidence", "#eff6ff", "#60a5fa")
     wrap_text(
         452,
         154,
-        "Join evidence by scan, subgraph, subject id, and object id rather than by category names.",
+        "T_e: predicate/family semantics. G_e: raw predicate-independent geometry joined by ordered object identity.",
         43,
         "#1e3a8a",
     )
-    text(452, 226, "Evidence: distance, contact, overlap, vertical order", "#1e3a8a", body)
+    text(452, 226, "C_e = P(y_cal=1 | T_e,G_e); source score excluded", "#1e3a8a", body)
 
-    panel(850, 105, 380, 168, "3. Calibrated re-ranking", "#ecfdf5", "#34d399")
-    text(872, 153, "GeoCalib score", "#065f46", body_bold)
-    text(872, 179, "semantic_score x p_geom_valid_family", "#065f46", body)
-    wrap_text(872, 213, "Family-conditioned risk keeps top-K utility while penalizing inconsistency.", 43, "#065f46")
+    panel(850, 105, 380, 168, "3. Fuse only after calibration", "#ecfdf5", "#34d399")
+    text(872, 153, "Calibrated product", "#065f46", body_bold)
+    text(872, 179, "Z_e x C_e", "#065f46", body)
+    wrap_text(872, 207, "Rank-average combines Z_e and C_e percentiles without assuming a shared score scale.", 43, "#065f46")
 
     arrow(390, 190, 420, 190)
     arrow(800, 190, 840, 190)
@@ -370,13 +368,13 @@ def write_figure1_png() -> None:
     text(76, 418, "high semantic confidence, violated geometry", "#991b1b", small)
     text(76, 446, "failure: symbolic edge contradicts 3D evidence", "#6b7280", small)
 
-    panel(460, 348, 360, 135, "GeoCalib", "#f0fdf4", "#22c55e")
+    panel(460, 348, 360, 135, "GeoCalib instantiations", "#f0fdf4", "#22c55e")
     text(486, 394, "same semantic score + same-pair geometry", "#065f46", small_bold)
     text(486, 418, "invalid edges are softly demoted", "#065f46", small)
     text(486, 446, "evaluate recall and violation together", "#6b7280", small)
 
     panel(870, 348, 360, 135, "Controls", "#f8fafc")
-    text(896, 394, "geometry-only / distance-only", font=small_bold)
+    text(896, 394, "calibrator-only (no Z) / distance-only", font=small_bold)
     text(896, 418, "shuffled geometry / wrong-pair geometry", font=small_bold)
     text(896, 446, "test whether same-pair calibration matters", "#6b7280", small)
 
@@ -384,7 +382,7 @@ def write_figure1_png() -> None:
     text(
         228,
         545,
-        "GeoCalib = main score; pooled risk = ablation; strict rule = diagnostic; controls = simpler explanations.",
+        "product + rank-average = soft instantiations; pooled = ablation; strict rule = diagnostic.",
         "#374151",
         body,
     )

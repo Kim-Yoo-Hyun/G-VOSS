@@ -1,0 +1,10 @@
+step,gate,passed,decision,reason
+1,route_specific_scorer_defined,True,RH1_source_x_frame_score,source score multiplied by frozen world-XY frame residual compatibility
+2,frame_protocol_frozen,True,dataset_world_xy_reference_frame_from_3rscan_obb_centroids,"same protocol as the prior audit, no label-dependent tuning"
+3,axis_and_sign_controls_degrade,True,pass,control_failures=0
+4,source_wide_violation_nonincrease,True,pass,source_violation_regressions=0
+4,source_wide_recall_not_large_loss,False,fail,source_recall_loss_cells_gt_0p01=3
+5,per_predicate_violation_nonincrease,True,pass,predicate_violation_regressions=0
+5,per_predicate_recall_not_large_loss,False,fail,predicate_recall_loss_cells_gt_0p05=6
+6,strict_balanced_main_route,False,do_not_promote_as_balanced_main,"requires no violation regression, no large recall loss, and control collapse"
+6,caveated_violation_control_route,True,allow_caveated_route,allows route only as violation-control evidence when recall tradeoff remains

@@ -1,0 +1,33 @@
+{
+  "compatibility_note": "official point-only SGFN loader incorrectly requires proposals.h5 while building its filter; this index preserves every generated 3D node and is used only because load_images=false",
+  "counts": {
+    "max_nodes_per_scan": 114,
+    "min_nodes_per_scan": 2,
+    "nodes": 2873,
+    "scans": 117,
+    "source_relationship_rows": 19791
+  },
+  "created_at_utc": "2026-07-10T15:08:32.821006+00:00",
+  "docker_command": "UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_internal_dev_preprocess_finalize",
+  "inputs": {
+    "relationships_h5": "local_dataset/3DSSG_internal_dev_staged/preprocessed/3RScan_3RScan160/relationships.h5",
+    "sha256": "8c50baf62fce2194b1a555ebf30a14e1bfbdbf4d35f04270d8e388f761751e35"
+  },
+  "official_scans": {
+    "path": "experiments/H001_geom_reliability/train_only_reestablishment_v1/splits/internal_dev_scans.txt",
+    "sha256": "25fb5aba714b0c9bf00f36b04fb890de6dd4a197628dd179812189511c01343b"
+  },
+  "outputs": {
+    "filtered_h5": "local_dataset/3DSSG_internal_dev_staged/preprocessed/3RScan_3RScan160/filtered_scans_detection.h5",
+    "sha256": "e422710a4bb3c3e21b4fbe05f2aca21d04744cac909dbd14a5a8f0bd7bdef8ad"
+  },
+  "schema_version": "h001_sgfn_preprocess_audit_v1",
+  "status": "internal_dev_preprocess_ready",
+  "validations": {
+    "all_scans_have_at_least_two_nodes": true,
+    "class_count_160": true,
+    "generated_scan_count_expected": true,
+    "generated_scans_equal_frozen_scope": true,
+    "relation_file_contains_27_entries_including_none": true
+  }
+}

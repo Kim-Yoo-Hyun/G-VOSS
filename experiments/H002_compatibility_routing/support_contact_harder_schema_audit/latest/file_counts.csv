@@ -1,9 +1,0 @@
-file,line_count,expected,match
-candidate_rows.jsonl,3178,3178,True
-model_safe_main_no_class.jsonl,3178,3178,True
-model_safe_main_with_class_ablation.jsonl,3178,3178,True
-model_safe_geometry_only.jsonl,3178,3178,True
-model_safe_qe_diagnostic.jsonl,3178,3178,True
-hidden_manifest.jsonl,3178,3178,True
-group_manifest.jsonl,1589,1589,True
-validation_errors.jsonl,0,0,True

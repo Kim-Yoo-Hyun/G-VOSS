@@ -1,0 +1,7 @@
+route,current_status,claim_status,support_contact_freeze_effect
+relative_vertical,main_validated_compatibility_route,current H002 scope,unchanged
+size_relative,main_validated_compatibility_route,current H002 scope,unchanged
+left_right,caveated_lateral_main_route,caveated current H002 scope,unchanged
+front_behind,frame_depth_failure_case,appendix/failure analysis,unchanged
+support_contact,hard_route_diagnostic_freeze,not solved; no metric rerun,diagnostic only
+H003_or_learned_Ge,future_only,not validated by current target,requires repaired independent target first

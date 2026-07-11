@@ -1,0 +1,25 @@
+{
+  "schema_version": "h001_codex_blinded_review_visual_followup_v1",
+  "status": "all_disagreement_rows_visually_inspected",
+  "inspected_rows": 50,
+  "inspected_contact_sheets": [
+    "disagreement_sheets/sheet_01.jpg",
+    "disagreement_sheets/sheet_02.jpg",
+    "disagreement_sheets/sheet_03.jpg",
+    "disagreement_sheets/sheet_04.jpg",
+    "disagreement_sheets/sheet_05.jpg"
+  ],
+  "finding": {
+    "direct_valid_invalid_polarity_conflicts": 0,
+    "all_disagreements_involve_ambiguous_boundary": true,
+    "dominant_boundary_types": [
+      "support/contact surface separation or pose subtype is visually borderline",
+      "close-by judgment depends on relative scale and missing scene context",
+      "large structural instances and sparse segmentation make local contact uncertain"
+    ],
+    "gross_systematic_color_role_or_direction_error_observed": false
+  },
+  "label_mutation_after_comparison": false,
+  "interpretation": "visual inspection supports treating pass differences as uncertainty-boundary sensitivity, not opposite physical judgments",
+  "claim_boundary": "same Codex agent follow-up; not blinded adjudication and not human evidence"
+}

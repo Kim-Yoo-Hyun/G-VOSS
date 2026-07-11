@@ -1,0 +1,35 @@
+{
+  "axis_control_failure_cells": 0,
+  "control_failure_cells": 20,
+  "created_at_utc": "2026-07-06T03:10:43+00:00",
+  "final_pass": false,
+  "frame_protocol": "dataset_world_xy_reference_frame_from_3rscan_obb_centroids",
+  "next_todo": "h002_relative_horizontal_main_route_user_decision_after_audit",
+  "outputs": {
+    "deterministic_frame_control_metrics": "experiments/H002_compatibility_routing/relative_horizontal_frame_audit/latest/deterministic_frame_control_metrics.csv",
+    "existing_source_family_review": "experiments/H002_compatibility_routing/relative_horizontal_frame_audit/latest/existing_source_family_review.csv",
+    "frame_protocol": "experiments/H002_compatibility_routing/relative_horizontal_frame_audit/latest/frame_protocol.csv",
+    "promotion_gate": "experiments/H002_compatibility_routing/relative_horizontal_frame_audit/latest/promotion_gate.csv",
+    "report": "experiments/H002_compatibility_routing/relative_horizontal_frame_audit/latest/report.md",
+    "selected_per_predicate_review": "experiments/H002_compatibility_routing/relative_horizontal_frame_audit/latest/selected_per_predicate_review.csv",
+    "summary": "experiments/H002_compatibility_routing/relative_horizontal_frame_audit/latest/summary.json",
+    "validation_errors": "experiments/H002_compatibility_routing/relative_horizontal_frame_audit/latest/validation_errors.jsonl"
+  },
+  "package_lock_status": "h002_bounded_framework_experiment_package_lock_ready",
+  "predicate_failure_cells": 10,
+  "promote_to_main_validated_route": false,
+  "recall_large_loss_cells": 3,
+  "relations": [
+    "left",
+    "right",
+    "front",
+    "behind"
+  ],
+  "route_family": "relative_horizontal",
+  "schema_version": "h002_relative_horizontal_frame_route_audit_v1",
+  "selected_path": "keep_relative_horizontal_as_frame_aware_caveated_diagnostic",
+  "source_rows_audited": 254296,
+  "status": "h002_relative_horizontal_frame_route_audit_ready",
+  "validation_errors": 0,
+  "violation_regression_cells": 4
+}

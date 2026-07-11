@@ -1,26 +1,87 @@
 # H001 Paper Preview
 
-Last updated: 2026-06-25 KST
+Last updated: 2026-07-12 KST
 
 이 문서는 H001을 paper/experiment writing phase로 넘기기 직전에 현재까지의 연구 결과, 주장 범위, 실험 근거, caveat, 그리고 재시작 시 반드시 읽어야 할 파일을 한곳에 고정한 preview다. 최종 manuscript가 아니라 paper draft를 쓰기 위한 handoff 문서다.
 
 Paper-facing name: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations`. `H001` remains an internal identifier.
 
-Current 2026-06-25 snapshot:
+Current 2026-07-12 framing override:
+
+- GeoCalib is a framework-level contribution. The calibrated product
+  (`family_conditional_risk`) and pre-specified rank-average are two soft fusion
+  instantiations; neither is claimed universally dominant.
+- On the prospectively frozen SGFN target, both satisfy the K=100 joint
+  recall/verifier-violation gate. This confirms the aggregate framework effect,
+  while `support_contact` regression and the LLM-proxy/human-validity boundary
+  remain explicit limits.
+- The later, completely untouched ReplicaSSG/FROSS dataset-and-source test does
+  not pass the same frozen K=100 framework gate. Product is unchanged from
+  semantic-only, while rank-average sharply lowers verifier V but violates the
+  aggregate recall guardrail. Therefore SGFN remains source-level prospective
+  support on the known 3DSSG target; do not upgrade the manuscript to a
+  dataset-level joint-gate claim.
+- Current AAAI-27 outputs are `paper/aaai/main_aaai27.pdf` (technical content
+  through page 7, references only on pages 8--9),
+  `supplement_aaai27.pdf` (1 page), and the separate
+  `reproducibility_checklist_aaai27.pdf` (2 pages). Final main/triplet logs are
+  `logs/h001_aaai27_main_build_20260712.log` and
+  `logs/h001_aaai27_final_triplet_build_20260712.log`; active field bundle is
+  `release/h001_aaai27_openreview_20260712_083625/`. Prior snapshots are
+  preserved as historical provenance.
+- H001 factorizes each row into predicate/family semantics `T_e`, raw
+  predicate-independent same-pair geometry `G_e`, source confidence `Z_e`, and
+  calibrated constructed-target compatibility
+  `C_e=P(y_cal=1|T_e,G_e)`. The leakage boundary is `Z_e notin C_e`;
+  product and rank-average remain instances of `S_e=F(Z_e,C_e)`.
+- `y_cal` comes from train/dev GT positives plus high-margin counterfactual
+  negatives and is not direct human physical validity. The old
+  `control_p_geom_valid_only` removes `Z_e` but is not true `G_e`-only because
+  the calibrator includes predicate/family and predicate-aligned interaction
+  features.
+- The factor-isolation package is complete for `T`-only, true-`G`-only,
+  additive, interaction, wrong-`T`/pair, close-by swap, and vertical inverse
+  controls. The selected strict family model passes its exact controls; pooled
+  `M_int` fails structural controls and is not promoted. These diagnostics do
+  not retroactively alter the SGFN gate.
+
+2026-07-11 train-only provenance override:
+
+- `train_only_reestablishment_v1` is complete with a disjoint
+  1,061/117/157 firewall, zero final-validation rows in fit, a pre-inference
+  execution contract, internal-dev acceptance, and a pre-final model/score
+  hash lock.
+- Final K=100 changes exact-label Recall from `0.951410` to `0.958963`
+  (dR `+0.007553`, paired CI `[+0.004079,+0.011854]`) and verifier V from
+  `0.062153` to `0.034252` (dV `-0.027901`, paired CI
+  `[-0.030347,-0.025656]`).
+- Final-row fitting leakage is zero. The full method-selection/prospective
+  classification is maintained once in `docs/paper.md` and the authoritative
+  experiment report rather than repeated throughout paper workspace files.
+- Support/contact verifier V still regresses in family-wise views. Keep the
+  aggregate framework wording and LLM-proxy/human-validity boundary; do not claim
+  family-uniform improvement or support/contact solved.
+- The manuscript now reports the strict factor/counterfactual results in prose
+  without recasting the observed official validation target as prospective.
+  The current validity route is the completed two-pass Codex LLM proxy audit;
+  human alignment is optional and is not being collected automatically.
+
+Prior 2026-06-25 source snapshot:
 
 - Main paper evidence remains VL-SAT full official validation plus Open3DSG full-validation `recovery_relaxed_views_min2/`.
 - Low-K source-result reporting is accepted for K = `{5,10,20,50,100}`; point-metric provenance is present in both paper-facing `metrics_k_sweep/` roots, and K=1 stays sanity-check only.
-- Main GeoCalib score is now `family_conditional_risk`
+- The calibrated-product operating point is `family_conditional_risk`
   (`semantic_score * p_geom_valid_family`). Pooled
   `probabilistic_recalibrated` (`semantic_score * p_geom_valid`) is an
-  ablation/baseline, and geometry-only control ranks by `p_geom_valid` without
-  semantic score.
+  ablation/baseline, and the `p_geom_valid`-only control removes semantic score
+  but is now named calibrator-only/no-`Z`, not true geometry-only.
 - Qwen-VL full official validation downstream is complete and should be treated as appendix/extension evidence unless explicitly promoted.
-- Latest source-validation PDF build:
-  `logs/h001_aaai_pdf_build_reference_expansion_20260625_130811.log`, exit 0,
-  output `paper/aaai/main_reference_expansion.pdf`, 9 total pages; references
-  start on page 7 and the checklist is page 9. The original
-  `paper/aaai/main.pdf` is preserved.
+- Active target-year PDF build:
+  `logs/h001_aaai27_final_triplet_build_20260712.log`, exit 0. Outputs are
+  `paper/aaai/main_aaai27.pdf` (9 pages; technical content through page 7 and
+  references only on pages 8--9), `supplement_aaai27.pdf` (1 page), and
+  `reproducibility_checklist_aaai27.pdf` (2 pages). The active upload set is
+  `release/h001_aaai27_openreview_20260712_083625/`.
 - Remaining paper work is submission/package hygiene, not new main-source result generation.
 
 ## Paper Direction
@@ -122,7 +183,7 @@ Interpretation:
   current main score.
 - `rule_verified_point_subtype` demonstrates zero-violation behavior but should be reported as a diagnostic, not the default main operating point.
 - `family_conditional_risk` gives a clearer violation reduction and is the
-  current GeoCalib main score in the full-validation paper route.
+  calibrated-product operating point in the full-validation paper route.
 
 Paper-facing full official validation:
 
@@ -131,12 +192,12 @@ Paper-facing full official validation:
 | `semantic_only` | 0.4194 | 0.6322 | 0.8074 | 0.9272 | 0.9635 | 0.0029 | 0.0082 | 0.0142 | 0.0268 | 0.0476 | full official validation source ranking |
 | `probabilistic_recalibrated` | 0.4154 | 0.6322 | 0.8107 | 0.9305 | 0.9688 | 0.0015 | 0.0071 | 0.0120 | 0.0229 | 0.0404 | full-validation pooled calibrated-risk ablation |
 | `rule_verified_point_subtype` | 0.4197 | 0.6317 | 0.8074 | 0.9257 | 0.9627 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | full-validation zero-violation diagnostic |
-| `family_conditional_risk` | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 | GeoCalib main family-conditional calibrated risk score |
+| `family_conditional_risk` | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 | calibrated-product instantiation |
 
 Full-validation interpretation:
 
 - The direction is consistent with the hardened result on a broader official
-  validation scope: the main family-conditional score reduces violations, the
+  validation scope: the calibrated product reduces violations, the
   pooled score is a recall-favoring ablation, and rule filtering reaches zero
   violation with only a small recall tradeoff.
 - Recall is lower than the 127-scan hardened result because the full official
@@ -151,7 +212,7 @@ Full-validation interpretation:
 | `semantic_only` | 0.0368 | 0.1002 | 0.1991 | 0.4096 | 0.5161 | 0.5131 | 0.3255 | 0.2088 | 0.1386 | 0.1242 | recovery full-validation source ranking |
 | `probabilistic_recalibrated` | 0.0826 | 0.1581 | 0.2603 | 0.3975 | 0.5723 | 0.0628 | 0.0699 | 0.0654 | 0.0606 | 0.0811 | recovery pooled calibrated-risk ablation |
 | `rule_verified_point_subtype` | 0.0707 | 0.1314 | 0.2422 | 0.4295 | 0.5368 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | recovery zero-violation diagnostic |
-| `family_conditional_risk` | 0.0984 | 0.1921 | 0.3291 | 0.4658 | 0.6047 | 0.0420 | 0.0482 | 0.0441 | 0.0286 | 0.0341 | GeoCalib main family-conditional calibrated risk score |
+| `family_conditional_risk` | 0.0984 | 0.1921 | 0.3291 | 0.4658 | 0.6047 | 0.0420 | 0.0482 | 0.0441 | 0.0286 | 0.0341 | calibrated-product instantiation |
 
 Recovery caveat: this removes the 15-context missing-preprocess denominator
 caveat, but it is a recovery-policy variant rather than the unmodified Open3DSG
@@ -227,7 +288,7 @@ Interpretation:
   score equivalent to the canonical R2 raw dump after excluding run metadata;
   the process-level exit-137 teardown caveat remains visible.
 - The best Open3DSG pattern is not identical to `VL-SAT`; use it to support cross-source reliability evidence, not to claim universal behavior.
-- `family_conditional_risk` is the current GeoCalib main score; present
+- `family_conditional_risk` is the calibrated-product instantiation; present
   `probabilistic_recalibrated` as pooled ablation and geometry-only as a
   separate control.
 
@@ -402,9 +463,14 @@ Fact:
 - AAAI Table 2: main source results, with Open3DSG first as the main
   open-vocabulary case study and `VL-SAT` second as the controlled reproduced
   anchor.
-- AAAI Table 3: controls and diagnostics separating the main GeoCalib score
-  from geometry-only, distance-only, shuffled-geometry, and wrong-pair
+- AAAI Table 3: controls and diagnostics separating calibrated same-pair
+  geometry from geometry-only, distance-only, shuffled-geometry, and wrong-pair
   explanations.
+- AAAI Table 4: prospective SGFN K=100 comparison of semantic, calibrated
+  product, rank-average, and RRF with verifier/human boundaries.
+- ReplicaSSG/FROSS is not a new positive main table. It is now placed in the
+  supplement and main limitations as a frozen negative-transfer result with the
+  unchanged K=100 gate and lower-K diagnostics clearly separated.
 - Source-specific claim boundary / non-claims, GT-based verifier evaluation,
   structured audit, visual sanity check, and detailed family rows are kept as
   prose-backed reviewer-defense evidence unless an appendix is added.
@@ -426,7 +492,7 @@ Recommended paper narrative:
 | --- | --- | --- |
 | "This is just a hand-coded verifier." | Frame as calibrated evaluation/re-ranking framework with calibration, controls, GT counterfactuals, and failure analysis. | Avoid script-level method wording. |
 | "It only works on VL-SAT." | Open3DSG second-source metric evidence is ready. | Keep claim within measured families. |
-| "It trades recall for filtering." | Report R@K and Violation@K together; main `family_conditional_risk`, pooled `probabilistic_recalibrated`, and rule-verified diagnostics show different tradeoffs. | Include Pareto/tradeoff wording. |
+| "It trades recall for filtering." | Report R@K and Violation@K together; calibrated product, rank-average, RRF, pooled calibration, and strict diagnostics expose different tradeoffs. | Include source-dependent Pareto/tradeoff wording. |
 | "Rules were tuned on test set." | Denominator policy, metric scope, checkpoint selection, and caveat wording are fixed before paper writing; GT-based verifier eval exists. | State selection/provenance clearly. |
 | "Open3DSG reproduction is not exact." | Docker provenance, selected official non-avg checkpoint record, full-validation recovery-policy disclosure, and 533/548 covered-branch sensitivity evidence. | Do not claim Open3DSG leaderboard/SOTA reproduction; frame as source-output reliability evidence. |
 | "Open-vocabulary claim is too broad." | Current claim is measured reliability-layer evidence, not broad generation improvement. | Keep non-claims visible. |
@@ -443,8 +509,13 @@ Qwen-VL:
 
 FROSS:
 
-- Runtime-blocked and does not cover `proximity` / `relative_vertical`.
-- Not suitable as the main current extension.
+- Official ReplicaSSG full-trajectory inference is complete, so the earlier
+  runtime blocker is resolved for this route.
+- Exact `near/above/under` mappings cover proximity and relative-vertical, not
+  support/contact. The untouched 11-scene test passes all provenance gates but
+  fails the pre-registered K=100 framework gate.
+- Treat it as external negative/limitation evidence, not a positive extension
+  or a reason to retune K, fusion, mapping, or family scope.
 
 SceneFun3D/FunGraph3D:
 
@@ -550,7 +621,8 @@ These are usually not safe to assume on a new computer:
 | VL-SAT code/data/checkpoints | `local_dataset/VLSAT_code/CVPR2023-VLSAT/` |
 | Open3DSG training root | `local_dataset/Open3DSG_staged/training_repro/` |
 | Open3DSG H001 eval root | `local_dataset/Open3DSG_staged/h001_runtime/` |
-| Open3DSG selected checkpoint | `local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt` |
+| Open3DSG paper-facing checkpoint | `local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt` (`avg_blip_emb=False`; SHA-256 `ca86d429...d76bb`) |
+| Open3DSG historical checkpoint | `local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/2a23a9af581b4666a207423aa6217853/checkpoints/epoch=13-step=13104.ckpt` (127-scan averaged-BLIP sensitivity only; SHA-256 `c1302882...d64511`) |
 | Open3DSG train/dev features | `local_dataset/Open3DSG_staged/training_repro/output/features/clip_features_h001_official_blip_top5_scales3/` |
 | Open3DSG H001 eval features | `local_dataset/Open3DSG_staged/h001_runtime/output/features/clip_features_h001_eval_blip_top5_scales3/` |
 | Qwen-VL model cache | `local_dataset/model_cache/huggingface/qwen_vl/Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17/` |
@@ -570,7 +642,12 @@ Recommended next action:
 
 1. Use `paper/draft.md` as the active reviewed first-pass manuscript prose, `paper/aaai/` as the current AAAI-style LaTeX source, and `paper/generated/figures/` as the active draft figure output.
 2. Treat the claim-consistency review in `paper/outline.md` as the current paper guardrail: title, contributions, abstract, Introduction, table captions, and figure captions must stay within the scoped relation-reliability claim.
-3. Treat the reproducibility checklist as inserted after references: latest source-validation Docker build `logs/h001_aaai_pdf_build_reference_expansion_20260625_130811.log` produces `paper/aaai/main_reference_expansion.pdf` with 9 total pages, references starting on page 7, checklist page 9, and no blocking build warnings. Remaining paper work is portal/form, artifact URL/DOI, supplement/checklist, and release-package hygiene, not source-result regeneration.
+3. Treat the reproducibility checklist as a separate AAAI-27 OpenReview upload.
+   The verified Docker triplet is `main_aaai27.pdf` (9 pages),
+   `supplement_aaai27.pdf` (1 page), and
+   `reproducibility_checklist_aaai27.pdf` (2 pages). Remaining work is author
+   metadata, final public license/artifact URL, and optional human alignment,
+   not source-result regeneration.
 4. Treat the AAAI reviewer-defense pass as updated for the selected full-validation route: hand-coded verifier, geometry-only/distance, recall-tradeoff, Open3DSG recovery-policy provenance, family-selection, and AAAI-relevance attacks must all remain answered during polish.
 5. Treat `paper/appendix.md` as the current appendix/provenance owner: calibrator/threshold provenance, Open3DSG caveat consistency, Figure 3 optionality, and Qwen-VL third-source boundary are recorded there.
 6. Keep Open3DSG caveats explicit during any further polish; caption compression must not hide selected-checkpoint provenance, filtered split, exact-label denominator, recovery policy, 533/548 sensitivity branch, or residual calibration risk.

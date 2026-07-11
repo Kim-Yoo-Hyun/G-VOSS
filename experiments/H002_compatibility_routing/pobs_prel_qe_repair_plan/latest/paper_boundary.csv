@@ -1,5 +1,0 @@
-claim,status,condition
-p_rel diagnostic signal exists,keep_allowed,"report only as diagnostic, not calibrated solved result"
-p_obs / abstention is solved,blocked_until_qe_repair_passes,requires p_obs AUROC/abstain behavior gates
-p_obs/p_rel as main paper quantitative result,blocked,"requires repaired Q_e, calibrated metrics, and stronger label provenance"
-H002 includes selective-decision framework,allowed_as_framework_component,must disclose p_obs repair is ongoing

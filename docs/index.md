@@ -1,6 +1,6 @@
 # Research Documentation Index
 
-Last updated: 2026-07-04 KST
+Last updated: 2026-07-11 KST
 
 ## Purpose
 
@@ -30,11 +30,10 @@ External convention checked on 2026-06-25 KST:
 | H001 reproducibility, artifact transfer, cleanup safety | `docs/reproducibility.md` |
 | H001 paper framing and reviewer-defense rules | `docs/paper.md`, `paper/` |
 | H001_v2 diagnostic risk-controlled reranking branch | `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/README.md` |
-| H002 current branch state and next gate | `hypothesis/CAND-001/H002_factorized-relation-confidence/README.md` |
+| H002 current branch state and claim boundary | `hypothesis/CAND-001/H002_factorized-relation-confidence/README.md`, `hypothesis/CAND-001/H002_factorized-relation-confidence/paper_claim_core.md` |
 | H002 standalone paper workspace | `paper/h002_compatibility_routing/README.md` |
-| H002 relation-family route map | `paper/h002_compatibility_routing/route_framework.md` |
-| H002 research framing and grouped v1-v81 overview | `hypothesis/CAND-001/H002_factorized-relation-confidence/summary_branch_v2.md` |
-| H002 grouped stage history | `hypothesis/CAND-001/H002_factorized-relation-confidence/stages/` |
+| H002 method and route contract | `hypothesis/CAND-001/H002_factorized-relation-confidence/method_contract_v1.md`, `hypothesis/CAND-001/H002_factorized-relation-confidence/RGA_framework.md` |
+| H002 consolidated evidence report | `hypothesis/CAND-001/H002_factorized-relation-confidence/report/report_0706.md` |
 | H002 Docker/runtime experiment map | `experiments/H002_compatibility_routing/README.md`, `configs/h002/README.md`, `results/h002_compatibility_routing/README.md` |
 | Long-running job logs | `logs/` |
 
@@ -59,13 +58,13 @@ External convention checked on 2026-06-25 KST:
 | Active H002 hypothesis | `hypothesis/CAND-001/H002_factorized-relation-confidence/README.md` |
 | H002 paper claim / file map | `hypothesis/CAND-001/H002_factorized-relation-confidence/paper_claim_core.md` |
 | H002 RGA framework | `hypothesis/CAND-001/H002_factorized-relation-confidence/RGA_framework.md` |
-| H002 feasibility notes | `hypothesis/CAND-001/H002_factorized-relation-confidence/report/feasibility_check.md` |
+| H002 geometry evidence schema | `hypothesis/CAND-001/H002_factorized-relation-confidence/geometry_evidence_schema_v1.md` |
 | Paper experiment root | `experiments/H001_geom_reliability/README.md` |
 | H002 experiment runtime | `experiments/H002_compatibility_routing/README.md`, `experiments/H002_compatibility_routing/commands.md` |
 | H002 Docker config | `configs/h002/README.md` |
 | Compact paper-facing results | `results/h001_geom_reliability/` |
 | H002 compact result boundary | `results/h002_compatibility_routing/README.md` |
-| Manuscript workspace | `paper/README.md`, `paper/preview.md`, `paper/outline.md`, `paper/draft.md`, `paper/risk.md`, `paper/appendix.md`, `paper/figures.md`, `paper/h002_compatibility_routing/README.md` |
+| Manuscript workspace | `paper/README.md`, `paper/preview.md`, `paper/outline.md`, `paper/draft.md`, `paper/risk.md`, `paper/appendix.md`, `paper/figures.md`, `paper/h002_compatibility_routing/README.md`, `paper/h002_compatibility_routing/aaai2027/README.md` |
 | Archive and optional evidence | `archive/README.md` |
 
 ## Update Rule

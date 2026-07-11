@@ -1,6 +1,6 @@
 # Paper Registry
 
-Last updated: 2026-05-23
+Last updated: 2026-07-11
 
 이 파일은 3D Scene Graph literature pass에서 추적하는 논문 목록과 reading queue를 관리한다. 논문별 상세 정리는 각 paper folder에 둔다.
 
@@ -21,9 +21,17 @@ Last updated: 2026-05-23
 | [OpenMask3D](https://openmask3d.github.io/) | NeurIPS 2023 | TBD | Related | open-vocabulary 3D instance segmentation; CAND-001의 object-node proposal upstream |
 | [OVSG](https://proceedings.mlr.press/v229/chang23b.html) | CoRL 2023 | TBD | CAND-003 P1 | free-form text query를 3D scene graph matching으로 ground; context-aware entity grounding |
 | [SayPlan](https://proceedings.mlr.press/v229/rana23a.html) | CoRL 2023 Oral | `literature/2023_corl_sayplan/` | Read | LLM task planning을 3DSG로 grounding; graph가 downstream planning에 쓰이는 근거 |
+| [ChatGPT outperforms crowd workers for text-annotation tasks](https://doi.org/10.1073/pnas.2305016120) | PNAS 2023 | TBD | H001 LLM-audit evidence | ChatGPT annotation을 trained-human/crowd benchmark에 직접 검증; LLM label 사용의 선례이지만 human benchmark 없는 gold 대체를 정당화하지 않음 |
+| [G-Eval: NLG Evaluation using GPT-4 with Better Human Alignment](https://aclanthology.org/2023.emnlp-main.153/) | EMNLP 2023 | TBD | H001 LLM-as-judge evidence | GPT-4 automatic evaluator를 human correlation으로 검증하고 model-generated-text bias를 명시 |
+| [Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena](https://arxiv.org/abs/2306.05685) | arXiv 2023 | TBD | H001 LLM-as-judge evidence | LLM judge를 human preference와 비교하고 position/verbosity/self-enhancement bias를 분석 |
 | [SGRec3D](https://openaccess.thecvf.com/content/WACV2024/html/Koch_SGRec3D_Self-Supervised_3D_Scene_Graph_Learning_via_Object-Level_Scene_Reconstruction_WACV_2024_paper.html) | WACV 2024 | `literature/2024_wacv_sgrec3d/` | Read | graph bottleneck reconstruction으로 3DSG representation pretraining |
 | [Open3DSG](https://arxiv.org/abs/2402.12259) | CVPR 2024 | `literature/2024_cvpr_open3dsg/` | Read | open-vocabulary object와 open-set relation을 LLM/VLM feature로 예측 |
 | [CCL-3DSGG](https://openaccess.thecvf.com/content/CVPR2024/html/Chen_CLIP-Driven_Open-Vocabulary_3D_Scene_Graph_Generation_via_Cross-Modality_Contrastive_Learning_CVPR_2024_paper.html) | CVPR 2024 | `literature/2024_cvpr_ccl-3dsgg/` | Read | CLIP 기반 cross-modality contrastive learning으로 novel object/predicate 처리 |
+| [GPT-4V(ision) is a Human-Aligned Evaluator for Text-to-3D Generation](https://openaccess.thecvf.com/content/CVPR2024/html/Wu_GPT-4Vision_is_a_Human-Aligned_Evaluator_for_Text-to-3D_Generation_CVPR_2024_paper.html) | CVPR 2024 | TBD | Direct H001 multimodal-evaluator precedent | GPT-4V로 3D asset을 평가하지만 human preference study로 alignment를 검증; H001과 가장 가까운 modality precedent |
+| [AnnoLLM: Making Large Language Models to Be Better Crowdsourced Annotators](https://aclanthology.org/2024.naacl-industry.15/) | NAACL Industry 2024 | TBD | H001 LLM-annotation evidence | explain-then-annotate LLM pipeline을 crowd label과 비교하고 생성 dataset 품질을 human evaluation으로 검증 |
+| [If in a Crowdsourced Data Annotation Pipeline, a GPT-4](https://arxiv.org/abs/2402.16795) | CHI 2024 | TBD | H001 hybrid-annotation evidence | GPT-4, ethical crowd pipeline, hybrid aggregation을 gold accuracy로 비교; LLM+human 조합이 단독보다 강할 수 있음을 보임 |
+| [MEGAnno+: A Human-LLM Collaborative Annotation System](https://aclanthology.org/2024.eacl-demo.18/) | EACL Demo 2024 | TBD | H001 annotation-workflow evidence | complex/domain-specific context에서 LLM 오류 가능성을 명시하고 human verification을 포함한 collaborative workflow를 제안 |
+| [Large Language Models for Data Annotation and Synthesis: A Survey](https://aclanthology.org/2024.emnlp-main.54/) | EMNLP 2024 | TBD | Surveyed for H001 | LLM annotation generation, assessment, utilization과 limitation taxonomy를 정리 |
 | [SG-PGM: Partial Graph Matching Network with Semantic Geometric Fusion for 3D Scene Graph Alignment and Its Downstream Tasks](https://openaccess.thecvf.com/content/CVPR2024/papers/Xie_SG-PGM_Partial_Graph_Matching_Network_with_Semantic_Geometric_Fusion_for_CVPR_2024_paper.pdf) | CVPR 2024 | TBD | Related / positioning | partial graph matching, semantic-geometric fusion, point-matching rescoring; H001의 re-ranking framing과 가깝지만 목표는 scene graph alignment/registration |
 | [ConceptGraphs](https://concept-graphs.github.io/) | ICRA 2024 | TBD | CAND-003 P1 | 2D foundation model 출력을 3D graph로 융합하고 LLM/VLM으로 inter-object relation 생성 |
 | [HOV-SG](https://www.roboticsproceedings.org/rss20/p077.html) | RSS 2024 | TBD | CAND-003 P1 | dense open-vocabulary maps를 floor-room-object hierarchy와 navigation graph로 압축 |

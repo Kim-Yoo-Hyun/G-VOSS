@@ -1,4 +1,0 @@
-metric_scope,view,rows,auroc,balanced_accuracy,macro_F1,decision
-broad_official_support_contact,M4_TxG_compatibility,3178,0.6317116456316851,0.5663939584644431,0.5663030939727269,near_but_not_solved
-hard_route_official_validation,M4_TxG_compatibility,3178,0.0775390596379055,0.18093140339836375,0.18078142492920513,failed_generalization
-hard_route_internal_dev,M4_TxG_compatibility,109,0.7213559322033898,0.6589830508474577,0.6587120250486587,internal_signal_only

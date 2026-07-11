@@ -14,9 +14,23 @@ Current paper-facing title is `GeoCalib: Calibrating Geometric Consistency for
 Reliable 3D Scene Graph Relations`. The active manuscript source is
 `paper/aaai/`. This draft is a planning prose copy only; final submission text,
 tables, captions, and current metrics should be checked against `paper/aaai/`,
-`paper/preview.md`, `paper/progress.md`, and `summary.md`. The current
-paper-facing route uses `family_conditional_risk` as the GeoCalib main score
-and keeps pooled `probabilistic_recalibrated` as an ablation/baseline.
+`paper/preview.md`, `paper/progress.md`, and `summary.md`. Framework-first
+override, 2026-07-10: calibrated product (`family_conditional_risk`) and
+pre-specified rank-average are two soft GeoCalib instantiations; neither is
+universally dominant. The active AAAI source contains the authoritative SGFN
+confirmation, family decomposition, and human-validity boundary. Older
+single-main-score wording below is preserved only as superseded planning prose.
+
+Factorization override, 2026-07-10: the active manuscript defines `T_e` as
+predicate/family semantics, raw `G_e` as predicate-independent same-pair
+geometry, `Z_e` as source confidence, and
+`C_e=P(y_cal=1|T_e,G_e)`, enforcing `Z_e notin C_e` before final
+`S_e=F(Z_e,C_e)` fusion. `y_cal` is a constructed
+GT-positive/counterfactual calibration target, not direct human physical
+validity. Older body text that calls `p_geom_valid`-only “geometry-only” is
+superseded: it is calibrator-only/no-`Z`. The historical main table has no true
+`G_e`-only row; the completed strict factor audit now supplies that diagnostic
+and the exact counterfactual controls.
 
 Related Work citation placeholders have been replaced with BibTeX-style keys.
 The 2026-05-23 literature pass keeps recent open-world/VLM graph and

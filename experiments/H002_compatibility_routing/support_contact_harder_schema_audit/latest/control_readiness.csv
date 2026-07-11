@@ -1,8 +1,0 @@
-control,ready,reason,blocks_metric_freeze
-wrong_T_same_route,True,standing/lying predicate pair exists for every group,False
-shuffled_G_global,True,global geometry shuffle can be created from main view,False
-shuffled_G_within_class_pair,True,hidden class-pair groups are available for class-controlled shuffle,False
-class_ablation_view,True,class labels are separated into ablation-only view,False
-q_e_diagnostic_view,True,Q_e is separated from primary C_e view,False
-richer_G_e_feature_availability,True,43 features observed with complete availability,False
-predicate_x_class_pair_shortcut_probe,True,hidden class-pair provenance is available for shortcut reporting,False

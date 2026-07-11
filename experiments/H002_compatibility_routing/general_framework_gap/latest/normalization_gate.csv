@@ -1,4 +1,0 @@
-variant,gate,passed,decision
-raw_source_score_x_Ce,"direction preserved at K={10,20,50}",True,supports robustness but not invariance alone
-rank_percentile_source_x_Ce,"direction preserved at K={10,20,50}",False,fails low-K recall; invariant claim blocked
-no_route_G_only,S2 stronger than no-route G-only,True,S2 not explained by route one-hot G-only

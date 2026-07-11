@@ -1,5 +1,0 @@
-claim,status,evidence
-p_rel has diagnostic reliability signal on user-confirmed observable rows,allowed_diagnostic,p_rel_AUROC=0.774704; ECE_10=0.083819
-p_obs / abstention is solved,blocked,p_obs_AUROC=0.500000; decision_macro_F1=0.331637
-calibrated p_obs/p_rel paper-result claim,blocked,diagnostic subset only; labels originated from Codex fill and p_obs failed
-Q_e repair is necessary,selected_next_step,all observability label groups have Q_e sufficient state in the model-safe view

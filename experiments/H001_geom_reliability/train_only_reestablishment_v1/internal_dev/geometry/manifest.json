@@ -1,0 +1,152 @@
+{
+  "counts": {
+    "by_family": {
+      "proximity": 23228,
+      "relative_vertical": 46456,
+      "support_contact": 69684
+    },
+    "by_family_status": {
+      "proximity": {
+        "satisfied": 20768,
+        "uncertain": 1116,
+        "violated": 1344
+      },
+      "relative_vertical": {
+        "satisfied": 15882,
+        "uncertain": 14692,
+        "violated": 15882
+      },
+      "support_contact": {
+        "satisfied": 19855,
+        "uncertain": 48033,
+        "violated": 1796
+      }
+    },
+    "by_status": {
+      "satisfied": 56505,
+      "uncertain": 63841,
+      "violated": 19022
+    },
+    "by_variant_family_status": {
+      "obb_only": {
+        "proximity": {
+          "satisfied": 20768,
+          "uncertain": 1116,
+          "violated": 1344
+        },
+        "relative_vertical": {
+          "satisfied": 15882,
+          "uncertain": 14692,
+          "violated": 15882
+        },
+        "support_contact": {
+          "satisfied": 2004,
+          "uncertain": 58869,
+          "violated": 8811
+        }
+      },
+      "point_subtype": {
+        "proximity": {
+          "satisfied": 20768,
+          "uncertain": 1116,
+          "violated": 1344
+        },
+        "relative_vertical": {
+          "satisfied": 15882,
+          "uncertain": 14692,
+          "violated": 15882
+        },
+        "support_contact": {
+          "satisfied": 19855,
+          "uncertain": 48033,
+          "violated": 1796
+        }
+      },
+      "point_subtype_no_soft_support": {
+        "proximity": {
+          "satisfied": 20768,
+          "uncertain": 1116,
+          "violated": 1344
+        },
+        "relative_vertical": {
+          "satisfied": 15882,
+          "uncertain": 14692,
+          "violated": 15882
+        },
+        "support_contact": {
+          "satisfied": 8292,
+          "uncertain": 56563,
+          "violated": 4829
+        }
+      }
+    },
+    "by_variant_status": {
+      "obb_only": {
+        "satisfied": 38654,
+        "uncertain": 74677,
+        "violated": 26037
+      },
+      "point_subtype": {
+        "satisfied": 56505,
+        "uncertain": 63841,
+        "violated": 19022
+      },
+      "point_subtype_no_soft_support": {
+        "satisfied": 44942,
+        "uncertain": 72371,
+        "violated": 22055
+      }
+    },
+    "calibration_scored_rows": 139368,
+    "geometry_available_rows": 139368,
+    "missing_point_evidence_rows": 31389,
+    "obb_to_point_status_transitions": {
+      "satisfied_to_satisfied": 464,
+      "satisfied_to_uncertain": 1283,
+      "satisfied_to_violated": 257,
+      "uncertain_to_satisfied": 19391,
+      "uncertain_to_uncertain": 37940,
+      "uncertain_to_violated": 1538,
+      "violated_to_uncertain": 8810,
+      "violated_to_violated": 1
+    },
+    "point_context_error_scans": [],
+    "point_context_warning_scans": [],
+    "predictions": 139368,
+    "primary_family_rows": 139368,
+    "rows_preserved": true,
+    "support_subtype_counts": {
+      "legged_floor_support": 4856,
+      "rigid_object_on_furniture": 35084,
+      "soft_support_contact": 29744
+    },
+    "unsupported_family_rows": 0,
+    "verification_rows": 139368
+  },
+  "created_at": "2026-07-10T15:12:18.112008+00:00",
+  "errors": [],
+  "inputs": {
+    "dataset_root": "/workspace/local_dataset",
+    "model_json": "/workspace/archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_smoke/model.json",
+    "predictions_jsonl": "/workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev/adapter/predictions.jsonl",
+    "selected_scans": "/workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/splits/internal_dev_scans.txt"
+  },
+  "joiner": "h001-prediction-join-g2",
+  "notes": [
+    "This artifact preserves every prediction row.",
+    "unsupported status means the predicate family is outside the current H001 geometry-checkable scope.",
+    "G2 emits obb_only, point_subtype, and point_subtype_no_soft_support variants."
+  ],
+  "outputs": {
+    "manifest_json": "/workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev/geometry/manifest.json",
+    "report_md": "/workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev/geometry/report.md",
+    "verification_jsonl": "/workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev/geometry/verification.jsonl"
+  },
+  "record_type": "prediction_geometry_join_manifest",
+  "schema_version": "h001_prediction_geometry_manifest_v1",
+  "selected_verification_policy": "point_subtype",
+  "status": "ready",
+  "warnings": [
+    "invalid_obb:ee527b51-0df9-2dae-829e-a0543a6e4074:13:non_positive_aabb_extent"
+  ]
+}

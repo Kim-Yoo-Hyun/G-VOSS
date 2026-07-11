@@ -12,6 +12,17 @@ remain under `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-groun
 
 The current main paper keeps three tables in the AAAI body: fixed GeoCalib
 scope, source-specific claim boundary, and Open3DSG-first low-K source results.
+
+## ReplicaSSG/FROSS Negative-Transfer Appendix
+
+The current disclosure decision is to keep SGFN as positive source-level
+prospective evidence and report ReplicaSSG/FROSS as a negative-transfer result.
+The separate AAAI supplement source is `paper/aaai/supplement.tex`, with the
+frozen result table in `paper/aaai/sec/a_negative_transfer.tex`. It must report
+the 11-scene/172-GT/4,290-candidate scope, all 24 provenance checks, product's
+zero K=100 change, rank-average's violation gain with failed recall guardrail,
+and the verifier-derived-V limitation. It must not be framed as successful
+dataset-level confirmation.
 Appendix material should defend provenance, denominator discipline, and
 residual risk without broadening the claim.
 

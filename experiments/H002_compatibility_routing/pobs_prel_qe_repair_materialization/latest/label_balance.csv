@@ -1,7 +1,0 @@
-split,observability_label,rows
-train,ambiguous_evidence,4868
-train,observable_clear,4868
-train,unobservable_missing_evidence,4868
-eval,ambiguous_evidence,126
-eval,observable_clear,135
-eval,unobservable_missing_evidence,4

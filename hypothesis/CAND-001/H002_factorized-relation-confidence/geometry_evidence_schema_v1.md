@@ -1,6 +1,7 @@
 # H002 Geometry Evidence Schema V1
 
 Date: 2026-06-25 KST
+Last updated: 2026-07-11 KST
 
 ## Purpose
 
@@ -67,8 +68,8 @@ Blocked from `G_e`:
 
 ## Evidence Quality `Q_e`
 
-`Q_e`는 relation true/false를 직접 판단하지 않고 `p_obs`를 통해 abstain/selective decision을
-조절한다.
+`Q_e`는 relation true/false를 직접 판단하지 않고 향후 observability/abstention을
+위한 evidence-quality block이다. 현재 scoped H002 score에는 사용하지 않는다.
 
 Fields:
 
@@ -175,7 +176,8 @@ attachment often needs geometry plus observability; pure OBB evidence can be ins
 
 ### Relative Horizontal: `left`, `right`, `front`, `behind`
 
-Deferred family.
+`left/right`는 caveated frame-aware route로 검증됐다. `front/behind`는
+reference-frame/depth ambiguity failure case다.
 
 Relevant `G_e` fields:
 
@@ -197,7 +199,7 @@ horizontal relations are frame-dependent, so observability/reference frame must 
 
 ### Containment: `inside`, `surrounding`
 
-Deferred family.
+현재 claim 밖의 deferred family다.
 
 Relevant `G_e` fields:
 
@@ -221,12 +223,24 @@ H001 `p_geom_valid` is retained as:
 3. calibration reference for relation-family score sanity;
 4. ablation input in a separately named condition.
 
-It is not:
+H002에서 이것은 다음이 아니다.
 
-- the final relation reliability;
-- an input to `C_e` in the main learned-compatibility condition;
-- a substitute for `G_e` vector/token evidence;
-- a negative label for no-GT rows.
+- main compatibility model의 최종 score;
+- `G_e` 전체를 대체하는 universal relation-validity score;
+- no-GT row의 자동 negative label.
+
+H001 자체의 정의와 결과는 H001 owner가 관리하며 이 문서는 H001 파일을 수정하지
+않는다.
+
+## Current Implementation Boundary
+
+현재 main `G_e`는 OBB/center/extent/distance/vertical/size와 route-specific scalar
+geometry로 구성된다. PointNet++, Point Transformer, learned point token과 multi-view
+feature는 실험했거나 계획된 확장일 뿐 current final score에 포함되지 않는다.
+
+Raw `C_e=f_C(T_e,G_e)`는 internal train split에서만 fit하며, validation candidate
+pool에서 source-family별 label-free min-max를 적용한 `\widetilde C_e`가 final
+product score에 들어간다. 정확한 score 표기는 `method_contract_v1.md`가 소유한다.
 
 ## Normalization
 

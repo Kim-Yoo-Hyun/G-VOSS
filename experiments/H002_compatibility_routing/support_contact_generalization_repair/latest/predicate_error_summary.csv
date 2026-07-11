@@ -1,3 +1,0 @@
-predicate_label,failure_rows,false_positive,false_negative,dominant_error,repair_implication
-lying on,40,40,0,false_positive,needs_lying_pose_evidence
-standing on,40,0,40,false_negative,needs_upright_support_pose_evidence

@@ -1,4 +1,0 @@
-observability_label,rows,obs_positive_rows,median_p_obs,median_p_rel,decision_counts,pred_decision_counts,abstain_rate
-ambiguous_evidence,126,0,0.9556083761166082,0.5,{'abstain': 126},{'accept': 126},0.0
-observable_clear,135,135,0.9556083761166082,0.49529152463167125,"{'accept': 66, 'reject': 69}","{'accept': 66, 'reject': 69}",0.0
-unobservable_missing_evidence,4,0,0.9556083761166082,0.5,{'abstain': 4},{'accept': 4},0.0

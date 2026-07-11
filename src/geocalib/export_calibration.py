@@ -81,6 +81,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-negatives-per-positive", type=int, default=2)
     parser.add_argument("--max-negatives-per-subgraph-family", type=int, default=200)
     parser.add_argument("--max-negative-to-positive-ratio-per-family", type=float, default=3.0)
+    parser.add_argument(
+        "--allow-selected-scans-without-positive-rows",
+        action="store_true",
+        help=(
+            "Keep zero-positive scans in the split firewall without treating their absence "
+            "from the row table as an export failure. The selected scan list is unchanged."
+        ),
+    )
     parser.add_argument("--fail-on-warnings", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     return parser.parse_args()
@@ -576,6 +584,7 @@ def build_contexts_and_positives(
     split_name: str,
     relationship_id_map: dict[str, int],
     created_at: str,
+    allow_selected_scans_without_positive_rows: bool = False,
 ) -> tuple[list[PositiveSpec], dict[str, SubgraphContext], Counter[str], list[str], list[str]]:
     positives: list[PositiveSpec] = []
     contexts: dict[str, SubgraphContext] = {}
@@ -681,7 +690,11 @@ def build_contexts_and_positives(
         matched_scans = {spec.context.scan_id for spec in positives}
         missing_selected = sorted(selected_scans - matched_scans)
         if missing_selected:
-            errors.append(f"selected_scans_without_positive_rows:{missing_selected}")
+            message = f"selected_scans_without_positive_rows:{missing_selected}"
+            if allow_selected_scans_without_positive_rows:
+                warnings.append(message)
+            else:
+                errors.append(message)
 
     return positives, contexts, skipped_positive_counts, warnings, errors
 
@@ -1333,6 +1346,9 @@ def main() -> int:
         split_name=args.split_name,
         relationship_id_map=relationship_id_map,
         created_at=created_at,
+        allow_selected_scans_without_positive_rows=(
+            args.allow_selected_scans_without_positive_rows
+        ),
     )
     warnings.extend(build_warnings)
     errors.extend(build_errors)

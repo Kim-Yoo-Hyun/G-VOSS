@@ -1,0 +1,59 @@
+{
+  "counts": {
+    "covered_contexts": 354,
+    "covered_directed_pairs": 23228,
+    "covered_in_scope_gt_rows": 2730,
+    "global_in_scope_gt_rows": 2730,
+    "in_scope_prediction_rows": 139368,
+    "missing_contexts": 0,
+    "missing_directed_pairs": 0,
+    "missing_in_scope_gt_rows": 0,
+    "prediction_rows": 139368,
+    "raw_scans": 117,
+    "target_contexts": 354,
+    "target_directed_pairs": 23228
+  },
+  "coverage": {
+    "context_rate": 1.0,
+    "in_scope_gt_rate": 1.0,
+    "in_scope_only_export": true,
+    "missing_source_edges_synthesized": 0,
+    "pair_rate": 1.0
+  },
+  "created_at_utc": "2026-07-10T15:12:08.941018+00:00",
+  "docker_command": "env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm train_only_internal_dev_adapter",
+  "inputs": {
+    "ground_truth": {
+      "path": "experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev_ground_truth.jsonl",
+      "sha256": "3425be6aba974345a8aadc279b06e6a56dca6407c123ad45374adcfc137e199b"
+    },
+    "raw": {
+      "path": "experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev/raw/raw.jsonl",
+      "sha256": "e7f2deb6410fcec9272ef282b6a2a91e8fc075c79d900f78cfc1e7553a05a093"
+    },
+    "subset": {
+      "path": "experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev_subset.json",
+      "sha256": "89732e56b44569c55796ff7d25e7582286026eac2aa83c6df869528c3c92cb7f"
+    }
+  },
+  "outputs": {
+    "missing_pairs": "experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev/adapter/missing_pairs.csv",
+    "predictions": {
+      "path": "experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev/adapter/predictions.jsonl",
+      "sha256": "9222dd2d3edb915ec753def0bc5e4ca2cf55dd40840abd9c185f3b43851248c8"
+    }
+  },
+  "schema_version": "h001_train_only_internal_dev_adapter_v1",
+  "status": "internal_dev_adapter_ready",
+  "validations": {
+    "all_scores_in_unit_interval": true,
+    "every_prediction_endpoint_in_subgraph": true,
+    "ground_truth_denominator_expected": true,
+    "no_duplicate_prediction_ids": true,
+    "prediction_count_matches_scope": true,
+    "raw_scan_count_expected": true,
+    "relation_vocab_26_no_none": true,
+    "relation_vocab_exactly_matches_3dssg_26": true,
+    "target_context_count_expected": true
+  }
+}
