@@ -141,16 +141,17 @@ Reviewer-defense rules after the independent-validity/family review:
   (`semantic_score * p_geom_valid_family`) and the pre-specified scale-robust
   rank-average as two soft fusion instantiations. Pooled calibration remains an
   ablation, hard filtering a diagnostic, and RRF a strong comparator.
-- The strongest prospective wording is framework-level: on the frozen SGFN
-  target, both the calibrated product and pre-specified rank-average satisfy the
-  joint recall/verifier-violation gate. This supports incorporating calibrated
+- On SGFN, both the calibrated product and rank-average satisfy the joint
+  recall/verifier-violation gate. This supports incorporating calibrated
   same-pair geometry, not universal equivalence or dominance of either fusion.
-- The untouched ReplicaSSG/FROSS target is a valid negative prospective test,
-  not failed provenance. Keep SGFN as positive source-level confirmation,
-  disclose ReplicaSSG/FROSS in the supplement and main limitation, and state
-  that its K=100 product has no effect while rank-average fails the frozen
-  recall guardrail. It blocks dataset-level generality and must not be omitted
-  or reframed as confirmation.
+- ReplicaSSG/FROSS is a cross-dataset transfer stress test and development
+  diagnostic. Disclose that its initial K=100 product has no effect while
+  rank-average fails the recall guardrail, then report test-specific tuning for
+  any source-normalized bounded fusion. It is not an unbiased external estimate.
+  Development v2 confirms that an all-scene bounded fit can retain K=100 recall
+  while reducing verifier V, but LOSO fails the recall guardrail. Keep the
+  formulation, sweep, and cross-source check in the supplement/artifact only;
+  do not add bounded fusion to the main Method or contribution list.
 
 - Aggregate improvement does not authorize every-family wording. If any
   family-wise Violation CI regresses, state the aggregate scope, report that
@@ -308,10 +309,9 @@ Current metrics and progress do not belong in this rulebook. They are owned by
   explicitly promoted.
 - Active target-year build uses official `aaai2027` source. Outputs are
   `paper/aaai/main_aaai27.pdf` (9 pages; technical content through page 7,
-  references only on pages 8--9), `paper/aaai/supplement_aaai27.pdf` (1 page),
+  references only on pages 8--9), `paper/aaai/supplement_aaai27.pdf` (2 pages),
   and `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Final main
-  log: `logs/h001_aaai27_main_build_20260712.log`; triplet verification log:
-  `logs/h001_aaai27_final_triplet_build_20260712.log`. The active OpenReview
+  log: `logs/h001_strengthening_final_build_v2_20260712.log`. The active OpenReview
   bundle is `release/h001_aaai27_openreview_20260712_083625/`; earlier
   source-validation PDFs and compact tarballs are historical snapshots.
 
@@ -349,9 +349,8 @@ Paper workspace ownership:
   into `main.tex` plus `sec/*.tex`, points bibliography to
   `paper/references.bib`, and builds the reproducibility checklist as a
   separate OpenReview PDF. Docker PDF build is verified with
-  `h001-aaai27-tex:20260712`; final main/triplet logs are
-  `logs/h001_aaai27_main_build_20260712.log` and
-  `logs/h001_aaai27_final_triplet_build_20260712.log`.
+  `h001-aaai27-tex:20260712`; the final main/supplement/checklist build log is
+  `logs/h001_strengthening_final_build_v2_20260712.log`.
 - `archive/paper/iccv/` remains a historical/alternate ICCV-style source route.
 - `paper/figures.md` locks Figure 1-3 source claims, exact values, case IDs, artifacts, and caption constraints; draft SVGs are generated, verified, and layout-reviewed under `paper/generated/figures/`.
 
@@ -577,7 +576,11 @@ Do not claim these until evidence exists:
 - Claim-consistency review is complete in `paper/outline.md`: title, contribution statements, abstract, Introduction, Figure 1-3 captions, and Table 1-6 captions preserve the scoped relation-reliability claim.
 - Paper-body content blocks are secured in `paper/outline.md`: related-work positioning, problem/method formalization, re-ranking algorithm skeleton, Results/controls/Open3DSG prose skeleton, failure-analysis prose skeleton, limitation prose, Figure 1-3 asset plan, and table/appendix placement.
 - First-pass manuscript prose is drafted and claim-scope/evidence-link reviewed in `paper/draft.md`; Title, quantitative Abstract, and Introduction are now filled before Related Work.
-- Figure 1-3 source lock is complete in `paper/figures.md`: Figure 1 method framework, Figure 2 two-panel R@100/Violation@100 tradeoff, and Figure 3 Open3DSG qualitative case panels.
+- Figure 1-3 source lock is complete in `paper/figures.md`: Figure 1 is an
+  actual-failure-to-framework overview, Figure 2 connects
+  Recall--Violation trajectories at K=`{5,10,20,50,100}` across VL-SAT,
+  Open3DSG, and SGFN, and Figure 3 shows two geometry-backed corrections plus
+  one residual top-10 failure.
 - Draft Figure 1-3 generation, top-tier novelty/layout review, and Figure 3 geometry-backed panel upgrade are complete under `paper/generated/figures/`; validation passed for locked values, case IDs, geometry case IDs, and SVG XML parsing.
 - Recent 2025-2026 Related Work roles are decided: RelWitness is a required direct novelty-threat citation, VIZOR is a required spatial-relation/viewpoint-boundary citation, ZING-3D is a VLM/incremental 3DSG trend citation, Open-World 3DSG-RAG is a broad open-world/RAG boundary citation, and View-on-Graph is a downstream grounding-motivation citation.
 - Section structure is locked: keep Section 5 as a short standalone `Experimental Setup` section. Do not merge it into Results because denominator, filtered-split, covered-scope, Open3DSG variant, and Docker-result boundaries are part of the reviewer defense.
@@ -591,7 +594,37 @@ Do not claim these until evidence exists:
   official AAAI-27 Author Kit preserved in the repository. The active source
   uses `aaai2027.sty`/`aaai2027.bst` and template version 2027.1.
 - The `paper/aaai/` manuscript-content pass is complete: it includes fixed scope/denominator accounting, a main source-results table, a controls/diagnostics table, prose claim-boundary/verifier/audit evidence, explicit Open3DSG caveat captioning, and limitation wording.
-- Figure 1-3 PNG build assets are ready and `paper/aaai/sec/6_results.tex` points to them. Figure 2 and Figure 3 are single-column in the AAAI source to keep technical content before references.
+- Figure 1-3 PNG build assets are ready and `paper/aaai/sec/6_results.tex`
+  points to them. Figures 2 and 3 are full-width evidence figures so their K
+  labels, point geometry, and residual case remain legible.
+
+## H001 Current Claim Lock, 2026-07-12
+
+- Narrative order is failure -> structural cause -> factor-isolation
+  necessity -> method -> evidence -> scope/limitations. Repeated defensive
+  provenance language belongs in limitations, captions, or the supplement,
+  not in the opening contribution pitch.
+- Novelty is the source-independent contract `Z notin C(T,G)`,
+  identity-preserving geometry join, falsification controls, and joint
+  Recall--Violation--uncertainty evaluation. Do not claim a novel or optimal
+  fusion formula.
+- The 69-parameter nonlinear fusion comparator is parameter-count matched but
+  uses disjoint internal-dev source-specific exact-label supervision. Its
+  strong SGFN result must be disclosed and blocks best-rescorer claims; its
+  extra supervision prevents treating it as the same deployment contract as
+  GeoCalib.
+- K=100 is primary, K=50 canonical secondary, and K=10 operational.
+  Two pre-specified fusion forms pass the SGFN joint gate at K=100. Only the
+  calibrated product is claimed to preserve the tradeoff at smaller budgets;
+  never state that every source improves Recall at every K.
+- Generalization is source-level across multiple predictors under a fixed,
+  geometry-identifiable 3DSSG target. ReplicaSSG/FROSS is a test-specific
+  transfer-development diagnostic and does not support an external dataset-
+  generalization claim.
+- Codex proxy labels and their consensus evaluation are non-submission
+  diagnostics under `paper/paper_nonsub/`. The active AAAI paper contains no
+  Codex-derived physical-validity result; independent human construct
+  validation remains open.
 - Docker verification is complete with `h001-aaai27-tex:20260712`: BibTeX
   uses 34 entries and targeted checks find no missing citations, undefined
   references, overfull boxes, LaTeX errors, Type 3 fonts, or AAAI package

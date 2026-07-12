@@ -1,14 +1,16 @@
-# ReplicaSSG Prospective Evaluation
+# ReplicaSSG Transfer Stress Test and Development Diagnostic
 
-This source root owns H001's dataset-level prospective evaluation on the
-official ReplicaSSG test split. It is separate from all 3RScan/3DSSG targets;
-whether it confirms the frozen claim is determined only by the pre-registered
-gate.
+This source root owns H001's cross-dataset transfer stress test on the official
+ReplicaSSG test split. The original run was executed under a frozen protocol,
+but its observed result is now used for method diagnosis and development.
+Accordingly, the paper does not describe the target as untouched, prospective,
+or single-shot confirmation.
 
-The frozen target uses the 11 official ReplicaSSG test scenes and the official
+The initial run uses the 11 official ReplicaSSG test scenes and the official
 FROSS Visual-Genome-trained RT-DETR-EGTR source with predicted 2D scene graphs
-and ground-truth camera poses. ReplicaSSG validation scenes are not used for
-method, mapping, threshold, or score selection.
+and ground-truth camera poses. It did not use ReplicaSSG validation scenes. The
+later `development_v2/` route explicitly performs test-specific fusion
+development and records that fact in its protocol and output manifests.
 
 Only exact pre-existing H001 predicate semantics are mapped:
 
@@ -67,6 +69,31 @@ K=100 was frozen as primary.
 
 Compact tracked evidence is under
 `results/h001_geom_reliability/replicassg_prospective/`. Full ignored runtime
-output remains under this source root. This result is valid untouched
-dataset/source prospective evidence, but it is negative evidence for the
-pre-registered joint-gate claim.
+output remains under this source root. The original result remains a valid
+transfer diagnostic; it is not an unbiased estimate of a newly developed
+method's dataset-level generalization.
+
+## Development v2
+
+`development_v2/protocol.json` fixes a post-result development grid for:
+
+- within-context quantile normalization of source and compatibility scores;
+- bounded monotone penalties
+  `percentile(Z) - alpha * max(0, tau - C)`;
+- a percentile-compatibility variant robust to compatibility scale;
+- an exact bounded-displacement decoder that limits absolute source-rank movement;
+- leave-one-scene-out selection diagnostics plus an all-scene deployment
+  configuration.
+
+The Docker service is `replicassg_development_v2`. Runtime regeneration is
+owned by `scripts/run_replicassg_development_v2_pipeline.sh`; output is written
+under `development_v2/evaluation/`.
+
+Development v2 completed on a regenerated 4,293-candidate execution, versus
+4,290 candidates in the historical run. All compared methods use the same new
+candidate set. The all-scene selection reaches R/V@100 `.35465/.03935`, while
+the LOSO estimate reaches `.31977/.03839` and fails the Recall guardrail. The
+selected rule's 548-context cross-source evaluation is under
+`development_v2/cross_source_evaluation/` and passes its denominator checks,
+but does not improve the established product consistently enough for promotion.
+These outputs are supplement-only development evidence.

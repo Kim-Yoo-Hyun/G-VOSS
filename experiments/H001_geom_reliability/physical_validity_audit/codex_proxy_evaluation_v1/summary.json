@@ -1,0 +1,447 @@
+{
+  "claim_boundary": "Two passes from the same Codex model family are non-human automatic-judge stability evidence. They do not establish independent physical validity or Human Violation@K.",
+  "consensus_policy": "retain exact pass agreement; map every pass disagreement to ambiguous; exclude ambiguous/unobservable from the binary proxy denominator",
+  "created_at_utc": "2026-07-12T05:30:00.281044+00:00",
+  "metrics": {
+    "open3dsg_ov_recovery": {
+      "family_conditional_risk": {
+        "10": {
+          "binary_resolution_coverage": 0.5805661150131267,
+          "family": {
+            "proximity": {
+              "proxy_violation": 0.09374819351309914,
+              "resolved_rows": 12
+            },
+            "relative_vertical": {
+              "proxy_violation": 0.0,
+              "resolved_rows": 7
+            },
+            "support_contact": {
+              "proxy_violation": 0.19118712264147905,
+              "resolved_rows": 7
+            }
+          },
+          "invalid_rows": 2,
+          "proxy_violation": 0.09135248837047526,
+          "resolved_rows": 26,
+          "sampled_rows": 41
+        },
+        "100": {
+          "binary_resolution_coverage": 0.5682279638799247,
+          "family": {
+            "proximity": {
+              "proxy_violation": 0.06201187566887813,
+              "resolved_rows": 54
+            },
+            "relative_vertical": {
+              "proxy_violation": 0.09199866167482129,
+              "resolved_rows": 48
+            },
+            "support_contact": {
+              "proxy_violation": 0.3582421899099955,
+              "resolved_rows": 31
+            }
+          },
+          "invalid_rows": 19,
+          "proxy_violation": 0.13016247070603465,
+          "resolved_rows": 133,
+          "sampled_rows": 215
+        },
+        "20": {
+          "binary_resolution_coverage": 0.6909485162944605,
+          "family": {
+            "proximity": {
+              "proxy_violation": 0.046057785909331614,
+              "resolved_rows": 22
+            },
+            "relative_vertical": {
+              "proxy_violation": 0.0,
+              "resolved_rows": 18
+            },
+            "support_contact": {
+              "proxy_violation": 0.3709894268657883,
+              "resolved_rows": 14
+            }
+          },
+          "invalid_rows": 4,
+          "proxy_violation": 0.13814977045525556,
+          "resolved_rows": 54,
+          "sampled_rows": 74
+        },
+        "5": {
+          "binary_resolution_coverage": 0.6749609976571818,
+          "family": {
+            "proximity": {
+              "proxy_violation": 0.1830825764784797,
+              "resolved_rows": 7
+            },
+            "relative_vertical": {
+              "proxy_violation": 0.0,
+              "resolved_rows": 4
+            },
+            "support_contact": {
+              "proxy_violation": 0.32629174265897315,
+              "resolved_rows": 4
+            }
+          },
+          "invalid_rows": 2,
+          "proxy_violation": 0.14864909191638376,
+          "resolved_rows": 15,
+          "sampled_rows": 21
+        },
+        "50": {
+          "binary_resolution_coverage": 0.6363771249905644,
+          "family": {
+            "proximity": {
+              "proxy_violation": 0.02090795695262932,
+              "resolved_rows": 34
+            },
+            "relative_vertical": {
+              "proxy_violation": 0.047132223031991806,
+              "resolved_rows": 34
+            },
+            "support_contact": {
+              "proxy_violation": 0.38029125979788586,
+              "resolved_rows": 24
+            }
+          },
+          "invalid_rows": 9,
+          "proxy_violation": 0.1274739831449261,
+          "resolved_rows": 92,
+          "sampled_rows": 134
+        }
+      },
+      "semantic_only": {
+        "10": {
+          "binary_resolution_coverage": 0.698160710827771,
+          "family": {
+            "proximity": {
+              "proxy_violation": 0.23196447499872266,
+              "resolved_rows": 14
+            },
+            "relative_vertical": {
+              "proxy_violation": 0.7929329716383233,
+              "resolved_rows": 21
+            },
+            "support_contact": {
+              "proxy_violation": 0.507834324303684,
+              "resolved_rows": 6
+            }
+          },
+          "invalid_rows": 28,
+          "proxy_violation": 0.6362832193109096,
+          "resolved_rows": 41,
+          "sampled_rows": 53
+        },
+        "100": {
+          "binary_resolution_coverage": 0.6166683434529276,
+          "family": {
+            "proximity": {
+              "proxy_violation": 0.29320353051654857,
+              "resolved_rows": 52
+            },
+            "relative_vertical": {
+              "proxy_violation": 0.47686276659038124,
+              "resolved_rows": 59
+            },
+            "support_contact": {
+              "proxy_violation": 0.6983977336877253,
+              "resolved_rows": 50
+            }
+          },
+          "invalid_rows": 86,
+          "proxy_violation": 0.5209211942813583,
+          "resolved_rows": 161,
+          "sampled_rows": 236
+        },
+        "20": {
+          "binary_resolution_coverage": 0.6068303323519268,
+          "family": {
+            "proximity": {
+              "proxy_violation": 0.4769148759883414,
+              "resolved_rows": 25
+            },
+            "relative_vertical": {
+              "proxy_violation": 0.7379625387802451,
+              "resolved_rows": 26
+            },
+            "support_contact": {
+              "proxy_violation": 0.4093706911707555,
+              "resolved_rows": 18
+            }
+          },
+          "invalid_rows": 45,
+          "proxy_violation": 0.5667600936974422,
+          "resolved_rows": 69,
+          "sampled_rows": 95
+        },
+        "5": {
+          "binary_resolution_coverage": 0.6676878028375471,
+          "family": {
+            "proximity": {
+              "proxy_violation": 0.16403484497175194,
+              "resolved_rows": 5
+            },
+            "relative_vertical": {
+              "proxy_violation": 0.8919297259945433,
+              "resolved_rows": 9
+            },
+            "support_contact": {
+              "proxy_violation": 0.0,
+              "resolved_rows": 2
+            }
+          },
+          "invalid_rows": 12,
+          "proxy_violation": 0.8214744437693692,
+          "resolved_rows": 16,
+          "sampled_rows": 23
+        },
+        "50": {
+          "binary_resolution_coverage": 0.5712042958966512,
+          "family": {
+            "proximity": {
+              "proxy_violation": 0.36422387093909303,
+              "resolved_rows": 35
+            },
+            "relative_vertical": {
+              "proxy_violation": 0.5823740525588674,
+              "resolved_rows": 36
+            },
+            "support_contact": {
+              "proxy_violation": 0.6673251951479018,
+              "resolved_rows": 40
+            }
+          },
+          "invalid_rows": 65,
+          "proxy_violation": 0.5642204615704929,
+          "resolved_rows": 111,
+          "sampled_rows": 165
+        }
+      }
+    },
+    "vlsat_closed_set": {
+      "family_conditional_risk": {
+        "10": {
+          "binary_resolution_coverage": 0.8469548138560203,
+          "family": {
+            "proximity": {
+              "proxy_violation": 0.0,
+              "resolved_rows": 12
+            },
+            "relative_vertical": {
+              "proxy_violation": 0.0,
+              "resolved_rows": 7
+            },
+            "support_contact": {
+              "proxy_violation": 0.0772406418048658,
+              "resolved_rows": 16
+            }
+          },
+          "invalid_rows": 1,
+          "proxy_violation": 0.038573646218619306,
+          "resolved_rows": 35,
+          "sampled_rows": 44
+        },
+        "100": {
+          "binary_resolution_coverage": 0.6169038472001044,
+          "family": {
+            "proximity": {
+              "proxy_violation": 0.3567862768768655,
+              "resolved_rows": 50
+            },
+            "relative_vertical": {
+              "proxy_violation": 0.1556853450121383,
+              "resolved_rows": 43
+            },
+            "support_contact": {
+              "proxy_violation": 0.15711666548600595,
+              "resolved_rows": 35
+            }
+          },
+          "invalid_rows": 28,
+          "proxy_violation": 0.23082731189581426,
+          "resolved_rows": 128,
+          "sampled_rows": 197
+        },
+        "20": {
+          "binary_resolution_coverage": 0.7086198471537015,
+          "family": {
+            "proximity": {
+              "proxy_violation": 0.043929643739976015,
+              "resolved_rows": 21
+            },
+            "relative_vertical": {
+              "proxy_violation": 0.11981438527462922,
+              "resolved_rows": 14
+            },
+            "support_contact": {
+              "proxy_violation": 0.058769238526846665,
+              "resolved_rows": 21
+            }
+          },
+          "invalid_rows": 3,
+          "proxy_violation": 0.06339655112253456,
+          "resolved_rows": 56,
+          "sampled_rows": 75
+        },
+        "5": {
+          "binary_resolution_coverage": 0.8826375024502576,
+          "family": {
+            "proximity": {
+              "proxy_violation": 0.0,
+              "resolved_rows": 5
+            },
+            "relative_vertical": {
+              "proxy_violation": 0.0,
+              "resolved_rows": 4
+            },
+            "support_contact": {
+              "proxy_violation": 0.0,
+              "resolved_rows": 11
+            }
+          },
+          "invalid_rows": 0,
+          "proxy_violation": 0.0,
+          "resolved_rows": 20,
+          "sampled_rows": 23
+        },
+        "50": {
+          "binary_resolution_coverage": 0.677909591285532,
+          "family": {
+            "proximity": {
+              "proxy_violation": 0.21892827296441783,
+              "resolved_rows": 32
+            },
+            "relative_vertical": {
+              "proxy_violation": 0.07719911424666903,
+              "resolved_rows": 27
+            },
+            "support_contact": {
+              "proxy_violation": 0.11962148166505666,
+              "resolved_rows": 28
+            }
+          },
+          "invalid_rows": 11,
+          "proxy_violation": 0.1449773260981987,
+          "resolved_rows": 87,
+          "sampled_rows": 122
+        }
+      },
+      "semantic_only": {
+        "10": {
+          "binary_resolution_coverage": 0.8408897919420261,
+          "family": {
+            "proximity": {
+              "proxy_violation": 0.0,
+              "resolved_rows": 11
+            },
+            "relative_vertical": {
+              "proxy_violation": 0.0027557991909191474,
+              "resolved_rows": 8
+            },
+            "support_contact": {
+              "proxy_violation": 0.07639692098695634,
+              "resolved_rows": 17
+            }
+          },
+          "invalid_rows": 2,
+          "proxy_violation": 0.04061146033260838,
+          "resolved_rows": 36,
+          "sampled_rows": 45
+        },
+        "100": {
+          "binary_resolution_coverage": 0.5954571471659774,
+          "family": {
+            "proximity": {
+              "proxy_violation": 0.4249842950995952,
+              "resolved_rows": 55
+            },
+            "relative_vertical": {
+              "proxy_violation": 0.15895848352764344,
+              "resolved_rows": 55
+            },
+            "support_contact": {
+              "proxy_violation": 0.23933061210462617,
+              "resolved_rows": 43
+            }
+          },
+          "invalid_rows": 62,
+          "proxy_violation": 0.2782428955003318,
+          "resolved_rows": 153,
+          "sampled_rows": 228
+        },
+        "20": {
+          "binary_resolution_coverage": 0.6913769565318941,
+          "family": {
+            "proximity": {
+              "proxy_violation": 0.04782330780007012,
+              "resolved_rows": 20
+            },
+            "relative_vertical": {
+              "proxy_violation": 0.1215685877280593,
+              "resolved_rows": 17
+            },
+            "support_contact": {
+              "proxy_violation": 0.06299471389859093,
+              "resolved_rows": 21
+            }
+          },
+          "invalid_rows": 7,
+          "proxy_violation": 0.06787590335075912,
+          "resolved_rows": 58,
+          "sampled_rows": 79
+        },
+        "5": {
+          "binary_resolution_coverage": 0.8796509540980604,
+          "family": {
+            "proximity": {
+              "proxy_violation": 0.0,
+              "resolved_rows": 5
+            },
+            "relative_vertical": {
+              "proxy_violation": 0.0,
+              "resolved_rows": 4
+            },
+            "support_contact": {
+              "proxy_violation": 0.0,
+              "resolved_rows": 14
+            }
+          },
+          "invalid_rows": 0,
+          "proxy_violation": 0.0,
+          "resolved_rows": 23,
+          "sampled_rows": 27
+        },
+        "50": {
+          "binary_resolution_coverage": 0.6618180969504656,
+          "family": {
+            "proximity": {
+              "proxy_violation": 0.22861506843989154,
+              "resolved_rows": 36
+            },
+            "relative_vertical": {
+              "proxy_violation": 0.05105188696542101,
+              "resolved_rows": 33
+            },
+            "support_contact": {
+              "proxy_violation": 0.18656533994460067,
+              "resolved_rows": 30
+            }
+          },
+          "invalid_rows": 27,
+          "proxy_violation": 0.16658695669544923,
+          "resolved_rows": 99,
+          "sampled_rows": 140
+        }
+      }
+    }
+  },
+  "schema_version": "h001_codex_proxy_audit_evaluation_v1",
+  "status": "completed_nonhuman_proxy_only",
+  "validations": {
+    "binary_consensus_rows_334": true,
+    "direct_valid_invalid_flips_zero": true,
+    "sidecar_source_records_present": true,
+    "two_locked_passes_488_rows": true
+  }
+}

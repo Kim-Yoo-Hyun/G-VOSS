@@ -8,29 +8,34 @@ Paper-facing name: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D 
 
 Current 2026-07-12 framing override:
 
-- GeoCalib is a framework-level contribution. The calibrated product
-  (`family_conditional_risk`) and pre-specified rank-average are two soft fusion
+- The submission narrative is failure-first: observed inconsistency,
+  structural cause, factor-isolation necessity, method, evidence, then
+  limitations. Novelty is a source-independent reliability contract and
+  evaluation framework, not a fusion-formula claim.
+- GeoCalib is a framework-level contribution. The family-calibrated product
+  and rank-average are two soft fusion
   instantiations; neither is claimed universally dominant.
-- On the prospectively frozen SGFN target, both satisfy the K=100 joint
-  recall/verifier-violation gate. This confirms the aggregate framework effect,
+- On SGFN, both satisfy the K=100 joint recall/verifier-violation gate. This
+  supports the aggregate framework effect,
   while `support_contact` regression and the LLM-proxy/human-validity boundary
   remain explicit limits.
-- The later, completely untouched ReplicaSSG/FROSS dataset-and-source test does
-  not pass the same frozen K=100 framework gate. Product is unchanged from
+- The initial ReplicaSSG/FROSS cross-dataset transfer test does not pass the
+  same K=100 framework gate. Product is unchanged from
   semantic-only, while rank-average sharply lowers verifier V but violates the
-  aggregate recall guardrail. Therefore SGFN remains source-level prospective
-  support on the known 3DSSG target; do not upgrade the manuscript to a
-  dataset-level joint-gate claim.
-- Current AAAI-27 outputs are `paper/aaai/main_aaai27.pdf` (technical content
-  through page 7, references only on pages 8--9),
-  `supplement_aaai27.pdf` (1 page), and the separate
-  `reproducibility_checklist_aaai27.pdf` (2 pages). Final main/triplet logs are
-  `logs/h001_aaai27_main_build_20260712.log` and
-  `logs/h001_aaai27_final_triplet_build_20260712.log`; active field bundle is
+  aggregate recall guardrail. ReplicaSSG is now a test-specific development
+  diagnostic for source-scale normalization and bounded fusion; selected
+  results are development estimates. The all-scene bounded fit preserves
+  K=100 recall, but LOSO fails the recall guardrail; bounded fusion therefore
+  stays out of the main Method and contribution list.
+- Current AAAI-27 outputs are `paper/aaai/main_aaai27.pdf` (9 pages; technical
+  content through page 7, references only on pages 8--9),
+  `supplement_aaai27.pdf` (3 pages), and the separate
+  `reproducibility_checklist_aaai27.pdf` (2 pages). Final triplet log is
+  `logs/h001_claim_lock_main_final_20260712.log`; active field bundle is
   `release/h001_aaai27_openreview_20260712_083625/`. Prior snapshots are
   preserved as historical provenance.
 - H001 factorizes each row into predicate/family semantics `T_e`, raw
-  predicate-independent same-pair geometry `G_e`, source confidence `Z_e`, and
+  predicate-independent same-pair geometry `G_e`, source relation score `Z_e`, and
   calibrated constructed-target compatibility
   `C_e=P(y_cal=1|T_e,G_e)`. The leakage boundary is `Z_e notin C_e`;
   product and rank-average remain instances of `S_e=F(Z_e,C_e)`.
@@ -44,6 +49,18 @@ Current 2026-07-12 framing override:
   controls. The selected strict family model passes its exact controls; pooled
   `M_int` fails structural controls and is not promoted. These diagnostics do
   not retroactively alter the SGFN gate.
+- Frozen uncertainty sensitivity reports decidable-only Violation, uncertainty
+  rate, and a pessimistic bound. Family-calibrated product lowers all three
+  relative to Source score at K=100 for VL-SAT, Open3DSG, and SGFN, so the
+  aggregate result is not an uncertain-denominator artifact.
+- The 69-parameter nonlinear rescorer, trained on disjoint internal-dev
+  exact-label correctness, is stronger than the product on SGFN at low K and
+  lowers K=100 Violation. This blocks formula superiority and is reported
+  honestly; unlike GeoCalib, it consumes source confidence and source-specific
+  exact-label supervision.
+- Figure 2 now connects K=`{5,10,20,50,100}` on VL-SAT, Open3DSG, and SGFN.
+  Only K=100 supports the two-instantiation joint-gate statement; the
+  smaller-budget persistence statement is product-only.
 
 2026-07-11 train-only provenance override:
 
@@ -59,12 +76,12 @@ Current 2026-07-12 framing override:
   classification is maintained once in `docs/paper.md` and the authoritative
   experiment report rather than repeated throughout paper workspace files.
 - Support/contact verifier V still regresses in family-wise views. Keep the
-  aggregate framework wording and LLM-proxy/human-validity boundary; do not claim
+  aggregate framework wording and independent-human-validity boundary; do not claim
   family-uniform improvement or support/contact solved.
-- The manuscript now reports the strict factor/counterfactual results in prose
-  without recasting the observed official validation target as prospective.
-  The current validity route is the completed two-pass Codex LLM proxy audit;
-  human alignment is optional and is not being collected automatically.
+- The manuscript reports strict factor/counterfactual results without
+  recasting the observed official validation target as prospective. Codex proxy
+  results are excluded from the submission and isolated in
+  `paper/paper_nonsub/`; human alignment remains optional and unclaimed.
 
 Prior 2026-06-25 source snapshot:
 
@@ -77,9 +94,9 @@ Prior 2026-06-25 source snapshot:
   but is now named calibrator-only/no-`Z`, not true geometry-only.
 - Qwen-VL full official validation downstream is complete and should be treated as appendix/extension evidence unless explicitly promoted.
 - Active target-year PDF build:
-  `logs/h001_aaai27_final_triplet_build_20260712.log`, exit 0. Outputs are
+  `logs/h001_strengthening_final_build_v2_20260712.log`, exit 0. Outputs are
   `paper/aaai/main_aaai27.pdf` (9 pages; technical content through page 7 and
-  references only on pages 8--9), `supplement_aaai27.pdf` (1 page), and
+  references only on pages 8--9), `supplement_aaai27.pdf` (2 pages), and
   `reproducibility_checklist_aaai27.pdf` (2 pages). The active upload set is
   `release/h001_aaai27_openreview_20260712_083625/`.
 - Remaining paper work is submission/package hygiene, not new main-source result generation.
@@ -643,8 +660,8 @@ Recommended next action:
 1. Use `paper/draft.md` as the active reviewed first-pass manuscript prose, `paper/aaai/` as the current AAAI-style LaTeX source, and `paper/generated/figures/` as the active draft figure output.
 2. Treat the claim-consistency review in `paper/outline.md` as the current paper guardrail: title, contributions, abstract, Introduction, table captions, and figure captions must stay within the scoped relation-reliability claim.
 3. Treat the reproducibility checklist as a separate AAAI-27 OpenReview upload.
-   The verified Docker triplet is `main_aaai27.pdf` (9 pages),
-   `supplement_aaai27.pdf` (1 page), and
+   The verified containerized-build triplet is `main_aaai27.pdf` (9 pages),
+   `supplement_aaai27.pdf` (2 pages), and
    `reproducibility_checklist_aaai27.pdf` (2 pages). Remaining work is author
    metadata, final public license/artifact URL, and optional human alignment,
    not source-result regeneration.

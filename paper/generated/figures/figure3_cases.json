@@ -20,26 +20,6 @@
     "topk_transition": "demoted_out_of_top50"
   },
   {
-    "case_id": "open3dsg_case_005",
-    "category": "geometry_contradiction",
-    "delta_rank": 397,
-    "family": "relative_vertical",
-    "geometry_rank": 422,
-    "gt_match_status": "pair_has_other_predicate",
-    "matched_predicates": [
-      "left"
-    ],
-    "p_geom_valid": 0.0019154382549911775,
-    "pair": "desk -> lamp",
-    "predicate": "higher than",
-    "reason_codes": [
-      "point_subtype_delegated_to_obb_for_family",
-      "vertical_order_contradicts_predicate"
-    ],
-    "semantic_rank": 25,
-    "topk_transition": "demoted_out_of_top50"
-  },
-  {
     "case_id": "open3dsg_case_010",
     "category": "geometry_contradiction",
     "delta_rank": 380,
@@ -61,23 +41,21 @@
     "topk_transition": "demoted_out_of_top50"
   },
   {
-    "case_id": "open3dsg_case_007",
-    "category": "geometry_contradiction",
-    "delta_rank": -289,
-    "family": "relative_vertical",
-    "geometry_rank": 50,
-    "gt_match_status": "pair_has_other_predicate",
-    "matched_predicates": [
-      "standing on"
-    ],
-    "p_geom_valid": 0.9994424488013512,
-    "pair": "chair -> floor",
-    "predicate": "lower than",
+    "case_id": "open3dsg_case_026",
+    "category": "semantic_and_geometry_failure",
+    "delta_rank": -250,
+    "family": "support_contact",
+    "geometry_rank": 36,
+    "gt_match_status": "no_gt_for_pair",
+    "matched_predicates": [],
+    "p_geom_valid": 0.9979662380121128,
+    "pair": "door -> floor",
+    "predicate": "lying on",
     "reason_codes": [
-      "point_subtype_delegated_to_obb_for_family",
-      "vertical_order_contradicts_predicate"
+      "positive_float_gap_large",
+      "subtype_soft_support_contact"
     ],
-    "semantic_rank": 339,
+    "semantic_rank": 286,
     "topk_transition": "promoted_into_top50"
   }
 ]

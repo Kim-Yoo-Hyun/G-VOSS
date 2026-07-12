@@ -1,113 +1,90 @@
 \section{Method}
 
-\method{} is a framework for 3D scene graph relation predictions. It is
-not a replacement relation predictor and not a standalone hand-coded verifier.
-The geometric checks define the measurable validity target for families with
-observable physical constraints; the method contribution is the
-identity-preserving row contract, factor separation, calibrated compatibility,
-operating-point analysis, and controls. The design preserves row identity,
-joins predicate-independent same-pair geometry, excludes source confidence
-from compatibility calibration, and evaluates recall and violation jointly.
-Figure~\ref{fig:framework} presents this path to calibrated operating points.
+\method{} is a reliability layer for relation predictions, not a replacement
+3D Scene Graph generator. It preserves candidate identity, measures
+predicate-conditioned geometry compatibility independently of the source
+relation score, and combines the two signals only at re-ranking time.
+Figure~\ref{fig:framework} gives the complete pipeline.
 
-\subsection{Relation-Row Standardization}
+\subsection{Relation Rows and Geometry Evidence}
 
-Different relation sources expose predictions in different formats. We convert
-each source output into a shared row contract:
+We convert each source prediction to a common row
 \begin{equation}
-(\mathrm{scan},\mathrm{subgraph},s,o,p,a,\mathrm{score}^{sem},\mathrm{source}).
+(\mathrm{scan},\mathrm{context},s,o,p,a,Z),
 \end{equation}
-This row is the unit of comparison across VL-SAT, Open3DSG, controls, and
-future optional sources. The standardized row keeps the semantic score from the
-source model but adds the fields needed for identity-preserving geometry joins
-and denominator-stable evaluation.
+where $s$ and $o$ are ordered instance identifiers, $p$ is the predicate,
+$a$ its relation family, and $Z$ the original source relation score. The ordered
+key $(\mathrm{scan},\mathrm{context},s,o)$ joins each candidate to the geometry
+of the same object pair. It prevents category-level plausibility or unordered
+pair statistics from substituting for instance-level evidence.
 
-\subsection{Identity-Preserving Geometry Join}
+The raw geometry vector $G$ is predicate-independent. It contains pair
+distance and scale, centroid and extent differences, oriented-box overlap, and
+point-level contact/support evidence when observable. Predicate semantics are
+represented by $T=(p,a)$. We measure three families whose constraints can be
+tested from the reconstruction: support/contact, proximity, and relative
+vertical order. Family-specific transformations interpret $G$ for $T$---for
+example, the sign of vertical displacement for \texttt{higher than} versus
+\texttt{lower than}---but neither source score nor source identity enters the
+geometry representation. Insufficient evidence is retained as uncertain
+rather than forced into a valid/invalid label.
 
-Geometry is joined by $(\mathrm{scan},\mathrm{subgraph},s,o)$, not by category
-names or unordered object-pair statistics. This matters because the same
-predicate can be plausible for many object categories while being false for a
-particular instance pair. The wrong-pair and shuffled-geometry controls
-directly test this design choice by breaking or perturbing object-pair identity
-while preserving parts of the geometry distribution.
+\subsection{Compatibility Calibration and Re-ranking}
 
-\subsection{Family-Specific Geometry Checks}
-
-\method{} uses relation-family-specific checks for \texttt{support\_contact},
-\texttt{proximity}, and \texttt{relative\_vertical}. For support/contact, the
-evidence includes point/local contact, vertical support, OBB overlap, and
-support subtypes. For proximity, the evidence includes object distance and pair
-scale. For relative vertical relations, the evidence includes centroid and
-extent ordering along the vertical axis. The verifier returns violated only
-when the evidence is strong enough; otherwise ambiguous or weak geometry can be
-marked uncertain. We do not apply this protocol to predicates whose correctness
-depends primarily on function, social context, affordance, or language
-pragmatics, because those predicates do not have a stable geometric validity
-test from the available reconstruction alone.
-
-\subsection{Factor-Isolated Calibration and Fusion}
-
-For each row, $T_i$ denotes predicate/family semantics, $G_i$ raw
-predicate-independent same-pair geometry, and $Z_i$ source confidence. The
-frozen family-conditioned calibrator is
+For each family $a$, we fit a logistic compatibility calibrator
 \begin{equation}
-\begin{split}
-\pgeomfam_i=C_i &={} C_{a_i}(\Phi(T_i,G_i)),\\
-                 &={} P(y_i^{cal}=1\mid T_i,G_i),
-\end{split}
+\begin{aligned}
+C_i&=\sigma\!\left(w_{a_i}^{\top}\Phi(T_i,G_i)\right)
+   \approx P(y_i^{cal}=1\mid T_i,G_i),\\
+Z_i&\notin\operatorname{inputs}(C_i),
+\end{aligned}
 \end{equation}
-Here $\Phi=(\phi_T,\phi_G,\phi_{\times})$; $\phi_{\times}$ contains explicit
-predicate-aligned transforms such as signed vertical displacement while raw
-$G_i$ remains predicate-independent.
-The leakage boundary is
-\begin{equation}
-Z_i\notin\operatorname{inputs}(C_i).
-\end{equation}
-Source confidence and identity are absent from calibrator features and enter
-only after $C_i$ is fixed. A pooled calibrator with the same boundary is the
-\texttt{pooled\_risk} ablation. Both use 2,565 train-dev GT positives and 3,244
-high-margin counterfactual negatives, so $y^{cal}$ is constructed rather than
-human validity. Family maps, rules, counterfactuals, and calibrators are frozen
-from train-dev artifacts without held-out retuning.
+with $\Phi=(\phi_T,\phi_G,\phi_{\times})$. The interaction block
+$\phi_{\times}$ contains explicit predicate--geometry transformations, while
+$\phi_G$ remains predicate-independent. The calibration target uses 2,565
+train/dev ground-truth positives and 3,244 high-margin counterfactual
+negatives; it is a constructed compatibility target, not human physical
+validity. We standardize numeric features with training statistics and minimize
+binary cross-entropy with $L_2=10^{-4}$ for 800 fixed gradient steps
+(learning rate 0.2). The three family models use 22--24 features and no source
+score or source identity. Training/dev rows, feature groups, and held-out
+calibration diagnostics are detailed in the supplement.
 
-We first use geometry validity as a soft risk term. For the calibrated product,
-$R^{geom}_i=-\log \pgeomfam_i$ and
+Our first instantiation preserves score magnitudes through a
+family-calibrated product,
 \begin{equation}
-U_{\lambda}(i)=\log \mathrm{score}^{sem}_i-\lambda R^{geom}_i.
+S_i^{\mathrm{prod}}=Z_i C_i.
 \end{equation}
-The reported product fixes $\lambda=1$, giving
+Equivalently, $\log S_i^{\mathrm{prod}}=\log Z_i+\log C_i$ applies a soft
+compatibility penalty with fixed unit weight. Our second instantiation avoids
+cross-source scale assumptions. Let $q_i^Z$ and $q_i^C$ be descending
+within-context percentile ranks; then
 \begin{equation}
-\mathrm{score}^{\mathrm{product}}_i =
-\mathrm{score}^{sem}_i \cdot \pgeomfam_i.
+S_i^{\mathrm{rank}}=\tfrac{1}{2}(q_i^Z+q_i^C).
 \end{equation}
-This preserves the source ranking signal while continuously penalizing
-calibrated inconsistency; $\lambda$ is not tuned on held-out source results.
+The equal weight is parameter-free. These are complementary framework
+instantiations rather than a
+claim that either fusion is universally optimal.
 
-The second soft instantiation removes source-scale assumptions. Within each
-subgraph, let $q_i^{sem}$ and $q_i^{geom}$ be descending percentile ranks of
-$\mathrm{score}^{sem}_i$ and $\pgeomfam_i$. Rank-average assigns
-\begin{equation}
-\mathrm{score}^{\mathrm{rank}}_i =
-\tfrac{1}{2}(q_i^{sem}+q_i^{geom}).
-\end{equation}
-The equal weight is parameter-free and fixed before SGFN inference. The product
-uses calibrated probability magnitudes; rank-average is scale-robust. We treat
-them as two GeoCalib fusion instantiations rather than claiming one formula is
-universally optimal. We additionally report
-\texttt{probabilistic\_recalibrated} as the pooled calibrated-risk ablation
-$\mathrm{score}^{sem}_i \cdot \pgeom_i$, fixed-constant Reciprocal Rank Fusion
-as a strong comparison, and \texttt{rule\_verified\_point\_subtype} as a hard
-zero-violation diagnostic.
+\subsection{Comparisons and Falsification Controls}
 
-\subsection{Controls}
-
-The control conditions test whether the result can be explained by simpler
-signals. The legacy \pgeom{}-only ranking removes $Z_i$ and is therefore
-distinct from the pooled calibrated-risk ablation, which still multiplies
-source confidence by \pgeom{}. We call it calibrator-only, not true $G$-only,
-because the calibrator retains $T_i$ and $T_i\!\times\!G_i$ features.
-Distance-only ranking tests whether a generic spatial
-heuristic explains the result. Shuffled-geometry and wrong-pair-geometry
-controls test whether relation-level object-pair identity is necessary. If
-these controls perform worse than the calibrated setting, the result supports
-the framework design rather than a generic ``add geometry'' explanation.
+We compare against the original source relation score, a pooled-compatibility
+product $Z_i\pgeom_i$, fixed-constant Reciprocal Rank Fusion, and a hard-rule
+filter. We additionally fit a source-supervised nonlinear rescorer on the
+117-scan internal-development source. It consumes $Z$, the complete $T/G$
+factorization, and the two directed interactions through a two-hidden-unit ReLU
+MLP with a predicate-linear skip. Its 69 trainable parameters match the total
+22+23+24 coefficients of the three family compatibility calibrators. This is
+an advantaged comparison: unlike GeoCalib, it uses exact source-specific labels
+and is not a source-independent replacement. The pooled model tests whether
+family conditioning is necessary; the
+hard-rule result is a diagnostic operating point rather than a proposed
+zero-violation solution. A compatibility-only control removes $Z$, and a
+generic distance heuristic tests whether calibration is needed at all.
+Shuffled-geometry and mismatched-pair controls break the identity join while
+preserving marginal geometry statistics. A separate factor audit evaluates
+$T$-only, true $G$-only, additive $T+G$, and interaction $T\times G$ models,
+together with wrong-predicate, endpoint-swap where defined, and vertical
+inverse-equivariance tests. These controls make the central claim falsifiable:
+the gain should depend on the correct predicate, ordered object pair, and
+geometry---not on score leakage or a generic distance prior.

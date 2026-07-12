@@ -1,6 +1,6 @@
 {
-  "claim_boundary": "draft figures only; scoped H001 relation-reliability claim",
-  "created_at": "2026-07-10T08:37:33.353610+00:00",
+  "claim_boundary": "source-level evidence on a fixed geometry-identifiable 3DSSG target; K=100 is primary and smaller K are secondary diagnostics",
+  "created_at": "2026-07-12T05:28:08.297932+00:00",
   "layout_review": "paper/generated/figures/layout_review.md",
   "outputs": {
     "figure1_framework.svg": "paper/generated/figures/figure1_framework.svg",
@@ -12,8 +12,9 @@
     "figure2_tradeoff.png": "paper/generated/figures/figure2_tradeoff.png"
   },
   "source_artifacts": [
-    "experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics/metrics.json",
-    "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics/metrics.json",
+    "experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics_k_sweep/metrics.json",
+    "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/metrics.json",
+    "experiments/H001_geom_reliability/sources/sgfn/confirmatory_metrics/summary.json",
     "experiments/H001_geom_reliability/sources/open3dsg/failure_cases/inspection.json"
   ],
   "source_lock": "paper/figures.md",

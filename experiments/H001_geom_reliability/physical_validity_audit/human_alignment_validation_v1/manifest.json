@@ -1,0 +1,20 @@
+{
+  "created_at_utc": "2026-07-12T04:14:35.501729+00:00",
+  "inputs": {
+    "annotation_guide": "experiments/H001_geom_reliability/physical_validity_audit/frozen_v1/annotation_guide.md",
+    "audit_dir": "experiments/H001_geom_reliability/physical_validity_audit/frozen_v1",
+    "sha256": {
+      "adjudication": "7033eccfda12b7da3b4a04dc7dc5bc46932f18ff47b7fa99006a81ec681fe4e4",
+      "annotation_guide": "bda06e031677b20b3cd3aea9872745e633097ae69bc643c4e849d3d0b5e35c90",
+      "annotator_a": "866afd32eccd561d3e562bab679ecb55af44e3dcf6a113216581e02216e7b553",
+      "annotator_b": "d86229fa023117e3c97e7668be817fdaf64ac03fa890076983687075c392bc68"
+    }
+  },
+  "outputs": [
+    "experiments/H001_geom_reliability/physical_validity_audit/human_alignment_validation_v1/validation.json",
+    "experiments/H001_geom_reliability/physical_validity_audit/human_alignment_validation_v1/required_adjudication.csv",
+    "experiments/H001_geom_reliability/physical_validity_audit/human_alignment_validation_v1/summary.md"
+  ],
+  "schema_version": "h001_human_alignment_annotation_validation_v1",
+  "status": "awaiting_independent_human_labels"
+}

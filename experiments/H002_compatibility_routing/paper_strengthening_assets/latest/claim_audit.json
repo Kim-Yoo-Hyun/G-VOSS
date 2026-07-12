@@ -14,11 +14,11 @@
     "paper/h002_compatibility_routing/aaai2027/supplement.tex"
   ],
   "required_boundaries": {
-    "The experiment is a validation-split study.": true,
-    "This circularity blocks a metric rerun and any solved-route claim.": true,
-    "We do not solve reliable 3D relation estimation across all relation families.": true,
+    "Target circularity prevents an independent support/contact evaluation.": true,
+    "The experiment is a validation-split study": true,
+    "We do not solve reliable 3D relation estimation across all relation families": true,
     "calibrated selective reliability is left for future validation.": true,
-    "learned $\\Ge$ is not a promoted score.": true
+    "learned geometry variant is not part of the primary score": true
   },
   "status": "pass"
 }

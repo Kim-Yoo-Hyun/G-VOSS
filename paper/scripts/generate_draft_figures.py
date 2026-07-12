@@ -7,8 +7,12 @@ simple, traceable, and source-backed rather than camera-ready artwork.
 
 from __future__ import annotations
 
+import base64
 import html
+import io
 import json
+import shutil
+import subprocess
 import textwrap
 from datetime import datetime, timezone
 from pathlib import Path
@@ -21,7 +25,7 @@ ROOT = Path(__file__).resolve().parents[2]
 OUT_DIR = ROOT / "paper" / "generated" / "figures"
 
 VLSAT_FULL_METRICS = (
-    ROOT / "experiments" / "H001_geom_reliability" / "sources" / "vlsat" / "full_validation" / "metrics" / "metrics.json"
+    ROOT / "experiments" / "H001_geom_reliability" / "sources" / "vlsat" / "full_validation" / "metrics_k_sweep" / "metrics.json"
 )
 OPEN3DSG_METRICS = (
     ROOT
@@ -31,8 +35,12 @@ OPEN3DSG_METRICS = (
     / "open3dsg"
     / "full_validation"
     / "recovery_relaxed_views_min2"
-    / "metrics"
+    / "metrics_k_sweep"
     / "metrics.json"
+)
+SGFN_METRICS = (
+    ROOT / "experiments" / "H001_geom_reliability" / "sources" / "sgfn" /
+    "confirmatory_metrics" / "summary.json"
 )
 INSPECTION_JSON = (
     ROOT
@@ -48,9 +56,7 @@ LAYOUT_REVIEW = OUT_DIR / "layout_review.md"
 
 COLORS = {
     "semantic_only": "#4b5563",
-    "probabilistic_recalibrated": "#2563eb",
     "family_conditional_risk": "#059669",
-    "rule_verified_point_subtype": "#dc2626",
     "axis": "#111827",
     "grid": "#d1d5db",
     "muted": "#6b7280",
@@ -58,33 +64,23 @@ COLORS = {
     "ink": "#111827",
 }
 
-EXPECTED_FIGURE2 = {
-    "VL-SAT": {
-        "semantic_only": {"r100": 0.9635, "violation100": 0.0476},
-        "probabilistic_recalibrated": {"r100": 0.9688, "violation100": 0.0404},
-        "family_conditional_risk": {"r100": 0.9683, "violation100": 0.0333},
-        "rule_verified_point_subtype": {"r100": 0.9627, "violation100": 0.0},
-    },
-    "Open3DSG": {
-        "semantic_only": {"r100": 0.5161, "violation100": 0.1242},
-        "probabilistic_recalibrated": {"r100": 0.5723, "violation100": 0.0811},
-        "family_conditional_risk": {"r100": 0.6047, "violation100": 0.0341},
-        "rule_verified_point_subtype": {"r100": 0.5368, "violation100": 0.0},
-    },
+KS = (5, 10, 20, 50, 100)
+
+EXPECTED_FIGURE2_K100 = {
+    "VL-SAT": {"semantic_only": (0.9635, 0.0476), "family_conditional_risk": (0.9683, 0.0333)},
+    "Open3DSG": {"semantic_only": (0.5161, 0.1242), "family_conditional_risk": (0.6047, 0.0341)},
+    "SGFN": {"semantic_only": (0.9235, 0.0630), "family_conditional_risk": (0.9416, 0.0381)},
 }
 
 EXPECTED_FIGURE3_CASES = [
     "open3dsg_case_001",
-    "open3dsg_case_005",
     "open3dsg_case_010",
-    "open3dsg_case_007",
+    "open3dsg_case_026",
 ]
 
 LABELS = {
-    "semantic_only": "semantic",
-    "probabilistic_recalibrated": "pooled",
-    "family_conditional_risk": "Calibrated product",
-    "rule_verified_point_subtype": "rule",
+    "semantic_only": "Source score",
+    "family_conditional_risk": "Family-calibrated product",
 }
 
 
@@ -122,119 +118,154 @@ def arrow_marker() -> str:
     )
 
 
-def box(x: int, y: int, w: int, h: int, title: str, body: str, fill: str = "#ffffff") -> str:
+def box(
+    x: int,
+    y: int,
+    w: int,
+    h: int,
+    title: str,
+    body: str,
+    fill: str = "#ffffff",
+    wrap_width: int = 24,
+) -> str:
     text = [
         f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="7" fill="{fill}" stroke="#94a3b8" stroke-width="1.4"/>',
         svg_text(x + 16, y + 26, title, size=15, weight=700),
-        svg_wrapped_text(x + 16, y + 52, body, width=24, size=12, fill="#374151"),
+        svg_wrapped_text(x + 16, y + 52, body, width=wrap_width, size=12, fill="#374151"),
     ]
     return "\n".join(text)
 
 
 def generate_figure1() -> str:
-    width, height = 1280, 650
-    boxes = [
-        (50, 220, 160, 115, "Relation source", "scored predicate rows with source confidence Z_e"),
-        (250, 220, 170, 115, "Semantics T_e", "predicate and mapped relation-family semantics"),
-        (460, 220, 170, 115, "Raw geometry G_e", "predicate-independent same-pair evidence"),
-        (670, 220, 170, 115, "Verifier", "family-specific satisfied / uncertain / violated"),
-        (880, 220, 170, 115, "Compatibility C_e", "calibrate y_cal from T_e and G_e; exclude Z_e"),
-        (1090, 220, 150, 115, "Fusion + eval", "F(Z_e,C_e); report R@K and V@K"),
-    ]
+    width, height = 1600, 590
     parts = [
-        '<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="650" viewBox="0 0 1280 650">',
-        '<rect width="1280" height="650" fill="#ffffff"/>',
+        '<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="590" viewBox="0 0 1600 590">',
+        '<rect width="1600" height="590" fill="#ffffff"/>',
         arrow_marker(),
-        svg_text(50, 50, "Figure 1. Calibrated geometry-consistency evaluation and re-ranking framework", 22, 700),
-        svg_text(50, 78, "Top-tier claim: a concrete failure mechanism motivates the framework form.", 14, 400, "#4b5563"),
+        svg_text(800, 34, "GeoCalib: Factor-Isolated Reliability for 3D Scene Graph Relations", 24, 700, anchor="middle"),
+        svg_text(800, 58, "The source proposes a plausible relation; same-pair geometry independently tests whether the predicate is supported.", 13, 400, "#475569", "middle"),
     ]
-    parts.extend(
-        [
-            f'<rect x="50" y="105" width="360" height="80" rx="8" fill="#fff7ed" stroke="#fb923c" stroke-width="1.4"/>',
-            svg_text(70, 132, "Failure mechanism", 16, 700, "#9a3412"),
-            svg_wrapped_text(70, 158, "Semantic scores can rank plausible relations that conflict with object-pair geometry.", 48, 16, 12, "#7c2d12"),
-            f'<rect x="470" y="105" width="330" height="80" rx="8" fill="#fef2f2" stroke="#f87171" stroke-width="1.4"/>',
-            svg_text(490, 132, "Cause", 16, 700, "#991b1b"),
-            svg_wrapped_text(490, 158, "Semantic confidence is not calibrated to relation-level physical consistency.", 44, 16, 12, "#7f1d1d"),
-            f'<rect x="860" y="105" width="360" height="80" rx="8" fill="#eff6ff" stroke="#60a5fa" stroke-width="1.4"/>',
-            svg_text(880, 132, "Design necessity", 16, 700, "#1d4ed8"),
-            svg_wrapped_text(880, 158, "Preserve identity, join geometry, calibrate validity, then report recall and violations together.", 48, 16, 12, "#1e3a8a"),
-            '<line x1="410" y1="145" x2="470" y2="145" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>',
-            '<line x1="800" y1="145" x2="860" y2="145" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>',
-            svg_text(50, 207, "Framework instantiated by this failure-to-design link", 14, 700, "#374151"),
-        ]
-    )
-    for item in boxes:
-        parts.append(box(*item))
-    for idx in range(len(boxes) - 1):
-        x1 = boxes[idx][0] + boxes[idx][2] + 8
-        y1 = boxes[idx][1] + boxes[idx][3] / 2
-        x2 = boxes[idx + 1][0] - 8
-        y2 = boxes[idx + 1][1] + boxes[idx + 1][3] / 2
-        parts.append(
-            f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" '
-            'stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>'
-        )
 
-    y = 405
-    parts.extend(
-        [
-            svg_text(55, y, "Operating points", 17, 700),
-            box(55, y + 22, 245, 90, "Calibrated product", "score_sem * family-conditioned p_geom_valid", "#ecfdf5"),
-            box(330, y + 22, 245, 90, "Rank-average", "mean semantic and geometry rank percentiles", "#ecfeff"),
-            box(605, y + 22, 245, 90, "Diagnostics", "pooled calibration and strict rule", "#eff6ff"),
-            box(880, y + 22, 310, 90, "Controls", "calibrator-only (no Z), distance, shuffled geometry, wrong-pair geometry", "#f8fafc"),
-            svg_text(
-                55,
-                588,
-                "Caption guard: describe this as a framework, not a verifier script or broad open-vocabulary generation method.",
-                13,
-                400,
-                "#6b7280",
-            ),
-        ]
-    )
+    columns = [
+        (20, 82, 360, 475, "1. Observed failure", "#eef4ff", "#4f78b8"),
+        (405, 82, 355, 475, "2. Isolate evidence factors", "#f4f7ff", "#688fc8"),
+        (785, 82, 375, 475, "3. Calibrate compatibility", "#eef8eb", "#6a9d56"),
+        (1185, 82, 395, 475, "4. Re-rank and evaluate", "#f8f2fb", "#8d68b8"),
+    ]
+    for x, y, w, h, title, fill, stroke in columns:
+        parts.append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="10" fill="{fill}" stroke="{stroke}" stroke-width="1.5"/>')
+        parts.append(f'<rect x="{x}" y="{y}" width="{w}" height="38" rx="10" fill="{stroke}" fill-opacity="0.13"/>')
+        parts.append(svg_text(x + w / 2, y + 25, title, 15, 700, "#172554", "middle"))
+
+    # Column 1: an actual ordered object-pair example from Figure 3.
+    geometry_png = OUT_DIR / "figure3_geometry_panels.png"
+    if geometry_png.exists():
+        image = Image.open(geometry_png).convert("RGB")
+        crop = image.crop((0, 0, image.width // 3, image.height))
+        buffer = io.BytesIO()
+        crop.save(buffer, format="PNG")
+        payload = base64.b64encode(buffer.getvalue()).decode("ascii")
+        parts.append(f'<image x="40" y="140" width="320" height="255" preserveAspectRatio="xMidYMid meet" href="data:image/png;base64,{payload}"/>')
+    else:
+        parts.append(f'<rect x="40" y="140" width="320" height="255" rx="8" fill="#ffffff" stroke="#94a3b8"/>')
+        parts.append(svg_text(200, 270, "ordered-pair geometry", 14, 700, "#475569", "middle"))
+    parts.extend([
+        svg_text(45, 425, "Open3DSG: heater —close by→ trash can", 13, 700),
+        svg_text(45, 451, "source confidence 0.853, but pair geometry is far", 12, 400, "#9a3412"),
+        svg_text(45, 478, "Semantic plausibility ≠ physical support", 14, 700, "#9a3412"),
+    ])
+
+    # Column 2: T, G, Z separation and the leakage boundary.
+    parts.extend([
+        box(430, 145, 305, 82, "Predicate semantics  T", "predicate label and family", "#ffffff", 34),
+        box(430, 248, 305, 105, "Same-pair geometry  G", "distance, contact, overlap, support, and vertical order", "#fffaf0", 38),
+        box(430, 374, 305, 82, "Source confidence  Z", "the fixed source relation score", "#ffffff", 34),
+        f'<rect x="455" y="482" width="255" height="42" rx="21" fill="#fee2e2" stroke="#ef4444"/>',
+        svg_text(582, 508, "Z never enters C(T,G)", 14, 700, "#991b1b", "middle"),
+    ])
+
+    # Column 3: compatibility and falsifiable evidence contract.
+    parts.extend([
+        f'<rect x="830" y="145" width="285" height="112" rx="9" fill="#ffffff" stroke="#86a978"/>',
+        svg_text(972, 176, "Compatibility", 15, 700, "#315b27", "middle"),
+        svg_text(972, 210, "C(T,G)", 22, 700, "#315b27", "middle"),
+        svg_text(972, 236, "predicate-conditioned geometry", 11, 400, "#475569", "middle"),
+        box(815, 284, 315, 100, "Identity-preserving join", "scan, context, subject ID, object ID", "#ffffff", 39),
+        box(815, 408, 315, 110, "Falsification tests", "wrong predicate, mismatched pair, shuffled geometry, inverse relation", "#ffffff", 38),
+    ])
+
+    # Column 4: soft scoring and joint evaluation.
+    parts.extend([
+        box(1215, 145, 335, 82, "Calibrated product", "S = Z × C(T,G)", "#ffffff", 39),
+        box(1215, 248, 335, 82, "Scale-robust rank fusion", "average within-context ranks", "#ffffff", 39),
+        f'<rect x="1215" y="360" width="335" height="156" rx="9" fill="#ffffff" stroke="#a78bca"/>',
+        svg_text(1382, 391, "Joint reliability evaluation", 15, 700, "#5b3b82", "middle"),
+        svg_text(1245, 428, "Exact-label Recall@K", 14, 700, "#166534"),
+        svg_text(1245, 460, "Verifier Violation@K", 14, 700, "#991b1b"),
+        svg_text(1245, 490, "uncertainty, coverage, paired CI", 12, 400, "#475569"),
+    ])
+
+    for x1, x2 in [(380, 405), (760, 785), (1160, 1185)]:
+        parts.append(f'<line x1="{x1}" y1="305" x2="{x2}" y2="305" stroke="#374151" stroke-width="2.2" marker-end="url(#arrow)"/>')
     parts.append("</svg>")
     return "\n".join(parts)
 
 
-def metric_row(metrics: dict[str, Any], key: str, label: str, source: str) -> dict[str, float | str]:
+def metric_sweep(metrics: dict[str, Any], key: str) -> dict[str, dict[str, float]]:
     row = metrics["conditions"][key]
     return {
-        "source": source,
-        "condition": label,
-        "r100": row["recall"]["by_k"]["100"]["recall"],
-        "violation100": row["violation_rate"]["by_k"]["100"]["violation_rate"],
+        str(k): {
+            "recall": float(row["recall"]["by_k"][str(k)]["recall"]),
+            "violation": float(row["violation_rate"]["by_k"][str(k)]["violation_rate"]),
+        }
+        for k in KS
     }
 
 
-def load_figure2_data() -> dict[str, list[dict[str, float | str]]]:
-    keep = [
-        ("semantic_only", "semantic_only"),
-        ("probabilistic_recalibrated", "probabilistic_recalibrated"),
-        ("family_conditional_risk", "control_family_specific_p_geom_valid"),
-        ("rule_verified_point_subtype", "rule_verified_point_subtype"),
-    ]
+def load_figure2_data() -> dict[str, dict[str, dict[str, dict[str, float]]]]:
     vlsat_metrics = json.loads(VLSAT_FULL_METRICS.read_text())
     open3dsg_metrics = json.loads(OPEN3DSG_METRICS.read_text())
-    vlsat = [metric_row(vlsat_metrics, key, label, "VL-SAT") for label, key in keep]
-    open3dsg = [metric_row(open3dsg_metrics, key, label, "Open3DSG") for label, key in keep]
-    return {"VL-SAT": vlsat, "Open3DSG": open3dsg}
+    sgfn_payload = json.loads(SGFN_METRICS.read_text())
+    sgfn = sgfn_payload["sources"]["sgfn_official_full_l160_confirmatory"]["overall_global"]
+    sgfn_sweep = {
+        label: {
+            str(k): {
+                "recall": float(sgfn[key][str(k)]["recall"]["point"]),
+                "violation": float(sgfn[key][str(k)]["violation_rate"]["point"]),
+            }
+            for k in KS
+        }
+        for label, key in (
+            ("semantic_only", "semantic_only"),
+            ("family_conditional_risk", "family_conditional_risk"),
+        )
+    }
+    return {
+        "VL-SAT": {
+            "semantic_only": metric_sweep(vlsat_metrics, "semantic_only"),
+            "family_conditional_risk": metric_sweep(vlsat_metrics, "control_family_specific_p_geom_valid"),
+        },
+        "Open3DSG": {
+            "semantic_only": metric_sweep(open3dsg_metrics, "semantic_only"),
+            "family_conditional_risk": metric_sweep(open3dsg_metrics, "control_family_specific_p_geom_valid"),
+        },
+        "SGFN": sgfn_sweep,
+    }
 
 
-def generate_figure2(data: dict[str, list[dict[str, float | str]]]) -> str:
-    width, height = 1280, 620
+def generate_figure2(data: dict[str, dict[str, dict[str, dict[str, float]]]]) -> str:
+    width, height = 1500, 520
     parts = [
-        '<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="620" viewBox="0 0 1280 620">',
-        '<rect width="1280" height="620" fill="#ffffff"/>',
-        arrow_marker(),
-        svg_text(55, 45, "Figure 2. Recall-violation tradeoff", 22, 700),
-        svg_text(55, 72, "Draft plot from locked R@100 and Violation@100 values. Lower violation and higher recall are better.", 14, 400, "#4b5563"),
+        '<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="520" viewBox="0 0 1500 520">',
+        '<rect width="1500" height="520" fill="#ffffff"/>',
+        svg_text(20, 35, "Recall–violation trajectories across ranking budgets", 22, 700),
+        svg_text(1480, 35, "lower Violation  ↓    higher Recall  →", 12, 700, "#475569", "end"),
     ]
 
     panels = [
-        ("A. VL-SAT primary source", "VL-SAT", 70, 115, 520, 360, (0.0, 0.05), (0.960, 0.971)),
-        ("B. Open3DSG open-vocabulary source", "Open3DSG", 690, 115, 520, 360, (0.0, 0.13), (0.50, 0.62)),
+        ("A. VL-SAT", "VL-SAT", 45, 100, 420, 330),
+        ("B. Open3DSG", "Open3DSG", 540, 100, 420, 330),
+        ("C. SGFN", "SGFN", 1035, 100, 420, 330),
     ]
 
     def map_point(x: float, y: float, px: int, py: int, pw: int, ph: int, xr: tuple[float, float], yr: tuple[float, float]) -> tuple[float, float]:
@@ -242,224 +273,82 @@ def generate_figure2(data: dict[str, list[dict[str, float | str]]]) -> str:
         sy = py + ph - (y - yr[0]) / (yr[1] - yr[0]) * ph
         return sx, sy
 
-    for title, source, px, py, pw, ph, xr, yr in panels:
-        parts.append(f'<rect x="{px-15}" y="{py-45}" width="{pw+40}" height="{ph+105}" rx="8" fill="#f8fafc" stroke="#e5e7eb"/>')
+    for title, source, px, py, pw, ph in panels:
+        all_rows = [row for condition in data[source].values() for row in condition.values()]
+        recalls = [row["recall"] for row in all_rows]
+        violations = [row["violation"] for row in all_rows]
+        xpad = max((max(recalls) - min(recalls)) * 0.10, 0.005)
+        ypad = max((max(violations) - min(violations)) * 0.12, 0.002)
+        xr = (max(0.0, min(recalls) - xpad), min(1.0, max(recalls) + xpad))
+        yr = (max(0.0, min(violations) - ypad), max(violations) + ypad)
+        parts.append(f'<rect x="{px-20}" y="{py-43}" width="{pw+40}" height="{ph+83}" rx="8" fill="#f8fafc" stroke="#e5e7eb"/>')
         parts.append(svg_text(px, py - 20, title, 17, 700))
-        for frac in [0.0, 0.25, 0.5, 0.75, 1.0]:
+        for frac in (0.0, 0.25, 0.5, 0.75, 1.0):
             gx = px + frac * pw
             gy = py + frac * ph
             parts.append(f'<line x1="{gx:.1f}" y1="{py}" x2="{gx:.1f}" y2="{py+ph}" stroke="{COLORS["grid"]}" stroke-width="0.8"/>')
             parts.append(f'<line x1="{px}" y1="{gy:.1f}" x2="{px+pw}" y2="{gy:.1f}" stroke="{COLORS["grid"]}" stroke-width="0.8"/>')
         parts.append(f'<rect x="{px}" y="{py}" width="{pw}" height="{ph}" fill="none" stroke="{COLORS["axis"]}" stroke-width="1.2"/>')
-        parts.append(svg_text(px + pw / 2, py + ph + 44, "Violation@100", 14, 700, anchor="middle"))
-        parts.append(svg_text(px - 45, py + ph / 2, "R@100", 14, 700, anchor="middle"))
-        parts.append(svg_text(px, py + ph + 20, f"{xr[0]:.2f}", 11, 400, "#6b7280", "middle"))
-        parts.append(svg_text(px + pw, py + ph + 20, f"{xr[1]:.2f}", 11, 400, "#6b7280", "middle"))
-        parts.append(svg_text(px - 12, py + ph, f"{yr[0]:.3f}", 11, 400, "#6b7280", "end"))
-        parts.append(svg_text(px - 12, py, f"{yr[1]:.3f}", 11, 400, "#6b7280", "end"))
+        parts.append(svg_text(px + pw / 2, py + ph + 36, "Exact-label Recall@K", 13, 700, anchor="middle"))
+        parts.append(svg_text(px + 8, py + 18, "V@K", 11, 700, "#475569"))
+        parts.append(svg_text(px, py + ph + 18, f"{xr[0]:.3f}", 10, 400, "#6b7280", "middle"))
+        parts.append(svg_text(px + pw, py + ph + 18, f"{xr[1]:.3f}", 10, 400, "#6b7280", "middle"))
+        parts.append(svg_text(px - 8, py + ph, f"{yr[0]:.3f}", 10, 400, "#6b7280", "end"))
+        parts.append(svg_text(px - 8, py, f"{yr[1]:.3f}", 10, 400, "#6b7280", "end"))
 
-        points: dict[str, tuple[float, float]] = {}
-        for row in data[source]:
-            points[row["condition"]] = map_point(
-                float(row["violation100"]), float(row["r100"]), px, py, pw, ph, xr, yr
-            )
-        semantic = points["semantic_only"]
-        for condition in ["probabilistic_recalibrated", "family_conditional_risk", "rule_verified_point_subtype"]:
-            x2, y2 = points[condition]
-            parts.append(
-                f'<line x1="{semantic[0]:.1f}" y1="{semantic[1]:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" '
-                'stroke="#64748b" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arrow)"/>'
-            )
-        for row in data[source]:
-            condition = str(row["condition"])
-            x, y = points[condition]
-            color = COLORS[condition]
-            parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="7" fill="{color}" stroke="#ffffff" stroke-width="2"/>')
-            label = LABELS[condition]
-            dx = 10 if condition != "rule_verified_point_subtype" else -8
-            anchor = "start" if dx > 0 else "end"
-            parts.append(svg_text(x + dx, y - 8, label, 12, 700, color, anchor))
+        for condition in ("semantic_only", "family_conditional_risk"):
+            points = [
+                map_point(data[source][condition][str(k)]["recall"], data[source][condition][str(k)]["violation"], px, py, pw, ph, xr, yr)
+                for k in KS
+            ]
+            path = " ".join(("M" if idx == 0 else "L") + f" {x:.1f} {y:.1f}" for idx, (x, y) in enumerate(points))
+            dash = ' stroke-dasharray="5 4"' if condition == "semantic_only" else ""
+            parts.append(f'<path d="{path}" fill="none" stroke="{COLORS[condition]}" stroke-width="2.2"{dash}/>')
+            for k, (x, y) in zip(KS, points):
+                radius = 6 if k == 100 else 4.5
+                parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{radius}" fill="{COLORS[condition]}" stroke="#ffffff" stroke-width="1.5"/>')
+                if k == 100:
+                    parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="10" fill="none" stroke="#d97706" stroke-width="2"/>')
+                dx = 7 if condition == "family_conditional_risk" else -7
+                anchor = "start" if dx > 0 else "end"
+                dy = -5 if k in {5, 20, 100} else 12
+                parts.append(svg_text(x + dx, y + dy, str(k), 9, 700, COLORS[condition], anchor))
 
-    legend_x, legend_y = 70, 540
-    parts.append(svg_text(legend_x, legend_y, "Operating points:", 13, 700))
-    for idx, condition in enumerate(["semantic_only", "probabilistic_recalibrated", "family_conditional_risk", "rule_verified_point_subtype"]):
-        x = legend_x + 132 + idx * 190
-        parts.append(f'<circle cx="{x}" cy="{legend_y-4}" r="6" fill="{COLORS[condition]}"/>')
-        parts.append(svg_text(x + 12, legend_y, LABELS[condition], 12, 400))
-    parts.append(svg_text(70, 585, "Open3DSG panel uses the full-validation 548/548 recovery branch; 533/548 covered branch is sensitivity evidence.", 12, 400, "#6b7280"))
+    parts.append(f'<line x1="30" y1="485" x2="75" y2="485" stroke="{COLORS["semantic_only"]}" stroke-width="2.2" stroke-dasharray="5 4"/>')
+    parts.append(svg_text(84, 490, "Source score", 12, 400))
+    parts.append(f'<line x1="205" y1="485" x2="250" y2="485" stroke="{COLORS["family_conditional_risk"]}" stroke-width="2.2"/>')
+    parts.append(svg_text(259, 490, "Family-calibrated product", 12, 400))
+    parts.append(svg_text(555, 490, "K=10 operational", 11, 700, "#475569"))
+    parts.append(svg_text(720, 490, "K=50 canonical secondary", 11, 700, "#475569"))
+    parts.append(svg_text(955, 490, "K=100 primary (orange ring)", 11, 700, "#d97706"))
     parts.append("</svg>")
     return "\n".join(parts)
 
 
 def write_figure1_png() -> None:
-    width, height = 1280, 650
-    image = Image.new("RGB", (width, height), "white")
-    draw = ImageDraw.Draw(image)
-    title = ImageFont.truetype("DejaVuSans-Bold.ttf", 25)
-    head = ImageFont.truetype("DejaVuSans-Bold.ttf", 17)
-    body = ImageFont.truetype("DejaVuSans.ttf", 14)
-    body_bold = ImageFont.truetype("DejaVuSans-Bold.ttf", 14)
-    small = ImageFont.truetype("DejaVuSans.ttf", 12)
-    small_bold = ImageFont.truetype("DejaVuSans-Bold.ttf", 12)
-
-    def text(x: int, y: int, value: str, fill: str = "#111827", font: ImageFont.FreeTypeFont = body) -> None:
-        draw.text((x, y), value, fill=fill, font=font)
-
-    def wrap_text(
-        x: int,
-        y: int,
-        value: str,
-        width_chars: int,
-        fill: str = "#374151",
-        font: ImageFont.FreeTypeFont = body,
-        line_h: int = 18,
-    ) -> None:
-        for idx, line in enumerate(wrapped_lines(value, width_chars)):
-            draw.text((x, y + idx * line_h), line, fill=fill, font=font)
-
-    def panel(x: int, y: int, w: int, h: int, label: str, fill: str, stroke: str = "#94a3b8") -> None:
-        draw.rounded_rectangle((x, y, x + w, y + h), radius=10, fill=fill, outline=stroke, width=2)
-        text(x + 16, y + 13, label, font=head)
-
-    def arrow(x1: int, y1: int, x2: int, y2: int, color: str = "#374151") -> None:
-        draw.line((x1, y1, x2, y2), fill=color, width=3)
-        draw.polygon([(x2, y2), (x2 - 12, y2 - 7), (x2 - 12, y2 + 7)], fill=color)
-
-    text(50, 30, "GeoCalib: calibrating geometric consistency for relation rows", font=title)
-    text(
-        50,
-        64,
-        "A semantically plausible edge is not necessarily reliable for the same 3D object pair.",
-        "#4b5563",
-        body,
+    if shutil.which("rsvg-convert") is None:
+        return
+    subprocess.run(
+        [
+            "rsvg-convert",
+            "--width",
+            "2400",
+            "--keep-aspect-ratio",
+            "--output",
+            str(OUT_DIR / "figure1_framework.png"),
+            str(OUT_DIR / "figure1_framework.svg"),
+        ],
+        check=True,
     )
 
-    panel(50, 105, 330, 168, "1. Failure example", "#fff7ed", "#fb923c")
-    draw.ellipse((82, 176, 162, 236), fill="#fef3c7", outline="#d97706", width=2)
-    draw.ellipse((246, 176, 326, 236), fill="#fee2e2", outline="#dc2626", width=2)
-    text(105, 198, "chair", "#92400e", small_bold)
-    text(270, 198, "wall", "#991b1b", small_bold)
-    arrow(164, 206, 244, 206, "#b45309")
-    text(178, 181, "standing on", "#92400e", small_bold)
-    text(72, 238, "semantic score: high", "#7c2d12", small)
-    text(72, 256, "geometry: violated", "#991b1b", small_bold)
 
-    panel(430, 105, 360, 168, "2. Factor-isolated evidence", "#eff6ff", "#60a5fa")
-    wrap_text(
-        452,
-        154,
-        "T_e: predicate/family semantics. G_e: raw predicate-independent geometry joined by ordered object identity.",
-        43,
-        "#1e3a8a",
+def write_figure2_png(data: dict[str, dict[str, dict[str, dict[str, float]]]]) -> None:
+    if shutil.which("rsvg-convert") is None:
+        return
+    subprocess.run(
+        ["rsvg-convert", "--width", "2400", "--keep-aspect-ratio", "--output", str(OUT_DIR / "figure2_tradeoff.png"), str(OUT_DIR / "figure2_tradeoff.svg")],
+        check=True,
     )
-    text(452, 226, "C_e = P(y_cal=1 | T_e,G_e); source score excluded", "#1e3a8a", body)
-
-    panel(850, 105, 380, 168, "3. Fuse only after calibration", "#ecfdf5", "#34d399")
-    text(872, 153, "Calibrated product", "#065f46", body_bold)
-    text(872, 179, "Z_e x C_e", "#065f46", body)
-    wrap_text(872, 207, "Rank-average combines Z_e and C_e percentiles without assuming a shared score scale.", 43, "#065f46")
-
-    arrow(390, 190, 420, 190)
-    arrow(800, 190, 840, 190)
-
-    text(50, 318, "What changes in the top-K list?", font=head)
-    panel(50, 348, 360, 135, "Semantic-only", "#f8fafc")
-    text(76, 394, "rank 1  chair -- standing on -- wall", font=small_bold)
-    text(76, 418, "high semantic confidence, violated geometry", "#991b1b", small)
-    text(76, 446, "failure: symbolic edge contradicts 3D evidence", "#6b7280", small)
-
-    panel(460, 348, 360, 135, "GeoCalib instantiations", "#f0fdf4", "#22c55e")
-    text(486, 394, "same semantic score + same-pair geometry", "#065f46", small_bold)
-    text(486, 418, "invalid edges are softly demoted", "#065f46", small)
-    text(486, 446, "evaluate recall and violation together", "#6b7280", small)
-
-    panel(870, 348, 360, 135, "Controls", "#f8fafc")
-    text(896, 394, "calibrator-only (no Z) / distance-only", font=small_bold)
-    text(896, 418, "shuffled geometry / wrong-pair geometry", font=small_bold)
-    text(896, 446, "test whether same-pair calibration matters", "#6b7280", small)
-
-    text(50, 545, "Paper-facing names:", font=body_bold)
-    text(
-        228,
-        545,
-        "product + rank-average = soft instantiations; pooled = ablation; strict rule = diagnostic.",
-        "#374151",
-        body,
-    )
-    text(
-        50,
-        585,
-        "Caption guard: scoped relation-reliability framework, not a broad open-vocabulary generation method.",
-        "#6b7280",
-        small,
-    )
-    image.save(OUT_DIR / "figure1_framework.png")
-
-
-def write_figure2_png(data: dict[str, list[dict[str, float | str]]]) -> None:
-    width, height = 1280, 620
-    image = Image.new("RGB", (width, height), "white")
-    draw = ImageDraw.Draw(image)
-    font = ImageFont.truetype("DejaVuSans.ttf", 22)
-    font_bold = ImageFont.truetype("DejaVuSans-Bold.ttf", 22)
-    small = ImageFont.truetype("DejaVuSans.ttf", 14)
-    small_bold = ImageFont.truetype("DejaVuSans-Bold.ttf", 14)
-    tiny = ImageFont.truetype("DejaVuSans.ttf", 11)
-
-    def text(x: int, y: int, value: str, fill: str = "#111827", bold: bool = False) -> None:
-        draw.text((x, y), value, fill=fill, font=font_bold if bold else small)
-
-    def map_point(x: float, y: float, px: int, py: int, pw: int, ph: int, xr: tuple[float, float], yr: tuple[float, float]) -> tuple[float, float]:
-        sx = px + (x - xr[0]) / (xr[1] - xr[0]) * pw
-        sy = py + ph - (y - yr[0]) / (yr[1] - yr[0]) * ph
-        return sx, sy
-
-    draw.text((55, 35), "Figure 2. Recall-violation tradeoff", fill="#111827", font=font_bold)
-    draw.text((55, 67), "Draft plot from full-validation R@100 and Violation@100 values. Lower violation and higher recall are better.", fill="#4b5563", font=small)
-    panels = [
-        ("A. VL-SAT primary source", "VL-SAT", 70, 115, 520, 360, (0.0, 0.05), (0.960, 0.971)),
-        ("B. Open3DSG open-vocabulary source", "Open3DSG", 690, 115, 520, 360, (0.0, 0.13), (0.50, 0.62)),
-    ]
-    for title, source, px, py, pw, ph, xr, yr in panels:
-        draw.rounded_rectangle((px - 15, py - 45, px + pw + 25, py + ph + 60), radius=8, fill="#f8fafc", outline="#e5e7eb")
-        text(px, py - 32, title, bold=True)
-        for frac in [0.0, 0.25, 0.5, 0.75, 1.0]:
-            gx = px + frac * pw
-            gy = py + frac * ph
-            draw.line((gx, py, gx, py + ph), fill="#d1d5db", width=1)
-            draw.line((px, gy, px + pw, gy), fill="#d1d5db", width=1)
-        draw.rectangle((px, py, px + pw, py + ph), outline="#111827", width=2)
-        draw.text((px + pw // 2 - 45, py + ph + 34), "Violation@100", fill="#111827", font=small_bold)
-        draw.text((px - 52, py + ph // 2), "R@100", fill="#111827", font=small_bold)
-        draw.text((px - 5, py + ph + 8), f"{xr[0]:.2f}", fill="#6b7280", font=tiny)
-        draw.text((px + pw - 18, py + ph + 8), f"{xr[1]:.2f}", fill="#6b7280", font=tiny)
-        draw.text((px - 46, py + ph - 8), f"{yr[0]:.3f}", fill="#6b7280", font=tiny)
-        draw.text((px - 46, py - 8), f"{yr[1]:.3f}", fill="#6b7280", font=tiny)
-
-        points = {
-            str(row["condition"]): map_point(float(row["violation100"]), float(row["r100"]), px, py, pw, ph, xr, yr)
-            for row in data[source]
-        }
-        semantic = points["semantic_only"]
-        for condition in ["probabilistic_recalibrated", "family_conditional_risk", "rule_verified_point_subtype"]:
-            x2, y2 = points[condition]
-            draw.line((semantic[0], semantic[1], x2, y2), fill="#64748b", width=2)
-        for row in data[source]:
-            condition = str(row["condition"])
-            x, y = points[condition]
-            color = COLORS[condition]
-            draw.ellipse((x - 8, y - 8, x + 8, y + 8), fill=color, outline="white", width=2)
-            dx = 11 if condition != "rule_verified_point_subtype" else -42
-            draw.text((x + dx, y - 18), LABELS[condition], fill=color, font=small_bold)
-
-    text(70, 530, "Operating points:", bold=True)
-    for idx, condition in enumerate(["semantic_only", "probabilistic_recalibrated", "family_conditional_risk", "rule_verified_point_subtype"]):
-        x = 205 + idx * 190
-        y = 532
-        draw.ellipse((x - 6, y - 6, x + 6, y + 6), fill=COLORS[condition])
-        draw.text((x + 12, y - 9), LABELS[condition], fill="#111827", font=small)
-    draw.text((70, 575), "Open3DSG panel uses the full-validation 548/548 recovery branch; 533/548 covered branch is sensitivity evidence.", fill="#6b7280", font=small)
-    image.save(OUT_DIR / "figure2_tradeoff.png")
 
 
 def load_figure3_cases() -> list[dict[str, object]]:
@@ -472,23 +361,22 @@ def load_figure3_cases() -> list[dict[str, object]]:
     return cases
 
 
-def validate_outputs(figure2_data: dict[str, list[dict[str, float | str]]], figure3_cases: list[dict[str, object]]) -> dict[str, object]:
+def validate_outputs(figure2_data: dict[str, dict[str, dict[str, dict[str, float]]]], figure3_cases: list[dict[str, object]]) -> dict[str, object]:
     errors: list[str] = []
     tolerance = 5e-4
 
-    for source, expected_rows in EXPECTED_FIGURE2.items():
-        actual_by_condition = {str(row["condition"]): row for row in figure2_data[source]}
+    for source, expected_rows in EXPECTED_FIGURE2_K100.items():
         for condition, expected in expected_rows.items():
-            actual = actual_by_condition.get(condition)
+            actual = figure2_data.get(source, {}).get(condition, {}).get("100")
             if actual is None:
-                errors.append(f"missing Figure 2 row: {source} {condition}")
+                errors.append(f"missing Figure 2 row: {source} {condition} K=100")
                 continue
-            for metric in ("r100", "violation100"):
-                diff = abs(float(actual[metric]) - expected[metric])
+            for metric, expected_value in zip(("recall", "violation"), expected):
+                diff = abs(float(actual[metric]) - expected_value)
                 if diff > tolerance:
                     errors.append(
                         f"Figure 2 mismatch: {source} {condition} {metric} "
-                        f"actual={float(actual[metric]):.6f} expected={expected[metric]:.6f}"
+                        f"actual={float(actual[metric]):.6f} expected={expected_value:.6f}"
                     )
 
     actual_cases = [str(case["case_id"]) for case in figure3_cases]
@@ -511,15 +399,14 @@ def generate_figure3(cases: list[dict[str, object]]) -> str:
     width, height = 1280, 660
     roles = {
         "open3dsg_case_001": ("A", "Proximity demotion", "#eff6ff"),
-        "open3dsg_case_005": ("B", "Vertical demotion", "#fef3c7"),
-        "open3dsg_case_010": ("C", "Support/contact demotion", "#ecfdf5"),
-        "open3dsg_case_007": ("D", "Residual calibration risk", "#fff1f2"),
+        "open3dsg_case_010": ("B", "Support/contact demotion", "#ecfdf5"),
+        "open3dsg_case_026": ("C", "Residual calibration risk", "#fff1f2"),
     }
     parts = [
         '<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="660" viewBox="0 0 1280 660">',
         '<rect width="1280" height="660" fill="#ffffff"/>',
-        svg_text(55, 45, "Figure 3. Family-structured failure cases and residual calibration risk", 22, 700),
-        svg_text(55, 72, "Draft row-card panels from traceable Open3DSG qualitative inspection rows; not a representative human audit.", 14, 400, "#4b5563"),
+        svg_text(55, 45, "Family-structured failures and residual calibration risk", 22, 700),
+        svg_text(55, 72, "Traceable Open3DSG inspection rows; this is not a representative human audit.", 14, 400, "#4b5563"),
     ]
     positions = [(60, 120), (660, 120), (60, 365), (660, 365)]
     for case, (x, y) in zip(cases, positions):
@@ -530,10 +417,10 @@ def generate_figure3(cases: list[dict[str, object]]) -> str:
         parts.append(svg_text(x + 20, y + 86, f"Family: {case['family']}    Predicate: {case['predicate']}", 13, 700))
         parts.append(svg_wrapped_text(x + 20, y + 113, f"Pair: {case['pair']}", 50, size=13))
         parts.append(svg_text(x + 20, y + 153, f"Semantic -> geometry rank: {case['semantic_rank']} -> {case['geometry_rank']}", 13, 400))
-        parts.append(svg_text(x + 310, y + 153, f"p_geom_valid: {float(case['p_geom_valid']):.4f}", 13, 400))
+        parts.append(svg_text(x + 310, y + 153, f"Compatibility: {float(case['p_geom_valid']):.4f}", 13, 400))
         reason = ", ".join(case["reason_codes"])
         parts.append(svg_wrapped_text(x + 20, y + 178, f"Reason: {reason}", 64, size=12, fill="#374151"))
-    parts.append(svg_text(60, 620, "Caption guard: qualitative reviewer-defense evidence only; 10/36 sampled rule-violated cases have p_geom_valid > 0.9.", 12, 400, "#6b7280"))
+    parts.append(svg_text(60, 620, "Qualitative evidence only: 10/36 sampled rule-violated cases retain compatibility above 0.9.", 12, 400, "#6b7280"))
     parts.append("</svg>")
     return "\n".join(parts)
 
@@ -570,11 +457,12 @@ def write_outputs() -> None:
         "source_artifacts": [
             str(VLSAT_FULL_METRICS.relative_to(ROOT)),
             str(OPEN3DSG_METRICS.relative_to(ROOT)),
+            str(SGFN_METRICS.relative_to(ROOT)),
             str(INSPECTION_JSON.relative_to(ROOT)),
         ],
         "validation": str((OUT_DIR / "validation.json").relative_to(ROOT)),
         "layout_review": str(LAYOUT_REVIEW.relative_to(ROOT)),
-        "claim_boundary": "draft figures only; scoped H001 relation-reliability claim",
+        "claim_boundary": "source-level evidence on a fixed geometry-identifiable 3DSSG target; K=100 is primary and smaller K are secondary diagnostics",
     }
     (OUT_DIR / "manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
 
@@ -594,8 +482,8 @@ Generated outputs:
 
 - `figure1_framework.svg`: method/framework schematic.
 - `figure1_framework.png`: LaTeX-facing PNG conversion of the Figure 1 framework.
-- `figure2_tradeoff.svg`: two-panel R@100 / Violation@100 tradeoff.
-- `figure2_tradeoff.png`: LaTeX-facing PNG conversion of the Figure 2 tradeoff.
+- `figure2_tradeoff.svg`: three-source Recall--Violation trajectories over K=5/10/20/50/100.
+- `figure2_tradeoff.png`: LaTeX-facing PNG conversion of the K-sweep tradeoff.
 - `figure3_failure_cases.svg`: Open3DSG qualitative row-card panels.
 {geometry_note.rstrip()}
 - `figure2_data.json`: extracted numeric values used for Figure 2.

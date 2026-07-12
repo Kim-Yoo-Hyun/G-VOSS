@@ -1,0 +1,27 @@
+\section{Closest-Work Contract Comparison}
+
+Table~\ref{tab:closest-contracts} states the novelty boundary directly.
+GeoCalib does not claim novelty from geometry, calibration, pruning, or
+rescoring alone.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\caption{\textbf{Closest reliability-adjacent contracts.} ``Inside'' changes
+the source model or its training; ``post-source'' operates on fixed candidate
+outputs.}
+\label{tab:closest-contracts}
+\begin{tabularx}{\columnwidth}{l l X}
+\toprule
+Work & Location & Contract and distinction \\
+\midrule
+SCR-SSG (2025) & Inside & Statistical-prior rescoring; no source-excluded same-pair compatibility or verifier-V protocol \\
+RelWitness (2026) & Inside & Witness-guided incomplete supervision, rather than an audit of fixed outputs \\
+SGFormer++ (2026) & Inside & Spatial predicate adaptation; modifies predicate learning \\
+RelGraphOV (2026) & Inside & Geometric pruning for representation learning, not paired recall--V reranking \\
+PUF (2026) & Online & Uncertainty-aware node association, not relation-candidate compatibility \\
+GeoCalib & Post-source & Fixed sources, $Z\notin C$, identity controls, and joint recall/V/uncertainty \\
+\bottomrule
+\end{tabularx}
+\end{table}

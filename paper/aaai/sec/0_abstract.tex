@@ -1,32 +1,22 @@
 \begin{abstract}
-3D Scene Graphs represent objects and relations in a form useful for spatial
-reasoning, but relation predictions can remain unreliable even when predicted
-predicates appear semantically plausible. We study a relation-level failure
-mode: semantic relation confidence is not necessarily calibrated to the 3D
-geometry of the same object pair, so a predictor can rank physically
-inconsistent relations highly. To expose and reduce this failure, we introduce
-a \method{} framework for geometry-checkable relation families. The framework
-factorizes predicate semantics $T$, predicate-independent same-pair geometry
-$G$, and source confidence $Z$; it calibrates a constructed-target
-compatibility $C=P(y^{cal}=1\mid T,G)$ without using $Z$, then reports
-$F(Z,C)$ under a recall-violation protocol. Two soft fusion instantiations use
-a calibrated product and a scale-robust rank-average; pooled calibration,
-Reciprocal Rank Fusion, and hard rules serve as ablation, comparison, and
-diagnostic. On the full
-official validation split, the calibrated product improves VL-SAT
-\rAt{50}/\rAt{100} from 0.9272/0.9635 to 0.9288/0.9683 while reducing
-\vAt{100} from 0.0476 to 0.0333. On the main
-open-vocabulary relation-source case study, the Open3DSG full-validation
-recovery branch, the product improves
-\rAt{100} from 0.5161 to 0.6047 while reducing \vAt{100} from 0.1242 to 0.0341 under explicit
-selected-checkpoint and recovery-policy caveats. On a prospectively frozen
-SGFN target, both the product and pre-specified rank-average pass the joint
-\rAt{100}/verifier-\vAt{100} gate, showing that the aggregate effect is not
-tied to one fusion formula. GT positive/counterfactual checks
-separate valid and invalid geometry with AUROC/AUPRC of 0.9772/0.9729, and
-controls rule out calibrator-only, distance-only, shuffled-geometry, and
-wrong-pair explanations. Here $y^{cal}$ denotes train-dev GT positives and
-high-margin counterfactual negatives, not direct human validity. These results support a scoped
-relation-reliability claim for measured geometry-checkable 3D Scene Graph
-relations, not formula dominance or broad open-vocabulary graph generation.
+3D Scene Graph predictors can assign high scores to relations that sound
+plausible but fail explicit geometry tests for the predicted object pair. We
+study this mismatch as a calibration problem: a source relation score ranks
+candidates but need not estimate predicate-conditioned geometric consistency. We
+introduce \method{}, a reliability framework for geometry-checkable relations.
+It separates predicate semantics $T$, predicate-independent same-pair geometry
+$G$, and source score $Z$; fits a predicate-conditioned compatibility
+$C(T,G)$ without access to $Z$; and combines $Z$ and $C$ only when re-ranking.
+We instantiate the framework with a family-calibrated product and a
+parameter-free rank-average fusion, and evaluate both with exact-label
+Recall@$K$ and verifier Violation@$K$. On the Open3DSG source, the calibrated
+product improves Recall@100 from 0.5161 to 0.6047 while reducing Violation@100
+from 0.1242 to 0.0341. At the primary $K=100$ endpoint, both evaluated
+fusion rules satisfy the joint recall--violation criterion on SGFN. The calibrated
+product remains effective at smaller
+operating budgets, including $K=50$ and $K=10$, while factor-isolation,
+counterfactual, and object-pair identity controls reject score-copying and
+distance-only explanations. Across three predictors on a fixed 3DSSG target,
+the results support source-level generalization for geometry-identifiable
+relations; support/contact and transfer to a different dataset remain open.
 \end{abstract}

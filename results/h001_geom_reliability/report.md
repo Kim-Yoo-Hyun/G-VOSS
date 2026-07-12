@@ -1,6 +1,6 @@
 # H001 / GeoCalib Geometry Reliability Report
 
-Last updated: 2026-07-10 KST
+Last updated: 2026-07-12 KST
 
 This is the compact paper-facing full-validation report for GeoCalib. The
 current main result uses VL-SAT full official validation as the controlled
@@ -24,7 +24,10 @@ Metric definitions:
 
 - `R@K`: exact-label relation recall over the 3,972 in-scope GT relations.
 - `Violation@K` / `V@K`: fraction of selected top-K prediction rows whose
-  joined geometry verifier status is `violated`.
+  joined geometry verifier status is `violated`; the primary denominator
+  includes satisfied, uncertain, and violated rows.
+- Uncertainty sensitivity additionally reports decidable-only V, uncertainty
+  rate, pessimistic V that counts uncertainty as violation, and status coverage.
 - `dR` and `dV`: point-estimate deltas against `semantic_only`, in percentage
   points. Bootstrap artifacts are retained as stability checks, but direct
   interval notation is not used in the paper-facing summary.
@@ -38,24 +41,25 @@ Metric definitions:
 
 | condition | formula / rule | paper role |
 | --- | --- | --- |
-| `semantic_only` | source model ranking score | source baseline |
-| `family_conditional_risk` | `semantic_score * p_geom_valid_family` | calibrated-product instantiation |
-| `rank_average_fusion` | mean of within-subgraph semantic and family-geometry percentiles | scale-robust soft instantiation |
-| `reciprocal_rank_fusion` | reciprocal-rank fusion with fixed constant 60 | strong comparator |
-| `probabilistic_recalibrated` | `semantic_score * p_geom_valid` | pooled calibrated-risk ablation |
-| `rule_verified_point_subtype` | keep/rank rule-verified point-subtype evidence | zero-violation diagnostic, not default |
+| Source score | source model relation score | source baseline |
+| Family-calibrated product | `source_score * family_compatibility` | calibrated-product instantiation |
+| Rank-average fusion | mean of within-subgraph source-score and family-compatibility percentiles | scale-robust soft instantiation |
+| Reciprocal-rank fusion | reciprocal-rank fusion with fixed constant 60 | strong comparator |
+| Pooled-calibrator ablation | `source_score * pooled_compatibility` | family-conditioning ablation |
+| Hard geometry filter | keep/rank rule-supported point-subtype evidence | zero-violation diagnostic, not default |
 | `control_p_geom_valid_only` | `p_geom_valid` only | calibrator-only/no-source-score control; not true `G`-only |
 | `control_distance_only` | inverse distance only | distance-only control |
 | `control_shuffled_geometry` | semantic score with shuffled geometry score | geometry identity control |
 | `control_wrong_pair_geometry` | semantic score with wrong-pair geometry score | object-pair identity control |
 
-The raw metric key for `family_conditional_risk` is
-`control_family_specific_p_geom_valid`; paper-facing prose should use
-`calibrated product` when discussing the framework instantiation and retain the
-raw key only for reproducibility. No fusion formula is universally dominant.
+For reproducibility, the raw metric keys for Family-calibrated product,
+Pooled-calibrator ablation, and Hard geometry filter are respectively
+`control_family_specific_p_geom_valid`, `probabilistic_recalibrated`, and
+`rule_verified_point_subtype`. They are implementation identifiers rather than
+paper-facing method names. No fusion formula is universally dominant.
 
 Factor interpretation: `T_e` is predicate/family semantics, `G_e` raw
-predicate-independent same-pair geometry, `Z_e` source confidence, and
+predicate-independent same-pair geometry, `Z_e` source relation score, and
 `C_e=P(y_cal=1|T_e,G_e)`. `y_cal` is the constructed train/dev
 GT-positive/counterfactual target. Current calibrators exclude `Z_e` and source
 identity, but include `T_e` and predicate-aligned `T_e x G_e` features. Hence
@@ -68,7 +72,7 @@ true raw-geometry-only calibrator.
 | --- | --- | ---: | --- |
 | VL-SAT | controlled closed-set anchor | 957,008 | `experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics_k_sweep/metrics.json` |
 | Open3DSG | open-vocabulary relation-source case study | 695,916 | `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/metrics.json` |
-| SGFN full_l160 | prospectively frozen exact-label confirmation | 957,008 | `experiments/H001_geom_reliability/sources/sgfn/confirmatory_metrics/summary.json` |
+| SGFN full_l160 | exact-label confirmation fixed before inference | 957,008 | `experiments/H001_geom_reliability/sources/sgfn/confirmatory_metrics/summary.json` |
 
 ## Framework-Level K=100 Comparison
 
@@ -94,6 +98,17 @@ dominance, family-uniform improvement, or independent human physical validity.
 
 Bootstrap stability artifacts for the same K grid are available at
 `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/bootstrap_ci_k_sweep/summary.md`.
+
+## Uncertainty Sensitivity
+
+The Docker-frozen diagnostic at
+`experiments/H001_geom_reliability/uncertainty_sensitivity/frozen_v1/` keeps
+every score, rank, family, and verifier status unchanged. At K=100, the family
+product changes decidable-only V by `-0.0244`, `-0.1671`, and `-0.0428` on
+VL-SAT, Open3DSG, and SGFN. It also lowers uncertainty rate on all three
+sources. Pessimistic V changes by `-0.0480`, `-0.2526`, and `-0.0586`; all
+paired 95% CIs exclude zero. The primary V improvement therefore does not rely
+on promoting uncertain rows.
 
 ## LLM-Based Physical-Validity Proxy Audit
 
@@ -122,19 +137,29 @@ Those studies validate LLM judgments against trained/crowd/expert labels or
 human preferences. Accordingly, H001 keeps the Codex audit diagnostic until a
 human-alignment subset or independent human audit is available.
 
+Before human collection, the frozen annotation addendum now defines
+`high/medium/low` confidence and makes `evidence_sufficient=false` equivalent
+to an `unobservable` evidence failure. A shared Docker validator requires
+adjudication for the union of label disagreements, either low-confidence row,
+and either ambiguous/unobservable label. The Human V evaluator uses this same
+gate. A separate locked Codex--human evaluator will compare each unchanged
+Codex pass against the final adjudicated human reference using four-class,
+binary, family-wise, coverage, and ordinal-confidence diagnostics. Empty-sheet
+dry runs correctly remain non-reportable and produce no human result.
+
 ## Overall Results
 
 ### VL-SAT
 
 | condition | R@5 | R@10 | R@20 | R@50 | R@100 | V@5 | V@10 | V@20 | V@50 | V@100 |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `semantic_only` | 0.4194 | 0.6322 | 0.8074 | 0.9272 | 0.9635 | 0.0029 | 0.0082 | 0.0142 | 0.0268 | 0.0476 |
-| `family_conditional_risk` | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 |
-| `probabilistic_recalibrated` | 0.4154 | 0.6322 | 0.8107 | 0.9305 | 0.9688 | 0.0015 | 0.0071 | 0.0120 | 0.0229 | 0.0404 |
-| `rule_verified_point_subtype` | 0.4197 | 0.6317 | 0.8074 | 0.9257 | 0.9627 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 |
+| Source score | 0.4194 | 0.6322 | 0.8074 | 0.9272 | 0.9635 | 0.0029 | 0.0082 | 0.0142 | 0.0268 | 0.0476 |
+| Family-calibrated product | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 |
+| Pooled-calibrator ablation | 0.4154 | 0.6322 | 0.8107 | 0.9305 | 0.9688 | 0.0015 | 0.0071 | 0.0120 | 0.0229 | 0.0404 |
+| Hard geometry filter | 0.4197 | 0.6317 | 0.8074 | 0.9257 | 0.9627 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 |
 
 Interpretation: VL-SAT is already near ceiling at K=50/100, so the recall
-change is small. The main effect is reliability: `family_conditional_risk`
+change is small. The main effect is reliability: Family-calibrated product
 reduces V@100 from 0.0476 to 0.0333 while slightly improving R@100 from 0.9635
 to 0.9683. At low K, R@5/R@10 is essentially flat to slightly lower, while
 V@5/V@10 decreases.
@@ -143,13 +168,13 @@ V@5/V@10 decreases.
 
 | condition | R@5 | R@10 | R@20 | R@50 | R@100 | V@5 | V@10 | V@20 | V@50 | V@100 |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| `semantic_only` | 0.0368 | 0.1002 | 0.1991 | 0.4096 | 0.5161 | 0.5131 | 0.3255 | 0.2088 | 0.1386 | 0.1242 |
-| `family_conditional_risk` | 0.0984 | 0.1921 | 0.3291 | 0.4658 | 0.6047 | 0.0420 | 0.0482 | 0.0441 | 0.0286 | 0.0341 |
-| `probabilistic_recalibrated` | 0.0826 | 0.1581 | 0.2603 | 0.3975 | 0.5723 | 0.0628 | 0.0699 | 0.0654 | 0.0606 | 0.0811 |
-| `rule_verified_point_subtype` | 0.0707 | 0.1314 | 0.2422 | 0.4295 | 0.5368 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 |
+| Source score | 0.0368 | 0.1002 | 0.1991 | 0.4096 | 0.5161 | 0.5131 | 0.3255 | 0.2088 | 0.1386 | 0.1242 |
+| Family-calibrated product | 0.0984 | 0.1921 | 0.3291 | 0.4658 | 0.6047 | 0.0420 | 0.0482 | 0.0441 | 0.0286 | 0.0341 |
+| Pooled-calibrator ablation | 0.0826 | 0.1581 | 0.2603 | 0.3975 | 0.5723 | 0.0628 | 0.0699 | 0.0654 | 0.0606 | 0.0811 |
+| Hard geometry filter | 0.0707 | 0.1314 | 0.2422 | 0.4295 | 0.5368 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 |
 
 Interpretation: Open3DSG has much larger semantic-geometry inconsistency in
-the source ranking. `family_conditional_risk` improves recall at every K and
+the source ranking. Family-calibrated product improves recall at every K and
 substantially reduces violations, especially at low K. The largest practical
 effect is top-rank reliability: V@5 drops from 0.5131 to 0.0420 while R@5
 increases from 0.0368 to 0.0984.

@@ -54,6 +54,17 @@ rescoring alone. It studies a different post-source contract:
 identity-preserving geometry joins, recall/violation operating points, and
 controls over existing relation-source outputs.
 
+Recent reliability-adjacent systems sharpen this boundary. SGFormer++ uses a
+spatial feature adapter inside an incremental predicate predictor
+\cite{qi2026sgformerpp}; RelGraphOV prunes geometrically implausible relations
+while learning an open-vocabulary scene representation
+\cite{chen2026relgraphov}; and PUF performs uncertainty-aware semantic--spatial
+fusion for online node association and evidence accumulation
+\cite{yang2026puf}. In contrast, \method{} leaves each source model fixed and
+audits already-produced relation candidates through a source-excluded,
+same-pair compatibility factor. The supplement compares these contracts
+directly.
+
 \paragraph{Reliability and calibration.}
 Standard \rAt{K} asks whether the correct predicate appears near the top, not
 whether the predicted relation is physically valid in the reconstructed scene.
@@ -61,5 +72,5 @@ Confidence calibration asks whether model scores reflect empirical correctness
 likelihood \cite{guo2017calibration}, and selective prediction makes risk and
 coverage explicit \cite{geifman2017selective}. \method{} instantiates this
 reliability view for geometry-checkable 3DSSG families by standardizing
-prediction rows, joining same-pair 3D evidence, estimating \pgeom{}, and
-reporting recall with violation.
+prediction rows, joining same-pair 3D evidence, estimating compatibility, and
+reporting recall together with violation.

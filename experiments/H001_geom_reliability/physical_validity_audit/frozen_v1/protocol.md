@@ -4,6 +4,11 @@ Frozen at UTC: `2026-07-10T06:18:49.518091+00:00`
 Protocol status: `frozen_awaiting_independent_human_labels`  
 Protocol version: `h001_physical_validity_audit_v1`
 
+Field-level confidence, evidence-sufficiency, reason-code, and mandatory
+adjudication rules were clarified before human annotation in
+`annotation_guide.md`. This addendum does not change the frozen sample,
+evidence, labels, scores, or estimands.
+
 ## Estimand and scope
 
 The primary estimand is design-weighted human `Violation@K` for

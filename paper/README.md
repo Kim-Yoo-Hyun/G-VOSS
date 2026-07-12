@@ -12,6 +12,7 @@ paper-level framing rules live in `docs/paper.md`.
 | Workspace | Role |
 | --- | --- |
 | root files and `aaai/` | GeoCalib / H001 AAAI manuscript route |
+| `paper_nonsub/` | non-submission Codex proxy-audit analysis; never package as human evidence |
 | `h002_compatibility_routing/` | standalone H002 paper workspace for semantic-geometry compatibility routing |
 
 ## Current H001 Route
@@ -22,25 +23,35 @@ paper-level framing rules live in `docs/paper.md`.
 - Current claim style: scoped relation-reliability paper for
   geometry-checkable 3D Scene Graph relation families.
 - Non-claim: broad open-vocabulary 3DSSG generation improvement.
-- Active AAAI-27 Docker build: `paper/aaai/main_aaai27.pdf` (9 pages: technical
+- Active AAAI-27 Docker build: `paper/aaai/main_aaai27.pdf`, SHA256
+  `8f4632c8150affa764ef02b29696b1c538c9b288fc3f4879630813d0c22fcc1a` (9 pages: technical
   content through page 7 and references only on pages 8--9),
-  `paper/aaai/supplement_aaai27.pdf` (1 page), and
+  `paper/aaai/supplement_aaai27.pdf` (3 pages), and
   `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Final main log:
-  `logs/h001_aaai27_main_build_20260712.log`; triplet verification log:
-  `logs/h001_aaai27_final_triplet_build_20260712.log`; image:
+  `logs/h001_claim_lock_main_final_20260712.log`; image:
   `h001-aaai27-tex:20260712`. Type 3 fonts, unresolved references/citations,
   LaTeX errors, and overfull boxes are zero.
+- The active submission excludes Codex-derived physical-validity numbers. The
+  separately built `paper/paper_nonsub/main_nonsub.pdf`, SHA256
+  `962bcf3931e7d5dca29377a43eb2a8125fe872aec24a83e3f40151358b0ef267`,
+  contains the two-pass non-human diagnostic for internal/user review only.
+- The manuscript narrative now proceeds failure -> structural cause -> factor
+  isolation -> method -> results -> limitations. Figure 1 is failure-grounded,
+  Figure 2 connects K=5/10/20/50/100 for three sources, and Figure 3 shows two
+  corrections plus one residual failure.
 - Active OpenReview field bundle:
   `release/h001_aaai27_openreview_20260712_083625/`. The prior
-  Replica-disclosure PDF and compact tarball are historical snapshots.
+  Replica-disclosure and other superseded PDFs are indexed under
+  `archive/paper/aaai_snapshots/`; the prior compact tarball is a historical
+  handoff snapshot.
 - GeoCalib is framework-first. Its two soft fusion instantiations are the
-  calibrated product (`family_conditional_risk = semantic_score *
-  p_geom_valid_family`) and the pre-specified scale-robust rank-average.
-  Neither is claimed universally dominant. Pooled calibration is an ablation,
-  RRF a strong comparator, and calibrator-only/no-source-score ranking a
-  control.
+  family-calibrated product $ZC(T,G)$ and the pre-specified scale-robust
+  rank-average. Neither is claimed universally dominant. Pooled compatibility
+  is an ablation, RRF a strong comparator, and compatibility-only ranking a
+  control. Internal metric keys no longer appear in manuscript prose or
+  rendered figures.
 - H001 now uses the factor contract `T_e` = predicate/family semantics, `G_e`
-  = raw predicate-independent same-pair geometry, `Z_e` = source confidence,
+  = raw predicate-independent same-pair geometry, `Z_e` = source relation score,
   and `C_e = P(y_cal=1 | T_e,G_e)`, with `Z_e notin C_e` and
   `S_e = F(Z_e,C_e)`. `y_cal` is the constructed calibration target rather
   than direct human validity. The legacy `p_geom_valid`-only condition is not
@@ -50,12 +61,20 @@ paper-level framing rules live in `docs/paper.md`.
   passes its frozen internal-dev/final aggregate gates. Detailed provenance
   classification is owned by `docs/paper.md` and the experiment report rather
   than duplicated in this workspace index.
+- The frozen uncertainty-sensitivity audit reports decidable-only V,
+  uncertainty rate, pessimistic V, and coverage on all three sources. Family
+  product improvements remain negative under every violation definition, and
+  the supplement now exposes calibration, family-composition, and closest-work
+  contract tables.
 - H001_v2 fixed-`tau*` and pooled lambda-soft reranking are diagnostic
   candidate evidence only; they do not replace the current GeoCalib main
   result route.
 - Remaining paper-work class: enter author profiles/countries and reciprocal
   reviewer in OpenReview, decide the final public license/post-acceptance
-  artifact URL, and optionally run the independent human-alignment study.
+  artifact URL, and collect the optional independent human labels. The
+  human-alignment guide, mandatory-adjudication validator, Human V evaluator,
+  and Codex--human evaluator are frozen and dry-run verified; no human number
+  is claimed while their status remains awaiting labels.
   Target-year policy, standalone checklist, supplement choice, upload ZIP, and
   current PDF/source sanity checks are complete.
 
@@ -87,6 +106,8 @@ paper-level framing rules live in `docs/paper.md`.
 - `h002_compatibility_routing/aaai2027/`: canonical H002 AAAI manuscript,
   supplement, checklist, bibliography, figure/table assets, and build runbook.
 - `h002_compatibility_routing/risk.md`: H002 reviewer-risk and claim-boundary register.
+- `paper_nonsub/`: H001 non-submission manuscript variant containing the
+  Codex proxy-audit appendix and explicit non-human limitations.
 - `preview.md`: current paper handoff snapshot. Owns current claim, secured
   evidence, key metrics, caveats, reviewer-defense map, and recovery file list.
 - `progress.md`: experiment progression rationale. Owns why each hypothesis and

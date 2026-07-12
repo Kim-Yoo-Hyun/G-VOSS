@@ -1,0 +1,119 @@
+{
+  "counts": {
+    "scenes": 11,
+    "shards": 11
+  },
+  "created_at_utc": "2026-07-12T13:43:11.078431+00:00",
+  "docker_command": "env UID=$(id -u) GID=$(id -g) docker compose -f configs/fross/compose.yaml run --rm replicassg_development_v2_merge_shards",
+  "execution_equivalence": "Each official test scene uses the identical frozen FROSS command and complete official trajectory; scene-wise execution changes storage scheduling only.",
+  "inputs": {
+    "protocol": {
+      "path": "experiments/H001_geom_reliability/sources/replicassg/prospective_protocol/frozen_v1/manifest.json",
+      "sha256": "11607a6c95c264eb9dae9d7768f364faedfeda1db72b45bc6cfff6ccda8f1234"
+    },
+    "weight_zip": {
+      "path": "local_dataset/FROSS_weights/VG.zip",
+      "sha256": "03dc86a1a0f40321a2caa0e35ec2739f458837365455017b5a830a0f5349467c"
+    }
+  },
+  "output": {
+    "path": "experiments/H001_geom_reliability/sources/replicassg/fross_raw/replica/predictions_gaussian_obj0.7_rel10_hell0.85_kfnone_test_gtpose.pkl",
+    "sha256": "805234b480965abc41ee6652b642e6bdffa3640deede5f1f72ead3bcf1fa7b97"
+  },
+  "runtime_artifacts": {
+    "checkpoints/epoch=23-validation_loss=4.60.ckpt": {
+      "bytes": 460574101,
+      "path": "local_dataset/FROSS_weights/extracted/VG/egtr__RT-DETR__VG__last.pth/batch__6__epochs__50_25__lr__2e-07_2e-06_2e-05__finetune/version_0/checkpoints/epoch=23-validation_loss=4.60.ckpt",
+      "sha256": "212ddc0e6cd1bf2c8e791180b1e6697c540546a02735b49cb6223eed56a6d28c"
+    },
+    "config.json": {
+      "bytes": 8848,
+      "path": "local_dataset/FROSS_weights/extracted/VG/egtr__RT-DETR__VG__last.pth/batch__6__epochs__50_25__lr__2e-07_2e-06_2e-05__finetune/version_0/config.json",
+      "sha256": "d0fc8e1eae0993dc578b761503cdd7cce80ae609df7aad0b08ddbf5c21638c3f"
+    },
+    "egtr-head.engine": {
+      "bytes": 5138812,
+      "path": "local_dataset/FROSS_weights/extracted/VG/egtr__RT-DETR__VG__last.pth/batch__6__epochs__50_25__lr__2e-07_2e-06_2e-05__finetune/version_0/egtr-head.engine",
+      "sha256": "a77696dc2114346393516f2992be8b58885221afb2064c1ef4687ed39d04ec53"
+    },
+    "egtr-head.onnx": {
+      "bytes": 8311267,
+      "path": "local_dataset/FROSS_weights/extracted/VG/egtr__RT-DETR__VG__last.pth/batch__6__epochs__50_25__lr__2e-07_2e-06_2e-05__finetune/version_0/egtr-head.onnx",
+      "sha256": "2ed5e09071046e91c476a2811ff0040cc16190668f2d183d2e8af0797e61a515"
+    },
+    "h001_engine_manifest.json": {
+      "bytes": 774,
+      "path": "local_dataset/FROSS_weights/extracted/VG/egtr__RT-DETR__VG__last.pth/batch__6__epochs__50_25__lr__2e-07_2e-06_2e-05__finetune/version_0/h001_engine_manifest.json",
+      "sha256": "aa5a8f888ebb14dbf25e2d1701024a193c47faf4af463adf6ebfde84a2775f33"
+    },
+    "rt-detr.engine": {
+      "bytes": 75690020,
+      "path": "local_dataset/FROSS_weights/extracted/VG/egtr__RT-DETR__VG__last.pth/batch__6__epochs__50_25__lr__2e-07_2e-06_2e-05__finetune/version_0/rt-detr.engine",
+      "sha256": "02bfb4630685157f22934b55973b9b204aa87e0259a3c07ab7ad40895711f436"
+    },
+    "rt-detr.onnx": {
+      "bytes": 133462875,
+      "path": "local_dataset/FROSS_weights/extracted/VG/egtr__RT-DETR__VG__last.pth/batch__6__epochs__50_25__lr__2e-07_2e-06_2e-05__finetune/version_0/rt-detr.onnx",
+      "sha256": "f4dff58a7c8ad6632a297ff775557d622253285ac4a025d5e09d0b10a961daab"
+    }
+  },
+  "schema_version": "h001_replicassg_fross_source_merge_v1",
+  "shards": [
+    {
+      "path": "experiments/H001_geom_reliability/sources/replicassg/development_v2/runtime/fross_raw/shards/apartment_1.pkl",
+      "scan_id": "apartment_1",
+      "sha256": "00f7d8abce5f389466039611c0a3d6abc20494be6e835655daf1e077b8a50918"
+    },
+    {
+      "path": "experiments/H001_geom_reliability/sources/replicassg/development_v2/runtime/fross_raw/shards/apartment_2.pkl",
+      "scan_id": "apartment_2",
+      "sha256": "c6f8e0a57f30bc685de012b26cf3c1ea092dba66a8441241aa0cf207805ab515"
+    },
+    {
+      "path": "experiments/H001_geom_reliability/sources/replicassg/development_v2/runtime/fross_raw/shards/office_1.pkl",
+      "scan_id": "office_1",
+      "sha256": "ac8ce59f6888f31bcc10197d7ec2a12c9106eb5806fc7333c300a7c11040e8a9"
+    },
+    {
+      "path": "experiments/H001_geom_reliability/sources/replicassg/development_v2/runtime/fross_raw/shards/office_3.pkl",
+      "scan_id": "office_3",
+      "sha256": "f06f9a88f6fd89756efaf6f2dec3724a12baa2fcb87b5cc641eea32b050c9446"
+    },
+    {
+      "path": "experiments/H001_geom_reliability/sources/replicassg/development_v2/runtime/fross_raw/shards/office_4.pkl",
+      "scan_id": "office_4",
+      "sha256": "026c093f9976f54082426f47b4af61bc7b7e6ebc95407bdc3acaf112ffecb0ec"
+    },
+    {
+      "path": "experiments/H001_geom_reliability/sources/replicassg/development_v2/runtime/fross_raw/shards/room_1.pkl",
+      "scan_id": "room_1",
+      "sha256": "020b240359932ab0f9cf9042c8ab6ea759a4a4154953e0742e54e0ed42d0734d"
+    },
+    {
+      "path": "experiments/H001_geom_reliability/sources/replicassg/development_v2/runtime/fross_raw/shards/room_2.pkl",
+      "scan_id": "room_2",
+      "sha256": "8d0c2961d362286ce8596867682d8099e937600d5e12a2dcfab6ddeb001c4a81"
+    },
+    {
+      "path": "experiments/H001_geom_reliability/sources/replicassg/development_v2/runtime/fross_raw/shards/hotel_0.pkl",
+      "scan_id": "hotel_0",
+      "sha256": "fa4e91087c7254d4b217859a9a05dfc9103a9a62595ff202fd65762e7cc2e7fe"
+    },
+    {
+      "path": "experiments/H001_geom_reliability/sources/replicassg/development_v2/runtime/fross_raw/shards/frl_apartment_3.pkl",
+      "scan_id": "frl_apartment_3",
+      "sha256": "992bdb5bcd4cca73523e47e6176fcc994ab8af8d4297e5e786770e093b5641e4"
+    },
+    {
+      "path": "experiments/H001_geom_reliability/sources/replicassg/development_v2/runtime/fross_raw/shards/frl_apartment_4.pkl",
+      "scan_id": "frl_apartment_4",
+      "sha256": "ec27602e71bfd13400a621bcd191fe0bdcaa532b9962826021c197f53a8f192f"
+    },
+    {
+      "path": "experiments/H001_geom_reliability/sources/replicassg/development_v2/runtime/fross_raw/shards/frl_apartment_5.pkl",
+      "scan_id": "frl_apartment_5",
+      "sha256": "e3e4f3b82715b0ba4575af79764a46600e46e42569cd9250f55e2efd9af59bc4"
+    }
+  ],
+  "status": "frozen_source_prediction_ready"
+}

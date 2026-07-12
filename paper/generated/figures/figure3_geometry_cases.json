@@ -1,7 +1,7 @@
 [
   {
     "case_id": "open3dsg_case_001",
-    "geometry_rank": 263,
+    "geometry_rank": 294,
     "ground_truth_match_status": "pair_has_other_predicate",
     "matched_gt_predicates": [
       "right"
@@ -32,7 +32,7 @@
     },
     "object_id": 24,
     "object_label": "trash can",
-    "p_geom_valid": 0.23039389635021132,
+    "p_geom_valid": 0.013485200532380778,
     "panel": "A",
     "plot_bounds": {
       "x_max": 4.288563,
@@ -42,14 +42,15 @@
     },
     "predicate_family": "proximity",
     "predicate_label": "close by",
-    "preprocessed_path": "local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4fbad32f-465b-2a5d-8408-146ab1d72808/data_dict_2.pkl",
+    "preprocessed_path": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed/4fbad32f-465b-2a5d-8408-146ab1d72808/data_dict_2.pkl",
     "reason_codes": [
       "far_in_normalized_xy",
       "point_subtype_delegated_to_obb_for_family"
     ],
-    "role": "proximity demotion",
+    "role": "successful proximity correction",
     "scan_id": "4fbad32f-465b-2a5d-8408-146ab1d72808",
-    "semantic_rank": 17,
+    "semantic_rank": 19,
+    "source_score": 0.8533934354782104,
     "subgraph_id": "4fbad32f-465b-2a5d-8408-146ab1d72808_2",
     "subject_geometry": {
       "center": [
@@ -74,82 +75,8 @@
     "view": "top-down XY"
   },
   {
-    "case_id": "open3dsg_case_005",
-    "geometry_rank": 422,
-    "ground_truth_match_status": "pair_has_other_predicate",
-    "matched_gt_predicates": [
-      "left"
-    ],
-    "measurements": {
-      "object_top_minus_subject_bottom": 1.88357,
-      "subject_bottom_minus_object_top": -1.88357,
-      "subject_top_minus_object_top": 0.74859,
-      "xy_center_distance": 1.035216,
-      "z_center_delta_subject_minus_object": -0.914507
-    },
-    "object_geometry": {
-      "center": [
-        2.820559,
-        4.998847,
-        0.349003
-      ],
-      "max": [
-        2.92161,
-        5.15,
-        0.51
-      ],
-      "min": [
-        0.0,
-        0.0,
-        -0.35
-      ]
-    },
-    "object_id": 9,
-    "object_label": "lamp",
-    "p_geom_valid": 0.0019154382549911775,
-    "panel": "B",
-    "plot_bounds": {
-      "x_max": 3.370771,
-      "x_min": -2.019161,
-      "y_max": 1.521806,
-      "y_min": -1.636786
-    },
-    "predicate_family": "relative_vertical",
-    "predicate_label": "higher than",
-    "preprocessed_path": "local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/ba6fdaaa-a4c1-2dca-8163-a52b18bf6b64/data_dict_1.pkl",
-    "reason_codes": [
-      "point_subtype_delegated_to_obb_for_family",
-      "vertical_order_contradicts_predicate"
-    ],
-    "role": "vertical demotion",
-    "scan_id": "ba6fdaaa-a4c1-2dca-8163-a52b18bf6b64",
-    "semantic_rank": 25,
-    "subgraph_id": "ba6fdaaa-a4c1-2dca-8163-a52b18bf6b64_1",
-    "subject_geometry": {
-      "center": [
-        1.958354,
-        4.425893,
-        -0.565505
-      ],
-      "max": [
-        2.85946,
-        6.57,
-        1.25859
-      ],
-      "min": [
-        -1.57,
-        -2.23458,
-        -1.37357
-      ]
-    },
-    "subject_id": 38,
-    "subject_label": "desk",
-    "verification_status": "violated",
-    "view": "elevation x-Z"
-  },
-  {
     "case_id": "open3dsg_case_010",
-    "geometry_rank": 401,
+    "geometry_rank": 310,
     "ground_truth_match_status": "pair_has_other_predicate",
     "matched_gt_predicates": [
       "right",
@@ -181,8 +108,8 @@
     },
     "object_id": 9,
     "object_label": "side table",
-    "p_geom_valid": 0.02478513981292485,
-    "panel": "C",
+    "p_geom_valid": 0.07841107175995046,
+    "panel": "B",
     "plot_bounds": {
       "x_max": 2.593976,
       "x_min": -0.235816,
@@ -191,14 +118,15 @@
     },
     "predicate_family": "support_contact",
     "predicate_label": "lying on",
-    "preprocessed_path": "local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/4138582f-a238-2435-8332-6902542c2823/data_dict_1.pkl",
+    "preprocessed_path": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed/4138582f-a238-2435-8332-6902542c2823/data_dict_1.pkl",
     "reason_codes": [
       "positive_float_gap_large",
       "subtype_soft_support_contact"
     ],
-    "role": "support/contact demotion",
+    "role": "successful support correction",
     "scan_id": "4138582f-a238-2435-8332-6902542c2823",
-    "semantic_rank": 21,
+    "semantic_rank": 39,
+    "source_score": 0.8431091904640198,
     "subgraph_id": "4138582f-a238-2435-8332-6902542c2823_1",
     "subject_geometry": {
       "center": [
@@ -223,77 +151,76 @@
     "view": "elevation y-Z"
   },
   {
-    "case_id": "open3dsg_case_007",
-    "geometry_rank": 50,
-    "ground_truth_match_status": "pair_has_other_predicate",
-    "matched_gt_predicates": [
-      "standing on"
-    ],
+    "case_id": "open3dsg_case_026",
+    "geometry_rank": 10,
+    "ground_truth_match_status": "no_gt_for_pair",
+    "matched_gt_predicates": [],
     "measurements": {
-      "object_top_minus_subject_bottom": 0.01705,
-      "subject_bottom_minus_object_top": -0.01705,
-      "subject_top_minus_object_top": 0.99,
-      "xy_center_distance": 1.41853,
-      "z_center_delta_subject_minus_object": 0.664704
+      "object_top_minus_subject_bottom": 0.06,
+      "subject_bottom_minus_object_top": -0.06,
+      "subject_top_minus_object_top": 1.72,
+      "xy_center_distance": 3.856226,
+      "z_center_delta_subject_minus_object": 1.0948
     },
     "object_geometry": {
       "center": [
-        0.518914,
-        0.336531,
-        -1.405556
+        -1.028215,
+        0.982934,
+        -1.547378
       ],
       "max": [
-        3.19554,
-        2.31066,
-        -0.99
+        3.70762,
+        4.55,
+        -1.27
       ],
       "min": [
-        -1.81055,
-        -1.35,
-        -1.53
+        -4.61,
+        -2.13,
+        -1.81
       ]
     },
     "object_id": 1,
     "object_label": "floor",
-    "p_geom_valid": 0.9994424488013512,
-    "panel": "D",
+    "p_geom_valid": 0.9995429892412891,
+    "panel": "C",
     "plot_bounds": {
-      "x_max": 2.676726,
-      "x_min": -1.716066,
-      "y_max": 0.153,
-      "y_min": -1.683
+      "x_max": 4.539382,
+      "x_min": -5.441762,
+      "y_max": 0.676,
+      "y_min": -2.036
     },
-    "predicate_family": "relative_vertical",
-    "predicate_label": "lower than",
-    "preprocessed_path": "local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/c2d99349-1947-2fbf-837e-a0bd5e027c52/data_dict_2.pkl",
+    "predicate_family": "support_contact",
+    "predicate_label": "lying on",
+    "preprocessed_path": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed/e61b0e02-bada-2f31-82d0-80fc5c70bd6f/data_dict_1.pkl",
     "reason_codes": [
-      "point_subtype_delegated_to_obb_for_family",
-      "vertical_order_contradicts_predicate"
+      "positive_float_gap_large",
+      "subtype_soft_support_contact"
     ],
-    "role": "residual calibration risk",
-    "scan_id": "c2d99349-1947-2fbf-837e-a0bd5e027c52",
-    "semantic_rank": 339,
-    "subgraph_id": "c2d99349-1947-2fbf-837e-a0bd5e027c52_2",
+    "role": "residual compatibility error",
+    "scan_id": "e61b0e02-bada-2f31-82d0-80fc5c70bd6f",
+    "semantic_rank": 21,
+    "source_score": 0.843109130859375,
+    "subgraph_id": "e61b0e02-bada-2f31-82d0-80fc5c70bd6f_1",
     "subject_geometry": {
       "center": [
-        1.458065,
-        1.39965,
-        -0.740851
+        2.458429,
+        2.630293,
+        -0.452578
       ],
       "max": [
-        1.69,
-        1.57879,
-        0.0
+        2.61,
+        2.70325,
+        0.45
       ],
       "min": [
         0.0,
         0.0,
-        -1.00705
+        -1.33
       ]
     },
-    "subject_id": 23,
-    "subject_label": "chair",
+    "subject_id": 30,
+    "subject_label": "door",
     "verification_status": "violated",
-    "view": "elevation y-Z"
+    "view": "elevation x-Z"
   }
 ]

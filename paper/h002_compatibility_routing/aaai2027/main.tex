@@ -21,12 +21,8 @@
 \newcommand{\Ze}{\ensuremath{Z_e}}
 \newcommand{\Qe}{\ensuremath{Q_e}}
 \newcommand{\Ce}{\ensuremath{C_e}}
-\newcommand{\pobs}{\ensuremath{p_{\mathrm{obs}}}}
-\newcommand{\prel}{\ensuremath{p_{\mathrm{rel}}}}
 \newcommand{\Ssrc}{\ensuremath{S_{\mathrm{src}}}}
 \newcommand{\Scomp}{\ensuremath{S_{\mathrm{comp}}}}
-\newcommand{\epsscore}{\ensuremath{\epsilon}}
-\newcommand{\figbox}[2]{\fbox{\begin{minipage}[t]{#1}\centering\footnotesize #2\end{minipage}}}
 
 \title{Semantic-Geometry Compatibility Learning for Reliable 3D Scene Graph Relations}
 \author{Anonymous Submission}
@@ -37,217 +33,176 @@
 \maketitle
 
 \begin{abstract}
-Relation predictors for 3D Scene Graphs return confidence scores for candidate
-edges, but confidence is not the same object as reliability. A high score may
-reflect a plausible predicate, a source-specific ranking prior, or object-class
-co-occurrence, without establishing that the relation is geometrically
-compatible with the reconstructed scene. We study this mismatch as a
-source-output reliability problem. Rather than applying a universal
-semantic-geometry fusion rule, we formulate relation-aware evidence routing:
-different relation families call for different evidence routes, including
-geometry-only evidence, predicate-geometry compatibility, observability-aware
-abstention, or semantic/structural reasoning. We validate the compatibility
-route with a factorized score, $\Ce=\mathrm{compatibility}(\Te,\Ge)$, where
-$\Te$ encodes predicate and object semantics, $\Ge$ encodes
-predicate-independent geometry, and source confidence $\Ze$ is used only after
-compatibility has been computed. On VL-SAT and Open3DSG predictions over the
-official 3DSSG validation split, compatibility reranking improves the
-Recall@K/Violation@K tradeoff on geometry-checkable comparison relations, and a
-separate frame-aware scorer supports a qualified left/right lateral result. We
-also report route controls and failure analyses: front/behind, support/contact,
-observability-heavy, and semantic/structural relations are diagnostic or future
-routes, not validated reliability results. The result is a validation-split
-reliability study, not a hidden-test benchmark, leaderboard claim, or all-family
-solution.
+Confidence from a 3D Scene Graph relation predictor need not measure whether a
+candidate relation agrees with the reconstructed geometry. We address this gap
+with a source-output reliability layer that separates predicate and object
+semantics $\Te$, predicate-independent pair geometry $\Ge$, and source
+confidence $\Ze$. A train-only compatibility model computes
+$C_e^{\mathrm{raw}}=f_\theta(\Te,\Ge)$ without access to $\Ze$; source
+confidence enters only through the final risk-aware product
+$\Scomp=\widetilde Z_e\widetilde C_e$. This factorization makes the mechanism
+testable with wrong-predicate, shuffled-geometry, and geometry-only controls.
+On VL-SAT and Open3DSG predictions over the official 3DSSG validation split,
+$\Scomp$ improves the comparison-route Recall@20 from 0.6429 to 0.7245 while
+reducing Violation@20 from 0.3436 to 0.1005; grouped bootstrap intervals exclude
+zero for both changes. The same joint improvement holds at K=10 and K=50. A
+frame-aware left/right route consistently reduces violations but exhibits a
+source-dependent recall tradeoff. These results establish predicate-geometry
+compatibility for geometry-checkable comparison relations and expose where
+geometry-only, reference-frame, contact/pose, or observability-specific evidence
+is instead required. The study is validation-level and does not claim an
+all-relation or hidden-test solution.
 \end{abstract}
 
 \section{Introduction}
 
-3D Scene Graphs represent objects and relations in a scene, and provide a
-structured interface for embodied reasoning, scene understanding, and
-downstream planning \cite{armeni2019scenegraph,wald2020learning,
-wu2021scenegraphfusion}. Modern relation sources can rank candidate relation
-edges with high confidence, but such confidence should not be interpreted as a
-reliability estimate by default. It may encode a frequent semantic pattern, a
-source-specific ranking prior, or object-class co-occurrence rather than
-evidence that the predicate is physically compatible with the observed 3D
-scene.
+3D Scene Graphs provide an explicit interface between geometric perception and
+semantic reasoning \cite{armeni2019scenegraph,wald2020learning,
+wu2021scenegraphfusion}. Relation predictors such as VL-SAT and Open3DSG assign
+scores to candidate edges, yet these scores are optimized for prediction and
+ranking, not for relation-level geometric reliability
+\cite{wang2023vlsat,koch2024open3dsg}. A high-confidence edge can therefore be
+semantically plausible while contradicting the observed object-pair geometry.
 
-This distinction matters for relations whose semantics depend on geometry. For
-example, \emph{higher than}, \emph{lower than}, \emph{bigger than}, and
-\emph{smaller than} require predicate-specific interpretation of geometric
-evidence. In contrast, \emph{close by} may be nearly geometry-decidable, while
-\emph{attached to}, \emph{inside}, and \emph{cover} may require observability
-or visual/mesh evidence before a reliable decision can be made. Relations such
-as \emph{part of} or identity/symmetry predicates are better viewed as
-semantic or structural routes. A single fixed fusion of source confidence and
-geometry is therefore too coarse.
+The failure cannot be resolved by attaching one geometry score to every
+predicate. For a fixed pair geometry, \emph{higher than} and \emph{lower than}
+require opposite interpretations; \emph{close by} can be decided largely from
+distance; and support, attachment, or containment require contact, pose, or
+observability evidence that scalar pair geometry may not provide. This
+heterogeneity motivates relation-aware evidence routing rather than a universal
+semantic-geometry fusion rule.
 
-We therefore treat reliable 3D relation estimation as an evidence-routing
-problem. The proposed formulation separates semantic content, source
-confidence, geometry evidence, compatibility, and observability. Its validated
-mechanism is predicate-geometry compatibility:
-$\Ce=\mathrm{compatibility}(\Te,\Ge)$ is computed without source confidence
-$\Ze$, and $\Ze$ enters only when reranking a source prediction list. This
-separation is essential. If compatibility can copy source score or rank, it no
-longer tests whether predicate semantics and geometry support each other.
+We instantiate the geometry-checkable compatibility route by separating
+semantic content $\Te$, predicate-independent geometry $\Ge$, and source
+confidence $\Ze$ (Fig.~\ref{fig:score-flow}). The compatibility model
+$C_e^{\mathrm{raw}}=f_\theta(\Te,\Ge)$ is trained without $\Ze$; only after
+compatibility is computed do we combine the normalized terms as
+$\Scomp=\widetilde Z_e\widetilde C_e$. The separation creates a concrete
+identifiability test: performance should collapse when predicates or geometries
+are mismatched, and it should not be explained by geometry-only or generic
+concatenation baselines.
 
-\paragraph{Claim boundary.}
-The claim is deliberately bounded. We do not solve reliable 3D relation
-estimation across all relation families. We propose relation-aware evidence
-routing and validate its predicate-geometry compatibility route on
-geometry-checkable comparison relations. We also report a qualified left/right
-lateral result. We do not claim an official 3DSSG hidden-test result,
-leaderboard performance, a support/contact reliability result, a calibrated
-$\pobs/\prel$ benchmark, or a completed all-family reliability system.
+Across VL-SAT and Open3DSG validation predictions, compatibility reranking
+improves both semantic utility and geometric consistency on higher/lower and
+bigger/smaller relations. At K=20, Recall rises by 8.16 points and Violation
+falls by 24.31 points, with grouped bootstrap intervals excluding zero. The
+left/right analysis further shows that reference-frame evidence can lower
+violations while producing source-dependent recall tradeoffs. We do not solve
+reliable 3D relation estimation across all relation families; instead, the
+failure analyses delineate the evidence needed to extend beyond the validated
+comparison route.
 
-\paragraph{Contributions.}
-We make four contributions. First, we formulate 3D Scene Graph relation
-reliability as relation-aware evidence routing rather than universal confidence
-fusion. Second, we introduce a factorized edge representation that separates
-$\Te$, $\Ge$, $\Ze$, $\Qe$, $\Ce$, $\pobs$, and $\prel$, and enforce that
-$\Ce$ is computed before source confidence enters final reranking. Third, we
-evaluate a source-output reranking score,
-$\Scomp(e)=\mathrm{norm}(\Ze)\cdot\Ce$, on VL-SAT and Open3DSG validation
-predictions. Fourth, we report controls, ablations, and boundary routes that
-specify where the current evidence is sufficient and where richer
-relation-specific evidence is still required.
+Our contributions are threefold:
+\begin{itemize}
+\item We formulate source-output relation reliability as a factorized,
+route-aware problem and isolate predicate-geometry compatibility from source
+confidence.
+\item We introduce a leakage-controlled compatibility reranker with a
+parameter-free risk-aware product and counterfactual identifiability controls.
+\item We provide a two-source validation study with grouped confidence
+intervals, mechanism ablations, a qualified lateral route, and explicit failure
+taxonomies for unsupported relation families.
+\end{itemize}
 
 \begin{figure*}[t]
 \centering
-\setlength{\fboxsep}{4pt}
-\begin{tabular}{ccccc}
-\figbox{0.18\textwidth}{\textbf{Relation source}\\VL-SAT/Open3DSG\\candidate edge $e=(s,p,o)$\\source score/rank $\Ze$}
-&
-$\rightarrow$
-&
-\figbox{0.22\textwidth}{\textbf{Model-safe evidence}\\semantic content $\Te$\\predicate-independent geometry $\Ge$\\\emph{no source score/rank}}
-&
-$\rightarrow$
-&
-\figbox{0.20\textwidth}{\textbf{Validated mechanism}\\$\Ce=f_{\theta}(\Te,\Ge)$\\predicate--geometry compatibility}
-\\[3pt]
-&&&&\\[-8pt]
-\multicolumn{5}{c}{$\downarrow$ source confidence enters only after compatibility is computed}\\[-1pt]
-\multicolumn{5}{c}{\figbox{0.68\textwidth}{\textbf{Validation reranking path}\\$\Scomp(e)=\mathrm{norm}(\Ze)\cdot \Ce$ compared with $\Ssrc(e)=\Ze$ using Recall@K and custom Violation@K on the official 3DSSG validation split.}}
-\end{tabular}
-\vspace{4pt}
-
-\begin{tabular}{p{0.16\textwidth}p{0.17\textwidth}p{0.17\textwidth}p{0.17\textwidth}p{0.17\textwidth}}
-\toprule
-\textbf{Validated} & \textbf{Qualified} & \textbf{Diagnostic} & \textbf{Future} & \textbf{Excluded claims} \\
-\midrule
-higher/lower; bigger/smaller & left/right lateral & close by geometry-only; front/behind; support/contact & attachment; containment; semantic/structural; calibrated $\pobs/\prel$ & hidden-test benchmark; all-family reliability; support/contact reliability \\
-\bottomrule
-\end{tabular}
-\caption{Compatibility reranking and route boundary. The validated path computes
-predicate-geometry compatibility $\Ce$ from $\Te$ and $\Ge$, then combines it
-with source confidence $\Ze$ only for final source reranking. The bottom row
-separates validated, qualified, diagnostic, and future routes so the framework
-is not read as an all-family reliability system.}
+\includegraphics[width=\textwidth]{figures/method_overview.pdf}
+\caption{Overview of factorized compatibility reranking. A source-independent compatibility model consumes
+semantic content $\Te$ and predicate-independent pair geometry $\Ge$, while
+source confidence $\Ze$ bypasses $C_e$ and enters only at reranking. The bottom
+band distinguishes validated, qualified, diagnostic, and unsupported routes.}
 \label{fig:score-flow}
 \end{figure*}
 
 \section{Related Work}
 
-\paragraph{Scene graph foundations and source predictors.}
-Scene graphs have long been used as explicit object-relation representations
-for retrieval and visual reasoning \cite{johnson2015image}, with Visual Genome
-providing dense object, attribute, and relationship annotations
-\cite{krishna2017visualgenome}. 2D SGG methods model graph context, message
-passing, object-predicate regularities, and dataset bias
+\paragraph{Scene graphs and 3D relation prediction.}
+Scene graphs encode objects and their relations for retrieval and visual
+reasoning \cite{johnson2015image,krishna2017visualgenome}. Context modeling,
+message passing, and debiasing have driven 2D SGG
 \cite{xu2017iterative,zellers2018neuralmotifs,yang2018graphrcnn,
-tang2020unbiased}. 3D Scene Graphs extend this idea to semantics grounded in
-3D space and camera structure \cite{armeni2019scenegraph}. 3DSSG and 3RScan
-then made relation prediction from changing indoor reconstructions a standard
-benchmark setting \cite{wald2019rio,wald2020learning}.
+tang2020unbiased}. In 3D, hierarchical scene graphs and 3DSSG ground semantics
+in reconstructed space \cite{armeni2019scenegraph,wald2019rio,wald2020learning},
+while later systems predict and update relations from point clouds or RGB-D
+streams \cite{wu2021scenegraphfusion,wu2023rgbsgg,zhang2021knowledge3d}.
+VL-SAT strengthens supervised 3DSSG prediction with visual-linguistic training
+\cite{wang2023vlsat}; Open3DSG and ConceptGraphs broaden the source vocabulary
+\cite{koch2024open3dsg,gu2024conceptgraphs}. Our method operates after these source
+models and does not replace their candidate generation.
 
-\paragraph{3D SGG, online graphs, and open vocabulary.}
-Follow-up systems predict or update 3D scene graphs from point clouds and
-RGB-D/RGB streams, including incremental RGB-D graph construction, RGB-only
-incremental prediction, online graph generation, and knowledge-guided point
-cloud prediction \cite{wu2021scenegraphfusion,wu2023rgbsgg,hou2025fross,
-zhang2021knowledge3d,qiu2023kg3dsg}. VL-SAT uses visual-linguistic semantics
-to assist 3DSSG prediction \cite{wang2023vlsat}. Open3DSG and ConceptGraphs
-move toward open-vocabulary 3D graph sources
-\cite{koch2024open3dsg,gu2024conceptgraphs}. We use VL-SAT and Open3DSG as
-source candidate generators; the proposed method is a reliability layer over
-their outputs, not a replacement predictor.
+\paragraph{Geometric evidence for relations.}
+Point-cloud architectures such as PointNet and PointNet++ provide learned 3D
+representations \cite{qi2017pointnet,qi2017pointnetpp}, and online 3D graph
+systems already exploit geometry for segmentation, neighborhood construction,
+and relation prediction \cite{wu2021scenegraphfusion,hou2025fross}. RelWitness
+further studies visual-geometric evidence that makes open-vocabulary relations
+observable \cite{nguyen2026relwitness}. Our focus is complementary: rather than
+using geometry only as another predictor input, we isolate a source-independent
+compatibility variable and test whether matched predicate-pair geometry improves
+the reliability of an existing ranked list.
 
-\paragraph{Visual-geometric evidence and witnesses.}
-Point-cloud encoders such as PointNet and PointNet++ motivate learned 3D
-geometry representations \cite{qi2017pointnet,qi2017pointnetpp}, and recent
-3D SGG work increasingly uses geometric or visual-geometric evidence. RelWitness
-explicitly frames relation verification around visual-geometric cues that make
-a relation observable \cite{nguyen2026relwitness}. This directly rules out a
-weak novelty claim that merely ``adds geometry.'' Our approach therefore
-separates source confidence $\Ze$, semantic content $\Te$,
-predicate-independent geometry evidence $\Ge$, compatibility $\Ce$, and
-observability $\Qe$, then specifies which factors are appropriate for each
-relation route.
+\paragraph{Calibration and conditional evidence.}
+Calibration measures whether confidence tracks correctness
+\cite{guo2017calibration,nixon2019calibration}, while selective prediction
+studies when insufficient evidence should trigger rejection
+\cite{geifman2017selective,geifman2019selectivenet}. Gated fusion and conditional
+computation allow models to vary which evidence is used
+\cite{shazeer2017moe,perez2018film,arevalo2017gmu}. Our method specializes these ideas
+to relation-level 3D evidence: it separates source confidence from
+predicate-geometry compatibility and uses route analysis to identify where the
+validated mechanism applies and where additional evidence is required.
 
-\paragraph{Reliability, uncertainty, and conditional evidence use.}
-Calibration studies whether model confidence estimates correctness likelihood
-\cite{guo2017calibration,nixon2019calibration}. Predictive uncertainty and
-selective prediction study when a model should avoid overconfident decisions
-\cite{lakshminarayanan2017deepensembles,geifman2017selective,
-geifman2019selectivenet}. Conditional computation, missing-modality learning,
-and gated fusion show how inputs can be routed, combined, or abstained under
-different evidence conditions \cite{shazeer2017moe,wu2018mvae,shi2019mmvae,
-perez2018film,arevalo2017gmu}. We borrow the principle of conditional evidence
-use but specialize it to 3D relation reliability: the route
-assignment determines whether geometry-only evidence, predicate-geometry
-compatibility, observability-aware abstention, or semantic/structural reasoning
-is appropriate.
+\section{Method}
 
-\section{Problem Definition}
+\subsection{Factorized Compatibility}
 
-Let $e=(s,p,o)$ be a candidate relation edge with subject object $s$,
-predicate $p$, and object $o$. A source model provides a confidence and rank
-for $e$. We distinguish the following factors:
-
-\begin{itemize}
-\item $\Te$: predicate, relation-family, and subject/object semantic content.
-\item $\Ge$: predicate-independent geometry evidence for the object pair.
-\item $\Ze$: source confidence, rank, and source-specific score information.
-\item $\Qe$: observability and evidence-quality information.
-\item $\Ce$: predicate-geometry compatibility computed from $\Te$ and $\Ge$.
-\item $\pobs$: probability that available evidence is sufficient to judge the
-relation.
-\item $\prel$: relation reliability probability under sufficient evidence.
-\end{itemize}
-
-The validated compatibility route first fits a source-agnostic raw score
+Let $e=(s,p,o)$ denote a candidate edge produced by a relation source. We
+separate its information into
 \[
-C_e^{\mathrm{raw}} = f_{\theta}(\Te,\Ge),
-\]
-where $\Ze$ is excluded from $f_{\theta}$. We then apply label-free min--max
-normalization per source-family candidate pool and rerank with
-\[
-\Ce=\mathrm{norm}_{\mathrm{source,family}}(C_e^{\mathrm{raw}}),
+\Te=f_T(p,c_s,c_o),\qquad
+\Ge=f_G(x_s,x_o),
 \]
 \[
-\Scomp(e)=\mathrm{norm}_{\mathrm{source}}(\Ze)\cdot\Ce.
+\Ze=(s_{\mathrm{src}},r_{\mathrm{src}}),
 \]
-The source baseline is $\Ssrc(e)=\Ze$. The paper evaluates the Recall@K and
-Violation@K tradeoff after reranking. Recall@K measures GT relation recovery
-under the validation mapping. Violation@K is a custom geometry-consistency
-metric that measures how often selected edges violate route-specific geometric
-checks. It is not an official 3DSSG benchmark metric.
+where $\Te$ contains predicate and endpoint semantics, $\Ge$ contains
+predicate-independent geometry for the ordered object pair, and $\Ze$ contains
+the source score and rank. The central constraint is
+\[
+C_e^{\mathrm{raw}}=f_\theta(\Te,\Ge),\qquad
+\Ze\notin f_\theta .
+\]
+This makes compatibility a distinct evidence channel rather than a learned copy
+of source confidence.
 
-\paragraph{Route assignment protocol.}
-The route taxonomy is part of the method rather than a post-hoc result table.
-For each relation family we ask six questions: (1) can metric geometry alone
-decide the relation, (2) does the predicate change how geometry should be
-interpreted, (3) is a reference frame required, (4) is contact or pose evidence
-required, (5) is visual/mesh observability required before a decision is
-possible, and (6) is the relation mainly semantic, structural, identity, or
-symmetry reasoning? These questions determine whether the candidate enters a
-geometry-only route, a predicate-geometry compatibility route, a frame-aware
-route, a hard contact/pose route, an observability-aware route, or a
-semantic/structural boundary route. Only the comparison compatibility route and
-the qualified left/right lateral route are treated as quantitative validation
-routes in this manuscript.
+Each edge is stored in three aligned views: a model-safe $\Te/\Ge$ view, a
+reranking-only $\Ze$ view, and a hidden metric view containing GT matches,
+geometric status, and construction metadata. The latter is never exposed to the
+model. Compatibility supervision is constructed on the training split. Positive
+anchors are exact GT relations that satisfy the family geometry contract;
+negative examples preserve the scene, object pair, family, or rank stratum while
+changing the predicate or selecting a geometrically incompatible alternative.
+For size and directional comparisons, same-geometry predicate flips provide the
+hardest counterfactuals. All rows derived from the same scene/object-pair group
+remain in one split.
+
+The current $f_\theta$ is an L2-regularized logistic model over one-hot semantic
+features, raw geometry, and explicit predicate-geometry interactions. These
+interactions include predicate-signed vertical offsets, size ratios, and
+frame-aware horizontal offsets. This deliberately small model isolates the
+compatibility mechanism: geometry-only and plain $\Te+\Ge$ models use the same
+training rows but omit the matched interaction terms. Wrong-predicate,
+shuffled-geometry, and wrong-pair evaluations intervene on one factor while
+holding the other fixed.
+
+\subsection{Relation-Aware Reranking}
+
+Relation families are assigned by the evidence needed to judge them. We ask
+whether metric geometry is sufficient, whether the predicate changes its
+interpretation, whether a reference frame is required, and whether local
+contact, pose, observability, or structural evidence is missing. Table
+\ref{tab:route-taxonomy} records the resulting method scope. It is an evidence
+contract, not a claim that every route is solved.
 
 \begin{table*}[t]
 \centering
@@ -255,159 +210,146 @@ routes in this manuscript.
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{p{0.18\textwidth}p{0.23\textwidth}p{0.18\textwidth}p{0.29\textwidth}}
 \toprule
-Route & Relation types & Manuscript role & Evidence requirement \\
+Route & Relation types & Status & Required evidence \\
 \midrule
-Predicate--geometry compatibility & higher/lower, bigger/smaller & validated route & Predicate changes how the same geometry evidence should be interpreted. \\
-Bounded lateral compatibility & left/right & qualified validation route & Frame-aware direction reduces violations, but one source loses some recall. \\
-Geometry-only compatibility & close by & control route & Distance evidence is sufficient, so complex compatibility is unnecessary. \\
-Frame/depth ambiguity & front/behind & failure route & Reference frame and depth ambiguity cause large recall losses. \\
-Hard contact/pose & standing on, lying on, supported by & diagnostic failure analysis & Contact, pose, mesh, and subtype evidence are required before a reliability claim. \\
-Observability-heavy & attached to, hanging on, inside, cover & future validation route & The first question is whether required visual/mesh evidence is observable. \\
-Semantic/structural & part of, belonging to, identity/symmetry & scope boundary & Reliability depends on structural or identity evidence beyond scalar geometry. \\
+Predicate--geometry compatibility & higher/lower, bigger/smaller & validated & Predicate changes how the same pair geometry is interpreted. \\
+Frame-aware lateral & left/right & qualified & A fixed scene frame supports lateral direction, with a source-dependent recall tradeoff. \\
+Geometry-only & close by & control & Scale-normalized distance is sufficient for the current target. \\
+Frame/depth ambiguity & front/behind & failure & Depth ordering is not stable enough under the available reference frame. \\
+Hard contact/pose & standing on, lying on, supported by & diagnostic & Contact surface, pose, mesh quality, and independent labels are required. \\
+Observability-heavy & attached to, hanging on, inside, cover & future & Visual/mesh evidence must be observable before relation validity is judged. \\
+Semantic/structural & part of, belonging to, identity/symmetry & boundary & Structural or identity evidence extends beyond metric pair geometry. \\
 \bottomrule
 \end{tabular}
-\caption{Route assignment protocol and claim boundary. The table is a
-method-level evidence map, not a family-level performance table. Each row is
-assigned by the evidence required to judge relation reliability.}
+\caption{Relation-aware evidence contract. Quantitative claims are restricted
+to the validated and qualified rows; the remaining rows define controls,
+failure modes, or extension requirements.}
 \label{tab:route-taxonomy}
 \end{table*}
 
-\section{Method}
-
-\paragraph{Leakage-controlled views.}
-We use three views of each candidate edge. The model-safe view contains
-$\Te$ and $\Ge$ for compatibility scoring. The source-rank view contains
-$\Ze$ for final reranking. The hidden metric manifest contains GT labels,
-violation labels, construction fields, and audit-only metadata. Hidden fields
-are never model inputs.
-
-\paragraph{Compatibility scoring.}
-The raw compatibility model is source-agnostic. It asks whether the predicate
-semantics in $\Te$ are compatible with the geometry evidence in $\Ge$;
-$\Ce$ denotes its label-free source-family normalization used for reranking.
-For comparison relations, $\Ge$ contains signed or
-route-normalized geometric evidence such as vertical order or size difference,
-while $\Te$ identifies which predicate interpretation is required. The score
-is not allowed to use source score or rank.
-
-\paragraph{Score conditions and controls.}
-The source-only baseline is $\Ssrc(e)=\Ze$. The primary compatibility reranking
-score is $\Scomp(e)=\mathrm{norm}(\Ze)\cdot\Ce$. A geometry-only ablation tests
-whether route-aware geometry alone explains the result. A plain $\Te/\Ge$
-concatenation ablation tests whether generic fusion is sufficient. Additional
-controls include compatibility-only diagnostics, shuffled $\Ce$, shuffled
-geometry, and wrong-predicate $\Te$ controls. These
-rows test whether the score depends on matched predicate and geometry rather
-than source rank, geometry alone, or construction leakage. We treat these
-controls as counterfactual identifiability checks: a valid $\Ce$ should change
-under wrong predicate, shuffled geometry, wrong-pair geometry, or direction
-swap interventions.
-
-\paragraph{Source reranking.}
-After $\Ce$ is computed, source confidence is combined only for reranking:
+The raw source and compatibility scores are normalized without labels over the
+candidate pool:
 \[
-\Scomp(e)=\mathrm{norm}(\Ze)\cdot\Ce.
+\widetilde Z_e=\mathrm{minmax}_{\mathrm{source}}(\Ze),
 \]
-This makes the method a source-output reliability layer rather than a
-replacement for VL-SAT or Open3DSG. The design tests whether matched predicate-geometry
-compatibility can improve source ranking while reducing geometry violations.
-
-\paragraph{Risk-aware score interpretation.}
-The product score is not used as an arbitrary heuristic. In log space it is the
-$\lambda=1$ case of a risk-aware reranking utility:
 \[
-\log \Scomp(e)=\log \mathrm{norm}(\Ze)-\lambda r(e),
-\quad r(e)=-\log \Ce.
+\widetilde C_e=\mathrm{minmax}_{\mathrm{source,family}}
+(C_e^{\mathrm{raw}}).
 \]
-We use $\lambda=1$ as a parameter-free product form to avoid tuning a risk
-weight on validation labels. Equivalently, $\Ze$ and $\Ce$ can be read as two
-evidence experts:
+We compare the source baseline $\Ssrc(e)=\Ze$ with
 \[
-P_{\mathrm{source}}(\cdot\mid \Ze)\,
-P_{\mathrm{comp}}(\cdot\mid \Te,\Ge).
+\Scomp(e)=\mathrm{clip}(\widetilde Z_e)
+            \mathrm{clip}(\widetilde C_e).
 \]
-This interpretation depends on the leakage boundary above: $\Ce$ is computed
-without $\Ze$, and therefore cannot simply copy the source rank.
+In log space, this product is the $\lambda=1$ case of
+\[
+\log \Scomp(e)=\log\widetilde Z_e-
+\lambda[-\log\widetilde C_e].
+\]
+Thus compatibility acts as a geometric-risk penalty on source utility. We fix
+$\lambda=1$ to avoid validation-tuned risk weighting and clamp both terms to
+$[10^{-6},1]$ only for numerical stability. No GT or Violation label enters the
+normalization bounds.
 
-\paragraph{Score normalization.}
-The main $\mathrm{norm}(\Ze)$ uses label-free per-source min--max
-normalization over the validation candidate pool, and $\Ce$ is the raw logistic
-compatibility probability normalized per source-family candidate pool. No validation label,
-Violation@K label, or hidden metric field is used to define these bounds. For
-the log interpretation only, both terms are clamped to $[\epsscore,1]$ with
-$\epsscore=10^{-6}$; the implemented product score uses the same clipped
-normalized terms.
-
-\paragraph{Selective decision layer.}
-The framework includes $\Qe$, $\pobs$, and $\prel$ for observability-aware
-selective decisions. In this scoped manuscript, they remain framework
-components and stress tests; calibrated selective reliability is left for
-future validation.
+The main comparisons are source-only, compatibility-only, geometry-only, plain
+concatenation, wrong predicate, and shuffled geometry. A useful compatibility
+score must improve over the first four and collapse under factor mismatch. The
+method reranks existing candidates; it does not generate missing relations or
+replace the source predictor. Observability quality $\Qe$ is retained only as
+an extension boundary: calibrated selective reliability is left for future
+validation.
 
 \section{Experiments}
 
-\paragraph{Data and sources.}
-All reported quantitative results in this manuscript use the official 3DSSG
-validation split. We use validation because public 3DSSG-style relation labels
-and source predictions are available for reproducible comparison, whereas this
-submission does not use a hidden test server. We rerank validation predictions
-from VL-SAT and Open3DSG. Open3DSG is treated as an open-vocabulary relation
-source, but quantitative Recall@K is computed after closed-vocabulary 3DSSG
-mapping. Thus the source may be open vocabulary, but the reported Recall table
-is a closed-vocabulary validation-level evaluation.
+\subsection{Data, Splits, and Sources}
 
-\paragraph{Routes and metrics.}
-The primary evaluated route consists of geometry-checkable comparison relations:
-higher than, lower than, bigger than, and smaller than. The qualified lateral
-route consists of left and right. Front/behind is not pooled with left/right;
-it is reported as a frame/depth ambiguity failure case. The main metrics are
-Recall@K and Violation@K over $K\in\{5,10,20,50,100\}$. Violation@K is a custom
-geometry-consistency metric, not an official benchmark metric. Bootstrap
-confidence intervals are computed for the reported $\Scomp-\Ssrc$ deltas and
-for selected ablation deltas.
+Compatibility models are fit on 4,868 internal-train rows. The grouped split
+also contains 1,044 development and 1,040 held-out diagnostic rows; scenes,
+ordered pairs, and their counterfactual variants do not cross groups. Neither
+diagnostic split is used to tune the final source-reranking weight. Official
+validation contributes no fitting rows.
 
-\paragraph{Claim boundary.}
-The experiment is a validation-split study. It does not use hidden-test labels
-or claim leaderboard performance, full relative-horizontal success, or
-all-family 3D relation reliability. Support/contact and observability-heavy
-relations are used to identify hard routes and future evidence requirements.
+We evaluate 762,888 candidate edges from VL-SAT (441,696) and Open3DSG
+(321,192) on the official 3DSSG validation split. Open3DSG remains an
+open-vocabulary source, but Recall@K is computed after mapping predictions to
+the closed 3DSSG predicate vocabulary. The experiment is a validation-split
+study; no hidden-test label or evaluation server is used.
+
+\subsection{Routes, Metrics, and Baselines}
+
+The primary route contains higher/lower and bigger/smaller. Left/right is
+evaluated separately with a frozen scene-frame scorer; front/behind is retained
+for failure analysis rather than pooled into a horizontal average. We report
+$K\in\{5,10,20,50,100\}$. Recall@K measures mapped GT recovery. For the
+geometrically evaluable subset $E_K$ of a top-K list,
+\[
+\mathrm{Violation@K}=\frac{1}{|E_K|}
+\sum_{e\in E_K}\mathbf{1}[v(e)=1].
+\]
+Violation@K is a custom reliability diagnostic, not an official 3DSSG metric.
+We compare source-only, compatibility-only, geometry-only, plain concatenation,
+wrong-predicate, and shuffled-compatibility scores. Confidence intervals use
+1,000 grouped bootstrap resamples over 2,192 source/subgraph/route units.
 
 \section{Results}
 
 \subsection{Main Comparison Route}
 
 Figure~\ref{fig:main-comparison} reports validation-split source reranking on
-the core comparison route. \Scomp{} improves Recall@K while
-substantially reducing Violation@K for K = 10, 20, and 50. K = 5 is not a
-strong recall claim because its Recall confidence interval includes zero. K =
-100 is not central because the candidate list is close to saturation. The main
-evidence is the mid-K tradeoff: more GT relations are retained while fewer
-geometry-inconsistent edges enter the selected top-K set.
+the comparison route. At K=10/20/50, Recall improves by
+4.20/8.16/10.32 points and Violation decreases by 22.99/24.31/25.92 points;
+all six grouped intervals exclude zero. K=5 shows a significant violation
+reduction but its Recall interval crosses zero, while K=100 is near candidate
+list saturation. The mid-K regime therefore provides the clearest joint
+utility-reliability evidence.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{figures/comparison_tradeoff_ci.pdf}
-\caption{Validation-split source reranking for the
-geometry-checkable comparison route only (higher/lower and bigger/smaller).
-Values are $\Scomp-\Ssrc$ deltas with bootstrap 95\% intervals over validation
-candidate units; exact values are reported in Supplementary Table~S1. This is
-not a hidden-test result, all-family
-benchmark, or leaderboard claim.}
+\caption{Source reranking on higher/lower and bigger/smaller. Values are
+$\Scomp-\Ssrc$ deltas with grouped bootstrap 95\% intervals; positive Recall
+and negative Violation deltas are preferred.}
 \label{fig:main-comparison}
 \end{figure}
 
 At K = 20, the absolute comparison-route values are $\Ssrc$ Recall = 0.6429
 and Violation = 0.3436 versus $\Scomp$ Recall = 0.7245 and Violation = 0.1005.
 
-\subsection{Ablation Summary}
+\paragraph{Source/family decomposition.}
+Violation decreases significantly in all four source-family slices
+(Table~\ref{tab:source-family}). Recall is more heterogeneous: Open3DSG
+relative-vertical drives the aggregate gain, while the other intervals include
+zero or touch it. The central result is therefore a robust reduction in
+geometric violations with aggregate Recall improvement, not uniform Recall
+improvement in every slice.
 
-At K = 20, compatibility reranking outperforms source-only, route-aware geometry-only, and plain
-$\Te/\Ge$ concatenation. The selected confidence intervals support that the
-gain is not reducible to geometry-only reranking or plain concatenation. If
-the effect were only a geometry rule, the geometry-only ablation would match
-the primary score. If it were only generic feature fusion, the concat ablation
-would match the primary score. The observed gap supports the
-specific role of matched predicate-geometry compatibility.
+\begin{table}[t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.8pt}
+\begin{tabular}{llrr}
+\toprule
+Source & Family & $\Delta$R@20 (95\% CI) & $\Delta$V@20 (95\% CI) \\
+\midrule
+Open3DSG & vertical & .254 [.175,.331] & -.433 [-.444,-.423] \\
+Open3DSG & size & .133 [-.060,.362] & -.371 [-.382,-.361] \\
+VL-SAT & vertical & .003 [-.006,.011] & -.078 [-.085,-.071] \\
+VL-SAT & size & .006 [.000,.019] & -.093 [-.102,-.085] \\
+\bottomrule
+\end{tabular}
+\caption{Source/family K=20 deltas for $\Scomp-\Ssrc$. Compatibility reduces
+Violation in every slice; Recall gains are not family-uniform.}
+\label{tab:source-family}
+\end{table}
+
+\subsection{Mechanism and Counterfactual Controls}
+
+At K=20, matched compatibility outperforms source-only, geometry-only, and
+plain $\Te/\Ge$ concatenation (Table~\ref{tab:ablations}). Shuffling $C_e$
+reduces Recall to 0.6349 and raises Violation to 0.3789; swapping to the inverse
+predicate is more damaging (0.5215 Recall, 0.6853 Violation). The effect
+therefore depends on the matched predicate-pair geometry rather than on a
+generic geometry prior or the source rank alone.
 
 \begin{table}[t]
 \centering
@@ -420,27 +362,28 @@ Score & R@20 & V@20 & Role \\
 Source & 0.6429 & 0.3436 & baseline \\
 G-only & 0.6463 & 0.3275 & geometry ablation \\
 Concat & 0.6293 & 0.3308 & fusion ablation \\
+Shuffled $C_e$ & 0.6349 & 0.3789 & mismatch control \\
+Wrong $T_e$ & 0.5215 & 0.6853 & predicate control \\
 Compat. & 0.7245 & 0.1005 & primary \\
 \bottomrule
 \end{tabular}
-\caption{Mechanism-check ablations for the comparison route. The rows are not
-standalone benchmark systems. They test whether compatibility reranking is explained by source
-ranking, geometry-only filtering, or generic concatenation.}
+\caption{Comparison-route mechanism controls at K=20. Only matched
+predicate-geometry compatibility produces the joint Recall/Violation gain.}
 \label{tab:ablations}
 \end{table}
 
-Selected bootstrap CI deltas at K = 20 are:
+Selected K=20 bootstrap intervals are:
 $\Delta$(Compat.-G-only) Recall@20 = [0.0475, 0.1103] and Violation@20 =
 [-0.2348, -0.2193]; $\Delta$(Compat.-Concat) Recall@20 = [0.0647, 0.1312] and
 Violation@20 = [-0.2389, -0.2222].
 
 \subsection{Qualified Left/Right Route}
 
-Left/right is included as a qualified lateral route, not as full
-relative-horizontal success. Open3DSG left/right gains are strong, while
-VL-SAT left/right trades small recall losses for lower violation. This supports
-including left/right as a qualified validation route while excluding a full
-left/right/front/behind reliability claim.
+Left/right is evaluated as a separate frame-aware route. Open3DSG gains Recall
+and lowers Violation, whereas VL-SAT exchanges a small Recall loss for a
+consistent Violation reduction (Table~\ref{tab:left-right}). The difference
+shows why source- and frame-specific behavior must be reported rather than
+hidden in one horizontal-family average.
 
 \begin{table}[t]
 \centering
@@ -456,9 +399,8 @@ VL-SAT & 20 & -0.043 & [-0.057, -0.030] & -0.100 & [-0.111, -0.089] \\
 VL-SAT & 50 & -0.021 & [-0.033, -0.012] & -0.124 & [-0.134, -0.116] \\
 \bottomrule
 \end{tabular}
-\caption{Selected left/right qualified lateral results using the frozen
-frame-aware scorer. The route reduces violation risk, but the VL-SAT recall
-tradeoff prevents a uniform-improvement claim.}
+\caption{Left/right results with the frozen scene-frame scorer. Open3DSG shows
+joint gains; VL-SAT exhibits a bounded Recall/Violation tradeoff.}
 \label{tab:left-right}
 \end{table}
 
@@ -468,13 +410,13 @@ Front/behind is kept as frame/depth ambiguity. In selected cells, violation is
 reduced but recall losses are large, e.g., Open3DSG K = 50 has
 $\Delta$Recall = -0.1704 and $\Delta$Violation = -0.3592, while VL-SAT K = 20
 has $\Delta$Recall = -0.2031 and $\Delta$Violation = -0.2731.
-Support/contact does not provide a reliability result under the current
-evidence. The latest proxy-target repair yields only 35 accept and 347 reject
-binary rows, so a reject-only classifier already reaches 0.908 accuracy.
+Support/contact does not provide an independent reliability target under the
+current evidence. The latest repair yields only 35 accept and 347 reject binary
+rows, so a reject-only classifier already reaches 0.908 accuracy.
 Moreover, the geometry-rule construction state recovers the binary target with
 1.0 leave-one-out accuracy and macro recall. This is target circularity, not
-evidence that support/contact reliability has been learned; metric reruns and
-solved-route wording are therefore blocked.
+evidence that support/contact reliability has been learned. Target circularity
+prevents an independent support/contact evaluation.
 
 \begin{table}[t]
 \centering
@@ -482,110 +424,63 @@ solved-route wording are therefore blocked.
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{p{0.22\linewidth}p{0.31\linewidth}p{0.31\linewidth}}
 \toprule
-Route & Observed failure & Paper interpretation \\
+Route & Observed failure & Implication \\
 \midrule
 front/behind & violation decreases, but recall losses are large & reference-frame/depth evidence is required before promotion \\
-support/contact repair & 35/382 positives; 0.908 majority; geometry-rule state recovers target at 1.0/1.0 & circular proxy target; no metric or solved-route claim \\
+support/contact repair & 35/382 positives; 0.908 majority; geometry-rule state recovers target at 1.0/1.0 & circular proxy target; not independently evaluable \\
 supported by & broad label mixes support existence and subtype & relabel-or-abstain boundary case requiring independent labels \\
-attach/contain & scalar geometry cannot decide observability & future visual/mesh $\Qe$ route \\
+attach/contain & scalar geometry cannot decide observability & requires visual/mesh evidence quality \\
 \bottomrule
 \end{tabular}
-\caption{Failure taxonomy used to bound the scoped claim. These rows motivate
-the broader relation-aware framework but are not counted as validated routes.}
+\caption{Failure taxonomy. These routes require evidence or targets not
+available to the current compatibility model.}
 \label{tab:failure-taxonomy}
 \end{table}
 
-\begin{table}[t]
-\centering
-\scriptsize
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{p{0.23\linewidth}p{0.34\linewidth}p{0.27\linewidth}}
-\toprule
-Example pattern & Row-level evidence type & Interpretation \\
-\midrule
-comparison edge with high source score but wrong sign & edge is reranked down when $\Ce$ disagrees with vertical or size evidence & source confidence is not relation reliability \\
-left/right lateral correction & frame-aware score lowers violation while preserving Open3DSG recall & lateral route is useful but source-dependent \\
-front/behind candidate & violation can fall while recall drops sharply & depth/reference-frame ambiguity blocks promotion \\
-close-by proximity row & normalized distance is already sufficient in source-wide diagnostics & geometry-only route, not a predicate-geometry interaction claim \\
-support/contact proxy rows & accept/reject labels are sparse and exactly recoverable from the construction rule & target independence must precede richer pose/contact modeling \\
-\bottomrule
-\end{tabular}
-\caption{Qualitative row-pattern examples used for failure analysis. They
-explain route behavior and reviewer-risk boundaries; they are not additional
-validated-route metrics.}
-\label{tab:qualitative-patterns}
-\end{table}
+Candidate-level reranking examples and additional failure-route visualizations
+are provided in the supplement.
 
 \section{Discussion and Limitations}
 
-\paragraph{Validated scope.}
-The validated quantitative mechanism is predicate-geometry compatibility on
-comparison relations, plus a qualified left/right lateral route. This is enough
-to support the design claim that source confidence and fixed fusion are
-insufficient for geometry-checkable relation reliability, but it is not enough
-to establish reliable 3D relations across all families.
+\paragraph{Scope and failure modes.}
+The quantitative evidence supports predicate-geometry compatibility for
+higher/lower and bigger/smaller, with left/right as a source-dependent
+frame-aware route. It does not establish one universal reliability function.
+Close by is already geometry-decidable; front/behind remains sensitive to depth
+and reference-frame choice; and support/contact requires independent labels plus
+richer contact and pose evidence. Attachment and containment additionally depend
+on whether relevant visual or mesh evidence is observable. The route analysis is
+therefore a map of evidence requirements, not an all-family success claim.
 
-\paragraph{Route-aware framework boundary.}
-The framework remains broader than the validated mechanism. Close by is a
-geometry-only control route, front/behind exposes reference-frame and depth
-ambiguity, support/contact exposes the need for richer contact and pose
-evidence but its current proxy target is circular, observability-heavy relations require visual/mesh evidence and
-selective decisions, and semantic/structural relations may require non-geometry
-evidence. These routes are part of the framework boundary, but not validated
-reliability routes in this manuscript.
+\paragraph{Evaluation and model limitations.}
+All results use the public 3DSSG validation split. Recall is evaluated through
+the closed predicate mapping, and Violation@K is a custom geometric diagnostic.
+The candidate-pool min--max transform is label-free but not invariant to score
+normalization: raw-product sensitivity preserves the main direction at several
+K values, whereas rank-percentile normalization loses low-K Recall. We also
+tested learned geometry outside the main path; it improves some recall-oriented
+slices but violates the frozen non-regression requirement. Consequently, the
+learned geometry variant is not part of the primary score. The current model
+also cannot recover a relation absent from the source candidate list.
 
-\paragraph{Validation split.}
-The reported tables are validation-level evaluations on the official 3DSSG
-validation split. They should not be described as hidden-test or leaderboard
-results.
-
-\paragraph{Normalization and calibration.}
-The main compatibility reranking score uses frozen label-free candidate-pool normalization. We
-report normalization sensitivity rather than claiming normalization invariance:
-raw product sensitivity preserves the improvement direction at several K
-values, but rank-percentile normalization loses low-K recall. The
-$\pobs/\prel$ selective decision layer is part of the framework, but calibrated
-reliability remains blocked until stronger observability labels and
-calibration results are available.
-
-\paragraph{Learned geometry and embedding extensions.}
-We also evaluated a learned-geometry extension outside the main score path. It
-improves some recall-oriented signals but increases Violation@K relative to
-the locked $\Scomp$ risk boundary, so it is diagnostic/appendix evidence rather
-than a promoted score. A semantic-geometry embedding variant is therefore left
-as future work: it must beat frozen $\Scomp$ under Violation@K non-regression,
-not merely improve source-only recall.
-
-\paragraph{Reviewer-risk boundaries.}
-\Scomp{} is not a base predictor replacement; it reranks source candidates.
-Violation@K is a custom geometry-consistency metric, not an official 3DSSG
-metric. Support/contact is a hard-route failure analysis, not a reliability
-result; its latest target repair is blocked by 0.908 majority accuracy and
-1.0/1.0 geometry-rule target recovery. The $\pobs/\prel$ layer is not a
-calibrated-selective benchmark, and learned $\Ge$ is not a promoted score.
-Open3DSG is used as an open-vocabulary source, but the reported Recall@K table
-is evaluated through closed-vocabulary 3DSSG mapping.
-
-\paragraph{Release and reproducibility policy.}
-The releasable package will contain source-score ingestion code,
-geometry-evidence extraction code, model-safe compatibility scoring, validation
-metric runners, score IDs, Docker build/run commands, compact result tables,
-and non-sensitive manifests needed to reproduce the reported validation-level
-tables. Large 3RScan/3DSSG scans, source checkpoints, and raw row-level hidden
-manifests depend on dataset/source licenses and are therefore not redistributed
-as paper artifacts. They are documented as required external inputs, while
-license-compatible derived summaries are released with the code package.
+\paragraph{Reproducibility.}
+The release package will include source adapters, geometry extraction,
+model-safe compatibility scoring, counterfactual controls, grouped bootstrap
+evaluation, Docker commands, and compact tables. Dataset scans, source
+checkpoints, and license-restricted row-level manifests remain external
+dependencies. Open3DSG is used as an open-vocabulary source, while the reported
+quantitative evaluation remains closed-vocabulary and validation-level.
 
 \section{Conclusion}
 
-This paper studies 3D Scene Graph relation reliability as a factorized and
-route-aware problem. The central result is that source confidence should not be
-used as relation reliability, and that leakage-controlled predicate-geometry
-compatibility can improve validation-level reranking for geometry-checkable
-comparison relations. The broader relation-aware evidence routing framework
-explains why other relation families require different evidence routes, while
-keeping those routes as bounded analyses or future validation targets rather
-than presenting an all-family solution.
+We showed that source confidence and predicate-geometry compatibility are
+distinct signals for 3D Scene Graph relations. A leakage-controlled
+compatibility model improves Recall and reduces geometric violations across two
+relation sources, and counterfactual controls verify that the gain depends on
+matched predicate-pair geometry. The route analysis also identifies the limits
+of this mechanism: frame ambiguity, contact/pose evidence, observability, and
+target independence must be addressed before extending the claim beyond
+geometry-checkable comparison relations.
 
 \bibliography{h002}
 

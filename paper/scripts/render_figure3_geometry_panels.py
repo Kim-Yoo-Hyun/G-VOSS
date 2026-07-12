@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import html
 import importlib
+import importlib.util
 import json
 import math
 import pickle
@@ -45,7 +46,7 @@ PREPROCESSED_ROOT = (
     ROOT
     / "local_dataset"
     / "Open3DSG_staged"
-    / "h001_runtime"
+    / "h001_full_validation_runtime"
     / "output"
     / "datasets"
     / "OpenSG_3RScan"
@@ -54,36 +55,51 @@ PREPROCESSED_ROOT = (
 
 EXPECTED_CASES = [
     "open3dsg_case_001",
-    "open3dsg_case_005",
     "open3dsg_case_010",
-    "open3dsg_case_007",
+    "open3dsg_case_026",
 ]
+
+PREDICTIONS_JSONL = (
+    ROOT / "experiments" / "H001_geom_reliability" / "sources" / "open3dsg" /
+    "full_validation" / "recovery_relaxed_views_min2" / "adapter" / "predictions.jsonl"
+)
+VERIFICATION_JSONL = (
+    ROOT / "experiments" / "H001_geom_reliability" / "sources" / "open3dsg" /
+    "full_validation" / "recovery_relaxed_views_min2" / "geometry" / "verification.jsonl"
+)
+FAMILY_MODEL_JSON = (
+    ROOT / "archive" / "hypothesis_records" / "hypothesis" / "CAND-001" /
+    "H001_geometry-grounded-verification" / "artifacts" / "calibration" /
+    "p_geom_valid_family" / "model.json"
+)
 
 PANEL_META = {
     "open3dsg_case_001": {
         "panel": "A",
-        "role": "proximity demotion",
+        "role": "successful proximity correction",
         "view": "topdown",
         "takeaway": "Semantic close-by rank is high, but XY object geometry is far.",
     },
-    "open3dsg_case_005": {
-        "panel": "B",
-        "role": "vertical demotion",
-        "view": "vertical",
-        "takeaway": "The claimed vertical order conflicts with measured object height.",
-    },
     "open3dsg_case_010": {
-        "panel": "C",
-        "role": "support/contact demotion",
+        "panel": "B",
+        "role": "successful support correction",
         "view": "vertical",
         "takeaway": "Support/contact evidence exposes a positive float gap.",
     },
-    "open3dsg_case_007": {
-        "panel": "D",
-        "role": "residual calibration risk",
+    "open3dsg_case_026": {
+        "panel": "C",
+        "role": "residual compatibility error",
         "view": "vertical",
-        "takeaway": "A high p_geom_valid row can still be rule-violated.",
+        "takeaway": "A high compatibility score can still retain a verifier violation in the top ranks.",
     },
+}
+
+REASON_LABELS = {
+    "far_in_normalized_xy": "normalized pair distance is large",
+    "point_subtype_delegated_to_obb_for_family": "local contact evidence is unavailable",
+    "vertical_order_contradicts_predicate": "vertical order contradicts the predicted relation",
+    "positive_float_gap_large": "vertical separation is too large",
+    "subtype_soft_support_contact": "support/contact evidence is weak",
 }
 
 COLORS = {
@@ -139,6 +155,77 @@ def load_queue_cases() -> dict[str, dict[str, Any]]:
             if case_id in EXPECTED_CASES:
                 cases[case_id] = row
     return cases
+
+
+def load_eval_module() -> Any:
+    path = ROOT / "src" / "geocalib" / "evaluate_predictions.py"
+    sys.path.insert(0, str(path.parent))
+    spec = importlib.util.spec_from_file_location("h001_figure3_eval", path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"cannot_import:{path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def attach_current_family_product_ranks(cases: dict[str, dict[str, Any]]) -> None:
+    """Attach ranks from the same family-product score reported in the main table."""
+    evalmod = load_eval_module()
+    model = json.loads(FAMILY_MODEL_JSON.read_text(encoding="utf-8"))
+    target_subgraphs = {row["source_prediction"]["subgraph_id"] for row in cases.values()}
+    target_keys = {
+        (
+            row["source_prediction"]["subgraph_id"],
+            int(row["source_prediction"]["subject_id"]),
+            int(row["source_prediction"]["object_id"]),
+            row["source_prediction"]["predicate_label"],
+        ): case_id
+        for case_id, row in cases.items()
+    }
+    grouped: dict[str, list[dict[str, Any]]] = {subgraph: [] for subgraph in target_subgraphs}
+    with PREDICTIONS_JSONL.open(encoding="utf-8") as pred_handle, VERIFICATION_JSONL.open(encoding="utf-8") as ver_handle:
+        for pred_line, ver_line in zip(pred_handle, ver_handle):
+            prediction = json.loads(pred_line)
+            if prediction["subgraph_id"] not in target_subgraphs:
+                continue
+            family = prediction["predicate"]["predicate_family"]
+            if family not in {"support_contact", "proximity", "relative_vertical"}:
+                continue
+            verification = json.loads(ver_line)
+            if prediction["prediction_id"] != verification["prediction_id"]:
+                raise ValueError("prediction_verification_identity_mismatch")
+            semantic = evalmod.semantic_score(prediction)
+            compact = evalmod.compact_verification(verification)
+            compatibility = evalmod.family_specific_p_geom_valid(prediction, compact, model)
+            if semantic is None or compatibility is None:
+                continue
+            key = (
+                prediction["subgraph_id"], int(prediction["edge"]["subject_id"]),
+                int(prediction["edge"]["object_id"]), prediction["predicate"]["predicate_label"],
+            )
+            grouped[prediction["subgraph_id"]].append({
+                "key": key, "semantic": float(semantic), "compatibility": float(compatibility),
+                "product": float(semantic) * float(compatibility),
+            })
+    for subgraph, rows in grouped.items():
+        source_order = sorted(rows, key=lambda item: (-item["semantic"], item["key"]))
+        product_order = sorted(rows, key=lambda item: (-item["product"], item["key"]))
+        source_rank = {row["key"]: rank for rank, row in enumerate(source_order, 1)}
+        product_rank = {row["key"]: rank for rank, row in enumerate(product_order, 1)}
+        by_key = {row["key"]: row for row in rows}
+        for key, case_id in target_keys.items():
+            if key[0] != subgraph or key not in by_key:
+                continue
+            item = by_key[key]
+            cases[case_id]["current_family_product"] = {
+                "source_score": item["semantic"],
+                "compatibility": item["compatibility"],
+                "source_rank": source_rank[key],
+                "product_rank": product_rank[key],
+            }
+    missing = [case_id for case_id, row in cases.items() if "current_family_product" not in row]
+    if missing:
+        raise ValueError(f"missing_current_family_product_rows:{missing}")
 
 
 def subgraph_number(subgraph_id: str) -> str:
@@ -305,8 +392,8 @@ def draw_case_panel(case_id: str, row: dict[str, Any], x: float, y: float, w: fl
         svg_text(
             x + 18,
             y + 72,
-            f'rank {row["rerank_effect"]["semantic_rank"]} -> {row["rerank_effect"]["geometry_rank"]}, '
-            f'p_geom_valid={row["geometry"]["p_geom_valid"]:.4f}',
+            f'source rank {row["current_family_product"]["source_rank"]} -> product rank {row["current_family_product"]["product_rank"]}; '
+            f'Z={row["current_family_product"]["source_score"]:.3f}, C={row["current_family_product"]["compatibility"]:.3f}',
             12,
             400,
             "#4b5563",
@@ -329,14 +416,12 @@ def draw_case_panel(case_id: str, row: dict[str, Any], x: float, y: float, w: fl
     else:
         metric_line = f'subject center z - object center z = {measure["z_center_delta_subject_minus_object"]:.2f}'
 
-    reason = ", ".join(row["geometry"]["reason_codes"])
-    gt_pred = ", ".join(row["ground_truth"].get("matched_predicates", [])) or "none"
+    reason = "; ".join(REASON_LABELS.get(code, code.replace("_", " ")) for code in row["geometry"]["reason_codes"])
     parts.extend(
         [
             svg_text(x + 24, y + 324, view_label, 12, 700, "#374151"),
             svg_text(x + 24, y + 345, metric_line, 12, 400, "#374151"),
-            wrapped_text(x + 24, y + 367, f'Reason: {reason}', 62, 11, COLORS["warn"]),
-            wrapped_text(x + 24, y + 405, f'GT pair label(s): {gt_pred}. {PANEL_META[case_id]["takeaway"]}', 66, 11, "#4b5563"),
+            wrapped_text(x + 24, y + 367, f'Evidence: {reason}', 48, 11, COLORS["warn"]),
         ]
     )
 
@@ -354,9 +439,10 @@ def draw_case_panel(case_id: str, row: dict[str, Any], x: float, y: float, w: fl
         "object_label": pred["object_label"],
         "predicate_family": pred["predicate_family"],
         "predicate_label": pred["predicate_label"],
-        "semantic_rank": row["rerank_effect"]["semantic_rank"],
-        "geometry_rank": row["rerank_effect"]["geometry_rank"],
-        "p_geom_valid": row["geometry"]["p_geom_valid"],
+        "semantic_rank": row["current_family_product"]["source_rank"],
+        "geometry_rank": row["current_family_product"]["product_rank"],
+        "source_score": row["current_family_product"]["source_score"],
+        "p_geom_valid": row["current_family_product"]["compatibility"],
         "verification_status": row["geometry"]["verification_status"],
         "reason_codes": row["geometry"]["reason_codes"],
         "ground_truth_match_status": row["ground_truth"]["match_status"],
@@ -378,17 +464,17 @@ def draw_case_panel(case_id: str, row: dict[str, Any], x: float, y: float, w: fl
 
 
 def render_figure(cases: dict[str, dict[str, Any]]) -> tuple[str, list[dict[str, Any]]]:
-    width, height = 1280, 910
-    panel_w, panel_h = 590, 390
-    positions = [(50, 92), (640, 92), (50, 500), (640, 500)]
+    width, height = 1500, 560
+    panel_w, panel_h = 460, 430
+    positions = [(20, 92), (520, 92), (1020, 92)]
     parts = [
-        '<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="910" viewBox="0 0 1280 910">',
-        '<rect width="1280" height="910" fill="#ffffff"/>',
-        svg_text(50, 43, "Figure 3. Geometry-backed failure mechanism examples", 22, 700),
+        '<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="560" viewBox="0 0 1500 560">',
+        '<rect width="1500" height="560" fill="#ffffff"/>',
+        svg_text(20, 43, "Geometry-backed re-ranking cases", 22, 700),
         svg_text(
-            50,
+            20,
             70,
-            "Same locked Open3DSG qualitative rows, now drawn from preprocessed object point clouds.",
+            "Two successful corrections and one residual error, rendered from the actual ordered object-pair point clouds.",
             14,
             400,
             "#4b5563",
@@ -399,7 +485,6 @@ def render_figure(cases: dict[str, dict[str, Any]]) -> tuple[str, list[dict[str,
         panel_svg, record = draw_case_panel(case_id, cases[case_id], pos[0], pos[1], panel_w, panel_h)
         parts.append(panel_svg)
         records.append(record)
-    parts.append(svg_text(50, 890, "Caption guard: qualitative reviewer-defense examples only; not a representative visual audit or new metric.", 12, 400, "#6b7280"))
     parts.append("</svg>")
     return "\n".join(parts), records
 
@@ -451,6 +536,7 @@ def main() -> None:
     missing = [case_id for case_id in EXPECTED_CASES if case_id not in cases]
     if missing:
         raise SystemExit(f"Missing locked cases in {QUEUE_JSONL}: {missing}")
+    attach_current_family_product_ranks(cases)
 
     svg, records = render_figure(cases)
     svg_path = OUT_DIR / "figure3_geometry_panels.svg"

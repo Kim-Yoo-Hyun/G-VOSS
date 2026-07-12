@@ -1,6 +1,6 @@
 # H002 AAAI 2027 Readiness
 
-Last updated: 2026-07-11 KST
+Last updated: 2026-07-12 KST
 
 ## Internal Status
 
@@ -28,7 +28,7 @@ Current technical boundary:
 
 Build instructions are in `README.md`.
 
-Current verified package: main/supplement/checklist 7/3/2 pages; all three are
+Current verified package: main/supplement/checklist 6/3/2 pages; all three are
 US Letter with Type 3 font, missing citation/reference, LaTeX error, and
 overfull-box counts equal to zero.
 

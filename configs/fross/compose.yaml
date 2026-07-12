@@ -339,3 +339,107 @@ services:
       - "20260711"
       - --docker-service
       - replicassg_evaluation
+
+  replicassg_development_v2:
+    image: h001-fross-replicassg:cu128-trt108
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/run_replicassg_development_v2.py
+    command:
+      - --repo-root
+      - /workspace
+      - --verification
+      - /workspace/experiments/H001_geom_reliability/sources/replicassg/development_v2/runtime/geometry/verification.jsonl
+      - --ground-truth
+      - /workspace/experiments/H001_geom_reliability/sources/replicassg/prospective_protocol/frozen_v1/ground_truth.jsonl
+      - --models
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/calibration/fitted/models.json
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/sources/replicassg/development_v2/protocol.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/replicassg/development_v2/evaluation
+      - --n-bootstrap
+      - "1000"
+      - --seed
+      - "20260712"
+      - --docker-service
+      - replicassg_development_v2
+
+  replicassg_development_v2_merge_shards:
+    image: h001-fross-replicassg:cu128-trt108
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/merge_replicassg_fross_shards.py
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/sources/replicassg/prospective_protocol/frozen_v1/manifest.json
+      - --shard-dir
+      - /workspace/experiments/H001_geom_reliability/sources/replicassg/development_v2/runtime/fross_raw/shards
+      - --output
+      - /workspace/experiments/H001_geom_reliability/sources/replicassg/fross_raw/replica/predictions_gaussian_obj0.7_rel10_hell0.85_kfnone_test_gtpose.pkl
+      - --manifest
+      - /workspace/experiments/H001_geom_reliability/sources/replicassg/development_v2/runtime/fross_raw/source_manifest.json
+      - --weight-zip
+      - /workspace/local_dataset/FROSS_weights/VG.zip
+      - --artifact-dir
+      - /workspace/local_dataset/FROSS_weights/extracted/VG/egtr__RT-DETR__VG__last.pth/batch__6__epochs__50_25__lr__2e-07_2e-06_2e-05__finetune/version_0
+      - --docker-service
+      - replicassg_development_v2_merge_shards
+
+  replicassg_development_v2_adapter:
+    image: h001-fross-replicassg:cu128-trt108
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/export_replicassg_fross_predictions.py
+    command:
+      - --repo-root
+      - /workspace
+      - --prediction-pkl
+      - /workspace/experiments/H001_geom_reliability/sources/replicassg/fross_raw/replica/predictions_gaussian_obj0.7_rel10_hell0.85_kfnone_test_gtpose.pkl
+      - --annotation-root
+      - /workspace/local_dataset/ReplicaSSG_code/files
+      - --dataset-root
+      - /workspace/local_dataset/ReplicaSSG_runtime
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/sources/replicassg/prospective_protocol/frozen_v1/manifest.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/replicassg/development_v2/runtime/adapter
+      - --docker-service
+      - replicassg_development_v2_adapter
+
+  replicassg_development_v2_geometry:
+    image: h001-fross-replicassg:cu128-trt108
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/score_replicassg_geometry.py
+    command:
+      - --repo-root
+      - /workspace
+      - --predictions
+      - /workspace/experiments/H001_geom_reliability/sources/replicassg/development_v2/runtime/adapter/predictions.jsonl
+      - --dataset-root
+      - /workspace/local_dataset/ReplicaSSG_runtime
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/sources/replicassg/prospective_protocol/frozen_v1/manifest.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/replicassg/development_v2/runtime/geometry
+      - --docker-service
+      - replicassg_development_v2_geometry

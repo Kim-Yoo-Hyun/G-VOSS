@@ -6,7 +6,7 @@
     "split": "official_3DSSG_validation",
     "support_contact_solved": false
   },
-  "created_at": "2026-07-10T15:17:02.080316+00:00",
+  "created_at": "2026-07-12T02:26:43.234378+00:00",
   "inputs": {
     "appendix_table": {
       "path": "experiments/H002_compatibility_routing/main_validation_table_refresh/latest/appendix_table.csv",
@@ -48,24 +48,29 @@
       "sha256": "5b9feed33498172fb8d11fcd67e0b81df7696f258e62886ce6d0bc2365b7c954"
     },
     "claim_audit.json": {
-      "bytes": 987,
+      "bytes": 1007,
       "path": "experiments/H002_compatibility_routing/paper_strengthening_assets/latest/claim_audit.json",
-      "sha256": "866ce41412abc31e8fd7ada429cde491a67490ed1b6b5b07440c2c38bb2ed009"
+      "sha256": "182d7898efb2913c827752d72a8369ae8719bef9ccbf5f03b81f5445f89b0be5"
     },
     "comparison_tradeoff_ci.pdf": {
       "bytes": 18727,
       "path": "experiments/H002_compatibility_routing/paper_strengthening_assets/latest/figures/comparison_tradeoff_ci.pdf",
-      "sha256": "42f91deaba8a43698431699531a1cd6ff2de0df4eabe13844e96292d2296cf61"
+      "sha256": "a7f283e68fae530b2f8d14c7c7cab1d4e0d649c2944087837c493372d9875d15"
     },
     "failure_routes.pdf": {
       "bytes": 24972,
       "path": "experiments/H002_compatibility_routing/paper_strengthening_assets/latest/figures/failure_routes.pdf",
-      "sha256": "f6054492fdfb64294b87c3cd9ce5450fcecba167d4f6796a238c05dfc79356da"
+      "sha256": "afd55cf2a71fee7c3baf722422364be758589fb3b96296e4a82f812bf4d75b6f"
+    },
+    "method_overview.pdf": {
+      "bytes": 38101,
+      "path": "experiments/H002_compatibility_routing/paper_strengthening_assets/latest/figures/method_overview.pdf",
+      "sha256": "1461a0b41919e7b54ae75a98eabcd7a48978d6b67879946cc633c502c917cec9"
     },
     "qualitative_reranking_rows.pdf": {
       "bytes": 27436,
       "path": "experiments/H002_compatibility_routing/paper_strengthening_assets/latest/figures/qualitative_reranking_rows.pdf",
-      "sha256": "60d3c280804a19fad87c4937ae8fbdadf6dbdc3015d0219b118f6c241448b6b5"
+      "sha256": "60f46ba7e2cbfa6e22b87f5283a5b028d8992c586d4d6f6ce6595b00441a99ee"
     }
   },
   "schema_version": "h002_paper_strengthening_assets_v1",

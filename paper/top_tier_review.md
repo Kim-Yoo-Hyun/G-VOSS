@@ -1,6 +1,6 @@
 # Top-Tier Style Review for GeoCalib
 
-Last updated: 2026-07-09 KST
+Last updated: 2026-07-12 KST
 
 ## Compared Papers
 
@@ -24,7 +24,10 @@ Primary sources checked:
 
 2. The old Table 2 was a claim-boundary table. It is useful for internal defense, but unusual as a main paper table. Action: demote it to prose in Experimental Setup. The paper table sequence now prioritizes scope, main results, and controls.
 
-3. Condition names were too implementation-facing. Action: use `GeoCalib`, `Pooled risk`, `Strict rule`, `Semantic`, and control names in main tables. Keep raw keys such as `family_conditional_risk` and `probabilistic_recalibrated` only where method definition or reproducibility needs them.
+3. Condition names were too implementation-facing. Action: use Source score,
+   Family-calibrated product, Rank-average fusion, Pooled-calibrator ablation,
+   and Hard geometry filter in reviewer-facing tables. Raw implementation keys
+   remain only in reproducibility records.
 
 4. Figure 1 was too static and flowchart-like. Top-tier first figures often show a motivating failure example plus the method path. Action: regenerate Figure 1 as a failure-example-to-method schematic showing semantic-only failure, same-pair geometry join, calibrated re-ranking, and controls.
 
@@ -34,6 +37,22 @@ Primary sources checked:
    result tables. Action: keep the main source-result table as point estimates,
    describe bootstrap as an internal stability check in prose, and leave raw
    interval details in the experiment artifact rather than the main manuscript.
+
+7. A reviewer could attribute lower Violation to an uncertain-denominator
+   artifact. Action: define decidable-only Violation, uncertainty rate, and the
+   pessimistic bound in Experimental Setup; add the frozen three-source K=100
+   sensitivity table to the supplement. All paired pessimistic-bound deltas
+   favor Family-calibrated product.
+
+8. The method was under-specified for an ML reviewer. Action: state the
+   family-specific logistic calibrator, standardized feature map, train-only
+   imputation/normalization, BCE objective, L2 coefficient, optimizer steps,
+   learning rate, feature counts, and the explicit `Z_e` exclusion.
+
+9. Novelty could be blurred by current reliability/witness work. Action: add
+   SCR-SSG, RelWitness, SGFormer++, RelGraphOV, and PUF and compare their task
+   contracts against GeoCalib's post-hoc source-independent compatibility and
+   joint recall/violation/uncertainty evaluation contract.
 
 ## Current Editorial Decision
 
@@ -48,7 +67,12 @@ Primary sources checked:
 - Do not print bootstrap confidence ranges in the main source-result table or
   primary results prose. Use point estimates for the paper-facing comparison
   and cite bootstrap only as a stability check if needed.
-- `paper/aaai/main_top_tier_review.pdf` is the reviewed manuscript snapshot.
+- `archive/paper/aaai_snapshots/20260625_top_tier_review.pdf` is the reviewed
+  historical manuscript snapshot.
   Do not refresh it by simply copying the ignored `main.pdf` artifact; the
   reviewed PDF should reflect the current paper-facing edits made from this
   checklist.
+- Current verified outputs are `main_aaai27.pdf` (9 pages, 7 technical),
+  `supplement_aaai27.pdf` (2 pages), and the standalone 2-page checklist. The
+  active release ZIP contains the uncertainty script, frozen outputs, compose
+  service, and current runbook.

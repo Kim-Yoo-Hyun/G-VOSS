@@ -75,13 +75,28 @@ After both independent annotator sheets and required adjudication are complete,
 run the pre-frozen human Violation@K and semantic-calibration evaluator:
 
 ```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm human_alignment_validate
 env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm physical_validity_audit_evaluate
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm codex_human_alignment_evaluate
 ```
+
+Run `human_alignment_validate` once after both first-pass sheets are locked to
+materialize `required_adjudication.csv`, then again after adjudication. The
+validator requires the union of disagreements, either low-confidence label,
+and either ambiguous/unobservable label; the other two evaluators remain
+non-reportable until this status is `ready`.
 
 Generate family-wise paired CIs and the fixed rank-average/RRF fusion baselines:
 
 ```bash
 env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm reviewer_extension_metrics
+```
+
+Evaluate the frozen rankings under decidable-only and pessimistic uncertainty
+definitions without changing any score or verifier status:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm uncertainty_sensitivity
 ```
 
 Freeze/check post-hoc provenance and the prospective confirmatory contract:
@@ -240,6 +255,54 @@ env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --
 K=50/100 in `metrics_k_sweep/metrics.json` must match each source's locked
 `metrics/metrics.json` point estimates.
 
+## Parameter-Matched Nonlinear Baseline
+
+```bash
+env UID=$(id -u) GID=$(id -g) \
+  docker compose -f configs/h001/compose.yaml run --rm nonlinear_fusion_baseline
+```
+
+Outputs are written to
+`experiments/H001_geom_reliability/nonlinear_fusion_baseline/evaluation_v1/`.
+The protocol fixes the 69-parameter architecture and the disjoint
+internal-dev-fit/final-validation-evaluation firewall.
+
+## Codex Proxy Audit Evaluation (Non-Submission)
+
+```bash
+env UID=$(id -u) GID=$(id -g) \
+  docker compose -f configs/h001/compose.yaml run --rm codex_proxy_audit_evaluate
+```
+
+Outputs are written to
+`experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_evaluation_v1/`.
+This command evaluates two locked same-agent proxy passes; it must never be
+described as independent-human annotation.
+
+## ReplicaSSG/FROSS Transfer Development v2
+
+Restore the user-deleted runtime only when re-running the transfer-development
+diagnostic:
+
+```bash
+scripts/restore_replicassg_runtime.sh dataset
+scripts/restore_replicassg_runtime.sh weight
+scripts/run_replicassg_development_v2_pipeline.sh
+```
+
+The final Docker stage is:
+
+```bash
+env UID=$(id -u) GID=$(id -g) \
+  docker compose -f configs/fross/compose.yaml run --rm replicassg_development_v2
+```
+
+The output under
+`sources/replicassg/development_v2/evaluation/` is explicitly test-specific
+method-development evidence. It evaluates all 355 quantile/bounded/displacement-
+constrained configurations, leave-one-scene-out selection, and the all-scene
+deployment choice on K=`{5,10,20,50,100}`.
+
 ## Full-Validation Source Regeneration
 
 Use these only when intentionally regenerating row-level artifacts. They are
@@ -286,7 +349,11 @@ docker run --rm -v "$PWD/paper:/work" -w /work/aaai h001-aaai-tex:20260526 \
 Latest verified paper build:
 
 - `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`, exit 0.
-- `paper/aaai/main.pdf`: 10 total pages; technical content pages 1-7; references pages 8-9; checklist page 10.
+- Historical pre-AAAI-27 output is archived as
+  `archive/paper/aaai_snapshots/20260712_replica_disclosure.pdf`: 10 total
+  pages with checklist appended. The active AAAI-27 outputs are
+  `paper/aaai/main_aaai27.pdf`, `paper/aaai/supplement_aaai27.pdf`, and
+  `paper/aaai/reproducibility_checklist_aaai27.pdf`.
 
 ## Do Not Promote By Default
 

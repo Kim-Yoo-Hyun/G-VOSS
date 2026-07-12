@@ -1,6 +1,6 @@
 # H001 Reproducibility Runbook
 
-Last updated: 2026-07-11 KST
+Last updated: 2026-07-12 KST
 
 This document consolidates dataset, checkpoint, environment, Docker, reproduction,
 and evaluation-summary information for `experiments/H001_geom_reliability/`.
@@ -183,7 +183,7 @@ Paper writing state:
 7. `paper/risk.md`
 8. `paper/figures.md`
 9. `paper/aaai/README.md`
-10. `paper/aaai/inspection/report.md`
+10. `archive/paper/aaai_snapshots/inspection_20260625/report.md`
 
 If any listed runtime result file is missing, do not infer that the experiment
 was never run. First check the artifact bundle section below and then verify
@@ -212,13 +212,31 @@ Facts:
 - Current target-year submission route uses the official `aaai2027` kit and a
   standalone reproducibility-checklist upload. Verified Docker outputs are
   `paper/aaai/main_aaai27.pdf` (9 pages; technical content through page 7,
-  references only on pages 8--9), `paper/aaai/supplement_aaai27.pdf` (1 page),
+  references only on pages 8--9), `paper/aaai/supplement_aaai27.pdf` (3 pages),
   and `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Build image:
   `h001-aaai27-tex:20260712`; final main log:
-  `logs/h001_aaai27_main_build_20260712.log`; triplet verification log:
-  `logs/h001_aaai27_final_triplet_build_20260712.log`. The manuscript keeps
+  `logs/h001_claim_lock_main_final_20260712.log`. The manuscript keeps
   Open3DSG as the main open-vocabulary case study and VL-SAT as the controlled
   reproduced anchor.
+
+Human-alignment annotation and evaluation route:
+
+- guide: `experiments/H001_geom_reliability/physical_validity_audit/frozen_v1/annotation_guide.md`
+- first passes: `frozen_v1/annotator_a.csv`, `frozen_v1/annotator_b.csv`
+- adjudication destination: `frozen_v1/adjudication.csv`
+- validator output: `physical_validity_audit/human_alignment_validation_v1/`
+- Human V/calibration output: `physical_validity_audit/evaluation_v1/`
+- Codex--human output: `physical_validity_audit/codex_human_alignment_v1/`
+- Docker order after first-pass lock: `human_alignment_validate`; after the
+  generated mandatory queue is adjudicated, rerun that service, then run
+  `physical_validity_audit_evaluate` and `codex_human_alignment_evaluate`.
+
+The validator's mandatory set is the union of A/B disagreements, either
+low-confidence decision, and either ambiguous/unobservable label. The two
+first-pass reviewer IDs and the third adjudicator ID must be distinct non-proxy
+pseudonyms with ISO-8601 timestamps. Do not expose `private_sidecar.jsonl`,
+Codex labels, source scores/ranks, verifier results, GT, or result tables to
+first-pass annotators.
 - Current scoring convention: `family_conditional_risk` is the GeoCalib main
   score, pooled `probabilistic_recalibrated` is an ablation/baseline, and
   `control_p_geom_valid_only` is the geometry-only control.
@@ -545,10 +563,10 @@ Active AAAI-27 OpenReview field bundle, verified 2026-07-12 KST:
 
 ```text
 root: release/h001_aaai27_openreview_20260712_083625/
-paper: main.pdf (552,775 bytes; SHA256 0413b546b9fc6420a3f98a099d51795e447a05cf851e3445c8031ab425d0ff3d)
-checklist: reproducibility_checklist.pdf (98,638 bytes; SHA256 6f1566a94fe39352fda630d15bce10bc8e358df031e639f21e6e46fe90579900)
-technical supplement: technical_supplement.pdf (137,671 bytes; SHA256 294f7e62ab33ea86ec81a83b4e33969b1ef6117d66812f64b8c78f1d578ca0d4)
-code/data: code_and_data_supplement.zip (3,188,347 bytes; SHA256 876a464aa5b9afb78f5327e9bdd9d4fe1bcff51249cae523c3d1be35a31cb2cd)
+paper: main.pdf (781,069 bytes; SHA256 8f4632c8150affa764ef02b29696b1c538c9b288fc3f4879630813d0c22fcc1a)
+checklist: reproducibility_checklist.pdf (98,638 bytes; SHA256 166fe5d602079ab60d3b0c4e5b927c1ec1df44ff6a16d5308cf55f4a37d0c07d)
+technical supplement: technical_supplement.pdf (196,433 bytes; SHA256 897ab70542d3e66be1f27813f94692fc97ee704e81b6fc0239cfdceea4d10441)
+code/data: code_and_data_supplement.zip (2,379,100 bytes; SHA256 30b13657de75fb1ed098035c5a6abc3cc4163c43d47fe67182239d6853c7a9b8)
 upload manifest: UPLOAD_MANIFEST.sha256
 ```
 
@@ -1173,9 +1191,10 @@ Open3DSG historical 127-scan artifact summary:
   filtered train split, averaged-BLIP Open3DSG variant, covered loadable H001
   eval scope, residual calibration risk, and `validation_missing_preprocessed:11`.
 
-## ReplicaSSG / FROSS Prospective Runtime
+## ReplicaSSG / FROSS Transfer-Development Runtime
 
-The untouched dataset/source run originally used these workspace roots:
+The initial transfer run and the current development diagnostic use these
+workspace roots:
 
 ```text
 local_dataset/ReplicaSSG_download/
@@ -1187,11 +1206,29 @@ local_dataset/model_cache/fross_home/
 experiments/H001_geom_reliability/sources/replicassg/fross_raw/shards/
 ```
 
-The large local source/runtime roots and row-level shards were deleted in the
-2026-07-12 user-approved non-main cleanup. Compact protocol manifests,
-provenance hashes, evaluation summaries, and the paper-facing negative result
-remain tracked. A local source regeneration now requires restoring the official
-ReplicaSSG archive, FROSS weights/code, and engine/runtime dependencies first.
+The large local source/runtime roots were restored once for development v2 and
+deleted again after the 4,293-row adapter/geometry outputs, 355-condition sweep,
+LOSO summary, and 548-context cross-source summary passed Docker validation.
+Compact row-level development inputs and evaluation artifacts remain under
+`sources/replicassg/development_v2/`; raw archives, meshes, rendered sequences,
+weights, engines, and source shards are regeneration-only. A full source rerun
+requires restoring the official ReplicaSSG archive, FROSS weights/code, and
+engine/runtime dependencies first.
+
+Current restoration and development entry points:
+
+```bash
+scripts/restore_replicassg_runtime.sh dataset
+scripts/restore_replicassg_runtime.sh weight
+scripts/run_replicassg_development_v2_pipeline.sh
+```
+
+The Docker evaluation service is `replicassg_development_v2`. It writes the
+test-specific development estimate under
+`experiments/H001_geom_reliability/sources/replicassg/development_v2/evaluation/`.
+The denominator-corrected cross-source diagnostic is under
+`development_v2/cross_source_evaluation/` and includes all 548 contexts,
+including ten with zero in-scope GT but valid Violation contributions.
 
 The source runner is storage-streamed. Use the stdin-isolation shim so Docker
 does not consume the scan loop input:
@@ -1231,6 +1268,16 @@ VL-SAT and Open3DSG row-level duplicates, non-main 3DSSG/SGFN payloads, the
 stale release package, and rendered paper-inspection PNGs. Compact manifests,
 metrics, reports, protocol locks, main datasets, and both Open3DSG checkpoints
 were preserved.
+
+Paper-folder cleanup, 2026-07-12 KST: `paper/aaai/` now contains only active
+AAAI-27 source, official templates, and the three canonical final PDFs.
+Superseded review PDFs, the AAAI-26 style, the appended legacy checklist, and
+historical inspection notes moved to `archive/paper/aaai_snapshots/`. All
+top-level LaTeX build sidecars and byte-identical default-output PDF duplicates
+were deleted. No dataset, experiment result, external file, or Docker image was
+modified. A clean Docker rebuild passed text equality for all three outputs and
+pixel equality for all main-paper pages; verification log:
+`logs/h001_aaai27_post_cleanup_verify_20260712.log`.
 
 Cleanup state, 2026-07-11 KST: disk-pressure cleanup was restricted to
 duplicate, failed, historical row-level, or deterministically regenerable
@@ -1342,3 +1389,30 @@ under their source artifact roots:
 release/h001_core_results_20260526_160957.tar.zst
 release/h001_core_results_20260526_160957.sha256
 ```
+
+## 2026-07-12 Reviewer-Strengthening Artifacts
+
+Docker commands:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm nonlinear_fusion_baseline
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm codex_proxy_audit_evaluate
+```
+
+Outputs:
+
+- nonlinear protocol and result:
+  `experiments/H001_geom_reliability/nonlinear_fusion_baseline/protocol.json`
+  and `nonlinear_fusion_baseline/evaluation_v1/`;
+- Codex non-human proxy evaluation:
+  `experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_evaluation_v1/`;
+- active submission PDF: `paper/aaai/main_aaai27.pdf`, SHA256
+  `048713f22337a6b73df674dde48c239005ae00cd08e6b6925cc50d0ab8f35e10`;
+- non-submission proxy manuscript: `paper/paper_nonsub/main_nonsub.pdf`,
+  SHA256
+  `962bcf3931e7d5dca29377a43eb2a8125fe872aec24a83e3f40151358b0ef267`.
+
+The non-submission manuscript and Codex output must not be copied into an
+anonymous submission bundle or represented as Human V@K. The nonlinear
+baseline is reviewer-requested retrospective evidence and must retain its
+source-specific exact-label supervision disclosure.

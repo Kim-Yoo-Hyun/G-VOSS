@@ -40,7 +40,8 @@ H002 is a separate scoped paper branch and does not modify H001 artifacts.
   improvement, calibrated p_obs/p_rel, or normalization invariance.
 - Package status: compact tables, CI, sensitivity, controls, qualitative cases,
   and support/contact diagnostic freeze are complete. The verified AAAI package
-  is main/supplement/checklist 7/3/2 pages.
+  is main/supplement/checklist 6/3/2 pages. Figure 1 is a claim-safe five-stage
+  pipeline, and Method is consolidated into two module-aligned subsections.
 - Current action: no automatic experiment is open. External release/submission
   or a broader route requires an explicit decision and a frozen protocol.
 
@@ -58,10 +59,9 @@ Authoritative owners:
 - Current paper route: AAAI-style manuscript under `paper/aaai/`.
 - Active AAAI-27 outputs: `paper/aaai/main_aaai27.pdf` (9 US-Letter pages;
   technical content through page 7, references only on pages 8--9),
-  `paper/aaai/supplement_aaai27.pdf` (1 page), and
+  `paper/aaai/supplement_aaai27.pdf` (3 pages), and
   `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Final main log:
-  `logs/h001_aaai27_main_build_20260712.log`; triplet verification log:
-  `logs/h001_aaai27_final_triplet_build_20260712.log`. All three have
+  `logs/h001_claim_lock_main_final_20260712.log`. All three have
   zero Type 3 fonts and no unresolved citations/references or blocking
   LaTeX/overfull errors.
 - Active OpenReview upload set:
@@ -69,19 +69,23 @@ Authoritative owners:
   LLM-proxy, Replica-disclosure, and reference-expansion PDFs remain historical
   provenance snapshots rather than upload candidates.
 - Main sources: VL-SAT full official validation and Open3DSG full-validation `recovery_relaxed_views_min2/`.
-- Framework instantiations: calibrated product
-  (`family_conditional_risk = semantic_score * p_geom_valid_family`) and fixed
-  scale-robust rank-average fusion. Neither is claimed universally dominant.
-- Pooled ablation: `probabilistic_recalibrated = semantic_score * p_geom_valid`.
+- Framework instantiations: family-calibrated product and fixed scale-robust
+  rank-average fusion. Neither is claimed universally dominant.
+- Pooled compatibility product is an ablation. Exact internal condition keys
+  remain in experiment manifests rather than manuscript-facing prose.
 - Factorization: `T_e` is predicate/family semantics, `G_e` is
-  predicate-independent same-pair geometry, `Z_e` is source confidence, and
+  predicate-independent same-pair geometry, `Z_e` is the source relation score, and
   `C_e = P(y_cal=1 | T_e,G_e)` is calibrated compatibility for the constructed
   train/dev target. The leakage boundary is `Z_e notin C_e`; final ranking is
   `S_e = F(Z_e,C_e)`.
-- Legacy `control_p_geom_valid_only`: calibrator-only/no-`Z_e` control. It is
+- The compatibility-only control removes `Z_e`. It is
   not true `G_e`-only because the calibrator includes predicate/family and
   predicate-aligned interaction features.
 - Main K grid: `{5, 10, 20, 50, 100}`. K=1 is sanity-check only.
+- Frozen uncertainty sensitivity is complete for VL-SAT/Open3DSG/SGFN. The
+  family product lowers decidable-only V, uncertainty rate, and pessimistic V
+  on all three sources, ruling out uncertainty promotion as the explanation for
+  the aggregate verifier-V reduction.
 - Qwen-VL is complete as a third-source / modern VLM extension, but it is not part of the main claim unless explicitly promoted.
 - Strict train-only reestablishment is complete under
   `experiments/H001_geom_reliability/train_only_reestablishment_v1/`. It uses
@@ -143,18 +147,18 @@ Core steps:
 2. Join subject/object 3D geometry evidence for the same object pair.
 3. Evaluate relation-family-specific geometric consistency.
 4. Calibrate geometry validity as `p_geom_valid` or `p_geom_valid_family`.
-5. Re-rank relation predictions with semantic confidence and calibrated geometry risk.
+5. Re-rank relation predictions with the source relation score and calibrated compatibility.
 6. Report `R@K` and `Violation@K` together.
 
 Main scoring conditions:
 
 | Condition | Role |
 | --- | --- |
-| `semantic_only` | source ranking baseline |
-| `family_conditional_risk` | calibrated-product instantiation |
-| `rank_average_fusion` | pre-specified scale-robust instantiation |
-| `probabilistic_recalibrated` | pooled calibrated-risk ablation |
-| `rule_verified_point_subtype` | hard-rule diagnostic |
+| Source score | source ranking baseline |
+| Family-calibrated product | calibrated-product instantiation |
+| Rank-average fusion | fixed scale-robust instantiation |
+| Pooled-calibrator ablation | family-conditioning ablation |
+| Hard geometry filter | rule-supported diagnostic |
 | `control_p_geom_valid_only` | calibrator-only/no-source-score control; not true `G`-only |
 | `control_distance_only` | distance-only control |
 | `control_shuffled_geometry` | geometry distribution control |
@@ -178,19 +182,19 @@ VL-SAT full-validation source result:
 
 | Condition | R@50 | R@100 | V@50 | V@100 |
 | --- | ---: | ---: | ---: | ---: |
-| `semantic_only` | 0.9272 | 0.9635 | 0.0268 | 0.0476 |
-| `family_conditional_risk` | 0.9288 | 0.9683 | 0.0206 | 0.0333 |
-| `probabilistic_recalibrated` | 0.9305 | 0.9688 | 0.0229 | 0.0404 |
-| `rule_verified_point_subtype` | 0.9257 | 0.9627 | 0.0000 | 0.0000 |
+| Source score | 0.9272 | 0.9635 | 0.0268 | 0.0476 |
+| Family-calibrated product | 0.9288 | 0.9683 | 0.0206 | 0.0333 |
+| Pooled-calibrator ablation | 0.9305 | 0.9688 | 0.0229 | 0.0404 |
+| Hard geometry filter | 0.9257 | 0.9627 | 0.0000 | 0.0000 |
 
 Open3DSG full-validation recovery source result:
 
 | Condition | R@50 | R@100 | V@50 | V@100 |
 | --- | ---: | ---: | ---: | ---: |
-| `semantic_only` | 0.4096 | 0.5161 | 0.1386 | 0.1242 |
-| `family_conditional_risk` | 0.4658 | 0.6047 | 0.0286 | 0.0341 |
-| `probabilistic_recalibrated` | 0.3975 | 0.5723 | 0.0606 | 0.0811 |
-| `rule_verified_point_subtype` | 0.4295 | 0.5368 | 0.0000 | 0.0000 |
+| Source score | 0.4096 | 0.5161 | 0.1386 | 0.1242 |
+| Family-calibrated product | 0.4658 | 0.6047 | 0.0286 | 0.0341 |
+| Pooled-calibrator ablation | 0.3975 | 0.5723 | 0.0606 | 0.0811 |
+| Hard geometry filter | 0.4295 | 0.5368 | 0.0000 | 0.0000 |
 
 Bootstrap CI summary:
 
@@ -249,6 +253,13 @@ Reviewer-extension result, frozen 2026-07-10:
   evidence coverage. Two blinded annotator sheets and adjudication are empty by
   design; Human V@K and semantic-calibration metrics remain pending rather than
   replaced with proxy labels.
+- The pre-annotation human-alignment contract is implementation-complete:
+  confidence/evidence-sufficiency guidance, label-compatible reason codes,
+  mandatory adjudication of disagreements/low-confidence/ambiguous/
+  unobservable rows, and a Codex--human alignment evaluator are available as
+  Docker services. Empty-sheet dry runs correctly return awaiting states with
+  zero human metrics; the remaining input is two independent 488-row human
+  sheets and a third-human adjudication of the generated mandatory queue.
 - Two blinded Codex LLM proxy annotation passes are locked as separate runs of
   the same agent family. Pass v1 counts
   valid/invalid/ambiguous/unobservable `180/185/120/3`; pass v2 counts
@@ -256,9 +267,24 @@ Reviewer-extension result, frozen 2026-07-10:
   kappa `0.845`). All `334/334` rows resolved to binary by both passes have the
   same polarity; all 50 disagreements involve `ambiguous`. This is
   automatic-evaluator stability evidence only, not independent human
-  agreement. Paper-facing naming is `LLM-based physical-validity proxy audit`;
-  model identity, prompt/rubric, visible evidence scope, and same-agent-family
-  dependence must remain disclosed.
+  agreement. In the non-submission analysis, naming is `LLM-based physical-
+  validity proxy audit`; model identity, prompt/rubric, visible evidence scope,
+  and same-agent-family dependence remain disclosed there.
+- The active AAAI submission no longer reports Codex-derived validity results.
+  The locked passes and a deterministic consensus evaluation are isolated in
+  `paper/paper_nonsub/` as non-submission, non-human analysis. Exact-pass
+  agreements are retained, every disagreement becomes `ambiguous`, and
+  ambiguous/unobservable rows are excluded from binary proxy Violation. This
+  diagnostic cannot replace an independent human reference.
+- A 69-parameter nonlinear fusion baseline matches the combined parameter
+  count of the three family calibrators and is fit only on disjoint internal-dev
+  exact-label correctness. On SGFN it obtains R/V `0.5441/0.0120` at K=10,
+  `0.8681/0.0186` at K=50, and `0.9466/0.0279` at K=100. It dominates the
+  calibrated product at lower budgets and reduces K=100 verifier violation;
+  therefore H001 does not claim formula optimality. The framework distinction
+  is instead that GeoCalib learns source-independent predicate--geometry
+  compatibility without source confidence or source-specific exact-label
+  supervision, whereas this reviewer-requested rescorer uses both.
 - Provenance audit finds the family calibrator predates source metrics, but the
   family-conditioned operating point was formerly promoted to paper main after
   the source results were observed. It is now the calibrated-product
@@ -267,41 +293,46 @@ Reviewer-extension result, frozen 2026-07-10:
   the current route. The completed 488-row two-pass Codex audit is reported as
   an LLM-based physical-validity proxy diagnostic, not independent human
   evidence.
-- `sgfn_official_full_l160` was selected as the untouched exact-label source
-  before inference and before any SGFN score existed. V2 corrected the source
-  split identity to the exactly matching official 157-scan test list; the user
-  authorized v3 before correct-checkpoint download to replace the mistaken l20
-  URL with official full_l160. Correct checkpoint 160/26 tensor audit, 157-scan
+- `sgfn_official_full_l160` provides an additional source evaluation on the
+  official 157-scan test list. The correct checkpoint 160/26 tensor audit,
   preprocess, full inference, identity adapter, geometry join, 1,000-resample
-  paired bootstrap, and final execution audit all pass.
-- SGFN frozen primary K=100 confirms the calibrated-product instantiation
-  against semantic:
+  paired bootstrap, and execution audit all pass.
+- At the primary SGFN K=100 endpoint, the calibrated-product instantiation
+  improves over the source score:
   exact-label R rises `0.9235 -> 0.9416`, delta `+0.0181`, 95% CI
   `[+0.0134,+0.0233]`; verifier V falls `0.0630 -> 0.0381`, delta `-0.0249`,
-  95% CI `[-0.0270,-0.0229]`. Both preregistered gates pass on the unchanged
+  95% CI `[-0.0270,-0.0229]`. Both joint criteria pass on the unchanged
   3,972-row denominator. Coverage is 548/548 contexts and 36,808/36,808
   nonself directed pairs; 11 self-`supported by` GT rows are retained in the
   denominator with no synthesized predictions.
-- The fresh result strengthens the framework rather than a single formula.
+- The additional-source result strengthens the framework rather than a single formula.
   `support_contact` verifier V again regresses by `+0.00450`
   (95% CI `[+0.00370,+0.00532]`), `proximity` is unchanged at within-family
   K=100, and `relative_vertical` drives the gain. Fixed rank-average fusion
-  reaches R/V `0.9476/0.0277` and passes the same recall/lower-V joint gate
-  against the calibrated product. The prospective result therefore supports
-  calibrated geometry-consistency integration across two pre-specified soft
+  reaches R/V `0.9476/0.0277` and satisfies the same recall/lower-V criterion
+  against the calibrated product. The result supports calibrated
+  geometry-consistency integration across two evaluated soft
   fusion forms, not family-uniform improvement or formula dominance.
-- A stronger dataset-and-source prospective test was then frozen before any
-  source prediction on the official 11-scene ReplicaSSG test split with the
-  official VisualGenome-trained FROSS source. Validation scenes were never
-  used; all 24 final provenance/firewall checks pass. Exact mappings are only
-  `near/above/under`, yielding 172 GT rows and 4,290 candidates.
+- The official 11-scene ReplicaSSG test split with the VisualGenome-trained
+  FROSS source supplies a cross-dataset transfer stress test. Its initial run
+  passes all 24 source/mapping/artifact checks and contains 172 exact
+  `near/above/under` GT rows over 4,290 candidates. The observed result now
+  informs method development and is not treated as an external confirmation.
 - The ReplicaSSG/FROSS K=100 primary gate fails. The calibrated product matches
   semantic-only exactly at R/V `0.36047/0.19674`; rank-average reaches
   `0.33140/0.03839`, with dR `-0.02907`
   `[-0.07407,+0.01333]` and dV `-0.15835`
   `[-0.19292,-0.12190]`. Product gains at K=20/50 are positive diagnostics,
-  but cannot replace the frozen K=100 endpoint. This is honest external
-  failure evidence, not dataset-level confirmation of the joint gate.
+  but do not repair the primary K=100 result. This is a development diagnostic
+  for score-scale, displacement, geometry-domain, and ontology shift.
+- Development v2 evaluates 355 source-normalized/bounded configurations on a
+  regenerated 4,293-candidate FROSS execution. The all-scene choice preserves
+  R@100 `.35465` and lowers V `.19674 -> .03935`, but the LOSO estimate changes
+  R/V to `.31977/.03839`; its paired dR CI `[-.07548,.00000]` fails the Recall
+  guardrail. Applying that Replica-developed rule on all 548 3DSSG contexts
+  lowers V but sacrifices VL-SAT recall and is weaker than the existing family
+  product on the main Open3DSG/SGFN tradeoff. It remains supplement-only
+  development evidence.
 
 Verifier evidence:
 
@@ -319,8 +350,8 @@ Verifier evidence:
 | VL-SAT | controlled reproduced anchor |
 | Open3DSG | main open-vocabulary relation-source case study |
 | Qwen-VL | appendix/extension third semantic source |
-| SGFN full_l160 | fresh exact-label confirmation; aggregate gate passed with verifier-V and baseline caveats |
-| ReplicaSSG + FROSS | untouched dataset/source prospective test; provenance passed, frozen K=100 framework gate failed |
+| SGFN full_l160 | additional exact-label source evaluation; aggregate gate passed with verifier-V and baseline caveats |
+| ReplicaSSG + FROSS | cross-dataset transfer stress test and bounded-fusion development diagnostic |
 | `relative_horizontal` | stopped appendix/limitation scope-expansion evidence |
 | `relative_lateral` | stopped appendix/future-work boundary evidence |
 | `attachment_deferred` | preferred future family expansion, not current main claim |
@@ -380,9 +411,31 @@ Current paper-facing files:
 
 Current figures:
 
-- Figure 1: failure mechanism and GeoCalib framework.
-- Figure 2: recall-violation tradeoff.
-- Figure 3: Open3DSG qualitative geometry-backed failure cases.
+- Figure 1: an actual inconsistent Open3DSG relation, its structural cause,
+  factor isolation, compatibility scoring, and joint evaluation; no
+  review-checklist artifact appears in the figure.
+- Figure 2: three-source Recall--Violation trajectories at
+  K=`{5,10,20,50,100}`, with K=100 primary, K=50 secondary, and K=10
+  operational.
+- Figure 3: two large geometry-backed correction examples and one residual
+  top-10 failure.
+
+Current reviewer-risk verdict:
+
+1. Circularity is mitigated but not resolved: wrong-predicate, wrong-pair, and
+   transformation controls test falsifiability, while the compatibility target
+   and verifier still share engineered geometric primitives. Codex proxy
+   disagreement reinforces rather than closes the need for independent human
+   construct validation.
+2. The engineered-calibration novelty threat is partially resolved by the
+   factor contract, leakage boundary, identity-preserving join, and joint
+   evaluation protocol. The strong nonlinear baseline prevents a best-rescorer
+   or best-formula claim, so novelty remains framework/protocol level.
+3. Dataset-level generalization is unresolved: source-level generalization is
+   supported under a fixed geometry-identifiable 3DSSG target, while the
+   initial ReplicaSSG/FROSS K=100 transfer fails. ReplicaSSG now supports
+   method diagnosis and bounded-fusion development, not an unbiased external
+   estimate.
 
 ## Remaining TODO
 
@@ -414,18 +467,15 @@ Method-strengthening sequence:
    The final artifact also contains the pre-registered direct contrasts,
    global-top-K family slices, simultaneous family-wise bands, and control
    median/p95 values; the first incomplete output is archived.
-6. Completed: strict train-only reestablishment, internal-dev acceptance,
-   model/score hash freeze, and locked 548-context final evaluation. Next
-   scientific action is a genuinely untouched prospective target. The current
-   audit route uses two blinded Codex LLM proxy passes; a human-alignment study
-   is optional and not active. Do not reuse the observed official validation
-   target as prospective evidence.
-7. Completed: entirely untouched ReplicaSSG/FROSS prospective evaluation. All
-   hash, split, timestamp, source, and validation firewalls pass, but the
-   product has no K=100 effect and rank-average trades too much aggregate
-   recall for its large V reduction. Preserve this as a negative external
-   diagnostic; do not strengthen the manuscript to a dataset-level joint-gate
-   claim.
+6. Completed: strict train-only reestablishment, internal-dev selection,
+   model/score hash lock, and 548-context final benchmark evaluation. The
+   current audit route uses two blinded Codex LLM proxy passes; a human-
+   alignment study is optional and not active. Report split use and any
+   test-specific tuning directly rather than assigning a prospective label.
+7. Completed: reclassified ReplicaSSG/FROSS as a transfer-development
+   diagnostic and evaluated context quantiles, bounded monotone penalties, and
+   exact rank-displacement constraints. The optimistic all-scene result is not
+   promoted because LOSO fails the Recall guardrail; the main claim is unchanged.
 
 Submission/package hygiene:
 
@@ -440,7 +490,6 @@ Submission/package hygiene:
    alignment study; otherwise retain the explicit Codex-proxy-only claim.
 
 No new main-source metric experiment is required to preserve the current
-GeoCalib claim. SGFN remains source-level prospective confirmation on the
-known 3DSSG target. ReplicaSSG/FROSS is a valid untouched dataset/source test
-whose primary gate failed; another prospective target must not be launched
-automatically to chase a passing result.
+GeoCalib claim. SGFN remains an additional source evaluation on the known
+3DSSG target. ReplicaSSG/FROSS is now used for transfer diagnosis and method
+development; any selected configuration is reported with test-specific tuning.

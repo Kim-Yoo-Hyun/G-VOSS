@@ -1,0 +1,48 @@
+\section{Non-Submission Codex Blind Proxy Audit}
+\label{sec:codex-proxy}
+
+This section is analysis-only and is excluded from the submission manuscript.
+It reports non-human proxy evidence, not human annotation. Two separately
+locked Codex passes reviewed the same 488 relation-pair items using only the
+public relation text and ordered-pair geometry evidence. Neither pass accessed
+source identity, scores, ranks, verifier outputs, ground-truth membership, or
+the other pass before lock. Because both passes use the same model family, they
+measure automatic-judge stability rather than independent inter-rater validity.
+
+The passes agree on 438/488 items (89.75\%; four-class $\kappa=0.845$). Among
+334 items that both resolve as physically valid or invalid, there is no direct
+valid/invalid polarity flip. For a conservative proxy estimate, we retain only
+exact pass agreements and map every disagreement to ambiguous; ambiguous and
+unobservable items are excluded from the binary denominator and reported
+through resolution coverage. Table~\ref{tab:codex-proxy} gives design-weighted
+estimates under the frozen audit sample.
+
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{5pt}
+\caption{\textbf{Codex consensus proxy audit (not human evidence).} V is the
+design-weighted fraction of jointly resolved items labeled physically invalid;
+coverage is the weighted resolved fraction of selected audited items.}
+\label{tab:codex-proxy}
+\begin{tabular}{llrrrrrr}
+\toprule
+& & \multicolumn{2}{c}{$K=10$} & \multicolumn{2}{c}{$K=50$} & \multicolumn{2}{c}{$K=100$} \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-8}
+Source & Ranking & Proxy V & Coverage & Proxy V & Coverage & Proxy V & Coverage \\
+\midrule
+VL-SAT & Source score & 0.0406 & 0.8409 & 0.1666 & 0.6618 & 0.2782 & 0.5955 \\
+VL-SAT & Family product & 0.0386 & 0.8470 & 0.1450 & 0.6779 & 0.2308 & 0.6169 \\
+Open3DSG & Source score & 0.6363 & 0.6982 & 0.5642 & 0.5712 & 0.5209 & 0.6167 \\
+Open3DSG & Family product & 0.0914 & 0.5806 & 0.1275 & 0.6364 & 0.1302 & 0.5682 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The proxy direction agrees with the verifier-based Open3DSG conclusion and is
+smaller but consistent on VL-SAT. The absolute values differ substantially from
+verifier V, especially on VL-SAT, and binary resolution coverage ranges from
+0.568 to 0.847. This discrepancy is useful diagnostic evidence: it prevents the
+Codex proxy from being treated as a replacement ground truth and leaves the
+construct-validity concern open until an independent human reference is
+collected and adjudicated.

@@ -1,0 +1,39 @@
+\section{Family Composition at the Global $K=100$ Operating Point}
+
+Table~\ref{tab:family-slices} reports each family's slice inside the actual
+global top-100 ranking. It therefore exposes both within-family behavior and
+changes in the family composition of the selected list. Deltas compare the
+family-calibrated product with the source score, using paired subgraph
+bootstrap samples.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\caption{\textbf{Global-top-100 family slices.} Positive $\Delta$V is a
+regression. Values are verifier-derived.}
+\label{tab:family-slices}
+\begin{tabular}{llrr}
+\toprule
+Source & Family & $\Delta$R & $\Delta$V \\
+\midrule
+VL-SAT & Support/contact & +.0017 & +.0086 \\
+VL-SAT & Proximity & +.0079 & $-.0075$ \\
+VL-SAT & Vertical order & +.0051 & $-.0570$ \\
+\midrule
+Open3DSG & Support/contact & $-.0523$ & +.0059 \\
+Open3DSG & Proximity & +.2135 & $-.0462$ \\
+Open3DSG & Vertical order & +.1795 & $-.2877$ \\
+\midrule
+SGFN & Support/contact & +.0011 & +.0086 \\
+SGFN & Proximity & +.0368 & $-.0151$ \\
+SGFN & Vertical order & +.0128 & $-.0602$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Support/contact regresses in all three sources, while vertical ordering drives
+most of the violation reduction. The aggregate result is consequently a scoped
+operating-point improvement, not a uniform family claim. Full within-family
+top-$K$ and global-slice tables for $K\in\{5,10,20,50,100\}$ accompany the
+submitted artifacts with simultaneous family-wise uncertainty.

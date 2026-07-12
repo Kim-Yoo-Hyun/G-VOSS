@@ -17,7 +17,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch
+from matplotlib.patches import FancyArrowPatch, FancyBboxPatch, Rectangle
 
 
 BLUE = "#2C6EBA"
@@ -101,6 +101,186 @@ def configure_plotting() -> None:
             "axes.spines.right": False,
         }
     )
+
+
+def build_method_overview(out: Path) -> None:
+    """Build the claim-safe, paper-width H002 overview diagram."""
+
+    fig, ax = plt.subplots(figsize=(7.15, 3.25))
+    fig.patch.set_facecolor("white")
+    ax.set_facecolor("white")
+    ax.set_xlim(0.0, 1.0)
+    ax.set_ylim(0.0, 1.0)
+    ax.axis("off")
+
+    stages = [
+        {
+            "x": 0.015,
+            "title": "1  Source",
+            "edge": BLUE,
+            "fill": "#EEF5FC",
+            "lines": [
+                "VL-SAT / Open3DSG",
+                r"edge $e=(s,p,o)$",
+                r"$Z_e$: score + rank",
+            ],
+        },
+        {
+            "x": 0.210,
+            "title": "2  Evidence",
+            "edge": ORANGE,
+            "fill": "#FFF7E8",
+            "lines": [
+                r"$T_e$: predicate, classes",
+                r"$G_e$: pair geometry",
+                r"$\Delta z$, size, offset, gap",
+                r"$Z_e \notin C_e$",
+            ],
+        },
+        {
+            "x": 0.405,
+            "title": "3  Compatibility",
+            "edge": GREEN,
+            "fill": "#EEF8F2",
+            "lines": [
+                r"$C_e^{raw}=f_\theta(T_e,G_e)$",
+                r"explicit $T_e\!\times\!G_e$ terms",
+                "train-only logistic model",
+                "counterfactual controls",
+            ],
+        },
+        {
+            "x": 0.600,
+            "title": "4  Reranking",
+            "edge": PURPLE,
+            "fill": "#F5F0FA",
+            "lines": [
+                r"$\widetilde Z_e$: per source",
+                r"$\widetilde C_e$: per source-family",
+                r"$S_{comp}=\widetilde Z_e\widetilde C_e$",
+                r"baseline: $S_{src}=Z_e$",
+            ],
+        },
+        {
+            "x": 0.795,
+            "title": "5  Evaluation",
+            "edge": RED,
+            "fill": "#FCF0F0",
+            "lines": [
+                "3DSSG validation",
+                r"Recall@$K$ $\uparrow$",
+                r"Violation@$K$ $\downarrow$",
+                "grouped bootstrap CI",
+            ],
+        },
+    ]
+
+    width = 0.175
+    y = 0.33
+    height = 0.51
+    for index, stage in enumerate(stages):
+        box = FancyBboxPatch(
+            (stage["x"], y),
+            width,
+            height,
+            boxstyle="round,pad=0.006,rounding_size=0.012",
+            linewidth=1.1,
+            edgecolor=stage["edge"],
+            facecolor=stage["fill"],
+        )
+        ax.add_patch(box)
+        ax.add_patch(
+            Rectangle(
+                (stage["x"], y + height - 0.105),
+                width,
+                0.105,
+                linewidth=0,
+                facecolor=stage["edge"],
+                alpha=0.13,
+            )
+        )
+        ax.text(
+            stage["x"] + width / 2,
+            y + height - 0.052,
+            stage["title"],
+            ha="center",
+            va="center",
+            fontsize=9.0,
+            weight="bold",
+            color="#17212B",
+        )
+        ax.text(
+            stage["x"] + width / 2,
+            y + height - 0.155,
+            "\n".join(stage["lines"]),
+            ha="center",
+            va="top",
+            fontsize=7.7,
+            linespacing=1.43,
+            color="#24313D",
+        )
+        if index < len(stages) - 1:
+            x0 = stage["x"] + width + 0.004
+            x1 = stages[index + 1]["x"] - 0.004
+            ax.add_patch(
+                FancyArrowPatch(
+                    (x0, y + height / 2),
+                    (x1, y + height / 2),
+                    arrowstyle="-|>",
+                    mutation_scale=9,
+                    linewidth=1.0,
+                    color="#53606C",
+                )
+            )
+
+    ax.add_patch(
+        FancyArrowPatch(
+            (0.100, 0.895),
+            (0.685, 0.895),
+            connectionstyle="arc3,rad=0.0",
+            arrowstyle="-|>",
+            mutation_scale=9,
+            linewidth=1.0,
+            linestyle="--",
+            color=GRAY,
+        )
+    )
+    ax.text(
+        0.39,
+        0.950,
+        r"$Z_e$ bypasses compatibility and enters only at reranking",
+        ha="center",
+        va="center",
+        fontsize=8.4,
+        color="#36424D",
+    )
+
+    route_y = 0.035
+    route_h = 0.205
+    route_specs = [
+        (0.015, 0.230, GREEN, "Validated", "higher/lower\nbigger/smaller"),
+        (0.250, 0.210, ORANGE, "Qualified", "left/right\nsource-dependent"),
+        (0.465, 0.260, BLUE, "Control + failure", "close by; front/behind\nsupport/contact"),
+        (0.730, 0.255, GRAY, "Not claimed", "hidden test; all-family\ncalibrated abstention"),
+    ]
+    for x, w, edge, title, body in route_specs:
+        box = FancyBboxPatch(
+            (x, route_y),
+            w,
+            route_h,
+            boxstyle="round,pad=0.006,rounding_size=0.01",
+            linewidth=0.9,
+            edgecolor=edge,
+            facecolor="white",
+        )
+        ax.add_patch(box)
+        ax.text(x + 0.012, route_y + route_h - 0.048, title, fontsize=8.3, weight="bold", color=edge, va="top")
+        ax.text(x + 0.012, route_y + route_h - 0.105, body, fontsize=7.2, color="#303A44", va="top", linespacing=1.2)
+
+    ax.text(0.015, 0.276, "Route-specific evidence status", fontsize=9.0, weight="bold", color="#17212B")
+    fig.subplots_adjust(left=0.005, right=0.995, top=0.985, bottom=0.01)
+    fig.savefig(out, bbox_inches="tight", pad_inches=0.02, facecolor="white")
+    plt.close(fig)
 
 
 def build_tradeoff_figure(main_rows: list[dict[str, str]], out: Path) -> None:
@@ -508,28 +688,30 @@ def main() -> int:
     ):
         validation_errors.append({"error": "geometry_rule_probe_drift"})
 
+    overview_path = figure_out / "method_overview.pdf"
     tradeoff_path = figure_out / "comparison_tradeoff_ci.pdf"
     qualitative_path = figure_out / "qualitative_reranking_rows.pdf"
     failure_path = figure_out / "failure_routes.pdf"
     table_path = table_out / "appendix_tables.tex"
+    build_method_overview(overview_path)
     build_tradeoff_figure(main_rows, tradeoff_path)
     build_qualitative_figure(qualitative_cases, qualitative_path)
     build_failure_figure(appendix_rows, support_summary, support_probes, failure_path)
     write_appendix_tables(table_path, main_rows, ci_rows, family_rows, sensitivity_rows, support_summary, support_probes)
 
-    generated = [tradeoff_path, qualitative_path, failure_path, table_path]
-    for path in [tradeoff_path, qualitative_path, failure_path]:
+    generated = [overview_path, tradeoff_path, qualitative_path, failure_path, table_path]
+    for path in [overview_path, tradeoff_path, qualitative_path, failure_path]:
         shutil.copy2(path, paper_root / "figures" / path.name)
     shutil.copy2(table_path, paper_root / "tables" / table_path.name)
 
     paper_files = [paper_root / "main.tex", paper_root / "supplement.tex"]
     normalized_paper = " ".join("\n".join(path.read_text(encoding="utf-8") for path in paper_files).split())
     required_claim_boundaries = [
-        "We do not solve reliable 3D relation estimation across all relation families.",
+        "We do not solve reliable 3D relation estimation across all relation families",
         "calibrated selective reliability is left for future validation.",
-        "learned $\\Ge$ is not a promoted score.",
-        "This circularity blocks a metric rerun and any solved-route claim.",
-        "The experiment is a validation-split study.",
+        "learned geometry variant is not part of the primary score",
+        "Target circularity prevents an independent support/contact evaluation.",
+        "The experiment is a validation-split study",
     ]
     forbidden_positive_claims = [
         "We solve reliable 3D relation estimation across all relation families.",
@@ -598,12 +780,13 @@ def main() -> int:
 ```text
 status = {manifest['status']}
 validation_errors = {len(validation_errors)}
-figures = 3
+figures = 4
 appendix_table_source = tables/appendix_tables.tex
 ```
 
 ## Scope
 
+- Method overview exposes the factor separation, leakage boundary, score path, and route status.
 - Comparison-route Recall/Violation plot uses frozen bootstrap confidence intervals.
 - Qualitative figure uses seven-row package entries and displays three actual validation rows.
 - Failure figure reports front/behind tradeoffs and the latest support/contact target audit.

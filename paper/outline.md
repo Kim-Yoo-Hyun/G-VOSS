@@ -21,7 +21,16 @@ wrong-$T$/pair, close-by swap, and vertical inverse controls support the
 selected family model, while failed pooled-interaction structural controls
 block a generic interaction claim. The SGFN gate remains unchanged.
 
-Last updated: 2026-07-10 KST
+Current manuscript override, 2026-07-12: the submission follows the sequence
+observed failure -> structural cause -> factor-isolation necessity -> method ->
+results -> limitations. Figure 1 is the actual-failure-to-framework overview;
+Figure 2 is the three-source K=`{5,10,20,50,100}` trajectory; Figure 3 contains
+two corrections and one residual top-10 failure. K=100 is primary, K=50
+secondary, and K=10 operational. A 69-parameter source-supervised nonlinear
+rescorer is stronger at low K and blocks formula-optimality claims. Codex proxy
+results are excluded from the submission and live only in `paper/paper_nonsub/`.
+
+Last updated: 2026-07-12 KST
 
 This outline turns `paper/preview.md` into a paper-writing skeleton. It is not the final manuscript. It fixes the section logic, evidence placement, reviewer-defense responsibilities, title candidates, and contribution statements before drafting the abstract and manuscript sections.
 

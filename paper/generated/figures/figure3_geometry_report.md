@@ -22,8 +22,8 @@ docker run --rm --user "$(id -u):$(id -g)" -v /home/yoohyun/research:/workspace 
 
 Validation:
 
-- Expected locked cases: `open3dsg_case_001, open3dsg_case_005, open3dsg_case_010, open3dsg_case_007`
-- Rendered cases: `open3dsg_case_001, open3dsg_case_005, open3dsg_case_010, open3dsg_case_007`
+- Expected locked cases: `open3dsg_case_001, open3dsg_case_010, open3dsg_case_026`
+- Rendered cases: `open3dsg_case_001, open3dsg_case_010, open3dsg_case_026`
 - Missing cases: `none`
 - Output SVG exists: `True`
 - Output case JSON exists: `True`

@@ -31,6 +31,7 @@ RANKING_CONTEXTS = ("global_in_scope", "within_family")
 LABELS = ("physically_valid", "physically_invalid", "ambiguous", "unobservable")
 CONFIDENCE = ("high", "medium", "low")
 REASON_CODES = (
+    "geometry_supports_relation",
     "contact_or_support_missing",
     "distance_inconsistent",
     "vertical_order_inconsistent",
@@ -680,6 +681,9 @@ def main() -> int:
         validation_errors.append(f"blocked_public_field_hits:{public_field_hits}")
     if evidence_summary.get("missing_items") or missing_projection:
         validation_errors.append("required_raw_3d_evidence_missing")
+    annotation_guide_path = out / "annotation_guide.md"
+    if not annotation_guide_path.exists():
+        validation_errors.append("pre_annotation_guide_missing")
     source_counts = Counter(
         record["source"] for item in selected for record in item["records"]
     )
@@ -732,6 +736,7 @@ def main() -> int:
                 "same_annotator_id_set": "annotator_id_set_mismatch" not in validation_errors,
                 "blocked_public_field_hits": public_field_hits,
                 "required_raw_3d_evidence_complete": "required_raw_3d_evidence_missing" not in validation_errors,
+                "pre_annotation_guide_present": "pre_annotation_guide_missing" not in validation_errors,
             },
         },
         "blinded_fields_excluded": [
@@ -749,10 +754,14 @@ def main() -> int:
         "inputs": {
             "family_model": relpath(repo_root, family_model_path),
             "family_model_sha256": sha256_file(family_model_path),
+            "annotation_guide_sha256": (
+                sha256_file(annotation_guide_path) if annotation_guide_path.exists() else None
+            ),
             "sources": SOURCE_SPECS,
         },
         "outputs": {
             "protocol": relpath(repo_root, out / "protocol.md"),
+            "annotation_guide": relpath(repo_root, annotation_guide_path),
             "manifest": relpath(repo_root, out / "manifest.json"),
             "annotator_a": relpath(repo_root, out / "annotator_a.csv"),
             "annotator_b": relpath(repo_root, out / "annotator_b.csv"),

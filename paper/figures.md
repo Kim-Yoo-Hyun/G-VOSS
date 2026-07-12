@@ -1,240 +1,128 @@
 # GeoCalib / H001 Figure Source Lock
 
-Last updated: 2026-07-10 KST
+Last updated: 2026-07-12 KST
 
-Status: `figure1_factor_isolated_framework_and_figure2_3_assets_generated`
+Status: `camera_ready_three_figure_revision_passed`
 
-This file locks the paper-facing source claims and data artifacts for Figure
-1-3 before drawing. It is a planning artifact, not a generated figure output.
-It supersedes the older generated `figure_specs.md` source note where it
-conflicts, especially for Figure 3.
+This file owns the paper-facing claims, source artifacts, and non-claims for
+Figures 1--3. Generated assets live under `paper/generated/figures/`; metric
+and case provenance stays in `experiments/H001_geom_reliability/`.
 
-Generated Figure 1-3 draft outputs and the geometry-backed Figure 3 upgrade are
-available under `paper/generated/figures/`. They are manuscript-planning figures,
-not camera-ready final artwork.
+## Global Contract
 
-Current table note: the main source-result table now reports K =
-`{5,10,20,50,100}` from `metrics_k_sweep/`. Figure 2 remains a compact
-R@100/Violation@100 tradeoff view because it is a diagnostic figure rather than
-the full source-result table.
+- Figures support a factor-isolated reliability layer for geometry-identifiable
+  3D Scene Graph relations, not broad generation SOTA.
+- Use paper-facing names only: source confidence, predicate--geometry
+  compatibility, family-calibrated product, rank-average fusion, physical
+  violation, and uncertain geometry.
+- Report Recall and Violation together. Lower Violation and higher Recall are
+  better.
+- K=100 is the primary endpoint, K=50 the canonical secondary endpoint,
+  and K=10 the top-ranked operational setting. K=5/20 provide trajectory
+  continuity; K=1 is not a paper endpoint.
+- Qwen-VL and ReplicaSSG/FROSS do not appear in the three main figures.
 
-Current scoring note: GeoCalib is framework-first. Calibrated product
-(`family_conditional_risk`) and pre-specified rank-average are soft fusion
-instantiations; neither is universally dominant. `probabilistic_recalibrated`
-is the pooled calibrated-risk ablation, RRF is a strong comparator, and
-calibrator-only/no-source-score control is not shown in Figure 2.
-
-Current factor note: Figure 1 must separate predicate/family semantics `T_e`,
-raw predicate-independent same-pair geometry `G_e`, source confidence `Z_e`,
-and constructed-target compatibility `C_e`, with an explicit `Z_e notin C_e`
-boundary before product/rank-average fusion. It must not imply that pending
-factor-ablation controls have already passed.
-
-## Global Rules
-
-- Figures must support the scoped relation-reliability claim only.
-- Do not use figures to claim broad open-vocabulary 3DSSG generation
-  improvement, arbitrary-baseline generality, Open3DSG leaderboard/SOTA, or
-  arbitrary-source reproduction.
-- Figure captions must report recall and violation jointly when showing
-  performance.
-- Open3DSG visual or metric content must retain the selected official
-  non-averaged checkpoint, filtered-train/dev provenance, full-validation
-  exact-label denominator 3,972, 548/548 recovery-policy branch, 533/548
-  covered branch as sensitivity evidence, and residual-calibration caveats.
-- Qwen-VL does not appear in Figure 1-3 unless it is explicitly promoted from
-  appendix/extension evidence into a main paper figure/table.
-
-## Figure 1
+## Figure 1: Failure to Framework
 
 Locked claim:
 
-> Semantic relation rows need identity-preserving geometry evidence and
-> calibrated geometry-consistency scoring before they can be used as reliable
-> relation predictions.
+> Semantically confident relation predictions can be geometrically
+> inconsistent because source confidence does not measure predicate-conditioned
+> physical compatibility; GeoCalib isolates those factors before re-ranking.
 
 Locked visual form:
 
-- Failure-example-to-method framework diagram.
-- No numerical result claim.
-- Show a motivating semantic-only failure before the pipeline:
-  `chair -- standing on -- wall` can be semantically plausible but physically
-  unsupported for the same object pair.
-- Show the design path:
-  `relation source predictions` -> `standardized row contract` ->
-  `T_e + identity-preserving raw G_e` -> `C_e calibration with Z_e excluded` ->
-  `calibrated-product / rank-average soft
-  instantiations, pooled ablation, rule-verified diagnostic` -> `R@K +
-  Violation@K evaluation`.
+- Four stages: observed inconsistent relation, isolated `T/G/Z` evidence,
+  compatibility plus falsification/identity controls, and fusion plus joint
+  evaluation.
+- The displayed failure is the traceable Open3DSG heater--trash-can `close by`
+  case used by Figure 3.
+- `Z` is visibly excluded from `C(T,G)` and used only at final fusion.
+- No reviewer checklist, claim-boundary band, learned point encoder, energy
+  model, evidence router, or abstention head appears.
 
-Source artifacts:
+Assets:
 
-- `paper/generated/figures/figure1_framework.svg`.
-- `paper/generated/figures/figure1_framework.png`.
-- `paper/draft.md`, Sections 3-4.
-- `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/02_method.md`.
-- `results/h001_geom_reliability/manifest.lock.json`.
+- `paper/generated/figures/figure1_framework.svg`
+- `paper/generated/figures/figure1_framework.png`
+- `paper/scripts/generate_draft_figures.py`
 
-Caption constraint:
+Caption constraint: call GeoCalib a calibrated, factor-isolated
+geometry-consistency evaluation and re-ranking framework, not a verifier
+script or a new fusion formula.
 
-- Use "calibrated geometry-consistency evaluation and re-ranking framework."
-- Do not call the method a verifier script.
-
-## Figure 2
+## Figure 2: Operating-Budget Trajectories
 
 Locked claim:
 
-> Geometry-consistency re-ranking changes the recall-violation operating point;
-> useful settings must be evaluated by recall and violation together.
+> The calibrated product preserves or improves the Recall--Violation tradeoff
+> across smaller budgets, while the two-instantiation SGFN gate is specific to
+> the primary K=100 endpoint.
 
 Locked visual form:
 
-- Two-panel recall-violation tradeoff plot using `R@100` and `Violation@100`.
-- Panel A: primary `VL-SAT` full-validation result.
-- Panel B: Open3DSG full-validation recovery-policy result.
-- Use separate panel axes or clear panel labels, because absolute recall is not
-  directly comparable across the closed-set VL-SAT source and the Open3DSG
-  open-vocabulary relation source.
-- Draw arrows from `semantic_only` to the calibrated-product
-  `family_conditional_risk`,
-  pooled `probabilistic_recalibrated`, and `rule_verified_point_subtype`.
-- Lower `Violation@100` is better; higher `R@100` is better.
+- Three source panels: VL-SAT, Open3DSG, and SGFN.
+- Connect K=`{5,10,20,50,100}` for source confidence and the calibrated
+  product; label each point by K.
+- Orange ring: primary K=100 endpoint. K=50 is secondary and K=10 is
+  operational.
+- Separate panel axes because source recall denominators and candidate
+  distributions differ.
+- Do not claim every source improves Recall at every K; VL-SAT has small
+  low-K Recall decreases.
 
-Locked data:
+Sources:
 
-| source | condition | R@100 | Violation@100 |
-| --- | --- | ---: | ---: |
-| VL-SAT | `semantic_only` | 0.9635 | 0.0476 |
-| VL-SAT | `probabilistic_recalibrated` | 0.9688 | 0.0404 |
-| VL-SAT | `family_conditional_risk` | 0.9683 | 0.0333 |
-| VL-SAT | `rule_verified_point_subtype` | 0.9627 | 0.0000 |
-| Open3DSG | `semantic_only` | 0.5161 | 0.1242 |
-| Open3DSG | `probabilistic_recalibrated` | 0.5723 | 0.0811 |
-| Open3DSG | `family_conditional_risk` | 0.6047 | 0.0341 |
-| Open3DSG | `rule_verified_point_subtype` | 0.5368 | 0.0000 |
+- `experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics_k_sweep/metrics.json`
+- `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/metrics.json`
+- `experiments/H001_geom_reliability/sources/sgfn/confirmatory_metrics_v3/metrics.json`
+- `paper/generated/figures/figure2_data.json`
 
-Source artifacts:
+Assets:
 
-- `experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics/metrics.json`.
-- `experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics_k_sweep/metrics.json`.
-- `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics/metrics.json`.
-- `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/metrics.json`.
-- `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/table_caveats/report.md`.
+- `paper/generated/figures/figure2_tradeoff.svg`
+- `paper/generated/figures/figure2_tradeoff.png`
 
-Caption constraint:
-
-- State that Open3DSG uses the Docker-produced full-validation 548/548
-  recovery-policy branch and that the 533/548 covered branch is sensitivity
-  evidence, not a broad SOTA comparison.
-- Do not hide Open3DSG caveats in appendix only.
-
-## Figure 3
+## Figure 3: Corrections and Residual Failure
 
 Locked claim:
 
-> The failure mode is family-structured: semantic plausibility can conflict
-> with proximity, vertical-order, or support/contact geometry, and residual
-> calibration risk remains even after probabilistic re-ranking.
-
-Locked visual form:
-
-- Four evidence panels from traceable Open3DSG qualitative inspection rows.
-- Current preferred draft is the geometry-backed point-cloud panel generated
-  from Open3DSG preprocessed object payloads. The older row-card SVG remains a
-  traceable fallback.
-- If later upgraded to rendered scene crops, the render script must preserve
-  these same case IDs.
-- Do not mix VL-SAT visual sanity-check examples into the main Figure 3 unless
-  the caption separates them from Open3DSG deterministic qualitative inspection.
+> Identity-aligned geometry can demote physically inconsistent semantic
+> predictions, but engineered evidence remains incomplete and can also promote
+> a residual violation.
 
 Locked cases:
 
-| panel | case | role | family | predicate | pair | semantic -> geometry rank | p_geom_valid | reason |
-| --- | --- | --- | --- | --- | --- | --- | ---: | --- |
-| A | `open3dsg_case_001` | proximity demotion | `proximity` | `close by` | heater -> trash can | 17 -> 263 | 0.2304 | `far_in_normalized_xy` |
-| B | `open3dsg_case_005` | vertical demotion | `relative_vertical` | `higher than` | desk -> lamp | 25 -> 422 | 0.0019 | `vertical_order_contradicts_predicate` |
-| C | `open3dsg_case_010` | support/contact demotion | `support_contact` | `lying on` | lamp -> side table | 21 -> 401 | 0.0248 | `positive_float_gap_large` |
-| D | `open3dsg_case_007` | residual calibration risk | `relative_vertical` | `lower than` | chair -> floor | 339 -> 50 | 0.9994 | `vertical_order_contradicts_predicate` |
+| panel | case | role | relation | source rank -> product rank | source / compatibility |
+| --- | --- | --- | --- | ---: | ---: |
+| A | `open3dsg_case_001` | corrected proximity error | heater `close by` trash can | 19 -> 294 | 0.853 / 0.013 |
+| B | `open3dsg_case_010` | corrected support/contact error | lamp `lying on` side table | 39 -> 310 | 0.843 / 0.078 |
+| C | `open3dsg_case_026` | residual top-10 failure | door `lying on` floor | 21 -> 10 | 0.843 / approximately 1.0 |
 
-Source artifacts:
+Locked visual form:
 
-- `experiments/H001_geom_reliability/sources/open3dsg/failure_cases/inspection.md`.
-- `experiments/H001_geom_reliability/sources/open3dsg/failure_cases/inspection.json`.
-- `experiments/H001_geom_reliability/sources/open3dsg/failure_rows/report.md`.
-- `experiments/H001_geom_reliability/sources/open3dsg/paper_caveats/report.md`.
-- `local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed/`
-  for ignored preprocessed object point-cloud payloads used by
-  `paper/scripts/render_figure3_geometry_panels.py`.
+- Three large pair-geometry point-cloud panels: two successful corrections and
+  one residual failure.
+- Each panel exposes subject/object, predicate, source confidence,
+  compatibility, and rank movement.
+- This is traceable qualitative mechanism evidence, not a representative human
+  audit.
 
-Caption constraint:
+Sources and assets:
 
-- Say this is qualitative reviewer-defense / failure-mechanism evidence.
-- Do not report the 36-case queue as a representative human audit or a new
-  metric.
-- Include residual calibration risk: 10/36 sampled rule-violated cases have
-  `p_geom_valid > 0.9`.
+- `experiments/H001_geom_reliability/sources/open3dsg/failure_cases/inspection.json`
+- `experiments/H001_geom_reliability/sources/open3dsg/failure_rows/report.md`
+- `local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed/`
+- `paper/scripts/render_figure3_geometry_panels.py`
+- `paper/generated/figures/figure3_geometry_panels.svg`
+- `paper/generated/figures/figure3_geometry_panels.png`
+- `paper/generated/figures/figure3_geometry_cases.json`
+- `paper/generated/figures/figure3_geometry_manifest.json`
 
-## Drawing Order
-
-Completed:
-
-1. Figure 2 was generated first from locked numeric values.
-2. Figure 1 was regenerated as a failure-example-to-method framework schematic.
-3. Figure 3 was generated as row-card evidence panels.
-4. Figure 3 was upgraded to geometry-backed point-cloud panels for the same
-   locked case IDs.
-
-Generated files:
-
-| file | role |
-| --- | --- |
-| `paper/generated/figures/figure1_framework.svg` | draft method/framework schematic |
-| `paper/generated/figures/figure2_tradeoff.svg` | draft two-panel R@100 / Violation@100 tradeoff |
-| `paper/generated/figures/figure2_tradeoff.png` | LaTeX-facing PNG generated from the same full-validation values |
-| `paper/generated/figures/figure3_failure_cases.svg` | draft Open3DSG qualitative row-card panels |
-| `paper/generated/figures/figure3_geometry_panels.svg` | preferred draft Open3DSG geometry-backed failure panels |
-| `paper/generated/figures/figure2_data.json` | extracted values used for Figure 2 |
-| `paper/generated/figures/figure3_cases.json` | extracted case rows used for Figure 3 |
-| `paper/generated/figures/figure3_geometry_cases.json` | geometry measurements and source paths for upgraded Figure 3 |
-| `paper/generated/figures/manifest.json` | generation manifest |
-| `paper/generated/figures/validation.json` | source-lock validation |
-| `paper/generated/figures/report.md` | generation report |
-| `paper/generated/figures/layout_review.md` | layout and top-tier novelty review |
-| `paper/generated/figures/figure3_geometry_manifest.json` | generation manifest for geometry-backed Figure 3 |
-| `paper/generated/figures/figure3_geometry_report.md` | geometry-backed Figure 3 report |
-
-## Validation Checklist
-
-- Figure 1 has no unbacked performance claim.
-- Figure 2 values match Table 1 and Open3DSG `metrics.json`.
-- Figure 2 separates VL-SAT and Open3DSG panels and keeps Open3DSG caveats.
-- Figure 3 uses the locked case IDs above.
-- Captions do not use broad SOTA, baseline-agnostic, or exact non-averaged
-  Open3DSG language.
-
-Validation result:
+## Validation
 
 - `paper/generated/figures/validation.json`: `passed`
-- SVG XML parse: `passed` for Figure 1-3
-- Layout/top-tier novelty review: `passed_with_full_validation_figure2`
-- Geometry-backed Figure 3 manifest: `figure3_geometry_panels_generated_verified`
-- Geometry-backed Figure 3 SVG XML parse: `passed`
-- Next: keep only optional final Figure 3 crop polish if a deterministic render
-  path is added.
-
-## Layout And Novelty Review
-
-Decision:
-
-- Figure 1: keep revised draft. It now shows failure mechanism -> cause ->
-  design necessity before the framework pipeline.
-- Figure 2: keep draft. It is the strongest evidence figure because it directly
-  shows the recall-violation tradeoff.
-- Figure 3: use the geometry-backed point-cloud panel as the preferred draft.
-  It keeps the same locked case IDs and is stronger than the row-card fallback.
-  A later scene-crop upgrade is optional only if a deterministic crop/render
-  path is added.
-
-Review record:
-
-- `paper/generated/figures/layout_review.md`
+- Figure 1 contains no unimplemented component or review-artifact band.
+- Figure 2 metric extraction and all K labels pass source-lock validation.
+- Figure 3 uses the three locked IDs and the same geometry rows as its manifest.
+- PNG/SVG assets parse and are included in the current AAAI PDF.

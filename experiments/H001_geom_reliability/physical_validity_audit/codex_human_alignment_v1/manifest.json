@@ -1,0 +1,21 @@
+{
+  "created_at_utc": "2026-07-12T04:14:37.165104+00:00",
+  "inputs": {
+    "audit_dir": "experiments/H001_geom_reliability/physical_validity_audit/frozen_v1",
+    "codex_v1": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_v1/codex_proxy_draft.csv",
+    "codex_v2": "experiments/H001_geom_reliability/physical_validity_audit/codex_rereview_v2/labels.csv",
+    "sha256": {
+      "adjudication": "7033eccfda12b7da3b4a04dc7dc5bc46932f18ff47b7fa99006a81ec681fe4e4",
+      "annotator_a": "866afd32eccd561d3e562bab679ecb55af44e3dcf6a113216581e02216e7b553",
+      "annotator_b": "d86229fa023117e3c97e7668be817fdaf64ac03fa890076983687075c392bc68",
+      "codex_v1": "dfad0126291471d8724891b4f4259feb9c56218a59d594b555c32f2d656734ec",
+      "codex_v2": "2a43ec169fee0e798bc18a68f7807cb5f7c238e7a509a082e41bd747743cdd14"
+    }
+  },
+  "outputs": [
+    "experiments/H001_geom_reliability/physical_validity_audit/codex_human_alignment_v1/summary.json",
+    "experiments/H001_geom_reliability/physical_validity_audit/codex_human_alignment_v1/summary.md"
+  ],
+  "schema_version": "h001_codex_human_alignment_evaluation_v1",
+  "status": "awaiting_valid_adjudicated_human_reference"
+}

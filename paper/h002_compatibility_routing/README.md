@@ -1,6 +1,6 @@
 # H002 Paper Workspace
 
-Last updated: 2026-07-11 KST
+Last updated: 2026-07-12 KST
 
 Standalone paper workspace for:
 
@@ -23,9 +23,14 @@ VL-SAT and Open3DSG.
 The paper does not claim official hidden-test, SOTA, all-relation reliability,
 support/contact solved, learned G_e improvement, or calibrated p_obs/p_rel.
 
-The current package is complete for this scoped claim: main manuscript 7 pages,
+The current package is complete for this scoped claim: main manuscript 6 pages,
 supplement 3 pages, and checklist 2 pages. No broader paper claim is opened by
 this build.
+
+The main manuscript now uses a claim-safe five-stage overview figure (source,
+evidence, compatibility, reranking, and evaluation). The Method section is
+consolidated into two module-aligned subsections: `Factorized Compatibility`
+and `Relation-Aware Reranking`.
 
 ## Files
 

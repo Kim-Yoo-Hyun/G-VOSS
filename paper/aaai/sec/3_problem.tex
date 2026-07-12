@@ -3,44 +3,43 @@
 Let a relation source produce a set of candidate relation rows for a 3D scene.
 Each row is written as
 \begin{equation}
-r_i = (\mathrm{scan}_i,\mathrm{subgraph}_i,s_i,o_i,p_i,a_i,\mathrm{score}^{sem}_i),
+r_i = (\mathrm{scan}_i,\mathrm{context}_i,s_i,o_i,p_i,a_i,Z_i),
 \end{equation}
 where $s_i$ and $o_i$ are subject and object instance identifiers, $p_i$ is the
-predicate label, $a_i$ is the mapped predicate family, and
-$\mathrm{score}^{sem}_i$ is the source semantic confidence. The tuple
-$(\mathrm{scan}_i,\mathrm{subgraph}_i,s_i,o_i)$ is the identity key used to
+predicate label, $a_i$ is the mapped predicate family, and $Z_i$ is the source
+relation score. The tuple
+$(\mathrm{scan}_i,\mathrm{context}_i,s_i,o_i)$ is the identity key used to
 preserve the object pair across prediction, geometry, and ground-truth joins.
-We expose three factors:
+We expose predicate semantics separately:
 \begin{equation}
-T_i=(p_i,a_i),\qquad Z_i=\mathrm{score}^{sem}_i,
+T_i=(p_i,a_i),
 \end{equation}
-where $T_i$ carries predicate/family semantics and $Z_i$ is source confidence.
+while withholding $Z_i$ from geometry compatibility calibration.
 
 For each prediction row, we join raw object-pair geometry evidence
 \begin{equation}
-G_i = G(\mathrm{scan}_i,\mathrm{subgraph}_i,s_i,o_i).
+G_i = G(\mathrm{scan}_i,\mathrm{context}_i,s_i,o_i).
 \end{equation}
-The raw evidence is predicate-independent and can include OBB features,
-point/local contact evidence, distance,
-vertical ordering, support/contact subtype information, and missing-evidence
-reason codes. \method{} evaluates only geometry-checkable relation families:
+The raw evidence is predicate-independent and includes oriented bounding-box
+features, local contact evidence, pair distance and scale, vertical ordering,
+and observability indicators. \method{} evaluates only geometry-checkable
+relation families:
 \begin{equation}
 \begin{aligned}
-\mathcal{A}=\{&\texttt{support\_contact},\texttt{proximity},\\
-              &\texttt{relative\_vertical}\}.
+\mathcal{A}=\{&\mathrm{support/contact},\ \mathrm{proximity},\\
+              &\mathrm{vertical\ order}\}.
 \end{aligned}
 \end{equation}
-Rows outside these families are preserved in exports but excluded from the measured
-violation claim.
+Rows outside these families are excluded from the measured violation claim.
 
 The geometry verifier assigns a row-level status
 $v_i \in \{\mathrm{satisfied},\mathrm{uncertain},\mathrm{violated}\}$. The
-calibrator learns a constructed-target compatibility:
+calibrator learns compatibility against a constructed calibration target:
 \begin{equation}
 C_i=P(y_i^{cal}=1\mid T_i,G_i), \quad
 Z_i\notin\operatorname{inputs}(C_i).
 \end{equation}
-Here $y^{cal}$ contains train-dev GT positives and high-margin counterfactual
+Here $y^{cal}$ contains training ground-truth positives and high-margin counterfactual
 negatives, not direct human validity. We denote family-conditioned and pooled
 implementations by \pgeomfam{} and \pgeom{}. Predicate-aligned transformations
 are $T_i\times G_i$ interactions rather than raw geometry; neither $Z_i$ nor
@@ -48,14 +47,20 @@ source identity enters the calibrator. Final scores use $S_i=F(Z_i,C_i)$, with
 product and rank-average as soft instantiations rather than proofs or a
 universal formula.
 
-The main recall metric is exact predicate-label \rAt{K} over the fixed in-scope
-ground-truth denominator. Family grouping defines the geometry-checkable
-reliability scope and violation analysis; it does not relax predicate-label
-matching. \vAt{K} is the fraction of top-$K$ in-scope predicted rows whose
-joined geometry is judged violated. Top-$K$ is formed per evaluated
-subgraph/source ranking after the measured-family filter; satisfied, uncertain, and
-violated rows form the violation denominator, while unsupported or missing-join
-rows are excluded from that denominator and reported through coverage caveats.
-Only rows with verification status \texttt{violated} count as violations. We
-report recall retention and violation reduction together so that violation
-reduction cannot be interpreted without its recall tradeoff.
+Let $L_K(c)$ be the top-$K$ measured-family rows for context $c$ and $Y_c$ the
+exact-label ground-truth set. We report
+\begin{equation}
+\mathrm{R@K}=\frac{\sum_c |L_K(c)\cap Y_c|}{\sum_c |Y_c|}.
+\end{equation}
+Family mapping determines only the geometry-checkable scope; it never relaxes
+predicate-label matching. Let $D_K$ contain the selected rows whose verifier
+status is satisfied, uncertain, or violated. The primary diagnostic is
+\begin{equation}
+\mathrm{V@K}_{all}=\frac{1}{|D_K|}
+\sum_{(c,i)\in D_K}\mathbf{1}[v_i=\mathrm{violated}].
+\end{equation}
+Because uncertain rows lower this ratio without being declared satisfied, we
+also report decidable-only violation, uncertainty rate, and a pessimistic bound
+that counts every uncertain row as violated. Rows without a supported verifier
+status affect status coverage but no violation denominator. Recall, violation,
+uncertainty, and coverage are interpreted jointly.

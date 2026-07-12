@@ -11,6 +11,7 @@
     "unobservable"
   ],
   "allowed_reason_codes": [
+    "geometry_supports_relation",
     "contact_or_support_missing",
     "distance_inconsistent",
     "vertical_order_inconsistent",
@@ -57,6 +58,7 @@
     "skipped": false
   },
   "inputs": {
+    "annotation_guide_sha256": "bda06e031677b20b3cd3aea9872745e633097ae69bc643c4e849d3d0b5e35c90",
     "family_model": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/artifacts/calibration/p_geom_valid_family/model.json",
     "family_model_sha256": "ebc176cd093786b6af5c20fdfe917b9c8bfcc02f0d1e2f2593d5676c627e57b8",
     "sources": {
@@ -71,6 +73,7 @@
     }
   },
   "outputs": {
+    "annotation_guide": "experiments/H001_geom_reliability/physical_validity_audit/frozen_v1/annotation_guide.md",
     "adjudication": "experiments/H001_geom_reliability/physical_validity_audit/frozen_v1/adjudication.csv",
     "annotator_a": "experiments/H001_geom_reliability/physical_validity_audit/frozen_v1/annotator_a.csv",
     "annotator_b": "experiments/H001_geom_reliability/physical_validity_audit/frozen_v1/annotator_b.csv",
@@ -750,6 +753,7 @@
     "gates": {
       "blocked_public_field_hits": [],
       "independent_annotator_order": true,
+      "pre_annotation_guide_present": true,
       "required_raw_3d_evidence_complete": true,
       "same_annotator_id_set": true,
       "unique_public_ids": true

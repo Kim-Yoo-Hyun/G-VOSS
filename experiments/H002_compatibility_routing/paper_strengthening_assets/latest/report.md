@@ -5,12 +5,13 @@
 ```text
 status = ready
 validation_errors = 0
-figures = 3
+figures = 4
 appendix_table_source = tables/appendix_tables.tex
 ```
 
 ## Scope
 
+- Method overview exposes the factor separation, leakage boundary, score path, and route status.
 - Comparison-route Recall/Violation plot uses frozen bootstrap confidence intervals.
 - Qualitative figure uses seven-row package entries and displays three actual validation rows.
 - Failure figure reports front/behind tradeoffs and the latest support/contact target audit.

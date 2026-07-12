@@ -11,37 +11,37 @@ Last updated: 2026-07-12 KST
 - Main claim remains scoped relation reliability for `support_contact`, `proximity`, and `relative_vertical`, with VL-SAT as the controlled reproduced anchor and Open3DSG 548/548 recovery as the main open-vocabulary relation-source case study.
 - `attachment_deferred` full-validation extension is now available as diagnostic evidence only: protocol `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_validation_protocol/`, metrics `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_validation_g5d/`, K = `{5,10,20,50,100}`, scored rows `190,722`, validation errors `0`. It is not promoted to the main GeoCalib claim without a separate user decision and qualitative/failure audit.
 - Low-K result reporting decision is to expose K = `{5, 10, 20, 50, 100}` in the main source-result table. K=1 stays out of paper metrics. Docker-regenerated point-metric artifacts now live under `sources/vlsat/full_validation/metrics_k_sweep/` and `sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/`; K=50/100 matches the locked `metrics/metrics.json` point estimates.
+- The main evidence figure now connects K = `{5,10,20,50,100}` for VL-SAT,
+  Open3DSG, and SGFN. K=100 is the frozen primary endpoint, K=50 the
+  canonical secondary endpoint, and K=10 the top-ranked operational setting.
+  The manuscript claims a two-instantiation joint gate only at K=100; across
+  smaller budgets the persistence claim is limited to the calibrated product.
 - Qwen-VL full official validation downstream is complete as a third-source / modern VLM extension: 157 scans / 548 contexts / 110,424 query rows / 46,506 inferable input rows / 35,131 exported predictions / 32,236 in-scope predictions / 3,972 H001-family GT rows, plus metrics/controls/bootstrap/failure rows/36 deterministic qualitative cases. It remains appendix/extension evidence unless explicitly promoted.
-- Historical source-validation build `paper/aaai/main_reference_expansion.pdf`
+- Historical source-validation build
+  `archive/paper/aaai_snapshots/20260625_reference_expansion.pdf`
   remains preserved. Its prior stale-package warning is resolved by the
   2026-07-12 release; use the current Replica-disclosure build and package.
-- Latest H001 framing build is
-  `logs/h001_aaai_pdf_build_framework_first_final4_20260710.log`, exit 0,
-  output `paper/aaai/main_framework_first.pdf`, 10 total pages with technical
-  content on pages 1--7, references from page 8, and checklist on page 10. It
-  promotes the framework-level two-fusion claim, fresh SGFN table, family-wise
-  limitation, and independent-human boundary; `main.pdf` remains preserved.
-- Latest factor-isolated H001 build is
-  `logs/h001_aaai_pdf_build_factorized_framework_20260710.log`, exit 0,
-  output `paper/aaai/main_factorized_framework.pdf`. It is 10 US-Letter pages:
-  technical content ends on page 7, references occupy pages 8--9, and the
-  checklist is page 10. Type 3 fonts, missing citations/references, LaTeX
-  errors, and overfull boxes are zero. Visual review root is
-  `logs/h001_aaai_factorized_framework_render_20260710/`; `main.pdf` and the
-  earlier framework-first PDF remain preserved.
-- Latest H001 manuscript build is
-  `logs/h001_aaai_pdf_build_replica_disclosure_20260712.log`, exit 0, output
-  `paper/aaai/main_replica_disclosure.pdf`. It retains the 7-page technical
-  limit, adds the ReplicaSSG/FROSS negative-transfer limitation, and pairs with
-  the one-page `paper/aaai/supplement_replica_negative.pdf`. Both are US Letter
-  with Type 3 fonts, unresolved citations/references, LaTeX errors, and
-  overfull boxes all zero.
+- Latest H001 submission manuscript is `paper/aaai/main_aaai27.pdf`, SHA256
+  `8f4632c8150affa764ef02b29696b1c538c9b288fc3f4879630813d0c22fcc1a`. The active
+  outputs are main/supplement/checklist 9/3/2 US-Letter pages; technical content
+  ends on page 7 and pages 8--9 contain references only. Type 3 fonts, unresolved
+  citations/references, LaTeX errors, and overfull boxes are zero. Superseded
+  framework-first, factorized, and Replica-disclosure builds remain archived.
+- H001-only cleanup completed after compact-result verification: removed
+  Replica/FROSS raw archives, mesh/runtime, weights, cloned source repositories,
+  regenerated source shards, the duplicate merged pickle, Python caches, and
+  the superseded submission bundle. Available disk increased from 63GB to 100GB.
+- The prose now follows failure -> structural cause -> factor-isolation
+  necessity -> method -> evidence -> scope/limitations. Figure 1 starts from an
+  actual geometry-inconsistent prediction and contains no reviewer-checklist
+  band; Figure 2 is the three-source K trajectory; Figure 3 contains two large
+  corrected point-cloud examples and one residual top-10 failure.
 - H001 method direction is now factor-isolated: `T_e` denotes predicate/family
   semantics, `G_e` predicate-independent same-pair geometry, `Z_e` source
   confidence, and `C_e = P(y_cal=1 | T_e,G_e)` the calibrated compatibility
   signal. `y_cal` is the constructed train/dev calibration target (GT positives
   plus high-margin counterfactual negatives), not an unqualified human physical-
-  validity label. The leakage boundary is `Z_e notin C_e`; source confidence is
+  validity label. The leakage boundary is `Z_e notin C_e`; the source relation score is
   used only by final fusion `S_e = F(Z_e,C_e)`. Existing product/rank-average
   results remain unchanged framework instantiations.
 - `h001_factor_isolation_protocol_v1` is frozen under
@@ -59,17 +59,40 @@ Last updated: 2026-07-12 KST
   its 354-context internal-dev joint gate, model and score hashes were locked
   before the 548-context run. Final K=100 dR is `+0.007553`
   `[+0.004079,+0.011854]` and verifier dV is `-0.027901`
-  `[-0.030347,-0.025656]`. This is a leakage-controlled reconstruction, not an
-  untouched prospective confirmation, because method-family/score provenance
-  includes prior inspection of the same official validation target.
-- The genuinely untouched ReplicaSSG/FROSS dataset-and-source prospective run
-  is complete on 11 official test scenes, 4,290 candidates, and 172 exact-label
-  GT rows. All 24 provenance/firewall validations pass, but the frozen K=100
-  framework gate fails: the family product is identical to semantic-only
+  `[-0.030347,-0.025656]`. The manuscript now reports the train/internal-dev/
+  final-validation split roles directly and does not attach a prospective
+  label to this benchmark evaluation.
+- The initial ReplicaSSG/FROSS cross-dataset transfer diagnostic is complete on
+  11 official test scenes, 4,290 candidates, and 172 exact-label GT rows. All
+  24 source/mapping/artifact validations pass, but the K=100 criterion fails:
+  the family product is identical to semantic-only
   (dR/dV `0/0`), while rank-average lowers V by `-0.15835` but has dR
   `-0.02907` with CI `[-0.07407,+0.01333]`. This blocks the stronger
-  dataset-level joint-gate claim; lower-K product gains remain diagnostic.
-- H002 is a separate scoped compatibility-routing branch. Its canonical state is owned by `hypothesis/CAND-001/H002_factorized-relation-confidence/README.md` and `paper_claim_core.md`; runtime and manuscript owners are `experiments/H002_compatibility_routing/` and `paper/h002_compatibility_routing/aaai2027/`. The implemented score is `S2_source_x_Ce = normalized_source_score * normalized_C_e`, with raw `C_e=f_C(T_e,G_e)` fit on 4,868 internal-train rows and `Z_e` excluded from compatibility. Main validated routes are `higher/lower` and `bigger/smaller`; `left/right` is caveated, `close by` is a geometry-only control, and `front/behind` plus support/contact are failure/diagnostic routes. The compact table, grouped CI, sensitivity, qualitative package, support/contact diagnostic freeze, and AAAI package are complete. The verified package is main/supplement/checklist 7/3/2 pages. No additional H002 experiment is automatically open; external release/submission or broader-route work requires an explicit decision and frozen protocol.
+  dataset-level generalization claim; lower-K product gains remain diagnostic.
+- Non-human reviewer strengthening is complete. The main paper now gives the
+  exact Recall/Violation denominators, the train-only family-logistic
+  compatibility objective and optimizer, six cross-source comparison methods,
+  factor/counterfactual controls, and explicit family-nonuniform limitations.
+  A frozen Docker sensitivity additionally reports decidable-only Violation,
+  uncertainty rate, and a pessimistic bound that counts every uncertain row as
+  a violation; Family-calibrated product lowers all three at K=100 for
+  VL-SAT/Open3DSG/SGFN. Recent closest-work boundaries for SCR-SSG, RelWitness,
+  SGFormer++, RelGraphOV, and PUF are explicit in the paper/supplement.
+- A parameter-count-matched nonlinear fusion baseline is complete under
+  `nonlinear_fusion_baseline/evaluation_v1/`. Its 69 parameters equal the 69
+  family-calibrator coefficients, and it is trained only on the disjoint
+  117-scan internal-dev exact-label target before evaluation on the 157-scan
+  official final validation. On SGFN it reaches R/V
+  `0.5441/0.0120`, `0.8681/0.0186`, and `0.9466/0.0279` at K=10/50/100. It
+  outperforms the product at low K and lowers K=100 violation, so formula-level
+  optimality is explicitly blocked; its source-specific exact-label
+  supervision is also disclosed as stronger than GeoCalib's source-independent
+  compatibility supervision.
+- The two locked Codex passes have been evaluated only in the separate
+  non-submission workspace `paper/paper_nonsub/`. The active AAAI submission
+  contains no Codex-derived validity result. Codex consensus is a non-human
+  diagnostic and does not close independent construct-validity or Human V@K.
+- H002 is a separate scoped compatibility-routing branch. Its canonical state is owned by `hypothesis/CAND-001/H002_factorized-relation-confidence/README.md` and `paper_claim_core.md`; runtime and manuscript owners are `experiments/H002_compatibility_routing/` and `paper/h002_compatibility_routing/aaai2027/`. The implemented score is `S2_source_x_Ce = normalized_source_score * normalized_C_e`, with raw `C_e=f_C(T_e,G_e)` fit on 4,868 internal-train rows and `Z_e` excluded from compatibility. Main validated routes are `higher/lower` and `bigger/smaller`; `left/right` is caveated, `close by` is a geometry-only control, and `front/behind` plus support/contact are failure/diagnostic routes. The compact table, grouped CI, sensitivity, qualitative package, support/contact diagnostic freeze, and AAAI package are complete. The verified package is main/supplement/checklist 6/3/2 pages; Figure 1 and the two-subsection Method structure are synchronized with the scoped claim. No additional H002 experiment is automatically open; external release/submission or broader-route work requires an explicit decision and frozen protocol.
 - H001_v2 under `hypothesis/CAND-001/H001_v2_risk_controlled_reranking/` now serves two roles: fixed-`tau*`/lambda-soft diagnostic evidence and method framing for GeoCalib risk-aware reranking. Protocol skeleton, read-only source inventory, schema probe, calibration threshold dry run, source-eval contract, source-eval runner, fixed-`tau*` source point metrics, tau corruption controls, source-result path decision, risk-aware soft reranking reframing, paper prose pass, lambda-soft source evaluation, family-conditional risk formalization, and paper-facing naming pass are complete. Fixed-`tau*` remains diagnostic only: `tau*=0.20`, equivalent `p_geom_valid >= 0.80`. Lambda-soft selected `lambda*=1.25` from calibration dev rows and generated VL-SAT/Open3DSG K={5,10,20,50,100} metrics, but it is mixed against current fixed `lambda=1` calibrated scores and remains diagnostic-only. The 2026-06-25 product promotion is preserved as provenance; the current 2026-07-10 paper framing treats calibrated product and pre-specified rank-average as soft framework instantiations. Pooled calibration remains an ablation and geometry-only ranking remains a control.
 - H001 top-tier reviewer extension is frozen: independent physical-validity
   audit 488 items / 137 scans / raw 3D evidence 488/488, two empty blinded
@@ -104,7 +127,8 @@ open:
 - GeoCalib is framework-first: calibrated product
   (`family_conditional_risk`) and fixed rank-average are soft fusion
   instantiations; neither is claimed universally dominant.
-- pooled `probabilistic_recalibrated` is an ablation/baseline.
+- Pooled-calibrator product is an ablation/baseline; its raw key remains only
+  in reproducibility artifacts.
 - geometry-only ranking is a separate control.
 - Qwen-VL, `relative_horizontal`, `relative_lateral`, and `attachment_deferred` are appendix/extension/future-work evidence only unless explicitly promoted.
 
@@ -119,20 +143,36 @@ Current H001 owners:
 
 Current H001 immediate work:
 
-1. Enter the complete author order, OpenReview profiles, institutional
-   countries, conflicts, and qualified reciprocal reviewer before the live
-   deadlines recorded in the upload metadata.
-2. Decide the final public code license and post-acceptance artifact URL. The
+1. Enter the complete author order and link all OpenReview profiles. Every
+   profile must have the full publication name, current position,
+   institution-affiliated email, and DBLP URL; select all institutional
+   countries and confirm the profile-policy checkbox.
+2. Nominate by July 21 AoE one eligible coauthor who is not SPC/AC/organizer
+   and has at least two first-author or five coauthored related archival papers
+   (workshops excluded), or explicitly declare that no author qualifies. The
+   nominee accepts up to six reviews. Add optional profile-based conflicts.
+3. Verify title, TL;DR, abstract, primary topic, and up to five secondary
+   topics; then upload the prepared paper/checklist/supplement/code files by
+   their respective deadlines.
+4. Decide the final public code license and post-acceptance artifact URL. The
    anonymous review ZIP is already generated and does not depend on an
    external repository link.
-3. Decide whether to activate the frozen two-human-plus-adjudicator alignment
-   study for the Codex proxy; Human V@K remains unclaimed until it is complete.
+5. Human-alignment tooling is frozen and dry-run verified. Collect two
+   independent 488-row first passes and third-human adjudication of every
+   disagreement/low-confidence/ambiguous/unobservable row; Human V@K remains
+   unclaimed until the shared validator reports `ready`.
 
 Completed package hygiene: ReplicaSSG/FROSS is disclosed as a supplement
 negative-transfer result; Open3DSG `25da9...` non-avg versus historical
 `2a23...` avg provenance is reconciled; and the active verified OpenReview set
 is `release/h001_aaai27_openreview_20260712_083625/`. The prior compact tarball
 is retained only as a handoff snapshot.
+
+Completed paper-folder hygiene: `paper/aaai/` now contains only active
+AAAI-27 source/templates and the three canonical `*_aaai27.pdf` outputs.
+Superseded PDFs, AAAI-26 style files, the legacy appended checklist, and old
+inspection notes moved to `archive/paper/aaai_snapshots/`; LaTeX sidecars and
+byte-identical default-output duplicates were deleted.
 
 Research target rule: goal and direction are judged against AI, ML, CV, and Robotics top-tier journal/conference standards.
 
@@ -144,10 +184,10 @@ CAND-003 is the literature-survey track. Its next step remains user judgment on 
   confirmation, frozen factor implementation, and fresh official SGPN-source
   evaluation are complete. Product generalizes; rank-average narrowly misses
   its second-source Recall guardrail, and factor metamorphic controls block a
-  stronger structural-compatibility claim. The remaining submission evidence
-  current paper route uses a completed two-pass Codex LLM proxy audit and
-  explicitly does not claim Human V@K. Independent-human alignment remains an
-  optional stronger validation path, not an active collection task. The strict
+  stronger structural-compatibility claim. The submission route excludes the
+  completed two-pass Codex proxy audit and does not claim Human V@K; the proxy
+  analysis is isolated in `paper/paper_nonsub/`. Independent-human alignment
+  remains an optional stronger validation path, not an active collection task. The strict
   train-only reconstruction is complete and passes its frozen
   internal-dev and final-validation joint gates, but it does not itself close
   the prospective-confirmation gap.
@@ -158,11 +198,51 @@ CAND-003 is the literature-survey track. Its next step remains user judgment on 
 
 ### CAND-001 / H001 reviewer extension
 
+- [x] Reclassify ReplicaSSG/FROSS from prospective confirmation to a
+      cross-dataset transfer stress test and development diagnostic, implement
+      source-scale-normalized bounded fusion, and regenerate its row-level
+      Docker evaluation. Official Replica archive restoration and exact part-
+      size validation completed with exit 0; the FROSS VG weight matches the
+      expected SHA256. Downstream tmux `h001_replica_dev_v2` is now running the
+      extraction/inference/evaluation pipeline. Logs are
+      `logs/h001_replicassg_restore_download_20260712_201552.log` and
+      `logs/h001_replicassg_development_v2_20260712.log`. Development v2
+      completed on 4,293 regenerated candidates: all-scene bounded R/V@100 is
+      `.3547/.0393`, but LOSO is `.3198/.0384` and fails the Recall guardrail.
+      The 548-context cross-source diagnostic also completed; it does not
+      promote bounded fusion or dataset-level generalization to the main claim.
+- [x] Rewrite the submission narrative in the order observed failure,
+      structural cause, factor-isolation necessity, method, results, and only
+      then scope/limitations. Reframe novelty as a source-independent,
+      factor-isolated physical-reliability framework rather than a new fusion
+      formula.
+- [x] Add the 69-parameter nonlinear fusion baseline using only internal-dev
+      exact labels and report its SGFN K=10/50/100 results. Treat its strong
+      performance as a formula-optimality blocker, not as evidence to suppress.
+- [x] Replace Figure 1 with an actual failure-grounded four-stage framework,
+      Figure 2 with K=5/10/20/50/100 Recall--Violation trajectories over three
+      sources, and Figure 3 with two corrected geometry examples plus one
+      residual failure. Figure validation status is `passed`.
+- [x] Isolate both locked Codex proxy passes and their consensus evaluation in
+      `paper/paper_nonsub/`; keep them out of the submission manuscript and do
+      not call them human evidence.
 - [x] Freeze independent physical-validity audit protocol and materialize 488
       blinded items with 488/488 raw 3D evidence coverage.
 - [x] Implement Docker Human V@K, agreement, coverage, and semantic-calibration
       evaluation; current status correctly awaits 488 labels from each of two
       independent annotators.
+- [x] Freeze the pre-annotation field guide for `high/medium/low` confidence,
+      evidence sufficiency, label-compatible reason codes, immutable fields,
+      and distinct human provenance. The 488-item sample and estimands are
+      unchanged.
+- [x] Implement a shared Docker validator that forces adjudication of the union
+      of disagreements, either low-confidence decision, and either
+      ambiguous/unobservable label. The Human V evaluator imports the same
+      contract, preventing a disagreement-only bypass.
+- [x] Implement the locked Codex--human alignment evaluator for four-class
+      agreement/kappa, binary confusion/coverage/invalid precision-recall-F1,
+      family-stratified errors, and ordinal confidence diagnostics. Empty-sheet
+      dry runs correctly remain non-reportable.
 - [x] Harden the evaluator provenance gate: two complete first-pass sheets must
       carry distinct non-proxy reviewer IDs and timestamps; any adjudication
       must use a third distinct non-proxy reviewer. Codex/LLM/proxy IDs cannot
@@ -191,13 +271,11 @@ CAND-003 is the literature-survey track. Its next step remains user judgment on 
       annotation/evaluation when human alignment, bias, and provenance are
       measured. H001 therefore reports the Codex passes as automatic proxy
       diagnostics, not human ground truth.
-- [x] Update the AAAI manuscript to disclose Codex as the physical-validity
-      proxy annotator/evaluator, report the two-pass counts/agreement, cite LLM
-      annotation/evaluation precedent, and report the completed strict factor
-      controls. Docker output `paper/aaai/main_llm_proxy_audit.pdf` has 10
-      US-Letter pages: technical content 1--7, references 8--9, checklist 10;
-      final missing citations/references, Type 3 fonts, LaTeX errors, and
-      overfull boxes are zero.
+- [x] Preserve the historical Codex-disclosure draft only as an archived
+      snapshot, remove Codex-derived validity results from the active AAAI
+      submission, and create `paper/paper_nonsub/main_nonsub.pdf` for the
+      explicitly non-human proxy analysis. The two runs are never represented
+      as independent human annotators.
 - [x] Select and pre-register untouched `sgfn_official_full_l160` before source
       inference. Split preflight found H001's 157 scans exactly equal official
       SGFN `test_scans.txt`, not its 117-scan validation list; target v2 freezes
@@ -223,7 +301,7 @@ CAND-003 is the literature-survey track. Its next step remains user judgment on 
       prospectively supports the joint-gate framework claim, while
       source-dependent tradeoffs and verifier/human boundaries remain explicit.
 - [x] Adopt the H002-derived factor separation without importing H002 results:
-      define `T_e`, predicate-independent raw `G_e`, source confidence `Z_e`,
+      define `T_e`, predicate-independent raw `G_e`, source relation score `Z_e`,
       and constructed-target compatibility `C_e`; freeze `Z_e notin C_e`; keep
       `S_e = F(Z_e,C_e)` with product/rank-average as existing instantiations.
       Reclassify `control_p_geom_valid_only` as calibrator-only/no-`Z`, not
@@ -345,7 +423,7 @@ Data-dependent:
 
 - [x] OpenReview/AAAI-27 live form and target-year policy verified on 2026-07-12 KST; migrated to official `aaai2027` source, separate checklist upload, and live field-size/anonymity rules.
 - [ ] Artifact/code-release URL 또는 DOI 결정: GitHub/source bundle, external row-level artifact bundle, and checksum/verification command must be fixed before final checklist answers.
-- [x] Supplementary/code-data route fixed: one-page technical supplement plus anonymized code/data ZIP, with no media supplement and no external repository pointer used for review.
+- [x] Supplementary/code-data route fixed: two-page provenance/negative-transfer technical supplement plus anonymized code/data ZIP, with no media supplement and no external repository pointer used for review.
 - [x] Standalone AAAI-27 checklist updated and built; partial answers remain explicit where public licensing/final public URL are not yet decided.
 - [x] Low-K result provenance sync: Docker-regenerated `K={5,10,20,50,100}` point-metric artifacts in the current checkout without overwriting locked `metrics/`. VL-SAT output is `experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics_k_sweep/`; Open3DSG recovery output is `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/`. K=50/100 values match each source's locked `metrics/metrics.json`. Low-K bootstrap CI is not currently claimed; generate it only if the manuscript adds CI statements for low-K deltas.
 - [x] Full official validation transition metric-bundle generation: build Docker-reproducible full
@@ -565,9 +643,10 @@ Non-data:
       was later superseded by the low-K table build and then by the
       family-main build
       `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`, which remains
-      the latest preserved `paper/aaai/main.pdf` check before the later
-      `main_top_tier_review.pdf` and `main_reference_expansion.pdf`
-      source-validation builds. That `main.pdf` is 10 total pages with
+      the latest transient `main.pdf` check before the later archived
+      `archive/paper/aaai_snapshots/20260625_top_tier_review.pdf` and
+      `archive/paper/aaai_snapshots/20260625_reference_expansion.pdf`
+      source-validation builds. That removed default output had 10 total pages with
       technical content on pages 1-7, references on pages 8-9, and checklist on
       page 10. Targeted grep found no missing citations, undefined references,
       overfull hboxes, LaTeX errors, Type 3 fonts, or AAAI package errors.
@@ -585,7 +664,7 @@ Non-data:
       548/548 recovery branch, exact-label denominator 3,972, and residual
       calibration risk. Patched stale historical values in Table 1/2/3 markdown
       artifacts and updated Table 5 boundary wording. QA record:
-      `paper/aaai/inspection/claim_qa_20260611.md`. Docker PDF rebuild
+      `archive/paper/aaai_snapshots/inspection_20260625/claim_qa_20260611.md`. Docker PDF rebuild
       `logs/h001_aaai_pdf_build_claim_qa_20260611_000409.log` exited 0.
 - [x] Reproducibility upload artifact bundle finalized for Google Drive/Zenodo/HF
       style external release. Fixed payload list has 211 files and includes the
@@ -783,6 +862,13 @@ Snapshot`, `Current Phase`, `summary.md`,
 the 2026-06-25 reference-expansion source-validation build unless explicitly
 marked as an archived venue/source branch.
 
+- [x] H001 non-human top-tier strengthening completed: exact metric and
+      uncertainty definitions, train-only family-logistic model details,
+      six-method cross-source comparisons, factor/family controls, closest-work
+      novelty boundaries, and a frozen three-source uncertainty sensitivity
+      are reflected in the main paper and two-page supplement. The final
+      Docker-built 9/2/2-page PDFs and refreshed anonymous code/data ZIP pass
+      font, citation, archive, checksum, and identity-path verification.
 - [x] H001 low-K bootstrap CI regenerated from `metrics_k_sweep/metrics.json`:
       Docker `bootstrap_metrics.py` ran with K=`{5,10,20,50,100}`,
       1,000 subgraph resamples, seed `20260526`, and output
@@ -807,7 +893,7 @@ marked as an archived venue/source branch.
       `0.02120/0.04656` compatibility run to `0.45856/0.56743`; authoritative
       report:
       `experiments/H001_geom_reliability/sources/open3dsg/paper_table_reproduction/report.md`.
-- [x] H001 paper `reference_expansion_survey`: checked additional top-tier and adjacent primary sources for claim/contribution support, expanded `paper/references.bib` from 19 to 34 used entries, rewrote AAAI Related Work into role-separated groups, documented the promotion decision in `literature/geocalib_reference_expansion_20260625.md`, and built `paper/aaai/main_reference_expansion.pdf` with log `logs/h001_aaai_pdf_build_reference_expansion_20260625_130811.log`.
+- [x] H001 paper `reference_expansion_survey`: checked additional top-tier and adjacent primary sources for claim/contribution support, expanded `paper/references.bib` from 19 to 34 used entries, rewrote AAAI Related Work into role-separated groups, documented the promotion decision in `literature/geocalib_reference_expansion_20260625.md`, and built the snapshot now archived as `archive/paper/aaai_snapshots/20260625_reference_expansion.pdf` with log `logs/h001_aaai_pdf_build_reference_expansion_20260625_130811.log`.
 - [x] H001 paper `reviewer_process_and_docs_hygiene_pass`: interpreted CVPR 2026 reviewer training for paper-writing rules in `docs/paper.md`, clarified `docs/` as navigation/workflow-rule/runbook space rather than a progress dashboard, updated `docs/README.md`, `docs/index.md`, `docs/literature.md`, `docs/hypothesis.md`, and promoted the documentation ownership rule to `AGENTS.md`.
 - [x] H002 historical stage logs and discarded branches were consolidated into
       the canonical README, claim/method contracts, `report/report_0706.md`, and

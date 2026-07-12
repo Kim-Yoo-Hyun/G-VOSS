@@ -4,13 +4,13 @@
 representations that can support spatial reasoning, embodied AI, scene
 alignment, visual grounding, and downstream decision making
 \cite{wald2020learning3dssg,sarkar2023sgaligner,xie2024sgpgm,liu2026viewongraph}.
-For these uses, relation prediction must be reliable in the physical scene, not
-only plausible at the category or language level. A graph edge such as
+For these uses, relation prediction must be supported by the reconstructed
+scene, not only plausible at the category or language level. A graph edge such as
 \texttt{standing on}, \texttt{next to}, or \texttt{higher than} is useful only
 if it describes the actual subject-object pair in 3D.
 
-We study a failure mode in which semantic relation predictors rank plausible
-relation labels that are geometrically inconsistent for the actual object pair.
+We study a failure mode in which relation predictors rank plausible labels that
+are inconsistent under explicit tests of the actual object-pair geometry.
 A relation can sound plausible for two object categories while being
 contradicted by their contact evidence, distance, or vertical arrangement in
 the reconstructed scene. This mismatch matters more as 3D Scene Graphs become
@@ -21,77 +21,71 @@ The failure is not simply that existing 3DSSG methods ignore geometry. Prior
 work already uses edge features, point-cloud structure, spatial knowledge,
 multimodal semantics, and geometric fusion
 \cite{zhang2021sggpoint,feng2023smka,wang2023vlsat,koch2024sgrec3d,chen2024ccl3dsgg}.
-The gap is more specific: semantic relation confidence is not necessarily a
-calibrated estimate of relation-level physical consistency. A high relation
-score can behave as a semantic plausibility score without indicating whether
-the same subject-object pair satisfies the relation in 3D. This makes the
+The gap is more specific: a source relation score---even when its predictor
+already uses geometry---is not necessarily an explicit estimate of whether the
+same subject-object pair satisfies the predicate in 3D. This makes the
 problem an AI reliability issue, not only a 3DSSG implementation detail:
 language-facing and embodied systems can inherit a confident symbolic relation
 that contradicts the underlying world state.
 
-This motivates a \method{} framework. The framework treats an existing
+The resulting design requirement is factor isolation. \method{} treats an existing
 predictor as a relation source, standardizes its outputs into
 identity-preserving prediction rows, joins object-pair geometry evidence by
 subject and object instance identifiers, and separates predicate/family
-semantics $T$, predicate-independent same-pair geometry $G$, and source
-confidence $Z$. A compatibility factor
-$C=P(y^{cal}=1\mid T,G)$ is calibrated without $Z$; source confidence enters
-only in the final ranking $F(Z,C)$. GeoCalib also separates the framework from
-any one fusion formula. A calibrated product preserves semantic-score
-magnitudes while penalizing family-conditioned geometry risk; a pre-specified rank-average
+semantics $T$, predicate-independent same-pair geometry $G$, and source score
+$Z$. A source-independent compatibility factor
+$C=P(y^{cal}=1\mid T,G)$ is calibrated without $Z$; the source score enters
+only in the final ranking $F(Z,C)$. This separation makes the mechanism
+falsifiable: wrong predicates, wrong pairs, and shuffled geometry should
+destroy compatibility while source confidence remains unchanged. A
+family-calibrated product preserves source-score
+magnitudes while penalizing family-conditioned geometry risk; rank-average
 combines semantic and geometry percentiles without assuming shared source
-scales. Hard physical rules diagnose strict consistency, pooled calibration is
-an ablation, and Reciprocal Rank Fusion is a strong comparison.
+scales. Pooled compatibility calibration is an ablation, Reciprocal Rank
+Fusion is a strong comparison, and hard-rule filtering is a diagnostic rather
+than the proposed operating point.
 Figure~\ref{fig:framework} summarizes this path.
 
 \begin{figure*}[t]
     \centering
-    \figmaybe[width=0.92\linewidth]{../generated/figures/figure1_framework.png}
-    \caption{\textbf{GeoCalib in one relation-row example.} A semantically
-    plausible relation can be physically inconsistent for the same object pair.
-    GeoCalib separates predicate semantics $T$, raw same-pair geometry $G$, and
-    source confidence $Z$, calibrates $C(T,G)$ without $Z$, and supports calibrated-product and
-    scale-robust rank-average re-ranking while reporting recall and violation
-    together.}
+    \figmaybe[width=0.98\linewidth]{../generated/figures/figure1_framework.png}
+    \caption{\textbf{Failure mechanism and GeoCalib overview.} A high-scoring
+    Open3DSG relation is contradicted by the actual ordered-pair geometry.
+    GeoCalib preserves pair identity, isolates predicate semantics $T$, raw
+    geometry $G$, and source confidence $Z$, estimates $C(T,G)$ without $Z$,
+    and combines the factors only for re-ranking. Falsification controls test
+    whether the recall--violation trade-off depends on the correct predicate
+    and object pair.}
     \label{fig:framework}
 \end{figure*}
 
-We evaluate the framework on geometry-checkable relation families:
-\texttt{support\_contact}, \texttt{proximity}, and
-\texttt{relative\_vertical}. These families are selected because their
-validity can be tested from reconstructed object-pair geometry, they cover
-contact, metric proximity, and vertical ordering, and they appear in both
-relation sources with a fixed exact-label denominator. Open3DSG is the main
-open-vocabulary relation source case study, and VL-SAT is a controlled
-reproduced closed-set anchor within the same geometry-checkable family scope
-\cite{wang2023vlsat,koch2024open3dsg}. Controls test
-whether the effect can be explained by calibrator-only ranking, a generic
-distance heuristic, shuffled geometry, or wrong-pair geometry. GT-positive and
-counterfactual checks test the geometry-validity signal independently from
-prediction re-ranking, while qualitative failure analysis shows how semantic
-plausibility diverges from physical consistency.
+We evaluate support/contact, proximity, and relative-vertical relations because
+their constraints are identifiable from reconstructed ordered-pair geometry.
+Open3DSG supplies the main open-vocabulary case study, VL-SAT a controlled
+closed-set anchor, and SGFN an additional source evaluation
+\cite{wang2023vlsat,koch2024open3dsg}. The evaluation reports exact-label
+recall together with verifier violation, uncertainty, coverage, paired
+confidence intervals, and family composition. ReplicaSSG/FROSS provides a
+cross-dataset transfer stress test and development diagnostic for source-scale
+and ranking-transfer failures.
 
 Our contributions are threefold:
 \begin{enumerate}
-    \item We identify and formalize a relation-level reliability failure in 3D
-    Scene Graph prediction: semantic relation confidence can rank plausible
-    predicates that are physically inconsistent because it is not calibrated to
-    object-pair geometry.
-    \item We introduce a \method{} framework that standardizes prediction rows,
-    factorizes $T$, raw $G$, and $Z$, calibrates $C(T,G)$ under the leakage
-    boundary $Z\notin C$, and exposes calibrated-product and scale-robust rank-average soft
-    fusion instantiations while retaining pooled, RRF, and rule-verified
-    comparisons.
-    \item We define a recall-violation evaluation protocol for
-    geometry-checkable relation families, including exact-label \rAt{K},
-    \vAt{K}, GT-positive/counterfactual verifier evaluation, and geometry
-    identity controls.
+    \item We identify and measure a post-source failure: a semantically
+    confident relation can contradict the reconstructed geometry of its actual
+    ordered object pair. We expose it through a joint exact-label recall,
+    verifier-violation, uncertainty, and coverage contract.
+    \item We introduce a factor-isolated reliability layer that estimates
+    predicate-conditioned compatibility $C(T,G)$ under $Z\notin C$ and combines
+    it with source confidence only during re-ranking. Identity,
+    wrong-predicate, and transformation controls make the mechanism falsifiable.
+    \item We establish source-level generalization across VL-SAT, Open3DSG, and
+    SGFN under one geometry-identifiable 3DSSG target, and expose family
+    heterogeneity and cross-dataset transfer failures rather than averaging
+    them away.
 \end{enumerate}
 
-We validate these contributions with Docker-reproducible evidence on VL-SAT,
-Open3DSG, and a prospectively frozen SGFN target, including nontriviality
-controls, family decomposition, failure analysis, and explicit reproduction
-caveats. The claim is intentionally scoped: \method{} measures
-and improves relation reliability for geometry-checkable 3DSSG families. It
-does not claim general open-vocabulary 3D Scene Graph generation improvement,
-arbitrary-source generality, formula dominance, or guaranteed physical correctness.
+The calibrated product improves the recall--violation operating point on the
+failure-exposing Open3DSG source, preserves a near-saturated VL-SAT anchor, and
+satisfies the primary joint criterion on SGFN. These results establish a reliability
+layer for geometry-checkable relations rather than a new relation generator.

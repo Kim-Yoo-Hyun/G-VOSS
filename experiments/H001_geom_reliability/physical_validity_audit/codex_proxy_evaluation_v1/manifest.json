@@ -1,0 +1,30 @@
+{
+  "claim_boundary": "Two passes from the same Codex model family are non-human automatic-judge stability evidence. They do not establish independent physical validity or Human Violation@K.",
+  "docker_command": "env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm codex_proxy_audit_evaluate",
+  "inputs": {
+    "codex_v1": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_v1/codex_proxy_draft.csv",
+      "sha256": "dfad0126291471d8724891b4f4259feb9c56218a59d594b555c32f2d656734ec"
+    },
+    "codex_v2": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_rereview_v2/labels.csv",
+      "sha256": "2a43ec169fee0e798bc18a68f7807cb5f7c238e7a509a082e41bd747743cdd14"
+    },
+    "sidecar": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/frozen_v1/private_sidecar.jsonl",
+      "sha256": "52e6ceb92aaed9e3a9d4d7898e7f462c21e69be2ee53b226d2acc71234497e22"
+    }
+  },
+  "outputs": {
+    "summary.json": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_evaluation_v1/summary.json",
+      "sha256": "085af1aa010e2d65bd1a7fd80387780c2a467ccee01bc809a107707ce83c9223"
+    },
+    "summary.md": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_evaluation_v1/summary.md",
+      "sha256": "c3e2a5f6accc25aeaa86e1674e171691653604f8c5d45c516f0580093ff51e62"
+    }
+  },
+  "schema_version": "h001_codex_proxy_audit_evaluation_manifest_v1",
+  "status": "completed_nonhuman_proxy_only"
+}

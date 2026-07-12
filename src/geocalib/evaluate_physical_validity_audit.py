@@ -15,6 +15,12 @@ from typing import Any
 
 import numpy as np
 
+from validate_human_alignment_annotations import (
+    build_human_reference,
+    public_validation_payload,
+    validate_contract,
+)
+
 
 SCHEMA_VERSION = "h001_physical_validity_audit_evaluation_v1"
 ALLOWED_LABELS = {"physically_valid", "physically_invalid", "ambiguous", "unobservable"}
@@ -382,6 +388,7 @@ def main() -> int:
     rows_a = read_csv(audit_dir / "annotator_a.csv")
     rows_b = read_csv(audit_dir / "annotator_b.csv")
     adjudication_rows = read_csv(audit_dir / "adjudication.csv")
+    annotation_validation = validate_contract(audit_dir)
     expected_ids = {row["audit_id"] for row in sidecar}
     sheet_a_ids = [row.get("audit_id", "") for row in rows_a]
     sheet_b_ids = [row.get("audit_id", "") for row in rows_b]
@@ -462,6 +469,19 @@ def main() -> int:
         if status == "ready" and not adjudication_provenance_valid:
             status = "blocked_invalid_or_nonblinded_adjudication_provenance"
 
+    # The original evaluator required adjudication only for label
+    # disagreements. The frozen addendum is stricter: low-confidence and every
+    # ambiguous/unobservable first-pass row also require a third human. Use the
+    # shared validator as the final gate and reference-label constructor so the
+    # stronger protocol cannot be bypassed here.
+    if annotation_validation["status"] == "ready":
+        status = "ready"
+        primary_labels = build_human_reference(annotation_validation)
+        unresolved = []
+    else:
+        status = annotation_validation["status"]
+        primary_labels = {}
+
     summary: dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
         "created_at_utc": datetime.now(timezone.utc).isoformat(),
@@ -484,6 +504,7 @@ def main() -> int:
             "adjudicator_distinct_nonproxy_if_used": adjudication_provenance_valid,
             "policy": "two complete first-pass sheets require distinct non-proxy reviewer IDs and timestamps; adjudication requires a third distinct non-proxy reviewer when used",
         },
+        "mandatory_adjudication_validation": public_validation_payload(annotation_validation),
         "human_violation_at_k": {},
         "semantic_calibration": {},
         "label_policy": "valid/invalid binary denominator; ambiguous and unobservable reported as coverage exclusions",

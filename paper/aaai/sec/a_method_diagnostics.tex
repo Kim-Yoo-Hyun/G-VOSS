@@ -1,0 +1,36 @@
+\section{Compatibility Model and Calibration Diagnostics}
+
+GeoCalib fits one logistic model per measured relation family. Numeric features
+are standardized by training-only means and standard deviations; missing
+numeric values use the corresponding training mean. The input groups are
+predicate/family indicators $T$, predicate-independent distances, extents,
+overlap, contact, and vertical measurements $G$, and two direction-aligned
+vertical interactions $T\!\times\!G$. Source score and source identity are
+forbidden. All models use binary cross-entropy, $L_2=10^{-4}$, 800 fixed
+gradient steps, and learning rate 0.2.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\caption{\textbf{Family calibration on the held-out calibration-dev split.}
+Labels are the constructed GT-positive/counterfactual target, not human
+physical-validity judgments.}
+\label{tab:family-calibration}
+\begin{tabular}{lrrrrrr}
+\toprule
+Family & Train & Dev & Feat. & AUROC & Brier & ECE \\
+\midrule
+Proximity & 1,732 & 382 & 22 & 1.0000 & .0009 & .0120 \\
+Vertical order & 576 & 274 & 23 & .9982 & .0189 & .0437 \\
+Support/contact & 2,308 & 537 & 24 & .9831 & .0526 & .0378 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The factor-isolation audit uses the same train/dev rows and estimator class,
+without inspecting source-result metrics. At dev, $T$-only, true raw-$G$-only,
+additive $T+G$, and interaction $T\times G$ obtain AUROC
+.6124/.8809/.9193/.9822 and Brier .2370/.1363/.1061/.0495. This establishes
+that predicate--geometry interaction improves the constructed-target fit; it
+does not convert the target into independent physical-validity ground truth.

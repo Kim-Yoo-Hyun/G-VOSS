@@ -1,11 +1,10 @@
 {
   "claim_boundary": "qualitative geometry-backed failure-mechanism evidence only; not a representative human audit and not a new metric",
-  "created_at": "2026-05-21T16:22:35.319230+00:00",
+  "created_at": "2026-07-12T05:27:49.440617+00:00",
   "expected_case_ids": [
     "open3dsg_case_001",
-    "open3dsg_case_005",
     "open3dsg_case_010",
-    "open3dsg_case_007"
+    "open3dsg_case_026"
   ],
   "missing_case_ids": [],
   "outputs": {
@@ -15,12 +14,11 @@
     "svg": "paper/generated/figures/figure3_geometry_panels.svg",
     "svg_exists": true
   },
-  "preprocessed_root": "local_dataset/Open3DSG_staged/h001_runtime/output/datasets/OpenSG_3RScan/preprocessed",
+  "preprocessed_root": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed",
   "rendered_case_ids": [
     "open3dsg_case_001",
-    "open3dsg_case_005",
     "open3dsg_case_010",
-    "open3dsg_case_007"
+    "open3dsg_case_026"
   ],
   "schema_version": "h001_figure3_geometry_panels_v1",
   "source_queue_jsonl": "experiments/H001_geom_reliability/sources/open3dsg/failure_cases/queue.jsonl",

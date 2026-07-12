@@ -1,0 +1,53 @@
+{
+  "schema_version": "h001_replicassg_development_v2_protocol",
+  "status": "frozen_after_original_transfer_result_before_row_level_regeneration",
+  "classification": "cross_dataset_transfer_stress_test_and_development_diagnostic",
+  "test_specific_tuning": true,
+  "purpose": "Use the observed ReplicaSSG/FROSS transfer failure to diagnose source-score scale sensitivity and develop a source-scale-robust, recall-preserving fusion rule.",
+  "non_claims": [
+    "untouched target",
+    "prospective confirmation",
+    "single-shot evaluation",
+    "unbiased official-test estimate"
+  ],
+  "fixed_inputs": {
+    "source": "official FROSS VisualGenome model on the 11 ReplicaSSG official test scenes",
+    "compatibility": "strict train-only family compatibility with Z excluded",
+    "ground_truth": "172 exact near/above/under mappings",
+    "ks": [5, 10, 20, 50, 100]
+  },
+  "source_execution_policy": {
+    "reference_candidate_rows": 4290,
+    "regenerated_candidate_rows": "record the adapter-emitted count and source-prediction hash; do not reject a same-configuration rerun solely for a count difference",
+    "reason": "the official FROSS TensorRT route can emit a small candidate-set variation across regenerated executions; every compared condition must use the same regenerated candidate rows"
+  },
+  "candidate_fusions": {
+    "quantile_product": "within-context percentile(Z) * within-context percentile(C)",
+    "bounded_raw": "percentile(Z) - alpha * max(0, tau - C)",
+    "bounded_quantile": "percentile(Z) - alpha * max(0, tau - percentile(C))",
+    "displacement_constraint": "decode the fusion ranking under an exact absolute source-rank displacement bound"
+  },
+  "grid": {
+    "alpha": [0.05, 0.1, 0.2, 0.3, 0.5, 0.75, 1.0],
+    "tau": [0.2, 0.4, 0.5, 0.6, 0.8],
+    "max_displacement": [0, 10, 20, 50, 100]
+  },
+  "selection": {
+    "primary_k": 100,
+    "recall_guardrail": "development delta Recall@100 >= -0.01",
+    "objective": "among guardrail-feasible configurations, minimize Violation@100, then maximize Recall@100, then minimize mean Violation at K=10 and K=50, then use lexical configuration id",
+    "internal_estimate": "leave-one-scene-out selection on ten scenes and evaluation on the held-out scene",
+    "deployment_configuration": "repeat the same objective on all eleven development scenes"
+  },
+  "reporting": {
+    "all_grid_conditions": true,
+    "candidate_saturation": true,
+    "top_k_overlap": true,
+    "rank_displacement": true,
+    "paired_scene_bootstrap": {
+      "resamples": 1000,
+      "seed": 20260712
+    }
+  },
+  "claim_boundary": "The output is method-development evidence. Any selected configuration requires evaluation on another untouched target before it can support a new prospective or dataset-generalization claim."
+}

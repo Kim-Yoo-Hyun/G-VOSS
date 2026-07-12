@@ -12,22 +12,25 @@ Paper-facing name: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D 
 Current progress snapshot:
 
 - Main source-result evidence is complete for the scoped GeoCalib claim.
-- `family_conditional_risk` is the paper-facing GeoCalib main score
-  (`semantic_score * p_geom_valid_family`); pooled
-  `probabilistic_recalibrated` is an ablation/baseline
-  (`semantic_score * p_geom_valid`), and geometry-only control ranks by
-  `p_geom_valid` without semantic score.
+- The family-calibrated product is a principal GeoCalib instantiation; pooled
+  compatibility product is an ablation, and compatibility-only ranking is a
+  control. Internal artifact keys are retained only in experiment records.
 - Low-K reporting is accepted for K = `{5,10,20,50,100}`; point-metric provenance is present in both paper-facing `metrics_k_sweep/` roots, and K=1 remains sanity-check only.
 - Qwen-VL full official validation downstream is complete as appendix/extension evidence, not as a main-source replacement.
-- Active target-year main build is `logs/h001_aaai27_main_build_20260712.log`,
-  exit 0; triplet verification is
-  `logs/h001_aaai27_final_triplet_build_20260712.log`, exit 0.
+- Active target-year build is
+  `logs/h001_strengthening_final_build_v2_20260712.log`, exit 0.
   `main_aaai27.pdf` is 9 pages with technical content on pages 1--7
-  and references only on 8--9; supplement/checklist are separate 1/2-page
+  and references only on pages 8--9; supplement/checklist are separate 2/2-page
   PDFs. The verified OpenReview bundle is
   `release/h001_aaai27_openreview_20260712_083625/`.
 - Remaining work is author-side OpenReview metadata, public-license/artifact
-  choice, and the optional human-alignment study, not new main-source metrics.
+  choice, and an optional separately authorized human-alignment study, not new
+  main-source metrics.
+- Non-human strengthening is complete: method hyperparameters and exact metric
+  denominators are explicit; strong fusion/filter/pooled baselines and family
+  composition are reported; recent closest-work boundaries are added; and a
+  frozen uncertainty sensitivity rules out uncounted uncertain rows as the
+  source of the Violation reduction.
 
 ## Research Claim Being Tested
 
@@ -523,7 +526,7 @@ Conclusion. The current target-venue LaTeX source is in `paper/aaai/`, using
 the official AAAI-27 style. Docker verification with
 `h001-aaai27-tex:20260712` builds `main_aaai27.pdf` to 9 pages: technical
 content occupies pages 1--7 and references only pages 8--9. Supplement and
-checklist are separate 1/2-page PDFs. BibTeX uses 34 entries, Type 3 fonts are
+checklist are separate 2/2-page PDFs. BibTeX uses 34 entries, Type 3 fonts are
 zero, and targeted checks found no missing citations, undefined refs, overfull
 boxes, LaTeX errors, or AAAI package errors. Low-K source metrics are now
 regenerated in `metrics_k_sweep/`

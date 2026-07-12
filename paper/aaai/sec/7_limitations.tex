@@ -1,28 +1,24 @@
 \section{Limitations}
 
-The claim covers contact/support, proximity, and vertical ordering, where
-reconstructed geometry supports falsifiable checks. Functional and pragmatic
-predicates remain outside scope. Front/behind is frame-ambiguous, and a
-left/right variant fails its train/dev strict gate; these are reported as
-negative scope evidence. Exact-label GT-object evaluation also makes Open3DSG
-relation-reliability evidence rather than full open-vocabulary generation.
+GeoCalib assumes a geometry-identifiable predicate and known object instances.
+We test support/contact, proximity, and vertical order; functional predicates
+remain out of scope, front/behind is frame-dependent, and left/right fails the
+defined controls. The task is relation reliability, not complete open-vocabulary
+graph generation.
 
-Open3DSG uses a selected non-averaged checkpoint and documented 548/548 recovery
-branch, not an official leaderboard reproduction. The 533/548 route and
-historical 377/388--388/388 comparison are sensitivity evidence; broad SOTA and
-arbitrary-source generality remain blocked.
-
-V is verifier-derived; two blinded Codex passes share a model family and lack
-human alignment, so they are proxy diagnostics. Fusion is source-dependent:
-\texttt{support\_contact} V regresses, while on untouched 11-scene
-ReplicaSSG/FROSS, product is unchanged at $K=100$ and rank-average fails the
-recall guardrail (supplement). Thus we claim no formula, family, or dataset-wide
+Violation@$K$ is verifier-derived, and its geometric primitives overlap with
+the compatibility target. Counterfactual controls test the learned factor but
+do not replace an independent physical-validity reference. Moreover,
+support/contact regresses, and the initial ReplicaSSG/FROSS transfer exposes
+source-score scale, ranking-displacement, geometry-representation, and ontology
+shift. ReplicaSSG is used as a development diagnostic rather than an unbiased
+external evaluation: bounded fusion preserves recall in an all-scene fit but
+fails the leave-one-scene-out recall guardrail. The evidence therefore establishes source-level
+generalization on one 3DSSG target, not uniform family or dataset-wide
 generality.
 
-SGFN preserves two pre-inference errata for split identity and the
-\texttt{full\_l160} URL. Eleven self-\texttt{supported by} GT rows lack model
-edges; no predictions are synthesized, and all remain in the 3,972-row recall
-denominator. The scores remain constructed-target reliability, not human
-validity; factor controls do not expand SGFN or support a generic interaction
-claim. Future work requires human alignment, broader relations, and embodied
-tests.
+A source-supervised nonlinear rescorer also outperforms the parameter-free
+product when exact development labels are available. Our claim is thus
+source-independent factor isolation, not formula optimality. Future work should
+validate the metric independently, improve contact evidence, and test
+downstream decision benefits.

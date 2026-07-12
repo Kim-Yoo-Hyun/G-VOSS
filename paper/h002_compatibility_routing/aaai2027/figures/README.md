@@ -11,6 +11,7 @@ AAAI-27 constraints to preserve:
 
 Current generated vector assets:
 
+- `method_overview.pdf`: Figure 1 factorization, leakage boundary, score flow, and route status.
 - `comparison_tradeoff_ci.pdf`: main-paper Recall/Violation tradeoff with CI.
 - `qualitative_reranking_rows.pdf`: actual validation-row examples for the supplement.
 - `failure_routes.pdf`: front/behind and support/contact failure visualization.

@@ -27,7 +27,7 @@ The PNG preview files are generated inspection artifacts and are ignored by
 Facts:
 
 - Claim/caveat QA record:
-  `paper/aaai/inspection/claim_qa_20260611.md`
+  `archive/paper/aaai_snapshots/inspection_20260625/claim_qa_20260611.md`
 - QA status: `claim_caveat_qa_pass_after_table_artifact_patch`
 - Checked consistency targets: full official validation as the primary route,
   Open3DSG 548/548 `recovery_relaxed_views_min2` branch, exact-label
