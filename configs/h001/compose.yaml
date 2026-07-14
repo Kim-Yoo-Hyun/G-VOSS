@@ -1,4 +1,21 @@
 services:
+  structured_main_evaluation:
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/run_structured_main_evaluation.py
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/structured_main_v1/protocol.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/structured_main_v1/evaluation
+
   bounded_fusion_cross_source:
     image: h001-geom-reliability:latest
     working_dir: /workspace
@@ -788,6 +805,82 @@ services:
       - /workspace
       - --out
       - /workspace/archive/experiments/H001_geom_reliability/sources/attachment_deferred/scope_audit
+
+  attachment_subtype_redesign_v2:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/redesign_attachment_subtypes.py
+    command:
+      - --repo-root
+      - /workspace
+      - --attachment-root
+      - /workspace/archive/experiments/H001_geom_reliability/sources/attachment_deferred
+      - --out
+      - /workspace/archive/experiments/H001_geom_reliability/sources/attachment_deferred/subtype_redesign_v2
+
+  attachment_subtype_v2_development_diagnostic:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/evaluate_attachment_subtypes_v2.py
+    command:
+      - --repo-root
+      - /workspace
+      - --attachment-root
+      - /workspace/archive/experiments/H001_geom_reliability/sources/attachment_deferred
+      - --redesign-dir
+      - subtype_redesign_v2
+      - --ground-truth
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl
+      - --out
+      - development_diagnostic_v1
+      - --fusion
+      - raw_selective
+      - --n-bootstrap
+      - "1000"
+
+  attachment_subtype_v2_bounded_diagnostic:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/evaluate_attachment_subtypes_v2.py
+    command:
+      - --repo-root
+      - /workspace
+      - --attachment-root
+      - /workspace/archive/experiments/H001_geom_reliability/sources/attachment_deferred
+      - --redesign-dir
+      - subtype_redesign_v2
+      - --ground-truth
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl
+      - --out
+      - development_diagnostic_v2
+      - --fusion
+      - bounded_symmetric
+      - --n-bootstrap
+      - "1000"
 
   attachment_deferred_extractor_contract:
     build:
@@ -2381,6 +2474,66 @@ services:
       - --out
       - /workspace/experiments/H001_geom_reliability/nonlinear_fusion_baseline/evaluation_v1
 
+  nonlinear_transfer_vlsat:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/run_nonlinear_fusion_baseline.py
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/nonlinear_transfer_v1/protocol_vlsat.json
+      - --train-verification
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev/geometry/verification.jsonl
+      - --train-ground-truth
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev_ground_truth.jsonl
+      - --final-verification
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/geometry/verification.jsonl
+      - --final-ground-truth
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl
+      - --compatibility-models
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/calibration/fitted/models.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/nonlinear_transfer_v1/vlsat
+
+  nonlinear_transfer_open3dsg:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/run_nonlinear_fusion_baseline.py
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/nonlinear_transfer_v1/protocol_open3dsg.json
+      - --train-verification
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev/geometry/verification.jsonl
+      - --train-ground-truth
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev_ground_truth.jsonl
+      - --final-verification
+      - /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/geometry/verification.jsonl
+      - --final-ground-truth
+      - /workspace/experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl
+      - --compatibility-models
+      - /workspace/experiments/H001_geom_reliability/train_only_reestablishment_v1/calibration/fitted/models.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/nonlinear_transfer_v1/open3dsg
+
   factor_isolation_protocol_freeze:
     build:
       context: ../..
@@ -3672,3 +3825,103 @@ services:
       - /workspace
       - --out
       - /workspace/experiments/H001_geom_reliability/sources/replicassg/prospective_protocol/frozen_v1
+
+  relative_size_freeze:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/geocalib/run_relative_size_extension.py]
+    command:
+      - freeze
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/relative_size_v1
+      - --docker-service
+      - relative_size_freeze
+
+  relative_size_fit:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/geocalib/run_relative_size_extension.py]
+    command:
+      - fit
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/relative_size_v1
+      - --docker-service
+      - relative_size_fit
+
+  relative_size_lock:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/geocalib/run_relative_size_extension.py]
+    command:
+      - lock
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/relative_size_v1
+      - --docker-service
+      - relative_size_lock
+
+  relative_size_evaluate:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/geocalib/run_relative_size_extension.py]
+    command:
+      - evaluate
+      - --repo-root
+      - /workspace
+      - --out
+      - /workspace/experiments/H001_geom_reliability/relative_size_v1
+      - --n-bootstrap
+      - "1000"
+      - --seed
+      - "20260713"
+      - --docker-service
+      - relative_size_evaluate
+
+  relation_algebra_development:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/run_relation_algebra_development.py
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/relation_algebra_v1/protocol.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/relation_algebra_v1/evaluation

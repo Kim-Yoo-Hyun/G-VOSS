@@ -1,6 +1,6 @@
 # H001 Paper Reviewer-Risk Register
 
-Last updated: 2026-07-12 KST
+Last updated: 2026-07-14 KST
 
 Scope: this file tracks paper-body risks for the current AAAI manuscript under
 `paper/aaai/`. The goal is not sentence polish; it is to prevent reviewer attacks
@@ -8,26 +8,51 @@ on logic, evidence, novelty, scope, and reproducibility.
 
 ## Current Verdict
 
-GeoCalib is viable as a scoped relation-reliability paper, not as a
+2026-07-14 submission-pass assessment: the manuscript is in a borderline
+weak-reject/weak-accept range rather than accept-safe. The strongest defenses
+are the explicit failure mechanism, source-score exclusion, identity-preserving
+controls, linked counterfactuals, exact relation-algebra projection, strong
+fusion/nonlinear comparisons, all-budget joint Recall--Violation reporting,
+and family/uncertainty analyses. The unresolved scientific limits are shared
+geometry primitives between compatibility and Violation, one shared dataset
+target, support/contact regression, and the source-supervised nonlinear
+rescorer that blocks formula-superiority claims. Table 2 is now a single-column
+control table, exact Open3DSG recovery counts remain in the supplement, and the
+main text describes paired bootstrap uncertainty without exposing resampling
+implementation details.
+
+A completed independent human-alignment study can improve the first limit if
+two independent annotators plus blinded adjudication produce a sufficiently
+covered reference and Human Violation@K reproduces the source-versus-method
+direction. This could move a construct-validity-focused reviewer toward weak
+accept, but it does not address the single-dataset or best-rescorer limits.
+Codex-to-Codex agreement or validator completion alone provides no such
+acceptance benefit.
+
+RelCompat3D is viable as a scoped relation-reliability paper, not as a
 broad open-vocabulary 3DSSG generation paper. The strongest contribution remains:
 
-> Existing 3DSSG relation sources can assign high source scores to
-> physically inconsistent relation edges; GeoCalib contributes a calibrated
-> geometry-consistency evaluation and re-ranking framework that makes this
-> failure measurable, reduces violations under explicit recall tradeoffs, and
-> reports controls, GT/counterfactual verifier checks, and failure analysis.
+> Existing 3DSSG relation predictors can assign high confidence to predicates
+> inconsistent with the reconstructed object pair; RelCompat3D contributes a
+> source-score-excluded geometric-compatibility model with linked
+> counterfactual ordering, exact relation-algebra projection, and joint
+> recall--violation evaluation.
 
-Current framing decision: GeoCalib is the calibrated geometry-consistency
-framework, not one uniquely optimal formula. The Family-calibrated product
+Current framing decision: RelCompat3D is a predictor-agnostic compatibility
+framework, not one uniquely optimal formula. The structured product
 (`source score * family compatibility`) and fixed Rank-average fusion are two
-soft fusion instantiations. Pooled calibration is an
+soft fusion instantiations. Pooled compatibility is an
 ablation, RRF a strong comparator, hard filtering a diagnostic, and
 calibrator-only/no-source-score ranking a control.
 
+The finalized claim is cross-predictor robustness across VL-SAT, Open3DSG, and
+SGFN on one shared 3DSSG/3RScan target. Cross-dataset generalization is out
+of scope and ReplicaSSG/FROSS is de-scoped from the active submission.
+
 Factor-isolation decision: define `T_e` as predicate/family semantics, `G_e`
 as raw predicate-independent same-pair geometry, `Z_e` as source relation score,
-and `C_e=P(y_cal=1|T_e,G_e)`, with `Z_e notin C_e`. `y_cal` is a constructed
-GT-positive/counterfactual calibration target, not direct human validity. The
+and `C_e=sigmoid(h_a(Phi(T_e,G_e)))`, with `Z_e notin C_e`. This is a bounded
+constructed-target compatibility score, not a physical-validity probability. The
 legacy `p_geom_valid`-only row is calibrator-only/no-`Z`; calling it true
 geometry-only would be inaccurate because the model retains `T_e` and
 predicate-aligned interactions.
@@ -35,10 +60,9 @@ predicate-aligned interactions.
 The main rejection risks are not that the topic is unimportant. They are:
 
 - the method could be read as a hand-coded verifier/post-processing script;
-- factor isolation is now demonstrated under the strict train-only audit, but
-  the pooled interaction model fails structural controls and support/contact
-  remains unsolved; compatibility claims must stay with the selected family
-  model and exact counterfactual tests;
+- factor isolation is demonstrated under the strict train-only audit, and a
+  projected pairwise candidate now satisfies exact proximity/vertical algebra;
+  support/contact remains unsolved and has no valid blanket endpoint transform;
 - Open3DSG is the main source but uses a reproduced selected checkpoint and a
   recovery-policy full-validation branch;
 - the measured relation-family scope may look narrow if reviewers expect broad
@@ -47,7 +71,9 @@ The main rejection risks are not that the topic is unimportant. They are:
   unless the physical evidence schema is separated from class priors;
 - controls and GT verifier evidence may look under-specified in the main text;
 - audit wording may look non-anonymous or overfit to an internal reference;
-- novelty can be blurred by recent relation-witness/calibrated-witness work.
+- novelty can be blurred by recent relation-witness work and by 2026 post-hoc
+  declarative scene-graph refinement that already mines symmetry, inverse, and
+  composition rules and reports a Constraint Violation Rate.
 - the previous 127-scan H001 hardened scope can still confuse reviewers unless
   it is consistently framed as historical/sensitivity evidence; the main route
   is now the full official validation split.
@@ -94,27 +120,40 @@ The main rejection risks are not that the topic is unimportant. They are:
 - a parameter-count-matched nonlinear rescorer trained with source-specific
   exact-label supervision dominates the calibrated product at low K and lowers
   SGFN K=100 violation. This blocks any best-fusion or formula-optimality
-  claim; the remaining novelty must be the source-independent factor contract,
+  claim; the remaining novelty must be the predictor-agnostic factor contract,
   identity controls, and joint evaluation protocol.
+- unchanged cross-source evaluation of that nonlinear model significantly
+  loses Recall on VL-SAT at K=100 and on VL-SAT/Open3DSG at smaller K. This
+  supports the source-independence distinction, but does not erase its strong
+  SGFN upper-bound result.
 - target-year style, standalone checklist, supplement policy, and anonymous
   OpenReview upload ZIP are verified and built. Remaining submission risk is
   author-controlled metadata (profiles, countries, reciprocal reviewer) plus
   the final public license/post-acceptance artifact URL.
 
-The principal non-human metric loophole is now closed: frozen sensitivity
+The principal uncertainty loophole is now closed: sensitivity
 reports decidable-only Violation, uncertainty rate, and a pessimistic bound
 that treats every uncertain selected row as a violation. At K=100 the
-Family-calibrated product lowers the pessimistic bound relative to the source
+structured product lowers the pessimistic bound relative to the source
 score for VL-SAT (`-0.04801`), Open3DSG (`-0.25264`), and SGFN (`-0.05856`),
 with all paired 95% CIs below zero. Thus the aggregate Violation reductions do
 not arise from moving difficult rows into an uncounted uncertain category.
 
-The novelty boundary now explicitly distinguishes GeoCalib from SCR-SSG,
-RelWitness, SGFormer++, RelGraphOV, and PUF. The defensible novelty is the
-source-independent predicate--geometry compatibility calibration contract plus
-joint recall/violation/uncertainty accounting and counterfactual identity
-controls; it is not generic semantic--geometric fusion, a new relation
-generator, or universal formula superiority.
+Context dependence is now tested separately. A 1,000-resample scan-cluster
+bootstrap carries all contexts of each sampled scan together. Every K=100
+verifier-V interval remains below zero; Open3DSG and SGFN Recall intervals
+exclude zero, while the VL-SAT lower bound reaches zero. This supports the
+direction of the main result without overstating VL-SAT significance under the
+more conservative dependence unit.
+
+The novelty boundary now explicitly distinguishes RelCompat3D from SCR-SSG,
+RelWitness, SGFormer++, RelGraphOV, PUF, and Visual Commonsense Driven
+Knowledge Refinements. The defensible novelty is their combination of a
+source-excluded continuous 3D ordered-pair compatibility factor, identity
+joins, linked counterfactual training, exact relation-algebra projection, and
+joint recall/violation/uncertainty accounting. It is not generic
+semantic--geometric fusion, the first post-hoc constraint method, the first
+violation metric, a new relation generator, or universal formula superiority.
 
 ## Orthogonal Persona Review, 2026-06-14
 
@@ -129,7 +168,7 @@ Persona A, skeptical 3DSSG/CV reviewer:
 
 Persona B, ML calibration/reliability reviewer:
 
-- GeoCalib is strongest when the paper emphasizes calibration, controls, and
+- RelCompat3D is strongest when the paper emphasizes calibration, controls, and
   counterfactual/GT verifier evidence rather than hand-coded rules.
 - Low-K can improve the reliability story because top-ranked relations matter,
   but K=5/10/20 must be reported alongside K=50/100 and recall collapse checks.
@@ -138,11 +177,28 @@ Persona C, reproducibility/area-chair reviewer:
 
 - The result package is the remaining high-risk surface. Portal checklist
   answers, artifact link/DOI, supplementary policy, and exact package contents
-  must be frozen after the GeoCalib/Figure-1 source state.
+  must be frozen after the RelCompat3D/Figure-1 source state.
 - If low-K rows are in the paper, the matching point-metric artifacts must exist
   in the release bundle or be regenerated by a documented Docker command. Low-K
   bootstrap ranges should stay in artifacts unless the paper explicitly needs
   uncertainty tables.
+
+Relative-size extension reviewer risk, 2026-07-13:
+
+- Positive evidence: the learned product passes the frozen within-family and
+  global four-family K=100 gate for VL-SAT, Open3DSG, and SGFN, with exact
+  1,061/117/157 split separation and all metamorphic controls passing.
+- Novelty ceiling: the learned score does not strictly beat the fixed robust-
+  point rule on Violation. If promoted, present relative size as evidence that
+  the factor-isolated framework extends to another geometry-identifiable
+  family, not as evidence that learning is necessary or optimal there.
+- Construct-validity ceiling: model and verifier use disjoint point subsets and
+  different percentile extents, but both derive from the same segmentation;
+  perfect binary agreement with point/OBB rules marks this as a rule-easy
+  family. Independent human or independently sensed size evidence would still
+  be needed for a stronger construct claim.
+- Fusion ceiling: four-family rank-average fails the global Recall guard on
+  VL-SAT and SGFN, so no universal two-instantiation extension is allowed.
 
 ## Mitigation Status
 
@@ -223,27 +279,45 @@ R@100 while lowering V, but LOSO changes R/V to `.31977/.03839` and its dR CI
 shows source-dependent recall costs. Keep bounded fusion in the supplement and
 retain the main source-level framework claim.
 
+2026-07-13 novelty-mechanism update: six structured compatibility candidates
+were frozen and evaluated on the same 3DSSG source routes. Orbit projection
+alone guarantees algebra but does not improve linked-pair ordering; pairwise
+training improves ordering but is not equivariant; an algebra-only basis loses
+too much Open3DSG Recall. Their combination---linked-counterfactual margin
+fitting plus exact orbit projection---is the sole condition that passes every
+frozen gate. It has exactly zero close-by swap and higher/lower inverse error,
+while preserving K=100 Recall within the -0.01 guard on all three sources. The
+effect on aggregate R/V relative to the strict family product is small. Treat
+this as a structural mechanism upgrade, not a performance or formula claim.
+
+The same-date nonlinear transfer diagnostic applies the SGFN-supervised MLP
+unchanged to VL-SAT and Open3DSG. It loses Recall significantly on VL-SAT at
+K=100 and on both sources at smaller K. This makes the source-independence
+distinction empirical. The structural candidate now replaces the continuity
+product as the paper main compatibility. A single `structured_main_v1` route
+regenerated every comparator, uncertainty result, family-wise CI, figure, and
+table from the locked model. The 3DSSG-only scope decision removes external-
+dataset confirmation from the active acceptance contract.
+
 Updated on 2026-06-25 KST after promoting family-conditional risk to the main
-GeoCalib score and demoting pooled calibrated risk to ablation/baseline:
+RelCompat3D score and demoting pooled calibrated risk to ablation/baseline:
 
 - P11 H001_v2 method-variant risk: resolved for the current paper route.
   Fixed-`tau*` H001_v2 is locked as diagnostic candidate evidence only. It has
   positive shuffled/wrong-pair tau controls, but VL-SAT recall collapse and
   mixed comparison to fixed paper scores block main-table promotion.
   Lambda-soft selected `lambda*=1.25` is also diagnostic-only. The main paper
-  score is now `family_conditional_risk =
-  semantic_score * p_geom_valid_family`; pooled
-  `probabilistic_recalibrated = semantic_score * p_geom_valid` is retained as
-  an ablation/baseline, not as geometry-only control.
+  score is now source score times relation-algebra-constrained compatibility;
+  pooled product is retained as an ablation/baseline, not as a geometry-only
+  control.
 
-- P10 GeoCalib/package risk: resolved for anonymous review upload on 2026-07-12.
-  The current main/supplement/checklist were rebuilt in Docker and the verified
-  field bundle is `release/h001_aaai27_openreview_20260712_083625/`. Its
-  anonymized ZIP includes low-K compact results plus SGFN, factor/train-only,
-  uncertainty sensitivity, Codex proxy, ReplicaSSG/FROSS, and Open3DSG
-  provenance evidence. Remaining external
-  submission risks are the target-year form/style/supplement policy and final
-  artifact URL/DOI decision; low-K bootstrap ranges still should not be printed
+- P10 RelCompat3D/package risk: resolved for the local upload artifacts. The
+  synchronized PDFs and focused anonymous structured-main supplement are
+  verified under `release/h001_aaai27_openreview_20260714_152303/`. The stale
+  2026-07-12 bundle must not be uploaded. Codex proxy, ReplicaSSG/FROSS,
+  Qwen-VL, and historical condition payloads are excluded. Remaining external submission risks
+  are author metadata, the final public license/artifact URL, and the usual
+  OpenReview upload checks; low-K bootstrap ranges still should not be printed
   in the main paper.
 
 - P0 main-text mitigation: completed. `paper/aaai/sec/6_results.tex` no longer
@@ -393,6 +467,16 @@ GeoCalib score and demoting pooled calibrated risk to ablation/baseline:
   that the dev split has no `connected to` positive seed, so any connected-to
   family-conditional calibration claim needs pooled calibration, augmented dev
   selection, or explicit limitation.
+- Attachment subtype v2 now exposes the deeper ontology risk: 199/325 legacy
+  strict rows carry an `ambiguous_*` subtype, so ambiguity was mixed with the
+  physical mechanism used for calibration. The replacement separates
+  predicate, mechanism, and observability; abstains unresolved cases and keeps
+  `connected to` positive-only. Its raw selective product increases K=100
+  Violation in both sources. The bounded multiplier passes VL-SAT K=100 but
+  fails Open3DSG K=100 (dR `-0.04752`, dV `+0.01145`) and VL-SAT K=50. This
+  closes the design ambiguity but not the empirical promotion gate. Do not add
+  attachment metrics, taxonomy novelty, or broader-family wording to the
+  active submission.
 - Historical verification logs from 2026-05-26 and 2026-05-27 exited 0 and are
   retained as completed-history records. They are superseded for current
   paper-facing status by

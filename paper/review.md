@@ -1,14 +1,38 @@
-# GeoCalib Orthogonal Persona Review
+# RelCompat3D Orthogonal Persona Review
 
-Last updated: 2026-06-25 KST
+Last updated: 2026-07-14 KST
 
-Scope reviewed: current GeoCalib/H001 claim, contribution framing, method
+Scope reviewed: current RelCompat3D/H001 claim, contribution framing, method
 definition, main AAAI manuscript source, compact result tables, bootstrap CI,
-paper risk register, and H001_v2 family-conditional risk status.
+paper risk register, and the promoted relation-algebra-constrained main route.
 
 This is an internal review. It separates observed facts from reviewer-style
 inference and assumes the current paper claim remains scoped to
 geometry-checkable 3D Scene Graph relation reliability.
+
+## 2026-07-14 Precision-Pass Override
+
+This override supersedes older calibration-probability and source-level wording
+in the persona notes below.
+
+- `C` is a bounded score for the constructed positive/counterfactual target,
+  not a calibrated probability of physical validity.
+- One predictor-agnostic compatibility model is applied unchanged to three
+  predictors on a shared 3DSSG target; cross-dataset generalization is not
+  claimed.
+- Main tables retain K=`{5,10,20,50,100}` and separate exact-label Recall from
+  verifier-derived Violation. K=100 is primary; smaller-budget effects are
+  predictor dependent.
+- A scan-cluster bootstrap addresses within-scan context dependence. Every
+  K=100 Violation interval remains below zero; the VL-SAT Recall lower bound
+  reaches zero.
+- The main remaining scientific risks are independent construct validity,
+  support/contact regression, and the novelty ceiling imposed by a strong
+  source-supervised nonlinear rescorer.
+- The active title is `Beyond Semantic Confidence: Relation-Algebra-Constrained
+  Geometric Compatibility for 3D Scene Graph Relations`; Docker outputs are
+  9/2/2 pages and the verified bundle is
+  `release/h001_aaai27_openreview_20260714_152303/`.
 
 ## Overall Verdict
 
@@ -21,20 +45,18 @@ Fact:
   full-validation `recovery_relaxed_views_min2/`.
 - The main metric table reports K = `{5,10,20,50,100}` and keeps K=1 outside
   paper metrics.
-- `family_conditional_risk` is now the GeoCalib main score:
-  `semantic_score * p_geom_valid_family`.
-- `probabilistic_recalibrated` is the pooled calibrated-risk ablation:
-  `semantic_score * p_geom_valid`.
-- Geometry-only control is separate: `p_geom_valid` ranking without semantic
-  score.
+- The main method is source score times relation-algebra-constrained
+  compatibility; Rank-average and RRF are synchronized rank comparisons.
+- Pooled product is the family-conditioning ablation.
+- Compatibility-only removes source confidence but is not true geometry-only.
 
 Inference:
 
 - The paper is currently viable as a scoped reliability/evaluation-method paper
   if the manuscript keeps the claim narrow and explicit.
-- The contribution is defensible when presented as a calibrated
-  geometry-consistency evaluation and re-ranking framework with row identity,
-  calibration, controls, recall/violation tradeoff, and provenance.
+- The contribution is defensible when presented as predictor-agnostic
+  compatibility estimation and re-ranking with row identity, structural
+  controls, and a joint recall/violation trade-off.
 - The paper becomes vulnerable if it claims broad open-vocabulary 3DSSG
   improvement, source-agnostic SOTA, or downstream reasoning improvement.
 
@@ -95,8 +117,9 @@ Strengths:
   should remain prominent.
 - GT-positive/counterfactual verifier evidence gives the geometry signal a
   calibration story beyond source-result post-processing.
-- `family_conditional_risk` is a principled main score: relation families have
-  different geometry-risk surfaces, so a pooled calibrator can be miscalibrated.
+- The linked-counterfactual objective and exact orbit projection make the main
+  score more than family-specific calibration: they enforce the intended
+  ordering and proximity/vertical algebra by construction.
 
 Concerns:
 
@@ -150,9 +173,9 @@ Concerns:
   documents by design. The submission-facing risk is now to keep those sections
   explicitly labeled as historical/sensitivity and to avoid copying them into
   the main source-result table.
-- The current compact report, manifest, bootstrap mirror, and AAAI prose now
-  use the full-validation route with `family_conditional_risk` as the main
-  score; future regenerated tables must preserve that convention.
+- The current compact report, manifest, and AAAI prose use the coordinated
+  `structured_main_v1` route with relation-algebra-constrained compatibility
+  as the main score; future regenerated tables must preserve that convention.
 - Bootstrap CI is currently explained as evaluation-context uncertainty, not
   training variance. That distinction must be preserved.
 - Low-K results should not be described as newly discovered post-hoc evidence.
@@ -186,9 +209,10 @@ Strengths:
 - Artifact bundle inventory, checksums, row counts, and verification script are
   already present.
 - The latest artifact bundle verification passed after checksum regeneration.
-- AAAI PDF build is reproducible by Docker and currently produces a 10-page US
-  Letter PDF: technical content pages 1-7, references pages 8-9, checklist page
-  10, with Type 1 fonts.
+- AAAI PDF build is reproducible by Docker and currently produces separate
+  8/2/2-page US-Letter main/supplement/checklist PDFs. Main technical content
+  continues through page 7, references occupy pages 7--8, and Type 3 fonts are
+  zero.
 
 Concerns:
 
@@ -198,8 +222,9 @@ Concerns:
 - Open3DSG recovery depends on selected checkpoint provenance and relaxed view
   regeneration. Artifact reviewers may see this as fragile unless the exact
   branch policy is documented.
-- Any stale upload bundle or flattened package made before the low-K and
-  family-conditional naming pass is invalid.
+- The verified upload source is
+  `release/h001_aaai27_openreview_20260714_170829/`; earlier flattened or
+  2026-07-12 field packages are historical only.
 - Because multiple source routes exist, users may run the wrong one unless the
   README points to the canonical path.
 
@@ -231,7 +256,10 @@ Strengths:
 - The contribution stack is coherent: row standardization, identity-preserving
   geometry join, calibrated geometry validity, operating points, recall/violation
   evaluation, and controls.
-- The title `GeoCalib` is appropriate and avoids internal H001 naming.
+- The title `Beyond Semantic Confidence: Relation-Algebra-Constrained
+  Geometric Compatibility for 3D Scene Graph Relations` states the failure, method
+  principle, and task without reusing the existing `GeoCalib` paper name;
+  `RelCompat3D` is reserved for the method identity.
 - The paper's strongest sentence is the scoped claim that calibrated
   geometry-consistency scoring exposes and reduces physically inconsistent
   relation predictions while preserving recall tradeoffs.
@@ -240,10 +268,10 @@ Concerns:
 
 - The method can still read procedural if the manuscript over-describes scripts
   and under-emphasizes the failure mechanism and design necessity.
-- The strongest empirical row is now also the declared main score:
-  `family_conditional_risk`. The remaining risk is whether the manuscript
-  explains why family-conditioned calibration is a design choice rather than a
-  post-hoc trick.
+- The main score is now structurally motivated rather than selected solely as
+  the strongest empirical row. The remaining risk is that reviewers may still
+  reduce it to engineered-feature calibration if the linked objective and
+  exact algebra projection are not foregrounded.
 - Qwen-VL, H002, attachment, and lateral tracks are useful research context but
   can dilute the paper if they appear in the main story.
 - Figure 1 and Figure 2 must visually communicate the contribution; if they look
@@ -261,8 +289,8 @@ Required defense:
 - Keep the three contributions short and specific.
 - In the abstract and introduction, say "calibrated geometry-consistency
   evaluation and re-ranking framework" rather than "geometry verifier".
-- State that `family_conditional_risk` is the promoted main score and that
-  pooled `probabilistic_recalibrated` is an ablation/baseline.
+- State that the relation-algebra-constrained product is the promoted main
+  score and pooled product is an ablation/baseline.
 - Avoid adding more experiments unless they close a specific reviewer attack.
 
 ## Cross-Persona Consensus
@@ -270,7 +298,7 @@ Required defense:
 Strongest current claim:
 
 ```text
-For geometry-checkable 3D Scene Graph relation families, GeoCalib shows that
+For geometry-checkable 3D Scene Graph relation families, RelCompat3D shows that
 semantic relation confidence is not reliably calibrated to object-pair physical
 consistency, and that calibrated geometry-risk re-ranking can reduce top-K
 geometric violations under explicit recall tradeoffs across VL-SAT and Open3DSG.
@@ -299,9 +327,9 @@ Main residual risks:
 
 P0 before submission:
 
-- Preserve the completed decision that `family_conditional_risk` is the main
-  GeoCalib score, `probabilistic_recalibrated` is pooled ablation, and
-  geometry-only is a separate control.
+- Preserve the completed decision that the relation-algebra-constrained
+  product is the main RelCompat3D score, pooled product is an ablation, and
+  compatibility-only is a no-source-score control.
 - Keep the final upload package tied to the regenerated checksum manifest and
   verification log after the family-main documentation/table pass.
 
@@ -324,7 +352,7 @@ P2 optional:
 
 ## Final Recommendation
 
-Proceed with the current scoped GeoCalib paper, but tighten consistency and
+Proceed with the current scoped RelCompat3D paper, but tighten consistency and
 method-default wording before submission. The paper's best defense is not more
 experiments; it is disciplined framing: calibrated geometry-consistency
 reliability for measured 3DSSG relation families, explicit recall/violation

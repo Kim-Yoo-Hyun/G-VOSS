@@ -1,0 +1,76 @@
+{
+  "created_at_utc": "2026-07-13T04:16:52.351640+00:00",
+  "diagnostics_sha256": "684915b5ce85443bdbcb6cfcf3d8c763b1cf7e2601fbbeb84d2d7304c468fceb",
+  "docker_service": "relative_size_lock",
+  "internal_dev_diagnostics": {
+    "controls": {
+      "common_scale_invariance": {
+        "max_absolute_error": 2.220446049250313e-16,
+        "mean_absolute_error": 3.2479928911906176e-18,
+        "rows": 564
+      },
+      "independent_verifier_on_dev_GT": {
+        "satisfied": 184,
+        "violated": 4
+      },
+      "inverse_equivariance": {
+        "max_absolute_error": 2.220446049250313e-16,
+        "mean_absolute_error": 1.1220339078658496e-17,
+        "rows": 188
+      },
+      "wrong_T": {
+        "correct_minus_wrong_mean": 0.9128542856460109,
+        "correct_win_rate": 0.9680851063829787,
+        "rows": 188
+      }
+    },
+    "extraction": {
+      "objects_emitted": 1488,
+      "objects_model_ready": 1475,
+      "objects_obb_ready": 1488,
+      "objects_requested": 1488,
+      "objects_verifier_ready": 1475,
+      "scan_errors": [],
+      "scans_requested": 401
+    },
+    "internal_dev": {
+      "auprc": 0.9974616356896704,
+      "auroc": 0.9973970122227253,
+      "brier": 0.02052435649535227,
+      "negative": 188,
+      "nll": 0.06766792387089714,
+      "positive": 188,
+      "rows": 376
+    },
+    "row_warnings": {
+      "missing_gt_positive_geometry": 36
+    },
+    "train": {
+      "auprc": 0.9972569332793502,
+      "auroc": 0.9971902980138995,
+      "brier": 0.020611849311310337,
+      "negative": 1622,
+      "nll": 0.0706890503520077,
+      "positive": 1622,
+      "rows": 3244
+    }
+  },
+  "model_sha256": "bfb6068307b9743a0f852a1082e4fa40c50ef15094601f930f1e431cbdade015",
+  "protocol_sha256": "dea7bf1a42dece19cb0202bcfb5deb025b60fbd61b85786c315805f2a9fba128",
+  "schema_version": "h001_relative_size_extension_v1",
+  "score_definition": {
+    "K": [
+      5,
+      10,
+      20,
+      50,
+      100
+    ],
+    "family_product": "source semantic score times family compatibility",
+    "primary_K": 100,
+    "rank_average": "equal mean of within-context semantic and family-compatibility percentile ranks",
+    "relative_size_compatibility": "sigmoid(train-only logistic(T, point-view-A G, T-by-G))"
+  },
+  "score_definition_sha256": "d63bd805b0866118f0bb0fb510913b68270e543fe1923ed9b67d47496e0fb0c7",
+  "status": "relative_size_model_and_score_locked_pre_final_evaluation"
+}

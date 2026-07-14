@@ -1,20 +1,19 @@
-# GeoCalib / H001 Paper Outline
+# RelCompat3D / H001 Paper Outline
 
-Framework-first override, 2026-07-10: GeoCalib is the calibrated
-geometry-consistency framework. The calibrated product
-(`family_conditional_risk`) and pre-specified rank-average are two soft fusion
+Framework-first override, 2026-07-14: RelCompat3D is a geometric-compatibility
+framework. The structured product
+(`family_conditional_risk`) and evaluated rank-average are two soft fusion
 instantiations; pooled calibration is an ablation, RRF a strong comparator, and
 hard filtering a diagnostic. Any older wording below that calls the product the
-unique or universally dominant main method is superseded. The prospective SGFN
-claim is that both pre-specified soft instantiations satisfy the frozen K=100
-joint recall/verifier-violation gate, with explicit `support_contact` and human-
-validity limitations.
+unique or universally dominant main method is superseded. The SGFN comparison
+shows that both soft instantiations satisfy the K=100 joint Recall--Violation
+criterion, with explicit `support_contact` and human-validity limitations.
 
 Factorization override, 2026-07-10: `T_e` is predicate/family semantics,
 `G_e` raw predicate-independent same-pair geometry, `Z_e` source confidence,
-and `C_e=P(y_cal=1|T_e,G_e)`, with `Z_e notin C_e` and
-`S_e=F(Z_e,C_e)`. `y_cal` is the constructed GT-positive/counterfactual
-calibration target. Any older “geometry-only” label for the
+and `C_e=sigmoid(h_a(Phi(T_e,G_e)))`, with `Z_e notin C_e` and
+`S_e=F(Z_e,C_e)`. The score targets constructed GT-positive/counterfactual
+ordering and is not a physical-validity probability. Any older “geometry-only” label for the
 `p_geom_valid`-only row means calibrator-only/no-`Z`, not true `G_e`-only.
 The strict train-only factor/counterfactual package is complete. Exact
 wrong-$T$/pair, close-by swap, and vertical inverse controls support the
@@ -25,12 +24,28 @@ Current manuscript override, 2026-07-12: the submission follows the sequence
 observed failure -> structural cause -> factor-isolation necessity -> method ->
 results -> limitations. Figure 1 is the actual-failure-to-framework overview;
 Figure 2 is the three-source K=`{5,10,20,50,100}` trajectory; Figure 3 contains
-two corrections and one residual top-10 failure. K=100 is primary, K=50
-secondary, and K=10 operational. A 69-parameter source-supervised nonlinear
+two corrections and one residual top-10 failure. K=100 is primary; all other K
+values are reported without additional protocol labels. A 69-parameter source-supervised nonlinear
 rescorer is stronger at low K and blocks formula-optimality claims. Codex proxy
 results are excluded from the submission and live only in `paper/paper_nonsub/`.
 
-Last updated: 2026-07-12 KST
+Table override, 2026-07-14: Table 1 jointly reports Recall and verifier-derived
+Violation for K=`{5,10,20,50,100}` across Source score, the RelCompat3D
+product, rank-average, RRF, and pooled product. Table 2 reports the six frozen
+K=50/100 controls: wrong predicate, wrong pair, shuffled geometry, label-fixed
+endpoint swap, distance-only, and compatibility-only. Hard filtering is a
+construction diagnostic in the artifacts, not a primary comparator row. Any
+older three-table or separate Recall/Violation plan below is superseded.
+
+Structure/title override, 2026-07-14: the active title is `Beyond Semantic
+Confidence: Relation-Algebra-Constrained Geometric Compatibility for 3D Scene
+Graph Relations`, and the method name is `RelCompat3D`. The active source has six
+top-level sections: Introduction; Related Work; Method (including Problem
+Setup); Experiments (including setup and results); Discussion and Limitations;
+and Conclusion. Older independent Problem Formulation, Experimental Setup, and
+Results and Discussion headings below are superseded planning history.
+
+Last updated: 2026-07-14 KST
 
 This outline turns `paper/preview.md` into a paper-writing skeleton. It is not the final manuscript. It fixes the section logic, evidence placement, reviewer-defense responsibilities, title candidates, and contribution statements before drafting the abstract and manuscript sections.
 
@@ -47,13 +62,13 @@ artifacts, and the 2026-06-25 family-main scoring decision.
 Fact:
 
 - Candidate: `CAND-001 / H001_geometry-grounded-verification`.
-- Paper-facing name: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations`.
-- Method framing: calibrated geometry-consistency evaluation and re-ranking framework.
+- Paper-facing name: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geometric Compatibility for 3D Scene Graph Relations`.
+- Method framing: predictor-agnostic geometric compatibility and joint reliability evaluation.
 - Main evidence sources: VL-SAT full official validation and Open3DSG
   full-validation `recovery_relaxed_views_min2/`.
-- GeoCalib soft instantiations: calibrated product
-  (`family_conditional_risk = semantic_score * p_geom_valid_family`) and fixed
-  rank-average fusion; no universal formula-dominance claim.
+- RelCompat3D main method: source score times relation-algebra-constrained
+  compatibility; rank-average is a fixed scale-robust instantiation, with no
+  universal formula-dominance claim.
 - Pooled calibrated ablation: `probabilistic_recalibrated =
   semantic_score * p_geom_valid`.
 - Calibrator-only/no-`Z` control: `p_geom_valid` without semantic score; the
@@ -94,7 +109,7 @@ Claim boundary:
 Recommended primary title:
 
 ```text
-GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations
+Beyond Semantic Confidence: Relation-Algebra-Constrained Geometric Compatibility for 3D Scene Graph Relations
 ```
 
 Why this is preferred:
@@ -464,7 +479,7 @@ Method formalization:
    | variant | ranking/filter rule | role |
    | --- | --- | --- |
    | `semantic_only` | rank by `score_sem` | reproduced source baseline |
-   | `family_conditional_risk` | rank by `score_sem * p_geom_valid_family` | GeoCalib main score |
+   | `family_conditional_risk` | rank by `score_sem * p_geom_valid_family` | RelCompat3D main score |
    | `probabilistic_recalibrated` | rank by `score_sem * p_geom_valid` | pooled calibrated-risk ablation |
    | `rule_verified_point_subtype` | remove hard `violated` rows before ranking | zero-violation diagnostic |
 
@@ -488,7 +503,7 @@ Output: ranked relation rows with semantic score, geometry evidence, p_geom_vali
 3. Join object-pair geometry evidence by scan/subgraph/subject/object ids.
 4. Run family-specific geometry checks and assign satisfied/uncertain/violated status.
 5. Estimate p_geom_valid with the frozen pooled and family-specific calibrators.
-6. Produce rankings: semantic-only, main family-conditional GeoCalib, pooled calibrated ablation, and rule-verified diagnostic.
+6. Produce rankings: semantic-only, main family-conditional RelCompat3D, pooled calibrated ablation, and rule-verified diagnostic.
 7. Evaluate exact-label R@K and Violation@K on the fixed in-scope denominator.
 ```
 
@@ -668,7 +683,7 @@ Figure 1:
 
 Figure 2:
 
-- Reliability-recall tradeoff across semantic-only, main family-conditional GeoCalib, pooled calibrated ablation, and rule-verified diagnostic points.
+- Reliability-recall tradeoff across semantic-only, main family-conditional RelCompat3D, pooled calibrated ablation, and rule-verified diagnostic points.
 - Show why recall and violation must be reported together.
 
 Figure 3:
@@ -728,7 +743,7 @@ Do not generate new visual claims unless source rows, scan/object ids, and geome
 Figure 1 caption draft:
 
 ```text
-Overview of calibrated geometry-consistency evaluation and re-ranking. A relation source first produces semantic predicate scores for object pairs. We standardize these predictions into identity-preserving relation rows, join 3D geometry evidence for the same object pair, estimate relation-family-specific geometric validity scores, and report the main family-conditional GeoCalib score with pooled and rule-verified variants. This framing treats geometry consistency as a calibrated reliability layer, not as a replacement relation predictor.
+Overview of calibrated geometry-consistency evaluation and re-ranking. A relation source first produces semantic predicate scores for object pairs. We standardize these predictions into identity-preserving relation rows, join 3D geometry evidence for the same object pair, estimate relation-family-specific geometric validity scores, and report the main family-conditional RelCompat3D score with pooled and rule-verified variants. This framing treats geometry consistency as a calibrated reliability layer, not as a replacement relation predictor.
 ```
 
 Reviewer-defense role:
@@ -741,7 +756,7 @@ Figure 2 caption draft:
 ```text
 Recall-violation tradeoff across semantic-only and geometry-consistency
 operating points on the H001 held-out relation scope. The family-conditional
-risk condition is the GeoCalib main score, the pooled calibrated condition is
+risk condition is the RelCompat3D main score, the pooled calibrated condition is
 an ablation, and the rule-verified condition provides a zero-violation
 diagnostic with a recall tradeoff. This figure should be read as a reliability
 tradeoff, not as a standalone SOTA leaderboard.
@@ -1242,7 +1257,7 @@ Figure 1:
 Figure 2:
 
 - reliability-recall tradeoff.
-- semantic-only, main family-conditional GeoCalib, pooled calibrated ablation, rule-verified diagnostic을 비교한다.
+- semantic-only, main family-conditional RelCompat3D, pooled calibrated ablation, rule-verified diagnostic을 비교한다.
 
 Figure 3:
 

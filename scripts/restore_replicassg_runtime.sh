@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-repo=${REPO_ROOT:-/home/yoohyun/research}
+script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+repo=${REPO_ROOT:-$(cd -- "$script_dir/.." && pwd)}
 mode=${1:-all}
 
 if [[ -n "${RESTORE_EXIT_FILE:-}" ]]; then

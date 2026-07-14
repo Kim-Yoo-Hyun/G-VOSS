@@ -11,9 +11,9 @@ closed-set predicates using edge reasoning, point-cloud features, multimodal
 cues, spatial knowledge, self-supervised pretraining, object-centric features,
 and edge-centric relational reasoning
 \cite{zhang2021sggpoint,feng2023smka,wang2023vlsat,koch2024sgrec3d,heo2025ocrl3dssg,ma2026leo}.
-These methods already use geometry; \method{} instead targets the post-source
-reliability gap that a high semantic relation score need not be calibrated to
-physical validity for the same object pair.
+These methods already use geometry; \method{} targets the complementary
+post-source question of whether a high-scoring predicate is geometrically
+compatible with the same reconstructed object pair.
 
 \paragraph{Open-vocabulary 3D graphs.}
 Open-vocabulary 3D perception provides queryable object and region features
@@ -27,12 +27,6 @@ features, online graph generation, and functional relations
 This line raises the reliability requirement: when relation edges are
 language-facing scene representations, plausible text labels must still refer
 to object pairs that satisfy the corresponding spatial relation.
-
-Other recent systems further connect VLMs, zero-shot graph construction,
-graph-mediated LLM reasoning, retrieval augmentation, and hallucination
-mitigation
-\cite{saxena2025zing3d,madhavaram2026vizor,yu2025openworld3dsg,zemskova2025graphllm,ogunleye2026vcd}.
-We cite them as trend and boundary evidence, not direct \method{} baselines.
 
 \paragraph{Geometry-aware relation evidence.}
 A broad set of 3D reasoning methods already uses geometry: edge features,
@@ -48,11 +42,10 @@ RelWitness uses visual-geometric witnesses, calibrated witness quality, and
 witness-consistent decoding for open-vocabulary 3D scene graph generation
 \cite{nguyen2026relwitness}. Statistical confidence rescoring refines 3D scene
 graph predictions from multi-view images using semantic masks, neighboring
-relations, and statistical priors \cite{yeo2025scrssg}. \method{} therefore
-does not claim novelty from visual-geometric evidence, calibration, or
-rescoring alone. It studies a different post-source contract:
-identity-preserving geometry joins, recall/violation operating points, and
-controls over existing relation-source outputs.
+relations, and statistical priors \cite{yeo2025scrssg}. These methods modify
+relation generation or learn source-specific rescoring. \method{} instead
+operates on fixed candidate outputs and estimates same-pair compatibility with
+neither predictor identity nor source score as input.
 
 Recent reliability-adjacent systems sharpen this boundary. SGFormer++ uses a
 spatial feature adapter inside an incremental predicate predictor
@@ -60,17 +53,24 @@ spatial feature adapter inside an incremental predicate predictor
 while learning an open-vocabulary scene representation
 \cite{chen2026relgraphov}; and PUF performs uncertainty-aware semantic--spatial
 fusion for online node association and evidence accumulation
-\cite{yang2026puf}. In contrast, \method{} leaves each source model fixed and
-audits already-produced relation candidates through a source-excluded,
-same-pair compatibility factor. The supplement compares these contracts
-directly.
+\cite{yang2026puf}. In contrast, \method{} leaves each predictor fixed and
+re-ranks already-produced candidates using source-score-excluded, same-pair
+geometric compatibility.
 
-\paragraph{Reliability and calibration.}
+Neau et al. mine spatial, functional, and relation-algebra constraints and use
+declarative reasoning to refine fixed image-SGG outputs, reporting a Constraint
+Violation Rate alongside task metrics \cite{neau2026commonsense}. \method{}
+differs in estimating continuous compatibility from reconstructed 3D geometry,
+preserving ordered-pair identity, and enforcing applicable 3D relation-algebra
+orbits before joint recall--violation evaluation.
+
+\paragraph{Reliability evaluation.}
 Standard \rAt{K} asks whether the correct predicate appears near the top, not
 whether the predicted relation is physically valid in the reconstructed scene.
 Confidence calibration asks whether model scores reflect empirical correctness
 likelihood \cite{guo2017calibration}, and selective prediction makes risk and
-coverage explicit \cite{geifman2017selective}. \method{} instantiates this
-reliability view for geometry-checkable 3DSSG families by standardizing
-prediction rows, joining same-pair 3D evidence, estimating compatibility, and
-reporting recall together with violation.
+coverage explicit \cite{geifman2017selective}. Inspired by this joint-utility
+view, \method{} standardizes prediction rows, joins same-pair 3D evidence, and
+reports exact-label recall together with verifier-derived violation. Its
+compatibility output is a bounded ranking score, not a probability of physical
+validity.

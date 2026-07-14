@@ -1,0 +1,29 @@
+\section{Scan-Cluster Bootstrap Sensitivity}
+
+The main analysis resamples 548 relation contexts. To test dependence among
+contexts from the same scene, we additionally resample the 157 scan identifiers
+1,000 times and carry every context of a sampled scan together. The ranking,
+model, and point estimates remain unchanged; shared bootstrap indices are used
+across conditions.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\caption{\textbf{Scan-cluster sensitivity at $K=100$.} Entries are \method{}
+product minus source score with paired 95\% intervals.}
+\label{tab:scan-cluster}
+\begin{tabular}{lrr}
+\toprule
+Source & $\Delta$Recall & $\Delta$Verifier-V \\
+\midrule
+VL-SAT & +.0053 [.0000,.0119] & $-.0151$ [$-.0171$,$-.0135$] \\
+Open3DSG & +.0894 [.0646,.1119] & $-.0903$ [$-.0959$,$-.0846$] \\
+SGFN & +.0184 [.0137,.0230] & $-.0258$ [$-.0285$,$-.0233$] \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+All Verifier-V intervals remain below zero. Recall intervals exclude zero for
+Open3DSG and SGFN; the VL-SAT lower bound reaches zero, consistent with its
+near-saturated Recall@100 baseline.

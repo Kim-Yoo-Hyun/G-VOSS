@@ -1,0 +1,539 @@
+{
+  "fit_scope": "candidate_strict_calibration_only",
+  "forbidden_inputs": [
+    "source_score",
+    "source_rank",
+    "source_id",
+    "class_pair_prior",
+    "legacy_subtype_hint"
+  ],
+  "hyperparameters": {
+    "epochs": 800,
+    "l2": 0.0001,
+    "learning_rate": 0.15
+  },
+  "model_id": "attachment-subtype-v2-selective-product-development-v1",
+  "models": {
+    "attached to": {
+      "predicate_label": "attached to",
+      "spec": {
+        "categorical_fields": [
+          "mechanism",
+          "surface_type",
+          "surface_normal_class"
+        ],
+        "categorical_values": {
+          "mechanism": [
+            "object_or_fixture_attachment",
+            "planar_surface_attachment"
+          ],
+          "surface_normal_class": [
+            "horizontal_up",
+            "vertical"
+          ],
+          "surface_type": [
+            "floor",
+            "furniture",
+            "wall"
+          ]
+        },
+        "feature_names": [
+          "bias",
+          "num:min_point_distance_m",
+          "num:log_near_contact_point_count",
+          "num:contact_patch_score",
+          "num:surface_candidate_count",
+          "num:surface_distance_m",
+          "num:surface_projected_overlap_ratio",
+          "num:distance_3d_m",
+          "num:distance_xy_m",
+          "num:normalized_distance_3d",
+          "num:normalized_distance_xy",
+          "num:center_delta_z_m",
+          "num:abs_center_delta_z_m",
+          "num:vertical_gap_m",
+          "num:abs_vertical_gap_m",
+          "num:projected_xy_overlap",
+          "num:floor_clearance_m",
+          "num:hanging_geometry_score",
+          "num:support_explanation_score",
+          "num:near_vertical_or_overhead_surface",
+          "num:floor_or_table_supported",
+          "cat:mechanism=object_or_fixture_attachment",
+          "cat:mechanism=planar_surface_attachment",
+          "cat:surface_type=floor",
+          "cat:surface_type=furniture",
+          "cat:surface_type=wall",
+          "cat:surface_normal_class=horizontal_up",
+          "cat:surface_normal_class=vertical"
+        ],
+        "numeric_features": [
+          "min_point_distance_m",
+          "log_near_contact_point_count",
+          "contact_patch_score",
+          "surface_candidate_count",
+          "surface_distance_m",
+          "surface_projected_overlap_ratio",
+          "distance_3d_m",
+          "distance_xy_m",
+          "normalized_distance_3d",
+          "normalized_distance_xy",
+          "center_delta_z_m",
+          "abs_center_delta_z_m",
+          "vertical_gap_m",
+          "abs_vertical_gap_m",
+          "projected_xy_overlap",
+          "floor_clearance_m",
+          "hanging_geometry_score",
+          "support_explanation_score",
+          "near_vertical_or_overhead_surface",
+          "floor_or_table_supported"
+        ],
+        "numeric_stats": {
+          "abs_center_delta_z_m": {
+            "mean": 1.146505810266788,
+            "std": 0.8182521122664398
+          },
+          "abs_vertical_gap_m": {
+            "mean": 2.316369249525498,
+            "std": 1.4651994815870437
+          },
+          "center_delta_z_m": {
+            "mean": 1.0239198607367095,
+            "std": 0.9672642922143418
+          },
+          "contact_patch_score": {
+            "mean": 0.4233121019108281,
+            "std": 0.491827980563335
+          },
+          "distance_3d_m": {
+            "mean": 2.277102485955149,
+            "std": 1.3561319599431318
+          },
+          "distance_xy_m": {
+            "mean": 1.796931472285802,
+            "std": 1.3458509635272045
+          },
+          "floor_clearance_m": {
+            "mean": 3.219061384503203,
+            "std": 1.4251361109374432
+          },
+          "floor_or_table_supported": {
+            "mean": 0.17834394904458598,
+            "std": 0.38280201786794155
+          },
+          "hanging_geometry_score": {
+            "mean": 0.0,
+            "std": 1.0
+          },
+          "log_near_contact_point_count": {
+            "mean": 2.139890797013975,
+            "std": 2.5471140837913686
+          },
+          "min_point_distance_m": {
+            "mean": 0.7082242802547768,
+            "std": 0.7919704013852034
+          },
+          "near_vertical_or_overhead_surface": {
+            "mean": 0.42038216560509556,
+            "std": 0.4936202998725502
+          },
+          "normalized_distance_3d": {
+            "mean": 0.4081842319328058,
+            "std": 0.23205711147066674
+          },
+          "normalized_distance_xy": {
+            "mean": 0.44527329778226615,
+            "std": 0.3396516764390249
+          },
+          "projected_xy_overlap": {
+            "mean": 0.48492955596221426,
+            "std": 0.3959433977572938
+          },
+          "support_explanation_score": {
+            "mean": 0.03815350318471337,
+            "std": 0.11901150751439424
+          },
+          "surface_candidate_count": {
+            "mean": 1.0,
+            "std": 1.0
+          },
+          "surface_distance_m": {
+            "mean": 0.7082242802547768,
+            "std": 0.7919704013852034
+          },
+          "surface_projected_overlap_ratio": {
+            "mean": 0.48492955596221426,
+            "std": 0.3959433977572938
+          },
+          "vertical_gap_m": {
+            "mean": -2.2530552381127635,
+            "std": 1.5608068794706473
+          }
+        }
+      },
+      "training_trace": [
+        {
+          "epoch": 1,
+          "train_nll": 0.6931495661443967
+        },
+        {
+          "epoch": 50,
+          "train_nll": 0.024959944765605927
+        },
+        {
+          "epoch": 100,
+          "train_nll": 0.013403428264736285
+        },
+        {
+          "epoch": 150,
+          "train_nll": 0.009328769630066513
+        },
+        {
+          "epoch": 200,
+          "train_nll": 0.007228394773079495
+        },
+        {
+          "epoch": 250,
+          "train_nll": 0.005943119337102096
+        },
+        {
+          "epoch": 300,
+          "train_nll": 0.005074461167974708
+        },
+        {
+          "epoch": 350,
+          "train_nll": 0.004447833799974251
+        },
+        {
+          "epoch": 400,
+          "train_nll": 0.0039744461649144636
+        },
+        {
+          "epoch": 450,
+          "train_nll": 0.0036042896542230513
+        },
+        {
+          "epoch": 500,
+          "train_nll": 0.0033070169903404332
+        },
+        {
+          "epoch": 550,
+          "train_nll": 0.003063130530764948
+        },
+        {
+          "epoch": 600,
+          "train_nll": 0.0028595248139179825
+        },
+        {
+          "epoch": 650,
+          "train_nll": 0.0026870621330085114
+        },
+        {
+          "epoch": 700,
+          "train_nll": 0.002539174892678113
+        },
+        {
+          "epoch": 750,
+          "train_nll": 0.0024110204554928178
+        },
+        {
+          "epoch": 800,
+          "train_nll": 0.002298949226216031
+        }
+      ],
+      "weights": [
+        -0.24653081983274525,
+        -0.5889936635247258,
+        0.9975578811474616,
+        1.103414125565573,
+        0.0,
+        -0.5889936635247258,
+        0.05503279122440125,
+        -0.5708751046202785,
+        -0.44888939417673207,
+        -0.5158338634079248,
+        -0.429480499734055,
+        -0.4400636659293284,
+        -0.3832885276958106,
+        -0.1714294708654362,
+        0.1598035509076106,
+        0.05503279122440125,
+        0.10392461651547781,
+        0.0,
+        -0.04841495756064905,
+        1.093702802269547,
+        0.05683168040417124,
+        -0.039751893341606524,
+        -0.20431819394347955,
+        -0.6901378372578469,
+        0.031212769492276627,
+        0.4148549804804844,
+        -0.6813412806604995,
+        0.4372711933754136
+      ]
+    },
+    "hanging on": {
+      "predicate_label": "hanging on",
+      "spec": {
+        "categorical_fields": [
+          "mechanism",
+          "surface_type",
+          "surface_normal_class"
+        ],
+        "categorical_values": {
+          "mechanism": [
+            "overhead_suspension",
+            "vertical_surface_suspension"
+          ],
+          "surface_normal_class": [
+            "horizontal_up",
+            "vertical"
+          ],
+          "surface_type": [
+            "floor",
+            "furniture",
+            "wall"
+          ]
+        },
+        "feature_names": [
+          "bias",
+          "num:min_point_distance_m",
+          "num:log_near_contact_point_count",
+          "num:contact_patch_score",
+          "num:surface_candidate_count",
+          "num:surface_distance_m",
+          "num:surface_projected_overlap_ratio",
+          "num:distance_3d_m",
+          "num:distance_xy_m",
+          "num:normalized_distance_3d",
+          "num:normalized_distance_xy",
+          "num:center_delta_z_m",
+          "num:abs_center_delta_z_m",
+          "num:vertical_gap_m",
+          "num:abs_vertical_gap_m",
+          "num:projected_xy_overlap",
+          "num:floor_clearance_m",
+          "num:hanging_geometry_score",
+          "num:support_explanation_score",
+          "num:near_vertical_or_overhead_surface",
+          "num:floor_or_table_supported",
+          "cat:mechanism=overhead_suspension",
+          "cat:mechanism=vertical_surface_suspension",
+          "cat:surface_type=floor",
+          "cat:surface_type=furniture",
+          "cat:surface_type=wall",
+          "cat:surface_normal_class=horizontal_up",
+          "cat:surface_normal_class=vertical"
+        ],
+        "numeric_features": [
+          "min_point_distance_m",
+          "log_near_contact_point_count",
+          "contact_patch_score",
+          "surface_candidate_count",
+          "surface_distance_m",
+          "surface_projected_overlap_ratio",
+          "distance_3d_m",
+          "distance_xy_m",
+          "normalized_distance_3d",
+          "normalized_distance_xy",
+          "center_delta_z_m",
+          "abs_center_delta_z_m",
+          "vertical_gap_m",
+          "abs_vertical_gap_m",
+          "projected_xy_overlap",
+          "floor_clearance_m",
+          "hanging_geometry_score",
+          "support_explanation_score",
+          "near_vertical_or_overhead_surface",
+          "floor_or_table_supported"
+        ],
+        "numeric_stats": {
+          "abs_center_delta_z_m": {
+            "mean": 1.1931425744363986,
+            "std": 0.6866532456594734
+          },
+          "abs_vertical_gap_m": {
+            "mean": 1.781229594245151,
+            "std": 1.2370640740874075
+          },
+          "center_delta_z_m": {
+            "mean": 1.122708037730483,
+            "std": 0.7966232137734717
+          },
+          "contact_patch_score": {
+            "mean": 0.40298004225352113,
+            "std": 0.48565381166343524
+          },
+          "distance_3d_m": {
+            "mean": 2.691526525362729,
+            "std": 1.3194643271649806
+          },
+          "distance_xy_m": {
+            "mean": 2.2987010988375425,
+            "std": 1.3439466220381553
+          },
+          "floor_clearance_m": {
+            "mean": 3.1416645987974507,
+            "std": 1.1447827710276914
+          },
+          "floor_or_table_supported": {
+            "mean": 0.15492957746478872,
+            "std": 0.3618375374271869
+          },
+          "hanging_geometry_score": {
+            "mean": 0.29577464788732394,
+            "std": 0.456390190028723
+          },
+          "log_near_contact_point_count": {
+            "mean": 1.8766106198034684,
+            "std": 2.3256673487813573
+          },
+          "min_point_distance_m": {
+            "mean": 0.6802479436619719,
+            "std": 0.7457847980126987
+          },
+          "near_vertical_or_overhead_surface": {
+            "mean": 0.29577464788732394,
+            "std": 0.456390190028723
+          },
+          "normalized_distance_3d": {
+            "mean": 0.5248547925457144,
+            "std": 0.20419138862714498
+          },
+          "normalized_distance_xy": {
+            "mean": 0.5720769759376514,
+            "std": 0.2920929223988839
+          },
+          "projected_xy_overlap": {
+            "mean": 0.5326177776346008,
+            "std": 0.4370316068418931
+          },
+          "support_explanation_score": {
+            "mean": 0.04903661971830986,
+            "std": 0.14049901231614803
+          },
+          "surface_candidate_count": {
+            "mean": 1.0,
+            "std": 1.0
+          },
+          "surface_distance_m": {
+            "mean": 0.6802479436619719,
+            "std": 0.7457847980126987
+          },
+          "surface_projected_overlap_ratio": {
+            "mean": 0.5326177776346008,
+            "std": 0.4370316068418931
+          },
+          "vertical_gap_m": {
+            "mean": -1.5413412284205468,
+            "std": 1.5255732064976504
+          }
+        }
+      },
+      "training_trace": [
+        {
+          "epoch": 1,
+          "train_nll": 0.6931493892774513
+        },
+        {
+          "epoch": 50,
+          "train_nll": 0.03225553536221512
+        },
+        {
+          "epoch": 100,
+          "train_nll": 0.0168333276598044
+        },
+        {
+          "epoch": 150,
+          "train_nll": 0.011485867500517959
+        },
+        {
+          "epoch": 200,
+          "train_nll": 0.00877278759878153
+        },
+        {
+          "epoch": 250,
+          "train_nll": 0.0071335628639789175
+        },
+        {
+          "epoch": 300,
+          "train_nll": 0.006037017749235312
+        },
+        {
+          "epoch": 350,
+          "train_nll": 0.0052526808688784865
+        },
+        {
+          "epoch": 400,
+          "train_nll": 0.004664364716916255
+        },
+        {
+          "epoch": 450,
+          "train_nll": 0.004207140594707998
+        },
+        {
+          "epoch": 500,
+          "train_nll": 0.003841880819101368
+        },
+        {
+          "epoch": 550,
+          "train_nll": 0.003543602859778996
+        },
+        {
+          "epoch": 600,
+          "train_nll": 0.003295608633538882
+        },
+        {
+          "epoch": 650,
+          "train_nll": 0.0030863145872819546
+        },
+        {
+          "epoch": 700,
+          "train_nll": 0.0029074336941297702
+        },
+        {
+          "epoch": 750,
+          "train_nll": 0.002752881345783656
+        },
+        {
+          "epoch": 800,
+          "train_nll": 0.0026180897965132227
+        }
+      ],
+      "weights": [
+        -0.7742880415423439,
+        -0.13915331961066846,
+        0.4000865192462421,
+        0.29270485416894043,
+        0.0,
+        -0.13915331961066846,
+        -0.059926601937464415,
+        -0.5816072381785202,
+        -0.553323586547956,
+        -0.46535719204526166,
+        -0.44877505550232644,
+        -0.4520075494000905,
+        -0.38614197567593944,
+        0.061547119318827975,
+        -0.04062485300178044,
+        -0.059926601937464415,
+        0.33834419493828083,
+        1.1406326575292887,
+        -0.02956138397824881,
+        1.1406326575292887,
+        -0.018684051685783336,
+        -0.07219035173403145,
+        -0.6944935060099982,
+        -1.0604917650016525,
+        0.016601615869887676,
+        0.2772062913877365,
+        -1.0604917650016525,
+        0.2938079072576233
+      ]
+    }
+  },
+  "neutral_fallback": 1.0,
+  "schema_version": "h001_attachment_subtype_v2_development_diagnostic_v1",
+  "status": "attachment_subtype_v2_development_diagnostic_ready"
+}

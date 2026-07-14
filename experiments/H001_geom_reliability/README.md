@@ -1,26 +1,29 @@
 # H001 Geometry Reliability Experiment
 
-Last updated: 2026-07-12 KST
+Last updated: 2026-07-14 KST
 
-This is the Docker-based experiment root for GeoCalib/H001. Paper-facing
+This is the Docker-based experiment root for RelCompat3D/H001. Paper-facing
 summaries are promoted to `results/h001_geom_reliability/`; row-level runtime
 artifacts remain under this experiment tree or in an external release bundle.
 
-Paper-facing name: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations`.
+Paper-facing name: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geometric Compatibility for 3D Scene Graph Relations`.
 `H001` remains the internal experiment identifier.
 
 ## Current Route
 
-- Main sources: VL-SAT full official validation and Open3DSG full-validation `recovery_relaxed_views_min2/`.
+- Main sources: VL-SAT full official validation, Open3DSG full-validation
+  `recovery_relaxed_views_min2/`, and SGFN on the same official 3DSSG target.
 - Main relation families: `support_contact`, `proximity`, `relative_vertical`.
-- Soft framework instantiations: Family-calibrated product
-  (`source score * family compatibility`) and fixed scale-robust Rank-average
-  fusion; neither is universally dominant.
+- Main soft method: strict train-only relation-algebra-constrained
+  compatibility product (`source score * projected compatibility`).
+  Rank-average is the scale-robust framework instantiation; neither is
+  universally dominant.
 - Pooled-calibrator ablation: `source score * pooled compatibility`.
 - Factor contract: `T_e` = predicate/family semantics, `G_e` = raw
   predicate-independent same-pair geometry, `Z_e` = source relation score, and
-  `C_e = P(y_cal=1 | T_e,G_e)`, with `Z_e notin C_e`. Final ranking is
-  `S_e = F(Z_e,C_e)`; product and rank-average are the frozen current
+  `C_e = sigmoid(h_a(Phi(T_e,G_e)))`, with `Z_e notin C_e`. It is a bounded
+  constructed-target score, not a physical-validity probability. Final ranking is
+  `S_e = F(Z_e,C_e)`; product and rank-average are the current
   instantiations.
 - `y_cal` is the train/dev constructed target from GT positives and high-margin
   counterfactual negatives, not direct human physical validity.
@@ -30,35 +33,49 @@ Paper-facing name: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D 
 - K grid: `{5, 10, 20, 50, 100}`. K=1 is sanity-check only.
 - Physical-validity proxy audit: two separately locked blinded Codex LLM passes
   cover 488 relation items / 137 scans. Agreement is 438/488 (89.75%,
-  four-class kappa 0.845); all 334 jointly binary items agree. This is the
-  current paper route and is not Human V@K. The frozen human evaluator remains
-  dormant for an optional later alignment study.
-- Fresh exact-label source: `sgfn_official_full_l160`, pre-registered before
-  inference. The user-authorized v3 pipeline and final audit are complete; its
-  aggregate K=100 primary gate passes, subject to verifier-V, family-wise, and
-  strong-baseline caveats.
+  four-class kappa 0.845); all 334 jointly binary items agree. This is a
+  non-submission diagnostic and not Human V@K. The active AAAI paper contains
+  no Codex-derived validity result; the human evaluator remains dormant.
+- Additional exact-label source: `sgfn_official_full_l160`. The v3 pipeline and
+  audit are complete; both soft instantiations satisfy the aggregate K=100
+  criterion, subject to verifier-V, family-wise, and strong-baseline caveats.
 - Strict reconstruction: `train_only_reestablishment_v1/` owns the exact
   1,061/117/157 split firewall, validation-information provenance audit,
-  strict train-only calibrators, pre-inference execution contract,
+  strict train-only calibrators, execution contract,
   internal-dev decision, final model/score hash lock, and official
-  548-context evaluation. Its result passes the joint gate but is explicitly
-  not an untouched prospective confirmation.
+  548-context evaluation. The manuscript reports split roles and benchmark
+  results directly without prospective language.
 - Cross-dataset transfer development: official ReplicaSSG test plus the
   official FROSS VisualGenome source is under `sources/replicassg/`. The
   initial K=100 result fails and is now used to diagnose and develop
   source-scale-robust bounded fusion. It is a transfer stress test and
-  development diagnostic, not untouched or prospective confirmation.
-- Uncertainty sensitivity is complete under `uncertainty_sensitivity/frozen_v1/`.
-  Across VL-SAT/Open3DSG/SGFN, the family product lowers decidable-only V,
-  uncertainty rate, and pessimistic V; the reported V improvement is not an
-  uncertain-denominator artifact. Docker log:
-  `logs/h001_uncertainty_sensitivity_v3_20260712.log`.
+  development diagnostic. Development v2 and its corrected 548-context
+  cross-source check are complete; LOSO fails the Recall guardrail.
+- Coordinated main evaluation is complete under `structured_main_v1/`.
+  It regenerates Source score, structured product, Rank-average, RRF, pooled
+  product, hard-rule filtering, the unprojected-product ablation, compatibility-only,
+  family-wise paired CIs, and all uncertainty-sensitive metrics for
+  K=`{5,10,20,50,100}`. Its manifest validations all pass and the promoted
+  model SHA256 is
+  `62d251f3ce60e2db54eb1748c277350e3b9e2c7c9d2be0312cf2fb323b761410`.
 - Current paper outputs: `paper/aaai/main_aaai27.pdf` (9 pages; technical
   content through page 7 and pages 8--9 references only),
   `paper/aaai/supplement_aaai27.pdf` (2 pages), and
   `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Final main log:
-  `logs/h001_strengthening_final_build_v2_20260712.log`; upload bundle:
-  `release/h001_aaai27_openreview_20260712_083625/`.
+  `logs/h001_main_final_20260714.log`; the synchronized upload
+  bundle is `release/h001_aaai27_openreview_20260714_152303/`, generated from
+  the three canonical PDFs plus the focused structured-main code/data
+  supplement.
+- Scan-cluster sensitivity is complete under
+  `structured_main_v1/scan_cluster_sensitivity/`: it resamples 157 scans with
+  all 548 contexts attached to their scan, without changing scores, rankings,
+  or point estimates.
+- Active Docker images: `h001-geom-reliability:latest` for the focused
+  structured evaluation, `h001-sgfn-confirmatory:cu128` for SGFN full-source
+  inference recovery, and `h001-aaai27-tex:20260712` for the canonical paper
+  build. ReplicaSSG/FROSS runtime/render images are development-only and are
+  not required to preserve the active paper/package. See
+  `docs/reproducibility.md` for the complete retention matrix.
 
 ## Source Roles
 
@@ -67,9 +84,10 @@ Paper-facing name: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D 
 | VL-SAT | controlled reproduced anchor | `sources/vlsat/full_validation/` |
 | Open3DSG | main open-vocabulary relation-source case study | `sources/open3dsg/full_validation/recovery_relaxed_views_min2/` |
 | Qwen-VL | appendix/extension third semantic source | `sources/qwen_vl/` |
-| SGFN full_l160 | fresh exact-label confirmation; aggregate gate passed, verifier-V caveat | `sources/sgfn/` |
+| SGFN full_l160 | additional exact-label source; aggregate criterion satisfied, verifier-V caveat | `sources/sgfn/` |
 | ReplicaSSG + FROSS | transfer stress test and method-development diagnostic | `sources/replicassg/` |
-| attachment_deferred | extension diagnostic, not promoted | `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_validation_g5d/` |
+| attachment_deferred | subtype-v2 development diagnostic, not promoted | `archive/experiments/H001_geom_reliability/sources/attachment_deferred/subtype_redesign_v2/` |
+| relative_size | promoted secondary scope extension; supplement-full | `relative_size_v1/` |
 | Open3DSG 533/548 branch | unmodified-source sensitivity | `sources/open3dsg/full_validation/` |
 | historical 127-scan branches | appendix/sensitivity/provenance only | older source subfolders and `archive/` |
 
@@ -93,8 +111,10 @@ VL-SAT full-validation:
 | Condition | R@50 | R@100 | V@50 | V@100 |
 | --- | ---: | ---: | ---: | ---: |
 | Source score | 0.9272 | 0.9635 | 0.0268 | 0.0476 |
-| Family-calibrated product | 0.9288 | 0.9683 | 0.0206 | 0.0333 |
-| Pooled-calibrator ablation | 0.9305 | 0.9688 | 0.0229 | 0.0404 |
+| Relation-algebra-constrained product | 0.9293 | 0.9688 | 0.0203 | 0.0325 |
+| Rank-average fusion | 0.8119 | 0.9617 | 0.0191 | 0.0248 |
+| Reciprocal-rank fusion | 0.8925 | 0.9610 | 0.0163 | 0.0233 |
+| Pooled-calibrator ablation | 0.9300 | 0.9690 | 0.0219 | 0.0387 |
 | Hard geometry filter | 0.9257 | 0.9627 | 0.0000 | 0.0000 |
 
 Open3DSG full-validation recovery:
@@ -102,24 +122,32 @@ Open3DSG full-validation recovery:
 | Condition | R@50 | R@100 | V@50 | V@100 |
 | --- | ---: | ---: | ---: | ---: |
 | Source score | 0.4096 | 0.5161 | 0.1386 | 0.1242 |
-| Family-calibrated product | 0.4658 | 0.6047 | 0.0286 | 0.0341 |
-| Pooled-calibrator ablation | 0.3975 | 0.5723 | 0.0606 | 0.0811 |
+| Relation-algebra-constrained product | 0.4698 | 0.6055 | 0.0286 | 0.0339 |
+| Rank-average fusion | 0.4718 | 0.5994 | 0.0394 | 0.0531 |
+| Reciprocal-rank fusion | 0.4355 | 0.5979 | 0.0942 | 0.0785 |
+| Pooled-calibrator ablation | 0.4718 | 0.6443 | 0.0528 | 0.0747 |
 | Hard geometry filter | 0.4295 | 0.5368 | 0.0000 | 0.0000 |
 
-SGFN fresh confirmatory target v3:
+SGFN additional exact-label source:
 
 | Condition | R@50 | R@100 | verifier V@50 | verifier V@100 |
 | --- | ---: | ---: | ---: | ---: |
 | Source score | 0.7402 | 0.9235 | 0.0385 | 0.0630 |
-| Family-calibrated product | 0.7709 | 0.9416 | 0.0258 | 0.0381 |
-| Pooled-calibrator ablation | 0.7709 | 0.9396 | 0.0293 | 0.0488 |
-| Compatibility only | 0.3593 | 0.6463 | 0.0176 | 0.0224 |
-| Rank-average fusion | 0.7243 | 0.9476 | 0.0218 | 0.0277 |
-| Reciprocal-rank fusion | 0.7341 | 0.9192 | 0.0211 | 0.0284 |
+| Relation-algebra-constrained product | 0.7706 | 0.9418 | 0.0256 | 0.0372 |
+| Rank-average fusion | 0.7314 | 0.9474 | 0.0203 | 0.0268 |
+| Reciprocal-rank fusion | 0.7165 | 0.9074 | 0.0203 | 0.0266 |
+| Pooled-calibrator ablation | 0.7925 | 0.9413 | 0.0292 | 0.0464 |
+| Hard geometry filter | 0.7462 | 0.9270 | 0.0000 | 0.0000 |
 
 SGFN Recall uses the frozen 3,972-row exact-label denominator. Its V columns
 are frozen-verifier diagnostics, not independent human physical-validity
 measurements.
+
+These values are the promoted synchronized outputs from
+`structured_main_v1/evaluation/`. Use its `summary.json`, `metrics.csv`, and
+`manifest.json` for the full K grid, paired intervals, uncertainty metrics, and
+machine-readable provenance. Older source-local tables below are continuity or
+development records rather than the current main result.
 
 ReplicaSSG/FROSS initial transfer diagnostic:
 
@@ -282,7 +310,7 @@ within-family and global-top-K family slices, fixed rank-average fusion, and
 fixed Reciprocal Rank Fusion. Its outputs live under
 `reviewer_extension_metrics/frozen_v1/`.
 
-The aggregate GeoCalib result remains positive, but it is not family-uniform.
+The aggregate RelCompat3D result remains positive, but it is not family-uniform.
 At within-family K=50, `family_conditional_risk` lowers verifier-derived
 Violation for `proximity` and `relative_vertical`, while `support_contact`
 Violation increases on both VL-SAT and Open3DSG. The same support/contact
@@ -389,7 +417,7 @@ The frozen K=100 primary gate passes: Recall changes from 0.92346 to 0.94159
 (dR +0.01813, 95% CI [+0.01341,+0.02325]) and verifier V changes from 0.06297
 to 0.03808 (dV -0.02489, 95% CI [-0.02699,-0.02290]). This does not authorize
 uniform-family or unique-score claims. `support_contact` verifier V regresses
-by +0.00450, 95% CI [+0.00370,+0.00532], while the pre-specified rank-average
+by +0.00450, 95% CI [+0.00370,+0.00532], while the evaluated rank-average
 instantiation obtains R@100 0.94763 and verifier V@100 0.02772; versus the
 calibrated product, its dR CI
 crosses zero and its dV CI is strictly below zero.
@@ -405,7 +433,16 @@ Paper-facing compact outputs:
 - `results/h001_geom_reliability/figures/figure_specs.md`
 - `results/h001_geom_reliability/full_validation_transition/artifact_bundle/`
 
-Primary source artifacts:
+Promoted paper-result artifacts:
+
+- `relation_algebra_v1/evaluation/models.json`
+- `relation_algebra_v1/evaluation/manifest.json`
+- `structured_main_v1/evaluation/summary.json`
+- `structured_main_v1/evaluation/metrics.csv`
+- `structured_main_v1/evaluation/uncertainty.csv`
+- `structured_main_v1/evaluation/manifest.json`
+
+Source-local continuity artifacts:
 
 - `sources/vlsat/full_validation/metrics/metrics.json`
 - `sources/vlsat/full_validation/metrics_k_sweep/metrics.json`
@@ -418,8 +455,6 @@ Primary source artifacts:
 - `sources/sgfn/adapter/coverage_audit.json`
 - `sources/sgfn/confirmatory_metrics/summary.md`
 - `sources/sgfn/confirmatory_metrics/decision.json`
-- `sources/replicassg/prospective_protocol/frozen_v1/manifest.json`
-- `results/h001_geom_reliability/replicassg_prospective/summary.md`
 
 ## Runbook
 
@@ -428,6 +463,10 @@ Use `experiments/H001_geom_reliability/commands.md` for exact commands.
 Common Docker checks from the repo root:
 
 ```bash
+docker compose -f configs/h001/compose.structured.yaml config --quiet
+docker compose -f configs/h001/compose.structured.yaml run --rm relation_algebra_development
+docker compose -f configs/h001/compose.structured.yaml run --rm structured_main_evaluation
+docker compose -f configs/h001/compose.structured.yaml run --rm structured_ablation_evaluation
 docker compose -f configs/h001/compose.yaml config --quiet
 docker compose -f configs/h001/compose.yaml run --rm table_builder
 docker compose -f configs/h001/compose.yaml run --rm bootstrap_ci
@@ -442,6 +481,8 @@ docker compose -f configs/h001/compose.yaml run --rm sgfn_confirmatory_target_v3
 docker compose -f configs/h001/compose.yaml run --rm sgfn_checkpoint_audit_v3
 docker compose -f configs/h001/compose.yaml run --rm sgfn_confirmatory_audit
 docker compose -f configs/h001/compose.yaml run --rm nonlinear_fusion_baseline
+docker compose -f configs/h001/compose.yaml run --rm nonlinear_transfer_vlsat
+docker compose -f configs/h001/compose.yaml run --rm nonlinear_transfer_open3dsg
 docker compose -f configs/h001/compose.yaml run --rm codex_proxy_audit_evaluate
 ```
 
@@ -485,9 +526,52 @@ Parameter-matched nonlinear fusion:
   `0.9466/0.0279`.
 
 This source-specific supervised rescorer has a stronger supervision contract
-than GeoCalib. Its result blocks formula-optimality and best-rescorer claims;
-it does not invalidate the source-independent factor contract
+than RelCompat3D. Its result blocks formula-optimality and best-rescorer claims;
+it does not invalidate the predictor-agnostic factor contract
 `Z notin C(T,G)`.
+
+## 2026-07-13 Novelty-Mechanism Development
+
+The frozen 3DSSG-only relation-algebra branch is complete under
+`relation_algebra_v1/`. Six structured alternatives were evaluated in addition
+to the continuity family product: orbit projection, transform augmentation,
+linked pairwise margin training, their combinations, and an algebra-constrained
+feature basis. Only the combined pairwise model with exact inference-time orbit
+projection passes every pre-run gate. It has zero proximity-swap and
+vertical-inverse error, improves linked-counterfactual ordering, and preserves
+the K=100 source-vs-product Recall guard on VL-SAT, Open3DSG, and SGFN. Its
+R/V is `0.9688/0.0325`, `0.6055/0.0339`, and `0.9418/0.0372`, respectively.
+This relation-algebra-constrained mechanism is now the promoted paper main
+compatibility. The synchronized `structured_main_v1/` route evaluates all
+comparators and uncertainty definitions from that exact model; the claim
+remains structural rather than best-score or best-formula wording.
+
+The complementary cross-source test under `nonlinear_transfer_v1/` applies the
+unchanged SGFN exact-label nonlinear rescorer to VL-SAT and Open3DSG. It loses
+Recall significantly on VL-SAT at K=100 and on both sources at smaller K,
+despite lower verifier V. This confirms that the strong SGFN result is
+source-adapted and does not replace the predictor-agnostic deployment contract.
+
+The paper claim is now explicitly limited to source-level evidence across
+predictors on 3DSSG/3RScan. Dataset-level generalization is not part of the
+claim.
+
+## 2026-07-14 Fixed-Model Ablation Evaluation
+
+The paper-facing falsification and information-ablation run is complete under
+`structured_ablation_v1/`. It keeps the promoted model, candidates, 548
+contexts, 3,972-relation denominator, and K=`{50,100}` fixed. It reports the
+RelCompat3D product beside wrong-predicate, wrong-pair, shuffled-geometry,
+label-fixed endpoint-swap, distance-only, and compatibility-only rankings for
+VL-SAT, Open3DSG, and SGFN. Shared 1,000-resample context-bootstrap indices are
+used across conditions.
+
+All input hashes, point-equivalence checks, donor-coverage checks, and source-
+score exclusion checks pass. Compatibility-only excludes `Z` but still uses
+predicate-conditioned compatibility and therefore is not true raw-`G`-only.
+The endpoint corruption applies only to proximity/vertical; support/contact is
+unchanged because no blanket transform is defined. Exact results and hashes
+are owned by `structured_ablation_v1/README.md` and `evaluation/manifest.json`.
 
 Codex proxy diagnostic:
 
@@ -503,6 +587,18 @@ human construct validation remains open.
 
 ## Archived Or Optional Material
 
+The `relative_size` extension is complete under `relative_size_v1/`. It keeps
+the 1,061/117/157 firewall, excludes score/rank/class from compatibility, uses
+disjoint robust point measurements for the learned compatibility and final
+verifier, and reports VL-SAT/Open3DSG/SGFN at K=`{5,10,20,50,100}`. The learned
+product passes both the within-size and four-family K=100 joint gate on all
+three sources. It does not strictly outperform the fixed point-rule baseline,
+and rank-average does not pass the four-family Recall guard on every source.
+The evidence therefore supports framework-scope expansion only. It is included
+as one main-text scope sentence plus a full supplement analysis, while the
+headline learned-method evidence and three-family main tables remain unchanged.
+Exact results and hashes are owned by `relative_size_v1/README.md`.
+
 Historical 127-scan outputs, non-avg branch details, failed/intermediate runs,
 relative-horizontal/lateral experiments, and attachment-deferred experiments
 are provenance, appendix, or future-work material. Keep their detailed logs in
@@ -513,5 +609,9 @@ Latest attachment-deferred full-validation extension artifact:
 
 - protocol: `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_validation_protocol/`
 - metrics: `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_validation_g5d/`
+- subtype-v2 design: `archive/experiments/H001_geom_reliability/sources/attachment_deferred/subtype_redesign_v2/`
+- v2 diagnostics: `subtype_redesign_v2/development_diagnostic_v1/` and `development_diagnostic_v2/`
 - scope: VL-SAT/Open3DSG full-validation attachment labels `attached to`, `hanging on`, `connected to`, K = `{5,10,20,50,100}`
-- status: source metrics ready, validation errors 0, not promoted to the main GeoCalib claim
+- status: the legacy source metrics and v2 diagnostics are complete with
+  validation errors 0; neither route is promoted. The v2 bounded diagnostic
+  passes VL-SAT K=100 but fails Open3DSG K=100 and VL-SAT K=50.

@@ -1,0 +1,53 @@
+{
+  "artifact_type": "attachment_subtype_design_and_migration_audit",
+  "created_at": "2026-07-13T05:24:47.017012+00:00",
+  "inputs": {
+    "archive/experiments/H001_geom_reliability/sources/attachment_deferred/calibration_counterfactuals/counterfactual_seeds.jsonl": "8392290065c0d3f5f7c23573b6fe0b5724e6fdb1eb861d872645407bf9303660",
+    "archive/experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity/review_cases.jsonl": "95511ebef0b5a701d8ad2c48b348ea2da300f558cdb45c3c91206c33f18dfc4a",
+    "archive/experiments/H001_geom_reliability/sources/attachment_deferred/error_visual_sanity/summary.json": "5f0cf9af7c73465b227e3418d5e0f32ba039f0a22997b0cadfdd4db972d94f74",
+    "archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_validation_g5d/summary.json": "ef677856127556eb6cec0c29de4d09595ee68e15b3e897b190875fdebe244f4d",
+    "archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/gt_eval_rows.jsonl": "ec74b00190a379a7952b6f41d58ee9460930051b4437515f8ebe1c652dd49924",
+    "archive/experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke/gt_evidence_rows.jsonl": "3696e59e7a8c97df73682f178742f49153224479d288ab0b9adc7e0d6614c8b8",
+    "archive/experiments/H001_geom_reliability/sources/attachment_deferred/strict_filter_freeze/summary.json": "af884c8d83258efe59cb4464d4b2b7b1296bf24e4041df086778dfb80df8a53a"
+  },
+  "main_claim_changed": false,
+  "model_fitted": false,
+  "outputs": {
+    "README.md": {
+      "bytes": 1890,
+      "sha256": "b3233ab858e3d6efdb9392cb35e25bc1ffb4699ef34c54868a49cac05ccadb4c"
+    },
+    "commands.md": {
+      "bytes": 138,
+      "sha256": "53bb319fbbbee29fd252a9d1d62aa1fb783cb1c2f06e8f6b47fdf04860056eef"
+    },
+    "control_contract.json": {
+      "bytes": 1510,
+      "sha256": "d705bce59d7d76290bb8cc6f38e56816ee7968584dd9c789643aba332eeb38c9"
+    },
+    "legacy_audit.json": {
+      "bytes": 4501,
+      "sha256": "e19531b9de028a5ebb19aeeb9802c76650b7dd6f707f4efeea49c6679ec213e9"
+    },
+    "mechanism_review_queue.csv": {
+      "bytes": 18779,
+      "sha256": "8bdd0fa3b1b562a21807176dde36cff8b2860bfbd954f06f934acafb72e49c4d"
+    },
+    "migration_rows.jsonl": {
+      "bytes": 1358108,
+      "sha256": "4de767de89a6eee39d8adc203b2ceeb9df77e55317e78da6c460a34ebf5e1167"
+    },
+    "taxonomy.json": {
+      "bytes": 2744,
+      "sha256": "1edb319c682bc993fc0b2ec76e119457a854f378f1768cb70282168cf5e1f6ed"
+    },
+    "validation.json": {
+      "bytes": 450,
+      "sha256": "c732e5027a152409f1fc502a87f93ca68e684cac38af98eef67daa70fcfda125"
+    }
+  },
+  "paper_result": false,
+  "schema_version": "h001_attachment_subtype_redesign_v2",
+  "source_metrics_computed": false,
+  "status": "attachment_subtype_v2_frozen_no_refit_no_source_metrics"
+}

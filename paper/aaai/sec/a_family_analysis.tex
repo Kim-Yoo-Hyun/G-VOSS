@@ -1,10 +1,8 @@
 \section{Family Composition at the Global $K=100$ Operating Point}
 
 Table~\ref{tab:family-slices} reports each family's slice inside the actual
-global top-100 ranking. It therefore exposes both within-family behavior and
-changes in the family composition of the selected list. Deltas compare the
-family-calibrated product with the source score, using paired subgraph
-bootstrap samples.
+global top-100 ranking. Deltas compare the \method{} product with the source score
+using shared paired context-bootstrap indices.
 
 \begin{table}[H]
 \centering
@@ -17,23 +15,23 @@ regression. Values are verifier-derived.}
 \toprule
 Source & Family & $\Delta$R & $\Delta$V \\
 \midrule
-VL-SAT & Support/contact & +.0017 & +.0086 \\
-VL-SAT & Proximity & +.0079 & $-.0075$ \\
-VL-SAT & Vertical order & +.0051 & $-.0570$ \\
+VL-SAT & Support/contact & +.0028 & +.0076 \\
+VL-SAT & Proximity & +.0079 & $-.0078$ \\
+VL-SAT & Vertical order & +.0051 & $-.0586$ \\
 \midrule
-Open3DSG & Support/contact & $-.0523$ & +.0059 \\
-Open3DSG & Proximity & +.2135 & $-.0462$ \\
-Open3DSG & Vertical order & +.1795 & $-.2877$ \\
+Open3DSG & Support/contact & $-.0341$ & +.0036 \\
+Open3DSG & Proximity & +.1959 & $-.0457$ \\
+Open3DSG & Vertical order & +.1821 & $-.2894$ \\
 \midrule
-SGFN & Support/contact & +.0011 & +.0086 \\
-SGFN & Proximity & +.0368 & $-.0151$ \\
-SGFN & Vertical order & +.0128 & $-.0602$ \\
+SGFN & Support/contact & +.0017 & +.0077 \\
+SGFN & Proximity & +.0368 & $-.0152$ \\
+SGFN & Vertical order & +.0128 & $-.0617$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Support/contact regresses in all three sources, while vertical ordering drives
-most of the violation reduction. The aggregate result is consequently a scoped
+Support/contact V regresses in all three source rankings, while vertical order
+drives most of the aggregate reduction. The result is consequently a scoped
 operating-point improvement, not a uniform family claim. Full within-family
-top-$K$ and global-slice tables for $K\in\{5,10,20,50,100\}$ accompany the
-submitted artifacts with simultaneous family-wise uncertainty.
+and global-slice results for $K\in\{5,10,20,50,100\}$, including simultaneous
+family-wise intervals, are included in the supplemental package.

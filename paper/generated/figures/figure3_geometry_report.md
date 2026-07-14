@@ -1,23 +1,23 @@
-# Figure 3 Geometry Panel Generation
+# Geometry-Backed Figure Generation
 
 Status: `figure3_geometry_panels_generated_verified`
 
 Generated outputs:
 
-- `figure3_geometry_panels.svg`: point-cloud geometry panels for the locked Figure 3 cases.
+- `figure1_framework.{svg,pdf,png}`: source-backed framework overview.
+- `figure3_geometry_panels.{svg,pdf,png}`: point-cloud qualitative panels.
 - `figure3_geometry_cases.json`: case-level source rows, measurements, and object geometry stats.
 - `figure3_geometry_manifest.json`: generation and validation manifest.
 
 Claim boundary:
 
-- These panels are qualitative reviewer-defense / failure-mechanism examples.
-- They are not a representative human visual audit, not a new metric, and not broad open-vocabulary evidence.
-- They preserve the same locked Open3DSG case IDs used by `figure3_failure_cases.svg`.
+- The panels illustrate failure mechanisms and are not a representative evaluation sample.
+- They preserve the selected Open3DSG case identities and use the corresponding preprocessed point clouds.
 
 Reproduction command:
 
 ```bash
-docker run --rm --user "$(id -u):$(id -g)" -v /home/yoohyun/research:/workspace -w /workspace h001-open3dsg-repro:cu128 bash -lc 'python paper/scripts/render_figure3_geometry_panels.py'
+docker run --rm --entrypoint bash --user "$(id -u):$(id -g)" -v "$PWD":/workspace -w /workspace h001-geom-reliability:latest -lc 'python paper/scripts/render_figure3_geometry_panels.py'
 ```
 
 Validation:
@@ -25,5 +25,6 @@ Validation:
 - Expected locked cases: `open3dsg_case_001, open3dsg_case_010, open3dsg_case_026`
 - Rendered cases: `open3dsg_case_001, open3dsg_case_010, open3dsg_case_026`
 - Missing cases: `none`
-- Output SVG exists: `True`
+- Figure 1 PDF exists: `True`
+- Figure 3 PDF exists: `True`
 - Output case JSON exists: `True`

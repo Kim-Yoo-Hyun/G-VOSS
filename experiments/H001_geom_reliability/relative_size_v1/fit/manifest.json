@@ -1,0 +1,50 @@
+{
+  "counts": {
+    "dev_scans_with_rows": 40,
+    "internal_dev_rows": 376,
+    "rows": 3620,
+    "train_rows": 3244,
+    "train_scans_with_rows": 356
+  },
+  "created_at_utc": "2026-07-13T04:16:43.483552+00:00",
+  "docker_service": "relative_size_fit",
+  "extraction": {
+    "objects_emitted": 1488,
+    "objects_model_ready": 1475,
+    "objects_obb_ready": 1488,
+    "objects_requested": 1488,
+    "objects_verifier_ready": 1475,
+    "scan_errors": [],
+    "scans_requested": 401
+  },
+  "outputs": {
+    "calibration_rows.jsonl": {
+      "path": "experiments/H001_geom_reliability/relative_size_v1/fit/calibration_rows.jsonl",
+      "sha256": "bf7e4671bb919edf8ae17e1c30d08dff3b5164db1a5b8afb3dbd990dbcbc119b"
+    },
+    "internal_dev_diagnostics.json": {
+      "path": "experiments/H001_geom_reliability/relative_size_v1/fit/internal_dev_diagnostics.json",
+      "sha256": "684915b5ce85443bdbcb6cfcf3d8c763b1cf7e2601fbbeb84d2d7304c468fceb"
+    },
+    "model.json": {
+      "path": "experiments/H001_geom_reliability/relative_size_v1/fit/model.json",
+      "sha256": "bfb6068307b9743a0f852a1082e4fa40c50ef15094601f930f1e431cbdade015"
+    },
+    "object_stats.jsonl": {
+      "path": "experiments/H001_geom_reliability/relative_size_v1/fit/object_stats.jsonl",
+      "sha256": "70fd548879f8169e3d08b0b8e8386a4df19b35f6d85479d5b41416b35ecff6e2"
+    }
+  },
+  "schema_version": "h001_relative_size_extension_v1",
+  "status": "relative_size_train_only_fit_ready_for_lock",
+  "validations": {
+    "all_weights_finite": true,
+    "dev_wrong_T_win_rate_ge_0_95": true,
+    "inverse_max_error_le_1e_10": true,
+    "no_forbidden_features": true,
+    "point_views_disjoint_by_construction": true,
+    "scale_max_error_le_1e_10": true,
+    "train_and_dev_binary": true,
+    "zero_final_rows": true
+  }
+}

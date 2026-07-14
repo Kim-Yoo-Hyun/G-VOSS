@@ -1,43 +1,45 @@
 # H001 Paper Preview
 
-Last updated: 2026-07-12 KST
+Last updated: 2026-07-14 KST
 
 이 문서는 H001을 paper/experiment writing phase로 넘기기 직전에 현재까지의 연구 결과, 주장 범위, 실험 근거, caveat, 그리고 재시작 시 반드시 읽어야 할 파일을 한곳에 고정한 preview다. 최종 manuscript가 아니라 paper draft를 쓰기 위한 handoff 문서다.
 
-Paper-facing name: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations`. `H001` remains an internal identifier.
+Paper-facing name: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geometric Compatibility for 3D Scene Graph Relations`. `H001` remains an internal identifier.
 
-Current 2026-07-12 framing override:
+Current 2026-07-14 framing override:
 
+- The active manuscript uses six top-level sections: Introduction, Related
+  Work, Method, Experiments, Discussion and Limitations, and Conclusion.
+  Problem Setup is integrated into Method; setup and result subsections are
+  grouped under Experiments.
 - The submission narrative is failure-first: observed inconsistency,
   structural cause, factor-isolation necessity, method, evidence, then
-  limitations. Novelty is a source-independent reliability contract and
+  limitations. Novelty is a predictor-agnostic reliability contract and
   evaluation framework, not a fusion-formula claim.
-- GeoCalib is a framework-level contribution. The family-calibrated product
-  and rank-average are two soft fusion
-  instantiations; neither is claimed universally dominant.
+- RelCompat3D is a framework-level contribution. The strict train-only
+  relation-algebra-constrained product is the main soft method and rank-average
+  is a scale-robust framework instantiation; neither is claimed universally
+  dominant.
 - On SGFN, both satisfy the K=100 joint recall/verifier-violation gate. This
   supports the aggregate framework effect,
   while `support_contact` regression and the LLM-proxy/human-validity boundary
   remain explicit limits.
-- The initial ReplicaSSG/FROSS cross-dataset transfer test does not pass the
-  same K=100 framework gate. Product is unchanged from
-  semantic-only, while rank-average sharply lowers verifier V but violates the
-  aggregate recall guardrail. ReplicaSSG is now a test-specific development
-  diagnostic for source-scale normalization and bounded fusion; selected
-  results are development estimates. The all-scene bounded fit preserves
-  K=100 recall, but LOSO fails the recall guardrail; bounded fusion therefore
-  stays out of the main Method and contribution list.
-- Current AAAI-27 outputs are `paper/aaai/main_aaai27.pdf` (9 pages; technical
-  content through page 7, references only on pages 8--9),
-  `supplement_aaai27.pdf` (3 pages), and the separate
+- The final paper scope is cross-predictor robustness on one shared
+  3DSSG/3RScan target. ReplicaSSG/FROSS is de-scoped archived development
+  provenance and is removed from the active submission route.
+- Current AAAI-27 outputs are `paper/aaai/main_aaai27.pdf` (8 pages; technical
+  content through page 7, references on pages 7--8),
+  `supplement_aaai27.pdf` (2 pages), and the separate
   `reproducibility_checklist_aaai27.pdf` (2 pages). Final triplet log is
-  `logs/h001_claim_lock_main_final_20260712.log`; active field bundle is
-  `release/h001_aaai27_openreview_20260712_083625/`. Prior snapshots are
-  preserved as historical provenance.
+  `logs/h001_main_figure_refresh_20260714.log`; the active field bundle is
+  `release/h001_aaai27_openreview_20260714_170829/`. It passes outer/inner
+  checksums, ZIP extraction, structured-manifest validation, and author-path
+  scans. Prior snapshots are preserved as historical provenance.
 - H001 factorizes each row into predicate/family semantics `T_e`, raw
   predicate-independent same-pair geometry `G_e`, source relation score `Z_e`, and
-  calibrated constructed-target compatibility
-  `C_e=P(y_cal=1|T_e,G_e)`. The leakage boundary is `Z_e notin C_e`;
+  bounded constructed-target compatibility
+  `C_e=sigmoid(h_a(Phi(T_e,G_e)))`, followed by exact relation-algebra orbit
+  projection. The leakage boundary is `Z_e notin C_e`;
   product and rank-average remain instances of `S_e=F(Z_e,C_e)`.
 - `y_cal` comes from train/dev GT positives plus high-margin counterfactual
   negatives and is not direct human physical validity. The old
@@ -49,18 +51,30 @@ Current 2026-07-12 framing override:
   controls. The selected strict family model passes its exact controls; pooled
   `M_int` fails structural controls and is not promoted. These diagnostics do
   not retroactively alter the SGFN gate.
-- Frozen uncertainty sensitivity reports decidable-only Violation, uncertainty
-  rate, and a pessimistic bound. Family-calibrated product lowers all three
+- Uncertainty sensitivity reports decidable-only Violation, uncertainty
+  rate, and a pessimistic bound. The structured product lowers all three
   relative to Source score at K=100 for VL-SAT, Open3DSG, and SGFN, so the
   aggregate result is not an uncertain-denominator artifact.
 - The 69-parameter nonlinear rescorer, trained on disjoint internal-dev
   exact-label correctness, is stronger than the product on SGFN at low K and
   lowers K=100 Violation. This blocks formula superiority and is reported
-  honestly; unlike GeoCalib, it consumes source confidence and source-specific
+  honestly; unlike RelCompat3D, it consumes source confidence and source-specific
   exact-label supervision.
-- Figure 2 now connects K=`{5,10,20,50,100}` on VL-SAT, Open3DSG, and SGFN.
-  Only K=100 supports the two-instantiation joint-gate statement; the
-  smaller-budget persistence statement is product-only.
+- Applying that unchanged SGFN-supervised rescorer to VL-SAT and Open3DSG
+  significantly loses Recall on VL-SAT at K=100 and on both sources at smaller
+  K. It is therefore a source-adapted upper bound rather than a uniform
+  alternative to the predictor-agnostic factor contract.
+- Six relation-algebra candidates were evaluated behind a frozen 3DSSG-only
+  gate. Only linked-counterfactual margin fitting plus exact orbit projection
+  passes. It has exactly zero close-by swap and vertical-inverse error while
+  preserving K=100 Recall continuity on all three sources. It is now the main
+  compatibility model, and every comparator, uncertainty result, figure, and
+  table has been rebuilt under the same strict model route.
+- Figure 2 and one joint Recall/Violation table report
+  K=`{5,10,20,50,100}` on VL-SAT, Open3DSG, and SGFN. A second table reports
+  six fixed-model controls at K=50/100 in one column. K=100 is primary;
+  smaller budgets show predictor-dependent trade-offs. Figures 1--3 are
+  included as vector PDFs to preserve type and line quality.
 
 2026-07-11 train-only provenance override:
 
@@ -94,11 +108,11 @@ Prior 2026-06-25 source snapshot:
   but is now named calibrator-only/no-`Z`, not true geometry-only.
 - Qwen-VL full official validation downstream is complete and should be treated as appendix/extension evidence unless explicitly promoted.
 - Active target-year PDF build:
-  `logs/h001_strengthening_final_build_v2_20260712.log`, exit 0. Outputs are
+  `logs/h001_structured_main_final_20260713.log`, exit 0. Outputs are
   `paper/aaai/main_aaai27.pdf` (9 pages; technical content through page 7 and
-  references only on pages 8--9), `supplement_aaai27.pdf` (2 pages), and
-  `reproducibility_checklist_aaai27.pdf` (2 pages). The active upload set is
-  `release/h001_aaai27_openreview_20260712_083625/`.
+  references only on pages 8--9), `supplement_aaai27.pdf` (3 pages), and
+  `reproducibility_checklist_aaai27.pdf` (2 pages). The previous upload set is
+  synchronized with the verified 2026-07-13 field bundle.
 - Remaining paper work is submission/package hygiene, not new main-source result generation.
 
 ## Paper Direction
@@ -120,7 +134,11 @@ Inference:
 Allowed current claim:
 
 ```text
-For geometry-checkable 3D scene graph relation families, calibrated geometry-consistency scoring exposes semantically plausible but physically inconsistent relation predictions and can reduce geometric violations while preserving measurable recall tradeoffs across VL-SAT and Open3DSG.
+For geometry-checkable 3D scene graph relation families, RelCompat3D learns
+predictor-agnostic predicate--geometry compatibility with linked
+counterfactuals and exact relation-algebra projection, reducing aggregate
+geometric violations while preserving measurable recall tradeoffs across
+VL-SAT, Open3DSG, and SGFN on one shared 3DSSG target.
 ```
 
 Blocked current claim:
@@ -135,7 +153,9 @@ Fact:
 
 - Paper-facing full official validation scope has 157 scans, 548 contexts, 36,808 directed pairs, 957,008 `VL-SAT` prediction rows, 11,254 GT rows, and 3,972 in-scope measured-family GT relations. The earlier 127-scan scope is retained only as sensitivity/history.
 - Docker experiment root: `experiments/H001_geom_reliability/`.
-- Docker table builder generated Table 1-6, figure specs, `manifest.lock.json`, and `report.md`.
+- The coordinated Docker route generated every main comparator, paired
+  interval, uncertainty result, figure source, and table under
+  `structured_main_v1/evaluation/`; all manifest validations pass.
 - Open3DSG second-source path is complete for the measured measured-family setting. The historical 127-scan avg-BLIP downstream result remains reproduced and table-ready. R1 official non-avg checkpoint selection and separate non-avg downstream regeneration are also complete. The selected paper-facing route is now the full official validation branch, using the 548/548 Open3DSG recovery branch as the primary full-denominator Open3DSG result and the 533/548 covered branch as sensitivity / unmodified-source-route evidence.
 
 2026-06-03 direction update:
@@ -182,6 +202,18 @@ Fact:
 
 ## Key Metrics
 
+### Current Promoted Structured Main, K=100
+
+| source | Source score R/V | structured product R/V | rank-average R/V | RRF R/V | pooled product R/V | hard filter R/V |
+| --- | --- | --- | --- | --- | --- | --- |
+| VL-SAT | .9635/.0476 | .9688/.0325 | .9617/.0248 | .9610/.0233 | .9690/.0387 | .9627/.0000 |
+| Open3DSG | .5161/.1242 | .6055/.0339 | .5994/.0531 | .5979/.0785 | .6443/.0747 | .5368/.0000 |
+| SGFN | .9235/.0630 | .9418/.0372 | .9474/.0268 | .9074/.0266 | .9413/.0464 | .9270/.0000 |
+
+Authority: `experiments/H001_geom_reliability/structured_main_v1/evaluation/`.
+The model SHA256 is
+`62d251f3ce60e2db54eb1748c277350e3b9e2c7c9d2be0312cf2fb323b761410`.
+
 ### VL-SAT Historical 127-Scan Sensitivity
 
 This section is historical/sensitivity evidence only. Do not use these values
@@ -192,17 +224,17 @@ as the current paper-facing main table.
 | `semantic_only` | 0.9599 | 0.9894 | 0.0247 | 0.0469 | reproduced semantic ranking |
 | `probabilistic_recalibrated` | 0.9642 | 0.9921 | 0.0234 | 0.0391 | historical pooled calibrated-risk ablation |
 | `rule_verified_point_subtype` | 0.9587 | 0.9890 | 0.0000 | 0.0000 | hard-filter zero-violation diagnostic |
-| `family_conditional_risk` | 0.9619 | 0.9914 | 0.0204 | 0.0310 | historical family-conditional GeoCalib score |
+| `family_conditional_risk` | 0.9619 | 0.9914 | 0.0204 | 0.0310 | historical family-conditional RelCompat3D score |
 
 Interpretation:
 
 - `probabilistic_recalibrated` is the pooled calibrated-risk ablation, not the
   current main score.
 - `rule_verified_point_subtype` demonstrates zero-violation behavior but should be reported as a diagnostic, not the default main operating point.
-- `family_conditional_risk` gives a clearer violation reduction and is the
-  calibrated-product operating point in the full-validation paper route.
+- `family_conditional_risk` gives a clearer historical violation reduction but
+  is superseded by the relation-algebra-constrained structured product.
 
-Paper-facing full official validation:
+Pre-promotion full official validation continuity table:
 
 | condition | R@5 | R@10 | R@20 | R@50 | R@100 | V@5 | V@10 | V@20 | V@50 | V@100 | role |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
@@ -219,8 +251,8 @@ Full-validation interpretation:
   violation with only a small recall tradeoff.
 - Recall is lower than the 127-scan hardened result because the full official
   validation denominator is broader and includes all 157 scans / 548 contexts.
-- This is now part of the selected paper-facing primary route. Paper tables/prose
-  have been regenerated from the full-validation artifacts.
+- This table is retained for provenance. Current paper tables/prose are
+  regenerated from the promoted structured-main artifacts above.
 
 ### Open3DSG Full Validation Recovery
 
@@ -453,6 +485,14 @@ Fact:
   blockers are Open3DSG 199 missing exact-label GT rows, noisy `attached to`
   behavior, no `connected to` dev strict rows, and likely additional
   failure/visual audit.
+- The nine-subtype contract is now legacy provenance. Subtype-v2 separates
+  predicate semantics, physical mechanism, and observability/applicability.
+  Its migration covers 761 train/dev rows; 199/325 legacy strict rows used an
+  `ambiguous_*` subtype. Official-validation routing covers 190,722 rows:
+  74,433 bidirectional, 19,287 positive-only, and 97,002 abstained.
+- The raw-selective v2 product fails. The bounded v2 multiplier passes VL-SAT
+  K=100 but fails Open3DSG K=100 and VL-SAT K=50. Both are retrospective
+  development diagnostics and remain outside the paper result set.
 
 Interpretation:
 
@@ -461,8 +501,9 @@ Interpretation:
   hanging should be constrained by contact, surface type, gravity, and object
   affordance.
 - It is also harder than support/contact and cannot be promoted without
-  resolving its caveats and reviewing failure/visual evidence. Main-claim
-  promotion requires explicit final user confirmation.
+  resolving its mechanism/observability labels, rebuilding the target and
+  verifier contract, and passing source gates after a new model lock.
+  Main-claim promotion requires explicit final user confirmation.
 - A small function-reasoning case study is reasonable only after the
   attachment-reliability result exists; it should show simple physical
   precondition reasoning, not claim broad affordance or robotics performance.
@@ -476,18 +517,18 @@ Fact:
   `paper/aaai/`; the historical ICCV-style source is under `archive/paper/iccv/`;
   Figure 1-3 source rows and caveat wording are locked in `paper/figures.md`;
   verified/layout-reviewed draft SVGs are under `paper/generated/figures/`.
-- AAAI Table 1: fixed GeoCalib evaluation scope and denominator.
+- AAAI Table 1: fixed RelCompat3D evaluation scope and denominator.
 - AAAI Table 2: main source results, with Open3DSG first as the main
   open-vocabulary case study and `VL-SAT` second as the controlled reproduced
   anchor.
 - AAAI Table 3: controls and diagnostics separating calibrated same-pair
   geometry from geometry-only, distance-only, shuffled-geometry, and wrong-pair
   explanations.
-- AAAI Table 4: prospective SGFN K=100 comparison of semantic, calibrated
-  product, rank-average, and RRF with verifier/human boundaries.
-- ReplicaSSG/FROSS is not a new positive main table. It is now placed in the
-  supplement and main limitations as a frozen negative-transfer result with the
-  unchanged K=100 gate and lower-K diagnostics clearly separated.
+- SGFN is reported as an additional exact-label source comparison of semantic,
+  calibrated product, rank-average, and RRF, with verifier/human-validity
+  boundaries; it is not presented as a separate prospective table.
+- ReplicaSSG/FROSS is outside the finalized 3DSSG-only paper and must not be
+  included in the active supplement package.
 - Source-specific claim boundary / non-claims, GT-based verifier evaluation,
   structured audit, visual sanity check, and detailed family rows are kept as
   prose-backed reviewer-defense evidence unless an appendix is added.
@@ -660,7 +701,7 @@ Recommended next action:
 1. Use `paper/draft.md` as the active reviewed first-pass manuscript prose, `paper/aaai/` as the current AAAI-style LaTeX source, and `paper/generated/figures/` as the active draft figure output.
 2. Treat the claim-consistency review in `paper/outline.md` as the current paper guardrail: title, contributions, abstract, Introduction, table captions, and figure captions must stay within the scoped relation-reliability claim.
 3. Treat the reproducibility checklist as a separate AAAI-27 OpenReview upload.
-   The verified containerized-build triplet is `main_aaai27.pdf` (9 pages),
+   The verified containerized-build triplet is `main_aaai27.pdf` (8 pages),
    `supplement_aaai27.pdf` (2 pages), and
    `reproducibility_checklist_aaai27.pdf` (2 pages). Remaining work is author
    metadata, final public license/artifact URL, and optional human alignment,

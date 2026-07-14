@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-repo=/home/yoohyun/research
+script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+repo=${REPO_ROOT:-$(cd -- "$script_dir/.." && pwd)}
 compose="$repo/configs/fross/compose.yaml"
 runtime="$repo/local_dataset/ReplicaSSG_runtime"
 frozen_scans="$repo/experiments/H001_geom_reliability/sources/replicassg/prospective_protocol/frozen_v1/test_scans.txt"

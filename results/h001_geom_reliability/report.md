@@ -1,11 +1,11 @@
-# H001 / GeoCalib Geometry Reliability Report
+# H001 / RelCompat3D Geometry Reliability Report
 
-Last updated: 2026-07-12 KST
+Last updated: 2026-07-14 KST
 
-This is the compact paper-facing full-validation report for GeoCalib. The
-current main result uses VL-SAT full official validation as the controlled
-closed-set anchor and Open3DSG full-validation `recovery_relaxed_views_min2/`
-as the open-vocabulary relation-source case study. Historical 127-scan outputs
+This is the compact paper-facing full-validation report for RelCompat3D. The
+current main result uses the strict train-only relation-algebra-constrained
+compatibility model across VL-SAT, Open3DSG, and SGFN on the same 548-context
+3DSSG target. Historical 127-scan outputs
 and optional family-expansion artifacts are not main evidence unless explicitly
 promoted.
 
@@ -42,29 +42,98 @@ Metric definitions:
 | condition | formula / rule | paper role |
 | --- | --- | --- |
 | Source score | source model relation score | source baseline |
-| Family-calibrated product | `source_score * family_compatibility` | calibrated-product instantiation |
-| Rank-average fusion | mean of within-subgraph source-score and family-compatibility percentiles | scale-robust soft instantiation |
+| Relation-algebra-constrained product | `source_score * projected_compatibility` | main soft method |
+| Rank-average fusion | mean of within-context source-score and projected-compatibility percentiles | scale-robust soft instantiation |
 | Reciprocal-rank fusion | reciprocal-rank fusion with fixed constant 60 | strong comparator |
 | Pooled-calibrator ablation | `source_score * pooled_compatibility` | family-conditioning ablation |
 | Hard geometry filter | keep/rank rule-supported point-subtype evidence | zero-violation diagnostic, not default |
-| `control_p_geom_valid_only` | `p_geom_valid` only | calibrator-only/no-source-score control; not true `G`-only |
-| `control_distance_only` | inverse distance only | distance-only control |
-| `control_shuffled_geometry` | semantic score with shuffled geometry score | geometry identity control |
-| `control_wrong_pair_geometry` | semantic score with wrong-pair geometry score | object-pair identity control |
+| Compatibility-only | projected compatibility only | no-source-score control; not true `G`-only |
+| Distance-only | inverse 3D distance only, without source score | distance-only control |
+| Wrong predicate | product after a fixed predicate substitution | predicate--geometry interaction control |
+| Wrong-pair geometry | product with a deterministic within-context same-predicate donor | object-pair identity control |
+| Shuffled geometry | product with a deterministic source/predicate-stream donor | geometry identity control |
+| Endpoint swap, label fixed | product after the applicable proximity/vertical geometry swap while retaining the label | directional/symmetry falsification control |
 
-For reproducibility, the raw metric keys for Family-calibrated product,
-Pooled-calibrator ablation, and Hard geometry filter are respectively
-`control_family_specific_p_geom_valid`, `probabilistic_recalibrated`, and
-`rule_verified_point_subtype`. They are implementation identifiers rather than
-paper-facing method names. No fusion formula is universally dominant.
+For reproducibility, the main artifact keys are `structured_product`,
+`structured_rank_average`, `structured_rrf_c60`, `pooled_product`, and
+`hard_rule_filter`. The legacy condition names below are historical
+implementation identifiers, not current manuscript terminology. No fusion
+formula is universally dominant.
+
+## Promoted Structured Main Result
+
+The coordinated Docker evaluation is
+`experiments/H001_geom_reliability/structured_main_v1/evaluation/`. It uses
+model SHA256
+`62d251f3ce60e2db54eb1748c277350e3b9e2c7c9d2be0312cf2fb323b761410`
+and regenerates every comparator, uncertainty metric, family-wise paired CI,
+figure source, and main table from one strict route.
+
+| Source | Source R/V@100 | structured product R/V@100 | rank-average | RRF | pooled product | hard filter |
+| --- | --- | --- | --- | --- | --- | --- |
+| VL-SAT | .9635/.0476 | .9688/.0325 | .9617/.0248 | .9610/.0233 | .9690/.0387 | .9627/.0000 |
+| Open3DSG | .5161/.1242 | .6055/.0339 | .5994/.0531 | .5979/.0785 | .6443/.0747 | .5368/.0000 |
+| SGFN | .9235/.0630 | .9418/.0372 | .9474/.0268 | .9074/.0266 | .9413/.0464 | .9270/.0000 |
+
+The structured-product Recall/Violation deltas versus Source score are
+`+.00529/-.01513`, `+.08938/-.09034`, and `+.01838/-.02577` for
+VL-SAT, Open3DSG, and SGFN. The exact paired intervals and all
+K=`{5,10,20,50,100}` rows are in `evaluation/summary.json` and `metrics.csv`.
 
 Factor interpretation: `T_e` is predicate/family semantics, `G_e` raw
 predicate-independent same-pair geometry, `Z_e` source relation score, and
-`C_e=P(y_cal=1|T_e,G_e)`. `y_cal` is the constructed train/dev
-GT-positive/counterfactual target. Current calibrators exclude `Z_e` and source
-identity, but include `T_e` and predicate-aligned `T_e x G_e` features. Hence
+`C_e=sigmoid(h_a(Phi(T_e,G_e)))` a bounded score for the constructed
+GT-positive/counterfactual target. It is not a probability of physical
+validity. Current compatibility models exclude `Z_e` and predictor identity,
+but include `T_e` and predicate-aligned `T_e x G_e` features. Hence
 the legacy `control_p_geom_valid_only` isolates removal of `Z_e`; it is not a
 true raw-geometry-only calibrator.
+
+Dependence sensitivity resamples the 157 scans, carrying every one of the 548
+contexts from each sampled scan together. At K=100, product-minus-source
+Recall/Verifier-V intervals are `+.0053 [.0000,.0119] / -.0151
+[-.0171,-.0135]` for VL-SAT, `+.0894 [.0646,.1119] / -.0903
+[-.0959,-.0846]` for Open3DSG, and `+.0184 [.0137,.0230] / -.0258
+[−.0285,−.0233]` for SGFN. Rankings and point estimates are unchanged.
+
+## Fixed-Model Ablations and Falsification Controls
+
+The Docker-frozen evaluation is
+`experiments/H001_geom_reliability/structured_ablation_v1/evaluation/`. It
+uses the unchanged structured-model SHA256
+`62d251f3ce60e2db54eb1748c277350e3b9e2c7c9d2be0312cf2fb323b761410`,
+the same 548 contexts and 3,972-relation denominator, and shared 1,000-resample
+context-bootstrap indices. Every input/equivalence/donor validation passes.
+
+| Source | Condition | R@50 | V@50 | R@100 | V@100 |
+| --- | --- | ---: | ---: | ---: | ---: |
+| Open3DSG | RelCompat3D product | .4698 | .0286 | .6055 | .0339 |
+| Open3DSG | Wrong predicate | .4507 | .2486 | .5753 | .2315 |
+| Open3DSG | Wrong-pair geometry | .1848 | .0814 | .2885 | .0891 |
+| Open3DSG | Shuffled geometry | .2281 | .1418 | .3326 | .1418 |
+| Open3DSG | Endpoint swap, label fixed | .4532 | .2498 | .5775 | .2325 |
+| Open3DSG | Distance-only | .3454 | .0846 | .5038 | .1071 |
+| Open3DSG | Compatibility-only (no Z) | .3432 | .0186 | .5798 | .0321 |
+| VL-SAT | RelCompat3D product | .9293 | .0203 | .9688 | .0325 |
+| VL-SAT | Wrong predicate | .9063 | .0391 | .9507 | .0745 |
+| VL-SAT | Wrong-pair geometry | .8369 | .0255 | .9121 | .0525 |
+| VL-SAT | Shuffled geometry | .8338 | .0308 | .9089 | .0615 |
+| VL-SAT | Endpoint swap, label fixed | .9068 | .0391 | .9509 | .0745 |
+| VL-SAT | Distance-only | .3746 | .0724 | .5554 | .0981 |
+| VL-SAT | Compatibility-only (no Z) | .3072 | .0140 | .6186 | .0193 |
+| SGFN | RelCompat3D product | .7706 | .0256 | .9418 | .0372 |
+| SGFN | Wrong predicate | .8097 | .0692 | .9182 | .1120 |
+| SGFN | Wrong-pair geometry | .6619 | .0403 | .8429 | .0723 |
+| SGFN | Shuffled geometry | .6845 | .0499 | .8338 | .0861 |
+| SGFN | Endpoint swap, label fixed | .8089 | .0691 | .9187 | .1120 |
+| SGFN | Distance-only | .3746 | .0724 | .5554 | .0981 |
+| SGFN | Compatibility-only (no Z) | .3072 | .0140 | .6186 | .0193 |
+
+The geometry corruptions break the joint operating point. Compatibility-only
+can lower V but loses substantial Recall, so compatibility cannot replace the
+source confidence factor. This condition remains predicate-conditioned; it is
+not a true raw-geometry-only model. Endpoint swap is applied only where the
+relation algebra defines it; support/contact rows are left unchanged.
 
 ## Source Artifacts
 
@@ -72,9 +141,12 @@ true raw-geometry-only calibrator.
 | --- | --- | ---: | --- |
 | VL-SAT | controlled closed-set anchor | 957,008 | `experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics_k_sweep/metrics.json` |
 | Open3DSG | open-vocabulary relation-source case study | 695,916 | `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/metrics.json` |
-| SGFN full_l160 | exact-label confirmation fixed before inference | 957,008 | `experiments/H001_geom_reliability/sources/sgfn/confirmatory_metrics/summary.json` |
+| SGFN full_l160 | additional exact-label source evaluation | 957,008 | `experiments/H001_geom_reliability/sources/sgfn/confirmatory_metrics/summary.json` |
 
-## Framework-Level K=100 Comparison
+## Historical Framework-Level K=100 Comparison (Pre-Promotion)
+
+This table preserves the 2026-07-10 continuity comparison. It is superseded
+for current paper numbers by **Promoted Structured Main Result** above.
 
 | source | condition | R@100 | verifier V@100 | role |
 | --- | --- | ---: | ---: | --- |
@@ -87,19 +159,35 @@ true raw-geometry-only calibrator.
 | Open3DSG | rank-average | 0.6052 | 0.0532 | scale-robust instantiation |
 | Open3DSG | RRF | 0.6196 | 0.0789 | strong comparator |
 | SGFN | semantic | 0.9235 | 0.0630 | fresh source baseline |
-| SGFN | calibrated product | 0.9416 | 0.0381 | frozen soft instantiation; joint gate pass |
-| SGFN | rank-average | 0.9476 | 0.0277 | frozen soft instantiation; joint gate pass vs product |
+| SGFN | calibrated product | 0.9416 | 0.0381 | soft instantiation; joint criterion satisfied |
+| SGFN | rank-average | 0.9476 | 0.0277 | soft instantiation; joint criterion satisfied vs product |
 | SGFN | RRF | 0.9192 | 0.0284 | lower V but fails recall guardrail vs product |
 
 The SGFN result supports the framework-level claim that incorporating calibrated
 same-pair geometry can improve the aggregate recall/violation operating point
-under more than one pre-specified fusion form. It does not establish formula
+under more than one evaluated fusion form. It does not establish formula
 dominance, family-uniform improvement, or independent human physical validity.
 
 Bootstrap stability artifacts for the same K grid are available at
 `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/bootstrap_ci_k_sweep/summary.md`.
 
-## Uncertainty Sensitivity
+## Transfer-Development Boundary
+
+ReplicaSSG/FROSS is a supplement-only cross-dataset stress test and method-
+development diagnostic. In development v2, the regenerated FROSS execution
+contains 4,293 candidates and 172 exact-label GT relations. The all-scene
+bounded fit changes R/V@100 from `.3547/.1967` to `.3547/.0393`, but its LOSO
+estimate is `.3198/.0384` with paired dR CI `[-.0755,.0000]`; it fails the
+Recall guardrail. The corrected cross-source diagnostic includes all 548
+contexts, including ten with zero in-scope GT. Bounded fusion is therefore not
+part of the main Method, contribution list, or dataset-generalization claim.
+
+Canonical compact artifacts:
+
+- `experiments/H001_geom_reliability/sources/replicassg/development_v2/evaluation/summary.json`
+- `experiments/H001_geom_reliability/sources/replicassg/development_v2/cross_source_evaluation/summary.json`
+
+## Historical Uncertainty Sensitivity (Pre-Promotion)
 
 The Docker-frozen diagnostic at
 `experiments/H001_geom_reliability/uncertainty_sensitivity/frozen_v1/` keeps
@@ -110,9 +198,9 @@ sources. Pessimistic V changes by `-0.0480`, `-0.2526`, and `-0.0586`; all
 paired 95% CIs exclude zero. The primary V improvement therefore does not rely
 on promoting uncertain rows.
 
-## LLM-Based Physical-Validity Proxy Audit
+## Non-Submission LLM Proxy Diagnostic
 
-H001 includes two separately locked blinded Codex LLM annotation passes over
+The separate non-submission workspace includes two locked blinded Codex LLM passes over
 the same 488-item public-evidence queue. Both passes exclude source identity,
 semantic scores/ranks, verifier outputs, GT, and private sampling strata.
 Pass 1 labels valid/invalid/ambiguous/unobservable as `180/185/120/3`; Pass 2
@@ -147,7 +235,11 @@ Codex pass against the final adjudicated human reference using four-class,
 binary, family-wise, coverage, and ordinal-confidence diagnostics. Empty-sheet
 dry runs correctly remain non-reportable and produce no human result.
 
-## Overall Results
+## Historical Continuity Results (Pre-Promotion)
+
+The detailed source-local tables below use the former family-calibrated model
+and legacy condition keys. They remain useful for provenance and predicate-level
+diagnostics but are not the promoted structured-main result.
 
 ### VL-SAT
 
@@ -308,7 +400,7 @@ gains.
 Control interpretation: calibrator-only and distance-only controls do not
 explain the main result because they lose too much recall or retain high violation.
 Shuffled and wrong-pair geometry controls are worse than the identity-preserving
-GeoCalib score, supporting the claim that the method depends on the correct
+RelCompat3D score, supporting the claim that the method depends on the correct
 object-pair geometry join rather than a generic family prior. A frozen true
 `G`-only factor baseline is now available in the separate fresh-source factor
 diagnostic below; it is not retroactively part of these main VL-SAT/Open3DSG
@@ -316,12 +408,12 @@ results.
 
 ## Strict Train-only Reconstruction On Official 3DSSG/SGPN
 
-`train_only_reestablishment_v1` rebuilds GeoCalib behind an exact
+`train_only_reestablishment_v1` rebuilds RelCompat3D behind an exact
 1,061-train / 117-internal-dev / 157-final-validation firewall. All
 normalization, imputation, counterfactual construction, and weights come from
 train rows only. Internal-dev may only accept or reject the pre-frozen default;
 it cannot change the formula, family set, K grid, denominator, or controls.
-After the internal-dev joint gate passed, model and score hashes were frozen
+After the internal-dev acceptance criterion was met, model and score hashes were frozen
 before final evaluation.
 
 | split | condition | R@100 | dR vs semantic (95% paired CI) | verifier V@100 | dV vs semantic (95% paired CI) |
@@ -339,10 +431,10 @@ The factor controls now use GT-only wrong-T rows and exact endpoint algebra:
 the final vertical correct-T win rate is 97.44%, vertical inverse error is
 0.00124, and correct-minus-wrong-pair compatibility is +0.42341.
 
-This strengthens the leakage-control evidence but is not an untouched
-prospective confirmation. Historical method-family and score provenance had
-already inspected the same official final-validation target. Verifier-derived
-V also remains distinct from independent human physical validity. Moreover,
+This strengthens the leakage-control evidence. The paper reports it as a
+benchmark evaluation with explicit train/internal-dev/final-validation roles;
+it does not assign an untouched-target label. Verifier-derived V remains
+distinct from independent human physical validity. Moreover,
 support/contact V regresses in family-wise analyses, so neither every-family
 improvement nor support/contact-solved wording is permitted.
 
@@ -374,12 +466,70 @@ However, `M_int` has mean absolute close-by swap error `0.22183` and vertical
 inverse-equivariance error `0.10085`. These controls block promotion of the
 pooled interaction model as a structurally valid compatibility mechanism.
 
+## Relation-Algebra Mechanism Development
+
+A frozen 3DSSG-only development protocol compares six structured alternatives
+to the strict train-only family product. The alternatives cover inference-time
+orbit projection, transform-augmented fitting, linked-counterfactual margin
+fitting, their combination, and an algebra-constrained feature basis. All use
+the 1,061/117/157 firewall and exclude source score, source identity, rank, and
+source-specific exact-label supervision from compatibility.
+
+Only the combined linked-pair model with exact orbit projection passes all
+pre-run gates:
+
+| Source | strict family R/V@100 | projected pairwise R/V@100 | dR vs family (95% CI) | dV vs family (95% CI) |
+| --- | --- | --- | --- | --- |
+| VL-SAT | .9690/.0327 | .9688/.0325 | -.00025 [-.00080,.00000] | -.00018 [-.00036,.00000] |
+| Open3DSG | .6085/.0338 | .6055/.0339 | -.00302 [-.00571,-.00074] | +.00008 [-.00017,.00032] |
+| SGFN | .9416/.0376 | .9418/.0372 | +.00025 [.00000,.00079] | -.00042 [-.00062,-.00024] |
+
+The candidate has zero close-by swap and vertical inverse-equivariance error
+over 2,106 and 566 internal-development rows. Its linked-positive win rate is
+.992321 versus .991752 for the strict family model over 3,516 pairs. Every
+source also passes the frozen K=100 joint gate against source-score ranking.
+This is structural evidence, not a material accuracy gain or a best-formula
+result. The artifact is
+`experiments/H001_geom_reliability/relation_algebra_v1/evaluation/summary.json`.
+
+The SGFN-supervised 69-parameter nonlinear comparator was then applied
+unchanged to VL-SAT and Open3DSG. At K=100 it loses VL-SAT Recall versus the
+strict family product by -.00655 (95% CI [-.01251,-.00185]); at smaller K it
+loses Recall significantly on both sources, including -.24673
+[-.27444,-.21903] on Open3DSG at K=20. This shows that the strong SGFN
+comparator is source-adapted rather than a uniform predictor-agnostic
+replacement. The artifacts are under
+`experiments/H001_geom_reliability/nonlinear_transfer_v1/`.
+
+The structured candidate is promoted as the main compatibility model. The
+coordinated replacement regenerated rank fusion, pooled, hard-filter,
+compatibility-only, figures, and uncertainty comparisons under one consistent
+strict route. The previous family product remains a labeled continuity
+reference only; the mechanism is still not presented as a best-formula result.
+
 ## Optional Expansion Status
+
+`relative_size` (`bigger than` / `smaller than`) has completed the frozen
+1,061/117/157 Docker route under
+`experiments/H001_geom_reliability/relative_size_v1/`. At K=100, the learned
+product passes the within-size and global four-family Recall--Violation gates
+for VL-SAT, Open3DSG, and SGFN. The four-family changes are respectively
+`(+0.00483,-0.02393)`, `(+0.06977,-0.10402)`, and
+`(+0.02559,-0.03590)` for `(dR,dV)`, with all paired CI gates passing.
+
+This is framework-scope evidence, not formula superiority. The learned product
+does not strictly beat the fixed point-rule baseline on Violation, and
+four-family rank-average fails the global Recall guard for VL-SAT and SGFN.
+Disjoint point views remove exact verifier-rule reuse, but agreement with the
+point and OBB rules is `1.0` on decidable final GT, so residual construct
+circularity remains. The active paper therefore includes relative size only as
+one scope sentence and full supplement evidence, not in Figure 1, the headline
+contribution list, or the core three-family result table.
 
 `attachment_deferred` source metrics exist under
 `archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_validation_g5d/`,
 covering `attached to`, `hanging on`, and `connected to` for VL-SAT and
-Open3DSG. This artifact is not promoted to the main GeoCalib claim because it
+Open3DSG. This artifact is not promoted to the main RelCompat3D claim because it
 uses an attachment-specific G5d policy and does not yet have the same
 paper-facing bootstrap/audit gate as the main three families.
 
@@ -402,6 +552,7 @@ Blocked:
 - broad open-vocabulary 3DSSG generation improvement;
 - Open3DSG leaderboard/SOTA reproduction;
 - arbitrary-source generality;
+- dataset-level generalization beyond 3DSSG/3RScan;
 - downstream task improvement;
 - promotion of `attachment_deferred`, `relative_horizontal`, or Qwen-VL into
   the main claim without separate final approval and matching evidence gates.

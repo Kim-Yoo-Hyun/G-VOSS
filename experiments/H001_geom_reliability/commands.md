@@ -1,10 +1,10 @@
 # H001 Commands
 
-Last updated: 2026-07-11
+Last updated: 2026-07-14
 
 Run from the repository root.
 
-This file records the current GeoCalib/H001 command surface. Older historical
+This file records the current RelCompat3D/H001 command surface. Older historical
 run logs remain in source subfolders and `logs/`; they should not be used as
 the current paper-facing route unless explicitly referenced below.
 
@@ -12,21 +12,56 @@ the current paper-facing route unless explicitly referenced below.
 
 - VL-SAT source root: `experiments/H001_geom_reliability/sources/vlsat/full_validation/`
 - Open3DSG source root: `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/`
+- SGFN source root: `experiments/H001_geom_reliability/sources/sgfn/`
+- Frozen model root: `experiments/H001_geom_reliability/relation_algebra_v1/evaluation/`
+- Promoted result root: `experiments/H001_geom_reliability/structured_main_v1/evaluation/`
+- Fixed-model ablation root: `experiments/H001_geom_reliability/structured_ablation_v1/evaluation/`
 - Compact results: `results/h001_geom_reliability/`
-- Main score alias: `family_conditional_risk`
-- Legacy raw metric key that may still appear in JSON: `control_family_specific_p_geom_valid`
-- Pooled ablation: `probabilistic_recalibrated`
+- Main paper method: relation-algebra-constrained product
+- Main artifact key: `structured_product`
+- Main comparison keys: `structured_rank_average`, `structured_rrf_c60`, and
+  `pooled_product`; `hard_rule_filter` is a construction diagnostic.
+- Legacy aliases such as `family_conditional_risk`,
+  `control_family_specific_p_geom_valid`, and `probabilistic_recalibrated`
+  identify pre-promotion continuity artifacts only.
 - Main K grid: `{5,10,20,50,100}`
 
 ## Compose Sanity
 
 ```bash
+docker compose -f configs/h001/compose.structured.yaml config --quiet
 docker compose -f configs/h001/compose.yaml config --quiet
 docker compose -f configs/open3dsg/compose.open3dsg.yaml config --quiet
 docker compose -f configs/qwen_vl/compose.qwen.yaml config --quiet
 ```
 
-## Generate Compact Tables And Report
+## Promoted Structured Main Evaluation
+
+The focused compose file is the canonical paper-result route:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm relation_algebra_development
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm structured_main_evaluation
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm scan_cluster_sensitivity
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm structured_ablation_evaluation
+```
+
+The services reject nonempty locked output roots. Preserve the current
+`relation_algebra_v1/` and `structured_main_v1/` trees; use the isolated rerun
+layout documented in the verified release bundle when reproducing from
+scratch. The current result is validated by
+`structured_main_v1/evaluation/manifest.json`; the K=50/100 corruptions and
+information ablations are validated separately by
+`structured_ablation_v1/evaluation/manifest.json`.
+
+## Historical Compact Table Mirror
+
+This legacy table builder regenerates the pre-promotion compact continuity
+tables. It does not replace the promoted structured-main summary.
 
 ```bash
 docker compose -f configs/h001/compose.yaml run --rm table_builder
@@ -59,9 +94,9 @@ Expected outputs:
 - `results/h001_geom_reliability/bootstrap_ci/summary.json`
 - `results/h001_geom_reliability/bootstrap_ci/summary.md`
 
-The paper-facing compact bootstrap mirror should report
-`family_conditional_risk` as the main GeoCalib score and keep pooled
-`probabilistic_recalibrated` as an ablation/baseline.
+This compact bootstrap mirror uses legacy condition identifiers and is retained
+for continuity. Paper-facing paired intervals are owned by
+`structured_main_v1/evaluation/summary.json`.
 
 ## Independent Physical-Validity And Reviewer-Extension Gates
 
@@ -267,6 +302,30 @@ Outputs are written to
 The protocol fixes the 69-parameter architecture and the disjoint
 internal-dev-fit/final-validation-evaluation firewall.
 
+## Relation-Algebra Compatibility Development
+
+```bash
+env UID=$(id -u) GID=$(id -g) \
+  docker compose -f configs/h001/compose.structured.yaml run --rm relation_algebra_development
+```
+
+Compact outputs are written to
+`experiments/H001_geom_reliability/relation_algebra_v1/evaluation/`.
+
+## Nonlinear Cross-Source Transfer
+
+```bash
+env UID=$(id -u) GID=$(id -g) \
+  docker compose -f configs/h001/compose.yaml run --rm nonlinear_transfer_vlsat
+env UID=$(id -u) GID=$(id -g) \
+  docker compose -f configs/h001/compose.yaml run --rm nonlinear_transfer_open3dsg
+```
+
+Outputs are written to the `vlsat/` and `open3dsg/` subdirectories under
+`experiments/H001_geom_reliability/nonlinear_transfer_v1/`. Both services fit
+the same frozen SGFN internal-development model; target-source labels and
+statistics are not used.
+
 ## Codex Proxy Audit Evaluation (Non-Submission)
 
 ```bash
@@ -341,17 +400,21 @@ Latest verified logs:
 ## Paper Build
 
 ```bash
-docker build -f paper/aaai/Dockerfile.tex -t h001-aaai-tex:20260526 paper/aaai
-docker run --rm -v "$PWD/paper:/work" -w /work/aaai h001-aaai-tex:20260526 \
+docker build -f paper/aaai/Dockerfile.tex -t h001-aaai27-tex:20260712 paper/aaai
+docker run --rm -v "$PWD/paper:/work" -w /work/aaai h001-aaai27-tex:20260712 \
   latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
+docker run --rm -v "$PWD/paper:/work" -w /work/aaai h001-aaai27-tex:20260712 \
+  latexmk -pdf -interaction=nonstopmode -halt-on-error supplement.tex
+docker run --rm -v "$PWD/paper:/work" -w /work/aaai h001-aaai27-tex:20260712 \
+  latexmk -pdf -interaction=nonstopmode -halt-on-error reproducibility_checklist_main.tex
 ```
 
 Latest verified paper build:
 
-- `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`, exit 0.
-- Historical pre-AAAI-27 output is archived as
-  `archive/paper/aaai_snapshots/20260712_replica_disclosure.pdf`: 10 total
-  pages with checklist appended. The active AAAI-27 outputs are
+- `logs/h001_main_final_20260714.log`,
+  `logs/h001_supplement_final_20260714.log`, and
+  `logs/h001_checklist_final_20260714.log`.
+- The active AAAI-27 outputs are
   `paper/aaai/main_aaai27.pdf`, `paper/aaai/supplement_aaai27.pdf`, and
   `paper/aaai/reproducibility_checklist_aaai27.pdf`.
 
@@ -366,3 +429,33 @@ These are not current main-claim evidence unless explicitly promoted:
 - `relative_lateral`;
 - `attachment_deferred`;
 - H001_v2 fixed-threshold or lambda-soft diagnostic runs.
+
+## Attachment Subtype v2 Development Diagnostics
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm attachment_subtype_redesign_v2
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm attachment_subtype_v2_development_diagnostic
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm attachment_subtype_v2_bounded_diagnostic
+```
+
+The first command freezes the taxonomy, migration audit, controls, and 100-row
+review queue. The latter two retain the failed raw-selective and mixed bounded
+development results. They are not paper-result or confirmation commands.
+
+## Relative-Size Extension
+
+The optional `relative_size` family uses the existing 1,061/117/157 firewall.
+Run the frozen Docker stages in order:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm relative_size_freeze
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm relative_size_fit
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm relative_size_lock
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm relative_size_evaluate
+```
+
+Outputs are under `relative_size_v1/`. The learned product passes the frozen
+K=100 gate on VL-SAT, Open3DSG, and SGFN, but it does not strictly outperform
+the fixed point-rule baseline. Treat this as framework-scope evidence, not
+formula-superiority evidence, and do not alter the active paper scope without
+an explicit promotion decision.

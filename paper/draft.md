@@ -1,6 +1,6 @@
-# GeoCalib / H001 First-Pass Manuscript Draft
+# RelCompat3D / H001 First-Pass Manuscript Draft
 
-Last updated: 2026-06-25 KST
+Last updated: 2026-07-13 KST
 
 Status: `planning_draft_superseded_by_current_aaai_family_main_source`
 
@@ -10,24 +10,25 @@ readable end to end before final caption compression or final
 bibliography/build verification. The first ICCV-style LaTeX source conversion
 now lives under `archive/paper/iccv/`.
 
-Current paper-facing title is `GeoCalib: Calibrating Geometric Consistency for
-Reliable 3D Scene Graph Relations`. The active manuscript source is
+Current paper-facing title is `Beyond Semantic Confidence: Relation-Algebra-
+Constrained Geometric Compatibility for 3D Scene Graph Relations`; the method name is
+`RelCompat3D`. The active manuscript source is
 `paper/aaai/`. This draft is a planning prose copy only; final submission text,
 tables, captions, and current metrics should be checked against `paper/aaai/`,
 `paper/preview.md`, `paper/progress.md`, and `summary.md`. Framework-first
-override, 2026-07-10: calibrated product (`family_conditional_risk`) and
-pre-specified rank-average are two soft GeoCalib instantiations; neither is
-universally dominant. The active AAAI source contains the authoritative SGFN
-confirmation, family decomposition, and human-validity boundary. Older
+override, 2026-07-13: the relation-algebra-constrained product is the main
+method and evaluated rank-average is a scale-robust RelCompat3D instantiation;
+neither is universally dominant. The active AAAI source contains the authoritative SGFN
+source comparison, family decomposition, and human-validity boundary. Older
 single-main-score wording below is preserved only as superseded planning prose.
 
 Factorization override, 2026-07-10: the active manuscript defines `T_e` as
 predicate/family semantics, raw `G_e` as predicate-independent same-pair
 geometry, `Z_e` as source confidence, and
-`C_e=P(y_cal=1|T_e,G_e)`, enforcing `Z_e notin C_e` before final
-`S_e=F(Z_e,C_e)` fusion. `y_cal` is a constructed
-GT-positive/counterfactual calibration target, not direct human physical
-validity. Older body text that calls `p_geom_valid`-only “geometry-only” is
+`C_e=sigmoid(h_a(Phi(T_e,G_e)))`, enforcing `Z_e notin C_e` before final
+`S_e=F(Z_e,C_e)` fusion. It is a bounded score for a constructed
+GT-positive/counterfactual target, not a physical-validity probability. Older
+body text that calls `p_geom_valid`-only “geometry-only” is
 superseded: it is calibrator-only/no-`Z`. The historical main table has no true
 `G_e`-only row; the completed strict factor audit now supplies that diagnostic
 and the exact counterfactual controls.
@@ -63,7 +64,8 @@ Current key map:
 
 ## Title
 
-Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations
+Beyond Semantic Confidence: Relation-Algebra-Constrained Geometric
+Compatibility for 3D Scene Graph Relations
 
 ## Abstract
 
@@ -78,7 +80,7 @@ geometry-checkable relation families. The framework standardizes prediction
 rows across relation sources, preserves subject-object identity, joins explicit
 3D evidence, estimates calibrated geometry-validity risk, and reports a main
 family-conditional score with pooled and rule-verified variants under a
-recall-violation protocol. On the full official validation split, GeoCalib
+recall-violation protocol. On the full official validation split, RelCompat3D
 re-ranking improves VL-SAT R@50/R@100 from 0.9272/0.9635 to 0.9288/0.9683
 while reducing Violation@100 from 0.0476 to 0.0333. On the Open3DSG
 full-validation recovery branch, the same family-conditional score improves
@@ -377,7 +379,7 @@ otherwise ambiguous or weak geometry can be marked `uncertain`.
 
 ### 4.4 Family-Conditional Calibrated Risk Re-Ranking
 
-The main GeoCalib score uses a frozen relation-family-conditioned calibrator:
+The main RelCompat3D score uses a frozen relation-family-conditioned calibrator:
 
 ```text
 p_geom_valid_family_i = C_family(phi(g_i)),
@@ -404,14 +406,14 @@ U_lambda(i) = log score_sem_i - lambda * R_geom_i
 score_geocalib_i = score_sem_i * p_geom_valid_family_i.
 ```
 
-The reported GeoCalib score fixes `lambda = 1`. This preserves the source
+The reported RelCompat3D score fixes `lambda = 1`. This preserves the source
 semantic ranking signal while continuously penalizing calibrated geometric
 inconsistency. We do not tune `lambda` on held-out source results; pooled and
 hard-rule variants are reported separately as ablation/diagnostic conditions.
 
 We report four main operating points. `semantic_only` ranks by the source
 semantic score and serves as the reproduced source baseline.
-`family_conditional_risk` is the main GeoCalib score. It ranks by the product
+`family_conditional_risk` is the main RelCompat3D score. It ranks by the product
 of semantic confidence and family-conditioned calibrated geometry validity.
 `probabilistic_recalibrated` ranks by semantic confidence times pooled
 `p_geom_valid` and is the pooled calibrated-risk ablation.
@@ -432,7 +434,7 @@ geometry" explanation.
 ## 5. Experimental Setup
 
 This section fixes the experimental scope before reporting results, because
-GeoCalib's claim depends on denominator transparency as much as on metric
+RelCompat3D's claim depends on denominator transparency as much as on metric
 values. The paper-facing scope is the full official validation split: 157
 scans, 548 contexts, 36,808 directed object pairs, 957,008 VL-SAT prediction
 rows, 11,254 ground-truth rows, and 3,972 in-scope GT relation instances across

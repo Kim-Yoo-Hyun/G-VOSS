@@ -1,0 +1,115 @@
+{
+  "controls": {
+    "common_scale_invariance": "multiply both endpoint dimensions by 0.5, 2, and 10",
+    "inverse_equivariance": "endpoint swap plus inverse predicate",
+    "obb_only_baseline": "fixed sigmoid of predicate-signed annotation-OBB log-volume ratio",
+    "point_only_baseline": "fixed sigmoid of predicate-signed model-view robust log-volume ratio",
+    "shuffled_geometry": "within-context cyclic compatibility shift",
+    "wrong_T": "same ordered pair with bigger/smaller inverted",
+    "wrong_pair": "within-context cyclic pair-geometry shift"
+  },
+  "created_at_utc": "2026-07-13T04:16:31.258602+00:00",
+  "docker_service": "relative_size_freeze",
+  "evaluation": {
+    "K": [
+      5,
+      10,
+      20,
+      50,
+      100
+    ],
+    "bootstrap": {
+      "paired": true,
+      "samples": 1000,
+      "unit": "548 shared subgraph contexts"
+    },
+    "primary_K": 100,
+    "primary_gate": "per source, paired delta-R@100 CI lower > -0.01 and delta-V@100 CI upper < 0",
+    "promotion_rule": "all sources pass both within-relative-size and global-four-family primary gates; controls remain valid",
+    "sources": [
+      "vlsat",
+      "open3dsg",
+      "sgfn"
+    ],
+    "views": [
+      "within-relative-size",
+      "global-four-family",
+      "global-top-K-family-composition"
+    ]
+  },
+  "factor_contract": {
+    "T_e": "exact predicate sign: +1 for bigger-than and -1 for smaller-than",
+    "T_x_G": "predicate sign times signed point-derived ratios and axis dominance",
+    "Z_e_usage": "final reranking only",
+    "forbidden": [
+      "source score",
+      "source rank",
+      "object class",
+      "ground-truth flag"
+    ],
+    "raw_G_e": "same-pair absolute point-derived relative extents and volume ratios"
+  },
+  "family": {
+    "name": "relative_size",
+    "predicates": [
+      "bigger than",
+      "smaller than"
+    ]
+  },
+  "input_hashes": {
+    "existing_models": "bf52a2d7c90d3f11e024f74ac6f3ba7a88f04d2865fb0df7a34a079b200f3c6f",
+    "final_validation_scans": "3687b892938c25a44a07d6e0e26788b98ffe5c5319f04407d446247c2a67e7e4",
+    "internal_dev_scans": "25fb5aba714b0c9bf00f36b04fb890de6dd4a197628dd179812189511c01343b",
+    "train_relationships": "88b88bf87948b18a907b7bc9e23222cac428449f5a04512f550f8b220127fd15",
+    "train_scans": "d9df8036092a02212fe9ecfa7b04819c700be26c75a26ca2ee638852a7c3ca53",
+    "validation_relationships": "a3b96637df20dac27f03f631bee9db409f4b22f65ec6205ff007ced73e52911e"
+  },
+  "model": {
+    "architecture": "inverse-equivariant logistic compatibility model without a standalone predicate bias",
+    "calibration_target": "GT-positive plus same-pair inverse-predicate counterfactual",
+    "feature_names": [
+      "bias",
+      "num:abs_log_volume_ratio",
+      "num:abs_log_max_extent_ratio",
+      "num:abs_log_middle_extent_ratio",
+      "num:abs_log_min_extent_ratio",
+      "num:abs_axis_dominance",
+      "num:predicate_signed_log_volume_ratio",
+      "num:predicate_signed_log_max_extent_ratio",
+      "num:predicate_signed_log_middle_extent_ratio",
+      "num:predicate_signed_log_min_extent_ratio",
+      "num:predicate_signed_axis_dominance"
+    ],
+    "fit_split": "train_1061_only",
+    "internal_dev_role": "diagnostic and lock decision; no final-validation access",
+    "optimizer": {
+      "epochs": 800,
+      "initial_weights": 0.0,
+      "l2": 0.0001,
+      "learning_rate": 0.2
+    }
+  },
+  "point_evidence": {
+    "annotation_obb_usage": "deterministic baseline only; excluded from learned main C_e",
+    "minimum_points_per_view": 10,
+    "model_view": "per-object alternating vertex subset A; p05-p95 xyz extents",
+    "verifier_tie_band": {
+      "absolute_log_volume_ratio_le": 0.09531017980432493,
+      "meaning": "uncertain"
+    },
+    "verifier_view": "disjoint per-object alternating vertex subset B; p02-p98 xyz extents"
+  },
+  "pre_fit_erratum": "The first fit invocation completed before inspection but was rejected without reading metrics because a code-level audit found that standalone predicate biases did not guarantee endpoint-swap inverse equivariance. Its outputs were deleted and this architecture-level correction was frozen before the accepted fit.",
+  "schema_version": "h001_relative_size_extension_v1",
+  "split_firewall": {
+    "final_validation": 157,
+    "internal_dev": 117,
+    "train": 1061
+  },
+  "status": "relative_size_protocol_frozen_pre_fit",
+  "validations": {
+    "all_required_inputs_exist": true,
+    "split_counts_1061_117_157": true,
+    "split_overlap_zero": true
+  }
+}

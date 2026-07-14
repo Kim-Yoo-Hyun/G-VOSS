@@ -1,36 +1,46 @@
-\section{Compatibility Model and Calibration Diagnostics}
+\section{Compatibility and Structural Diagnostics}
 
-GeoCalib fits one logistic model per measured relation family. Numeric features
-are standardized by training-only means and standard deviations; missing
-numeric values use the corresponding training mean. The input groups are
-predicate/family indicators $T$, predicate-independent distances, extents,
-overlap, contact, and vertical measurements $G$, and two direction-aligned
-vertical interactions $T\!\times\!G$. Source score and source identity are
-forbidden. All models use binary cross-entropy, $L_2=10^{-4}$, 800 fixed
-gradient steps, and learning rate 0.2.
+\method{} fits one logistic model per measured relation family. Numeric
+features use training-only means and standard deviations; missing values use
+the corresponding training mean. Inputs are predicate/family indicators $T$,
+predicate-independent pair geometry $G$, and explicit $T\!\times\!G$
+interactions. Source score, source rank, source identity, and object class are
+forbidden. Orbit-consistent augmentation preserves the proximity predicate
+under endpoint swap; vertical order swaps endpoints and applies the inverse
+predicate. Linked counterfactuals receive the fixed margin loss in the main
+paper. Support/contact receives the pairwise loss but no blanket endpoint
+transform.
 
 \begin{table}[H]
 \centering
 \scriptsize
-\setlength{\tabcolsep}{3.5pt}
-\caption{\textbf{Family calibration on the held-out calibration-dev split.}
-Labels are the constructed GT-positive/counterfactual target, not human
+\setlength{\tabcolsep}{3pt}
+\caption{\textbf{Training and development discrimination.}
+Labels comprise GT-positive/counterfactual pairs, not human
 physical-validity judgments.}
-\label{tab:family-calibration}
+\label{tab:family-discrimination}
 \begin{tabular}{lrrrrrr}
 \toprule
-Family & Train & Dev & Feat. & AUROC & Brier & ECE \\
+Family & Train & Dev & Param. & Train pairs & AUROC & Brier \\
 \midrule
-Proximity & 1,732 & 382 & 22 & 1.0000 & .0009 & .0120 \\
-Vertical order & 576 & 274 & 23 & .9982 & .0189 & .0437 \\
-Support/contact & 2,308 & 537 & 24 & .9831 & .0526 & .0378 \\
+Proximity & 20,902 & 2,106 & 22 & 9,562 & 1.0000 & .0009 \\
+Vertical order & 4,922 & 566 & 23 & 1,644 & .9982 & .0079 \\
+Support/contact & 34,384 & 3,574 & 24 & 22,755 & .9933 & .0256 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The factor-isolation audit uses the same train/dev rows and estimator class,
-without inspecting source-result metrics. At dev, $T$-only, true raw-$G$-only,
-additive $T+G$, and interaction $T\times G$ obtain AUROC
-.6124/.8809/.9193/.9822 and Brier .2370/.1363/.1061/.0495. This establishes
-that predicate--geometry interaction improves the constructed-target fit; it
-does not convert the target into independent physical-validity ground truth.
+Across all 6,246 development rows, AUROC/AUPRC/Brier are
+.9973/.9973/.0157. On 3,516 linked development pairs, the positive wins 99.23\%
+of the time with mean logit margin 14.13. Correct-predicate compatibility wins
+on 97.40\% of 384 vertical positives. Exact orbit projection gives maximum
+proximity-swap and vertical-inverse errors of zero on development and all three
+final source outputs.
+
+The factor-isolation ablation uses the same split and estimator class. At
+development, $T$-only, true raw-$G$-only, additive $T+G$, and interaction
+$T\times G$ obtain AUROC .6124/.8809/.9193/.9822 and Brier
+.2370/.1363/.1061/.0495. Shuffled and mismatched-pair geometry reduce the
+intended reliability signal. These results establish factor use and exact
+relation algebra; they do not convert the constructed target into independent
+physical-validity ground truth.

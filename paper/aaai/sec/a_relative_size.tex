@@ -1,0 +1,45 @@
+\section{Relative-Size Scope Extension}
+
+We evaluate \texttt{bigger than}/\texttt{smaller than} as secondary breadth
+evidence, not as core evidence that learned compatibility is necessary. The
+extension uses the same 1,061/117/157 train/development/evaluation split. Its model receives
+predicate sign, robust point extents and volume ratios, and signed
+predicate--geometry interactions; source score, rank, object class, and
+evaluation labels are excluded. Alternating point subset A (p05--p95 extents)
+provides model evidence, whereas disjoint subset B (p02--p98 extents) provides
+the verifier measurement. Annotation OBB volume is used only by a fixed-rule
+baseline.
+
+The model fits 3,244 training rows and obtains target-discrimination AUROC .9974
+on 376 development rows. Correct-predicate ordering is 96.81\%; exact
+inverse-equivariance and common-scale invariance have maximum error
+$2.22\times10^{-16}$. Table~\ref{tab:relative-size-summary} summarizes the
+$K=100$ result; the supplemental package contains all five $K$ values and family
+compositions.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3.2pt}
+\caption{\textbf{Relative-size extension at $K=100$.} Within-size Recall is
+unchanged for all sources. Global columns use the four-family denominator of
+4,142; parentheses are paired 95\% context-bootstrap intervals.}
+\label{tab:relative-size-summary}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lrrr}
+\toprule
+Source & Within-size $\Delta V$ & Global $\Delta R$ & Global $\Delta V$ \\
+\midrule
+VL-SAT & $-.1025$ [$-.1063$,$-.0988$] & +.0048 [.0020,.0080] & $-.0239$ [$-.0261$,$-.0218$] \\
+Open3DSG & $-.1274$ [$-.1383$,$-.1167$] & +.0698 [.0478,.0935] & $-.1040$ [$-.1090$,$-.0997$] \\
+SGFN & $-.0593$ [$-.0616$,$-.0572$] & +.0256 [.0199,.0317] & $-.0359$ [$-.0381$,$-.0336$] \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+The fixed robust-point rule is as strong or stronger than the learned model on
+within-family violation: learned-minus-rule $\Delta V$ is +.00318 for VL-SAT,
++.00005 for Open3DSG, and +.00367 for SGFN. Disjoint point subsets remove exact
+rule reuse but not shared-geometry construct dependence. The family therefore
+broadens the measured scope while remaining a rule-easy secondary analysis.

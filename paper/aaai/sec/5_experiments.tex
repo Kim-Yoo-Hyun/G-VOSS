@@ -1,81 +1,57 @@
-\section{Experimental Setup}
+\section{Experiments}
+
+\subsection{Experimental Setup}
 
 \paragraph{Datasets and evaluation scope.}
-Open3DSG is the main open-vocabulary source case study, VL-SAT is a controlled
-closed-set anchor, and SGFN provides an additional source evaluation. Together
-they test source-level generalization across predictors
-under one fixed, geometry-identifiable 3DSSG target. All use the same scope:
-157 scans, 548
+Open3DSG, VL-SAT, and SGFN provide complementary open-vocabulary and closed-set
+relation predictors. Together they
+test cross-predictor robustness under one geometry-identifiable 3DSSG target.
+All use the same scope: 157 scans, 548
 relation contexts, 36,808 directed object pairs, and 3,972 exact-label
 ground-truth relations from support/contact, proximity, and relative vertical
-families (Table~\ref{tab:scope}). Ground-truth membership is used only when
+families. Ground-truth membership is used only when
 computing recall, never to filter or rank candidate relations.
+The supplement evaluates relative size as a secondary scope extension; a
+fixed robust-point rule is equally strong within that family, so it is not used
+as core learned-method evidence.
 
-\begin{table}[t]
-\centering
-\small
-\setlength{\tabcolsep}{5pt}
-\caption{\textbf{Shared evaluation scope.} The candidate universe and
-exact-label denominator are fixed across source conditions.}
-\label{tab:scope}
-\begin{tabular}{lr}
-\toprule
-Item & Count \\
-\midrule
-Scans & 157 \\
-Relation contexts & 548 \\
-Directed object pairs & 36,808 \\
-All ground-truth relations & 11,254 \\
-In-scope ground-truth relations & 3,972 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Open3DSG uses the official non-averaged model and a documented preprocessing
-recovery that completes all 548 contexts; the unmodified public pipeline covers
-533. This is a source-output reliability case study, not a leaderboard
-reproduction. Exact model identity, preprocessing changes, and superseded
-partial-coverage branches are reported in the supplement rather than used as
-main-text evidence. VL-SAT and SGFN each provide 957,008 candidate rows; the
-Open3DSG route provides 695,916.
+Open3DSG uses the official non-averaged model. A documented preprocessing
+recovery completes the common evaluation scope; checkpoint identity and the
+recovery procedure are reported in the supplement.
 
 \paragraph{Conditions and training boundary.}
-We report the original source relation score, the family-calibrated product,
-rank-average fusion, pooled-compatibility product, Reciprocal Rank Fusion, and
-hard-rule filtering. A 69-parameter nonlinear rescorer provides a
+We report the original source relation score, the relation-algebra-constrained
+product, rank-average fusion, pooled-compatibility product, and Reciprocal Rank
+Fusion. A 69-parameter nonlinear rescorer provides a
 parameter-matched, source-supervised comparison. Controls comprise
-compatibility-only, distance-only,
-shuffled-geometry, and mismatched-pair rankings. The compatibility model uses
+wrong-predicate, compatibility-only, distance-only, shuffled-geometry,
+mismatched-pair, and label-fixed endpoint-swap rankings. Wrong-pair geometry is
+rotated within context and predicate; shuffled geometry is rotated across the
+source predicate stream. The endpoint control swaps proximity/vertical
+geometry while retaining the original predicate and leaves support/contact
+unchanged, for which no blanket swap is defined. The compatibility model uses
 only $T$, predicate-independent $G$, and explicit $T\times G$ interactions;
 source score and source identity are excluded. All normalization,
-imputation, feature preprocessing, and calibration parameters are estimated
-from training data. For GeoCalib, an internal development split is used to
-select the configuration before final evaluation. The nonlinear
-comparison is the sole exception: it is trained on exact-label correctness from
-the 117 internal-development scans and evaluated without refitting on the
-disjoint 157 final-validation scans.
-
-For SGFN, we use the same family set, $K=100$ primary endpoint, 3,972-relation
-denominator, fusion rules, RRF comparison, and paired-bootstrap evaluation. No
-predictions are synthesized for missing model edges. ReplicaSSG/FROSS is a
-cross-dataset transfer stress test and development diagnostic; its initial
-failure and a bounded-fusion follow-up are reported only in the supplement.
+imputation, feature preprocessing, and model parameters are estimated from the
+1,061 training scans. The 117-scan development split is used for
+counterfactual discrimination, linked-pair ordering, and relation-algebra
+checks. The 157-scan official
+validation split contains no fitting, normalization, or imputation rows. The nonlinear comparison is the sole
+source-supervised exception: it is trained on exact-label correctness from the
+117 development scans and evaluated without refitting on official
+validation.
+All cross-predictor statements concern the shared 3DSSG/3RScan target.
 
 \paragraph{Metrics and uncertainty.}
-Recall@$K$ uses exact predicate labels within each relation context; it is not
-directly interchangeable with leaderboard R@$K$ under a different candidate
+Recall@$K$ uses exact predicate labels within each relation context and is not
+directly interchangeable with Recall@$K$ computed under a different candidate
 grouping. Violation@$K$ is the fraction of
 selected, geometry-checkable rows classified as violated; uncertain rows
 are not labeled valid. We report the all-status definition, violation among
 decidable rows, uncertainty rate, pessimistic violation, and decidable/status
 coverage. We use $K\in\{5,10,20,50,100\}$. The primary endpoint is $K=100$;
-$K=50$ is the canonical secondary budget, and $K=10$
-tests top-ranked operational reliability. We use paired 1,000-resample
-scan/context bootstrap intervals with shared indices across conditions.
+all smaller budgets are reported without assigning additional selection roles.
+We report paired 95\% bootstrap intervals over relation contexts; a scan-cluster
+sensitivity is provided in the supplement.
 Within-family and global-top-$K$ family slices expose composition effects that
 may be hidden by the aggregate metric.
-
-\paragraph{Reproducibility.}
-All reported experiments run in a fixed containerized environment; executable
-commands, dependency versions, hardware, and artifact manifests accompany the
-submission rather than occupying the method description.

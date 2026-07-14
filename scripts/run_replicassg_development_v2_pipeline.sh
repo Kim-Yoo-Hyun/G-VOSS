@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-repo=${REPO_ROOT:-/home/yoohyun/research}
+script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+repo=${REPO_ROOT:-$(cd -- "$script_dir/.." && pwd)}
 compose="$repo/configs/fross/compose.yaml"
 output="$repo/experiments/H001_geom_reliability/sources/replicassg/development_v2/evaluation"
 

@@ -1,6 +1,6 @@
 # Paper Workspaces
 
-Last updated: 2026-07-12 KST
+Last updated: 2026-07-14 KST
 
 This directory contains paper-writing artifacts. It is a manuscript workspace,
 not an experiment-result root. Paper-result runtime records live under
@@ -11,50 +11,70 @@ paper-level framing rules live in `docs/paper.md`.
 
 | Workspace | Role |
 | --- | --- |
-| root files and `aaai/` | GeoCalib / H001 AAAI manuscript route |
+| root files and `aaai/` | RelCompat3D / H001 AAAI manuscript route |
 | `paper_nonsub/` | non-submission Codex proxy-audit analysis; never package as human evidence |
 | `h002_compatibility_routing/` | standalone H002 paper workspace for semantic-geometry compatibility routing |
 
 ## Current H001 Route
 
-- Paper-facing title: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations`
+- Paper-facing title: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geometric Compatibility for 3D Scene Graph Relations`
 - Target venue route: `paper/aaai/`
 - Historical alternate route: `archive/paper/iccv/`
 - Current claim style: scoped relation-reliability paper for
   geometry-checkable 3D Scene Graph relation families.
 - Non-claim: broad open-vocabulary 3DSSG generation improvement.
 - Active AAAI-27 Docker build: `paper/aaai/main_aaai27.pdf`, SHA256
-  `8f4632c8150affa764ef02b29696b1c538c9b288fc3f4879630813d0c22fcc1a` (9 pages: technical
-  content through page 7 and references only on pages 8--9),
-  `paper/aaai/supplement_aaai27.pdf` (3 pages), and
-  `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Final main log:
-  `logs/h001_claim_lock_main_final_20260712.log`; image:
+  `49459774de4bd244af34de48a06a867b0b14694215ff29fd35e17c8a5e64106f` (8 pages: technical
+  content through page 7 and references on pages 7--8),
+  `paper/aaai/supplement_aaai27.pdf`, SHA256
+  `7fcbf062b3d5bf8224feef20afdb52acd14dc5602d397d0c8022456310e261ce`
+  (2 pages), and
+  `paper/aaai/reproducibility_checklist_aaai27.pdf`, SHA256
+  `fbd076b1789fe0fb1a50c67aa6bb113654b87fe23d09a3b1c5826f02805fe05a`
+  (2 pages). Final main log:
+  `logs/h001_main_figure_refresh_20260714.log`; final supplement log:
+  `logs/h001_supplement_text_refresh_20260714.log`; image:
   `h001-aaai27-tex:20260712`. Type 3 fonts, unresolved references/citations,
   LaTeX errors, and overfull boxes are zero.
 - The active submission excludes Codex-derived physical-validity numbers. The
   separately built `paper/paper_nonsub/main_nonsub.pdf`, SHA256
-  `962bcf3931e7d5dca29377a43eb2a8125fe872aec24a83e3f40151358b0ef267`,
+  `52dc1c775ede032df45f345999f6421cadbb331856a5e4862c083c29f9ee7287`,
   contains the two-pass non-human diagnostic for internal/user review only.
 - The manuscript narrative now proceeds failure -> structural cause -> factor
-  isolation -> method -> results -> limitations. Figure 1 is failure-grounded,
+  isolation -> method -> experiments -> discussion/limitations. It uses six
+  top-level sections; Problem Setup is inside Method, and Setup/results are
+  grouped under Experiments. Figure 1 is failure-grounded,
   Figure 2 connects K=5/10/20/50/100 for three sources, and Figure 3 shows two
-  corrections plus one residual failure.
+  corrections plus one residual failure. The main comparison is one joint
+  Recall/Violation table followed by a single-column K=50/100 six-control
+  ablation table. All three figures are included as vector PDFs.
 - Active OpenReview field bundle:
-  `release/h001_aaai27_openreview_20260712_083625/`. The prior
-  Replica-disclosure and other superseded PDFs are indexed under
-  `archive/paper/aaai_snapshots/`; the prior compact tarball is a historical
-  handoff snapshot.
-- GeoCalib is framework-first. Its two soft fusion instantiations are the
-  family-calibrated product $ZC(T,G)$ and the pre-specified scale-robust
-  rank-average. Neither is claimed universally dominant. Pooled compatibility
+  `release/h001_aaai27_openreview_20260714_170829/`. It contains exact copies
+  of the canonical 8/2/2-page PDFs plus a focused anonymous structured-main
+  ZIP. The prior Replica-disclosure and other superseded PDFs are indexed under
+  `archive/paper/aaai_snapshots/`; the 2026-07-12 bundle and compact tarball are
+  historical handoff snapshots.
+- RelCompat3D is framework-first. Its main method is the strict train-only
+  relation-algebra-constrained product $ZC_{alg}(T,G)$; the evaluated
+  scale-robust rank-average is a second instantiation. Neither is claimed
+  universally dominant. Pooled compatibility
   is an ablation, RRF a strong comparator, and compatibility-only ranking a
   control. Internal metric keys no longer appear in manuscript prose or
   rendered figures.
+- Linked-counterfactual margin fitting with exact proximity-swap/vertical-
+  inverse orbit projection is promoted as the main compatibility model. All
+  main comparators, uncertainty results, figures, and tables were regenerated
+  together under `structured_main_v1/`; the internal orbit name is retained
+  only for artifact provenance.
+- The active scientific scope is cross-predictor evidence on one shared
+  3DSSG/3RScan target.
+  ReplicaSSG/FROSS is excluded from the submission route.
 - H001 now uses the factor contract `T_e` = predicate/family semantics, `G_e`
   = raw predicate-independent same-pair geometry, `Z_e` = source relation score,
-  and `C_e = P(y_cal=1 | T_e,G_e)`, with `Z_e notin C_e` and
-  `S_e = F(Z_e,C_e)`. `y_cal` is the constructed calibration target rather
-  than direct human validity. The legacy `p_geom_valid`-only condition is not
+  and `C_e = sigmoid(h_a(Phi(T_e,G_e)))`, with `Z_e notin C_e` and
+  `S_e = F(Z_e,C_e)`. `C_e` scores a constructed positive/counterfactual
+  target and is not a physical-validity probability. The legacy
+  `p_geom_valid`-only condition is not
   true `G_e`-only because its calibrator retains `T_e`/interaction features.
 - `h001_factor_isolation_protocol_v1` implementation is complete. The later
   `train_only_reestablishment_v1` strict reconstruction is also complete and
@@ -62,12 +82,12 @@ paper-level framing rules live in `docs/paper.md`.
   classification is owned by `docs/paper.md` and the experiment report rather
   than duplicated in this workspace index.
 - The frozen uncertainty-sensitivity audit reports decidable-only V,
-  uncertainty rate, pessimistic V, and coverage on all three sources. Family
-  product improvements remain negative under every violation definition, and
-  the supplement now exposes calibration, family-composition, and closest-work
-  contract tables.
+  uncertainty rate, pessimistic V, and coverage on all three sources. The
+  structured-product deltas remain negative under every violation definition, and
+  the supplement now exposes constructed-target discrimination,
+  scan-cluster sensitivity, family composition, and uncertainty results.
 - H001_v2 fixed-`tau*` and pooled lambda-soft reranking are diagnostic
-  candidate evidence only; they do not replace the current GeoCalib main
+  candidate evidence only; they do not replace the current RelCompat3D main
   result route.
 - Remaining paper-work class: enter author profiles/countries and reciprocal
   reviewer in OpenReview, decide the final public license/post-acceptance

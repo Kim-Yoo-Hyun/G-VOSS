@@ -107,10 +107,10 @@ H001/CAND를 논문으로 정리할 때 motivation만으로 novelty를 주장하
 
 - Top-tier claim은 기존 3DSSG/3D Scene Graph relation method의 구체적 failure mode를 정의하고, 그 failure가 실제라는 증거를 보이고, 원인 mechanism/assumption을 설명하고, 그 원인을 직접 바꾸는 method를 제안해야 한다.
 - Novelty를 "geometry를 추가했다", "semantic과 geometry를 결합했다", "VLM을 사용했다", "verifier를 만들었다", "중요한 task다"로 쓰지 않는다. 이 표현들은 failure cause와 design necessity에 연결되지 않으면 motivation 또는 implementation detail이다.
-- H001의 선호 claim pattern은 다음과 같다: existing relation predictors can produce semantically plausible but geometrically inconsistent 3D scene graph relations because semantic confidence is not calibrated to relation-level physical consistency; H001 introduces calibrated geometry-consistency evaluation/re-ranking to expose, quantify, and reduce this failure while tracking recall tradeoffs.
-- 모든 paper claim은 falsifiable evidence를 가져야 한다: semantic-only vs geometry re-ranking, calibration variants, family-specific controls, wrong-pair/shuffled-geometry controls, Open3DSG second-source evidence, qualitative failure taxonomy.
-- Method contribution은 `verifier script`가 아니라 calibrated geometry-consistency evaluation/re-ranking framework로 명명한다. Verifier, calibration, metric, failure-analysis schema는 이 framework를 구성하는 요소로 둔다.
-- Evidence가 single source의 scoped reliability에 머물면 claim도 scoped reliability로 제한한다. Broad open-vocabulary 3DSSG improvement 주장은 second-source metrics, denominator caveat, failure analysis가 완료되기 전에는 사용하지 않는다.
+- H001의 선호 claim pattern은 다음과 같다: existing relation predictors can produce semantically plausible but geometrically inconsistent 3D scene graph relations because source confidence does not guarantee instance-level predicate--geometry compatibility; H001 separates source confidence from a source-score-excluded compatibility model, enforces applicable relation algebra, and measures the resulting recall--violation trade-off.
+- 모든 paper claim은 falsifiable evidence를 가져야 한다: source score vs compatibility re-ranking, pooled/family and strong-fusion comparisons, wrong-predicate/wrong-pair/transformation controls, cross-predictor evidence on VL-SAT/Open3DSG/SGFN, and qualitative failure analysis.
+- Method contribution은 `verifier script`나 새 fusion formula가 아니라 relation-algebra-constrained predicate--geometry compatibility framework로 명명한다. Identity-preserving joins, source-score exclusion, compatibility learning, relation-algebra projection, metrics, and failure analysis는 이 framework를 구성하는 요소로 둔다.
+- 현재 evidence는 하나의 shared 3DSSG/3RScan target에서 세 predictor를 비교한 scoped reliability evidence다. Dataset-level generalization, family-uniform improvement, broad open-vocabulary 3DSSG improvement, SOTA, best-fusion 주장은 별도 evidence 없이 사용하지 않는다.
 - Reviewer가 물을 "왜 더 단순한 방법으로 안 되는가?", "왜 이 relation family인가?", "왜 이 geometry rule/calibration인가?", "recall tradeoff는 무엇인가?"에 대한 답을 table, ablation, error taxonomy 중 하나로 연결한다.
 
 ## H001 Claim Boundary And Extension Rules
@@ -119,7 +119,7 @@ H001/CAND를 논문으로 정리할 때 motivation만으로 novelty를 주장하
 - Open3DSG는 현재 main open-vocabulary relation-source case study로 lock한다. 현재 paper-facing full-validation route는 MLflow run `25da9c4c00214f3b880cedbb2a124177`의 non-averaged-BLIP checkpoint를 사용한다. `2a23a9af581b4666a207423aa6217853` averaged-BLIP checkpoint는 historical 127-scan sensitivity로만 구분한다. 논문에서는 filtered train/dev split, recovery/covered scope, exact-label denominator, historical averaged-BLIP sensitivity, and residual calibration-risk caveat를 Table/results/provenance wording에서 숨기지 않는다.
 - Open3DSG 관련 필수 실험은 현재 scoped H001 claim 기준으로 완료된 것으로 본다. 추가 Open3DSG 실험은 claim을 넓히거나 full reproduction 자체를 목표로 바꿀 때만 진행한다.
 - Qwen-VL은 VL-SAT/Open3DSG를 대체하는 main baseline이 아니라 third semantic source / modern VLM extension이다. Qwen 결과는 sharded inference, parser validation, adapter export, geometry join, metrics, controls, bootstrap CI if reported, and audit가 Docker로 완료되기 전까지 paper metric evidence가 아니다.
-- Cross-source results, failure rows, qualitative inspection, and Qwen extension은 세 번째/네 번째 contribution으로 부풀리지 말고, calibrated geometry-consistency framework를 검증하는 empirical evidence로 둔다.
+- Cross-predictor results, failure rows, qualitative inspection, and Qwen extension은 세 번째/네 번째 contribution으로 부풀리지 말고, RelCompat3D compatibility framework를 검증하는 empirical evidence로 둔다.
 - `relative_horizontal`, `attachment_deferred`, Qwen-VL, or any other expansion must not be added to the main AAAI claim without explicit final confirmation from the user after the required evidence gates are complete.
 
 ## Long-running and Background Tasks

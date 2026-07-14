@@ -1,0 +1,174 @@
+{
+  "development_gates": {
+    "open3dsg_ov": {
+      "10": {
+        "delta_recall": 0.0237603305785124,
+        "delta_recall_ci95": [
+          0.012163829001843247,
+          0.03532181814529358
+        ],
+        "delta_violation": 0.05665204678362573,
+        "delta_violation_ci95": [
+          0.046667401139195,
+          0.06648444026733505
+        ],
+        "development_gate_pass": false,
+        "selective_family_product": {
+          "recall": 0.23863636363636365,
+          "violation": 0.3740862573099415
+        },
+        "source_score": {
+          "recall": 0.21487603305785125,
+          "violation": 0.31743421052631576
+        }
+      },
+      "100": {
+        "delta_recall": 0.13636363636363646,
+        "delta_recall_ci95": [
+          0.10509703881552614,
+          0.1707651098129529
+        ],
+        "delta_violation": 0.011471535107380082,
+        "delta_violation_ci95": [
+          0.00699420347146989,
+          0.015695088766251537
+        ],
+        "development_gate_pass": false,
+        "selective_family_product": {
+          "recall": 0.9101239669421488,
+          "violation": 0.3277843432902726
+        },
+        "source_score": {
+          "recall": 0.7737603305785123,
+          "violation": 0.31631280818289254
+        }
+      },
+      "50": {
+        "delta_recall": 0.0650826446280991,
+        "delta_recall_ci95": [
+          0.04330465636239912,
+          0.08886893514438719
+        ],
+        "delta_violation": 0.010068632626894947,
+        "delta_violation_ci95": [
+          0.005551521213525962,
+          0.014517123648526704
+        ],
+        "development_gate_pass": false,
+        "selective_family_product": {
+          "recall": 0.5568181818181818,
+          "violation": 0.34436986198054154
+        },
+        "source_score": {
+          "recall": 0.49173553719008267,
+          "violation": 0.3343012293536466
+        }
+      }
+    },
+    "vlsat_closed_set": {
+      "10": {
+        "delta_recall": 0.0008298755186721962,
+        "delta_recall_ci95": [
+          -0.006118427396580975,
+          0.0076748756236839355
+        ],
+        "delta_violation": 0.006751824817518265,
+        "delta_violation_ci95": [
+          0.003832116788321155,
+          0.010036496350364965
+        ],
+        "development_gate_pass": false,
+        "selective_family_product": {
+          "recall": 0.9344398340248963,
+          "violation": 0.1332116788321168
+        },
+        "source_score": {
+          "recall": 0.9336099585062241,
+          "violation": 0.12645985401459853
+        }
+      },
+      "100": {
+        "delta_recall": 0.0,
+        "delta_recall_ci95": [
+          0.0,
+          0.0
+        ],
+        "delta_violation": 0.009405665617478243,
+        "delta_violation_ci95": [
+          0.007317933959208231,
+          0.011561871269799925
+        ],
+        "development_gate_pass": false,
+        "selective_family_product": {
+          "recall": 1.0,
+          "violation": 0.22703203110535086
+        },
+        "source_score": {
+          "recall": 1.0,
+          "violation": 0.21762636548787262
+        }
+      },
+      "50": {
+        "delta_recall": 0.0,
+        "delta_recall_ci95": [
+          0.0,
+          0.0
+        ],
+        "delta_violation": 0.013576642335766442,
+        "delta_violation_ci95": [
+          0.011203467153284663,
+          0.01580291970802919
+        ],
+        "development_gate_pass": false,
+        "selective_family_product": {
+          "recall": 0.995850622406639,
+          "violation": 0.17613138686131388
+        },
+        "source_score": {
+          "recall": 0.995850622406639,
+          "violation": 0.16255474452554744
+        }
+      }
+    }
+  },
+  "fusion": "raw_selective",
+  "limitations": [
+    "The target subset is derived from the legacy policy-selected calibration route.",
+    "Violation remains verifier-derived and is not an independent physical-validity label.",
+    "The official validation target is used as a development diagnostic, not confirmation.",
+    "Connected-to is neutral because direct versus mediated ontology is unresolved."
+  ],
+  "method_condition": "selective_family_product",
+  "model_sha256": "6b01e79f2165a36184dc517ae49d2f0d40ed3cf20f6653c0e8c40105c1595f19",
+  "paper_result": false,
+  "retrospective_development_diagnostic": true,
+  "schema_version": "h001_attachment_subtype_v2_development_diagnostic_v1",
+  "source_counts": {
+    "by_applicability": {
+      "abstain": 97002,
+      "bidirectional_compatibility": 74433,
+      "positive_compatibility_only": 19287
+    },
+    "by_score_origin": {
+      "fitted_bidirectional_compatibility": 74433,
+      "neutral_fallback": 116289
+    },
+    "by_source": {
+      "open3dsg_ov": 80298,
+      "vlsat_closed_set": 110424
+    },
+    "rows": 190722
+  },
+  "status": "attachment_subtype_v2_development_diagnostic_ready",
+  "training_counts": {
+    "by_predicate": {
+      "attached to": 198,
+      "hanging on": 113
+    },
+    "by_split": {
+      "dev": 83,
+      "train": 228
+    },
+    "rows": 311
+  }
+}

@@ -1,6 +1,6 @@
 # Experiment Workflow
 
-Last updated: 2026-06-14 KST
+Last updated: 2026-07-14 KST
 
 This document is the workflow rulebook for Docker-based paper experiments. It
 does not replace `docs/reproducibility.md`, which owns recovery commands,
@@ -9,13 +9,14 @@ replace `experiments/**/README.md`, which owns experiment-local status,
 outputs, and run records.
 
 Current active experiment root remains `experiments/H001_geom_reliability/`.
-Paper-facing name is `GeoCalib`, but the experiment directory keeps the
-internal `H001` identifier. Main paper-result evidence is VL-SAT full official
-validation plus Open3DSG full-validation `recovery_relaxed_views_min2/`.
-Qwen-VL full official validation is extension evidence unless explicitly
-promoted. Low-K reporting for K = `{5,10,20,50,100}` must have matching
-Docker-generated or Docker-compatible metric/CI provenance before final package
-upload; K=1 is sanity-check only.
+Paper-facing method name is `RelCompat3D`; the experiment directory keeps the
+internal `H001` identifier and the legacy `src/geocalib/` namespace only for
+executable compatibility. Main paper-result evidence is the synchronized
+strict train-only evaluation of VL-SAT, Open3DSG
+`recovery_relaxed_views_min2/`, and SGFN on one shared official 3DSSG target.
+Qwen-VL remains extension evidence. `relative_size` is a secondary scope
+sentence plus supplement result, not headline learned-method evidence. Main
+reporting uses K = `{5,10,20,50,100}`; K=1 is sanity-check only.
 
 ## Ownership
 
@@ -112,10 +113,11 @@ Current active experiment root:
   `archive/experiments/H001_geom_reliability/sources/relation_expansion_status.md`
 
 Current H001 paper-result path is scoped to measured `support_contact`,
-`proximity`, and `relative_vertical` families across VL-SAT and Open3DSG.
-`relative_horizontal`, `relative_lateral`, `attachment_deferred`, and Qwen-VL
-remain extension tracks until they pass their own Docker metric, control,
-bootstrap/audit, and claim confirmation gates.
+`proximity`, and `relative_vertical` families across VL-SAT, Open3DSG, and
+SGFN on the shared target. `relative_size` is promoted only as a secondary
+scope/supplement extension. `relative_horizontal`, `relative_lateral`,
+`attachment_deferred`, and Qwen-VL remain non-main tracks unless a new frozen
+promotion decision is made.
 
 Current `relative_lateral` extension status is
 `relative_lateral_policy_threshold_provenance_frozen_no_source_metrics`:

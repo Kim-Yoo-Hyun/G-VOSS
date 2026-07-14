@@ -1,4 +1,4 @@
-# GeoCalib Non-Submission Analysis Manuscript
+# RelCompat3D Non-Submission Analysis Manuscript
 
 This workspace builds a review-only variant of the active AAAI manuscript.
 It reuses the canonical submission sections from `paper/aaai/` and appends the

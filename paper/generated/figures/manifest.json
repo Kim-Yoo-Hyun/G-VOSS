@@ -1,20 +1,16 @@
 {
-  "claim_boundary": "source-level evidence on a fixed geometry-identifiable 3DSSG target; K=100 is primary and smaller K are secondary diagnostics",
-  "created_at": "2026-07-12T05:28:08.297932+00:00",
-  "layout_review": "paper/generated/figures/layout_review.md",
-  "outputs": {
-    "figure1_framework.svg": "paper/generated/figures/figure1_framework.svg",
-    "figure2_tradeoff.svg": "paper/generated/figures/figure2_tradeoff.svg",
-    "figure3_failure_cases.svg": "paper/generated/figures/figure3_failure_cases.svg"
-  },
-  "png_outputs": {
-    "figure1_framework.png": "paper/generated/figures/figure1_framework.png",
+  "claim_boundary": "cross-predictor evidence on a shared geometry-identifiable 3DSSG target; K=100 is primary and all five K values are reported",
+  "converted_outputs": {
+    "figure2_tradeoff.pdf": "paper/generated/figures/figure2_tradeoff.pdf",
     "figure2_tradeoff.png": "paper/generated/figures/figure2_tradeoff.png"
   },
+  "created_at": "2026-07-14T08:23:03.960046+00:00",
+  "layout_review": "paper/generated/figures/layout_review.md",
+  "outputs": {
+    "figure2_tradeoff.svg": "paper/generated/figures/figure2_tradeoff.svg"
+  },
   "source_artifacts": [
-    "experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics_k_sweep/metrics.json",
-    "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/metrics.json",
-    "experiments/H001_geom_reliability/sources/sgfn/confirmatory_metrics/summary.json",
+    "experiments/H001_geom_reliability/structured_main_v1/evaluation/summary.json",
     "experiments/H001_geom_reliability/sources/open3dsg/failure_cases/inspection.json"
   ],
   "source_lock": "paper/figures.md",

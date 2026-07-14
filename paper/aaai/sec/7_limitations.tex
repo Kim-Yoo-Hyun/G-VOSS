@@ -1,24 +1,24 @@
-\section{Limitations}
+\section{Discussion and Limitations}
 
-GeoCalib assumes a geometry-identifiable predicate and known object instances.
-We test support/contact, proximity, and vertical order; functional predicates
-remain out of scope, front/behind is frame-dependent, and left/right fails the
-defined controls. The task is relation reliability, not complete open-vocabulary
-graph generation.
+One compatibility model transfers across three predictors on a shared,
+geometry-identifiable 3DSSG target, but this does not establish cross-dataset
+generalization or a universally optimal fusion rule. Rank fusion is stronger at
+some operating points and pooled compatibility can favor recall over violation.
+The contribution is predictor-agnostic compatibility and its joint reliability
+evaluation rather than formula superiority.
 
-Violation@$K$ is verifier-derived, and its geometric primitives overlap with
-the compatibility target. Counterfactual controls test the learned factor but
-do not replace an independent physical-validity reference. Moreover,
-support/contact regresses, and the initial ReplicaSSG/FROSS transfer exposes
-source-score scale, ranking-displacement, geometry-representation, and ontology
-shift. ReplicaSSG is used as a development diagnostic rather than an unbiased
-external evaluation: bounded fusion preserves recall in an all-scene fit but
-fails the leave-one-scene-out recall guardrail. The evidence therefore establishes source-level
-generalization on one 3DSSG target, not uniform family or dataset-wide
-generality.
+The aggregate effect is not family-uniform, and contact-heavy relations remain
+the main failure mode. Within-family and actual global-top-$K$ slices are
+reported separately, so the aggregate result does not hide family-composition
+changes. More broadly, \method{} assumes a
+geometry-identifiable predicate and known object instances. Functional
+and reference-frame-dependent predicates remain outside the evaluated scope.
+The task is relation reliability, not complete open-vocabulary graph generation.
 
-A source-supervised nonlinear rescorer also outperforms the parameter-free
-product when exact development labels are available. Our claim is thus
-source-independent factor isolation, not formula optimality. Future work should
-validate the metric independently, improve contact evidence, and test
-downstream decision benefits.
+Violation@$K$ is verifier-derived, and some geometry primitives overlap with
+the constructed compatibility target. Algebra and counterfactual controls test
+the learned factor but do not replace an independent physical-validity
+reference. All three predictors share 3DSSG/3RScan geometry and ontology.
+Future work should validate the metric independently, improve contact evidence,
+test cross-dataset transfer, and measure downstream
+decision benefits.

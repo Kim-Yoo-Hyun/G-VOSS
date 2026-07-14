@@ -1,7 +1,7 @@
 [
   {
     "case_id": "open3dsg_case_001",
-    "geometry_rank": 294,
+    "geometry_rank": 304,
     "ground_truth_match_status": "pair_has_other_predicate",
     "matched_gt_predicates": [
       "right"
@@ -32,7 +32,7 @@
     },
     "object_id": 24,
     "object_label": "trash can",
-    "p_geom_valid": 0.013485200532380778,
+    "p_geom_valid": 0.0026676737237435293,
     "panel": "A",
     "plot_bounds": {
       "x_max": 4.288563,
@@ -76,7 +76,7 @@
   },
   {
     "case_id": "open3dsg_case_010",
-    "geometry_rank": 310,
+    "geometry_rank": 337,
     "ground_truth_match_status": "pair_has_other_predicate",
     "matched_gt_predicates": [
       "right",
@@ -108,7 +108,7 @@
     },
     "object_id": 9,
     "object_label": "side table",
-    "p_geom_valid": 0.07841107175995046,
+    "p_geom_valid": 0.05004450488228237,
     "panel": "B",
     "plot_bounds": {
       "x_max": 2.593976,
@@ -181,7 +181,7 @@
     },
     "object_id": 1,
     "object_label": "floor",
-    "p_geom_valid": 0.9995429892412891,
+    "p_geom_valid": 0.9982808932931249,
     "panel": "C",
     "plot_bounds": {
       "x_max": 4.539382,

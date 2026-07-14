@@ -10,7 +10,7 @@ remain under `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-groun
 
 ## Current Appendix Role
 
-The current main paper keeps three tables in the AAAI body: fixed GeoCalib
+The current main paper keeps three tables in the AAAI body: fixed RelCompat3D
 scope, source-specific claim boundary, and Open3DSG-first low-K source results.
 
 ## ReplicaSSG/FROSS Negative-Transfer Appendix
@@ -226,6 +226,29 @@ errors and no forbidden verifier/metric fields; 27/36 rows have near-contact
 points under the 0.05m diagnostic threshold. A function-reasoning example may
 be used only as a secondary pilot after the relation-level verifier and metrics
 pass.
+
+The legacy nine-subtype ontology is superseded for future development by
+`subtype_redesign_v2/`, which separates predicate semantics, physical
+mechanism, and observability/applicability. Its 761-row migration finds that
+199/325 legacy strict rows used `ambiguous_*` subtypes and freezes 311 candidate
+strict rows plus a 100-row mechanism-review queue. The 190,722-row official-
+validation route audit assigns 74,433 rows to bidirectional compatibility,
+19,287 to positive-only evidence, and 97,002 to abstention. A raw selective
+product fails both source K=100 gates. A bounded multiplier passes VL-SAT K=100
+but fails Open3DSG K=100 and VL-SAT K=50. These are transparent retrospective
+development diagnostics, not supplement result evidence, and do not change
+the active manuscript.
+
+## Relative-Size Supplement Promotion
+
+The user approved `relative_size` only as one main-text scope sentence and a
+full technical-supplement section. `paper/aaai/sec/a_relative_size.tex` owns the
+1,061/117/157 firewall, T/G/T-by-G feature contract, disjoint point-view
+verifier, all-source K=`{5,10,20,50,100}` paired intervals, four-family K=100
+result, global composition change, point/OBB baselines, rank-average boundary,
+and residual same-segmentation construct caveat. The family stays out of Figure
+1, the contribution list, and the headline learned-method evidence because the
+fixed robust-point rule matches or improves its Violation.
 
 ## Qwen-VL Boundary
 

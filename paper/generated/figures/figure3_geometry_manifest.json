@@ -1,6 +1,6 @@
 {
   "claim_boundary": "qualitative geometry-backed failure-mechanism evidence only; not a representative human audit and not a new metric",
-  "created_at": "2026-07-12T05:27:49.440617+00:00",
+  "created_at": "2026-07-14T08:23:10.150338+00:00",
   "expected_case_ids": [
     "open3dsg_case_001",
     "open3dsg_case_010",
@@ -10,17 +10,23 @@
   "outputs": {
     "cases_json": "paper/generated/figures/figure3_geometry_cases.json",
     "cases_json_exists": true,
-    "manifest_json": "paper/generated/figures/figure3_geometry_manifest.json",
-    "svg": "paper/generated/figures/figure3_geometry_panels.svg",
-    "svg_exists": true
+    "figure1_pdf": "paper/generated/figures/figure1_framework.pdf",
+    "figure1_pdf_exists": true,
+    "figure1_svg": "paper/generated/figures/figure1_framework.svg",
+    "figure3_pdf": "paper/generated/figures/figure3_geometry_panels.pdf",
+    "figure3_pdf_exists": true,
+    "figure3_svg": "paper/generated/figures/figure3_geometry_panels.svg",
+    "manifest_json": "paper/generated/figures/figure3_geometry_manifest.json"
   },
+  "paper_score": "relation-algebra-constrained product",
   "preprocessed_root": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed",
   "rendered_case_ids": [
     "open3dsg_case_001",
     "open3dsg_case_010",
     "open3dsg_case_026"
   ],
-  "schema_version": "h001_figure3_geometry_panels_v1",
+  "schema_version": "h001_geometry_figures_v2",
   "source_queue_jsonl": "experiments/H001_geom_reliability/sources/open3dsg/failure_cases/queue.jsonl",
-  "status": "figure3_geometry_panels_generated_verified"
+  "status": "figure3_geometry_panels_generated_verified",
+  "structured_model_json": "experiments/H001_geom_reliability/relation_algebra_v1/evaluation/models.json"
 }

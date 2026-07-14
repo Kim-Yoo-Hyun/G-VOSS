@@ -1,0 +1,598 @@
+{
+  "attached to": {
+    "counts": {
+      "dev": 41,
+      "dev_negative": 26,
+      "dev_positive": 15,
+      "train": 157,
+      "train_negative": 90,
+      "train_positive": 67
+    },
+    "dev": {
+      "auprc_valid": 1.0,
+      "auroc_valid": 1.0,
+      "brier": 6.064560749522296e-06,
+      "by_predicate_label": {
+        "attached to": {
+          "auprc_valid": 1.0,
+          "auroc_valid": 1.0,
+          "brier": 6.064560749522296e-06,
+          "mean_p_geom_valid": 0.36600284275575284,
+          "negatives": 26,
+          "nll": 0.0013350896967854224,
+          "positive_rate": 0.36585365853658536,
+          "positives": 15,
+          "rows": 41
+        }
+      },
+      "calibration_bins": [
+        {
+          "avg_p_geom_valid": 0.0011678909986915784,
+          "bin": 0,
+          "count": 26,
+          "empirical_geom_valid": 0.0,
+          "gap": 0.0011678909986915784,
+          "lower": 0.0,
+          "upper": 0.1
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 1,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.1,
+          "upper": 0.2
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 2,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.2,
+          "upper": 0.3
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 3,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.3,
+          "upper": 0.4
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 4,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.4,
+          "upper": 0.5
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 5,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.5,
+          "upper": 0.6
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 6,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.6,
+          "upper": 0.7
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 7,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.7,
+          "upper": 0.8
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 8,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.8,
+          "upper": 0.9
+        },
+        {
+          "avg_p_geom_valid": 0.9983834258013258,
+          "bin": 9,
+          "count": 15,
+          "empirical_geom_valid": 1.0,
+          "gap": 0.0016165741986742255,
+          "lower": 0.9,
+          "upper": 1.0
+        }
+      ],
+      "ece": 0.0013320433889291322,
+      "invalid_detection": {
+        "0.1": {
+          "coverage": 0.6341463414634146,
+          "invalid": 26,
+          "precision_invalid": 1.0,
+          "selected": 26
+        },
+        "0.2": {
+          "coverage": 0.6341463414634146,
+          "invalid": 26,
+          "precision_invalid": 1.0,
+          "selected": 26
+        },
+        "0.3": {
+          "coverage": 0.6341463414634146,
+          "invalid": 26,
+          "precision_invalid": 1.0,
+          "selected": 26
+        },
+        "0.5": {
+          "coverage": 0.6341463414634146,
+          "invalid": 26,
+          "precision_invalid": 1.0,
+          "selected": 26
+        }
+      },
+      "mce": 0.0016165741986742255,
+      "mean_p_geom_valid": 0.36600284275575284,
+      "negatives": 26,
+      "nll": 0.0013350896967854224,
+      "positive_rate": 0.36585365853658536,
+      "positives": 15,
+      "rows": 41
+    },
+    "train": {
+      "auprc_valid": 1.0,
+      "auroc_valid": 1.0,
+      "brier": 2.0155090445904255e-05,
+      "by_predicate_label": {
+        "attached to": {
+          "auprc_valid": 1.0,
+          "auroc_valid": 1.0,
+          "brier": 2.0155090445904255e-05,
+          "mean_p_geom_valid": 0.4270720102350149,
+          "negatives": 90,
+          "nll": 0.001954377569396871,
+          "positive_rate": 0.4267515923566879,
+          "positives": 67,
+          "rows": 157
+        }
+      },
+      "calibration_bins": [
+        {
+          "avg_p_geom_valid": 0.001975178311322442,
+          "bin": 0,
+          "count": 90,
+          "empirical_geom_valid": 0.0,
+          "gap": 0.001975178311322442,
+          "lower": 0.0,
+          "upper": 0.1
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 1,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.1,
+          "upper": 0.2
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 2,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.2,
+          "upper": 0.3
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 3,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.3,
+          "upper": 0.4
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 4,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.4,
+          "upper": 0.5
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 5,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.5,
+          "upper": 0.6
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 6,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.6,
+          "upper": 0.7
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 7,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.7,
+          "upper": 0.8
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 8,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.8,
+          "upper": 0.9
+        },
+        {
+          "avg_p_geom_valid": 0.998097605356393,
+          "bin": 9,
+          "count": 67,
+          "empirical_geom_valid": 1.0,
+          "gap": 0.001902394643606975,
+          "lower": 0.9,
+          "upper": 1.0
+        }
+      ],
+      "ece": 0.0019441177652273064,
+      "invalid_detection": {
+        "0.1": {
+          "coverage": 0.5732484076433121,
+          "invalid": 90,
+          "precision_invalid": 1.0,
+          "selected": 90
+        },
+        "0.2": {
+          "coverage": 0.5732484076433121,
+          "invalid": 90,
+          "precision_invalid": 1.0,
+          "selected": 90
+        },
+        "0.3": {
+          "coverage": 0.5732484076433121,
+          "invalid": 90,
+          "precision_invalid": 1.0,
+          "selected": 90
+        },
+        "0.5": {
+          "coverage": 0.5732484076433121,
+          "invalid": 90,
+          "precision_invalid": 1.0,
+          "selected": 90
+        }
+      },
+      "mce": 0.001975178311322442,
+      "mean_p_geom_valid": 0.4270720102350149,
+      "negatives": 90,
+      "nll": 0.001954377569396871,
+      "positive_rate": 0.4267515923566879,
+      "positives": 67,
+      "rows": 157
+    }
+  },
+  "hanging on": {
+    "counts": {
+      "dev": 42,
+      "dev_negative": 30,
+      "dev_positive": 12,
+      "train": 71,
+      "train_negative": 50,
+      "train_positive": 21
+    },
+    "dev": {
+      "auprc_valid": 1.0,
+      "auroc_valid": 1.0,
+      "brier": 0.0001782495150828776,
+      "by_predicate_label": {
+        "hanging on": {
+          "auprc_valid": 1.0,
+          "auroc_valid": 1.0,
+          "brier": 0.0001782495150828776,
+          "mean_p_geom_valid": 0.2902225540874926,
+          "negatives": 30,
+          "nll": 0.005182034938929134,
+          "positive_rate": 0.2857142857142857,
+          "positives": 12,
+          "rows": 42
+        }
+      },
+      "calibration_bins": [
+        {
+          "avg_p_geom_valid": 0.006718672342286526,
+          "bin": 0,
+          "count": 30,
+          "empirical_geom_valid": 0.0,
+          "gap": 0.006718672342286526,
+          "lower": 0.0,
+          "upper": 0.1
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 1,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.1,
+          "upper": 0.2
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 2,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.2,
+          "upper": 0.3
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 3,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.3,
+          "upper": 0.4
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 4,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.4,
+          "upper": 0.5
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 5,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.5,
+          "upper": 0.6
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 6,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.6,
+          "upper": 0.7
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 7,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.7,
+          "upper": 0.8
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 8,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.8,
+          "upper": 0.9
+        },
+        {
+          "avg_p_geom_valid": 0.9989822584505076,
+          "bin": 9,
+          "count": 12,
+          "empirical_geom_valid": 1.0,
+          "gap": 0.0010177415494924125,
+          "lower": 0.9,
+          "upper": 1.0
+        }
+      ],
+      "ece": 0.00508983497291678,
+      "invalid_detection": {
+        "0.1": {
+          "coverage": 0.7142857142857143,
+          "invalid": 30,
+          "precision_invalid": 1.0,
+          "selected": 30
+        },
+        "0.2": {
+          "coverage": 0.7142857142857143,
+          "invalid": 30,
+          "precision_invalid": 1.0,
+          "selected": 30
+        },
+        "0.3": {
+          "coverage": 0.7142857142857143,
+          "invalid": 30,
+          "precision_invalid": 1.0,
+          "selected": 30
+        },
+        "0.5": {
+          "coverage": 0.7142857142857143,
+          "invalid": 30,
+          "precision_invalid": 1.0,
+          "selected": 30
+        }
+      },
+      "mce": 0.006718672342286526,
+      "mean_p_geom_valid": 0.2902225540874926,
+      "negatives": 30,
+      "nll": 0.005182034938929134,
+      "positive_rate": 0.2857142857142857,
+      "positives": 12,
+      "rows": 42
+    },
+    "train": {
+      "auprc_valid": 1.0,
+      "auroc_valid": 1.0,
+      "brier": 1.5095259420391358e-05,
+      "by_predicate_label": {
+        "hanging on": {
+          "auprc_valid": 1.0,
+          "auroc_valid": 1.0,
+          "brier": 1.5095259420391358e-05,
+          "mean_p_geom_valid": 0.2969181146976923,
+          "negatives": 50,
+          "nll": 0.002248866962652789,
+          "positive_rate": 0.29577464788732394,
+          "positives": 21,
+          "rows": 71
+        }
+      },
+      "calibration_bins": [
+        {
+          "avg_p_geom_valid": 0.002403163894102746,
+          "bin": 0,
+          "count": 50,
+          "empirical_geom_valid": 0.0,
+          "gap": 0.002403163894102746,
+          "lower": 0.0,
+          "upper": 0.1
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 1,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.1,
+          "upper": 0.2
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 2,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.2,
+          "upper": 0.3
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 3,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.3,
+          "upper": 0.4
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 4,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.4,
+          "upper": 0.5
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 5,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.5,
+          "upper": 0.6
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 6,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.6,
+          "upper": 0.7
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 7,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.7,
+          "upper": 0.8
+        },
+        {
+          "avg_p_geom_valid": null,
+          "bin": 8,
+          "count": 0,
+          "empirical_geom_valid": null,
+          "gap": null,
+          "lower": 0.8,
+          "upper": 0.9
+        },
+        {
+          "avg_p_geom_valid": 0.9981441880395721,
+          "bin": 9,
+          "count": 21,
+          "empirical_geom_valid": 1.0,
+          "gap": 0.0018558119604279444,
+          "lower": 0.9,
+          "upper": 1.0
+        }
+      ],
+      "ece": 0.0022412710686496354,
+      "invalid_detection": {
+        "0.1": {
+          "coverage": 0.704225352112676,
+          "invalid": 50,
+          "precision_invalid": 1.0,
+          "selected": 50
+        },
+        "0.2": {
+          "coverage": 0.704225352112676,
+          "invalid": 50,
+          "precision_invalid": 1.0,
+          "selected": 50
+        },
+        "0.3": {
+          "coverage": 0.704225352112676,
+          "invalid": 50,
+          "precision_invalid": 1.0,
+          "selected": 50
+        },
+        "0.5": {
+          "coverage": 0.704225352112676,
+          "invalid": 50,
+          "precision_invalid": 1.0,
+          "selected": 50
+        }
+      },
+      "mce": 0.002403163894102746,
+      "mean_p_geom_valid": 0.2969181146976923,
+      "negatives": 50,
+      "nll": 0.002248866962652789,
+      "positive_rate": 0.29577464788732394,
+      "positives": 21,
+      "rows": 71
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "checks": {
+    "blanket_endpoint_swap_forbidden": true,
+    "legacy_ambiguous_strict_rows": 199,
+    "main_claim_changed": false,
+    "model_fitted": false,
+    "official_validation_evidence_rows": 190722,
+    "review_queue_rows": 100,
+    "source_metrics_computed": false,
+    "train_dev_rows": 761
+  },
+  "schema_version": "h001_attachment_subtype_redesign_v2",
+  "status": "passed",
+  "validation_error_count": 0,
+  "validation_errors": []
+}

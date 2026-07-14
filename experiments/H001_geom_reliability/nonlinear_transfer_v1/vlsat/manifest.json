@@ -1,0 +1,56 @@
+{
+  "created_at_utc": "2026-07-13T09:16:01.815317+00:00",
+  "docker_command": "env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm nonlinear_fusion_baseline",
+  "inputs": {
+    "compatibility_models": {
+      "path": "experiments/H001_geom_reliability/train_only_reestablishment_v1/calibration/fitted/models.json",
+      "sha256": "bf52a2d7c90d3f11e024f74ac6f3ba7a88f04d2865fb0df7a34a079b200f3c6f"
+    },
+    "final_ground_truth": {
+      "path": "experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl",
+      "sha256": "f1b11210efa3bc349e765bfeb11b6f0016c4142667f9afbe48b61df0c5042a5c"
+    },
+    "final_verification": {
+      "path": "experiments/H001_geom_reliability/sources/vlsat/full_validation/geometry/verification.jsonl",
+      "sha256": "05a51880f0e86719ff7ca547992c9c491811a1c1828a40af2abdd6becba729cd"
+    },
+    "protocol": {
+      "path": "experiments/H001_geom_reliability/nonlinear_transfer_v1/protocol_vlsat.json",
+      "sha256": "0b68fe687da8f6c5d03349628ad48458995ad6dbc21eccee66c904a626868b48"
+    },
+    "train_ground_truth": {
+      "path": "experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev_ground_truth.jsonl",
+      "sha256": "3425be6aba974345a8aadc279b06e6a56dca6407c123ad45374adcfc137e199b"
+    },
+    "train_verification": {
+      "path": "experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev/geometry/verification.jsonl",
+      "sha256": "458bdf95447052bd71f297ce2c2a0ee70af84447c75e56201180f58106e18618"
+    }
+  },
+  "outputs": {
+    "model.json": {
+      "path": "experiments/H001_geom_reliability/nonlinear_transfer_v1/vlsat/model.json",
+      "sha256": "81588c10beb0472001f14a7b1fcfcf5b53e1f7c1cefe47136f61d7520c3e7dd1"
+    },
+    "summary.json": {
+      "path": "experiments/H001_geom_reliability/nonlinear_transfer_v1/vlsat/summary.json",
+      "sha256": "828c42b8ddb1279a9953997b0f4e34b716ab7b54fecccdb29da6167b87b481e4"
+    },
+    "summary.md": {
+      "path": "experiments/H001_geom_reliability/nonlinear_transfer_v1/vlsat/summary.md",
+      "sha256": "8307b326e831110477a52c8775de96904b41bfa1729707064ba95e0c13c1f1db"
+    }
+  },
+  "schema_version": "h001_parameter_matched_nonlinear_rescorer_manifest_v1",
+  "status": "completed",
+  "validations": {
+    "final_contexts_548": true,
+    "final_gt_denominator_3972": true,
+    "final_in_scope_rows_expected": true,
+    "final_rows_not_used_for_fit_or_normalization": true,
+    "finite_parameters": true,
+    "parameter_count_exactly_69": true,
+    "train_contexts_354": true,
+    "train_gt_denominator_2730": true
+  }
+}

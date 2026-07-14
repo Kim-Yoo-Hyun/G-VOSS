@@ -1,90 +1,91 @@
-\section{Method}
+\subsection{Relation-Algebra-Constrained Compatibility}
 
-\method{} is a reliability layer for relation predictions, not a replacement
-3D Scene Graph generator. It preserves candidate identity, measures
-predicate-conditioned geometry compatibility independently of the source
-relation score, and combines the two signals only at re-ranking time.
-Figure~\ref{fig:framework} gives the complete pipeline.
+For each identity-preserving relation row, the raw geometry vector $G$ contains
+pair distance and scale, centroid and extent differences, oriented-box
+overlap, and point-level contact/support evidence when observable. The feature
+map $\Phi=(\phi_T,\phi_G,\phi_{\times})$ separates predicate/family indicators,
+predicate-independent geometry, and explicit predicate--geometry interactions.
+Source score, rank, source identity, and object-class shortcuts are excluded.
 
-\subsection{Relation Rows and Geometry Evidence}
-
-We convert each source prediction to a common row
-\begin{equation}
-(\mathrm{scan},\mathrm{context},s,o,p,a,Z),
-\end{equation}
-where $s$ and $o$ are ordered instance identifiers, $p$ is the predicate,
-$a$ its relation family, and $Z$ the original source relation score. The ordered
-key $(\mathrm{scan},\mathrm{context},s,o)$ joins each candidate to the geometry
-of the same object pair. It prevents category-level plausibility or unordered
-pair statistics from substituting for instance-level evidence.
-
-The raw geometry vector $G$ is predicate-independent. It contains pair
-distance and scale, centroid and extent differences, oriented-box overlap, and
-point-level contact/support evidence when observable. Predicate semantics are
-represented by $T=(p,a)$. We measure three families whose constraints can be
-tested from the reconstruction: support/contact, proximity, and relative
-vertical order. Family-specific transformations interpret $G$ for $T$---for
-example, the sign of vertical displacement for \texttt{higher than} versus
-\texttt{lower than}---but neither source score nor source identity enters the
-geometry representation. Insufficient evidence is retained as uncertain
-rather than forced into a valid/invalid label.
-
-\subsection{Compatibility Calibration and Re-ranking}
-
-For each family $a$, we fit a logistic compatibility calibrator
+We first define a family logit and bounded compatibility score
 \begin{equation}
 \begin{aligned}
-C_i&=\sigma\!\left(w_{a_i}^{\top}\Phi(T_i,G_i)\right)
-   \approx P(y_i^{cal}=1\mid T_i,G_i),\\
-Z_i&\notin\operatorname{inputs}(C_i),
+h_a(\Phi(T_i,G_i))&=w_a^\top\Phi(T_i,G_i),\\
+C_i&=\sigma\!\left(h_a(\Phi(T_i,G_i))\right).
 \end{aligned}
 \end{equation}
-with $\Phi=(\phi_T,\phi_G,\phi_{\times})$. The interaction block
-$\phi_{\times}$ contains explicit predicate--geometry transformations, while
-$\phi_G$ remains predicate-independent. The calibration target uses 2,565
-train/dev ground-truth positives and 3,244 high-margin counterfactual
-negatives; it is a constructed compatibility target, not human physical
-validity. We standardize numeric features with training statistics and minimize
-binary cross-entropy with $L_2=10^{-4}$ for 800 fixed gradient steps
-(learning rate 0.2). The three family models use 22--24 features and no source
-score or source identity. Training/dev rows, feature groups, and held-out
-calibration diagnostics are detailed in the supplement.
-
-Our first instantiation preserves score magnitudes through a
-family-calibrated product,
+For proximity, $\tau$ swaps the ordered endpoints and leaves \texttt{close by}
+unchanged. For vertical order, $\tau$ swaps the endpoints and maps
+\texttt{higher than}$\leftrightarrow$\texttt{lower than}. These transforms
+encode
 \begin{equation}
-S_i^{\mathrm{prod}}=Z_i C_i.
+\begin{aligned}
+C_{\rm close}(s,o)&=C_{\rm close}(o,s),\\
+C_{\rm higher}(s,o)&=C_{\rm lower}(o,s).
+\end{aligned}
 \end{equation}
-Equivalently, $\log S_i^{\mathrm{prod}}=\log Z_i+\log C_i$ applies a soft
-compatibility penalty with fixed unit weight. Our second instantiation avoids
-cross-source scale assumptions. Let $q_i^Z$ and $q_i^C$ be descending
-within-context percentile ranks; then
+Support/contact uses the singleton orbit because a family-wide endpoint swap
+is not valid.
+
+Training uses two complementary structural signals. First, orbit-consistent
+augmentation preserves the predicate when proximity endpoints are swapped,
+whereas vertical order swaps endpoints and applies the inverse predicate.
+Second,
+for every linked positive--counterfactual pair $(i^+,i^-)\in\mathcal P$, the
+logits $\ell=w_a^\top\Phi$ receive a fixed margin penalty:
 \begin{equation}
-S_i^{\mathrm{rank}}=\tfrac{1}{2}(q_i^Z+q_i^C).
+\begin{aligned}
+\mathcal L_a={}&\mathcal L_{\rm BCE}
++0.25\,\mathbb E_{\mathcal P}\!
+ \left[\log\!\left(1+e^{1-(\ell_{i^+}-\ell_{i^-})}\right)\right]\\
+&+10^{-4}\lVert w_a\rVert_2^2.
+\end{aligned}
 \end{equation}
-The equal weight is parameter-free. These are complementary framework
-instantiations rather than a
-claim that either fusion is universally optimal.
+The 60,208 training rows yield 33,961 linked pairs; algebra augmentation gives
+86,032 optimization rows. Numeric features are standardized and missing values
+imputed using training-only statistics. We use 800 deterministic full-batch
+steps at learning rate 0.2. The three family models contain 22--24 parameters.
 
-\subsection{Comparisons and Falsification Controls}
+Finally, we project the learned score onto the declared orbit:
+\begin{equation}
+\calg_i=\frac{1}{|\mathcal O_i|}
+\sum_{(T',G')\in\mathcal O_i} \sigma\!\left(h_{a_i}(\Phi(T',G'))\right).
+\label{eq:algebra-projection}
+\end{equation}
+This makes proximity symmetry and vertical inverse equivariance exact at
+inference rather than merely encouraged by a penalty. The pairwise objective
+still distinguishes each linked positive from its counterfactual; projection
+does not consume source confidence.
 
-We compare against the original source relation score, a pooled-compatibility
-product $Z_i\pgeom_i$, fixed-constant Reciprocal Rank Fusion, and a hard-rule
-filter. We additionally fit a source-supervised nonlinear rescorer on the
-117-scan internal-development source. It consumes $Z$, the complete $T/G$
-factorization, and the two directed interactions through a two-hidden-unit ReLU
-MLP with a predicate-linear skip. Its 69 trainable parameters match the total
-22+23+24 coefficients of the three family compatibility calibrators. This is
-an advantaged comparison: unlike GeoCalib, it uses exact source-specific labels
-and is not a source-independent replacement. The pooled model tests whether
-family conditioning is necessary; the
-hard-rule result is a diagnostic operating point rather than a proposed
-zero-violation solution. A compatibility-only control removes $Z$, and a
-generic distance heuristic tests whether calibration is needed at all.
-Shuffled-geometry and mismatched-pair controls break the identity join while
-preserving marginal geometry statistics. A separate factor audit evaluates
-$T$-only, true $G$-only, additive $T+G$, and interaction $T\times G$ models,
-together with wrong-predicate, endpoint-swap where defined, and vertical
-inverse-equivariance tests. These controls make the central claim falsifiable:
-the gain should depend on the correct predicate, ordered object pair, and
-geometry---not on score leakage or a generic distance prior.
+\subsection{Re-ranking and Controls}
+
+Our main score preserves source magnitudes through
+\begin{equation}
+S_i^{\mathrm{alg-prod}}=Z_i\calg_i.
+\end{equation}
+For positive scores, $\log S_i=\log Z_i+\log\calg_i$; compatibility therefore
+contributes an additive log-score term without an additional fusion parameter.
+We also test scale-robust fusion. Let $q_i^Z$ and $q_i^C$ be descending within-context
+percentile ranks and $r_i^Z,r_i^C$ their one-indexed ranks. Rank-average and
+fixed-constant Reciprocal Rank Fusion are
+\begin{equation}
+S_i^{\mathrm{rank}}=\tfrac12(q_i^Z+q_i^C),\qquad
+S_i^{\mathrm{RRF}}=\frac{1}{60+r_i^Z}+\frac{1}{60+r_i^C}.
+\end{equation}
+They provide scale-robust fusion comparisons.
+
+Other comparisons isolate the mechanism. A pooled product replaces the three
+family models with one $T\times G$ compatibility model fitted on the training
+split. Compatibility-only removes $Z$, and an unprojected family product
+ablates relation-algebra projection. A 69-parameter nonlinear rescorer is
+matched to the total compatibility parameter count and trained with
+source-specific exact-label supervision.
+
+Linked-counterfactual ordering and wrong-predicate tests ask whether the model
+uses the intended $T\times G$ interaction. Proximity-swap and vertical-inverse
+checks test Eq.~\ref{eq:algebra-projection}; no blanket endpoint test is applied
+to support/contact. Identity-preserving joins and the
+$T$-only, raw-$G$-only, additive, shuffled-geometry, and mismatched-pair ablations
+test score leakage and geometry shortcuts. Together these comparisons test
+whether the gain follows from factor isolation and algebraic structure rather
+than an arbitrary fusion choice.

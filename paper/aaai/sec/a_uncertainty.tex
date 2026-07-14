@@ -1,7 +1,7 @@
 \section{Verifier-Uncertainty Sensitivity}
 
 The primary $\mathrm{V@K}_{all}$ includes uncertain rows in its denominator but
-does not label them satisfied. We therefore recompute every evaluated ranking with
+does not label them satisfied. We therefore recompute each ranking with
 $\mathrm{V@K}_{dec}$ over satisfied/violated rows, uncertainty rate $U@K$, and
 a pessimistic bound $\mathrm{V@K}_{pess}$ that counts every uncertain row as a
 violation. Table~\ref{tab:uncertainty-sensitivity} gives the primary $K=100$
@@ -19,21 +19,22 @@ four reported quantities.}
 Source & Condition & $V_{all}$ & $V_{dec}$ & $U$ & $V_{pess}$ \\
 \midrule
 VL-SAT & Source score & .0476 & .0729 & .3464 & .3941 \\
-VL-SAT & Family product & .0333 & .0485 & .3127 & .3460 \\
+VL-SAT & \method{} product & .0325 & .0473 & .3123 & .3448 \\
 \midrule
 Open3DSG & Source score & .1242 & .2128 & .4164 & .5406 \\
-Open3DSG & Family product & .0341 & .0457 & .2539 & .2880 \\
+Open3DSG & \method{} product & .0339 & .0465 & .2714 & .3052 \\
 \midrule
 SGFN & Source score & .0630 & .1005 & .3732 & .4362 \\
-SGFN & Family product & .0381 & .0577 & .3396 & .3777 \\
+SGFN & \method{} product & .0372 & .0563 & .3393 & .3765 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The paired product-minus-source changes in $V_{dec}$ are $-.0244$
-[$-.0270$,$-.0220$] for VL-SAT, $-.1671$ [$-.1748$,$-.1597$] for Open3DSG,
-and $-.0428$ [$-.0457$,$-.0394$] for SGFN. Uncertainty rate also decreases on
-all three sources. The corresponding pessimistic-V changes are $-.0480$,
-$-.2526$, and $-.0586$, with all 95\% CIs below zero. Thus the reported
-improvement does not rely on promoting uncertain rows. Full $K$ grids and
-shared-index paired intervals accompany the submitted artifacts.
+Algebra-product minus source-score changes in $V_{dec}$ are $-.0256$
+[$-.0282$,$-.0229$] for VL-SAT, $-.1663$ [$-.1736$,$-.1594$] for Open3DSG,
+and $-.0442$ [$-.0472$,$-.0409$] for SGFN. Uncertainty-rate changes are
+$-.0341$, $-.1450$, and $-.0340$; pessimistic-V changes are $-.0493$,
+$-.2354$, and $-.0597$. All corresponding paired 95\% intervals exclude zero.
+The hard-rule baseline has zero all-status V but retains uncertain rows and
+therefore has pessimistic V of .3712/.4722/.4042. Thus zero measured violation
+does not imply reliable or complete selection.

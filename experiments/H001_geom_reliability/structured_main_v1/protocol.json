@@ -1,0 +1,80 @@
+{
+  "schema_version": "h001_structured_main_protocol_v1",
+  "status": "frozen_before_structured_main_re_evaluation",
+  "created_at_kst": "2026-07-13",
+  "classification": "retrospective_3dssg_benchmark_evaluation_with_strict_train_only_compatibility_fit",
+  "main_compatibility": {
+    "artifact_id": "orbit_pairwise_projected",
+    "paper_name": "relation-algebra-constrained compatibility",
+    "definition": "family logistic compatibility trained with BCE, same-label relation-algebra augmentation, and a fixed linked-counterfactual pairwise margin; at inference, average over the exact proximity-swap or vertical-inverse orbit; support/contact is not blanket-transformed",
+    "source_score_input": false,
+    "source_identity_input": false,
+    "source_specific_exact_label_input": false,
+    "strict_fit": "1061 training scans only; training-only normalization and imputation",
+    "model_bundle_sha256": "62d251f3ce60e2db54eb1748c277350e3b9e2c7c9d2be0312cf2fb323b761410"
+  },
+  "split_firewall": {
+    "train_scans": 1061,
+    "internal_dev_scans": 117,
+    "final_validation_scans": 157,
+    "sets_pairwise_disjoint": true,
+    "final_validation_rows_in_compatibility_fit": 0
+  },
+  "methods": {
+    "source_score": "original source relation score Z",
+    "structured_product": "Z times relation-algebra-constrained compatibility C_alg",
+    "structured_rank_average": "equal mean of deterministic within-context percentile ranks of Z and C_alg",
+    "structured_rrf_c60": "1/(60+rank_Z) + 1/(60+rank_C_alg)",
+    "pooled_product": "Z times strict train-only pooled interaction calibrator M_int",
+    "hard_rule_filter": "rank by Z after retaining only point_subtype statuses satisfied or uncertain",
+    "family_product_continuity": "Z times the previous strict train-only family-specific compatibility",
+    "structured_compatibility_only": "C_alg without Z"
+  },
+  "evaluation": {
+    "sources": ["vlsat", "open3dsg", "sgfn"],
+    "target": "3DSSG/3RScan official validation scope",
+    "contexts": 548,
+    "exact_label_denominator": 3972,
+    "families": ["support_contact", "proximity", "relative_vertical"],
+    "ks": [5, 10, 20, 50, 100],
+    "primary_k": 100,
+    "bootstrap_resamples": 1000,
+    "bootstrap_seed": 20260713,
+    "bootstrap_unit": "relation context",
+    "shared_indices_within_source": true,
+    "violation_all": "violated/(satisfied+uncertain+violated)",
+    "hard_filter_synthetic_fill": false,
+    "report": [
+      "overall Recall and verifier Violation with paired confidence intervals",
+      "within-family metrics with simultaneous family-wise intervals",
+      "global-top-K family composition",
+      "decidable-only violation, uncertainty rate, pessimistic violation, decidable coverage, and status coverage",
+      "proximity swap and vertical inverse-equivariance errors",
+      "linked counterfactual ordering"
+    ]
+  },
+  "claim_boundary": {
+    "allowed": "source-level evidence across VL-SAT, Open3DSG, and SGFN on one fixed geometry-identifiable 3DSSG target",
+    "blocked": [
+      "dataset-level generalization",
+      "prospective or untouched-target wording",
+      "universally optimal fusion",
+      "best-rescorer claim",
+      "independent human physical validity",
+      "support/contact solved claim"
+    ]
+  },
+  "inputs": {
+    "structured_models": "experiments/H001_geom_reliability/relation_algebra_v1/evaluation/models.json",
+    "relation_manifest": "experiments/H001_geom_reliability/relation_algebra_v1/evaluation/manifest.json",
+    "relation_diagnostics": "experiments/H001_geom_reliability/relation_algebra_v1/evaluation/diagnostics.json",
+    "strict_models": "experiments/H001_geom_reliability/train_only_reestablishment_v1/calibration/fitted/models.json",
+    "train_scans": "experiments/H001_geom_reliability/train_only_reestablishment_v1/splits/train_scans.txt",
+    "internal_dev_scans": "experiments/H001_geom_reliability/train_only_reestablishment_v1/splits/internal_dev_scans.txt",
+    "final_validation_scans": "experiments/H001_geom_reliability/train_only_reestablishment_v1/splits/final_validation_scans.txt",
+    "ground_truth": "experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl",
+    "vlsat_verification": "experiments/H001_geom_reliability/sources/vlsat/full_validation/geometry/verification.jsonl",
+    "open3dsg_verification": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/geometry/verification.jsonl",
+    "sgfn_verification": "experiments/H001_geom_reliability/sources/sgfn/geometry/verification.jsonl"
+  }
+}

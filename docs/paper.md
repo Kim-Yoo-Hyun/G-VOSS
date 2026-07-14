@@ -1,8 +1,8 @@
 # Paper Workflow
 
-Last updated: 2026-07-11 KST
+Last updated: 2026-07-14 KST
 
-This document manages paper-level framing for GeoCalib/H001 and the separate
+This document manages paper-level framing for RelCompat3D/H001 and the separate
 H002 compatibility-routing paper: novelty, contribution boundary,
 reviewer-defense logic, and the minimum experiment evidence needed before paper
 writing. It does not replace `docs/hypothesis.md` or Docker experiment artifacts.
@@ -99,23 +99,28 @@ Reviewer-side checklist to simulate before submission:
   ambiguous claim would they point to? Address that point in prose, table,
   figure, or limitation wording before submission.
 
-## GeoCalib Claim Contract
+## RelCompat3D Claim Contract
 
-Paper-facing name: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations`. Use `GeoCalib` in title/abstract/main prose and keep `H001` for internal paths, provenance, and runbooks.
+Paper-facing title: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geometric Compatibility for 3D Scene Graph Relations`. Use `RelCompat3D` as the method name in the abstract and main prose; keep `H001` for internal paths, provenance, and runbooks.
+
+The former paper-facing name `GeoCalib` is retired because it collides with the
+ECCV 2024 single-image camera-calibration method of that name. The existing
+`src/geocalib/` Python namespace and frozen artifact strings remain unchanged
+where renaming would break code or provenance identity.
 
 Draft:
 
-> Semantic relation predictors can rank plausible 3D Scene Graph relations without calibrating them to relation-level physical consistency; calibrated geometry-consistency scoring exposes this failure mode and re-ranks predictions to reduce geometric violations while making recall tradeoffs measurable.
+> Semantic relation predictors can rank plausible 3D Scene Graph relations without matching relation-level geometry; source-score-excluded geometric compatibility exposes this failure and re-ranks predictions while making recall--violation trade-offs measurable.
 
 This is the preferred direction because it contains both cause diagnosis and method principle. Open3DSG second-source metrics are now available, so the paper wording should stay scoped to measured H001 families rather than broaden to full open-vocabulary 3DSSG generation.
 
 Reviewer-defense rules after the independent-validity/family review:
 
-- GeoCalib uses the factorization `T_e` = predicate/family semantics, `G_e` =
+- RelCompat3D uses the factorization `T_e` = predicate/family semantics, `G_e` =
   predicate-independent same-pair geometry, `Z_e` = source confidence, and
-  `C_e = P(y_cal=1 | T_e,G_e)`. Here `y_cal` is the constructed calibration
-  target from train/dev GT positives and high-margin counterfactual negatives;
-  it is not an unqualified human physical-validity label.
+  `C_e = sigmoid(h_a(Phi(T_e,G_e)))`. This bounded score targets constructed
+  GT-positive/counterfactual ordering; it is not a probability of physical
+  validity.
 - Enforce the leakage boundary `Z_e notin C_e`: neither source confidence nor
   source identity is an input to the compatibility calibrator. `Z_e` enters
   only in final ranking `S_e = F(Z_e,C_e)`. Predicate-aligned quantities
@@ -136,9 +141,9 @@ Reviewer-defense rules after the independent-validity/family review:
   until an exact family rule is frozen. New factor/control results are post-hoc
   mechanism diagnostics, not part of the original prospective SGFN gate.
 
-- GeoCalib is a calibrated geometry-consistency framework, not a claim that one
+- RelCompat3D is a calibrated geometry-consistency framework, not a claim that one
   fusion formula is uniquely optimal. Treat the calibrated product
-  (`semantic_score * p_geom_valid_family`) and the pre-specified scale-robust
+  (`semantic_score * p_geom_valid_family`) and the evaluated scale-robust
   rank-average as two soft fusion instantiations. Pooled calibration remains an
   ablation, hard filtering a diagnostic, and RRF a strong comparator.
 - On SGFN, both the calibrated product and rank-average satisfy the joint
@@ -289,8 +294,12 @@ Current metrics and progress do not belong in this rulebook. They are owned by
   unmodified Open3DSG preprocess route; use the 533/548 covered branch as a
   sensitivity check to show the conclusion is not created by the recovery
   policy.
-- Table policy is now fixed: the main source-result table uses VL-SAT
-  full-validation plus Open3DSG full-validation 548/548 recovery. Historical
+- Table policy is now fixed: one joint Recall/Violation table uses VL-SAT,
+  Open3DSG 548/548 recovery, and SGFN at K=`{5,10,20,50,100}`. Its rows are
+  Source score, the RelCompat3D product, rank-average, RRF, and pooled product.
+  A second K=50/100 table contains the frozen six-control ablation; hard
+  filtering remains a construction diagnostic outside the primary table.
+  Historical
   127-scan Open3DSG numbers are appendix/sensitivity evidence only, where the
   representative historical branch is the completed R2 388/388 sensitivity
   branch and the old 377/388 branch is retained as the comparison row. R2
@@ -308,20 +317,22 @@ Current metrics and progress do not belong in this rulebook. They are owned by
   VL-SAT/Open3DSG main-source route and should not widen the main claim unless
   explicitly promoted.
 - Active target-year build uses official `aaai2027` source. Outputs are
-  `paper/aaai/main_aaai27.pdf` (9 pages; technical content through page 7,
-  references only on pages 8--9), `paper/aaai/supplement_aaai27.pdf` (2 pages),
+  `paper/aaai/main_aaai27.pdf` (8 pages; technical content through page 7,
+  references on pages 7--8), `paper/aaai/supplement_aaai27.pdf` (2 pages),
   and `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Final main
-  log: `logs/h001_strengthening_final_build_v2_20260712.log`. The active OpenReview
-  bundle is `release/h001_aaai27_openreview_20260712_083625/`; earlier
-  source-validation PDFs and compact tarballs are historical snapshots.
+  log: `logs/h001_main_figure_refresh_20260714.log`. The verified OpenReview
+  bundle is `release/h001_aaai27_openreview_20260714_170829/`; it contains the
+  synchronized PDFs and focused structured-main supplement. Earlier
+  source-validation PDFs, the 2026-07-12 field bundle, and compact tarballs are
+  historical snapshots.
 
 2026-06-25 H001_v2 decision, superseded in scoring role by the 2026-07-10
 framework-first decision:
 
 - H001_v2 fixed-`tau*` risk-controlled reranking and pooled lambda-soft
   reranking are diagnostic candidate evidence only. Neither should replace the
-  current H001/GeoCalib main result route or be added to the main table.
-- The family-conditional calibrated product remains a soft GeoCalib
+  current H001/RelCompat3D main result route or be added to the main table.
+- The family-conditional calibrated product remains a soft RelCompat3D
   instantiation: `semantic_score * p_geom_valid_family`, where each relation
   family has its own calibrated geometry-risk surface. It is not the unique
   method definition or a universally dominant score.
@@ -350,7 +361,7 @@ Paper workspace ownership:
   `paper/references.bib`, and builds the reproducibility checklist as a
   separate OpenReview PDF. Docker PDF build is verified with
   `h001-aaai27-tex:20260712`; the final main/supplement/checklist build log is
-  `logs/h001_strengthening_final_build_v2_20260712.log`.
+  `logs/h001_structured_main_final_20260713.log`.
 - `archive/paper/iccv/` remains a historical/alternate ICCV-style source route.
 - `paper/figures.md` locks Figure 1-3 source claims, exact values, case IDs, artifacts, and caption constraints; draft SVGs are generated, verified, and layout-reviewed under `paper/generated/figures/`.
 
@@ -412,7 +423,8 @@ Facts:
   object pairs, and mostly orthogonal-axis dominance. Treat this as
   appendix/future-work boundary evidence, not source-metric evidence.
 - `attachment_deferred` is the preferred future relation-family upgrade if H001
-  is expanded beyond the current AAAI claim. It is not current metric evidence.
+  is expanded beyond the current AAAI claim. Its metrics are retrospective
+  development diagnostics, not current main-claim evidence.
   Docker G0 scope/schema audit, G1 extractor contract, G1b evidence-only dry
   run, G1c point/surface estimator validation, G2 verifier-policy design, G3
   train-dev calibration/counterfactual route, G4 GT policy smoke, G4b
@@ -444,9 +456,10 @@ Facts:
   G5c freezes 69 deterministic full-source shards for 135,048 rows, metric
   conditions, control order, and source-specific exact-label denominators:
   VL-SAT covers 967/967 attachment GT rows, while Open3DSG covers 768/967 and
-  has 199 missing exact-label GT rows. This is still contract evidence only
-  because full-source scoring and metrics do not exist. `connected to` has no
-  dev strict rows, so pooled calibration or an explicit caveat is required. This
+  has 199 missing exact-label GT rows. G5d full-source metrics are complete,
+  but mixed source behavior and the verifier-derived target block promotion.
+  `connected to` has no legacy dev strict rows, so pooled calibration or an
+  explicit caveat is required. This
   direction is better aligned with
   the H001
   physical-consistency thesis than `relative_horizontal`, because attachment,
@@ -455,9 +468,20 @@ Facts:
   complexity: it requires validated wall/ceiling/furniture surface evidence,
   local point contact, surface normals, hanging geometry, contradictory support
   handling, and conservative uncertain handling. Treat it as a future upgrade
-  path whose next gates are full-source scoring, two-source metrics, controls,
-  bootstrap CI, and audit before any main-claim
-  promotion.
+  path whose next gates are subtype redesign, mechanism/observability review,
+  rebuilt targets and verifier, and a new model/evaluation lock before any
+  main-claim promotion.
+- Attachment subtype v2 supersedes the legacy nine-subtype framing for future
+  work. It separates predicate semantics, physical mechanism, and
+  observability/applicability; `ambiguous_*` is no longer a physical subtype or
+  automatic calibration label. Counterfactuals inherit their base-positive
+  mechanism. Direct attachment/hanging may use bidirectional compatibility,
+  while `connected to` remains positive-only until direct versus mediated
+  ontology is resolved. No blanket endpoint swap is allowed.
+- The v2 Docker migration covers 761 train/dev and 190,722 official-validation
+  rows. Raw selective fusion fails. The bounded multiplier passes VL-SAT K=100
+  but fails Open3DSG K=100 and VL-SAT K=50. Keep both as transparent
+  development diagnostics; neither is a validated extension or paper result.
 - Qwen-VL is currently a third semantic source / modern VLM extension, not a VL-SAT or Open3DSG replacement.
 - The 2026-05-23 RelWitness full-PDF skim identified a stronger direct novelty threat: RelWitness uses visual-geometric relation witnesses, calibrated witness quality, witness-guided positive-unlabeled learning, and witness-consistent decoding. Its v2 numerical tables are simulated planning values, so it should sharpen H001 wording rather than replace H001's reproduced evidence.
 
@@ -495,7 +519,7 @@ Likely reviewer questions:
 Required defense:
 
 - Present the method as a calibrated framework with explicit design choices, not as a script.
-- Include semantic-only, calibrated product, pre-specified rank-average, RRF,
+- Include semantic-only, calibrated product, evaluated rank-average, RRF,
   pooled calibrated ablation, rule-only diagnostic, and true control variants.
 - Include wrong-pair or shuffled-geometry controls to show the geometry signal is not accidental.
 - Report recall and violation metrics together.
@@ -521,6 +545,10 @@ Required defense:
   and failure/visual audit are resolved or explicitly bounded. Visual labels
   remain optional for a soft protocol, not required for the frozen strict-only
   calibration route.
+  The v2 redesign is the active future route, but its raw and bounded source
+  diagnostics both fail at least one primary/secondary operating point. Require
+  the frozen mechanism review and rebuilt target/verifier contract before any
+  new promotion attempt.
   Function-reasoning examples may be useful as a secondary case study only
   after relation reliability is established.
 - Treat RelWitness-style "relation witness" and "calibrated witness quality" wording as prior-art-adjacent. H001 should claim reproduced calibrated reliability evaluation/re-ranking, source-adapter protocol, recall/violation operating points, and controls, not the mere existence of visual-geometric evidence or calibration.
@@ -529,19 +557,17 @@ Required defense:
 
 Minimum table/figure set before paper writing:
 
-- Table 1: dataset/split/scope and denominator audit.
-- Table 2: main source results with Open3DSG as the open-vocabulary case study,
-  VL-SAT as the controlled anchor, and the fixed
-  `K={5,10,20,50,100}` grid.
-- Table 3: controls and diagnostics separating GeoCalib from geometry-only,
-  distance-only, shuffled-geometry, and wrong-pair explanations.
+- Table 1: joint exact-label Recall and verifier-derived Violation across the
+  three predictors and fixed `K={5,10,20,50,100}` grid; the caption owns the
+  denominator and condition roles.
+- Table 2: K=50/100 wrong-predicate, wrong-pair, shuffled-geometry,
+  label-fixed endpoint-swap, distance-only, and compatibility-only controls.
 - Prose: source-specific claim boundary / non-claims, GT verifier evaluation,
   audit, visual sanity checks, and detailed family rows unless an appendix is
   added. The old claim-boundary table is demoted to prose.
 - Figure 1: failure mechanism and framework overview.
-- Figure 2: recall-violation tradeoff across semantic-only, main GeoCalib
-  family-conditional risk, pooled calibrated ablation, and rule-verified
-  diagnostic points.
+- Figure 2: source-score versus RelCompat3D-product Recall--Violation
+  trajectories over all five K values for each predictor.
 - Figure 3: qualitative failure taxonomy with geometry-backed examples where semantic plausibility and physical consistency diverge.
 
 ## Non-Claims
@@ -598,29 +624,48 @@ Do not claim these until evidence exists:
   points to them. Figures 2 and 3 are full-width evidence figures so their K
   labels, point geometry, and residual case remain legible.
 
-## H001 Current Claim Lock, 2026-07-12
+## H001 Current Claim Lock, 2026-07-13
 
 - Narrative order is failure -> structural cause -> factor-isolation
   necessity -> method -> evidence -> scope/limitations. Repeated defensive
   provenance language belongs in limitations, captions, or the supplement,
   not in the opening contribution pitch.
-- Novelty is the source-independent contract `Z notin C(T,G)`,
+- Novelty is the predictor-agnostic contract `Z notin C(T,G)`,
   identity-preserving geometry join, falsification controls, and joint
   Recall--Violation--uncertainty evaluation. Do not claim a novel or optimal
   fusion formula.
+- The finalized generalization scope is multiple semantic predictors on one
+  geometry-identifiable 3DSSG/3RScan target. Dataset-level generalization is
+  not an active claim; ReplicaSSG/FROSS is de-scoped development provenance.
+- The main compatibility is now linked-counterfactual margin fitting followed
+  by exact proximity-swap / vertical-inverse orbit projection. Paper prose
+  calls it **relation-algebra-constrained compatibility**; the internal
+  `orbit_pairwise_projected_product` name appears only in provenance artifacts.
+  Every comparator row, uncertainty analysis, figure, and table must come from
+  the coordinated `structured_main_v1` strict train-only route; historical
+  baseline rows may appear only as explicitly labeled continuity evidence.
+- Visual Commonsense Driven Knowledge Refinements for Scene Graph Generation
+  (Neau et al., 2026) is a required closest-work citation. It already provides
+  model-agnostic post-hoc SGG refinement, mines symmetry/inverse/composition
+  constraints, and reports Constraint Violation Rate. Therefore do not claim
+  the first post-hoc constraints, first relation-algebra refinement, or first
+  violation metric. The defensible distinction is continuous source-excluded
+  3D same-pair compatibility with identity controls, linked counterfactuals,
+  exact algebra projection, and recall/violation/uncertainty accounting.
 - The 69-parameter nonlinear fusion comparator is parameter-count matched but
   uses disjoint internal-dev source-specific exact-label supervision. Its
   strong SGFN result must be disclosed and blocks best-rescorer claims; its
   extra supervision prevents treating it as the same deployment contract as
-  GeoCalib.
-- K=100 is primary, K=50 canonical secondary, and K=10 operational.
-  Two pre-specified fusion forms pass the SGFN joint gate at K=100. Only the
-  calibrated product is claimed to preserve the tradeoff at smaller budgets;
+  RelCompat3D.
+- K=100 is primary; K=`{5,10,20,50}` are all reported without additional
+  protocol labels.
+  The structured product and rank-average satisfy the SGFN joint criterion at
+  K=100. Only the structured product is claimed to preserve the tradeoff at
+  smaller budgets;
   never state that every source improves Recall at every K.
-- Generalization is source-level across multiple predictors under a fixed,
-  geometry-identifiable 3DSSG target. ReplicaSSG/FROSS is a test-specific
-  transfer-development diagnostic and does not support an external dataset-
-  generalization claim.
+- Generalization evidence is cross-predictor under a shared,
+  geometry-identifiable 3DSSG target. External-dataset generalization is out of
+  scope for the active paper.
 - Codex proxy labels and their consensus evaluation are non-submission
   diagnostics under `paper/paper_nonsub/`. The active AAAI paper contains no
   Codex-derived physical-validity result; independent human construct
@@ -657,4 +702,13 @@ Do not claim these until evidence exists:
   audit, Docker coordinate audit, and Docker bucket inspection are complete, but
   the track is blocked for promotion; do not change the current main claim
   unless a later expansion reaches the current H001 evidence standard.
+- `relative_size` is promoted only as a secondary framework-scope extension:
+  one main-text scope sentence and full supplement analysis. Its learned
+  product passes the frozen K=100 joint
+  gate for VL-SAT, Open3DSG, and SGFN under the 1,061/117/157 firewall. Do not
+  turn this into a learned-formula or best-rescorer claim: a fixed robust-point
+  rule matches or improves its Violation, rank-average does not pass the global
+  four-family Recall guard on every source, and the disjoint point verifier
+  remains a measurement of the same segmented geometry. Keep it out of Figure
+  1, the headline contribution list, and the core learned-method evidence.
 - RelWitness full-PDF skim is complete for v2. Before submission, check whether a newer RelWitness version adds reproduced results, code, arbitrary-source adapters, `Violation@K`, or wrong-pair/shuffled-geometry controls.

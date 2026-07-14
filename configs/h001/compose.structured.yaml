@@ -1,0 +1,72 @@
+services:
+  relation_algebra_development:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/geocalib/run_relation_algebra_development.py]
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/relation_algebra_v1/protocol.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/relation_algebra_v1/evaluation
+
+  structured_main_evaluation:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/geocalib/run_structured_main_evaluation.py]
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/structured_main_v1/protocol.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/structured_main_v1/evaluation
+
+  scan_cluster_sensitivity:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/geocalib/run_scan_cluster_sensitivity.py]
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/structured_main_v1/scan_cluster_protocol.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/structured_main_v1/scan_cluster_sensitivity
+
+  structured_ablation_evaluation:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/geocalib/run_structured_ablation_evaluation.py]
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/structured_ablation_v1/protocol.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/structured_ablation_v1/evaluation

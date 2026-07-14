@@ -28,64 +28,54 @@ problem an AI reliability issue, not only a 3DSSG implementation detail:
 language-facing and embodied systems can inherit a confident symbolic relation
 that contradicts the underlying world state.
 
-The resulting design requirement is factor isolation. \method{} treats an existing
-predictor as a relation source, standardizes its outputs into
-identity-preserving prediction rows, joins object-pair geometry evidence by
-subject and object instance identifiers, and separates predicate/family
-semantics $T$, predicate-independent same-pair geometry $G$, and source score
-$Z$. A source-independent compatibility factor
-$C=P(y^{cal}=1\mid T,G)$ is calibrated without $Z$; the source score enters
-only in the final ranking $F(Z,C)$. This separation makes the mechanism
-falsifiable: wrong predicates, wrong pairs, and shuffled geometry should
-destroy compatibility while source confidence remains unchanged. A
-family-calibrated product preserves source-score
-magnitudes while penalizing family-conditioned geometry risk; rank-average
-combines semantic and geometry percentiles without assuming shared source
-scales. Pooled compatibility calibration is an ablation, Reciprocal Rank
-Fusion is a strong comparison, and hard-rule filtering is a diagnostic rather
-than the proposed operating point.
-Figure~\ref{fig:framework} summarizes this path.
+This failure suggests a factor-isolated design. \method{} preserves each
+relation candidate's subject--object identity, joins its reconstructed geometry,
+and separates predicate semantics $T$, same-pair geometry $G$, and source score
+$Z$. A predictor-agnostic compatibility model excludes $Z$ and predictor
+identity; $Z$ enters only during re-ranking. Linked counterfactuals teach the
+model which geometry supports a predicate, while orbit projection enforces
+proximity symmetry and vertical inverse equivariance exactly. The resulting
+structured product retains source-score magnitudes, and scale-robust fusion,
+family-conditioning, and rule-filtering comparisons isolate its behavior.
+Figure~\ref{fig:framework} summarizes the framework.
 
 \begin{figure*}[t]
     \centering
-    \figmaybe[width=0.98\linewidth]{../generated/figures/figure1_framework.png}
-    \caption{\textbf{Failure mechanism and GeoCalib overview.} A high-scoring
+    \figmaybe[width=0.98\linewidth]{../generated/figures/figure1_framework.pdf}
+    \caption{\textbf{Failure mechanism and \method{} overview.} A high-scoring
     Open3DSG relation is contradicted by the actual ordered-pair geometry.
-    GeoCalib preserves pair identity, isolates predicate semantics $T$, raw
-    geometry $G$, and source confidence $Z$, estimates $C(T,G)$ without $Z$,
-    and combines the factors only for re-ranking. Falsification controls test
-    whether the recall--violation trade-off depends on the correct predicate
-    and object pair.}
+    \method{} preserves the relation-row identity, isolates predicate semantics
+    $T$, same-pair geometry $G$, and source confidence $Z$, and estimates
+    $\calg(T,G)$ without $Z$. In the shown case, low compatibility moves the
+    relation from rank 19 to 304. Linked-counterfactual and relation-algebra
+    controls test the factorization; evaluation jointly reports exact-label
+    recall and verifier-derived violation.}
     \label{fig:framework}
 \end{figure*}
 
 We evaluate support/contact, proximity, and relative-vertical relations because
 their constraints are identifiable from reconstructed ordered-pair geometry.
-Open3DSG supplies the main open-vocabulary case study, VL-SAT a controlled
-closed-set anchor, and SGFN an additional source evaluation
+Open3DSG, VL-SAT, and SGFN provide complementary open-vocabulary and closed-set
+predictors
 \cite{wang2023vlsat,koch2024open3dsg}. The evaluation reports exact-label
-recall together with verifier violation, uncertainty, coverage, paired
-confidence intervals, and family composition. ReplicaSSG/FROSS provides a
-cross-dataset transfer stress test and development diagnostic for source-scale
-and ranking-transfer failures.
+recall together with verifier-derived violation, uncertainty, coverage, paired
+confidence intervals, and family composition. We do not extrapolate this
+cross-predictor evidence across dataset ontologies.
 
 Our contributions are threefold:
 \begin{enumerate}
-    \item We identify and measure a post-source failure: a semantically
-    confident relation can contradict the reconstructed geometry of its actual
-    ordered object pair. We expose it through a joint exact-label recall,
-    verifier-violation, uncertainty, and coverage contract.
-    \item We introduce a factor-isolated reliability layer that estimates
-    predicate-conditioned compatibility $C(T,G)$ under $Z\notin C$ and combines
-    it with source confidence only during re-ranking. Identity,
-    wrong-predicate, and transformation controls make the mechanism falsifiable.
-    \item We establish source-level generalization across VL-SAT, Open3DSG, and
-    SGFN under one geometry-identifiable 3DSSG target, and expose family
-    heterogeneity and cross-dataset transfer failures rather than averaging
-    them away.
+    \item We formalize the mismatch between relation confidence and
+    instance-level geometric consistency through identity-preserving evaluation
+    and joint exact-label Recall@$K$--verifier-derived Violation@$K$.
+    \item We introduce a source-score-excluded compatibility model that combines
+    linked counterfactual ordering with exact projection onto the applicable
+    relation-algebra orbit.
+    \item We apply one unchanged compatibility model to VL-SAT, Open3DSG, and
+    SGFN, evaluating cross-predictor robustness with strong fusion baselines,
+    factor controls, uncertainty sensitivity, and family decomposition.
 \end{enumerate}
 
-The calibrated product improves the recall--violation operating point on the
-failure-exposing Open3DSG source, preserves a near-saturated VL-SAT anchor, and
-satisfies the primary joint criterion on SGFN. These results establish a reliability
-layer for geometry-checkable relations rather than a new relation generator.
+The structured product improves the aggregate $K=100$ recall--violation
+operating point for all three predictors, while smaller budgets expose
+predictor-dependent trade-offs. The result is a reliability layer for
+geometry-checkable relations rather than a replacement relation generator.

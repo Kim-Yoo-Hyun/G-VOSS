@@ -6,7 +6,7 @@ Last updated: 2026-07-11
 
 논문별 폴더에는 가능한 경우 원문 PDF를 `paper.pdf`로 저장한다.
 
-Latest check: 2026-05-23, focused on H001/CAND-001 novelty-threat expansion for relation-level visual-geometric evidence, open-world/open-vocabulary 3DSG, VLM-based zero-shot/incremental graph generation, and graph-mediated 3D grounding. Primary sources checked in this pass include arXiv, AAAI proceedings, and CVF Open Access.
+Latest check: 2026-07-13, adding the direct post-hoc SGG constraint-refinement threat `Visual Commonsense Driven Knowledge Refinements for Scene Graph Generation` (arXiv:2606.06369v1). Earlier H001/CAND-001 passes covered relation-level visual-geometric evidence, open-world/open-vocabulary 3DSG, VLM-based zero-shot/incremental graph generation, and graph-mediated 3D grounding. Primary sources include arXiv, AAAI proceedings, and CVF Open Access.
 
 ## Files
 

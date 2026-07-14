@@ -1,0 +1,129 @@
+{
+  "schema_version": "h001_relation_algebra_development_protocol_v1",
+  "status": "frozen_before_relation_algebra_development_execution",
+  "created_at_kst": "2026-07-13",
+  "classification": "retrospective_3dssg_only_method_development_not_prospective_confirmation",
+  "purpose": "Test whether relation-algebra constraints and linked counterfactual ordering provide method specificity beyond generic engineered-feature calibration or a source-supervised nonlinear rescorer.",
+  "claim_scope": {
+    "dataset": "3DSSG/3RScan only",
+    "sources": [
+      "VL-SAT",
+      "Open3DSG",
+      "SGFN"
+    ],
+    "families": [
+      "support_contact",
+      "proximity",
+      "relative_vertical"
+    ],
+    "blocked": [
+      "dataset-level generalization",
+      "prospective or untouched-target wording",
+      "best-rescorer or universally optimal fusion",
+      "family-uniform improvement",
+      "independent physical validity"
+    ]
+  },
+  "firewall": {
+    "train_scans": 1061,
+    "internal_dev_scans": 117,
+    "final_validation_scans": 157,
+    "normalization_and_fit": "train only",
+    "internal_dev": "report all attempt diagnostics without winner-only filtering",
+    "official_validation": "retrospective benchmark evaluation of every frozen attempt",
+    "source_score_in_compatibility": false,
+    "source_identity_in_compatibility": false
+  },
+  "attempts": {
+    "family_product": {
+      "role": "continuity reference",
+      "description": "existing train-only family logistic compatibility multiplied by source confidence"
+    },
+    "orbit_projection_product": {
+      "role": "parameter-free structural projection",
+      "description": "average compatibility over the relation-algebra orbit: close-by endpoint swap or vertical endpoint swap plus inverse predicate; support/contact unchanged"
+    },
+    "orbit_augmented_product": {
+      "role": "structured training attempt",
+      "description": "refit the original family feature basis with same-label relation-algebra transforms appended for proximity and relative vertical"
+    },
+    "pairwise_margin_product": {
+      "role": "linked-counterfactual attempt",
+      "description": "refit with BCE plus a fixed pairwise softplus margin between each GT positive and its exported high-margin counterfactual negative"
+    },
+    "orbit_pairwise_product": {
+      "role": "combined training attempt",
+      "description": "combine relation-algebra augmentation and linked-counterfactual pairwise loss"
+    },
+    "orbit_pairwise_projected_product": {
+      "role": "combined structured projection attempt",
+      "description": "project the combined orbit-plus-pairwise model onto the exact relation-algebra orbit at inference"
+    },
+    "algebra_basis_product": {
+      "role": "architecture-constrained attempt",
+      "description": "fit only algebra-invariant proximity features and inverse-equivariant vertical features; retain the frozen support/contact calibrator because no valid blanket transform exists"
+    }
+  },
+  "relation_algebra": {
+    "proximity": "close_by(s,o) = close_by(o,s)",
+    "relative_vertical": "higher_than(s,o) = lower_than(o,s)",
+    "support_contact": "no blanket endpoint transform",
+    "projection": "C_alg(e) = mean_{g in orbit(e)} C(g e)"
+  },
+  "optimizer": {
+    "epochs": 800,
+    "learning_rate": 0.2,
+    "l2": 0.0001,
+    "initial_weights": 0.0,
+    "batching": "deterministic_full_batch",
+    "pairwise_loss": "softplus(margin - (logit_positive - logit_negative))",
+    "pairwise_margin": 1.0,
+    "pairwise_weight": 0.25,
+    "hyperparameter_selection": "none; one fixed pairwise setting and all attempts reported"
+  },
+  "evaluation": {
+    "ks": [
+      5,
+      10,
+      20,
+      50,
+      100
+    ],
+    "primary_k": 100,
+    "exact_label_denominator": 3972,
+    "contexts": 548,
+    "bootstrap_resamples": 1000,
+    "bootstrap_unit": "relation context",
+    "bootstrap_seed": 20260713,
+    "report": [
+      "train and internal-dev calibration metrics",
+      "linked counterfactual win rate and logit margin",
+      "proximity swap error",
+      "vertical inverse-equivariance error",
+      "wrong-predicate discrimination",
+      "overall Recall and verifier Violation",
+      "within-family and global-top-K family slices",
+      "paired confidence intervals against source and existing family product"
+    ]
+  },
+  "promotion_gate": {
+    "structural": "maximum proximity-swap and vertical-inverse error <= 1e-10",
+    "all_source_k100_vs_source": "delta Recall paired-CI lower bound >= -0.01 and delta verifier-V paired-CI upper bound < 0 on VL-SAT, Open3DSG, and SGFN",
+    "continuity_vs_family_product": "delta Recall paired-CI lower bound >= -0.01 on all three sources; report verifier-V direction without winner-only filtering",
+    "novelty": "must improve exact structural validity and linked-counterfactual ordering without consuming source score, source identity, or source-specific exact-label supervision",
+    "note": "Passing this retrospective development gate can justify a stronger mechanism framing, not prospective confirmation or dataset generalization."
+  },
+  "inputs": {
+    "calibration_table": "experiments/H001_geom_reliability/train_only_reestablishment_v1/calibration/export/table.jsonl",
+    "train_scans": "experiments/H001_geom_reliability/train_only_reestablishment_v1/splits/train_scans.txt",
+    "internal_dev_scans": "experiments/H001_geom_reliability/train_only_reestablishment_v1/splits/internal_dev_scans.txt",
+    "final_validation_scans": "experiments/H001_geom_reliability/train_only_reestablishment_v1/splits/final_validation_scans.txt",
+    "current_models": "experiments/H001_geom_reliability/train_only_reestablishment_v1/calibration/fitted/models.json",
+    "ground_truth": "experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl",
+    "internal_dev_verification": "experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev/geometry/verification.jsonl",
+    "internal_dev_ground_truth": "experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev_ground_truth.jsonl",
+    "vlsat_verification": "experiments/H001_geom_reliability/sources/vlsat/full_validation/geometry/verification.jsonl",
+    "open3dsg_verification": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/geometry/verification.jsonl",
+    "sgfn_verification": "experiments/H001_geom_reliability/sources/sgfn/geometry/verification.jsonl"
+  }
+}

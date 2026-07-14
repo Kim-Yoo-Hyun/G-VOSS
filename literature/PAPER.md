@@ -61,6 +61,7 @@ Last updated: 2026-07-11
 | [ToLL](https://arxiv.org/abs/2603.28178) | arXiv 2026 | TBD | Candidate | topological geometry reasoning을 3DSG pretraining proxy로 사용 |
 | [3D-VCD](https://arxiv.org/abs/2604.08645) | CVPR 2026 accepted / arXiv | `literature/2026_cvpr_3d-vcd/` | Read | distorted 3D scene graph와 visual contrastive decoding으로 3D-LLM hallucination을 줄임 |
 | [RelWitness: Open-Vocabulary 3D Scene Graph Generation with Visual-Geometric Relation Witnesses](https://arxiv.org/abs/2605.20823) | arXiv 2026 | `literature/2026_arxiv_relwitness/` | Full-PDF novelty-threat skim | direct H001 novelty threat: visual-geometric relation witnesses plus calibrated witness quality for open-vocabulary 3DSG under incomplete relation supervision; v2 numerical tables are simulated planning values |
+| [Visual Commonsense Driven Knowledge Refinements for Scene Graph Generation](https://arxiv.org/abs/2606.06369) | arXiv 2026 | `literature/2026_arxiv_visual-commonsense-refinement/` | Novelty-threat skimmed | direct post-hoc refinement threat: mines spatial/functional and symmetry-inverse-composition constraints, refines fixed SGG outputs, and reports Constraint Violation Rate |
 
 ## CAND-001 Evidence View
 

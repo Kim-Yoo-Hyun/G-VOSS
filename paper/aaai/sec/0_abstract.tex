@@ -1,22 +1,17 @@
 \begin{abstract}
-3D Scene Graph predictors can assign high scores to relations that sound
-plausible but fail explicit geometry tests for the predicted object pair. We
-study this mismatch as a calibration problem: a source relation score ranks
-candidates but need not estimate predicate-conditioned geometric consistency. We
-introduce \method{}, a reliability framework for geometry-checkable relations.
-It separates predicate semantics $T$, predicate-independent same-pair geometry
-$G$, and source score $Z$; fits a predicate-conditioned compatibility
-$C(T,G)$ without access to $Z$; and combines $Z$ and $C$ only when re-ranking.
-We instantiate the framework with a family-calibrated product and a
-parameter-free rank-average fusion, and evaluate both with exact-label
-Recall@$K$ and verifier Violation@$K$. On the Open3DSG source, the calibrated
-product improves Recall@100 from 0.5161 to 0.6047 while reducing Violation@100
-from 0.1242 to 0.0341. At the primary $K=100$ endpoint, both evaluated
-fusion rules satisfy the joint recall--violation criterion on SGFN. The calibrated
-product remains effective at smaller
-operating budgets, including $K=50$ and $K=10$, while factor-isolation,
-counterfactual, and object-pair identity controls reject score-copying and
-distance-only explanations. Across three predictors on a fixed 3DSSG target,
-the results support source-level generalization for geometry-identifiable
-relations; support/contact and transfer to a different dataset remain open.
+3D Scene Graph predictors can assign high confidence to relation candidates
+whose predicates are inconsistent with reconstructed object-pair geometry. We
+formulate this as a post-source compatibility problem and introduce \method{},
+which separates predicate semantics, same-pair geometry, and source
+confidence. Its predictor-agnostic compatibility model is trained without
+source scores using linked positive--counterfactual ordering and is projected
+onto the applicable proximity and vertical relation-algebra orbits. Source
+confidence is introduced only during re-ranking. We evaluate exact-label
+Recall@$K$ jointly with verifier-derived Violation@$K$ across VL-SAT,
+Open3DSG, and SGFN on a shared 3DSSG target. At $K=100$, \method{} improves
+Open3DSG Recall from 0.5161 to 0.6055 while reducing Violation from 0.1242 to
+0.0339, with analogous aggregate gains on VL-SAT and SGFN. Strong fusion
+baselines, factor controls, uncertainty sensitivity, and family-wise analysis
+show that the gains transfer across predictors while contact-heavy relations
+remain challenging.
 \end{abstract}

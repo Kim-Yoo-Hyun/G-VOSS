@@ -1,0 +1,152 @@
+{
+  "diagnosis": [
+    "Legacy subtype names mix physical mechanisms with ambiguity/observability states.",
+    "Policy-selected ambiguous rows entered the legacy strict calibration subset.",
+    "Connected-to has no strict dev rows and cannot support label-specific calibration.",
+    "Near-perfect legacy strict-subset separation is not independent mechanism evidence."
+  ],
+  "legacy_ambiguous_strict_rows": 199,
+  "legacy_strict_rows": 325,
+  "official_validation_reference": {
+    "expected_scored_rows": 190722,
+    "validation_errors": 0
+  },
+  "official_validation_route_audit": {
+    "by_applicability": {
+      "abstain": 97002,
+      "bidirectional_compatibility": 74433,
+      "positive_compatibility_only": 19287
+    },
+    "by_mechanism": {
+      "attachment_mechanism_unresolved": 35672,
+      "connection_mechanism_unresolved": 44287,
+      "direct_contiguous_connection": 19287,
+      "object_or_fixture_attachment": 15762,
+      "overhead_suspension": 2950,
+      "planar_surface_attachment": 12140,
+      "suspension_mechanism_unresolved": 17043,
+      "vertical_surface_suspension": 43581
+    },
+    "by_observability": {
+      "directly_observable": 74433,
+      "mechanism_unresolved": 52715,
+      "mediator_or_path_unobserved": 44287,
+      "positive_evidence_only": 19287
+    },
+    "by_predicate": {
+      "attached to": 63574,
+      "connected to": 63574,
+      "hanging on": 63574
+    },
+    "by_source": {
+      "open3dsg_ov": 80298,
+      "vlsat_closed_set": 110424
+    },
+    "by_source_predicate_applicability": {
+      "open3dsg_ov:attached to": {
+        "abstain": 15078,
+        "bidirectional_compatibility": 11688
+      },
+      "open3dsg_ov:connected to": {
+        "abstain": 18060,
+        "positive_compatibility_only": 8706
+      },
+      "open3dsg_ov:hanging on": {
+        "abstain": 7442,
+        "bidirectional_compatibility": 19324
+      },
+      "vlsat_closed_set:attached to": {
+        "abstain": 20594,
+        "bidirectional_compatibility": 16214
+      },
+      "vlsat_closed_set:connected to": {
+        "abstain": 26227,
+        "positive_compatibility_only": 10581
+      },
+      "vlsat_closed_set:hanging on": {
+        "abstain": 9601,
+        "bidirectional_compatibility": 27207
+      }
+    },
+    "evidence_files": 99,
+    "rows": 190722
+  },
+  "schema_version": "h001_attachment_subtype_redesign_v2",
+  "status": "attachment_subtype_v2_frozen_no_refit_no_source_metrics",
+  "train_dev_migration": {
+    "by_applicability": {
+      "abstain": 370,
+      "bidirectional_compatibility": 373,
+      "positive_compatibility_only": 18
+    },
+    "by_legacy_subtype": {
+      "ambiguous_draped_or_occluded_hanging": 80,
+      "ambiguous_functional_attachment": 370,
+      "ambiguous_functional_connection": 2,
+      "attached_to_furniture_or_fixture": 27,
+      "attached_to_vertical_or_overhead_surface": 226,
+      "connected_adjacent_or_contiguous": 16,
+      "hanging_from_overhead_or_fixture": 3,
+      "hanging_from_vertical_surface": 37
+    },
+    "by_mechanism": {
+      "attachment_mechanism_unresolved": 370,
+      "direct_contiguous_connection": 18,
+      "object_or_fixture_attachment": 12,
+      "overhead_suspension": 9,
+      "planar_surface_attachment": 241,
+      "vertical_surface_suspension": 111
+    },
+    "by_migration_disposition": {
+      "candidate_strict_calibration": 311,
+      "exclude_from_compatibility_fit": 370,
+      "mechanism_review_required": 62,
+      "positive_evidence_only_no_negative_target": 18
+    },
+    "by_observability": {
+      "directly_observable": 373,
+      "mechanism_unresolved": 370,
+      "positive_evidence_only": 18
+    },
+    "by_predicate": {
+      "attached to": 623,
+      "connected to": 18,
+      "hanging on": 120
+    },
+    "by_predicate_applicability": {
+      "attached to": {
+        "abstain": 370,
+        "bidirectional_compatibility": 253
+      },
+      "connected to": {
+        "positive_compatibility_only": 18
+      },
+      "hanging on": {
+        "bidirectional_compatibility": 120
+      }
+    },
+    "by_route_origin": {
+      "base_positive_lineage": 446,
+      "positive_row_evidence": 315
+    },
+    "strict_candidate_by_split_predicate_target": {
+      "dev:attached to": {
+        "0": 26,
+        "1": 15
+      },
+      "dev:hanging on": {
+        "0": 30,
+        "1": 12
+      },
+      "train:attached to": {
+        "0": 90,
+        "1": 67
+      },
+      "train:hanging on": {
+        "0": 50,
+        "1": 21
+      }
+    }
+  },
+  "train_dev_rows": 761
+}

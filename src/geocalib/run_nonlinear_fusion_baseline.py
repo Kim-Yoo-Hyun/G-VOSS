@@ -334,13 +334,14 @@ def main() -> int:
     subgraphs = sorted(set(grouped) | set(final_gt))
     metrics = summarize(metric_contributions(grouped, final_gt, subgraphs), subgraphs, 20260712, 1000)
     serialized_params = {name: value.tolist() for name, value in params.items()}
+    expected_final_rows = int(protocol["evaluation"].get("expected_in_scope_rows", 220848))
     validations = {
         "parameter_count_exactly_69": PARAMETER_COUNT == 69,
         "train_contexts_354": stats["contexts"] == 354,
         "train_gt_denominator_2730": train_den == 2730,
         "final_contexts_548": len(subgraphs) == 548,
         "final_gt_denominator_3972": final_den == 3972,
-        "final_in_scope_rows_expected_220848": final_rows == 220848,
+        "final_in_scope_rows_expected": final_rows == expected_final_rows,
         "finite_parameters": all(np.isfinite(value).all() for value in params.values()),
         "final_rows_not_used_for_fit_or_normalization": True,
     }

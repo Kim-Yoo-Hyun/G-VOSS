@@ -1,19 +1,15 @@
-\section{Source and Preprocessing Provenance}
+\section{Model and Preprocessing Details}
 
 \paragraph{Open3DSG.}
-The main source-output case study uses the official non-averaged BLIP checkpoint
-\texttt{epoch=13-step=13104.ckpt}. It was selected by train/dev validation loss,
-not by the held-out GeoCalib result. The documented recovery route covers all
+Open3DSG uses the official non-averaged BLIP checkpoint
+\texttt{epoch=13-step=13104.ckpt}, selected by train/dev validation loss.
+The preprocessing recovery covers all
 548 evaluation contexts by setting the minimum visible-object count to two and
 regenerating relaxed views for two scans. The unmodified public-source route
-covers 533/548 contexts. An older 127-scan workflow covered 377/388 contexts;
-its corrected comparison covers 388/388 and changes Recall@100 by 0.28
-percentage points. These older branches are provenance/sensitivity evidence,
-not separate main results or candidate selection criteria.
+covers 533/548 contexts. The release manifest records the checkpoint hash,
+preprocessing configuration, and recovered-context inventory.
 
 \paragraph{SGFN.}
 We use the official \texttt{full\_l160} source with its 160-object,
-26-relation checkpoint. A pre-execution audit corrected the dataset-list name
-and an incompatible \texttt{l20} checkpoint URL. The evaluated scans,
-denominator, methods, and tensor-shape checks are recorded in the submitted
-artifacts.
+26-relation checkpoint. The evaluated scans, denominator, methods, and
+tensor-shape checks are recorded in the supplemental package.

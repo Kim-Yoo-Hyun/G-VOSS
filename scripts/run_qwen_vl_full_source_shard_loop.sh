@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -u
 
-REPO_ROOT="${REPO_ROOT:-/home/yoohyun/research}"
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+REPO_ROOT="${REPO_ROOT:-$(cd -- "$SCRIPT_DIR/.." && pwd)}"
 RUN_ID="${QWEN_VL_LOOP_RUN_ID:-$(date +%Y%m%d_%H%M%S)}"
 START_SUFFIX="${QWEN_VL_LOOP_START_SUFFIX:-0001}"
 END_SUFFIX="${QWEN_VL_LOOP_END_SUFFIX:-0133}"

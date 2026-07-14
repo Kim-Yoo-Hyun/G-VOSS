@@ -1,13 +1,60 @@
 # Attachment Deferred Expansion Track
 
-Last updated: 2026-06-06 KST
+Last updated: 2026-07-13 KST
 
-Status: `attachment_deferred_g5d_full_source_metrics_ready`
+Status: `attachment_subtype_v2_development_diagnostic_ready`
 
 This folder tracks the optional `attachment_deferred` expansion path for H001.
 It is not part of the current AAAI main claim. It is the preferred next
 relation-family expansion if the paper strategy pivots beyond the current
 `support_contact`, `proximity`, and `relative_vertical` scope.
+
+The latest work is the v2 subtype redesign under `subtype_redesign_v2/`.
+The earlier G0--G5d route below is preserved as legacy diagnostic provenance;
+its nine subtype names are no longer the recommended taxonomy.
+
+## Attachment Subtype Redesign v2
+
+Docker `attachment_subtype_redesign_v2` separates three axes that the legacy
+nine-subtype policy conflated:
+
+- predicate semantics: `attached to`, `hanging on`, `connected to`;
+- physical mechanism: planar/object attachment, vertical/overhead suspension,
+  or direct contiguous connection;
+- observability/applicability: bidirectional compatibility, positive-only
+  evidence, or abstention.
+
+Ambiguous, functional, occluded, and mediator-missing cases are no longer
+physical subtypes or automatic negative labels. Counterfactuals inherit the
+mechanism route of their base positive instead of being re-routed from their
+deliberately corrupted geometry. `connected to` remains positive-only until an
+ontology review distinguishes direct from cable/pipe/fixture-mediated
+connections. No blanket endpoint swap is allowed.
+
+The migration audit covers all 761 train/dev rows and all 190,722 official-
+validation source rows with zero validation errors. Of the legacy 325 strict
+rows, 199 used an `ambiguous_*` subtype. The v2 route yields 311 candidate
+strict rows (attached 198; hanging 113), 62 mechanism-review rows, 18
+connected-to positive-only rows, and 370 abstained train/dev rows. On official
+validation, 74,433 rows use fitted bidirectional compatibility, 19,287 are
+positive-only, and 97,002 abstain. A blinded 100-row mechanism/observability
+queue is frozen at `subtype_redesign_v2/mechanism_review_queue.csv`.
+
+Two Docker source diagnostics are preserved:
+
+- `development_diagnostic_v1/`: raw selective product. It increases
+  Violation at K=100 for both sources and fails.
+- `development_diagnostic_v2/`: parameter-free bounded multiplier
+  `m(C)=0.5+C` on direct routes and `m=1` on neutral routes. At K=100 it passes
+  on VL-SAT (dR `0.00000`, dV `-0.00111`) but fails on Open3DSG
+  (dR `-0.04752`, dV `+0.01145`). It also fails VL-SAT at K=50.
+
+These are retrospective method-development diagnostics using the legacy
+verifier for Violation. They do not establish independent construct validity,
+do not replace the current RelCompat3D method, and are not paper-result or
+main-claim evidence. A promotable v2 needs the frozen mechanism review, rebuilt
+targets and verifier contract, nonempty train/internal-dev support for every
+mechanism, a new model/score hash, and a separate evaluation lock.
 
 Consolidated relation expansion status is tracked in
 `../relation_expansion_status.md`.

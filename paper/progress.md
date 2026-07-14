@@ -1,36 +1,46 @@
 # H001 Experiment Progress Rationale
 
-Last updated: 2026-07-12 KST
+Last updated: 2026-07-14 KST
 
 This document explains why H001 moved from hypothesis checks to Docker paper
 experiments, why each next experiment was introduced, and how the key results
 should be interpreted. It is a progress rationale, not a replacement for
 `paper/draft.md`, `paper/preview.md`, or the Docker result tables.
 
-Paper-facing name: `GeoCalib: Calibrating Geometric Consistency for Reliable 3D Scene Graph Relations`; `H001` remains the internal experiment identifier.
+Paper-facing name: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geometric Compatibility for 3D Scene Graph Relations`; `H001` remains the internal experiment identifier.
 
 Current progress snapshot:
 
-- Main source-result evidence is complete for the scoped GeoCalib claim.
-- The family-calibrated product is a principal GeoCalib instantiation; pooled
-  compatibility product is an ablation, and compatibility-only ranking is a
-  control. Internal artifact keys are retained only in experiment records.
+- Main source-result evidence is complete for the scoped RelCompat3D claim.
+- Six relation-algebra candidates and an unchanged nonlinear cross-source
+  transfer diagnostic are complete. Only projected pairwise compatibility
+  passes the frozen structural/continuity gate; the nonlinear model loses
+  Recall outside its SGFN training source.
+- The projected pairwise compatibility is promoted as the main
+  relation-algebra-constrained product; pooled compatibility product is an
+  ablation, and compatibility-only ranking is a control. Internal artifact
+  keys are retained only in experiment records.
 - Low-K reporting is accepted for K = `{5,10,20,50,100}`; point-metric provenance is present in both paper-facing `metrics_k_sweep/` roots, and K=1 remains sanity-check only.
 - Qwen-VL full official validation downstream is complete as appendix/extension evidence, not as a main-source replacement.
 - Active target-year build is
-  `logs/h001_strengthening_final_build_v2_20260712.log`, exit 0.
-  `main_aaai27.pdf` is 9 pages with technical content on pages 1--7
-  and references only on pages 8--9; supplement/checklist are separate 2/2-page
-  PDFs. The verified OpenReview bundle is
-  `release/h001_aaai27_openreview_20260712_083625/`.
-- Remaining work is author-side OpenReview metadata, public-license/artifact
-  choice, and an optional separately authorized human-alignment study, not new
-  main-source metrics.
+  `logs/h001_main_figure_refresh_20260714.log`, exit 0.
+  `main_aaai27.pdf` is 8 pages with technical content through page 7
+  and references on pages 7--8; supplement/checklist are separate 2/2-page
+  PDFs. Relative size is included only as one main-text scope sentence and a
+  full supplement section. The verified OpenReview bundle is
+  `release/h001_aaai27_openreview_20260714_170829/`.
+- The main-method choice and full strict-route comparator/figure rebuild are
+  complete. Author-side OpenReview metadata, public-license/artifact choice,
+  and optional human alignment remain separate tasks.
 - Non-human strengthening is complete: method hyperparameters and exact metric
   denominators are explicit; strong fusion/filter/pooled baselines and family
-  composition are reported; recent closest-work boundaries are added; and a
-  frozen uncertainty sensitivity rules out uncounted uncertain rows as the
+  composition are reported; recent closest-work boundaries are added; and an
+  uncertainty sensitivity rules out uncounted uncertain rows as the
   source of the Violation reduction.
+- The fixed-model K=50/100 ablation suite is complete. The main manuscript now
+  combines Recall and Violation at all five K values into one table and uses a
+  single-column second table for wrong-predicate, wrong-pair, shuffled-geometry,
+  label-fixed endpoint-swap, distance-only, and compatibility-only controls.
 
 ## Research Claim Being Tested
 
@@ -43,11 +53,13 @@ geometry-consistency scoring can expose and reduce semantically plausible but
 physically inconsistent relation predictions while reporting recall tradeoffs.
 ```
 
-The claim is restricted to `support_contact`, `proximity`, and
-`relative_vertical`. This scope exists because these families can be checked by
+The core learned-method claim is restricted to `support_contact`, `proximity`,
+and `relative_vertical`. This scope exists because these families can be checked by
 explicit 3D geometry. Functional, social, affordance, relative-horizontal, and
 open-ended language relations were not promoted into the main claim because the
-current verifier evidence does not cover them.
+current verifier evidence does not cover them. Relative size is a secondary
+scope extension in the supplement, not core evidence, because its fixed point
+rule matches the learned score.
 
 ## Stage 1: H001-Mini Smoke
 
@@ -110,7 +122,7 @@ Interpretation:
   it should not be framed as the default method because a reviewer could read
   it as simply filtering away difficult relations.
 - `family_conditional_risk` showed a stronger violation-reduction operating
-  point; in the current paper-facing narrative it is promoted to the GeoCalib
+  point; in the current paper-facing narrative it is promoted to the RelCompat3D
   main score, while pooled `probabilistic_recalibrated` remains an ablation.
 
 Why we moved on:
@@ -375,13 +387,13 @@ Key VL-SAT full-validation result:
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
 | `semantic_only` | 0.4194 | 0.6322 | 0.8074 | 0.9272 | 0.9635 | 0.0029 | 0.0082 | 0.0142 | 0.0268 | 0.0476 | full official source ranking |
 | `probabilistic_recalibrated` | 0.4154 | 0.6322 | 0.8107 | 0.9305 | 0.9688 | 0.0015 | 0.0071 | 0.0120 | 0.0229 | 0.0404 | pooled calibrated-risk ablation |
-| `family_conditional_risk` | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 | GeoCalib main score |
+| `family_conditional_risk` | 0.4162 | 0.6309 | 0.8087 | 0.9288 | 0.9683 | 0.0011 | 0.0051 | 0.0109 | 0.0206 | 0.0333 | historical continuity score |
 | `rule_verified_point_subtype` | 0.4197 | 0.6317 | 0.8074 | 0.9257 | 0.9627 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | hard-filter diagnostic |
 
 Interpretation:
 
 - The full official validation route preserves the main qualitative pattern:
-  the family-conditional GeoCalib score reduces violation while maintaining or
+  the family-conditional RelCompat3D score reduces violation while maintaining or
   slightly improving recall, pooled calibration is a recall-favoring ablation,
   and rule filtering reaches zero violation with a small recall tradeoff.
 - The absolute recall is lower than the 127-scan result because the denominator
@@ -398,7 +410,7 @@ Key Open3DSG recovery full-validation result:
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
 | `semantic_only` | 0.0368 | 0.1002 | 0.1991 | 0.4096 | 0.5161 | 0.5131 | 0.3255 | 0.2088 | 0.1386 | 0.1242 | recovery full official source ranking |
 | `probabilistic_recalibrated` | 0.0826 | 0.1581 | 0.2603 | 0.3975 | 0.5723 | 0.0628 | 0.0699 | 0.0654 | 0.0606 | 0.0811 | pooled calibrated-risk ablation |
-| `family_conditional_risk` | 0.0984 | 0.1921 | 0.3291 | 0.4658 | 0.6047 | 0.0420 | 0.0482 | 0.0441 | 0.0286 | 0.0341 | GeoCalib main score |
+| `family_conditional_risk` | 0.0984 | 0.1921 | 0.3291 | 0.4658 | 0.6047 | 0.0420 | 0.0482 | 0.0441 | 0.0286 | 0.0341 | historical continuity score |
 | `rule_verified_point_subtype` | 0.0707 | 0.1314 | 0.2422 | 0.4295 | 0.5368 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 | hard-filter diagnostic |
 
 Full-validation stability and verifier checks:
@@ -500,9 +512,9 @@ Why not main evidence:
 Allowed:
 
 - H001 is a calibrated geometry-consistency evaluation/re-ranking framework.
-- The paper-facing main score is `family_conditional_risk`; pooled
-  `probabilistic_recalibrated` is an ablation/baseline and geometry-only is a
-  true control.
+- The paper-facing main score is the relation-algebra-constrained product;
+  pooled product is an ablation/baseline and compatibility-only is a
+  no-source-score control, not true geometry-only.
 - It reduces geometry violations under measurable recall tradeoffs on measured
   `VL-SAT` and Open3DSG measured-family scopes.
 - It provides controls, GT-based verifier support, denominator transparency,
@@ -524,8 +536,8 @@ Not allowed:
 The current paper body is in `paper/draft.md` and now runs from Title through
 Conclusion. The current target-venue LaTeX source is in `paper/aaai/`, using
 the official AAAI-27 style. Docker verification with
-`h001-aaai27-tex:20260712` builds `main_aaai27.pdf` to 9 pages: technical
-content occupies pages 1--7 and references only pages 8--9. Supplement and
+`h001-aaai27-tex:20260712` builds `main_aaai27.pdf` to 8 pages: technical
+content continues through page 7 and references occupy pages 7--8. Supplement and
 checklist are separate 2/2-page PDFs. BibTeX uses 34 entries, Type 3 fonts are
 zero, and targeted checks found no missing citations, undefined refs, overfull
 boxes, LaTeX errors, or AAAI package errors. Low-K source metrics are now

@@ -1,5 +1,7 @@
 # ReplicaSSG Transfer Stress Test and Development Diagnostic
 
+Last updated: 2026-07-13 KST
+
 This source root owns H001's cross-dataset transfer stress test on the official
 ReplicaSSG test split. The original run was executed under a frozen protocol,
 but its observed result is now used for method diagnosis and development.
@@ -68,9 +70,11 @@ the tradeoff at K=20 and K=50, but those remain secondary diagnostics because
 K=100 was frozen as primary.
 
 Compact tracked evidence is under
-`results/h001_geom_reliability/replicassg_prospective/`. Full ignored runtime
-output remains under this source root. The original result remains a valid
-transfer diagnostic; it is not an unbiased estimate of a newly developed
+`results/h001_geom_reliability/replicassg_prospective/`. The directory name is
+a preserved historical artifact identifier; the current scientific role is a
+transfer stress test and development diagnostic. Large ignored runtime output
+was removed after compact-result verification. The original result remains a
+valid transfer diagnostic; it is not an unbiased estimate of a newly developed
 method's dataset-level generalization.
 
 ## Development v2
