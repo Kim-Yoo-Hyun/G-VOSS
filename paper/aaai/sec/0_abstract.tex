@@ -1,18 +1,23 @@
 \begin{abstract}
 3D Scene Graph predictors can assign high confidence to relation candidates
 whose predicates are inconsistent with reconstructed object-pair geometry. We
-formulate this as a post-source compatibility problem and introduce \method{},
+formulate compatibility assessment for fixed relation predictions and
+introduce \method{},
 which separates predicate semantics, same-pair geometry, and source
-confidence. Its shared compatibility model excludes predictor identity and
-source scores, learns from linked positive--counterfactual ordering, and is projected
-onto the applicable proximity and vertical relation-algebra orbits. An
+confidence. A fitted compatibility layer with family-specific linear heads
+excludes predictor identity and source scores and learns from linked
+positive--counterfactual ordering; its
+scores are projected onto the applicable proximity and vertical
+relation-algebra orbits. An
 applicability route re-orders only these families within the source's family
-slots and preserves support/contact selections. We evaluate exact-label
+slots and preserves selections from support/contact, which lies outside the
+routing scope. We evaluate exact-label
 Recall@$K$ jointly with verifier-derived Violation@$K$ across VL-SAT,
-Open3DSG, and SGFN on a shared 3DSSG target. At $K=100$, \method{} improves
-Open3DSG Recall from 0.5111 to 0.5692 while reducing Violation from 0.1242 to
-0.0324; both metrics also improve on VL-SAT and SGFN. Strong fusion and
-supervision-matched nonlinear baselines, factor controls, and family-wise
-analysis show consistent behavior across three predictors on a shared target
-while delimiting the method to geometry-identifiable relations.
+Open3DSG, and SGFN on a shared 3DSSG target. At $K=50$, \method{} improves
+Open3DSG Recall from 0.4043 to 0.4418
+while reducing Violation from 0.1387 to 0.0342. Across $K=10$--$50$, its
+point estimates preserve or improve Recall and reduce Violation on all three
+predictors. Same-route fusion and supervision-matched nonlinear comparisons,
+factor controls, and family-wise analysis characterize the benefits and limits
+of the factorized mechanism.
 \end{abstract}

@@ -20,24 +20,21 @@
     "topk_transition": "demoted_out_of_top50"
   },
   {
-    "case_id": "open3dsg_case_010",
-    "category": "geometry_contradiction",
-    "delta_rank": 380,
-    "family": "support_contact",
-    "geometry_rank": 401,
-    "gt_match_status": "pair_has_other_predicate",
-    "matched_predicates": [
-      "right",
-      "front"
-    ],
-    "p_geom_valid": 0.02478513981292485,
-    "pair": "lamp -> side table",
-    "predicate": "lying on",
+    "case_id": "open3dsg_case_019",
+    "category": "semantic_and_geometry_failure",
+    "delta_rank": 431,
+    "family": "relative_vertical",
+    "geometry_rank": 432,
+    "gt_match_status": "no_gt_for_pair",
+    "matched_predicates": [],
+    "p_geom_valid": 0.001602840597415198,
+    "pair": "floor -> curtain",
+    "predicate": "higher than",
     "reason_codes": [
-      "positive_float_gap_large",
-      "subtype_soft_support_contact"
+      "point_subtype_delegated_to_obb_for_family",
+      "vertical_order_contradicts_predicate"
     ],
-    "semantic_rank": 21,
+    "semantic_rank": 1,
     "topk_transition": "demoted_out_of_top50"
   },
   {

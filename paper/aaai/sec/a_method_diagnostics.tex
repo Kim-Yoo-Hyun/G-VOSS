@@ -1,4 +1,72 @@
-\section{Compatibility and Structural Diagnostics}
+\section{Guarantees and Compatibility Diagnostics}
+
+\paragraph{Proof of Proposition 1.}
+For any $h\in H_a$,
+\(
+P_af(hx)=|H_a|^{-1}\sum_{g\in H_a}f(ghx)
+\).
+Right multiplication by $h$ is a bijection on the finite group, so re-indexing
+$g'=gh$ gives $P_af(hx)=P_af(x)$. Thus $P_af$ is constant on each declared
+orbit. Averaging an already orbit-constant function leaves it unchanged,
+which proves $P_a^2=P_a$. The two-element proximity and vertical actions yield
+the identities in the main paper, and the singleton action is the identity.
+
+\paragraph{Proof of Proposition 2.}
+At position $j$, the routing algorithm pops from the queue indexed by the
+source family $a_j$; hence the output family sequence is exactly
+$(a_1,\ldots,a_n)$. A pass-through queue retains source-relative order, so the
+first $K$ positions contain exactly the same ordered support/contact
+subsequence as the source prefix. For optimality, consider two slots
+$p<q$ of the same family. If $u(e_p)<u(e_q)$, exchanging them changes the
+weighted objective by
+$(\omega_p-\omega_q)(u(e_q)-u(e_p))\geq0$.
+Repeatedly removing such inversions gives the descending family queues used by
+the route, proving optimality over all family-sequence-preserving
+permutations. Ties may yield multiple optima without changing either guarantee.
+
+\paragraph{Counterfactual target construction.}
+Measured-family ground-truth rows provide positives. Negatives are generated
+within the same scene context and linked to their source positive; no source
+score, predictor identity, or validation-split row is used.
+Table~\ref{tab:counterfactual-rules} gives the complete construction policy.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\caption{\textbf{Counterfactual-negative construction.} Normalized XY distance
+uses the mean object-pair XY diagonal. Zero overlap requires both directed
+projected-overlap ratios to be at most $10^{-9}$.}
+\label{tab:counterfactual-rules}
+\begin{tabular}{p{.20\linewidth}p{.45\linewidth}p{.27\linewidth}}
+\toprule
+Family & Intervention and acceptance rule & Relation to verifier \\
+\midrule
+Proximity & Choose directed same-context pairs in descending normalized XY
+distance; require distance $\geq2.5$ and zero projected overlap. & Shares
+distance/overlap primitives and the 2.5 satisfied boundary; the verifier
+declares violation only at $\geq3.5$. \\
+Vertical & On the same directed pair, replace \texttt{higher than} with
+\texttt{lower than} or conversely; require the positive direction to have
+$|\Delta z|\geq0.25$ m and normalized $|\Delta z|\geq0.15$. & Shares both
+signed primitives and thresholds. \\
+Support/contact & Replace the subject or object within context; reject known
+support/contact pairs in either direction and floor subjects; require any two
+of normalized XY distance $\geq2.0$, zero overlap, and vertical gap
+$\geq0.30$ m. & Shares these OBB primitives and thresholds; point-subtype
+evidence used by the reported verifier is not used to generate negatives. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+At most two negatives are emitted per positive, 200 per context--family, and
+three times the number of positives per family. These caps limit repeated easy
+negatives; they do not equalize family counts. The export contains 28,977
+positives and 37,477 negatives (23,008 proximity, 5,488 vertical, and 37,958
+support/contact rows). The explicit overlap above is why verifier-derived V is
+reported as a related diagnostic rather than independent physical-validity
+ground truth; the held-out-primitive analysis tests, but does not eliminate,
+this construct dependence.
 
 \method{} fits one logistic model per measured relation family. Numeric
 features use training-only means and standard deviations; missing values use
@@ -50,6 +118,55 @@ $T\times G$ obtain AUROC .6124/.8809/.9193/.9822 and Brier
 intended reliability signal. These results verify factor use and the implemented
 relation algebra; they do not convert the constructed target into independent
 physical-validity ground truth.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\caption{\textbf{Held-out-primitive diagnostic.} Cells are Recall / verifier V
+under the same family-slot route. Exact removes the normalized scalar consumed
+by the verifier; family removes all directly related distance or vertical
+measurements; alternative retains only projected overlap for proximity and
+horizontal-distance/overlap context for vertical order.}
+\label{tab:primitive-holdout}
+\begin{tabular}{llrr}
+\toprule
+Source & Condition & $K=50$ & $K=100$ \\
+\midrule
+\multirow{5}{*}{VL-SAT}
+ & Source score & .9272/.0268 & .9635/.0476 \\
+ & Full model & .9277/.0197 & .9658/.0295 \\
+ & Exact scalar held out & .9280/.0198 & .9660/.0300 \\
+ & Primitive family held out & .9272/.0268 & .9655/.0468 \\
+ & Alternative evidence only & .9280/.0268 & .9642/.0471 \\
+\midrule
+\multirow{5}{*}{Open3DSG}
+ & Source score & .4043/.1387 & .5111/.1242 \\
+ & Full model & .4418/.0342 & .5692/.0324 \\
+ & Exact scalar held out & .4383/.0342 & .5692/.0325 \\
+ & Primitive family held out & .4119/.0954 & .5257/.0956 \\
+ & Alternative evidence only & .4106/.1193 & .5330/.1188 \\
+\midrule
+\multirow{5}{*}{SGFN}
+ & Source score & .7402/.0385 & .9235/.0630 \\
+ & Full model & .7450/.0263 & .9303/.0350 \\
+ & Exact scalar held out & .7465/.0268 & .9303/.0357 \\
+ & Primitive family held out & .7470/.0388 & .9298/.0616 \\
+ & Alternative evidence only & .7462/.0386 & .9277/.0625 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Every held-out model is refitted on the 1,061 training scans with the same
+orbit-plus-pairwise objective, source-score exclusion, and exact projection.
+The exact-scalar condition retains development AUROC of .99999 for proximity
+and .99794 for vertical order. Removing the full primitive family lowers these
+to .9512 and .7089; alternative evidence yields .8763 and .5531. At $K=50$,
+the strict conditions retain a clear Open3DSG improvement but not the full V
+gain on VL-SAT or SGFN. At $K=100$, all held-out conditions improve both point
+metrics across all three predictors; paired scan-cluster intervals are stored
+for every $K$. This rules out literal reuse of a single verifier input, not
+broader construct dependence on correlated geometry.
 
 \begin{table}[H]
 \centering

@@ -17,8 +17,9 @@ and case provenance stays in `experiments/H001_geom_reliability/`.
   verifier-derived violation, and uncertain geometry.
 - Report Recall and Violation together. Lower Violation and higher Recall are
   better.
-- K=100 is the primary endpoint. K=`{5,10,20,50}` are all shown and labeled
-  without additional protocol roles; K=1 is not a paper endpoint.
+- K=`{5,10,20,50,100}` are all shown and labeled. K=50 is outlined as the
+  representative mid-budget operating point; K=5 and K=100 remain visible
+  boundary conditions. K=1 is not a paper endpoint.
 - Qwen-VL and ReplicaSSG/FROSS do not appear in the three main figures.
 
 ## Figure 1: Failure to Framework
@@ -74,20 +75,21 @@ establishes aggregate performance.
 
 Locked claim:
 
-> The relation-algebra-constrained product improves the aggregate K=100
-> Recall--Violation point on all three predictors and shows
-> predictor-dependent trade-offs at smaller budgets.
+> The relation-algebra-constrained route improves the representative mid-budget K=50
+> Recall--Violation trade-off across three predictors and shows the full
+> budget-dependent trajectory without suppressing boundary conditions.
 
 Locked visual form:
 
 - Three source panels: VL-SAT, Open3DSG, and SGFN.
 - Connect K=`{5,10,20,50,100}` for source confidence and the structured
   product; label each point by K.
-- A neutral outline marks K=100; every K is labeled directly.
+- A neutral outline marks K=50; every K is labeled directly.
 - Separate panel axes because source recall denominators and candidate
   distributions differ.
-- Do not claim every source improves Recall at every K; VL-SAT has small
-  low-K Recall decreases.
+- Do not claim statistical Recall improvement for every source at every K;
+  some low-/mid-budget Recall intervals include zero even when point estimates
+  are preserved or improved.
 
 Sources:
 
@@ -99,25 +101,25 @@ Assets:
 - `paper/generated/figures/figure2_tradeoff.svg`
 - `paper/generated/figures/figure2_tradeoff.pdf`
 - `paper/generated/figures/figure2_tradeoff.png`
-- SVG SHA-256: `c5131edf5790efaef849e4d78bd6f574a5dd48bb579834581e2a33c395e1dc42`
-- PDF SHA-256: `f3e9860dab3714d6d4c8fe95a1dc891701d5ecdd68ec5053dd110c6577857f43`
-- PNG SHA-256: `6c5514a3c773386253f80fac4bae2ab4360f5921e8c084dde52df33817200612`
+- SVG SHA-256: `24779d23cc7403232c90d2780a89151328bbad000b8101ea7f053bf18fe267ac`
+- PDF SHA-256: `8127240ec4638d22103a6d118f72f40945c08d7e3e396b33a329c35ae7a8912e`
+- PNG SHA-256: `bd968dfc3bc11b185b573d88bae447a9efa59f95c1faf83050ed687decda9961`
 
 ## Figure 3: Corrections and Residual Failure
 
 Locked claim:
 
-> Identity-aligned geometry can demote physically inconsistent semantic
-> predictions, but engineered evidence remains incomplete and can also promote
-> a residual violation.
+> Identity-aligned geometry can demote proximity and relative-vertical
+> predictions contradicted by the same-pair geometry, while the declared
+> applicability boundary leaves a residual support/contact violation unchanged.
 
 Locked cases:
 
-| panel | case | role | relation | source rank -> product rank | source / compatibility |
-| --- | --- | --- | --- | ---: | ---: |
-| A | `open3dsg_case_001` | corrected proximity error | heater `close by` trash can | 19 -> 304 | 0.853 / 0.0027 |
-| B | `open3dsg_case_010` | corrected support/contact error | lamp `lying on` side table | 39 -> 337 | 0.843 / 0.050 |
-| C | `open3dsg_case_026` | residual top-10 failure | door `lying on` floor | 21 -> 10 | 0.843 / 0.998 |
+| panel | case | role | relation | source -> routed rank | unrestricted rank | source / compatibility |
+| --- | --- | --- | --- | ---: | ---: | ---: |
+| A | `open3dsg_case_001` | proximity correction | heater `close by` trash can | 19 -> 178 | 304 | 0.853 / 0.0027 |
+| B | `open3dsg_case_019` | relative-vertical correction | floor `higher than` curtain | 1 -> 430 | 431 | 0.871 / 0.000003 |
+| C | `open3dsg_case_026` | residual support/contact violation | door `lying on` floor | 21 -> 21 | 10 | 0.843 / 0.998 |
 
 Locked visual form:
 
@@ -139,9 +141,9 @@ Sources and assets:
 - `paper/generated/figures/figure3_geometry_panels.png`
 - `paper/generated/figures/figure3_geometry_cases.json`
 - `paper/generated/figures/figure3_geometry_manifest.json`
-- SVG SHA-256: `e1cdd18b3bf43d16e4b69cb00dadd9484d9e1bb1edf93ba06e4a3da8f59079f0`
-- PDF SHA-256: `e8427310c9d37211bb0eabc28591783b77288876b02ea22b89039ce2e6144a87`
-- PNG SHA-256: `652851646044607265e2aea8aad23a57dd9d51b961327a2e4f1a054c6b1e1360`
+- SVG SHA-256: `151d22fa21031f3d822f006723ab85c85e680c1024c0c63f1ede1f6487aec93d`
+- PDF SHA-256: `0457f162bf3ad1b975b3891cb8e5cbe0b7896810b89b68ac508c6b76a80d370f`
+- PNG SHA-256: `3fb402c4831b0ad04a2fb958a5934855f1c87d3e61e6014594e21460271c9336`
 
 ## Validation
 

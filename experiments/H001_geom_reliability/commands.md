@@ -15,13 +15,15 @@ the current paper-facing route unless explicitly referenced below.
 - SGFN source root: `experiments/H001_geom_reliability/sources/sgfn/`
 - Frozen model root: `experiments/H001_geom_reliability/relation_algebra_v1/evaluation/`
 - Promoted result root: `experiments/H001_geom_reliability/support_contact_routing_v1/evaluation/`
+- Same-route comparator root: `experiments/H001_geom_reliability/routed_comparators_v1/evaluation/`
 - Paper-facing fixed-model ablation root: `experiments/H001_geom_reliability/structured_ablation_v1/routed_public_full_evaluation/`
 - Supplemental unrestricted ablation root: `experiments/H001_geom_reliability/structured_ablation_v1/evaluation/`
 - Compact results: `results/h001_geom_reliability/`
 - Main paper method: applicability-routed relation-algebra compatibility
 - Main artifact key: `family_slot_rerank`
-- Main comparison keys: `structured_rank_average`, `structured_rrf_c60`, and
-  `pooled_product`; `hard_rule_filter` is a construction diagnostic.
+- Main comparison keys: `routed_product`, `routed_rank_average`, `routed_rrf`,
+  and `routed_matched_mlp`; `pooled_product` is a family-conditioning ablation
+  and `hard_rule_filter` is a construction diagnostic.
 - Legacy aliases such as `family_conditional_risk`,
   `control_family_specific_p_geom_valid`, and `probabilistic_recalibrated`
   identify pre-promotion continuity artifacts only.
@@ -49,6 +51,8 @@ env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/h001/compose.structured.yaml run --rm support_contact_routing
 env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/h001/compose.structured.yaml run --rm routed_public_ablation_evaluation
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm routed_comparator_evaluation
 env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/h001/compose.structured.yaml run --rm structured_ablation_evaluation
 env UID=$(id -u) GID=$(id -g) docker compose \
@@ -427,6 +431,28 @@ The output under
 method-development evidence. It evaluates all 355 quantile/bounded/displacement-
 constrained configurations, leave-one-scene-out selection, and the all-scene
 deployment choice on K=`{5,10,20,50,100}`.
+
+## ReplicaSSG Locked Final-Method Evaluation
+
+Run the hash-frozen current RelCompat3D model and family-slot ranking rule on
+the preserved 4,293-row ReplicaSSG/FROSS verification artifact without target
+fit or hyperparameter selection:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm external_dataset_transfer
+```
+
+Protocol and outputs:
+
+- `sources/replicassg/final_method_transfer_v1/protocol.json`
+- `sources/replicassg/final_method_transfer_v1/evaluation/summary.json`
+- `sources/replicassg/final_method_transfer_v1/evaluation/metrics.csv`
+- `sources/replicassg/final_method_transfer_v1/evaluation/manifest.json`
+
+The target was observed in prior transfer development. Preserve the protocol's
+benchmark-evaluation classification and do not describe this rerun as
+untouched or prospective confirmation.
 
 ## Full-Validation Source Regeneration
 

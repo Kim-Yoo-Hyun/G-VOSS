@@ -1,10 +1,10 @@
 {
-  "claim_boundary": "cross-predictor evidence on a shared geometry-identifiable 3DSSG target; K=100 is primary and all five K values are reported",
+  "claim_boundary": "cross-predictor evidence on a shared geometry-identifiable 3DSSG target; K=50 is a descriptive mid-curve reference and all five K values are reported",
   "converted_outputs": {
     "figure2_tradeoff.pdf": "paper/generated/figures/figure2_tradeoff.pdf",
     "figure2_tradeoff.png": "paper/generated/figures/figure2_tradeoff.png"
   },
-  "created_at": "2026-07-14T14:19:31.616510+00:00",
+  "created_at": "2026-07-15T12:29:42.279309+00:00",
   "layout_review": "paper/generated/figures/layout_review.md",
   "outputs": {
     "figure2_tradeoff.svg": "paper/generated/figures/figure2_tradeoff.svg"

@@ -11,7 +11,7 @@ Generated outputs:
 
 Claim boundary:
 
-- The panels illustrate failure mechanisms and are not a representative evaluation sample.
+- The panels illustrate correction mechanisms and an applicability boundary; they are not a representative evaluation sample.
 - They preserve the selected Open3DSG case identities and use the corresponding preprocessed point clouds.
 
 Reproduction command:
@@ -22,8 +22,8 @@ docker run --rm --entrypoint bash --user "$(id -u):$(id -g)" -v "$PWD":/workspac
 
 Validation:
 
-- Expected locked cases: `open3dsg_case_001, open3dsg_case_010, open3dsg_case_026`
-- Rendered cases: `open3dsg_case_001, open3dsg_case_010, open3dsg_case_026`
+- Expected locked cases: `open3dsg_case_001, open3dsg_case_019, open3dsg_case_026`
+- Rendered cases: `open3dsg_case_001, open3dsg_case_019, open3dsg_case_026`
 - Missing cases: `none`
 - Figure 1 PDF exists: `True`
 - Figure 3 PDF exists: `True`

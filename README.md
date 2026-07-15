@@ -1,6 +1,6 @@
 # RelCompat3D Research Repository
 
-This repository contains the H001/RelCompat3D research workspace for reliable 3D Scene Graph relations. The active paper is titled `Beyond Semantic Confidence: Relation-Algebra-Constrained Geometric Compatibility for 3D Scene Graph Relations`. RelCompat3D learns a shared predicate--geometry compatibility model whose inputs exclude predictor identity and source score, applies relation-algebra projection, and reports recall--violation trade-offs under re-ranking. The paper-facing scope is `support_contact`, `proximity`, and `relative_vertical`, evaluated across VL-SAT, Open3DSG, and SGFN on one shared 3DSSG target. H001 remains an internal experiment identifier.
+This repository contains the H001/RelCompat3D research workspace for reliable 3D Scene Graph relations. The active paper is titled `Beyond Semantic Confidence: Relation-Algebra-Constrained Geometric Compatibility for 3D Scene Graph Relations`. RelCompat3D fits a compatibility layer with family-specific linear heads whose inputs exclude predictor identity and source score, applies relation-algebra projection, and reports recall--violation trade-offs under re-ranking. The paper-facing scope is `support_contact`, `proximity`, and `relative_vertical`, evaluated across VL-SAT, Open3DSG, and SGFN on one shared 3DSSG target. H001 remains an internal experiment identifier.
 
 ## Core Question
 
@@ -17,13 +17,18 @@ This repository contains the H001/RelCompat3D research workspace for reliable 3D
   relation-algebra projection yields source-score-excluded compatibility; an
   applicability route uses it within proximity/vertical source-family slots
   while preserving support/contact ordering.
-- Transfer boundary: dataset-level generalization is out of scope;
-  ReplicaSSG/FROSS is archived development provenance, not submission evidence.
+- Transfer boundary: an application without target-specific refitting is
+  complete on ReplicaSSG/FROSS. The routed product improves both metrics at
+  K=10 and K=50, while heavily quantized source scores make it nearly inert at
+  K=100. The target informed prior diagnostics, candidate recall is capped at
+  44.19%, and support/contact is unmapped; this is a transfer stress test rather
+  than dataset-level generalization evidence.
 - Canonical PDFs: `paper/aaai/main_aaai27.pdf`,
   `supplement_aaai27.pdf`, and `reproducibility_checklist_aaai27.pdf`.
-- Previous verified upload bundle:
-  `release/h001_aaai27_openreview_20260714_233534/`; it is stale after the
-  2026-07-15 ablation-route, table-placement, and CI revision.
+- Current verified upload bundle:
+  `release/h001_aaai27_openreview_20260715_213525/`; it includes the current
+  manuscript, routed ablations, compact external-transfer evidence, and
+  independently rebuildable anonymous source.
 - Cleanup state: Replica/FROSS raw archives, runtime, weights, source clones,
   and shards are absent; compact development rows and summaries are retained.
 
@@ -33,13 +38,15 @@ This repository contains the H001/RelCompat3D research workspace for reliable 3D
 - Frozen method/model: `experiments/H001_geom_reliability/relation_algebra_v1/`
 - Primary routed evaluation: `experiments/H001_geom_reliability/support_contact_routing_v1/evaluation/`
 - Synchronized unrestricted comparisons: `experiments/H001_geom_reliability/structured_main_v1/evaluation/`
+- Same-route strong comparators: `experiments/H001_geom_reliability/routed_comparators_v1/evaluation/`
 - Supervision-matched nonlinear comparison: `experiments/H001_geom_reliability/supervision_matched_nonlinear_v1/evaluation/`
 - Open3DSG coverage sensitivity: `experiments/H001_geom_reliability/open3dsg_official_route_v1/evaluation/`
+- ReplicaSSG final-method transfer: `experiments/H001_geom_reliability/sources/replicassg/final_method_transfer_v1/`
 - Paper-facing routed K=50/100 ablations: `experiments/H001_geom_reliability/structured_ablation_v1/routed_public_full_evaluation/`
 - Compact result summary: `results/h001_geom_reliability/report.md`
 - Paper figures: `paper/generated/figures/`
 - Active AAAI source and canonical PDFs: `paper/aaai/`
-- Previous verified upload bundle (stale): `release/h001_aaai27_openreview_20260714_233534/`
+- Current verified upload bundle: `release/h001_aaai27_openreview_20260715_213525/`
 - Recovery, transfer, and cleanup authority: `docs/reproducibility.md`
 
 The current Docker retention matrix is also owned by
@@ -77,9 +84,13 @@ env UID=$(id -u) GID=$(id -g) docker compose \
 env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/h001/compose.structured.yaml run --rm routed_public_ablation_evaluation
 env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm routed_comparator_evaluation
+env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/h001/compose.structured.yaml run --rm supervision_matched_nonlinear
 env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/h001/compose.structured.yaml run --rm open3dsg_official_route_sensitivity
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm external_dataset_transfer
 ```
 
 Main configuration entry points:

@@ -1,10 +1,10 @@
 \section{Verifier-Uncertainty Sensitivity}
 
-The primary $\mathrm{V@K}_{all}$ includes uncertain rows in its denominator but
+The reported $\mathrm{V@K}_{all}$ includes uncertain rows in its denominator but
 does not label them satisfied. We therefore recompute each ranking with
 $\mathrm{V@K}_{dec}$ over satisfied/violated rows, uncertainty rate $U@K$, and
 a pessimistic bound $\mathrm{V@K}_{pess}$ that counts every uncertain row as a
-violation. Table~\ref{tab:uncertainty-sensitivity} gives the primary $K=100$
+violation. Table~\ref{tab:uncertainty-sensitivity} gives the $K=100$
 comparison.
 
 \begin{table}[H]
@@ -33,7 +33,7 @@ SGFN & \method{} routed & .0350 & .0565 & .3803 & .4153 \\
 Routed-minus-source changes in $V_{dec}$ are $-.0277$ for VL-SAT, $-.1578$
 for Open3DSG, and $-.0440$ for SGFN; their paired 95\% intervals all exclude
 zero. Uncertainty-rate changes are +.0009, $-.0077$, and +.0071, whereas
-pessimistic-V changes are $-.0173$, $-.0994$, and $-.0209$. Thus the primary
+pessimistic-V changes are $-.0173$, $-.0994$, and $-.0209$. Thus the reported
 conclusion holds without requiring uncertainty to decrease uniformly.
 The hard-rule baseline has zero all-status V but retains uncertain rows and
 therefore has pessimistic V of .3712/.4722/.4042. Thus zero measured violation

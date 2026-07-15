@@ -1,6 +1,6 @@
-\section{Primary Scan-Cluster Confidence Intervals}
+\section{Scan-Cluster Confidence Intervals}
 
-The primary analysis resamples the 157 scan identifiers 1,000 times and carries
+The analysis resamples the 157 scan identifiers 1,000 times and carries
 every context of a sampled scan together. The ranking, model, and point
 estimates remain unchanged; shared bootstrap indices are used across
 conditions. A paired 548-context bootstrap gives the same directions and is
@@ -10,19 +10,22 @@ retained as a finer-grained sensitivity.
 \centering
 \scriptsize
 \setlength{\tabcolsep}{4pt}
-\caption{\textbf{Primary scan-cluster intervals at $K=100$.} Entries are routed
+\caption{\textbf{Scan-cluster intervals at $K=50$.} Entries are routed
 \method{} minus source score with paired 95\% intervals.}
 \label{tab:scan-cluster}
 \begin{tabular}{lrr}
 \toprule
 Source & $\Delta$Recall & $\Delta$Verifier-V \\
 \midrule
-VL-SAT & +.0023 [.0005,.0049] & $-.0182$ [$-.0199$,$-.0166$] \\
-Open3DSG & +.0582 [.0470,.0695] & $-.0917$ [$-.0963$,$-.0873$] \\
-SGFN & +.0068 [.0043,.0098] & $-.0280$ [$-.0304$,$-.0257$] \\
+VL-SAT & +.0005 [$-.0005$,.0019] & $-.0070$ [$-.0088$,$-.0055$] \\
+Open3DSG & +.0375 [.0296,.0449] & $-.1045$ [$-.1105$,$-.0986$] \\
+SGFN & +.0048 [.0028,.0070] & $-.0122$ [$-.0142$,$-.0102$] \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-All Verifier-V intervals remain below zero and all Recall intervals remain
-above zero despite the near-saturated VL-SAT baseline.
+At $K=50$, every Verifier-V interval remains below zero. Recall improves on
+Open3DSG and SGFN, while the near-saturated VL-SAT interval is centered near
+zero. At $K=100$, the changes have the same direction and strictly positive
+Recall intervals for all three predictors; its point estimates remain in the
+main five-budget table.

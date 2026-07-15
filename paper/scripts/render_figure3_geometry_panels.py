@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""Render geometry-backed Figure 3 panels for the locked Open3DSG cases.
+"""Render geometry-backed Figure 3 panels for selected locked Open3DSG cases.
 
-This script intentionally uses the same locked qualitative case IDs as the
-row-card Figure 3 draft. It draws lightweight point-cloud geometry panels from
-the Open3DSG preprocessed payload, not scene crops and not a human audit.
+It draws lightweight point-cloud geometry panels from the Open3DSG
+preprocessed payload, not scene crops and not a human audit.
 """
 
 from __future__ import annotations
@@ -57,7 +56,7 @@ PREPROCESSED_ROOT = (
 
 EXPECTED_CASES = [
     "open3dsg_case_001",
-    "open3dsg_case_010",
+    "open3dsg_case_019",
     "open3dsg_case_026",
 ]
 
@@ -81,11 +80,11 @@ PANEL_META = {
         "view": "topdown",
         "takeaway": "Semantic close-by rank is high, but XY object geometry is far.",
     },
-    "open3dsg_case_010": {
+    "open3dsg_case_019": {
         "panel": "B",
-        "role": "support/contact pass-through",
+        "role": "successful relative-vertical correction",
         "view": "vertical",
-        "takeaway": "The primary route preserves source support/contact ordering.",
+        "takeaway": "The subject-object vertical order contradicts the predicted predicate.",
     },
     "open3dsg_case_026": {
         "panel": "C",
@@ -394,7 +393,7 @@ def draw_case_panel(case_id: str, row: dict[str, Any], x: float, y: float, w: fl
 
     panel_title = {
         "open3dsg_case_001": "(a) Routed correction: proximity",
-        "open3dsg_case_010": "(b) Pass-through: support",
+        "open3dsg_case_019": "(b) Routed correction: vertical",
         "open3dsg_case_026": "(c) Limitation: support",
     }[case_id]
     parts = [
@@ -427,17 +426,19 @@ def draw_case_panel(case_id: str, row: dict[str, Any], x: float, y: float, w: fl
 
     if case_id == "open3dsg_case_001":
         outcome = "geometry-identifiable violation demoted"
-    elif case_id == "open3dsg_case_010":
-        outcome = f"support preserved; product rank {row['structured_product']['product_rank']}"
+    elif case_id == "open3dsg_case_019":
+        outcome = "inverse vertical-order violation demoted"
     else:
         outcome = "support violation preserved"
+    compatibility = float(row["structured_product"]["compatibility"])
+    compatibility_text = f"C={compatibility:.3f}" if compatibility >= 0.001 else "C<.001"
     parts.extend(
         [
             svg_text(
                 x + 18,
                 y + 329,
                 f'rank {row["structured_product"]["source_rank"]} → {row["structured_product"]["routed_rank"]}   |   '
-                f'Z={row["structured_product"]["source_score"]:.3f}   C={row["structured_product"]["compatibility"]:.3f}',
+                f'Z={row["structured_product"]["source_score"]:.3f}   {compatibility_text}',
                 20,
                 700,
                 "#111827",
@@ -562,8 +563,9 @@ def render_framework(cases: dict[str, dict[str, Any]]) -> str:
         svg_text(1360, 91, str(row["structured_product"]["routed_rank"]), 42, 700, "#059669", "middle"),
         svg_text(1360, 122, "re-ranked", 18, 400, "#4b5563", "middle"),
         '<rect x="1125" y="159" width="335" height="82" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>',
-        svg_text(1292, 190, "Applicability routing", 21, 700, "#111827", "middle"),
-        svg_text(1292, 219, "proximity/vertical re-ranked; support preserved", 16, 400, "#4b5563", "middle"),
+        svg_text(1292, 186, "Family-slot routing", 21, 700, "#111827", "middle"),
+        svg_text(1292, 212, "proximity / vertical: re-ranked", 18, 400, "#4b5563", "middle"),
+        svg_text(1292, 233, "support/contact: source order", 18, 400, "#4b5563", "middle"),
         '<rect x="1125" y="276" width="335" height="88" rx="6" fill="#ffffff" stroke="#94a3b8" stroke-width="1.2"/>',
         svg_text(1292, 306, "Joint evaluation", 21, 700, "#111827", "middle"),
         svg_text(1292, 336, "Exact-label Recall@K", 19, 400, "#166534", "middle"),
@@ -631,7 +633,7 @@ def write_report(manifest: dict[str, Any]) -> None:
         "",
         "Claim boundary:",
         "",
-        "- The panels illustrate failure mechanisms and are not a representative evaluation sample.",
+        "- The panels illustrate correction mechanisms and an applicability boundary; they are not a representative evaluation sample.",
         "- They preserve the selected Open3DSG case identities and use the corresponding preprocessed point clouds.",
         "",
         "Reproduction command:",
@@ -675,7 +677,7 @@ def main() -> None:
 
     rendered_case_ids = [record["case_id"] for record in records]
     manifest = {
-        "schema_version": "h001_geometry_figures_v2",
+        "schema_version": "h001_geometry_figures_v3",
         "created_at": now_iso(),
         "status": "figure3_geometry_panels_generated_verified",
         "source_queue_jsonl": str(QUEUE_JSONL.relative_to(ROOT)),
@@ -697,7 +699,7 @@ def main() -> None:
             "cases_json_exists": cases_path.exists(),
         },
         "claim_boundary": (
-            "qualitative geometry-backed failure-mechanism evidence only; "
+            "qualitative geometry-backed correction and applicability-boundary evidence only; "
             "not a representative human audit and not a new metric"
         ),
     }

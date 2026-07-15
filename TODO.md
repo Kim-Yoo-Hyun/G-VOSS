@@ -37,25 +37,35 @@ Last updated: 2026-07-15 KST
   RelCompat3D claim.
 - Low-K result reporting decision is to expose K = `{5, 10, 20, 50, 100}` in the main source-result table. K=1 stays out of paper metrics. Docker-regenerated point-metric artifacts now live under `sources/vlsat/full_validation/metrics_k_sweep/` and `sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/`; K=50/100 matches the locked `metrics/metrics.json` point estimates.
 - Figure 2 and one joint main table report Recall/Violation at
-  K=`{5,10,20,50,100}` for VL-SAT, Open3DSG, and SGFN. K=100 is the primary
-  endpoint; smaller budgets are reported without internal protocol labels. A
-  second table reports six fixed-model controls at K=50/100.
+  K=`{5,10,20,50,100}` for VL-SAT, Open3DSG, and SGFN. The paper discusses
+  K=50 as a descriptive mid-curve reference and reports K=10--50
+  behavior without an external operational-use claim; K=5 and K=100 remain visible as boundary conditions without
+  internal protocol labels. A second table reports six fixed-model controls at
+  K=50/100.
 - Qwen-VL full official validation downstream is complete as a third-source / modern VLM extension: 157 scans / 548 contexts / 110,424 query rows / 46,506 inferable input rows / 35,131 exported predictions / 32,236 in-scope predictions / 3,972 H001-family GT rows, plus metrics/controls/bootstrap/failure rows/36 deterministic qualitative cases. It remains appendix/extension evidence unless explicitly promoted.
 - Historical source-validation build
   `archive/paper/aaai_snapshots/20260625_reference_expansion.pdf`
   remains preserved. It is provenance only and must not be used as the active
   manuscript or upload package.
 - Latest H001 submission manuscript is `paper/aaai/main_aaai27.pdf`, SHA256
-  `9af7cc1741ec584af72baa5357ee01b2b1db472e439f6cc86127eb0d59275814`. The active
-  outputs are main/supplement/checklist 9/3/2 US-Letter pages; technical content
+  `8a3d7c133ff6e096649cb083db4a9c501e706e1edb9d084693dd0e177dd8ce86`. The active
+  outputs are main/supplement/checklist 9/4/2 US-Letter pages; technical content
   continues through page 7 and references occupy pages 8--9. Type 3 fonts, unresolved
   citations/references, LaTeX errors, and overfull boxes are zero. Superseded
   framework-first, factorized, and Replica-disclosure builds remain archived.
 - The current main/supplement PDFs include the source-backed three-panel vector
-  Figure 1, primary scan-cluster intervals, and compact relative-size appendix.
-  The previously verified bundle
-  `release/h001_aaai27_openreview_20260714_233534/` predates the current table,
-  ablation-route, and CI revision and must be regenerated before upload.
+  Figure 1, scan-cluster intervals at K=50/100, and compact relative-size and
+  external-transfer appendices.
+  Product, rank-average, RRF, and the train-only supervision-matched MLP were
+  re-evaluated under the identical family-slot route, support/contact
+  pass-through, official 548-context universe, and scan-cluster resampling.
+  All route/composition/hash checks pass under `routed_comparators_v1/`; the
+  supplement now gives the exact counterfactual rules and their verifier
+  primitive overlap.
+  The current verified bundle is
+  `release/h001_aaai27_openreview_20260715_213525/`; it includes the compact
+  ReplicaSSG stress test, routed ablations, current source, and outer/inner
+  checksum manifests.
 - H001-only cleanup completed after compact-result verification: removed
   Replica/FROSS raw archives, mesh/runtime, weights, cloned source repositories,
   regenerated source shards, the duplicate merged pickle, Python caches, and
@@ -68,8 +78,9 @@ Last updated: 2026-07-15 KST
 - The prose now follows failure -> structural cause -> factor-isolation
   necessity -> method -> evidence -> scope/limitations. Figure 1 starts from an
   actual geometry-inconsistent prediction and contains no reviewer-checklist
-  band; Figure 2 is the three-source K trajectory; Figure 3 contains two large
-  corrected point-cloud examples and one residual top-10 failure. The three
+  band; Figure 2 is the three-source K trajectory; Figure 3 contains one routed
+  proximity correction, one relative-vertical correction, and one residual
+  support/contact violation. The three
   LaTeX inclusions use vector PDFs, and Table 2 is a single-column K=50/100
   ablation table.
 - H001 method direction is now factor-isolated: `T_e` denotes predicate/family
@@ -90,10 +101,12 @@ Last updated: 2026-07-15 KST
   The locked model SHA256 is
   `62d251f3ce60e2db54eb1748c277350e3b9e2c7c9d2be0312cf2fb323b761410`;
   every manifest validation passes.
-- The primary Docker scan-cluster analysis resamples 157 scans and carries all 548
-  relation contexts with their scan. At K=100, routed Recall CIs are strictly
-  positive and routed verifier-V CIs strictly negative for all three sources.
-  Open3DSG uses the conservative public-pipeline/full-target route.
+- The Docker scan-cluster analysis resamples 157 scans and carries all 548
+  relation contexts with their scan. At K=50, verifier-V intervals are
+  strictly negative for all three sources; Recall intervals are positive for
+  Open3DSG and SGFN and centered near zero for near-ceiling VL-SAT. K=100 is
+  retained as a high-coverage reference, where both intervals are strict for
+  all three. Open3DSG uses the conservative public-pipeline/full-target route.
 - `h001_factor_isolation_protocol_v1` is frozen under
   `factor_isolation_protocol/frozen_v1/`, and its Docker implementation is
   complete. Train-only fitted models are under `fitted_v1/`; a fresh official
@@ -132,7 +145,8 @@ Last updated: 2026-07-15 KST
   uncertainty rate, and a pessimistic bound that counts every uncertain row as
   a violation; the structured product lowers all three at K=100 for
   VL-SAT/Open3DSG/SGFN. Recent closest-work boundaries for SCR-SSG, RelWitness,
-  SGFormer++, RelGraphOV, and PUF are explicit in the paper/supplement.
+  SGFormer++, RelGraphOV, and Transformation-Aware Decoupling are explicit in
+  the paper/supplement.
 - A parameter-count-matched nonlinear fusion baseline is complete under
   `nonlinear_fusion_baseline/evaluation_v1/`. Its 69 parameters equal the 69
   family-calibrator coefficients, and it is trained only on the disjoint
@@ -154,9 +168,10 @@ Last updated: 2026-07-15 KST
   Open3DSG under `nonlinear_transfer_v1/`. It loses Recall significantly on
   VL-SAT at K=100 and on both sources at smaller K, confirming that its strong
   SGFN result is source-adapted rather than a predictor-agnostic replacement.
-- H001 is now finalized as a 3DSSG/3RScan-only source-generalization paper.
-  Dataset-level generalization is out of scope; ReplicaSSG/FROSS is archived
-  development provenance and must not appear in the active submission claim.
+- H001 is now finalized around a shared 3DSSG/3RScan cross-predictor claim.
+  Dataset-level generalization is out of scope; ReplicaSSG/FROSS appears only
+  as a supplemental transfer stress test, not as a headline generalization
+  claim.
 - The 488-item Codex proxy reference is complete in the separate
   non-submission route. Two locked blind passes agree on 438 rows; all 154
   mandatory rows were visually adjudicated, including 22 agreed low-confidence
@@ -209,6 +224,15 @@ complete; independent blank-sheet human validity remains optional:
   sentence and full supplement evidence only. Qwen-VL, `relative_horizontal`,
   `relative_lateral`, and `attachment_deferred` remain appendix/extension/
   future-work evidence unless explicitly promoted.
+- A separate locked-final-method ReplicaSSG evaluation is complete under
+  `sources/replicassg/final_method_transfer_v1/` with zero target fit and zero
+  target-specific hyperparameters. All 20 validations pass. The routed product
+  has paired joint gains at K=10 and K=50 but saturates at K=100, where dV CI
+  `[-.00288,.00000]` touches zero. The supplement reports all five budgets and
+  the quantization/candidate-ceiling decomposition. A family-slot-preserving
+  rank diagnostic remains mechanism evidence only. The target was previously
+  observed, so this is external diagnostic evidence rather than a prospective
+  dataset-generalization result.
 
 Current H001 owners:
 
@@ -219,13 +243,14 @@ Current H001 owners:
 - primary routed evaluation: `experiments/H001_geom_reliability/support_contact_routing_v1/evaluation/`
 - unrestricted/comparator evaluation: `experiments/H001_geom_reliability/structured_main_v1/evaluation/`
 - Open3DSG public-route sensitivity: `experiments/H001_geom_reliability/open3dsg_official_route_v1/evaluation/`
+- held-out verifier-primitive diagnostic: `experiments/H001_geom_reliability/held_out_primitive_v1/evaluation/`
 - supervision-matched nonlinear comparison: `experiments/H001_geom_reliability/supervision_matched_nonlinear_v1/evaluation/`
 - paper-facing fixed-model ablations: `experiments/H001_geom_reliability/structured_ablation_v1/routed_public_full_evaluation/`
 - supplemental unrestricted ablations: `experiments/H001_geom_reliability/structured_ablation_v1/evaluation/`
 - compact results: `results/h001_geom_reliability/report.md`
 - reproducibility and bundle transfer: `docs/reproducibility.md`
 - paper source: `paper/aaai/`
-- previous verified upload bundle, now stale: `release/h001_aaai27_openreview_20260714_233534/`
+- current verified upload bundle: `release/h001_aaai27_openreview_20260715_213525/`
 
 Current H001 immediate work:
 
@@ -248,10 +273,9 @@ Current H001 immediate work:
    A/B/C verification supports reviewer-verified LLM annotation only.
 
 Completed package hygiene: Open3DSG `25da9...` non-avg versus historical
-`2a23...` avg provenance is reconciled. The last verified OpenReview field set
-is `release/h001_aaai27_openreview_20260714_233534/`, but it is now a
-superseded handoff snapshot because the canonical PDFs and ablation artifacts
-changed on 2026-07-15.
+`2a23...` avg provenance is reconciled. The current verified OpenReview field
+set is `release/h001_aaai27_openreview_20260715_213525/`; earlier field
+set is a superseded handoff snapshot.
 
 Completed paper-folder hygiene: `paper/aaai/` now contains only active
 AAAI-27 source/templates and the three canonical `*_aaai27.pdf` outputs.
@@ -349,6 +373,12 @@ CAND-003 is the literature-survey track. Its next step remains user judgment on 
       all three predictors. Direct paired comparisons show no joint dominance;
       SGFN-specific exact-label supervision remains a separate stronger-label
       comparator.
+- [x] Formalize orbit projection and family-slot routing as two propositions
+      with complete supplement proofs. Freeze and execute three strict
+      train-only held-out-primitive refits on the official 548-context target.
+      Exact-scalar removal preserves nearly the full result; full primitive-
+      family removal attenuates K=50 V gains on VL-SAT/SGFN but retains the
+      Open3DSG effect. All 14 Docker validations pass.
 - [x] Evaluate Open3DSG through public-eligible 533, public/full-target 548,
       and recovered/full-target 548 routes. Promote the conservative public
       full-target route to the main table and retain the other two as
@@ -860,17 +890,26 @@ Non-data:
 
 ## Next
 
-- [ ] Freeze the single-dataset-risk test before execution: select an external
-      dataset with a compatible relation ontology and instance geometry,
-      define train-free label/geometry mapping, applicability coverage,
-      Recall--Violation denominators, source-ranking baselines, and explicit
-      negative-transfer criteria. Treat the existing ReplicaSSG work as
-      development evidence rather than a fresh confirmation.
+- [x] Freeze and execute the single-dataset-risk test: use ReplicaSSG as a
+      previously observed external benchmark, lock the current model/routing
+      hash, zero target tuning, scene bootstrap, all conditions, and five
+      negative-transfer decomposition axes before evaluation. The resulting
+      primary product gate fails, while the route-aware rank diagnostic
+      isolates scale quantization and family displacement; all 20 validations
+      pass.
 
-- [ ] Regenerate the anonymous OpenReview field bundle from the 2026-07-15
-      canonical PDFs, routed public/full ablation artifact, and primary
-      scan-cluster intervals; rerun outer/inner checksums, source rebuild,
-      archive integrity, and identity-path scans.
+- [x] Add the ReplicaSSG final-method diagnostic to the supplement as a
+      transparent external stress test with the failed primary product,
+      positive route-aware rank diagnostic, 44.19% candidate ceiling, and
+      previously observed-target caveat. It does not change the main claim or
+      primary method.
+
+- [x] Regenerate the anonymous OpenReview field bundle from the 2026-07-15
+      canonical PDFs, routed public/full ablation artifact, primary
+      scan-cluster intervals, propositions, and held-out-primitive diagnostic.
+      The verified bundle is
+      `release/h001_aaai27_openreview_20260715_201021/`; outer/inner checksums,
+      source rebuild, archive integrity, and identity-path scans pass.
 
 - [x] Promote `orbit_pairwise_projected_product` as the paper-facing
       relation-algebra-constrained compatibility and regenerate every
@@ -898,9 +937,9 @@ Non-data:
 
 ### Archived External-Transfer Route
 
-- [x] ReplicaSSG/FROSS transfer development is complete and de-scoped. It is
-      retained as internal provenance only; the active paper is 3DSSG-only and
-      makes no dataset-level generalization claim.
+- [x] ReplicaSSG/FROSS transfer development and the locked-final-method
+      benchmark are complete. They remain outside the main claim; the active
+      paper makes no established dataset-level generalization claim.
 - [ ] Optional, not active: if LLM proxy evidence must be promoted beyond a
       diagnostic, collect a human-alignment subset or independent first-pass
       sheets and run the frozen Human V@K evaluator. The current selected route
@@ -1054,13 +1093,40 @@ Non-data:
 
 ## Recently Completed
 
+- [x] Re-evaluate product, Rank-average, RRF, and the supervision-matched
+      nonlinear model with the identical official 548-context family-slot
+      route; disclose exact counterfactual-generation rules and shared
+      verifier primitives in the supplement; add the Transformation-Aware
+      Decoupling closest-work boundary; rebuild 9/4/2-page PDFs; and regenerate
+      the verified anonymous bundle at
+      `release/h001_aaai27_openreview_20260715_213525/`. The 196-record inner
+      manifest, outer checksums, ZIP integrity, identity scan, and extracted-
+      source Docker/text-identity rebuild all pass.
+
 Historical note for H001: entries below this line are provenance logs from
 earlier paper/experiment passes. For current H001 decisions, use `Current
 Snapshot`, `Current Phase`, `summary.md`,
 `experiments/H001_geom_reliability/README.md`, and
 `paper/aaai/README.md`. Older AAAI or ICCV build notes and the 2026-07-14 field
-bundle are historical; the canonical manuscript is the 2026-07-15 routed-
-ablation build, and its replacement upload bundle is pending.
+bundle are historical; the canonical manuscript and upload bundle are the
+verified 2026-07-15 routed-ablation revisions.
+
+- [x] H001 orbit/routing propositions and held-out-primitive diagnostic were
+      added to the synchronized manuscript. Canonical main/supplement/checklist
+      are 9/4/2 pages, and
+      `release/h001_aaai27_openreview_20260715_201021/` passes the outer
+      manifest, 189-record inner manifest, ZIP integrity, anonymous identity
+      scan, and extracted-source Docker/text-identity rebuild. Logs:
+      `logs/h001_release_inner_manifest_20260715_201021.log` and
+      `logs/h001_release_source_build_20260715_201021.log`.
+
+- [x] H001 current OpenReview field bundle regenerated and verified at
+      `release/h001_aaai27_openreview_20260715_181313/`: exact canonical PDFs,
+      180-record anonymous source/evidence manifest, archive-integrity and
+      identity scans, and extracted-source Docker rebuild with identical PDF
+      text content. Logs:
+      `logs/h001_release_inner_manifest_20260715_181313.log` and
+      `logs/h001_release_source_build_20260715_181313.log`.
 
 - [x] H001 canonical path and Docker-retention audit completed: active
       method/evaluation/PDF/release owners were reconciled across the root,

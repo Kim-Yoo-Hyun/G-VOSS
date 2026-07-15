@@ -18,13 +18,16 @@ Detailed stage logs remain in the experiment subfolders.
 | primary applicability-routed evaluation | `experiments/H001_geom_reliability/support_contact_routing_v1/evaluation/` |
 | synchronized unrestricted/comparator evaluation | `experiments/H001_geom_reliability/structured_main_v1/evaluation/` |
 | matched nonlinear comparison | `experiments/H001_geom_reliability/supervision_matched_nonlinear_v1/evaluation/` |
+| same-route product/rank/RRF/MLP comparison | `experiments/H001_geom_reliability/routed_comparators_v1/evaluation/` |
 | Open3DSG 533/548 sensitivity | `experiments/H001_geom_reliability/open3dsg_official_route_v1/evaluation/` |
 | paper-facing routed K=50/100 ablations | `experiments/H001_geom_reliability/structured_ablation_v1/routed_public_full_evaluation/` |
 | supplemental unrestricted ablations | `experiments/H001_geom_reliability/structured_ablation_v1/evaluation/` |
 | primary scan-cluster intervals | `experiments/H001_geom_reliability/support_contact_routing_v1/scan_cluster_sensitivity/` |
+| held-out verifier-primitive diagnostic | `experiments/H001_geom_reliability/held_out_primitive_v1/evaluation/` |
+| ReplicaSSG locked final-method transfer | `experiments/H001_geom_reliability/sources/replicassg/final_method_transfer_v1/` |
 | compact result report | `results/h001_geom_reliability/report.md` |
 | active manuscript source/PDFs | `paper/aaai/` |
-| previous verified OpenReview bundle (stale after 2026-07-15 revision) | `release/h001_aaai27_openreview_20260714_233534/` |
+| current verified OpenReview bundle | `release/h001_aaai27_openreview_20260715_213525/` |
 
 `summary_0713.md`, older release directories, and archived manuscript PDFs are
 historical snapshots, not current-state owners.
@@ -252,7 +255,7 @@ Facts:
 - Full-validation source artifacts, the primary family-slot route,
   supervision-matched nonlinear comparison, Open3DSG 533/548 sensitivity,
   deterministic qualitative inspection, routed public/full ablations, and
-  primary scan-cluster intervals are ready
+  K=50/100 scan-cluster intervals are ready
   for the selected paper-facing H001 route.
 - Paper handoff and planning are ready: `paper/README.md`, `paper/preview.md`,
   `paper/progress.md`, `paper/appendix.md`, `paper/outline.md`,
@@ -265,10 +268,15 @@ Facts:
 - Current target-year submission route uses the official `aaai2027` kit and a
   standalone reproducibility-checklist upload. Verified Docker outputs are
   `paper/aaai/main_aaai27.pdf` (9 pages; technical content through page 7,
-  references on pages 8--9), `paper/aaai/supplement_aaai27.pdf` (3 pages),
+  references on pages 8--9), `paper/aaai/supplement_aaai27.pdf` (4 pages),
   and `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Build image:
   `h001-aaai27-tex:20260712`; final main log:
-  `logs/h001_main_routed_ablation_20260715_010230.log`. The manuscript keeps
+  `logs/h001_main_propositions_holdout_20260715_200906.log`; final supplement log:
+  `logs/h001_supp_propositions_holdout_20260715_200906.log`. Main/supplement
+  SHA256 values are
+  `10d56427e1c5b338821ceb4ffac7524c6aebd4e174a2d2ca179bd1bcec7e7b65` and
+  `505188c1d299d76d1867776df84336398466cc1445429ca71510c8d70f4b8f7c`.
+  The manuscript keeps
   Open3DSG as the main open-vocabulary case study and VL-SAT as the controlled
   reproduced anchor.
 
@@ -623,33 +631,34 @@ runbooks. It intentionally excludes large datasets, checkpoint binaries,
 feature caches, row-level predictions, and external Docker images. The copied
 paper source was rebuilt independently in Docker before archive creation.
 
-Previous AAAI-27 OpenReview field bundle, applicability-routing revision
-verified 2026-07-14 KST and superseded by the 2026-07-15 manuscript revision:
+Current AAAI-27 OpenReview field bundle, verified 2026-07-15 KST:
 
 ```text
-root: release/h001_aaai27_openreview_20260714_233534/
-paper: main.pdf (1,184,880 bytes; SHA256 feae648b60e11a2d9f3a3e5e60f120c75e5e42cd3008a74a8dc5b2fbd7670580)
-checklist: reproducibility_checklist.pdf (98,617 bytes; SHA256 88dcb8c28eb6591a47b4411cf0b799419a30ce2fe6a3e5f08dbe8a94496ee239)
-technical supplement: technical_supplement.pdf (190,683 bytes; SHA256 ea01ec3587a7717199f6aef6e5a871e989bb57d371f133402e21c9df5f3d2bd7)
-code/data: code_and_data_supplement.zip (2,655,816 bytes; SHA256 6055a3f02719d0e82e3fef9375f78e6ffa6325b9568e49c972bf12304871583f)
+root: release/h001_aaai27_openreview_20260715_213525/
+paper: main.pdf (1,196,260 bytes; SHA256 8a3d7c133ff6e096649cb083db4a9c501e706e1edb9d084693dd0e177dd8ce86)
+checklist: reproducibility_checklist.pdf (99,012 bytes; SHA256 4f7b254f2ee62291249f7a68e8d30fe34ea6976df91f235686a4e7740448e7fc)
+technical supplement: technical_supplement.pdf (214,948 bytes; SHA256 239aa28d6c14b57eb47b851fab5b29f971ea24a49afeba9e463407ae820484c3)
+code/data: code_and_data_supplement.zip (3,005,721 bytes; SHA256 ac9f0f4ceb0f81fe1fd97a5613b0ba4ef85f019d51a8a0530225ec2b62b37bdf)
 upload manifest: UPLOAD_MANIFEST.sha256
 ```
 
-The ZIP passed archive integrity, its 167-record internal `MANIFEST.sha256`, and
+The ZIP passed archive integrity, its 196-record internal `MANIFEST.sha256`, and
 targeted author-identity/path scans. It contains no `.git` directory, external
-Docker image, Codex proxy result, ReplicaSSG/FROSS development payload, or
-Qwen-VL extension payload. It must not be uploaded as the current manuscript.
+Docker image, Codex proxy result, ReplicaSSG/FROSS development branch or
+row-level payload, or Qwen-VL extension payload.
 `README.md` maps files to the live OpenReview fields;
 `submission_metadata.md` records topics, remaining author fields, claim scope,
-sizes, and hashes. Do not upload the historical compact tarball or the stale
-2026-07-12 field bundle in place of these files.
+and reporting notes. Do not upload the historical compact tarball or older
+field bundles in place of these files.
 
 The extracted source rebuild is recorded in
-`logs/h001_release_source_build_20260714_233534.log`. The replacement canonical
-main PDF build is `logs/h001_main_routed_ablation_20260715_010230.log`; a new
-field bundle and extracted-source rebuild are pending. No dataset,
-checkpoint, or Docker image was modified; only temporary bundle staging and
-verification copies were removed.
+`logs/h001_release_source_build_20260715_213525.log`; inner-manifest verification
+is `logs/h001_release_inner_manifest_20260715_213525.log`, and the anonymous
+path/identity scan is `logs/h001_release_identity_scan_20260715_213525.log`.
+The extracted main,
+supplement, and checklist reproduce the canonical page counts and text exactly;
+binary PDF hashes differ only because TeX embeds build-time metadata. No
+dataset, checkpoint, or Docker image was modified.
 
 ```text
 status: upload_bundle_file_list_and_verification_fixed_no_archive_created
@@ -1344,6 +1353,28 @@ The denominator-corrected cross-source diagnostic is under
 `development_v2/cross_source_evaluation/` and includes all 548 contexts,
 including ten with zero in-scope GT but valid Violation contributions.
 
+The current final-method transfer metric does not require regenerating meshes,
+frames, weights, or TensorRT inference while the preserved 4,293-row
+verification JSONL remains present. Its frozen Docker command is:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm external_dataset_transfer
+```
+
+Canonical contract and result:
+
+- `experiments/H001_geom_reliability/sources/replicassg/final_method_transfer_v1/protocol.json`
+- `experiments/H001_geom_reliability/sources/replicassg/final_method_transfer_v1/evaluation/`
+- evaluator: `src/geocalib/run_external_dataset_transfer.py`
+- log: `logs/h001_external_dataset_transfer_20260715_111730.log`
+
+The protocol locks the current model hash, zero target fit/tuning, 11-scene
+bootstrap, seven conditions, and the negative-transfer decomposition before
+metric execution. All 20 validations pass. The official test target had been
+observed in previous development, so this result is an external benchmark
+evaluation rather than prospective confirmation.
+
 The source runner is storage-streamed. Use the stdin-isolation shim so Docker
 does not consume the scan loop input:
 
@@ -1527,8 +1558,8 @@ Outputs:
   and `nonlinear_fusion_baseline/evaluation_v1/`;
 - Codex non-human proxy evaluation:
   `experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_evaluation_v1/`;
-- active submission PDF: `paper/aaai/main_aaai27.pdf`, SHA256
-  `564dbc044e155edf997109bbab1ea6fc97ff993e8fb95c01eda1cf9f25694b9b`;
+- the then-current submission PDF from this historical stage has been
+  superseded; use the canonical hashes in `Current Status` above;
 - non-submission proxy manuscript: `paper/paper_nonsub/main_nonsub.pdf`,
   SHA256
   `52dc1c775ede032df45f345999f6421cadbb331856a5e4862c083c29f9ee7287`.

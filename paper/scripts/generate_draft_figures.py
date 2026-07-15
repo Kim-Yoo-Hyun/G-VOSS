@@ -55,15 +55,22 @@ COLORS = {
 
 KS = (5, 10, 20, 50, 100)
 
-EXPECTED_FIGURE2_K100 = {
-    "VL-SAT": {"source_score": (0.9635, 0.0476), "family_slot_rerank": (0.9658, 0.0295)},
-    "Open3DSG": {"source_score": (0.5111, 0.1242), "family_slot_rerank": (0.5692, 0.0324)},
-    "SGFN": {"source_score": (0.9235, 0.0630), "family_slot_rerank": (0.9303, 0.0350)},
+EXPECTED_FIGURE2_REFERENCES = {
+    "50": {
+        "VL-SAT": {"source_score": (0.9272, 0.0268), "family_slot_rerank": (0.9277, 0.0197)},
+        "Open3DSG": {"source_score": (0.4043, 0.1387), "family_slot_rerank": (0.4418, 0.0342)},
+        "SGFN": {"source_score": (0.7402, 0.0385), "family_slot_rerank": (0.7450, 0.0263)},
+    },
+    "100": {
+        "VL-SAT": {"source_score": (0.9635, 0.0476), "family_slot_rerank": (0.9658, 0.0295)},
+        "Open3DSG": {"source_score": (0.5111, 0.1242), "family_slot_rerank": (0.5692, 0.0324)},
+        "SGFN": {"source_score": (0.9235, 0.0630), "family_slot_rerank": (0.9303, 0.0350)},
+    },
 }
 
 EXPECTED_FIGURE3_CASES = [
     "open3dsg_case_001",
-    "open3dsg_case_010",
+    "open3dsg_case_019",
     "open3dsg_case_026",
 ]
 
@@ -288,9 +295,9 @@ def generate_figure2(data: dict[str, dict[str, dict[str, dict[str, float]]]]) ->
             dash = ' stroke-dasharray="7 5"' if condition == "source_score" else ""
             parts.append(f'<path d="{path}" fill="none" stroke="{COLORS[condition]}" stroke-width="2.8"{dash}/>')
             for k, (x, y) in zip(KS, points):
-                radius = 5.5 if k == 100 else 4.2
+                radius = 5.5 if k == 50 else 4.2
                 parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{radius}" fill="{COLORS[condition]}" stroke="#ffffff" stroke-width="1.2"/>')
-                if k == 100:
+                if k == 50:
                     parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="9" fill="none" stroke="#111827" stroke-width="1.4"/>')
         for idx, k in enumerate(KS):
             sx, sy = mapped_points["source_score"][idx]
@@ -302,7 +309,7 @@ def generate_figure2(data: dict[str, dict[str, dict[str, dict[str, float]]]]) ->
             parts.append(svg_text(label_x, label_y, str(k), 16, 700, "#374151", "middle"))
 
     parts.append(f'<text x="20" y="215" transform="rotate(-90 20 215)" font-family="Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#111827" text-anchor="middle">Violation@K (lower is better)</text>')
-    parts.append(svg_text(1475, 414, "Outline: K=100", 16, 400, "#4b5563", "end"))
+    parts.append(svg_text(1475, 414, "Outlined: K=50", 16, 400, "#4b5563", "end"))
     parts.append("</svg>")
     return "\n".join(parts)
 
@@ -342,19 +349,20 @@ def validate_outputs(figure2_data: dict[str, dict[str, dict[str, dict[str, float
     errors: list[str] = []
     tolerance = 5e-4
 
-    for source, expected_rows in EXPECTED_FIGURE2_K100.items():
-        for condition, expected in expected_rows.items():
-            actual = figure2_data.get(source, {}).get(condition, {}).get("100")
-            if actual is None:
-                errors.append(f"missing Figure 2 row: {source} {condition} K=100")
-                continue
-            for metric, expected_value in zip(("recall", "violation"), expected):
-                diff = abs(float(actual[metric]) - expected_value)
-                if diff > tolerance:
-                    errors.append(
-                        f"Figure 2 mismatch: {source} {condition} {metric} "
-                        f"actual={float(actual[metric]):.6f} expected={expected_value:.6f}"
-                    )
+    for k, source_rows in EXPECTED_FIGURE2_REFERENCES.items():
+        for source, expected_rows in source_rows.items():
+            for condition, expected in expected_rows.items():
+                actual = figure2_data.get(source, {}).get(condition, {}).get(k)
+                if actual is None:
+                    errors.append(f"missing Figure 2 row: {source} {condition} K={k}")
+                    continue
+                for metric, expected_value in zip(("recall", "violation"), expected):
+                    diff = abs(float(actual[metric]) - expected_value)
+                    if diff > tolerance:
+                        errors.append(
+                            f"Figure 2 mismatch: {source} {condition} K={k} {metric} "
+                            f"actual={float(actual[metric]):.6f} expected={expected_value:.6f}"
+                        )
 
     actual_cases = [str(case["case_id"]) for case in figure3_cases]
     if actual_cases != EXPECTED_FIGURE3_CASES:
@@ -376,7 +384,7 @@ def generate_figure3(cases: list[dict[str, object]]) -> str:
     width, height = 1280, 660
     roles = {
         "open3dsg_case_001": ("A", "Proximity demotion", "#eff6ff"),
-        "open3dsg_case_010": ("B", "Support/contact demotion", "#ecfdf5"),
+        "open3dsg_case_019": ("B", "Relative-vertical demotion", "#ecfdf5"),
         "open3dsg_case_026": ("C", "Residual calibration risk", "#fff1f2"),
     }
     parts = [
@@ -434,7 +442,7 @@ def write_outputs() -> None:
         ],
         "validation": str((OUT_DIR / "validation.json").relative_to(ROOT)),
         "layout_review": str(LAYOUT_REVIEW.relative_to(ROOT)),
-        "claim_boundary": "cross-predictor evidence on a shared geometry-identifiable 3DSSG target; K=100 is primary and all five K values are reported",
+        "claim_boundary": "cross-predictor evidence on a shared geometry-identifiable 3DSSG target; K=50 is a descriptive mid-curve reference and all five K values are reported",
     }
     (OUT_DIR / "manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
 

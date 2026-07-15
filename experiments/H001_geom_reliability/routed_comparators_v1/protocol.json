@@ -1,0 +1,36 @@
+{
+  "schema_version": "h001_routed_comparator_protocol_v1",
+  "status": "frozen_before_routed_comparator_evaluation",
+  "created_at_kst": "2026-07-15",
+  "purpose": "Compare product, rank-average, reciprocal-rank fusion, and a supervision-matched nonlinear model under the identical family-slot route and official 548-context target.",
+  "routing": {
+    "family_slots": "preserve the source-ranked predicate-family sequence",
+    "support_contact": "retain source order",
+    "proximity_and_relative_vertical": "rerank within family using the comparator-specific score",
+    "source_specific_refitting": false
+  },
+  "evaluation": {
+    "ks": [5, 10, 20, 50, 100],
+    "bootstrap_unit": "scan_id cluster",
+    "bootstrap_resamples": 1000,
+    "bootstrap_seed": 20260715
+  },
+  "inputs": {
+    "structured_models": "experiments/H001_geom_reliability/relation_algebra_v1/evaluation/models.json",
+    "strict_models": "experiments/H001_geom_reliability/train_only_reestablishment_v1/calibration/fitted/models.json",
+    "nonlinear_models": "experiments/H001_geom_reliability/supervision_matched_nonlinear_v1/evaluation/models.json",
+    "ground_truth": "experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl",
+    "official_context_annotations": "local_dataset/3DSSG_subset/relationships_validation.json",
+    "vlsat_verification": "experiments/H001_geom_reliability/sources/vlsat/full_validation/geometry/verification.jsonl",
+    "open3dsg_verification": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/geometry/verification.jsonl",
+    "sgfn_verification": "experiments/H001_geom_reliability/sources/sgfn/geometry/verification.jsonl",
+    "routing_reference": "experiments/H001_geom_reliability/support_contact_routing_v1/evaluation/summary.json",
+    "open3dsg_reference": "experiments/H001_geom_reliability/open3dsg_official_route_v1/evaluation/summary.json"
+  },
+  "locked_sha256": {
+    "structured_models": "62d251f3ce60e2db54eb1748c277350e3b9e2c7c9d2be0312cf2fb323b761410",
+    "strict_models": "bf52a2d7c90d3f11e024f74ac6f3ba7a88f04d2865fb0df7a34a079b200f3c6f",
+    "nonlinear_models": "ccf4107c06d95161df8ecb1948b37f781025407d7b3596ddd6886394a2976c3e"
+  },
+  "claim_boundary": "This is an apples-to-apples fusion comparison on a shared 3DSSG target. It tests score construction under fixed routing, not dataset-level generalization or universal formula superiority."
+}

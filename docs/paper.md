@@ -148,20 +148,22 @@ Reviewer-defense rules after the independent-validity/family review:
   one fusion formula is uniquely optimal. Its primary inference rule preserves
   the source-ranked family-slot sequence, applies product ordering only within
   proximity/vertical slots, and preserves support/contact ordering. Treat the
-  unrestricted product as an ablation, rank-average and RRF as strong fusion
-  comparisons, pooled product as a family-conditioning ablation, and hard
-  filtering as a construction diagnostic.
+  unrestricted product as an ablation; compare product, rank-average, RRF, and
+  the supervision-matched nonlinear model under the same family-slot route;
+  treat pooled product as a family-conditioning ablation and hard filtering as
+  a construction diagnostic.
 - Support/contact pass-through removes the operational regression without
   establishing support/contact compatibility. Never convert exact preservation
   into a support/contact-improvement claim.
-- ReplicaSSG/FROSS is a cross-dataset transfer stress test and development
-  diagnostic. Disclose that its initial K=100 product has no effect while
-  rank-average fails the recall guardrail, then report test-specific tuning for
-  any source-normalized bounded fusion. It is not an unbiased external estimate.
-  Development v2 confirms that an all-scene bounded fit can retain K=100 recall
-  while reducing verifier V, but LOSO fails the recall guardrail. Keep the
-  formulation, sweep, and cross-source check in the supplement/artifact only;
-  do not add bounded fusion to the main Method or contribution list.
+- ReplicaSSG/FROSS contains both prior target-specific development and a later
+  evaluation of the final method without target-specific refitting. The latter must be
+  described as a benchmark evaluation on a previously observed target, not an
+  unbiased or prospective estimate. Its routed product has paired joint gains
+  at K=10 and K=50 but saturates at K=100; report the full five-budget curve in
+  the supplement. A family-slot-preserving rank diagnostic explains score
+  scale sensitivity, but must not replace the main rule based on this target.
+  Keep bounded-fusion development outside the main Method and contribution
+  list, and do not claim dataset-level generalization.
 
 - Aggregate improvement does not authorize every-family wording. Applicability
   routing must preserve support/contact selection and global family composition
@@ -301,7 +303,9 @@ Current paper-facing evaluation direction:
 - Table policy is fixed: one joint Recall/Violation table uses VL-SAT,
   Open3DSG public/full target, and SGFN at K=`{5,10,20,50,100}`. Its rows are
   Source score, applicability-routed RelCompat3D, unrestricted product,
-  rank-average, RRF, and pooled product.
+  same-route rank-average, same-route RRF, and pooled product. The
+  same-route supervision-matched nonlinear model is reported in the supplement
+  because the main table is already at the readability limit.
   A second K=50/100 table contains the frozen six-control ablation; hard
   filtering remains a construction diagnostic outside the primary table.
   Historical
@@ -323,7 +327,7 @@ Current paper-facing evaluation direction:
   explicitly promoted.
 - Active target-year build uses official `aaai2027` source. Outputs are
   `paper/aaai/main_aaai27.pdf` (9 pages; technical content through page 7,
-  references on pages 8--9), `paper/aaai/supplement_aaai27.pdf` (3 pages),
+  references on pages 8--9), `paper/aaai/supplement_aaai27.pdf` (4 pages),
   and `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Final main
   log: `logs/h001_main_routing_20260714_231933.log`. The verified OpenReview
   bundle is `release/h001_aaai27_openreview_20260714_233534/`; it contains the
@@ -640,9 +644,12 @@ Do not claim these until evidence exists:
   identity-preserving geometry join, falsification controls, and joint
   Recall--Violation--uncertainty evaluation. Do not claim a novel or optimal
   fusion formula.
-- The finalized generalization scope is multiple semantic predictors on one
-  geometry-identifiable 3DSSG/3RScan target. Dataset-level generalization is
-  not an active claim; ReplicaSSG/FROSS is de-scoped development provenance.
+- The finalized main-claim scope is multiple semantic predictors on one
+  geometry-identifiable 3DSSG/3RScan target. ReplicaSSG/FROSS provides
+  zero-target-fitting external diagnostic evidence for the unchanged model, but
+  its previously observed target, 44.19% candidate-recall ceiling, absent
+  support/contact mapping, and K=100 score saturation block a dataset-
+  generalization claim.
 - The main compatibility is linked-counterfactual margin fitting followed
   by exact proximity-swap / vertical-inverse orbit projection. Paper prose
   calls it **relation-algebra-constrained compatibility**; the internal
@@ -658,20 +665,24 @@ Do not claim these until evidence exists:
   violation metric. The defensible distinction is continuous source-excluded
   3D same-pair compatibility with identity controls, linked counterfactuals,
   exact algebra projection, and recall/violation/uncertainty accounting.
-- Supervision-matched 69-parameter nonlinear compatibility models exclude
+- Supervision-matched compact nonlinear compatibility models exclude
   source score and predictor identity and use the same constructed train rows.
   Their unchanged transfer does not jointly dominate the product. A separate
   SGFN exact-label nonlinear rescorer uses stronger source-specific supervision;
   its strong result must be disclosed and blocks best-rescorer claims.
-- K=100 is primary; K=`{5,10,20,50}` are all reported without additional
-  protocol labels.
-  The applicability route improves the K=100 point estimate and paired interval
-  in both metrics for all three predictors. Smaller-budget behavior remains
-  source dependent; never convert the primary endpoint into an all-K universal
+- Report K=`{5,10,20,50,100}` together. Use K=50 descriptively as a mid-curve
+  reference, not as a separately registered endpoint, and describe K=10--50
+  behavior without an unsupported operational-use claim;
+  retain K=5 and K=100 in the table and trajectory as low-/high-budget
+  boundaries. At K=50, verifier-V decreases on all three predictors, Recall
+  improves on Open3DSG and SGFN, and near-ceiling VL-SAT has no detectable
+  Recall change. Never convert pointwise trends into an all-K universal
   dominance statement.
-- Generalization evidence is cross-predictor under a shared,
-  geometry-identifiable 3DSSG target. External-dataset generalization is out of
-  scope for the active paper.
+- Generalization evidence is primarily cross-predictor under a shared,
+  geometry-identifiable 3DSSG target. The ReplicaSSG/FROSS supplement reports a
+  retrospective transfer stress test: joint gains at K=10 and K=50, an
+  inconclusive K=5 boundary, and K=100 saturation under score quantization. It
+  must not be framed as established external-dataset generalization.
 - Codex proxy labels, complete mandatory adjudication, and verifier--proxy
   evaluation are non-submission diagnostics under `paper/paper_nonsub/`. The
   active AAAI paper contains no Codex-derived physical-validity result;

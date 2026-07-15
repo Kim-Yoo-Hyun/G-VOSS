@@ -10,20 +10,20 @@ remain under `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-groun
 
 ## Current Appendix Role
 
-The current main paper keeps three tables in the AAAI body: fixed RelCompat3D
-scope, source-specific claim boundary, and Open3DSG-first low-K source results.
+The current main paper keeps the joint five-budget source table and the
+K=50/100 routed ablation table in the AAAI body. Detailed confidence intervals,
+family slices, method diagnostics, and external transfer remain supplemental.
 
 ## ReplicaSSG/FROSS Negative-Transfer Appendix
 
-The current disclosure decision is to keep SGFN as positive source-level
-evidence and report ReplicaSSG/FROSS as a negative-transfer/development result.
-The separate AAAI supplement source is `paper/aaai/supplement.tex`, with the
-frozen result table in `paper/aaai/sec/a_negative_transfer.tex`. It must report
-the 11-scene/172-GT/4,290-candidate scope, all 24 provenance checks, product's
-zero K=100 change, rank-average's violation gain with failed recall guardrail,
-and the verifier-derived-V limitation. The bounded follow-up must distinguish
-the optimistic all-scene fit from the failed LOSO recall guardrail. It must not
-be framed as successful dataset-level generalization.
+The disclosure decision is to report the final unchanged-method
+ReplicaSSG/FROSS evaluation as a retrospective transfer stress test. The
+separate AAAI supplement source is `paper/aaai/supplement.tex`, with the result
+table in `paper/aaai/sec/a_external_transfer.tex`. It reports all K values over
+11 scenes, 4,293 candidates, and 172 exact-label GT relations; paired joint
+improvements at K=10 and K=50; the K=100 saturation; the 44.19% candidate
+ceiling; and source-score quantization. It must not be framed as untouched
+confirmation or established dataset-level generalization.
 Appendix material should defend provenance, denominator discipline, and
 residual risk without broadening the claim.
 
@@ -144,10 +144,12 @@ history only and should not be used for main result claims.
 
 ## Figure 3 Decision
 
-Current decision: no new Figure 3 rendering work is required before the next
-paper pass. The preferred draft is the geometry-backed point-cloud panel in
+Current decision: Figure 3 uses two geometry-identifiable corrections
+(`open3dsg_case_001` proximity and `open3dsg_case_019` relative vertical) plus
+one residual support/contact violation (`open3dsg_case_026`). The preferred
+draft is the geometry-backed point-cloud panel in
 `paper/generated/figures/figure3_geometry_panels.svg`. A rendered scene-crop
-upgrade is optional only if a deterministic crop/render path is added for the
+upgrade is optional only if a deterministic crop/render path preserves these
 same locked case IDs.
 
 ## Relative Horizontal Boundary

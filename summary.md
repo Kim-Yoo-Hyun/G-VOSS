@@ -65,9 +65,11 @@ Authoritative owners:
   consolidated in Discussion and Limitations.
 - Active AAAI-27 outputs: `paper/aaai/main_aaai27.pdf` (9 US-Letter pages;
   technical content through page 7, references on pages 8--9),
-  `paper/aaai/supplement_aaai27.pdf` (3 pages), and
+  `paper/aaai/supplement_aaai27.pdf` (4 pages), and
   `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Final main log:
-  `logs/h001_main_routed_ablation_20260715_010230.log`. All three have
+  `logs/h001_main_final_review_20260715_212943.log`; final supplement log:
+  `logs/h001_supp_final_review_20260715_212943.log`. Main/supplement/checklist
+  SHA256 values are `8a3d7c...`, `239aa28...`, and `4f7b254...`. All three have
   zero Type 3 fonts and no unresolved citations/references or blocking
   LaTeX/overfull errors.
 - The revised Figure 1 is a three-panel vector figure with an actual object-pair
@@ -75,10 +77,15 @@ Authoritative owners:
   routing, rank 19 to 178, and joint Recall--Violation evaluation. Figures 2--3 are also included as
   vector PDFs. Relative size is intentionally absent from Figure 1 and remains
   secondary supplement evidence.
-- The previously verified OpenReview field bundle
-  `release/h001_aaai27_openreview_20260714_233534/` predates the current
-  routed-ablation/table-placement/primary-CI revision and is no longer the
-  active upload candidate. Older factorized,
+- Same-route comparator evaluation is complete under `routed_comparators_v1/`.
+  Product, rank-average, RRF, and the frozen train-only matched MLP share the
+  official 548-context universe, family sequence, support/contact selection,
+  and scan-cluster indices. At Open3DSG K=50, product gives R/V `.4418/.0342`
+  and the MLP `.4670/.0413`; neither dominates the joint trade-off.
+- The current verified OpenReview field bundle is
+  `release/h001_aaai27_openreview_20260715_213525/`. Its anonymous source ZIP
+  contains 196 checksum records and passes extracted-source Docker rebuild and
+  canonical text-identity checks. Older factorized,
   LLM-proxy, Replica-disclosure, and reference-expansion PDFs remain historical
   provenance snapshots rather than upload candidates.
 - Docker retention audit: `h001-geom-reliability:latest`,
@@ -165,15 +172,31 @@ Authoritative owners:
   objective: on complete-coverage Open3DSG it changes product Recall by
   `+.0360` `[+.0252,+.0475]` but worsens V by `+.0096`
   `[+.0079,+.0113]`; VL-SAT/SGFN differences are small.
+- Orbit projection and family-slot routing are formalized by invariance,
+  idempotence, prefix-preservation, and constrained-ranking propositions with
+  supplement proofs. A strict train-only three-condition primitive holdout is
+  complete under `held_out_primitive_v1/`: exact-scalar removal preserves
+  nearly the full result; broader primitive removal retains a strong Open3DSG
+  effect but attenuates K=50 V gains on VL-SAT and SGFN.
 - Reviewers A/B/C confirmed every row of the completed 488-item Codex proxy
   reference without revision. The Docker validator reports 488 resolved rows,
   three distinct reviewer IDs, and zero errors. This remains reviewer-verified
   LLM annotation in `paper/paper_nonsub/`, not Human V@K or independent blank
   first-pass human labeling.
-- The final scientific scope is cross-predictor evidence on a shared
-  3DSSG/3RScan target. Dataset-level generalization is no longer an
-  active claim or acceptance dependency; ReplicaSSG/FROSS remains archived
-  development provenance and is excluded from the active submission route.
+- A no-target-tuning evaluation of the locked final method is complete on
+  ReplicaSSG/FROSS under `sources/replicassg/final_method_transfer_v1/`. The
+  target was observed in earlier development, so this is external benchmark
+  evidence rather than untouched confirmation. The routed product has paired
+  joint improvements at K=10 and K=50; K=20 is positive with its Recall
+  interval touching zero, K=5 is inconclusive, and the K=100 product gate fails
+  because dV is `-.00096` with CI `[-.00288,.00000]`.
+  The pre-frozen family-slot-preserving rank diagnostic reaches R/V
+  `.38372/.04223` from `.35465/.19674`; its dR CI `[-.00476,.06714]` clears
+  the fixed recall guardrail and dV CI `[-.19182,-.11015]` is below zero.
+  The main paper emphasizes the routed product's K=10--50 behavior and
+  reports the full curve in the supplement; the rank diagnostic remains an
+  artifact-level mechanism analysis. This partially mitigates the
+  single-dataset concern but does not establish dataset-level generalization.
 
 ## Claim Boundary
 
@@ -233,6 +256,12 @@ Core steps:
 5. Preserve the source-ranked family-slot sequence; use product ordering inside
    proximity/vertical queues and source ordering inside support/contact.
 6. Report exact-label `R@K` and verifier-derived `Violation@K` together.
+
+The orbit operator is formally invariant and idempotent on each declared
+finite relation-algebra orbit. Family-slot routing preserves the complete
+family sequence and support/contact subsequence at every prefix, and maximizes
+non-increasing position-weighted family utility among all permutations with
+that family sequence. Both guarantees are stated as propositions with proofs.
 
 Main scoring conditions:
 
@@ -430,9 +459,14 @@ boundary; they are not the active main-score table.
   against the calibrated product. The result supports calibrated
   geometry-consistency integration across two evaluated soft
   fusion forms, not family-uniform improvement or formula dominance.
-- ReplicaSSG/FROSS results are retained only as archived method-development
-  provenance. They are outside the finalized 3DSSG-only paper claim and active
-  submission package; no external-dataset inference is drawn from them.
+- ReplicaSSG/FROSS now contributes a locked-final-method external benchmark in
+  addition to archived development. It shows that family-slot routing prevents
+  the global rank-fusion Recall loss, while raw product is neutralized by 86.28%
+  zero source scores. Candidate support caps Recall at .44186, 19.20% of
+  external feature cells exceed three train-standardized deviations, and
+  compatibility aligns verifier satisfaction (AUC .9453) more strongly than
+  exact labels (AUC .6674). The result remains outside the finalized main claim
+  because the target was previously observed and support/contact is unmapped.
 
 Verifier evidence:
 
@@ -451,7 +485,7 @@ Verifier evidence:
 | Open3DSG | main open-vocabulary relation-source case study |
 | Qwen-VL | appendix/extension third semantic source |
 | SGFN full_l160 | additional exact-label source evaluation; aggregate criterion satisfied with verifier-V and baseline caveats |
-| ReplicaSSG + FROSS | archived/de-scoped development provenance; outside the active 3DSSG-only paper |
+| ReplicaSSG + FROSS | locked-final-method external benchmark plus earlier development; positive routed-rank diagnostic, failed primary product gate, previously observed target, no dataset-generalization claim |
 | `relative_size` | promoted secondary scope extension; one main-text sentence plus full supplement, not core learned-method evidence |
 | `relative_horizontal` | stopped appendix/limitation scope-expansion evidence |
 | `relative_lateral` | stopped appendix/future-work boundary evidence |
@@ -530,10 +564,10 @@ Current figures:
   factor isolation, compatibility scoring, and joint evaluation; no
   review-checklist artifact appears in the figure.
 - Figure 2: three-source Recall--Violation trajectories at
-  K=`{5,10,20,50,100}`, with K=100 primary, K=50 secondary, and K=10
-  operational.
-- Figure 3: two large geometry-backed correction examples and one residual
-  top-10 failure.
+  K=`{5,10,20,50,100}`, with K=50 outlined as a descriptive reference and the
+  full low-/high-budget boundaries retained.
+- Figure 3: one proximity correction, one relative-vertical correction, and
+  one residual support/contact violation.
 
 Current reviewer-risk verdict:
 
@@ -604,15 +638,22 @@ Method-strengthening sequence:
     every main comparator, uncertainty metric, family-wise paired interval,
     figure, and table on the same strict train-only model route. The
     unprojected family product remains an ablation.
+11. Completed: froze and ran the current final model on ReplicaSSG without
+    target-specific fitting or hyperparameter selection. All 20 validations pass. The
+    routed product has paired joint gains at K=10 and K=50 but remains
+    scale-limited at K=100. The supplement reports all five budgets and the
+    quantization/candidate-ceiling analysis; a family-slot-preserving rank
+    diagnostic remains mechanism evidence only. The previously observed target
+    prevents prospective wording.
 
 Submission/package hygiene:
 
 1. Completed: verified the live AAAI-27/OpenReview form, official target-year
    style, deadlines, page limits, separate checklist, and supplement policy.
-2. Historical completion: the 2026-07-14 structured-main field bundle passed
-   all outer/inner checksum, extraction, manifest, and author-path checks. It is
-   superseded by the 2026-07-15 routed-ablation/table/CI revision; replacement
-   bundle generation is pending.
+2. Completed: the current 2026-07-15 field bundle at
+   `release/h001_aaai27_openreview_20260715_213525/` passed outer/inner
+   checksums, archive integrity, identity/path scans, and extracted-source
+   Docker rebuild. It supersedes the earlier 2026-07-15 field bundles.
 3. Author action: enter author order/profiles, countries, conflicts, and the
    qualified reciprocal reviewer.
 4. Author decision: final public code license and post-acceptance artifact URL.
@@ -624,6 +665,7 @@ Submission/package hygiene:
    optimality extension.
 
 No new main-source metric experiment is required to preserve the current
-RelCompat3D claim. The coordinated structured-main rerun is complete. SGFN
-remains an additional source evaluation on the known 3DSSG target;
-ReplicaSSG/FROSS is de-scoped from the active paper.
+RelCompat3D claim. The coordinated structured-main rerun and ReplicaSSG
+final-method benchmark are complete. SGFN remains an additional predictor on
+the known 3DSSG target; ReplicaSSG is external diagnostic evidence rather than
+an active dataset-generalization claim.

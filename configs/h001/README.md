@@ -25,6 +25,12 @@ The `scan_cluster_sensitivity` service leaves scores and rankings unchanged and
 resamples the 157 scan identifiers, carrying all relation contexts from each
 sampled scan together.
 
+The `routed_comparator_evaluation` service applies the locked train-only
+product, rank-average, RRF, and supervision-matched MLP under the identical
+family-slot route. It uses all 548 official contexts, treats absent Open3DSG
+candidate lists as empty, and verifies exact family composition and
+support/contact selection before writing scan-cluster intervals.
+
 The `structured_ablation_evaluation` service keeps the promoted model fixed and
 evaluates the frozen K=50/100 wrong-predicate, wrong-pair, shuffled-geometry,
 endpoint-corruption, distance-only, and no-source-score controls. Its protocol

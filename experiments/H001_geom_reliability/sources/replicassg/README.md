@@ -1,6 +1,6 @@
 # ReplicaSSG Transfer Stress Test and Development Diagnostic
 
-Last updated: 2026-07-13 KST
+Last updated: 2026-07-15 KST
 
 This source root owns H001's cross-dataset transfer stress test on the official
 ReplicaSSG test split. The original run was executed under a frozen protocol,
@@ -101,3 +101,34 @@ selected rule's 548-context cross-source evaluation is under
 `development_v2/cross_source_evaluation/` and passes its denominator checks,
 but does not improve the established product consistently enough for promotion.
 These outputs are supplement-only development evidence.
+
+## Locked Final-Method Evaluation v1
+
+`final_method_transfer_v1/protocol.json` freezes a separate evaluation of the
+current final RelCompat3D model and family-slot rule on the regenerated
+4,293-row ReplicaSSG/FROSS artifact. It uses zero ReplicaSSG fit rows and zero
+target-specific hyperparameters. Because this test split was inspected during
+the earlier runs above, its classification is a cross-dataset benchmark
+evaluation on a previously observed target, not prospective confirmation.
+
+Docker command:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm external_dataset_transfer
+```
+
+The primary routed product improves R/V at K=10 and K=50, but at K=100 changes
+R/V only from `.35465/.19674` to `.35465/.19578`. Its dV scene-bootstrap CI is
+`[-.00288,.00000]`, so the strict primary gate fails. The frozen route-aware
+rank-average diagnostic preserves family composition and reaches
+`.38372/.04223`; dR is `+.02907` `[-.00476,.06714]` and dV is `-.15451`
+`[-.19182,-.11015]` under the same fixed numerical rule.
+
+The decomposition shows that 86.28% zero source scores make raw products
+degenerate, while global rank fusion loses Recall through cross-family
+displacement. It also finds a .44186 candidate-recall ceiling, substantial
+feature shift, and much stronger compatibility alignment with the external
+verifier (AUC .9453) than with exact labels (AUC .6674). All 20 manifest
+validations pass. The full per-scene, family, feature, rank, and selection
+diagnostics are in `final_method_transfer_v1/evaluation/summary.json`.

@@ -1,41 +1,53 @@
 \section{Strong-Comparator and Open3DSG Sensitivities}
 
-\paragraph{Supervision-matched nonlinearity.}
-To separate architecture capacity from supervision, we fit a 69-parameter
-two-hidden-unit MLP using the same 60,208 training rows, constructed
-compatibility target, feature contract, source-score exclusion, and
-1,061/117/157 split as the linear model. It is fitted once and applied
-unchanged to all three predictors. Table~\ref{tab:nonlinear-comparison} also
-shows a separate nonlinear rescorer trained on stronger SGFN-specific
-exact-label correctness. Open3DSG uses the complete-coverage sensitivity here
-so every comparator sees the same candidate set.
+\paragraph{Same-route strong comparators.}
+To separate score construction and capacity from routing, rank-average, RRF,
+and a small two-hidden-unit MLP use the same family-slot sequence,
+support/contact pass-through, public/full 548-context target, and scan-cluster
+resampling as the linear product. The MLP uses the same training rows,
+constructed target, feature contract, source-score exclusion, and split as the
+linear heads; it is fitted once and applied to all three predictors without
+target-specific refitting.
 
 \begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{3pt}
-\caption{\textbf{Nonlinear comparison at $K=100$.} Cells are Recall / verifier
-V. The matched MLP does not dominate the linear structured product; the last
-column uses stronger SGFN-specific supervision.}
+\caption{\textbf{Same-route fusion comparisons.} Cells are Recall / verifier V
+at $K=50$ and $K=100$. Every row preserves the source family sequence and
+support/contact selections.}
 \label{tab:nonlinear-comparison}
-\begin{tabular}{lrrr}
+\begin{tabular}{llrr}
 \toprule
-Source & Linear product & Matched MLP & Exact-label MLP \\
+Source & Fusion & $K=50$ & $K=100$ \\
 \midrule
-VL-SAT & .9688/.0325 & .9688/.0317 & .9625/.0311 \\
-Open3DSG & .6055/.0339 & .6415/.0434 & .6166/.0334 \\
-SGFN & .9418/.0372 & .9421/.0363 & .9466/.0279 \\
+\multirow{4}{*}{VL-SAT}
+ & Product & .9277/.0197 & .9658/.0295 \\
+ & Matched MLP & .9272/.0189 & .9650/.0296 \\
+ & Rank-average & .9026/.0162 & .9700/.0225 \\
+ & RRF & .9174/.0180 & .9710/.0247 \\
+\midrule
+\multirow{4}{*}{Open3DSG}
+ & Product & .4418/.0342 & .5692/.0324 \\
+ & Matched MLP & .4670/.0413 & .5989/.0371 \\
+ & Rank-average & .4323/.0458 & .5408/.0548 \\
+ & RRF & .4237/.0948 & .5476/.0772 \\
+\midrule
+\multirow{4}{*}{SGFN}
+ & Product & .7450/.0263 & .9303/.0350 \\
+ & Matched MLP & .7457/.0258 & .9288/.0350 \\
+ & Rank-average & .7022/.0236 & .9280/.0259 \\
+ & RRF & .6813/.0253 & .8774/.0302 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Against the linear product, the matched MLP's paired Open3DSG changes are
-$+.0360$ Recall [.0252,.0475] and $+.0096$ V [.0079,.0113]. On VL-SAT and
-SGFN, Recall differences are within $\pm.0003$ and V differences are at most
-.0010 in magnitude for this structured MLP. The stronger exact-label model is
-best on its SGFN source but is worse than routed \method{} on both VL-SAT
-metrics and exhibits a Recall--V trade-off on Open3DSG. This supports the
-factorized compatibility mechanism, not universal formula superiority.
+At $K=50$, the matched MLP has higher Open3DSG Recall than the product but also
+higher V; product and MLP are nearly tied on VL-SAT and SGFN. Rank fusion can
+lower V at large budgets but incurs larger predictor-dependent Recall losses.
+No fusion dominates the joint trade-off. A separate exact-label MLP uses
+stronger SGFN-specific correctness supervision and is therefore retained only
+as an unrestricted upper comparator, not as an apples-to-apples baseline.
 
 \paragraph{Open3DSG public-route sensitivity.}
 The public preprocessing drops a context when fewer than four annotated

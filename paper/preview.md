@@ -14,7 +14,8 @@ chronology belongs in the experiment reports and archive, not here.
 - Scope: `proximity`, `relative_vertical`, and `support_contact` relations on
   one shared 3DSSG/3RScan target.
 - Evidence: VL-SAT, Open3DSG, and SGFN relation predictors evaluated at
-  K=`{5,10,20,50,100}`; K=100 is the primary endpoint.
+  K=`{5,10,20,50,100}`. K=50 is a descriptive mid-curve reference rather than
+  a separately registered endpoint; all K values remain in the main table.
 
 The paper uses six top-level sections: Introduction, Related Work, Method,
 Experiments, Discussion and Limitations, and Conclusion. Problem Setup is
@@ -47,8 +48,8 @@ are valid. The unrestricted product is an ablation, not the primary method.
 
 Allowed claim:
 
-> RelCompat3D is a post-source reliability framework with a shared
-> compatibility model whose inputs exclude predictor identity and source
+> RelCompat3D assesses geometric compatibility for fixed relation predictions
+> with a fitted layer whose inputs exclude predictor identity and source
 > score. It separates source confidence from predicate--geometry compatibility and
 > improves the aggregate Recall--verifier-Violation operating point across
 > three predictors on a shared 3DSSG target.
@@ -57,26 +58,31 @@ Blocked claims include universal formula superiority, best-rescorer
 performance, cross-dataset generalization, independent human physical
 validity, and solved support/contact compatibility.
 
-## Main K=100 Results
+## K=50 Reference Results
 
 | Source | Source R/V | Routed RelCompat3D R/V | Unrestricted product R/V |
 | --- | ---: | ---: | ---: |
-| VL-SAT | .9635/.0476 | .9658/.0295 | .9688/.0325 |
-| Open3DSG public/full target | .5111/.1242 | .5692/.0324 | .6005/.0330 |
-| SGFN | .9235/.0630 | .9303/.0350 | .9418/.0372 |
+| VL-SAT | .9272/.0268 | .9277/.0197 | .9293/.0203 |
+| Open3DSG public/full target | .4043/.1387 | .4418/.0342 | .4655/.0265 |
+| SGFN | .7402/.0385 | .7450/.0263 | .7706/.0256 |
 
-The routed K=100 paired scan-cluster intervals improve both Recall and verifier
-Violation for all three predictors. The primary analysis resamples 157 scans
-and carries all contexts of each sampled scan; paired context resampling
-preserves the same direction as a sensitivity.
-Smaller K values are reported in full and show predictor-dependent trade-offs.
+At K=50, routed scan-cluster intervals show lower verifier Violation for all
+three predictors, positive Recall changes for Open3DSG and SGFN, and no
+detectable Recall change for near-ceiling VL-SAT. Across K=10--50, every routed
+Recall point estimate is preserved or improved and every V point estimate is
+lower. The analysis resamples 157 scans and carries all contexts of each
+sampled scan; paired context resampling preserves the same direction as a
+sensitivity. K=5 and K=100 remain in the main table as boundary conditions.
 
-Open3DSG uses the public pipeline's 533 prediction-bearing contexts evaluated
-on the label-independent official 548-context/3,972-GT universe; the 15 missing
-contexts receive no predictions. Public-eligible 533 and recovered/full-target
-548 routes are supplement sensitivities. At K=100 their source/routed R/V
-values are `.5206/.1242 -> .5799/.0324` and
-`.5161/.1242 -> .5743/.0332`, respectively.
+The supplement additionally reports the method without target-specific
+refitting on ReplicaSSG/FROSS:
+paired joint gains at K=10 and K=50, with K=100 saturation caused by heavily
+quantized source scores. This is a transfer stress test, not established
+dataset-level generalization.
+
+Open3DSG is evaluated on the official 548-context/3,972-GT universe; contexts
+without public-pipeline candidates are retained as empty candidate sets.
+Coverage variants are reported only as supplement sensitivities.
 
 ## Strong Comparisons and Controls
 
@@ -85,10 +91,10 @@ values are `.5206/.1242 -> .5799/.0324` and
 - Hard filtering is a zero-violation diagnostic that may return fewer than K.
 - Wrong-predicate, wrong-pair, shuffled-geometry, endpoint-swap,
   distance-only, and compatibility-only controls are reported at K=50/100.
-- Two 69-parameter source-score-excluded nonlinear models receive the same
-  constructed supervision and transfer unchanged across predictors. They do
-  not jointly dominate the product: the structured nonlinear model improves
-  Open3DSG Recall by `.0360` at K=100 but raises Violation by `.0096`.
+- A frozen train-only, source-score-excluded nonlinear model receives the same
+  constructed supervision and uses the same family-slot route. It does not
+  jointly dominate the product: at Open3DSG K=100 it improves Recall by
+  `.0297` while increasing Violation by `.0047`.
 - A separate SGFN-specific exact-label nonlinear rescorer is a stronger-label
   comparator, not a supervision-matched replacement.
 

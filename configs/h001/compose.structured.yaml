@@ -125,6 +125,24 @@ services:
       - --out
       - /workspace/experiments/H001_geom_reliability/support_contact_routing_v1/scan_cluster_sensitivity
 
+  held_out_primitive_evaluation:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/geocalib/run_held_out_primitive_evaluation.py]
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/held_out_primitive_v1/protocol.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/held_out_primitive_v1/evaluation
+
   supervision_matched_nonlinear:
     build:
       context: ../..
@@ -143,6 +161,24 @@ services:
       - --out
       - /workspace/experiments/H001_geom_reliability/supervision_matched_nonlinear_v1/evaluation
 
+  routed_comparator_evaluation:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/geocalib/run_routed_comparator_evaluation.py]
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/routed_comparators_v1/protocol.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/routed_comparators_v1/evaluation
+
   open3dsg_official_route_sensitivity:
     build:
       context: ../..
@@ -160,3 +196,21 @@ services:
       - /workspace/experiments/H001_geom_reliability/open3dsg_official_route_v1/protocol.json
       - --out
       - /workspace/experiments/H001_geom_reliability/open3dsg_official_route_v1/evaluation
+
+  external_dataset_transfer:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/geocalib/run_external_dataset_transfer.py]
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/sources/replicassg/final_method_transfer_v1/protocol.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/sources/replicassg/final_method_transfer_v1/evaluation

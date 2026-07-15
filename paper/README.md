@@ -24,16 +24,16 @@ paper-level framing rules live in `docs/paper.md`.
   geometry-checkable 3D Scene Graph relation families.
 - Non-claim: broad open-vocabulary 3DSSG generation improvement.
 - Active AAAI-27 Docker build: `paper/aaai/main_aaai27.pdf`, SHA256
-  `9af7cc1741ec584af72baa5357ee01b2b1db472e439f6cc86127eb0d59275814` (9 pages: technical
+  `8a3d7c133ff6e096649cb083db4a9c501e706e1edb9d084693dd0e177dd8ce86` (9 pages: technical
   content through page 7 and references on pages 8--9),
   `paper/aaai/supplement_aaai27.pdf`, SHA256
-  `3c862ef40d5cd92f3dd57994800dd54d922405c8688b6b216dbe3735e0df2dad`
-  (3 pages), and
+  `239aa28d6c14b57eb47b851fab5b29f971ea24a49afeba9e463407ae820484c3`
+  (4 pages), and
   `paper/aaai/reproducibility_checklist_aaai27.pdf`, SHA256
-  `88dcb8c28eb6591a47b4411cf0b799419a30ce2fe6a3e5f08dbe8a94496ee239`
+  `4f7b254f2ee62291249f7a68e8d30fe34ea6976df91f235686a4e7740448e7fc`
   (2 pages). Final main log:
-  `logs/h001_main_routed_ablation_20260715_010230.log`; final supplement log:
-  `logs/h001_supplement_routed_ablation_20260715_010243.log`; image:
+  `logs/h001_main_final_review_20260715_212943.log`; final supplement log:
+  `logs/h001_supp_final_review_20260715_212943.log`; image:
   `h001-aaai27-tex:20260712`. Type 3 fonts, unresolved references/citations,
   LaTeX errors, and overfull boxes are zero.
 - The active submission excludes Codex-derived physical-validity numbers. The
@@ -44,22 +44,24 @@ paper-level framing rules live in `docs/paper.md`.
   isolation -> method -> experiments -> discussion/limitations. It uses six
   top-level sections; Problem Setup is inside Method, and Setup/results are
   grouped under Experiments. Figure 1 is failure-grounded,
-  Figure 2 connects K=5/10/20/50/100 for three sources, and Figure 3 shows two
-  corrections plus one residual failure. The main comparison is one joint
+  Figure 2 connects K=5/10/20/50/100 for three sources, and Figure 3 shows
+  proximity and relative-vertical corrections plus one residual support/contact
+  violation. The main comparison is one joint
   Recall/Violation table placed before its interpretation, followed by a
   single-column K=50/100 six-control table using the same public/full
   family-slot route. All three figures are included as vector PDFs.
-- Previous OpenReview field bundle:
-  `release/h001_aaai27_openreview_20260714_233534/`. It predates the current
-  ablation-route, table-placement, and primary-CI revision and must be
-  regenerated before upload. The prior Replica-disclosure and other superseded PDFs are indexed under
+- Current verified OpenReview field bundle:
+  `release/h001_aaai27_openreview_20260715_213525/`. It contains exact copies
+  of the three canonical PDFs and an anonymous 196-record source/evidence ZIP
+  whose extracted LaTeX source was rebuilt in Docker. The prior
+  Replica-disclosure and other superseded PDFs are indexed under
   `archive/paper/aaai_snapshots/`; the 2026-07-12 bundle and compact tarball are
   historical handoff snapshots.
 - RelCompat3D is framework-first. Its primary decision rule applies the strict
   train-only relation-algebra-constrained product within proximity/vertical
   source-family slots and preserves support/contact ordering. Unrestricted
-  product and scale-robust rank-average are comparisons; neither is claimed
-  universally dominant. Pooled compatibility
+  product, same-route rank-average/RRF, and the matched nonlinear model are
+  comparisons; none is claimed universally dominant. Pooled compatibility
   is an ablation, RRF a strong comparator, and compatibility-only ranking a
   control. Internal metric keys no longer appear in manuscript prose or
   rendered figures.
@@ -68,9 +70,15 @@ paper-level framing rules live in `docs/paper.md`.
   main comparators, uncertainty results, figures, and tables were regenerated
   together under `structured_main_v1/`; the internal orbit name is retained
   only for artifact provenance.
+- Orbit projection and family-slot routing now have explicit propositions and
+  complete supplement proofs. The supplement also reports three strict
+  train-only verifier-primitive holdouts: exact-scalar removal preserves nearly
+  the full result, while broader removal exposes the remaining dependence on
+  correlated geometry.
 - The active scientific scope is cross-predictor evidence on one shared
   3DSSG/3RScan target.
-  ReplicaSSG/FROSS is excluded from the submission route.
+  ReplicaSSG/FROSS appears only as a supplemental retrospective transfer stress
+  test with all K values and explicit K=100 saturation.
 - H001 now uses the factor contract `T_e` = predicate/family semantics, `G_e`
   = raw predicate-independent same-pair geometry, `Z_e` = source relation score,
   and `C_e = sigmoid(h_a(Phi(T_e,G_e)))`, with `Z_e notin C_e` and

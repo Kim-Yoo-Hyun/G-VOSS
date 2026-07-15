@@ -76,81 +76,78 @@
     "view": "top-down XY"
   },
   {
-    "case_id": "open3dsg_case_010",
-    "geometry_rank": 39,
-    "ground_truth_match_status": "pair_has_other_predicate",
-    "matched_gt_predicates": [
-      "right",
-      "front"
-    ],
+    "case_id": "open3dsg_case_019",
+    "geometry_rank": 430,
+    "ground_truth_match_status": "no_gt_for_pair",
+    "matched_gt_predicates": [],
     "measurements": {
-      "object_top_minus_subject_bottom": 0.268054,
-      "subject_bottom_minus_object_top": -0.268054,
-      "subject_top_minus_object_top": 0.077855,
-      "xy_center_distance": 0.587571,
-      "z_center_delta_subject_minus_object": 0.937625
+      "object_top_minus_subject_bottom": 2.42,
+      "subject_bottom_minus_object_top": -2.42,
+      "subject_top_minus_object_top": -2.04,
+      "xy_center_distance": 1.852987,
+      "z_center_delta_subject_minus_object": -1.017258
     },
     "object_geometry": {
       "center": [
-        2.505183,
-        2.12653,
-        -1.021811
+        2.456483,
+        0.881842,
+        -0.488452
       ],
       "max": [
-        2.83256,
-        2.35816,
-        0.0
+        2.76435,
+        1.19,
+        0.67
       ],
       "min": [
         0.0,
         0.0,
-        -1.15221
+        -0.759575
       ]
     },
-    "object_id": 9,
-    "object_label": "side table",
-    "p_geom_valid": 0.05004450488228237,
+    "object_id": 10,
+    "object_label": "curtain",
+    "p_geom_valid": 2.967855498244698e-06,
     "panel": "B",
     "plot_bounds": {
-      "x_max": 2.593976,
-      "x_min": -0.235816,
-      "y_max": 0.200862,
-      "y_min": -1.275217
+      "x_max": 3.087785,
+      "x_min": -0.793435,
+      "y_max": 0.912,
+      "y_min": -1.992
     },
-    "predicate_family": "support_contact",
-    "predicate_label": "lying on",
-    "preprocessed_path": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed/4138582f-a238-2435-8332-6902542c2823/data_dict_1.pkl",
+    "predicate_family": "relative_vertical",
+    "predicate_label": "higher than",
+    "preprocessed_path": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed/c2d99343-1947-2fbf-808f-92dbb7d47aa5/data_dict_1.pkl",
     "reason_codes": [
-      "positive_float_gap_large",
-      "subtype_soft_support_contact"
+      "point_subtype_delegated_to_obb_for_family",
+      "vertical_order_contradicts_predicate"
     ],
-    "role": "support/contact pass-through",
-    "scan_id": "4138582f-a238-2435-8332-6902542c2823",
-    "semantic_rank": 39,
-    "source_score": 0.8431091904640198,
-    "subgraph_id": "4138582f-a238-2435-8332-6902542c2823_1",
+    "role": "successful relative-vertical correction",
+    "scan_id": "c2d99343-1947-2fbf-808f-92dbb7d47aa5",
+    "semantic_rank": 1,
+    "source_score": 0.870871365070343,
+    "subgraph_id": "c2d99343-1947-2fbf-808f-92dbb7d47aa5_1",
     "subject_geometry": {
       "center": [
-        2.736145,
-        1.586256,
-        -0.084185
+        0.939121,
+        1.945408,
+        -1.50571
       ],
       "max": [
-        2.91,
-        1.7575,
-        0.077855
+        2.68683,
+        3.16074,
+        -1.37
       ],
       "min": [
-        0.0,
-        0.0,
-        -0.268054
+        -0.47,
+        -0.07,
+        -1.75
       ]
     },
-    "subject_id": 6,
-    "subject_label": "lamp",
-    "unrestricted_product_rank": 337,
+    "subject_id": 1,
+    "subject_label": "floor",
+    "unrestricted_product_rank": 431,
     "verification_status": "violated",
-    "view": "elevation y-Z"
+    "view": "elevation x-Z"
   },
   {
     "case_id": "open3dsg_case_026",

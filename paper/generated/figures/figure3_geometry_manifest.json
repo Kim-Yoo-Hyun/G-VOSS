@@ -1,9 +1,9 @@
 {
-  "claim_boundary": "qualitative geometry-backed failure-mechanism evidence only; not a representative human audit and not a new metric",
-  "created_at": "2026-07-14T14:19:31.478422+00:00",
+  "claim_boundary": "qualitative geometry-backed correction and applicability-boundary evidence only; not a representative human audit and not a new metric",
+  "created_at": "2026-07-15T12:25:11.086841+00:00",
   "expected_case_ids": [
     "open3dsg_case_001",
-    "open3dsg_case_010",
+    "open3dsg_case_019",
     "open3dsg_case_026"
   ],
   "missing_case_ids": [],
@@ -22,10 +22,10 @@
   "preprocessed_root": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed",
   "rendered_case_ids": [
     "open3dsg_case_001",
-    "open3dsg_case_010",
+    "open3dsg_case_019",
     "open3dsg_case_026"
   ],
-  "schema_version": "h001_geometry_figures_v2",
+  "schema_version": "h001_geometry_figures_v3",
   "source_queue_jsonl": "experiments/H001_geom_reliability/sources/open3dsg/failure_cases/queue.jsonl",
   "status": "figure3_geometry_panels_generated_verified",
   "structured_model_json": "experiments/H001_geom_reliability/relation_algebra_v1/evaluation/models.json"

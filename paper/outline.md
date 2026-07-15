@@ -24,8 +24,10 @@ Current manuscript override, 2026-07-12: the submission follows the sequence
 observed failure -> structural cause -> factor-isolation necessity -> method ->
 results -> limitations. Figure 1 is the actual-failure-to-framework overview;
 Figure 2 is the three-source K=`{5,10,20,50,100}` trajectory; Figure 3 contains
-two corrections and one residual top-10 failure. K=100 is primary; all other K
-values are reported without additional protocol labels. A 69-parameter source-supervised nonlinear
+proximity and relative-vertical corrections plus one residual support/contact
+failure. The main table retains every
+K, while prose uses K=50 as the representative mid-budget reference and reports
+K=10--50 behavior without an operational-use claim. A 69-parameter source-supervised nonlinear
 rescorer is stronger at low K and blocks formula-optimality claims. Codex proxy
 results are excluded from the submission and live only in `paper/paper_nonsub/`.
 

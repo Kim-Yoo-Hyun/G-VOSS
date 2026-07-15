@@ -50,12 +50,15 @@ Paper-facing name: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geo
   internal-dev decision, final model/score hash lock, and official
   548-context evaluation. The manuscript reports split roles and benchmark
   results directly without prospective language.
-- Cross-dataset transfer development: official ReplicaSSG test plus the
-  official FROSS VisualGenome source is under `sources/replicassg/`. The
-  initial K=100 result fails and is now used to diagnose and develop
-  source-scale-robust bounded fusion. It is a transfer stress test and
-  development diagnostic. Development v2 and its corrected 548-context
-  cross-source check are complete; LOSO fails the Recall guardrail.
+- Cross-dataset evaluation: official ReplicaSSG test plus the official FROSS
+  VisualGenome source is under `sources/replicassg/`. The final RelCompat3D
+  model and family-slot rule were reapplied with zero target fit or
+  hyperparameter selection under `final_method_transfer_v1/`. The target had
+  been observed in earlier development, so the result is a benchmark
+  evaluation rather than untouched confirmation. Primary raw-product transfer
+  fails at K=100 because the V interval touches zero; the frozen route-aware
+  rank diagnostic exposes score quantization and cross-family displacement as
+  the main fusion failures.
 - Coordinated main evaluation is complete under `structured_main_v1/`.
   It regenerates Source score, structured product, Rank-average, RRF, pooled
   product, hard-rule filtering, the unprojected-product ablation, compatibility-only,
@@ -63,17 +66,31 @@ Paper-facing name: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geo
   K=`{5,10,20,50,100}`. Its manifest validations all pass and the promoted
   model SHA256 is
   `62d251f3ce60e2db54eb1748c277350e3b9e2c7c9d2be0312cf2fb323b761410`.
+- Same-route strong-comparator evaluation is complete under
+  `routed_comparators_v1/`. Product, rank-average, RRF, and the locked
+  train-only matched MLP share the official 548-context universe,
+  family-slot sequence, support/contact pass-through, and scan-cluster
+  resampling. Every hash, denominator, route, and composition validation
+  passes; Open3DSG K=50 product and MLP R/V are `.4418/.0342` and
+  `.4670/.0413`, respectively.
 - Current paper outputs: `paper/aaai/main_aaai27.pdf` (9 pages; technical
   content through page 7 and pages 8--9 references only),
-  `paper/aaai/supplement_aaai27.pdf` (3 pages), and
-  `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Final main log:
-  `logs/h001_main_routing_20260714_231933.log`; the synchronized upload
-  bundle is `release/h001_aaai27_openreview_20260714_233534/`, regenerated from
-  the three canonical PDFs plus the focused routed-method code/data supplement.
+  `paper/aaai/supplement_aaai27.pdf` (4 pages), and
+  `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Canonical hashes
+  are `8a3d7c...`, `239aa28...`, and `4f7b254...`; the synchronized upload
+  bundle is `release/h001_aaai27_openreview_20260715_213525/` and contains the
+  same-route comparator artifacts.
 - Scan-cluster sensitivity is complete under
   `support_contact_routing_v1/scan_cluster_sensitivity/`: it resamples 157 scans with
   all 548 contexts attached to their scan, without changing scores, rankings,
   or point estimates.
+- Exact orbit and routing guarantees are now stated as propositions with
+  proofs in the manuscript supplement. The strict train-only construct-overlap
+  diagnostic under `held_out_primitive_v1/` removes the exact verifier scalar,
+  its reconstructible measurement family, or all but alternative evidence.
+  All 14 validations pass on the official 548-context target. Exact-scalar
+  removal preserves nearly the full result; broader removal attenuates K=50 V
+  gains on VL-SAT/SGFN but retains the Open3DSG effect.
 - Active Docker images: `h001-geom-reliability:latest` for the focused
   structured evaluation, `h001-sgfn-confirmatory:cu128` for SGFN full-source
   inference recovery, and `h001-aaai27-tex:20260712` for the canonical paper
@@ -305,10 +322,38 @@ aggregate scoped framework, not every-family improvement. Because the same
 official final-validation target had been observed during historical method
 development, the authoritative classification is
 `leakage_controlled_train_only_reconstruction_not_untouched_prospective_confirmation`.
-ReplicaSSG/FROSS remains a transfer-development diagnostic: its initial
-K=100 criterion fails, and the later bounded-fusion LOSO estimate also fails
-the Recall guardrail. SGFN remains positive additional-source evidence; the
-paper does not claim dataset-level generalization.
+ReplicaSSG/FROSS now has both historical transfer-development diagnostics and
+a no-target-tuning evaluation of the locked final method. The primary routed
+product has paired joint gains at K=10 and K=50, while it still fails the
+K=100 gate: dR is exactly zero and dV is `-.00096` with
+scene-bootstrap CI `[-.00288,.00000]`. The pre-frozen family-slot-preserving
+rank-average diagnostic reaches R/V `.38372/.04223`, versus source
+`.35465/.19674`; its dR CI `[-.00476,.06714]` satisfies the fixed `-.01`
+guardrail and its dV CI `[-.19182,-.11015]` is below zero. Because the target
+was previously observed and this diagnostic is not the primary rule, the paper
+still does not claim dataset-level generalization.
+
+Negative-transfer decomposition identifies four mechanisms:
+
+- FROSS score quantization: 86.28% of candidates have score zero, and 9/11
+  scenes have an unresolved score tie at the K=100 boundary. Multiplicative
+  fusion cannot reorder zero-score candidates.
+- Geometry shift: 19.20% of external feature cells exceed three training
+  standard deviations and 9.27% exceed five; absolute height features shift by
+  roughly 2.1--2.75 standard deviations.
+- Candidate/ontology coverage: only 76/172 exact GT relations have a matching
+  candidate, capping Recall at .44186. The exact scope contains 153 proximity
+  and 19 vertical GT relations, but only 72 and 4 candidate-supported GT,
+  respectively; support/contact has no exact mapping.
+- Construct mismatch: compatibility predicts the external verifier well
+  (satisfaction AUC .9453) but is weaker for exact labels (GT AUC .6674), with
+  vertical GT AUC .5374. This indicates that physical-rule transfer is stronger
+  than annotation/source-label transfer.
+
+All 20 protocol, hash, scope, routing, algebra, and no-tuning validations pass.
+Canonical artifacts are
+`sources/replicassg/final_method_transfer_v1/{protocol.json,evaluation/}`; the
+Docker log is `logs/h001_external_dataset_transfer_20260715_111730.log`.
 
 ## Reviewer-Extension Gate, 2026-07-10
 

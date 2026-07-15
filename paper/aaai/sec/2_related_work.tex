@@ -11,9 +11,9 @@ closed-set predicates using edge reasoning, point-cloud features, multimodal
 cues, spatial knowledge, self-supervised pretraining, object-centric features,
 and edge-centric relational reasoning
 \cite{zhang2021sggpoint,feng2023smka,wang2023vlsat,koch2024sgrec3d,heo2025ocrl3dssg,ma2026leo}.
-These methods already use geometry; \method{} targets the complementary
-post-source question of whether a high-scoring predicate is geometrically
-compatible with the same reconstructed object pair.
+These methods already use geometry; \method{} asks the complementary question
+of whether a fixed high-scoring predicate is geometrically compatible with the
+same reconstructed object pair.
 
 \paragraph{Open-vocabulary 3D graphs.}
 Open-vocabulary 3D perception provides queryable object and region features
@@ -38,8 +38,8 @@ structure and geometric consistency matter when scene graphs are reused for
 matching, alignment, and downstream geometric tasks
 \cite{sarkar2023sgaligner,xie2024sgpgm}.
 
-RelWitness uses visual-geometric witnesses, calibrated witness quality, and
-witness-consistent decoding for open-vocabulary 3D scene graph generation
+The contemporaneous RelWitness preprint proposes visual-geometric witnesses
+and witness-consistent decoding for open-vocabulary 3D scene graph generation
 \cite{nguyen2026relwitness}. Statistical confidence rescoring refines 3D scene
 graph predictions from multi-view images using semantic masks, neighboring
 relations, and statistical priors \cite{yeo2025scrssg}. These methods modify
@@ -47,15 +47,15 @@ relation generation or learn source-specific rescoring. \method{} instead
 operates on fixed candidate outputs and estimates same-pair compatibility with
 neither predictor identity nor source score as input.
 
-Recent reliability-adjacent systems sharpen this boundary. SGFormer++ uses a
+Recent systems sharpen this boundary. SGFormer++ uses a
 spatial feature adapter inside an incremental predicate predictor
 \cite{qi2026sgformerpp}; RelGraphOV prunes geometrically implausible relations
 while learning an open-vocabulary scene representation
-\cite{chen2026relgraphov}; and PUF performs uncertainty-aware semantic--spatial
-fusion for online node association and evidence accumulation
-\cite{yang2026puf}. In contrast, \method{} leaves each predictor fixed and
-re-ranks already-produced candidates using source-score-excluded, same-pair
-geometric compatibility.
+\cite{chen2026relgraphov}; and Transformation-Aware Decoupling separates
+predicate reasoning according to how labels transform under yaw-viewpoint
+changes inside the generator \cite{sun2026tad}. In contrast, \method{} leaves
+each predictor fixed and applies endpoint/predicate algebra to same-pair
+geometry after prediction, with source score excluded from compatibility.
 
 Neau et al. mine spatial, functional, and relation-algebra constraints and use
 declarative reasoning to refine fixed image-SGG outputs, reporting a Constraint

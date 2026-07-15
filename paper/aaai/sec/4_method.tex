@@ -52,10 +52,22 @@ Finally, we project the learned score onto the declared orbit:
 \sum_{(T',G')\in\mathcal O_i} \sigma\!\left(h_{a_i}(\Phi(T',G'))\right).
 \label{eq:algebra-projection}
 \end{equation}
-This makes proximity symmetry and vertical inverse equivariance exact at
-inference rather than merely encouraged by a penalty. The pairwise objective
+This makes proximity symmetry and invariance under joint endpoint swap and
+inverse-predicate transformation exact at inference rather than merely
+encouraged by a penalty. The pairwise objective
 still distinguishes each linked positive from its counterfactual; projection
 does not consume source confidence.
+
+\begin{proposition}[Orbit-projection guarantee]
+Let a finite relation-algebra group $H_a$ act jointly on predicate and
+ordered-pair geometry, and let
+$P_af(x)=|H_a|^{-1}\sum_{g\in H_a}f(gx)$. Then
+$P_af(gx)=P_af(x)$ for every $g\in H_a$, and $P_a(P_af)=P_af$.
+Consequently, Eq.~\ref{eq:algebra-projection} satisfies proximity symmetry and
+the corresponding vertical transformation exactly; the singleton
+support/contact orbit is unchanged.
+\label{prop:orbit}
+\end{proposition}
 
 \subsection{Applicability-Routed Re-ranking and Controls}
 
@@ -82,6 +94,20 @@ preserves the source-ranked family composition at every $K$ and exactly
 preserves support/contact selections, while applying compatibility within the
 proximity and vertical slots. The route introduces no fitted fusion parameter.
 
+\begin{proposition}[Family-slot routing guarantee]
+For any source ranking and every prefix $K$, family-slot routing preserves the
+entire family sequence and the ordered support/contact subsequence. Moreover,
+among all permutations with that family sequence, it maximizes
+$\sum_j\omega_j u(e_j)$ for any non-increasing nonnegative position weights
+$\omega_j$, where $u=Z\calg$ in routed families and $u=Z$ in pass-through
+families.
+\label{prop:routing}
+\end{proposition}
+
+Proofs are given in the supplement. Proposition~\ref{prop:routing} formalizes
+why support/contact Recall and verifier V are identical to the source ranking
+at every reported $K$, rather than merely similar empirically.
+
 We also test scale-robust fusion. Let $q_i^Z$ and $q_i^C$ be descending within-context
 percentile ranks and $r_i^Z,r_i^C$ their one-indexed ranks. Rank-average and
 fixed-constant Reciprocal Rank Fusion are
@@ -89,14 +115,16 @@ fixed-constant Reciprocal Rank Fusion are
 S_i^{\mathrm{rank}}=\tfrac12(q_i^Z+q_i^C),\qquad
 S_i^{\mathrm{RRF}}=\frac{1}{60+r_i^Z}+\frac{1}{60+r_i^C}.
 \end{equation}
-They provide scale-robust fusion comparisons.
+They provide scale-robust fusion comparisons. For an apples-to-apples
+comparison, product, rank-average, RRF, and the supervision-matched nonlinear
+model are each evaluated through the same family-slot route.
 
 Other comparisons isolate the mechanism. The unrestricted product measures
 the cost and benefit of applying compatibility to every family. A pooled product replaces the three
 family models with one $T\times G$ compatibility model fitted on the training
 split. Compatibility-only removes $Z$, and an unprojected family product
-ablates relation-algebra projection. A 69-parameter nonlinear compatibility
-model is matched by supervision, features, source-score exclusion, and split;
+ablates relation-algebra projection. A small nonlinear compatibility model is
+matched by supervision, features, source-score exclusion, and split;
 we separately report an exact-label rescorer trained with stronger
 SGFN-specific supervision.
 

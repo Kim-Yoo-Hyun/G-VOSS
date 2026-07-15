@@ -31,10 +31,12 @@ that contradicts the underlying world state.
 This failure suggests a factor-isolated design. \method{} preserves each
 relation candidate's subject--object identity, joins its reconstructed geometry,
 and separates predicate semantics $T$, same-pair geometry $G$, and source score
-$Z$. A shared compatibility model excludes $Z$ and predictor identity; $Z$
+$Z$. A fitted compatibility layer with family-specific linear heads excludes
+$Z$ and predictor identity; $Z$
 enters only during re-ranking. Linked counterfactuals teach the
 model which geometry supports a predicate, while orbit projection enforces
-proximity symmetry and vertical inverse equivariance exactly. An applicability
+proximity symmetry and invariance under joint endpoint swap and
+inverse-predicate transformation exactly. An applicability
 route uses the resulting product only to reorder proximity and vertical
 candidates within the source's family slots, while support/contact retains its
 source ordering. Scale-robust fusion, nonlinear, family-conditioning, and
@@ -70,15 +72,17 @@ Our contributions are threefold:
     \item We formalize the mismatch between relation confidence and
     instance-level geometric consistency through identity-preserving evaluation
     and joint exact-label Recall@$K$--verifier-derived Violation@$K$.
-    \item We introduce a source-score-excluded compatibility model that combines
+    \item We introduce a source-score-excluded compatibility layer that combines
     linked counterfactual ordering with exact relation-algebra projection, and
-    an applicability route that preserves unsupported family selections.
-    \item We apply one unchanged compatibility model to VL-SAT, Open3DSG, and
-    SGFN, evaluating cross-predictor robustness with strong fusion baselines,
-    factor controls, uncertainty sensitivity, and family decomposition.
+    an applicability route that preserves selections from families outside the
+    routing scope.
+    \item We show consistent behavior across three predictors on a shared target
+    and characterize when the reliability layer succeeds or fails through
+    matched controls, uncertainty analysis, and family decomposition.
 \end{enumerate}
 
-The applicability-routed score improves the aggregate $K=100$
-recall--violation operating point for all three predictors without changing
-support/contact selections. The result is a reliability layer for
-geometry-checkable relations rather than a replacement relation generator.
+Across $K=10$--$50$ budgets, the applicability route preserves or
+improves each predictor's Recall point estimate while reducing Violation; at
+$K=50$, paired scan-cluster intervals support Violation reduction on all three
+predictors without a detectable Recall loss. The result is a reliability layer
+for geometry-checkable relations rather than a replacement relation generator.

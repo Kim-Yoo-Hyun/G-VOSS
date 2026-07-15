@@ -1,18 +1,19 @@
 # H001 Paper Reviewer-Risk Register
 
-Last updated: 2026-07-14 KST
+Last updated: 2026-07-15 KST
 
 Scope: current scientific and submission risks for `paper/aaai/`. Historical
 mitigation logs belong in experiment reports and archived snapshots.
 
 ## Current Verdict
 
-RelCompat3D is defensible as a scoped empirical/method paper about
-post-source 3D relation reliability. Its acceptance case is the combination of
+RelCompat3D is defensible as a scoped empirical/method paper about geometric
+compatibility assessment for fixed 3D relation predictions. Its acceptance case is the combination of
 a concrete failure mechanism, source-score exclusion, identity-preserving
 geometry joins, linked counterfactuals, exact algebraic controls, applicability
 routing, and joint Recall--Violation evaluation. It is not accept-safe because
-construct validity and the single-dataset scope remain substantive limitations.
+construct validity and the absence of an unbiased, full-coverage external-
+dataset confirmation remain substantive limitations.
 
 ## Risk 1: Compatibility and Violation Share Geometry Primitives
 
@@ -29,6 +30,14 @@ Current defense:
 - report uncertainty and family decomposition;
 - retain the reviewer-verified Codex study outside the submission.
 
+An additional strict train-only diagnostic removes either the exact normalized
+scalar consumed by the verifier, every directly related distance/vertical
+measurement, or all but alternative evidence. Exact-scalar removal preserves
+nearly the full result, excluding literal scalar reuse as the sole mechanism.
+The broader holdouts retain a clear Open3DSG effect but attenuate K=50
+violation gains on VL-SAT and SGFN. This is useful construct-overlap
+sensitivity, not an independent validity reference.
+
 Reviewers A/B/C confirmed all 488 completed Codex labels with zero revisions at
 `2026-07-14T22:49:11+09:00`. This validates transcription and review coverage,
 not independent first-pass human validity. The scientific risk is reduced only
@@ -37,12 +46,23 @@ by a separate two-annotator plus blinded-adjudicator Human V@K study.
 ## Risk 2: One Shared Dataset Target
 
 VL-SAT, Open3DSG, and SGFN are different predictors but all operate on the same
-3DSSG/3RScan target. The evidence establishes cross-predictor robustness, not
-cross-dataset generalization. ReplicaSSG/FROSS remains development/negative-
-transfer evidence and is not part of the active claim.
+3DSSG/3RScan target. A zero-target-fitting application of the unchanged model
+to ReplicaSSG/FROSS adds external diagnostic evidence. The routed product has
+paired joint gains at K=10 and K=50, but becomes nearly inert at K=100 under
+heavy source-score quantization. A family-slot-preserving rank diagnostic
+separately identifies scale sensitivity and cross-family displacement, but is
+not promoted as the paper's ranking rule. These results do not establish
+cross-dataset generalization.
 
-Current defense: state the shared target once in Setup and once in
-Limitations; never use dataset-generalization or arbitrary-source wording.
+Residual blockers are material: the Replica target had been inspected in prior
+development, only 76/172 exact GT relations have candidate support,
+support/contact is unmapped, 19.20% of model feature cells exceed three training
+standard deviations, and only 11 scene bootstrap units are available.
+
+Current defense: state the shared main target once in Setup and once in
+Limitations; report the Replica stress test in the supplement across every K,
+including the K=100 saturation and candidate ceiling; and never use established
+dataset-generalization or arbitrary-source wording.
 
 ## Risk 3: Support/Contact Applicability
 
@@ -61,11 +81,11 @@ support/contact pass-through.
 
 ## Risk 4: Nonlinear Rescorer and Novelty Ceiling
 
-Two source-score-excluded, 69-parameter nonlinear models were trained with the
-same constructed supervision and transferred unchanged. They do not jointly
-dominate the product. At Open3DSG K=100, the structured nonlinear model changes
-Recall by `+.0360` but Violation by `+.0096` relative to the unrestricted
-product; on VL-SAT and SGFN, paired differences are not jointly resolved.
+A frozen train-only, source-score-excluded nonlinear model was trained with the
+same constructed supervision and evaluated under the same family-slot route.
+It does not jointly dominate the product. At Open3DSG K=100, it changes Recall
+by `+.0297` and Violation by `+.0047` relative to the routed product; on VL-SAT
+and SGFN, neither rule is uniformly superior across budgets.
 
 A separate SGFN-specific exact-label nonlinear rescorer uses stronger,
 source-specific supervision and is stronger on SGFN. Therefore the paper must
@@ -99,8 +119,10 @@ as the unmodified public pipeline.
   extension and not core learned-method evidence.
 - Hard filtering obtains V=0 by construction and can select fewer than K; keep
   it diagnostic.
-- Low-K behavior is source dependent. Report all five K values and reserve the
-  aggregate headline for K=100.
+- Budget behavior is source dependent. Report all five K values, use K=50
+  descriptively as a mid-curve reference rather than a separately registered
+  endpoint, and distinguish pointwise preservation from strict
+  Recall improvement when an interval contains zero.
 - Open3DSG uses a selected public checkpoint/preprocessing route. Keep the
   necessary setup provenance in the supplement without narrating internal
   research chronology in the main text.
@@ -112,9 +134,9 @@ as the unmodified public pipeline.
 Allowed:
 
 > A single source-score-excluded compatibility model, combined with an
-> applicability-aware family-slot route, improves the K=100 aggregate
-> Recall--verifier-Violation operating point for three predictors on a shared
-> 3DSSG target.
+> applicability-aware family-slot route, reduces verifier-derived Violation
+> across three predictors at K=50 while
+> preserving or improving Recall; the full K=5--100 curve is reported.
 
 Not allowed:
 

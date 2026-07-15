@@ -44,8 +44,9 @@ Metric definitions:
 | Source score | source model relation score | source baseline |
 | Applicability-routed RelCompat3D | product ordering in proximity/vertical source-family slots; source ordering in support/contact slots | primary method |
 | Relation-algebra-constrained product | `source_score * projected_compatibility` without applicability routing | unrestricted ablation |
-| Rank-average fusion | mean of within-context source-score and projected-compatibility percentiles | scale-robust soft instantiation |
-| Reciprocal-rank fusion | reciprocal-rank fusion with fixed constant 60 | strong comparator |
+| Routed rank-average | mean of within-context source-score and projected-compatibility percentiles inside proximity/vertical family slots | scale-robust comparator |
+| Routed reciprocal-rank fusion | reciprocal-rank fusion with fixed constant 60 inside proximity/vertical family slots | strong comparator |
+| Routed matched MLP | frozen train-only nonlinear compatibility product inside the same family slots | supervision/capacity-matched comparator |
 | Pooled-calibrator ablation | `source_score * pooled_compatibility` | family-conditioning ablation |
 | Hard geometry filter | keep/rank rule-supported point-subtype evidence | zero-violation diagnostic, not default |
 | Compatibility-only | projected compatibility only | no-source-score control; not true `G`-only |
@@ -55,7 +56,9 @@ Metric definitions:
 | Shuffled geometry | product with a deterministic source/predicate-stream donor | geometry identity control |
 | Endpoint swap, label fixed | product after the applicable proximity/vertical geometry swap while retaining the label | directional/symmetry falsification control |
 
-For reproducibility, the main artifact keys are `structured_product`,
+For reproducibility, the same-route comparator keys are `routed_product`,
+`routed_rank_average`, `routed_rrf`, and `routed_matched_mlp` under
+`routed_comparators_v1/`. Unrestricted keys remain `structured_product`,
 `structured_rank_average`, `structured_rrf_c60`, `pooled_product`, and
 `hard_rule_filter`. The legacy condition names below are historical
 implementation identifiers, not current manuscript terminology. No fusion
@@ -74,11 +77,11 @@ model SHA256
 `62d251f3ce60e2db54eb1748c277350e3b9e2c7c9d2be0312cf2fb323b761410`
 and pass their manifest validations.
 
-| Source | Source R/V@100 | routed R/V@100 | unrestricted product | rank-average | RRF | pooled product |
-| --- | --- | --- | --- | --- | --- | --- |
-| VL-SAT | .9635/.0476 | .9658/.0295 | .9688/.0325 | .9617/.0248 | .9610/.0233 | .9690/.0387 |
-| Open3DSG public/full target | .5111/.1242 | .5692/.0324 | .6005/.0330 | .5937/.0526 | .5926/.0781 | .6402/.0743 |
-| SGFN | .9235/.0630 | .9303/.0350 | .9418/.0372 | .9474/.0268 | .9074/.0266 | .9413/.0464 |
+| Source | Source | routed product | routed MLP | routed rank-average | routed RRF | unrestricted product | pooled product |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| VL-SAT | .9635/.0476 | .9658/.0295 | .9650/.0296 | .9700/.0225 | .9710/.0247 | .9688/.0325 | .9690/.0387 |
+| Open3DSG public/full target | .5111/.1242 | .5692/.0324 | .5989/.0371 | .5408/.0548 | .5476/.0772 | .6005/.0330 | .6402/.0743 |
+| SGFN | .9235/.0630 | .9303/.0350 | .9288/.0350 | .9280/.0259 | .8774/.0302 | .9418/.0372 | .9413/.0464 |
 
 The routed K=100 Recall/Violation deltas versus Source score are
 `+.00227/-.01816`, `+.05816/-.09174`, and `+.00680/-.02797` for
@@ -106,20 +109,21 @@ Recall/Verifier-V intervals are `+.0023 [.0005,.0049] / -.0182
 
 ## Supervision-Matched Nonlinear Comparison
 
-`experiments/H001_geom_reliability/supervision_matched_nonlinear_v1/evaluation/`
-contains two shared 69-parameter nonlinear compatibility models trained on the
-same 60,208 constructed train rows, without source score or predictor identity,
-then applied unchanged to all three sources. Direct K=100 structured-nonlinear
-minus unrestricted-product contrasts are:
+`experiments/H001_geom_reliability/routed_comparators_v1/evaluation/` applies
+the frozen structured MLP from
+`supervision_matched_nonlinear_v1/evaluation/` through the identical public/full
+family-slot route used by the primary product. Product, MLP, rank-average, and
+RRF share family composition, support/contact selections, official contexts,
+and scan-cluster indices. At K=50:
 
-| Source | dR@100 (95% CI) | dV@100 (95% CI) |
+| Source | product R/V | matched MLP R/V |
 | --- | ---: | ---: |
-| VL-SAT | .0000 [-.0026,.0019] | -.0008 [-.0019,.0003] |
-| Open3DSG | +.0360 [.0252,.0475] | +.0096 [.0079,.0113] |
-| SGFN | +.0003 [-.0019,.0023] | -.0009 [-.0021,.0003] |
+| VL-SAT | .9277/.0197 | .9272/.0189 |
+| Open3DSG | .4418/.0342 | .4670/.0413 |
+| SGFN | .7450/.0263 | .7457/.0258 |
 
-The nonlinear model does not jointly dominate: its significant Open3DSG Recall
-gain accompanies a significant Violation increase. A separate SGFN-specific
+The nonlinear model does not jointly dominate: its Open3DSG Recall gain
+accompanies a Violation increase. A separate SGFN-specific
 exact-label nonlinear rescorer uses stronger source-specific supervision and is
 reported as such; it is not a supervision-matched replacement.
 
@@ -219,19 +223,42 @@ dominance, family-uniform improvement, or independent human physical validity.
 Bootstrap stability artifacts for the same K grid are available at
 `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/bootstrap_ci_k_sweep/summary.md`.
 
-## Transfer-Development Boundary
+## External-Dataset Transfer Boundary
 
-ReplicaSSG/FROSS is a supplement-only cross-dataset stress test and method-
-development diagnostic. In development v2, the regenerated FROSS execution
-contains 4,293 candidates and 172 exact-label GT relations. The all-scene
-bounded fit changes R/V@100 from `.3547/.1967` to `.3547/.0393`, but its LOSO
-estimate is `.3198/.0384` with paired dR CI `[-.0755,.0000]`; it fails the
-Recall guardrail. The corrected cross-source diagnostic includes all 548
-contexts, including ten with zero in-scope GT. Bounded fusion is therefore not
-part of the main Method, contribution list, or dataset-generalization claim.
+The current final RelCompat3D model and family-slot rule were evaluated without
+ReplicaSSG fit rows or target-specific hyperparameters on the regenerated
+4,293-candidate FROSS execution. The official test target was already inspected
+in earlier transfer development, so this is a cross-dataset benchmark
+evaluation rather than untouched confirmation.
+
+| K | Source R/V | Routed product R/V | dR | dV |
+| ---: | ---: | ---: | ---: | ---: |
+| 5 | .04651/.05455 | .06977/.01818 | +.02326 | -.03636 |
+| 10 | .07558/.08182 | .14535/.02727 | +.06977 | -.05455 |
+| 20 | .14535/.12727 | .22093/.03636 | +.07558 | -.09091 |
+| 50 | .26163/.13284 | .31395/.09041 | +.05233 | -.04244 |
+| 100 | .35465/.19674 | .35465/.19578 | .00000 | -.00096 |
+
+Paired scene-bootstrap intervals support joint routed-product improvement at
+K=10 and K=50. K=20 is positive with its Recall interval touching zero, K=5 is
+inconclusive, and the K=100 product gate fails because its dV CI is
+`[-.00288,.00000]`. Applying the same fixed guardrail to the pre-frozen routed
+rank diagnostic at K=100 gives
+dR CI `[-.00476,.06714]` and dV CI `[-.19182,-.11015]`; the global version
+instead loses Recall through cross-family displacement. This is positive
+framework behavior on an external dataset, but not an unbiased dataset-level
+generalization estimate or a promotion of rank-average to the primary method.
+
+The failure decomposition is concrete: 86.28% of source scores are zero;
+19.20% of external feature cells exceed three train-standardized deviations;
+only 76/172 GT relations have candidate support; support/contact has no exact
+mapping; and compatibility aligns external verifier satisfaction (AUC .9453)
+more strongly than exact labels (AUC .6674). All 20 locked validations pass.
 
 Canonical compact artifacts:
 
+- `experiments/H001_geom_reliability/sources/replicassg/final_method_transfer_v1/protocol.json`
+- `experiments/H001_geom_reliability/sources/replicassg/final_method_transfer_v1/evaluation/summary.json`
 - `experiments/H001_geom_reliability/sources/replicassg/development_v2/evaluation/summary.json`
 - `experiments/H001_geom_reliability/sources/replicassg/development_v2/cross_source_evaluation/summary.json`
 
@@ -554,6 +581,37 @@ coordinated replacement regenerated rank fusion, pooled, hard-filter,
 compatibility-only, figures, and uncertainty comparisons under one consistent
 strict route. The previous family product remains a labeled continuity
 reference only; the mechanism is still not presented as a best-formula result.
+
+## Held-out Verifier-Primitive Diagnostic
+
+`experiments/H001_geom_reliability/held_out_primitive_v1/evaluation/` refits
+three source-score-excluded compatibility models on the same 1,061 training
+scans, with the same pairwise objective, exact orbit projection, and
+family-slot route. The conditions remove the exact verifier scalar, remove its
+entire reconstructible measurement family, or retain only alternative
+overlap/horizontal-context evidence. All 14 integrity validations pass,
+including the official 548-context/157-scan universe and exact reproduction of
+the promoted main-route points.
+
+| Source | Condition | R/V@50 | R/V@100 |
+| --- | --- | --- | --- |
+| VL-SAT | exact scalar held out | .9280/.0198 | .9660/.0300 |
+| VL-SAT | primitive family held out | .9272/.0268 | .9655/.0468 |
+| VL-SAT | alternative evidence only | .9280/.0268 | .9642/.0471 |
+| Open3DSG | exact scalar held out | .4383/.0342 | .5692/.0325 |
+| Open3DSG | primitive family held out | .4119/.0954 | .5257/.0956 |
+| Open3DSG | alternative evidence only | .4106/.1193 | .5330/.1188 |
+| SGFN | exact scalar held out | .7465/.0268 | .9303/.0357 |
+| SGFN | primitive family held out | .7470/.0388 | .9298/.0616 |
+| SGFN | alternative evidence only | .7462/.0386 | .9277/.0625 |
+
+Exact-scalar removal preserves nearly the full result, so the method is not a
+literal readout of the single verifier input. Broader primitive removal
+materially attenuates K=50 V reduction on VL-SAT and SGFN, while Open3DSG
+retains a joint improvement. At K=100 every held-out condition improves both
+point metrics on all three predictors. This reduces, but does not resolve, the
+construct-validity risk because correlated geometry and constructed labels
+remain shared.
 
 ## Optional Expansion Status
 

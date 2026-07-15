@@ -570,8 +570,9 @@
 <text x="1360.0" y="91.0" font-family="Helvetica, Arial, sans-serif" font-size="42" font-weight="700" fill="#059669" text-anchor="middle">178</text>
 <text x="1360.0" y="122.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#4b5563" text-anchor="middle">re-ranked</text>
 <rect x="1125" y="159" width="335" height="82" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>
-<text x="1292.0" y="190.0" font-family="Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#111827" text-anchor="middle">Applicability routing</text>
-<text x="1292.0" y="219.0" font-family="Helvetica, Arial, sans-serif" font-size="16" font-weight="400" fill="#4b5563" text-anchor="middle">proximity/vertical re-ranked; support preserved</text>
+<text x="1292.0" y="186.0" font-family="Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#111827" text-anchor="middle">Family-slot routing</text>
+<text x="1292.0" y="212.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#4b5563" text-anchor="middle">proximity / vertical: re-ranked</text>
+<text x="1292.0" y="233.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#4b5563" text-anchor="middle">support/contact: source order</text>
 <rect x="1125" y="276" width="335" height="88" rx="6" fill="#ffffff" stroke="#94a3b8" stroke-width="1.2"/>
 <text x="1292.0" y="306.0" font-family="Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#111827" text-anchor="middle">Joint evaluation</text>
 <text x="1292.0" y="336.0" font-family="Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#166534" text-anchor="middle">Exact-label Recall@K</text>

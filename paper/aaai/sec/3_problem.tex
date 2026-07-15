@@ -1,7 +1,7 @@
 \section{Method}
 
-\method{} is a post-source reliability layer rather than a replacement 3D
-Scene Graph generator. It preserves relation-candidate identity, estimates
+\method{} assesses the compatibility of fixed relation predictions rather than
+replacing a 3D Scene Graph generator. It preserves relation-candidate identity, estimates
 predicate-conditioned geometric compatibility without access to source
 confidence, and combines the two factors only during re-ranking.
 Figure~\ref{fig:framework} summarizes the pipeline.
@@ -43,11 +43,14 @@ Z_i\notin\operatorname{inputs}(C_i),
 \end{equation}
 then enforce the applicable relation algebra to obtain $\calg_i$ and form a
 final ranking score $S_i=F(Z_i,\calg_i)$. The score measures compatibility with
-a training target comprising ground-truth positives and counterfactual
-negatives; it is not a probability of physical validity. Predicate-aligned
+a constructed training target: measured-family ground-truth relations are
+positives, while family-specific high-margin predicate or endpoint
+interventions generate counterfactual negatives (full rules and thresholds are
+in the supplement). It is not a probability of physical validity. Predicate-aligned
 transformations are $T_i\times G_i$ interactions rather than raw geometry.
-Neither source score nor predictor identity enters $C_i$, so one model can be
-applied unchanged to different predictors on the shared target.
+Neither source score nor predictor identity enters $C_i$, so the fitted
+compatibility layer can be applied without target-specific refitting to
+different predictors on the shared target.
 
 Let $L_K(c)$ be the top-$K$ measured-family rows for context $c$ and $Y_c$ its
 exact-label ground-truth set. We jointly report
