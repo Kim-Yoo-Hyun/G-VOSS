@@ -1,6 +1,6 @@
 # H001 Geometry Reliability Experiment
 
-Last updated: 2026-07-15 KST
+Last updated: 2026-07-16 KST
 
 This is the Docker-based experiment root for RelCompat3D/H001. Paper-facing
 summaries are promoted to `results/h001_geom_reliability/`; row-level runtime
@@ -73,12 +73,21 @@ Paper-facing name: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geo
   resampling. Every hash, denominator, route, and composition validation
   passes; Open3DSG K=50 product and MLP R/V are `.4418/.0342` and
   `.4670/.0413`, respectively.
+- Counterfactual-policy sensitivity is complete under
+  `counterfactual_sensitivity_v1/`. Nine one-factor-at-a-time train-only refits
+  vary proximity threshold, vertical margin, negative cap, or pairwise-loss
+  weight while retaining the 1,061/117/157 firewall and family-slot route.
+  The default model and metrics exactly match the main result. All variants
+  reach 1.000 linked-pair ordering accuracy on internal development; maximum
+  absolute deviations are `.0023/.0011` R/V at K=50 and `.0040/.0020` at
+  K=100. The compact evaluation retains summaries and models, not duplicated
+  row-level source payloads.
 - Current paper outputs: `paper/aaai/main_aaai27.pdf` (9 pages; technical
   content through page 7 and pages 8--9 references only),
-  `paper/aaai/supplement_aaai27.pdf` (4 pages), and
+  `paper/aaai/supplement_aaai27.pdf` (5 pages), and
   `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Canonical hashes
-  are `8a3d7c...`, `239aa28...`, and `4f7b254...`; the synchronized upload
-  bundle is `release/h001_aaai27_openreview_20260715_213525/` and contains the
+  are `4b6be0f...`, `865ae2d...`, and `4f7b254...`; the synchronized upload
+  bundle is `release/h001_aaai27_openreview_20260716_011716/` and contains the
   same-route comparator artifacts.
 - Scan-cluster sensitivity is complete under
   `support_contact_routing_v1/scan_cluster_sensitivity/`: it resamples 157 scans with

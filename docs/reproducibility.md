@@ -1,6 +1,6 @@
 # H001 Reproducibility Runbook
 
-Last updated: 2026-07-15 KST
+Last updated: 2026-07-16 KST
 
 This document consolidates dataset, checkpoint, environment, Docker, reproduction,
 and evaluation-summary information for `experiments/H001_geom_reliability/`.
@@ -24,10 +24,11 @@ Detailed stage logs remain in the experiment subfolders.
 | supplemental unrestricted ablations | `experiments/H001_geom_reliability/structured_ablation_v1/evaluation/` |
 | primary scan-cluster intervals | `experiments/H001_geom_reliability/support_contact_routing_v1/scan_cluster_sensitivity/` |
 | held-out verifier-primitive diagnostic | `experiments/H001_geom_reliability/held_out_primitive_v1/evaluation/` |
+| counterfactual-policy sensitivity | `experiments/H001_geom_reliability/counterfactual_sensitivity_v1/evaluation/` |
 | ReplicaSSG locked final-method transfer | `experiments/H001_geom_reliability/sources/replicassg/final_method_transfer_v1/` |
 | compact result report | `results/h001_geom_reliability/report.md` |
 | active manuscript source/PDFs | `paper/aaai/` |
-| current verified OpenReview bundle | `release/h001_aaai27_openreview_20260715_213525/` |
+| current verified OpenReview bundle | `release/h001_aaai27_openreview_20260716_011716/` |
 
 `summary_0713.md`, older release directories, and archived manuscript PDFs are
 historical snapshots, not current-state owners.
@@ -268,14 +269,14 @@ Facts:
 - Current target-year submission route uses the official `aaai2027` kit and a
   standalone reproducibility-checklist upload. Verified Docker outputs are
   `paper/aaai/main_aaai27.pdf` (9 pages; technical content through page 7,
-  references on pages 8--9), `paper/aaai/supplement_aaai27.pdf` (4 pages),
+  references on pages 8--9), `paper/aaai/supplement_aaai27.pdf` (5 pages),
   and `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Build image:
   `h001-aaai27-tex:20260712`; final main log:
-  `logs/h001_main_propositions_holdout_20260715_200906.log`; final supplement log:
-  `logs/h001_supp_propositions_holdout_20260715_200906.log`. Main/supplement
+  `logs/h001_main_counterfactual_20260716_010956.log`; final supplement log:
+  `logs/h001_supp_counterfactual_20260716_011157.log`. Main/supplement
   SHA256 values are
-  `10d56427e1c5b338821ceb4ffac7524c6aebd4e174a2d2ca179bd1bcec7e7b65` and
-  `505188c1d299d76d1867776df84336398466cc1445429ca71510c8d70f4b8f7c`.
+  `4b6be0f799bc20f551e6801394c040051dab9d2374110ad3a276f5b4ac805a17` and
+  `865ae2ded7eb03b27f61b23078017e533dce11031c647941d5ffe67c8b476457`.
   The manuscript keeps
   Open3DSG as the main open-vocabulary case study and VL-SAT as the controlled
   reproduced anchor.
@@ -631,18 +632,18 @@ runbooks. It intentionally excludes large datasets, checkpoint binaries,
 feature caches, row-level predictions, and external Docker images. The copied
 paper source was rebuilt independently in Docker before archive creation.
 
-Current AAAI-27 OpenReview field bundle, verified 2026-07-15 KST:
+Current AAAI-27 OpenReview field bundle, verified 2026-07-16 KST:
 
 ```text
-root: release/h001_aaai27_openreview_20260715_213525/
-paper: main.pdf (1,196,260 bytes; SHA256 8a3d7c133ff6e096649cb083db4a9c501e706e1edb9d084693dd0e177dd8ce86)
+root: release/h001_aaai27_openreview_20260716_011716/
+paper: main.pdf (1,196,168 bytes; SHA256 4b6be0f799bc20f551e6801394c040051dab9d2374110ad3a276f5b4ac805a17)
 checklist: reproducibility_checklist.pdf (99,012 bytes; SHA256 4f7b254f2ee62291249f7a68e8d30fe34ea6976df91f235686a4e7740448e7fc)
-technical supplement: technical_supplement.pdf (214,948 bytes; SHA256 239aa28d6c14b57eb47b851fab5b29f971ea24a49afeba9e463407ae820484c3)
-code/data: code_and_data_supplement.zip (3,005,721 bytes; SHA256 ac9f0f4ceb0f81fe1fd97a5613b0ba4ef85f019d51a8a0530225ec2b62b37bdf)
+technical supplement: technical_supplement.pdf (217,528 bytes; SHA256 865ae2ded7eb03b27f61b23078017e533dce11031c647941d5ffe67c8b476457)
+code/data: code_and_data_supplement.zip (3,272,332 bytes; SHA256 734111cab9c21b7c8f5a5eee51f8f1b704b32967ed9cd60a3e5a7ba8d2b3315e)
 upload manifest: UPLOAD_MANIFEST.sha256
 ```
 
-The ZIP passed archive integrity, its 196-record internal `MANIFEST.sha256`, and
+The ZIP passed archive integrity, its 205-record internal `MANIFEST.sha256`, and
 targeted author-identity/path scans. It contains no `.git` directory, external
 Docker image, Codex proxy result, ReplicaSSG/FROSS development branch or
 row-level payload, or Qwen-VL extension payload.
@@ -652,9 +653,11 @@ and reporting notes. Do not upload the historical compact tarball or older
 field bundles in place of these files.
 
 The extracted source rebuild is recorded in
-`logs/h001_release_source_build_20260715_213525.log`; inner-manifest verification
-is `logs/h001_release_inner_manifest_20260715_213525.log`, and the anonymous
-path/identity scan is `logs/h001_release_identity_scan_20260715_213525.log`.
+`logs/h001_release_{main,supp,check}_rebuild_20260716_011813.log`; inner-manifest
+verification is `logs/h001_release_inner_manifest_20260716_011716.log`, archive
+verification is `logs/h001_release_archive_20260716_011716.log`, and the
+anonymous path/identity scan is
+`logs/h001_release_identity_scan_20260716_011716.log`.
 The extracted main,
 supplement, and checklist reproduce the canonical page counts and text exactly;
 binary PDF hashes differ only because TeX embeds build-time metadata. No
@@ -1679,6 +1682,7 @@ env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.structured.
 env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.structured.yaml run --rm open3dsg_official_route_sensitivity
 env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.structured.yaml run --rm support_routing_scan_cluster
 env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.structured.yaml run --rm routed_public_ablation_evaluation
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.structured.yaml run --rm counterfactual_threshold_sensitivity
 env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.structured.yaml run --rm structured_ablation_evaluation
 env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm nonlinear_transfer_vlsat
 env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm nonlinear_transfer_open3dsg
@@ -1716,6 +1720,15 @@ support/contact pass-through, and source-score exclusion check must be `true`.
 Support/contact is excluded from all compatibility interventions because the
 primary route passes it through unchanged. The older `evaluation/` manifest
 owns the unrestricted/recovered mechanism audit used only in the supplement.
+
+The train-only counterfactual-policy sensitivity is
+`counterfactual_sensitivity_v1/`. Its protocol freezes nine
+one-factor-at-a-time variants over proximity threshold, vertical margin,
+negative cap, and pairwise-loss weight. Verify `evaluation/manifest.json` for
+the exact 1,061/117/157 firewall, bit-exact default model/metric equivalence,
+548 contexts, 3,972 GT relations, zero orbit errors, finite weights, and
+source-score/predictor-identity exclusion. The compact output is about 4.1 MB
+and deliberately retains no duplicate variant row-level exports.
 
 The nonlinear transfer services deterministically refit the frozen SGFN
 internal-development model, then apply it without target-source labels or

@@ -1,6 +1,6 @@
 # Paper Workspaces
 
-Last updated: 2026-07-15 KST
+Last updated: 2026-07-16 KST
 
 This directory contains paper-writing artifacts. It is a manuscript workspace,
 not an experiment-result root. Paper-result runtime records live under
@@ -24,16 +24,16 @@ paper-level framing rules live in `docs/paper.md`.
   geometry-checkable 3D Scene Graph relation families.
 - Non-claim: broad open-vocabulary 3DSSG generation improvement.
 - Active AAAI-27 Docker build: `paper/aaai/main_aaai27.pdf`, SHA256
-  `8a3d7c133ff6e096649cb083db4a9c501e706e1edb9d084693dd0e177dd8ce86` (9 pages: technical
+  `4b6be0f799bc20f551e6801394c040051dab9d2374110ad3a276f5b4ac805a17` (9 pages: technical
   content through page 7 and references on pages 8--9),
   `paper/aaai/supplement_aaai27.pdf`, SHA256
-  `239aa28d6c14b57eb47b851fab5b29f971ea24a49afeba9e463407ae820484c3`
-  (4 pages), and
+  `865ae2ded7eb03b27f61b23078017e533dce11031c647941d5ffe67c8b476457`
+  (5 pages), and
   `paper/aaai/reproducibility_checklist_aaai27.pdf`, SHA256
   `4f7b254f2ee62291249f7a68e8d30fe34ea6976df91f235686a4e7740448e7fc`
   (2 pages). Final main log:
-  `logs/h001_main_final_review_20260715_212943.log`; final supplement log:
-  `logs/h001_supp_final_review_20260715_212943.log`; image:
+  `logs/h001_main_counterfactual_20260716_010956.log`; final supplement log:
+  `logs/h001_supp_counterfactual_20260716_011157.log`; image:
   `h001-aaai27-tex:20260712`. Type 3 fonts, unresolved references/citations,
   LaTeX errors, and overfull boxes are zero.
 - The active submission excludes Codex-derived physical-validity numbers. The
@@ -51,8 +51,8 @@ paper-level framing rules live in `docs/paper.md`.
   single-column K=50/100 six-control table using the same public/full
   family-slot route. All three figures are included as vector PDFs.
 - Current verified OpenReview field bundle:
-  `release/h001_aaai27_openreview_20260715_213525/`. It contains exact copies
-  of the three canonical PDFs and an anonymous 196-record source/evidence ZIP
+  `release/h001_aaai27_openreview_20260716_011716/`. It contains exact copies
+  of the three canonical PDFs and an anonymous 205-record source/evidence ZIP
   whose extracted LaTeX source was rebuilt in Docker. The prior
   Replica-disclosure and other superseded PDFs are indexed under
   `archive/paper/aaai_snapshots/`; the 2026-07-12 bundle and compact tarball are
@@ -75,6 +75,12 @@ paper-level framing rules live in `docs/paper.md`.
   train-only verifier-primitive holdouts: exact-scalar removal preserves nearly
   the full result, while broader removal exposes the remaining dependence on
   correlated geometry.
+- Main Table 1 directly includes the same-route matched MLP; pooled product is
+  now a supplement-only family-conditioning ablation. A nine-condition
+  train-only counterfactual-policy sensitivity varies thresholds, negative
+  count, and pairwise-loss weight. All variants preserve the three-source
+  K=50/100 point-estimate direction, with at most `.0023/.0011` R/V change at
+  K=50 and `.0040/.0020` at K=100.
 - The active scientific scope is cross-predictor evidence on one shared
   3DSSG/3RScan target.
   ReplicaSSG/FROSS appears only as a supplemental retrospective transfer stress

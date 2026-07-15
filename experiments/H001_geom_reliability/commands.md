@@ -1,6 +1,6 @@
 # H001 Commands
 
-Last updated: 2026-07-15
+Last updated: 2026-07-16
 
 Run from the repository root.
 
@@ -16,6 +16,7 @@ the current paper-facing route unless explicitly referenced below.
 - Frozen model root: `experiments/H001_geom_reliability/relation_algebra_v1/evaluation/`
 - Promoted result root: `experiments/H001_geom_reliability/support_contact_routing_v1/evaluation/`
 - Same-route comparator root: `experiments/H001_geom_reliability/routed_comparators_v1/evaluation/`
+- Counterfactual-policy sensitivity root: `experiments/H001_geom_reliability/counterfactual_sensitivity_v1/evaluation/`
 - Paper-facing fixed-model ablation root: `experiments/H001_geom_reliability/structured_ablation_v1/routed_public_full_evaluation/`
 - Supplemental unrestricted ablation root: `experiments/H001_geom_reliability/structured_ablation_v1/evaluation/`
 - Compact results: `results/h001_geom_reliability/`
@@ -61,6 +62,8 @@ env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/h001/compose.structured.yaml run --rm open3dsg_official_route_sensitivity
 env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/h001/compose.structured.yaml run --rm support_routing_scan_cluster
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm counterfactual_threshold_sensitivity
 ```
 
 The services reject nonempty locked output roots. Preserve the current
@@ -503,9 +506,9 @@ docker run --rm -v "$PWD/paper:/work" -w /work/aaai h001-aaai27-tex:20260712 \
 
 Latest verified paper build:
 
-- `logs/h001_main_routing_20260714_231933.log`,
-  `logs/h001_supplement_routing_20260714_231933.log`, and
-  `logs/h001_checklist_routing_20260714_231933.log`.
+- `logs/h001_main_counterfactual_20260716_010956.log`,
+  `logs/h001_supp_counterfactual_20260716_011157.log`, and
+  `logs/h001_check_counterfactual_20260716_010956.log`.
 - The active AAAI-27 outputs are
   `paper/aaai/main_aaai27.pdf`, `paper/aaai/supplement_aaai27.pdf`, and
   `paper/aaai/reproducibility_checklist_aaai27.pdf`.

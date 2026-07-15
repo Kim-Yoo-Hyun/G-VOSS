@@ -15,18 +15,17 @@ at $K=10$, while Open3DSG exhibits the largest gains throughout this range.
 The $K=5$ and $K=100$ columns characterize the low- and high-budget boundaries.
 
 No single comparator dominates across all predictors and operating budgets.
-Under identical routing (supplement), the matched MLP raises Open3DSG Recall more than the
+Under identical routing, the matched MLP raises Open3DSG Recall more than the
 linear product at $K=50$ (.4670 versus .4418) but also has higher V (.0413
-versus .0342); the two are nearly tied on VL-SAT and SGFN. Routed rank-average
-and RRF often reduce V further at large $K$ but lose more Recall at smaller
-budgets. The unrestricted product reaches
+versus .0342); the two are nearly tied on VL-SAT and SGFN. The comparisons
+expose source-dependent trade-offs: the product avoids the larger low-budget
+Recall losses of rank fusion, while the nonlinear model favors Recall over
+Violation on Open3DSG. The unrestricted product reaches
 higher aggregate Recall and can lower aggregate V, but changes support/contact
 selections; this is precisely the family regression hidden by an aggregate
-score. Pooled product reaches higher Open3DSG Recall at substantially higher V.
-Rank fusion also incurs predictor-dependent Recall losses. Every routed
-comparator preserves family composition and support/contact selection exactly;
-the projected product gives the most consistent Recall--V balance across
-$K=10$--$50$ without a capacity increase. A paired context-level sensitivity
+score. The pooled family-conditioning ablation is reported in the supplement.
+Every routed comparator preserves family composition and support/contact
+selection exactly. A paired context-level sensitivity
 in the supplement gives the same directions as the primary scan-cluster
 analysis.
 

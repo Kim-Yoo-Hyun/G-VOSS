@@ -1,6 +1,6 @@
 # H001 Paper Preview
 
-Last updated: 2026-07-15 KST
+Last updated: 2026-07-16 KST
 
 This file is the current manuscript handoff for H001. Historical experiment
 chronology belongs in the experiment reports and archive, not here.
@@ -87,7 +87,10 @@ Coverage variants are reported only as supplement sensitivities.
 ## Strong Comparisons and Controls
 
 - Rank-average and RRF are fixed rank-fusion comparators.
-- Pooled product tests whether family conditioning is necessary.
+- The routed matched MLP is shown directly in the main table; it trades higher
+  Open3DSG Recall for higher V and does not dominate the linear product.
+- Pooled product tests whether family conditioning is necessary and is reported
+  in the supplement.
 - Hard filtering is a zero-violation diagnostic that may return fewer than K.
 - Wrong-predicate, wrong-pair, shuffled-geometry, endpoint-swap,
   distance-only, and compatibility-only controls are reported at K=50/100.
@@ -97,6 +100,11 @@ Coverage variants are reported only as supplement sensitivities.
   `.0297` while increasing Violation by `.0047`.
 - A separate SGFN-specific exact-label nonlinear rescorer is a stronger-label
   comparator, not a supervision-matched replacement.
+- Nine one-factor train-only refits vary the proximity threshold, vertical
+  margin, negative cap, and pairwise-loss weight. Their maximum changes from
+  the exact default are `.0023/.0011` R/V at K=50 and `.0040/.0020` at K=100;
+  every variant preserves the source-score point-estimate improvement on both
+  metrics for all three predictors.
 
 These comparisons support the factorized framework and falsification contract,
 not a uniquely optimal fusion equation.
@@ -131,8 +139,7 @@ blinded adjudicator for mandatory disagreements/low-confidence/ambiguous rows.
   `experiments/H001_geom_reliability/structured_ablation_v1/routed_public_full_evaluation/`
 - compact results: `results/h001_geom_reliability/report.md`
 - manuscript and canonical PDFs: `paper/aaai/`
-- previous verified anonymous upload bundle (stale after current revision):
-  `release/h001_aaai27_openreview_20260714_233534/`
+- current anonymous upload bundle: see `docs/reproducibility.md`
 - reviewer-verified LLM analysis: `paper/paper_nonsub/`
 
 The only remaining submission-side decisions are author/OpenReview metadata,

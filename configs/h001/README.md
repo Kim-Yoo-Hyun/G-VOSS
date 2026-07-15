@@ -1,6 +1,6 @@
 # H001 Containers
 
-Last updated: 2026-07-14 KST
+Last updated: 2026-07-16 KST
 
 `compose.structured.yaml` is the compact paper-facing entry point for the
 strict train-only relation-algebra model and promoted main evaluation. It avoids
@@ -30,6 +30,13 @@ product, rank-average, RRF, and supervision-matched MLP under the identical
 family-slot route. It uses all 548 official contexts, treats absent Open3DSG
 candidate lists as empty, and verifies exact family composition and
 support/contact selection before writing scan-cluster intervals.
+
+The `counterfactual_threshold_sensitivity` service regenerates train and
+internal-development targets and refits nine one-factor variants of the
+proximity/vertical heads. It varies only the frozen proximity threshold,
+vertical margin, negative cap, or pairwise-loss weight; final-validation data
+remain excluded from construction, normalization, and fitting. Outputs are
+owned by `experiments/H001_geom_reliability/counterfactual_sensitivity_v1/`.
 
 The `structured_ablation_evaluation` service keeps the promoted model fixed and
 evaluates the frozen K=50/100 wrong-predicate, wrong-pair, shuffled-geometry,

@@ -1,0 +1,54 @@
+\section{Counterfactual-Policy Sensitivity}
+
+We regenerate the training and internal-development targets and refit the
+proximity and vertical heads under nine one-factor-at-a-time conditions. Each
+variant recomputes normalization from the 1,061 training scans; no final-
+validation row enters target generation, normalization, or fitting. The
+default refit is bit-exact to the main model. Support/contact remains a
+source-order pass-through in every condition.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.4pt}
+\caption{\textbf{Counterfactual-policy sensitivity.} Order is linked-positive
+ordering accuracy on the 117-scan internal-development split. Source cells are
+Recall / verifier V. Only the named factor changes from the default.}
+\label{tab:counterfactual-sensitivity}
+\begin{tabular}{lrrrr}
+\toprule
+\multicolumn{5}{c}{(a) $K=50$} \\
+Condition & Order & VL-SAT & Open3DSG & SGFN \\
+\midrule
+Default & 1.000 & .9277/.0197 & .4418/.0342 & .7450/.0263 \\
+Proximity 2.0 & 1.000 & .9280/.0197 & .4441/.0342 & .7470/.0263 \\
+Proximity 3.0 & 1.000 & .9275/.0197 & .4423/.0342 & .7437/.0264 \\
+Vertical 0.20 m & 1.000 & .9277/.0193 & .4408/.0342 & .7450/.0258 \\
+Vertical 0.30 m & 1.000 & .9277/.0204 & .4439/.0342 & .7447/.0274 \\
+Negative cap 1 & 1.000 & .9277/.0197 & .4431/.0342 & .7447/.0263 \\
+Negative cap 4 & 1.000 & .9277/.0197 & .4418/.0342 & .7455/.0263 \\
+Pair weight .125 & 1.000 & .9277/.0198 & .4421/.0342 & .7450/.0264 \\
+Pair weight .5 & 1.000 & .9277/.0197 & .4418/.0342 & .7450/.0262 \\
+\midrule
+\multicolumn{5}{c}{(b) $K=100$} \\
+Condition & Order & VL-SAT & Open3DSG & SGFN \\
+\midrule
+Default & 1.000 & .9658/.0295 & .5692/.0324 & .9303/.0350 \\
+Proximity 2.0 & 1.000 & .9660/.0294 & .5733/.0324 & .9325/.0350 \\
+Proximity 3.0 & 1.000 & .9653/.0296 & .5662/.0324 & .9277/.0350 \\
+Vertical 0.20 m & 1.000 & .9658/.0289 & .5687/.0324 & .9308/.0334 \\
+Vertical 0.30 m & 1.000 & .9658/.0306 & .5680/.0324 & .9300/.0370 \\
+Negative cap 1 & 1.000 & .9658/.0295 & .5697/.0324 & .9293/.0350 \\
+Negative cap 4 & 1.000 & .9658/.0295 & .5680/.0324 & .9305/.0350 \\
+Pair weight .125 & 1.000 & .9658/.0296 & .5695/.0324 & .9303/.0351 \\
+Pair weight .5 & 1.000 & .9658/.0294 & .5687/.0324 & .9303/.0347 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Across all variants, the maximum absolute change from the default is .0023
+Recall and .0011 V at $K=50$, and .0040 Recall and .0020 V at $K=100$.
+Every variant preserves the source-score point-estimate improvement on both
+metrics for all three predictors at $K=50$ and $K=100$. This reduces dependence
+on a particular threshold or negative count, but does not make the constructed
+target independent of the verifier.

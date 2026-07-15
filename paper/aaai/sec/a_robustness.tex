@@ -49,6 +49,32 @@ No fusion dominates the joint trade-off. A separate exact-label MLP uses
 stronger SGFN-specific correctness supervision and is therefore retained only
 as an unrestricted upper comparator, not as an apples-to-apples baseline.
 
+\paragraph{Family-conditioning ablation.}
+The pooled product fits one compatibility model across all families and does
+not use the primary family-slot route. Compared with the unrestricted
+family-specific product, it can increase Recall but generally raises V,
+particularly for Open3DSG and SGFN:
+
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.4pt}
+\caption{\textbf{Family-specific versus pooled unrestricted products.} Cells
+are Recall / verifier V at $K=50$ and $K=100$.}
+\label{tab:pooled-ablation}
+\begin{tabular}{lrrrr}
+\toprule
+& \multicolumn{2}{c}{$K=50$} & \multicolumn{2}{c}{$K=100$} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+Source & Family & Pooled & Family & Pooled \\
+\midrule
+VL-SAT & .9293/.0203 & .9300/.0219 & .9688/.0325 & .9690/.0387 \\
+Open3DSG & .4655/.0265 & .4675/.0510 & .6005/.0330 & .6402/.0743 \\
+SGFN & .7706/.0256 & .7925/.0292 & .9418/.0372 & .9413/.0464 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \paragraph{Open3DSG public-route sensitivity.}
 The public preprocessing drops a context when fewer than four annotated
 objects retain view metadata. This accounts for all 15 missing contexts.

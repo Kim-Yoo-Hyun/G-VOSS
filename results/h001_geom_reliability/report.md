@@ -1,6 +1,6 @@
 # H001 / RelCompat3D Geometry Reliability Report
 
-Last updated: 2026-07-15 KST
+Last updated: 2026-07-16 KST
 
 This is the compact paper-facing full-validation report for RelCompat3D. The
 current main result uses the strict train-only relation-algebra-constrained
@@ -126,6 +126,25 @@ The nonlinear model does not jointly dominate: its Open3DSG Recall gain
 accompanies a Violation increase. A separate SGFN-specific
 exact-label nonlinear rescorer uses stronger source-specific supervision and is
 reported as such; it is not a supervision-matched replacement.
+
+## Counterfactual-Policy Sensitivity
+
+`experiments/H001_geom_reliability/counterfactual_sensitivity_v1/evaluation/`
+contains nine one-factor-at-a-time train-only refits: the default; proximity
+threshold 2.0/3.0 versus 2.5; vertical absolute margin 0.20/0.30 m versus
+0.25 m; negative cap 1/4 versus 2; and pairwise-loss weight .125/.5 versus
+.25. Every condition recomputes targets and normalization using only the
+1,061 training scans, uses the 117-scan internal-development split for ordering
+diagnostics, and excludes all 157 final-validation scans from fitting.
+
+The default model and all three-source K=50/100 points are bit-exact to the
+main result. Linked-positive ordering accuracy is 1.000 for every variant.
+Across conditions, maximum absolute changes from default are `.0023` Recall
+and `.0011` V at K=50, and `.0040` Recall and `.0020` V at K=100. Every variant
+preserves positive Recall and negative V point deltas versus source scoring for
+VL-SAT, Open3DSG, and SGFN at both budgets. These results reduce dependence on
+one engineered threshold/cap/weight setting; they do not constitute an
+independent physical-validity reference.
 
 ## Open3DSG Coverage Sensitivity
 

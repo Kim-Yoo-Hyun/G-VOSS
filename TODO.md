@@ -1,6 +1,6 @@
 # TODO
 
-Last updated: 2026-07-15 KST
+Last updated: 2026-07-16 KST
 
 이 파일은 에이전트가 다음 작업 계획과 진행 상태를 관리하는 루트 작업판이다. 자세한 문헌 조사 내용은 `literature/`에 기록하고, 자세한 hypothesis 근거는 `archive/hypothesis_records/hypothesis/`에 기록한다.
 
@@ -48,8 +48,8 @@ Last updated: 2026-07-15 KST
   remains preserved. It is provenance only and must not be used as the active
   manuscript or upload package.
 - Latest H001 submission manuscript is `paper/aaai/main_aaai27.pdf`, SHA256
-  `8a3d7c133ff6e096649cb083db4a9c501e706e1edb9d084693dd0e177dd8ce86`. The active
-  outputs are main/supplement/checklist 9/4/2 US-Letter pages; technical content
+  `4b6be0f799bc20f551e6801394c040051dab9d2374110ad3a276f5b4ac805a17`. The active
+  outputs are main/supplement/checklist 9/5/2 US-Letter pages; technical content
   continues through page 7 and references occupy pages 8--9. Type 3 fonts, unresolved
   citations/references, LaTeX errors, and overfull boxes are zero. Superseded
   framework-first, factorized, and Replica-disclosure builds remain archived.
@@ -62,8 +62,18 @@ Last updated: 2026-07-15 KST
   All route/composition/hash checks pass under `routed_comparators_v1/`; the
   supplement now gives the exact counterfactual rules and their verifier
   primitive overlap.
+- Counterfactual-policy sensitivity is complete under
+  `experiments/H001_geom_reliability/counterfactual_sensitivity_v1/`. Nine
+  train-only one-factor refits vary proximity threshold, vertical margin,
+  negative cap, and pairwise-loss weight. The default is bit-exact to the main
+  model; all variants have development ordering accuracy 1.000. Maximum
+  absolute change from default is `.0023/.0011` R/V at K=50 and
+  `.0040/.0020` at K=100, while every variant retains source-score point gains
+  on both metrics for all three predictors. Main Table 1 now shows the routed
+  matched MLP in place of pooled product; pooled family conditioning is in the
+  supplement.
   The current verified bundle is
-  `release/h001_aaai27_openreview_20260715_213525/`; it includes the compact
+  `release/h001_aaai27_openreview_20260716_011716/`; it includes the compact
   ReplicaSSG stress test, routed ablations, current source, and outer/inner
   checksum manifests.
 - H001-only cleanup completed after compact-result verification: removed
@@ -244,13 +254,14 @@ Current H001 owners:
 - unrestricted/comparator evaluation: `experiments/H001_geom_reliability/structured_main_v1/evaluation/`
 - Open3DSG public-route sensitivity: `experiments/H001_geom_reliability/open3dsg_official_route_v1/evaluation/`
 - held-out verifier-primitive diagnostic: `experiments/H001_geom_reliability/held_out_primitive_v1/evaluation/`
+- counterfactual-policy sensitivity: `experiments/H001_geom_reliability/counterfactual_sensitivity_v1/evaluation/`
 - supervision-matched nonlinear comparison: `experiments/H001_geom_reliability/supervision_matched_nonlinear_v1/evaluation/`
 - paper-facing fixed-model ablations: `experiments/H001_geom_reliability/structured_ablation_v1/routed_public_full_evaluation/`
 - supplemental unrestricted ablations: `experiments/H001_geom_reliability/structured_ablation_v1/evaluation/`
 - compact results: `results/h001_geom_reliability/report.md`
 - reproducibility and bundle transfer: `docs/reproducibility.md`
 - paper source: `paper/aaai/`
-- current verified upload bundle: `release/h001_aaai27_openreview_20260715_213525/`
+- current verified upload bundle: `release/h001_aaai27_openreview_20260716_011716/`
 
 Current H001 immediate work:
 
@@ -274,7 +285,7 @@ Current H001 immediate work:
 
 Completed package hygiene: Open3DSG `25da9...` non-avg versus historical
 `2a23...` avg provenance is reconciled. The current verified OpenReview field
-set is `release/h001_aaai27_openreview_20260715_213525/`; earlier field
+set is `release/h001_aaai27_openreview_20260716_011716/`; earlier field
 set is a superseded handoff snapshot.
 
 Completed paper-folder hygiene: `paper/aaai/` now contains only active
@@ -1093,6 +1104,12 @@ Non-data:
 
 ## Recently Completed
 
+- [x] Run nine Dockerized train-only counterfactual-policy sensitivity refits;
+      verify bit-exact default equivalence, 1.000 development ordering accuracy,
+      and bounded K=50/100 changes across all three predictors. Replace pooled
+      product with the routed matched MLP in the main table, move pooled family
+      conditioning to the supplement, lower the comparator/conclusion wording,
+      and rebuild clean 9/5/2-page submission PDFs.
 - [x] Re-evaluate product, Rank-average, RRF, and the supervision-matched
       nonlinear model with the identical official 548-context family-slot
       route; disclose exact counterfactual-generation rules and shared

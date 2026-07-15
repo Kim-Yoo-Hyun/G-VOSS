@@ -31,9 +31,11 @@ K=10--50 behavior without an operational-use claim. A 69-parameter source-superv
 rescorer is stronger at low K and blocks formula-optimality claims. Codex proxy
 results are excluded from the submission and live only in `paper/paper_nonsub/`.
 
-Table override, 2026-07-14: Table 1 jointly reports Recall and verifier-derived
+Table override, 2026-07-16: Table 1 jointly reports Recall and verifier-derived
 Violation for K=`{5,10,20,50,100}` across Source score, the RelCompat3D
-product, rank-average, RRF, and pooled product. Table 2 reports the six frozen
+product, the same-route matched MLP, rank-average, RRF, and unrestricted
+product. Pooled product is a supplement-only family-conditioning ablation.
+Table 2 reports the six frozen
 K=50/100 controls: wrong predicate, wrong pair, shuffled geometry, label-fixed
 endpoint swap, distance-only, and compatibility-only. Hard filtering is a
 construction diagnostic in the artifacts, not a primary comparator row. Any
@@ -47,7 +49,7 @@ Setup); Experiments (including setup and results); Discussion and Limitations;
 and Conclusion. Older independent Problem Formulation, Experimental Setup, and
 Results and Discussion headings below are superseded planning history.
 
-Last updated: 2026-07-14 KST
+Last updated: 2026-07-16 KST
 
 This outline turns `paper/preview.md` into a paper-writing skeleton. It is not the final manuscript. It fixes the section logic, evidence placement, reviewer-defense responsibilities, title candidates, and contribution statements before drafting the abstract and manuscript sections.
 

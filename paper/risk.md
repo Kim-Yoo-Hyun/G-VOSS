@@ -1,6 +1,6 @@
 # H001 Paper Reviewer-Risk Register
 
-Last updated: 2026-07-15 KST
+Last updated: 2026-07-16 KST
 
 Scope: current scientific and submission risks for `paper/aaai/`. Historical
 mitigation logs belong in experiment reports and archived snapshots.
@@ -37,6 +37,14 @@ nearly the full result, excluding literal scalar reuse as the sole mechanism.
 The broader holdouts retain a clear Open3DSG effect but attenuate K=50
 violation gains on VL-SAT and SGFN. This is useful construct-overlap
 sensitivity, not an independent validity reference.
+
+A complementary nine-condition train-only sensitivity changes the proximity
+threshold, vertical margin, negative cap, or pairwise-loss weight one at a
+time. The default is bit-exact; maximum absolute changes are `.0023/.0011` R/V
+at K=50 and `.0040/.0020` at K=100, and every variant retains point-estimate
+improvement over source scoring on both metrics for all three predictors. This
+weakens an exact-threshold-reproduction objection, but it still does not make
+the constructed target independent of the verifier.
 
 Reviewers A/B/C confirmed all 488 completed Codex labels with zero revisions at
 `2026-07-14T22:49:11+09:00`. This validates transcription and review coverage,

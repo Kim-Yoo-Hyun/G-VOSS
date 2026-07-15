@@ -1,6 +1,6 @@
 # RelCompat3D / H001 Research Summary
 
-Last updated: 2026-07-15 KST
+Last updated: 2026-07-16 KST
 
 Paper-facing name: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geometric Compatibility for 3D Scene Graph Relations`.
 Use `RelCompat3D` in manuscript-facing prose. Keep `H001` only for internal
@@ -65,11 +65,11 @@ Authoritative owners:
   consolidated in Discussion and Limitations.
 - Active AAAI-27 outputs: `paper/aaai/main_aaai27.pdf` (9 US-Letter pages;
   technical content through page 7, references on pages 8--9),
-  `paper/aaai/supplement_aaai27.pdf` (4 pages), and
+  `paper/aaai/supplement_aaai27.pdf` (5 pages), and
   `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Final main log:
-  `logs/h001_main_final_review_20260715_212943.log`; final supplement log:
-  `logs/h001_supp_final_review_20260715_212943.log`. Main/supplement/checklist
-  SHA256 values are `8a3d7c...`, `239aa28...`, and `4f7b254...`. All three have
+  `logs/h001_main_counterfactual_20260716_010956.log`; final supplement log:
+  `logs/h001_supp_counterfactual_20260716_011157.log`. Main/supplement/checklist
+  SHA256 values are `4b6be0f...`, `865ae2d...`, and `4f7b254...`. All three have
   zero Type 3 fonts and no unresolved citations/references or blocking
   LaTeX/overfull errors.
 - The revised Figure 1 is a three-panel vector figure with an actual object-pair
@@ -82,9 +82,18 @@ Authoritative owners:
   official 548-context universe, family sequence, support/contact selection,
   and scan-cluster indices. At Open3DSG K=50, product gives R/V `.4418/.0342`
   and the MLP `.4670/.0413`; neither dominates the joint trade-off.
+- Train-only counterfactual-policy sensitivity is complete under
+  `counterfactual_sensitivity_v1/`. Nine one-factor refits vary the proximity
+  threshold, vertical margin, negative cap, and pairwise-loss weight. The
+  default model is bit-exact to the main model; internal-development ordering
+  accuracy is 1.000 in every variant. Relative to the default, the maximum
+  absolute change is `.0023` Recall / `.0011` V at K=50 and `.0040` Recall /
+  `.0020` V at K=100. Every variant retains point-estimate gains over source
+  scoring on both metrics for all three predictors at both budgets. This is a
+  threshold-robustness result, not an independent physical-validity reference.
 - The current verified OpenReview field bundle is
-  `release/h001_aaai27_openreview_20260715_213525/`. Its anonymous source ZIP
-  contains 196 checksum records and passes extracted-source Docker rebuild and
+  `release/h001_aaai27_openreview_20260716_011716/`. Its anonymous source ZIP
+  contains 205 checksum records and passes extracted-source Docker rebuild and
   canonical text-identity checks. Older factorized,
   LLM-proxy, Replica-disclosure, and reference-expansion PDFs remain historical
   provenance snapshots rather than upload candidates.
@@ -650,8 +659,8 @@ Submission/package hygiene:
 
 1. Completed: verified the live AAAI-27/OpenReview form, official target-year
    style, deadlines, page limits, separate checklist, and supplement policy.
-2. Completed: the current 2026-07-15 field bundle at
-   `release/h001_aaai27_openreview_20260715_213525/` passed outer/inner
+2. Completed: the current 2026-07-16 field bundle at
+   `release/h001_aaai27_openreview_20260716_011716/` passed outer/inner
    checksums, archive integrity, identity/path scans, and extracted-source
    Docker rebuild. It supersedes the earlier 2026-07-15 field bundles.
 3. Author action: enter author order/profiles, countries, conflicts, and the
