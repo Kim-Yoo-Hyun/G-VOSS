@@ -1,6 +1,6 @@
 # H001 Experiment Progress Rationale
 
-Last updated: 2026-07-14 KST
+Last updated: 2026-07-15 KST
 
 This document explains why H001 moved from hypothesis checks to Docker paper
 experiments, why each next experiment was introduced, and how the key results
@@ -16,19 +16,20 @@ Current progress snapshot:
   transfer diagnostic are complete. Only projected pairwise compatibility
   passes the frozen structural/continuity gate; the nonlinear model loses
   Recall outside its SGFN training source.
-- The projected pairwise compatibility is promoted as the main
-  relation-algebra-constrained product; pooled compatibility product is an
-  ablation, and compatibility-only ranking is a control. Internal artifact
-  keys are retained only in experiment records.
+- The projected pairwise compatibility is used by the primary family-slot
+  applicability route: proximity/vertical use product ordering and
+  support/contact retains source ordering. The unrestricted product and pooled
+  product are ablations, and compatibility-only ranking is a control.
 - Low-K reporting is accepted for K = `{5,10,20,50,100}`; point-metric provenance is present in both paper-facing `metrics_k_sweep/` roots, and K=1 remains sanity-check only.
 - Qwen-VL full official validation downstream is complete as appendix/extension evidence, not as a main-source replacement.
 - Active target-year build is
-  `logs/h001_main_figure_refresh_20260714.log`, exit 0.
-  `main_aaai27.pdf` is 8 pages with technical content through page 7
-  and references on pages 7--8; supplement/checklist are separate 2/2-page
+  `logs/h001_main_routed_ablation_20260715_010230.log`, exit 0.
+  `main_aaai27.pdf` is 9 pages with technical content through page 7
+  and references on pages 8--9; supplement/checklist are separate 3/2-page
   PDFs. Relative size is included only as one main-text scope sentence and a
-  full supplement section. The verified OpenReview bundle is
-  `release/h001_aaai27_openreview_20260714_170829/`.
+  full supplement section. The previously verified OpenReview bundle
+  `release/h001_aaai27_openreview_20260714_233534/` is stale after the current
+  table/ablation/CI revision.
 - The main-method choice and full strict-route comparator/figure rebuild are
   complete. Author-side OpenReview metadata, public-license/artifact choice,
   and optional human alignment remain separate tasks.
@@ -37,10 +38,12 @@ Current progress snapshot:
   composition are reported; recent closest-work boundaries are added; and an
   uncertainty sensitivity rules out uncounted uncertain rows as the
   source of the Violation reduction.
-- The fixed-model K=50/100 ablation suite is complete. The main manuscript now
-  combines Recall and Violation at all five K values into one table and uses a
-  single-column second table for wrong-predicate, wrong-pair, shuffled-geometry,
-  label-fixed endpoint-swap, distance-only, and compatibility-only controls.
+- The routed public/full K=50/100 ablation suite is complete. The main
+  manuscript combines Recall and Violation at all five K values into one table
+  and uses a single-column second table for wrong-predicate, wrong-pair,
+  shuffled-geometry, label-fixed endpoint-swap, distance-only, and
+  compatibility-only controls. Primary intervals resample 157 scans; context
+  resampling and unrestricted fusion are supplemental sensitivities.
 
 ## Research Claim Being Tested
 
@@ -398,11 +401,10 @@ Interpretation:
   and rule filtering reaches zero violation with a small recall tradeoff.
 - The absolute recall is lower than the 127-scan result because the denominator
   is broader, which is expected and should be reported rather than hidden.
-- This is now the selected cross-source full-validation primary route. The
-  548-context Open3DSG recovery branch is the primary full-denominator Open3DSG
-  result and must disclose its recovery policy; the 533-context covered branch
-  preserves the unmodified missing-preprocess behavior and should be reported as
-  sensitivity / unmodified-source-route evidence.
+- The current cross-source route evaluates public Open3DSG predictions on the
+  complete 548-context target, assigning no predictions to the 15 missing
+  contexts. Eligible-533 and recovered-548 results are sensitivities; recovery
+  is not presented as the unmodified source pipeline.
 
 Key Open3DSG recovery full-validation result:
 
@@ -536,9 +538,9 @@ Not allowed:
 The current paper body is in `paper/draft.md` and now runs from Title through
 Conclusion. The current target-venue LaTeX source is in `paper/aaai/`, using
 the official AAAI-27 style. Docker verification with
-`h001-aaai27-tex:20260712` builds `main_aaai27.pdf` to 8 pages: technical
-content continues through page 7 and references occupy pages 7--8. Supplement and
-checklist are separate 2/2-page PDFs. BibTeX uses 34 entries, Type 3 fonts are
+`h001-aaai27-tex:20260712` builds `main_aaai27.pdf` to 9 pages: technical
+content continues through page 7 and references occupy pages 8--9. Supplement and
+checklist are separate 3/2-page PDFs. BibTeX uses 34 entries, Type 3 fonts are
 zero, and targeted checks found no missing citations, undefined refs, overfull
 boxes, LaTeX errors, or AAAI package errors. Low-K source metrics are now
 regenerated in `metrics_k_sweep/`

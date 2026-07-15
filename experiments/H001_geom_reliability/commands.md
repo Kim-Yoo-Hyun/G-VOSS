@@ -1,6 +1,6 @@
 # H001 Commands
 
-Last updated: 2026-07-14
+Last updated: 2026-07-15
 
 Run from the repository root.
 
@@ -11,14 +11,15 @@ the current paper-facing route unless explicitly referenced below.
 ## Current Paper-Facing Route
 
 - VL-SAT source root: `experiments/H001_geom_reliability/sources/vlsat/full_validation/`
-- Open3DSG source root: `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/`
+- Open3DSG public route: `experiments/H001_geom_reliability/open3dsg_official_route_v1/evaluation/`
 - SGFN source root: `experiments/H001_geom_reliability/sources/sgfn/`
 - Frozen model root: `experiments/H001_geom_reliability/relation_algebra_v1/evaluation/`
-- Promoted result root: `experiments/H001_geom_reliability/structured_main_v1/evaluation/`
-- Fixed-model ablation root: `experiments/H001_geom_reliability/structured_ablation_v1/evaluation/`
+- Promoted result root: `experiments/H001_geom_reliability/support_contact_routing_v1/evaluation/`
+- Paper-facing fixed-model ablation root: `experiments/H001_geom_reliability/structured_ablation_v1/routed_public_full_evaluation/`
+- Supplemental unrestricted ablation root: `experiments/H001_geom_reliability/structured_ablation_v1/evaluation/`
 - Compact results: `results/h001_geom_reliability/`
-- Main paper method: relation-algebra-constrained product
-- Main artifact key: `structured_product`
+- Main paper method: applicability-routed relation-algebra compatibility
+- Main artifact key: `family_slot_rerank`
 - Main comparison keys: `structured_rank_average`, `structured_rrf_c60`, and
   `pooled_product`; `hard_rule_filter` is a construction diagnostic.
 - Legacy aliases such as `family_conditional_risk`,
@@ -45,18 +46,27 @@ env UID=$(id -u) GID=$(id -g) docker compose \
 env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/h001/compose.structured.yaml run --rm structured_main_evaluation
 env UID=$(id -u) GID=$(id -g) docker compose \
-  -f configs/h001/compose.structured.yaml run --rm scan_cluster_sensitivity
+  -f configs/h001/compose.structured.yaml run --rm support_contact_routing
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm routed_public_ablation_evaluation
 env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/h001/compose.structured.yaml run --rm structured_ablation_evaluation
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm supervision_matched_nonlinear
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm open3dsg_official_route_sensitivity
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm support_routing_scan_cluster
 ```
 
 The services reject nonempty locked output roots. Preserve the current
 `relation_algebra_v1/` and `structured_main_v1/` trees; use the isolated rerun
 layout documented in the verified release bundle when reproducing from
 scratch. The current result is validated by
-`structured_main_v1/evaluation/manifest.json`; the K=50/100 corruptions and
-information ablations are validated separately by
-`structured_ablation_v1/evaluation/manifest.json`.
+`support_contact_routing_v1/evaluation/manifest.json`; the paper-facing
+K=50/100 corruptions and information ablations are validated separately by
+`structured_ablation_v1/routed_public_full_evaluation/manifest.json`. The
+unrestricted `structured_ablation_v1/evaluation/` route is supplemental only.
 
 ## Historical Compact Table Mirror
 
@@ -95,8 +105,11 @@ Expected outputs:
 - `results/h001_geom_reliability/bootstrap_ci/summary.md`
 
 This compact bootstrap mirror uses legacy condition identifiers and is retained
-for continuity. Paper-facing paired intervals are owned by
-`structured_main_v1/evaluation/summary.json`.
+for continuity. Paper-facing paired intervals use scan-cluster resampling and
+are owned by
+`support_contact_routing_v1/scan_cluster_sensitivity/summary.json`; the
+context-bootstrap intervals in `structured_main_v1/evaluation/summary.json`
+are a sensitivity analysis.
 
 ## Independent Physical-Validity And Reviewer-Extension Gates
 
@@ -205,10 +218,18 @@ Regenerate the leakage-safe Codex proxy draft and local user-review UI:
 env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm physical_validity_codex_proxy
 env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm physical_validity_codex_rereview_v2
 env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm physical_validity_codex_compare
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm codex_proxy_adjudicate
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm codex_proxy_reference_evaluate
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm external_proxy_review_validate
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm reviewer_verified_proxy_evaluate
 ```
 
-The draft is not human evidence. Review `physical_validity_audit/codex_proxy_v1/review.html`
-or fill `user_review.csv`.
+The two drafts and the completed adjudicated reference are not human evidence.
+Reviewers A/B/C confirmed all 488 completed decisions in
+`physical_validity_audit/external_reviews_completed_v1/`; the validated
+reference and evaluation are under `external_proxy_review_validation_v1/` and
+`reviewer_verified_proxy_evaluation_v1/`. They did not perform blank first-pass
+annotation, so the result remains reviewer-verified LLM evidence.
 
 SGFN pre-inference split erratum and checkpoint audit:
 
@@ -258,6 +279,17 @@ Primary outputs:
 - `physical_validity_audit/codex_rereview_v2/` and
   `codex_review_comparison/`: second same-agent blinded pass, comparison, and
   all-disagreement visual follow-up; not human agreement evidence.
+- `physical_validity_audit/codex_proxy_reference_v1/`: complete 488-row
+  non-human proxy reference, 50 visual disagreement decisions, 22 visually
+  revised agreed low-confidence rows, all 154 mandatory adjudication records,
+  and three external-review verification sheets.
+- `physical_validity_audit/codex_proxy_reference_evaluation_v1/`: design-
+  weighted proxy-reference Violation@K, scan-bootstrap CIs, and post-lock
+  verifier--proxy construct diagnostics; excluded from the active submission
+  until external verification and an explicit reporting decision.
+- `physical_validity_audit/external_proxy_review_validation_v1/`: strict
+  three-reviewer coverage/immutability/majority validator. Blank real sheets
+  intentionally return `awaiting_external_reviewer_verification`.
 
 ## Low-K Metric Sweeps
 
@@ -311,6 +343,40 @@ env UID=$(id -u) GID=$(id -g) \
 
 Compact outputs are written to
 `experiments/H001_geom_reliability/relation_algebra_v1/evaluation/`.
+
+## Support/Contact Applicability Routing
+
+```bash
+env UID=$(id -u) GID=$(id -g) \
+  docker compose -f configs/h001/compose.structured.yaml run --rm support_contact_routing
+```
+
+The internal-development gate and fixed three-source benchmark evaluation are
+written under `support_contact_routing_v1/evaluation/`.
+
+## Supervision-Matched Nonlinear Comparison
+
+```bash
+env UID=$(id -u) GID=$(id -g) \
+  docker compose -f configs/h001/compose.structured.yaml run --rm supervision_matched_nonlinear
+```
+
+The shared source-excluded nonlinear models, three-source comparison, and
+separately identified SGFN-specific exact-label upper comparator are written
+under `supervision_matched_nonlinear_v1/evaluation/`.
+
+## Open3DSG Unmodified Public Route vs Recovery
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_adapter_raw_dump_full_validation
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm open3dsg_geometry_join_full_validation
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.structured.yaml run --rm open3dsg_official_route_sensitivity
+```
+
+The first two commands reconstruct the 533-context unmodified public-route
+adapter/geometry files from the preserved raw stream. The third reports the
+official-eligible 533, strict full-target 548, and recovered 548 routes under
+`open3dsg_official_route_v1/evaluation/`.
 
 ## Nonlinear Cross-Source Transfer
 
@@ -411,9 +477,9 @@ docker run --rm -v "$PWD/paper:/work" -w /work/aaai h001-aaai27-tex:20260712 \
 
 Latest verified paper build:
 
-- `logs/h001_main_final_20260714.log`,
-  `logs/h001_supplement_final_20260714.log`, and
-  `logs/h001_checklist_final_20260714.log`.
+- `logs/h001_main_routing_20260714_231933.log`,
+  `logs/h001_supplement_routing_20260714_231933.log`, and
+  `logs/h001_checklist_routing_20260714_231933.log`.
 - The active AAAI-27 outputs are
   `paper/aaai/main_aaai27.pdf`, `paper/aaai/supplement_aaai27.pdf`, and
   `paper/aaai/reproducibility_checklist_aaai27.pdf`.

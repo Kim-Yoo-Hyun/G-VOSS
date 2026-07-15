@@ -25,7 +25,8 @@ C_{\rm higher}(s,o)&=C_{\rm lower}(o,s).
 \end{aligned}
 \end{equation}
 Support/contact uses the singleton orbit because a family-wide endpoint swap
-is not valid.
+is not valid. Its compatibility model is retained only for unrestricted-fusion
+diagnostics; the primary route passes this family through unchanged.
 
 Training uses two complementary structural signals. First, orbit-consistent
 augmentation preserves the predicate when proximity endpoints are swapped,
@@ -41,10 +42,9 @@ logits $\ell=w_a^\top\Phi$ receive a fixed margin penalty:
 &+10^{-4}\lVert w_a\rVert_2^2.
 \end{aligned}
 \end{equation}
-The 60,208 training rows yield 33,961 linked pairs; algebra augmentation gives
-86,032 optimization rows. Numeric features are standardized and missing values
-imputed using training-only statistics. We use 800 deterministic full-batch
-steps at learning rate 0.2. The three family models contain 22--24 parameters.
+Numeric features are standardized and missing values are imputed using
+training-only statistics. Each family uses a small train-only linear model;
+optimization details and row counts are provided in the supplement.
 
 Finally, we project the learned score onto the declared orbit:
 \begin{equation}
@@ -57,14 +57,31 @@ inference rather than merely encouraged by a penalty. The pairwise objective
 still distinguishes each linked positive from its counterfactual; projection
 does not consume source confidence.
 
-\subsection{Re-ranking and Controls}
+\subsection{Applicability-Routed Re-ranking and Controls}
 
-Our main score preserves source magnitudes through
+The unrestricted compatibility product preserves source magnitudes through
 \begin{equation}
 S_i^{\mathrm{alg-prod}}=Z_i\calg_i.
 \end{equation}
 For positive scores, $\log S_i=\log Z_i+\log\calg_i$; compatibility therefore
 contributes an additive log-score term without an additional fusion parameter.
+It is useful when every family has identifiable evidence, but our
+support/contact diagnostic does not satisfy that condition.
+
+Our primary ranking rule therefore uses family-slot applicability routing. Sort a
+context by $Z$ and retain its family sequence $(a_1,\ldots,a_n)$. For each
+family, form
+\begin{equation}
+Q_a=\begin{cases}
+\operatorname{sort}_{\downarrow Z\calg}(a), & a\in\mathcal A_{\rm alg},\\
+\operatorname{sort}_{\downarrow Z}(a), & a=\mathrm{support/contact}.
+\end{cases}
+\end{equation}
+At output position $j$, take the next unused candidate from $Q_{a_j}$. This
+preserves the source-ranked family composition at every $K$ and exactly
+preserves support/contact selections, while applying compatibility within the
+proximity and vertical slots. The route introduces no fitted fusion parameter.
+
 We also test scale-robust fusion. Let $q_i^Z$ and $q_i^C$ be descending within-context
 percentile ranks and $r_i^Z,r_i^C$ their one-indexed ranks. Rank-average and
 fixed-constant Reciprocal Rank Fusion are
@@ -74,12 +91,14 @@ S_i^{\mathrm{RRF}}=\frac{1}{60+r_i^Z}+\frac{1}{60+r_i^C}.
 \end{equation}
 They provide scale-robust fusion comparisons.
 
-Other comparisons isolate the mechanism. A pooled product replaces the three
+Other comparisons isolate the mechanism. The unrestricted product measures
+the cost and benefit of applying compatibility to every family. A pooled product replaces the three
 family models with one $T\times G$ compatibility model fitted on the training
 split. Compatibility-only removes $Z$, and an unprojected family product
-ablates relation-algebra projection. A 69-parameter nonlinear rescorer is
-matched to the total compatibility parameter count and trained with
-source-specific exact-label supervision.
+ablates relation-algebra projection. A 69-parameter nonlinear compatibility
+model is matched by supervision, features, source-score exclusion, and split;
+we separately report an exact-label rescorer trained with stronger
+SGFN-specific supervision.
 
 Linked-counterfactual ordering and wrong-predicate tests ask whether the model
 uses the intended $T\times G$ interaction. Proximity-swap and vertical-inverse

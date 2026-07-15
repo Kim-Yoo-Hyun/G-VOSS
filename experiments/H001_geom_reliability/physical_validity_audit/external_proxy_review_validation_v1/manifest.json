@@ -1,0 +1,37 @@
+{
+  "claim_boundary": "Human reviewers verify a completed Codex proxy reference; this is reviewer-verified LLM annotation, not three independent first-pass human annotations.",
+  "inputs": {
+    "reference": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/reference.csv",
+      "sha256": "64351b480abf366383c73ff918be5f6f31dabe8b3e12447391f142adc7050b62"
+    },
+    "reviewer_1": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/external_reviews_completed_v1/external_reviewer_1.csv",
+      "sha256": "d2b41c8e7f58230db9d2df2850d175e0fc88420124289f4a8a01305841215336"
+    },
+    "reviewer_2": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/external_reviews_completed_v1/external_reviewer_2.csv",
+      "sha256": "bee4e67ab0dbcb8bf759f19e816f59e787f52da31eae3a8172279a8c5ceaa8b8"
+    },
+    "reviewer_3": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/external_reviews_completed_v1/external_reviewer_3.csv",
+      "sha256": "ef8000ac6189f3f24776444b17007c724a66a04b7bd19b45ebf9497572ecd8c7"
+    }
+  },
+  "outputs": {
+    "reviewer_verified_reference.csv": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/external_proxy_review_validation_v1/reviewer_verified_reference.csv",
+      "sha256": "76c0497836cd5f1366edebebe3d9fb4b57e84038faf56e57567b0b7326587544"
+    },
+    "summary.md": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/external_proxy_review_validation_v1/summary.md",
+      "sha256": "bbac99f20ccec88a9e834e1de6ba0f0e0c6a8df45aa7aaf1b1fb95d1e23d2684"
+    },
+    "validation.json": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/external_proxy_review_validation_v1/validation.json",
+      "sha256": "6fedabbcf5549cbfc7cec9d4023985a417c1d4c5e7d6926dc27dab26a169c96e"
+    }
+  },
+  "schema_version": "h001_external_proxy_review_manifest_v1",
+  "status": "ready_reviewer_verified_proxy_reference"
+}

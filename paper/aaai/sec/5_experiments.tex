@@ -15,15 +15,23 @@ The supplement evaluates relative size as a secondary scope extension; a
 fixed robust-point rule is equally strong within that family, so it is not used
 as core learned-method evidence.
 
-Open3DSG uses the official non-averaged model. A documented preprocessing
-recovery completes the common evaluation scope; checkpoint identity and the
-recovery procedure are reported in the supplement.
+% Declared before the results prose so the two-column float appears at the
+% beginning of the result presentation rather than after the conclusion.
+\input{sec/main_results_table}
+
+Open3DSG uses the official non-averaged model and unmodified public
+preprocessing, which produces candidates for 533 of 548 contexts. The primary
+common-target evaluation retains all 548 ground-truth contexts and assigns no
+predictions to the 15 preprocessing drops. Eligible-only and documented
+full-coverage recovery sensitivities are reported in the supplement.
 
 \paragraph{Conditions and training boundary.}
-We report the original source relation score, the relation-algebra-constrained
-product, rank-average fusion, pooled-compatibility product, and Reciprocal Rank
-Fusion. A 69-parameter nonlinear rescorer provides a
-parameter-matched, source-supervised comparison. Controls comprise
+We report the original source relation score, applicability-routed \method{},
+the unrestricted relation-algebra product, rank-average fusion,
+pooled-compatibility product, and Reciprocal Rank Fusion. A 69-parameter
+nonlinear compatibility model uses the same constructed target and excludes
+source scores; a separate exact-label rescorer tests stronger
+predictor-specific supervision. Controls comprise
 wrong-predicate, compatibility-only, distance-only, shuffled-geometry,
 mismatched-pair, and label-fixed endpoint-swap rankings. Wrong-pair geometry is
 rotated within context and predicate; shuffled geometry is rotated across the
@@ -33,13 +41,14 @@ unchanged, for which no blanket swap is defined. The compatibility model uses
 only $T$, predicate-independent $G$, and explicit $T\times G$ interactions;
 source score and source identity are excluded. All normalization,
 imputation, feature preprocessing, and model parameters are estimated from the
-1,061 training scans. The 117-scan development split is used for
-counterfactual discrimination, linked-pair ordering, and relation-algebra
-checks. The 157-scan official
-validation split contains no fitting, normalization, or imputation rows. The nonlinear comparison is the sole
-source-supervised exception: it is trained on exact-label correctness from the
-117 development scans and evaluated without refitting on official
-validation.
+1,061 training scans. The compatibility architecture and family-slot
+applicability rule are selected on the 117-scan development split, which also
+supports counterfactual discrimination, linked-pair ordering, and
+relation-algebra checks. All model and routing decisions are fixed before the
+157-scan validation evaluation, whose rows are never used for fitting,
+normalization, or imputation. The exact-label comparator is the sole
+source-supervised exception: it is trained on SGFN correctness and evaluated
+without refitting on the other predictors.
 All cross-predictor statements concern the shared 3DSSG/3RScan target.
 
 \paragraph{Metrics and uncertainty.}
@@ -51,7 +60,8 @@ are not labeled valid. We report the all-status definition, violation among
 decidable rows, uncertainty rate, pessimistic violation, and decidable/status
 coverage. We use $K\in\{5,10,20,50,100\}$. The primary endpoint is $K=100$;
 all smaller budgets are reported without assigning additional selection roles.
-We report paired 95\% bootstrap intervals over relation contexts; a scan-cluster
-sensitivity is provided in the supplement.
+Primary paired 95\% intervals use a scan-cluster bootstrap: all contexts from a
+sampled scan move together, with shared indices across conditions. A paired
+context-bootstrap sensitivity is provided in the supplement.
 Within-family and global-top-$K$ family slices expose composition effects that
 may be hidden by the aggregate metric.

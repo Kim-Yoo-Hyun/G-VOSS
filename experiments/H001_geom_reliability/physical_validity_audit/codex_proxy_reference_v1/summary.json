@@ -1,0 +1,82 @@
+{
+  "blinding": {
+    "excluded_until_reference_lock": [
+      "source identity",
+      "source score",
+      "compatibility score",
+      "rank",
+      "verifier result",
+      "GT membership",
+      "sampling stratum",
+      "method condition",
+      "private sidecar"
+    ],
+    "provided_for_external_verification": [
+      "raw orthographic point projections",
+      "colored pair PLY path",
+      "RGB pair crop only when currently available"
+    ],
+    "used": [
+      "relation text",
+      "raw orthographic point projections"
+    ]
+  },
+  "claim_boundary": "A complete Codex blinded proxy reference. It is not independent human evidence and becomes reviewer-verified only after all three external review sheets are completed and validated.",
+  "created_at_utc": "2026-07-14T09:16:38.026072+00:00",
+  "evidence_coverage": {
+    "geometry_projection": 488,
+    "optional_rgb_pair_crop_currently_available": 0,
+    "pair_ply": 488
+  },
+  "label_counts": {
+    "ambiguous": 95,
+    "physically_invalid": 212,
+    "physically_valid": 178,
+    "unobservable": 3
+  },
+  "label_counts_by_family": {
+    "proximity": {
+      "ambiguous": 13,
+      "physically_invalid": 39,
+      "physically_valid": 71,
+      "unobservable": 1
+    },
+    "relative_vertical": {
+      "ambiguous": 23,
+      "physically_invalid": 84,
+      "physically_valid": 68,
+      "unobservable": 1
+    },
+    "support_contact": {
+      "ambiguous": 59,
+      "physically_invalid": 89,
+      "physically_valid": 39,
+      "unobservable": 1
+    }
+  },
+  "mandatory_adjudication_rows_completed": 154,
+  "mandatory_adjudication_sheets": [
+    "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_01.jpg",
+    "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_02.jpg",
+    "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_03.jpg",
+    "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_04.jpg",
+    "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_05.jpg",
+    "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_06.jpg",
+    "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_07.jpg",
+    "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_08.jpg",
+    "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_09.jpg",
+    "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_10.jpg",
+    "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_11.jpg",
+    "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_12.jpg",
+    "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_13.jpg",
+    "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_14.jpg",
+    "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_15.jpg",
+    "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_16.jpg"
+  ],
+  "rows": 488,
+  "schema_version": "h001_codex_blinded_proxy_reference_v1",
+  "status": "completed_nonhuman_proxy_reference_awaiting_external_verification",
+  "two_pass_exact_agreements": 438,
+  "visually_adjudicated_agreed_low_confidence_revisions": 22,
+  "visually_adjudicated_disagreements": 50
+}

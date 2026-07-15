@@ -1,6 +1,6 @@
 # RelCompat3D Orthogonal Persona Review
 
-Last updated: 2026-07-14 KST
+Last updated: 2026-07-15 KST
 
 Scope reviewed: current RelCompat3D/H001 claim, contribution framing, method
 definition, main AAAI manuscript source, compact result tables, bootstrap CI,
@@ -10,29 +10,30 @@ This is an internal review. It separates observed facts from reviewer-style
 inference and assumes the current paper claim remains scoped to
 geometry-checkable 3D Scene Graph relation reliability.
 
-## 2026-07-14 Precision-Pass Override
+## 2026-07-15 Precision-Pass Override
 
 This override supersedes older calibration-probability and source-level wording
 in the persona notes below.
 
 - `C` is a bounded score for the constructed positive/counterfactual target,
   not a calibrated probability of physical validity.
-- One predictor-agnostic compatibility model is applied unchanged to three
-  predictors on a shared 3DSSG target; cross-dataset generalization is not
-  claimed.
+- One shared compatibility model whose inputs exclude predictor identity and
+  source score is applied unchanged to three predictors on a shared 3DSSG
+  target; cross-dataset generalization is not claimed.
 - Main tables retain K=`{5,10,20,50,100}` and separate exact-label Recall from
   verifier-derived Violation. K=100 is primary; smaller-budget effects are
   predictor dependent.
-- A scan-cluster bootstrap addresses within-scan context dependence. Every
-  K=100 Violation interval remains below zero; the VL-SAT Recall lower bound
-  reaches zero.
+- Paired scan-cluster resampling is the primary interval analysis and addresses
+  within-scan context dependence. Every K=100 Violation interval remains below
+  zero and every Recall interval remains above zero; paired context resampling
+  is a sensitivity.
 - The main remaining scientific risks are independent construct validity,
   support/contact regression, and the novelty ceiling imposed by a strong
   source-supervised nonlinear rescorer.
 - The active title is `Beyond Semantic Confidence: Relation-Algebra-Constrained
   Geometric Compatibility for 3D Scene Graph Relations`; Docker outputs are
-  9/2/2 pages and the verified bundle is
-  `release/h001_aaai27_openreview_20260714_152303/`.
+  9/3/2 pages. The 2026-07-14 verified field bundle is stale after the current
+  table, ablation-route, and CI revision.
 
 ## Overall Verdict
 
@@ -41,8 +42,9 @@ Fact:
 - The current paper is not framed as a new 3D Scene Graph generator.
 - The current claim is a reliability-layer claim for `support_contact`,
   `proximity`, and `relative_vertical`.
-- The main paper evidence uses VL-SAT full official validation and Open3DSG
-  full-validation `recovery_relaxed_views_min2/`.
+- The main paper evidence uses VL-SAT and SGFN on all 548 contexts and public
+  Open3DSG predictions on the full 548-context target, assigning no predictions
+  to the 15 missing preprocessing contexts.
 - The main metric table reports K = `{5,10,20,50,100}` and keeps K=1 outside
   paper metrics.
 - The main method is source score times relation-algebra-constrained
@@ -210,8 +212,8 @@ Strengths:
   already present.
 - The latest artifact bundle verification passed after checksum regeneration.
 - AAAI PDF build is reproducible by Docker and currently produces separate
-  8/2/2-page US-Letter main/supplement/checklist PDFs. Main technical content
-  continues through page 7, references occupy pages 7--8, and Type 3 fonts are
+  9/3/2-page US-Letter main/supplement/checklist PDFs. Main technical content
+  continues through page 7, references occupy pages 8--9, and Type 3 fonts are
   zero.
 
 Concerns:
@@ -223,7 +225,7 @@ Concerns:
   regeneration. Artifact reviewers may see this as fragile unless the exact
   branch policy is documented.
 - The verified upload source is
-  `release/h001_aaai27_openreview_20260714_170829/`; earlier flattened or
+  `release/h001_aaai27_openreview_20260714_233534/`; earlier flattened or
   2026-07-12 field packages are historical only.
 - Because multiple source routes exist, users may run the wrong one unless the
   README points to the canonical path.

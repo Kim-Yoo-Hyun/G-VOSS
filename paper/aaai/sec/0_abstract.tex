@@ -3,15 +3,16 @@
 whose predicates are inconsistent with reconstructed object-pair geometry. We
 formulate this as a post-source compatibility problem and introduce \method{},
 which separates predicate semantics, same-pair geometry, and source
-confidence. Its predictor-agnostic compatibility model is trained without
-source scores using linked positive--counterfactual ordering and is projected
-onto the applicable proximity and vertical relation-algebra orbits. Source
-confidence is introduced only during re-ranking. We evaluate exact-label
+confidence. Its shared compatibility model excludes predictor identity and
+source scores, learns from linked positive--counterfactual ordering, and is projected
+onto the applicable proximity and vertical relation-algebra orbits. An
+applicability route re-orders only these families within the source's family
+slots and preserves support/contact selections. We evaluate exact-label
 Recall@$K$ jointly with verifier-derived Violation@$K$ across VL-SAT,
 Open3DSG, and SGFN on a shared 3DSSG target. At $K=100$, \method{} improves
-Open3DSG Recall from 0.5161 to 0.6055 while reducing Violation from 0.1242 to
-0.0339, with analogous aggregate gains on VL-SAT and SGFN. Strong fusion
-baselines, factor controls, uncertainty sensitivity, and family-wise analysis
-show that the gains transfer across predictors while contact-heavy relations
-remain challenging.
+Open3DSG Recall from 0.5111 to 0.5692 while reducing Violation from 0.1242 to
+0.0324; both metrics also improve on VL-SAT and SGFN. Strong fusion and
+supervision-matched nonlinear baselines, factor controls, and family-wise
+analysis show consistent behavior across three predictors on a shared target
+while delimiting the method to geometry-identifiable relations.
 \end{abstract}

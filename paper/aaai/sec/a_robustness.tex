@@ -1,0 +1,68 @@
+\section{Strong-Comparator and Open3DSG Sensitivities}
+
+\paragraph{Supervision-matched nonlinearity.}
+To separate architecture capacity from supervision, we fit a 69-parameter
+two-hidden-unit MLP using the same 60,208 training rows, constructed
+compatibility target, feature contract, source-score exclusion, and
+1,061/117/157 split as the linear model. It is fitted once and applied
+unchanged to all three predictors. Table~\ref{tab:nonlinear-comparison} also
+shows a separate nonlinear rescorer trained on stronger SGFN-specific
+exact-label correctness. Open3DSG uses the complete-coverage sensitivity here
+so every comparator sees the same candidate set.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\caption{\textbf{Nonlinear comparison at $K=100$.} Cells are Recall / verifier
+V. The matched MLP does not dominate the linear structured product; the last
+column uses stronger SGFN-specific supervision.}
+\label{tab:nonlinear-comparison}
+\begin{tabular}{lrrr}
+\toprule
+Source & Linear product & Matched MLP & Exact-label MLP \\
+\midrule
+VL-SAT & .9688/.0325 & .9688/.0317 & .9625/.0311 \\
+Open3DSG & .6055/.0339 & .6415/.0434 & .6166/.0334 \\
+SGFN & .9418/.0372 & .9421/.0363 & .9466/.0279 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Against the linear product, the matched MLP's paired Open3DSG changes are
+$+.0360$ Recall [.0252,.0475] and $+.0096$ V [.0079,.0113]. On VL-SAT and
+SGFN, Recall differences are within $\pm.0003$ and V differences are at most
+.0010 in magnitude for this structured MLP. The stronger exact-label model is
+best on its SGFN source but is worse than routed \method{} on both VL-SAT
+metrics and exhibits a Recall--V trade-off on Open3DSG. This supports the
+factorized compatibility mechanism, not universal formula superiority.
+
+\paragraph{Open3DSG public-route sensitivity.}
+The public preprocessing drops a context when fewer than four annotated
+objects retain view metadata. This accounts for all 15 missing contexts.
+Table~\ref{tab:open3dsg-routes} distinguishes the faithful eligible-context
+evaluation, the conservative full-target main evaluation, and a documented
+full-coverage recovery.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\caption{\textbf{Open3DSG route sensitivity at $K=100$.} Cells are Recall /
+verifier V. The main route uses the full 3,972-relation denominator and no
+predictions for the 15 public-pipeline drops.}
+\label{tab:open3dsg-routes}
+\begin{tabular}{lrrr}
+\toprule
+Route & Contexts / GT & Source & Routed \method{} \\
+\midrule
+Public eligible & 533 / 3,899 & .5206/.1242 & .5799/.0324 \\
+Public, full target (main) & 548 / 3,972 & .5111/.1242 & .5692/.0324 \\
+Recovered full coverage & 548 / 3,972 & .5161/.1242 & .5743/.0332 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The conclusion is stable to all three denominator and coverage choices. The
+main paper uses the conservative full-target public route; recovered results
+are sensitivity evidence rather than the headline benchmark.

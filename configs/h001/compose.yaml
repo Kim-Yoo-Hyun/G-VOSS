@@ -3197,6 +3197,104 @@ services:
       - --out
       - /workspace/experiments/H001_geom_reliability/physical_validity_audit/codex_review_comparison
 
+  codex_proxy_adjudicate:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/adjudicate_codex_proxy_audit.py
+    command:
+      - --repo-root
+      - /workspace
+      - --public-queue
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/frozen_v1/public_queue.jsonl
+      - --pass-v1
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_v1/codex_proxy_draft.csv
+      - --pass-v2
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/codex_rereview_v2/labels.csv
+      - --out
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1
+
+  codex_proxy_reference_evaluate:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/evaluate_codex_proxy_audit.py
+    command:
+      - --repo-root
+      - /workspace
+      - --sidecar
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/frozen_v1/private_sidecar.jsonl
+      - --codex-v1
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_v1/codex_proxy_draft.csv
+      - --codex-v2
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/codex_rereview_v2/labels.csv
+      - --proxy-reference
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/reference.csv
+      - --out
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_evaluation_v1
+
+  external_proxy_review_validate:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/validate_external_proxy_review.py
+    command:
+      - --repo-root
+      - /workspace
+      - --reference-dir
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1
+      - --reviews-dir
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/external_reviews_completed_v1
+      - --out
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/external_proxy_review_validation_v1
+
+  reviewer_verified_proxy_evaluate:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint:
+      - python
+      - /workspace/src/geocalib/evaluate_codex_proxy_audit.py
+    command:
+      - --repo-root
+      - /workspace
+      - --sidecar
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/frozen_v1/private_sidecar.jsonl
+      - --codex-v1
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_v1/codex_proxy_draft.csv
+      - --codex-v2
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/codex_rereview_v2/labels.csv
+      - --proxy-reference
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/external_proxy_review_validation_v1/reviewer_verified_reference.csv
+      - --out
+      - /workspace/experiments/H001_geom_reliability/physical_validity_audit/reviewer_verified_proxy_evaluation_v1
+
   sgfn_checkpoint_audit_v3:
     build:
       context: ../..

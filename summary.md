@@ -1,6 +1,6 @@
 # RelCompat3D / H001 Research Summary
 
-Last updated: 2026-07-14 KST
+Last updated: 2026-07-15 KST
 
 Paper-facing name: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geometric Compatibility for 3D Scene Graph Relations`.
 Use `RelCompat3D` in manuscript-facing prose. Keep `H001` only for internal
@@ -63,20 +63,22 @@ Authoritative owners:
   Method subsection; Experimental Setup and quantitative/qualitative results
   are grouped under Experiments; broad interpretation and claim boundaries are
   consolidated in Discussion and Limitations.
-- Active AAAI-27 outputs: `paper/aaai/main_aaai27.pdf` (8 US-Letter pages;
-  technical content through page 7, references on pages 7--8),
-  `paper/aaai/supplement_aaai27.pdf` (2 pages), and
+- Active AAAI-27 outputs: `paper/aaai/main_aaai27.pdf` (9 US-Letter pages;
+  technical content through page 7, references on pages 8--9),
+  `paper/aaai/supplement_aaai27.pdf` (3 pages), and
   `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Final main log:
-  `logs/h001_main_figure_refresh_20260714.log`. All three have
+  `logs/h001_main_routed_ablation_20260715_010230.log`. All three have
   zero Type 3 fonts and no unresolved citations/references or blocking
   LaTeX/overfull errors.
 - The revised Figure 1 is a three-panel vector figure with an actual object-pair
-  point cloud, isolated T/G/Z paths, the `Z notin C` boundary, rank 19 to 304,
-  and joint Recall--Violation evaluation. Figures 2--3 are also included as
+  point cloud, isolated T/G/Z paths, the `Z notin C` boundary, applicability
+  routing, rank 19 to 178, and joint Recall--Violation evaluation. Figures 2--3 are also included as
   vector PDFs. Relative size is intentionally absent from Figure 1 and remains
   secondary supplement evidence.
-- Active OpenReview upload set:
-  `release/h001_aaai27_openreview_20260714_170829/`. Older factorized,
+- The previously verified OpenReview field bundle
+  `release/h001_aaai27_openreview_20260714_233534/` predates the current
+  routed-ablation/table-placement/primary-CI revision and is no longer the
+  active upload candidate. Older factorized,
   LLM-proxy, Replica-disclosure, and reference-expansion PDFs remain historical
   provenance snapshots rather than upload candidates.
 - Docker retention audit: `h001-geom-reliability:latest`,
@@ -85,12 +87,14 @@ Authoritative owners:
   proposal image, and ReplicaSSG/FROSS runtime/render images are removable for
   current paper/package preservation. Exact conditional roles are owned by
   `docs/reproducibility.md`; no image was deleted during the audit.
-- Main sources: VL-SAT full official validation, Open3DSG full-validation
-  `recovery_relaxed_views_min2/`, and SGFN on the same official 3DSSG target.
-- Main method: the strict train-only relation-algebra-constrained compatibility
-  product, internally identified as `orbit_pairwise_projected_product` only in
-  provenance artifacts. Rank-average is a scale-robust framework
-  instantiation; neither fusion is claimed universally dominant.
+- Main sources: VL-SAT and SGFN on all 548 official contexts, plus Open3DSG
+  public-pipeline predictions evaluated on the same full 548-context target;
+  the 15 public preprocessing drops receive no predictions.
+- Main method: the strict train-only relation-algebra compatibility model plus
+  internal-dev-selected family-slot applicability routing. Proximity and
+  vertical candidates use the product within their source family slots;
+  support/contact retains source selection exactly. Unrestricted product,
+  rank-average, and RRF are comparisons, not universally dominant formulas.
 - Pooled compatibility product is an ablation. Exact internal condition keys
   remain in experiment manifests rather than manuscript-facing prose.
 - Factorization: `T_e` is predicate/family semantics, `G_e` is
@@ -103,18 +107,23 @@ Authoritative owners:
   not true `G_e`-only because the calibrator includes predicate/family and
   predicate-aligned interaction features.
 - Main K grid: `{5, 10, 20, 50, 100}`. K=1 is sanity-check only.
-- The main paper now uses one joint five-budget Recall/Violation table. A
-  second K=50/100 table reports wrong-predicate, wrong-pair, shuffled-geometry,
-  label-fixed endpoint-swap, distance-only, and compatibility-only controls
-  from `structured_ablation_v1/`; all fixed-model/equivalence validations pass.
-- Uncertainty sensitivity is complete for VL-SAT/Open3DSG/SGFN. The
-  structured product lowers decidable-only V, uncertainty rate, and pessimistic V
-  on all three sources, ruling out uncertainty promotion as the explanation for
-  the aggregate verifier-V reduction.
-- Scan-cluster sensitivity is complete over 157 scans and 548 contexts. At
-  K=100, all product-minus-source verifier-V intervals remain below zero;
-  Recall intervals exclude zero for Open3DSG and SGFN and reach zero at the
-  VL-SAT lower bound. Rankings and point estimates are unchanged.
+- The main paper now uses one joint five-budget Recall/Violation table placed
+  before its quantitative interpretation. A second, single-column K=50/100
+  table appears immediately after the structural-diagnostics heading and
+  reports wrong-predicate, wrong-pair, shuffled-geometry, label-fixed endpoint
+  swap, distance-only, and compatibility-only controls from the public/full
+  548-context family-slot route under
+  `structured_ablation_v1/routed_public_full_evaluation/`; all fixed-model,
+  context, routing, donor, and equivalence validations pass. The unrestricted
+  route is supplemental only.
+- Uncertainty sensitivity is complete for VL-SAT/Open3DSG/SGFN. Routed
+  decidable-only and pessimistic V decrease on every source; uncertainty moves
+  slightly in either direction, so the aggregate reduction is not explained by
+  uniformly reclassifying failures as uncertain.
+- Scan-cluster resampling is the primary interval analysis over 157 scans and
+  548 contexts; context resampling is a sensitivity. At K=100, all
+  routed-minus-source Recall intervals are strictly positive and all
+  verifier-V intervals strictly negative.
 - Qwen-VL is complete as a third-source / modern VLM extension, but it is not part of the main claim unless explicitly promoted.
 - The optional `relative_size` family (`bigger than` / `smaller than`) has now
   completed the same 1,061/117/157 split firewall and a three-source
@@ -149,6 +158,18 @@ Authoritative owners:
   K=100 and on both sources at smaller K, so it remains a source-adapted upper
   bound rather than a predictor-agnostic replacement. Outputs are under
   `experiments/H001_geom_reliability/nonlinear_transfer_v1/`.
+- A supervision-matched 69-parameter nonlinear comparison is complete under
+  `supervision_matched_nonlinear_v1/`. It uses the same constructed target,
+  train-only rows, features, and source-score exclusion as the linear model and
+  is applied unchanged to all predictors. It does not dominate the joint
+  objective: on complete-coverage Open3DSG it changes product Recall by
+  `+.0360` `[+.0252,+.0475]` but worsens V by `+.0096`
+  `[+.0079,+.0113]`; VL-SAT/SGFN differences are small.
+- Reviewers A/B/C confirmed every row of the completed 488-item Codex proxy
+  reference without revision. The Docker validator reports 488 resolved rows,
+  three distinct reviewer IDs, and zero errors. This remains reviewer-verified
+  LLM annotation in `paper/paper_nonsub/`, not Human V@K or independent blank
+  first-pass human labeling.
 - The final scientific scope is cross-predictor evidence on a shared
   3DSSG/3RScan target. Dataset-level generalization is no longer an
   active claim or acceptance dependency; ReplicaSSG/FROSS remains archived
@@ -209,8 +230,8 @@ Core steps:
    counterfactual margins on the 1,061 training scans.
 4. Project proximity and vertical scores onto their exact swap/inverse
    relation-algebra orbits; support/contact receives no blanket swap.
-5. Re-rank relation predictions with the source relation score and the
-   projected compatibility.
+5. Preserve the source-ranked family-slot sequence; use product ordering inside
+   proximity/vertical queues and source ordering inside support/contact.
 6. Report exact-label `R@K` and verifier-derived `Violation@K` together.
 
 Main scoring conditions:
@@ -218,7 +239,8 @@ Main scoring conditions:
 | Condition | Role |
 | --- | --- |
 | Source score | source ranking baseline |
-| Relation-algebra-constrained product | main soft method |
+| Applicability-routed RelCompat3D | main method; product within proximity/vertical slots, support/contact pass-through |
+| Relation-algebra-constrained product | unrestricted compatibility ablation |
 | Rank-average fusion | scale-robust framework instantiation |
 | RRF (`c=60`) | strong rank-fusion comparator |
 | Pooled-calibrator ablation | family-conditioning ablation |
@@ -238,43 +260,34 @@ Full official validation scope:
 | contexts | 548 |
 | directed pairs | 36,808 |
 | VL-SAT prediction rows | 957,008 |
-| Open3DSG recovery prediction rows | 695,916 |
+| Open3DSG public-route prediction rows | 690,924 |
 | GT rows | 11,254 |
 | in-scope H001-family GT rows | 3,972 |
 
-VL-SAT full-validation source result:
+Primary K=50/100 source result:
 
-| Condition | R@50 | R@100 | V@50 | V@100 |
-| --- | ---: | ---: | ---: | ---: |
-| Source score | 0.9272 | 0.9635 | 0.0268 | 0.0476 |
-| Relation-algebra product | 0.9293 | 0.9688 | 0.0203 | 0.0325 |
-| Rank-average | 0.8119 | 0.9617 | 0.0191 | 0.0248 |
-| RRF | 0.8925 | 0.9610 | 0.0163 | 0.0233 |
-| Pooled-calibrator ablation | 0.9300 | 0.9690 | 0.0219 | 0.0387 |
-| Hard geometry filter | 0.9257 | 0.9627 | 0.0000 | 0.0000 |
+| Source | Condition | R@50 | R@100 | V@50 | V@100 |
+| --- | --- | ---: | ---: | ---: | ---: |
+| VL-SAT | Source score | 0.9272 | 0.9635 | 0.0268 | 0.0476 |
+| VL-SAT | Applicability-routed | 0.9277 | 0.9658 | 0.0197 | 0.0295 |
+| Open3DSG public/full-target | Source score | 0.4043 | 0.5111 | 0.1387 | 0.1242 |
+| Open3DSG public/full-target | Applicability-routed | 0.4418 | 0.5692 | 0.0342 | 0.0324 |
+| SGFN | Source score | 0.7402 | 0.9235 | 0.0385 | 0.0630 |
+| SGFN | Applicability-routed | 0.7450 | 0.9303 | 0.0263 | 0.0350 |
 
-Open3DSG full-validation recovery source result:
+Routed K=100 paired scan-cluster deltas are Recall/Violation
+`+.00227 [+.00048,+.00492] / -.01816 [-.01994,-.01656]` for VL-SAT,
+`+.05816 [+.04705,+.06947] / -.09174 [-.09630,-.08727]` for the
+conservative Open3DSG route, and
+`+.00680 [+.00431,+.00980] / -.02797 [-.03043,-.02568]` for SGFN.
+Context-bootstrap sensitivity preserves all six directions. Support/contact
+selection and family composition are bit-exact with source ranking at every
+reported K.
 
-| Condition | R@50 | R@100 | V@50 | V@100 |
-| --- | ---: | ---: | ---: | ---: |
-| Source score | 0.4096 | 0.5161 | 0.1386 | 0.1242 |
-| Relation-algebra product | 0.4698 | 0.6055 | 0.0286 | 0.0339 |
-| Rank-average | 0.4718 | 0.5994 | 0.0394 | 0.0531 |
-| RRF | 0.4355 | 0.5979 | 0.0942 | 0.0785 |
-| Pooled-calibrator ablation | 0.4718 | 0.6443 | 0.0528 | 0.0747 |
-| Hard geometry filter | 0.4295 | 0.5368 | 0.0000 | 0.0000 |
-
-Structured-product bootstrap CI summary at K=100:
-
-- Open3DSG versus Source score: Recall delta `+8.94 pp`, 95% CI
-  `[+6.79,+10.96]`; Violation delta `-9.03 pp`, 95% CI
-  `[-9.50,-8.61]`.
-- VL-SAT versus Source score: Recall delta `+0.53 pp`, 95% CI
-  `[+0.16,+1.01]`; Violation delta `-1.51 pp`, 95% CI
-  `[-1.68,-1.34]`.
-- SGFN versus Source score: Recall delta `+1.84 pp`, 95% CI
-  `[+1.35,+2.31]`; Violation delta `-2.58 pp`, 95% CI
-  `[-2.78,-2.36]`.
+Open3DSG coverage sensitivity at K=100 is stable: public eligible 533 gives
+source/routed R/V `.5206/.1242` and `.5799/.0324`; public/full-target 548 gives
+`.5111/.1242` and `.5692/.0324`; recovered/full-target 548 gives
+`.5161/.1242` and `.5743/.0332`.
 
 Strict train-only reconstruction, frozen 2026-07-11:
 
@@ -299,11 +312,10 @@ Strict train-only reconstruction, frozen 2026-07-11:
   swap mean absolute error `0.01542`, vertical inverse mean absolute error
   `0.00124`, and correct-minus-wrong-pair compatibility `+0.42341` over 3,961
   recoverable GT rows. Support/contact endpoint swap remains prohibited.
-- Boundary: support/contact verifier V still regresses in family-wise views;
-  V is verifier-derived; and the official final-validation target had already
-  informed historical method/score provenance. This result is not prospective
-  confirmation and does not authorize family-uniform or support/contact-solved
-  claims.
+- Boundary: unrestricted product regresses on support/contact. The primary
+  applicability route prevents that regression by preserving source selection,
+  but does not improve the family. V remains verifier-derived, so neither
+  family-uniform nor support/contact-solved wording is authorized.
 
 Historical reviewer-extension continuity result, frozen 2026-07-10:
 
@@ -350,11 +362,22 @@ boundary; they are not the active main-score table.
   validity proxy audit`; model identity, prompt/rubric, visible evidence scope,
   and same-agent-family dependence remain disclosed there.
 - The active AAAI submission no longer reports Codex-derived validity results.
-  The locked passes and a deterministic consensus evaluation are isolated in
-  `paper/paper_nonsub/` as non-submission, non-human analysis. Exact-pass
-  agreements are retained, every disagreement becomes `ambiguous`, and
-  ambiguous/unobservable rows are excluded from binary proxy Violation. This
-  diagnostic cannot replace an independent human reference.
+  The locked passes and complete proxy adjudication are isolated in
+  `paper/paper_nonsub/` as non-submission, non-human analysis. All 154 rows
+  triggered by disagreement, low confidence, ambiguity, or unobservability
+  were reviewed from the blinded projection sheets. The 50 disagreements were
+  resolved and 22 agreed low-confidence ambiguous labels with visible
+  contradictions were revised; final valid/invalid/ambiguous/unobservable
+  counts are `178/212/95/3`. Of 390 binary proxy rows, the verifier is decisive
+  on 282; design-weighted agreement is `.7306` with scan-bootstrap 95% CI
+  `[.6133,.8583]`, weighted kappa `.4665`, verifier-invalid precision `1.000`,
+  and recall `.4713`. This supports a conservative-verifier interpretation but
+  cannot replace an independent human reference.
+- Three completed external verification sheets and a strict majority validator
+  are ready. A synthetic all-confirm dry run produces 488/488 majority rows
+  with zero errors; the real status is correctly
+  `awaiting_external_reviewer_verification`. The eventual terminology is
+  `reviewer-verified LLM annotation`, not independent human annotation.
 - A 69-parameter nonlinear fusion baseline matches the combined parameter
   count of the three family calibrators and is fit only on disjoint internal-dev
   exact-label correctness. On SGFN it obtains R/V `0.5441/0.0120` at K=10,
@@ -586,10 +609,10 @@ Submission/package hygiene:
 
 1. Completed: verified the live AAAI-27/OpenReview form, official target-year
    style, deadlines, page limits, separate checklist, and supplement policy.
-2. Completed: replaced the stale 2026-07-12 field bundle with the synchronized
-   structured-main PDFs and focused anonymous code/data supplement at
-   `release/h001_aaai27_openreview_20260714_170829/`; all outer/inner checksum,
-   extraction, manifest, and author-path checks pass.
+2. Historical completion: the 2026-07-14 structured-main field bundle passed
+   all outer/inner checksum, extraction, manifest, and author-path checks. It is
+   superseded by the 2026-07-15 routed-ablation/table/CI revision; replacement
+   bundle generation is pending.
 3. Author action: enter author order/profiles, countries, conflicts, and the
    qualified reciprocal reviewer.
 4. Author decision: final public code license and post-acceptance artifact URL.

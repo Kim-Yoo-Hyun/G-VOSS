@@ -3,11 +3,12 @@
 \paragraph{Open3DSG.}
 Open3DSG uses the official non-averaged BLIP checkpoint
 \texttt{epoch=13-step=13104.ckpt}, selected by train/dev validation loss.
-The preprocessing recovery covers all
-548 evaluation contexts by setting the minimum visible-object count to two and
-regenerating relaxed views for two scans. The unmodified public-source route
-covers 533/548 contexts. The release manifest records the checkpoint hash,
-preprocessing configuration, and recovered-context inventory.
+Unmodified public preprocessing produces candidates for 533/548 contexts; the
+main evaluation retains the full 548-context ground-truth universe and assigns
+no predictions to the 15 drops. For sensitivity, the eligible-only denominator
+contains 3,899 relations, and a documented recovery covers all 548 contexts by
+lowering the visible-object minimum to two and regenerating views for two
+scans. The release manifest records all three routes.
 
 \paragraph{SGFN.}
 We use the official \texttt{full\_l160} source with its 160-object,

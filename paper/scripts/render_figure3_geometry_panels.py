@@ -83,9 +83,9 @@ PANEL_META = {
     },
     "open3dsg_case_010": {
         "panel": "B",
-        "role": "successful support correction",
+        "role": "support/contact pass-through",
         "view": "vertical",
-        "takeaway": "Support/contact evidence exposes a positive float gap.",
+        "takeaway": "The primary route preserves source support/contact ordering.",
     },
     "open3dsg_case_026": {
         "panel": "C",
@@ -170,7 +170,7 @@ def load_eval_module() -> Any:
 
 
 def attach_structured_product_ranks(cases: dict[str, dict[str, Any]]) -> None:
-    """Attach ranks from the algebra-constrained product in the main table."""
+    """Attach unrestricted-product and applicability-routed ranks."""
     evalmod = load_eval_module()
     sys.path.insert(0, str(ROOT / "src" / "geocalib"))
     import run_structured_main_evaluation as main_eval
@@ -211,14 +211,26 @@ def attach_structured_product_ranks(cases: dict[str, dict[str, Any]]) -> None:
                 int(prediction["edge"]["object_id"]), prediction["predicate"]["predicate_label"],
             )
             grouped[prediction["subgraph_id"]].append({
-                "key": key, "semantic": float(semantic), "compatibility": float(compatibility),
+                "key": key, "family": family, "semantic": float(semantic), "compatibility": float(compatibility),
                 "product": float(semantic) * float(compatibility),
             })
     for subgraph, rows in grouped.items():
         source_order = sorted(rows, key=lambda item: (-item["semantic"], item["key"]))
         product_order = sorted(rows, key=lambda item: (-item["product"], item["key"]))
+        family_queues = {}
+        for family in {row["family"] for row in rows}:
+            family_rows = [row for row in rows if row["family"] == family]
+            score = "semantic" if family == "support_contact" else "product"
+            family_queues[family] = sorted(family_rows, key=lambda item: (-item[score], item["key"]))
+        offsets = {family: 0 for family in family_queues}
+        routed_order = []
+        for source_item in source_order:
+            family = source_item["family"]
+            routed_order.append(family_queues[family][offsets[family]])
+            offsets[family] += 1
         source_rank = {row["key"]: rank for rank, row in enumerate(source_order, 1)}
         product_rank = {row["key"]: rank for rank, row in enumerate(product_order, 1)}
+        routed_rank = {row["key"]: rank for rank, row in enumerate(routed_order, 1)}
         by_key = {row["key"]: row for row in rows}
         for key, case_id in target_keys.items():
             if key[0] != subgraph or key not in by_key:
@@ -229,6 +241,7 @@ def attach_structured_product_ranks(cases: dict[str, dict[str, Any]]) -> None:
                 "compatibility": item["compatibility"],
                 "source_rank": source_rank[key],
                 "product_rank": product_rank[key],
+                "routed_rank": routed_rank[key],
             }
     missing = [case_id for case_id, row in cases.items() if "structured_product" not in row]
     if missing:
@@ -380,9 +393,9 @@ def draw_case_panel(case_id: str, row: dict[str, Any], x: float, y: float, w: fl
     o_c = project(float(obj["center"][dims[0]]), float(obj["center"][dims[1]]))
 
     panel_title = {
-        "open3dsg_case_001": "(a) Corrected: proximity",
-        "open3dsg_case_010": "(b) Corrected: support",
-        "open3dsg_case_026": "(c) Residual: support",
+        "open3dsg_case_001": "(a) Routed correction: proximity",
+        "open3dsg_case_010": "(b) Pass-through: support",
+        "open3dsg_case_026": "(c) Limitation: support",
     }[case_id]
     parts = [
         svg_text(x + 4, y + 20, panel_title, 25, 700),
@@ -412,13 +425,18 @@ def draw_case_panel(case_id: str, row: dict[str, Any], x: float, y: float, w: fl
     else:
         metric_line = f'subject center z - object center z = {measure["z_center_delta_subject_minus_object"]:.2f}'
 
-    outcome = "violation demoted" if case_id != "open3dsg_case_026" else "violation retained"
+    if case_id == "open3dsg_case_001":
+        outcome = "geometry-identifiable violation demoted"
+    elif case_id == "open3dsg_case_010":
+        outcome = f"support preserved; product rank {row['structured_product']['product_rank']}"
+    else:
+        outcome = "support violation preserved"
     parts.extend(
         [
             svg_text(
                 x + 18,
                 y + 329,
-                f'rank {row["structured_product"]["source_rank"]} → {row["structured_product"]["product_rank"]}   |   '
+                f'rank {row["structured_product"]["source_rank"]} → {row["structured_product"]["routed_rank"]}   |   '
                 f'Z={row["structured_product"]["source_score"]:.3f}   C={row["structured_product"]["compatibility"]:.3f}',
                 20,
                 700,
@@ -444,7 +462,8 @@ def draw_case_panel(case_id: str, row: dict[str, Any], x: float, y: float, w: fl
         "predicate_family": pred["predicate_family"],
         "predicate_label": pred["predicate_label"],
         "semantic_rank": row["structured_product"]["source_rank"],
-        "geometry_rank": row["structured_product"]["product_rank"],
+        "geometry_rank": row["structured_product"]["routed_rank"],
+        "unrestricted_product_rank": row["structured_product"]["product_rank"],
         "source_score": row["structured_product"]["source_score"],
         "p_geom_valid": row["structured_product"]["compatibility"],
         "verification_status": row["geometry"]["verification_status"],
@@ -532,18 +551,19 @@ def render_framework(cases: dict[str, dict[str, Any]]) -> str:
         '<line x1="690" y1="329" x2="765" y2="329" stroke="#374151" stroke-width="1.7" marker-end="url(#arrow)"/>',
         '<rect x="765" y="286" width="265" height="76" rx="7" fill="#ffffff" stroke="#111827" stroke-width="1.5"/>',
         svg_text(897, 319, "S = Z × C(T,G)", 25, 700, "#111827", "middle"),
-        svg_text(897, 349, "parameter-free product", 17, 400, "#4b5563", "middle"),
+        svg_text(897, 349, "within applicable family", 17, 400, "#4b5563", "middle"),
+        '<line x1="1030" y1="324" x2="1125" y2="205" stroke="#374151" stroke-width="1.7" marker-end="url(#arrow)"/>',
     ])
 
     parts.extend([
         svg_text(1160, 91, "19", 42, 700, "#4b5563", "middle"),
         svg_text(1160, 122, "source rank", 18, 400, "#4b5563", "middle"),
         '<line x1="1215" y1="93" x2="1300" y2="93" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>',
-        svg_text(1360, 91, "304", 42, 700, "#059669", "middle"),
+        svg_text(1360, 91, str(row["structured_product"]["routed_rank"]), 42, 700, "#059669", "middle"),
         svg_text(1360, 122, "re-ranked", 18, 400, "#4b5563", "middle"),
         '<rect x="1125" y="159" width="335" height="82" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>',
-        svg_text(1292, 190, "Same candidate identity", 21, 700, "#111827", "middle"),
-        svg_text(1292, 219, "same scan, subject, object, predicate", 17, 400, "#4b5563", "middle"),
+        svg_text(1292, 190, "Applicability routing", 21, 700, "#111827", "middle"),
+        svg_text(1292, 219, "proximity/vertical re-ranked; support preserved", 16, 400, "#4b5563", "middle"),
         '<rect x="1125" y="276" width="335" height="88" rx="6" fill="#ffffff" stroke="#94a3b8" stroke-width="1.2"/>',
         svg_text(1292, 306, "Joint evaluation", 21, 700, "#111827", "middle"),
         svg_text(1292, 336, "Exact-label Recall@K", 19, 400, "#166534", "middle"),
@@ -660,7 +680,7 @@ def main() -> None:
         "status": "figure3_geometry_panels_generated_verified",
         "source_queue_jsonl": str(QUEUE_JSONL.relative_to(ROOT)),
         "structured_model_json": str(STRUCTURED_MODEL_JSON.relative_to(ROOT)),
-        "paper_score": "relation-algebra-constrained product",
+        "paper_score": "applicability-routed relation-algebra-constrained product",
         "preprocessed_root": str(PREPROCESSED_ROOT.relative_to(ROOT)),
         "expected_case_ids": EXPECTED_CASES,
         "rendered_case_ids": rendered_case_ids,

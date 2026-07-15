@@ -122,9 +122,9 @@ Primary sources checked:
   Do not refresh it by simply copying the ignored `main.pdf` artifact; the
   reviewed PDF should reflect the current paper-facing edits made from this
   checklist.
-- Current verified outputs are `main_aaai27.pdf` (8 pages, technical content
+- Current verified outputs are `main_aaai27.pdf` (9 pages, technical content
   through page 7),
-  `supplement_aaai27.pdf` (2 pages), and the standalone 2-page checklist. The
+  `supplement_aaai27.pdf` (3 pages), and the standalone 2-page checklist. The
   manuscript includes vector PDFs for all three figures and has no Type 3
   fonts. The active release ZIP contains the uncertainty script, fixed outputs,
   compose service, and current runbook.

@@ -1,6 +1,6 @@
 # H001 Geometry Reliability Experiment
 
-Last updated: 2026-07-14 KST
+Last updated: 2026-07-15 KST
 
 This is the Docker-based experiment root for RelCompat3D/H001. Paper-facing
 summaries are promoted to `results/h001_geom_reliability/`; row-level runtime
@@ -11,13 +11,14 @@ Paper-facing name: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geo
 
 ## Current Route
 
-- Main sources: VL-SAT full official validation, Open3DSG full-validation
-  `recovery_relaxed_views_min2/`, and SGFN on the same official 3DSSG target.
+- Main sources: VL-SAT and SGFN full official validation plus Open3DSG public
+  preprocessing evaluated conservatively on the same full 548-context target.
+  The 533 eligible and recovered-548 Open3DSG routes are sensitivities.
 - Main relation families: `support_contact`, `proximity`, `relative_vertical`.
-- Main soft method: strict train-only relation-algebra-constrained
-  compatibility product (`source score * projected compatibility`).
-  Rank-average is the scale-robust framework instantiation; neither is
-  universally dominant.
+- Main method: strict train-only relation-algebra-constrained compatibility
+  with family-slot applicability routing. Proximity/vertical queues use
+  `source score * projected compatibility`; support/contact uses source order.
+  Unrestricted product and rank fusion remain comparisons.
 - Pooled-calibrator ablation: `source score * pooled compatibility`.
 - Factor contract: `T_e` = predicate/family semantics, `G_e` = raw
   predicate-independent same-pair geometry, `Z_e` = source relation score, and
@@ -33,9 +34,13 @@ Paper-facing name: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geo
 - K grid: `{5, 10, 20, 50, 100}`. K=1 is sanity-check only.
 - Physical-validity proxy audit: two separately locked blinded Codex LLM passes
   cover 488 relation items / 137 scans. Agreement is 438/488 (89.75%,
-  four-class kappa 0.845); all 334 jointly binary items agree. This is a
-  non-submission diagnostic and not Human V@K. The active AAAI paper contains
-  no Codex-derived validity result; the human evaluator remains dormant.
+  four-class kappa 0.845); all 334 jointly binary items agree. Full mandatory
+  visual adjudication is complete on 154 rows, yielding final counts
+  `178/212/95/3`. This is a non-submission diagnostic and not Human V@K. The
+  active AAAI paper contains no Codex-derived validity result. Reviewers A, B,
+  and C confirmed all 488 completed rows without revision; the validated
+  reference is reviewer-verified LLM annotation, while the independent-human
+  evaluator remains dormant.
 - Additional exact-label source: `sgfn_official_full_l160`. The v3 pipeline and
   audit are complete; both soft instantiations satisfy the aggregate K=100
   criterion, subject to verifier-V, family-wise, and strong-baseline caveats.
@@ -60,14 +65,13 @@ Paper-facing name: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geo
   `62d251f3ce60e2db54eb1748c277350e3b9e2c7c9d2be0312cf2fb323b761410`.
 - Current paper outputs: `paper/aaai/main_aaai27.pdf` (9 pages; technical
   content through page 7 and pages 8--9 references only),
-  `paper/aaai/supplement_aaai27.pdf` (2 pages), and
+  `paper/aaai/supplement_aaai27.pdf` (3 pages), and
   `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Final main log:
-  `logs/h001_main_final_20260714.log`; the synchronized upload
-  bundle is `release/h001_aaai27_openreview_20260714_152303/`, generated from
-  the three canonical PDFs plus the focused structured-main code/data
-  supplement.
+  `logs/h001_main_routing_20260714_231933.log`; the synchronized upload
+  bundle is `release/h001_aaai27_openreview_20260714_233534/`, regenerated from
+  the three canonical PDFs plus the focused routed-method code/data supplement.
 - Scan-cluster sensitivity is complete under
-  `structured_main_v1/scan_cluster_sensitivity/`: it resamples 157 scans with
+  `support_contact_routing_v1/scan_cluster_sensitivity/`: it resamples 157 scans with
   all 548 contexts attached to their scan, without changing scores, rankings,
   or point estimates.
 - Active Docker images: `h001-geom-reliability:latest` for the focused
@@ -82,13 +86,13 @@ Paper-facing name: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geo
 | Source | Role | Primary path |
 | --- | --- | --- |
 | VL-SAT | controlled reproduced anchor | `sources/vlsat/full_validation/` |
-| Open3DSG | main open-vocabulary relation-source case study | `sources/open3dsg/full_validation/recovery_relaxed_views_min2/` |
+| Open3DSG | main public-pipeline/full-target case study | `open3dsg_official_route_v1/evaluation/` |
 | Qwen-VL | appendix/extension third semantic source | `sources/qwen_vl/` |
 | SGFN full_l160 | additional exact-label source; aggregate criterion satisfied, verifier-V caveat | `sources/sgfn/` |
 | ReplicaSSG + FROSS | transfer stress test and method-development diagnostic | `sources/replicassg/` |
 | attachment_deferred | subtype-v2 development diagnostic, not promoted | `archive/experiments/H001_geom_reliability/sources/attachment_deferred/subtype_redesign_v2/` |
 | relative_size | promoted secondary scope extension; supplement-full | `relative_size_v1/` |
-| Open3DSG 533/548 branch | unmodified-source sensitivity | `sources/open3dsg/full_validation/` |
+| Open3DSG recovered 548 branch | full-coverage sensitivity | `sources/open3dsg/full_validation/recovery_relaxed_views_min2/` |
 | historical 127-scan branches | appendix/sensitivity/provenance only | older source subfolders and `archive/` |
 
 ## Current Full-Validation Counts
@@ -99,7 +103,7 @@ Paper-facing name: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geo
 | contexts | 548 |
 | directed pairs | 36,808 |
 | VL-SAT prediction rows | 957,008 |
-| Open3DSG recovery prediction rows | 695,916 |
+| Open3DSG public-route prediction rows | 690,924 |
 | SGFN prediction rows | 957,008 |
 | GT rows | 11,254 |
 | in-scope H001-family GT rows | 3,972 |
@@ -111,28 +115,31 @@ VL-SAT full-validation:
 | Condition | R@50 | R@100 | V@50 | V@100 |
 | --- | ---: | ---: | ---: | ---: |
 | Source score | 0.9272 | 0.9635 | 0.0268 | 0.0476 |
+| Applicability-routed RelCompat3D | 0.9277 | 0.9658 | 0.0197 | 0.0295 |
 | Relation-algebra-constrained product | 0.9293 | 0.9688 | 0.0203 | 0.0325 |
 | Rank-average fusion | 0.8119 | 0.9617 | 0.0191 | 0.0248 |
 | Reciprocal-rank fusion | 0.8925 | 0.9610 | 0.0163 | 0.0233 |
 | Pooled-calibrator ablation | 0.9300 | 0.9690 | 0.0219 | 0.0387 |
 | Hard geometry filter | 0.9257 | 0.9627 | 0.0000 | 0.0000 |
 
-Open3DSG full-validation recovery:
+Open3DSG public pipeline on the full 548-context target:
 
 | Condition | R@50 | R@100 | V@50 | V@100 |
 | --- | ---: | ---: | ---: | ---: |
-| Source score | 0.4096 | 0.5161 | 0.1386 | 0.1242 |
-| Relation-algebra-constrained product | 0.4698 | 0.6055 | 0.0286 | 0.0339 |
-| Rank-average fusion | 0.4718 | 0.5994 | 0.0394 | 0.0531 |
-| Reciprocal-rank fusion | 0.4355 | 0.5979 | 0.0942 | 0.0785 |
-| Pooled-calibrator ablation | 0.4718 | 0.6443 | 0.0528 | 0.0747 |
-| Hard geometry filter | 0.4295 | 0.5368 | 0.0000 | 0.0000 |
+| Source score | 0.4043 | 0.5111 | 0.1387 | 0.1242 |
+| Applicability-routed RelCompat3D | 0.4418 | 0.5692 | 0.0342 | 0.0324 |
+| Relation-algebra-constrained product | 0.4655 | 0.6005 | 0.0265 | 0.0330 |
+| Rank-average fusion | 0.4675 | 0.5937 | 0.0376 | 0.0526 |
+| Reciprocal-rank fusion | 0.4315 | 0.5926 | 0.0933 | 0.0781 |
+| Pooled-calibrator ablation | 0.4675 | 0.6402 | 0.0510 | 0.0743 |
+| Hard geometry filter | 0.4242 | 0.5320 | 0.0000 | 0.0000 |
 
 SGFN additional exact-label source:
 
 | Condition | R@50 | R@100 | verifier V@50 | verifier V@100 |
 | --- | ---: | ---: | ---: | ---: |
 | Source score | 0.7402 | 0.9235 | 0.0385 | 0.0630 |
+| Applicability-routed RelCompat3D | 0.7450 | 0.9303 | 0.0263 | 0.0350 |
 | Relation-algebra-constrained product | 0.7706 | 0.9418 | 0.0256 | 0.0372 |
 | Rank-average fusion | 0.7314 | 0.9474 | 0.0203 | 0.0268 |
 | Reciprocal-rank fusion | 0.7165 | 0.9074 | 0.0203 | 0.0266 |
@@ -361,6 +368,27 @@ mutation. Together these are `two blinded Codex LLM proxy annotation passes`:
 a legitimate automatic-evaluator stability diagnostic, not inter-human
 agreement or physical-validity ground truth.
 
+The completed non-human reference is under
+`physical_validity_audit/codex_proxy_reference_v1/`. Evidence-only
+adjudication covers the full 154-row mandatory union, not only the 50 label
+disagreements. It revises 22 agreed low-confidence ambiguous rows whose visible
+geometry contradicts the predicate; locked pass v1/v2 files remain unchanged.
+Final counts are valid/invalid/ambiguous/unobservable `178/212/95/3`.
+`codex_proxy_reference_evaluation_v1/` reports scan-bootstrap uncertainty and
+the post-lock verifier comparison. On 282 verifier-decidable rows among 390
+binary proxy labels, design-weighted agreement is `.7306`, kappa `.4665`, and
+verifier-invalid precision/recall are `1.000/.4713`. The result is a completed
+LLM proxy audit, not human construct validity.
+
+Three external reviewers receive completed labels through
+`external_reviewer_{1,2,3}.csv` and record `confirm` or a commented `revise`.
+`external_proxy_review_validate` requires three distinct reviewer IDs, full
+488-row coverage, immutable evidence/proxy fields, and a two-of-three majority.
+Its real status remains `awaiting_external_reviewer_verification`; an isolated
+all-confirm dry run reaches 488/488 with zero errors. The portable evidence and
+sheet handoff is staged at
+`release/h001_codex_proxy_external_review_v1/`.
+
 An optional Codex-to-human alignment study uses the already frozen 488-item
 queue; it is not a new score-development pass. Two genuinely independent
 humans each label all 488 items using the blank, separately shuffled
@@ -441,6 +469,9 @@ Promoted paper-result artifacts:
 - `structured_main_v1/evaluation/metrics.csv`
 - `structured_main_v1/evaluation/uncertainty.csv`
 - `structured_main_v1/evaluation/manifest.json`
+- `support_contact_routing_v1/evaluation/summary.json`
+- `support_contact_routing_v1/scan_cluster_sensitivity/summary.json`
+- `structured_ablation_v1/routed_public_full_evaluation/manifest.json`
 
 Source-local continuity artifacts:
 
@@ -466,6 +497,9 @@ Common Docker checks from the repo root:
 docker compose -f configs/h001/compose.structured.yaml config --quiet
 docker compose -f configs/h001/compose.structured.yaml run --rm relation_algebra_development
 docker compose -f configs/h001/compose.structured.yaml run --rm structured_main_evaluation
+docker compose -f configs/h001/compose.structured.yaml run --rm support_contact_routing
+docker compose -f configs/h001/compose.structured.yaml run --rm support_routing_scan_cluster
+docker compose -f configs/h001/compose.structured.yaml run --rm routed_public_ablation_evaluation
 docker compose -f configs/h001/compose.structured.yaml run --rm structured_ablation_evaluation
 docker compose -f configs/h001/compose.yaml config --quiet
 docker compose -f configs/h001/compose.yaml run --rm table_builder
@@ -502,7 +536,7 @@ Latest verified bundle logs:
 Allowed:
 
 - scoped relation reliability for geometry-checkable families;
-- calibrated geometry-consistency evaluation and re-ranking;
+- source-score-excluded geometry-compatibility evaluation and re-ranking;
 - explicit recall/violation tradeoff reporting;
 - Open3DSG as source-output reliability evidence with recovery-policy caveats.
 
@@ -527,7 +561,7 @@ Parameter-matched nonlinear fusion:
 
 This source-specific supervised rescorer has a stronger supervision contract
 than RelCompat3D. Its result blocks formula-optimality and best-rescorer claims;
-it does not invalidate the predictor-agnostic factor contract
+it does not invalidate the source-score-exclusion contract
 `Z notin C(T,G)`.
 
 ## 2026-07-13 Novelty-Mechanism Development
@@ -550,35 +584,40 @@ The complementary cross-source test under `nonlinear_transfer_v1/` applies the
 unchanged SGFN exact-label nonlinear rescorer to VL-SAT and Open3DSG. It loses
 Recall significantly on VL-SAT at K=100 and on both sources at smaller K,
 despite lower verifier V. This confirms that the strong SGFN result is
-source-adapted and does not replace the predictor-agnostic deployment contract.
+source-adapted and does not replace the shared compatibility model whose inputs
+exclude predictor identity and source score.
 
 The paper claim is now explicitly limited to source-level evidence across
 predictors on 3DSSG/3RScan. Dataset-level generalization is not part of the
 claim.
 
-## 2026-07-14 Fixed-Model Ablation Evaluation
+## 2026-07-15 Routed Fixed-Model Ablation Evaluation
 
 The paper-facing falsification and information-ablation run is complete under
-`structured_ablation_v1/`. It keeps the promoted model, candidates, 548
-contexts, 3,972-relation denominator, and K=`{50,100}` fixed. It reports the
-RelCompat3D product beside wrong-predicate, wrong-pair, shuffled-geometry,
-label-fixed endpoint-swap, distance-only, and compatibility-only rankings for
-VL-SAT, Open3DSG, and SGFN. Shared 1,000-resample context-bootstrap indices are
-used across conditions.
+`structured_ablation_v1/routed_public_full_evaluation/`. It keeps the promoted
+model, public/full candidates, 548-context universe, 3,972-relation
+denominator, primary family-slot routing, and K=`{50,100}` fixed. It reports
+the routed RelCompat3D rule beside wrong-predicate, wrong-pair,
+shuffled-geometry, label-fixed endpoint-swap, distance-only, and
+compatibility-only rankings for VL-SAT, Open3DSG, and SGFN.
 
-All input hashes, point-equivalence checks, donor-coverage checks, and source-
-score exclusion checks pass. Compatibility-only excludes `Z` but still uses
-predicate-conditioned compatibility and therefore is not true raw-`G`-only.
-The endpoint corruption applies only to proximity/vertical; support/contact is
-unchanged because no blanket transform is defined. Exact results and hashes
-are owned by `structured_ablation_v1/README.md` and `evaluation/manifest.json`.
+All input hashes, context counts, primary-point equivalence, family
+composition, support/contact pass-through, donor coverage, and source-score
+exclusion checks pass. Compatibility-only excludes `Z` in routed families but
+still uses predicate-conditioned compatibility and therefore is not true
+raw-`G`-only. Primary confidence intervals use paired resampling of 157 scans;
+paired context resampling is a sensitivity. The older unrestricted/recovered
+`evaluation/` route is supplemental only. Exact results and hashes are owned
+by `structured_ablation_v1/README.md` and
+`routed_public_full_evaluation/manifest.json`.
 
 Codex proxy diagnostic:
 
-- output: `physical_validity_audit/codex_proxy_evaluation_v1/`
-- inputs: the two already locked Codex passes;
-- consensus: exact pass agreement retained, disagreements set to ambiguous,
-  ambiguous/unobservable excluded from binary proxy Violation;
+- output: `physical_validity_audit/codex_proxy_reference_evaluation_v1/`
+- inputs: the two locked Codex passes plus complete mandatory adjudication;
+- reference: 488 rows, with ambiguous/unobservable excluded from binary proxy
+  Violation and reported through resolution coverage;
+- construct check: post-lock verifier--proxy agreement and family diagnostics;
 - role: non-human, non-submission diagnostic only.
 
 The active AAAI submission contains no Codex-derived physical-validity result.

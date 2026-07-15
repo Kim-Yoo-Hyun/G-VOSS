@@ -1,6 +1,6 @@
 # RelCompat3D Research Repository
 
-This repository contains the H001/RelCompat3D research workspace for reliable 3D Scene Graph relations. The active paper is titled `Beyond Semantic Confidence: Relation-Algebra-Constrained Geometric Compatibility for 3D Scene Graph Relations`. RelCompat3D learns predictor-agnostic predicate--geometry compatibility without source scores, applies relation-algebra projection, and reports recall--violation trade-offs under re-ranking. The paper-facing scope is `support_contact`, `proximity`, and `relative_vertical`, evaluated across VL-SAT, Open3DSG, and SGFN on one shared 3DSSG target. H001 remains an internal experiment identifier.
+This repository contains the H001/RelCompat3D research workspace for reliable 3D Scene Graph relations. The active paper is titled `Beyond Semantic Confidence: Relation-Algebra-Constrained Geometric Compatibility for 3D Scene Graph Relations`. RelCompat3D learns a shared predicate--geometry compatibility model whose inputs exclude predictor identity and source score, applies relation-algebra projection, and reports recall--violation trade-offs under re-ranking. The paper-facing scope is `support_contact`, `proximity`, and `relative_vertical`, evaluated across VL-SAT, Open3DSG, and SGFN on one shared 3DSSG target. H001 remains an internal experiment identifier.
 
 ## Core Question
 
@@ -8,22 +8,22 @@ This repository contains the H001/RelCompat3D research workspace for reliable 3D
 
 ## Current H001 State
 
-- Claim: predictor-agnostic, factor-isolated relation reliability on
-  geometry-identifiable families under a shared 3DSSG target; no dataset-level,
+- Claim: source-score-excluded, factor-isolated relation reliability evaluated
+  across three predictors on a shared 3DSSG target; no dataset-level,
   family-uniform, SOTA, or best-fusion claim.
 - Main evidence: VL-SAT, Open3DSG, and SGFN evaluations over 548 contexts and
   3,972 in-scope exact-label relations.
-- Novelty mechanism: a 3DSSG-only structured-development branch finds that
-  linked-counterfactual margin fitting plus exact relation-algebra projection
-  is the sole candidate passing structural and three-source continuity gates;
-  it is now the promoted main compatibility model.
+- Novelty mechanism: linked-counterfactual margin fitting plus exact
+  relation-algebra projection yields source-score-excluded compatibility; an
+  applicability route uses it within proximity/vertical source-family slots
+  while preserving support/contact ordering.
 - Transfer boundary: dataset-level generalization is out of scope;
   ReplicaSSG/FROSS is archived development provenance, not submission evidence.
 - Canonical PDFs: `paper/aaai/main_aaai27.pdf`,
   `supplement_aaai27.pdf`, and `reproducibility_checklist_aaai27.pdf`.
-- Active upload bundle: `release/h001_aaai27_openreview_20260714_170829/`;
-  outer/inner checksums, archive integrity, manifest gates, and author-path
-  scans pass.
+- Previous verified upload bundle:
+  `release/h001_aaai27_openreview_20260714_233534/`; it is stale after the
+  2026-07-15 ablation-route, table-placement, and CI revision.
 - Cleanup state: Replica/FROSS raw archives, runtime, weights, source clones,
   and shards are absent; compact development rows and summaries are retained.
 
@@ -31,12 +31,15 @@ This repository contains the H001/RelCompat3D research workspace for reliable 3D
 
 - Focused Docker entry point: `configs/h001/compose.structured.yaml`
 - Frozen method/model: `experiments/H001_geom_reliability/relation_algebra_v1/`
-- Promoted synchronized evaluation: `experiments/H001_geom_reliability/structured_main_v1/evaluation/`
-- Fixed-model K=50/100 ablations: `experiments/H001_geom_reliability/structured_ablation_v1/evaluation/`
+- Primary routed evaluation: `experiments/H001_geom_reliability/support_contact_routing_v1/evaluation/`
+- Synchronized unrestricted comparisons: `experiments/H001_geom_reliability/structured_main_v1/evaluation/`
+- Supervision-matched nonlinear comparison: `experiments/H001_geom_reliability/supervision_matched_nonlinear_v1/evaluation/`
+- Open3DSG coverage sensitivity: `experiments/H001_geom_reliability/open3dsg_official_route_v1/evaluation/`
+- Paper-facing routed K=50/100 ablations: `experiments/H001_geom_reliability/structured_ablation_v1/routed_public_full_evaluation/`
 - Compact result summary: `results/h001_geom_reliability/report.md`
 - Paper figures: `paper/generated/figures/`
 - Active AAAI source and canonical PDFs: `paper/aaai/`
-- Verified upload bundle: `release/h001_aaai27_openreview_20260714_170829/`
+- Previous verified upload bundle (stale): `release/h001_aaai27_openreview_20260714_233534/`
 - Recovery, transfer, and cleanup authority: `docs/reproducibility.md`
 
 The current Docker retention matrix is also owned by
@@ -68,11 +71,15 @@ Run paper-facing experiments through Docker from the repository root:
 env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/h001/compose.structured.yaml run --rm relation_algebra_development
 env UID=$(id -u) GID=$(id -g) docker compose \
-  -f configs/h001/compose.structured.yaml run --rm structured_main_evaluation
+  -f configs/h001/compose.structured.yaml run --rm support_contact_routing
 env UID=$(id -u) GID=$(id -g) docker compose \
-  -f configs/h001/compose.structured.yaml run --rm scan_cluster_sensitivity
+  -f configs/h001/compose.structured.yaml run --rm support_routing_scan_cluster
 env UID=$(id -u) GID=$(id -g) docker compose \
-  -f configs/h001/compose.structured.yaml run --rm structured_ablation_evaluation
+  -f configs/h001/compose.structured.yaml run --rm routed_public_ablation_evaluation
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm supervision_matched_nonlinear
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm open3dsg_official_route_sensitivity
 ```
 
 Main configuration entry points:
@@ -98,8 +105,8 @@ docker run --rm -v "$PWD/paper:/work" -w /work/aaai h001-aaai27-tex:20260712 \
   latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 ```
 
-The verified AAAI-27 field files are under
-`release/h001_aaai27_openreview_20260714_170829/`.
+The 2026-07-14 field bundle is a verified historical snapshot. Regenerate the
+AAAI-27 field files from the current canonical PDFs before upload.
 
 ## Artifact Policy
 

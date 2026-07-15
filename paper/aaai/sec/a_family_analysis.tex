@@ -1,7 +1,7 @@
 \section{Family Composition at the Global $K=100$ Operating Point}
 
 Table~\ref{tab:family-slices} reports each family's slice inside the actual
-global top-100 ranking. Deltas compare the \method{} product with the source score
+global top-100 ranking. Deltas compare routed \method{} with the source score
 using shared paired context-bootstrap indices.
 
 \begin{table}[H]
@@ -15,23 +15,24 @@ regression. Values are verifier-derived.}
 \toprule
 Source & Family & $\Delta$R & $\Delta$V \\
 \midrule
-VL-SAT & Support/contact & +.0028 & +.0076 \\
-VL-SAT & Proximity & +.0079 & $-.0078$ \\
-VL-SAT & Vertical order & +.0051 & $-.0586$ \\
+VL-SAT & Support/contact & .0000 & .0000 \\
+VL-SAT & Proximity & +.0040 & $-.0076$ \\
+VL-SAT & Vertical order & +.0051 & $-.0609$ \\
 \midrule
-Open3DSG & Support/contact & $-.0341$ & +.0036 \\
-Open3DSG & Proximity & +.1959 & $-.0457$ \\
-Open3DSG & Vertical order & +.1821 & $-.2894$ \\
+Open3DSG & Support/contact & .0000 & .0000 \\
+Open3DSG & Proximity & +.0968 & $-.0443$ \\
+Open3DSG & Vertical order & +.1538 & $-.3014$ \\
 \midrule
-SGFN & Support/contact & +.0017 & +.0077 \\
-SGFN & Proximity & +.0368 & $-.0152$ \\
-SGFN & Vertical order & +.0128 & $-.0617$ \\
+SGFN & Support/contact & .0000 & .0000 \\
+SGFN & Proximity & +.0142 & $-.0150$ \\
+SGFN & Vertical order & +.0051 & $-.0643$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Support/contact V regresses in all three source rankings, while vertical order
-drives most of the aggregate reduction. The result is consequently a scoped
-operating-point improvement, not a uniform family claim. Full within-family
+Support/contact is exactly unchanged because the route preserves both its
+selection and the source-ranked family composition at every $K$. Vertical
+order drives most of the aggregate reduction. The result is consequently a
+scoped operating-point improvement, not a uniform family claim. Full within-family
 and global-slice results for $K\in\{5,10,20,50,100\}$, including simultaneous
 family-wise intervals, are included in the supplemental package.

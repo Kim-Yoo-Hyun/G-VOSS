@@ -1,6 +1,6 @@
 # Paper Workflow
 
-Last updated: 2026-07-14 KST
+Last updated: 2026-07-15 KST
 
 This document manages paper-level framing for RelCompat3D/H001 and the separate
 H002 compatibility-routing paper: novelty, contribution boundary,
@@ -48,7 +48,10 @@ Fact from the reference:
 H001 rule:
 
 - Do not claim novelty as "we add geometry", "we combine semantic and geometry", "we use a VLM", or "we implement a verifier".
-- Claim novelty as a calibrated geometry-consistency evaluation/re-ranking framework that targets a specific failure: semantically plausible 3D relation predictions can be physically inconsistent because semantic confidence is not calibrated to relation-level geometry.
+- Claim novelty as a factor-isolated geometry-compatibility evaluation and
+  re-ranking framework that targets a specific failure: semantically plausible
+  3D relation predictions can be inconsistent with same-pair geometry because
+  source confidence is not a relation-level compatibility estimate.
 
 ## Reviewer-Process Writing Rule
 
@@ -126,10 +129,10 @@ Reviewer-defense rules after the independent-validity/family review:
   only in final ranking `S_e = F(Z_e,C_e)`. Predicate-aligned quantities
   derived from geometry belong to `T_e x G_e`, not predicate-independent raw
   `G_e`.
-- Current evidence supports a calibrated geometry-consistency framework, not a
-  uniformly validated compatibility learner for every family. Before stronger
-  factor-necessity wording, compare `T`-only, true-`G`-only, additive `T+G`,
-  and interaction-aware `T x G` under a frozen mechanism-audit protocol.
+- Current evidence supports a compatibility-based reliability framework, not a
+  uniformly validated compatibility learner for every family. Factor-necessity
+  wording requires the completed `T`-only, true-`G`-only, additive `T+G`, and
+  interaction-aware `T x G` mechanism audit.
 - The legacy `control_p_geom_valid_only` removes `Z_e` but retains the
   predicate/family-conditioned calibrator. Call it `calibrator-only (no Z)` or
   `validity-score-only`, never true geometry-only. Reserve `true G-only` for a
@@ -141,14 +144,16 @@ Reviewer-defense rules after the independent-validity/family review:
   until an exact family rule is frozen. New factor/control results are post-hoc
   mechanism diagnostics, not part of the original prospective SGFN gate.
 
-- RelCompat3D is a calibrated geometry-consistency framework, not a claim that one
-  fusion formula is uniquely optimal. Treat the calibrated product
-  (`semantic_score * p_geom_valid_family`) and the evaluated scale-robust
-  rank-average as two soft fusion instantiations. Pooled calibration remains an
-  ablation, hard filtering a diagnostic, and RRF a strong comparator.
-- On SGFN, both the calibrated product and rank-average satisfy the joint
-  recall/verifier-violation gate. This supports incorporating calibrated
-  same-pair geometry, not universal equivalence or dominance of either fusion.
+- RelCompat3D is a compatibility-based reliability framework, not a claim that
+  one fusion formula is uniquely optimal. Its primary inference rule preserves
+  the source-ranked family-slot sequence, applies product ordering only within
+  proximity/vertical slots, and preserves support/contact ordering. Treat the
+  unrestricted product as an ablation, rank-average and RRF as strong fusion
+  comparisons, pooled product as a family-conditioning ablation, and hard
+  filtering as a construction diagnostic.
+- Support/contact pass-through removes the operational regression without
+  establishing support/contact compatibility. Never convert exact preservation
+  into a support/contact-improvement claim.
 - ReplicaSSG/FROSS is a cross-dataset transfer stress test and development
   diagnostic. Disclose that its initial K=100 product has no effect while
   rank-average fails the recall guardrail, then report test-specific tuning for
@@ -158,9 +163,9 @@ Reviewer-defense rules after the independent-validity/family review:
   formulation, sweep, and cross-source check in the supplement/artifact only;
   do not add bounded fusion to the main Method or contribution list.
 
-- Aggregate improvement does not authorize every-family wording. If any
-  family-wise Violation CI regresses, state the aggregate scope, report that
-  family explicitly, and connect it to failure analysis or abstention limits.
+- Aggregate improvement does not authorize every-family wording. Applicability
+  routing must preserve support/contact selection and global family composition
+  exactly, and the paper must state that this family remains unsolved.
 - A top-K aggregate can improve by changing family composition. Report both
   within-family top-K and the family slices inside the actual global top-K when
   composition is a plausible explanation.
@@ -184,11 +189,10 @@ Reviewer-defense rules after the independent-validity/family review:
   target informed earlier family/score framing. Prospective wording requires a
   new target or independently collected labels after the model and score hash
   are frozen.
-- When the strict reconstruction is reported, include both acceptance stages:
-  the 354-context internal-dev accept/reject gate and the post-hash 548-context
-  final evaluation. Do not report only the favorable final table while hiding
-  the split firewall, provenance classification, or support/contact
-  family-wise regression.
+- When the strict reconstruction is reported, state train/internal-dev/final
+  split roles and the 548-context final evaluation. Internal gate mechanics and
+  historical chronology belong in the artifact unless needed to interpret a
+  reported number.
 - On a fresh source, exact-label Recall may be called confirmatory only for the
   locked target and denominator. Verifier-derived Violation remains separate
   from independent human physical validity even when its preregistered CI gate
@@ -199,8 +203,10 @@ Reviewer-defense rules after the independent-validity/family review:
   the scoped framework benefit of geometry-aware reranking and report
   source-dependent operating points.
 - Human Violation@K, semantic calibration, and inter-rater agreement must stay
-  absent or explicitly pending until two independent first-pass label sets and
-  blinded adjudication are complete. Codex/proxy labels are not substitutes.
+  absent or explicitly pending until two independent blank-sheet first-pass
+  label sets and blinded adjudication are complete. Reviewer A/B/C confirmation
+  of the completed Codex reference is reviewer-verified LLM annotation, not a
+  substitute for independent first-pass human labels.
 
 ## H002 Compatibility Routing Claim Contract
 
@@ -273,30 +279,29 @@ Current metrics and progress do not belong in this rulebook. They are owned by
 `report/report_0706.md`, and the H002 experiment README.
 
 
-2026-06-05 paper-facing evaluation direction:
+Current paper-facing evaluation direction:
 
 - The primary result should use the full official `3DSSG_subset` validation
   split, not the pilot-excluded 127-scan hardened scope.
-- Full-validation VL-SAT and Open3DSG artifacts now exist. VL-SAT is the
-  controlled-anchor full-validation metric bundle. Open3DSG uses the 548/548
-  recovery-policy variant as the primary full-denominator branch; the original
-  533/548 covered branch remains a sensitivity / unmodified-source-route check.
-- The Open3DSG recovery branch uses `min_visible=2` and relaxed two-scan view
-  regeneration. This must be disclosed wherever the Open3DSG full-validation
-  result is used.
+- Full-validation VL-SAT, Open3DSG, and SGFN artifacts exist. VL-SAT is the
+  controlled anchor. Open3DSG's main result uses public-pipeline predictions
+  from 533 contexts on the label-independent official 548-context target, with
+  zero predictions in the 15 missing contexts. Public-eligible 533 and
+  recovered/full-target 548 routes remain sensitivities.
+- The recovered Open3DSG branch uses `min_visible=2` and relaxed two-scan view
+  regeneration. It must never be described as the unmodified public route.
 - The method provenance must be stated as train/train-dev-derived: final family
   mapping, hard-rule policies, counterfactual construction, and `p_geom_valid`
   calibration are frozen before validation source-result reporting.
 - H001-Mini is hypothesis/feasibility evidence, not a paper metric split and
   not a calibrator/threshold fitting split.
-- Source-result tables and claims should now be regenerated from the selected
-  full-validation route. Do not silently present the recovery branch as the
-  unmodified Open3DSG preprocess route; use the 533/548 covered branch as a
-  sensitivity check to show the conclusion is not created by the recovery
-  policy.
-- Table policy is now fixed: one joint Recall/Violation table uses VL-SAT,
-  Open3DSG 548/548 recovery, and SGFN at K=`{5,10,20,50,100}`. Its rows are
-  Source score, the RelCompat3D product, rank-average, RRF, and pooled product.
+- Source-result tables use the public/full-target route. The 533 eligible and
+  recovered 548 variants show that the conclusion is not created by denominator
+  restriction or recovery policy.
+- Table policy is fixed: one joint Recall/Violation table uses VL-SAT,
+  Open3DSG public/full target, and SGFN at K=`{5,10,20,50,100}`. Its rows are
+  Source score, applicability-routed RelCompat3D, unrestricted product,
+  rank-average, RRF, and pooled product.
   A second K=50/100 table contains the frozen six-control ablation; hard
   filtering remains a construction diagnostic outside the primary table.
   Historical
@@ -317,12 +322,12 @@ Current metrics and progress do not belong in this rulebook. They are owned by
   VL-SAT/Open3DSG main-source route and should not widen the main claim unless
   explicitly promoted.
 - Active target-year build uses official `aaai2027` source. Outputs are
-  `paper/aaai/main_aaai27.pdf` (8 pages; technical content through page 7,
-  references on pages 7--8), `paper/aaai/supplement_aaai27.pdf` (2 pages),
+  `paper/aaai/main_aaai27.pdf` (9 pages; technical content through page 7,
+  references on pages 8--9), `paper/aaai/supplement_aaai27.pdf` (3 pages),
   and `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Final main
-  log: `logs/h001_main_figure_refresh_20260714.log`. The verified OpenReview
-  bundle is `release/h001_aaai27_openreview_20260714_170829/`; it contains the
-  synchronized PDFs and focused structured-main supplement. Earlier
+  log: `logs/h001_main_routing_20260714_231933.log`. The verified OpenReview
+  bundle is `release/h001_aaai27_openreview_20260714_233534/`; it contains the
+  synchronized PDFs and focused routed-method supplement. Earlier
   source-validation PDFs, the 2026-07-12 field bundle, and compact tarballs are
   historical snapshots.
 
@@ -624,26 +629,27 @@ Do not claim these until evidence exists:
   points to them. Figures 2 and 3 are full-width evidence figures so their K
   labels, point geometry, and residual case remain legible.
 
-## H001 Current Claim Lock, 2026-07-13
+## H001 Current Claim Lock, 2026-07-15
 
 - Narrative order is failure -> structural cause -> factor-isolation
   necessity -> method -> evidence -> scope/limitations. Repeated defensive
   provenance language belongs in limitations, captions, or the supplement,
   not in the opening contribution pitch.
-- Novelty is the predictor-agnostic contract `Z notin C(T,G)`,
+- Novelty is the source-score-exclusion contract `Z notin C(T,G)` for a shared
+  model whose inputs also exclude predictor identity,
   identity-preserving geometry join, falsification controls, and joint
   Recall--Violation--uncertainty evaluation. Do not claim a novel or optimal
   fusion formula.
 - The finalized generalization scope is multiple semantic predictors on one
   geometry-identifiable 3DSSG/3RScan target. Dataset-level generalization is
   not an active claim; ReplicaSSG/FROSS is de-scoped development provenance.
-- The main compatibility is now linked-counterfactual margin fitting followed
+- The main compatibility is linked-counterfactual margin fitting followed
   by exact proximity-swap / vertical-inverse orbit projection. Paper prose
   calls it **relation-algebra-constrained compatibility**; the internal
   `orbit_pairwise_projected_product` name appears only in provenance artifacts.
-  Every comparator row, uncertainty analysis, figure, and table must come from
-  the coordinated `structured_main_v1` strict train-only route; historical
-  baseline rows may appear only as explicitly labeled continuity evidence.
+  The primary family-slot route must come from `support_contact_routing_v1`;
+  unrestricted comparators and controls come from the synchronized
+  `structured_main_v1` and `structured_ablation_v1` routes.
 - Visual Commonsense Driven Knowledge Refinements for Scene Graph Generation
   (Neau et al., 2026) is a required closest-work citation. It already provides
   model-agnostic post-hoc SGG refinement, mines symmetry/inverse/composition
@@ -652,36 +658,36 @@ Do not claim these until evidence exists:
   violation metric. The defensible distinction is continuous source-excluded
   3D same-pair compatibility with identity controls, linked counterfactuals,
   exact algebra projection, and recall/violation/uncertainty accounting.
-- The 69-parameter nonlinear fusion comparator is parameter-count matched but
-  uses disjoint internal-dev source-specific exact-label supervision. Its
-  strong SGFN result must be disclosed and blocks best-rescorer claims; its
-  extra supervision prevents treating it as the same deployment contract as
-  RelCompat3D.
+- Supervision-matched 69-parameter nonlinear compatibility models exclude
+  source score and predictor identity and use the same constructed train rows.
+  Their unchanged transfer does not jointly dominate the product. A separate
+  SGFN exact-label nonlinear rescorer uses stronger source-specific supervision;
+  its strong result must be disclosed and blocks best-rescorer claims.
 - K=100 is primary; K=`{5,10,20,50}` are all reported without additional
   protocol labels.
-  The structured product and rank-average satisfy the SGFN joint criterion at
-  K=100. Only the structured product is claimed to preserve the tradeoff at
-  smaller budgets;
-  never state that every source improves Recall at every K.
+  The applicability route improves the K=100 point estimate and paired interval
+  in both metrics for all three predictors. Smaller-budget behavior remains
+  source dependent; never convert the primary endpoint into an all-K universal
+  dominance statement.
 - Generalization evidence is cross-predictor under a shared,
   geometry-identifiable 3DSSG target. External-dataset generalization is out of
   scope for the active paper.
-- Codex proxy labels and their consensus evaluation are non-submission
-  diagnostics under `paper/paper_nonsub/`. The active AAAI paper contains no
-  Codex-derived physical-validity result; independent human construct
-  validation remains open.
+- Codex proxy labels, complete mandatory adjudication, and verifier--proxy
+  evaluation are non-submission diagnostics under `paper/paper_nonsub/`. The
+  active AAAI paper contains no Codex-derived physical-validity result;
+  independent human construct validation remains open. Reviewers A/B/C have
+  confirmed every completed LLM-reference row with zero revisions; this route
+  is named reviewer-verified LLM annotation rather than independent human
+  annotation.
 - Docker verification is complete with `h001-aaai27-tex:20260712`: BibTeX
   uses 34 entries and targeted checks find no missing citations, undefined
   references, overfull boxes, LaTeX errors, Type 3 fonts, or AAAI package
   errors. The checklist is built separately from
   `paper/aaai/reproducibility_checklist_main.tex`; the legacy
   `sec/9_reproducibility_checklist.tex` is not included in the active paper.
-- AAAI reviewer-defense main-text pass is updated for the selected
-  full-validation route: Introduction, Method, Experimental Setup, Results, and
-  Limitations directly answer the high-risk attacks, including hand-coded
-  verifier, geometry-only/distance heuristic, recall-for-violation tradeoff,
-  Open3DSG recovery-policy provenance, family selection, AAAI relevance, and
-  small-delta uncertainty.
+- AAAI reviewer-defense main-text pass uses the public/full-target Open3DSG
+  route. Recovery details and the 533/548 sensitivity are kept in the
+  supplement rather than presented as the primary pipeline.
 - The 2026-05-27 appendix/caveat pass is complete: `paper/appendix.md` records the calibrator/threshold provenance table and caveat consistency pass; experiment Table 6 includes `caveat_note`; Docker PDF rebuild `logs/h001_aaai_pdf_build_appendix_caveat_20260527_202734.log` exits 0 with 9 total pages and no blocking warnings.
 - Draft bibliography scaffold is complete in `paper/references.bib`; citation keys used by `paper/aaai/sec/*.tex` match the bibliography entries.
 - Use `paper/generated/figures/figure3_geometry_panels.svg` as the preferred Figure 3 draft; keep `figure3_failure_cases.svg` as the traceable row-card fallback. A rendered scene-crop upgrade is optional only if a deterministic crop/render path is added.

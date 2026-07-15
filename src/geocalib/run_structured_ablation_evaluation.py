@@ -125,6 +125,7 @@ def load_rows(
             grouped[source_row["subgraph_id"]].append(
                 {
                     "id": source_row["prediction_id"],
+                    "scan": source_row["scan_id"],
                     "key": strict.candidate_key(source_row),
                     "pair": endpoint_pair(source_row),
                     "family": family,

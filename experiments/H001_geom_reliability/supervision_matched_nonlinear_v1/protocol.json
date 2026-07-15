@@ -1,0 +1,48 @@
+{
+  "schema_version": "h001_supervision_matched_nonlinear_protocol_v1",
+  "status": "frozen_before_supervision_matched_nonlinear_execution",
+  "created_at_kst": "2026-07-14",
+  "purpose": "Separate nonlinear architecture strength from source-specific exact-label supervision.",
+  "model": {
+    "input": "family/predicate semantics plus raw same-pair geometry and predicate-aligned interactions",
+    "source_score_input": false,
+    "source_identity_input": false,
+    "architecture": "two-hidden-unit ReLU MLP with predicate-linear skip",
+    "parameter_count": 69,
+    "conditions": {
+      "shared_nonlinear_bce": "constructed compatibility labels with BCE",
+      "shared_nonlinear_structured": "the same labels, linked counterfactual pairwise margin, relation-algebra augmentation, and inference projection"
+    }
+  },
+  "optimizer": {
+    "epochs": 120,
+    "learning_rate": 0.02,
+    "l2": 0.0001,
+    "pairwise_margin": 1.0,
+    "pairwise_weight": 0.25,
+    "seed": 20260714
+  },
+  "evaluation": {
+    "ks": [5, 10, 20, 50, 100],
+    "bootstrap_resamples": 1000,
+    "bootstrap_seed": 20260714,
+    "cross_predictor_policy": "one train-only compatibility model applied unchanged to VL-SAT, Open3DSG, and SGFN"
+  },
+  "inputs": {
+    "calibration_table": "experiments/H001_geom_reliability/train_only_reestablishment_v1/calibration/export/table.jsonl",
+    "train_scans": "experiments/H001_geom_reliability/train_only_reestablishment_v1/splits/train_scans.txt",
+    "internal_dev_scans": "experiments/H001_geom_reliability/train_only_reestablishment_v1/splits/internal_dev_scans.txt",
+    "final_validation_scans": "experiments/H001_geom_reliability/train_only_reestablishment_v1/splits/final_validation_scans.txt",
+    "structured_models": "experiments/H001_geom_reliability/relation_algebra_v1/evaluation/models.json",
+    "internal_dev_verification": "experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev/geometry/verification.jsonl",
+    "internal_dev_ground_truth": "experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev_ground_truth.jsonl",
+    "final_ground_truth": "experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl",
+    "vlsat_verification": "experiments/H001_geom_reliability/sources/vlsat/full_validation/geometry/verification.jsonl",
+    "open3dsg_verification": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/geometry/verification.jsonl",
+    "sgfn_verification": "experiments/H001_geom_reliability/sources/sgfn/geometry/verification.jsonl",
+    "exact_label_vlsat_summary": "experiments/H001_geom_reliability/nonlinear_transfer_v1/vlsat/summary.json",
+    "exact_label_open3dsg_summary": "experiments/H001_geom_reliability/nonlinear_transfer_v1/open3dsg/summary.json",
+    "exact_label_sgfn_summary": "experiments/H001_geom_reliability/nonlinear_fusion_baseline/evaluation_v1/summary.json"
+  },
+  "claim_boundary": "The comparison tests supervision and transfer, not universal score-formula superiority. The SGFN exact-label rescorer is a stronger-supervision upper comparator, not a supervision-matched baseline."
+}

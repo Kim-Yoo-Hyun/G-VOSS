@@ -6,7 +6,7 @@
 <text x="1216.0" y="24.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#374151" text-anchor="start">object</text>
 <line x1="500" y1="38" x2="500" y2="425" stroke="#e5e7eb" stroke-width="1"/>
 <line x1="1000" y1="38" x2="1000" y2="425" stroke="#e5e7eb" stroke-width="1"/>
-<text x="24.0" y="58.0" font-family="Helvetica, Arial, sans-serif" font-size="25" font-weight="700" fill="#111827" text-anchor="start">(a) Corrected: proximity</text>
+<text x="24.0" y="58.0" font-family="Helvetica, Arial, sans-serif" font-size="25" font-weight="700" fill="#111827" text-anchor="start">(a) Routed correction: proximity</text>
 <text x="24.0" y="81.0" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#374151" text-anchor="start">heater  →  close by  →  trash can</text>
 <rect x="38.0" y="96.0" width="424.0" height="245.0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
 <text x="458.0" y="360.0" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#6b7280" text-anchor="end">x</text>
@@ -536,10 +536,10 @@
 <rect x="73.3" y="116.4" width="34.2" height="65.4" fill="#bfdbfe" opacity="0.18" stroke="#2563eb" stroke-width="1.6"/>
 <circle cx="87.5" cy="125.8" r="4.2" fill="#2563eb" stroke="#ffffff" stroke-width="1"/>
 <line x1="377.9" y1="250.3" x2="87.5" y2="125.8" stroke="#111827" stroke-width="1.5" stroke-dasharray="5,4"/>
-<text x="38.0" y="367.0" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="start">rank 19 → 304   |   Z=0.853   C=0.003</text>
+<text x="38.0" y="367.0" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="start">rank 19 → 178   |   Z=0.853   C=0.003</text>
 <text x="38.0" y="392.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#4b5563" text-anchor="start">XY center distance = 4.33</text>
-<text x="38.0" y="420.0" font-family="Helvetica, Arial, sans-serif" font-size="19" font-weight="700" fill="#b91c1c" text-anchor="start">violation demoted</text>
-<text x="524.0" y="58.0" font-family="Helvetica, Arial, sans-serif" font-size="25" font-weight="700" fill="#111827" text-anchor="start">(b) Corrected: support</text>
+<text x="38.0" y="420.0" font-family="Helvetica, Arial, sans-serif" font-size="19" font-weight="700" fill="#b91c1c" text-anchor="start">geometry-identifiable violation demoted</text>
+<text x="524.0" y="58.0" font-family="Helvetica, Arial, sans-serif" font-size="25" font-weight="700" fill="#111827" text-anchor="start">(b) Pass-through: support</text>
 <text x="524.0" y="81.0" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#374151" text-anchor="start">lamp  →  lying on  →  side table</text>
 <rect x="538.0" y="96.0" width="424.0" height="245.0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
 <text x="958.0" y="360.0" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#6b7280" text-anchor="end">y</text>
@@ -1069,10 +1069,10 @@
 <rect x="573.3" y="129.3" width="353.3" height="191.2" fill="#bfdbfe" opacity="0.18" stroke="#2563eb" stroke-width="1.6"/>
 <circle cx="892.0" cy="298.9" r="4.2" fill="#2563eb" stroke="#ffffff" stroke-width="1"/>
 <line x1="811.0" y1="143.3" x2="892.0" y2="298.9" stroke="#111827" stroke-width="1.5" stroke-dasharray="5,4"/>
-<text x="538.0" y="367.0" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="start">rank 39 → 337   |   Z=0.843   C=0.050</text>
+<text x="538.0" y="367.0" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="start">rank 39 → 39   |   Z=0.843   C=0.050</text>
 <text x="538.0" y="392.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#4b5563" text-anchor="start">subject bottom - object top = -0.27</text>
-<text x="538.0" y="420.0" font-family="Helvetica, Arial, sans-serif" font-size="19" font-weight="700" fill="#b91c1c" text-anchor="start">violation demoted</text>
-<text x="1024.0" y="58.0" font-family="Helvetica, Arial, sans-serif" font-size="25" font-weight="700" fill="#111827" text-anchor="start">(c) Residual: support</text>
+<text x="538.0" y="420.0" font-family="Helvetica, Arial, sans-serif" font-size="19" font-weight="700" fill="#b91c1c" text-anchor="start">support preserved; product rank 337</text>
+<text x="1024.0" y="58.0" font-family="Helvetica, Arial, sans-serif" font-size="25" font-weight="700" fill="#111827" text-anchor="start">(c) Limitation: support</text>
 <text x="1024.0" y="81.0" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#374151" text-anchor="start">door  →  lying on  →  floor</text>
 <rect x="1038.0" y="96.0" width="424.0" height="245.0" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
 <text x="1458.0" y="360.0" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#6b7280" text-anchor="end">x</text>
@@ -1602,7 +1602,7 @@
 <rect x="1073.3" y="271.8" width="353.3" height="48.8" fill="#bfdbfe" opacity="0.18" stroke="#2563eb" stroke-width="1.6"/>
 <circle cx="1225.5" cy="296.9" r="4.2" fill="#2563eb" stroke="#ffffff" stroke-width="1"/>
 <line x1="1373.6" y1="198.0" x2="1225.5" y2="296.9" stroke="#111827" stroke-width="1.5" stroke-dasharray="5,4"/>
-<text x="1038.0" y="367.0" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="start">rank 21 → 10   |   Z=0.843   C=0.998</text>
+<text x="1038.0" y="367.0" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#111827" text-anchor="start">rank 21 → 21   |   Z=0.843   C=0.998</text>
 <text x="1038.0" y="392.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#4b5563" text-anchor="start">subject bottom - object top = -0.06</text>
-<text x="1038.0" y="420.0" font-family="Helvetica, Arial, sans-serif" font-size="19" font-weight="700" fill="#b91c1c" text-anchor="start">violation retained</text>
+<text x="1038.0" y="420.0" font-family="Helvetica, Arial, sans-serif" font-size="19" font-weight="700" fill="#b91c1c" text-anchor="start">support violation preserved</text>
 </svg>

@@ -63,17 +63,18 @@ Do not use it to hide caveats that must remain visible in the main text.
 | Pooled calibrator | `artifacts/calibration/p_geom_valid_smoke/model.json`; `metrics.json` | Logistic model over geometry numeric features plus family/predicate indicators; train rows 4,616; dev rows 1,193; dev Brier 0.0495, AUROC 0.9822, AUPRC 0.9735 | Produces `probabilistic_recalibrated` score `semantic_score * p_geom_valid` | Establishes `p_geom_valid` as a learned reliability score, not a binary rule label |
 | Family-specific calibrator | `artifacts/calibration/p_geom_valid_family/model.json`; `metrics.json` | Separate logistic model per family; dev AUROC support/contact 0.9831, proximity 1.0000, relative vertical 0.9982 | Produces the `family_conditional_risk` operating point | Tests whether geometry risk should be pooled or calibrated by relation family |
 | GT verifier evaluation | `experiments/H001_geom_reliability/sources/vlsat/full_validation/gt_eval/{metrics.json,report.md}` | 3,972 GT positives and 3,972 GT-derived negatives; positive nonviolated 0.9965; negative nonsatisfied 0.9673; AUROC/AUPRC 0.9772/0.9729; Brier 0.0543 | Held-out verifier check; not used to fit thresholds or calibrators | Defends the geometry signal against the "hand-coded verifier" objection |
-| Open3DSG caveat wording | `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/table_caveats/report.md`; historical 127-scan wording in `experiments/H001_geom_reliability/sources/open3dsg/paper_caveats/report.md`; R2 sensitivity wording in `experiments/H001_geom_reliability/sources/open3dsg/h001_covered_recovery/table_caveats/report.md` | Primary route: selected official non-avg checkpoint, filtered train/dev provenance, 548/548 recovery policy, exact-label 3,972 denominator, residual calibration risk. Historical appendix/sensitivity: old 377/388 branch versus R2 388/388 branch under exact-label 2,545 denominator | Required wording for main source-result table and discussion | Prevents broad Open3DSG/SOTA overclaiming while making the recovery-policy branch transparent |
+| Open3DSG caveat wording | `experiments/H001_geom_reliability/open3dsg_official_route_v1/evaluation/`; recovery details in `sources/open3dsg/full_validation/recovery_relaxed_views_min2/` | Main route: public predictions from 533 contexts evaluated on the official 548-context/3,972-GT target, with no predictions in 15 missing contexts. Eligible-533 and recovered-548 are sensitivities. | Required wording for setup and supplement | Prevents broad Open3DSG/SOTA overclaiming and avoids presenting recovery as the unmodified route |
 
 ## Full Official Validation Transition
 
-Status: `full_validation_primary_route_selected_recovery_branch`
+Status: `full_validation_primary_route_public_full_target`
 
 The paper-facing primary route is now the full official `3DSSG_subset`
 validation split. VL-SAT full-validation is the controlled-anchor result, and
-Open3DSG `recovery_relaxed_views_min2/` is the primary full-denominator
-Open3DSG result. The original 533/548 Open3DSG covered branch remains appendix
-sensitivity / unmodified-source-route evidence. The target full split has 157
+Open3DSG public-pipeline predictions are evaluated on the complete official
+548-context target, with no predictions assigned to the 15 missing contexts.
+The eligible 533-context and recovered 548-context routes remain supplement
+sensitivities. The target full split has 157
 scans, 548 contexts, 36,808 candidate directed pairs, 957,008 expected VL-SAT
 prediction rows, 11,254 GT rows, and 3,972 in-scope measured-family GT rows.
 
@@ -98,7 +99,7 @@ evidence and is not used as a paper metric or calibrator-fitting split.
 
 The AAAI source-result table should use the full-validation route only:
 VL-SAT full-validation plus Open3DSG full-validation 548/548 recovery. Required
-appendix note: the primary Open3DSG 548/548 result is a recovery-policy branch
+appendix note: public/full-target is primary; recovered 548 is a sensitivity
 using `OPEN3DSG_MIN_VISIBLE_OBJECTS=2` plus relaxed view regeneration for two
 scans, while the 533/548 covered branch shows the unmodified source-route
 denominator behavior. Historical 127-scan Open3DSG results should appear only

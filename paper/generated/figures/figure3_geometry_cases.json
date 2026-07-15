@@ -1,7 +1,7 @@
 [
   {
     "case_id": "open3dsg_case_001",
-    "geometry_rank": 304,
+    "geometry_rank": 178,
     "ground_truth_match_status": "pair_has_other_predicate",
     "matched_gt_predicates": [
       "right"
@@ -71,12 +71,13 @@
     },
     "subject_id": 14,
     "subject_label": "heater",
+    "unrestricted_product_rank": 304,
     "verification_status": "violated",
     "view": "top-down XY"
   },
   {
     "case_id": "open3dsg_case_010",
-    "geometry_rank": 337,
+    "geometry_rank": 39,
     "ground_truth_match_status": "pair_has_other_predicate",
     "matched_gt_predicates": [
       "right",
@@ -123,7 +124,7 @@
       "positive_float_gap_large",
       "subtype_soft_support_contact"
     ],
-    "role": "successful support correction",
+    "role": "support/contact pass-through",
     "scan_id": "4138582f-a238-2435-8332-6902542c2823",
     "semantic_rank": 39,
     "source_score": 0.8431091904640198,
@@ -147,12 +148,13 @@
     },
     "subject_id": 6,
     "subject_label": "lamp",
+    "unrestricted_product_rank": 337,
     "verification_status": "violated",
     "view": "elevation y-Z"
   },
   {
     "case_id": "open3dsg_case_026",
-    "geometry_rank": 10,
+    "geometry_rank": 21,
     "ground_truth_match_status": "no_gt_for_pair",
     "matched_gt_predicates": [],
     "measurements": {
@@ -220,6 +222,7 @@
     },
     "subject_id": 30,
     "subject_label": "door",
+    "unrestricted_product_rank": 10,
     "verification_status": "violated",
     "view": "elevation x-Z"
   }

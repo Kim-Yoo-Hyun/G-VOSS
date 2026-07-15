@@ -11,6 +11,12 @@ predicate. Linked counterfactuals receive the fixed margin loss in the main
 paper. Support/contact receives the pairwise loss but no blanket endpoint
 transform.
 
+The 60,208 training rows yield 33,961 linked pairs, and algebra augmentation
+produces 86,032 optimization rows. We use 800 deterministic full-batch steps at
+learning rate 0.2; the three family models contain 22--24 parameters. The
+support/contact model is used only in unrestricted-fusion diagnostics, while
+the primary family-slot route preserves that family's source ordering.
+
 \begin{table}[H]
 \centering
 \scriptsize
@@ -41,6 +47,30 @@ The factor-isolation ablation uses the same split and estimator class. At
 development, $T$-only, true raw-$G$-only, additive $T+G$, and interaction
 $T\times G$ obtain AUROC .6124/.8809/.9193/.9822 and Brier
 .2370/.1363/.1061/.0495. Shuffled and mismatched-pair geometry reduce the
-intended reliability signal. These results establish factor use and exact
+intended reliability signal. These results verify factor use and the implemented
 relation algebra; they do not convert the constructed target into independent
 physical-validity ground truth.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\caption{\textbf{Unrestricted-fusion mechanism audit at $K=100$.} Cells are
+Recall / verifier V. Unlike the primary routed ablation, compatibility is
+applied to every family; Open3DSG uses the documented full-coverage
+sensitivity so each corruption has a donor in every context.}
+\label{tab:unrestricted-ablation}
+\begin{tabular}{lrrr}
+\toprule
+Condition & VL-SAT & Open3DSG & SGFN \\
+\midrule
+Structured product & .9688/.0325 & .6055/.0339 & .9418/.0372 \\
+Wrong predicate & .9507/.0745 & .5753/.2315 & .9182/.1120 \\
+Wrong-pair $G$ & .9121/.0525 & .2885/.0891 & .8429/.0723 \\
+Shuffled $G$ & .9089/.0615 & .3326/.1418 & .8338/.0861 \\
+Label-fixed swap & .9509/.0745 & .5775/.2325 & .9187/.1120 \\
+Distance only & .5554/.0981 & .5038/.1071 & .5554/.0981 \\
+Compatibility only & .6186/.0193 & .5798/.0321 & .6186/.0193 \\
+\bottomrule
+\end{tabular}
+\end{table}

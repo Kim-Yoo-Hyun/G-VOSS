@@ -23,6 +23,14 @@ STRUCTURED_MAIN_METRICS = (
     ROOT / "experiments" / "H001_geom_reliability" / "structured_main_v1" /
     "evaluation" / "summary.json"
 )
+ROUTING_METRICS = (
+    ROOT / "experiments" / "H001_geom_reliability" / "support_contact_routing_v1" /
+    "evaluation" / "summary.json"
+)
+OPEN3DSG_OFFICIAL_METRICS = (
+    ROOT / "experiments" / "H001_geom_reliability" / "open3dsg_official_route_v1" /
+    "evaluation" / "summary.json"
+)
 INSPECTION_JSON = (
     ROOT
     / "experiments"
@@ -37,7 +45,7 @@ LAYOUT_REVIEW = OUT_DIR / "layout_review.md"
 
 COLORS = {
     "source_score": "#4b5563",
-    "structured_product": "#059669",
+    "family_slot_rerank": "#059669",
     "axis": "#111827",
     "grid": "#d1d5db",
     "muted": "#6b7280",
@@ -48,9 +56,9 @@ COLORS = {
 KS = (5, 10, 20, 50, 100)
 
 EXPECTED_FIGURE2_K100 = {
-    "VL-SAT": {"source_score": (0.9635, 0.0476), "structured_product": (0.9688, 0.0325)},
-    "Open3DSG": {"source_score": (0.5161, 0.1242), "structured_product": (0.6055, 0.0339)},
-    "SGFN": {"source_score": (0.9235, 0.0630), "structured_product": (0.9418, 0.0372)},
+    "VL-SAT": {"source_score": (0.9635, 0.0476), "family_slot_rerank": (0.9658, 0.0295)},
+    "Open3DSG": {"source_score": (0.5111, 0.1242), "family_slot_rerank": (0.5692, 0.0324)},
+    "SGFN": {"source_score": (0.9235, 0.0630), "family_slot_rerank": (0.9303, 0.0350)},
 }
 
 EXPECTED_FIGURE3_CASES = [
@@ -61,7 +69,7 @@ EXPECTED_FIGURE3_CASES = [
 
 LABELS = {
     "source_score": "Source score",
-    "structured_product": "Algebra-constrained product",
+    "family_slot_rerank": "Applicability-routed RelCompat3D",
 }
 
 
@@ -201,14 +209,19 @@ def generate_figure1() -> str:
 
 
 def load_figure2_data() -> dict[str, dict[str, dict[str, dict[str, float]]]]:
-    payload = json.loads(STRUCTURED_MAIN_METRICS.read_text())
+    payload = json.loads(ROUTING_METRICS.read_text())
+    open_payload = json.loads(OPEN3DSG_OFFICIAL_METRICS.read_text())
     result: dict[str, dict[str, dict[str, dict[str, float]]]] = {}
     for source, label in (
         ("vlsat", "VL-SAT"),
         ("open3dsg", "Open3DSG"),
         ("sgfn", "SGFN"),
     ):
-        overall = payload["sources"][source]["overall"]
+        overall = (
+            open_payload["routes"]["official_strict_full_548"]["overall"]
+            if source == "open3dsg"
+            else payload["sources"][source]["overall"]
+        )
         result[label] = {
             condition: {
                 str(k): {
@@ -217,7 +230,7 @@ def load_figure2_data() -> dict[str, dict[str, dict[str, dict[str, float]]]]:
                 }
                 for k in KS
             }
-            for condition in ("source_score", "structured_product")
+            for condition in ("source_score", "family_slot_rerank")
         }
     return result
 
@@ -229,8 +242,8 @@ def generate_figure2(data: dict[str, dict[str, dict[str, dict[str, float]]]]) ->
         '<rect width="1500" height="430" fill="#ffffff"/>',
         f'<line x1="1040" y1="24" x2="1088" y2="24" stroke="{COLORS["source_score"]}" stroke-width="2.5" stroke-dasharray="7 5"/>',
         svg_text(1098, 30, "Source score", 20, 400),
-        f'<line x1="1245" y1="24" x2="1293" y2="24" stroke="{COLORS["structured_product"]}" stroke-width="2.8"/>',
-        svg_text(1303, 30, "RelCompat3D", 20, 400),
+        f'<line x1="1220" y1="24" x2="1268" y2="24" stroke="{COLORS["family_slot_rerank"]}" stroke-width="2.8"/>',
+        svg_text(1278, 30, "RelCompat3D (routed)", 20, 400),
     ]
 
     panels = [
@@ -265,7 +278,7 @@ def generate_figure2(data: dict[str, dict[str, dict[str, dict[str, float]]]]) ->
         parts.append(svg_text(px + pw / 2, py + ph + 46, "Recall@K", 21, 700, anchor="middle"))
 
         mapped_points = {}
-        for condition in ("source_score", "structured_product"):
+        for condition in ("source_score", "family_slot_rerank"):
             points = [
                 map_point(data[source][condition][str(k)]["recall"], data[source][condition][str(k)]["violation"], px, py, pw, ph, xr, yr)
                 for k in KS
@@ -281,7 +294,7 @@ def generate_figure2(data: dict[str, dict[str, dict[str, dict[str, float]]]]) ->
                     parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="9" fill="none" stroke="#111827" stroke-width="1.4"/>')
         for idx, k in enumerate(KS):
             sx, sy = mapped_points["source_score"][idx]
-            mx, my = mapped_points["structured_product"][idx]
+            mx, my = mapped_points["family_slot_rerank"][idx]
             label_x = (sx + mx) / 2
             label_y = min(sy, my) - 10
             if source == "SGFN" and k in {10, 20}:

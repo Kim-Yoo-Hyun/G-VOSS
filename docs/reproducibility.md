@@ -1,6 +1,6 @@
 # H001 Reproducibility Runbook
 
-Last updated: 2026-07-14 KST
+Last updated: 2026-07-15 KST
 
 This document consolidates dataset, checkpoint, environment, Docker, reproduction,
 and evaluation-summary information for `experiments/H001_geom_reliability/`.
@@ -15,12 +15,16 @@ Detailed stage logs remain in the experiment subfolders.
 | focused Docker entry point | `configs/h001/compose.structured.yaml` |
 | full recovery/service registry | `configs/h001/compose.yaml` |
 | frozen relation-algebra method | `experiments/H001_geom_reliability/relation_algebra_v1/` |
-| synchronized three-predictor evaluation | `experiments/H001_geom_reliability/structured_main_v1/evaluation/` |
-| fixed-model K=50/100 ablations | `experiments/H001_geom_reliability/structured_ablation_v1/evaluation/` |
-| scan-cluster sensitivity | `experiments/H001_geom_reliability/structured_main_v1/scan_cluster_sensitivity/` |
+| primary applicability-routed evaluation | `experiments/H001_geom_reliability/support_contact_routing_v1/evaluation/` |
+| synchronized unrestricted/comparator evaluation | `experiments/H001_geom_reliability/structured_main_v1/evaluation/` |
+| matched nonlinear comparison | `experiments/H001_geom_reliability/supervision_matched_nonlinear_v1/evaluation/` |
+| Open3DSG 533/548 sensitivity | `experiments/H001_geom_reliability/open3dsg_official_route_v1/evaluation/` |
+| paper-facing routed K=50/100 ablations | `experiments/H001_geom_reliability/structured_ablation_v1/routed_public_full_evaluation/` |
+| supplemental unrestricted ablations | `experiments/H001_geom_reliability/structured_ablation_v1/evaluation/` |
+| primary scan-cluster intervals | `experiments/H001_geom_reliability/support_contact_routing_v1/scan_cluster_sensitivity/` |
 | compact result report | `results/h001_geom_reliability/report.md` |
 | active manuscript source/PDFs | `paper/aaai/` |
-| current OpenReview field bundle | `release/h001_aaai27_openreview_20260714_170829/` |
+| previous verified OpenReview bundle (stale after 2026-07-15 revision) | `release/h001_aaai27_openreview_20260714_233534/` |
 
 `summary_0713.md`, older release directories, and archived manuscript PDFs are
 historical snapshots, not current-state owners.
@@ -245,10 +249,11 @@ Facts:
 
 - Active experiment root: `experiments/H001_geom_reliability/`.
 - Paper-body experiment outputs must be generated through Docker.
-- Full-validation `VL-SAT` artifacts, Open3DSG recovery artifacts, source
-  metrics, source failure rows, deterministic qualitative failure inspections,
-  Table 6, and Docker subgraph bootstrap CI are ready for the selected
-  paper-facing H001 route.
+- Full-validation source artifacts, the primary family-slot route,
+  supervision-matched nonlinear comparison, Open3DSG 533/548 sensitivity,
+  deterministic qualitative inspection, routed public/full ablations, and
+  primary scan-cluster intervals are ready
+  for the selected paper-facing H001 route.
 - Paper handoff and planning are ready: `paper/README.md`, `paper/preview.md`,
   `paper/progress.md`, `paper/appendix.md`, `paper/outline.md`,
   `paper/draft.md`, `paper/risk.md`, `paper/aaai/`, `archive/paper/iccv/`,
@@ -259,11 +264,11 @@ Facts:
   reviewer-defense guardrails.
 - Current target-year submission route uses the official `aaai2027` kit and a
   standalone reproducibility-checklist upload. Verified Docker outputs are
-  `paper/aaai/main_aaai27.pdf` (8 pages; technical content through page 7,
-  references on pages 7--8), `paper/aaai/supplement_aaai27.pdf` (2 pages),
+  `paper/aaai/main_aaai27.pdf` (9 pages; technical content through page 7,
+  references on pages 8--9), `paper/aaai/supplement_aaai27.pdf` (3 pages),
   and `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Build image:
   `h001-aaai27-tex:20260712`; final main log:
-  `logs/h001_main_final_20260714.log`. The manuscript keeps
+  `logs/h001_main_routed_ablation_20260715_010230.log`. The manuscript keeps
   Open3DSG as the main open-vocabulary case study and VL-SAT as the controlled
   reproduced anchor.
 
@@ -285,18 +290,20 @@ first-pass reviewer IDs and the third adjudicator ID must be distinct non-proxy
 pseudonyms with ISO-8601 timestamps. Do not expose `private_sidecar.jsonl`,
 Codex labels, source scores/ranks, verifier results, GT, or result tables to
 first-pass annotators.
-- Current scoring convention: the relation-algebra-constrained product is the
-  RelCompat3D main score; `structured_rank_average` is its scale-robust
+- Current scoring convention: the applicability-routed relation-algebra
+  product is the RelCompat3D primary ranking rule; `structured_rank_average`
+  is its scale-robust
   instantiation, `structured_rrf_c60` is the strong rank-fusion comparator,
   `pooled_product` is the family-conditioning ablation, `hard_rule_filter` is
   the zero-violation diagnostic, and `structured_compatibility_only` removes
   source confidence but is not true geometry-only.
 - Main-table conditions are Source score, the relation-algebra-constrained
   product, rank-average, RRF, and pooled product. Hard filtering remains a
-  diagnostic artifact. The separate `structured_ablation_v1/` route fixes the
-  model and reports wrong-predicate, wrong-pair, shuffled-geometry,
-  label-fixed endpoint-swap, distance-only, and compatibility-only rankings at
-  K=50/100.
+  diagnostic artifact. The paper-facing `structured_ablation_v1/` route fixes
+  the model, public/full 548 target, and family-slot routing while reporting
+  wrong-predicate, wrong-pair, shuffled-geometry, label-fixed endpoint-swap,
+  distance-only, and compatibility-only rankings at K=50/100. The earlier
+  unrestricted/recovered route remains a supplemental mechanism audit.
 - Qwen-VL is a third semantic source / modern VLM extension path. Full official
   validation downstream is complete: parser validation, adapter export,
   geometry join, metrics/controls, bootstrap CI, 31,881 failure rows, and 36
@@ -616,30 +623,31 @@ runbooks. It intentionally excludes large datasets, checkpoint binaries,
 feature caches, row-level predictions, and external Docker images. The copied
 paper source was rebuilt independently in Docker before archive creation.
 
-Current AAAI-27 OpenReview field bundle, precision revision verified
-2026-07-14 KST:
+Previous AAAI-27 OpenReview field bundle, applicability-routing revision
+verified 2026-07-14 KST and superseded by the 2026-07-15 manuscript revision:
 
 ```text
-root: release/h001_aaai27_openreview_20260714_170829/
-paper: main.pdf (1,180,433 bytes; SHA256 49459774de4bd244af34de48a06a867b0b14694215ff29fd35e17c8a5e64106f)
-checklist: reproducibility_checklist.pdf (98,617 bytes; SHA256 fbd076b1789fe0fb1a50c67aa6bb113654b87fe23d09a3b1c5826f02805fe05a)
-technical supplement: technical_supplement.pdf (187,860 bytes; SHA256 7fcbf062b3d5bf8224feef20afdb52acd14dc5602d397d0c8022456310e261ce)
-code/data: code_and_data_supplement.zip (1,833,666 bytes; SHA256 4a1a4cd13689ff66f14fec4cc6ab7c3a6a6008460eecaf7222b014d7d4f9e514)
+root: release/h001_aaai27_openreview_20260714_233534/
+paper: main.pdf (1,184,880 bytes; SHA256 feae648b60e11a2d9f3a3e5e60f120c75e5e42cd3008a74a8dc5b2fbd7670580)
+checklist: reproducibility_checklist.pdf (98,617 bytes; SHA256 88dcb8c28eb6591a47b4411cf0b799419a30ce2fe6a3e5f08dbe8a94496ee239)
+technical supplement: technical_supplement.pdf (190,683 bytes; SHA256 ea01ec3587a7717199f6aef6e5a871e989bb57d371f133402e21c9df5f3d2bd7)
+code/data: code_and_data_supplement.zip (2,655,816 bytes; SHA256 6055a3f02719d0e82e3fef9375f78e6ffa6325b9568e49c972bf12304871583f)
 upload manifest: UPLOAD_MANIFEST.sha256
 ```
 
-The ZIP passes archive integrity, its 133-record internal `MANIFEST.sha256`, and
+The ZIP passed archive integrity, its 167-record internal `MANIFEST.sha256`, and
 targeted author-identity/path scans. It contains no `.git` directory, external
 Docker image, Codex proxy result, ReplicaSSG/FROSS development payload, or
-Qwen-VL extension payload. `README.md` maps files to the live OpenReview fields;
+Qwen-VL extension payload. It must not be uploaded as the current manuscript.
+`README.md` maps files to the live OpenReview fields;
 `submission_metadata.md` records topics, remaining author fields, claim scope,
 sizes, and hashes. Do not upload the historical compact tarball or the stale
 2026-07-12 field bundle in place of these files.
 
 The extracted source rebuild is recorded in
-`logs/h001_release_source_build_20260714_170829.log`. The current main PDF
-build is `logs/h001_main_figure_refresh_20260714.log`; supplement/checklist
-logs retain their prior verified 2026-07-14 names. No dataset,
+`logs/h001_release_source_build_20260714_233534.log`. The replacement canonical
+main PDF build is `logs/h001_main_routed_ablation_20260715_010230.log`; a new
+field bundle and extracted-source rebuild are pending. No dataset,
 checkpoint, or Docker image was modified; only temporary bundle staging and
 verification copies were removed.
 
@@ -1530,6 +1538,51 @@ anonymous submission bundle or represented as Human V@K. The nonlinear
 baseline is reviewer-requested retrospective evidence and must retain its
 source-specific exact-label supervision disclosure.
 
+## 2026-07-14 Completed Codex Proxy Reference And External Check
+
+Docker commands:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm codex_proxy_adjudicate
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm codex_proxy_reference_evaluate
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm external_proxy_review_validate
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm reviewer_verified_proxy_evaluate
+```
+
+Authoritative outputs:
+
+- blank proxy reference handoff:
+  `experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/`;
+- completed A/B/C sheets:
+  `physical_validity_audit/external_reviews_completed_v1/`;
+- reference SHA256:
+  `64351b480abf366383c73ff918be5f6f31dabe8b3e12447391f142adc7050b62`;
+- design-weighted proxy/construct evaluation:
+  `physical_validity_audit/codex_proxy_reference_evaluation_v1/`, summary
+  SHA256 `dd3e1febd3355ae7658fe10d91f85c6079294949cebad1bd9dfaecf7f536e77a`;
+- external-review validator state:
+  `physical_validity_audit/external_proxy_review_validation_v1/`;
+- portable review handoff:
+  `release/h001_codex_proxy_external_review_v1/`.
+
+The evidence archive contains exactly 488 orthographic projection PNGs and 488
+colored pair PLYs. Its SHA256 is
+`b5821c4ce1f4235a2d51e4b737208cce1aec5c78c78f19196b6319b52b73b3e3`.
+Optional RGB crop paths recorded at protocol freeze are no longer locally
+available after H001 cleanup, so the external sheets leave RGB paths empty;
+this does not change the frozen sample or the 488/488 raw-3D coverage.
+
+Reviewers A, B, and C confirmed all 488 completed labels without revision at
+`2026-07-14T22:49:11+09:00`. The real validator reports
+`ready_reviewer_verified_proxy_reference`, 488/488 resolved rows, three
+distinct reviewer IDs, and zero errors. The validated reference is
+`external_proxy_review_validation_v1/reviewer_verified_reference.csv`; its
+evaluation is under `reviewer_verified_proxy_evaluation_v1/`. The result
+remains reviewer-verified LLM annotation, not Human V@K. The rebuilt
+non-submission PDF is
+`paper/paper_nonsub/main_nonsub.pdf`, SHA256
+`c7518a7a2eec73783a87f4d5733b0fcd495fee3e50c6e4d4f9850cf7548496b9`.
+
 ## 2026-07-13 Relative-Size Extension
 
 Authoritative root:
@@ -1581,12 +1634,20 @@ Authoritative compact roots:
 - `experiments/H001_geom_reliability/structured_main_v1/`
 - `experiments/H001_geom_reliability/structured_ablation_v1/`
 - `experiments/H001_geom_reliability/nonlinear_transfer_v1/`
+- `experiments/H001_geom_reliability/support_contact_routing_v1/`
+- `experiments/H001_geom_reliability/supervision_matched_nonlinear_v1/`
+- `experiments/H001_geom_reliability/open3dsg_official_route_v1/`
 
 Docker commands:
 
 ```bash
 env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.structured.yaml run --rm relation_algebra_development
 env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.structured.yaml run --rm structured_main_evaluation
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.structured.yaml run --rm support_contact_routing
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.structured.yaml run --rm supervision_matched_nonlinear
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.structured.yaml run --rm open3dsg_official_route_sensitivity
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.structured.yaml run --rm support_routing_scan_cluster
+env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.structured.yaml run --rm routed_public_ablation_evaluation
 env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.structured.yaml run --rm structured_ablation_evaluation
 env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm nonlinear_transfer_vlsat
 env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm nonlinear_transfer_open3dsg
@@ -1597,8 +1658,8 @@ attempt. Its result root is `relation_algebra_v1/evaluation/`; verify the five
 payload hashes against `evaluation/manifest.json`. The only passing candidate
 is `orbit_pairwise_projected_product`.
 
-The coordinated promotion route is `structured_main_v1/`. Its compatibility
-model is predictor-agnostic and locked by SHA256
+The coordinated promotion route is `structured_main_v1/`. Its shared
+compatibility model excludes predictor identity and source score and is locked by SHA256
 `62d251f3ce60e2db54eb1748c277350e3b9e2c7c9d2be0312cf2fb323b761410`.
 Verify `evaluation/manifest.json`: split disjointness, source exclusion, model
 hash, row/context counts, all K/method rows, family-wise paired intervals, and
@@ -1606,11 +1667,24 @@ hard-filter zero-violation checks must all be `true`. The compact paper-facing
 entry point is `configs/h001/compose.structured.yaml`; it avoids historical
 source-preparation and optional-extension services.
 
-The fixed-model ablation route is `structured_ablation_v1/`. Verify its
-`evaluation/manifest.json`: every locked input hash, source/main point
-equivalence, donor-coverage rule, and source-score exclusion check must be
-`true`. Support/contact is excluded from the label-fixed endpoint transform
-because no family-wide swap rule is defined.
+The paper-facing primary route is layered on this locked model under
+`support_contact_routing_v1/`. `family_slot_rerank` was selected on the
+117-scan internal-development split, preserves source family composition and
+support/contact selection exactly at every K, and is evaluated unchanged on
+the official target. Its primary scan-cluster intervals use public Open3DSG
+predictions on the full 548-context universe; context-bootstrap intervals are
+retained as sensitivity. `supervision_matched_nonlinear_v1/`
+owns the shared-label 69-parameter MLP comparison and direct paired contrasts.
+`open3dsg_official_route_v1/` owns the public-eligible 533, conservative
+public/full-target 548, and recovered/full-target 548 sensitivity.
+
+The paper-facing fixed-model ablation route is `structured_ablation_v1/`.
+Verify `routed_public_full_evaluation/manifest.json`: every locked input hash,
+public/full context count, source/main point equivalence, donor-coverage rule,
+support/contact pass-through, and source-score exclusion check must be `true`.
+Support/contact is excluded from all compatibility interventions because the
+primary route passes it through unchanged. The older `evaluation/` manifest
+owns the unrestricted/recovered mechanism audit used only in the supplement.
 
 The nonlinear transfer services deterministically refit the frozen SGFN
 internal-development model, then apply it without target-source labels or

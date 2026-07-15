@@ -1,6 +1,6 @@
 # Paper Workspaces
 
-Last updated: 2026-07-14 KST
+Last updated: 2026-07-15 KST
 
 This directory contains paper-writing artifacts. It is a manuscript workspace,
 not an experiment-result root. Paper-result runtime records live under
@@ -24,39 +24,41 @@ paper-level framing rules live in `docs/paper.md`.
   geometry-checkable 3D Scene Graph relation families.
 - Non-claim: broad open-vocabulary 3DSSG generation improvement.
 - Active AAAI-27 Docker build: `paper/aaai/main_aaai27.pdf`, SHA256
-  `49459774de4bd244af34de48a06a867b0b14694215ff29fd35e17c8a5e64106f` (8 pages: technical
-  content through page 7 and references on pages 7--8),
+  `9af7cc1741ec584af72baa5357ee01b2b1db472e439f6cc86127eb0d59275814` (9 pages: technical
+  content through page 7 and references on pages 8--9),
   `paper/aaai/supplement_aaai27.pdf`, SHA256
-  `7fcbf062b3d5bf8224feef20afdb52acd14dc5602d397d0c8022456310e261ce`
-  (2 pages), and
+  `3c862ef40d5cd92f3dd57994800dd54d922405c8688b6b216dbe3735e0df2dad`
+  (3 pages), and
   `paper/aaai/reproducibility_checklist_aaai27.pdf`, SHA256
-  `fbd076b1789fe0fb1a50c67aa6bb113654b87fe23d09a3b1c5826f02805fe05a`
+  `88dcb8c28eb6591a47b4411cf0b799419a30ce2fe6a3e5f08dbe8a94496ee239`
   (2 pages). Final main log:
-  `logs/h001_main_figure_refresh_20260714.log`; final supplement log:
-  `logs/h001_supplement_text_refresh_20260714.log`; image:
+  `logs/h001_main_routed_ablation_20260715_010230.log`; final supplement log:
+  `logs/h001_supplement_routed_ablation_20260715_010243.log`; image:
   `h001-aaai27-tex:20260712`. Type 3 fonts, unresolved references/citations,
   LaTeX errors, and overfull boxes are zero.
 - The active submission excludes Codex-derived physical-validity numbers. The
   separately built `paper/paper_nonsub/main_nonsub.pdf`, SHA256
-  `52dc1c775ede032df45f345999f6421cadbb331856a5e4862c083c29f9ee7287`,
-  contains the two-pass non-human diagnostic for internal/user review only.
+  `c7518a7a2eec73783a87f4d5733b0fcd495fee3e50c6e4d4f9850cf7548496b9`,
+  contains the reviewer-verified LLM diagnostic for internal/user review only.
 - The manuscript narrative now proceeds failure -> structural cause -> factor
   isolation -> method -> experiments -> discussion/limitations. It uses six
   top-level sections; Problem Setup is inside Method, and Setup/results are
   grouped under Experiments. Figure 1 is failure-grounded,
   Figure 2 connects K=5/10/20/50/100 for three sources, and Figure 3 shows two
   corrections plus one residual failure. The main comparison is one joint
-  Recall/Violation table followed by a single-column K=50/100 six-control
-  ablation table. All three figures are included as vector PDFs.
-- Active OpenReview field bundle:
-  `release/h001_aaai27_openreview_20260714_170829/`. It contains exact copies
-  of the canonical 8/2/2-page PDFs plus a focused anonymous structured-main
-  ZIP. The prior Replica-disclosure and other superseded PDFs are indexed under
+  Recall/Violation table placed before its interpretation, followed by a
+  single-column K=50/100 six-control table using the same public/full
+  family-slot route. All three figures are included as vector PDFs.
+- Previous OpenReview field bundle:
+  `release/h001_aaai27_openreview_20260714_233534/`. It predates the current
+  ablation-route, table-placement, and primary-CI revision and must be
+  regenerated before upload. The prior Replica-disclosure and other superseded PDFs are indexed under
   `archive/paper/aaai_snapshots/`; the 2026-07-12 bundle and compact tarball are
   historical handoff snapshots.
-- RelCompat3D is framework-first. Its main method is the strict train-only
-  relation-algebra-constrained product $ZC_{alg}(T,G)$; the evaluated
-  scale-robust rank-average is a second instantiation. Neither is claimed
+- RelCompat3D is framework-first. Its primary decision rule applies the strict
+  train-only relation-algebra-constrained product within proximity/vertical
+  source-family slots and preserves support/contact ordering. Unrestricted
+  product and scale-robust rank-average are comparisons; neither is claimed
   universally dominant. Pooled compatibility
   is an ablation, RRF a strong comparator, and compatibility-only ranking a
   control. Internal metric keys no longer appear in manuscript prose or

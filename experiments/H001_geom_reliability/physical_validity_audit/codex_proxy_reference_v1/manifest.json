@@ -1,0 +1,118 @@
+{
+  "claim_boundary": "A complete Codex blinded proxy reference. It is not independent human evidence and becomes reviewer-verified only after all three external review sheets are completed and validated.",
+  "docker_command": "env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm codex_proxy_adjudicate",
+  "inputs": {
+    "pass_v1": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_v1/codex_proxy_draft.csv",
+      "sha256": "dfad0126291471d8724891b4f4259feb9c56218a59d594b555c32f2d656734ec"
+    },
+    "pass_v2": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_rereview_v2/labels.csv",
+      "sha256": "2a43ec169fee0e798bc18a68f7807cb5f7c238e7a509a082e41bd747743cdd14"
+    },
+    "public_queue": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/frozen_v1/public_queue.jsonl",
+      "sha256": "934de357277ccfc6ce8648e62b40c1e47b8f47e326e37e570b98824a8fc194b8"
+    }
+  },
+  "outputs": {
+    "adjudication.csv": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/adjudication.csv",
+      "sha256": "e73d6e3cab19e2e1a60f42c0d68304ee46606cf56a71aac87faa5341a04897e3"
+    },
+    "external_review_guide.md": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/external_review_guide.md",
+      "sha256": "0825b36fa685752cae0e42e3543e15090896b4a5a00d73d3dcad11683e99f53c"
+    },
+    "external_reviewer_1.csv": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/external_reviewer_1.csv",
+      "sha256": "f92e1199e1ae65584d493bc32dfa0c48f4e6b7ba74db4b5c2e0ca8f4718efe93"
+    },
+    "external_reviewer_2.csv": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/external_reviewer_2.csv",
+      "sha256": "f92e1199e1ae65584d493bc32dfa0c48f4e6b7ba74db4b5c2e0ca8f4718efe93"
+    },
+    "external_reviewer_3.csv": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/external_reviewer_3.csv",
+      "sha256": "f92e1199e1ae65584d493bc32dfa0c48f4e6b7ba74db4b5c2e0ca8f4718efe93"
+    },
+    "mandatory_adjudication_sheets/sheet_01.jpg": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_01.jpg",
+      "sha256": "ccc17cbc2cd3f3b3111c0632eb2083cfd1461df8a4fb52346ed23b653b7e3479"
+    },
+    "mandatory_adjudication_sheets/sheet_02.jpg": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_02.jpg",
+      "sha256": "78cde236d3427f04fbc5c59f9e4b1c2747a7ab899adc1d0278fca55307ff431f"
+    },
+    "mandatory_adjudication_sheets/sheet_03.jpg": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_03.jpg",
+      "sha256": "752b8f5b6456ddd83f6ef6acd088eb77e984b1197c5ed9aa9a30453b8edb1cab"
+    },
+    "mandatory_adjudication_sheets/sheet_04.jpg": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_04.jpg",
+      "sha256": "e1083e080440726b1d4326260417d60ba1f92c7be7e4ba7476c849d294da5dba"
+    },
+    "mandatory_adjudication_sheets/sheet_05.jpg": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_05.jpg",
+      "sha256": "1ce3e306812a917259b2f73d39325789634498c6e51cc7867ad4342bc03b5745"
+    },
+    "mandatory_adjudication_sheets/sheet_06.jpg": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_06.jpg",
+      "sha256": "bc298ea80cf3b82bdc3544550e7f1d94b45a2c5eb42e1cf1710acce3e9c25895"
+    },
+    "mandatory_adjudication_sheets/sheet_07.jpg": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_07.jpg",
+      "sha256": "246a3ee29fc59c0893d18eef910f5fb1b6192b467dd99f7a96c7407c52c33cb5"
+    },
+    "mandatory_adjudication_sheets/sheet_08.jpg": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_08.jpg",
+      "sha256": "0745e06a117f995a541351f317aac0fe153a4e4531425057de10fb2dfde11681"
+    },
+    "mandatory_adjudication_sheets/sheet_09.jpg": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_09.jpg",
+      "sha256": "f6782c8f2d77504b600d470da3b717496cd814f937c4e9745539c9c8e853459e"
+    },
+    "mandatory_adjudication_sheets/sheet_10.jpg": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_10.jpg",
+      "sha256": "c4135d1a0aa6ab08c4a8521cc6467bfe9def57c8a259ac38b6c734ae7cda0e46"
+    },
+    "mandatory_adjudication_sheets/sheet_11.jpg": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_11.jpg",
+      "sha256": "a3d00e75918bd6507ef779e12897f8d23738d70c11751f9fa7b35211bd5d3262"
+    },
+    "mandatory_adjudication_sheets/sheet_12.jpg": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_12.jpg",
+      "sha256": "583e07446948837854a2d67ea75e664e753ae880ffc997020100be829d883cb1"
+    },
+    "mandatory_adjudication_sheets/sheet_13.jpg": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_13.jpg",
+      "sha256": "ba1d5a7ac263aa6a498187f2bf34b34749dd1835a44ca62838309f61127de732"
+    },
+    "mandatory_adjudication_sheets/sheet_14.jpg": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_14.jpg",
+      "sha256": "b7d6b1dfc655bb45c994bc68ca49217962eba46945a3a3daa8f122ab5df7c874"
+    },
+    "mandatory_adjudication_sheets/sheet_15.jpg": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_15.jpg",
+      "sha256": "3bd1f9b528f7a5b06fd1b082cba4a96db809bc632931fb40aca5d7cf668670af"
+    },
+    "mandatory_adjudication_sheets/sheet_16.jpg": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/mandatory_adjudication_sheets/sheet_16.jpg",
+      "sha256": "a31a8971a5347fc7ffed3f42de4fd675c9d509ff7e790a542b490e547bd94aff"
+    },
+    "reference.csv": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/reference.csv",
+      "sha256": "64351b480abf366383c73ff918be5f6f31dabe8b3e12447391f142adc7050b62"
+    },
+    "summary.json": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/summary.json",
+      "sha256": "c46bf3dde7f7293fe1a71d45aeca92e438dc44664655024d3427d89ea832eda2"
+    },
+    "summary.md": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/summary.md",
+      "sha256": "3b5afd6ade5a5c29b670ba096afed19ef8c50909531c788d9be544cdfeddd855"
+    }
+  },
+  "schema_version": "h001_codex_blinded_proxy_reference_manifest_v1",
+  "status": "completed_nonhuman_proxy_reference_awaiting_external_verification"
+}

@@ -1,0 +1,34 @@
+{
+  "claim_boundary": "Codex labels are non-human automatic-proxy evidence. Visual proxy adjudication resolves the automatic reference but does not establish independent physical validity or Human Violation@K.",
+  "docker_command": "env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm codex_proxy_reference_evaluate",
+  "inputs": {
+    "codex_v1": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_v1/codex_proxy_draft.csv",
+      "sha256": "dfad0126291471d8724891b4f4259feb9c56218a59d594b555c32f2d656734ec"
+    },
+    "codex_v2": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_rereview_v2/labels.csv",
+      "sha256": "2a43ec169fee0e798bc18a68f7807cb5f7c238e7a509a082e41bd747743cdd14"
+    },
+    "proxy_reference": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_v1/reference.csv",
+      "sha256": "64351b480abf366383c73ff918be5f6f31dabe8b3e12447391f142adc7050b62"
+    },
+    "sidecar": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/frozen_v1/private_sidecar.jsonl",
+      "sha256": "52e6ceb92aaed9e3a9d4d7898e7f462c21e69be2ee53b226d2acc71234497e22"
+    }
+  },
+  "outputs": {
+    "summary.json": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_evaluation_v1/summary.json",
+      "sha256": "dd3e1febd3355ae7658fe10d91f85c6079294949cebad1bd9dfaecf7f536e77a"
+    },
+    "summary.md": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_reference_evaluation_v1/summary.md",
+      "sha256": "c006823bb31ae2492287f733860d5a0342e0d1c66a4a8f6822fdee4d93096801"
+    }
+  },
+  "schema_version": "h001_codex_proxy_audit_evaluation_manifest_v1",
+  "status": "completed_nonhuman_proxy_only"
+}

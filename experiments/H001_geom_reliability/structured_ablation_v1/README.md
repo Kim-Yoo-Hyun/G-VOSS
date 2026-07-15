@@ -1,11 +1,14 @@
 # Structured Ablation v1
 
-Last updated: 2026-07-14 KST
+Last updated: 2026-07-15 KST
 
 This directory owns the frozen K=50/100 falsification and information-ablation
-evaluation for the promoted RelCompat3D model. `protocol.json` fixes every
-mapping, donor policy, input hash, source, denominator, K, and bootstrap unit
-before `evaluation/` is generated.
+evaluation for the promoted RelCompat3D model. The paper-facing route is fixed
+by `routed_public_full_protocol.json` and generated under
+`routed_public_full_evaluation/`: it uses the public/full 548-context target and
+the same family-slot routing as the primary method. The earlier
+`protocol.json` and `evaluation/` pair is retained only as an unrestricted
+fusion and recovered/full-coverage mechanism audit for the supplement.
 
 The endpoint control swaps proximity/vertical geometry while deliberately
 retaining the original predicate. It is a corruption test, not the valid
@@ -18,7 +21,18 @@ Run from the repository root:
 
 ```bash
 env UID=$(id -u) GID=$(id -g) docker compose \
-  -f configs/h001/compose.structured.yaml run --rm structured_ablation_evaluation
+  -f configs/h001/compose.structured.yaml run --rm routed_public_ablation_evaluation
 ```
 
-The output root is `evaluation/` and must be empty before execution.
+The primary output root is `routed_public_full_evaluation/` and must be empty
+before execution. Its manifest verifies all 548 contexts and 157 scans, the
+3,972 exact-label denominator, 533 public Open3DSG prediction contexts plus 15
+zero-prediction contexts, support/contact pass-through, and exact equality of
+the primary point estimates with the promoted main evaluation.
+
+The unrestricted diagnostic can be reproduced separately with:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm structured_ablation_evaluation
+```

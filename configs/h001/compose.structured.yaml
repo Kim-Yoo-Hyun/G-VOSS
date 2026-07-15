@@ -70,3 +70,93 @@ services:
       - /workspace/experiments/H001_geom_reliability/structured_ablation_v1/protocol.json
       - --out
       - /workspace/experiments/H001_geom_reliability/structured_ablation_v1/evaluation
+
+  routed_public_ablation_evaluation:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/geocalib/run_routed_ablation_evaluation.py]
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/structured_ablation_v1/routed_public_full_protocol.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/structured_ablation_v1/routed_public_full_evaluation
+
+  support_contact_routing:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/geocalib/run_support_contact_routing.py]
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/support_contact_routing_v1/protocol.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/support_contact_routing_v1/evaluation
+
+  support_routing_scan_cluster:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/geocalib/run_support_routing_scan_cluster.py]
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/support_contact_routing_v1/scan_cluster_protocol.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/support_contact_routing_v1/scan_cluster_sensitivity
+
+  supervision_matched_nonlinear:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/geocalib/run_supervision_matched_nonlinear.py]
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/supervision_matched_nonlinear_v1/protocol.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/supervision_matched_nonlinear_v1/evaluation
+
+  open3dsg_official_route_sensitivity:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/geocalib/evaluate_open3dsg_official_route.py]
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/open3dsg_official_route_v1/protocol.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/open3dsg_official_route_v1/evaluation

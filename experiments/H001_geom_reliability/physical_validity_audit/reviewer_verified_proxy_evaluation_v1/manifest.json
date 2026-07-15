@@ -1,0 +1,34 @@
+{
+  "claim_boundary": "Three external reviewers verified the completed Codex labels without revision. This is reviewer-verified LLM annotation, not independent blank first-pass human annotation or Human Violation@K.",
+  "docker_command": "env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm reviewer_verified_proxy_evaluate",
+  "inputs": {
+    "codex_v1": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_proxy_v1/codex_proxy_draft.csv",
+      "sha256": "dfad0126291471d8724891b4f4259feb9c56218a59d594b555c32f2d656734ec"
+    },
+    "codex_v2": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/codex_rereview_v2/labels.csv",
+      "sha256": "2a43ec169fee0e798bc18a68f7807cb5f7c238e7a509a082e41bd747743cdd14"
+    },
+    "proxy_reference": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/external_proxy_review_validation_v1/reviewer_verified_reference.csv",
+      "sha256": "76c0497836cd5f1366edebebe3d9fb4b57e84038faf56e57567b0b7326587544"
+    },
+    "sidecar": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/frozen_v1/private_sidecar.jsonl",
+      "sha256": "52e6ceb92aaed9e3a9d4d7898e7f462c21e69be2ee53b226d2acc71234497e22"
+    }
+  },
+  "outputs": {
+    "summary.json": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/reviewer_verified_proxy_evaluation_v1/summary.json",
+      "sha256": "ede2aec17461007e0d94cc9d41ab217ef42c46aa028090152b27d274b0d11896"
+    },
+    "summary.md": {
+      "path": "experiments/H001_geom_reliability/physical_validity_audit/reviewer_verified_proxy_evaluation_v1/summary.md",
+      "sha256": "6bb638a581c6af87ed6bd617c47ca6cb732d671844edb138a8f08e615d3d6209"
+    }
+  },
+  "schema_version": "h001_codex_proxy_audit_evaluation_manifest_v1",
+  "status": "completed_reviewer_verified_llm_proxy"
+}

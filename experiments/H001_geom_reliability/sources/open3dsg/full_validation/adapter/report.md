@@ -1,6 +1,6 @@
 # Open3DSG Prediction Adapter
 
-Created at: `2026-06-04T14:19:43.128471+00:00`
+Created at: `2026-07-14T09:01:53.703602+00:00`
 Status: `ready`
 Raw dump: `experiments/H001_geom_reliability/sources/open3dsg/full_validation/raw_dump/raw.jsonl`
 Smoke test: `False`

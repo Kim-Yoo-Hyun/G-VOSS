@@ -31,12 +31,14 @@ that contradicts the underlying world state.
 This failure suggests a factor-isolated design. \method{} preserves each
 relation candidate's subject--object identity, joins its reconstructed geometry,
 and separates predicate semantics $T$, same-pair geometry $G$, and source score
-$Z$. A predictor-agnostic compatibility model excludes $Z$ and predictor
-identity; $Z$ enters only during re-ranking. Linked counterfactuals teach the
+$Z$. A shared compatibility model excludes $Z$ and predictor identity; $Z$
+enters only during re-ranking. Linked counterfactuals teach the
 model which geometry supports a predicate, while orbit projection enforces
-proximity symmetry and vertical inverse equivariance exactly. The resulting
-structured product retains source-score magnitudes, and scale-robust fusion,
-family-conditioning, and rule-filtering comparisons isolate its behavior.
+proximity symmetry and vertical inverse equivariance exactly. An applicability
+route uses the resulting product only to reorder proximity and vertical
+candidates within the source's family slots, while support/contact retains its
+source ordering. Scale-robust fusion, nonlinear, family-conditioning, and
+rule-filtering comparisons isolate the mechanism.
 Figure~\ref{fig:framework} summarizes the framework.
 
 \begin{figure*}[t]
@@ -46,10 +48,11 @@ Figure~\ref{fig:framework} summarizes the framework.
     Open3DSG relation is contradicted by the actual ordered-pair geometry.
     \method{} preserves the relation-row identity, isolates predicate semantics
     $T$, same-pair geometry $G$, and source confidence $Z$, and estimates
-    $\calg(T,G)$ without $Z$. In the shown case, low compatibility moves the
-    relation from rank 19 to 304. Linked-counterfactual and relation-algebra
-    controls test the factorization; evaluation jointly reports exact-label
-    recall and verifier-derived violation.}
+    $\calg(T,G)$ without $Z$. The applicability route moves the shown
+    proximity relation from rank 19 to 178 while leaving support/contact
+    selections unchanged. Linked-counterfactual and relation-algebra controls
+    test the factorization; evaluation jointly reports exact-label recall and
+    verifier-derived violation.}
     \label{fig:framework}
 \end{figure*}
 
@@ -68,14 +71,14 @@ Our contributions are threefold:
     instance-level geometric consistency through identity-preserving evaluation
     and joint exact-label Recall@$K$--verifier-derived Violation@$K$.
     \item We introduce a source-score-excluded compatibility model that combines
-    linked counterfactual ordering with exact projection onto the applicable
-    relation-algebra orbit.
+    linked counterfactual ordering with exact relation-algebra projection, and
+    an applicability route that preserves unsupported family selections.
     \item We apply one unchanged compatibility model to VL-SAT, Open3DSG, and
     SGFN, evaluating cross-predictor robustness with strong fusion baselines,
     factor controls, uncertainty sensitivity, and family decomposition.
 \end{enumerate}
 
-The structured product improves the aggregate $K=100$ recall--violation
-operating point for all three predictors, while smaller budgets expose
-predictor-dependent trade-offs. The result is a reliability layer for
+The applicability-routed score improves the aggregate $K=100$
+recall--violation operating point for all three predictors without changing
+support/contact selections. The result is a reliability layer for
 geometry-checkable relations rather than a replacement relation generator.

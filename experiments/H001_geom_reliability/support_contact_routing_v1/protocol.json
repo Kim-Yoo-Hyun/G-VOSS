@@ -1,0 +1,40 @@
+{
+  "schema_version": "h001_support_contact_routing_protocol_v1",
+  "status": "frozen_before_routing_evaluation",
+  "created_at_kst": "2026-07-14",
+  "purpose": "Prevent support/contact regression while retaining structured proximity and vertical reranking.",
+  "development_policy": {
+    "selection_split": "117-scan internal development split",
+    "final_benchmark": "157-scan official 3DSSG validation split",
+    "methods_reported": [
+      "source_score",
+      "structured_product",
+      "support_passthrough_product",
+      "family_slot_rerank"
+    ],
+    "selected_route": "family_slot_rerank only if support/contact selection and source family composition are exact at every K, K=100 paired delta-Recall lower CI >= -0.01, and paired delta-Violation upper CI < 0"
+  },
+  "routing": {
+    "support_passthrough_product": "use source score for support/contact and structured product otherwise",
+    "family_slot_rerank": "preserve the source-ranked sequence of predicate-family slots; retain source order inside support/contact slots and use structured-product order inside proximity and vertical slots",
+    "parameters": 0,
+    "source_specific_fit": false
+  },
+  "evaluation": {
+    "ks": [5, 10, 20, 50, 100],
+    "bootstrap_resamples": 1000,
+    "bootstrap_seed": 20260714,
+    "bootstrap_unit": "relation context"
+  },
+  "inputs": {
+    "structured_models": "experiments/H001_geom_reliability/relation_algebra_v1/evaluation/models.json",
+    "strict_models": "experiments/H001_geom_reliability/train_only_reestablishment_v1/calibration/fitted/models.json",
+    "internal_dev_verification": "experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev/geometry/verification.jsonl",
+    "internal_dev_ground_truth": "experiments/H001_geom_reliability/train_only_reestablishment_v1/internal_dev_ground_truth.jsonl",
+    "final_ground_truth": "experiments/H001_geom_reliability/sources/vlsat/full_validation/adapter/ground_truth.jsonl",
+    "vlsat_verification": "experiments/H001_geom_reliability/sources/vlsat/full_validation/geometry/verification.jsonl",
+    "open3dsg_verification": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/geometry/verification.jsonl",
+    "sgfn_verification": "experiments/H001_geom_reliability/sources/sgfn/geometry/verification.jsonl"
+  },
+  "claim_boundary": "Retrospective 3DSSG method development. A passing route supports family-selective applicability, not dataset-level generalization or support/contact physical understanding."
+}
