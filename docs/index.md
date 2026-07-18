@@ -64,7 +64,7 @@ External convention checked on 2026-06-25 KST:
 | H002 Docker config | `configs/h002/README.md` |
 | Compact paper-facing results | `results/h001_geom_reliability/` |
 | H002 compact result boundary | `results/h002_compatibility_routing/README.md` |
-| Manuscript workspace | `paper/README.md`, `paper/preview.md`, `paper/outline.md`, `paper/draft.md`, `paper/risk.md`, `paper/appendix.md`, `paper/figures.md`, `paper/h002_compatibility_routing/README.md`, `paper/h002_compatibility_routing/aaai2027/README.md` |
+| Manuscript workspace | `paper/README.md`, `paper/preview.md`, `paper/outline.md`, `paper/method.md`, `paper/experiment.md`, `paper/draft.md`, `paper/figures.md`, `paper/risk.md`, `paper/review.md`, `paper/appendix.md`, `paper/h002_compatibility_routing/README.md`, `paper/h002_compatibility_routing/aaai2027/README.md` |
 | Archive and optional evidence | `archive/README.md` |
 
 ## Update Rule

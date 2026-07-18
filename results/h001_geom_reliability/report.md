@@ -1,10 +1,10 @@
 # H001 / RelCompat3D Geometry Reliability Report
 
-Last updated: 2026-07-16 KST
+Last updated: 2026-07-17 KST
 
 This is the compact paper-facing full-validation report for RelCompat3D. The
-current main result uses the strict train-only relation-algebra-constrained
-compatibility model and an applicability-aware family-slot route across VL-SAT,
+current main result uses the strict training-only transformation-consistent
+compatibility model and family-aware re-ranking across VL-SAT,
 Open3DSG, and SGFN on the same 548-context 3DSSG target. Historical 127-scan outputs
 and optional family-expansion artifacts are not main evidence unless explicitly
 promoted.
@@ -23,9 +23,9 @@ Main evaluated families:
 Metric definitions:
 
 - `R@K`: exact-label relation recall over the 3,972 in-scope GT relations.
-- `Violation@K` / `V@K`: fraction of selected top-K prediction rows whose
-  joined geometry verifier status is `violated`; the primary denominator
-  includes satisfied, uncertain, and violated rows.
+- `Violation@K` / `V@K`: fraction of selected top-K predictions whose
+  associated geometry verifier status is `violated`; the primary denominator
+  includes satisfied, uncertain, and violated predictions.
 - Uncertainty sensitivity additionally reports decidable-only V, uncertainty
   rate, pessimistic V that counts uncertainty as violation, and status coverage.
 - `dR` and `dV`: absolute point-estimate deltas against Source score.
@@ -42,11 +42,11 @@ Metric definitions:
 | condition | formula / rule | paper role |
 | --- | --- | --- |
 | Source score | source model relation score | source baseline |
-| Applicability-routed RelCompat3D | product ordering in proximity/vertical source-family slots; source ordering in support/contact slots | primary method |
-| Relation-algebra-constrained product | `source_score * projected_compatibility` without applicability routing | unrestricted ablation |
-| Routed rank-average | mean of within-context source-score and projected-compatibility percentiles inside proximity/vertical family slots | scale-robust comparator |
-| Routed reciprocal-rank fusion | reciprocal-rank fusion with fixed constant 60 inside proximity/vertical family slots | strong comparator |
-| Routed matched MLP | frozen train-only nonlinear compatibility product inside the same family slots | supervision/capacity-matched comparator |
+| RelCompat3D | product ordering within proximity/vertical families; source-score ordering for support/contact | primary method |
+| Product (all families) | `source_score * transformation-consistent compatibility` applied to every family | all-family ablation |
+| Rank-average | mean of within-context source-score and compatibility percentile ranks within proximity/vertical families | scale-robust comparator |
+| Reciprocal-rank fusion | reciprocal-rank fusion with fixed constant 60 within proximity/vertical families | strong comparator |
+| Matched MLP | nonlinear compatibility product under the same family-aware ranking procedure | supervision/capacity-matched comparator |
 | Pooled-calibrator ablation | `source_score * pooled_compatibility` | family-conditioning ablation |
 | Hard geometry filter | keep/rank rule-supported point-subtype evidence | zero-violation diagnostic, not default |
 | Compatibility-only | projected compatibility only | no-source-score control; not true `G`-only |
@@ -56,7 +56,7 @@ Metric definitions:
 | Shuffled geometry | product with a deterministic source/predicate-stream donor | geometry identity control |
 | Endpoint swap, label fixed | product after the applicable proximity/vertical geometry swap while retaining the label | directional/symmetry falsification control |
 
-For reproducibility, the same-route comparator keys are `routed_product`,
+For reproducibility, the matched-procedure comparator keys are `routed_product`,
 `routed_rank_average`, `routed_rrf`, and `routed_matched_mlp` under
 `routed_comparators_v1/`. Unrestricted keys remain `structured_product`,
 `structured_rank_average`, `structured_rrf_c60`, `pooled_product`, and
@@ -64,13 +64,13 @@ For reproducibility, the same-route comparator keys are `routed_product`,
 implementation identifiers, not current manuscript terminology. No fusion
 formula is universally dominant.
 
-## Promoted Applicability-Routed Main Result
+## Primary Family-Aware Result
 
 The primary Docker evaluation is
 `experiments/H001_geom_reliability/support_contact_routing_v1/evaluation/`. It
-preserves the source-ranked family-slot sequence and support/contact selection
-exactly at every K, while ordering proximity/vertical candidates by the
-relation-algebra-constrained product. The synchronized unrestricted comparators
+preserves the source family sequence and support/contact selection exactly at
+every K, while ordering proximity/vertical candidates by the
+transformation-consistent product. The synchronized all-family comparators
 remain in `experiments/H001_geom_reliability/structured_main_v1/evaluation/`.
 Both routes use
 model SHA256
@@ -91,18 +91,18 @@ VL-SAT, Open3DSG, and SGFN. Their paired 95% intervals are respectively
 `[+.00407,+.00990]/[-.03011,-.02589]`. All K=`{5,10,20,50,100}` rows
 are in the routing and synchronized comparator artifacts.
 
-Factor interpretation: `T_e` is predicate/family semantics, `G_e` raw
-predicate-independent same-pair geometry, `Z_e` source relation score, and
+Factor interpretation: `T_e` is predicate/family semantics, `G_e` contains
+predicate-independent same-pair geometry measurements, `Z_e` is the source relation score, and
 `C_e=sigmoid(h_a(Phi(T_e,G_e)))` a bounded score for the constructed
 GT-positive/counterfactual target. It is not a probability of physical
 validity. Current compatibility models exclude `Z_e` and predictor identity,
 but include `T_e` and predicate-aligned `T_e x G_e` features. Hence
 the legacy `control_p_geom_valid_only` isolates removal of `Z_e`; it is not a
-true raw-geometry-only calibrator.
+predicate-independent geometry-only calibrator.
 
 Dependence sensitivity resamples the 157 scans, carrying every one of the 548
 contexts from each sampled scan together. At K=100, routed-minus-source
-Recall/Verifier-V intervals are `+.0023 [.0005,.0049] / -.0182
+Recall/Violation intervals are `+.0023 [.0005,.0049] / -.0182
 [-.0199,-.0166]` for VL-SAT, `+.0582 [.0470,.0695] / -.0917
 [-.0963,-.0873]` for Open3DSG, and `+.0068 [.0043,.0098] / -.0280
 [-.0304,-.0257]` for SGFN. Rankings and point estimates are unchanged.
@@ -112,7 +112,7 @@ Recall/Verifier-V intervals are `+.0023 [.0005,.0049] / -.0182
 `experiments/H001_geom_reliability/routed_comparators_v1/evaluation/` applies
 the frozen structured MLP from
 `supervision_matched_nonlinear_v1/evaluation/` through the identical public/full
-family-slot route used by the primary product. Product, MLP, rank-average, and
+family-aware ranking procedure used by the primary product. Product, MLP, rank-average, and
 RRF share family composition, support/contact selections, official contexts,
 and scan-cluster indices. At K=50:
 
@@ -167,29 +167,30 @@ sensitivity, not the unmodified public pipeline.
 
 The Docker-frozen evaluation is
 `experiments/H001_geom_reliability/structured_ablation_v1/routed_public_full_evaluation/`.
-It uses the unchanged structured-model SHA256
+It uses the same locked structured-model SHA256
 `62d251f3ce60e2db54eb1748c277350e3b9e2c7c9d2be0312cf2fb323b761410`,
 the public/full 548-context target and 3,972-relation denominator, and the same
-family-slot routing as the primary method. Every input, context, primary-point,
-family-composition, pass-through, donor, and source-exclusion validation passes.
+family-aware ranking procedure as the primary method. Every input, context,
+primary-point, family-composition, support/contact-order, donor, and
+source-exclusion validation passes.
 
 | Source | Condition | R@50 | V@50 | R@100 | V@100 |
 | --- | --- | ---: | ---: | ---: | ---: |
-| Open3DSG | Routed RelCompat3D | .4418 | .0342 | .5692 | .0324 |
+| Open3DSG | RelCompat3D | .4418 | .0342 | .5692 | .0324 |
 | Open3DSG | Wrong predicate | .4265 | .2200 | .5347 | .2098 |
 | Open3DSG | Wrong-pair geometry | .3852 | .0848 | .4932 | .0835 |
 | Open3DSG | Shuffled geometry | .3844 | .1293 | .4869 | .1243 |
 | Open3DSG | Endpoint swap, label fixed | .4267 | .2200 | .5373 | .2098 |
 | Open3DSG | Distance-only | .5116 | .0824 | .6322 | .0955 |
 | Open3DSG | Compatibility-only in routed families | .4207 | .0342 | .5677 | .0324 |
-| VL-SAT | Routed RelCompat3D | .9277 | .0197 | .9658 | .0295 |
+| VL-SAT | RelCompat3D | .9277 | .0197 | .9658 | .0295 |
 | VL-SAT | Wrong predicate | .9043 | .0498 | .9481 | .0796 |
 | VL-SAT | Wrong-pair geometry | .9053 | .0261 | .9496 | .0473 |
 | VL-SAT | Shuffled geometry | .8917 | .0306 | .9411 | .0560 |
 | VL-SAT | Endpoint swap, label fixed | .9043 | .0498 | .9481 | .0796 |
 | VL-SAT | Distance-only | .8190 | .0534 | .8980 | .0809 |
 | VL-SAT | Compatibility-only in routed families | .6765 | .0161 | .8409 | .0203 |
-| SGFN | Routed RelCompat3D | .7450 | .0263 | .9303 | .0350 |
+| SGFN | RelCompat3D | .7450 | .0263 | .9303 | .0350 |
 | SGFN | Wrong predicate | .7155 | .0943 | .8998 | .1299 |
 | SGFN | Wrong-pair geometry | .7158 | .0399 | .8799 | .0665 |
 | SGFN | Shuffled geometry | .7062 | .0474 | .8678 | .0836 |
@@ -197,9 +198,10 @@ family-composition, pass-through, donor, and source-exclusion validation passes.
 | SGFN | Distance-only | .6319 | .1000 | .8406 | .1266 |
 | SGFN | Compatibility-only in routed families | .5279 | .0232 | .7072 | .0230 |
 
-The geometry corruptions break the joint operating point. Removing source
-confidence from the routed families usually lowers Violation further but loses
-substantial Recall, so compatibility cannot replace source confidence.
+The geometry corruptions break the joint operating point. Removing the source
+relation score from the re-ranked families usually lowers Violation further but
+loses substantial Recall, so compatibility cannot replace the source relation
+score.
 Distance-only can increase Recall by aggressively reordering proximity rows,
 but its substantially higher Violation rejects a simple distance heuristic as
 the explanation. Support/contact order and selection are unchanged in every
@@ -244,7 +246,7 @@ Bootstrap stability artifacts for the same K grid are available at
 
 ## External-Dataset Transfer Boundary
 
-The current final RelCompat3D model and family-slot rule were evaluated without
+The current final RelCompat3D model and family-aware ranking rule were evaluated without
 ReplicaSSG fit rows or target-specific hyperparameters on the regenerated
 4,293-candidate FROSS execution. The official test target was already inspected
 in earlier transfer development, so this is a cross-dataset benchmark
@@ -560,16 +562,16 @@ However, `M_int` has mean absolute close-by swap error `0.22183` and vertical
 inverse-equivariance error `0.10085`. These controls block promotion of the
 pooled interaction model as a structurally valid compatibility mechanism.
 
-## Relation-Algebra Mechanism Development
+## Transformation-Consistency Development
 
 A frozen 3DSSG-only development protocol compares six structured alternatives
-to the strict train-only family product. The alternatives cover inference-time
-orbit projection, transform-augmented fitting, linked-counterfactual margin
+to the strict training-only family product. The alternatives cover inference-time
+transformation averaging, transformation-consistent augmentation, linked-counterfactual margin
 fitting, their combination, and an algebra-constrained feature basis. All use
 the 1,061/117/157 firewall and exclude source score, source identity, rank, and
 source-specific exact-label supervision from compatibility.
 
-Only the combined linked-pair model with exact orbit projection passes all
+Only the combined linked-pair model with exact transformation averaging passes all
 pre-run gates:
 
 | Source | strict family R/V@100 | projected pairwise R/V@100 | dR vs family (95% CI) | dV vs family (95% CI) |
@@ -586,8 +588,8 @@ This is structural evidence, not a material accuracy gain or a best-formula
 result. The artifact is
 `experiments/H001_geom_reliability/relation_algebra_v1/evaluation/summary.json`.
 
-The SGFN-supervised 69-parameter nonlinear comparator was then applied
-unchanged to VL-SAT and Open3DSG. At K=100 it loses VL-SAT Recall versus the
+The same fitted SGFN-supervised 69-parameter nonlinear comparator was then used
+on VL-SAT and Open3DSG. At K=100 it loses VL-SAT Recall versus the
 strict family product by -.00655 (95% CI [-.01251,-.00185]); at smaller K it
 loses Recall significantly on both sources, including -.24673
 [-.27444,-.21903] on Open3DSG at K=20. This shows that the strong SGFN
@@ -605,8 +607,8 @@ reference only; the mechanism is still not presented as a best-formula result.
 
 `experiments/H001_geom_reliability/held_out_primitive_v1/evaluation/` refits
 three source-score-excluded compatibility models on the same 1,061 training
-scans, with the same pairwise objective, exact orbit projection, and
-family-slot route. The conditions remove the exact verifier scalar, remove its
+scans, with the same pairwise objective, exact transformation averaging, and
+family-aware ranking procedure. The conditions remove the exact verifier scalar, remove its
 entire reconstructible measurement family, or retain only alternative
 overlap/horizontal-context evidence. All 14 integrity validations pass,
 including the official 548-context/157-scan universe and exact reproduction of
@@ -631,6 +633,51 @@ retains a joint improvement. At K=100 every held-out condition improves both
 point metrics on all three predictors. This reduces, but does not resolve, the
 construct-validity risk because correlated geometry and constructed labels
 remain shared.
+
+## Orthogonal Raw-Surface Audit
+
+`experiments/H001_geom_reliability/orthogonal_geometry_audit_v1/` freezes an
+automatic construct-validity audit before evaluation. Its point estimator uses
+instance vertices; its mesh estimator uses area-weighted triangle centroids.
+Neither estimator reads the OBB center, axes, distance, overlap, or gap features
+used by the compatibility model and main verifier, nor does it read source
+scores, compatibility scores, or existing verifier labels. Proximity and
+relative vertical are the only primary audit families. All percentile and
+minimum-surface-support rules are fitted on the 1,061-scan training split.
+
+The consensus status is decided only when point and mesh give the same binary
+status; all other supported disagreements are uncertain. Scan-cluster paired
+intervals use shared resampling indices across both ranking methods, all K, all
+audits, and all three predictors.
+
+| Source | K | Source consensus V | RelCompat3D consensus V | dV [paired scan CI] | Source / method coverage |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| VL-SAT | 50 | .1643 | .1433 | -.0210 [-.0242,-.0181] | .9543/.9551 |
+| VL-SAT | 100 | .2600 | .2147 | -.0453 [-.0492,-.0420] | .9505/.9523 |
+| Open3DSG | 50 | .4596 | .0483 | -.4113 [-.4284,-.3937] | .9777/.9823 |
+| Open3DSG | 100 | .4087 | .0861 | -.3226 [-.3364,-.3077] | .9779/.9807 |
+| SGFN | 50 | .1156 | .0813 | -.0343 [-.0392,-.0300] | .9570/.9576 |
+| SGFN | 100 | .2155 | .1596 | -.0559 [-.0605,-.0514] | .9559/.9575 |
+
+Point and mesh audits separately agree on the K=50/100 direction for every
+predictor. Across the full K grid, their paired intervals are below zero except
+for the exact SGFN K=5 tie and the point-only SGFN K=10 interval, which includes
+zero; mesh and strict consensus are negative at SGFN K=10. Exact-label Recall
+matches the primary public/full 548-context artifact bit-for-bit.
+
+At K=50, RelCompat3D strict-consensus coverage (including uncertain rows) is
+`.9551/.9823/.9576` for VL-SAT/Open3DSG/SGFN, while decidable coverage is
+`.7099/.8375/.7992` and uncertainty among supported rows is
+`.2567/.1475/.1654`. At K=100 the corresponding decidable coverage is
+`.7377/.8251/.7765`. The Violation denominator follows the frozen all-status
+contract and retains uncertain rows rather than dropping them.
+
+The synthetic test translates proximity pairs apart and vertical pairs in the
+predicate-consistent direction over 0, 0.5, 1, and 2 pair-scale units. Frozen
+compatibility is monotone in all 512 cases per family. Point/mesh response is
+96.3%/94.7% monotone for proximity and 100%/100% for vertical. This provides an
+orthogonal measurement-level mechanism check, while the shared reconstructed
+PLY surface and training ontology remain residual construct dependencies.
 
 ## Optional Expansion Status
 

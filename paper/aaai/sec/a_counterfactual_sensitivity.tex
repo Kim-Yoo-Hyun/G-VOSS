@@ -4,16 +4,17 @@ We regenerate the training and internal-development targets and refit the
 proximity and vertical heads under nine one-factor-at-a-time conditions. Each
 variant recomputes normalization from the 1,061 training scans; no final-
 validation row enters target generation, normalization, or fitting. The
-default refit is bit-exact to the main model. Support/contact remains a
-source-order pass-through in every condition.
+default refit reproduces the main model and metrics exactly. Support/contact is
+kept in source order in every condition.
 
 \begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{2.4pt}
 \caption{\textbf{Counterfactual-policy sensitivity.} Order is linked-positive
-ordering accuracy on the 117-scan internal-development split. Source cells are
-Recall / verifier V. Only the named factor changes from the default.}
+ordering accuracy over the re-ranked proximity and vertical sensitivity pairs on
+the 117-scan internal-development split. Source cells are Recall / verifier V.
+Only the named factor changes from the default.}
 \label{tab:counterfactual-sensitivity}
 \begin{tabular}{lrrrr}
 \toprule
@@ -48,7 +49,7 @@ Pair weight .5 & 1.000 & .9658/.0294 & .5687/.0324 & .9303/.0347 \\
 
 Across all variants, the maximum absolute change from the default is .0023
 Recall and .0011 V at $K=50$, and .0040 Recall and .0020 V at $K=100$.
-Every variant preserves the source-score point-estimate improvement on both
-metrics for all three predictors at $K=50$ and $K=100$. This reduces dependence
+Every variant retains lower V and no lower Recall than source scoring for all
+three predictors at $K=50$ and $K=100$. This reduces dependence
 on a particular threshold or negative count, but does not make the constructed
 target independent of the verifier.

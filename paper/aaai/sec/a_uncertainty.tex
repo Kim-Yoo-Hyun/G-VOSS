@@ -1,9 +1,9 @@
 \section{Verifier-Uncertainty Sensitivity}
 
-The reported $\mathrm{V@K}_{all}$ includes uncertain rows in its denominator but
+The reported $\mathrm{V@K}_{all}$ includes uncertain candidates in its denominator but
 does not label them satisfied. We therefore recompute each ranking with
-$\mathrm{V@K}_{dec}$ over satisfied/violated rows, uncertainty rate $U@K$, and
-a pessimistic bound $\mathrm{V@K}_{pess}$ that counts every uncertain row as a
+$\mathrm{V@K}_{dec}$ over satisfied/violated candidates, uncertainty rate $U@K$, and
+a pessimistic bound $\mathrm{V@K}_{pess}$ that counts every uncertain candidate as a
 violation. Table~\ref{tab:uncertainty-sensitivity} gives the $K=100$
 comparison.
 
@@ -19,22 +19,24 @@ four reported quantities.}
 Source & Condition & $V_{all}$ & $V_{dec}$ & $U$ & $V_{pess}$ \\
 \midrule
 VL-SAT & Source score & .0476 & .0729 & .3464 & .3941 \\
-VL-SAT & \method{} routed & .0295 & .0452 & .3473 & .3768 \\
+VL-SAT & \method{} & .0295 & .0452 & .3473 & .3768 \\
 \midrule
 Open3DSG & Source score & .1242 & .2126 & .4161 & .5402 \\
-Open3DSG & \method{} routed & .0324 & .0548 & .4084 & .4408 \\
+Open3DSG & \method{} & .0324 & .0548 & .4084 & .4408 \\
 \midrule
 SGFN & Source score & .0630 & .1005 & .3732 & .4362 \\
-SGFN & \method{} routed & .0350 & .0565 & .3803 & .4153 \\
+SGFN & \method{} & .0350 & .0565 & .3803 & .4153 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Routed-minus-source changes in $V_{dec}$ are $-.0277$ for VL-SAT, $-.1578$
+\method{}-minus-source changes in $V_{dec}$ are $-.0277$ for VL-SAT, $-.1578$
 for Open3DSG, and $-.0440$ for SGFN; their paired 95\% intervals all exclude
 zero. Uncertainty-rate changes are +.0009, $-.0077$, and +.0071, whereas
-pessimistic-V changes are $-.0173$, $-.0994$, and $-.0209$. Thus the reported
-conclusion holds without requiring uncertainty to decrease uniformly.
-The hard-rule baseline has zero all-status V but retains uncertain rows and
-therefore has pessimistic V of .3712/.4722/.4042. Thus zero measured violation
+pessimistic-V changes are $-.0173$, $-.0994$, and $-.0209$. Thus both
+decidable-only and pessimistic V are lower for all three predictors even though
+uncertainty does not decrease uniformly.
+The hard-rule baseline has zero Violation when the denominator includes all
+verifier statuses, but it retains uncertain candidates and therefore has pessimistic
+V of .3712/.4722/.4042. Thus zero measured violation
 does not imply reliable or complete selection.

@@ -1,6 +1,6 @@
 # Paper Workspaces
 
-Last updated: 2026-07-16 KST
+Last updated: 2026-07-17 KST
 
 This directory contains paper-writing artifacts. It is a manuscript workspace,
 not an experiment-result root. Paper-result runtime records live under
@@ -17,23 +17,24 @@ paper-level framing rules live in `docs/paper.md`.
 
 ## Current H001 Route
 
-- Paper-facing title: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geometric Compatibility for 3D Scene Graph Relations`
+- Paper-facing title: `Beyond Semantic Confidence: Relation-Consistent Geometric Re-ranking for 3D Scene Graphs`
 - Target venue route: `paper/aaai/`
 - Historical alternate route: `archive/paper/iccv/`
 - Current claim style: scoped relation-reliability paper for
-  geometry-checkable 3D Scene Graph relation families.
+  3D Scene Graph relations whose consistency can be assessed from reconstructed
+  ordered-pair geometry.
 - Non-claim: broad open-vocabulary 3DSSG generation improvement.
 - Active AAAI-27 Docker build: `paper/aaai/main_aaai27.pdf`, SHA256
-  `4b6be0f799bc20f551e6801394c040051dab9d2374110ad3a276f5b4ac805a17` (9 pages: technical
-  content through page 7 and references on pages 8--9),
+  `5a3012f8d529e147f647c3a92d388940f675b2f98728371429a3a965e4d4f46f` (9 pages: main text
+  through page 7, where references begin and continue through page 9),
   `paper/aaai/supplement_aaai27.pdf`, SHA256
-  `865ae2ded7eb03b27f61b23078017e533dce11031c647941d5ffe67c8b476457`
+  `a3138be52be01c5d30b0e9494c9f2cae0fa681868b8459fcd0281d4f274b6e8f`
   (5 pages), and
   `paper/aaai/reproducibility_checklist_aaai27.pdf`, SHA256
-  `4f7b254f2ee62291249f7a68e8d30fe34ea6976df91f235686a4e7740448e7fc`
+  `1c3efa0baeb0514da8b8587386cbe7ec1260b2358f5f9f04ad8cb2d015419d`
   (2 pages). Final main log:
-  `logs/h001_main_counterfactual_20260716_010956.log`; final supplement log:
-  `logs/h001_supp_counterfactual_20260716_011157.log`; image:
+  `logs/h001_main_claim_strengthening_final_20260717_193117.log`; final supplement log:
+  `logs/h001_supplement_claim_strengthening_20260717_193117.log`; image:
   `h001-aaai27-tex:20260712`. Type 3 fonts, unresolved references/citations,
   LaTeX errors, and overfull boxes are zero.
 - The active submission excludes Codex-derived physical-validity numbers. The
@@ -44,38 +45,47 @@ paper-level framing rules live in `docs/paper.md`.
   isolation -> method -> experiments -> discussion/limitations. It uses six
   top-level sections; Problem Setup is inside Method, and Setup/results are
   grouped under Experiments. Figure 1 is failure-grounded,
-  Figure 2 connects K=5/10/20/50/100 for three sources, and Figure 3 shows
-  proximity and relative-vertical corrections plus one residual support/contact
-  violation. The main comparison is one joint
+  Figure 2 uses percentage axes and labels K=5/10/20/50/100 without a selected
+  point marker. Figure 3 is a pair--evidence--outcome grid with proximity and
+  relative-vertical corrections plus one residual support/contact case. The main comparison is one joint
   Recall/Violation table placed before its interpretation, followed by a
   single-column K=50/100 six-control table using the same public/full
-  family-slot route. All three figures are included as vector PDFs.
-- Current verified OpenReview field bundle:
-  `release/h001_aaai27_openreview_20260716_011716/`. It contains exact copies
-  of the three canonical PDFs and an anonymous 205-record source/evidence ZIP
-  whose extracted LaTeX source was rebuilt in Docker. The prior
+  family-aware ranking procedure. Both tables use percentage points and concise condition
+  names; all three figures are included as vector PDFs. Figure 3 additionally
+  uses point shape and box line style so subject/object identity survives
+  grayscale printing.
+- Most recent verified OpenReview field bundle:
+  `release/h001_aaai27_openreview_20260717_193626/`. Its anonymous 198-record
+  source/evidence ZIP passes extracted-source Docker rebuild and canonical
+  text-identity checks. The prior
   Replica-disclosure and other superseded PDFs are indexed under
   `archive/paper/aaai_snapshots/`; the 2026-07-12 bundle and compact tarball are
   historical handoff snapshots.
 - RelCompat3D is framework-first. Its primary decision rule applies the strict
-  train-only relation-algebra-constrained product within proximity/vertical
-  source-family slots and preserves support/contact ordering. Unrestricted
-  product, same-route rank-average/RRF, and the matched nonlinear model are
+  train-only relation-consistent product within proximity/vertical
+  source-family positions and preserves support/contact ordering. The all-family
+  product, matched rank-average/RRF, and the nonlinear model are
   comparisons; none is claimed universally dominant. Pooled compatibility
   is an ablation, RRF a strong comparator, and compatibility-only ranking a
   control. Internal metric keys no longer appear in manuscript prose or
   rendered figures.
-- Linked-counterfactual margin fitting with exact proximity-swap/vertical-
-  inverse orbit projection is promoted as the main compatibility model. All
+- Linked-counterfactual margin fitting with exact proximity symmetry and joint
+  endpoint-swap/inverse-predicate transformation averaging defines the main
+  compatibility model. All
   main comparators, uncertainty results, figures, and tables were regenerated
   together under `structured_main_v1/`; the internal orbit name is retained
   only for artifact provenance.
-- Orbit projection and family-slot routing now have explicit propositions and
-  complete supplement proofs. The supplement also reports three strict
+- Transformation averaging has one compact exact-consistency proposition;
+  family-sequence preservation is explained as a direct construction property.
+  The supplement proves or verifies both. It also reports three strict
   train-only verifier-primitive holdouts: exact-scalar removal preserves nearly
   the full result, while broader removal exposes the remaining dependence on
   correlated geometry.
-- Main Table 1 directly includes the same-route matched MLP; pooled product is
+- The supplement reports paired scan-cluster intervals for all five K values
+  and a bounded CPU benchmark for the re-ranking layer. The latter times only
+  compatibility, transformation averaging, sorting, and output assembly from
+  preloaded rows; it is not end-to-end source inference latency.
+- Main Table 1 directly includes the matched MLP under the same ranking procedure; pooled product is
   now a supplement-only family-conditioning ablation. A nine-condition
   train-only counterfactual-policy sensitivity varies thresholds, negative
   count, and pairwise-loss weight. All variants preserve the three-source
@@ -86,7 +96,7 @@ paper-level framing rules live in `docs/paper.md`.
   ReplicaSSG/FROSS appears only as a supplemental retrospective transfer stress
   test with all K values and explicit K=100 saturation.
 - H001 now uses the factor contract `T_e` = predicate/family semantics, `G_e`
-  = raw predicate-independent same-pair geometry, `Z_e` = source relation score,
+  = predicate-independent pair-geometry measurements, `Z_e` = source relation score,
   and `C_e = sigmoid(h_a(Phi(T_e,G_e)))`, with `Z_e notin C_e` and
   `S_e = F(Z_e,C_e)`. `C_e` scores a constructed positive/counterfactual
   target and is not a physical-validity probability. The legacy
@@ -144,31 +154,33 @@ paper-level framing rules live in `docs/paper.md`.
 - `h002_compatibility_routing/risk.md`: H002 reviewer-risk and claim-boundary register.
 - `paper_nonsub/`: H001 non-submission manuscript variant containing the
   Codex proxy-audit appendix and explicit non-human limitations.
-- `preview.md`: current paper handoff snapshot. Owns current claim, secured
-  evidence, key metrics, caveats, reviewer-defense map, and recovery file list.
-- `progress.md`: experiment progression rationale. Owns why each hypothesis and
-  experiment stage was run, why the next stage was needed, and how results
-  should be interpreted.
-- `outline.md`: paper structure plan. Owns title candidates, contribution
-  statements, abstract/Introduction skeletons, section roles, evidence
-  placement, table/figure plan, and claim-consistency guardrails.
+- `preview.md`: current paper handoff snapshot. Owns the current claim,
+  evidence summary, canonical build/release pointers, and remaining user tasks.
+- `outline.md`: current six-section manuscript plan. Owns the causal narrative,
+  contribution statements, section responsibilities, and figure/table placement.
+- `method.md`: accessible method guide. Owns factor definitions, training
+  targets and losses, exact transformation consistency, score combination, and
+  family-aware ranking in implementation-faithful mathematical form.
+- `experiment.md`: accessible experiment guide. Owns evaluation questions,
+  comparison methods, metrics, uncertainty analysis, statistical procedure,
+  and result-reading rules.
+- `progress.md`: current completion ledger. Owns completed components, fixed
+  decisions, deferred tracks, and remaining work; it is not a historical run log.
 - `draft.md`: first-pass manuscript prose. Owns the readable paper body from
   title through conclusion before final venue-specific compression.
-- `figures.md`: figure source lock. Owns Figure 1-3 claims, source artifacts,
-  locked values/cases, caption constraints, and figure non-claims.
+- `figures.md`: complete Figure 1--3 redraw specification. Owns canvas and panel
+  composition, visual flow, exact values and plot coordinates, source cases,
+  captions, and figure non-claims.
 - `risk.md`: reviewer-risk register. Owns attack surface, weakness/mitigation
   tracking, and priority order for logic, novelty, evidence, and
   reproducibility defenses.
-- `review.md`: orthogonal persona review. Owns the current multi-reviewer
-  assessment of claim, contribution, method, experiment design, and submission
-  risks.
+- `review.md`: consolidated three-persona review. Owns the current assessment of
+  novelty, experimental validity, writing/presentation, and submission readiness.
 - `appendix.md`: appendix/supplement plan. Owns calibrator/threshold
   provenance, detailed caveat consistency checks, appendix table candidates,
   optional Figure 3 decision notes, and Qwen-VL extension boundary.
 - `references.bib`: shared BibTeX bibliography for draft and venue-specific
   LaTeX sources.
-- `top_tier_review.md`: comparison-driven paper style review and table/figure
-  layout decision log.
 - `aaai/`: current AAAI-style LaTeX source, official style files, Docker build
   route, PDF build status, and venue-local README.
 - `archive/paper/iccv/`: historical ICCV-style LaTeX source route. Keep as
@@ -184,13 +196,15 @@ For paper-writing work:
 1. `docs/paper.md`
 2. `paper/README.md`
 3. `paper/preview.md`
-4. `paper/risk.md`
-5. `paper/review.md`
-6. `paper/appendix.md`
-7. `paper/outline.md`
-8. `paper/draft.md`
-9. `paper/figures.md`
-10. `paper/aaai/README.md`
+4. `paper/outline.md`
+5. `paper/method.md`
+6. `paper/experiment.md`
+7. `paper/figures.md`
+8. `paper/risk.md`
+9. `paper/review.md`
+10. `paper/appendix.md`
+11. `paper/draft.md`
+12. `paper/aaai/README.md`
 
 For H002 paper-writing work:
 
@@ -213,9 +227,14 @@ For experiment result or artifact recovery, start from
 - If claim boundary, novelty, or reviewer-defense rules change, update
   `docs/paper.md`, `summary.md`, and the relevant paper planning file.
 - If current evidence, caveats, or recovery files change, update `preview.md`.
-- If experiment-stage rationale changes, update `progress.md`.
+- If completion status, deferred tracks, or remaining work changes, update
+  `progress.md`.
 - If paper structure, contribution wording, or table/figure placement changes,
   update `outline.md`.
+- If the implemented factorization, objectives, algebraic consistency, or
+  ranking procedure changes, update `method.md`.
+- If comparisons, metrics, statistical procedures, or evaluation interpretation
+  changes, update `experiment.md`.
 - If prose changes, update `draft.md` or the active venue source under
   `paper/aaai/`.
 - If figure claims, source rows, values, or captions change, update

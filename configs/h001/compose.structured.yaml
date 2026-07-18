@@ -125,6 +125,29 @@ services:
       - --out
       - /workspace/experiments/H001_geom_reliability/support_contact_routing_v1/scan_cluster_sensitivity
 
+  runtime_benchmark:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    environment:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/geocalib/benchmark_relcompat3d_runtime.py]
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/runtime_v1/protocol.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/runtime_v1/evaluation
+
   held_out_primitive_evaluation:
     build:
       context: ../..
@@ -214,6 +237,29 @@ services:
       - /workspace/experiments/H001_geom_reliability/open3dsg_official_route_v1/protocol.json
       - --out
       - /workspace/experiments/H001_geom_reliability/open3dsg_official_route_v1/evaluation
+
+  orthogonal_geometry_audit:
+    build:
+      context: ../..
+      dockerfile: configs/h001/Dockerfile
+    image: h001-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    environment:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/geocalib/run_orthogonal_geometry_audit.py]
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/H001_geom_reliability/orthogonal_geometry_audit_v1/protocol.json
+      - --out
+      - /workspace/experiments/H001_geom_reliability/orthogonal_geometry_audit_v1/evaluation
 
   external_dataset_transfer:
     build:

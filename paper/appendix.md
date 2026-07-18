@@ -11,9 +11,10 @@ remain under `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-groun
 ## Current Appendix Role
 
 The current main paper keeps the joint five-budget source table and the
-K=50/100 routed ablation table in the AAAI body. Detailed confidence intervals,
-family slices, method diagnostics, counterfactual-policy sensitivity, and
-external transfer remain supplemental. The nine-condition train-only
+K=50/100 routed ablation table in the AAAI body. All-K scan-cluster confidence
+intervals, family slices, method diagnostics, bounded CPU cost/parameter
+reporting, counterfactual-policy sensitivity, and external transfer remain
+supplemental. The nine-condition train-only
 sensitivity varies proximity threshold, vertical margin, negative cap, and
 pairwise-loss weight one factor at a time; its compact owner is
 `experiments/H001_geom_reliability/counterfactual_sensitivity_v1/`.
@@ -246,16 +247,14 @@ but fails Open3DSG K=100 and VL-SAT K=50. These are transparent retrospective
 development diagnostics, not supplement result evidence, and do not change
 the active manuscript.
 
-## Relative-Size Supplement Promotion
+## Relative-Size Artifact Boundary
 
-The user approved `relative_size` only as one main-text scope sentence and a
-full technical-supplement section. `paper/aaai/sec/a_relative_size.tex` owns the
-1,061/117/157 firewall, T/G/T-by-G feature contract, disjoint point-view
-verifier, all-source K=`{5,10,20,50,100}` paired intervals, four-family K=100
-result, global composition change, point/OBB baselines, rank-average boundary,
-and residual same-segmentation construct caveat. The family stays out of Figure
-1, the contribution list, and the headline learned-method evidence because the
-fixed robust-point rule matches or improves its Violation.
+`relative_size` remains a completed secondary artifact but is excluded from the
+submitted main paper, technical supplement, and release ZIP. Its fixed
+robust-point rule matches or improves the learned score's Violation, so the
+extension does not strengthen the core learned-method claim. The full analysis
+remains under `experiments/H001_geom_reliability/relative_size_v1/` and
+`paper/aaai/sec/a_relative_size.tex` for later use.
 
 ## Qwen-VL Boundary
 

@@ -1,9 +1,8 @@
 \section{External Transfer Stress Test}
 
-We apply the 3DSSG-trained compatibility model and family-slot rule without
-target-specific refitting
-to the official ReplicaSSG test scenes using FROSS predictions. No ReplicaSSG
-row is used for fitting, normalization, imputation, or hyperparameter selection.
+We apply the 3DSSG-trained compatibility model and family-aware ranking rule to
+the official ReplicaSSG test scenes using FROSS predictions. No target-specific
+parameter fitting, normalization, or imputation is performed in this evaluation.
 The exact mapping covers \texttt{near}, \texttt{above}, and \texttt{under};
 support/contact is excluded because the ontologies do not provide an exact
 mapping. We report this as a transfer stress test rather than evidence of
@@ -15,7 +14,7 @@ dataset-level generalization.
 \setlength{\tabcolsep}{3.6pt}
 \caption{\textbf{ReplicaSSG/FROSS transfer across all reported budgets.}
 R is exact-label Recall over 172 relations and V is verifier-derived Violation
-(lower is better). The route uses the same model and ranking rule as the main
+(lower is better). The experiment uses the same model and ranking rule as the main
 experiment.}
 \label{tab:replica-transfer}
 \begin{tabular}{rccc}
@@ -34,9 +33,7 @@ $K$ & Source R/V & \method{} R/V & $\Delta$R/$\Delta$V \\
 Paired scene-bootstrap intervals support joint improvement at $K=10$
 ($\Delta$R [.0048,.1467], $\Delta$V [$-.1000$,$-.0091$]) and $K=50$
 ($\Delta$R [.0179,.0811], $\Delta$V [$-.0683$,$-.0185$]). The $K=20$
-Recall interval touches zero, while $K=5$ is inconclusive. At $K=100$, the
-product changes only one selected row: 86.28\% of source scores are exactly
-zero, and unresolved boundary ties in 9 of 11 scenes make multiplicative
-re-ranking nearly inert. Candidate support also caps exact-label Recall at
-76/172 (44.19\%). The stress test therefore supports budget-dependent transfer,
-not dataset-level generalization.
+Recall interval touches zero, while $K=5$ is inconclusive. At $K=100$, heavy
+quantization of the source relation score makes multiplicative re-ranking nearly inert, and
+candidate support caps exact-label Recall at 44.19\%. The stress test therefore
+supports budget-dependent transfer, not dataset-level generalization.

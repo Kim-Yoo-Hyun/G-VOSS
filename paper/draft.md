@@ -10,21 +10,21 @@ readable end to end before final caption compression or final
 bibliography/build verification. The first ICCV-style LaTeX source conversion
 now lives under `archive/paper/iccv/`.
 
-Current paper-facing title is `Beyond Semantic Confidence: Relation-Algebra-
-Constrained Geometric Compatibility for 3D Scene Graph Relations`; the method name is
+Current paper-facing title is `Beyond Semantic Confidence: Relation-Consistent
+Geometric Re-ranking for 3D Scene Graphs`; the method name is
 `RelCompat3D`. The active manuscript source is
 `paper/aaai/`. This draft is a planning prose copy only; final submission text,
 tables, captions, and current metrics should be checked against `paper/aaai/`,
 `paper/preview.md`, `paper/progress.md`, and `summary.md`. Framework-first
-override, 2026-07-13: the relation-algebra-constrained product is the main
-method and evaluated rank-average is a scale-robust RelCompat3D instantiation;
+override, 2026-07-17: the transformation-consistent within-family product is the
+main ranking rule and evaluated rank-average is a comparison;
 neither is universally dominant. The active AAAI source contains the authoritative SGFN
 source comparison, family decomposition, and human-validity boundary. Older
 single-main-score wording below is preserved only as superseded planning prose.
 
 Factorization override, 2026-07-10: the active manuscript defines `T_e` as
-predicate/family semantics, raw `G_e` as predicate-independent same-pair
-geometry, `Z_e` as source confidence, and
+predicate/family semantics, `G_e` as predicate-independent pair-geometry
+measurements, `Z_e` as the source relation score, and
 `C_e=sigmoid(h_a(Phi(T_e,G_e)))`, enforcing `Z_e notin C_e` before final
 `S_e=F(Z_e,C_e)` fusion. It is a bounded score for a constructed
 GT-positive/counterfactual target, not a physical-validity probability. Older
@@ -64,8 +64,8 @@ Current key map:
 
 ## Title
 
-Beyond Semantic Confidence: Relation-Algebra-Constrained Geometric
-Compatibility for 3D Scene Graph Relations
+Beyond Semantic Confidence: Relation-Consistent Geometric Re-ranking for 3D
+Scene Graphs
 
 ## Abstract
 
@@ -287,8 +287,8 @@ r_i = (scan_i, subgraph_i, s_i, o_i, p_i, a_i, score_sem_i),
 where `s_i` and `o_i` are subject and object instance identifiers, `p_i` is the
 predicate label, `a_i` is the mapped predicate family, and `score_sem_i` is the
 source semantic confidence. The tuple `(scan_i, subgraph_i, s_i, o_i)` is the
-identity key used to preserve the object pair across prediction, geometry, and
-ground-truth joins.
+identity tuple retained when associating the prediction with geometry and
+ground truth.
 
 For each prediction row, we join object-pair geometry evidence
 

@@ -3,7 +3,7 @@
 \paragraph{3D Scene Graph relation prediction.}
 3D Scene Graphs organize indoor scenes as object-relation structures grounded
 in 3D space \cite{armeni20193dscenegraph}. The 3RScan/3DSSG setting
-established predicate recall for 3D relation prediction
+introduced a benchmark and evaluation setting for 3D relation prediction
 \cite{wald2020learning3dssg}, while incremental and online systems study how
 scene graphs can be constructed from RGB-D streams or spatial perception stacks
 \cite{wu2021scenegraphfusion,hughes2022hydra}. Recent predictors improve
@@ -13,7 +13,7 @@ and edge-centric relational reasoning
 \cite{zhang2021sggpoint,feng2023smka,wang2023vlsat,koch2024sgrec3d,heo2025ocrl3dssg,ma2026leo}.
 These methods already use geometry; \method{} asks the complementary question
 of whether a fixed high-scoring predicate is geometrically compatible with the
-same reconstructed object pair.
+corresponding reconstructed ordered pair.
 
 \paragraph{Open-vocabulary 3D graphs.}
 Open-vocabulary 3D perception provides queryable object and region features
@@ -25,52 +25,55 @@ work extends this line toward open-vocabulary objects, open-set relations, VLM
 features, online graph generation, and functional relations
 \cite{koch2024open3dsg,chen2024ccl3dsgg,hou2025fross,zhang2025openfungraph,wang2025octreegraph}.
 This line raises the reliability requirement: when relation edges are
-language-facing scene representations, plausible text labels must still refer
-to object pairs that satisfy the corresponding spatial relation.
+language-facing scene representations, it becomes important to assess whether
+plausible text labels are consistent with the reconstructed geometry of the
+corresponding ordered pair.
 
 \paragraph{Geometry-aware relation evidence.}
-A broad set of 3D reasoning methods already uses geometry: edge features,
-support/contact patterns, affordance geometry, metric distance, topology, and
-semantic-geometric fusion
-\cite{zhang2021sggpoint,feng2023smka,huang2025fireplace,shao2025great,xie2024sgpgm}.
+3D relation prediction and graph reuse already rely on edge features, metric
+distance, topology, and semantic-geometric fusion
+\cite{zhang2021sggpoint,feng2023smka,xie2024sgpgm}. Adjacent work on object
+placement and affordance grounding also uses support/contact patterns and
+affordance geometry \cite{huang2025fireplace,shao2025great}.
 Scene graph alignment and registration methods further demonstrate that graph
 structure and geometric consistency matter when scene graphs are reused for
 matching, alignment, and downstream geometric tasks
 \cite{sarkar2023sgaligner,xie2024sgpgm}.
 
-The contemporaneous RelWitness preprint proposes visual-geometric witnesses
-and witness-consistent decoding for open-vocabulary 3D scene graph generation
-\cite{nguyen2026relwitness}. Statistical confidence rescoring refines 3D scene
-graph predictions from multi-view images using semantic masks, neighboring
-relations, and statistical priors \cite{yeo2025scrssg}. These methods modify
-relation generation or learn source-specific rescoring. \method{} instead
-operates on fixed candidate outputs and estimates same-pair compatibility with
-neither predictor identity nor source score as input.
+RelWitness integrates visual-geometric witnesses into open-vocabulary 3D scene
+graph learning and decoding \cite{nguyen2026relwitness}. Statistical confidence
+rescoring learns source-specific refinement from semantic masks, neighboring
+relations, and statistical priors \cite{yeo2025scrssg}. PUF introduces
+training-free uncertainty-aware fusion for online scene-graph association and
+evidence accumulation \cite{yang2026puf}. \method{} instead evaluates fixed
+relation candidates using predicate--geometry compatibility whose inputs
+exclude predictor identity and the source relation score.
 
-Recent systems sharpen this boundary. SGFormer++ uses a
-spatial feature adapter inside an incremental predicate predictor
-\cite{qi2026sgformerpp}; RelGraphOV prunes geometrically implausible relations
-while learning an open-vocabulary scene representation
-\cite{chen2026relgraphov}; and Transformation-Aware Decoupling separates
-predicate reasoning according to how labels transform under yaw-viewpoint
-changes inside the generator \cite{sun2026tad}. In contrast, \method{} leaves
-each predictor fixed and applies endpoint/predicate algebra to same-pair
-geometry after prediction, with source score excluded from compatibility.
+Several recent systems incorporate geometry or transformation structure directly
+into relation generation. GEODE conditions predicate generation on updated
+geometry tokens inside a discrete-diffusion generator \cite{feng2026geode},
+while RelGraphOV prunes geometrically implausible connections when learning an
+open-vocabulary scene representation \cite{chen2026relgraphov}.
+Transformation-Aware Decoupling separates predicate reasoning according to how
+labels transform under yaw-viewpoint changes inside the generator
+\cite{sun2026tad}. In contrast, \method{} leaves each predictor fixed. After
+prediction, it averages compatibility over applicable joint transformations of
+the predicate and ordered-pair geometry, while excluding the source relation
+score from compatibility inputs.
 
 Neau et al. mine spatial, functional, and relation-algebra constraints and use
 declarative reasoning to refine fixed image-SGG outputs, reporting a Constraint
 Violation Rate alongside task metrics \cite{neau2026commonsense}. \method{}
 differs in estimating continuous compatibility from reconstructed 3D geometry,
-preserving ordered-pair identity, and enforcing applicable 3D relation-algebra
-orbits before joint recall--violation evaluation.
+preserving ordered-pair identity, and enforcing applicable endpoint/predicate
+transformations before joint Recall@$K$--Violation@$K$ evaluation.
 
 \paragraph{Reliability evaluation.}
 Standard \rAt{K} asks whether the correct predicate appears near the top, not
-whether the predicted relation is physically valid in the reconstructed scene.
+whether the predicted relation is geometrically consistent with the reconstructed scene.
 Confidence calibration asks whether model scores reflect empirical correctness
-likelihood \cite{guo2017calibration}, and selective prediction makes risk and
-coverage explicit \cite{geifman2017selective}. Inspired by this joint-utility
-view, \method{} standardizes prediction rows, joins same-pair 3D evidence, and
-reports exact-label recall together with verifier-derived violation. Its
+likelihood \cite{guo2017calibration}. \method{} instead associates fixed relation
+predictions with 3D evidence from the corresponding ordered subject--object pair
+and reports exact-label Recall@$K$ together with verifier-derived Violation@$K$. Its
 compatibility output is a bounded ranking score, not a probability of physical
 validity.

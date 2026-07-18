@@ -2,53 +2,64 @@
 
 \subsection{Experimental Setup}
 
-\paragraph{Datasets and evaluation scope.}
+\paragraph{Data and splits.}
 Open3DSG, VL-SAT, and SGFN provide complementary open-vocabulary and closed-set
-relation predictors. Together they
-test cross-predictor robustness under one geometry-identifiable 3DSSG target.
-All use the same scope: 157 scans, 548
+relation predictors and enable comparison across predictors on a shared 3DSSG
+target containing relation families whose consistency can be assessed from
+reconstructed ordered-pair geometry. All evaluations use the same scope: 157 scans, 548
 relation contexts, and 3,972 exact-label
-ground-truth relations from support/contact, proximity, and relative vertical
+ground-truth relations from support/contact, proximity, and vertical-order
 families. Ground-truth membership is used only when
-computing recall, never to filter or rank candidate relations.
-The supplement evaluates relative size as a secondary scope extension; a
-fixed robust-point rule is equally strong within that family, so it is not used
-as core learned-method evidence.
+computing Recall@$K$, never to filter or rank candidate relations.
 
-% Declared before the results prose so the two-column float appears at the
-% beginning of the result presentation rather than after the conclusion.
+% Place the full-width results table at the next page top. Its rendered
+% position is immediately above the cross-predictor result discussion; moving
+% this declaration past the subsection heading creates an extra technical page.
 \input{sec/main_results_table}
 
-Open3DSG uses the official non-averaged model and public preprocessing. Every
-official context is retained, with unavailable candidate lists treated as
+Open3DSG uses the publicly released model and preprocessing pipeline. Every
+evaluation context is retained, with unavailable candidate lists treated as
 empty; coverage and denominator sensitivities are in the supplement.
 
-\paragraph{Conditions and training boundary.}
-We compare the source score and routed \method{} with same-route rank-average,
-RRF, and supervision-matched nonlinear fusion. Unrestricted and pooled products
-diagnose routing scope and family conditioning. A separate exact-label
-rescorer uses stronger SGFN-specific supervision. Controls perturb the
-predicate, pair identity, geometry stream, endpoint order, source-score factor,
-or available distance evidence; exact transformations are in the supplement.
-The compatibility inputs remain limited to $T$, predicate-independent $G$, and
-$T\times G$. Normalization, imputation, and model parameters use only 1,061
-training scans; architecture and routing use the 117-scan development split.
+\paragraph{Baselines and training.}
+We compare the source relation score and \method{} with rank-average, RRF, and a
+matched multilayer perceptron (matched MLP) using the same family-aware
+re-ranking procedure. Product (all families) tests the effect of re-ranking
+support/contact, and a pooled compatibility model tests whether family-specific
+fitting is necessary. Controls perturb the predicate, pair identity,
+pair-geometry measurements, endpoint order, source relation score, or distance
+measurements; exact transformations are in the supplement. The compatibility
+inputs remain limited to predicate and family indicators $T$,
+predicate-independent pair-geometry measurements $G$, and explicit $T\times G$
+interactions. Normalization, imputation, and model parameters use only 1,061
+training scans; model design and the applicable relation families were selected
+on the 117-scan development split.
 The 157-scan evaluation split is never used for fitting. All cross-predictor
 statements concern the shared 3DSSG/3RScan target.
 
-A construct-overlap diagnostic refits train-only models after excluding either
-the exact verifier input or its broader measurement family; all conditions are
-reported in the supplement.
+A feature-removal analysis refits models exclusively on the training split after
+excluding either the exact scalar used by the verifier or all related distance
+or vertical measurements; all conditions are reported in the supplement.
 
 \paragraph{Metrics and uncertainty.}
 Recall@$K$ uses exact labels within each relation context. Violation@$K$ is the
-fraction of selected, geometry-checkable rows classified as violated;
-uncertain rows are not labeled valid. Decidable-only and pessimistic variants,
-uncertainty, and coverage test this definition. We report
-$K\in\{5,10,20,50,100\}$ and use $K=50$ only as a descriptive mid-curve
-reference.
-Paired 95\% intervals use a scan-cluster bootstrap: all contexts from a
-sampled scan move together, with shared indices across conditions. A paired
-context-bootstrap sensitivity is provided in the supplement.
-Within-family and global-top-$K$ family slices expose composition effects that
-may be hidden by the aggregate metric.
+fraction of verifier-assessed selected candidates labeled violated. Its
+denominator includes satisfied, uncertain, and violated candidates, whereas
+only violated candidates enter the numerator. The decidable-only variant
+excludes uncertain candidates from the denominator; the pessimistic variant
+counts them as violations. We report $K\in\{5,10,20,50,100\}$ and discuss
+$K=50$ as an intermediate reported budget. Paired 95\% intervals use a
+scan-cluster bootstrap: all contexts from a sampled scan are resampled jointly,
+with shared indices across conditions. Within-family results and family-specific
+metrics within the selected top-$K$ predictions show whether aggregate changes
+are driven by relation-family composition.
+
+\begin{figure*}[!t]
+    \centering
+    \figmaybe[width=0.98\linewidth]{../generated/figures/figure2_tradeoff.pdf}
+    \caption{\textbf{Recall@K--Violation@K trajectories.} Each line connects
+    $K\in\{5,10,20,50,100\}$ for one predictor and ranking rule. Rightward and
+    downward movement is preferred. Labels mark $K$ on the \method{} curve;
+    Source baseline points follow the same sequence. Axis ranges differ by predictor.}
+    \label{fig:tradeoff}
+\end{figure*}

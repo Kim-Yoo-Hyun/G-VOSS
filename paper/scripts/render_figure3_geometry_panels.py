@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Render geometry-backed Figure 3 panels for selected locked Open3DSG cases.
+"""Render source-backed framework and pair--evidence--outcome figures.
 
-It draws lightweight point-cloud geometry panels from the Open3DSG
-preprocessed payload, not scene crops and not a human audit.
+The qualitative grid uses ordered-pair point clouds from the Open3DSG
+preprocessed payload and links each view to its evidence and ranking outcome.
 """
 
 from __future__ import annotations
@@ -169,7 +169,7 @@ def load_eval_module() -> Any:
 
 
 def attach_structured_product_ranks(cases: dict[str, dict[str, Any]]) -> None:
-    """Attach unrestricted-product and applicability-routed ranks."""
+    """Attach unrestricted-product and family-aware re-ranking ranks."""
     evalmod = load_eval_module()
     sys.path.insert(0, str(ROOT / "src" / "geocalib"))
     import run_structured_main_evaluation as main_eval
@@ -330,28 +330,59 @@ def draw_axes(plot_x: float, plot_y: float, plot_w: float, plot_h: float, x_labe
     parts = [
         f'<rect x="{plot_x:.1f}" y="{plot_y:.1f}" width="{plot_w:.1f}" height="{plot_h:.1f}" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>'
     ]
-    parts.append(svg_text(plot_x + plot_w - 4, plot_y + plot_h + 19, x_label, 15, fill=COLORS["muted"], anchor="end"))
-    parts.append(svg_text(plot_x + 4, plot_y + 16, y_label, 15, fill=COLORS["muted"]))
+    parts.append(svg_text(plot_x + plot_w - 4, plot_y + plot_h + 19, x_label, 18, fill=COLORS["muted"], anchor="end"))
+    parts.append(svg_text(plot_x + 4, plot_y + 18, y_label, 18, fill=COLORS["muted"]))
     return parts
 
 
-def draw_points(points: np.ndarray, dims: tuple[int, int], project: Any, color: str) -> list[str]:
+def draw_points(
+    points: np.ndarray,
+    dims: tuple[int, int],
+    project: Any,
+    color: str,
+    marker: str = "circle",
+    opacity: float = 0.5,
+) -> list[str]:
     parts = []
     for point in points:
         x, y = project(float(point[dims[0]]), float(point[dims[1]]))
-        parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="1.35" fill="{color}" opacity="0.38"/>')
+        if marker == "square":
+            parts.append(
+                f'<rect x="{x-1.35:.1f}" y="{y-1.35:.1f}" width="2.7" height="2.7" '
+                f'fill="{color}" opacity="{opacity:.2f}"/>'
+            )
+        else:
+            parts.append(
+                f'<circle cx="{x:.1f}" cy="{y:.1f}" r="1.35" '
+                f'fill="{color}" opacity="{opacity:.2f}"/>'
+            )
     return parts
 
 
-def draw_bbox(geom: dict[str, Any], dims: tuple[int, int], project: Any, stroke: str, fill: str) -> list[str]:
+def draw_bbox(
+    geom: dict[str, Any],
+    dims: tuple[int, int],
+    project: Any,
+    stroke: str,
+    fill: str,
+    dashed: bool = False,
+    center_marker: str = "circle",
+) -> list[str]:
     x0, y0 = project(float(geom["min"][dims[0]]), float(geom["min"][dims[1]]))
     x1, y1 = project(float(geom["max"][dims[0]]), float(geom["max"][dims[1]]))
     left, right = sorted([x0, x1])
     top, bottom = sorted([y0, y1])
     cx, cy = project(float(geom["center"][dims[0]]), float(geom["center"][dims[1]]))
+    dash = ' stroke-dasharray="6,4"' if dashed else ""
+    center = (
+        f'<rect x="{cx-4.0:.1f}" y="{cy-4.0:.1f}" width="8" height="8" '
+        f'fill="{stroke}" stroke="#ffffff" stroke-width="1"/>'
+        if center_marker == "square"
+        else f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="4.2" fill="{stroke}" stroke="#ffffff" stroke-width="1"/>'
+    )
     return [
-        f'<rect x="{left:.1f}" y="{top:.1f}" width="{right-left:.1f}" height="{bottom-top:.1f}" fill="{fill}" opacity="0.18" stroke="{stroke}" stroke-width="1.6"/>',
-        f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="4.2" fill="{stroke}" stroke="#ffffff" stroke-width="1"/>',
+        f'<rect x="{left:.1f}" y="{top:.1f}" width="{right-left:.1f}" height="{bottom-top:.1f}" fill="{fill}" opacity="0.18" stroke="{stroke}" stroke-width="1.8"{dash}/>',
+        center,
     ]
 
 
@@ -386,65 +417,89 @@ def draw_case_panel(case_id: str, row: dict[str, Any], x: float, y: float, w: fl
     dims, x_label, y_label, view_label = panel_dims(case_id, subject, obj)
     measure = measurements(subject, obj)
 
-    plot_x, plot_y, plot_w, plot_h = x + 18, y + 58, w - 36, 245
+    plot_x, plot_y, plot_w, plot_h = x + 18, y + 100, w - 36, 210
     project, bounds = make_projector(subject, obj, dims, plot_x, plot_y, plot_w, plot_h)
     s_c = project(float(subject["center"][dims[0]]), float(subject["center"][dims[1]]))
     o_c = project(float(obj["center"][dims[0]]), float(obj["center"][dims[1]]))
 
     panel_title = {
-        "open3dsg_case_001": "(a) Routed correction: proximity",
-        "open3dsg_case_019": "(b) Routed correction: vertical",
-        "open3dsg_case_026": "(c) Limitation: support",
+        "open3dsg_case_001": "(a) Proximity correction",
+        "open3dsg_case_019": "(b) Vertical-order correction",
+        "open3dsg_case_026": "(c) Support/contact residual",
     }[case_id]
     parts = [
-        svg_text(x + 4, y + 20, panel_title, 25, 700),
+        svg_text(x + 4, y + 22, panel_title, 25, 700),
         svg_text(
             x + 4,
-            y + 43,
+            y + 50,
             f'{pred["subject_label"]}  →  {pred["predicate_label"]}  →  {pred["object_label"]}',
             20,
             700,
             "#374151",
         ),
+        f'<rect x="{x+4:.1f}" y="{y+65:.1f}" width="{w-8:.1f}" height="270" rx="7" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>',
+        svg_text(x + 18, y + 90, "1  Ordered pair", 18, 700, "#475569"),
     ]
     parts.extend(draw_axes(plot_x, plot_y, plot_w, plot_h, x_label, y_label))
-    parts.extend(draw_points(subject["sample"], dims, project, COLORS["subject"]))
-    parts.extend(draw_points(obj["sample"], dims, project, COLORS["object"]))
+    parts.extend(draw_points(subject["sample"], dims, project, COLORS["subject"], "circle", 0.62))
+    parts.extend(draw_points(obj["sample"], dims, project, COLORS["object"], "square", 0.28))
     parts.extend(draw_bbox(subject, dims, project, COLORS["subject"], COLORS["subject_fill"]))
-    parts.extend(draw_bbox(obj, dims, project, COLORS["object"], COLORS["object_fill"]))
+    parts.extend(draw_bbox(obj, dims, project, COLORS["object"], COLORS["object_fill"], True, "square"))
     parts.append(
         f'<line x1="{s_c[0]:.1f}" y1="{s_c[1]:.1f}" x2="{o_c[0]:.1f}" y2="{o_c[1]:.1f}" '
         'stroke="#111827" stroke-width="1.5" stroke-dasharray="5,4"/>'
     )
 
     if PANEL_META[case_id]["view"] == "topdown":
-        metric_line = f'XY center distance = {measure["xy_center_distance"]:.2f}'
+        metric_line = f'XY center distance = {measure["xy_center_distance"]:.2f} m'
+        evidence_line = "large separation for close by"
     elif row["source_prediction"]["predicate_family"] == "support_contact":
-        metric_line = f'subject bottom - object top = {measure["subject_bottom_minus_object_top"]:.2f}'
+        metric_line = f'bottom-to-top gap = {measure["subject_bottom_minus_object_top"]:.2f} m'
+        evidence_line = "contact evidence remains unresolved"
     else:
-        metric_line = f'subject center z - object center z = {measure["z_center_delta_subject_minus_object"]:.2f}'
+        metric_line = f'subject-object center Δz = {measure["z_center_delta_subject_minus_object"]:.2f} m'
+        evidence_line = "subject lies below the object"
 
     if case_id == "open3dsg_case_001":
-        outcome = "geometry-identifiable violation demoted"
+        outcome = "Demoted: inconsistent proximity"
     elif case_id == "open3dsg_case_019":
-        outcome = "inverse vertical-order violation demoted"
+        outcome = "Demoted: inverted vertical order"
     else:
-        outcome = "support violation preserved"
+        outcome = "Unchanged: kept in source order"
     compatibility = float(row["structured_product"]["compatibility"])
     compatibility_text = f"C={compatibility:.3f}" if compatibility >= 0.001 else "C<.001"
     parts.extend(
         [
+            f'<rect x="{x+4:.1f}" y="{y+347:.1f}" width="{w-8:.1f}" height="90" rx="7" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2"/>',
+            svg_text(x + 18, y + 372, "2  Geometry evidence", 18, 700, "#475569"),
+            svg_text(x + 18, y + 399, metric_line, 19, 700, "#111827"),
+            svg_text(x + 18, y + 424, evidence_line, 18, 400, "#4b5563"),
+            f'<rect x="{x+4:.1f}" y="{y+449:.1f}" width="{w-8:.1f}" height="100" rx="7" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2"/>',
+            svg_text(x + 18, y + 474, "3  Ranking outcome", 18, 700, "#475569"),
             svg_text(
                 x + 18,
-                y + 329,
-                f'rank {row["structured_product"]["source_rank"]} → {row["structured_product"]["routed_rank"]}   |   '
-                f'Z={row["structured_product"]["source_score"]:.3f}   {compatibility_text}',
-                20,
+                y + 499,
+                f'source rank {row["structured_product"]["source_rank"]} → RelCompat3D rank {row["structured_product"]["routed_rank"]}',
+                19,
                 700,
                 "#111827",
             ),
-            svg_text(x + 18, y + 354, metric_line, 18, 400, "#4b5563"),
-            svg_text(x + 18, y + 382, outcome, 19, 700, COLORS["warn"]),
+            svg_text(
+                x + 18,
+                y + 523,
+                f'Z={row["structured_product"]["source_score"]:.3f}   {compatibility_text}',
+                18,
+                400,
+                "#4b5563",
+            ),
+            svg_text(
+                x + 18,
+                y + 545,
+                outcome,
+                18,
+                700,
+                "#0369a1" if case_id != "open3dsg_case_026" else "#b45309",
+            ),
         ]
     )
 
@@ -507,23 +562,23 @@ def render_framework(cases: dict[str, dict[str, Any]]) -> str:
         '<line x1="445" y1="24" x2="445" y2="385" stroke="#e5e7eb" stroke-width="1"/>',
         '<line x1="1080" y1="24" x2="1080" y2="385" stroke="#e5e7eb" stroke-width="1"/>',
         svg_text(24, 30, "(a) High-confidence relation", 25, 700),
-        svg_text(476, 30, "(b) Source-score-excluded compatibility", 25, 700),
+        svg_text(476, 30, "(b) Predicate–geometry compatibility", 25, 700),
         svg_text(1110, 30, "(c) Re-ranking", 25, 700),
     ]
     parts.extend(draw_axes(plot_x, plot_y, plot_w, plot_h, "x", "y"))
-    parts.extend(draw_points(subject["sample"], dims, project, COLORS["subject"]))
-    parts.extend(draw_points(obj["sample"], dims, project, COLORS["object"]))
+    parts.extend(draw_points(subject["sample"], dims, project, COLORS["subject"], "circle", 0.62))
+    parts.extend(draw_points(obj["sample"], dims, project, COLORS["object"], "square", 0.28))
     parts.extend(draw_bbox(subject, dims, project, COLORS["subject"], COLORS["subject_fill"]))
-    parts.extend(draw_bbox(obj, dims, project, COLORS["object"], COLORS["object_fill"]))
+    parts.extend(draw_bbox(obj, dims, project, COLORS["object"], COLORS["object_fill"], True, "square"))
     parts.append(
         f'<line x1="{s_c[0]:.1f}" y1="{s_c[1]:.1f}" x2="{o_c[0]:.1f}" y2="{o_c[1]:.1f}" '
         'stroke="#111827" stroke-width="1.5" stroke-dasharray="6 4"/>'
     )
     parts.extend([
         '<circle cx="287" cy="53" r="5" fill="#dc2626"/>',
-        svg_text(298, 58, "subject", 16, 400, "#374151"),
-        '<circle cx="369" cy="53" r="5" fill="#2563eb"/>',
-        svg_text(380, 58, "object", 16, 400, "#374151"),
+        svg_text(298, 58, "subject", 18, 400, "#374151"),
+        '<rect x="364" y="48" width="10" height="10" fill="#2563eb"/>',
+        svg_text(380, 58, "object", 18, 400, "#374151"),
         svg_text(28, 330, "heater  →  close by  →  trash can", 20, 700),
         svg_text(28, 356, "Open3DSG: Z = 0.853; rank 19", 19, 400, "#374151"),
         svg_text(28, 383, "XY distance = 4.33 m", 19, 700, COLORS["warn"]),
@@ -533,26 +588,27 @@ def render_framework(cases: dict[str, dict[str, Any]]) -> str:
         return [
             f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="5" fill="#ffffff" stroke="{stroke}" stroke-width="1.3"/>',
             svg_text(x + 14, y + 25, title, 21, 700),
-            svg_text(x + 14, y + 51, detail, 17, 400, "#4b5563"),
+            svg_text(x + 14, y + 51, detail, 18, 400, "#4b5563"),
         ]
 
     parts.extend(simple_box(485, 63, 205, 65, "Predicate T", "close by / proximity"))
-    parts.extend(simple_box(485, 166, 205, 65, "Pair geometry G", "distance, overlap, contact"))
-    parts.extend(simple_box(485, 297, 205, 65, "Source score Z", "used only in re-ranking"))
+    parts.extend(simple_box(485, 166, 205, 65, "Pair measurements G", "distance, height, overlap"))
+    parts.extend(simple_box(485, 297, 250, 65, "Source relation score Z", "used only in re-ranking"))
     parts.extend([
         '<line x1="690" y1="96" x2="762" y2="126" stroke="#374151" stroke-width="1.7" marker-end="url(#arrow)"/>',
         '<line x1="690" y1="198" x2="762" y2="164" stroke="#374151" stroke-width="1.7" marker-end="url(#arrow)"/>',
         '<rect x="765" y="86" width="265" height="133" rx="7" fill="#f0fdf4" stroke="#059669" stroke-width="1.6"/>',
-        svg_text(897, 119, "Compatibility C(T,G)", 22, 700, "#065f46", "middle"),
-        svg_text(897, 151, "linked counterfactual ordering", 17, 400, "#374151", "middle"),
-        svg_text(897, 178, "relation-algebra projection", 17, 400, "#374151", "middle"),
-        svg_text(897, 205, "C = 0.003", 22, 700, "#065f46", "middle"),
-        svg_text(897, 250, "Z is not an input to C", 19, 700, "#b91c1c", "middle"),
+        svg_text(897, 119, "Compatibility C_tr(T,G)", 19, 700, "#065f46", "middle"),
+        svg_text(897, 151, "linked counterfactual ordering", 18, 400, "#374151", "middle"),
+        svg_text(897, 178, "transformation averaging", 18, 400, "#374151", "middle"),
+        svg_text(897, 205, "C_tr = 0.003", 22, 700, "#065f46", "middle"),
+        '<rect x="753" y="228" width="288" height="35" rx="4" fill="#ffffff"/>',
+        svg_text(897, 250, "Compatibility inputs: T and G", 19, 700, "#374151", "middle"),
         '<line x1="897" y1="219" x2="897" y2="286" stroke="#374151" stroke-width="1.7" marker-end="url(#arrow)"/>',
-        '<line x1="690" y1="329" x2="765" y2="329" stroke="#374151" stroke-width="1.7" marker-end="url(#arrow)"/>',
+        '<line x1="735" y1="329" x2="765" y2="329" stroke="#374151" stroke-width="1.7" marker-end="url(#arrow)"/>',
         '<rect x="765" y="286" width="265" height="76" rx="7" fill="#ffffff" stroke="#111827" stroke-width="1.5"/>',
-        svg_text(897, 319, "S = Z × C(T,G)", 25, 700, "#111827", "middle"),
-        svg_text(897, 349, "within applicable family", 17, 400, "#4b5563", "middle"),
+        svg_text(897, 319, "S = Z × C_tr(T,G)", 23, 700, "#111827", "middle"),
+        svg_text(897, 349, "within applicable family", 18, 400, "#4b5563", "middle"),
         '<line x1="1030" y1="324" x2="1125" y2="205" stroke="#374151" stroke-width="1.7" marker-end="url(#arrow)"/>',
     ])
 
@@ -563,7 +619,7 @@ def render_framework(cases: dict[str, dict[str, Any]]) -> str:
         svg_text(1360, 91, str(row["structured_product"]["routed_rank"]), 42, 700, "#059669", "middle"),
         svg_text(1360, 122, "re-ranked", 18, 400, "#4b5563", "middle"),
         '<rect x="1125" y="159" width="335" height="82" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>',
-        svg_text(1292, 186, "Family-slot routing", 21, 700, "#111827", "middle"),
+        svg_text(1292, 186, "Family-aware re-ranking", 21, 700, "#111827", "middle"),
         svg_text(1292, 212, "proximity / vertical: re-ranked", 18, 400, "#4b5563", "middle"),
         svg_text(1292, 233, "support/contact: source order", 18, 400, "#4b5563", "middle"),
         '<rect x="1125" y="276" width="335" height="88" rx="6" fill="#ffffff" stroke="#94a3b8" stroke-width="1.2"/>',
@@ -576,18 +632,14 @@ def render_framework(cases: dict[str, dict[str, Any]]) -> str:
 
 
 def render_figure(cases: dict[str, dict[str, Any]]) -> tuple[str, list[dict[str, Any]]]:
-    width, height = 1500, 445
-    panel_w, panel_h = 460, 395
-    positions = [(20, 38), (520, 38), (1020, 38)]
+    width, height = 1500, 580
+    panel_w, panel_h = 460, 555
+    positions = [(20, 14), (520, 14), (1020, 14)]
     parts = [
-        '<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="445" viewBox="0 0 1500 445">',
-        '<rect width="1500" height="445" fill="#ffffff"/>',
-        '<circle cx="1110" cy="18" r="5" fill="#dc2626"/>',
-        svg_text(1121, 24, "subject", 18, 400, "#374151"),
-        '<circle cx="1205" cy="18" r="5" fill="#2563eb"/>',
-        svg_text(1216, 24, "object", 18, 400, "#374151"),
-        '<line x1="500" y1="38" x2="500" y2="425" stroke="#e5e7eb" stroke-width="1"/>',
-        '<line x1="1000" y1="38" x2="1000" y2="425" stroke="#e5e7eb" stroke-width="1"/>',
+        '<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="580" viewBox="0 0 1500 580">',
+        '<rect width="1500" height="580" fill="#ffffff"/>',
+        '<line x1="500" y1="14" x2="500" y2="566" stroke="#e5e7eb" stroke-width="1"/>',
+        '<line x1="1000" y1="14" x2="1000" y2="566" stroke="#e5e7eb" stroke-width="1"/>',
     ]
     records = []
     for case_id, pos in zip(EXPECTED_CASES, positions):
@@ -682,7 +734,7 @@ def main() -> None:
         "status": "figure3_geometry_panels_generated_verified",
         "source_queue_jsonl": str(QUEUE_JSONL.relative_to(ROOT)),
         "structured_model_json": str(STRUCTURED_MODEL_JSON.relative_to(ROOT)),
-        "paper_score": "applicability-routed relation-algebra-constrained product",
+        "paper_score": "family-aware relation-consistent product",
         "preprocessed_root": str(PREPROCESSED_ROOT.relative_to(ROOT)),
         "expected_case_ids": EXPECTED_CASES,
         "rendered_case_ids": rendered_case_ids,

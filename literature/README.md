@@ -1,12 +1,16 @@
 # Literature Index
 
-Last updated: 2026-07-11
+Last updated: 2026-07-16
 
 이 폴더는 3D Scene Graph 문헌 조사 결과를 저장한다. workflow와 작성 규칙은 `docs/literature.md`를 따른다.
 
 논문별 폴더에는 가능한 경우 원문 PDF를 `paper.pdf`로 저장한다.
 
-Latest check: 2026-07-13, adding the direct post-hoc SGG constraint-refinement threat `Visual Commonsense Driven Knowledge Refinements for Scene Graph Generation` (arXiv:2606.06369v1). Earlier H001/CAND-001 passes covered relation-level visual-geometric evidence, open-world/open-vocabulary 3DSG, VLM-based zero-shot/incremental graph generation, and graph-mediated 3D grounding. Primary sources include arXiv, AAAI proceedings, and CVF Open Access.
+Latest check: 2026-07-16, adding GEODE (CVPR Findings 2026) as the direct
+geometry-conditioned 3DSGG generator boundary. The previous direct post-hoc
+constraint-refinement check covered `Visual Commonsense Driven Knowledge
+Refinements for Scene Graph Generation` (arXiv:2606.06369v1). Primary sources
+include arXiv, AAAI proceedings, and CVF Open Access.
 
 ## Files
 

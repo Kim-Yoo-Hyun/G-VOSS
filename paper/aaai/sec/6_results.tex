@@ -1,157 +1,152 @@
-\subsection{Cross-Predictor Recall--Violation Trade-off}
+\subsection{Recall--Violation Results}
 
 Table~\ref{tab:main-results} and Figure~\ref{fig:tradeoff} show that the
-applicability-routed \method{} improves the $K=50$ trade-off across
-the three predictors. On Open3DSG and SGFN, paired scan-cluster intervals are
-strictly positive for Recall and negative for V. On near-ceiling VL-SAT, the
-Recall interval contains zero while the V interval remains strictly negative,
-indicating reliability improvement without a detectable Recall loss.
+family-aware \method{} re-ranking yields a better $K=50$ point-estimate
+Recall--Violation trade-off for all three predictors. On Open3DSG and SGFN,
+paired scan-cluster intervals are strictly positive for Recall and negative for
+Violation. On VL-SAT, whose Source Recall is already high, the Recall interval contains zero while the
+Violation interval remains strictly negative, supporting lower verifier-derived
+Violation without a detectable Recall loss.
 Open3DSG exposes the failure most strongly:
-the source ranks geometrically inconsistent edges at small $K$, whereas the
-route changes both recall and violation rather than only pruning edges.
-Across $K=10$--$50$, no routed Recall point estimate is lower than its source
-counterpart, and V decreases on every predictor. SGFN changes only marginally
-at $K=10$, while Open3DSG exhibits the largest gains throughout this range.
-The $K=5$ and $K=100$ columns characterize the low- and high-budget boundaries.
+the Source baseline ranks geometrically inconsistent relation candidates highly
+at small $K$, whereas \method{} improves Recall and reduces Violation without
+discarding candidates. Across $K=10$--$50$, no \method{} Recall point estimate
+is lower than its Source baseline, and the Violation point estimate decreases
+for every predictor. SGFN changes only marginally at $K=10$, while Open3DSG
+exhibits the largest gains throughout this range.
 
-No single comparator dominates across all predictors and operating budgets.
-Under identical routing, the matched MLP raises Open3DSG Recall more than the
-linear product at $K=50$ (.4670 versus .4418) but also has higher V (.0413
-versus .0342); the two are nearly tied on VL-SAT and SGFN. The comparisons
-expose source-dependent trade-offs: the product avoids the larger low-budget
-Recall losses of rank fusion, while the nonlinear model favors Recall over
-Violation on Open3DSG. The unrestricted product reaches
-higher aggregate Recall and can lower aggregate V, but changes support/contact
-selections; this is precisely the family regression hidden by an aggregate
-score. The pooled family-conditioning ablation is reported in the supplement.
-Every routed comparator preserves family composition and support/contact
-selection exactly. A paired context-level sensitivity
-in the supplement gives the same directions as the primary scan-cluster
-analysis.
+No single comparator dominates across all predictors and reported $K$ values.
+Under the same ranking procedure, the matched MLP raises Open3DSG Recall more than the
+\method{} product at $K=50$ (46.70\% versus 44.18\%) but also has higher Violation (4.13\%
+versus 3.42\%); the two are nearly tied on VL-SAT and SGFN. The comparisons
+expose predictor-dependent trade-offs: on VL-SAT and SGFN, the \method{} product
+avoids the larger low-budget Recall losses observed with rank fusion. On
+Open3DSG, the matched MLP raises Recall at the cost of higher Violation. Product
+(all families) reaches higher aggregate Recall and can lower aggregate
+Violation, but changes support/contact selections and can mask a
+support/contact regression. The pooled
+family-conditioning ablation is reported in the supplement.
+The matched MLP, rank-average, and RRF use the same family-aware re-ranking
+procedure as \method{}; they therefore preserve the relation-family sequence
+and keep support/contact candidates in source order. Product (all families)
+does not impose this restriction.
 
 \FloatBarrier
-\subsection{Structural and Factor Diagnostics}
+\subsection{Ablations and Controls}
+
+Table~\ref{tab:ablations} tests changes to the predicate, pair, geometry,
+endpoint order, and score inputs under the same family-aware ranking procedure
+as the main method.
 
 \begin{table}[H]
 \centering
 \footnotesize
 \setlength{\tabcolsep}{1.5pt}
 \renewcommand{\arraystretch}{0.96}
-\caption{\textbf{Ablations and counterfactual controls.} R is Recall and V is
-Violation (lower is better). Every condition uses the same family-slot route
-and source candidates as Table~\ref{tab:main-results}; support/contact remains
-a source-order pass-through.}
+\caption{\textbf{Ablations and counterfactual controls.} All entries are
+percentages; R is Recall ($\uparrow$) and V is Violation ($\downarrow$). Every
+condition uses the same candidates and family-aware ranking procedure as
+Table~\ref{tab:main-results}.}
 \label{tab:ablations}
 \begin{tabular}{@{}llrrrr@{}}
 \toprule
-Source & Condition & R50 & V50 & R100 & V100 \\
+Predictor & Condition & R@50 & V@50 & R@100 & V@100 \\
 \midrule
-Open3DSG & \method{} routed & .4418 & .0342 & .5692 & .0324 \\
-Open3DSG & Wrong predicate & .4265 & .2200 & .5347 & .2098 \\
-Open3DSG & Wrong-pair $G$ & .3852 & .0848 & .4932 & .0835 \\
-Open3DSG & Shuffled $G$ & .3844 & .1293 & .4869 & .1243 \\
-Open3DSG & Label-fixed swap & .4267 & .2200 & .5373 & .2098 \\
-Open3DSG & Distance only & .5116 & .0824 & .6322 & .0955 \\
-Open3DSG & Compatibility only & .4207 & .0342 & .5677 & .0324 \\
+\multirow{7}{*}{Open3DSG} & \textbf{\method{}} & 44.18 & 3.42 & 56.92 & 3.24 \\
+& Wrong predicate & 42.65 & 22.00 & 53.47 & 20.98 \\
+& Wrong pair & 38.52 & 8.48 & 49.32 & 8.35 \\
+& Shuffled geometry & 38.44 & 12.93 & 48.69 & 12.43 \\
+& Label-fixed swap & 42.67 & 22.00 & 53.73 & 20.98 \\
+& Distance only & 51.16 & 8.24 & 63.22 & 9.55 \\
+& Compatibility only & 42.07 & 3.42 & 56.77 & 3.24 \\
 \midrule
-VL-SAT & \method{} routed & .9277 & .0197 & .9658 & .0295 \\
-VL-SAT & Wrong predicate & .9043 & .0498 & .9481 & .0796 \\
-VL-SAT & Wrong-pair $G$ & .9053 & .0261 & .9496 & .0473 \\
-VL-SAT & Shuffled $G$ & .8917 & .0306 & .9411 & .0560 \\
-VL-SAT & Label-fixed swap & .9043 & .0498 & .9481 & .0796 \\
-VL-SAT & Distance only & .8190 & .0534 & .8980 & .0809 \\
-VL-SAT & Compatibility only & .6765 & .0161 & .8409 & .0203 \\
+\multirow{7}{*}{VL-SAT} & \textbf{\method{}} & 92.77 & 1.97 & 96.58 & 2.95 \\
+& Wrong predicate & 90.43 & 4.98 & 94.81 & 7.96 \\
+& Wrong pair & 90.53 & 2.61 & 94.96 & 4.73 \\
+& Shuffled geometry & 89.17 & 3.06 & 94.11 & 5.60 \\
+& Label-fixed swap & 90.43 & 4.98 & 94.81 & 7.96 \\
+& Distance only & 81.90 & 5.34 & 89.80 & 8.09 \\
+& Compatibility only & 67.65 & 1.61 & 84.09 & 2.03 \\
 \midrule
-SGFN & \method{} routed & .7450 & .0263 & .9303 & .0350 \\
-SGFN & Wrong predicate & .7155 & .0943 & .8998 & .1299 \\
-SGFN & Wrong-pair $G$ & .7158 & .0399 & .8799 & .0665 \\
-SGFN & Shuffled $G$ & .7062 & .0474 & .8678 & .0836 \\
-SGFN & Label-fixed swap & .7155 & .0943 & .9003 & .1299 \\
-SGFN & Distance only & .6319 & .1000 & .8406 & .1266 \\
-SGFN & Compatibility only & .5279 & .0232 & .7072 & .0230 \\
+\multirow{7}{*}{SGFN} & \textbf{\method{}} & 74.50 & 2.63 & 93.03 & 3.50 \\
+& Wrong predicate & 71.55 & 9.43 & 89.98 & 12.99 \\
+& Wrong pair & 71.58 & 3.99 & 87.99 & 6.65 \\
+& Shuffled geometry & 70.62 & 4.74 & 86.78 & 8.36 \\
+& Label-fixed swap & 71.55 & 9.43 & 90.03 & 12.99 \\
+& Distance only & 63.19 & 10.00 & 84.06 & 12.66 \\
+& Compatibility only & 52.79 & 2.32 & 70.72 & 2.30 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 On the development split, linked positives outrank their counterfactuals in
 99.23\% of pairs, and correct vertical predicates outrank their inverses in
-97.40\% of cases. Projection makes proximity-swap and vertical-inverse errors
-exactly zero on development and across every evaluation row. These results
-verify the implemented algebra and support the intended counterfactual ordering.
+97.40\% of cases. Transformation averaging makes the maximum compatibility
+difference under a proximity endpoint swap exactly zero. It also makes the
+maximum difference under a joint endpoint swap and inverse-predicate
+transformation exactly zero for vertical order, on development and across all
+evaluation candidates. These results verify the implemented transformation
+behavior and support the intended counterfactual ordering.
 
-The unprojected product has nearly identical aggregate Recall, while projection
-removes the applicable algebra errors exactly. The factor ablation reports
-$T$-only, true raw-$G$-only, additive, and interaction conditions in the
-supplement. A supervision-matched nonlinear compatibility model does not
-dominate the linear structured model under identical routing: on Open3DSG it
-gains Recall but increases V, while differences are small on VL-SAT and SGFN. The
-stronger SGFN-specific exact-label rescorer improves its source endpoint but
-does not dominate when transferred without target-specific refitting to the
-other predictors (supplement).
+The product without transformation averaging has nearly identical aggregate
+Recall, while averaging removes the applicable transformation-consistency
+errors exactly. The input decomposition reports
+$T$-only, predicate-independent $G$-only, additive, and interaction conditions in the
+supplement.
 
-Table~\ref{tab:ablations} applies every perturbation through the same route as
-the main method. Wrong-pair and shuffled geometry reduce Recall and raise V,
-showing that the gain depends on the identity-preserving join; wrong predicates
-and label-fixed swaps sharply increase V. For binary vertical predicates,
-retaining the label after swapping endpoints induces the same sign
-contradiction as predicate inversion; proximity is swap-invariant, explaining
-the two controls' near-identical aggregate values. Distance alone raises Open3DSG Recall
-but more than doubles V relative to \method{}, and is worse on both metrics for
-VL-SAT and SGFN. Removing the source
-score inside routed families can retain low V but loses substantial Recall,
-especially on VL-SAT and SGFN, confirming that geometry does not replace source
-confidence. The unrestricted mechanism audit is reported in the supplement.
+Wrong-pair and shuffled geometry reduce Recall and raise Violation. The result
+therefore depends on associating each prediction with the geometry of its
+corresponding ordered pair rather than on scene-level geometric statistics
+alone. Wrong predicates and label-fixed swaps sharply increase Violation. Here,
+label-fixed swap exchanges the subject and object while retaining the original
+predicate label. For binary vertical predicates, this endpoint
+swap creates the same sign contradiction as an inverse-predicate transformation, while
+proximity is swap-invariant. Distance alone raises Open3DSG Recall but more than
+doubles Violation relative to \method{} and is worse on both metrics for VL-SAT
+and SGFN. Compatibility-only ranking omits the source relation score; it retains
+low Violation but loses substantial Recall, especially on VL-SAT and SGFN. The all-family product
+comparison is reported in the supplement.
+Together, these controls support the interpretation that the observed trade-off
+depends on predicate-conditioned measurements from the corresponding ordered
+pair, combined with---not substituted for---the source relation score.
 
-The held-out-primitive diagnostic further separates the model from the
-verifier implementation. Removing the exact verifier scalar preserves nearly
-the full $K=50$ result. Removing every directly related distance or vertical
-measurement attenuates the effect: Open3DSG still improves both metrics, while
-VL-SAT and SGFN retain Recall but have near-source V at $K=50$. At $K=100$, all
-three held-out conditions improve both point metrics on every predictor
-(supplement). Thus the result is not a literal copy of one verifier scalar,
-although correlated geometric measurements remain important.
-
-Uncertainty sensitivity gives the same aggregate conclusion at $K=100$:
-decidable-only and pessimistic V decrease on every
-predictor. Uncertainty changes
-slightly in either direction, so the all-status improvement is not explained
-by uniformly moving failures into uncertainty.
-
-\begin{figure*}[!t]
-    \centering
-    \figmaybe[width=0.98\linewidth]{../generated/figures/figure2_tradeoff.pdf}
-    \caption{\textbf{Recall--violation trajectories.} Each line connects
-    $K\in\{5,10,20,50,100\}$ for one predictor and ranking rule. Rightward and
-    downward movement is preferred; outlined points denote $K=50$. Axis ranges
-    differ by predictor.}
-    \label{fig:tradeoff}
-\end{figure*}
+The feature-removal analysis examines direct reuse of verifier measurements.
+Removing the exact scalar used by the verifier preserves nearly the full
+$K=50$ result. Removing all related distance or vertical measurements
+attenuates the effect: Open3DSG still improves both metrics, while VL-SAT and
+SGFN retain Recall but their Violation approaches the Source baseline. The
+compatibility model therefore does not depend solely on a single verifier
+scalar, although related geometric measurements remain important.
 
 \begin{figure*}[!t]
     \centering
     \figmaybe[width=0.98\linewidth]{../generated/figures/figure3_geometry_panels.pdf}
-    \caption{\textbf{Geometry-backed re-ranking cases.} Projected views of the
-    ordered-pair point clouds show proximity and relative-vertical violations demoted by
-    the applicability route, plus a residual support/contact violation that
-    remains unchanged. Red denotes the subject and blue the object.}
+    \caption{\textbf{Pair--evidence--outcome analysis.} Each column links an
+    ordered-pair point-cloud view to its measured geometric evidence and ranking
+    outcome. The first two violations are demoted; the contact-heavy residual is
+    kept in source order. Subjects use circular points and solid boxes; objects
+    use square points and dashed boxes, in addition to red/blue color.}
     \label{fig:failures}
 \end{figure*}
 
 \subsection{Qualitative and Family Analysis}
 
-Figure~\ref{fig:failures} shows two geometry-identifiable corrections and the
-support/contact boundary. The route moves the heater--trash-can proximity edge
+Figure~\ref{fig:failures} shows two relations whose consistency can be assessed
+from reconstructed ordered-pair geometry and one residual support/contact case
+that remains in source order. The method moves the
+heater--trash-can proximity edge
 from rank 19 to 178 because the pair centers are 4.33 m apart, and moves
 \texttt{floor higher than curtain} from rank 1 to 430 because the floor center
 is 1.02 m below the curtain. It leaves the residual
-\texttt{door lying on floor} support candidate at rank 21; the unrestricted
-product would promote it to rank 10, illustrating why support/contact is not
-routed by the current evidence model.
+\texttt{door lying on floor} support candidate at rank 21; Product (all
+families) would promote it to rank 10, illustrating why the current method keeps
+support/contact in source order.
 
-Family-wise intervals prevent aggregate overstatement. Relative vertical
-supplies most V reduction, proximity improves the global selection, and
-support/contact is exactly unchanged by construction. The method therefore
-does not claim to solve contact-heavy relations;
-full within-family and global-top-$K$ composition tables are provided in the
-supplement.
+Family-wise intervals show that the aggregate change is not uniform across
+relation families. Proximity and vertical order both contribute to Recall
+changes, while vertical order accounts for most of the Violation reduction;
+support/contact selection and metrics are unchanged by construction.
+Support/contact errors therefore remain uncorrected. Full within-family results
+and family-specific metrics within the selected top-$K$ predictions are provided
+in the supplement.
 \FloatBarrier

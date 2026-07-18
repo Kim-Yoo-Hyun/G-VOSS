@@ -1,6 +1,6 @@
 {
   "claim_boundary": "qualitative geometry-backed correction and applicability-boundary evidence only; not a representative human audit and not a new metric",
-  "created_at": "2026-07-15T12:25:11.086841+00:00",
+  "created_at": "2026-07-17T01:01:20.364356+00:00",
   "expected_case_ids": [
     "open3dsg_case_001",
     "open3dsg_case_019",
@@ -18,7 +18,7 @@
     "figure3_svg": "paper/generated/figures/figure3_geometry_panels.svg",
     "manifest_json": "paper/generated/figures/figure3_geometry_manifest.json"
   },
-  "paper_score": "applicability-routed relation-algebra-constrained product",
+  "paper_score": "family-aware relation-consistent product",
   "preprocessed_root": "local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/datasets/OpenSG_3RScan/preprocessed",
   "rendered_case_ids": [
     "open3dsg_case_001",

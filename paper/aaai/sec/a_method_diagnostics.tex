@@ -1,33 +1,38 @@
-\section{Guarantees and Compatibility Diagnostics}
+\section{Guarantees and Compatibility Analyses}
 
 \paragraph{Proof of Proposition 1.}
 For any $h\in H_a$,
 \(
-P_af(hx)=|H_a|^{-1}\sum_{g\in H_a}f(ghx)
+C_a^{\rm tr}(hx)=|H_a|^{-1}\sum_{g\in H_a}C_a(ghx)
 \).
 Right multiplication by $h$ is a bijection on the finite group, so re-indexing
-$g'=gh$ gives $P_af(hx)=P_af(x)$. Thus $P_af$ is constant on each declared
-orbit. Averaging an already orbit-constant function leaves it unchanged,
-which proves $P_a^2=P_a$. The two-element proximity and vertical actions yield
-the identities in the main paper, and the singleton action is the identity.
+$g'=gh$ gives $C_a^{\rm tr}(hx)=C_a^{\rm tr}(x)$. The two-element proximity
+and vertical actions yield the identities in the main paper, and the singleton
+support/contact action is the identity.
 
-\paragraph{Proof of Proposition 2.}
-At position $j$, the routing algorithm pops from the queue indexed by the
-source family $a_j$; hence the output family sequence is exactly
-$(a_1,\ldots,a_n)$. A pass-through queue retains source-relative order, so the
-first $K$ positions contain exactly the same ordered support/contact
-subsequence as the source prefix. For optimality, consider two slots
-$p<q$ of the same family. If $u(e_p)<u(e_q)$, exchanging them changes the
-weighted objective by
-$(\omega_p-\omega_q)(u(e_q)-u(e_p))\geq0$.
-Repeatedly removing such inversions gives the descending family queues used by
-the route, proving optimality over all family-sequence-preserving
-permutations. Ties may yield multiple optima without changing either guarantee.
+\paragraph{Family-sequence preservation.}
+For each family $a$, the algorithm constructs the ordered list $\pi_a$ defined
+in the main paper. At position $j$, it selects the next unselected candidate
+from $\pi_{a_j}$; hence the output family sequence is exactly
+$(a_1,\ldots,a_n)$. The support/contact list follows the source ranking, so the
+first $K$ positions contain exactly the same ordered support/contact subsequence
+as the source prefix. Therefore the support/contact selections and their order
+are identical at every reported $K$.
+
+\paragraph{Prefix utility optimality.}
+Fix a prefix length $K$, and let $n_a(K)$ be the number of positions assigned
+to family $a$ in the source prefix. Every feasible ranking that preserves these
+family counts must select $n_a(K)$ candidates from each family. Because
+$\pi_a$ is sorted by $u_i$, \method{} selects the $n_a(K)$ highest-utility
+candidates for every proximity/vertical family. If another feasible selection
+omits one of these candidates in favor of a lower-utility candidate from the
+same family, exchanging the two increases the summed within-prefix utility.
+The support/contact subsequence is fixed, so it does not affect this comparison.
 
 \paragraph{Counterfactual target construction.}
-Measured-family ground-truth rows provide positives. Negatives are generated
+Measured-family ground-truth relations provide positives. Negatives are generated
 within the same scene context and linked to their source positive; no source
-score, predictor identity, or validation-split row is used.
+score, predictor identity, or evaluation candidate is used.
 Table~\ref{tab:counterfactual-rules} gives the complete construction policy.
 
 \begin{table}[H]
@@ -62,28 +67,61 @@ evidence used by the reported verifier is not used to generate negatives. \\
 At most two negatives are emitted per positive, 200 per context--family, and
 three times the number of positives per family. These caps limit repeated easy
 negatives; they do not equalize family counts. The export contains 28,977
-positives and 37,477 negatives (23,008 proximity, 5,488 vertical, and 37,958
-support/contact rows). The explicit overlap above is why verifier-derived V is
+positives and 37,477 negatives. Total rows by family are 23,008 proximity,
+5,488 vertical, and 37,958 support/contact. The explicit overlap above is why verifier-derived V is
 reported as a related diagnostic rather than independent physical-validity
-ground truth; the held-out-primitive analysis tests, but does not eliminate,
+ground truth; the feature-removal analysis tests, but does not eliminate,
 this construct dependence.
 
 \method{} fits one logistic model per measured relation family. Numeric
-features use training-only means and standard deviations; missing values use
-the corresponding training mean. Inputs are predicate/family indicators $T$,
-predicate-independent pair geometry $G$, and explicit $T\!\times\!G$
-interactions. Source score, source rank, source identity, and object class are
-forbidden. Orbit-consistent augmentation preserves the proximity predicate
+features use means and standard deviations estimated from the training split;
+missing values use the corresponding training mean. Inputs are predicate/family indicators $T$,
+predicate-independent pair-geometry measurements $G$, and explicit $T\!\times\!G$
+interactions. The source relation score, source rank, predictor identity, and object class are
+excluded. Transformation-consistent augmentation preserves the proximity predicate
 under endpoint swap; vertical order swaps endpoints and applies the inverse
 predicate. Linked counterfactuals receive the fixed margin loss in the main
 paper. Support/contact receives the pairwise loss but no blanket endpoint
 transform.
 
-The 60,208 training rows yield 33,961 linked pairs, and algebra augmentation
+The 60,208 training rows yield 33,961 linked pairs, and
+transformation-consistent augmentation
 produces 86,032 optimization rows. We use 800 deterministic full-batch steps at
 learning rate 0.2; the three family models contain 22--24 parameters. The
-support/contact model is used only in unrestricted-fusion diagnostics, while
-the primary family-slot route preserves that family's source ordering.
+support/contact model is used only in the all-family comparison, while the
+\method{} ranking rule preserves that family's source ordering.
+
+\paragraph{Computational cost.}
+We benchmark the fixed CPU implementation with one process and one thread on
+an Intel Core Ultra 7 265KF. Timing begins from preloaded relation candidates with
+precomputed pair-geometry measurements and includes proximity/vertical compatibility,
+transformation averaging, family-specific list sorting, and output assembly. It excludes
+source-predictor inference, reconstruction and geometry association, file parsing, metrics,
+and bootstrap, so it is not end-to-end pipeline latency. Table~\ref{tab:runtime}
+reports medians over five runs after one warm-up.
+
+\begin{table}[H]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\caption{\textbf{CPU re-ranking cost.} Open3DSG has 533 nonempty public-prediction
+contexts; its 15 empty official contexts require no scoring or sorting.}
+\label{tab:runtime}
+\begin{tabular}{lrrrr}
+\toprule
+Predictor & Contexts & Scored candidates & Total (s) & ms/context \\
+\midrule
+VL-SAT & 548 & 110,424 & 2.492 & 4.548 \\
+Open3DSG & 533 & 79,722 & 1.828 & 3.430 \\
+SGFN & 548 & 110,424 & 2.512 & 4.584 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The three stored heads contain 69 parameters; the primary proximity/vertical
+path evaluates 45 of them and adds no fitted fusion parameter. Peak process RSS,
+including the preloaded candidates, is 366.9 MiB. All five runs preserve the exact
+family sequence and support/contact order.
 
 \begin{table}[H]
 \centering
@@ -107,24 +145,25 @@ Support/contact & 34,384 & 3,574 & 24 & 22,755 & .9933 & .0256 \\
 Across all 6,246 development rows, AUROC/AUPRC/Brier are
 .9973/.9973/.0157. On 3,516 linked development pairs, the positive wins 99.23\%
 of the time with mean logit margin 14.13. Correct-predicate compatibility wins
-on 97.40\% of 384 vertical positives. Exact orbit projection gives maximum
-proximity-swap and vertical-inverse errors of zero on development and all three
-final source outputs.
+on 97.40\% of 384 vertical positives. Exact transformation averaging gives a
+maximum compatibility difference of zero under proximity endpoint swap and
+under joint endpoint swap and inverse-predicate transformation for vertical
+order, on development and evaluation rows from all three predictors.
 
-The factor-isolation ablation uses the same split and estimator class. At
-development, $T$-only, true raw-$G$-only, additive $T+G$, and interaction
+The factor ablation uses the same split and estimator class. At
+development, $T$-only, predicate-independent $G$-only, additive $T+G$, and interaction
 $T\times G$ obtain AUROC .6124/.8809/.9193/.9822 and Brier
 .2370/.1363/.1061/.0495. Shuffled and mismatched-pair geometry reduce the
 intended reliability signal. These results verify factor use and the implemented
-relation algebra; they do not convert the constructed target into independent
+transformation identities; they do not convert the constructed target into independent
 physical-validity ground truth.
 
 \begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{3pt}
-\caption{\textbf{Held-out-primitive diagnostic.} Cells are Recall / verifier V
-under the same family-slot route. Exact removes the normalized scalar consumed
+\caption{\textbf{Feature-removal analysis.} Cells are Recall / verifier V
+under the same family-aware ranking procedure. Exact removes the normalized scalar consumed
 by the verifier; family removes all directly related distance or vertical
 measurements; alternative retains only projected overlap for proximity and
 horizontal-distance/overlap context for vertical order.}
@@ -136,44 +175,44 @@ Source & Condition & $K=50$ & $K=100$ \\
 \multirow{5}{*}{VL-SAT}
  & Source score & .9272/.0268 & .9635/.0476 \\
  & Full model & .9277/.0197 & .9658/.0295 \\
- & Exact scalar held out & .9280/.0198 & .9660/.0300 \\
- & Primitive family held out & .9272/.0268 & .9655/.0468 \\
+ & Exact verifier scalar removed & .9280/.0198 & .9660/.0300 \\
+ & Related measurements removed & .9272/.0268 & .9655/.0468 \\
  & Alternative evidence only & .9280/.0268 & .9642/.0471 \\
 \midrule
 \multirow{5}{*}{Open3DSG}
  & Source score & .4043/.1387 & .5111/.1242 \\
  & Full model & .4418/.0342 & .5692/.0324 \\
- & Exact scalar held out & .4383/.0342 & .5692/.0325 \\
- & Primitive family held out & .4119/.0954 & .5257/.0956 \\
+ & Exact verifier scalar removed & .4383/.0342 & .5692/.0325 \\
+ & Related measurements removed & .4119/.0954 & .5257/.0956 \\
  & Alternative evidence only & .4106/.1193 & .5330/.1188 \\
 \midrule
 \multirow{5}{*}{SGFN}
  & Source score & .7402/.0385 & .9235/.0630 \\
  & Full model & .7450/.0263 & .9303/.0350 \\
- & Exact scalar held out & .7465/.0268 & .9303/.0357 \\
- & Primitive family held out & .7470/.0388 & .9298/.0616 \\
+ & Exact verifier scalar removed & .7465/.0268 & .9303/.0357 \\
+ & Related measurements removed & .7470/.0388 & .9298/.0616 \\
  & Alternative evidence only & .7462/.0386 & .9277/.0625 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Every held-out model is refitted on the 1,061 training scans with the same
-orbit-plus-pairwise objective, source-score exclusion, and exact projection.
+Every feature-removal model is refitted on the 1,061 training scans with the same
+linked-pair objective, exclusion of the source relation score, and exact transformation averaging.
 The exact-scalar condition retains development AUROC of .99999 for proximity
-and .99794 for vertical order. Removing the full primitive family lowers these
+and .99794 for vertical order. Removing all related distance or vertical measurements lowers these
 to .9512 and .7089; alternative evidence yields .8763 and .5531. At $K=50$,
 the strict conditions retain a clear Open3DSG improvement but not the full V
-gain on VL-SAT or SGFN. At $K=100$, all held-out conditions improve both point
-metrics across all three predictors; paired scan-cluster intervals are stored
-for every $K$. This rules out literal reuse of a single verifier input, not
+gain on VL-SAT or SGFN. At $K=100$, all feature-removal conditions improve both
+point metrics across all three predictors. The results show that performance
+does not depend solely on a single verifier input, but they do not eliminate
 broader construct dependence on correlated geometry.
 
 \begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{3pt}
-\caption{\textbf{Unrestricted-fusion mechanism audit at $K=100$.} Cells are
-Recall / verifier V. Unlike the primary routed ablation, compatibility is
+\caption{\textbf{All-family product comparison at $K=100$.} Cells are
+Recall / verifier V. Unlike the primary family-aware ablation, compatibility is
 applied to every family; Open3DSG uses the documented full-coverage
 sensitivity so each corruption has a donor in every context.}
 \label{tab:unrestricted-ablation}

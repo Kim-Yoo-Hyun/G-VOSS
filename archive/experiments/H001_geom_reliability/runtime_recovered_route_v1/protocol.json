@@ -1,0 +1,54 @@
+{
+  "schema_version": "h001_relcompat3d_runtime_protocol_v1",
+  "status": "superseded_prepublication_recovered_route",
+  "created_at_kst": "2026-07-16",
+  "purpose": "Measure the CPU overhead of the fixed RelCompat3D compatibility and family-aware ranking layer without changing scores, models, or claims.",
+  "sources": [
+    "vlsat",
+    "open3dsg",
+    "sgfn"
+  ],
+  "measurement": {
+    "input_state": "preloaded verification rows with precomputed pair geometry",
+    "included": [
+      "proximity and vertical compatibility scoring",
+      "endpoint/predicate transformation averaging",
+      "source-family queue construction and sorting",
+      "family-sequence-preserving output assembly"
+    ],
+    "excluded": [
+      "source-predictor inference",
+      "3D reconstruction and geometry join",
+      "JSONL parsing and raw-feature extraction",
+      "metric evaluation and bootstrap"
+    ],
+    "device": "CPU",
+    "processes": 1,
+    "threads": 1,
+    "warmup_runs": 1,
+    "timed_runs": 5
+  },
+  "inputs": {
+    "structured_models": "experiments/H001_geom_reliability/relation_algebra_v1/evaluation/models.json",
+    "vlsat": "experiments/H001_geom_reliability/sources/vlsat/full_validation/geometry/verification.jsonl",
+    "open3dsg": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/geometry/verification.jsonl",
+    "sgfn": "experiments/H001_geom_reliability/sources/sgfn/geometry/verification.jsonl"
+  },
+  "expected_counts": {
+    "vlsat": {
+      "input_rows": 957008,
+      "in_scope_rows": 220848,
+      "contexts": 548
+    },
+    "open3dsg": {
+      "input_rows": 695916,
+      "in_scope_rows": 160596,
+      "contexts": 548
+    },
+    "sgfn": {
+      "input_rows": 957008,
+      "in_scope_rows": 220848,
+      "contexts": 548
+    }
+  }
+}

@@ -1,8 +1,8 @@
 # RelCompat3D / H001 Research Summary
 
-Last updated: 2026-07-16 KST
+Last updated: 2026-07-17 KST
 
-Paper-facing name: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geometric Compatibility for 3D Scene Graph Relations`.
+Paper-facing name: `Beyond Semantic Confidence: Relation-Consistent Geometric Re-ranking for 3D Scene Graphs`.
 Use `RelCompat3D` in manuscript-facing prose. Keep `H001` only for internal
 experiment paths and archived hypothesis records.
 The legacy `src/geocalib/` namespace is retained for executable compatibility;
@@ -64,20 +64,21 @@ Authoritative owners:
   are grouped under Experiments; broad interpretation and claim boundaries are
   consolidated in Discussion and Limitations.
 - Active AAAI-27 outputs: `paper/aaai/main_aaai27.pdf` (9 US-Letter pages;
-  technical content through page 7, references on pages 8--9),
+  main text through page 7; references begin on page 7 and continue through page 9),
   `paper/aaai/supplement_aaai27.pdf` (5 pages), and
   `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Final main log:
-  `logs/h001_main_counterfactual_20260716_010956.log`; final supplement log:
-  `logs/h001_supp_counterfactual_20260716_011157.log`. Main/supplement/checklist
-  SHA256 values are `4b6be0f...`, `865ae2d...`, and `4f7b254...`. All three have
+  `logs/h001_main_claim_strengthening_final_20260717_193117.log`; final supplement log:
+  `logs/h001_supplement_claim_strengthening_20260717_193117.log`. Main/supplement/checklist
+  SHA256 values are `5a3012f8...`, `a3138be5...`, and `1c3efa0b...`. All three have
   zero Type 3 fonts and no unresolved citations/references or blocking
   LaTeX/overfull errors.
-- The revised Figure 1 is a three-panel vector figure with an actual object-pair
+- The revised Figure 1 is a three-panel vector figure with a measured ordered-pair
   point cloud, isolated T/G/Z paths, the `Z notin C` boundary, applicability
   routing, rank 19 to 178, and joint Recall--Violation evaluation. Figures 2--3 are also included as
-  vector PDFs. Relative size is intentionally absent from Figure 1 and remains
-  secondary supplement evidence.
-- Same-route comparator evaluation is complete under `routed_comparators_v1/`.
+  vector PDFs. Subject/object identity in Figure 3 is redundantly encoded by
+  point shape and box line style for grayscale printing. Relative size is intentionally absent from the submission and
+  remains artifact-only secondary evidence.
+- Matched-procedure comparator evaluation is complete under `routed_comparators_v1/`.
   Product, rank-average, RRF, and the frozen train-only matched MLP share the
   official 548-context universe, family sequence, support/contact selection,
   and scan-cluster indices. At Open3DSG K=50, product gives R/V `.4418/.0342`
@@ -85,15 +86,40 @@ Authoritative owners:
 - Train-only counterfactual-policy sensitivity is complete under
   `counterfactual_sensitivity_v1/`. Nine one-factor refits vary the proximity
   threshold, vertical margin, negative cap, and pairwise-loss weight. The
-  default model is bit-exact to the main model; internal-development ordering
+  default model reproduces the main model exactly; internal-development ordering
   accuracy is 1.000 in every variant. Relative to the default, the maximum
   absolute change is `.0023` Recall / `.0011` V at K=50 and `.0040` Recall /
   `.0020` V at K=100. Every variant retains point-estimate gains over source
   scoring on both metrics for all three predictors at both budgets. This is a
   threshold-robustness result, not an independent physical-validity reference.
+- Paired scan-cluster intervals now cover all K=`{5,10,20,50,100}`. Recall
+  support is predictor- and budget-dependent, while Violation intervals are
+  strictly negative except the tied SGFN K=5 point and the SGFN K=10 interval
+  that reaches zero. A bounded single-process CPU benchmark reports
+  3.430--4.584 ms per nonempty context after relation rows and pair geometry
+  are preloaded; it is not an end-to-end source-pipeline latency claim. The
+  stored heads have 69 parameters, with 45 used by the primary path.
+- A frozen raw-surface construct audit is complete under
+  `orthogonal_geometry_audit_v1/`. Point vertices and area-weighted mesh
+  triangles define training-only audit thresholds without OBB inputs, source or
+  compatibility scores, or existing verifier labels. At K=50, strict-consensus
+  dV is `-.0210`, `-.4113`, and `-.0343` for VL-SAT, Open3DSG, and SGFN; all
+  paired scan-cluster intervals are below zero and method coverage is
+  95.5--98.2%. Strict binary-decision coverage is 71.0--83.7% at K=50 because
+  point/mesh disagreement remains uncertain. K=100 is also negative on all
+  three. Frozen compatibility is
+  monotone under all 1,024 synthetic interventions, while raw-surface response
+  is 94.7--100% monotone. This materially reduces exact OBB-rule circularity,
+  but point and mesh still share the reconstructed 3RScan surface and are not
+  human or cross-sensor physical ground truth.
+- Related Work now includes the official CVPR-Findings 2026 GEODE boundary:
+  GEODE injects geometry inside discrete-diffusion predicate generation,
+  whereas RelCompat3D evaluates and re-ranks fixed candidate outputs. It also
+  distinguishes RelWitness, RelGraphOV, TAD, SCR-SSG, and PUF from the fixed-candidate
+  predicate--geometry compatibility setting.
 - The current verified OpenReview field bundle is
-  `release/h001_aaai27_openreview_20260716_011716/`. Its anonymous source ZIP
-  contains 205 checksum records and passes extracted-source Docker rebuild and
+  `release/h001_aaai27_openreview_20260717_193626/`. Its anonymous source ZIP
+  contains 198 checksum records and passes extracted-source Docker rebuild and
   canonical text-identity checks. Older factorized,
   LLM-proxy, Replica-disclosure, and reference-expansion PDFs remain historical
   provenance snapshots rather than upload candidates.
@@ -106,15 +132,15 @@ Authoritative owners:
 - Main sources: VL-SAT and SGFN on all 548 official contexts, plus Open3DSG
   public-pipeline predictions evaluated on the same full 548-context target;
   the 15 public preprocessing drops receive no predictions.
-- Main method: the strict train-only relation-algebra compatibility model plus
-  internal-dev-selected family-slot applicability routing. Proximity and
-  vertical candidates use the product within their source family slots;
+- Main method: the strict training-only transformation-consistent compatibility
+  model with family-aware re-ranking. Proximity and vertical candidates use the
+  product within their respective family positions;
   support/contact retains source selection exactly. Unrestricted product,
   rank-average, and RRF are comparisons, not universally dominant formulas.
 - Pooled compatibility product is an ablation. Exact internal condition keys
   remain in experiment manifests rather than manuscript-facing prose.
-- Factorization: `T_e` is predicate/family semantics, `G_e` is
-  predicate-independent same-pair geometry, `Z_e` is the source relation score, and
+- Factorization: `T_e` is predicate/family semantics, `G_e` contains
+  predicate-independent pair-geometry measurements, `Z_e` is the source relation score, and
   `C_e = sigmoid(h_a(Phi(T_e,G_e)))` is a bounded score for the constructed
   positive/counterfactual target, not a physical-validity probability. The
   leakage boundary is `Z_e notin C_e`; final ranking is
@@ -128,7 +154,7 @@ Authoritative owners:
   table appears immediately after the structural-diagnostics heading and
   reports wrong-predicate, wrong-pair, shuffled-geometry, label-fixed endpoint
   swap, distance-only, and compatibility-only controls from the public/full
-  548-context family-slot route under
+  548-context family-aware ranking procedure under
   `structured_ablation_v1/routed_public_full_evaluation/`; all fixed-model,
   context, routing, donor, and equivalence validations pass. The unrestricted
   route is supplemental only.
@@ -139,7 +165,7 @@ Authoritative owners:
 - Scan-cluster resampling is the primary interval analysis over 157 scans and
   548 contexts; context resampling is a sensitivity. At K=100, all
   routed-minus-source Recall intervals are strictly positive and all
-  verifier-V intervals strictly negative.
+  Violation intervals strictly negative.
 - Qwen-VL is complete as a third-source / modern VLM extension, but it is not part of the main claim unless explicitly promoted.
 - The optional `relative_size` family (`bigger than` / `smaller than`) has now
   completed the same 1,061/117/157 split firewall and a three-source
@@ -162,28 +188,31 @@ Authoritative owners:
 - Novelty-mechanism development and coordinated promotion are complete under
   `experiments/H001_geom_reliability/relation_algebra_v1/`. Six structured
   candidates were evaluated behind a pre-run gate. Only linked-counterfactual
-  margin fitting followed by exact relation-algebra orbit projection passes:
+  margin fitting followed by exact transformation averaging passes:
   proximity swap and vertical inverse errors are exactly zero, linked-positive
   win rate improves from .991752 to .992321, and K=100 Recall continuity holds
   on VL-SAT, Open3DSG, and SGFN. Its R/V is .9688/.0325, .6055/.0339, and
   .9418/.0372. The same locked model is now used for every main comparator,
   uncertainty analysis, figure, and table under `structured_main_v1/`. This
   strengthens the mechanism but is not a best-score result.
-- The SGFN-supervised 69-parameter nonlinear rescorer has also been applied
-  unchanged to VL-SAT and Open3DSG. It significantly loses Recall on VL-SAT at
+- The same SGFN-supervised 69-parameter nonlinear rescorer parameters were also
+  used on VL-SAT and Open3DSG. The model significantly loses Recall on VL-SAT at
   K=100 and on both sources at smaller K, so it remains a source-adapted upper
   bound rather than a predictor-agnostic replacement. Outputs are under
   `experiments/H001_geom_reliability/nonlinear_transfer_v1/`.
 - A supervision-matched 69-parameter nonlinear comparison is complete under
   `supervision_matched_nonlinear_v1/`. It uses the same constructed target,
-  train-only rows, features, and source-score exclusion as the linear model and
-  is applied unchanged to all predictors. It does not dominate the joint
+  training rows, features, and source-score exclusion as the linear model; the
+  same fitted parameters are used for all predictors. It does not dominate the joint
   objective: on complete-coverage Open3DSG it changes product Recall by
   `+.0360` `[+.0252,+.0475]` but worsens V by `+.0096`
   `[+.0079,+.0113]`; VL-SAT/SGFN differences are small.
-- Orbit projection and family-slot routing are formalized by invariance,
-  idempotence, prefix-preservation, and constrained-ranking propositions with
-  supplement proofs. A strict train-only three-condition primitive holdout is
+- Transformation averaging is formalized by one exact invariance proposition;
+  family-sequence and support/contact prefix preservation are stated as direct
+  consequences of the ordered-list construction. For every prefix, the rule is
+  utility-optimal among rankings with the same family counts and fixed
+  support/contact subsequence; the supplement gives the exchange proof. A
+  strict train-only three-condition primitive holdout is
   complete under `held_out_primitive_v1/`: exact-scalar removal preserves
   nearly the full result; broader primitive removal retains a strong Open3DSG
   effect but attenuates K=50 V gains on VL-SAT and SGFN.
@@ -199,7 +228,7 @@ Authoritative owners:
   joint improvements at K=10 and K=50; K=20 is positive with its Recall
   interval touching zero, K=5 is inconclusive, and the K=100 product gate fails
   because dV is `-.00096` with CI `[-.00288,.00000]`.
-  The pre-frozen family-slot-preserving rank diagnostic reaches R/V
+  The pre-frozen family-sequence-preserving rank analysis reaches R/V
   `.38372/.04223` from `.35465/.19674`; its dR CI `[-.00476,.06714]` clears
   the fixed recall guardrail and dV CI `[-.19182,-.11015]` is below zero.
   The main paper emphasizes the routed product's K=10--50 behavior and
@@ -256,29 +285,30 @@ not yet established uniformly across families.
 
 Core steps:
 
-1. Standardize relation predictions into identity-preserving rows.
-2. Join subject/object 3D geometry evidence for the same object pair.
-3. Fit predictor-agnostic predicate--geometry compatibility with linked
+1. Represent each relation candidate with its ordered object-pair identity.
+2. Associate each candidate with 3D measurements from the same object pair.
+3. Fit source-score-excluded predicate--geometry compatibility with linked
    counterfactual margins on the 1,061 training scans.
-4. Project proximity and vertical scores onto their exact swap/inverse
-   relation-algebra orbits; support/contact receives no blanket swap.
-5. Preserve the source-ranked family-slot sequence; use product ordering inside
-   proximity/vertical queues and source ordering inside support/contact.
+4. Average proximity and vertical scores over their valid swap/inverse
+   transformations; support/contact uses only the identity transformation.
+5. Preserve the source family sequence; use product ordering within
+   proximity/vertical ordered lists and source-score ordering for support/contact.
 6. Report exact-label `R@K` and verifier-derived `Violation@K` together.
 
-The orbit operator is formally invariant and idempotent on each declared
-finite relation-algebra orbit. Family-slot routing preserves the complete
-family sequence and support/contact subsequence at every prefix, and maximizes
-non-increasing position-weighted family utility among all permutations with
-that family sequence. Both guarantees are stated as propositions with proofs.
+Transformation averaging is formally invariant under each declared finite
+endpoint/predicate transformation group. Family-aware re-ranking preserves the
+complete family sequence and support/contact subsequence at every prefix by
+construction, and selects the highest-utility proximity/vertical candidates
+subject to those constraints. The invariance appears as one proposition; the
+supplement proves it and gives the constrained prefix-utility exchange proof.
 
 Main scoring conditions:
 
 | Condition | Role |
 | --- | --- |
 | Source score | source ranking baseline |
-| Applicability-routed RelCompat3D | main method; product within proximity/vertical slots, support/contact pass-through |
-| Relation-algebra-constrained product | unrestricted compatibility ablation |
+| RelCompat3D | main method; product within proximity/vertical relations, support/contact kept in source order |
+| Product (all families) | compatibility product applied to every family |
 | Rank-average fusion | scale-robust framework instantiation |
 | RRF (`c=60`) | strong rank-fusion comparator |
 | Pooled-calibrator ablation | family-conditioning ablation |
@@ -351,7 +381,7 @@ Strict train-only reconstruction, frozen 2026-07-11:
   `0.00124`, and correct-minus-wrong-pair compatibility `+0.42341` over 3,961
   recoverable GT rows. Support/contact endpoint swap remains prohibited.
 - Boundary: unrestricted product regresses on support/contact. The primary
-  applicability route prevents that regression by preserving source selection,
+  family-aware re-ranking prevents that regression by preserving source selection,
   but does not improve the family. V remains verifier-derived, so neither
   family-uniform nor support/contact-solved wording is authorized.
 
@@ -423,7 +453,7 @@ boundary; they are not the active main-score table.
   compatibility product at lower budgets and reduces K=100 verifier violation;
   therefore H001 does not claim formula optimality. The framework distinction
   is instead that RelCompat3D learns predictor-agnostic predicate--geometry
-  compatibility without source confidence or predictor-specific exact-label
+  compatibility without the source relation score or predictor-specific exact-label
   supervision, whereas this reviewer-requested rescorer uses both.
 - Cross-source application makes that distinction empirical. With its SGFN
   parameters and normalization unchanged, the nonlinear rescorer changes
@@ -433,11 +463,11 @@ boundary; they are not the active main-score table.
   at K=5/10/20/50. The source-specific exact-label upper bound therefore does
   not supply a stable cross-source ranking rule.
 - Relation-algebra development tests six ways to give compatibility a stronger
-  structure than generic feature calibration. Orbit projection alone obtains
+  structure than generic feature calibration. Transformation averaging alone obtains
   exact symmetry/inverse behavior but does not improve linked-pair ordering;
   pairwise training improves ordering but remains structurally inconsistent;
   an algebra basis loses too much Open3DSG Recall. Only the combined pairwise
-  model plus exact orbit projection passes all frozen gates. It is now the main
+  model plus exact transformation averaging passes all frozen gates. It is now the main
   compatibility model after a coordinated strict-model rerun of all paper
   baselines, uncertainty metrics, figures, and tables.
 - Provenance audit finds the family calibrator predates source metrics, but the
@@ -469,7 +499,7 @@ boundary; they are not the active main-score table.
   geometry-consistency integration across two evaluated soft
   fusion forms, not family-uniform improvement or formula dominance.
 - ReplicaSSG/FROSS now contributes a locked-final-method external benchmark in
-  addition to archived development. It shows that family-slot routing prevents
+  addition to archived development. It shows that family-aware re-ranking prevents
   the global rank-fusion Recall loss, while raw product is neutralized by 86.28%
   zero source scores. Candidate support caps Recall at .44186, 19.20% of
   external feature cells exceed three train-standardized deviations, and
@@ -493,7 +523,7 @@ Verifier evidence:
 | VL-SAT | controlled reproduced anchor |
 | Open3DSG | main open-vocabulary relation-source case study |
 | Qwen-VL | appendix/extension third semantic source |
-| SGFN full_l160 | additional exact-label source evaluation; aggregate criterion satisfied with verifier-V and baseline caveats |
+| SGFN full_l160 | additional exact-label source evaluation; aggregate criterion satisfied with Violation and baseline caveats |
 | ReplicaSSG + FROSS | locked-final-method external benchmark plus earlier development; positive routed-rank diagnostic, failed primary product gate, previously observed target, no dataset-generalization claim |
 | `relative_size` | promoted secondary scope extension; one main-text sentence plus full supplement, not core learned-method evidence |
 | `relative_horizontal` | stopped appendix/limitation scope-expansion evidence |
@@ -560,9 +590,12 @@ Current paper-facing files:
 
 - `paper/README.md`: paper workspace map.
 - `paper/preview.md`: current handoff snapshot.
-- `paper/progress.md`: progress rationale.
+- `paper/outline.md`: current six-section argument and evidence placement.
+- `paper/method.md`: accessible method definition and equations.
+- `paper/experiment.md`: comparison, metric, and statistical contract.
+- `paper/progress.md`: current completion, deferred tracks, and remaining work.
 - `paper/risk.md`: reviewer-risk register.
-- `paper/review.md`: orthogonal persona review.
+- `paper/review.md`: consolidated three-persona review.
 - `paper/appendix.md`: appendix/supplement plan.
 - `paper/figures.md`: figure plan and source lock.
 - `paper/aaai/README.md`: active venue-source runbook.
@@ -573,18 +606,21 @@ Current figures:
   factor isolation, compatibility scoring, and joint evaluation; no
   review-checklist artifact appears in the figure.
 - Figure 2: three-source Recall--Violation trajectories at
-  K=`{5,10,20,50,100}`, with K=50 outlined as a descriptive reference and the
-  full low-/high-budget boundaries retained.
-- Figure 3: one proximity correction, one relative-vertical correction, and
-  one residual support/contact violation.
+  K=`{5,10,20,50,100}` on percentage axes, with every K labeled and no selected
+  operating point.
+- Figure 3: an ordered-pair--evidence--outcome grid containing one proximity
+  correction, one relative-vertical correction, and one residual
+  support/contact case.
 
 Current reviewer-risk verdict:
 
-1. Circularity is mitigated but not resolved: wrong-predicate, wrong-pair, and
-   transformation controls test falsifiability, while the compatibility target
-   and verifier still share engineered geometric primitives. Codex proxy
-   disagreement reinforces rather than closes the need for independent human
-   construct validation.
+1. Exact OBB-rule circularity is substantially mitigated: wrong-predicate,
+   wrong-pair, and transformation controls are now complemented by a frozen
+   point/mesh audit whose labels exclude OBB inputs and existing verifier
+   outputs. Separate point, mesh, and strict-consensus results agree on the
+   K=50/100 direction across all predictors. Residual construct dependence
+   remains because both audits use the same reconstructed PLY surface and
+   dataset ontology; this is not independent physical ground truth.
 2. The engineered-calibration novelty threat is materially reduced, but not
    eliminated. Factor isolation is now complemented by linked-counterfactual
    margin fitting and exact relation-algebra projection, which supply a hard
@@ -637,7 +673,7 @@ Method-strengthening sequence:
    exact rank-displacement constraints. The optimistic all-scene result is not
    promoted because LOSO fails the Recall guardrail; the main claim is unchanged.
 8. Completed: froze and executed six relation-algebra compatibility variants.
-   The combined linked-pair margin model plus exact orbit projection is the
+   The combined linked-pair margin model plus exact transformation averaging is the
    only condition to pass structural, all-source joint, Recall-continuity, and
    counterfactual-ordering gates.
 9. Completed: applied the unchanged SGFN-supervised nonlinear rescorer to
@@ -651,7 +687,7 @@ Method-strengthening sequence:
     target-specific fitting or hyperparameter selection. All 20 validations pass. The
     routed product has paired joint gains at K=10 and K=50 but remains
     scale-limited at K=100. The supplement reports all five budgets and the
-    quantization/candidate-ceiling analysis; a family-slot-preserving rank
+    quantization/candidate-ceiling analysis; a family-sequence-preserving rank
     diagnostic remains mechanism evidence only. The previously observed target
     prevents prospective wording.
 
@@ -659,19 +695,18 @@ Submission/package hygiene:
 
 1. Completed: verified the live AAAI-27/OpenReview form, official target-year
    style, deadlines, page limits, separate checklist, and supplement policy.
-2. Completed: the current 2026-07-16 field bundle at
-   `release/h001_aaai27_openreview_20260716_011716/` passed outer/inner
+2. Completed: the current 2026-07-17 field bundle at
+   `release/h001_aaai27_openreview_20260717_193626/` passed outer/inner
    checksums, archive integrity, identity/path scans, and extracted-source
-   Docker rebuild. It supersedes the earlier 2026-07-15 field bundles.
+   Docker rebuild. It supersedes the earlier field bundles.
 3. Author action: enter author order/profiles, countries, conflicts, and the
    qualified reciprocal reviewer.
 4. Author decision: final public code license and post-acceptance artifact URL.
 5. Optional scientific decision: activate the frozen independent-human
    alignment study; otherwise retain the explicit Codex-proxy-only claim.
-6. Completed: promote `relative_size` only as a secondary scope sentence and
-   full supplement result, retaining the strong point-rule baseline, residual
-   same-segmentation construct caveat, and no two-instantiation or formula-
-   optimality extension.
+6. Completed: keep `relative_size` as an artifact-only secondary analysis. It
+   is excluded from the submitted main paper, supplement, and release ZIP
+   because the fixed point-rule baseline is as strong as the learned score.
 
 No new main-source metric experiment is required to preserve the current
 RelCompat3D claim. The coordinated structured-main rerun and ReplicaSSG

@@ -2,7 +2,7 @@
 
 Status: `completed`
 
-All conditions preserve the source family-slot sequence and support/contact order; only proximity and vertical candidates are reordered.
+All conditions preserve the source sequence of relation-family labels and the support/contact order; only proximity and vertical candidates are reordered within their respective families.
 
 | Source | Condition | R@50 | V@50 | R@100 | V@100 |
 | --- | --- | ---: | ---: | ---: | ---: |

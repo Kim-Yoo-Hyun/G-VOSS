@@ -1,23 +1,20 @@
 \begin{abstract}
-3D Scene Graph predictors can assign high confidence to relation candidates
-whose predicates are inconsistent with reconstructed object-pair geometry. We
-formulate compatibility assessment for fixed relation predictions and
-introduce \method{},
-which separates predicate semantics, same-pair geometry, and source
-confidence. A fitted compatibility layer with family-specific linear heads
-excludes predictor identity and source scores and learns from linked
-positive--counterfactual ordering; its
-scores are projected onto the applicable proximity and vertical
-relation-algebra orbits. An
-applicability route re-orders only these families within the source's family
-slots and preserves selections from support/contact, which lies outside the
-routing scope. We evaluate exact-label
+3D Scene Graph predictors can assign high scores to relation candidates
+whose predicates are inconsistent with reconstructed ordered-pair geometry. We
+formulate predicate--geometry compatibility assessment for fixed relation
+predictions and introduce \method{}, which preserves ordered-pair identity and
+separates predicate/family semantics,
+predicate-independent pair-geometry measurements, and the source relation
+score. Family-specific compatibility heads are trained using linked
+positive--counterfactual pairs without predictor identity or the source relation
+score. Transformation
+averaging enforces proximity symmetry and invariance under joint endpoint swap
+and inverse-predicate transformation. The method re-ranks proximity and vertical
+relations while keeping support/contact relations in source order. We evaluate exact-label
 Recall@$K$ jointly with verifier-derived Violation@$K$ across VL-SAT,
-Open3DSG, and SGFN on a shared 3DSSG target. At $K=50$, \method{} improves
-Open3DSG Recall from 0.4043 to 0.4418
-while reducing Violation from 0.1387 to 0.0342. Across $K=10$--$50$, its
-point estimates preserve or improve Recall and reduce Violation on all three
-predictors. Same-route fusion and supervision-matched nonlinear comparisons,
-factor controls, and family-wise analysis characterize the benefits and limits
-of the factorized mechanism.
+Open3DSG, and SceneGraphFusion (SGFN) on a shared 3DSSG target. Across the reported budgets,
+\method{} yields lower or tied Violation point estimates while preserving or
+improving Recall point estimates, with the largest gains on Open3DSG.
+Comparisons with matched rank-fusion and nonlinear baselines reveal predictor-
+and family-dependent trade-offs.
 \end{abstract}

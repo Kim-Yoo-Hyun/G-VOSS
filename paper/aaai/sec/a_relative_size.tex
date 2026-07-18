@@ -4,7 +4,7 @@ We evaluate \texttt{bigger than}/\texttt{smaller than} as secondary breadth
 evidence, not as core evidence that learned compatibility is necessary. The
 extension uses the same 1,061/117/157 train/development/evaluation split. Its model receives
 predicate sign, robust point extents and volume ratios, and signed
-predicate--geometry interactions; source score, rank, object class, and
+predicate--geometry interactions; source relation score, rank, object class, and
 evaluation labels are excluded. Alternating point subset A (p05--p95 extents)
 provides model evidence, whereas disjoint subset B (p02--p98 extents) provides
 the verifier measurement. Annotation OBB volume is used only by a fixed-rule
@@ -14,8 +14,8 @@ The model fits 3,244 training rows and obtains target-discrimination AUROC .9974
 on 376 development rows. Correct-predicate ordering is 96.81\%; exact
 inverse-equivariance and common-scale invariance have maximum error
 $2.22\times10^{-16}$. Table~\ref{tab:relative-size-summary} summarizes the
-$K=100$ result; the supplemental package contains all five $K$ values and family
-compositions.
+$K=100$ result; the retained experiment artifact contains all five $K$ values
+and family compositions.
 
 \begin{table}[H]
 \centering

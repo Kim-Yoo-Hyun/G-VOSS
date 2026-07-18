@@ -1,12 +1,12 @@
 # H001 Geometry Reliability Experiment
 
-Last updated: 2026-07-16 KST
+Last updated: 2026-07-17 KST
 
 This is the Docker-based experiment root for RelCompat3D/H001. Paper-facing
 summaries are promoted to `results/h001_geom_reliability/`; row-level runtime
 artifacts remain under this experiment tree or in an external release bundle.
 
-Paper-facing name: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geometric Compatibility for 3D Scene Graph Relations`.
+Paper-facing name: `Beyond Semantic Confidence: Relation-Consistent Geometric Re-ranking for 3D Scene Graphs`.
 `H001` remains the internal experiment identifier.
 
 ## Current Route
@@ -15,13 +15,13 @@ Paper-facing name: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geo
   preprocessing evaluated conservatively on the same full 548-context target.
   The 533 eligible and recovered-548 Open3DSG routes are sensitivities.
 - Main relation families: `support_contact`, `proximity`, `relative_vertical`.
-- Main method: strict train-only relation-algebra-constrained compatibility
-  with family-slot applicability routing. Proximity/vertical queues use
-  `source score * projected compatibility`; support/contact uses source order.
-  Unrestricted product and rank fusion remain comparisons.
+- Main method: strict train-only relation-consistent compatibility with
+  transformation averaging and family-aware re-ranking. Proximity/vertical
+  ordered lists use `source relation score * compatibility`; support/contact
+  follows the source ranking. Product (all families) and rank fusion remain comparisons.
 - Pooled-calibrator ablation: `source score * pooled compatibility`.
-- Factor contract: `T_e` = predicate/family semantics, `G_e` = raw
-  predicate-independent same-pair geometry, `Z_e` = source relation score, and
+- Factor contract: `T_e` = predicate/family semantics, `G_e` =
+  predicate-independent same-pair geometry measurements, `Z_e` = source relation score, and
   `C_e = sigmoid(h_a(Phi(T_e,G_e)))`, with `Z_e notin C_e`. It is a bounded
   constructed-target score, not a physical-validity probability. Final ranking is
   `S_e = F(Z_e,C_e)`; product and rank-average are the current
@@ -32,6 +32,23 @@ Paper-facing name: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geo
   calibrator retains predicate/family and predicate-aligned features, call it
   calibrator-only/no-`Z_e`, not true `G_e`-only.
 - K grid: `{5, 10, 20, 50, 100}`. K=1 is sanity-check only.
+- The non-human construct-validity audit is frozen under
+  `orthogonal_geometry_audit_v1/`. Its primary scope is proximity and vertical;
+  it derives separate point-vertex and area-weighted triangle-surface
+  statuses without reading OBB inputs, source/compatibility scores, or the
+  existing verifier. Train-only percentile rules, point/mesh consensus,
+  scan-cluster paired intervals, audit coverage, and synthetic-intervention
+  monotonicity were fixed before evaluation. The final Docker run exits `0`
+  with all 17 validations true, 157/157 validation surfaces, and exact Recall
+  agreement with the primary comparator artifact. Consensus dV at K=50 is
+  `-.0210 [-.0242,-.0181]`, `-.4113 [-.4284,-.3937]`, and
+  `-.0343 [-.0392,-.0300]` for VL-SAT, Open3DSG, and SGFN; method coverage is
+  `.9551/.9823/.9576`, while strict-consensus decidable coverage is
+  `.7099/.8375/.7992` because point/mesh disagreement remains uncertain.
+  Frozen compatibility is monotone on all 1,024 synthetic
+  cases; raw-surface monotonicity is 94.7--100%. This reduces exact OBB-rule
+  circularity but remains an automatic audit of the same reconstructed surface,
+  not human or cross-sensor physical ground truth.
 - Physical-validity proxy audit: two separately locked blinded Codex LLM passes
   cover 488 relation items / 137 scans. Agreement is 438/488 (89.75%,
   four-class kappa 0.845); all 334 jointly binary items agree. Full mandatory
@@ -43,7 +60,7 @@ Paper-facing name: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geo
   evaluator remains dormant.
 - Additional exact-label source: `sgfn_official_full_l160`. The v3 pipeline and
   audit are complete; both soft instantiations satisfy the aggregate K=100
-  criterion, subject to verifier-V, family-wise, and strong-baseline caveats.
+  criterion, subject to Violation, family-wise, and strong-baseline caveats.
 - Strict reconstruction: `train_only_reestablishment_v1/` owns the exact
   1,061/117/157 split firewall, validation-information provenance audit,
   strict train-only calibrators, execution contract,
@@ -52,7 +69,7 @@ Paper-facing name: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geo
   results directly without prospective language.
 - Cross-dataset evaluation: official ReplicaSSG test plus the official FROSS
   VisualGenome source is under `sources/replicassg/`. The final RelCompat3D
-  model and family-slot rule were reapplied with zero target fit or
+  model and family-aware ranking rule were reapplied with zero target fit or
   hyperparameter selection under `final_method_transfer_v1/`. The target had
   been observed in earlier development, so the result is a benchmark
   evaluation rather than untouched confirmation. Primary raw-product transfer
@@ -66,17 +83,17 @@ Paper-facing name: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geo
   K=`{5,10,20,50,100}`. Its manifest validations all pass and the promoted
   model SHA256 is
   `62d251f3ce60e2db54eb1748c277350e3b9e2c7c9d2be0312cf2fb323b761410`.
-- Same-route strong-comparator evaluation is complete under
+- Matched strong-comparator evaluation is complete under
   `routed_comparators_v1/`. Product, rank-average, RRF, and the locked
   train-only matched MLP share the official 548-context universe,
-  family-slot sequence, support/contact pass-through, and scan-cluster
+  family sequence, support/contact source ordering, and scan-cluster
   resampling. Every hash, denominator, route, and composition validation
   passes; Open3DSG K=50 product and MLP R/V are `.4418/.0342` and
   `.4670/.0413`, respectively.
 - Counterfactual-policy sensitivity is complete under
   `counterfactual_sensitivity_v1/`. Nine one-factor-at-a-time train-only refits
   vary proximity threshold, vertical margin, negative cap, or pairwise-loss
-  weight while retaining the 1,061/117/157 firewall and family-slot route.
+  weight while retaining the 1,061/117/157 firewall and family-aware ranking procedure.
   The default model and metrics exactly match the main result. All variants
   reach 1.000 linked-pair ordering accuracy on internal development; maximum
   absolute deviations are `.0023/.0011` R/V at K=50 and `.0040/.0020` at
@@ -86,15 +103,26 @@ Paper-facing name: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geo
   content through page 7 and pages 8--9 references only),
   `paper/aaai/supplement_aaai27.pdf` (5 pages), and
   `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Canonical hashes
-  are `4b6be0f...`, `865ae2d...`, and `4f7b254...`; the synchronized upload
-  bundle is `release/h001_aaai27_openreview_20260716_011716/` and contains the
-  same-route comparator artifacts.
+  are `5a3012f8...`, `a3138be5...`, and `1c3efa0b...`; the synchronized upload
+  bundle is `release/h001_aaai27_openreview_20260717_193626/` and contains the
+  matched-procedure comparator artifacts.
 - Scan-cluster sensitivity is complete under
   `support_contact_routing_v1/scan_cluster_sensitivity/`: it resamples 157 scans with
   all 548 contexts attached to their scan, without changing scores, rankings,
-  or point estimates.
-- Exact orbit and routing guarantees are now stated as propositions with
-  proofs in the manuscript supplement. The strict train-only construct-overlap
+  or point estimates. The supplement reports paired intervals at every
+  K=`{5,10,20,50,100}` rather than only selected budgets.
+- CPU cost is frozen under `runtime_v1/`. One process/thread times the primary
+  compatibility calculation, transformation averaging, family-aware sorting,
+  and output assembly after rows and pair geometry are preloaded. Median cost
+  is 4.548 ms/context for VL-SAT, 3.430 ms/nonempty context for Open3DSG, and
+  4.584 ms/context for SGFN. The stored family heads contain 69 parameters,
+  the primary path uses 45, and no fusion parameter is fitted. Source inference,
+  reconstruction, geometry joining, parsing, metrics, and bootstrap are outside
+  the timed region.
+- Exact transformation consistency is stated as one proposition, while
+  family-sequence and support/contact prefix preservation are direct properties
+  of the ranking construction; both are proved or verified in the manuscript
+  supplement. The strict train-only construct-overlap
   diagnostic under `held_out_primitive_v1/` removes the exact verifier scalar,
   its reconstructible measurement family, or all but alternative evidence.
   All 14 validations pass on the official 548-context target. Exact-scalar
@@ -114,10 +142,10 @@ Paper-facing name: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geo
 | VL-SAT | controlled reproduced anchor | `sources/vlsat/full_validation/` |
 | Open3DSG | main public-pipeline/full-target case study | `open3dsg_official_route_v1/evaluation/` |
 | Qwen-VL | appendix/extension third semantic source | `sources/qwen_vl/` |
-| SGFN full_l160 | additional exact-label source; aggregate criterion satisfied, verifier-V caveat | `sources/sgfn/` |
+| SGFN full_l160 | additional exact-label source; aggregate criterion satisfied, Violation caveat | `sources/sgfn/` |
 | ReplicaSSG + FROSS | transfer stress test and method-development diagnostic | `sources/replicassg/` |
 | attachment_deferred | subtype-v2 development diagnostic, not promoted | `archive/experiments/H001_geom_reliability/sources/attachment_deferred/subtype_redesign_v2/` |
-| relative_size | promoted secondary scope extension; supplement-full | `relative_size_v1/` |
+| relative_size | completed secondary extension; artifact only | `relative_size_v1/` |
 | Open3DSG recovered 548 branch | full-coverage sensitivity | `sources/open3dsg/full_validation/recovery_relaxed_views_min2/` |
 | historical 127-scan branches | appendix/sensitivity/provenance only | older source subfolders and `archive/` |
 
@@ -141,8 +169,8 @@ VL-SAT full-validation:
 | Condition | R@50 | R@100 | V@50 | V@100 |
 | --- | ---: | ---: | ---: | ---: |
 | Source score | 0.9272 | 0.9635 | 0.0268 | 0.0476 |
-| Applicability-routed RelCompat3D | 0.9277 | 0.9658 | 0.0197 | 0.0295 |
-| Relation-algebra-constrained product | 0.9293 | 0.9688 | 0.0203 | 0.0325 |
+| RelCompat3D | 0.9277 | 0.9658 | 0.0197 | 0.0295 |
+| Product (all families) | 0.9293 | 0.9688 | 0.0203 | 0.0325 |
 | Rank-average fusion | 0.8119 | 0.9617 | 0.0191 | 0.0248 |
 | Reciprocal-rank fusion | 0.8925 | 0.9610 | 0.0163 | 0.0233 |
 | Pooled-calibrator ablation | 0.9300 | 0.9690 | 0.0219 | 0.0387 |
@@ -153,8 +181,8 @@ Open3DSG public pipeline on the full 548-context target:
 | Condition | R@50 | R@100 | V@50 | V@100 |
 | --- | ---: | ---: | ---: | ---: |
 | Source score | 0.4043 | 0.5111 | 0.1387 | 0.1242 |
-| Applicability-routed RelCompat3D | 0.4418 | 0.5692 | 0.0342 | 0.0324 |
-| Relation-algebra-constrained product | 0.4655 | 0.6005 | 0.0265 | 0.0330 |
+| RelCompat3D | 0.4418 | 0.5692 | 0.0342 | 0.0324 |
+| Product (all families) | 0.4655 | 0.6005 | 0.0265 | 0.0330 |
 | Rank-average fusion | 0.4675 | 0.5937 | 0.0376 | 0.0526 |
 | Reciprocal-rank fusion | 0.4315 | 0.5926 | 0.0933 | 0.0781 |
 | Pooled-calibrator ablation | 0.4675 | 0.6402 | 0.0510 | 0.0743 |
@@ -162,18 +190,18 @@ Open3DSG public pipeline on the full 548-context target:
 
 SGFN additional exact-label source:
 
-| Condition | R@50 | R@100 | verifier V@50 | verifier V@100 |
+| Condition | R@50 | R@100 | V@50 | V@100 |
 | --- | ---: | ---: | ---: | ---: |
 | Source score | 0.7402 | 0.9235 | 0.0385 | 0.0630 |
-| Applicability-routed RelCompat3D | 0.7450 | 0.9303 | 0.0263 | 0.0350 |
-| Relation-algebra-constrained product | 0.7706 | 0.9418 | 0.0256 | 0.0372 |
+| RelCompat3D | 0.7450 | 0.9303 | 0.0263 | 0.0350 |
+| Product (all families) | 0.7706 | 0.9418 | 0.0256 | 0.0372 |
 | Rank-average fusion | 0.7314 | 0.9474 | 0.0203 | 0.0268 |
 | Reciprocal-rank fusion | 0.7165 | 0.9074 | 0.0203 | 0.0266 |
 | Pooled-calibrator ablation | 0.7925 | 0.9413 | 0.0292 | 0.0464 |
 | Hard geometry filter | 0.7462 | 0.9270 | 0.0000 | 0.0000 |
 
-SGFN Recall uses the frozen 3,972-row exact-label denominator. Its V columns
-are frozen-verifier diagnostics, not independent human physical-validity
+SGFN Recall uses the frozen 3,972-relation exact-label denominator. Its V columns
+are verifier-derived diagnostics, not independent human physical-validity
 measurements.
 
 These values are the promoted synchronized outputs from
@@ -335,7 +363,7 @@ ReplicaSSG/FROSS now has both historical transfer-development diagnostics and
 a no-target-tuning evaluation of the locked final method. The primary routed
 product has paired joint gains at K=10 and K=50, while it still fails the
 K=100 gate: dR is exactly zero and dV is `-.00096` with
-scene-bootstrap CI `[-.00288,.00000]`. The pre-frozen family-slot-preserving
+scene-bootstrap CI `[-.00288,.00000]`. The pre-frozen family-sequence-preserving
 rank-average diagnostic reaches R/V `.38372/.04223`, versus source
 `.35465/.19674`; its dR CI `[-.00476,.06714]` satisfies the fixed `-.01`
 guardrail and its dV CI `[-.19182,-.11015]` is below zero. Because the target
@@ -622,14 +650,14 @@ it does not invalidate the source-score-exclusion contract
 
 The frozen 3DSSG-only relation-algebra branch is complete under
 `relation_algebra_v1/`. Six structured alternatives were evaluated in addition
-to the continuity family product: orbit projection, transform augmentation,
+to the continuity family product: transformation averaging, transformation-consistent augmentation,
 linked pairwise margin training, their combinations, and an algebra-constrained
 feature basis. Only the combined pairwise model with exact inference-time orbit
 projection passes every pre-run gate. It has zero proximity-swap and
 vertical-inverse error, improves linked-counterfactual ordering, and preserves
 the K=100 source-vs-product Recall guard on VL-SAT, Open3DSG, and SGFN. Its
 R/V is `0.9688/0.0325`, `0.6055/0.0339`, and `0.9418/0.0372`, respectively.
-This relation-algebra-constrained mechanism is now the promoted paper main
+This transformation-consistent mechanism is now the promoted paper main
 compatibility. The synchronized `structured_main_v1/` route evaluates all
 comparators and uncertainty definitions from that exact model; the claim
 remains structural rather than best-score or best-formula wording.
@@ -650,7 +678,7 @@ claim.
 The paper-facing falsification and information-ablation run is complete under
 `structured_ablation_v1/routed_public_full_evaluation/`. It keeps the promoted
 model, public/full candidates, 548-context universe, 3,972-relation
-denominator, primary family-slot routing, and K=`{50,100}` fixed. It reports
+denominator, primary family-aware ranking, and K=`{50,100}` fixed. It reports
 the routed RelCompat3D rule beside wrong-predicate, wrong-pair,
 shuffled-geometry, label-fixed endpoint-swap, distance-only, and
 compatibility-only rankings for VL-SAT, Open3DSG, and SGFN.

@@ -1,12 +1,12 @@
 # TODO
 
-Last updated: 2026-07-16 KST
+Last updated: 2026-07-17 KST
 
 이 파일은 에이전트가 다음 작업 계획과 진행 상태를 관리하는 루트 작업판이다. 자세한 문헌 조사 내용은 `literature/`에 기록하고, 자세한 hypothesis 근거는 `archive/hypothesis_records/hypothesis/`에 기록한다.
 
-## Current Snapshot, 2026-07-15 KST
+## Current Snapshot, 2026-07-17 KST
 
-- Paper-facing name is now `Beyond Semantic Confidence: Relation-Algebra-Constrained Geometric Compatibility for 3D Scene Graph Relations`; keep `H001` as an internal hypothesis/experiment identifier only.
+- Paper-facing name is now `Beyond Semantic Confidence: Relation-Consistent Geometric Re-ranking for 3D Scene Graphs`; keep `H001` as an internal hypothesis/experiment identifier only.
 - The active manuscript now uses `RelCompat3D` as its method name and six
   top-level sections: Introduction, Related Work, Method, Experiments,
   Discussion and Limitations, and Conclusion. Problem Setup is inside Method;
@@ -14,20 +14,16 @@ Last updated: 2026-07-16 KST
 - Repository structure is now release-oriented: core Python in `src/geocalib/`, shell wrappers in `scripts/`, Docker/compose files in `configs/`, compact outputs in `results/`, preserved hypothesis records in `archive/hypothesis_records/hypothesis/`, and superseded/optional material in `archive/`.
 - Main claim remains scoped relation reliability for `support_contact`,
   `proximity`, and `relative_vertical`. The primary method now applies the
-  relation-algebra product only within proximity/vertical family slots and
+  transformation-consistent product only within proximity/vertical family
+  positions and
   preserves support/contact selection exactly. VL-SAT and SGFN use all 548
   contexts; Open3DSG uses the public 533-context predictions on the full
   548-context/3,972-GT target, with missing contexts assigned no predictions.
 - The optional `relative_size` extension is complete under
-  `experiments/H001_geom_reliability/relative_size_v1/`. It keeps the
-  1,061/117/157 firewall, all 548 evaluation contexts, K=`{5,10,20,50,100}`,
-  paired family-wise CIs, and global-top-K composition. The learned product
-  passes the frozen within-size and four-family K=100 gates for VL-SAT,
-  Open3DSG, and SGFN. It does not strictly outperform the point-rule baseline,
-  and four-family rank-average does not pass on every source. The user has now
-  approved a bounded promotion: one main-text scope sentence plus full
-  supplement results, without using relative size as core learned-method
-  evidence or changing the headline three-family result tables.
+  `experiments/H001_geom_reliability/relative_size_v1/`, but its fixed point-rule
+  baseline is as strong as the learned score on Violation. It is therefore kept
+  as an artifact-only secondary analysis and excluded from the submitted main
+  paper, technical supplement, and release ZIP.
 - `attachment_deferred` subtype-v2 redesign is complete as development
   evidence only. The new predicate/mechanism/observability taxonomy, 761-row
   migration, 190,722-row source-route audit, controls, and 100-row review queue
@@ -38,34 +34,36 @@ Last updated: 2026-07-16 KST
 - Low-K result reporting decision is to expose K = `{5, 10, 20, 50, 100}` in the main source-result table. K=1 stays out of paper metrics. Docker-regenerated point-metric artifacts now live under `sources/vlsat/full_validation/metrics_k_sweep/` and `sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/`; K=50/100 matches the locked `metrics/metrics.json` point estimates.
 - Figure 2 and one joint main table report Recall/Violation at
   K=`{5,10,20,50,100}` for VL-SAT, Open3DSG, and SGFN. The paper discusses
-  K=50 as a descriptive mid-curve reference and reports K=10--50
+  K=50 as an intermediate reported budget and reports K=10--50
   behavior without an external operational-use claim; K=5 and K=100 remain visible as boundary conditions without
-  internal protocol labels. A second table reports six fixed-model controls at
-  K=50/100.
+  internal protocol labels or a selected-point outline. Table 1 and the
+  single-column K=50/100 control table use percentage points and concise
+  condition names.
 - Qwen-VL full official validation downstream is complete as a third-source / modern VLM extension: 157 scans / 548 contexts / 110,424 query rows / 46,506 inferable input rows / 35,131 exported predictions / 32,236 in-scope predictions / 3,972 H001-family GT rows, plus metrics/controls/bootstrap/failure rows/36 deterministic qualitative cases. It remains appendix/extension evidence unless explicitly promoted.
 - Historical source-validation build
   `archive/paper/aaai_snapshots/20260625_reference_expansion.pdf`
   remains preserved. It is provenance only and must not be used as the active
   manuscript or upload package.
 - Latest H001 submission manuscript is `paper/aaai/main_aaai27.pdf`, SHA256
-  `4b6be0f799bc20f551e6801394c040051dab9d2374110ad3a276f5b4ac805a17`. The active
-  outputs are main/supplement/checklist 9/5/2 US-Letter pages; technical content
-  continues through page 7 and references occupy pages 8--9. Type 3 fonts, unresolved
+  `5a3012f8d529e147f647c3a92d388940f675b2f98728371429a3a965e4d4f46f`. The active
+  outputs are main/supplement/checklist 9/5/2 US-Letter pages; main text
+  continues through page 7, where references begin and continue through page 9. Type 3 fonts, unresolved
   citations/references, LaTeX errors, and overfull boxes are zero. Superseded
   framework-first, factorized, and Replica-disclosure builds remain archived.
 - The current main/supplement PDFs include the source-backed three-panel vector
-  Figure 1, scan-cluster intervals at K=50/100, and compact relative-size and
-  external-transfer appendices.
-  Product, rank-average, RRF, and the train-only supervision-matched MLP were
-  re-evaluated under the identical family-slot route, support/contact
-  pass-through, official 548-context universe, and scan-cluster resampling.
+  Figure 1, scan-cluster intervals at every reported K, CPU re-ranking cost, and the compact external-transfer
+  appendix. Relative size is no longer part of the submitted supplement.
+  Product, rank-average, RRF, and the training-only supervision-matched MLP were
+  re-evaluated under the identical family-aware ranking procedure,
+  support/contact source ordering, official 548-context universe, and
+  scan-cluster resampling.
   All route/composition/hash checks pass under `routed_comparators_v1/`; the
   supplement now gives the exact counterfactual rules and their verifier
   primitive overlap.
 - Counterfactual-policy sensitivity is complete under
   `experiments/H001_geom_reliability/counterfactual_sensitivity_v1/`. Nine
   train-only one-factor refits vary proximity threshold, vertical margin,
-  negative cap, and pairwise-loss weight. The default is bit-exact to the main
+  negative cap, and pairwise-loss weight. The default reproduces the main
   model; all variants have development ordering accuracy 1.000. Maximum
   absolute change from default is `.0023/.0011` R/V at K=50 and
   `.0040/.0020` at K=100, while every variant retains source-score point gains
@@ -73,9 +71,9 @@ Last updated: 2026-07-16 KST
   matched MLP in place of pooled product; pooled family conditioning is in the
   supplement.
   The current verified bundle is
-  `release/h001_aaai27_openreview_20260716_011716/`; it includes the compact
-  ReplicaSSG stress test, routed ablations, current source, and outer/inner
-  checksum manifests.
+  `release/h001_aaai27_openreview_20260717_193626/`; it contains the current
+  transcript and passes outer/inner checksums, anonymous path scans, archive
+  integrity checks, and extracted-source Docker rebuilds.
 - H001-only cleanup completed after compact-result verification: removed
   Replica/FROSS raw archives, mesh/runtime, weights, cloned source repositories,
   regenerated source shards, the duplicate merged pickle, Python caches, and
@@ -86,24 +84,24 @@ Last updated: 2026-07-16 KST
   the active RelCompat3D metric, SGFN full-reproduction, and AAAI-27 TeX images
   remain protected. Exact conditions are owned by `docs/reproducibility.md`.
 - The prose now follows failure -> structural cause -> factor-isolation
-  necessity -> method -> evidence -> scope/limitations. Figure 1 starts from an
-  actual geometry-inconsistent prediction and contains no reviewer-checklist
-  band; Figure 2 is the three-source K trajectory; Figure 3 contains one routed
-  proximity correction, one relative-vertical correction, and one residual
-  support/contact violation. The three
-  LaTeX inclusions use vector PDFs, and Table 2 is a single-column K=50/100
-  ablation table.
-- H001 method direction is now factor-isolated: `T_e` denotes predicate/family
-  semantics, `G_e` predicate-independent same-pair geometry, `Z_e` source
-  confidence, and `C_e = sigmoid(h_a(Phi(T_e,G_e)))` the bounded compatibility
+  necessity -> method -> evidence -> scope/limitations. Figure 1 starts from a
+  measured geometry-inconsistent prediction, uses larger minimum labels, and
+  contains no reviewer-checklist band. Figure 2 uses percentage axes and labels
+  every K without a K=50 outline; Figure 3 is an ordered-pair--evidence--outcome
+  grid with two routed corrections and one support/contact residual. The three
+  LaTeX inclusions use vector PDFs, and Table 2 is a single-column percentage
+  K=50/100 ablation table.
+- H001 method separates the inputs: `T_e` denotes predicate/family
+  semantics, `G_e` predicate-independent pair-geometry measurements, `Z_e` the source
+  relation score, and `C_e = sigmoid(h_a(Phi(T_e,G_e)))` the bounded compatibility
   score for a constructed positive/counterfactual target, not a probability of
   physical validity. The leakage boundary is `Z_e notin C_e`; the source relation score is
   used only by final fusion `S_e = F(Z_e,C_e)`. Existing product/rank-average
   results remain unchanged framework instantiations.
-- The strict train-only `orbit_pairwise_projected_product` remains the learned
-  compatibility score. The paper-facing primary decision rule is now the
-  internal-dev-selected **family-slot applicability route**: proximity and
-  vertical use the product within their source family slots, while
+- The strict train-only transformation-averaged product remains the learned
+  compatibility score. The paper-facing decision rule uses family-aware
+  re-ranking: proximity and vertical use the product within their source-family
+  positions, while
   support/contact uses source ordering. The coordinated Docker runs regenerate
   source score, structured product, rank-average, RRF, pooled product,
   hard-rule filtering, compatibility-only, family-wise paired CIs, and
@@ -112,11 +110,18 @@ Last updated: 2026-07-16 KST
   `62d251f3ce60e2db54eb1748c277350e3b9e2c7c9d2be0312cf2fb323b761410`;
   every manifest validation passes.
 - The Docker scan-cluster analysis resamples 157 scans and carries all 548
-  relation contexts with their scan. At K=50, verifier-V intervals are
-  strictly negative for all three sources; Recall intervals are positive for
-  Open3DSG and SGFN and centered near zero for near-ceiling VL-SAT. K=100 is
-  retained as a high-coverage reference, where both intervals are strict for
-  all three. Open3DSG uses the conservative public-pipeline/full-target route.
+  relation contexts with their scan. All five reported K values are now in the
+  supplement. Recall intervals are strictly positive for Open3DSG at every K,
+  VL-SAT at K=10/100, and SGFN at K=50/100; other Recall intervals include
+  zero. Violation intervals are strictly negative except the tied SGFN K=5
+  result and its K=10 interval, which reaches zero. Open3DSG uses the
+  conservative public-pipeline/full-target route.
+- The Docker CPU benchmark under `runtime_v1/` times only compatibility
+  scoring, transformation averaging, family-aware sorting, and output assembly
+  from preloaded rows with precomputed geometry. Median cost is 3.430--4.584
+  ms per nonempty context across the three predictors; the three stored heads
+  have 69 parameters, the primary path uses 45, and fusion adds no fitted
+  parameter. This is not end-to-end source-pipeline latency.
 - `h001_factor_isolation_protocol_v1` is frozen under
   `factor_isolation_protocol/frozen_v1/`, and its Docker implementation is
   complete. Train-only fitted models are under `fitted_v1/`; a fresh official
@@ -155,7 +160,7 @@ Last updated: 2026-07-16 KST
   uncertainty rate, and a pessimistic bound that counts every uncertain row as
   a violation; the structured product lowers all three at K=100 for
   VL-SAT/Open3DSG/SGFN. Recent closest-work boundaries for SCR-SSG, RelWitness,
-  SGFormer++, RelGraphOV, and Transformation-Aware Decoupling are explicit in
+  GEODE, RelGraphOV, and Transformation-Aware Decoupling are explicit in
   the paper/supplement.
 - A parameter-count-matched nonlinear fusion baseline is complete under
   `nonlinear_fusion_baseline/evaluation_v1/`. Its 69 parameters equal the 69
@@ -169,13 +174,13 @@ Last updated: 2026-07-16 KST
   compatibility supervision.
 - 3DSSG-only novelty-mechanism development is complete under
   `relation_algebra_v1/`. Six structured candidates were run behind a frozen
-  gate. Only linked-counterfactual margin fitting plus exact relation-algebra
-  orbit projection passes all gates, with zero proximity-swap and
+  gate. Only linked-counterfactual margin fitting plus exact transformation
+  averaging passes all gates, with zero proximity-swap and
   vertical-inverse error and preserved K=100 Recall on VL-SAT, Open3DSG, and
   SGFN. This mechanism is now the main compatibility model; it remains a
   structural contribution rather than a best-score or best-rescorer claim.
-- The unchanged SGFN-supervised nonlinear rescorer was applied to VL-SAT and
-  Open3DSG under `nonlinear_transfer_v1/`. It loses Recall significantly on
+- The same fitted SGFN-supervised nonlinear rescorer parameters were used on
+  VL-SAT and Open3DSG under `nonlinear_transfer_v1/`. The model loses Recall significantly on
   VL-SAT at K=100 and on both sources at smaller K, confirming that its strong
   SGFN result is source-adapted rather than a predictor-agnostic replacement.
 - H001 is now finalized around a shared 3DSSG/3RScan cross-predictor claim.
@@ -224,8 +229,8 @@ complete; independent blank-sheet human validity remains optional:
 - Open3DSG's public pipeline on the full 548-context target is the main
   open-vocabulary case study; the 533 eligible and recovered-548 routes are
   sensitivities.
-- RelCompat3D is framework-first: family-slot applicability routing is primary,
-  unrestricted product and rank fusion are comparisons, and no formula is
+- RelCompat3D is framework-first: family-aware re-ranking is primary, the
+  all-family product and rank fusion are comparisons, and no formula is
   claimed universally dominant.
 - Pooled-calibrator product is an ablation/baseline; its raw key remains only
   in reproducibility artifacts.
@@ -239,8 +244,8 @@ complete; independent blank-sheet human validity remains optional:
   target-specific hyperparameters. All 20 validations pass. The routed product
   has paired joint gains at K=10 and K=50 but saturates at K=100, where dV CI
   `[-.00288,.00000]` touches zero. The supplement reports all five budgets and
-  the quantization/candidate-ceiling decomposition. A family-slot-preserving
-  rank diagnostic remains mechanism evidence only. The target was previously
+  the quantization/candidate-ceiling decomposition. A family-sequence-preserving
+  rank analysis remains mechanism evidence only. The target was previously
   observed, so this is external diagnostic evidence rather than a prospective
   dataset-generalization result.
 
@@ -256,12 +261,13 @@ Current H001 owners:
 - held-out verifier-primitive diagnostic: `experiments/H001_geom_reliability/held_out_primitive_v1/evaluation/`
 - counterfactual-policy sensitivity: `experiments/H001_geom_reliability/counterfactual_sensitivity_v1/evaluation/`
 - supervision-matched nonlinear comparison: `experiments/H001_geom_reliability/supervision_matched_nonlinear_v1/evaluation/`
+- CPU re-ranking benchmark: `experiments/H001_geom_reliability/runtime_v1/evaluation/`
 - paper-facing fixed-model ablations: `experiments/H001_geom_reliability/structured_ablation_v1/routed_public_full_evaluation/`
 - supplemental unrestricted ablations: `experiments/H001_geom_reliability/structured_ablation_v1/evaluation/`
 - compact results: `results/h001_geom_reliability/report.md`
 - reproducibility and bundle transfer: `docs/reproducibility.md`
 - paper source: `paper/aaai/`
-- current verified upload bundle: `release/h001_aaai27_openreview_20260716_011716/`
+- current verified upload bundle: `release/h001_aaai27_openreview_20260717_193626/`
 
 Current H001 immediate work:
 
@@ -285,7 +291,7 @@ Current H001 immediate work:
 
 Completed package hygiene: Open3DSG `25da9...` non-avg versus historical
 `2a23...` avg provenance is reconciled. The current verified OpenReview field
-set is `release/h001_aaai27_openreview_20260716_011716/`; earlier field
+set is `release/h001_aaai27_openreview_20260717_193626/`; earlier field
 set is a superseded handoff snapshot.
 
 Completed paper-folder hygiene: `paper/aaai/` now contains only active
@@ -303,24 +309,41 @@ CAND-003 is the literature-survey track. Its next step remains user judgment on 
 - CAND-001 / H001: main-source metrics, the SGFN additional exact-label source
   comparison, factor implementation, and official SGPN-source evaluation are
   complete. The projected pairwise compatibility eliminates the previously
-  blocking proximity/vertical algebra errors; the internal-dev-selected
-  family-slot route applies it only where exact algebra is supported and has
-  replaced unrestricted product in the main tables, uncertainty analysis, and
+  blocking proximity/vertical transformation errors; the internal-dev-selected
+  family-aware procedure applies it only where exact transformations are
+  supported and has replaced the all-family product in the main tables,
+  uncertainty analysis, and
   Figures 1--3. The
   submission excludes the completed two-pass Codex proxy audit and does not
   claim Human V@K; the proxy analysis is isolated in `paper/paper_nonsub/`.
   Independent-human alignment remains an optional stronger validation path,
   not an active collection task. The strict train-only benchmark evaluation is
   complete and satisfies its internal-dev and final-validation criteria.
-- CAND-001 / H001 extensions: `relative_size` is now included as a secondary
-  scope sentence plus full supplement analysis, not core learned-method
-  evidence; Qwen-VL, lateral/horizontal, and attachment-deferred remain
+- CAND-001 / H001 extensions: `relative_size` is a completed artifact-only
+  analysis and is excluded from the submission; Qwen-VL, lateral/horizontal,
+  and attachment-deferred remain
   appendix/future-work evidence unless explicitly promoted.
 - CAND-003: decide whether to promote the survey output into a hypothesis workflow.
 
 ## Now
 
 ### CAND-001 / H001 reviewer extension
+
+- [x] Run the frozen Docker-only `orthogonal_geometry_audit_v1`: fit point and
+      mesh surface thresholds on the 1,061-scan training split only, evaluate
+      Source and RelCompat3D at K=`{5,10,20,50,100}` on proximity/vertical
+      selections, report strict point/mesh consensus, shared scan-cluster
+      paired intervals and coverage, and execute the synthetic-intervention
+      monotonicity test. Final Docker exit is `0`; all 17 validations pass and
+      the main Recall points match `routed_comparators_v1` exactly. At K=50,
+      consensus dV is `-.0210`, `-.4113`, and `-.0343` for VL-SAT, Open3DSG,
+      and SGFN, with every paired scan CI below zero and 95.5--98.2% method
+      coverage. Final log/status:
+      `logs/h001_orthogonal_geometry_audit_20260717_213229.{log,status}`. The
+      earlier `212626` execution was rejected before promotion because its
+      Recall reporting accidentally used the 11,254-label full ontology rather
+      than the frozen 3,972-label paper scope; it did not alter thresholds,
+      rankings, or audit labels.
 
 - [x] Add `relative_size` as an isolated family with predicate sign `T`, robust
       point-derived `G`, signed `T x G`, and no source-score/rank/class input.
@@ -384,8 +407,10 @@ CAND-003 is the literature-survey track. Its next step remains user judgment on 
       all three predictors. Direct paired comparisons show no joint dominance;
       SGFN-specific exact-label supervision remains a separate stronger-label
       comparator.
-- [x] Formalize orbit projection and family-slot routing as two propositions
-      with complete supplement proofs. Freeze and execute three strict
+- [x] Formalize exact transformation consistency as one compact proposition;
+      state family-sequence/support-contact prefix preservation as a direct
+      construction property with supplement verification. The unused
+      position-weighted optimality statement was removed. Freeze and execute three strict
       train-only held-out-primitive refits on the official 548-context target.
       Exact-scalar removal preserves nearly the full result; full primitive-
       family removal attenuates K=50 V gains on VL-SAT/SGFN but retains the
@@ -1104,6 +1129,126 @@ Non-data:
 
 ## Recently Completed
 
+- [x] Strengthen the manuscript-level claim without widening its evidence:
+      add ordered-pair identity to the Abstract, connect each design choice to
+      its failure mode, reorganize the contributions around measurement,
+      compatibility, and constrained re-ranking, characterize prefix-utility
+      optimality with an exchange proof, and synthesize the ablations into a
+      pair-specific mechanism statement. Docker builds remain 9/5/2 pages with
+      zero Type 3 fonts or blocking LaTeX issues. The synchronized release is
+      `release/h001_aaai27_openreview_20260717_193626/`.
+- [x] Regenerate the anonymous AAAI-27/OpenReview release from the final
+      transcript at `release/h001_aaai27_openreview_20260717_160655/`. The
+      6-file outer manifest and 198-record inner manifest pass, the ZIP has no
+      forbidden paths or author-identity hits, and extracted-source Docker
+      rebuilds reproduce the canonical main/supplement/checklist text at 9/5/2
+      pages with zero Type 3 fonts.
+- [x] Align the Abstract and Conclusion with the final manuscript terminology:
+      use reconstructed ordered-pair geometry, a compatibility layer with
+      family-specific heads, the full SceneGraphFusion name, result-focused
+      matched-baseline wording, the explicit proximity/vertical transformation
+      scope, and point-estimate-qualified K=10--50 conclusion language. The
+      Docker build remains 9 US-Letter pages with technical content through page
+      7 and no Type 3 fonts, unresolved citations/references, overfull boxes, or
+      blocking errors. The upload bundle still requires regeneration.
+- [x] Align Experimental Setup, Results, Discussion, Limitations, and the
+      corresponding supplement terminology with the revised Method contract.
+      Replace implementation-facing diagnostic terms, define uncertainty
+      denominators directly, restrict family-sequence preservation to the
+      matched comparators that use family-aware re-ranking, and state the
+      support/contact and construct-validity boundaries without reviewer-process
+      language. Docker builds remain 9/5/2 US-Letter pages with no Type 3 fonts,
+      unresolved citations/references, overfull boxes, or blocking errors. The
+      current main and supplement SHA256 values are `821511af...f47c02` and
+      `db0e86a5...ddeb93`; the upload bundle now requires regeneration.
+- [x] Align Introduction, Related Work, Abstract, Figure 1, and the
+      manuscript-wide terminology contract with the implemented Method: use
+      predicate-independent pair-geometry measurements, source relation score,
+      transformation-consistent compatibility, and joint endpoint-swap/inverse-
+      predicate terminology; narrow proximity/vertical versus support/contact
+      scope; and add PUF to the recent-work boundary. Docker builds remain
+      9/5/2 US-Letter pages with no Type 3 fonts, unresolved citations/references,
+      overfull boxes, or blocking errors. The verified 198-record anonymous
+      release is `release/h001_aaai27_openreview_20260717_100312/`.
+- [x] Replace implementation-facing Method terminology with the paper-facing
+      contract: `C^tr` transformation-consistent compatibility, `A_tr`
+      transformation-supported families, source relation score, and
+      family-specific ordered lists with next-unselected selection. Remove
+      `slots`, queue/pop wording, `In plain terms`, and the ambiguous
+      probability/calibration language from the submission source. Docker
+      rebuilds pass at 9/5/2 US-Letter pages with zero Type 3 fonts,
+      unresolved references, and overfull boxes. The anonymous 198-record
+      release at `release/h001_aaai27_openreview_20260717_002931/` passes outer
+      and inner checksums, identity/path scans, archive integrity, and
+      extracted-source Docker/text-identity rebuilds.
+- [x] Simplify the Method formalism after an AAAI-paper comparison: retain one
+      compact `Exact transformation consistency` proposition, state
+      family-sequence/support-contact prefix preservation as a direct ordered-list
+      property, and remove the unused position-weighted optimality claim.
+      Synchronize the supplement proof and reproducibility checklist. The
+      9/5/2-page Docker build and 199-record anonymous bundle are verified at
+      `release/h001_aaai27_openreview_20260716_233918/`.
+- [x] Complete paper-strengthening steps 1, 3, 4, and 5: add the official
+      CVPR-Findings GEODE boundary to Related Work; expand paired scan-cluster
+      intervals to K=`{5,10,20,50,100}`; run and disclose a bounded Docker CPU
+      re-ranking benchmark and parameter count; and verify/redraw all figures
+      for grayscale shape/line distinction. The transcript now limits small-K
+      claims to point estimates where intervals include zero. Docker rebuilds
+      pass at 9/5/2 pages, and the verified anonymous field bundle is
+      `release/h001_aaai27_openreview_20260716_214524/` with 199 inner checksum
+      records. Independent human alignment and a new external-dataset test
+      remain the explicitly deferred steps 2 and 6.
+- [x] Complete the final transcript and float-placement pass: fix the two
+      supplement grammar errors, correct the $T\times G$ feature description,
+      unify transformation terminology, shorten duplicated comparator and
+      boundary prose, move RankAvg/RRF definitions to the supplement, and
+      exclude the rule-easy relative-size extension from the submitted
+      supplement. The verified layout is Table 1 on p.5, Figure 2 and Table 2
+      on p.6, and Figure 3 plus Discussion/Conclusion on p.7. Docker rebuilds
+      pass at 9/5/2 pages, and the new verified field bundle is
+      `release/h001_aaai27_openreview_20260716_204030/`.
+- [x] Synchronize `paper/method.md`, `paper/figures.md`, and
+      `paper/experiment.md` with the final manuscript terminology and
+      implementation: source relation score, OBB-only compatibility inputs,
+      transformation averaging on the final score, family-aware re-ranking,
+      support/contact source-order retention, current Figure labels/captions,
+      paper-facing baseline/control names, and scan-cluster evaluation.
+- [x] Apply the final terminology and factual-accuracy pass: update the title,
+      simplify Abstract/Introduction/Related Work, correct the strict model's
+      OBB-only compatibility inputs, state transformation guarantees on the
+      averaged score, replace implementation-facing routing language in the
+      main paper, shorten Conclusion to keep all technical content on pages
+      1--7, and redraw Figures 1 and 3 with the same terminology. Rebuild the
+      9/5/2-page PDFs in Docker and verify the 206-record anonymous upload
+      bundle at `release/h001_aaai27_openreview_20260716_174338/` by outer and
+      inner checksums, ZIP integrity, identity scan, and extracted-source text
+      identity.
+- [x] Consolidate the H001 paper-planning documentation for manual figure
+      redrawing and method/experiment handoff. `paper/figures.md` now specifies
+      all Figure 1--3 panels, flows, values, coordinates, source cases, and
+      captions; `paper/method.md` explains the implemented factorization,
+      supervision, losses, relation transformations, fusion, and ranking;
+      `paper/experiment.md` defines every comparison, metric, and scan-cluster
+      interval. `outline.md`, `preview.md`, `progress.md`, `review.md`, and
+      `risk.md` were rewritten around distinct owners, and the redundant
+      `paper/top_tier_review.md` was merged into those owners and removed.
+- [x] Complete the AAAI reference-style presentation revision: Tables 1--2 now
+      use percentage points and compact condition names; the Abstract omits
+      exact performance values; Figure 1 has larger, neutral labels; Figure 2
+      uses percentage axes and direct K labels without a selected-point outline;
+      Figure 3 is an ordered-pair--evidence--outcome grid; and repeated
+      Results/Limitations defenses were shortened. Docker builds preserve the
+      9/5/2-page main/supplement/checklist layout. The synchronized verified
+      bundle is `release/h001_aaai27_openreview_20260716_174338/`.
+- [x] Define and cite SceneGraphFusion (SGFN) at first use; scope the
+      counterfactual-sensitivity ordering statistic to routed
+      proximity/vertical pairs; place Table 1 at the full-width top immediately
+      above its result discussion and Table 2 between its diagnostics lead-in
+      and interpretation; rebuild clean 9/5/2-page PDFs; and regenerate the
+      verified anonymous bundle at
+      `release/h001_aaai27_openreview_20260716_045537/`. The final ZIP removes
+      the non-submission LLM-proxy report section and passes its 205-record
+      manifest, archive, identity, and extracted-source rebuild checks.
 - [x] Run nine Dockerized train-only counterfactual-policy sensitivity refits;
       verify bit-exact default equivalence, 1.000 development ordering accuracy,
       and bounded K=50/100 changes across all three predictors. Replace pooled
@@ -1124,9 +1269,9 @@ Historical note for H001: entries below this line are provenance logs from
 earlier paper/experiment passes. For current H001 decisions, use `Current
 Snapshot`, `Current Phase`, `summary.md`,
 `experiments/H001_geom_reliability/README.md`, and
-`paper/aaai/README.md`. Older AAAI or ICCV build notes and the 2026-07-14 field
-bundle are historical; the canonical manuscript and upload bundle are the
-verified 2026-07-15 routed-ablation revisions.
+`paper/aaai/README.md`. Older AAAI or ICCV build notes and field bundles before
+`release/h001_aaai27_openreview_20260717_100312/` are historical; the canonical
+manuscript and upload bundle are the verified final-layout revisions.
 
 - [x] H001 orbit/routing propositions and held-out-primitive diagnostic were
       added to the synchronized manuscript. Canonical main/supplement/checklist

@@ -1,15 +1,15 @@
-\section{Family Composition at the Global $K=100$ Operating Point}
+\section{Family Composition within the Selected Top-100 Predictions}
 
 Table~\ref{tab:family-slices} reports each family's slice inside the actual
-global top-100 ranking. Deltas compare routed \method{} with the source score
+global top-100 ranking. Deltas compare \method{} with the source relation score
 using shared paired context-bootstrap indices.
 
 \begin{table}[H]
 \centering
 \scriptsize
 \setlength{\tabcolsep}{4pt}
-\caption{\textbf{Global-top-100 family slices.} Positive $\Delta$V is a
-regression. Values are verifier-derived.}
+\caption{\textbf{Family-specific metrics within the selected top-100
+predictions.} Positive $\Delta$V is a regression. Values are verifier-derived.}
 \label{tab:family-slices}
 \begin{tabular}{llrr}
 \toprule
@@ -30,9 +30,9 @@ SGFN & Vertical order & +.0051 & $-.0643$ \\
 \end{tabular}
 \end{table}
 
-Support/contact is exactly unchanged because the route preserves both its
-selection and the source-ranked family composition at every $K$. Vertical
+Support/contact is exactly unchanged because the ranking procedure preserves both its
+selection and the source family sequence at every $K$. Vertical
 order drives most of the aggregate reduction. The result is consequently a
-scoped operating-point improvement, not a uniform family claim. Full within-family
-and global-slice results for $K\in\{5,10,20,50,100\}$, including simultaneous
-family-wise intervals, are included in the supplemental package.
+scoped operating-point improvement, not a uniform family claim. The same
+direction holds across the reported budgets; full machine-readable family
+slices and simultaneous intervals accompany the code artifact.

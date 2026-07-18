@@ -6,26 +6,45 @@ estimates remain unchanged; shared bootstrap indices are used across
 conditions. A paired 548-context bootstrap gives the same directions and is
 retained as a finer-grained sensitivity.
 
-\begin{table}[H]
+\begin{table*}[t]
 \centering
-\scriptsize
-\setlength{\tabcolsep}{4pt}
-\caption{\textbf{Scan-cluster intervals at $K=50$.} Entries are routed
-\method{} minus source score with paired 95\% intervals.}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\caption{\textbf{Scan-cluster intervals across all reported budgets.} Entries
+are \method{} minus source relation score in percentage points with paired
+95\% intervals.}
 \label{tab:scan-cluster}
-\begin{tabular}{lrr}
+\begin{tabular}{lrrrrr}
 \toprule
-Source & $\Delta$Recall & $\Delta$Verifier-V \\
+Predictor & $K$ & $\Delta$Recall & 95\% CI & $\Delta$Violation & 95\% CI \\
 \midrule
-VL-SAT & +.0005 [$-.0005$,.0019] & $-.0070$ [$-.0088$,$-.0055$] \\
-Open3DSG & +.0375 [.0296,.0449] & $-.1045$ [$-.1105$,$-.0986$] \\
-SGFN & +.0048 [.0028,.0070] & $-.0122$ [$-.0142$,$-.0102$] \\
+\multirow{5}{*}{VL-SAT}
+ & 5   & +0.13 & [0.00, 0.25] & $-0.15$ & [$-0.30$, $-0.03$] \\
+ & 10  & +0.18 & [0.05, 0.34] & $-0.26$ & [$-0.45$, $-0.10$] \\
+ & 20  & +0.08 & [$-0.03$, 0.19] & $-0.28$ & [$-0.44$, $-0.15$] \\
+ & 50  & +0.05 & [$-0.05$, 0.19] & $-0.70$ & [$-0.88$, $-0.55$] \\
+ & 100 & +0.23 & [0.05, 0.49] & $-1.82$ & [$-1.99$, $-1.66$] \\
+\midrule
+\multirow{5}{*}{Open3DSG}
+ & 5   & +0.30 & [0.12, 0.52] & $-51.11$ & [$-54.38$, $-48.14$] \\
+ & 10  & +1.49 & [1.01, 1.97] & $-30.56$ & [$-32.71$, $-28.43$] \\
+ & 20  & +3.73 & [3.01, 4.50] & $-17.86$ & [$-19.03$, $-16.66$] \\
+ & 50  & +3.75 & [2.96, 4.49] & $-10.45$ & [$-11.05$, $-9.86$] \\
+ & 100 & +5.82 & [4.70, 6.95] & $-9.17$ & [$-9.63$, $-8.73$] \\
+\midrule
+\multirow{5}{*}{SGFN}
+ & 5   & 0.00 & [0.00, 0.00] & 0.00 & [0.00, 0.00] \\
+ & 10  & 0.00 & [0.00, 0.00] & $-0.02$ & [$-0.06$, 0.00] \\
+ & 20  & +0.03 & [$-0.08$, 0.14] & $-0.25$ & [$-0.44$, $-0.11$] \\
+ & 50  & +0.48 & [0.28, 0.70] & $-1.22$ & [$-1.42$, $-1.02$] \\
+ & 100 & +0.68 & [0.43, 0.98] & $-2.80$ & [$-3.04$, $-2.57$] \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}
 
-At $K=50$, every Verifier-V interval remains below zero. Recall improves on
-Open3DSG and SGFN, while the near-saturated VL-SAT interval is centered near
-zero. At $K=100$, the changes have the same direction and strictly positive
-Recall intervals for all three predictors; its point estimates remain in the
-main five-budget table.
+All Recall point changes are non-negative. Recall intervals are strictly
+positive for Open3DSG at every $K$, VL-SAT at $K=10/100$, and SGFN at
+$K=50/100$; the remaining intervals overlap zero. Every Violation interval is
+strictly below zero except the tied SGFN $K=5$ point and its $K=10$ interval,
+which reaches zero. Thus the point-estimate trend is broad, while statistical
+support remains predictor- and budget-dependent.

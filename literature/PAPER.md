@@ -1,6 +1,6 @@
 # Paper Registry
 
-Last updated: 2026-07-11
+Last updated: 2026-07-16
 
 이 파일은 3D Scene Graph literature pass에서 추적하는 논문 목록과 reading queue를 관리한다. 논문별 상세 정리는 각 paper folder에 둔다.
 
@@ -62,6 +62,7 @@ Last updated: 2026-07-11
 | [3D-VCD](https://arxiv.org/abs/2604.08645) | CVPR 2026 accepted / arXiv | `literature/2026_cvpr_3d-vcd/` | Read | distorted 3D scene graph와 visual contrastive decoding으로 3D-LLM hallucination을 줄임 |
 | [RelWitness: Open-Vocabulary 3D Scene Graph Generation with Visual-Geometric Relation Witnesses](https://arxiv.org/abs/2605.20823) | arXiv 2026 | `literature/2026_arxiv_relwitness/` | Full-PDF novelty-threat skim | direct H001 novelty threat: visual-geometric relation witnesses plus calibrated witness quality for open-vocabulary 3DSG under incomplete relation supervision; v2 numerical tables are simulated planning values |
 | [Visual Commonsense Driven Knowledge Refinements for Scene Graph Generation](https://arxiv.org/abs/2606.06369) | arXiv 2026 | `literature/2026_arxiv_visual-commonsense-refinement/` | Novelty-threat skimmed | direct post-hoc refinement threat: mines spatial/functional and symmetry-inverse-composition constraints, refines fixed SGG outputs, and reports Constraint Violation Rate |
+| [GEODE: Geometry-Guided Discrete Diffusion for Open-Vocabulary 3D Scene Graph Generation](https://openaccess.thecvf.com/content/CVPR2026F/html/Feng_GEODE_Geometry-Guided_Discrete_Diffusion_for_Open-Vocabulary_3D_Scene_Graph_Generation_CVPRF_2026_paper.html) | CVPR Findings 2026 | `literature/2026_cvprf_geode/` | Read for H001 novelty boundary | geometry-first diffusion jointly generates node geometry and edge predicates; direct boundary against broad geometry-conditioned relation-generation novelty, but not a fixed-output reliability layer |
 
 ## CAND-001 Evidence View
 

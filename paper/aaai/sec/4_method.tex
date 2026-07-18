@@ -1,11 +1,13 @@
-\subsection{Relation-Algebra-Constrained Compatibility}
+\subsection{Relation-Consistent Compatibility}
 
-For each identity-preserving relation row, the raw geometry vector $G$ contains
-pair distance and scale, centroid and extent differences, oriented-box
-overlap, and point-level contact/support evidence when observable. The feature
+For each candidate relation $r_i$, the associated geometry vector $G_i$ contains
+OBB-derived 3D/XY distances, relative height, projected overlap, and
+vertical-gap features. Point-level contact evidence is used only by the
+support/contact verifier, not by the compatibility model. The feature
 map $\Phi=(\phi_T,\phi_G,\phi_{\times})$ separates predicate/family indicators,
 predicate-independent geometry, and explicit predicate--geometry interactions.
-Source score, rank, source identity, and object-class shortcuts are excluded.
+The source relation score, rank, predictor identity, and object-class features
+are excluded.
 
 We first define a family logit and bounded compatibility score
 \begin{equation}
@@ -16,22 +18,23 @@ C_i&=\sigma\!\left(h_a(\Phi(T_i,G_i))\right).
 \end{equation}
 For proximity, $\tau$ swaps the ordered endpoints and leaves \texttt{close by}
 unchanged. For vertical order, $\tau$ swaps the endpoints and maps
-\texttt{higher than}$\leftrightarrow$\texttt{lower than}. These transforms
-encode
+\texttt{higher than}$\leftrightarrow$\texttt{lower than}. After transformation
+averaging, the final score satisfies
 \begin{equation}
 \begin{aligned}
-C_{\rm close}(s,o)&=C_{\rm close}(o,s),\\
-C_{\rm higher}(s,o)&=C_{\rm lower}(o,s).
+C^{\rm tr}_{\rm close}(s,o)&=C^{\rm tr}_{\rm close}(o,s),\\
+C^{\rm tr}_{\rm higher}(s,o)&=C^{\rm tr}_{\rm lower}(o,s).
 \end{aligned}
 \end{equation}
-Support/contact uses the singleton orbit because a family-wide endpoint swap
-is not valid. Its compatibility model is retained only for unrestricted-fusion
-diagnostics; the primary route passes this family through unchanged.
+Support/contact is evaluated only under the identity transformation because no
+family-wide endpoint swap preserves every predicate in this family. Its
+compatibility model is used only in the all-family comparison; the
+\method{} ranking preserves the source ranking for support/contact.
 
-Training uses two complementary structural signals. First, orbit-consistent
-augmentation preserves the predicate when proximity endpoints are swapped,
-whereas vertical order swaps endpoints and applies the inverse predicate.
-Second,
+Training combines transformation-consistent augmentation with a linked-pair
+ranking loss. The augmentation preserves the predicate when proximity endpoints
+are swapped, whereas vertical order swaps endpoints and applies the inverse
+predicate. In addition,
 for every linked positive--counterfactual pair $(i^+,i^-)\in\mathcal P$, the
 logits $\ell=w_a^\top\Phi$ receive a fixed margin penalty:
 \begin{equation}
@@ -42,97 +45,66 @@ logits $\ell=w_a^\top\Phi$ receive a fixed margin penalty:
 &+10^{-4}\lVert w_a\rVert_2^2.
 \end{aligned}
 \end{equation}
+Here $\mathcal L_{\rm BCE}$ is binary cross-entropy over positive and
+counterfactual examples.
 Numeric features are standardized and missing values are imputed using
-training-only statistics. Each family uses a small train-only linear model;
-optimization details and row counts are provided in the supplement.
+statistics estimated from the training split. Each family uses a small linear
+model fitted exclusively on the training split;
+optimization details and training-example counts are provided in the supplement.
 
-Finally, we project the learned score onto the declared orbit:
+Finally, we average the learned score over the family-specific transformation
+set $\mathcal O_i$ to obtain the transformation-consistent compatibility:
 \begin{equation}
-\calg_i=\frac{1}{|\mathcal O_i|}
+\ctr_i=\frac{1}{|\mathcal O_i|}
 \sum_{(T',G')\in\mathcal O_i} \sigma\!\left(h_{a_i}(\Phi(T',G'))\right).
 \label{eq:algebra-projection}
 \end{equation}
-This makes proximity symmetry and invariance under joint endpoint swap and
+This transformation averaging makes proximity symmetry and invariance under joint endpoint swap and
 inverse-predicate transformation exact at inference rather than merely
 encouraged by a penalty. The pairwise objective
-still distinguishes each linked positive from its counterfactual; projection
-does not consume source confidence.
+still distinguishes each linked positive from its counterfactual; transformation averaging
+does not use the source relation score.
 
-\begin{proposition}[Orbit-projection guarantee]
-Let a finite relation-algebra group $H_a$ act jointly on predicate and
-ordered-pair geometry, and let
-$P_af(x)=|H_a|^{-1}\sum_{g\in H_a}f(gx)$. Then
-$P_af(gx)=P_af(x)$ for every $g\in H_a$, and $P_a(P_af)=P_af$.
-Consequently, Eq.~\ref{eq:algebra-projection} satisfies proximity symmetry and
-the corresponding vertical transformation exactly; the singleton
-support/contact orbit is unchanged.
+\begin{proposition}[Exact transformation consistency]
 \label{prop:orbit}
+Let the finite transformation group $H_a$ act jointly on predicate and
+ordered-pair geometry, and define
+$C_a^{\rm tr}(x)=|H_a|^{-1}\sum_{g\in H_a}C_a(gx)$. Then
+$C_a^{\rm tr}(hx)=C_a^{\rm tr}(x)$ for every $h\in H_a$.
+Consequently, Eq.~\ref{eq:algebra-projection} satisfies proximity symmetry and
+invariance under joint endpoint swap and inverse-predicate transformation for
+vertical order.
 \end{proposition}
 
-\subsection{Applicability-Routed Re-ranking and Controls}
+The supplement gives a proof. Support/contact uses only the identity
+transformation and is unaffected by this averaging.
 
-The unrestricted compatibility product preserves source magnitudes through
-\begin{equation}
-S_i^{\mathrm{alg-prod}}=Z_i\calg_i.
-\end{equation}
-For positive scores, $\log S_i=\log Z_i+\log\calg_i$; compatibility therefore
-contributes an additive log-score term without an additional fusion parameter.
-It is useful when every family has identifiable evidence, but our
-support/contact diagnostic does not satisfy that condition.
+\subsection{Family-Aware Re-ranking}
 
-Our primary ranking rule therefore uses family-slot applicability routing. Sort a
-context by $Z$ and retain its family sequence $(a_1,\ldots,a_n)$. For each
-family, form
+For each candidate, define the within-family ranking score
 \begin{equation}
-Q_a=\begin{cases}
-\operatorname{sort}_{\downarrow Z\calg}(a), & a\in\mathcal A_{\rm alg},\\
-\operatorname{sort}_{\downarrow Z}(a), & a=\mathrm{support/contact}.
+u_i=\begin{cases}
+Z_i\ctr_i, & a_i\in\mathcal A_{\rm tr},\\
+Z_i, & a_i=\mathrm{support/contact}.
 \end{cases}
 \end{equation}
-At output position $j$, take the next unused candidate from $Q_{a_j}$. This
-preserves the source-ranked family composition at every $K$ and exactly
-preserves support/contact selections, while applying compatibility within the
-proximity and vertical slots. The route introduces no fitted fusion parameter.
+For $Z_i,\ctr_i>0$, $\log u_i=\log Z_i+\log\ctr_i$ in the
+transformation-supported families; compatibility therefore
+contributes an additive log-score term without an additional fusion parameter.
+This rule introduces no fitted fusion parameter.
 
-\begin{proposition}[Family-slot routing guarantee]
-For any source ranking and every prefix $K$, family-slot routing preserves the
-entire family sequence and the ordered support/contact subsequence. Moreover,
-among all permutations with that family sequence, it maximizes
-$\sum_j\omega_j u(e_j)$ for any non-increasing nonnegative position weights
-$\omega_j$, where $u=Z\calg$ in routed families and $u=Z$ in pass-through
-families.
-\label{prop:routing}
-\end{proposition}
+Let $\pi^Z=(e_1,\ldots,e_n)$ denote the source ranking, $a_j$ the relation
+family at position $j$, and $\pi_a$ the candidates of family $a$ sorted by
+$u_i$. At position $j$, the rule selects the next unused candidate from
+$\pi_{a_j}$, exactly preserving the source family-label sequence. Because
+support/contact is sorted by $Z_i$, its selected subsequence and family-specific
+Recall and Violation are unchanged at every $K$. For each prefix, the rule also
+selects the highest-$u_i$ proximity/vertical candidates and maximizes their
+summed utility subject to the preserved family counts and support/contact
+subsequence; the supplement gives an exchange proof.
 
-Proofs are given in the supplement. Proposition~\ref{prop:routing} formalizes
-why support/contact Recall and verifier V are identical to the source ranking
-at every reported $K$, rather than merely similar empirically.
-
-We also test scale-robust fusion. Let $q_i^Z$ and $q_i^C$ be descending within-context
-percentile ranks and $r_i^Z,r_i^C$ their one-indexed ranks. Rank-average and
-fixed-constant Reciprocal Rank Fusion are
-\begin{equation}
-S_i^{\mathrm{rank}}=\tfrac12(q_i^Z+q_i^C),\qquad
-S_i^{\mathrm{RRF}}=\frac{1}{60+r_i^Z}+\frac{1}{60+r_i^C}.
-\end{equation}
-They provide scale-robust fusion comparisons. For an apples-to-apples
-comparison, product, rank-average, RRF, and the supervision-matched nonlinear
-model are each evaluated through the same family-slot route.
-
-Other comparisons isolate the mechanism. The unrestricted product measures
-the cost and benefit of applying compatibility to every family. A pooled product replaces the three
-family models with one $T\times G$ compatibility model fitted on the training
-split. Compatibility-only removes $Z$, and an unprojected family product
-ablates relation-algebra projection. A small nonlinear compatibility model is
-matched by supervision, features, source-score exclusion, and split;
-we separately report an exact-label rescorer trained with stronger
-SGFN-specific supervision.
-
-Linked-counterfactual ordering and wrong-predicate tests ask whether the model
-uses the intended $T\times G$ interaction. Proximity-swap and vertical-inverse
-checks test Eq.~\ref{eq:algebra-projection}; no blanket endpoint test is applied
-to support/contact. Identity-preserving joins and the
-$T$-only, raw-$G$-only, additive, shuffled-geometry, and mismatched-pair ablations
-test score leakage and geometry shortcuts. Together these comparisons test
-whether the gain follows from factor isolation and algebraic structure rather
-than an arbitrary fusion choice.
+Product, rank-average, RRF, and a matched nonlinear model use the same
+family-aware ranking procedure. Additional controls test the role of family
+conditioning, the source relation score, pair identity, geometry, and the
+defined transformations; full definitions are provided in the experiments and
+supplement.

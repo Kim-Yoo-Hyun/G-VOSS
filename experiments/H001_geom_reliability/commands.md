@@ -63,6 +63,8 @@ env UID=$(id -u) GID=$(id -g) docker compose \
 env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/h001/compose.structured.yaml run --rm support_routing_scan_cluster
 env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm runtime_benchmark
+env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/h001/compose.structured.yaml run --rm counterfactual_threshold_sensitivity
 ```
 
@@ -384,6 +386,19 @@ The first two commands reconstruct the 533-context unmodified public-route
 adapter/geometry files from the preserved raw stream. The third reports the
 official-eligible 533, strict full-target 548, and recovered 548 routes under
 `open3dsg_official_route_v1/evaluation/`.
+
+## Orthogonal Point/Mesh Audit
+
+```bash
+env UID=$(id -u) GID=$(id -g) \
+  docker compose -f configs/h001/compose.structured.yaml run --rm orthogonal_geometry_audit
+```
+
+The frozen protocol and generated thresholds, raw-surface measurements,
+point/mesh/consensus metrics, paired scan-cluster intervals, coverage, and
+synthetic-intervention results are under
+`orthogonal_geometry_audit_v1/`. Remove or move a prior `evaluation/` only when
+intentionally regenerating the complete artifact from the frozen protocol.
 
 ## Nonlinear Cross-Source Transfer
 

@@ -1,33 +1,30 @@
 \section{Discussion and Limitations}
 
-One fitted compatibility layer with family-specific linear heads is applied
-without target-specific refitting to three predictors on a shared,
-geometry-identifiable 3DSSG target, but this does not establish
-cross-dataset generalization or a universally optimal fusion rule. Rank fusion is stronger at
-some operating points and pooled compatibility can favor recall over violation.
-The contribution is a source-score-excluded compatibility layer evaluated
-across three predictors, together with its joint reliability evaluation, rather
-than formula superiority.
+The results indicate that predicate--geometry compatibility is most useful when
+relation consistency can be assessed from reconstructed ordered-pair geometry
+and the source candidate set contains recoverable alternatives. The
+compatibility layer is evaluated across three predictors on one shared 3DSSG
+target; these results characterize cross-predictor behavior, not cross-dataset
+generalization. A separate ReplicaSSG/FROSS stress test shows that the observed
+gains do not transfer uniformly under ontology and reconstructed-geometry shifts
+(supplement).
 
-A ReplicaSSG/FROSS transfer stress test without target-specific refitting
-improves both metrics at $K=10$ and $K=50$ but is nearly inert at $K=100$
-(supplement); it is diagnostic rather than evidence of established
-dataset-level generalization.
-
-The aggregate effect is not family-uniform. Applicability routing prevents the
-observed support/contact regression by preserving its source selection, but it
-also leaves that family's errors uncorrected. Within-family and actual
-global-top-$K$ slices are reported separately. More broadly, \method{} assumes a
-geometry-identifiable predicate and known object instances. Functional
-and reference-frame-dependent predicates remain outside the evaluated scope.
-The task is relation reliability, not complete open-vocabulary graph generation.
+The aggregate effect is not uniform across relation families. By keeping
+support/contact candidates in source order, family-aware re-ranking leaves that
+family's Recall and Violation unchanged, but it also leaves its errors
+uncorrected. Family-specific metrics within the selected top-$K$ predictions
+are reported separately. \method{} assumes known object instances and is
+limited to relation families whose consistency can be assessed from
+reconstructed ordered-pair geometry. Functional and reference-frame-dependent
+predicates and complete open-vocabulary graph generation remain outside scope.
 
 Violation@$K$ is verifier-derived, and some geometry primitives overlap with
-the constructed compatibility target. Algebra and counterfactual controls test
-the learned factor, and held-out-primitive refits rule out literal dependence
-on the exact verifier scalar. Their attenuation after removing the full
-measurement family nevertheless does not replace an independent
-physical-validity reference. All three predictors share 3DSSG/3RScan geometry and ontology.
-Future work should validate the metric independently, improve contact evidence,
-extend cross-dataset transfer beyond this stress test, and measure downstream
-decision benefits.
+the constructed training target. Wrong-predicate, wrong-pair, and transformation
+controls test whether the compatibility score responds to predicate--geometry
+correspondence. Feature-removal experiments show that the results do not depend
+solely on the exact scalar used by the verifier. Attenuation after removing all
+related distance or vertical measurements nevertheless does not replace an
+independent physical-validity reference. Independent validity labels, richer
+contact evidence, and evaluation on datasets with different geometry and
+relation ontologies would be needed to support broader validity and
+generalization claims.

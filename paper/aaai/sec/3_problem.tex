@@ -1,25 +1,25 @@
 \section{Method}
 
-\method{} assesses the compatibility of fixed relation predictions rather than
-replacing a 3D Scene Graph generator. It preserves relation-candidate identity, estimates
-predicate-conditioned geometric compatibility without access to source
-confidence, and combines the two factors only during re-ranking.
-Figure~\ref{fig:framework} summarizes the pipeline.
+\method{} assesses fixed relation predictions rather than replacing a 3D Scene
+Graph generator. It preserves candidate identity, estimates predicate--geometry
+compatibility without the source relation score, and combines the two only
+during re-ranking (Figure~\ref{fig:framework}).
 
-\subsection{Problem Setup and Reliability Objective}
+\subsection{Problem Setup}
 
-Let a relation source produce candidate rows
+Let a relation predictor produce relation candidates
 \begin{equation}
 r_i=(\mathrm{scan}_i,\mathrm{context}_i,s_i,o_i,p_i,a_i,Z_i),
 \end{equation}
 where $s_i$ and $o_i$ are ordered subject and object instance identifiers,
 $p_i$ is the predicate, $a_i$ its mapped relation family, and $Z_i$ the source
-relation score. A context is the source-defined ranking unit associated with one
-scene subgraph; top-$K$ selection is performed independently within each
-context. The key
-$(\mathrm{scan}_i,\mathrm{context}_i,s_i,o_i)$ preserves the same object pair
-across prediction, geometry, and ground-truth joins. We expose
-predicate/family semantics as $T_i=(p_i,a_i)$ and join raw pair geometry
+relation score. A context is a scene subgraph over which the predictor ranks
+candidates; top-$K$ selection is performed independently within each context.
+The tuple
+$(\mathrm{scan}_i,\mathrm{context}_i,s_i,o_i)$ uniquely identifies the ordered
+object pair and is retained when associating each prediction with geometry and
+ground truth. We represent predicate/family semantics as $T_i=(p_i,a_i)$ and
+associate predicate-independent pair-geometry measurements
 \begin{equation}
 G_i=G(\mathrm{scan}_i,\mathrm{context}_i,s_i,o_i).
 \end{equation}
@@ -28,42 +28,41 @@ The measured scope is
 \mathcal{A}=\{\mathrm{support/contact},\ \mathrm{proximity},\
 \ \mathrm{vertical\ order}\},
 \end{equation}
-whose constraints are identifiable from reconstructed ordered-pair geometry.
-Rows outside these families are excluded from the measured violation claim.
-The primary routing scope is narrower:
-$\mathcal A_{\rm alg}=\{\mathrm{proximity},\mathrm{vertical\ order}\}$,
-for which the declared relation algebra is exact. Support/contact is evaluated
-but passed through because its current evidence lacks a valid family-wide
-endpoint transform.
+    whose consistency can be assessed from reconstructed ordered-pair geometry.
+Candidates outside these families are excluded from the measured violation claim.
+The re-ranking scope is narrower:
+    $\mathcal A_{\rm tr}=\{\mathrm{proximity},\mathrm{vertical\ order}\}$,
+    for which the defined endpoint/predicate transformations are exact.
+Support/contact is evaluated but kept in the source ranking because no single
+endpoint transformation preserves the semantics of every predicate in this
+family.
 
 Our objective is to estimate a bounded compatibility score
 \begin{equation}
-C_i=\sigma\!\left(h_{a_i}(\Phi(T_i,G_i))\right)\in[0,1],\qquad
-Z_i\notin\operatorname{inputs}(C_i),
+C_i=\sigma\!\left(h_{a_i}(\Phi(T_i,G_i))\right)\in[0,1],
 \end{equation}
-then enforce the applicable relation algebra to obtain $\calg_i$ and form a
-final ranking score $S_i=F(Z_i,\calg_i)$. The score measures compatibility with
-a constructed training target: measured-family ground-truth relations are
-positives, while family-specific high-margin predicate or endpoint
-interventions generate counterfactual negatives (full rules and thresholds are
-in the supplement). It is not a probability of physical validity. Predicate-aligned
-transformations are $T_i\times G_i$ interactions rather than raw geometry.
-Neither source score nor predictor identity enters $C_i$, so the fitted
-compatibility layer can be applied without target-specific refitting to
-different predictors on the shared target.
+then average over the valid family-specific endpoint/predicate transformations
+to obtain the transformation-consistent score $\ctr_i$ and form a
+final ranking score $S_i=F(Z_i,\ctr_i)$. Training labels pair ground-truth
+relations with counterfactual negatives formed by reversing a predicate or
+replacing an endpoint when the geometry strongly contradicts the label (full
+rules and thresholds are in the supplement). The resulting score is not a
+probability of physical validity. Features that combine the predicate with
+predicate-independent pair measurements belong to the $T_i\times G_i$ term.
+Neither the source relation score nor predictor identity enters $C_i$. The same fitted
+parameters are therefore used for all three predictors on the shared target.
 
-Let $L_K(c)$ be the top-$K$ measured-family rows for context $c$ and $Y_c$ its
-exact-label ground-truth set. We jointly report
+Let $L_K(c)$ be the top-$K$ candidates from the evaluated relation families for
+context $c$ and $Y_c$ its exact-label ground-truth set. We jointly report
 \begin{equation}
 \begin{aligned}
 \mathrm{R@K}&=\frac{\sum_c |L_K(c)\cap Y_c|}{\sum_c |Y_c|},\\
-\mathrm{Verifier\mbox{-}V@K}&=\frac{1}{|D_K|}
+\mathrm{Violation@K}&=\frac{1}{|D_K|}
 \sum_{(c,i)\in D_K}\mathbf{1}[v_i=\mathrm{violated}].
 \end{aligned}
 \end{equation}
-where $D_K$ contains selected rows with a supported verifier status
+where $D_K$ contains selected candidates for which the verifier returns
 $v_i\in\{\mathrm{satisfied},\mathrm{uncertain},\mathrm{violated}\}$.
-Family mapping never relaxes exact predicate matching. Because uncertain rows
-can lower the all-status ratio without being declared satisfied, the
-experiments also report decidable-only violation, uncertainty, pessimistic
-violation, and coverage.
+Family mapping never relaxes exact predicate matching. Because uncertain
+candidates enter the denominator, the experiments also report decidable-only
+and pessimistic violation, uncertainty, and coverage.

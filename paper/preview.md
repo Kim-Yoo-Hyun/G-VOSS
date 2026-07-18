@@ -1,147 +1,129 @@
-# H001 Paper Preview
+# RelCompat3D Current Paper Preview
 
-Last updated: 2026-07-16 KST
+Last updated: 2026-07-17 KST
 
-This file is the current manuscript handoff for H001. Historical experiment
-chronology belongs in the experiment reports and archive, not here.
+이 문서는 H001 manuscript의 현재 handoff snapshot만 소유한다. Method와
+experiment의 상세 설명은 각각 `paper/method.md`와 `paper/experiment.md`를
+사용하고, 과거 연구 chronology는 experiment reports와 archive에서 확인한다.
 
-## Current Paper
+## Current Identity
 
-- Title: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geometric
-  Compatibility for 3D Scene Graph Relations`
-- Method name: `RelCompat3D`
-- Venue workspace: `paper/aaai/`
-- Scope: `proximity`, `relative_vertical`, and `support_contact` relations on
-  one shared 3DSSG/3RScan target.
-- Evidence: VL-SAT, Open3DSG, and SGFN relation predictors evaluated at
-  K=`{5,10,20,50,100}`. K=50 is a descriptive mid-curve reference rather than
-  a separately registered endpoint; all K values remain in the main table.
+- Title: **Beyond Semantic Confidence: Relation-Consistent Geometric Re-ranking
+  for 3D Scene Graphs**
+- Method: **RelCompat3D**
+- Venue source: `paper/aaai/`
+- Main scope: proximity와 relative vertical re-ranking; support/contact는
+  평가하지만 source order를 유지한다.
+- Predictors: VL-SAT, Open3DSG, SceneGraphFusion.
+- Target: shared 3DSSG/3RScan final-validation geometry and ontology.
 
-The paper uses six top-level sections: Introduction, Related Work, Method,
-Experiments, Discussion and Limitations, and Conclusion. Problem Setup is
-inside Method; setup and results are grouped under Experiments. The narrative
-order is failure, structural cause, factor isolation, method, evidence, and
-then limitations.
+## Current Claim
 
-## Method and Claim
+> RelCompat3D separates the source relation score from predicate–geometry
+> compatibility, imposes the applicable proximity/vertical transformation
+> consistency, and re-ranks only proximity/vertical relations. On a
+> shared 3DSSG target, the resulting reliability layer shows
+> Violation reductions and source-dependent Recall trade-offs across three
+> relation predictors.
 
-Each candidate is factorized into predicate/family semantics `T_e`, raw
-predicate-independent same-pair geometry `G_e`, source confidence `Z_e`, and a
-bounded compatibility score
-`C_e=sigmoid(h_a(Phi(T_e,G_e)))`. Neither source score nor predictor identity
-is an input to `C_e`. The score targets constructed positive/counterfactual
-ordering; it is not a probability of physical validity.
+이 claim은 다음을 포함하지 않는다.
 
-Linked positive--counterfactual pairs train the compatibility model, and exact
-relation-algebra projection enforces close-by swap invariance and vertical
-inverse equivariance. The primary decision rule is a family-slot applicability
-route:
+- 새로운 relation generator 또는 open-vocabulary SOTA.
+- best/universal fusion formula.
+- independent human physical-validity metric.
+- cross-dataset generalization.
+- support/contact improvement.
 
-- proximity and vertical candidates are ordered by `Z_e C_e` within the source
-  family slots;
-- support/contact candidates retain their source ordering;
-- the source-ranked family-slot sequence is preserved at every K.
+## Manuscript Structure
 
-This route preserves support/contact selections and global family composition
-exactly while applying compatibility only where the frozen algebraic controls
-are valid. The unrestricted product is an ablation, not the primary method.
+1. Introduction
+2. Related Work
+3. Method, including Problem Setup
+4. Experiments, including setup and results
+5. Discussion and Limitations
+6. Conclusion
 
-Allowed claim:
+Narrative는 observed failure → structural cause → factor separation → method →
+evidence → limitations 순서다.
 
-> RelCompat3D assesses geometric compatibility for fixed relation predictions
-> with a fitted layer whose inputs exclude predictor identity and source
-> score. It separates source confidence from predicate--geometry compatibility and
-> improves the aggregate Recall--verifier-Violation operating point across
-> three predictors on a shared 3DSSG target.
+## Current Evidence
 
-Blocked claims include universal formula superiority, best-rescorer
-performance, cross-dataset generalization, independent human physical
-validity, and solved support/contact compatibility.
+- 1,061 training / 117 development / 157 final-evaluation scans.
+- 548 evaluation contexts and 3,972 exact-label GT relations.
+- K=`{5,10,20,50,100}`를 모두 Table 1과 Figure 2에 공개.
+- Source, RelCompat3D, matched nonlinear model, RankAvg, RRF, all-family
+  product를 동일 candidate universe에서 비교.
+- Wrong predicate, wrong pair, shuffled geometry, label-fixed swap,
+  distance-only, compatibility-only controls를 K=50/100에서 비교.
+- 모든 K의 paired 1,000-resample scan-cluster interval과
+  uncertainty/family sensitivity.
+- Exact verifier scalar 및 관련 measurement family를 제거한 train-only refit.
+- Counterfactual thresholds와 negative cap/pair-loss weight sensitivity.
+- Preloaded rows와 pair geometry 이후의 compatibility/re-ranking만 재는
+  single-process CPU benchmark와 parameter count.
 
-## K=50 Reference Results
+K=50 percentage point summary:
 
-| Source | Source R/V | Routed RelCompat3D R/V | Unrestricted product R/V |
-| --- | ---: | ---: | ---: |
-| VL-SAT | .9272/.0268 | .9277/.0197 | .9293/.0203 |
-| Open3DSG public/full target | .4043/.1387 | .4418/.0342 | .4655/.0265 |
-| SGFN | .7402/.0385 | .7450/.0263 | .7706/.0256 |
+| predictor | Source R / V | RelCompat3D R / V |
+| --- | ---: | ---: |
+| VL-SAT | 92.72 / 2.68 | 92.77 / 1.97 |
+| Open3DSG | 40.43 / 13.87 | 44.18 / 3.42 |
+| SGFN | 74.02 / 3.85 | 74.50 / 2.63 |
 
-At K=50, routed scan-cluster intervals show lower verifier Violation for all
-three predictors, positive Recall changes for Open3DSG and SGFN, and no
-detectable Recall change for near-ceiling VL-SAT. Across K=10--50, every routed
-Recall point estimate is preserved or improved and every V point estimate is
-lower. The analysis resamples 157 scans and carries all contexts of each
-sampled scan; paired context resampling preserves the same direction as a
-sensitivity. K=5 and K=100 remain in the main table as boundary conditions.
+VL-SAT Recall interval은 0을 포함하므로 유의한 Recall gain으로 표현하지 않는다.
+Open3DSG와 SGFN은 K=50에서 Recall 증가와 Violation 감소가 scan-cluster interval로
+지지된다.
 
-The supplement additionally reports the method without target-specific
-refitting on ReplicaSSG/FROSS:
-paired joint gains at K=10 and K=50, with K=100 saturation caused by heavily
-quantized source scores. This is a transfer stress test, not established
-dataset-level generalization.
+## Current Figures and Tables
 
-Open3DSG is evaluated on the official 548-context/3,972-GT universe; contexts
-without public-pipeline candidates are retained as empty candidate sets.
-Coverage variants are reported only as supplement sensitivities.
+- Figure 1: measured high-confidence Open3DSG failure에서 compatibility와
+  family-aware re-ranking으로 이어지는 overview.
+- Figure 2: 세 predictor의 percentage Recall--Violation trajectory.
+- Figure 3: ordered pair → geometry evidence → ranking outcome grid.
+- Table 1: 모든 K의 Recall/Violation percentage와 main/strong comparisons.
+- Table 2: K=50/100 falsification 및 information controls.
 
-## Strong Comparisons and Controls
+재작업 명세는 `paper/figures.md`가 소유한다.
 
-- Rank-average and RRF are fixed rank-fusion comparators.
-- The routed matched MLP is shown directly in the main table; it trades higher
-  Open3DSG Recall for higher V and does not dominate the linear product.
-- Pooled product tests whether family conditioning is necessary and is reported
-  in the supplement.
-- Hard filtering is a zero-violation diagnostic that may return fewer than K.
-- Wrong-predicate, wrong-pair, shuffled-geometry, endpoint-swap,
-  distance-only, and compatibility-only controls are reported at K=50/100.
-- A frozen train-only, source-score-excluded nonlinear model receives the same
-  constructed supervision and uses the same family-slot route. It does not
-  jointly dominate the product: at Open3DSG K=100 it improves Recall by
-  `.0297` while increasing Violation by `.0047`.
-- A separate SGFN-specific exact-label nonlinear rescorer is a stronger-label
-  comparator, not a supervision-matched replacement.
-- Nine one-factor train-only refits vary the proximity threshold, vertical
-  margin, negative cap, and pairwise-loss weight. Their maximum changes from
-  the exact default are `.0023/.0011` R/V at K=50 and `.0040/.0020` at K=100;
-  every variant preserves the source-score point-estimate improvement on both
-  metrics for all three predictors.
+## Main Scientific Limits
 
-These comparisons support the factorized framework and falsification contract,
-not a uniquely optimal fusion equation.
+1. Compatibility target과 Violation verifier가 일부 geometry primitive를
+   공유한다.
+2. 세 predictor가 하나의 dataset target을 공유한다.
+3. Support/contact는 현재 evidence로 reliable하게 re-rank하지 않는다.
+4. Nonlinear/rank fusion이 일부 operating point에서 강하므로 formula
+   superiority를 주장하지 않는다.
 
-## Construct-Validity Audit Boundary
+상세 attack/defense map은 `paper/risk.md`를 따른다.
 
-The 488-item Codex proxy reference and all required visual adjudications are
-complete. Reviewers A, B, and C checked every completed row and recorded
-`confirm` with zero revisions at `2026-07-14T22:49:11+09:00`. The validated
-result is therefore a **reviewer-verified LLM annotation reference**. It is not
-three independent blank-sheet human annotations and does not convert
-verifier-derived V into Human V@K. It remains excluded from the active
-submission and is documented only in `paper/paper_nonsub/`.
+## Canonical Outputs
 
-Independent human construct validation remains optional: two independent
-first-pass annotators must label the blank 488-item queue, followed by a third
-blinded adjudicator for mandatory disagreements/low-confidence/ambiguous rows.
+| artifact | path | SHA-256 |
+| --- | --- | --- |
+| main paper | `paper/aaai/main_aaai27.pdf` | `5a3012f8d529e147f647c3a92d388940f675b2f98728371429a3a965e4d4f46f` |
+| supplement | `paper/aaai/supplement_aaai27.pdf` | `a3138be52be01c5d30b0e9494c9f2cae0fa681868b8459fcd0281d4f274b6e8f` |
+| checklist | `paper/aaai/reproducibility_checklist_aaai27.pdf` | `1c3efa0baeb0514da8b8587386cbe7ec1260b2358f5f9f04ad8cb2d015419d` |
 
-## Canonical Files
+- Layout: 9/5/2 pages, US Letter.
+- Main text continues through page 7; references begin on page 7 and continue
+  through page 9.
+- The current verified upload set is
+  `release/h001_aaai27_openreview_20260717_193626/`; it contains the current
+  transcript and an independently rebuildable anonymous 198-record source ZIP.
 
-- research state: `summary.md`
-- task board: `TODO.md`
-- paper rules: `docs/paper.md`
-- recovery/run commands: `docs/reproducibility.md`
-- experiment entry: `experiments/H001_geom_reliability/README.md`
-- primary routing: `experiments/H001_geom_reliability/support_contact_routing_v1/`
-- matched nonlinear comparison:
-  `experiments/H001_geom_reliability/supervision_matched_nonlinear_v1/`
-- Open3DSG route sensitivity:
-  `experiments/H001_geom_reliability/open3dsg_official_route_v1/`
-- routed public/full ablations:
-  `experiments/H001_geom_reliability/structured_ablation_v1/routed_public_full_evaluation/`
-- compact results: `results/h001_geom_reliability/report.md`
-- manuscript and canonical PDFs: `paper/aaai/`
-- current anonymous upload bundle: see `docs/reproducibility.md`
-- reviewer-verified LLM analysis: `paper/paper_nonsub/`
+## Remaining User-Controlled Tasks
 
-The only remaining submission-side decisions are author/OpenReview metadata,
-the public code license and post-acceptance artifact URL, and whether to run a
-separate independent-human alignment study.
+- OpenReview author order, profiles, affiliations/countries, conflicts.
+- reciprocal reviewer nomination/eligibility declaration.
+- final public code license and post-acceptance artifact URL.
+- optional independent human alignment study.
+
+## Reading Map
+
+1. `paper/outline.md`: section logic and placement.
+2. `paper/method.md`: method tutorial and equations.
+3. `paper/experiment.md`: comparisons, metrics, statistics.
+4. `paper/figures.md`: complete redraw specification.
+5. `paper/risk.md`: scientific attack/defense register.
+6. `paper/review.md`: three orthogonal reviewer assessments.
+7. `docs/reproducibility.md`: exact recovery/build/release commands.

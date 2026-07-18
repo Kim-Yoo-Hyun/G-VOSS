@@ -1,6 +1,6 @@
 # RelCompat3D Research Repository
 
-This repository contains the H001/RelCompat3D research workspace for reliable 3D Scene Graph relations. The active paper is titled `Beyond Semantic Confidence: Relation-Algebra-Constrained Geometric Compatibility for 3D Scene Graph Relations`. RelCompat3D fits a compatibility layer with family-specific linear heads whose inputs exclude predictor identity and source score, applies relation-algebra projection, and reports recall--violation trade-offs under re-ranking. The paper-facing scope is `support_contact`, `proximity`, and `relative_vertical`, evaluated across VL-SAT, Open3DSG, and SGFN on one shared 3DSSG target. H001 remains an internal experiment identifier.
+This repository contains the H001/RelCompat3D research workspace for reliable 3D Scene Graph relations. The active paper is titled `Beyond Semantic Confidence: Relation-Consistent Geometric Re-ranking for 3D Scene Graphs`. RelCompat3D fits a compatibility layer with family-specific linear heads whose inputs exclude predictor identity and the source relation score, enforces known relation transformations by score averaging, and reports recall--violation trade-offs under re-ranking. The paper-facing scope is `support_contact`, `proximity`, and `relative_vertical`, evaluated across VL-SAT, Open3DSG, and SGFN on one shared 3DSSG target. H001 remains an internal experiment identifier.
 
 ## Core Question
 
@@ -8,17 +8,18 @@ This repository contains the H001/RelCompat3D research workspace for reliable 3D
 
 ## Current H001 State
 
-- Claim: source-score-excluded, factor-isolated relation reliability evaluated
+- Claim: relation reliability based on separate predicate, geometry, and
+  source-score factors, evaluated
   across three predictors on a shared 3DSSG target; no dataset-level,
   family-uniform, SOTA, or best-fusion claim.
 - Main evidence: VL-SAT, Open3DSG, and SGFN evaluations over 548 contexts and
   3,972 in-scope exact-label relations.
 - Novelty mechanism: linked-counterfactual margin fitting plus exact
-  relation-algebra projection yields source-score-excluded compatibility; an
-  applicability route uses it within proximity/vertical source-family slots
-  while preserving support/contact ordering.
+  transformation averaging yields source-score-excluded compatibility;
+  family-aware re-ranking uses it within proximity/vertical relations while
+  preserving support/contact ordering.
 - Transfer boundary: an application without target-specific refitting is
-  complete on ReplicaSSG/FROSS. The routed product improves both metrics at
+  complete on ReplicaSSG/FROSS. The family-aware product improves both metrics at
   K=10 and K=50, while heavily quantized source scores make it nearly inert at
   K=100. The target informed prior diagnostics, candidate recall is capped at
   44.19%, and support/contact is unmapped; this is a transfer stress test rather
@@ -26,8 +27,8 @@ This repository contains the H001/RelCompat3D research workspace for reliable 3D
 - Canonical PDFs: `paper/aaai/main_aaai27.pdf`,
   `supplement_aaai27.pdf`, and `reproducibility_checklist_aaai27.pdf`.
 - Current verified upload bundle:
-  `release/h001_aaai27_openreview_20260715_213525/`; it includes the current
-  manuscript, routed ablations, compact external-transfer evidence, and
+  `release/h001_aaai27_openreview_20260717_193626/`; it includes the current
+  manuscript, matched ablations, compact external-transfer evidence, and
   independently rebuildable anonymous source.
 - Cleanup state: Replica/FROSS raw archives, runtime, weights, source clones,
   and shards are absent; compact development rows and summaries are retained.
@@ -36,17 +37,19 @@ This repository contains the H001/RelCompat3D research workspace for reliable 3D
 
 - Focused Docker entry point: `configs/h001/compose.structured.yaml`
 - Frozen method/model: `experiments/H001_geom_reliability/relation_algebra_v1/`
-- Primary routed evaluation: `experiments/H001_geom_reliability/support_contact_routing_v1/evaluation/`
-- Synchronized unrestricted comparisons: `experiments/H001_geom_reliability/structured_main_v1/evaluation/`
-- Same-route strong comparators: `experiments/H001_geom_reliability/routed_comparators_v1/evaluation/`
+- Primary family-aware evaluation: `experiments/H001_geom_reliability/support_contact_routing_v1/evaluation/`
+- Synchronized all-family comparisons: `experiments/H001_geom_reliability/structured_main_v1/evaluation/`
+- Matched-procedure strong comparators: `experiments/H001_geom_reliability/routed_comparators_v1/evaluation/`
 - Supervision-matched nonlinear comparison: `experiments/H001_geom_reliability/supervision_matched_nonlinear_v1/evaluation/`
 - Open3DSG coverage sensitivity: `experiments/H001_geom_reliability/open3dsg_official_route_v1/evaluation/`
 - ReplicaSSG final-method transfer: `experiments/H001_geom_reliability/sources/replicassg/final_method_transfer_v1/`
-- Paper-facing routed K=50/100 ablations: `experiments/H001_geom_reliability/structured_ablation_v1/routed_public_full_evaluation/`
+- Paper-facing family-aware K=50/100 ablations: `experiments/H001_geom_reliability/structured_ablation_v1/routed_public_full_evaluation/`
+- All-K scan-cluster intervals: `experiments/H001_geom_reliability/support_contact_routing_v1/scan_cluster_sensitivity/`
+- CPU re-ranking benchmark: `experiments/H001_geom_reliability/runtime_v1/`
 - Compact result summary: `results/h001_geom_reliability/report.md`
 - Paper figures: `paper/generated/figures/`
 - Active AAAI source and canonical PDFs: `paper/aaai/`
-- Current verified upload bundle: `release/h001_aaai27_openreview_20260715_213525/`
+- Current verified upload bundle: `release/h001_aaai27_openreview_20260717_193626/`
 - Recovery, transfer, and cleanup authority: `docs/reproducibility.md`
 
 The current Docker retention matrix is also owned by
@@ -116,8 +119,8 @@ docker run --rm -v "$PWD/paper:/work" -w /work/aaai h001-aaai27-tex:20260712 \
   latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 ```
 
-The 2026-07-14 field bundle is a verified historical snapshot. Regenerate the
-AAAI-27 field files from the current canonical PDFs before upload.
+Use the verified 2026-07-17 field bundle listed above for upload; older bundles
+are historical snapshots.
 
 ## Artifact Policy
 

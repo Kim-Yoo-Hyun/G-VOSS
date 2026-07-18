@@ -6,14 +6,15 @@ alignment, visual grounding, and downstream decision making
 \cite{wald2020learning3dssg,sarkar2023sgaligner,xie2024sgpgm,liu2026viewongraph}.
 For these uses, relation prediction must be supported by the reconstructed
 scene, not only plausible at the category or language level. A graph edge such as
-\texttt{standing on}, \texttt{next to}, or \texttt{higher than} is useful only
-if it describes the actual subject-object pair in 3D.
+\texttt{standing on}, \texttt{close by}, or \texttt{higher than} is useful only
+if it describes the corresponding ordered subject--object pair in 3D.
 
 We study a failure mode in which relation predictors rank plausible labels that
-are inconsistent under explicit tests of the actual object-pair geometry.
+are inconsistent with measured object-pair geometry.
 A relation can sound plausible for two object categories while being
-contradicted by their contact evidence, distance, or vertical arrangement in
-the reconstructed scene. This mismatch matters more as 3D Scene Graphs become
+inconsistent with measured distance, projected overlap, or vertical arrangement;
+contact-heavy relations are assessed separately by the verifier. This mismatch
+becomes consequential as 3D Scene Graphs become
 interfaces for language-facing, open-vocabulary, and embodied systems
 \cite{koch2024open3dsg,hou2025fross,zhang2025openfungraph,wang2025octreegraph,saxena2025zing3d,yu2025openworld3dsg,madhavaram2026vizor}.
 
@@ -25,64 +26,73 @@ The gap is more specific: a source relation score---even when its predictor
 already uses geometry---is not necessarily an explicit estimate of whether the
 same subject-object pair satisfies the predicate in 3D. This makes the
 problem an AI reliability issue, not only a 3DSSG implementation detail:
-language-facing and embodied systems can inherit a confident symbolic relation
-that contradicts the underlying world state.
+language-facing and embodied systems can inherit a high-scoring symbolic relation
+that contradicts the reconstructed scene evidence.
 
-This failure suggests a factor-isolated design. \method{} preserves each
-relation candidate's subject--object identity, joins its reconstructed geometry,
-and separates predicate semantics $T$, same-pair geometry $G$, and source score
-$Z$. A fitted compatibility layer with family-specific linear heads excludes
-$Z$ and predictor identity; $Z$
-enters only during re-ranking. Linked counterfactuals teach the
-model which geometry supports a predicate, while orbit projection enforces
-proximity symmetry and invariance under joint endpoint swap and
-inverse-predicate transformation exactly. An applicability
-route uses the resulting product only to reorder proximity and vertical
-candidates within the source's family slots, while support/contact retains its
-source ordering. Scale-robust fusion, nonlinear, family-conditioning, and
-rule-filtering comparisons isolate the mechanism.
+This failure suggests separating predicate semantics $T$, predicate-independent
+pair-geometry measurements $G$, and the source relation score $Z$. \method{}
+preserves each candidate's subject--object identity and learns
+predicate--geometry compatibility from $T$ and $G$ without using $Z$ or
+predictor identity. Linked positive--counterfactual pairs optimize the ordering
+of geometrically compatible and incompatible candidates;
+averaging over known endpoint/predicate transformations enforces proximity
+symmetry and invariance under joint endpoint swap and inverse-predicate
+transformation.
+These choices address distinct failure modes: excluding $Z$ precludes direct
+copying of the predictor score, preserving ordered-pair identity prevents
+scene-level measurements from substituting for instance evidence, and
+transformation averaging assigns equal compatibility to equivalent
+endpoint/predicate representations.
+
+The source relation score enters only during re-ranking. Within proximity and
+vertical relations, \method{} combines it with compatibility and changes the
+order within each relation family. It preserves the sequence of relation-family
+labels in the source ranking and the source order of support/contact relations.
+Matched fusion baselines and ablations test the effects of excluding the source
+relation score, preserving ordered-pair identity, and enforcing transformation
+consistency.
 Figure~\ref{fig:framework} summarizes the framework.
 
 \begin{figure*}[t]
     \centering
     \figmaybe[width=0.98\linewidth]{../generated/figures/figure1_framework.pdf}
     \caption{\textbf{Failure mechanism and \method{} overview.} A high-scoring
-    Open3DSG relation is contradicted by the actual ordered-pair geometry.
-    \method{} preserves the relation-row identity, isolates predicate semantics
-    $T$, same-pair geometry $G$, and source confidence $Z$, and estimates
-    $\calg(T,G)$ without $Z$. The applicability route moves the shown
-    proximity relation from rank 19 to 178 while leaving support/contact
-    selections unchanged. Linked-counterfactual and relation-algebra controls
-    test the factorization; evaluation jointly reports exact-label recall and
-    verifier-derived violation.}
+    Open3DSG relation is inconsistent with the measured geometry of the
+    corresponding ordered pair. \method{} preserves ordered-pair identity,
+    separates predicate semantics $T$, predicate-independent pair-geometry
+    measurements $G$, and source relation score $Z$, and estimates the
+    transformation-consistent compatibility $\ctr(T,G)$ without $Z$.
+    Family-aware re-ranking moves the shown proximity relation from rank 19 to
+    178 while preserving the source relation-family sequence and keeping
+    support/contact relations in source order.}
     \label{fig:framework}
 \end{figure*}
 
-We evaluate support/contact, proximity, and relative-vertical relations because
-their constraints are identifiable from reconstructed ordered-pair geometry.
-Open3DSG, VL-SAT, and SGFN provide complementary open-vocabulary and closed-set
-predictors
-\cite{wang2023vlsat,koch2024open3dsg}. The evaluation reports exact-label
-recall together with verifier-derived violation, uncertainty, coverage, paired
-confidence intervals, and family composition. We do not extrapolate this
-cross-predictor evidence across dataset ontologies.
+We evaluate support/contact, proximity, and vertical-order relations because
+their consistency can be assessed from reconstructed ordered-pair geometry.
+Open3DSG, VL-SAT, and SceneGraphFusion (SGFN) provide complementary
+open-vocabulary and closed-set predictors
+\cite{wang2023vlsat,koch2024open3dsg,wu2021scenegraphfusion}. We jointly report
+exact-label Recall@$K$ and verifier-derived Violation@$K$ across the three
+predictors on a shared 3DSSG target.
 
 Our contributions are threefold:
 \begin{enumerate}
-    \item We formalize the mismatch between relation confidence and
-    instance-level geometric consistency through identity-preserving evaluation
-    and joint exact-label Recall@$K$--verifier-derived Violation@$K$.
-    \item We introduce a source-score-excluded compatibility layer that combines
-    linked counterfactual ordering with exact relation-algebra projection, and
-    an applicability route that preserves selections from families outside the
-    routing scope.
-    \item We show consistent behavior across three predictors on a shared target
-    and characterize when the reliability layer succeeds or fails through
-    matched controls, uncertainty analysis, and family decomposition.
+    \item We define and measure a mismatch between relation scores and
+    instance-level geometric consistency that exact-label Recall alone does not
+    capture, using identity-preserving evaluation and joint exact-label
+    Recall@$K$--verifier-derived Violation@$K$.
+    \item We learn predicate--geometry compatibility from the corresponding
+    ordered pair without using the source relation score, and enforce exact
+    endpoint/predicate transformations through transformation averaging.
+    \item We introduce a constrained re-ranking rule that preserves the source
+    relation-family sequence and support/contact order, and evaluate one fitted
+    compatibility layer across three predictors to characterize predictor- and
+    family-dependent gains and failures.
 \end{enumerate}
 
-Across $K=10$--$50$ budgets, the applicability route preserves or
-improves each predictor's Recall point estimate while reducing Violation; at
-$K=50$, paired scan-cluster intervals support Violation reduction on all three
-predictors without a detectable Recall loss. The result is a reliability layer
-for geometry-checkable relations rather than a replacement relation generator.
+Across $K=10$--$50$, no predictor's Recall point estimate decreases, and at
+$K=50$ paired scan-cluster intervals support lower Violation without a
+detectable Recall loss. \method{} re-ranks proximity and vertical relations
+while preserving support/contact source order; it does not replace the relation
+generator.

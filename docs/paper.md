@@ -48,10 +48,10 @@ Fact from the reference:
 H001 rule:
 
 - Do not claim novelty as "we add geometry", "we combine semantic and geometry", "we use a VLM", or "we implement a verifier".
-- Claim novelty as a factor-isolated geometry-compatibility evaluation and
-  re-ranking framework that targets a specific failure: semantically plausible
+- Claim novelty as a relation-consistent geometric re-ranking framework with
+  separate predicate, geometry, and source-score factors. It targets a specific failure: semantically plausible
   3D relation predictions can be inconsistent with same-pair geometry because
-  source confidence is not a relation-level compatibility estimate.
+  the source relation score is not a relation-level compatibility estimate.
 
 ## Reviewer-Process Writing Rule
 
@@ -104,7 +104,7 @@ Reviewer-side checklist to simulate before submission:
 
 ## RelCompat3D Claim Contract
 
-Paper-facing title: `Beyond Semantic Confidence: Relation-Algebra-Constrained Geometric Compatibility for 3D Scene Graph Relations`. Use `RelCompat3D` as the method name in the abstract and main prose; keep `H001` for internal paths, provenance, and runbooks.
+Paper-facing title: `Beyond Semantic Confidence: Relation-Consistent Geometric Re-ranking for 3D Scene Graphs`. Use `RelCompat3D` as the method name in the abstract and main prose; keep `H001` for internal paths, provenance, and runbooks.
 
 The former paper-facing name `GeoCalib` is retired because it collides with the
 ECCV 2024 single-image camera-calibration method of that name. The existing
@@ -120,11 +120,11 @@ This is the preferred direction because it contains both cause diagnosis and met
 Reviewer-defense rules after the independent-validity/family review:
 
 - RelCompat3D uses the factorization `T_e` = predicate/family semantics, `G_e` =
-  predicate-independent same-pair geometry, `Z_e` = source confidence, and
+  predicate-independent same-pair geometry, `Z_e` = source relation score, and
   `C_e = sigmoid(h_a(Phi(T_e,G_e)))`. This bounded score targets constructed
   GT-positive/counterfactual ordering; it is not a probability of physical
   validity.
-- Enforce the leakage boundary `Z_e notin C_e`: neither source confidence nor
+- Enforce the leakage boundary `Z_e notin C_e`: neither the source relation score nor
   source identity is an input to the compatibility calibrator. `Z_e` enters
   only in final ranking `S_e = F(Z_e,C_e)`. Predicate-aligned quantities
   derived from geometry belong to `T_e x G_e`, not predicate-independent raw
@@ -138,7 +138,7 @@ Reviewer-defense rules after the independent-validity/family review:
   `validity-score-only`, never true geometry-only. Reserve `true G-only` for a
   calibrator that removes predicate/family one-hot and every
   predicate-aligned feature.
-- Wrong-`T` and endpoint controls must respect relation algebra. Wrong-`T` is
+- Wrong-`T` and endpoint controls must respect the defined relation transformations. Wrong-`T` is
   primary for inverse-predicate vertical relations, `close by` is endpoint-swap
   invariant, and support/contact receives no blanket subject/object transform
   until an exact family rule is frozen. New factor/control results are post-hoc
@@ -146,13 +146,14 @@ Reviewer-defense rules after the independent-validity/family review:
 
 - RelCompat3D is a compatibility-based reliability framework, not a claim that
   one fusion formula is uniquely optimal. Its primary inference rule preserves
-  the source-ranked family-slot sequence, applies product ordering only within
-  proximity/vertical slots, and preserves support/contact ordering. Treat the
-  unrestricted product as an ablation; compare product, rank-average, RRF, and
-  the supervision-matched nonlinear model under the same family-slot route;
+  the source family sequence, applies product ordering only among
+  proximity/vertical candidates within the corresponding family positions, and
+  preserves support/contact ordering. Treat the all-family product as an
+  ablation; compare product, rank-average, RRF, and
+  the supervision-matched nonlinear model under the same family-aware ranking procedure;
   treat pooled product as a family-conditioning ablation and hard filtering as
   a construction diagnostic.
-- Support/contact pass-through removes the operational regression without
+- Keeping support/contact in source order removes the operational regression without
   establishing support/contact compatibility. Never convert exact preservation
   into a support/contact-improvement claim.
 - ReplicaSSG/FROSS contains both prior target-specific development and a later
@@ -160,13 +161,13 @@ Reviewer-defense rules after the independent-validity/family review:
   described as a benchmark evaluation on a previously observed target, not an
   unbiased or prospective estimate. Its routed product has paired joint gains
   at K=10 and K=50 but saturates at K=100; report the full five-budget curve in
-  the supplement. A family-slot-preserving rank diagnostic explains score
+  the supplement. A family-sequence-preserving rank analysis explains score
   scale sensitivity, but must not replace the main rule based on this target.
   Keep bounded-fusion development outside the main Method and contribution
   list, and do not claim dataset-level generalization.
 
-- Aggregate improvement does not authorize every-family wording. Applicability
-  routing must preserve support/contact selection and global family composition
+- Aggregate improvement does not authorize every-family wording. Family-aware
+  re-ranking must preserve support/contact selection and global family composition
   exactly, and the paper must state that this family remains unsolved.
 - A top-K aggregate can improve by changing family composition. Report both
   within-family top-K and the family slices inside the actual global top-K when
@@ -302,9 +303,9 @@ Current paper-facing evaluation direction:
   restriction or recovery policy.
 - Table policy is fixed: one joint Recall/Violation table uses VL-SAT,
   Open3DSG public/full target, and SGFN at K=`{5,10,20,50,100}`. Its rows are
-  Source score, applicability-routed RelCompat3D, unrestricted product,
-  same-route rank-average, same-route RRF, and pooled product. The
-  same-route supervision-matched nonlinear model is reported in the supplement
+  Source score, family-aware RelCompat3D, Product (all families),
+  matched rank-average, matched RRF, and pooled product. The
+  supervision-matched nonlinear model uses the same ranking procedure and is reported in the supplement
   because the main table is already at the readability limit.
   A second K=50/100 table contains the frozen six-control ablation; hard
   filtering remains a construction diagnostic outside the primary table.
@@ -326,12 +327,12 @@ Current paper-facing evaluation direction:
   VL-SAT/Open3DSG main-source route and should not widen the main claim unless
   explicitly promoted.
 - Active target-year build uses official `aaai2027` source. Outputs are
-  `paper/aaai/main_aaai27.pdf` (9 pages; technical content through page 7,
-  references on pages 8--9), `paper/aaai/supplement_aaai27.pdf` (4 pages),
+  `paper/aaai/main_aaai27.pdf` (9 pages; main text through page 7, where
+  references begin and continue through page 9), `paper/aaai/supplement_aaai27.pdf` (5 pages),
   and `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Final main
-  log: `logs/h001_main_routing_20260714_231933.log`. The verified OpenReview
-  bundle is `release/h001_aaai27_openreview_20260714_233534/`; it contains the
-  synchronized PDFs and focused routed-method supplement. Earlier
+  log: `logs/h001_main_claim_strengthening_final_20260717_193117.log`. The verified OpenReview
+  bundle is `release/h001_aaai27_openreview_20260717_193626/`; it contains the
+  synchronized PDFs and focused method supplement. Earlier
   source-validation PDFs, the 2026-07-12 field bundle, and compact tarballs are
   historical snapshots.
 
@@ -358,11 +359,15 @@ framework-first decision:
 Paper workspace ownership:
 
 - `paper/README.md` is the folder-local entry point and records the roles of the paper files, reading order, and update ownership.
-- `paper/preview.md` summarizes current evidence, caveats, reviewer-defense map, optional extension boundary, and recovery files.
-- `paper/progress.md` records why each hypothesis/experiment stage was run, why the next stage was needed, and how the key results should be interpreted.
-- `paper/outline.md` provides the English/Korean paper skeleton, recommended title, title alternatives, three contribution statements, abstract skeleton, section-level evidence placement, Open3DSG caveat placement, reviewer-defense plan, and table/figure plan. Cross-source results and failure analysis are treated as empirical validation, not a separate fourth contribution.
-- `paper/draft.md` provides first-pass manuscript prose for Title, Abstract, Introduction, Related Work, Problem Formulation, Method, Experimental Setup, Results/Discussion, Limitations, and Conclusion. It has passed claim-scope/evidence-link review and now uses BibTeX-style citation keys in Related Work.
+- `paper/preview.md` is the current handoff snapshot for the paper claim, evidence, canonical build/release pointers, and remaining user tasks.
+- `paper/progress.md` records only current completion, fixed decisions, deferred tracks, and remaining work; historical run chronology belongs in experiment reports and repository history.
+- `paper/outline.md` owns the current six-section causal narrative, three contribution statements, section responsibilities, and figure/table placement. Cross-predictor results and failure analysis are empirical validation, not a separate fourth contribution.
+- `paper/method.md` explains the implemented factorization, constructed supervision, objectives, relation-algebra consistency, score combination, and family-aware ranking without research-log terminology.
+- `paper/experiment.md` explains the comparison contract, exact-label Recall, verifier-derived Violation, uncertainty accounting, family analysis, and paired scan-cluster inference in accessible mathematical form.
+- `paper/draft.md` is a secondary prose workspace; the canonical submission text
+  is the active LaTeX source under `paper/aaai/`.
 - `paper/risk.md` tracks reviewer-risk attacks, mitigation status, and priority for logic/evidence/novelty/reproducibility defenses.
+- `paper/review.md` consolidates the current novelty/method, experimental-validity, and writing/presentation reviews.
 - `paper/appendix.md` owns appendix/supplement provenance tables, detailed Open3DSG caveat consistency checks, optional Figure 3 decisions, and Qwen-VL extension boundary notes.
 - `paper/aaai/` is the current target-venue LaTeX source. It uses the official
   AAAI-27 style (`aaai2027.sty`, template version 2027.1), splits the draft
@@ -372,7 +377,7 @@ Paper workspace ownership:
   `h001-aaai27-tex:20260712`; the final main/supplement/checklist build log is
   `logs/h001_structured_main_final_20260713.log`.
 - `archive/paper/iccv/` remains a historical/alternate ICCV-style source route.
-- `paper/figures.md` locks Figure 1-3 source claims, exact values, case IDs, artifacts, and caption constraints; draft SVGs are generated, verified, and layout-reviewed under `paper/generated/figures/`.
+- `paper/figures.md` is the authoritative redraw specification for Figure 1--3, including composition, flow, exact plot values and coordinates, case sources, captions, and non-claims; generated assets remain under `paper/generated/figures/`.
 
 ## H001 Fit To Top-Tier Pattern
 
@@ -608,30 +613,38 @@ Do not claim these until evidence exists:
 
 ## Paper-Framing Guardrails
 
-- Claim-consistency review is complete in `paper/outline.md`: title, contribution statements, abstract, Introduction, Figure 1-3 captions, and Table 1-6 captions preserve the scoped relation-reliability claim.
-- Paper-body content blocks are secured in `paper/outline.md`: related-work positioning, problem/method formalization, re-ranking algorithm skeleton, Results/controls/Open3DSG prose skeleton, failure-analysis prose skeleton, limitation prose, Figure 1-3 asset plan, and table/appendix placement.
-- First-pass manuscript prose is drafted and claim-scope/evidence-link reviewed in `paper/draft.md`; Title, quantitative Abstract, and Introduction are now filled before Related Work.
+- Claim consistency is governed by `paper/outline.md`: the title, contributions, six-section argument, and evidence placement preserve the scoped relation-reliability claim.
+- Implementation-faithful method and evaluation explanations are separated into `paper/method.md` and `paper/experiment.md`; the outline should point to them rather than duplicate their equations or comparison definitions.
+- The canonical title, Abstract, and section prose are maintained in
+  `paper/aaai/`; `paper/draft.md` is not the submission source.
 - Figure 1-3 source lock is complete in `paper/figures.md`: Figure 1 is an
   actual-failure-to-framework overview, Figure 2 connects
   Recall--Violation trajectories at K=`{5,10,20,50,100}` across VL-SAT,
   Open3DSG, and SGFN, and Figure 3 shows two geometry-backed corrections plus
-  one residual top-10 failure.
+  one residual support/contact case.
 - Draft Figure 1-3 generation, top-tier novelty/layout review, and Figure 3 geometry-backed panel upgrade are complete under `paper/generated/figures/`; validation passed for locked values, case IDs, geometry case IDs, and SVG XML parsing.
 - Recent 2025-2026 Related Work roles are decided: RelWitness is a required direct novelty-threat citation, VIZOR is a required spatial-relation/viewpoint-boundary citation, ZING-3D is a VLM/incremental 3DSG trend citation, Open-World 3DSG-RAG is a broad open-world/RAG boundary citation, and View-on-Graph is a downstream grounding-motivation citation.
-- Section structure is locked: keep Section 5 as a short standalone `Experimental Setup` section. Do not merge it into Results because denominator, filtered-split, covered-scope, Open3DSG variant, and Docker-result boundaries are part of the reviewer defense.
+- Section structure is locked to six top-level sections: Introduction, Related
+  Work, Method, Experiments, Discussion and Limitations, and Conclusion.
+  Problem Setup is the first Method subsection; Experimental Setup and all
+  quantitative/qualitative results are subsections of Experiments.
 - Section-title rule: use standard paper headings such as `Experiments`, `Experimental Setup`, `Evaluation Setup`, `Datasets`, `Evaluation Metrics`, and `Implementation Details`. Do not put `Scope` in the heading unless the target venue/template makes it necessary; H001's scope and denominator discipline should be stated in the first paragraph and tables.
-- Section-title reference check, 2026-05-23: Open3DSG uses `4 Experiments` / `4.1 Experimental Setup`; OpenFunGraph uses `6 Experiments` / `6.1 Experimental Setup`; FROSS uses `4 Experimental Results` / `4.1 Evaluation Setup` with dataset/metric/implementation subsections; VIZOR uses `4 Experiments` / `4.1 Datasets` and separates `5 Failure Analysis`. This supports the H001 decision to use the standard heading `Experimental Setup` while keeping scope/caveat details in text and tables.
+- The section-title reference check supports `Experiments` as the top-level
+  heading and `Experimental Setup` as its first subsection, with scope and
+  denominator details stated in prose and tables rather than in a defensive
+  section title.
 - Target venue direction is AAAI-style main conference writing. Content stability and AAAI page/checklist compliance come before final camera-ready polish.
 - `paper/draft.md` Title/Abstract/Introduction quick review is complete; front matter is about 701 words excluding title, with a 201-word abstract and 500-word Introduction before final compression.
 - Paper-body gap review patch is complete: Figure 1-3 callouts, Table 4 audit/sanity prose, and Conclusion are now in `paper/draft.md`.
-- Paper-body budget review is complete. The current AAAI manuscript uses three main paper tables: fixed scope/denominator, source results, and controls/diagnostics. The old claim-boundary table is demoted to prose. GT verifier, audit, and detailed family rows stay as prose-backed evidence unless an appendix is added.
+- Paper-body budget review is complete. The current AAAI manuscript uses two
+  main tables: the five-budget cross-predictor comparison and the compact
+  K=50/100 structural controls. Detailed diagnostics remain in the supplement.
 - AAAI-style source conversion is complete under `paper/aaai/` using the
   official AAAI-27 Author Kit preserved in the repository. The active source
   uses `aaai2027.sty`/`aaai2027.bst` and template version 2027.1.
 - The `paper/aaai/` manuscript-content pass is complete: it includes fixed scope/denominator accounting, a main source-results table, a controls/diagnostics table, prose claim-boundary/verifier/audit evidence, explicit Open3DSG caveat captioning, and limitation wording.
-- Figure 1-3 PNG build assets are ready and `paper/aaai/sec/6_results.tex`
-  points to them. Figures 2 and 3 are full-width evidence figures so their K
-  labels, point geometry, and residual case remain legible.
+- Figure 1--3 are included as vector PDFs. Figures 2 and 3 use full width so
+  their K labels, ordered-pair geometry, and residual case remain legible.
 
 ## H001 Current Claim Lock, 2026-07-15
 
@@ -643,18 +656,21 @@ Do not claim these until evidence exists:
   model whose inputs also exclude predictor identity,
   identity-preserving geometry join, falsification controls, and joint
   Recall--Violation--uncertainty evaluation. Do not claim a novel or optimal
-  fusion formula.
-- The finalized main-claim scope is multiple semantic predictors on one
-  geometry-identifiable 3DSSG/3RScan target. ReplicaSSG/FROSS provides
+  fusion formula. The ranking construction may be described as prefix-utility
+  optimal only under fixed source family counts and a fixed support/contact
+  subsequence; this is not global metric or fusion optimality.
+- The finalized main-claim scope is multiple semantic predictors on one shared
+  3DSSG/3RScan target for relations testable from reconstructed pair geometry.
+  ReplicaSSG/FROSS provides
   zero-target-fitting external diagnostic evidence for the unchanged model, but
   its previously observed target, 44.19% candidate-recall ceiling, absent
   support/contact mapping, and K=100 score saturation block a dataset-
   generalization claim.
 - The main compatibility is linked-counterfactual margin fitting followed
-  by exact proximity-swap / vertical-inverse orbit projection. Paper prose
-  calls it **relation-algebra-constrained compatibility**; the internal
+  by exact proximity-swap / vertical-inverse transformation averaging. Paper prose
+  calls it **relation-consistent compatibility**; the internal
   `orbit_pairwise_projected_product` name appears only in provenance artifacts.
-  The primary family-slot route must come from `support_contact_routing_v1`;
+  The primary family-aware ranking procedure must come from `support_contact_routing_v1`;
   unrestricted comparators and controls come from the synchronized
   `structured_main_v1` and `structured_ablation_v1` routes.
 - Visual Commonsense Driven Knowledge Refinements for Scene Graph Generation
@@ -674,7 +690,7 @@ Do not claim these until evidence exists:
   reference, not as a separately registered endpoint, and describe K=10--50
   behavior without an unsupported operational-use claim;
   retain K=5 and K=100 in the table and trajectory as low-/high-budget
-  boundaries. At K=50, verifier-V decreases on all three predictors, Recall
+  boundaries. At K=50, Violation decreases on all three predictors, Recall
   improves on Open3DSG and SGFN, and near-ceiling VL-SAT has no detectable
   Recall change. Never convert pointwise trends into an all-K universal
   dominance statement.
@@ -690,6 +706,13 @@ Do not claim these until evidence exists:
   confirmed every completed LLM-reference row with zero revisions; this route
   is named reviewer-verified LLM annotation rather than independent human
   annotation.
+- The frozen `orthogonal_geometry_audit_v1` is admissible non-human
+  construct-validity evidence: it uses raw instance vertices and area-weighted
+  mesh triangles, excludes OBB/model/verifier inputs from label assignment, and
+  reports point, mesh, strict consensus, coverage, all K, and paired scan-cluster
+  intervals. Describe it as an orthogonal raw-surface audit, not an independent
+  physical-validity ground truth, because both estimators share the reconstructed
+  3RScan surface and ontology.
 - Docker verification is complete with `h001-aaai27-tex:20260712`: BibTeX
   uses 34 entries and targeted checks find no missing citations, undefined
   references, overfull boxes, LaTeX errors, Type 3 fonts, or AAAI package
