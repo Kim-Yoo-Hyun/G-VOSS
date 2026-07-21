@@ -1,0 +1,26 @@
+\begin{table*}[t]
+\centering
+{\small
+\setlength{\tabcolsep}{2.8pt}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+& \multicolumn{2}{c}{Open3DSG} & \multicolumn{2}{c}{VL-SAT} & \multicolumn{2}{c}{SGFN} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+Condition & Linear & MLP & Linear & MLP & Linear & MLP \\
+\midrule
+Full method & \textbf{56.85/3.24} & \textbf{59.89/3.71} & \textbf{96.58/2.95} & \textbf{96.50/2.96} & \textbf{93.03/3.50} & \textbf{92.88/3.50} \\
+Wrong predicate & 53.47/20.96 & 58.89/18.34 & 94.79/7.95 & 94.99/8.31 & 89.93/12.99 & 90.01/13.52 \\
+Wrong pair & 49.32/8.36 & 49.90/8.90 & 94.96/4.73 & 95.62/4.71 & 88.07/6.65 & 89.05/6.59 \\
+Shuffled geometry & 48.79/12.42 & 47.94/12.38 & 94.11/5.60 & 94.71/5.49 & 86.83/8.36 & 87.84/8.06 \\
+Fixed-label swap & 53.63/20.96 & 57.43/18.15 & 94.81/7.95 & 95.09/8.13 & 90.03/12.98 & 90.23/13.35 \\
+Distance only & \multicolumn{2}{c}{63.22/9.55} & \multicolumn{2}{c}{89.80/8.09} & \multicolumn{2}{c}{84.06/12.66} \\
+Compatibility only & 56.87/3.24 & 61.33/3.28 & 83.89/2.03 & 90.18/2.05 & 70.64/2.30 & 80.99/2.31 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Structural controls at $K=100$. Cells are Recall / Violation
+percentages ($\uparrow/\downarrow$). All conditions use the same candidates
+and family-aware ranking as the main evaluation. Distance only is common to
+both heads.}
+\label{tab:ablations-k100}
+\end{table*}

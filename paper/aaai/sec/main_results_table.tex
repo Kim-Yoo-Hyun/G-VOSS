@@ -1,13 +1,7 @@
 \begin{table*}[!t]
 \centering
-\footnotesize
+{\small
 \setlength{\tabcolsep}{2.0pt}
-\renewcommand{\arraystretch}{0.95}
-\caption{\textbf{Exact-label Recall (R$\uparrow$) and verifier-derived
-Violation (V$\downarrow$).} All entries are percentages. \method{}, matched
-MLP, RankAvg, and RRF use the same family-aware ranking procedure; Product (all
-families) applies compatibility to every relation family.}
-\label{tab:main-results}
 \begin{tabular}{@{}llrrrrrrrrrr@{}}
 \toprule
 & & \multicolumn{2}{c}{$K=5$} & \multicolumn{2}{c}{$K=10$} &
@@ -18,27 +12,34 @@ Predictor & Ranking rule & R & V & R & V & R & V & R & V & R & V \\
 \midrule
 \multirow{6}{*}{Open3DSG}
 & Source & 3.42 & 52.05 & 9.87 & 32.89 & 19.89 & 20.99 & 40.43 & 13.87 & 51.11 & 12.42 \\
-& \textbf{\method{}} & 3.73 & 0.94 & 11.35 & 2.33 & 23.62 & 3.13 & 44.18 & 3.42 & 56.92 & 3.24 \\
-& Matched MLP & 3.70 & 4.95 & 11.78 & 4.97 & 24.67 & 4.56 & 46.70 & 4.13 & 59.89 & 3.71 \\
-& RankAvg & 3.78 & 1.09 & 11.08 & 2.48 & 22.41 & 3.53 & 43.23 & 4.58 & 54.08 & 5.48 \\
-& RRF & 3.60 & 18.99 & 10.70 & 16.06 & 21.63 & 13.24 & 42.37 & 9.48 & 54.76 & 7.72 \\
-& Product (all families) & 9.99 & 4.05 & 19.66 & 4.52 & 32.85 & 4.28 & 46.55 & 2.65 & 60.05 & 3.30 \\
+& \textbf{\methodlinear{}} & 3.73 & 0.94 & 11.38 & 2.33 & 23.62 & 3.13 & 44.18 & 3.42 & 56.85 & 3.24 \\
+& \textbf{\methodmlp{}} & 3.70 & 4.95 & 11.78 & 4.97 & 24.67 & 4.56 & 46.70 & 4.13 & 59.89 & 3.71 \\
+& RankAvg & 3.78 & 1.13 & 11.05 & 2.51 & 22.36 & 3.55 & 43.20 & 4.60 & 54.00 & 5.49 \\
+& RRF & 3.58 & 19.59 & 10.67 & 16.47 & 21.58 & 13.60 & 42.45 & 9.60 & 54.68 & 7.80 \\
+& Product (all families) & 9.94 & 3.98 & 19.64 & 4.54 & 32.80 & 4.37 & 46.42 & 2.69 & 60.05 & 3.31 \\
 \midrule
 \multirow{6}{*}{VL-SAT}
 & Source & 41.94 & 0.29 & 63.22 & 0.82 & 80.74 & 1.42 & 92.72 & 2.68 & 96.35 & 4.76 \\
-& \textbf{\method{}} & 42.07 & 0.15 & 63.39 & 0.57 & 80.82 & 1.14 & 92.77 & 1.97 & 96.58 & 2.95 \\
-& Matched MLP & 42.09 & 0.15 & 63.47 & 0.51 & 80.92 & 1.09 & 92.72 & 1.89 & 96.50 & 2.96 \\
-& RankAvg & 35.42 & 0.15 & 51.76 & 0.47 & 69.49 & 0.99 & 90.26 & 1.62 & 97.00 & 2.25 \\
-& RRF & 36.78 & 0.15 & 55.49 & 0.51 & 74.72 & 1.04 & 91.74 & 1.80 & 97.10 & 2.47 \\
-& Product (all families) & 41.77 & 0.11 & 63.32 & 0.49 & 80.97 & 1.10 & 92.93 & 2.03 & 96.88 & 3.25 \\
+& \textbf{\methodlinear{}} & 42.07 & 0.15 & 63.39 & 0.57 & 80.82 & 1.14 & 92.77 & 1.97 & 96.58 & 2.95 \\
+& \textbf{\methodmlp{}} & 42.09 & 0.15 & 63.47 & 0.51 & 80.92 & 1.09 & 92.72 & 1.89 & 96.50 & 2.96 \\
+& RankAvg & 35.32 & 0.15 & 51.74 & 0.47 & 69.41 & 0.99 & 90.23 & 1.62 & 97.05 & 2.26 \\
+& RRF & 36.81 & 0.15 & 55.66 & 0.51 & 75.08 & 1.07 & 91.72 & 1.82 & 97.05 & 2.50 \\
+& Product (all families) & 41.74 & 0.11 & 63.32 & 0.49 & 80.94 & 1.10 & 92.93 & 2.03 & 96.88 & 3.25 \\
 \midrule
 \multirow{6}{*}{SGFN}
 & Source & 31.17 & 2.37 & 39.75 & 3.49 & 49.12 & 3.22 & 74.02 & 3.85 & 92.35 & 6.30 \\
-& \textbf{\method{}} & 31.17 & 2.37 & 39.75 & 3.47 & 49.14 & 2.97 & 74.50 & 2.63 & 93.03 & 3.50 \\
-& Matched MLP & 31.17 & 2.37 & 39.75 & 3.47 & 49.19 & 2.96 & 74.57 & 2.58 & 92.88 & 3.50 \\
-& RankAvg & 31.09 & 2.37 & 38.80 & 3.47 & 46.58 & 2.95 & 70.22 & 2.36 & 92.80 & 2.59 \\
-& RRF & 31.14 & 2.37 & 38.92 & 3.47 & 47.03 & 2.97 & 68.13 & 2.53 & 87.74 & 3.02 \\
-& Product (all families) & 31.14 & 2.48 & 40.61 & 3.21 & 51.26 & 2.74 & 77.06 & 2.56 & 94.18 & 3.72 \\
+& \textbf{\methodlinear{}} & 31.17 & 2.37 & 39.75 & 3.47 & 49.14 & 2.97 & 74.50 & 2.63 & 93.03 & 3.50 \\
+& \textbf{\methodmlp{}} & 31.17 & 2.37 & 39.75 & 3.47 & 49.19 & 2.96 & 74.57 & 2.58 & 92.88 & 3.50 \\
+& RankAvg & 31.09 & 2.37 & 38.80 & 3.47 & 46.63 & 2.95 & 70.22 & 2.35 & 92.72 & 2.60 \\
+& RRF & 31.14 & 2.37 & 38.95 & 3.47 & 47.08 & 2.97 & 68.50 & 2.54 & 87.99 & 3.07 \\
+& Product (all families) & 31.07 & 2.48 & 40.56 & 3.19 & 51.18 & 2.76 & 77.04 & 2.58 & 94.13 & 3.71 \\
 \bottomrule
 \end{tabular}
+}
+\caption{Shared 3DSSG validation results. Rows group predictors and ranking
+rules; columns give exact-match Recall (R$\uparrow$) and verifier-derived
+Violation (V$\downarrow$) at each $K$ (\%). Source is the original ranking,
+RankAvg/RRF are matched fusion baselines, and Product (all families) applies
+linear compatibility to every family.}
+\label{tab:main-results}
 \end{table*}

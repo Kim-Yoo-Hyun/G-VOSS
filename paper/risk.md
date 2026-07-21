@@ -1,6 +1,6 @@
 # RelCompat3D Reviewer-Risk Register
 
-Last updated: 2026-07-17 KST
+Last updated: 2026-07-18 KST
 
 이 문서는 현재 submission claim에 영향을 주는 scientific/reviewer risk와
 필수 방어만 소유한다. Historical mitigation log와 실행 산출물은 experiment
@@ -164,7 +164,8 @@ reports에 둔다.
 
 ### Facts
 
-- Matched MLP는 Open3DSG에서 일부 K의 Recall이 더 높지만 Violation도 더 높다.
+- RelCompat3D-MLP는 Open3DSG에서 Linear보다 일부 K의 Recall이 더 높지만
+  Violation도 더 높다.
 - RankAvg/RRF는 일부 large-K Violation을 낮추지만 low-budget Recall loss가 크다.
 - Unrestricted product는 aggregate Recall이 높을 수 있지만 family scope를
   바꾼다.
@@ -173,9 +174,10 @@ reports에 둔다.
 ### Current defense
 
 - 모든 strong comparator를 같은 family-aware ranking procedure로 평가한다.
-- Main Table 1에 matched MLP를 직접 포함한다.
-- Product를 best formula가 아니라 parameter-free primary ranking rule로
-  설명한다.
+- Main Table 1에 RelCompat3D-Linear와 RelCompat3D-MLP를 두 proposed capacity로
+  직접 포함하고, principal controls와 surface audit를 두 capacity 모두에 적용한다.
+- Product utility를 best formula가 아니라 두 compatibility capacity가 공유하는
+  parameter-free ranking rule로 설명한다.
 - Framework novelty와 fusion choice를 분리한다.
 - 모든 K의 scan-cluster interval을 공개해 일부 budget의 point-estimate 개선을
   일괄적인 통계적 우월성으로 확대하지 않는다.

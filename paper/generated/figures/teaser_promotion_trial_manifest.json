@@ -1,0 +1,26 @@
+{
+  "case_checks": {
+    "exact_label": true,
+    "rank_change": true,
+    "relation": true,
+    "same_context": true,
+    "satisfied": true
+  },
+  "raster": "paper/generated/figures/teaser_promotion_trial.png",
+  "raster_sha256": "a3f697e073622c6e9ecd5e6924cabf5a7e9af5e9ede1a1a021d7275df5bbc8f1",
+  "raster_size": [
+    2588,
+    1308
+  ],
+  "scale": 4,
+  "schema_version": "h001_teaser_promotion_trial_v1",
+  "source": "paper/reference_AAAI/Figure1.png",
+  "source_sha256": "b955108ddfb77235291115f9cc5a4c61ba4df7cf090a4954f9ce40f24887be21",
+  "source_size": [
+    647,
+    327
+  ],
+  "status": "one_column_trial_asset_generated_case_lock_verified",
+  "svg": "paper/generated/figures/teaser_promotion_trial.svg",
+  "svg_sha256": "9a0d6868503a39b127faca9f6e7672c144d9bab3ae6dac96bd4c9effcbd6854f"
+}

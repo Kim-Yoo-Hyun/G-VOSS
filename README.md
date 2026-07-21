@@ -1,6 +1,6 @@
 # RelCompat3D Research Repository
 
-This repository contains the H001/RelCompat3D research workspace for reliable 3D Scene Graph relations. The active paper is titled `Beyond Semantic Confidence: Relation-Consistent Geometric Re-ranking for 3D Scene Graphs`. RelCompat3D fits a compatibility layer with family-specific linear heads whose inputs exclude predictor identity and the source relation score, enforces known relation transformations by score averaging, and reports recall--violation trade-offs under re-ranking. The paper-facing scope is `support_contact`, `proximity`, and `relative_vertical`, evaluated across VL-SAT, Open3DSG, and SGFN on one shared 3DSSG target. H001 remains an internal experiment identifier.
+This repository contains the H001/RelCompat3D research workspace for reliable 3D Scene Graph relations. The active paper is titled `Beyond Semantic Confidence: Relation-Consistent Geometric Re-ranking for 3D Scene Graphs`. RelCompat3D reports family-specific Linear heads and a compact shared MLP as two compatibility capacities whose inputs exclude predictor identity and the source relation score, enforces known relation transformations by score averaging, and measures Recall--Violation trade-offs under family-aware re-ranking. The paper-facing scope is `support_contact`, `proximity`, and `relative_vertical`, evaluated across VL-SAT, Open3DSG, and SGFN on one shared 3DSSG target. H001 remains an internal experiment identifier.
 
 ## Core Question
 
@@ -18,6 +18,12 @@ This repository contains the H001/RelCompat3D research workspace for reliable 3D
   transformation averaging yields source-score-excluded compatibility;
   family-aware re-ranking uses it within proximity/vertical relations while
   preserving support/contact ordering.
+- Active framework: the strict train-only `no_family_indicator_v1` refit uses
+  `T_i=p_i`; the family label selects the head and procedure but is not a
+  constant feature. Its three heads store 66 parameters, 43 of which are used
+  by the primary proximity/vertical path. A shared 69-parameter MLP using the
+  same targets, objective, transformations, product utility, and ranking rule
+  is the second proposed capacity.
 - Transfer boundary: an application without target-specific refitting is
   complete on ReplicaSSG/FROSS. The family-aware product improves both metrics at
   K=10 and K=50, while heavily quantized source scores make it nearly inert at
@@ -27,29 +33,32 @@ This repository contains the H001/RelCompat3D research workspace for reliable 3D
 - Canonical PDFs: `paper/aaai/main_aaai27.pdf`,
   `supplement_aaai27.pdf`, and `reproducibility_checklist_aaai27.pdf`.
 - Current verified upload bundle:
-  `release/h001_aaai27_openreview_20260717_193626/`; it includes the current
-  manuscript, matched ablations, compact external-transfer evidence, and
-  independently rebuildable anonymous source.
+  `release/h001_aaai27_openreview_20260720_084307/`; it selects the teaser
+  manuscript and includes matched ablations, compact active-method
+  external-transfer evidence, and independently rebuildable anonymous source.
 - Cleanup state: Replica/FROSS raw archives, runtime, weights, source clones,
   and shards are absent; compact development rows and summaries are retained.
 
 ## Canonical H001 Paths
 
 - Focused Docker entry point: `configs/h001/compose.structured.yaml`
-- Frozen method/model: `experiments/H001_geom_reliability/relation_algebra_v1/`
-- Primary family-aware evaluation: `experiments/H001_geom_reliability/support_contact_routing_v1/evaluation/`
-- Synchronized all-family comparisons: `experiments/H001_geom_reliability/structured_main_v1/evaluation/`
-- Matched-procedure strong comparators: `experiments/H001_geom_reliability/routed_comparators_v1/evaluation/`
-- Supervision-matched nonlinear comparison: `experiments/H001_geom_reliability/supervision_matched_nonlinear_v1/evaluation/`
-- Open3DSG coverage sensitivity: `experiments/H001_geom_reliability/open3dsg_official_route_v1/evaluation/`
-- ReplicaSSG final-method transfer: `experiments/H001_geom_reliability/sources/replicassg/final_method_transfer_v1/`
-- Paper-facing family-aware K=50/100 ablations: `experiments/H001_geom_reliability/structured_ablation_v1/routed_public_full_evaluation/`
-- All-K scan-cluster intervals: `experiments/H001_geom_reliability/support_contact_routing_v1/scan_cluster_sensitivity/`
-- CPU re-ranking benchmark: `experiments/H001_geom_reliability/runtime_v1/`
+- Active method pointer: `experiments/H001_geom_reliability/active_method.json`
+- Frozen method/model: `experiments/H001_geom_reliability/no_family_indicator_v1/fit/`
+- Primary family-aware evaluation: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/routed_comparators/`
+- Synchronized all-family comparisons: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/structured_main/`
+- Matched-procedure strong comparators: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/routed_comparators/`
+- RelCompat3D-MLP model/evaluation: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/nonlinear/`
+- Matched MLP controls and surface audit: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/{mlp_ablation,mlp_surface_audit}/`
+- Open3DSG coverage sensitivity: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/open3dsg_route/`
+- ReplicaSSG active-method transfer stress test: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/external_transfer/`
+- Paper-facing family-aware K=50/100 ablations: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/routed_ablation/`
+- All-K scan-cluster intervals: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/scan_cluster/`
+- CPU re-ranking benchmark: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/runtime/`
 - Compact result summary: `results/h001_geom_reliability/report.md`
 - Paper figures: `paper/generated/figures/`
 - Active AAAI source and canonical PDFs: `paper/aaai/`
-- Current verified upload bundle: `release/h001_aaai27_openreview_20260717_193626/`
+- Current verified upload bundle:
+  `release/h001_aaai27_openreview_20260720_084307/`.
 - Recovery, transfer, and cleanup authority: `docs/reproducibility.md`
 
 The current Docker retention matrix is also owned by

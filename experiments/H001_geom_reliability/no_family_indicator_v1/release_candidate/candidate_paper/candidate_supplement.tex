@@ -1,0 +1,24 @@
+\documentclass[10pt]{article}
+\usepackage[letterpaper,margin=0.65in]{geometry}
+\usepackage{booktabs,multirow,graphicx}
+\usepackage[T1]{fontenc}
+\title{No-Family-Indicator v1: Candidate Supplement (Non-Submission)}
+\author{Isolated H001 evaluation artifact}
+\date{}
+\begin{document}
+\maketitle
+\section{Scope}
+This candidate removes only the constant family indicator from each family-specific compatibility head. All splits, targets, normalization, optimization, ranking, metrics, and uncertainty procedures are unchanged. Internal development is used only as a sanity check. The active manuscript is not modified by this artifact.
+\section{Official-validation results}
+\input{main_results_table}
+\input{scan_cluster_ci_table}
+\section{Controls and construct checks}
+\input{ablation_table}
+\input{pooled_hard_table}
+\input{uncertainty_table}
+\input{surface_audit_table}
+\input{held_out_primitive_table}
+\input{counterfactual_sensitivity_table}
+\section{Artifact lock}
+The candidate model, score contract, protocol files, compact evaluation summaries, and SHA256 manifest are included in the accompanying release candidate.
+\end{document}

@@ -2,67 +2,63 @@
 
 \method{} assesses fixed relation predictions rather than replacing a 3D Scene
 Graph generator. It preserves candidate identity, estimates predicate--geometry
-compatibility without the source relation score, and combines the two only
+compatibility without the predictor score, and combines the two only
 during re-ranking (Figure~\ref{fig:framework}).
 
 \subsection{Problem Setup}
 
 Let a relation predictor produce relation candidates
-\begin{equation}
-r_i=(\mathrm{scan}_i,\mathrm{context}_i,s_i,o_i,p_i,a_i,Z_i),
-\end{equation}
-where $s_i$ and $o_i$ are ordered subject and object instance identifiers,
-$p_i$ is the predicate, $a_i$ its mapped relation family, and $Z_i$ the source
-relation score. A context is a scene subgraph over which the predictor ranks
-candidates; top-$K$ selection is performed independently within each context.
-The tuple
-$(\mathrm{scan}_i,\mathrm{context}_i,s_i,o_i)$ uniquely identifies the ordered
-object pair and is retained when associating each prediction with geometry and
-ground truth. We represent predicate/family semantics as $T_i=(p_i,a_i)$ and
-associate predicate-independent pair-geometry measurements
-\begin{equation}
-G_i=G(\mathrm{scan}_i,\mathrm{context}_i,s_i,o_i).
-\end{equation}
-The measured scope is
-\begin{equation}
-\mathcal{A}=\{\mathrm{support/contact},\ \mathrm{proximity},\
-\ \mathrm{vertical\ order}\},
-\end{equation}
-    whose consistency can be assessed from reconstructed ordered-pair geometry.
-Candidates outside these families are excluded from the measured violation claim.
+$r_i=(\mathrm{scan}_i,\mathrm{context}_i,s_i,o_i,p_i,a_i,Z_i)$, where $s_i$
+and $o_i$ are ordered subject and object instance identifiers,
+$p_i$ is the predicate, $a_i$ its mapped relation family, and $Z_i$ the
+predictor's native relation-ranking score. We use sigmoid relation scores for
+VL-SAT and SceneGraphFusion (SGFN), and normalized text-embedding cosine
+similarity for Open3DSG
+\cite{wang2023vlsat,wu2021scenegraphfusion,koch2024open3dsg},
+without predictor-specific normalization or refitting. Predictors are ranked
+separately; scores are never compared across predictors. A context is a scene subgraph over
+which top-$K$ selection is performed independently.
+We distinguish the ordered-pair identity
+$k_i^{\rm pair}=(\mathrm{scan}_i,\mathrm{context}_i,s_i,o_i)$ from the exact
+relation-candidate identity
+$k_i^{\rm rel}=(\mathrm{scan}_i,\mathrm{context}_i,s_i,p_i,o_i)$ used for
+evaluation. The ordered-pair identity is retained when associating each
+prediction with geometry and ground truth. We represent predicate semantics as
+$T_i=p_i$. The family label $a_i$ always selects the transformation set and
+re-ranking scope. It also selects the head and training-split normalization
+statistics for the linear estimator, whereas the shared nonlinear estimator
+encodes it as a semantic indicator. Each candidate is associated with
+predicate-independent ordered-pair measurements
+$G_i=G(\mathrm{scan}_i,\mathrm{context}_i,s_i,o_i)$. The reported evaluation
+scope is $\mathcal{A}_{\rm eval}=\{\mathrm{support/contact},\mathrm{proximity},
+\mathrm{vertical\ order}\}$, whose consistency can be assessed from the
+geometry of the reconstructed ordered object pair. Candidates outside these
+families are excluded from the reported Recall and Violation evaluation.
 The re-ranking scope is narrower:
-    $\mathcal A_{\rm tr}=\{\mathrm{proximity},\mathrm{vertical\ order}\}$,
+    $\mathcal A_{\rm rank}=\{\mathrm{proximity},\mathrm{vertical\ order}\}$,
     for which the defined endpoint/predicate transformations are exact.
-Support/contact is evaluated but kept in the source ranking because no single
-endpoint transformation preserves the semantics of every predicate in this
-family.
+Support/contact is evaluated but kept in source order because this family
+requires richer local contact and pose evidence, and no single endpoint
+transformation preserves the semantics of every predicate in the family.
 
-Our objective is to estimate a bounded compatibility score
+For estimator $q\in\{\mathrm{lin},\mathrm{mlp}\}$, our objective is to estimate
+a bounded compatibility score
 \begin{equation}
-C_i=\sigma\!\left(h_{a_i}(\Phi(T_i,G_i))\right)\in[0,1],
+C_i^q=\sigma\!\left(f_q(T_i,a_i,G_i)\right)\in[0,1],
 \end{equation}
 then average over the valid family-specific endpoint/predicate transformations
-to obtain the transformation-consistent score $\ctr_i$ and form a
-final ranking score $S_i=F(Z_i,\ctr_i)$. Training labels pair ground-truth
-relations with counterfactual negatives formed by reversing a predicate or
-replacing an endpoint when the geometry strongly contradicts the label (full
-rules and thresholds are in the supplement). The resulting score is not a
-probability of physical validity. Features that combine the predicate with
-predicate-independent pair measurements belong to the $T_i\times G_i$ term.
-Neither the source relation score nor predictor identity enters $C_i$. The same fitted
-parameters are therefore used for all three predictors on the shared target.
+to obtain the transformation-consistent score $C_i^{\mathrm{tr},q}$. The
+predictor score enters only through the within-family ranking score defined
+below. The compatibility and ranking scores are used for ordering and are not
+interpreted as posterior probabilities of physical validity.
 
-Let $L_K(c)$ be the top-$K$ candidates from the evaluated relation families for
-context $c$ and $Y_c$ its exact-label ground-truth set. We jointly report
-\begin{equation}
-\begin{aligned}
-\mathrm{R@K}&=\frac{\sum_c |L_K(c)\cap Y_c|}{\sum_c |Y_c|},\\
-\mathrm{Violation@K}&=\frac{1}{|D_K|}
-\sum_{(c,i)\in D_K}\mathbf{1}[v_i=\mathrm{violated}].
-\end{aligned}
-\end{equation}
-where $D_K$ contains selected candidates for which the verifier returns
-$v_i\in\{\mathrm{satisfied},\mathrm{uncertain},\mathrm{violated}\}$.
-Family mapping never relaxes exact predicate matching. Because uncertain
-candidates enter the denominator, the experiments also report decidable-only
-and pessimistic violation, uncertainty, and coverage.
+Training-split ground truth provides positives. Proximity negatives use distant,
+non-overlapping same-context pairs; vertical negatives invert the predicate on
+the same pair; support/contact negatives replace one endpoint under separation
+margins. Separately, relation-preserving augmentation swaps proximity endpoints
+without changing the predicate and jointly swaps vertical endpoints and the
+inverse predicate. All training examples come from the training split;
+evaluation rows, predictor scores, and verifier-status labels are excluded,
+although the construction rules and primary verifier share some
+oriented-bounding-box (OBB)-derived measurements. Full construction rules are
+provided in the supplement.

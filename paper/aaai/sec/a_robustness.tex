@@ -1,75 +1,84 @@
-\section{Strong-Comparator and Open3DSG Sensitivities}
+\section{Capacity, Fusion, and Open3DSG Sensitivities}
 
-\paragraph{Matched strong comparators.}
-To separate score construction and model capacity, rank-average, RRF,
-and a small two-hidden-unit MLP use the same family-aware ranking procedure,
-support/contact source order, public/full 548-context target, and scan-cluster
-resampling as the \method{} product. The MLP uses the same training rows,
-constructed target, feature contract, exclusion of the source relation score, and split as the
-linear heads; it is fitted once and applied to all three predictors without
-target-specific refitting.
+\paragraph{Compatibility capacity and matched fusion.}
+\methodlinear{} uses family-specific linear heads, whereas \methodmlp{} uses a
+shared two-hidden-unit ReLU model with a predicate-linear skip connection. They
+share the constructed training target, linked-pair objective, transformation
+averaging, exclusion of predictor scores and identities, product utility, and
+family-aware ranking. The MLP input includes a family indicator because its
+parameters are shared, plus an overlap-sum interaction derived from the same
+directional overlap measurements. Both are fitted once and applied to all three
+predictors without target-specific refitting. Rank-average fusion (RankAvg) and
+reciprocal rank fusion (RRF) use the linear compatibility scores and the same
+family-aware ranking procedure.
 
 Let $q_i^Z$ and $q_i^C$ denote descending within-context percentile ranks of
-the source relation score and compatibility, and let $r_i^Z,r_i^C$ be their
+the predictor score and compatibility, and let $r_i^Z,r_i^C$ be their
 one-indexed ranks. Rank-average and fixed-constant Reciprocal Rank Fusion use
 \begin{equation}
 S_i^{\mathrm{rank}}=\tfrac12(q_i^Z+q_i^C),\qquad
 S_i^{\mathrm{RRF}}=\frac{1}{60+r_i^Z}+\frac{1}{60+r_i^C}.
 \end{equation}
 
-\begin{table}[H]
+\begin{table}[t]
 \centering
-\scriptsize
+{\small
 \setlength{\tabcolsep}{3pt}
-\caption{\textbf{Matched fusion comparisons.} Cells are Recall / verifier V
-at $K=50$ and $K=100$. Every row preserves the source family sequence and
-support/contact selections.}
-\label{tab:nonlinear-comparison}
 \begin{tabular}{llrr}
 \toprule
 Source & Fusion & $K=50$ & $K=100$ \\
 \midrule
 \multirow{4}{*}{VL-SAT}
- & Product & .9277/.0197 & .9658/.0295 \\
- & Matched MLP & .9272/.0189 & .9650/.0296 \\
- & Rank-average & .9026/.0162 & .9700/.0225 \\
- & RRF & .9174/.0180 & .9710/.0247 \\
+ & Linear & .9277/.0197 & .9658/.0295 \\
+ & MLP & .9272/.0189 & .9650/.0296 \\
+ & RankAvg & .9023/.0162 & .9705/.0226 \\
+ & RRF & .9172/.0182 & .9705/.0250 \\
 \midrule
 \multirow{4}{*}{Open3DSG}
- & Product & .4418/.0342 & .5692/.0324 \\
- & Matched MLP & .4670/.0413 & .5989/.0371 \\
- & Rank-average & .4323/.0458 & .5408/.0548 \\
- & RRF & .4237/.0948 & .5476/.0772 \\
+ & Linear & .4418/.0342 & .5685/.0324 \\
+ & MLP & .4670/.0413 & .5989/.0371 \\
+ & RankAvg & .4320/.0460 & .5400/.0549 \\
+ & RRF & .4245/.0960 & .5468/.0780 \\
 \midrule
 \multirow{4}{*}{SGFN}
- & Product & .7450/.0263 & .9303/.0350 \\
- & Matched MLP & .7457/.0258 & .9288/.0350 \\
- & Rank-average & .7022/.0236 & .9280/.0259 \\
- & RRF & .6813/.0253 & .8774/.0302 \\
+ & Linear & .7450/.0263 & .9303/.0350 \\
+ & MLP & .7457/.0258 & .9288/.0350 \\
+ & RankAvg & .7022/.0235 & .9272/.0260 \\
+ & RRF & .6850/.0254 & .8799/.0307 \\
 \bottomrule
 \end{tabular}
+}
+\caption{Compatibility-capacity and fusion comparisons. Cells are Recall /
+verifier V at $K=50$ and $K=100$. Every row preserves the source family
+sequence and support/contact selections.}
+\label{tab:nonlinear-comparison}
 \end{table}
 
-At $K=50$, the matched MLP has higher Open3DSG Recall than the product but also
-higher V; product and MLP are nearly tied on VL-SAT and SGFN. Rank fusion can
+At $K=50$, the nonlinear variant has higher Open3DSG Recall than the linear
+variant but also higher V; they are nearly tied on VL-SAT and SGFN. Rank fusion can
 lower V at large budgets but incurs larger predictor-dependent Recall losses.
-No fusion dominates the joint trade-off. A separate exact-label MLP uses
+No estimator or fusion dominates the joint trade-off. A separate exact-match MLP uses
 stronger SGFN-specific correctness supervision and is therefore retained only
 as a source-specific upper comparator, not as an apples-to-apples baseline.
 
-\paragraph{Family-conditioning ablation.}
+\paragraph{Matched structural controls.}
+\input{sec/a_ablation_k50}
+\input{sec/a_ablation_k100}
+Across both budgets and model capacities, corrupted predicates and pair
+geometry increase verifier-derived Violation, while compatibility-only
+ordering loses substantial Recall on VL-SAT and SGFN. Open3DSG remains more
+sensitive to predictor-score scale.
+
+\paragraph{Pooled compatibility ablation.}
 The pooled product fits one compatibility model across all families and does
 not use the primary family-aware ranking procedure. Compared with Product (all
 families), it can increase Recall but generally raises V,
 particularly for Open3DSG and SGFN:
 
-\begin{table}[H]
+\begin{table}[t]
 \centering
-\scriptsize
+{\small
 \setlength{\tabcolsep}{2.4pt}
-\caption{\textbf{Family-specific versus pooled all-family products.} Cells
-are Recall / verifier V at $K=50$ and $K=100$.}
-\label{tab:pooled-ablation}
 \begin{tabular}{lrrrr}
 \toprule
 & \multicolumn{2}{c}{$K=50$} & \multicolumn{2}{c}{$K=100$} \\
@@ -77,10 +86,15 @@ are Recall / verifier V at $K=50$ and $K=100$.}
 Source & Family & Pooled & Family & Pooled \\
 \midrule
 VL-SAT & .9293/.0203 & .9300/.0219 & .9688/.0325 & .9690/.0387 \\
-Open3DSG & .4655/.0265 & .4675/.0510 & .6005/.0330 & .6402/.0743 \\
-SGFN & .7706/.0256 & .7925/.0292 & .9418/.0372 & .9413/.0464 \\
+Open3DSG & .4685/.0290 & .4718/.0528 & .6052/.0340 & .6443/.0747 \\
+SGFN & .7704/.0258 & .7925/.0292 & .9413/.0371 & .9413/.0464 \\
 \bottomrule
 \end{tabular}
+}
+\caption{Family-specific and pooled products. Cells are Recall / verifier V
+at $K=50$ and $K=100$; both products apply compatibility to all relation
+families.}
+\label{tab:pooled-ablation}
 \end{table}
 
 \paragraph{Open3DSG coverage sensitivity.}
@@ -90,23 +104,24 @@ Table~\ref{tab:open3dsg-routes} distinguishes the eligible-context
 evaluation, the conservative full-target main evaluation, and a documented
 full-coverage recovery.
 
-\begin{table}[H]
+\begin{table}[t]
 \centering
-\scriptsize
-\setlength{\tabcolsep}{3pt}
-\caption{\textbf{Open3DSG coverage sensitivity at $K=100$.} Cells are Recall /
-verifier V. The main evaluation uses the full 3,972-relation denominator and no
-predictions for the 15 public-pipeline drops.}
-\label{tab:open3dsg-routes}
-\begin{tabular}{lrrr}
+{\small
+\setlength{\tabcolsep}{2pt}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}Xrrr@{}}
 \toprule
 Evaluation & Contexts / GT & Source & \method{} \\
 \midrule
-Public eligible & 533 / 3,899 & .5206/.1242 & .5799/.0324 \\
-Public, full target (main) & 548 / 3,972 & .5111/.1242 & .5692/.0324 \\
-Recovered full coverage & 548 / 3,972 & .5161/.1242 & .5743/.0332 \\
+Public eligible & 533 / 3,899 & .5206/.1242 & .5791/.0324 \\
+Public, full target (main) & 548 / 3,972 & .5111/.1242 & .5685/.0324 \\
+Recovered full coverage & 548 / 3,972 & .5161/.1242 & .5735/.0332 \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
+}
+\caption{Open3DSG coverage sensitivity at $K=100$. Cells are Recall / verifier
+V. The main evaluation uses the full 3,972-relation denominator and no
+predictions for the 15 public-pipeline drops.}
+\label{tab:open3dsg-routes}
 \end{table}
 
 The conclusion is stable to all three denominator and coverage choices. The

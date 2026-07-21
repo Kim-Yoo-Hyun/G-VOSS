@@ -1,0 +1,19 @@
+\centering
+{\small
+\setlength{\tabcolsep}{1.0pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Predictor & Source & Ours & Change (95\% CI) & Cov. \\
+\midrule
+VL-SAT   & 16.43 & 14.34 & $-2.09$ [$-2.41,-1.80$] & 95.5/71.0 \\
+Open3DSG & 45.96 & 4.90  & $-41.06$ [$-42.75,-39.28$] & 98.2/83.7 \\
+SGFN     & 11.56 & 8.13  & $-3.43$ [$-3.92,-3.00$] & 95.8/79.9 \\
+\bottomrule
+\end{tabular}
+}
+\captionof{table}{Violation at $K=50$ (\%, $\downarrow$) requiring agreement
+between point- and mesh-based labels. Ours denotes \methodlinear{}; Change is
+Ours minus Source with a paired 95\% interval; Cov. is measured/decidable
+coverage. Values are not directly comparable to Table~\ref{tab:main-results}
+Violation.}
+\label{tab:surface-audit}

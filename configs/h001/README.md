@@ -1,9 +1,9 @@
 # H001 Containers
 
-Last updated: 2026-07-16 KST
+Last updated: 2026-07-20 KST
 
 `compose.structured.yaml` is the compact paper-facing entry point for the
-strict train-only relation-algebra model and promoted main evaluation. It avoids
+active strict train-only RelCompat3D model and its synchronized evaluation. It avoids
 the historical source-preparation and optional extension services retained in
 the full `compose.yaml`.
 
@@ -11,10 +11,34 @@ From the repository root:
 
 ```bash
 env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm no_family_indicator_fit
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm no_family_indicator_freeze_initial
+scripts/run_no_family_indicator_v1.sh initial
+scripts/run_no_family_indicator_v1.sh downstream
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm no_family_indicator_candidate_figures
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm no_family_indicator_candidate_build
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm no_family_indicator_runtime
+env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/h001/compose.structured.yaml run --rm relation_algebra_development
 env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/h001/compose.structured.yaml run --rm structured_main_evaluation
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm relcompat3d_mlp_ablation
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm relcompat3d_mlp_surface_audit
 ```
+
+The `no_family_indicator_*` services form the active model route. They
+remove the constant family one-hot from each family-specific head while
+preserving every other training setting, write the model/score lock before
+official-validation access, and regenerate the full evaluation. Outputs remain
+under `no_family_indicator_v1/`; the paper tables, figures, and runtime report
+read from this root. The services with `candidate` in their names preserve the
+pre-promotion comparison bundle and are not the submission-release builder.
 
 Both services mount the repository at `/workspace`. Their protocols enumerate
 the required strict split, compatibility model, verification rows, and exact
@@ -25,23 +49,32 @@ The `scan_cluster_sensitivity` service leaves scores and rankings unchanged and
 resamples the 157 scan identifiers, carrying all relation contexts from each
 sampled scan together.
 
-The `routed_comparator_evaluation` service applies the locked train-only
-product, rank-average, RRF, and supervision-matched MLP under the identical
-family-slot route. It uses all 548 official contexts, treats absent Open3DSG
+The `routed_comparator_evaluation` service applies `RelCompat3D-Linear`,
+`RelCompat3D-MLP`, rank-average, and RRF under the identical family-aware
+ranking rule. It uses all 548 official contexts, treats absent Open3DSG
 candidate lists as empty, and verifies exact family composition and
 support/contact selection before writing scan-cluster intervals.
+
+`relcompat3d_mlp_ablation` evaluates the principal predicate, pair, geometry,
+endpoint, distance-only, and compatibility-only controls for the nonlinear
+capacity at K=50/100. `relcompat3d_mlp_surface_audit` applies the frozen
+point/mesh/consensus construct audit to the same MLP selections. Their outputs
+are `no_family_indicator_v1/evaluation/mlp_ablation/` and
+`no_family_indicator_v1/evaluation/mlp_surface_audit/`.
 
 The `counterfactual_threshold_sensitivity` service regenerates train and
 internal-development targets and refits nine one-factor variants of the
 proximity/vertical heads. It varies only the frozen proximity threshold,
 vertical margin, negative cap, or pairwise-loss weight; final-validation data
 remain excluded from construction, normalization, and fitting. Outputs are
-owned by `experiments/H001_geom_reliability/counterfactual_sensitivity_v1/`.
+owned by
+`experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/counterfactual_sensitivity/`.
 
-The `structured_ablation_evaluation` service keeps the promoted model fixed and
+The `routed_public_ablation_evaluation` service keeps the promoted Linear model fixed and
 evaluates the frozen K=50/100 wrong-predicate, wrong-pair, shuffled-geometry,
 endpoint-corruption, distance-only, and no-source-score controls. Its protocol
-and output owner is `experiments/H001_geom_reliability/structured_ablation_v1/`.
+and output owner is
+`experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/routed_ablation/`.
 
 `compose.yaml` remains the full recovery/service registry for historical source
 generation and optional analyses. The paper experiment image is defined by

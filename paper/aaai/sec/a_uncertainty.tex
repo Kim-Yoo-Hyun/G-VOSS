@@ -7,13 +7,10 @@ a pessimistic bound $\mathrm{V@K}_{pess}$ that counts every uncertain candidate 
 violation. Table~\ref{tab:uncertainty-sensitivity} gives the $K=100$
 comparison.
 
-\begin{table}[H]
+\begin{table}[t]
 \centering
-\scriptsize
+{\small
 \setlength{\tabcolsep}{3.5pt}
-\caption{\textbf{Uncertainty sensitivity at $K=100$.} Lower is better for all
-four reported quantities.}
-\label{tab:uncertainty-sensitivity}
 \begin{tabular}{llrrrr}
 \toprule
 Source & Condition & $V_{all}$ & $V_{dec}$ & $U$ & $V_{pess}$ \\
@@ -22,19 +19,23 @@ VL-SAT & Source score & .0476 & .0729 & .3464 & .3941 \\
 VL-SAT & \method{} & .0295 & .0452 & .3473 & .3768 \\
 \midrule
 Open3DSG & Source score & .1242 & .2126 & .4161 & .5402 \\
-Open3DSG & \method{} & .0324 & .0548 & .4084 & .4408 \\
+Open3DSG & \method{} & .0324 & .0548 & .4085 & .4409 \\
 \midrule
 SGFN & Source score & .0630 & .1005 & .3732 & .4362 \\
 SGFN & \method{} & .0350 & .0565 & .3803 & .4153 \\
 \bottomrule
 \end{tabular}
+}
+\caption{Uncertainty sensitivity at $K=100$. Lower is better for all four
+reported quantities.}
+\label{tab:uncertainty-sensitivity}
 \end{table}
 
 \method{}-minus-source changes in $V_{dec}$ are $-.0277$ for VL-SAT, $-.1578$
 for Open3DSG, and $-.0440$ for SGFN; their paired 95\% intervals all exclude
-zero. Uncertainty-rate changes are +.0009, $-.0077$, and +.0071, whereas
-pessimistic-V changes are $-.0173$, $-.0994$, and $-.0209$. Thus both
-decidable-only and pessimistic V are lower for all three predictors even though
+zero. Uncertainty-rate changes are +.0009, $-.0076$, and +.0071, whereas
+pessimistic-V changes are $-.0173$, $-.0993$, and $-.0209$. Thus both
+decidable-subset and pessimistic V are lower for all three predictors even though
 uncertainty does not decrease uniformly.
 The hard-rule baseline has zero Violation when the denominator includes all
 verifier statuses, but it retains uncertain candidates and therefore has pessimistic

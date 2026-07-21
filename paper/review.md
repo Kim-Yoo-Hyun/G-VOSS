@@ -1,6 +1,6 @@
 # RelCompat3D Orthogonal Reviewer Assessment
 
-Last updated: 2026-07-16 KST
+Last updated: 2026-07-18 KST
 
 이 문서는 세 가지 orthogonal reviewer persona의 현재 평가만 소유한다. Detailed
 risk와 mitigation은 `paper/risk.md`, style/figure 제작 규칙은
@@ -51,7 +51,7 @@ uses the score only in supported relation families.
 
 - Small linear model과 engineered geometry features 때문에 post-processing
   calibration으로 축소 해석될 수 있다.
-- Product 자체는 새로운 fusion equation이 아니며, matched nonlinear model이
+- Product 자체는 새로운 fusion equation이 아니며, RelCompat3D-MLP가
   Open3DSG에서 더 높은 Recall을 얻는 operating point가 있다.
 - Relation algebra가 proximity/vertical의 작은 transformation set에만 적용되어
   general structured reasoning으로 읽기는 어렵다.
@@ -95,7 +95,7 @@ falsification controls are included.
 - Recall과 Violation을 같은 table에서 보고해 filtering-only explanation을
   직접 차단한다.
 - K={5,10,20,50,100} 전체를 공개해 특정 K만 선택했다는 우려를 줄인다.
-- Matched MLP, RankAvg, RRF가 같은 family sequence와 support/contact order를
+- RelCompat3D-MLP, RankAvg, RRF가 같은 family sequence와 support/contact order를
   사용하므로 primary comparison이 공정하다.
 - Wrong predicate, wrong pair, shuffled geometry, endpoint transformation,
   distance-only, no-source-score가 중요한 alternative explanation을 검사한다.
@@ -104,11 +104,16 @@ falsification controls are included.
   statistical support를 구분할 수 있다.
 - Exact verifier scalar 제거와 threshold sensitivity는 literal rule copying
   우려를 완화한다.
+- Point/mesh surface audit는 OBB input과 primary verifier label을 읽지 않고도
+  세 predictor의 Violation 변화 방향을 재현하며, synthetic interventions도
+  expected monotonic response를 검사한다.
 
 ### Concerns
 
-- Compatibility target과 Violation verifier가 일부 distance/overlap/vertical
-  primitive를 공유한다. Held-out feature 결과는 독립 construct validity가 아니다.
+- Compatibility target과 primary Violation verifier가 일부 OBB
+  distance/overlap/vertical primitive를 공유한다. Surface audit는 exact-rule
+  overlap을 줄이지만 같은 reconstructed surface와 ontology를 공유하므로 독립
+  physical-validity ground truth는 아니다.
 - 세 predictor가 같은 dataset/ontology/geometry target을 사용한다.
 - Support/contact는 primary ranking에서 unchanged이므로 전체 relation
   reliability improvement가 아니다.
@@ -129,7 +134,7 @@ falsification controls are included.
 
 - Soundness: 3 / 4
 - Experimental rigor: 3.5 / 4
-- Construct validity: 2 / 4
+- Construct validity: 2.5 / 4
 - Recommendation: 5 / 10, borderline
 - Confidence: 5 / 5
 
@@ -213,7 +218,8 @@ remaining family boundary.
 
 공통 blocking concern:
 
-1. independent physical-validity construct 부재.
+1. independent physical-validity ground truth 부재; surface audit가 exact-rule
+   overlap은 완화함.
 2. single shared dataset target.
 
 Acceptance 가능성을 가장 크게 낮추는 실수:

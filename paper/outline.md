@@ -1,6 +1,6 @@
 # RelCompat3D Paper Outline
 
-Last updated: 2026-07-17 KST
+Last updated: 2026-07-18 KST
 
 이 문서는 현재 AAAI manuscript의 section 구조와 각 section이 담당할 논리만
 소유한다. Method의 상세 설명은 `paper/method.md`, experiment contract는
@@ -17,7 +17,8 @@ Last updated: 2026-07-17 KST
   relation predictions.
 - Main scope: proximity and relative-vertical re-ranking; support/contact is
   evaluated but its source order is retained.
-- Evaluation: VL-SAT, Open3DSG, and SceneGraphFusion on a shared 3DSSG target.
+- Evaluation: VL-SAT, Open3DSG, and the released `SGFN_full_l160` benchmark
+  model from the SceneGraphFusion 3DSSG implementation on a shared 3DSSG target.
 - Non-claim: a new relation generator, universal fusion rule, all-relation
   physical validity, or cross-dataset generalization.
 
@@ -27,11 +28,11 @@ Last updated: 2026-07-17 KST
 
 ```text
 Observed failure
-→ the source relation score does not directly measure predicate–geometry compatibility for the corresponding ordered pair
-→ the source relation score and predicate–geometry compatibility must be separated
-→ transformation-consistent compatibility is estimated without the source relation score
+→ the predictor score does not directly measure predicate–geometry compatibility for the corresponding ordered pair
+→ the predictor score and predicate–geometry compatibility must be separated
+→ transformation-consistent compatibility is estimated without the predictor score
 → proximity and vertical relations are re-ranked while support/contact stays in source order
-→ Recall and verifier-derived Violation are evaluated jointly
+→ exact-match Recall and Violation computed by a rule-based geometry verifier are evaluated jointly
 → family and construct limitations are disclosed
 ```
 
@@ -42,10 +43,10 @@ claim boundary를 한 번 정의하고, 상세 limitation은 Section 5에 둔다
 
 Introduction의 contribution은 세 개만 사용한다.
 
-1. **Failure formulation.** Exact-label Recall만으로 포착되지 않는 relation-score와
-   reconstructed pair-geometry consistency의 mismatch를 identity-preserving
+1. **Failure formulation.** Exact-match Recall만으로 포착되지 않는 predictor score와
+   reconstructed ordered-pair consistency의 mismatch를 identity-preserving
    evaluation과 Recall--Violation contract로 정의한다.
-2. **Compatibility.** Source relation score를 compatibility 입력에서 분리하고,
+2. **Compatibility.** Predictor score를 compatibility 입력에서 분리하고,
    linked positive--counterfactual ordering과 exact proximity/vertical
    transformation averaging을 결합한다.
 3. **Constrained re-ranking and evidence.** Source family sequence와
@@ -54,7 +55,7 @@ Introduction의 contribution은 세 개만 사용한다.
    성공 조건과 실패 범위를 분석한다. Prefix optimality는 이 제약 아래의 utility
    성질이며 fusion 또는 Recall--Violation의 전역 최적성을 뜻하지 않는다.
 
-Cross-predictor 결과와 qualitative example은 contribution을 별도로 늘리지 않고
+세 predictor의 결과와 qualitative example은 contribution을 별도로 늘리지 않고
 세 contribution을 검증하는 evidence로 둔다.
 
 ## 4. Six-Section Structure
@@ -69,8 +70,8 @@ Cross-predictor 결과와 qualitative example은 contribution을 별도로 늘�
    vertical order와 어긋나는 relation이 상위에 나타난다.
 3. 원인: predictor가 geometry를 사용했는지와 별개로, 최종 relation confidence는
    동일 pair가 predicate를 만족하는지 직접 나타내지 않는다.
-4. 설계 필요성: predicate semantics, predicate-independent pair-geometry
-   measurements, source relation score를 분리한 뒤 마지막 ranking에서만
+4. 설계 필요성: predicate semantics, predicate-independent geometric
+   measurements of the ordered pair, predictor score를 분리한 뒤 마지막 ranking에서만
    결합해야 한다.
 5. RelCompat3D overview와 relation-family scope.
 6. 세 contribution과 한 문단의 result summary.
@@ -95,7 +96,7 @@ Figure 1은 Introduction 끝 또는 contribution 직전에 배치한다.
 2. **Geometry-aware relation evidence and constraints**
    - edge geometry, semantic-geometric fusion, constraint refinement.
    - RelCompat3D의 차이는 fixed candidate의 predicate--geometry compatibility를
-     source relation score와 분리해 평가한다는 점이다.
+     predictor score와 분리해 평가한다는 점이다.
 3. **Reliability, calibration, and structured consistency**
    - confidence rescoring, witness/constraint methods, transformation-aware
      representations.
@@ -114,17 +115,24 @@ Related Work는 “기존 연구가 모두 못한다”는 식으로 쓰지 않�
 - relation candidate와 context 정의.
 - prediction을 geometry·ground truth와 연결할 때 ordered subject--object
   instance identity를 유지한다.
-- T: predicate semantics, G: predicate-independent pair-geometry measurements,
-  Z: source relation score.
+- T: predicate semantics, G: predicate-independent geometric measurements of
+  the ordered pair, Z: predictor score. The family label selects the
+  family-specific head, training statistics, transformations, and ranking
+  scope; it is not a model input.
 - compatibility C는 T와 G만 사용하고 Z는 사용하지 않음.
 - C는 physical-validity probability가 아니라 constructed target score.
+- reported evaluation scope $\mathcal A_{\rm eval}$은 support/contact,
+  proximity, vertical order이며, re-ranking scope $\mathcal A_{\rm rank}$은
+  proximity와 vertical order로 제한한다.
+- counterfactual construction과 primary verifier가 일부 OBB measurement 및
+  threshold를 공유한다는 사실을 명시하고 Violation을 verifier-derived로 한정한다.
 
 #### 3.2 Relation-Consistent Compatibility
 
 - family-specific small linear heads.
-- T, G, T×G feature separation.
+- T, G, 그리고 vertical predicate-signed height interaction의 분리.
 - GT positives와 linked counterfactual negatives.
-- BCE, linked-pair ordering loss, L2 regularization.
+- BCE, linked positive–counterfactual ordering loss, L2 regularization.
 - train-only standardization/imputation.
 - proximity: endpoint swap 후 predicate 유지.
 - vertical: endpoint swap과 inverse predicate를 함께 적용.
@@ -133,11 +141,11 @@ Related Work는 “기존 연구가 모두 못한다”는 식으로 쓰지 않�
 
 #### 3.3 Family-Aware Re-ranking
 
-- proximity/vertical: Z×C로 family 내부 sort.
-- support/contact: source order.
+- $a\in\mathcal A_{\rm rank}$: Z×C로 family 내부 sort.
+- support/contact: source ranking의 family subsequence를 그대로 사용.
 - source family sequence를 유지하며 family-specific ordered list에서 선택.
-- 고정된 prefix family count와 support/contact subsequence 아래에서
-  proximity/vertical utility 합을 최대화함.
+- 고정된 prefix family count와 support/contact subsequence 아래에서 각 re-ranked
+  family의 utility 합을 최대화함.
 - rank-average/RRF는 Method 마지막에 comparison으로 간단히 정의.
 
 Method의 자세한 교육용 설명과 수식은 `paper/method.md`가 소유한다.
@@ -147,11 +155,11 @@ Method의 자세한 교육용 설명과 수식은 `paper/method.md`가 소유한
 #### 4.1 Experimental Setup
 
 - 1,061 train / 117 development / 157 evaluation split.
-- 548 contexts, 3,972 exact-label GT.
-- VL-SAT, Open3DSG, SceneGraphFusion.
+- 548 contexts, 3,972 exact-match GT.
+- VL-SAT, Open3DSG, and the released `SGFN_full_l160` benchmark model.
 - K={5,10,20,50,100}.
-- Recall, verifier-derived Violation, uncertainty variants.
-- paired 1,000-resample scan-cluster intervals at every reported K.
+- Exact-match Recall, Violation computed by a rule-based geometry verifier, uncertainty variants.
+- paired 1,000-resample intervals from a cluster bootstrap over scans at every reported K.
 - bounded CPU re-ranking cost and parameter count in the supplement.
 
 Table 1을 result interpretation보다 먼저 보이도록 배치한다.
@@ -162,19 +170,30 @@ Table 1을 result interpretation보다 먼저 보이도록 배치한다.
 - prose는 모든 cell을 반복하지 않고 source별 pattern을 설명한다.
 - K=50은 intermediate reported budget이며 selected endpoint로 표현하지
   않는다.
-- matched MLP, RankAvg, RRF, Product (all families)의 trade-off를 설명한다.
+- RelCompat3D-Linear/MLP capacity trade-off와 RankAvg, RRF, Product (all
+  families)의 차이를 설명한다.
 
-#### 4.3 Ablations and Controls
+#### 4.3 Surface-Based Geometry Audit
 
-- Table 2: wrong predicate/pair, shuffled geometry, label-fixed swap,
-  distance-only, compatibility-only.
-- linked-pair ordering과 transformation consistency.
+- Main Results: K=50 strict point--mesh consensus surface-based Violation을
+  exact numbers로 요약한다. Surface-based Violation은 primary Violation과
+  직접 비교하지 않는다.
+- Point/mesh measurements exclude OBB inputs and primary verifier labels.
+- Full all-K point, mesh, consensus, coverage, intervals, threshold, and
+  intervention results remain in the supplement.
+- 동일 reconstructed surface와 ontology를 공유하므로 independent physical
+  ground truth라고 부르지 않는다.
+
+#### 4.4 Ablations and Controls
+
+- Main Table 2: Linear/MLP wrong predicate/pair, shuffled geometry,
+  fixed-predicate endpoint swap, distance-only, compatibility-only at K=50.
+- Supplement: complete K=100 matched-control table and control definitions.
+- linked positive–counterfactual ordering과 transformation consistency.
 - feature-removal analysis와 threshold sensitivity는 supplement pointer로 둔다.
-
-#### 4.4 Qualitative and Family Analysis
-
 - Figure 2: all-K trajectory.
-- Figure 3: proximity correction, vertical correction, support/contact residual.
+- Supplement qualitative figure: proximity correction, vertical correction,
+  support/contact residual.
 - family-wise result에서 support/contact가 unchanged임을 설명한다.
 
 Experiment의 정확한 계산법과 비교 목적은 `paper/experiment.md`가 소유한다.
@@ -184,8 +203,9 @@ Experiment의 정확한 계산법과 비교 목적은 `paper/experiment.md`가 �
 다음 네 가지를 한 번씩만 쓴다.
 
 1. 세 predictor가 shared 3DSSG/3RScan target을 사용한다.
-2. Compatibility target과 Violation verifier가 일부 geometry primitive를
-   공유하므로 independent construct validation이 아니다.
+2. Compatibility target과 primary Violation verifier가 일부 OBB geometry
+   primitive를 공유한다. Surface audit가 exact-rule overlap을 줄이지만
+   independent physical ground truth는 아니다.
 3. Support/contact는 source order를 유지하므로 error가 해결되지 않는다.
 4. Matched nonlinear/rank fusion과 source-dependent trade-off가 있어 best
    formula를 주장하지 않는다.
@@ -196,11 +216,10 @@ External ReplicaSSG/FROSS 결과는 “target-dependent transfer stress test” 
 
 ### 6. Conclusion
 
-두 문장 구조를 유지한다.
-
-1. Source relation score와 predicate--geometry compatibility를 분리했다.
-2. Transformation consistency와 family-aware re-ranking을 통해 세 predictor의 shared
-   target에서 Recall--Violation behavior를 개선/분석했다.
+두 문장 이내의 압축 구조를 유지한다. Predictor score를 compatibility
+입력에서 제외했다는 점, 한 shared target의 세 predictor에서 K=10--50
+Recall과 Violation point estimate가 함께 개선됐다는 점, support/contact order가 변하지 않는다는
+점을 넘어서지 않는다.
 
 Conclusion에 새 claim, 새 숫자, 새 baseline을 추가하지 않는다.
 
@@ -211,11 +230,13 @@ Conclusion에 새 claim, 새 숫자, 새 baseline을 추가하지 않는다.
 | Figure 1 | Introduction 후반 | failure → factor separation → re-ranking |
 | Table 1 | p.5 상단, result prose 전 | 모든 K와 main comparisons |
 | Figure 2 | p.6 상단 | source별 K trajectory |
-| Table 2 | p.6 Figure 2 아래 | falsification/information controls |
-| Figure 3 | p.7 상단 | evidence와 rank outcome 연결 |
+| Table 2 | Results 본문 내 one column | K=50 matched Linear/MLP controls |
+| Supplement qualitative | supplement | evidence와 rank outcome 연결 |
+| Supplement controls | supplement | complete K=100 controls and definitions |
 
 모든 main table/figure가 Conclusion 전에 나타나야 한다. Table 1은 full width,
-Table 2는 single column을 유지한다.
+Table 2는 single column을 유지한다. Complete K=100 controls는 supplement의
+full width로 둔다.
 
 ## 6. Main Tables
 
@@ -224,15 +245,23 @@ Table 2는 single column을 유지한다.
 - percentage point scale.
 - K=5/10/20/50/100의 Recall과 Violation을 같은 table에서 paired column으로
   보고.
-- rows: Source, RelCompat3D, Matched MLP, RankAvg, RRF, Product (all families).
+- rows: Source, RelCompat3D-Linear, RelCompat3D-MLP, RankAvg, RRF, Product (all families).
 - pooled compatibility와 hard filter는 supplement/diagnostic.
 
 ### Table 2
 
 - percentage point scale.
-- K=50/100.
-- rows: RelCompat3D, Wrong predicate, Wrong pair, Shuffled geometry,
-  Fixed-label swap, Distance only, Compatibility only.
+- K=50 Recall/Violation for Full method, Wrong predicate, Wrong pair, Shuffled
+  geometry, Fixed-label swap, Distance only, and Compatibility only.
+- Linear/MLP head를 모두 표시하고 세 predictor를 같은 표에서 비교한다.
+
+### Supplemental control tables
+
+- percentage point scale.
+- complete K=100 results; K=50 is retained in the main paper.
+- columns: Linear and MLP for each predictor.
+- rows: Full method, Wrong predicate, Wrong pair, Shuffled geometry,
+  Fixed-predicate swap, Distance only, Compatibility only.
 
 ## 7. Manuscript-Wide Terminology Contract
 
@@ -241,17 +270,20 @@ Introduction, Related Work, Method, Experiments, captions, supplement에 다음
 
 | 개념 | 표준 표현 |
 | --- | --- |
-| $Z$ | `source relation score` |
-| $G$ | `predicate-independent pair-geometry measurements` |
+| $Z$ | `predictor score` |
+| $G$ | `predicate-independent geometric measurements of the ordered pair` |
 | $C$ | `predicate--geometry compatibility` |
 | $C^{\rm tr}$ | `transformation-consistent compatibility` |
+| $u$ | `within-family ranking score` |
 | vertical 변환 | `joint endpoint swap and inverse-predicate transformation` |
 | ranking | `family-aware re-ranking` |
 | pair 최초 정의 | `ordered subject--object pair` |
 | pair 후속 지칭 | `corresponding ordered pair` |
-| metric | `Recall@$K$`, `Violation@$K$` |
+| primary metric | `Recall@$K$`, `Violation@$K$` |
+| surface audit metric | `surface-based Violation`; primary `Violation@$K$`와 직접 비교하지 않음 |
 | 일반 오류 | 문장 안에서 lowercase `violation` |
-| 적용 범위 | proximity/vertical은 re-rank, support/contact는 source order 유지 |
+| evaluation scope | $\mathcal A_{\rm eval}$: support/contact, proximity, vertical order |
+| re-ranking scope | $\mathcal A_{\rm rank}$: proximity/vertical; support/contact는 source subsequence 유지 |
 
 다음 표현은 사용하지 않는다.
 

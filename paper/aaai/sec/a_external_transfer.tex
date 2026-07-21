@@ -8,15 +8,10 @@ support/contact is excluded because the ontologies do not provide an exact
 mapping. We report this as a transfer stress test rather than evidence of
 dataset-level generalization.
 
-\begin{table}[H]
+\begin{table}[t]
 \centering
-\scriptsize
+{\small
 \setlength{\tabcolsep}{3.6pt}
-\caption{\textbf{ReplicaSSG/FROSS transfer across all reported budgets.}
-R is exact-label Recall over 172 relations and V is verifier-derived Violation
-(lower is better). The experiment uses the same model and ranking rule as the main
-experiment.}
-\label{tab:replica-transfer}
 \begin{tabular}{rccc}
 \toprule
 $K$ & Source R/V & \method{} R/V & $\Delta$R/$\Delta$V \\
@@ -28,12 +23,17 @@ $K$ & Source R/V & \method{} R/V & $\Delta$R/$\Delta$V \\
 100 & .3547/.1967 & .3547/.1958 & +.0000/$-.0010$ \\
 \bottomrule
 \end{tabular}
+}
+\caption{ReplicaSSG/FROSS transfer across all reported budgets. R is exact-match
+Recall over 172 relations; V is primary Violation. The model and ranking rule
+match the main experiment.}
+\label{tab:replica-transfer}
 \end{table}
 
 Paired scene-bootstrap intervals support joint improvement at $K=10$
 ($\Delta$R [.0048,.1467], $\Delta$V [$-.1000$,$-.0091$]) and $K=50$
 ($\Delta$R [.0179,.0811], $\Delta$V [$-.0683$,$-.0185$]). The $K=20$
 Recall interval touches zero, while $K=5$ is inconclusive. At $K=100$, heavy
-quantization of the source relation score makes multiplicative re-ranking nearly inert, and
-candidate support caps exact-label Recall at 44.19\%. The stress test therefore
+quantization of the predictor score makes multiplicative re-ranking nearly inert, and
+candidate support caps exact-match Recall at 44.19\%. The stress test therefore
 supports budget-dependent transfer, not dataset-level generalization.

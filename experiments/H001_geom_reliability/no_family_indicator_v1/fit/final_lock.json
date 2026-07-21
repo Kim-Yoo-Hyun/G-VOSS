@@ -1,0 +1,10 @@
+{
+  "locked_at_utc": "2026-07-19T20:05:08.787114+00:00",
+  "official_validation_read_by_fit_stage": false,
+  "protocol_sha256": "f75918d4257468c794f4d9f55dc0ba18b8177f5b01f1811fecf12f0b3d426cd6",
+  "schema_version": "h001_no_family_indicator_final_lock_v1",
+  "score_contract_sha256": "8da781cb793717c6ef6b69de2a737ee8a5dc96b7b52d9d08e73d831177bbbd89",
+  "status": "locked_before_official_validation",
+  "strict_model_sha256": "5b6423d0825395990b00663fc0004799268d87c9480493895d01d1c3ef9c3218",
+  "structured_model_sha256": "08cd309bbacead29dd9f76cd3845e3625de72423e45c242e33114ca686e2c01c"
+}

@@ -1,6 +1,6 @@
 # RelCompat3D / H001 Research Summary
 
-Last updated: 2026-07-17 KST
+Last updated: 2026-07-20 KST
 
 Paper-facing name: `Beyond Semantic Confidence: Relation-Consistent Geometric Re-ranking for 3D Scene Graphs`.
 Use `RelCompat3D` in manuscript-facing prose. Keep `H001` only for internal
@@ -63,32 +63,45 @@ Authoritative owners:
   Method subsection; Experimental Setup and quantitative/qualitative results
   are grouped under Experiments; broad interpretation and claim boundaries are
   consolidated in Discussion and Limitations.
-- Active AAAI-27 outputs: `paper/aaai/main_aaai27.pdf` (9 US-Letter pages;
-  main text through page 7; references begin on page 7 and continue through page 9),
-  `paper/aaai/supplement_aaai27.pdf` (5 pages), and
-  `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Final main log:
-  `logs/h001_main_claim_strengthening_final_20260717_193117.log`; final supplement log:
-  `logs/h001_supplement_claim_strengthening_20260717_193117.log`. Main/supplement/checklist
-  SHA256 values are `5a3012f8...`, `a3138be5...`, and `1c3efa0b...`. All three have
-  zero Type 3 fonts and no unresolved citations/references or blocking
-  LaTeX/overfull errors.
-- The revised Figure 1 is a three-panel vector figure with a measured ordered-pair
-  point cloud, isolated T/G/Z paths, the `Z notin C` boundary, applicability
-  routing, rank 19 to 178, and joint Recall--Violation evaluation. Figures 2--3 are also included as
-  vector PDFs. Subject/object identity in Figure 3 is redundantly encoded by
-  point shape and box line style for grayscale printing. Relative size is intentionally absent from the submission and
+- Active AAAI-27 outputs: `paper/aaai/main_aaai27.pdf` and the separate
+  `paper/aaai/main_teaser_aaai27.pdf` comparison (both 9 US-Letter pages and
+  both ending technical content on page 7), `paper/aaai/supplement_aaai27.pdf`
+  (10 pages), and `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages).
+  Main/teaser/supplement SHA256 prefixes are `111b9f3c...`, `423ba83c...`, and
+  `b9dc44ce...`. All have zero Type 3 or CID/Identity-H fonts and no unresolved
+  citations/references or blocking LaTeX/overfull errors.
+- The revised Figure 1 is a three-panel figure with a measured ordered-pair
+  point cloud, separate predicate/pair-geometry/source-score paths,
+  family-aware re-ranking, rank 19 to 178, and joint Recall--Violation
+  evaluation. Figures 1--3 use Helvetica-compatible TeX Gyre Heros source
+  typography, 2,400-pixel manuscript assets, white backgrounds,
+  thin neutral separators, and restrained colorblind-safe accents. Figure 3
+  removes card-style containers and redundantly encodes subject/object identity
+  by point shape and box line style for grayscale printing. Relative size is intentionally absent from the submission and
   remains artifact-only secondary evidence.
-- Matched-procedure comparator evaluation is complete under `routed_comparators_v1/`.
-  Product, rank-average, RRF, and the frozen train-only matched MLP share the
-  official 548-context universe, family sequence, support/contact selection,
-  and scan-cluster indices. At Open3DSG K=50, product gives R/V `.4418/.0342`
-  and the MLP `.4670/.0413`; neither dominates the joint trade-off.
+- The paper reports two proposed compatibility capacities under one fixed
+  framework: `RelCompat3D-Linear` and `RelCompat3D-MLP`. They share training
+  rows, constructed targets, linked-pair loss, transformation averaging,
+  product utility, the official 548-context universe, family sequence, and
+  support/contact source order, while differing in compatibility
+  parameterization. At Open3DSG K=50, Linear gives R/V `.4418/.0342` and MLP
+  `.4670/.0413`; neither dominates the joint trade-off. Rank-average and RRF
+  remain matched fusion baselines rather than proposed compatibility heads.
+- Matched structural controls for RelCompat3D-MLP and a separate point/mesh surface audit are
+  complete under `no_family_indicator_v1/evaluation/mlp_ablation/` and
+  `no_family_indicator_v1/evaluation/mlp_surface_audit/`. All route, denominator,
+  family-composition, support-order, and hash validations pass. At K=50, MLP
+  consensus surface-V changes versus Source are `-.0238`, `-.3712`, and
+  `-.0393` for VL-SAT, Open3DSG, and SGFN, with scan-cluster intervals below
+  zero. The K=50 matched Linear/MLP controls are retained in the one-column
+  main Table 2; the complete K=100 controls are supplemental.
 - Train-only counterfactual-policy sensitivity is complete under
-  `counterfactual_sensitivity_v1/`. Nine one-factor refits vary the proximity
+  `no_family_indicator_v1/evaluation/counterfactual_sensitivity/`. Nine
+  one-factor refits vary the proximity
   threshold, vertical margin, negative cap, and pairwise-loss weight. The
   default model reproduces the main model exactly; internal-development ordering
   accuracy is 1.000 in every variant. Relative to the default, the maximum
-  absolute change is `.0023` Recall / `.0011` V at K=50 and `.0040` Recall /
+  absolute change is `.0020` Recall / `.0011` V at K=50 and `.0035` Recall /
   `.0020` V at K=100. Every variant retains point-estimate gains over source
   scoring on both metrics for all three predictors at both budgets. This is a
   threshold-robustness result, not an independent physical-validity reference.
@@ -96,9 +109,9 @@ Authoritative owners:
   support is predictor- and budget-dependent, while Violation intervals are
   strictly negative except the tied SGFN K=5 point and the SGFN K=10 interval
   that reaches zero. A bounded single-process CPU benchmark reports
-  3.430--4.584 ms per nonempty context after relation rows and pair geometry
+  3.391--4.476 ms per nonempty context after relation rows and pair geometry
   are preloaded; it is not an end-to-end source-pipeline latency claim. The
-  stored heads have 69 parameters, with 45 used by the primary path.
+  stored heads have 66 parameters, with 43 used by the primary path.
 - A frozen raw-surface construct audit is complete under
   `orthogonal_geometry_audit_v1/`. Point vertices and area-weighted mesh
   triangles define training-only audit thresholds without OBB inputs, source or
@@ -112,15 +125,24 @@ Authoritative owners:
   is 94.7--100% monotone. This materially reduces exact OBB-rule circularity,
   but point and mesh still share the reconstructed 3RScan surface and are not
   human or cross-sensor physical ground truth.
+- The main paper reports the K=50 strict-consensus surface result numerically in
+  Results; the full point/mesh/consensus audit is supplemental. The
+  optional first-page teaser shows a same-context Top-50 exchange: one violated
+  vertical relation leaves and one exact-label proximity relation enters. The
+  compact image places the full-width method overview on page 2 without changing
+  the claim. Its dense gray scene projections are embedded at 621 ppi, while
+  titles, relation labels, axes, object annotations, lines, and ranks are vector
+  outlines.
 - Related Work now includes the official CVPR-Findings 2026 GEODE boundary:
   GEODE injects geometry inside discrete-diffusion predicate generation,
   whereas RelCompat3D evaluates and re-ranks fixed candidate outputs. It also
   distinguishes RelWitness, RelGraphOV, TAD, SCR-SSG, and PUF from the fixed-candidate
   predicate--geometry compatibility setting.
 - The current verified OpenReview field bundle is
-  `release/h001_aaai27_openreview_20260717_193626/`. Its anonymous source ZIP
-  contains 198 checksum records and passes extracted-source Docker rebuild and
-  canonical text-identity checks. Older factorized,
+  `release/h001_aaai27_openreview_20260720_084307/`. It selects the teaser main
+  PDF, contains 215 internally checksummed source/evidence files, and passes
+  extracted-source Docker rebuild, archive integrity, anonymity/path, JSON,
+  compose, font, and canonical-PDF checks. Older factorized,
   LLM-proxy, Replica-disclosure, and reference-expansion PDFs remain historical
   provenance snapshots rather than upload candidates.
 - Docker retention audit: `h001-geom-reliability:latest`,
@@ -132,32 +154,41 @@ Authoritative owners:
 - Main sources: VL-SAT and SGFN on all 548 official contexts, plus Open3DSG
   public-pipeline predictions evaluated on the same full 548-context target;
   the 15 public preprocessing drops receive no predictions.
-- Main method: the strict training-only transformation-consistent compatibility
+- Main method: the promoted strict training-only
+  `no_family_indicator_v1` transformation-consistent compatibility
   model with family-aware re-ranking. Proximity and vertical candidates use the
   product within their respective family positions;
   support/contact retains source selection exactly. Unrestricted product,
   rank-average, and RRF are comparisons, not universally dominant formulas.
 - Pooled compatibility product is an ablation. Exact internal condition keys
   remain in experiment manifests rather than manuscript-facing prose.
-- Factorization: `T_e` is predicate/family semantics, `G_e` contains
+- Factorization: `T_e` is predicate semantics, `a_e` selects the family head,
+  training statistics, transformations, and ranking scope, `G_e` contains
   predicate-independent pair-geometry measurements, `Z_e` is the source relation score, and
   `C_e = sigmoid(h_a(Phi(T_e,G_e)))` is a bounded score for the constructed
   positive/counterfactual target, not a physical-validity probability. The
-  leakage boundary is `Z_e notin C_e`; final ranking is
-  `S_e = F(Z_e,C_e)`.
+  leakage boundary is `Z_e notin C_e`; after transformation averaging, primary
+  ranking uses `u_e = Z_e C_e^tr` for proximity/vertical and `u_e = Z_e` for
+  support/contact.
+- The reported evaluation scope is support/contact, proximity, and vertical
+  order; the re-ranking scope is proximity and vertical order. For the latter,
+  candidates are ordered by the product utility with exact-identity tie
+  handling. The support/contact ordered list is defined directly as the
+  corresponding source subsequence. The manuscript also discloses that
+  counterfactual construction and the primary verifier share some OBB-derived
+  measurements, so Violation@K is not presented as independent
+  physical-validity ground truth.
 - The compatibility-only control removes `Z_e`. It is
-  not true `G_e`-only because the calibrator includes predicate/family and
+  not true `G_e`-only because the calibrator includes predicate and
   predicate-aligned interaction features.
 - Main K grid: `{5, 10, 20, 50, 100}`. K=1 is sanity-check only.
-- The main paper now uses one joint five-budget Recall/Violation table placed
-  before its quantitative interpretation. A second, single-column K=50/100
-  table appears immediately after the structural-diagnostics heading and
-  reports wrong-predicate, wrong-pair, shuffled-geometry, label-fixed endpoint
-  swap, distance-only, and compatibility-only controls from the public/full
-  548-context family-aware ranking procedure under
-  `structured_ablation_v1/routed_public_full_evaluation/`; all fixed-model,
-  context, routing, donor, and equivalence validations pass. The unrestricted
-  route is supplemental only.
+- The main paper uses one joint five-budget Recall/Violation table placed before
+  its quantitative interpretation and a one-column K=50 matched-control table.
+  Wrong-predicate, wrong-pair, shuffled-geometry, label-fixed endpoint swap,
+  distance-only, and compatibility-only results for both Linear and MLP remain
+  visible in the main paper at K=50; the complete K=100 table is supplemental.
+  All fixed-model,
+  context, family-order, donor, denominator, and equivalence validations pass.
 - Uncertainty sensitivity is complete for VL-SAT/Open3DSG/SGFN. Routed
   decidable-only and pessimistic V decrease on every source; uncertainty moves
   slightly in either direction, so the aggregate reduction is not explained by
@@ -185,28 +216,34 @@ Authoritative owners:
   hash lock. It satisfies the aggregate Recall--Violation criterion. The
   manuscript reports the split roles and benchmark result directly rather than
   assigning an untouched or prospective label.
-- Novelty-mechanism development and coordinated promotion are complete under
+- Novelty-mechanism development was completed under
   `experiments/H001_geom_reliability/relation_algebra_v1/`. Six structured
   candidates were evaluated behind a pre-run gate. Only linked-counterfactual
   margin fitting followed by exact transformation averaging passes:
   proximity swap and vertical inverse errors are exactly zero, linked-positive
   win rate improves from .991752 to .992321, and K=100 Recall continuity holds
   on VL-SAT, Open3DSG, and SGFN. Its R/V is .9688/.0325, .6055/.0339, and
-  .9418/.0372. The same locked model is now used for every main comparator,
-  uncertainty analysis, figure, and table under `structured_main_v1/`. This
-  strengthens the mechanism but is not a best-score result.
+  .9418/.0372. Its `no_family_indicator_v1` strict train-only refit is now the
+  active model: it removes only the constant family input, stores 66 rather
+  than 69 parameters, and changes the main grid by at most 0.076 Recall and
+  0.004 Violation percentage points. Every current comparator, uncertainty
+  analysis, figure, and table reads from that promoted root. This strengthens
+  implementation parsimony but is not a best-score result.
 - The same SGFN-supervised 69-parameter nonlinear rescorer parameters were also
   used on VL-SAT and Open3DSG. The model significantly loses Recall on VL-SAT at
   K=100 and on both sources at smaller K, so it remains a source-adapted upper
   bound rather than a predictor-agnostic replacement. Outputs are under
   `experiments/H001_geom_reliability/nonlinear_transfer_v1/`.
-- A supervision-matched 69-parameter nonlinear comparison is complete under
-  `supervision_matched_nonlinear_v1/`. It uses the same constructed target,
-  training rows, features, and source-score exclusion as the linear model; the
+- A supervision-matched 69-parameter nonlinear compatibility estimator is
+  complete and is now reported as `RelCompat3D-MLP`. It uses the same constructed target,
+  training rows, underlying predicate/pair-geometry measurements, and
+  source-score exclusion as the linear model, while adding a shared-family
+  indicator and an overlap-sum interaction appropriate to its shared head; the
   same fitted parameters are used for all predictors. It does not dominate the joint
   objective: on complete-coverage Open3DSG it changes product Recall by
   `+.0360` `[+.0252,+.0475]` but worsens V by `+.0096`
-  `[+.0079,+.0113]`; VL-SAT/SGFN differences are small.
+  `[+.0079,+.0113]`; VL-SAT/SGFN differences are small. These differing Pareto
+  points motivate capacity-robust framework wording rather than head superiority.
 - Transformation averaging is formalized by one exact invariance proposition;
   family-sequence and support/contact prefix preservation are stated as direct
   consequences of the ordered-list construction. For every prefix, the rule is
@@ -221,8 +258,9 @@ Authoritative owners:
   three distinct reviewer IDs, and zero errors. This remains reviewer-verified
   LLM annotation in `paper/paper_nonsub/`, not Human V@K or independent blank
   first-pass human labeling.
-- A no-target-tuning evaluation of the locked final method is complete on
-  ReplicaSSG/FROSS under `sources/replicassg/final_method_transfer_v1/`. The
+- A no-target-tuning evaluation of the active method is complete on
+  ReplicaSSG/FROSS under
+  `no_family_indicator_v1/evaluation/external_transfer/`. The
   target was observed in earlier development, so this is external benchmark
   evidence rather than untouched confirmation. The routed product has paired
   joint improvements at K=10 and K=50; K=20 is positive with its Recall
@@ -233,7 +271,9 @@ Authoritative owners:
   the fixed recall guardrail and dV CI `[-.19182,-.11015]` is below zero.
   The main paper emphasizes the routed product's K=10--50 behavior and
   reports the full curve in the supplement; the rank diagnostic remains an
-  artifact-level mechanism analysis. This partially mitigates the
+  artifact-level mechanism analysis. All model, data, score, and execution
+  checks pass; the untouched-confirmation check is intentionally false because
+  the target was previously observed. This partially mitigates the
   single-dataset concern but does not establish dataset-level generalization.
 
 ## Claim Boundary
@@ -270,18 +310,19 @@ Factor contract:
 
 | Factor | Definition | Boundary |
 | --- | --- | --- |
-| `T_e` | predicate label and relation-family semantics | may condition compatibility |
+| `T_e` | predicate label | conditions compatibility |
+| `a_e` | relation-family selector | selects head, training statistics, transformations, and ranking scope; not a head input |
 | `G_e` | raw, predicate-independent geometry of the same ordered object pair | excludes predicate-aligned transforms |
 | `Z_e` | source relation confidence | excluded from `C_e` |
 | `C_e` | `sigmoid(h_a(Phi(T_e,G_e)))` | bounded constructed-target compatibility; not physical-validity probability |
 | `S_e` | `F(Z_e,C_e)` | product and rank-average are evaluated instantiations |
 
-`y_cal` is built from train/dev GT-positive rows and high-margin
+`y_cal` is built from training-split GT-positive rows and high-margin
 counterfactual negatives. It must not be described as direct human physical
 validity. Predicate-aligned center-delta features are interaction terms
 `T_e x G_e`, while raw center/extent/contact/distance quantities belong to
-`G_e`. Existing artifacts exclude the source score, but factor necessity is
-not yet established uniformly across families.
+`G_e`. The active family-specific heads contain no family indicator and exclude
+the source score; factor necessity is not established uniformly across families.
 
 Core steps:
 
@@ -298,8 +339,8 @@ Core steps:
 Transformation averaging is formally invariant under each declared finite
 endpoint/predicate transformation group. Family-aware re-ranking preserves the
 complete family sequence and support/contact subsequence at every prefix by
-construction, and selects the highest-utility proximity/vertical candidates
-subject to those constraints. The invariance appears as one proposition; the
+construction, and selects the highest-utility candidates within each re-ranked
+family subject to those constraints. The invariance appears as one proposition; the
 supplement proves it and gives the constrained prefix-utility exchange proof.
 
 Main scoring conditions:
@@ -337,15 +378,15 @@ Primary K=50/100 source result:
 | Source | Condition | R@50 | R@100 | V@50 | V@100 |
 | --- | --- | ---: | ---: | ---: | ---: |
 | VL-SAT | Source score | 0.9272 | 0.9635 | 0.0268 | 0.0476 |
-| VL-SAT | Applicability-routed | 0.9277 | 0.9658 | 0.0197 | 0.0295 |
+| VL-SAT | RelCompat3D | 0.9277 | 0.9658 | 0.0197 | 0.0295 |
 | Open3DSG public/full-target | Source score | 0.4043 | 0.5111 | 0.1387 | 0.1242 |
-| Open3DSG public/full-target | Applicability-routed | 0.4418 | 0.5692 | 0.0342 | 0.0324 |
+| Open3DSG public/full-target | RelCompat3D | 0.4418 | 0.5685 | 0.0342 | 0.0324 |
 | SGFN | Source score | 0.7402 | 0.9235 | 0.0385 | 0.0630 |
-| SGFN | Applicability-routed | 0.7450 | 0.9303 | 0.0263 | 0.0350 |
+| SGFN | RelCompat3D | 0.7450 | 0.9303 | 0.0263 | 0.0350 |
 
 Routed K=100 paired scan-cluster deltas are Recall/Violation
 `+.00227 [+.00048,+.00492] / -.01816 [-.01994,-.01656]` for VL-SAT,
-`+.05816 [+.04705,+.06947] / -.09174 [-.09630,-.08727]` for the
+`+.05740 [+.04628,+.06856] / -.09176 [-.09631,-.08727]` for the
 conservative Open3DSG route, and
 `+.00680 [+.00431,+.00980] / -.02797 [-.03043,-.02568]` for SGFN.
 Context-bootstrap sensitivity preserves all six directions. Support/contact
@@ -353,9 +394,9 @@ selection and family composition are bit-exact with source ranking at every
 reported K.
 
 Open3DSG coverage sensitivity at K=100 is stable: public eligible 533 gives
-source/routed R/V `.5206/.1242` and `.5799/.0324`; public/full-target 548 gives
-`.5111/.1242` and `.5692/.0324`; recovered/full-target 548 gives
-`.5161/.1242` and `.5743/.0332`.
+source/method R/V `.5206/.1242` and `.5791/.0324`; public/full-target 548 gives
+`.5111/.1242` and `.5685/.0324`; recovered/full-target 548 gives
+`.5161/.1242` and `.5735/.0332`.
 
 Strict train-only reconstruction, frozen 2026-07-11:
 
@@ -503,8 +544,8 @@ boundary; they are not the active main-score table.
   the global rank-fusion Recall loss, while raw product is neutralized by 86.28%
   zero source scores. Candidate support caps Recall at .44186, 19.20% of
   external feature cells exceed three train-standardized deviations, and
-  compatibility aligns verifier satisfaction (AUC .9453) more strongly than
-  exact labels (AUC .6674). The result remains outside the finalized main claim
+  compatibility aligns verifier satisfaction (AUC .9460) more strongly than
+  exact labels (AUC .6686). The result remains outside the finalized main claim
   because the target was previously observed and support/contact is unmapped.
 
 Verifier evidence:
@@ -695,10 +736,11 @@ Submission/package hygiene:
 
 1. Completed: verified the live AAAI-27/OpenReview form, official target-year
    style, deadlines, page limits, separate checklist, and supplement policy.
-2. Completed: the current 2026-07-17 field bundle at
-   `release/h001_aaai27_openreview_20260717_193626/` passed outer/inner
-   checksums, archive integrity, identity/path scans, and extracted-source
-   Docker rebuild. It supersedes the earlier field bundles.
+2. Completed: the active-method 2026-07-20 field bundle at
+   `release/h001_aaai27_openreview_20260720_084307/` passed outer/inner
+   checksums, archive integrity, identity/path scans, JSON/compose validation,
+   and extracted-source Docker rebuild. It supersedes the earlier field
+   bundles.
 3. Author action: enter author order/profiles, countries, conflicts, and the
    qualified reciprocal reviewer.
 4. Author decision: final public code license and post-acceptance artifact URL.

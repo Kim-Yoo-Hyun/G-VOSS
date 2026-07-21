@@ -8,6 +8,7 @@
 *.out
 *.synctex.gz
 main.pdf
+main_teaser.pdf
 supplement.pdf
 reproducibility_checklist.pdf
 reproducibility_checklist_main.pdf

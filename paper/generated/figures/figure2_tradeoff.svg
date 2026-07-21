@@ -1,109 +1,154 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="430" viewBox="0 0 1500 430">
-<rect width="1500" height="430" fill="#ffffff"/>
-<line x1="1015" y1="24" x2="1063" y2="24" stroke="#4b5563" stroke-width="2.7" stroke-dasharray="7 5"/>
-<circle cx="1039" cy="24" r="5" fill="#4b5563" stroke="#ffffff" stroke-width="1.2"/>
-<text x="1074.0" y="31.0" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#111827" text-anchor="start">Source</text>
-<line x1="1195" y1="24" x2="1243" y2="24" stroke="#059669" stroke-width="3"/>
-<rect x="1219" y="19" width="10" height="10" fill="#059669" stroke="#ffffff" stroke-width="1.2"/>
-<text x="1254.0" y="31.0" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#111827" text-anchor="start">RelCompat3D</text>
-<text x="70.0" y="50.0" font-family="Helvetica, Arial, sans-serif" font-size="25" font-weight="700" fill="#111827" text-anchor="start">(a) VL-SAT</text>
-<line x1="70.0" y1="70" x2="70.0" y2="350" stroke="#e5e7eb" stroke-width="1"/>
-<line x1="70" y1="70.0" x2="450" y2="70.0" stroke="#e5e7eb" stroke-width="1"/>
-<text x="70.0" y="371.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#6b7280" text-anchor="middle">36.5</text>
-<text x="60.0" y="356.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#6b7280" text-anchor="end">0.0</text>
-<line x1="260.0" y1="70" x2="260.0" y2="350" stroke="#e5e7eb" stroke-width="1"/>
-<line x1="70" y1="210.0" x2="450" y2="210.0" stroke="#e5e7eb" stroke-width="1"/>
-<text x="260.0" y="371.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#6b7280" text-anchor="middle">68.2</text>
-<text x="60.0" y="216.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#6b7280" text-anchor="end">2.7</text>
-<line x1="450.0" y1="70" x2="450.0" y2="350" stroke="#e5e7eb" stroke-width="1"/>
-<line x1="70" y1="350.0" x2="450" y2="350.0" stroke="#e5e7eb" stroke-width="1"/>
-<text x="450.0" y="371.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#6b7280" text-anchor="middle">100.0</text>
-<text x="60.0" y="76.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#6b7280" text-anchor="end">5.3</text>
-<line x1="70" y1="350" x2="450" y2="350" stroke="#111827" stroke-width="1.4"/>
-<line x1="70" y1="70" x2="70" y2="350" stroke="#111827" stroke-width="1.4"/>
-<text x="260.0" y="400.0" font-family="Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#111827" text-anchor="middle">Recall@K (%)</text>
-<path d="M 102.7 334.6 L 230.0 306.8 L 334.8 275.1 L 406.5 209.2 L 428.2 99.2" fill="none" stroke="#4b5563" stroke-width="2.8" stroke-dasharray="7 5"/>
-<circle cx="102.7" cy="334.6" r="5" fill="#4b5563" stroke="#ffffff" stroke-width="1.2"/>
-<circle cx="230.0" cy="306.8" r="5" fill="#4b5563" stroke="#ffffff" stroke-width="1.2"/>
-<circle cx="334.8" cy="275.1" r="5" fill="#4b5563" stroke="#ffffff" stroke-width="1.2"/>
-<circle cx="406.5" cy="209.2" r="5" fill="#4b5563" stroke="#ffffff" stroke-width="1.2"/>
-<circle cx="428.2" cy="99.2" r="5" fill="#4b5563" stroke="#ffffff" stroke-width="1.2"/>
-<path d="M 103.4 342.3 L 231.0 320.2 L 335.2 290.0 L 406.8 246.3 L 429.5 194.8" fill="none" stroke="#059669" stroke-width="2.8"/>
-<rect x="98.4" y="337.3" width="10" height="10" fill="#059669" stroke="#ffffff" stroke-width="1.2"/>
-<rect x="226.0" y="315.2" width="10" height="10" fill="#059669" stroke="#ffffff" stroke-width="1.2"/>
-<rect x="330.2" y="285.0" width="10" height="10" fill="#059669" stroke="#ffffff" stroke-width="1.2"/>
-<rect x="401.8" y="241.3" width="10" height="10" fill="#059669" stroke="#ffffff" stroke-width="1.2"/>
-<rect x="424.5" y="189.8" width="10" height="10" fill="#059669" stroke="#ffffff" stroke-width="1.2"/>
-<text x="103.4" y="331.3" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#374151" text-anchor="middle">5</text>
-<text x="231.0" y="309.2" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#374151" text-anchor="middle">10</text>
-<text x="335.2" y="279.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#374151" text-anchor="middle">20</text>
-<text x="406.8" y="235.3" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#374151" text-anchor="middle">50</text>
-<text x="417.5" y="183.8" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#374151" text-anchor="middle">100</text>
-<text x="560.0" y="50.0" font-family="Helvetica, Arial, sans-serif" font-size="25" font-weight="700" fill="#111827" text-anchor="start">(b) Open3DSG</text>
-<line x1="560.0" y1="70" x2="560.0" y2="350" stroke="#e5e7eb" stroke-width="1"/>
-<line x1="560" y1="70.0" x2="940" y2="70.0" stroke="#e5e7eb" stroke-width="1"/>
-<text x="560.0" y="371.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#6b7280" text-anchor="middle">0.0</text>
-<text x="550.0" y="356.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#6b7280" text-anchor="end">0.0</text>
-<line x1="750.0" y1="70" x2="750.0" y2="350" stroke="#e5e7eb" stroke-width="1"/>
-<line x1="560" y1="210.0" x2="940" y2="210.0" stroke="#e5e7eb" stroke-width="1"/>
-<text x="750.0" y="371.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#6b7280" text-anchor="middle">31.1</text>
-<text x="550.0" y="216.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#6b7280" text-anchor="end">29.1</text>
-<line x1="940.0" y1="70" x2="940.0" y2="350" stroke="#e5e7eb" stroke-width="1"/>
-<line x1="560" y1="350.0" x2="940" y2="350.0" stroke="#e5e7eb" stroke-width="1"/>
-<text x="940.0" y="371.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#6b7280" text-anchor="middle">62.3</text>
-<text x="550.0" y="76.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#6b7280" text-anchor="end">58.2</text>
-<line x1="560" y1="350" x2="940" y2="350" stroke="#111827" stroke-width="1.4"/>
-<line x1="560" y1="70" x2="560" y2="350" stroke="#111827" stroke-width="1.4"/>
-<text x="750.0" y="400.0" font-family="Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#111827" text-anchor="middle">Recall@K (%)</text>
-<path d="M 580.9 99.5 L 620.2 191.7 L 681.4 249.0 L 806.7 283.2 L 871.9 290.2" fill="none" stroke="#4b5563" stroke-width="2.8" stroke-dasharray="7 5"/>
-<circle cx="580.9" cy="99.5" r="5" fill="#4b5563" stroke="#ffffff" stroke-width="1.2"/>
-<circle cx="620.2" cy="191.7" r="5" fill="#4b5563" stroke="#ffffff" stroke-width="1.2"/>
-<circle cx="681.4" cy="249.0" r="5" fill="#4b5563" stroke="#ffffff" stroke-width="1.2"/>
-<circle cx="806.7" cy="283.2" r="5" fill="#4b5563" stroke="#ffffff" stroke-width="1.2"/>
-<circle cx="871.9" cy="290.2" r="5" fill="#4b5563" stroke="#ffffff" stroke-width="1.2"/>
-<path d="M 582.7 345.5 L 629.3 338.8 L 704.1 334.9 L 829.6 333.5 L 907.4 334.4" fill="none" stroke="#059669" stroke-width="2.8"/>
-<rect x="577.7" y="340.5" width="10" height="10" fill="#059669" stroke="#ffffff" stroke-width="1.2"/>
-<rect x="624.3" y="333.8" width="10" height="10" fill="#059669" stroke="#ffffff" stroke-width="1.2"/>
-<rect x="699.1" y="329.9" width="10" height="10" fill="#059669" stroke="#ffffff" stroke-width="1.2"/>
-<rect x="824.6" y="328.5" width="10" height="10" fill="#059669" stroke="#ffffff" stroke-width="1.2"/>
-<rect x="902.4" y="329.4" width="10" height="10" fill="#059669" stroke="#ffffff" stroke-width="1.2"/>
-<text x="582.7" y="334.5" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#374151" text-anchor="middle">5</text>
-<text x="629.3" y="327.8" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#374151" text-anchor="middle">10</text>
-<text x="704.1" y="323.9" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#374151" text-anchor="middle">20</text>
-<text x="829.6" y="322.5" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#374151" text-anchor="middle">50</text>
-<text x="907.4" y="323.4" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#374151" text-anchor="middle">100</text>
-<text x="1050.0" y="50.0" font-family="Helvetica, Arial, sans-serif" font-size="25" font-weight="700" fill="#111827" text-anchor="start">(c) SGFN</text>
-<line x1="1050.0" y1="70" x2="1050.0" y2="350" stroke="#e5e7eb" stroke-width="1"/>
-<line x1="1050" y1="70.0" x2="1430" y2="70.0" stroke="#e5e7eb" stroke-width="1"/>
-<text x="1050.0" y="371.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#6b7280" text-anchor="middle">25.0</text>
-<text x="1040.0" y="356.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#6b7280" text-anchor="end">1.9</text>
-<line x1="1240.0" y1="70" x2="1240.0" y2="350" stroke="#e5e7eb" stroke-width="1"/>
-<line x1="1050" y1="210.0" x2="1430" y2="210.0" stroke="#e5e7eb" stroke-width="1"/>
-<text x="1240.0" y="371.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#6b7280" text-anchor="middle">62.1</text>
-<text x="1040.0" y="216.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#6b7280" text-anchor="end">4.3</text>
-<line x1="1430.0" y1="70" x2="1430.0" y2="350" stroke="#e5e7eb" stroke-width="1"/>
-<line x1="1050" y1="350.0" x2="1430" y2="350.0" stroke="#e5e7eb" stroke-width="1"/>
-<text x="1430.0" y="371.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#6b7280" text-anchor="middle">99.2</text>
-<text x="1040.0" y="76.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#6b7280" text-anchor="end">6.8</text>
-<line x1="1050" y1="350" x2="1430" y2="350" stroke="#111827" stroke-width="1.4"/>
-<line x1="1050" y1="70" x2="1050" y2="350" stroke="#111827" stroke-width="1.4"/>
-<text x="1240.0" y="400.0" font-family="Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#111827" text-anchor="middle">Recall@K (%)</text>
-<path d="M 1081.7 322.9 L 1125.6 258.9 L 1173.6 274.1 L 1301.0 238.1 L 1394.9 97.1" fill="none" stroke="#4b5563" stroke-width="2.8" stroke-dasharray="7 5"/>
-<circle cx="1081.7" cy="322.9" r="5" fill="#4b5563" stroke="#ffffff" stroke-width="1.2"/>
-<circle cx="1125.6" cy="258.9" r="5" fill="#4b5563" stroke="#ffffff" stroke-width="1.2"/>
-<circle cx="1173.6" cy="274.1" r="5" fill="#4b5563" stroke="#ffffff" stroke-width="1.2"/>
-<circle cx="1301.0" cy="238.1" r="5" fill="#4b5563" stroke="#ffffff" stroke-width="1.2"/>
-<circle cx="1394.9" cy="97.1" r="5" fill="#4b5563" stroke="#ffffff" stroke-width="1.2"/>
-<path d="M 1081.7 322.9 L 1125.6 259.9 L 1173.7 288.3 L 1303.5 308.0 L 1398.3 258.0" fill="none" stroke="#059669" stroke-width="2.8"/>
-<rect x="1076.7" y="317.9" width="10" height="10" fill="#059669" stroke="#ffffff" stroke-width="1.2"/>
-<rect x="1120.6" y="254.9" width="10" height="10" fill="#059669" stroke="#ffffff" stroke-width="1.2"/>
-<rect x="1168.7" y="283.3" width="10" height="10" fill="#059669" stroke="#ffffff" stroke-width="1.2"/>
-<rect x="1298.5" y="303.0" width="10" height="10" fill="#059669" stroke="#ffffff" stroke-width="1.2"/>
-<rect x="1393.3" y="253.0" width="10" height="10" fill="#059669" stroke="#ffffff" stroke-width="1.2"/>
-<text x="1081.7" y="311.9" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#374151" text-anchor="middle">5</text>
-<text x="1111.6" y="248.9" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#374151" text-anchor="middle">10</text>
-<text x="1188.7" y="277.3" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#374151" text-anchor="middle">20</text>
-<text x="1303.5" y="297.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#374151" text-anchor="middle">50</text>
-<text x="1398.3" y="247.0" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#374151" text-anchor="middle">100</text>
-<text x="20" y="215" transform="rotate(-90 20 215)" font-family="Helvetica, Arial, sans-serif" font-size="21" font-weight="700" fill="#111827" text-anchor="middle">Violation@K (%) ↓</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="520" viewBox="0 0 1500 520">
+<rect width="1500" height="520" fill="#ffffff"/>
+<line x1="500" y1="28" x2="550" y2="28" stroke="#4b5563" stroke-width="3.2" stroke-dasharray="9,7"/>
+<circle cx="525" cy="28" r="7" fill="#ffffff" stroke="#4b5563" stroke-width="2.2"/>
+<text x="562.0" y="37.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#111827" text-anchor="start">Source</text>
+<line x1="700" y1="28" x2="750" y2="28" stroke="#007c76" stroke-width="3.4"/>
+<rect x="718" y="21" width="14" height="14" fill="#007c76" stroke="#ffffff" stroke-width="1.8"/>
+<text x="762.0" y="37.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#111827" text-anchor="start">RelCompat3D-Linear</text>
+<line x1="1085" y1="28" x2="1135" y2="28" stroke="#7b3fa1" stroke-width="3.4"/>
+<path d="M 1110 20 L 1118 35 L 1102 35 Z" fill="#7b3fa1" stroke="#ffffff" stroke-width="1.8"/>
+<text x="1147.0" y="37.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#111827" text-anchor="start">RelCompat3D-MLP</text>
+<text x="258.0" y="72.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="32" font-weight="700" fill="#111827" text-anchor="middle">(a) VL-SAT</text>
+<line x1="78.0" y1="92" x2="78.0" y2="392" stroke="#d9dde1" stroke-width="1.6"/>
+<line x1="78" y1="92.0" x2="438" y2="92.0" stroke="#d9dde1" stroke-width="1.6"/>
+<text x="78.0" y="456.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="middle">36</text>
+<text x="64.0" y="101.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="end">6</text>
+<line x1="168.0" y1="92" x2="168.0" y2="392" stroke="#d9dde1" stroke-width="1.6"/>
+<line x1="78" y1="167.0" x2="438" y2="167.0" stroke="#d9dde1" stroke-width="1.6"/>
+<text x="168.0" y="456.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="middle">52</text>
+<text x="64.0" y="176.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="end">4</text>
+<line x1="258.0" y1="92" x2="258.0" y2="392" stroke="#d9dde1" stroke-width="1.6"/>
+<line x1="78" y1="242.0" x2="438" y2="242.0" stroke="#d9dde1" stroke-width="1.6"/>
+<text x="258.0" y="456.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="middle">68</text>
+<text x="64.0" y="251.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="end">3</text>
+<line x1="348.0" y1="92" x2="348.0" y2="392" stroke="#d9dde1" stroke-width="1.6"/>
+<line x1="78" y1="317.0" x2="438" y2="317.0" stroke="#d9dde1" stroke-width="1.6"/>
+<text x="348.0" y="456.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="middle">84</text>
+<text x="64.0" y="326.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="end">2</text>
+<line x1="438.0" y1="92" x2="438.0" y2="392" stroke="#d9dde1" stroke-width="1.6"/>
+<line x1="78" y1="392.0" x2="438" y2="392.0" stroke="#d9dde1" stroke-width="1.6"/>
+<text x="438.0" y="456.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="middle">100</text>
+<text x="64.0" y="401.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="end">0</text>
+<line x1="78" y1="392" x2="438" y2="392" stroke="#111827" stroke-width="2.2"/>
+<line x1="78" y1="92" x2="78" y2="392" stroke="#111827" stroke-width="2.2"/>
+<text x="258.0" y="510.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#111827" text-anchor="middle">Recall@K (%)</text>
+<path d="M 111.4 377.4 L 231.1 350.9 L 329.7 320.8 L 397.1 258.2 L 417.5 153.8" fill="none" stroke="#4b5563" stroke-width="3.4" stroke-dasharray="9,7"/>
+<circle cx="111.4" cy="377.4" r="7" fill="#ffffff" stroke="#4b5563" stroke-width="2.2"/>
+<circle cx="231.1" cy="350.9" r="7" fill="#ffffff" stroke="#4b5563" stroke-width="2.2"/>
+<circle cx="329.7" cy="320.8" r="7" fill="#ffffff" stroke="#4b5563" stroke-width="2.2"/>
+<circle cx="397.1" cy="258.2" r="7" fill="#ffffff" stroke="#4b5563" stroke-width="2.2"/>
+<circle cx="417.5" cy="153.8" r="7" fill="#ffffff" stroke="#4b5563" stroke-width="2.2"/>
+<path d="M 112.1 384.7 L 232.1 363.7 L 330.1 335.0 L 397.4 293.3 L 418.7 244.6" fill="none" stroke="#007c76" stroke-width="3.4"/>
+<rect x="105.1" y="377.7" width="14" height="14" fill="#007c76" stroke="#ffffff" stroke-width="1.8"/>
+<rect x="225.1" y="356.7" width="14" height="14" fill="#007c76" stroke="#ffffff" stroke-width="1.8"/>
+<rect x="323.1" y="328.0" width="14" height="14" fill="#007c76" stroke="#ffffff" stroke-width="1.8"/>
+<rect x="390.4" y="286.3" width="14" height="14" fill="#007c76" stroke="#ffffff" stroke-width="1.8"/>
+<rect x="411.7" y="237.6" width="14" height="14" fill="#007c76" stroke="#ffffff" stroke-width="1.8"/>
+<path d="M 112.3 384.7 L 232.5 366.5 L 330.7 337.3 L 397.1 297.7 L 418.3 243.8" fill="none" stroke="#7b3fa1" stroke-width="3.4"/>
+<path d="M 112.3 376.7 L 120.3 391.7 L 104.3 391.7 Z" fill="#7b3fa1" stroke="#ffffff" stroke-width="1.8"/>
+<path d="M 232.5 358.5 L 240.5 373.5 L 224.5 373.5 Z" fill="#7b3fa1" stroke="#ffffff" stroke-width="1.8"/>
+<path d="M 330.7 329.3 L 338.7 344.3 L 322.7 344.3 Z" fill="#7b3fa1" stroke="#ffffff" stroke-width="1.8"/>
+<path d="M 397.1 289.7 L 405.1 304.7 L 389.1 304.7 Z" fill="#7b3fa1" stroke="#ffffff" stroke-width="1.8"/>
+<path d="M 418.3 235.8 L 426.3 250.8 L 410.3 250.8 Z" fill="#7b3fa1" stroke="#ffffff" stroke-width="1.8"/>
+<text x="111.4" y="361.4" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#4b5563" text-anchor="middle">5</text>
+<text x="231.1" y="334.9" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#4b5563" text-anchor="middle">10</text>
+<text x="329.7" y="304.8" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#4b5563" text-anchor="middle">20</text>
+<text x="379.1" y="242.2" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#4b5563" text-anchor="middle">50</text>
+<text x="433.5" y="137.8" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#4b5563" text-anchor="middle">100</text>
+<text x="748.0" y="72.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="32" font-weight="700" fill="#111827" text-anchor="middle">(b) Open3DSG</text>
+<line x1="568.0" y1="92" x2="568.0" y2="392" stroke="#d9dde1" stroke-width="1.6"/>
+<line x1="568" y1="92.0" x2="928" y2="92.0" stroke="#d9dde1" stroke-width="1.6"/>
+<text x="568.0" y="456.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="middle">0</text>
+<text x="554.0" y="101.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="end">70</text>
+<line x1="658.0" y1="92" x2="658.0" y2="392" stroke="#d9dde1" stroke-width="1.6"/>
+<line x1="568" y1="167.0" x2="928" y2="167.0" stroke="#d9dde1" stroke-width="1.6"/>
+<text x="658.0" y="456.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="middle">18</text>
+<text x="554.0" y="176.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="end">52</text>
+<line x1="748.0" y1="92" x2="748.0" y2="392" stroke="#d9dde1" stroke-width="1.6"/>
+<line x1="568" y1="242.0" x2="928" y2="242.0" stroke="#d9dde1" stroke-width="1.6"/>
+<text x="748.0" y="456.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="middle">35</text>
+<text x="554.0" y="251.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="end">35</text>
+<line x1="838.0" y1="92" x2="838.0" y2="392" stroke="#d9dde1" stroke-width="1.6"/>
+<line x1="568" y1="317.0" x2="928" y2="317.0" stroke="#d9dde1" stroke-width="1.6"/>
+<text x="838.0" y="456.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="middle">52</text>
+<text x="554.0" y="326.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="end">18</text>
+<line x1="928.0" y1="92" x2="928.0" y2="392" stroke="#d9dde1" stroke-width="1.6"/>
+<line x1="568" y1="392.0" x2="928" y2="392.0" stroke="#d9dde1" stroke-width="1.6"/>
+<text x="928.0" y="456.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="middle">70</text>
+<text x="554.0" y="401.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="end">0</text>
+<line x1="568" y1="392" x2="928" y2="392" stroke="#111827" stroke-width="2.2"/>
+<line x1="568" y1="92" x2="568" y2="392" stroke="#111827" stroke-width="2.2"/>
+<text x="748.0" y="510.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#111827" text-anchor="middle">Recall@K (%)</text>
+<path d="M 585.6 168.9 L 618.8 251.0 L 670.3 302.0 L 775.9 332.5 L 830.8 338.8" fill="none" stroke="#4b5563" stroke-width="3.4" stroke-dasharray="9,7"/>
+<circle cx="585.6" cy="168.9" r="7" fill="#ffffff" stroke="#4b5563" stroke-width="2.2"/>
+<circle cx="618.8" cy="251.0" r="7" fill="#ffffff" stroke="#4b5563" stroke-width="2.2"/>
+<circle cx="670.3" cy="302.0" r="7" fill="#ffffff" stroke="#4b5563" stroke-width="2.2"/>
+<circle cx="775.9" cy="332.5" r="7" fill="#ffffff" stroke="#4b5563" stroke-width="2.2"/>
+<circle cx="830.8" cy="338.8" r="7" fill="#ffffff" stroke="#4b5563" stroke-width="2.2"/>
+<path d="M 587.2 388.0 L 626.5 382.0 L 689.5 378.6 L 795.2 377.3 L 860.4 378.1" fill="none" stroke="#007c76" stroke-width="3.4"/>
+<rect x="580.2" y="381.0" width="14" height="14" fill="#007c76" stroke="#ffffff" stroke-width="1.8"/>
+<rect x="619.5" y="375.0" width="14" height="14" fill="#007c76" stroke="#ffffff" stroke-width="1.8"/>
+<rect x="682.5" y="371.6" width="14" height="14" fill="#007c76" stroke="#ffffff" stroke-width="1.8"/>
+<rect x="788.2" y="370.3" width="14" height="14" fill="#007c76" stroke="#ffffff" stroke-width="1.8"/>
+<rect x="853.4" y="371.1" width="14" height="14" fill="#007c76" stroke="#ffffff" stroke-width="1.8"/>
+<path d="M 587.0 370.8 L 628.6 370.7 L 694.9 372.5 L 808.2 374.3 L 876.0 376.1" fill="none" stroke="#7b3fa1" stroke-width="3.4"/>
+<path d="M 587.0 362.8 L 595.0 377.8 L 579.0 377.8 Z" fill="#7b3fa1" stroke="#ffffff" stroke-width="1.8"/>
+<path d="M 628.6 362.7 L 636.6 377.7 L 620.6 377.7 Z" fill="#7b3fa1" stroke="#ffffff" stroke-width="1.8"/>
+<path d="M 694.9 364.5 L 702.9 379.5 L 686.9 379.5 Z" fill="#7b3fa1" stroke="#ffffff" stroke-width="1.8"/>
+<path d="M 808.2 366.3 L 816.2 381.3 L 800.2 381.3 Z" fill="#7b3fa1" stroke="#ffffff" stroke-width="1.8"/>
+<path d="M 876.0 368.1 L 884.0 383.1 L 868.0 383.1 Z" fill="#7b3fa1" stroke="#ffffff" stroke-width="1.8"/>
+<text x="585.6" y="152.9" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#4b5563" text-anchor="middle">5</text>
+<text x="618.8" y="235.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#4b5563" text-anchor="middle">10</text>
+<text x="670.3" y="286.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#4b5563" text-anchor="middle">20</text>
+<text x="775.9" y="316.5" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#4b5563" text-anchor="middle">50</text>
+<text x="830.8" y="322.8" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#4b5563" text-anchor="middle">100</text>
+<text x="1238.0" y="72.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="32" font-weight="700" fill="#111827" text-anchor="middle">(c) SGFN</text>
+<line x1="1058.0" y1="92" x2="1058.0" y2="392" stroke="#d9dde1" stroke-width="1.6"/>
+<line x1="1058" y1="92.0" x2="1418" y2="92.0" stroke="#d9dde1" stroke-width="1.6"/>
+<text x="1058.0" y="456.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="middle">20</text>
+<text x="1044.0" y="101.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="end">10</text>
+<line x1="1148.0" y1="92" x2="1148.0" y2="392" stroke="#d9dde1" stroke-width="1.6"/>
+<line x1="1058" y1="167.0" x2="1418" y2="167.0" stroke="#d9dde1" stroke-width="1.6"/>
+<text x="1148.0" y="456.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="middle">40</text>
+<text x="1044.0" y="176.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="end">8</text>
+<line x1="1238.0" y1="92" x2="1238.0" y2="392" stroke="#d9dde1" stroke-width="1.6"/>
+<line x1="1058" y1="242.0" x2="1418" y2="242.0" stroke="#d9dde1" stroke-width="1.6"/>
+<text x="1238.0" y="456.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="middle">60</text>
+<text x="1044.0" y="251.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="end">5</text>
+<line x1="1328.0" y1="92" x2="1328.0" y2="392" stroke="#d9dde1" stroke-width="1.6"/>
+<line x1="1058" y1="317.0" x2="1418" y2="317.0" stroke="#d9dde1" stroke-width="1.6"/>
+<text x="1328.0" y="456.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="middle">80</text>
+<text x="1044.0" y="326.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="end">2</text>
+<line x1="1418.0" y1="92" x2="1418.0" y2="392" stroke="#d9dde1" stroke-width="1.6"/>
+<line x1="1058" y1="392.0" x2="1418" y2="392.0" stroke="#d9dde1" stroke-width="1.6"/>
+<text x="1418.0" y="456.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="middle">100</text>
+<text x="1044.0" y="401.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="400" fill="#6b7280" text-anchor="end">0</text>
+<line x1="1058" y1="392" x2="1418" y2="392" stroke="#111827" stroke-width="2.2"/>
+<line x1="1058" y1="92" x2="1058" y2="392" stroke="#111827" stroke-width="2.2"/>
+<text x="1238.0" y="510.0" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#111827" text-anchor="middle">Recall@K (%)</text>
+<path d="M 1108.3 320.8 L 1146.9 287.4 L 1189.0 295.4 L 1301.1 276.6 L 1383.6 203.1" fill="none" stroke="#4b5563" stroke-width="3.4" stroke-dasharray="9,7"/>
+<circle cx="1108.3" cy="320.8" r="7" fill="#ffffff" stroke="#4b5563" stroke-width="2.2"/>
+<circle cx="1146.9" cy="287.4" r="7" fill="#ffffff" stroke="#4b5563" stroke-width="2.2"/>
+<circle cx="1189.0" cy="295.4" r="7" fill="#ffffff" stroke="#4b5563" stroke-width="2.2"/>
+<circle cx="1301.1" cy="276.6" r="7" fill="#ffffff" stroke="#4b5563" stroke-width="2.2"/>
+<circle cx="1383.6" cy="203.1" r="7" fill="#ffffff" stroke="#4b5563" stroke-width="2.2"/>
+<path d="M 1108.3 320.8 L 1146.9 288.0 L 1189.1 302.8 L 1303.2 313.1 L 1386.6 286.9" fill="none" stroke="#007c76" stroke-width="3.4"/>
+<rect x="1101.3" y="313.8" width="14" height="14" fill="#007c76" stroke="#ffffff" stroke-width="1.8"/>
+<rect x="1139.9" y="281.0" width="14" height="14" fill="#007c76" stroke="#ffffff" stroke-width="1.8"/>
+<rect x="1182.1" y="295.8" width="14" height="14" fill="#007c76" stroke="#ffffff" stroke-width="1.8"/>
+<rect x="1296.2" y="306.1" width="14" height="14" fill="#007c76" stroke="#ffffff" stroke-width="1.8"/>
+<rect x="1379.6" y="279.9" width="14" height="14" fill="#007c76" stroke="#ffffff" stroke-width="1.8"/>
+<path d="M 1108.3 320.8 L 1146.9 288.0 L 1189.4 303.3 L 1303.6 314.7 L 1385.9 286.9" fill="none" stroke="#7b3fa1" stroke-width="3.4"/>
+<path d="M 1108.3 312.8 L 1116.3 327.8 L 1100.3 327.8 Z" fill="#7b3fa1" stroke="#ffffff" stroke-width="1.8"/>
+<path d="M 1146.9 280.0 L 1154.9 295.0 L 1138.9 295.0 Z" fill="#7b3fa1" stroke="#ffffff" stroke-width="1.8"/>
+<path d="M 1189.4 295.3 L 1197.4 310.3 L 1181.4 310.3 Z" fill="#7b3fa1" stroke="#ffffff" stroke-width="1.8"/>
+<path d="M 1303.6 306.7 L 1311.6 321.7 L 1295.6 321.7 Z" fill="#7b3fa1" stroke="#ffffff" stroke-width="1.8"/>
+<path d="M 1385.9 278.9 L 1393.9 293.9 L 1377.9 293.9 Z" fill="#7b3fa1" stroke="#ffffff" stroke-width="1.8"/>
+<text x="1108.3" y="304.8" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#4b5563" text-anchor="middle">5</text>
+<text x="1133.9" y="271.4" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#4b5563" text-anchor="middle">10</text>
+<text x="1203.0" y="279.4" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#4b5563" text-anchor="middle">20</text>
+<text x="1301.1" y="260.6" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#4b5563" text-anchor="middle">50</text>
+<text x="1383.6" y="187.1" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#4b5563" text-anchor="middle">100</text>
+<text x="30" y="245" transform="rotate(-90 30 245)" font-family="TeX Gyre Heros, Helvetica, sans-serif" font-size="30" font-weight="700" fill="#111827" text-anchor="middle">Violation@K (%) ↓</text>
 </svg>

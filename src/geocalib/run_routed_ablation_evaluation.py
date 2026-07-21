@@ -278,7 +278,10 @@ def main() -> int:
         raise ValueError("protocol_not_frozen")
     if tuple(protocol["evaluation"]["ks"]) != KS:
         raise ValueError("k_contract_mismatch")
-    if tuple(protocol["conditions"]) != METHODS:
+    # JSON object order is not part of the protocol semantics.  The evaluator
+    # uses the fixed METHODS tuple below, so validate exact membership rather
+    # than the serialization order of the condition descriptions.
+    if len(protocol["conditions"]) != len(METHODS) or set(protocol["conditions"]) != set(METHODS):
         raise ValueError("method_contract_mismatch")
 
     paths: dict[str, Path] = {}

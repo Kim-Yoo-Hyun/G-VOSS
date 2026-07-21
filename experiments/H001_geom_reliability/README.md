@@ -1,6 +1,6 @@
 # H001 Geometry Reliability Experiment
 
-Last updated: 2026-07-17 KST
+Last updated: 2026-07-20 KST
 
 This is the Docker-based experiment root for RelCompat3D/H001. Paper-facing
 summaries are promoted to `results/h001_geom_reliability/`; row-level runtime
@@ -16,16 +16,21 @@ Paper-facing name: `Beyond Semantic Confidence: Relation-Consistent Geometric Re
   The 533 eligible and recovered-548 Open3DSG routes are sensitivities.
 - Main relation families: `support_contact`, `proximity`, `relative_vertical`.
 - Main method: strict train-only relation-consistent compatibility with
-  transformation averaging and family-aware re-ranking. Proximity/vertical
+  transformation averaging and family-aware re-ranking. The paper reports
+  `RelCompat3D-Linear` and `RelCompat3D-MLP` as two compatibility-capacity
+  instantiations of this framework. Proximity/vertical
   ordered lists use `source relation score * compatibility`; support/contact
-  follows the source ranking. Product (all families) and rank fusion remain comparisons.
+  follows the source ranking. Product (all families) is a scope comparison and
+  rank-average/RRF remain fusion baselines.
 - Pooled-calibrator ablation: `source score * pooled compatibility`.
-- Factor contract: `T_e` = predicate/family semantics, `G_e` =
+- Factor contract: `T_e` = predicate semantics, `a_e` selects the family head,
+  training statistics, transformation set, and ranking scope, and `G_e` =
   predicate-independent same-pair geometry measurements, `Z_e` = source relation score, and
   `C_e = sigmoid(h_a(Phi(T_e,G_e)))`, with `Z_e notin C_e`. It is a bounded
-  constructed-target score, not a physical-validity probability. Final ranking is
-  `S_e = F(Z_e,C_e)`; product and rank-average are the current
-  instantiations.
+  constructed-target score, not a physical-validity probability. After
+  transformation averaging, primary ranking uses `u_e = Z_e C_e^tr` for
+  proximity/vertical and `u_e = Z_e` for support/contact; rank fusion remains a
+  comparison.
 - `y_cal` is the train/dev constructed target from GT positives and high-margin
   counterfactual negatives, not direct human physical validity.
 - Legacy no-source-score control: `control_p_geom_valid_only`. Because its
@@ -67,29 +72,55 @@ Paper-facing name: `Beyond Semantic Confidence: Relation-Consistent Geometric Re
   internal-dev decision, final model/score hash lock, and official
   548-context evaluation. The manuscript reports split roles and benchmark
   results directly without prospective language.
-- Cross-dataset evaluation: official ReplicaSSG test plus the official FROSS
-  VisualGenome source is under `sources/replicassg/`. The final RelCompat3D
-  model and family-aware ranking rule were reapplied with zero target fit or
-  hyperparameter selection under `final_method_transfer_v1/`. The target had
-  been observed in earlier development, so the result is a benchmark
-  evaluation rather than untouched confirmation. Primary raw-product transfer
-  fails at K=100 because the V interval touches zero; the frozen route-aware
-  rank diagnostic exposes score quantization and cross-family displacement as
-  the main fusion failures.
-- Coordinated main evaluation is complete under `structured_main_v1/`.
+- `no_family_indicator_v1/` is the promoted active model. It removes only the
+  family one-hot that is constant inside each
+  family-specific head, retains every split/feature/target/optimizer/ranking
+  setting, and locks the new model and score definition before official
+  validation. All three predictors, five K values, matched baselines, controls,
+  scan-cluster intervals, figures/tables/supplement, and runtime were regenerated.
+  The main result changes by at most
+  `0.076` Recall and `0.004` Violation percentage points while the head count
+  drops from 69 to 66 parameters. The active pointer and locked hashes are in
+  `active_method.json`; the former 69-parameter linear route is retained as historical
+  provenance.
+- Cross-dataset evaluation uses the official ReplicaSSG test scenes and FROSS
+  predictions. The active RelCompat3D model and family-aware ranking rule were
+  reapplied with zero target fit or hyperparameter selection under
+  `no_family_indicator_v1/evaluation/external_transfer/`. The target had been
+  observed in earlier development, so the result is a benchmark stress test
+  rather than untouched confirmation. Product transfer is useful at lower
+  budgets but nearly inert at K=100; rank-based comparisons expose source-score
+  quantization and cross-family displacement as the main fusion sensitivities.
+- The active coordinated main evaluation is under
+  `no_family_indicator_v1/evaluation/`; `structured_main_v1/` is the historical
+  pre-promotion counterpart.
   It regenerates Source score, structured product, Rank-average, RRF, pooled
   product, hard-rule filtering, the unprojected-product ablation, compatibility-only,
   family-wise paired CIs, and all uncertainty-sensitive metrics for
   K=`{5,10,20,50,100}`. Its manifest validations all pass and the promoted
-  model SHA256 is
-  `62d251f3ce60e2db54eb1748c277350e3b9e2c7c9d2be0312cf2fb323b761410`.
-- Matched strong-comparator evaluation is complete under
-  `routed_comparators_v1/`. Product, rank-average, RRF, and the locked
-  train-only matched MLP share the official 548-context universe,
-  family sequence, support/contact source ordering, and scan-cluster
-  resampling. Every hash, denominator, route, and composition validation
-  passes; Open3DSG K=50 product and MLP R/V are `.4418/.0342` and
-  `.4670/.0413`, respectively.
+  structured-model SHA256 is
+  `08cd309bbacead29dd9f76cd3845e3625de72423e45c242e33114ca686e2c01c`.
+- Matched capacity/fusion evaluation is complete under
+  `no_family_indicator_v1/evaluation/routed_comparators/`. Linear and MLP share
+  the official 548-context universe, constructed targets, linked-pair loss,
+  transformation averaging, product utility, family sequence, support/contact
+  source ordering, and scan-cluster resampling. Every hash, denominator, route,
+  and composition validation passes; Open3DSG K=50 Linear and MLP R/V are
+  `.4418/.0342` and `.4670/.0413`, respectively. Rank-average and RRF use the
+  Linear compatibility under the same ranking procedure.
+- The MLP principal controls are frozen under
+  `no_family_indicator_v1/evaluation/mlp_ablation/` (summary SHA256
+  `83e85bbb9c940644ece4d0322db6ea2f7c98dccfbd11a62ff1efbf47295484ce`).
+  Wrong-predicate, wrong-pair, shuffled-geometry, fixed-label swap,
+  distance-only, and compatibility-only conditions are reported at K=50/100
+  beside the Linear controls. All model, score, context, denominator, donor,
+  family-sequence, and support-order checks pass.
+- The MLP point/mesh/consensus audit is frozen under
+  `no_family_indicator_v1/evaluation/mlp_surface_audit/` (summary SHA256
+  `c77c94024fe9de09afbe9ad418f97945a114087cb0199a00079b77df83c3bd55`).
+  K=50 consensus dV is `-.0238 [-.0273,-.0207]`,
+  `-.3712 [-.3896,-.3528]`, and `-.0393 [-.0448,-.0343]` for VL-SAT,
+  Open3DSG, and SGFN; all 1,024 synthetic interventions are monotone.
 - Counterfactual-policy sensitivity is complete under
   `counterfactual_sensitivity_v1/`. Nine one-factor-at-a-time train-only refits
   vary proximity threshold, vertical margin, negative cap, or pairwise-loss
@@ -99,24 +130,27 @@ Paper-facing name: `Beyond Semantic Confidence: Relation-Consistent Geometric Re
   absolute deviations are `.0023/.0011` R/V at K=50 and `.0040/.0020` at
   K=100. The compact evaluation retains summaries and models, not duplicated
   row-level source payloads.
-- Current paper outputs: `paper/aaai/main_aaai27.pdf` (9 pages; technical
-  content through page 7 and pages 8--9 references only),
-  `paper/aaai/supplement_aaai27.pdf` (5 pages), and
-  `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Canonical hashes
-  are `5a3012f8...`, `a3138be5...`, and `1c3efa0b...`; the synchronized upload
-  bundle is `release/h001_aaai27_openreview_20260717_193626/` and contains the
-  matched-procedure comparator artifacts.
-- Scan-cluster sensitivity is complete under
-  `support_contact_routing_v1/scan_cluster_sensitivity/`: it resamples 157 scans with
+- Current paper outputs: `paper/aaai/main_aaai27.pdf` and the optional
+  `paper/aaai/main_teaser_aaai27.pdf` comparison (both 9 pages and both ending
+  technical content on page 7),
+  `paper/aaai/supplement_aaai27.pdf` (10 pages), and
+  `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Canonical hash
+  prefixes are `d11f6413...`, `8914a553...`, `b9dc44ce...`, and `cd12a07a...`.
+  `release/h001_aaai27_openreview_20260720_084307/` is the current verified
+  bundle and contains the promoted active model, current manuscript, and
+  compact active-method evidence.
+- Scan-cluster analysis is complete under
+  `no_family_indicator_v1/evaluation/scan_cluster/`: it resamples 157 scans with
   all 548 contexts attached to their scan, without changing scores, rankings,
   or point estimates. The supplement reports paired intervals at every
   K=`{5,10,20,50,100}` rather than only selected budgets.
-- CPU cost is frozen under `runtime_v1/`. One process/thread times the primary
+- CPU cost is frozen under `no_family_indicator_v1/evaluation/runtime/`. One
+  process/thread times the primary
   compatibility calculation, transformation averaging, family-aware sorting,
   and output assembly after rows and pair geometry are preloaded. Median cost
-  is 4.548 ms/context for VL-SAT, 3.430 ms/nonempty context for Open3DSG, and
-  4.584 ms/context for SGFN. The stored family heads contain 69 parameters,
-  the primary path uses 45, and no fusion parameter is fitted. Source inference,
+  is 4.461 ms/context for VL-SAT, 3.391 ms/nonempty context for Open3DSG, and
+  4.476 ms/context for SGFN. The stored family heads contain 66 parameters,
+  the primary path uses 43, and no fusion parameter is fitted. Source inference,
   reconstruction, geometry joining, parsing, metrics, and bootstrap are outside
   the timed region.
 - Exact transformation consistency is stated as one proposition, while
@@ -131,7 +165,9 @@ Paper-facing name: `Beyond Semantic Confidence: Relation-Consistent Geometric Re
 - Active Docker images: `h001-geom-reliability:latest` for the focused
   structured evaluation, `h001-sgfn-confirmatory:cu128` for SGFN full-source
   inference recovery, and `h001-aaai27-tex:20260712` for the canonical paper
-  build. ReplicaSSG/FROSS runtime/render images are development-only and are
+  build. The active zero-refit stress-test summary is
+  `no_family_indicator_v1/evaluation/external_transfer/`.
+  ReplicaSSG/FROSS runtime/render images are development-only and are
   not required to preserve the active paper/package. See
   `docs/reproducibility.md` for the complete retention matrix.
 
@@ -143,7 +179,7 @@ Paper-facing name: `Beyond Semantic Confidence: Relation-Consistent Geometric Re
 | Open3DSG | main public-pipeline/full-target case study | `open3dsg_official_route_v1/evaluation/` |
 | Qwen-VL | appendix/extension third semantic source | `sources/qwen_vl/` |
 | SGFN full_l160 | additional exact-label source; aggregate criterion satisfied, Violation caveat | `sources/sgfn/` |
-| ReplicaSSG + FROSS | transfer stress test and method-development diagnostic | `sources/replicassg/` |
+| ReplicaSSG + FROSS | transfer stress test and historical method-development diagnostic | `no_family_indicator_v1/evaluation/external_transfer/` |
 | attachment_deferred | subtype-v2 development diagnostic, not promoted | `archive/experiments/H001_geom_reliability/sources/attachment_deferred/subtype_redesign_v2/` |
 | relative_size | completed secondary extension; artifact only | `relative_size_v1/` |
 | Open3DSG recovered 548 branch | full-coverage sensitivity | `sources/open3dsg/full_validation/recovery_relaxed_views_min2/` |
@@ -181,7 +217,7 @@ Open3DSG public pipeline on the full 548-context target:
 | Condition | R@50 | R@100 | V@50 | V@100 |
 | --- | ---: | ---: | ---: | ---: |
 | Source score | 0.4043 | 0.5111 | 0.1387 | 0.1242 |
-| RelCompat3D | 0.4418 | 0.5692 | 0.0342 | 0.0324 |
+| RelCompat3D | 0.4418 | 0.5685 | 0.0342 | 0.0324 |
 | Product (all families) | 0.4655 | 0.6005 | 0.0265 | 0.0330 |
 | Rank-average fusion | 0.4675 | 0.5937 | 0.0376 | 0.0526 |
 | Reciprocal-rank fusion | 0.4315 | 0.5926 | 0.0933 | 0.0781 |
@@ -205,10 +241,11 @@ are verifier-derived diagnostics, not independent human physical-validity
 measurements.
 
 These values are the promoted synchronized outputs from
-`structured_main_v1/evaluation/`. Use its `summary.json`, `metrics.csv`, and
-`manifest.json` for the full K grid, paired intervals, uncertainty metrics, and
-machine-readable provenance. Older source-local tables below are continuity or
-development records rather than the current main result.
+`no_family_indicator_v1/evaluation/`. Use `routed_comparators/summary.json` and
+`metrics.csv` for the primary family-aware grid, with the sibling evaluation
+directories owning all-family comparisons, intervals, controls, uncertainty,
+and runtime. Older source-local tables below are continuity or development
+records rather than the current main result.
 
 ReplicaSSG/FROSS initial transfer diagnostic:
 
@@ -227,8 +264,8 @@ paired CI `[-0.07407,+0.01333]`, so it fails the recall guardrail despite dV
 change K after observing this result.
 
 Current feature interpretation is family-specific. Raw center, extent,
-contact, overlap, and distance features belong to `G_e`; predicate/family
-one-hot belongs to `T_e`; predicate-aligned vertical deltas belong to
+contact, overlap, and distance features belong to `G_e`; predicate one-hot
+belongs to `T_e`; `a_e` selects the family-specific procedure; predicate-aligned vertical deltas belong to
 `T_e x G_e`. Source score and source identity are excluded from calibrator
 inputs. This establishes a leakage boundary, not yet uniform factor necessity
 across all three families.
@@ -545,15 +582,20 @@ Paper-facing compact outputs:
 
 Promoted paper-result artifacts:
 
-- `relation_algebra_v1/evaluation/models.json`
-- `relation_algebra_v1/evaluation/manifest.json`
-- `structured_main_v1/evaluation/summary.json`
-- `structured_main_v1/evaluation/metrics.csv`
-- `structured_main_v1/evaluation/uncertainty.csv`
-- `structured_main_v1/evaluation/manifest.json`
-- `support_contact_routing_v1/evaluation/summary.json`
-- `support_contact_routing_v1/scan_cluster_sensitivity/summary.json`
-- `structured_ablation_v1/routed_public_full_evaluation/manifest.json`
+- `active_method.json`
+- `no_family_indicator_v1/fit/structured_models.json`
+- `no_family_indicator_v1/fit/strict_models.json`
+- `no_family_indicator_v1/fit/score_contract.json`
+- `no_family_indicator_v1/evaluation/routed_comparators/`
+- `no_family_indicator_v1/evaluation/structured_main/`
+- `no_family_indicator_v1/evaluation/routed_ablation/`
+- `no_family_indicator_v1/evaluation/scan_cluster/`
+- `no_family_indicator_v1/evaluation/surface_audit/`
+- `no_family_indicator_v1/evaluation/runtime/`
+
+`relation_algebra_v1/`, `structured_main_v1/`,
+`support_contact_routing_v1/`, and `structured_ablation_v1/` preserve the
+pre-promotion 69-parameter linear route and are no longer the active paper result.
 
 Source-local continuity artifacts:
 
@@ -630,12 +672,13 @@ Blocked:
 
 ## 2026-07-12 Reviewer-Strengthening Results
 
-Parameter-matched nonlinear fusion:
+Historical near-capacity nonlinear fusion:
 
 - protocol: `nonlinear_fusion_baseline/protocol.json`
 - output: `nonlinear_fusion_baseline/evaluation_v1/`
-- model: 69-parameter two-hidden-unit ReLU MLP, matching the 69 coefficients
-  across the three family calibrators;
+- model: 69-parameter two-hidden-unit ReLU MLP; it matched the former
+  69-parameter linear route and is slightly larger than the active
+  66-parameter route;
 - firewall: 117-scan internal-dev exact-label correctness only for fit and
   157-scan official final validation only for evaluation;
 - SGFN R/V: K=10 `0.5441/0.0120`, K=50 `0.8681/0.0186`, K=100
@@ -657,10 +700,10 @@ projection passes every pre-run gate. It has zero proximity-swap and
 vertical-inverse error, improves linked-counterfactual ordering, and preserves
 the K=100 source-vs-product Recall guard on VL-SAT, Open3DSG, and SGFN. Its
 R/V is `0.9688/0.0325`, `0.6055/0.0339`, and `0.9418/0.0372`, respectively.
-This transformation-consistent mechanism is now the promoted paper main
-compatibility. The synchronized `structured_main_v1/` route evaluates all
-comparators and uncertainty definitions from that exact model; the claim
-remains structural rather than best-score or best-formula wording.
+This transformation-consistent mechanism is retained, but its cleaned
+no-family-indicator refit under `no_family_indicator_v1/` is now the promoted
+paper model. The claim remains structural rather than best-score or
+best-formula wording.
 
 The complementary cross-source test under `nonlinear_transfer_v1/` applies the
 unchanged SGFN exact-label nonlinear rescorer to VL-SAT and Open3DSG. It loses

@@ -1,6 +1,6 @@
 # H001 Appendix And Supplement Plan
 
-Last updated: 2026-07-16 KST
+Last updated: 2026-07-18 KST
 
 This file owns appendix/supplement material that is too detailed for the AAAI
 main text but important for reviewer defense. It is not a new experiment-result
@@ -10,14 +10,17 @@ remain under `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-groun
 
 ## Current Appendix Role
 
-The current main paper keeps the joint five-budget source table and the
-K=50/100 routed ablation table in the AAAI body. All-K scan-cluster confidence
-intervals, family slices, method diagnostics, bounded CPU cost/parameter
+The current main paper keeps the joint five-budget source table and compact
+K=50 surface-consensus table in the AAAI body. Matched Linear/MLP K=50/100
+controls, the three-case qualitative grid, separate point/mesh/consensus results
+at all five K values, surface-audit
+coverage and thresholds, synthetic interventions, all-K scan-cluster confidence
+intervals, family-specific metrics, method diagnostics, bounded CPU cost/parameter
 reporting, counterfactual-policy sensitivity, and external transfer remain
 supplemental. The nine-condition train-only
 sensitivity varies proximity threshold, vertical margin, negative cap, and
 pairwise-loss weight one factor at a time; its compact owner is
-`experiments/H001_geom_reliability/counterfactual_sensitivity_v1/`.
+`experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/counterfactual_sensitivity/`.
 
 ## ReplicaSSG/FROSS Negative-Transfer Appendix
 

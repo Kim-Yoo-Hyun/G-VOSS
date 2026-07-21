@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1076" height="485" viewBox="0 0 1076 485">
+<rect width="1076" height="485" fill="#ffffff"/>
+<g shape-rendering="geometricPrecision" text-rendering="geometricPrecision">
+<text x="268.0" y="27.0" text-anchor="middle" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="22.0" font-weight="500" font-style="normal" fill="#171717">Leaves Top-50 (demoted)</text>
+<text x="808.0" y="27.0" text-anchor="middle" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="22.0" font-weight="500" font-style="normal" fill="#171717">Enters Top-50 (promoted)</text>
+<text x="268.0" y="59.0" text-anchor="middle" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" xml:space="preserve"><tspan fill="#e66101">desk</tspan><tspan fill="#171717"> → higher than → </tspan><tspan fill="#164dcc">ceiling</tspan></text>
+<text x="808.0" y="59.0" text-anchor="middle" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" xml:space="preserve"><tspan fill="#e66101">desk</tspan><tspan fill="#171717"> → close by → </tspan><tspan fill="#164dcc">chair</tspan></text>
+<line x1="528" y1="64" x2="528" y2="438" stroke="#d0d0d0" stroke-width="1.2"/>
+<image x="55" y="97" width="445" height="276" xlink:href="teaser_exchange_hybrid_left_scene.png" preserveAspectRatio="none"/>
+<image x="594" y="97" width="461" height="276" xlink:href="teaser_exchange_hybrid_right_scene.png" preserveAspectRatio="none"/>
+<line x1="55.0" y1="97.0" x2="55.0" y2="373.0" stroke="#252525" stroke-width="1.2"/>
+<line x1="55.0" y1="373.0" x2="500.0" y2="373.0" stroke="#252525" stroke-width="1.2"/>
+<line x1="70.6" y1="373.0" x2="70.6" y2="380.0" stroke="#252525" stroke-width="1.1"/>
+<text x="70.6" y="402.0" text-anchor="middle" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">−2</text>
+<line x1="148.7" y1="373.0" x2="148.7" y2="380.0" stroke="#252525" stroke-width="1.1"/>
+<text x="148.7" y="402.0" text-anchor="middle" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">−1</text>
+<line x1="226.8" y1="373.0" x2="226.8" y2="380.0" stroke="#252525" stroke-width="1.1"/>
+<text x="226.8" y="402.0" text-anchor="middle" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">0</text>
+<line x1="304.8" y1="373.0" x2="304.8" y2="380.0" stroke="#252525" stroke-width="1.1"/>
+<text x="304.8" y="402.0" text-anchor="middle" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">1</text>
+<line x1="382.9" y1="373.0" x2="382.9" y2="380.0" stroke="#252525" stroke-width="1.1"/>
+<text x="382.9" y="402.0" text-anchor="middle" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">2</text>
+<line x1="461.0" y1="373.0" x2="461.0" y2="380.0" stroke="#252525" stroke-width="1.1"/>
+<text x="461.0" y="402.0" text-anchor="middle" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">3</text>
+<line x1="48.0" y1="343.4" x2="55.0" y2="343.4" stroke="#252525" stroke-width="1.1"/>
+<text x="41.0" y="349.4" text-anchor="end" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">−2</text>
+<line x1="48.0" y1="294.1" x2="55.0" y2="294.1" stroke="#252525" stroke-width="1.1"/>
+<text x="41.0" y="300.1" text-anchor="end" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">−1</text>
+<line x1="48.0" y1="244.9" x2="55.0" y2="244.9" stroke="#252525" stroke-width="1.1"/>
+<text x="41.0" y="250.9" text-anchor="end" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">0</text>
+<line x1="48.0" y1="195.6" x2="55.0" y2="195.6" stroke="#252525" stroke-width="1.1"/>
+<text x="41.0" y="201.6" text-anchor="end" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">1</text>
+<line x1="48.0" y1="146.3" x2="55.0" y2="146.3" stroke="#252525" stroke-width="1.1"/>
+<text x="41.0" y="152.3" text-anchor="end" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">2</text>
+<line x1="48.0" y1="97.0" x2="55.0" y2="97.0" stroke="#252525" stroke-width="1.1"/>
+<text x="41.0" y="103.0" text-anchor="end" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">3</text>
+<text x="498.0" y="426.0" text-anchor="end" font-family="TeX Gyre Termes, Times New Roman, serif" font-size="21.0" font-weight="400" font-style="italic" fill="#252525">x (m)</text>
+<text x="6.0" y="80.0" text-anchor="start" font-family="TeX Gyre Termes, Times New Roman, serif" font-size="21.0" font-weight="400" font-style="italic" fill="#252525">z (m)</text>
+<line x1="594.0" y1="97.0" x2="594.0" y2="373.0" stroke="#252525" stroke-width="1.2"/>
+<line x1="594.0" y1="373.0" x2="1055.0" y2="373.0" stroke="#252525" stroke-width="1.2"/>
+<line x1="607.6" y1="373.0" x2="607.6" y2="380.0" stroke="#252525" stroke-width="1.1"/>
+<text x="607.6" y="402.0" text-anchor="middle" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">−3</text>
+<line x1="675.4" y1="373.0" x2="675.4" y2="380.0" stroke="#252525" stroke-width="1.1"/>
+<text x="675.4" y="402.0" text-anchor="middle" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">−2</text>
+<line x1="743.1" y1="373.0" x2="743.1" y2="380.0" stroke="#252525" stroke-width="1.1"/>
+<text x="743.1" y="402.0" text-anchor="middle" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">−1</text>
+<line x1="810.9" y1="373.0" x2="810.9" y2="380.0" stroke="#252525" stroke-width="1.1"/>
+<text x="810.9" y="402.0" text-anchor="middle" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">0</text>
+<line x1="878.7" y1="373.0" x2="878.7" y2="380.0" stroke="#252525" stroke-width="1.1"/>
+<text x="878.7" y="402.0" text-anchor="middle" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">1</text>
+<line x1="946.5" y1="373.0" x2="946.5" y2="380.0" stroke="#252525" stroke-width="1.1"/>
+<text x="946.5" y="402.0" text-anchor="middle" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">2</text>
+<line x1="1014.3" y1="373.0" x2="1014.3" y2="380.0" stroke="#252525" stroke-width="1.1"/>
+<text x="1014.3" y="402.0" text-anchor="middle" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">3</text>
+<line x1="587.0" y1="373.0" x2="594.0" y2="373.0" stroke="#252525" stroke-width="1.1"/>
+<text x="580.0" y="379.0" text-anchor="end" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">−2</text>
+<line x1="587.0" y1="317.8" x2="594.0" y2="317.8" stroke="#252525" stroke-width="1.1"/>
+<text x="580.0" y="323.8" text-anchor="end" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">−1</text>
+<line x1="587.0" y1="262.6" x2="594.0" y2="262.6" stroke="#252525" stroke-width="1.1"/>
+<text x="580.0" y="268.6" text-anchor="end" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">0</text>
+<line x1="587.0" y1="207.4" x2="594.0" y2="207.4" stroke="#252525" stroke-width="1.1"/>
+<text x="580.0" y="213.4" text-anchor="end" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">1</text>
+<line x1="587.0" y1="152.2" x2="594.0" y2="152.2" stroke="#252525" stroke-width="1.1"/>
+<text x="580.0" y="158.2" text-anchor="end" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">2</text>
+<line x1="587.0" y1="97.0" x2="594.0" y2="97.0" stroke="#252525" stroke-width="1.1"/>
+<text x="580.0" y="103.0" text-anchor="end" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="19.5" font-weight="400" font-style="normal" fill="#171717">3</text>
+<text x="1053.0" y="426.0" text-anchor="end" font-family="TeX Gyre Termes, Times New Roman, serif" font-size="21.0" font-weight="400" font-style="italic" fill="#252525">x (m)</text>
+<text x="545.0" y="80.0" text-anchor="start" font-family="TeX Gyre Termes, Times New Roman, serif" font-size="21.0" font-weight="400" font-style="italic" fill="#252525">y (m)</text>
+<rect x="241" y="266" width="51" height="70" fill="#e66101" fill-opacity="0.06" stroke="#e66101" stroke-width="1.4"/>
+<line x1="265" y1="295" x2="405" y2="113" stroke="#e31a1c" stroke-width="2.2" stroke-dasharray="10,7"/>
+<circle cx="265" cy="295" r="8.5" fill="#e66101" stroke="#ffffff" stroke-width="1.4"/>
+<text x="406.0" y="119.0" text-anchor="middle" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="36.0" font-weight="700" font-style="normal" fill="#e31a1c">×</text>
+<rect x="241.0" y="307.0" width="54.0" height="28" rx="5" fill="#ffffff" fill-opacity="0.90" stroke="#e66101" stroke-width="1.2"/>
+<text x="268.0" y="328.0" text-anchor="middle" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="20.0" font-weight="600" font-style="normal" fill="#e66101">desk</text>
+<rect x="431.0" y="96.0" width="61.0" height="28" rx="5" fill="#ffffff" fill-opacity="0.90" stroke="#164dcc" stroke-width="1.2"/>
+<text x="461.5" y="117.0" text-anchor="middle" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="20.0" font-weight="600" font-style="normal" fill="#164dcc">ceiling</text>
+<rect x="748" y="219" width="62" height="70" fill="#e66101" fill-opacity="0.06" stroke="#e66101" stroke-width="1.4"/>
+<rect x="922" y="231" width="61" height="64" fill="#164dcc" fill-opacity="0.05" stroke="#164dcc" stroke-width="1.4"/>
+<line x1="779" y1="250" x2="952" y2="269" stroke="#006d6f" stroke-width="3.0"/>
+<circle cx="779" cy="250" r="8.5" fill="#e66101" stroke="#ffffff" stroke-width="1.4"/>
+<path d="M952 257 L964 269 L952 281 L940 269 Z" fill="#164dcc" stroke="#ffffff" stroke-width="1.4"/>
+<rect x="750.0" y="200.0" width="58.0" height="28" rx="5" fill="#ffffff" fill-opacity="0.90" stroke="#e66101" stroke-width="1.2"/>
+<text x="779.0" y="221.0" text-anchor="middle" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="20.0" font-weight="600" font-style="normal" fill="#e66101">desk</text>
+<rect x="921.0" y="202.0" width="63.0" height="28" rx="5" fill="#ffffff" fill-opacity="0.90" stroke="#164dcc" stroke-width="1.2"/>
+<text x="952.5" y="223.0" text-anchor="middle" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="20.0" font-weight="600" font-style="normal" fill="#164dcc">chair</text>
+<text x="270.0" y="469" text-anchor="middle" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#171717" xml:space="preserve"><tspan>Source rank </tspan><tspan font-weight="700">6</tspan><tspan> → RelCompat3D rank </tspan><tspan font-weight="700">425</tspan></text>
+<text x="810.0" y="469" text-anchor="middle" font-family="TeX Gyre Heros, Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#171717" xml:space="preserve"><tspan>Source rank </tspan><tspan font-weight="700">81</tspan><tspan> → RelCompat3D rank </tspan><tspan font-weight="700">30</tspan></text>
+</g>
+</svg>

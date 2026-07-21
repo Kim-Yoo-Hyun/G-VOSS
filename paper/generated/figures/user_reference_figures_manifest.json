@@ -1,0 +1,57 @@
+{
+  "composition_references": {
+    "figure1": {
+      "path": "paper/reference_AAAI/Figure1.png",
+      "sha256": "c0ec122affb2909cff335d10bd95fd57be2290b24e128789917ec934f7e8818b"
+    },
+    "figure2": {
+      "path": "paper/reference_AAAI/Figure2_0719.png",
+      "sha256": "7dcab0b2906d064e83a26b83a037c9153442a9d874a80bb0f9d7631a23389b25"
+    }
+  },
+  "content": {
+    "figure1": "locked desk-higher-than-ceiling demotion, ranks 6 to 425",
+    "figure2": "locked heater-close-by-trash-can example, ranks 19 to 178, C^tr notation"
+  },
+  "layout": {
+    "figure1": {
+      "canvas": [
+        1235,
+        615
+      ],
+      "latex_width": "0.98 text width",
+      "minimum_effective_font_pt": 9.199,
+      "minimum_effective_stroke_pt": 0.6,
+      "minimum_font_units": 23.0,
+      "minimum_stroke_units": 1.5
+    },
+    "figure2": {
+      "canvas": [
+        1244,
+        617
+      ],
+      "latex_width": "0.98 text width",
+      "minimum_effective_font_pt": 9.132,
+      "minimum_effective_stroke_pt": 0.596,
+      "minimum_font_units": 23.0,
+      "minimum_stroke_units": 1.5
+    }
+  },
+  "note": "All plotted points, text, lines, boxes, and graph elements are SVG vectors; the source PNGs are composition references only.",
+  "outputs": {
+    "figure1_svg": "paper/generated/figures/teaser_demotion_reference.svg",
+    "figure1_svg_sha256": "b712e6a2945bbe8ed7f3ff3621853110a271bdf34ca42f857f483945d22eeac7",
+    "figure2_svg": "paper/generated/figures/framework_user_reference.svg",
+    "figure2_svg_sha256": "b5f08ca47e0375805c1e97caee6fa3e0493c77e5326953a5228f118d16219ebf"
+  },
+  "palette_contrast_on_white": {
+    "ink": 17.928,
+    "method": 6.527,
+    "muted": 8.724,
+    "object": 9.098,
+    "subject": 6.816,
+    "warn": 7.325
+  },
+  "schema_version": "h001_user_reference_vector_v2",
+  "status": "native_vector_layouts_generated_case_lock_verified"
+}

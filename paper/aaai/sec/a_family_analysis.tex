@@ -1,16 +1,13 @@
 \section{Family Composition within the Selected Top-100 Predictions}
 
 Table~\ref{tab:family-slices} reports each family's slice inside the actual
-global top-100 ranking. Deltas compare \method{} with the source relation score
+global top-100 ranking. Deltas compare \method{} with the predictor score
 using shared paired context-bootstrap indices.
 
-\begin{table}[H]
+\begin{table}[t]
 \centering
-\scriptsize
+{\small
 \setlength{\tabcolsep}{4pt}
-\caption{\textbf{Family-specific metrics within the selected top-100
-predictions.} Positive $\Delta$V is a regression. Values are verifier-derived.}
-\label{tab:family-slices}
 \begin{tabular}{llrr}
 \toprule
 Source & Family & $\Delta$R & $\Delta$V \\
@@ -28,6 +25,10 @@ SGFN & Proximity & +.0142 & $-.0150$ \\
 SGFN & Vertical order & +.0051 & $-.0643$ \\
 \bottomrule
 \end{tabular}
+}
+\caption{Family-specific metrics within the selected top-100 predictions.
+Positive $\Delta$V is a regression; V uses the main verifier.}
+\label{tab:family-slices}
 \end{table}
 
 Support/contact is exactly unchanged because the ranking procedure preserves both its

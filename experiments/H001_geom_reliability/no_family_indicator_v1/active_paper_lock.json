@@ -1,0 +1,11 @@
+{
+  "status": "locked_before_candidate_artifact_generation",
+  "created_at_kst": "2026-07-20",
+  "purpose": "Verify that the isolated no-family-indicator evaluation does not overwrite active submission artifacts.",
+  "artifacts": {
+    "paper/aaai/main_aaai27.pdf": "cb5246ec7dbf86856e217f7f85459f45c0891ff74495f7574805c10ab658fc7c",
+    "paper/aaai/main_teaser_aaai27.pdf": "dfcf8d92d4b3404ef74e83069e1b6ff65a14706531e9f8101692f8f4cc210c1e",
+    "paper/aaai/supplement_aaai27.pdf": "50db1a8164c4e8a4cbed30207cab05605f66e6dddf567fd226353ed2af0e95a2",
+    "paper/aaai/reproducibility_checklist_aaai27.pdf": "1c3efa0baeb0514da8b8587386cbe7ec1260b2358f5f9f9f04ad8cb2d015419d"
+  }
+}

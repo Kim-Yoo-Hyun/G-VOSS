@@ -1,6 +1,6 @@
 # H001 / RelCompat3D Geometry Reliability Report
 
-Last updated: 2026-07-17 KST
+Last updated: 2026-07-20 KST
 
 This is the compact paper-facing full-validation report for RelCompat3D. The
 current main result uses the strict training-only transformation-consistent
@@ -42,11 +42,11 @@ Metric definitions:
 | condition | formula / rule | paper role |
 | --- | --- | --- |
 | Source score | source model relation score | source baseline |
-| RelCompat3D | product ordering within proximity/vertical families; source-score ordering for support/contact | primary method |
+| RelCompat3D-Linear | family-specific linear compatibility product within proximity/vertical; source order for support/contact | proposed linear capacity |
+| RelCompat3D-MLP | shared compact nonlinear compatibility product under the same family-aware ranking | proposed nonlinear capacity |
 | Product (all families) | `source_score * transformation-consistent compatibility` applied to every family | all-family ablation |
 | Rank-average | mean of within-context source-score and compatibility percentile ranks within proximity/vertical families | scale-robust comparator |
 | Reciprocal-rank fusion | reciprocal-rank fusion with fixed constant 60 within proximity/vertical families | strong comparator |
-| Matched MLP | nonlinear compatibility product under the same family-aware ranking procedure | supervision/capacity-matched comparator |
 | Pooled-calibrator ablation | `source_score * pooled_compatibility` | family-conditioning ablation |
 | Hard geometry filter | keep/rank rule-supported point-subtype evidence | zero-violation diagnostic, not default |
 | Compatibility-only | projected compatibility only | no-source-score control; not true `G`-only |
@@ -66,70 +66,86 @@ formula is universally dominant.
 
 ## Primary Family-Aware Result
 
-The primary Docker evaluation is
-`experiments/H001_geom_reliability/support_contact_routing_v1/evaluation/`. It
-preserves the source family sequence and support/contact selection exactly at
-every K, while ordering proximity/vertical candidates by the
-transformation-consistent product. The synchronized all-family comparators
-remain in `experiments/H001_geom_reliability/structured_main_v1/evaluation/`.
-Both routes use
-model SHA256
-`62d251f3ce60e2db54eb1748c277350e3b9e2c7c9d2be0312cf2fb323b761410`
-and pass their manifest validations.
+The active Docker evaluation is
+`experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/`. The
+primary `routed_comparators/` result preserves the source family sequence and
+support/contact selection exactly at every K, while ordering
+proximity/vertical candidates by the transformation-consistent product.
+Sibling directories own all-family comparisons, controls, intervals,
+uncertainty, surface audit, and runtime. The structured model SHA256 is
+`08cd309bbacead29dd9f76cd3845e3625de72423e45c242e33114ca686e2c01c`;
+the strict model SHA256 is
+`5b6423d0825395990b00663fc0004799268d87c9480493895d01d1c3ef9c3218`.
 
 | Source | Source | routed product | routed MLP | routed rank-average | routed RRF | unrestricted product | pooled product |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | VL-SAT | .9635/.0476 | .9658/.0295 | .9650/.0296 | .9700/.0225 | .9710/.0247 | .9688/.0325 | .9690/.0387 |
-| Open3DSG public/full target | .5111/.1242 | .5692/.0324 | .5989/.0371 | .5408/.0548 | .5476/.0772 | .6005/.0330 | .6402/.0743 |
+| Open3DSG public/full target | .5111/.1242 | .5685/.0324 | .5989/.0371 | .5400/.0549 | .5468/.0780 | .6005/.0331 | .6402/.0743 |
 | SGFN | .9235/.0630 | .9303/.0350 | .9288/.0350 | .9280/.0259 | .8774/.0302 | .9418/.0372 | .9413/.0464 |
 
 The routed K=100 Recall/Violation deltas versus Source score are
-`+.00227/-.01816`, `+.05816/-.09174`, and `+.00680/-.02797` for
+`+.00227/-.01816`, `+.05740/-.09176`, and `+.00680/-.02796` for
 VL-SAT, Open3DSG, and SGFN. Their paired 95% intervals are respectively
-`[+.00079,+.00402]/[-.01993,-.01657]`,
-`[+.04691,+.06977]/[-.09576,-.08806]`, and
-`[+.00407,+.00990]/[-.03011,-.02589]`. All K=`{5,10,20,50,100}` rows
+`[+.00048,+.00492]/[-.01994,-.01656]`,
+`[+.04628,+.06856]/[-.09631,-.08727]`, and
+`[+.00431,+.00980]/[-.03043,-.02566]`. All K=`{5,10,20,50,100}` rows
 are in the routing and synchronized comparator artifacts.
 
-Factor interpretation: `T_e` is predicate/family semantics, `G_e` contains
-predicate-independent same-pair geometry measurements, `Z_e` is the source relation score, and
+Factor interpretation: `T_e` is predicate semantics, `a_e` selects the family
+head/procedure, `G_e` contains predicate-independent same-pair geometry
+measurements, `Z_e` is the source relation score, and
 `C_e=sigmoid(h_a(Phi(T_e,G_e)))` a bounded score for the constructed
 GT-positive/counterfactual target. It is not a probability of physical
 validity. Current compatibility models exclude `Z_e` and predictor identity,
-but include `T_e` and predicate-aligned `T_e x G_e` features. Hence
+but include `T_e` and predicate-aligned `T_e x G_e` features. The active heads
+do not include a constant family indicator. Hence
 the legacy `control_p_geom_valid_only` isolates removal of `Z_e`; it is not a
 predicate-independent geometry-only calibrator.
 
 Dependence sensitivity resamples the 157 scans, carrying every one of the 548
 contexts from each sampled scan together. At K=100, routed-minus-source
 Recall/Violation intervals are `+.0023 [.0005,.0049] / -.0182
-[-.0199,-.0166]` for VL-SAT, `+.0582 [.0470,.0695] / -.0917
+[-.0199,-.0166]` for VL-SAT, `+.0574 [.0463,.0686] / -.0918
 [-.0963,-.0873]` for Open3DSG, and `+.0068 [.0043,.0098] / -.0280
 [-.0304,-.0257]` for SGFN. Rankings and point estimates are unchanged.
 
-## Supervision-Matched Nonlinear Comparison
+## Two RelCompat3D Compatibility Capacities
 
-`experiments/H001_geom_reliability/routed_comparators_v1/evaluation/` applies
-the frozen structured MLP from
-`supervision_matched_nonlinear_v1/evaluation/` through the identical public/full
-family-aware ranking procedure used by the primary product. Product, MLP, rank-average, and
-RRF share family composition, support/contact selections, official contexts,
-and scan-cluster indices. At K=50:
+`experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/routed_comparators/`
+applies `RelCompat3D-Linear`, `RelCompat3D-MLP`, rank-average, and RRF through
+the identical public/full family-aware ranking procedure. The two proposed
+capacities share constructed targets, linked-pair supervision, transformation
+averaging, product utility, family composition, support/contact selections,
+official contexts, and scan-cluster indices. At K=50:
 
-| Source | product R/V | matched MLP R/V |
+| Predictor | RelCompat3D-Linear R/V | RelCompat3D-MLP R/V |
 | --- | ---: | ---: |
 | VL-SAT | .9277/.0197 | .9272/.0189 |
 | Open3DSG | .4418/.0342 | .4670/.0413 |
 | SGFN | .7450/.0263 | .7457/.0258 |
 
-The nonlinear model does not jointly dominate: its Open3DSG Recall gain
-accompanies a Violation increase. A separate SGFN-specific
+The nonlinear capacity does not jointly dominate: its Open3DSG Recall gain
+relative to Linear accompanies a Violation increase. Both capacities weakly
+improve Source point estimates in all reported predictor--budget cells. A
+separate SGFN-specific
 exact-label nonlinear rescorer uses stronger source-specific supervision and is
 reported as such; it is not a supervision-matched replacement.
 
+The MLP matched-control summary is
+`no_family_indicator_v1/evaluation/mlp_ablation/summary.json` (SHA256
+`83e85bbb9c940644ece4d0322db6ea2f7c98dccfbd11a62ff1efbf47295484ce`).
+Wrong-predicate, wrong-pair, shuffled-geometry, fixed-label swap, distance-only,
+and compatibility-only conditions are reported at K=50/100 beside their Linear
+counterparts in the supplement. The MLP point/mesh/consensus audit is
+`no_family_indicator_v1/evaluation/mlp_surface_audit/summary.json` (SHA256
+`c77c94024fe9de09afbe9ad418f97945a114087cb0199a00079b77df83c3bd55`);
+its K=50 consensus changes versus Source are `-.0238`, `-.3712`, and `-.0393`
+for VL-SAT, Open3DSG, and SGFN, and all paired scan-cluster intervals exclude
+zero.
+
 ## Counterfactual-Policy Sensitivity
 
-`experiments/H001_geom_reliability/counterfactual_sensitivity_v1/evaluation/`
+`experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/counterfactual_sensitivity/`
 contains nine one-factor-at-a-time train-only refits: the default; proximity
 threshold 2.0/3.0 versus 2.5; vertical absolute margin 0.20/0.30 m versus
 0.25 m; negative cap 1/4 versus 2; and pairwise-loss weight .125/.5 versus
@@ -139,8 +155,8 @@ diagnostics, and excludes all 157 final-validation scans from fitting.
 
 The default model and all three-source K=50/100 points are bit-exact to the
 main result. Linked-positive ordering accuracy is 1.000 for every variant.
-Across conditions, maximum absolute changes from default are `.0023` Recall
-and `.0011` V at K=50, and `.0040` Recall and `.0020` V at K=100. Every variant
+Across conditions, maximum absolute changes from default are `.0020` Recall
+and `.0011` V at K=50, and `.0035` Recall and `.0020` V at K=100. Every variant
 preserves positive Recall and negative V point deltas versus source scoring for
 VL-SAT, Open3DSG, and SGFN at both budgets. These results reduce dependence on
 one engineered threshold/cap/weight setting; they do not constitute an
@@ -156,9 +172,9 @@ K=100 sensitivity is:
 
 | Route | Contexts | Source R/V | Routed R/V |
 | --- | ---: | ---: | ---: |
-| public eligible | 533 | .5206/.1242 | .5799/.0324 |
-| public/full target | 548 | .5111/.1242 | .5692/.0324 |
-| recovered/full target | 548 | .5161/.1242 | .5743/.0332 |
+| public eligible | 533 | .5206/.1242 | .5791/.0324 |
+| public/full target | 548 | .5111/.1242 | .5685/.0324 |
+| recovered/full target | 548 | .5161/.1242 | .5735/.0332 |
 
 The conclusion is stable across routes. The recovered route is a coverage
 sensitivity, not the unmodified public pipeline.
@@ -166,9 +182,9 @@ sensitivity, not the unmodified public pipeline.
 ## Fixed-Model Ablations and Falsification Controls
 
 The Docker-frozen evaluation is
-`experiments/H001_geom_reliability/structured_ablation_v1/routed_public_full_evaluation/`.
+`experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/routed_ablation/`.
 It uses the same locked structured-model SHA256
-`62d251f3ce60e2db54eb1748c277350e3b9e2c7c9d2be0312cf2fb323b761410`,
+`08cd309bbacead29dd9f76cd3845e3625de72423e45c242e33114ca686e2c01c`,
 the public/full 548-context target and 3,972-relation denominator, and the same
 family-aware ranking procedure as the primary method. Every input, context,
 primary-point, family-composition, support/contact-order, donor, and
@@ -176,27 +192,27 @@ source-exclusion validation passes.
 
 | Source | Condition | R@50 | V@50 | R@100 | V@100 |
 | --- | --- | ---: | ---: | ---: | ---: |
-| Open3DSG | RelCompat3D | .4418 | .0342 | .5692 | .0324 |
-| Open3DSG | Wrong predicate | .4265 | .2200 | .5347 | .2098 |
-| Open3DSG | Wrong-pair geometry | .3852 | .0848 | .4932 | .0835 |
-| Open3DSG | Shuffled geometry | .3844 | .1293 | .4869 | .1243 |
-| Open3DSG | Endpoint swap, label fixed | .4267 | .2200 | .5373 | .2098 |
+| Open3DSG | RelCompat3D | .4418 | .0342 | .5685 | .0324 |
+| Open3DSG | Wrong predicate | .4265 | .2200 | .5342 | .2098 |
+| Open3DSG | Wrong-pair geometry | .3852 | .0848 | .4927 | .0835 |
+| Open3DSG | Shuffled geometry | .3844 | .1293 | .4864 | .1243 |
+| Open3DSG | Endpoint swap, label fixed | .4267 | .2200 | .5368 | .2098 |
 | Open3DSG | Distance-only | .5116 | .0824 | .6322 | .0955 |
-| Open3DSG | Compatibility-only in routed families | .4207 | .0342 | .5677 | .0324 |
+| Open3DSG | Compatibility-only in routed families | .4207 | .0342 | .5672 | .0324 |
 | VL-SAT | RelCompat3D | .9277 | .0197 | .9658 | .0295 |
 | VL-SAT | Wrong predicate | .9043 | .0498 | .9481 | .0796 |
-| VL-SAT | Wrong-pair geometry | .9053 | .0261 | .9496 | .0473 |
+| VL-SAT | Wrong-pair geometry | .9053 | .0261 | .9494 | .0473 |
 | VL-SAT | Shuffled geometry | .8917 | .0306 | .9411 | .0560 |
 | VL-SAT | Endpoint swap, label fixed | .9043 | .0498 | .9481 | .0796 |
 | VL-SAT | Distance-only | .8190 | .0534 | .8980 | .0809 |
 | VL-SAT | Compatibility-only in routed families | .6765 | .0161 | .8409 | .0203 |
 | SGFN | RelCompat3D | .7450 | .0263 | .9303 | .0350 |
-| SGFN | Wrong predicate | .7155 | .0943 | .8998 | .1299 |
-| SGFN | Wrong-pair geometry | .7158 | .0399 | .8799 | .0665 |
-| SGFN | Shuffled geometry | .7062 | .0474 | .8678 | .0836 |
-| SGFN | Endpoint swap, label fixed | .7155 | .0943 | .9003 | .1299 |
+| SGFN | Wrong predicate | .7158 | .0942 | .8993 | .1299 |
+| SGFN | Wrong-pair geometry | .7155 | .0399 | .8807 | .0665 |
+| SGFN | Shuffled geometry | .7059 | .0473 | .8683 | .0836 |
+| SGFN | Endpoint swap, label fixed | .7158 | .0942 | .9003 | .1298 |
 | SGFN | Distance-only | .6319 | .1000 | .8406 | .1266 |
-| SGFN | Compatibility-only in routed families | .5279 | .0232 | .7072 | .0230 |
+| SGFN | Compatibility-only in routed families | .5279 | .0232 | .7064 | .0230 |
 
 The geometry corruptions break the joint operating point. Removing the source
 relation score from the re-ranked families usually lowers Violation further but
@@ -273,13 +289,15 @@ generalization estimate or a promotion of rank-average to the primary method.
 The failure decomposition is concrete: 86.28% of source scores are zero;
 19.20% of external feature cells exceed three train-standardized deviations;
 only 76/172 GT relations have candidate support; support/contact has no exact
-mapping; and compatibility aligns external verifier satisfaction (AUC .9453)
-more strongly than exact labels (AUC .6674). All 20 locked validations pass.
+mapping; and compatibility aligns external verifier satisfaction (AUC .9460)
+more strongly than exact labels (AUC .6686). All model, input, score, and
+execution checks pass; the untouched-confirmation check is intentionally false
+because the target was previously observed.
 
-Canonical compact artifacts:
+Canonical active-method compact artifacts:
 
-- `experiments/H001_geom_reliability/sources/replicassg/final_method_transfer_v1/protocol.json`
-- `experiments/H001_geom_reliability/sources/replicassg/final_method_transfer_v1/evaluation/summary.json`
+- `experiments/H001_geom_reliability/no_family_indicator_v1/protocols/external_transfer.json`
+- `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/external_transfer/summary.json`
 - `experiments/H001_geom_reliability/sources/replicassg/development_v2/evaluation/summary.json`
 - `experiments/H001_geom_reliability/sources/replicassg/development_v2/cross_source_evaluation/summary.json`
 
@@ -605,7 +623,7 @@ reference only; the mechanism is still not presented as a best-formula result.
 
 ## Held-out Verifier-Primitive Diagnostic
 
-`experiments/H001_geom_reliability/held_out_primitive_v1/evaluation/` refits
+`experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/held_out_primitive/` refits
 three source-score-excluded compatibility models on the same 1,061 training
 scans, with the same pairwise objective, exact transformation averaging, and
 family-aware ranking procedure. The conditions remove the exact verifier scalar, remove its
@@ -616,14 +634,14 @@ the promoted main-route points.
 
 | Source | Condition | R/V@50 | R/V@100 |
 | --- | --- | --- | --- |
-| VL-SAT | exact scalar held out | .9280/.0198 | .9660/.0300 |
-| VL-SAT | primitive family held out | .9272/.0268 | .9655/.0468 |
+| VL-SAT | exact scalar held out | .9280/.0199 | .9660/.0300 |
+| VL-SAT | primitive family held out | .9275/.0268 | .9653/.0468 |
 | VL-SAT | alternative evidence only | .9280/.0268 | .9642/.0471 |
-| Open3DSG | exact scalar held out | .4383/.0342 | .5692/.0325 |
-| Open3DSG | primitive family held out | .4119/.0954 | .5257/.0956 |
-| Open3DSG | alternative evidence only | .4106/.1193 | .5330/.1188 |
-| SGFN | exact scalar held out | .7465/.0268 | .9303/.0357 |
-| SGFN | primitive family held out | .7470/.0388 | .9298/.0616 |
+| Open3DSG | exact scalar held out | .4381/.0342 | .5687/.0325 |
+| Open3DSG | primitive family held out | .4119/.0954 | .5264/.0955 |
+| Open3DSG | alternative evidence only | .4104/.1194 | .5327/.1188 |
+| SGFN | exact scalar held out | .7465/.0268 | .9300/.0358 |
+| SGFN | primitive family held out | .7467/.0388 | .9298/.0616 |
 | SGFN | alternative evidence only | .7462/.0386 | .9277/.0625 |
 
 Exact-scalar removal preserves nearly the full result, so the method is not a
@@ -636,8 +654,9 @@ remain shared.
 
 ## Orthogonal Raw-Surface Audit
 
-`experiments/H001_geom_reliability/orthogonal_geometry_audit_v1/` freezes an
-automatic construct-validity audit before evaluation. Its point estimator uses
+`experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/surface_audit/`
+contains the active automatic construct-validity audit. Its frozen protocol
+was fixed before evaluation. Its point estimator uses
 instance vertices; its mesh estimator uses area-weighted triangle centroids.
 Neither estimator reads the OBB center, axes, distance, overlap, or gap features
 used by the compatibility model and main verifier, nor does it read source
@@ -652,12 +671,12 @@ audits, and all three predictors.
 
 | Source | K | Source consensus V | RelCompat3D consensus V | dV [paired scan CI] | Source / method coverage |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| VL-SAT | 50 | .1643 | .1433 | -.0210 [-.0242,-.0181] | .9543/.9551 |
-| VL-SAT | 100 | .2600 | .2147 | -.0453 [-.0492,-.0420] | .9505/.9523 |
-| Open3DSG | 50 | .4596 | .0483 | -.4113 [-.4284,-.3937] | .9777/.9823 |
-| Open3DSG | 100 | .4087 | .0861 | -.3226 [-.3364,-.3077] | .9779/.9807 |
+| VL-SAT | 50 | .1643 | .1434 | -.0209 [-.0241,-.0180] | .9543/.9551 |
+| VL-SAT | 100 | .2600 | .2150 | -.0451 [-.0490,-.0417] | .9505/.9523 |
+| Open3DSG | 50 | .4596 | .0490 | -.4106 [-.4275,-.3928] | .9777/.9823 |
+| Open3DSG | 100 | .4087 | .0865 | -.3222 [-.3361,-.3074] | .9779/.9807 |
 | SGFN | 50 | .1156 | .0813 | -.0343 [-.0392,-.0300] | .9570/.9576 |
-| SGFN | 100 | .2155 | .1596 | -.0559 [-.0605,-.0514] | .9559/.9575 |
+| SGFN | 100 | .2155 | .1598 | -.0557 [-.0603,-.0512] | .9559/.9575 |
 
 Point and mesh audits separately agree on the K=50/100 direction for every
 predictor. Across the full K grid, their paired intervals are below zero except

@@ -1,30 +1,19 @@
 \section{Discussion and Limitations}
 
-The results indicate that predicate--geometry compatibility is most useful when
-relation consistency can be assessed from reconstructed ordered-pair geometry
-and the source candidate set contains recoverable alternatives. The
-compatibility layer is evaluated across three predictors on one shared 3DSSG
-target; these results characterize cross-predictor behavior, not cross-dataset
-generalization. A separate ReplicaSSG/FROSS stress test shows that the observed
-gains do not transfer uniformly under ontology and reconstructed-geometry shifts
-(supplement).
+All three predictors are evaluated on the same 3DSSG
+target~\cite{wald2020learning3dssg}. The results therefore characterize behavior
+across predictors on shared data rather than dataset-level generalization. The
+supplementary ReplicaSSG evaluation using FROSS predictions~\cite{hou2025fross}
+shows that performance changes under ontology and geometry shifts. \method{}
+assumes known object instances and reconstructed geometry for each ordered
+subject--object pair. Correcting support/contact errors, handling relations that
+require an explicit reference frame, and generating complete scene graphs remain
+outside scope.
 
-The aggregate effect is not uniform across relation families. By keeping
-support/contact candidates in source order, family-aware re-ranking leaves that
-family's Recall and Violation unchanged, but it also leaves its errors
-uncorrected. Family-specific metrics within the selected top-$K$ predictions
-are reported separately. \method{} assumes known object instances and is
-limited to relation families whose consistency can be assessed from
-reconstructed ordered-pair geometry. Functional and reference-frame-dependent
-predicates and complete open-vocabulary graph generation remain outside scope.
-
-Violation@$K$ is verifier-derived, and some geometry primitives overlap with
-the constructed training target. Wrong-predicate, wrong-pair, and transformation
-controls test whether the compatibility score responds to predicate--geometry
-correspondence. Feature-removal experiments show that the results do not depend
-solely on the exact scalar used by the verifier. Attenuation after removing all
-related distance or vertical measurements nevertheless does not replace an
-independent physical-validity reference. Independent validity labels, richer
-contact evidence, and evaluation on datasets with different geometry and
-relation ontologies would be needed to support broader validity and
-generalization claims.
+The constructed compatibility targets and primary verifier share some
+OBB-derived measurements. The point- and mesh-based audit excludes these inputs
+and the primary verifier labels, but it uses the same reconstructed instance
+geometry and relation ontology. It is therefore an alternative construct check,
+not independent ground truth for geometric validity. Broader claims require
+independently defined reference labels, richer contact and pose evidence, and
+evaluation on additional datasets.

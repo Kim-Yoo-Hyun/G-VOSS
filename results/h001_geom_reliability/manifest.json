@@ -1,19 +1,31 @@
 {
   "schema_version": "h001_geom_reliability_manifest_v1",
-  "created_at": "2026-05-07",
-  "status": "docker_experiment_outputs_ready_with_open3dsg_caveats",
-  "method_framing": "calibrated geometry-consistency evaluation and re-ranking framework",
+  "created_at": "2026-07-20",
+  "status": "active_linear_and_mlp_capacity_variants_promoted",
+  "method_framing": "relation-consistent geometric re-ranking framework",
   "experiment_root": "experiments/H001_geom_reliability",
   "docker": {
-    "compose_file": "configs/h001/compose.yaml",
+    "compose_file": "configs/h001/compose.structured.yaml",
     "dockerfile": "configs/h001/Dockerfile",
     "image": "h001-geom-reliability:latest"
   },
   "inputs": {
-    "hypothesis_root": "archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification",
-    "source": "locked hypothesis artifacts"
+    "active_method": "experiments/H001_geom_reliability/active_method.json",
+    "model_root": "experiments/H001_geom_reliability/no_family_indicator_v1/fit",
+    "evaluation_root": "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation"
   },
   "outputs_after_run": [
+    "experiments/H001_geom_reliability/active_method.json",
+    "experiments/H001_geom_reliability/no_family_indicator_v1/fit/final_lock.json",
+    "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/routed_comparators/manifest.json",
+    "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/routed_ablation/manifest.json",
+    "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/mlp_ablation/manifest.json",
+    "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/scan_cluster/manifest.json",
+    "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/surface_audit/manifest.json",
+    "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/mlp_surface_audit/manifest.json",
+    "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/runtime/manifest.json",
+    "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/external_transfer/manifest.json",
+    "release/h001_aaai27_openreview_20260720_084307/UPLOAD_MANIFEST.sha256",
     "manifest.lock.json",
     "report.md",
     "tables/",
@@ -25,7 +37,8 @@
     "sources/open3dsg/failure_cases/queue.jsonl"
   ],
   "source_status": {
-    "vlsat": "ready_locked_artifact_reproduction",
-    "open3dsg": "ready_second_source_metrics_with_exit_137_caveat"
+    "vlsat": "active_full_validation",
+    "open3dsg": "active_public_predictions_on_full_target",
+    "sgfn": "active_full_validation"
   }
 }

@@ -1,10 +1,10 @@
 # TODO
 
-Last updated: 2026-07-17 KST
+Last updated: 2026-07-20 KST
 
 이 파일은 에이전트가 다음 작업 계획과 진행 상태를 관리하는 루트 작업판이다. 자세한 문헌 조사 내용은 `literature/`에 기록하고, 자세한 hypothesis 근거는 `archive/hypothesis_records/hypothesis/`에 기록한다.
 
-## Current Snapshot, 2026-07-17 KST
+## Current Snapshot, 2026-07-20 KST
 
 - Paper-facing name is now `Beyond Semantic Confidence: Relation-Consistent Geometric Re-ranking for 3D Scene Graphs`; keep `H001` as an internal hypothesis/experiment identifier only.
 - The active manuscript now uses `RelCompat3D` as its method name and six
@@ -36,44 +36,66 @@ Last updated: 2026-07-17 KST
   K=`{5,10,20,50,100}` for VL-SAT, Open3DSG, and SGFN. The paper discusses
   K=50 as an intermediate reported budget and reports K=10--50
   behavior without an external operational-use claim; K=5 and K=100 remain visible as boundary conditions without
-  internal protocol labels or a selected-point outline. Table 1 and the
-  single-column K=50/100 control table use percentage points and concise
-  condition names.
+  internal protocol labels or a selected-point outline. Table 1 contains Source,
+  `RelCompat3D-Linear`, `RelCompat3D-MLP`, matched rank fusion, and the
+  all-family comparison. The one-column Table 2 reports the matched Linear/MLP
+  controls at K=50; the complete K=100 table and control definitions remain in
+  the supplement. Compact K=50 Surface-V Table 3 reports Source, Linear,
+  paired change, and coverage beside Table 2 at the top of page 7 in the
+  selected teaser; MLP and full all-K point/mesh/consensus tables remain in the
+  supplement.
 - Qwen-VL full official validation downstream is complete as a third-source / modern VLM extension: 157 scans / 548 contexts / 110,424 query rows / 46,506 inferable input rows / 35,131 exported predictions / 32,236 in-scope predictions / 3,972 H001-family GT rows, plus metrics/controls/bootstrap/failure rows/36 deterministic qualitative cases. It remains appendix/extension evidence unless explicitly promoted.
 - Historical source-validation build
   `archive/paper/aaai_snapshots/20260625_reference_expansion.pdf`
   remains preserved. It is provenance only and must not be used as the active
   manuscript or upload package.
 - Latest H001 submission manuscript is `paper/aaai/main_aaai27.pdf`, SHA256
-  `5a3012f8d529e147f647c3a92d388940f675b2f98728371429a3a965e4d4f46f`. The active
-  outputs are main/supplement/checklist 9/5/2 US-Letter pages; main text
-  continues through page 7, where references begin and continue through page 9. Type 3 fonts, unresolved
+  `5b9d917a61fc9045f46aa477750590f40c621157068ae74dec1ccc5e8e7f113b`; the
+  selected two-figure teaser version is `paper/aaai/main_teaser_aaai27.pdf`,
+  SHA256 `ac0313df7248da518488f0f39ab7d6cce42d1ac2cc6d5f234fc2aee4631e588c`.
+  The current default/teaser/supplement/checklist outputs are 9/9/10/2
+  US-Letter pages. Both main variants end technical content on page 7; the
+  default begins references in the remaining page-7 column and the teaser
+  begins references on page 8. Type 3 fonts, unresolved
   citations/references, LaTeX errors, and overfull boxes are zero. Superseded
   framework-first, factorized, and Replica-disclosure builds remain archived.
-- The current main/supplement PDFs include the source-backed three-panel vector
-  Figure 1, scan-cluster intervals at every reported K, CPU re-ranking cost, and the compact external-transfer
-  appendix. Relative size is no longer part of the submitted supplement.
-  Product, rank-average, RRF, and the training-only supervision-matched MLP were
-  re-evaluated under the identical family-aware ranking procedure,
+- The teaser canonical now uses the user-supplied composition as a native-vector
+  full-width demotion Figure 1 and full-width method Figure 2. Both retain the
+  supplied scene/layout through vector tracing, contain no raster images, meet the final
+  9 pt label, 0.5 pt stroke, and 4.5:1 contrast requirements, and use
+  $C^{\mathrm{tr}}(T,G)$ consistently. Standard float placement removes the
+  former first-page vertical overflow; Figure 1 and Figure 2 now appear on pages
+  2 and 3. A
+  full three-panel qualitative Figure 4 is not planned for the teaser: it
+  duplicates the two demotion examples and risks pushing technical content past
+  page 7. Preserve the full grid in the default paper and generated artifacts; if a later
+  addition is selected, use only a compact promotion-plus-residual pair.
+- The current main/supplement PDFs include scan-level cluster intervals at every
+  reported K, CPU re-ranking cost, and the compact external-transfer appendix.
+  Relative size is no longer part of the submitted supplement. `RelCompat3D-Linear`
+  and `RelCompat3D-MLP` are now the two proposed compatibility-capacity
+  instantiations. Rank-average and RRF remain matched fusion baselines.
+  All were evaluated under the identical family-aware ranking procedure,
   support/contact source ordering, official 548-context universe, and
-  scan-cluster resampling.
-  All route/composition/hash checks pass under `routed_comparators_v1/`; the
+  scan-level cluster resampling.
+  All route/composition/hash checks pass under
+  `no_family_indicator_v1/evaluation/routed_comparators/`; the
   supplement now gives the exact counterfactual rules and their verifier
   primitive overlap.
 - Counterfactual-policy sensitivity is complete under
-  `experiments/H001_geom_reliability/counterfactual_sensitivity_v1/`. Nine
+  `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/counterfactual_sensitivity/`. Nine
   train-only one-factor refits vary proximity threshold, vertical margin,
   negative cap, and pairwise-loss weight. The default reproduces the main
   model; all variants have development ordering accuracy 1.000. Maximum
-  absolute change from default is `.0023/.0011` R/V at K=50 and
-  `.0040/.0020` at K=100, while every variant retains source-score point gains
+  absolute change from default is `.0020/.0011` R/V at K=50 and
+  `.0035/.0020` at K=100, while every variant retains source-score point gains
   on both metrics for all three predictors. Main Table 1 now shows the routed
-  matched MLP in place of pooled product; pooled family conditioning is in the
-  supplement.
-  The current verified bundle is
-  `release/h001_aaai27_openreview_20260717_193626/`; it contains the current
-  transcript and passes outer/inner checksums, anonymous path scans, archive
-  integrity checks, and extracted-source Docker rebuilds.
+  RelCompat3D-MLP beside RelCompat3D-Linear; pooled family conditioning is in
+  the supplement.
+  The current verified active-method bundle is
+  `release/h001_aaai27_openreview_20260720_084307/`; it selects the teaser main
+  PDF and passes outer/inner checksums, anonymous path scans, archive integrity,
+  JSON/compose validation, and extracted-source Docker rebuilds.
 - H001-only cleanup completed after compact-result verification: removed
   Replica/FROSS raw archives, mesh/runtime, weights, cloned source repositories,
   regenerated source shards, the duplicate merged pickle, Python caches, and
@@ -83,31 +105,61 @@ Last updated: 2026-07-17 KST
   FROSS tag, and de-scoped Replica/FROSS runtime/render images are removable;
   the active RelCompat3D metric, SGFN full-reproduction, and AAAI-27 TeX images
   remain protected. Exact conditions are owned by `docs/reproducibility.md`.
-- The prose now follows failure -> structural cause -> factor-isolation
+- The Recall--Violation graph is regenerated from locked values as a
+  2,400-pixel PNG as the default Figure 2 / teaser Figure 3. It now shows Source,
+  `RelCompat3D-Linear`, and `RelCompat3D-MLP`. The restored one-column Table 2
+  reports K=50 matched controls for both heads across all three predictors; the
+  main and teaser builds retain seven technical pages.
+- The prose now follows failure -> structural cause -> factor separation
   necessity -> method -> evidence -> scope/limitations. Figure 1 starts from a
-  measured geometry-inconsistent prediction, uses larger minimum labels, and
-  contains no reviewer-checklist band. Figure 2 uses percentage axes and labels
-  every K without a K=50 outline; Figure 3 is an ordered-pair--evidence--outcome
-  grid with two routed corrections and one support/contact residual. The three
-  LaTeX inclusions use vector PDFs, and Table 2 is a single-column percentage
-  K=50/100 ablation table.
-- H001 method separates the inputs: `T_e` denotes predicate/family
-  semantics, `G_e` predicate-independent pair-geometry measurements, `Z_e` the source
-  relation score, and `C_e = sigmoid(h_a(Phi(T_e,G_e)))` the bounded compatibility
+  measured geometry-inconsistent prediction and uses white space, thin rules,
+  and module boxes without tinted panel backgrounds. Figure 2 uses percentage
+  axes and labels every K without a K=50 outline. Figure 3 is an unboxed
+  ordered-pair--evidence--outcome grid with two corrections and one
+  support/contact residual. Editable sources use TeX Gyre Heros/Helvetica-compatible
+  typography, and manuscript figures use 2,400-pixel PNGs at 350 ppi or higher
+  without CID/Identity-H font dependencies. Table 2 is the K=50 matched-control
+  table. K=100 controls, full surface-audit tables, and three qualitative cases
+  are in the supplement.
+- H001 method separates the inputs: `T_e` denotes predicate semantics, `a_e`
+  selects the family-specific head/procedure, `G_e` denotes
+  predicate-independent geometric measurements of the ordered pair,
+  `Z_e` the predictor score, and `C_e = sigmoid(h_a(Phi(T_e,G_e)))` the bounded compatibility
   score for a constructed positive/counterfactual target, not a probability of
-  physical validity. The leakage boundary is `Z_e notin C_e`; the source relation score is
-  used only by final fusion `S_e = F(Z_e,C_e)`. Existing product/rank-average
-  results remain unchanged framework instantiations.
+  physical validity. The leakage boundary is `Z_e notin C_e`; after
+  transformation averaging, primary ranking uses `u_e = Z_e C_e^tr` for
+  proximity/vertical and `u_e = Z_e` for support/contact. Rank-average remains
+  a matched comparison.
+- Method now distinguishes ordered-pair identity
+  `(scan, context, subject, object)` from exact relation-candidate identity
+  `(scan, context, subject, predicate, object)`. Recall, verifier-derived
+  Violation, uncertainty, status coverage, and decidable coverage are defined
+  together under Experimental Setup rather than inside Problem Setup.
+- Method now distinguishes the reported evaluation families
+  `A_eval={support/contact, proximity, vertical order}` from the re-ranked
+  families `A_rank={proximity, vertical order}`. The support/contact list is
+  the exact source-ranking subsequence, while utility sorting and deterministic
+  exact-identity tie handling apply only to re-ranked families. The text also
+  states that counterfactual construction and the primary verifier share some
+  OBB-derived measurements, so Violation@K is verifier-derived rather than an
+  independent physical-validity label.
+- Method now explicitly states that native predictor scores are used without
+  predictor-specific normalization or refitting, defines the two implemented
+  predicate-signed height interactions, separates counterfactual negatives from
+  relation-preserving augmentation, records the shared margin/loss constants,
+  and specifies exact-identity tie handling. The standard group-averaging
+  proposition and proof are kept in the supplement rather than the main body.
 - The strict train-only transformation-averaged product remains the learned
-  compatibility score. The paper-facing decision rule uses family-aware
+  compatibility score. Linear family-specific heads and a shared compact MLP
+  are reported as two capacity variants of the same framework. The paper-facing decision rule uses family-aware
   re-ranking: proximity and vertical use the product within their source-family
   positions, while
   support/contact uses source ordering. The coordinated Docker runs regenerate
   source score, structured product, rank-average, RRF, pooled product,
   hard-rule filtering, compatibility-only, family-wise paired CIs, and
   uncertainty sensitivity for all three sources and K=`{5,10,20,50,100}`.
-  The locked model SHA256 is
-  `62d251f3ce60e2db54eb1748c277350e3b9e2c7c9d2be0312cf2fb323b761410`;
+  The locked structured-model SHA256 is
+  `08cd309bbacead29dd9f76cd3845e3625de72423e45c242e33114ca686e2c01c`;
   every manifest validation passes.
 - The Docker scan-cluster analysis resamples 157 scans and carries all 548
   relation contexts with their scan. All five reported K values are now in the
@@ -116,11 +168,12 @@ Last updated: 2026-07-17 KST
   zero. Violation intervals are strictly negative except the tied SGFN K=5
   result and its K=10 interval, which reaches zero. Open3DSG uses the
   conservative public-pipeline/full-target route.
-- The Docker CPU benchmark under `runtime_v1/` times only compatibility
+- The Docker CPU benchmark under
+  `no_family_indicator_v1/evaluation/runtime/` times only compatibility
   scoring, transformation averaging, family-aware sorting, and output assembly
-  from preloaded rows with precomputed geometry. Median cost is 3.430--4.584
+  from preloaded rows with precomputed geometry. Median cost is 3.391--4.476
   ms per nonempty context across the three predictors; the three stored heads
-  have 69 parameters, the primary path uses 45, and fusion adds no fitted
+  have 66 parameters, the primary path uses 43, and fusion adds no fitted
   parameter. This is not end-to-end source-pipeline latency.
 - `h001_factor_isolation_protocol_v1` is frozen under
   `factor_isolation_protocol/frozen_v1/`, and its Docker implementation is
@@ -239,9 +292,11 @@ complete; independent blank-sheet human validity remains optional:
   sentence and full supplement evidence only. Qwen-VL, `relative_horizontal`,
   `relative_lateral`, and `attachment_deferred` remain appendix/extension/
   future-work evidence unless explicitly promoted.
-- A separate locked-final-method ReplicaSSG evaluation is complete under
-  `sources/replicassg/final_method_transfer_v1/` with zero target fit and zero
-  target-specific hyperparameters. All 20 validations pass. The routed product
+- A separate active-method ReplicaSSG evaluation is complete under
+  `no_family_indicator_v1/evaluation/external_transfer/` with zero target fit
+  and zero target-specific hyperparameters. All model/data/execution checks
+  pass; the untouched-confirmation check is intentionally false because the
+  target was previously observed. The routed product
   has paired joint gains at K=10 and K=50 but saturates at K=100, where dV CI
   `[-.00288,.00000]` touches zero. The supplement reports all five budgets and
   the quantization/candidate-ceiling decomposition. A family-sequence-preserving
@@ -254,20 +309,22 @@ Current H001 owners:
 - research summary: `summary.md`
 - experiment runbook: `experiments/H001_geom_reliability/README.md`
 - exact commands: `experiments/H001_geom_reliability/commands.md`
-- frozen method/model: `experiments/H001_geom_reliability/relation_algebra_v1/`
-- primary routed evaluation: `experiments/H001_geom_reliability/support_contact_routing_v1/evaluation/`
-- unrestricted/comparator evaluation: `experiments/H001_geom_reliability/structured_main_v1/evaluation/`
-- Open3DSG public-route sensitivity: `experiments/H001_geom_reliability/open3dsg_official_route_v1/evaluation/`
-- held-out verifier-primitive diagnostic: `experiments/H001_geom_reliability/held_out_primitive_v1/evaluation/`
-- counterfactual-policy sensitivity: `experiments/H001_geom_reliability/counterfactual_sensitivity_v1/evaluation/`
-- supervision-matched nonlinear comparison: `experiments/H001_geom_reliability/supervision_matched_nonlinear_v1/evaluation/`
-- CPU re-ranking benchmark: `experiments/H001_geom_reliability/runtime_v1/evaluation/`
-- paper-facing fixed-model ablations: `experiments/H001_geom_reliability/structured_ablation_v1/routed_public_full_evaluation/`
-- supplemental unrestricted ablations: `experiments/H001_geom_reliability/structured_ablation_v1/evaluation/`
+- active method pointer: `experiments/H001_geom_reliability/active_method.json`
+- frozen method/model: `experiments/H001_geom_reliability/no_family_indicator_v1/fit/`
+- primary routed and matched-comparator evaluation: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/routed_comparators/`
+- all-family comparison: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/structured_main/`
+- Open3DSG public-route sensitivity: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/open3dsg_route/`
+- held-out verifier-primitive analysis: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/held_out_primitive/`
+- counterfactual-policy sensitivity: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/counterfactual_sensitivity/`
+- supervision-matched nonlinear comparison: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/nonlinear/`
+- CPU re-ranking benchmark: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/runtime/`
+- paper-facing fixed-model ablations: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/routed_ablation/`
 - compact results: `results/h001_geom_reliability/report.md`
 - reproducibility and bundle transfer: `docs/reproducibility.md`
 - paper source: `paper/aaai/`
-- current verified upload bundle: `release/h001_aaai27_openreview_20260717_193626/`
+- latest verified pre-table-layout upload bundle:
+  `release/h001_aaai27_openreview_20260720_084307/`; regenerate before upload
+  so the bundled teaser PDF matches the current canonical table layout.
 
 Current H001 immediate work:
 
@@ -290,12 +347,13 @@ Current H001 immediate work:
    A/B/C verification supports reviewer-verified LLM annotation only.
 
 Completed package hygiene: Open3DSG `25da9...` non-avg versus historical
-`2a23...` avg provenance is reconciled. The current verified OpenReview field
-set is `release/h001_aaai27_openreview_20260717_193626/`; earlier field
-set is a superseded handoff snapshot.
+`2a23...` avg provenance is reconciled. The latest verified pre-table-layout
+OpenReview field set is `release/h001_aaai27_openreview_20260720_084307/`; it
+must be regenerated before upload, and the 2026-07-17 set is historical.
 
 Completed paper-folder hygiene: `paper/aaai/` now contains only active
-AAAI-27 source/templates and the three canonical `*_aaai27.pdf` outputs.
+AAAI-27 source/templates and four canonical `*_aaai27.pdf` outputs, including
+the separate teaser comparison.
 Superseded PDFs, AAAI-26 style files, the legacy appended checklist, and old
 inspection notes moved to `archive/paper/aaai_snapshots/`; LaTeX sidecars and
 byte-identical default-output duplicates were deleted.
@@ -329,6 +387,41 @@ CAND-003 is the literature-survey track. Its next step remains user judgment on 
 
 ### CAND-001 / H001 reviewer extension
 
+- [x] Promote the supervision-matched nonlinear head as `RelCompat3D-MLP`
+      beside `RelCompat3D-Linear`: run the frozen Docker-only MLP corruption/
+      information ablations and point/mesh/consensus surface audit, then update
+      the manuscript, compact documentation, canonical PDFs, and anonymous
+      release only if all route, denominator, hash, and audit validations pass.
+      All validations pass. The K=50 consensus surface changes are -2.38,
+      -37.12, and -3.93 percentage points for VL-SAT, Open3DSG, and SGFN;
+      all scan-cluster intervals exclude zero. Wrong-predicate, wrong-pair,
+      shuffled-geometry, fixed-label swap, distance-only, and compatibility-only
+      controls were evaluated for the MLP at K=50/100. The one-column K=50
+      matched-control table is retained in the main paper; complete K=100 controls
+      and full surface-audit tables are supplemental.
+
+- [x] Execute `no_family_indicator_v1` through its isolated Docker route:
+      remove only the constant family indicator from the three family-specific
+      heads, preserve the 1,061/117/157 firewall and all optimization settings,
+      use internal development only for sanity reporting, lock the new
+      model/score hashes, and then regenerate all-source all-K metrics,
+      comparators, controls, scan-cluster intervals, candidate paper artifacts,
+      and a non-submission release candidate. Do not overwrite the active paper
+      before the user reviews the result. All 12 official-validation evaluation manifests and 102
+      release checks pass. The refit reduces 69 parameters to 66; maximum
+      predecessor-to-refit changes are `0.076` Recall and `0.004` Violation
+      percentage points.
+
+- [x] Promote `no_family_indicator_v1` to the active RelCompat3D method. The
+      canonical pointer is `experiments/H001_geom_reliability/active_method.json`;
+      `T_i=p_i`, while `a_i` selects the head/procedure without entering the
+      feature vector. Main tables, controls, scan-cluster intervals,
+      surface-audit values, figures, runtime, supplement, and canonical PDFs
+      were regenerated from the promoted root. The old 69-parameter linear route is
+      retained as historical provenance. The selected teaser upload bundle is
+      `release/h001_aaai27_openreview_20260720_084307/` and passes its outer and
+      215-record inner checksum manifests.
+
 - [x] Run the frozen Docker-only `orthogonal_geometry_audit_v1`: fit point and
       mesh surface thresholds on the 1,061-scan training split only, evaluate
       Source and RelCompat3D at K=`{5,10,20,50,100}` on proximity/vertical
@@ -344,6 +437,29 @@ CAND-003 is the literature-survey track. Its next step remains user judgment on 
       Recall reporting accidentally used the 11,254-label full ontology rather
       than the frozen 3,972-label paper scope; it did not alter thresholds,
       rankings, or audit labels.
+
+- [x] Integrate the surface audit into the submission transcript with existing
+      terminology: a compact K=50 consensus table and one Results paragraph in
+      the main paper, one exact residual limitation, and full point/mesh/
+      consensus all-K tables plus interventions in the supplement. Build a
+      separate source-backed first-page teaser variant from the locked
+      Open3DSG same-context Top-50 exchange. Both main variants remain 9
+      US-Letter pages with technical content ending on page 7; the supplement
+      is 7 pages. Selection of the default or teaser variant and release-bundle
+      regeneration remain next-step submission decisions.
+
+- [x] Pair the one-column matched-control Table 2 and compact surface-audit
+      Table 3 at the top of page 7 in the selected teaser layout. Compress the
+      main Surface-Based Geometry Audit discussion to two sentences while
+      retaining the all-K point, mesh, consensus, coverage, interval, and
+      intervention results in the supplement. The rebuilt teaser keeps all
+      technical content through Conclusion on page 7 and references only on
+      pages 8--9.
+
+- [x] Simplify main Table 3 to the primary Linear surface audit: Source,
+      RelCompat3D-Linear, paired change with scan-cluster 95% CI, and
+      measured/decidable coverage. Keep the corresponding MLP and all-K
+      point/mesh/consensus audits in the supplement.
 
 - [x] Add `relative_size` as an isolated family with predicate sign `T`, robust
       point-derived `G`, signed `T x G`, and no source-score/rank/class input.
@@ -534,8 +650,9 @@ CAND-003 is the literature-survey track. Its next step remains user judgment on 
       remain explicit.
 - [x] Adopt the H002-derived factor separation without importing H002 results:
       define `T_e`, predicate-independent raw `G_e`, source relation score `Z_e`,
-      and constructed-target compatibility `C_e`; freeze `Z_e notin C_e`; keep
-      `S_e = F(Z_e,C_e)` with product/rank-average as existing instantiations.
+      and constructed-target compatibility `C_e`; freeze `Z_e notin C_e`; use
+      `u_e = Z_e C_e^tr` for proximity/vertical and `u_e = Z_e` for
+      support/contact, with rank-average retained as a comparison.
       Reclassify `control_p_geom_valid_only` as calibrator-only/no-`Z`, not
       true `G`-only.
 - [x] Freeze `h001_factor_isolation_protocol_v1` before any new factor metric.
@@ -926,6 +1043,11 @@ Non-data:
 
 ## Next
 
+- [x] User decision completed: promote the verified
+      `no_family_indicator_v1` model and regenerated results. The active model
+      stores 66 parameters (43 on the primary path) and removes the avoidable
+      constant family input.
+
 - [x] Freeze and execute the single-dataset-risk test: use ReplicaSSG as a
       previously observed external benchmark, lock the current model/routing
       hash, zero target tuning, scene bootstrap, all conditions, and five
@@ -1129,14 +1251,70 @@ Non-data:
 
 ## Recently Completed
 
+- [x] Compress the Method and Experimental Setup transcript without changing
+      the implemented method or results: reduce Method display equations from
+      11 to 6 by inlining simple notation, replace ambiguous `utility` wording
+      with `ranking score`, retain one concise disclosure of shared OBB-derived
+      measurements, move the all-family support/contact-head detail to the
+      baseline definition, remove the main-text feature-removal preview, and
+      state the paired interval procedure as 1,000 scan resamples in plain
+      language. Docker rebuilds preserve both 9-page US-Letter layouts with no
+      unresolved citations/references, overfull boxes, or blocking errors.
+- [x] Strengthen citation grounding without expanding the claim: attach direct
+      visual--geometric witness and constraint-refinement citations to the
+      Introduction motivation; cite Open3DSG, VL-SAT, SceneGraphFusion/SGFN,
+      and 3DSSG/3RScan again at their first occurrence in Method and
+      Experimental Setup; add the foundational 3D Scene Graph and original
+      3RScan/RIO references; and add the original Reciprocal Rank Fusion
+      citation. Reorganize Related Work into three thematic subsections and end
+      every prose paragraph with an explicit shared premise and methodological
+      distinction relative to RelCompat3D. The teaser caption and Discussion
+      repeat named-source citations at their first local occurrence. Docker
+      rebuilds keep both manuscripts at 9 US-Letter pages,
+      with technical content ending on page 7 and zero unresolved citations,
+      references, overfull boxes, Type 3 fonts, or unembedded fonts.
+- [x] Remove the two remaining `aaai2027.bst` warnings by dropping unused
+      issue-number fields from the two AAAI-26 `@inproceedings` entries while
+      retaining volume, pages, and DOI metadata. Docker rebuilds preserve the
+      canonical PDF hashes and now produce zero BibTeX warnings. The anonymous
+      source ZIP and both checksum manifests were refreshed without changing
+      datasets, checkpoints, figures, or experiment results.
+- [x] Restore the one-column main ablation table instead of demoting all matched
+      controls to the supplement. Table 2 now reports Linear/MLP full-method,
+      wrong-predicate, wrong-pair, shuffled-geometry, fixed-label-swap,
+      distance-only, and compatibility-only results at K=50 across Open3DSG,
+      VL-SAT, and SGFN; complete K=100 controls remain supplemental. Default and
+      teaser PDFs stay within seven technical pages, and the refreshed 215-file
+      anonymous release passes checksum and extracted-source Docker rebuilds.
+      `paper/method.md` now maps every control to the method factor it changes,
+      and `paper/experiment.md` mirrors the main K=50 table, its interpretation,
+      and the main-versus-supplement reporting boundary.
+- [x] Rebuild the user-supplied teaser and framework compositions as native
+      vector PDFs from the locked Open3DSG cases and supplied scene projections.
+      Final effective labels are at least 9.13 pt, strokes at least 0.596 pt, and colored-text
+      contrast at least 6.53:1; neither asset embeds raster images or PDF font
+      objects. Figure 2 now uses $C^{\mathrm{tr}}(T,G)$. Moving the standard
+      full-width floats after the first failure description removes the former
+      39.8 pt first-page overflow; the two figures appear on pages 2 and 3. Docker
+      rebuilt both 9-page canonical variants with no overfull boxes.
+- [x] Redesign the active Figure 1, Figure 2 typography, Figure 3, and optional
+      teaser against accepted AAAI/CVPR visual conventions. The rebuilt assets
+      use white backgrounds, outlined TeX Gyre Heros-compatible typography, thin neutral rules,
+      limited colorblind-safe accents, boxes only for actual computational
+      modules, and an unboxed qualitative evidence grid. Both canonical main
+      variants remain 9 US-Letter pages with technical content ending on page
+      7; Type 3 fonts, unresolved references/citations, overfull boxes, and
+      blocking LaTeX errors are zero. Final main/teaser SHA256 values are
+      recorded in the current snapshot above. The earlier same-context exchange
+      was subsequently replaced by the compliant full-width demotion layout;
+      its historical build remains under `archive/paper/aaai_snapshots/`.
 - [x] Strengthen the manuscript-level claim without widening its evidence:
       add ordered-pair identity to the Abstract, connect each design choice to
       its failure mode, reorganize the contributions around measurement,
       compatibility, and constrained re-ranking, characterize prefix-utility
       optimality with an exchange proof, and synthesize the ablations into a
-      pair-specific mechanism statement. Docker builds remain 9/5/2 pages with
-      zero Type 3 fonts or blocking LaTeX issues. The synchronized release is
-      `release/h001_aaai27_openreview_20260717_193626/`.
+      pair-specific mechanism statement. The current active-method synchronized
+      release is `release/h001_aaai27_openreview_20260720_084307/`.
 - [x] Regenerate the anonymous AAAI-27/OpenReview release from the final
       transcript at `release/h001_aaai27_openreview_20260717_160655/`. The
       6-file outer manifest and 198-record inner manifest pass, the ZIP has no
@@ -1150,7 +1328,8 @@ Non-data:
       scope, and point-estimate-qualified K=10--50 conclusion language. The
       Docker build remains 9 US-Letter pages with technical content through page
       7 and no Type 3 fonts, unresolved citations/references, overfull boxes, or
-      blocking errors. The upload bundle still requires regeneration.
+      blocking errors. This stage is superseded by the verified 2026-07-20
+      active-method bundle.
 - [x] Align Experimental Setup, Results, Discussion, Limitations, and the
       corresponding supplement terminology with the revised Method contract.
       Replace implementation-facing diagnostic terms, define uncertainty
@@ -1159,8 +1338,9 @@ Non-data:
       support/contact and construct-validity boundaries without reviewer-process
       language. Docker builds remain 9/5/2 US-Letter pages with no Type 3 fonts,
       unresolved citations/references, overfull boxes, or blocking errors. The
-      current main and supplement SHA256 values are `821511af...f47c02` and
-      `db0e86a5...ddeb93`; the upload bundle now requires regeneration.
+      then-current main and supplement SHA256 values were
+      `821511af...f47c02` and `db0e86a5...ddeb93`; this stage is superseded by
+      the verified 2026-07-20 active-method bundle.
 - [x] Align Introduction, Related Work, Abstract, Figure 1, and the
       manuscript-wide terminology contract with the implemented Method: use
       predicate-independent pair-geometry measurements, source relation score,
@@ -1252,7 +1432,7 @@ Non-data:
 - [x] Run nine Dockerized train-only counterfactual-policy sensitivity refits;
       verify bit-exact default equivalence, 1.000 development ordering accuracy,
       and bounded K=50/100 changes across all three predictors. Replace pooled
-      product with the routed matched MLP in the main table, move pooled family
+      product with the routed nonlinear capacity in the main table, move pooled family
       conditioning to the supplement, lower the comparator/conclusion wording,
       and rebuild clean 9/5/2-page submission PDFs.
 - [x] Re-evaluate product, Rank-average, RRF, and the supervision-matched

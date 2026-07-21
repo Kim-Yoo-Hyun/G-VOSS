@@ -1,0 +1,21 @@
+\begin{table*}[t]
+\centering\scriptsize
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+Condition & Dev order & \multicolumn{2}{c}{VL-SAT K=50} & \multicolumn{2}{c}{Open3DSG K=50} & \multicolumn{2}{c}{SGFN K=50} \\
+& & R & V & R & V & R & V \\
+\midrule
+default & 100.00 & 92.77 & 1.97 & 44.18 & 3.42 & 74.50 & 2.63 \\
+negative\_cap\_1 & 100.00 & 92.77 & 1.97 & 44.28 & 3.42 & 74.47 & 2.63 \\
+negative\_cap\_4 & 100.00 & 92.77 & 1.97 & 44.16 & 3.42 & 74.55 & 2.63 \\
+pair\_weight\_0.125 & 100.00 & 92.77 & 1.98 & 44.21 & 3.42 & 74.50 & 2.64 \\
+pair\_weight\_0.5 & 100.00 & 92.77 & 1.97 & 44.21 & 3.42 & 74.50 & 2.62 \\
+proximity\_2.0 & 100.00 & 92.80 & 1.97 & 44.36 & 3.42 & 74.70 & 2.63 \\
+proximity\_3.0 & 100.00 & 92.75 & 1.98 & 44.26 & 3.42 & 74.37 & 2.64 \\
+vertical\_0.20m & 100.00 & 92.77 & 1.94 & 44.11 & 3.42 & 74.50 & 2.58 \\
+vertical\_0.30m & 100.00 & 92.77 & 2.04 & 44.39 & 3.42 & 74.47 & 2.74 \\
+\bottomrule
+\end{tabular}
+\caption{One-factor counterfactual-policy sensitivity after removing the constant family indicator. No condition is selected on validation.}
+\label{tab:no-family-counterfactual}
+\end{table*}

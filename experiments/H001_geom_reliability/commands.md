@@ -1,6 +1,6 @@
 # H001 Commands
 
-Last updated: 2026-07-16
+Last updated: 2026-07-20
 
 Run from the repository root.
 
@@ -13,17 +13,20 @@ the current paper-facing route unless explicitly referenced below.
 - VL-SAT source root: `experiments/H001_geom_reliability/sources/vlsat/full_validation/`
 - Open3DSG public route: `experiments/H001_geom_reliability/open3dsg_official_route_v1/evaluation/`
 - SGFN source root: `experiments/H001_geom_reliability/sources/sgfn/`
-- Frozen model root: `experiments/H001_geom_reliability/relation_algebra_v1/evaluation/`
-- Promoted result root: `experiments/H001_geom_reliability/support_contact_routing_v1/evaluation/`
-- Same-route comparator root: `experiments/H001_geom_reliability/routed_comparators_v1/evaluation/`
-- Counterfactual-policy sensitivity root: `experiments/H001_geom_reliability/counterfactual_sensitivity_v1/evaluation/`
-- Paper-facing fixed-model ablation root: `experiments/H001_geom_reliability/structured_ablation_v1/routed_public_full_evaluation/`
+- Frozen active root: `experiments/H001_geom_reliability/no_family_indicator_v1/`
+- Promoted result root: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/structured_main/`
+- Same-procedure capacity/fusion root: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/routed_comparators/`
+- Counterfactual-policy sensitivity root: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/counterfactual_sensitivity/`
+- Paper-facing Linear ablation root: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/routed_ablation/`
+- Paper-facing MLP ablation root: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/mlp_ablation/`
+- MLP surface-audit root: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/mlp_surface_audit/`
 - Supplemental unrestricted ablation root: `experiments/H001_geom_reliability/structured_ablation_v1/evaluation/`
 - Compact results: `results/h001_geom_reliability/`
 - Main paper method: applicability-routed relation-algebra compatibility
 - Main artifact key: `family_slot_rerank`
-- Main comparison keys: `routed_product`, `routed_rank_average`, `routed_rrf`,
-  and `routed_matched_mlp`; `pooled_product` is a family-conditioning ablation
+- Main proposed variants: `RelCompat3D-Linear` and `RelCompat3D-MLP`.
+- Main comparison keys: `routed_rank_average`, `routed_rrf`, and
+  `product_all_families`; `pooled_product` is a family-conditioning ablation
   and `hard_rule_filter` is a construction diagnostic.
 - Legacy aliases such as `family_conditional_risk`,
   `control_family_specific_p_geom_valid`, and `probabilistic_recalibrated`
@@ -66,6 +69,10 @@ env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/h001/compose.structured.yaml run --rm runtime_benchmark
 env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/h001/compose.structured.yaml run --rm counterfactual_threshold_sensitivity
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm relcompat3d_mlp_ablation
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/h001/compose.structured.yaml run --rm relcompat3d_mlp_surface_audit
 ```
 
 The services reject nonempty locked output roots. Preserve the current

@@ -3,108 +3,118 @@
 For each candidate relation $r_i$, the associated geometry vector $G_i$ contains
 OBB-derived 3D/XY distances, relative height, projected overlap, and
 vertical-gap features. Point-level contact evidence is used only by the
-support/contact verifier, not by the compatibility model. The feature
-map $\Phi=(\phi_T,\phi_G,\phi_{\times})$ separates predicate/family indicators,
-predicate-independent geometry, and explicit predicate--geometry interactions.
-The source relation score, rank, predictor identity, and object-class features
-are excluded.
+support/contact verifier, not by the compatibility model. Let
+$\operatorname{std}_{\rm tr}$ standardize each numeric feature with
+training-split statistics and replace a missing value by the corresponding
+training mean. We evaluate two compact compatibility estimators under the same
+input separation, training targets, loss, and transformation averaging.
 
-We first define a family logit and bounded compatibility score
+\paragraph{Linear estimator.}
+The feature map for \methodlinear{} is
 \begin{equation}
 \begin{aligned}
-h_a(\Phi(T_i,G_i))&=w_a^\top\Phi(T_i,G_i),\\
-C_i&=\sigma\!\left(h_a(\Phi(T_i,G_i))\right).
+\Phi_{\rm lin}(T_i,G_i)&=[1;\phi_T(T_i);\operatorname{std}_{\rm tr}(G_i);
+\operatorname{std}_{\rm tr}(\phi_{\times}(T_i,G_i))],\\
+\phi_{\times}(T_i,G_i)&=
+[d(p_i)\Delta z_i,\ d(p_i)\Delta z_i^{\rm norm}].
 \end{aligned}
 \end{equation}
+Here $\phi_T$ contains the predicate indicator, and $d(p_i)$ is $1$ for
+\texttt{higher than}, $-1$ for \texttt{lower than}, and $0$ otherwise; hence the
+two explicit interaction terms are active only for vertical-order predicates.
+The family label selects a linear head but is not repeated as a constant input:
+$f_{\rm lin}(T_i,a_i,G_i)=w_{a_i}^\top\Phi_{\rm lin}(T_i,G_i)$.
+
+\paragraph{Nonlinear estimator.}
+\methodmlp{} uses one shared two-hidden-unit ReLU network. Its input $\Psi_i$
+contains family and predicate indicators, the same underlying geometric
+measurements, the two signed-height interactions above, and the sum of the two
+directional overlap ratios. With a predicate-linear skip connection, its logit is
+\begin{equation}
+\begin{aligned}
+h_i&=\operatorname{ReLU}(W\Psi_i+b),\\
+f_{\rm mlp}(T_i,a_i,G_i)&=v^\top h_i+b_o+
+\beta^\top\phi_T(T_i).
+\end{aligned}
+\end{equation}
+The nonlinear estimator is shared across families, so its family indicator is
+not a constant feature. Both estimators exclude the predictor score, rank,
+predictor identity, and object-class features.
+
 For proximity, $\tau$ swaps the ordered endpoints and leaves \texttt{close by}
 unchanged. For vertical order, $\tau$ swaps the endpoints and maps
-\texttt{higher than}$\leftrightarrow$\texttt{lower than}. After transformation
-averaging, the final score satisfies
-\begin{equation}
-\begin{aligned}
-C^{\rm tr}_{\rm close}(s,o)&=C^{\rm tr}_{\rm close}(o,s),\\
-C^{\rm tr}_{\rm higher}(s,o)&=C^{\rm tr}_{\rm lower}(o,s).
-\end{aligned}
-\end{equation}
-Support/contact is evaluated only under the identity transformation because no
-family-wide endpoint swap preserves every predicate in this family. Its
-compatibility model is used only in the all-family comparison; the
-\method{} ranking preserves the source ranking for support/contact.
+\texttt{higher than}$\leftrightarrow$\texttt{lower than}. Transformation
+averaging therefore gives
+$C^{\rm tr,q}_{\rm close}(s,o)=C^{\rm tr,q}_{\rm close}(o,s)$ and
+$C^{\rm tr,q}_{\rm higher}(s,o)=C^{\rm tr,q}_{\rm lower}(o,s)$.
 
-Training combines transformation-consistent augmentation with a linked-pair
-ranking loss. The augmentation preserves the predicate when proximity endpoints
+Training combines transformation-consistent augmentation with a linked
+positive--counterfactual ranking loss. The augmentation preserves the predicate when proximity endpoints
 are swapped, whereas vertical order swaps endpoints and applies the inverse
 predicate. In addition,
 for every linked positive--counterfactual pair $(i^+,i^-)\in\mathcal P$, the
-logits $\ell=w_a^\top\Phi$ receive a fixed margin penalty:
+logits $\ell_i^q=f_q(T_i,a_i,G_i)$ receive a fixed margin penalty:
 \begin{equation}
 \begin{aligned}
-\mathcal L_a={}&\mathcal L_{\rm BCE}
+\mathcal L_q={}&\mathcal L_{\rm BCE}
 +0.25\,\mathbb E_{\mathcal P}\!
- \left[\log\!\left(1+e^{1-(\ell_{i^+}-\ell_{i^-})}\right)\right]\\
-&+10^{-4}\lVert w_a\rVert_2^2.
+ \left[\log\!\left(1+e^{1-(\ell^q_{i^+}-\ell^q_{i^-})}\right)\right]\\
+&+10^{-4}\mathcal R(\theta_q).
 \end{aligned}
 \end{equation}
 Here $\mathcal L_{\rm BCE}$ is binary cross-entropy over positive and
-counterfactual examples.
-Numeric features are standardized and missing values are imputed using
-statistics estimated from the training split. Each family uses a small linear
-model fitted exclusively on the training split;
-optimization details and training-example counts are provided in the supplement.
+counterfactual examples. The second term is a soft margin-ranking loss with
+margin $m=1$; its weight $0.25$ and the $\ell_2$ coefficient $10^{-4}$ are
+shared across estimators and predictors without predictor-specific search, and
+$\mathcal R$ penalizes non-bias weights. The
+supplement reports sensitivity, optimization details, and training-example
+counts. Both estimators are fitted exclusively on the training split.
 
-Finally, we average the learned score over the family-specific transformation
-set $\mathcal O_i$ to obtain the transformation-consistent compatibility:
+Finally, let $H_{a_i}$ denote the finite transformation group for family
+$a_i$, and define the transformation orbit
+$\mathcal O_i=\{g(T_i,G_i):g\in H_{a_i}\}$. We average the learned score over
+this set to obtain the transformation-consistent compatibility:
 \begin{equation}
-\ctr_i=\frac{1}{|\mathcal O_i|}
-\sum_{(T',G')\in\mathcal O_i} \sigma\!\left(h_{a_i}(\Phi(T',G'))\right).
+C_i^{\rm tr,q}=\frac{1}{|\mathcal O_i|}
+\sum_{(T',G')\in\mathcal O_i} \sigma\!\left(f_q(T',a_i,G')\right).
 \label{eq:algebra-projection}
 \end{equation}
-This transformation averaging makes proximity symmetry and invariance under joint endpoint swap and
-inverse-predicate transformation exact at inference rather than merely
-encouraged by a penalty. The pairwise objective
-still distinguishes each linked positive from its counterfactual; transformation averaging
-does not use the source relation score.
-
-\begin{proposition}[Exact transformation consistency]
-\label{prop:orbit}
-Let the finite transformation group $H_a$ act jointly on predicate and
-ordered-pair geometry, and define
-$C_a^{\rm tr}(x)=|H_a|^{-1}\sum_{g\in H_a}C_a(gx)$. Then
-$C_a^{\rm tr}(hx)=C_a^{\rm tr}(x)$ for every $h\in H_a$.
-Consequently, Eq.~\ref{eq:algebra-projection} satisfies proximity symmetry and
-invariance under joint endpoint swap and inverse-predicate transformation for
-vertical order.
-\end{proposition}
-
-The supplement gives a proof. Support/contact uses only the identity
-transformation and is unaffected by this averaging.
+Group averaging makes proximity symmetry and invariance under joint endpoint
+swap and inverse-predicate transformation exact at inference. It does not use
+the predictor score, while the pairwise objective still orders each linked
+positive above its counterfactual. The supplement provides a formal statement
+and proof. For the Product (all families) comparison, $H_a=\{\mathrm{id}\}$
+for support/contact.
 
 \subsection{Family-Aware Re-ranking}
 
-For each candidate, define the within-family ranking score
+For either compatibility estimator $q$, define the within-family ranking score
 \begin{equation}
-u_i=\begin{cases}
-Z_i\ctr_i, & a_i\in\mathcal A_{\rm tr},\\
+u_i^q=\begin{cases}
+Z_iC_i^{\rm tr,q}, & a_i\in\mathcal A_{\rm rank},\\
 Z_i, & a_i=\mathrm{support/contact}.
 \end{cases}
 \end{equation}
-For $Z_i,\ctr_i>0$, $\log u_i=\log Z_i+\log\ctr_i$ in the
-transformation-supported families; compatibility therefore
-contributes an additive log-score term without an additional fusion parameter.
-This rule introduces no fitted fusion parameter.
+For positive factors, $\log u_i^q=\log Z_i+\log C_i^{\rm tr,q}$ in the
+families with defined transformations; compatibility contributes an additive
+log-score term without a fitted fusion parameter.
 
-Let $\pi^Z=(e_1,\ldots,e_n)$ denote the source ranking, $a_j$ the relation
-family at position $j$, and $\pi_a$ the candidates of family $a$ sorted by
-$u_i$. At position $j$, the rule selects the next unused candidate from
-$\pi_{a_j}$, exactly preserving the source family-label sequence. Because
-support/contact is sorted by $Z_i$, its selected subsequence and family-specific
-Recall and Violation are unchanged at every $K$. For each prefix, the rule also
-selects the highest-$u_i$ proximity/vertical candidates and maximizes their
-summed utility subject to the preserved family counts and support/contact
-subsequence; the supplement gives an exchange proof.
+Let $\pi^Z=(e_1,\ldots,e_n)$ denote the source ranking and $a_j$ the relation
+family at position $j$. For each $a\in\mathcal A_{\rm rank}$, let $\pi_a^q$ contain
+that family's candidates sorted by $u_i^q$, with ties resolved deterministically
+by exact relation-candidate identity. For support/contact, $\pi_a^q$ is defined
+directly as the corresponding subsequence of $\pi^Z$ for both estimators. At position $j$, the rule
+selects the next unused candidate from the corresponding family list, exactly preserving the
+source family-label sequence. Its support/contact subsequence and
+family-specific Recall and Violation are therefore unchanged at every $K$. For
+each prefix, the rule also selects the highest-scoring candidates within each
+re-ranked family and maximizes their summed ranking score subject to the preserved
+family counts and support/contact subsequence; the supplement gives an exchange
+proof.
 
-Product, rank-average, RRF, and a matched nonlinear model use the same
-family-aware ranking procedure. Additional controls test the role of family
-conditioning, the source relation score, pair identity, geometry, and the
-defined transformations; full definitions are provided in the experiments and
-supplement.
+\methodlinear{} and \methodmlp{} share the factor separation, training targets,
+loss, transformations, product ranking score, and family-aware ranking procedure; they
+differ in parameterization and nonlinear capacity. Rank-fusion baselines use the
+same ranking procedure with alternative score combinations. Additional controls test the predictor score, pair
+identity, geometry, and the defined transformations; full definitions are
+provided in the experiments and supplement.

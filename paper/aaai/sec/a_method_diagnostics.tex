@@ -1,6 +1,13 @@
 \section{Guarantees and Compatibility Analyses}
 
-\paragraph{Proof of Proposition 1.}
+\begin{proposition}[Exact transformation consistency]
+Let a finite transformation group $H_a$ act jointly on the predicate and
+geometry of an ordered pair, and define
+$C_a^{\rm tr}(x)=|H_a|^{-1}\sum_{g\in H_a}C_a(gx)$. Then
+$C_a^{\rm tr}(hx)=C_a^{\rm tr}(x)$ for every $h\in H_a$.
+\end{proposition}
+
+\paragraph{Proof.}
 For any $h\in H_a$,
 \(
 C_a^{\rm tr}(hx)=|H_a|^{-1}\sum_{g\in H_a}C_a(ghx)
@@ -22,27 +29,23 @@ are identical at every reported $K$.
 \paragraph{Prefix utility optimality.}
 Fix a prefix length $K$, and let $n_a(K)$ be the number of positions assigned
 to family $a$ in the source prefix. Every feasible ranking that preserves these
-family counts must select $n_a(K)$ candidates from each family. Because
-$\pi_a$ is sorted by $u_i$, \method{} selects the $n_a(K)$ highest-utility
-candidates for every proximity/vertical family. If another feasible selection
+family counts must select $n_a(K)$ candidates from each family. Because each
+re-ranked $\pi_a$ is sorted by its variant's $u_i$, either \method{} estimator selects the $n_a(K)$
+highest-utility candidates within that family. If another feasible selection
 omits one of these candidates in favor of a lower-utility candidate from the
 same family, exchanging the two increases the summed within-prefix utility.
 The support/contact subsequence is fixed, so it does not affect this comparison.
 
 \paragraph{Counterfactual target construction.}
 Measured-family ground-truth relations provide positives. Negatives are generated
-within the same scene context and linked to their source positive; no source
+within the same scene context and linked to their source positive; no predictor
 score, predictor identity, or evaluation candidate is used.
 Table~\ref{tab:counterfactual-rules} gives the complete construction policy.
 
-\begin{table}[H]
+\begin{table}[t]
 \centering
-\scriptsize
+{\small
 \setlength{\tabcolsep}{2.5pt}
-\caption{\textbf{Counterfactual-negative construction.} Normalized XY distance
-uses the mean object-pair XY diagonal. Zero overlap requires both directed
-projected-overlap ratios to be at most $10^{-9}$.}
-\label{tab:counterfactual-rules}
 \begin{tabular}{p{.20\linewidth}p{.45\linewidth}p{.27\linewidth}}
 \toprule
 Family & Intervention and acceptance rule & Relation to verifier \\
@@ -55,149 +58,175 @@ Vertical & On the same directed pair, replace \texttt{higher than} with
 \texttt{lower than} or conversely; require the positive direction to have
 $|\Delta z|\geq0.25$ m and normalized $|\Delta z|\geq0.15$. & Shares both
 signed primitives and thresholds. \\
-Support/contact & Replace the subject or object within context; reject known
+Support/\allowbreak contact & Replace the subject or object within context; reject known
 support/contact pairs in either direction and floor subjects; require any two
 of normalized XY distance $\geq2.0$, zero overlap, and vertical gap
 $\geq0.30$ m. & Shares these OBB primitives and thresholds; point-subtype
 evidence used by the reported verifier is not used to generate negatives. \\
 \bottomrule
 \end{tabular}
+}
+\caption{Counterfactual-negative construction. Normalized XY distance uses the
+mean object-pair XY diagonal. Zero overlap requires both directed
+projected-overlap ratios to be at most $10^{-9}$.}
+\label{tab:counterfactual-rules}
 \end{table}
 
 At most two negatives are emitted per positive, 200 per context--family, and
 three times the number of positives per family. These caps limit repeated easy
 negatives; they do not equalize family counts. The export contains 28,977
 positives and 37,477 negatives. Total rows by family are 23,008 proximity,
-5,488 vertical, and 37,958 support/contact. The explicit overlap above is why verifier-derived V is
-reported as a related diagnostic rather than independent physical-validity
-ground truth; the feature-removal analysis tests, but does not eliminate,
-this construct dependence.
+5,488 vertical, and 37,958 support/contact. The explicit overlap above is why
+Violation computed by the rule-based geometry verifier is reported as a
+verifier-derived measure rather than independent physical-validity ground truth;
+the feature-removal analysis tests, but does not eliminate, this construct
+dependence.
 
-\method{} fits one logistic model per measured relation family. Numeric
+\methodlinear{} fits one logistic model per measured relation family. Numeric
 features use means and standard deviations estimated from the training split;
-missing values use the corresponding training mean. Inputs are predicate/family indicators $T$,
-predicate-independent pair-geometry measurements $G$, and explicit $T\!\times\!G$
-interactions. The source relation score, source rank, predictor identity, and object class are
-excluded. Transformation-consistent augmentation preserves the proximity predicate
+missing values use the corresponding training mean. Inputs are predicate
+indicators $T$, predicate-independent geometric measurements of the ordered pair $G$, and the
+two predicate-signed height interactions defined in the main paper. The
+family label selects the head and is not repeated as an input. The predictor
+score, source rank, predictor identity, and object class are excluded.
+Transformation-consistent augmentation preserves the proximity predicate
 under endpoint swap; vertical order swaps endpoints and applies the inverse
 predicate. Linked counterfactuals receive the fixed margin loss in the main
 paper. Support/contact receives the pairwise loss but no blanket endpoint
 transform.
 
+\methodmlp{} fits a single shared two-hidden-unit ReLU model with a
+predicate-linear skip connection. Its 29 inputs comprise family and predicate
+indicators, the same 17 geometric measurements, the two signed-height
+interactions, and the sum of the directional overlap ratios. The family
+indicator is nonconstant because this estimator shares parameters across
+families. It has 69 parameters and excludes the predictor score and identity.
+
 The 60,208 training rows yield 33,961 linked pairs, and
-transformation-consistent augmentation
-produces 86,032 optimization rows. We use 800 deterministic full-batch steps at
-learning rate 0.2; the three family models contain 22--24 parameters. The
-support/contact model is used only in the all-family comparison, while the
-\method{} ranking rule preserves that family's source ordering.
+transformation-consistent augmentation produces 86,032 optimization rows for
+both estimators. Linear uses 800 deterministic full-batch steps at learning rate
+0.2; MLP uses 120 steps at learning rate 0.02. Both use the same pairwise
+weight, margin, $\ell_2$ coefficient, and fixed seed policy. The three linear
+family models contain 21--23 parameters. The support/contact head is retained
+for the Product (all families) comparison, while neither proposed ranking uses
+support/contact compatibility and both preserve that family's source ordering.
 
 \paragraph{Computational cost.}
-We benchmark the fixed CPU implementation with one process and one thread on
+We benchmark the fixed \methodlinear{} CPU implementation with one process and one thread on
 an Intel Core Ultra 7 265KF. Timing begins from preloaded relation candidates with
-precomputed pair-geometry measurements and includes proximity/vertical compatibility,
+precomputed geometric measurements of the ordered pair and includes proximity/vertical compatibility,
 transformation averaging, family-specific list sorting, and output assembly. It excludes
 source-predictor inference, reconstruction and geometry association, file parsing, metrics,
 and bootstrap, so it is not end-to-end pipeline latency. Table~\ref{tab:runtime}
 reports medians over five runs after one warm-up.
 
-\begin{table}[H]
+\begin{table}[t]
 \centering
-\scriptsize
+{\small
 \setlength{\tabcolsep}{3pt}
-\caption{\textbf{CPU re-ranking cost.} Open3DSG has 533 nonempty public-prediction
-contexts; its 15 empty official contexts require no scoring or sorting.}
-\label{tab:runtime}
 \begin{tabular}{lrrrr}
 \toprule
 Predictor & Contexts & Scored candidates & Total (s) & ms/context \\
 \midrule
-VL-SAT & 548 & 110,424 & 2.492 & 4.548 \\
-Open3DSG & 533 & 79,722 & 1.828 & 3.430 \\
-SGFN & 548 & 110,424 & 2.512 & 4.584 \\
+VL-SAT & 548 & 110,424 & 2.445 & 4.461 \\
+Open3DSG & 533 & 79,722 & 1.808 & 3.391 \\
+SGFN & 548 & 110,424 & 2.453 & 4.476 \\
 \bottomrule
 \end{tabular}
+}
+\caption{CPU re-ranking cost for \methodlinear{}. Open3DSG has 533 nonempty public-prediction
+contexts; its 15 empty official contexts require no scoring or sorting.}
+\label{tab:runtime}
 \end{table}
 
-The three stored heads contain 69 parameters; the primary proximity/vertical
-path evaluates 45 of them and adds no fitted fusion parameter. Peak process RSS,
-including the preloaded candidates, is 366.9 MiB. All five runs preserve the exact
+The three stored linear heads contain 66 parameters; the primary proximity/vertical
+path evaluates 43 of them and adds no fitted fusion parameter. Peak process RSS,
+including the preloaded candidates, is 366.5 MiB. All five runs preserve the exact
 family sequence and support/contact order.
 
-\begin{table}[H]
+\begin{table}[t]
 \centering
-\scriptsize
-\setlength{\tabcolsep}{3pt}
-\caption{\textbf{Training and development discrimination.}
-Labels comprise GT-positive/counterfactual pairs, not human
-physical-validity judgments.}
-\label{tab:family-discrimination}
-\begin{tabular}{lrrrrrr}
+{\small
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}{@{}lrrrrrr@{}}
 \toprule
-Family & Train & Dev & Param. & Train pairs & AUROC & Brier \\
+Family & Train & Dev & Params & Pairs & AUROC & Brier \\
 \midrule
-Proximity & 20,902 & 2,106 & 22 & 9,562 & 1.0000 & .0009 \\
-Vertical order & 4,922 & 566 & 23 & 1,644 & .9982 & .0079 \\
-Support/contact & 34,384 & 3,574 & 24 & 22,755 & .9933 & .0256 \\
+Proximity & 20,902 & 2,106 & 21 & 9,562 & 1.0000 & .0009 \\
+Vertical order & 4,922 & 566 & 22 & 1,644 & .9982 & .0079 \\
+Support/contact & 34,384 & 3,574 & 23 & 22,755 & .9933 & .0256 \\
 \bottomrule
 \end{tabular}
+}
+\caption{\methodlinear{} training and development discrimination. Labels comprise
+GT-positive/counterfactual pairs, not human physical-validity judgments.}
+\label{tab:family-discrimination}
 \end{table}
 
 Across all 6,246 development rows, AUROC/AUPRC/Brier are
 .9973/.9973/.0157. On 3,516 linked development pairs, the positive wins 99.23\%
-of the time with mean logit margin 14.13. Correct-predicate compatibility wins
+of the time with mean logit margin 14.14. Correct-predicate compatibility wins
 on 97.40\% of 384 vertical positives. Exact transformation averaging gives a
 maximum compatibility difference of zero under proximity endpoint swap and
 under joint endpoint swap and inverse-predicate transformation for vertical
 order, on development and evaluation rows from all three predictors.
+The shared nonlinear estimator obtains development
+AUROC/AUPRC/Brier of .9904/.9926/.0225. Its transformation-averaged
+compatibility also changes monotonically in all 512 proximity and 512 vertical
+intervention cases used by the surface audit.
 
-The factor ablation uses the same split and estimator class. At
-development, $T$-only, predicate-independent $G$-only, additive $T+G$, and interaction
+The factor ablation uses the same split and estimator class in a separate
+pooled analysis; because one head spans all families there, its semantic input
+includes predicate and family identifiers. At development, semantic-only,
+predicate-independent $G$-only, additive semantics+$G$, and interaction
 $T\times G$ obtain AUROC .6124/.8809/.9193/.9822 and Brier
 .2370/.1363/.1061/.0495. Shuffled and mismatched-pair geometry reduce the
 intended reliability signal. These results verify factor use and the implemented
 transformation identities; they do not convert the constructed target into independent
 physical-validity ground truth.
 
-\begin{table}[H]
+\begin{table}[t]
 \centering
-\scriptsize
-\setlength{\tabcolsep}{3pt}
-\caption{\textbf{Feature-removal analysis.} Cells are Recall / verifier V
-under the same family-aware ranking procedure. Exact removes the normalized scalar consumed
-by the verifier; family removes all directly related distance or vertical
-measurements; alternative retains only projected overlap for proximity and
-horizontal-distance/overlap context for vertical order.}
-\label{tab:primitive-holdout}
-\begin{tabular}{llrr}
+{\small
+\setlength{\tabcolsep}{2pt}
+\begin{tabularx}{\linewidth}{@{}l>{\raggedright\arraybackslash}Xrr@{}}
 \toprule
 Source & Condition & $K=50$ & $K=100$ \\
 \midrule
 \multirow{5}{*}{VL-SAT}
  & Source score & .9272/.0268 & .9635/.0476 \\
  & Full model & .9277/.0197 & .9658/.0295 \\
- & Exact verifier scalar removed & .9280/.0198 & .9660/.0300 \\
- & Related measurements removed & .9272/.0268 & .9655/.0468 \\
+ & Exact verifier scalar removed & .9280/.0199 & .9660/.0300 \\
+ & Related measurements removed & .9275/.0268 & .9653/.0468 \\
  & Alternative evidence only & .9280/.0268 & .9642/.0471 \\
 \midrule
 \multirow{5}{*}{Open3DSG}
  & Source score & .4043/.1387 & .5111/.1242 \\
- & Full model & .4418/.0342 & .5692/.0324 \\
- & Exact verifier scalar removed & .4383/.0342 & .5692/.0325 \\
- & Related measurements removed & .4119/.0954 & .5257/.0956 \\
- & Alternative evidence only & .4106/.1193 & .5330/.1188 \\
+ & Full model & .4418/.0342 & .5685/.0324 \\
+ & Exact verifier scalar removed & .4381/.0342 & .5687/.0325 \\
+ & Related measurements removed & .4119/.0954 & .5264/.0955 \\
+ & Alternative evidence only & .4104/.1194 & .5327/.1188 \\
 \midrule
 \multirow{5}{*}{SGFN}
  & Source score & .7402/.0385 & .9235/.0630 \\
  & Full model & .7450/.0263 & .9303/.0350 \\
- & Exact verifier scalar removed & .7465/.0268 & .9303/.0357 \\
- & Related measurements removed & .7470/.0388 & .9298/.0616 \\
+ & Exact verifier scalar removed & .7465/.0268 & .9300/.0358 \\
+ & Related measurements removed & .7467/.0388 & .9298/.0616 \\
  & Alternative evidence only & .7462/.0386 & .9277/.0625 \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
+}
+\caption{Feature-removal analysis. Cells are Recall / verifier V under the same
+family-aware ranking procedure. Exact removes the normalized scalar consumed by
+the verifier; family removes all directly related distance or vertical
+measurements; alternative retains only projected overlap for proximity and
+horizontal-distance/overlap context for vertical order.}
+\label{tab:primitive-holdout}
 \end{table}
 
 Every feature-removal model is refitted on the 1,061 training scans with the same
-linked-pair objective, exclusion of the source relation score, and exact transformation averaging.
+linked positive--counterfactual objective, exclusion of the predictor score,
+and exact transformation averaging.
 The exact-scalar condition retains development AUROC of .99999 for proximity
 and .99794 for vertical order. Removing all related distance or vertical measurements lowers these
 to .9512 and .7089; alternative evidence yields .8763 and .5531. At $K=50$,
@@ -205,28 +234,7 @@ the strict conditions retain a clear Open3DSG improvement but not the full V
 gain on VL-SAT or SGFN. At $K=100$, all feature-removal conditions improve both
 point metrics across all three predictors. The results show that performance
 does not depend solely on a single verifier input, but they do not eliminate
-broader construct dependence on correlated geometry.
-
-\begin{table}[H]
-\centering
-\scriptsize
-\setlength{\tabcolsep}{3pt}
-\caption{\textbf{All-family product comparison at $K=100$.} Cells are
-Recall / verifier V. Unlike the primary family-aware ablation, compatibility is
-applied to every family; Open3DSG uses the documented full-coverage
-sensitivity so each corruption has a donor in every context.}
-\label{tab:unrestricted-ablation}
-\begin{tabular}{lrrr}
-\toprule
-Condition & VL-SAT & Open3DSG & SGFN \\
-\midrule
-Structured product & .9688/.0325 & .6055/.0339 & .9418/.0372 \\
-Wrong predicate & .9507/.0745 & .5753/.2315 & .9182/.1120 \\
-Wrong-pair $G$ & .9121/.0525 & .2885/.0891 & .8429/.0723 \\
-Shuffled $G$ & .9089/.0615 & .3326/.1418 & .8338/.0861 \\
-Label-fixed swap & .9509/.0745 & .5775/.2325 & .9187/.1120 \\
-Distance only & .5554/.0981 & .5038/.1071 & .5554/.0981 \\
-Compatibility only & .6186/.0193 & .5798/.0321 & .6186/.0193 \\
-\bottomrule
-\end{tabular}
-\end{table}
+broader construct dependence on correlated geometry. The main paper reports
+the matched controls under the active family-aware ranking procedure; the
+separate all-family product and pooled comparison appears in
+Table~\ref{tab:pooled-ablation}.

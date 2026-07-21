@@ -81,6 +81,7 @@ def fit_family_model(
     family: str,
     rows: list[dict[str, Any]],
     optimizer: dict[str, Any],
+    remove_constant_family_indicator: bool = False,
 ) -> dict[str, Any]:
     train = [
         row
@@ -89,6 +90,19 @@ def fit_family_model(
         and row["predicate"]["predicate_family"] == family
     ]
     spec = calibration.build_model_spec(train)
+    if remove_constant_family_indicator:
+        expected = f"family:{family}"
+        family_features = [
+            feature for feature in spec["feature_names"] if feature.startswith("family:")
+        ]
+        if family_features != [expected]:
+            raise ValueError(
+                f"expected_one_constant_family_indicator:{family}:{family_features}"
+            )
+        spec["feature_names"] = [
+            feature for feature in spec["feature_names"] if feature != expected
+        ]
+        spec["families"] = []
     x = np.asarray(
         [
             algebra.existing_vector(
@@ -443,7 +457,16 @@ def main() -> int:
             }
         }
         for family in ACTIVE_FAMILIES:
-            models[family] = fit_family_model(family, prepared, optimizer)
+            models[family] = fit_family_model(
+                family,
+                prepared,
+                optimizer,
+                bool(
+                    protocol.get("parameterization", {}).get(
+                        "remove_constant_family_indicator", False
+                    )
+                ),
+            )
         scorer = projected_scorer(models)
         fitted_models[condition] = models
         scorers[condition] = scorer
