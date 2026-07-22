@@ -27,7 +27,7 @@ pairwise-loss weight one factor at a time; its compact owner is
 The disclosure decision is to report the final unchanged-method
 ReplicaSSG/FROSS evaluation as a retrospective transfer stress test. The
 separate AAAI supplement source is `paper/aaai/supplement.tex`, with the result
-table in `paper/aaai/sec/a_external_transfer.tex`. It reports all K values over
+table in `paper/aaai/sec/supplement.tex`. It reports all K values over
 11 scenes, 4,293 candidates, and 172 exact-label GT relations; paired joint
 improvements at K=10 and K=50; the K=100 saturation; the 44.19% candidate
 ceiling; and source-score quantization. It must not be framed as untouched
@@ -142,10 +142,10 @@ history only and should not be used for main result claims.
 
 | Location | Required caveats | Status |
 | --- | --- | --- |
-| AAAI Experimental Setup | full official validation scope; selected official non-avg Open3DSG checkpoint; filtered train/dev provenance; 548/548 recovery branch; 533/548 covered branch as sensitivity; historical 377/388 vs R2 388/388 only as appendix sensitivity | updated in `paper/aaai/sec/5_experiments.tex` |
-| AAAI Table 3 / Main Source Results Table | Open3DSG-first source role, full-validation 548/548 recovery branch, exact-label denominator 3,972, recovery-policy caveat, residual calibration risk; no historical 127-scan rows in main table | updated in `paper/aaai/sec/6_results.tex` |
-| AAAI Results prose | within-source reliability, no Open3DSG leaderboard/SOTA claim, same checkpoint/row contract/full-validation denominator, recovery-policy disclosure | updated in `paper/aaai/sec/6_results.tex` |
-| AAAI Limitations | selected non-avg checkpoint, filtered train/dev provenance, recovery-policy branch, scoped relation-reliability interpretation, no broad SOTA claim | updated in `paper/aaai/sec/7_limitations.tex` |
+| AAAI Experimental Setup | full official validation scope; selected official non-avg Open3DSG checkpoint; filtered train/dev provenance; 548/548 recovery branch; 533/548 covered branch as sensitivity; historical 377/388 vs R2 388/388 only as appendix sensitivity | updated in `paper/aaai/sec/4_experiments.tex` |
+| AAAI Table 3 / Main Source Results Table | Open3DSG-first source role, full-validation 548/548 recovery branch, exact-label denominator 3,972, recovery-policy caveat, residual calibration risk; no historical 127-scan rows in main table | updated in `paper/aaai/sec/4_experiments.tex` |
+| AAAI Results prose | within-source reliability, no Open3DSG leaderboard/SOTA claim, same checkpoint/row contract/full-validation denominator, recovery-policy disclosure | updated in `paper/aaai/sec/4_experiments.tex` |
+| AAAI Limitations | selected non-avg checkpoint, filtered train/dev provenance, recovery-policy branch, scoped relation-reliability interpretation, no broad SOTA claim | updated in `paper/aaai/sec/5_discussion_limitations.tex` |
 | Experiment artifact Table 6 | Open3DSG row must carry selected non-avg checkpoint, filtered train/dev, full-validation exact-label denominator, 548/548 recovery policy, residual calibration-risk note, 533/548 full-validation sensitivity, and appendix-only historical 377/388 vs R2 388/388 sensitivity | updated in `results/h001_geom_reliability/tables/table6_cross_source_status.*` |
 | Paper risk register | P2 provenance and Open3DSG caveat visibility risk | updated in `paper/risk.md` |
 | R1 exact non-avg BLIP retry | Supplies the selected full-validation checkpoint provenance; historical 127-scan avg-BLIP remains sensitivity evidence | completed and selected official non-avg checkpoint; downstream non-avg and full-validation recovery artifacts are recorded under `sources/open3dsg/non_avg/` and `sources/open3dsg/full_validation/recovery_relaxed_views_min2/` |
@@ -155,8 +155,8 @@ history only and should not be used for main result claims.
 Current decision: Figure 3 uses two geometry-identifiable corrections
 (`open3dsg_case_001` proximity and `open3dsg_case_019` relative vertical) plus
 one residual support/contact violation (`open3dsg_case_026`). The preferred
-draft is the geometry-backed point-cloud panel in
-`paper/generated/figures/figure3_geometry_panels.svg`. A rendered scene-crop
+draft is the geometry-backed point-cloud panel preserved for the supplement at
+`paper/aaai/supplement_figures/qualitative_geometry_panels.png`. A rendered scene-crop
 upgrade is optional only if a deterministic crop/render path preserves these
 same locked case IDs.
 
@@ -257,7 +257,7 @@ submitted main paper, technical supplement, and release ZIP. Its fixed
 robust-point rule matches or improves the learned score's Violation, so the
 extension does not strengthen the core learned-method claim. The full analysis
 remains under `experiments/H001_geom_reliability/relative_size_v1/` and
-`paper/aaai/sec/a_relative_size.tex` for later use.
+`paper/aaai/sec/old.tex` for later use.
 
 ## Qwen-VL Boundary
 

@@ -1,261 +1,284 @@
 # RelCompat3D Reviewer-Risk Register
 
-Last updated: 2026-07-18 KST
+Last updated: 2026-07-22 KST
 
-이 문서는 현재 submission claim에 영향을 주는 scientific/reviewer risk와
-필수 방어만 소유한다. Historical mitigation log와 실행 산출물은 experiment
-reports에 둔다.
+이 문서는 current submission claim에 영향을 주는 reviewer attack, verified
+facts, defense, residual action, and blocked wording만 소유한다. Reviewer score와
+overall assessment는 `paper/review.md`, experiment 계산법은
+`paper/experiment.md`, 진행 상태는 `paper/progress.md`가 소유한다.
 
 ## Risk Summary
 
 | ID | risk | severity | current status |
 | --- | --- | --- | --- |
-| R1 | training target와 Violation verifier의 geometry overlap | critical | substantially mitigated, residual |
-| R2 | 하나의 shared dataset target | high | disclosed, unresolved |
-| R3 | support/contact evidence와 re-ranking scope | high | operationally contained |
-| R4 | engineered-feature rescorer로 축소되는 novelty | high | partially mitigated |
-| R5 | strong nonlinear/rank baselines | medium | matched comparison complete |
-| R6 | Open3DSG candidate coverage/reproduction | medium | full official target + coverage sensitivity |
+| R1 | compatibility construction and primary verifier overlap | critical | substantially mitigated; residual |
+| R2 | one shared dataset target | high | disclosed; unresolved |
+| R3 | support/contact outside re-ranking scope | high | operationally contained |
+| R4 | novelty reduced to engineered rescoring | high | framing-dependent |
+| R5 | strong nonlinear and rank-fusion alternatives | medium | matched comparisons complete |
+| R6 | Open3DSG candidate coverage and reproduction | medium | full-target policy documented |
+| R7 | selected canonical PDF and consolidated source diverge in layout | high | deferred; must close before upload |
 
-## R1. Construct Overlap
+## R1. Construct Dependence
 
-### Reviewer attack
+**Reviewer attack**
 
-> Compatibility를 학습할 때 사용한 distance/overlap/height primitive와
-> Violation을 계산하는 verifier가 비슷하므로, method가 evaluation rule을 다시
-> 학습한 것 아닌가?
+> The model may be learning geometric rules that are also used by the primary
+> Violation verifier, making the evaluation partly circular.
 
-### Facts
+**Verified facts**
 
-- 일부 geometry primitive와 threshold family가 target construction과 verifier에
-  공통으로 사용된다.
-- Wrong predicate/pair/shuffle와 transformation controls는 trivial copying을
-  배제하지만 독립 ground truth를 만들지는 않는다.
+- Counterfactual construction and the primary verifier share some OBB-derived
+  distance, overlap, height, and threshold families.
+- Evaluation rows and verifier-status labels are not training examples.
+- Wrong-pair/predicate/shuffle controls test whether the estimator ignores the
+  candidate identity or predicate, but do not create independent ground truth.
+- The point/mesh audit excludes OBB inputs and primary verifier labels but uses
+  the same reconstructed geometry and ontology.
 
-### Current defense
+**Current defense**
 
-- C를 constructed-target compatibility score라고 정의하고 physical-validity
-  probability라고 부르지 않는다.
-- Violation을 verifier-derived라고 부른다.
-- verifier의 exact scalar를 제거한 train-only refit에서도 main behavior가
-  대부분 유지된다.
-- 관련 measurement family 전체를 제거하면 effect가 약해짐을 숨기지 않는다.
-- counterfactual threshold와 negative cap sensitivity를 보고한다.
-- Frozen `orthogonal_geometry_audit_v1` assigns point, mesh, and strict
-  consensus statuses from raw instance vertices and area-weighted triangle
-  surfaces without reading OBB inputs or existing verifier labels. At K=50 and
-  K=100, every predictor has a negative paired scan-cluster consensus dV with
-  95--98% supported-status coverage; strict binary-decision coverage is lower
-  (71--84% at K=50) because disagreements remain uncertain. Separate point and
-  mesh results agree in direction.
-- Synthetic distance/elevation interventions produce 100% monotone frozen
-  compatibility responses; raw point/mesh responses are 94.7--100% monotone.
+- Define compatibility as a constructed-target ranking score, not a posterior
+  probability of validity.
+- Call the main metric `verifier-derived Violation@$K$`.
+- Report feature-removal refits, threshold/counterfactual sensitivity, and
+  point-/mesh-based alternative measurements.
+- Keep exact-match Recall visible with Violation to expose task trade-offs.
 
-### Still missing
+**Residual action**
 
-- Point와 mesh가 동일한 reconstructed PLY surface와 dataset ontology를 공유하므로,
-  independently sensed geometry 또는 human physical-validity reference는 아직 없다.
+No additional experiment is required for the scoped submission. Independent
+reference labels or human alignment would strengthen the claim but would open a
+new evidence protocol.
 
-### Blocked wording
+**Blocked wording**
 
-- human-validated physical correctness.
-- independent physical ground-truth metric.
+- human-validated or independently verified physical correctness;
+- independent physical-validity ground truth;
 - calibrated probability of validity.
 
 ## R2. Shared Dataset Target
 
-### Reviewer attack
+**Reviewer attack**
 
-> VL-SAT, Open3DSG, SGFN은 predictor만 다르고 같은 3DSSG/3RScan geometry와
-> ontology를 사용하므로 generalization evidence가 제한적이다.
+> VL-SAT, Open3DSG, and SGFN differ as predictors but share the same 3DSSG
+> geometry and relation ontology, so this is not cross-dataset evidence.
 
-### Facts
+**Verified facts**
 
-- 세 predictor의 candidate distribution과 confidence scale은 다르다.
-- dataset, GT ontology, reconstructed geometry는 공유한다.
-- ReplicaSSG/FROSS stress test는 target-dependent하고 K=100에서 포화된다.
+- Candidate distributions and native score contracts differ across predictors.
+- Dataset, reconstruction, and evaluation ontology are shared.
+- ReplicaSSG/FROSS is a supplemental stress test with target-dependent behavior
+  and limited candidate coverage.
 
-### Current defense
+**Current defense**
 
-- Claim을 `behavior across three predictors on a shared target`으로 제한한다.
-- External result를 supplement stress test로 보고하고 all-K curve와 saturation을
-  공개한다.
-- Abstract/Conclusion에서 dataset-level generalization을 사용하지 않는다.
+- State `three predictors on one shared 3DSSG target` in Abstract, Results,
+  Discussion, and Conclusion.
+- Use the external result only as a transfer stress test.
+- Separate cross-predictor robustness from dataset generalization.
 
-### Still missing
+**Residual action**
 
-- 충분한 exact-label candidate coverage를 가진 untouched external dataset에서의
-  confirmation.
+An untouched external dataset with adequate exact-label candidate coverage is
+optional strengthening, not a requirement for the frozen claim.
 
-### Blocked wording
+**Blocked wording**
 
-- cross-dataset generalization established.
-- arbitrary-source/dataset robustness.
+- cross-dataset generalization established;
+- arbitrary-source or arbitrary-dataset robustness.
 
-## R3. Support/Contact Applicability
+## R3. Support/Contact Scope
 
-### Reviewer attack
+**Reviewer attack**
 
-> 왜 세 family model을 학습하면서 support/contact에는 method를 적용하지 않는가?
+> Why evaluate support/contact if the proposed method does not re-rank it?
 
-### Facts
+**Verified facts**
 
-- Unrestricted product는 support/contact selection을 바꾸고 family Violation을
-  악화시킬 수 있다.
-- 현재 feature는 local contact, articulation, pose를 충분히 관측하지 않는다.
-- Support/contact 전체에 적용 가능한 하나의 endpoint transformation이 없다.
+- Current measurements do not fully observe local contact, articulation, and
+  pose.
+- No single endpoint transformation preserves every support/contact predicate.
+- Applying compatibility to all families can change selections and mask a
+  support/contact regression.
 
-### Current defense
+**Current defense**
 
-- Primary ranking은 support/contact source order와 selection을 정확히 유지한다.
-- Proximity/vertical에서만 compatibility를 사용한다.
-- Figure 3에 unchanged residual failure를 포함한다.
-- Family-wise metrics를 따로 보고한다.
+- Define evaluation and re-ranking scopes separately.
+- Use the exact source-ranking support/contact subsequence in the primary rule.
+- Report Product (all families) as a scope comparison rather than the method.
+- Preserve family-specific metrics and a residual qualitative case in the
+  supplement.
 
-### Still missing
+**Residual action**
 
-- richer local point/mesh contact evidence와 predicate-specific transformation.
+Richer contact/pose evidence and predicate-specific transformations belong to a
+future method extension.
 
-### Blocked wording
+**Blocked wording**
 
-- family-uniform improvement.
-- support/contact solved.
-- 모든 relation에 보편적으로 적용되는 해결책.
+- support/contact solved;
+- all-family or family-uniform improvement;
+- universal relation re-ranking.
 
 ## R4. Novelty Ceiling
 
-### Reviewer attack
+**Reviewer attack**
 
-> 이 방법은 engineered geometry feature를 logistic regression으로 학습해 score를
-> 곱하는 단순 post-processing 아닌가?
+> RelCompat3D is an engineered geometry classifier followed by score
+> multiplication and sorting.
 
-### Current defense
+**Verified facts**
 
-- Failure cause에서 factor separation의 필요성을 도출한다.
-- Source score와 predictor identity를 compatibility에서 제외한다.
-- Positive/counterfactual pair의 ordering을 직접 학습한다.
-- Proximity symmetry와 vertical inverse consistency를 inference에서 정확히
-  만족시킨다.
-- Identity-preserving joins, wrong-pair/predicate/transformation controls를
-  하나의 falsification contract로 제시한다.
-- Family-aware sorting이 every-K family composition과 support/contact order를
-  보존한다.
-- GEODE처럼 geometry를 generator 내부에 넣는 최신 방법과 달리, fixed candidate
-  output에서 source score를 compatibility 입력과 분리하고 relation
-  transformation을 보장한다는 경계를 Related Work에 명시한다.
+- Linear features and product scoring are simple.
+- Finite transformation averaging is a standard invariance construction.
+- The method does not introduce a new geometry encoder or relation generator.
 
-### Residual limit
+**Current defense**
 
-- Feature와 model 자체는 작고 engineered다.
-- Contribution을 novel geometry encoder나 universal rescorer로 높일 근거는 없다.
+- Tie the method form directly to the diagnosed score/compatibility mismatch.
+- Present the contribution as one contract combining:
+  source-score exclusion, ordered-pair identity, linked counterfactual learning,
+  exact applicable transformations, and family-aware output preservation.
+- Use Linear and MLP as two estimators within the same framework.
+- Distinguish fixed-output reliability assessment from generator-internal
+  geometry conditioning and declarative constraint refinement.
 
-### Correct novelty statement
+**Allowed novelty statement**
 
-> The contribution is a factor-separated reliability layer that combines
-> linked counterfactual compatibility learning, exact relation-transformation
-> consistency, and family-scoped re-ranking for fixed relation outputs.
+> RelCompat3D is a factor-separated reliability framework for fixed relation
+> predictions that couples linked counterfactual compatibility learning,
+> exact relation-transformation consistency, and family-scoped re-ranking.
 
-## R5. Strong Comparators
+**Blocked wording**
 
-### Reviewer attack
+- novel multiplication/fusion rule;
+- novel group-averaging theorem;
+- universal geometry encoder or best rescorer.
 
-> 더 큰 MLP나 일반 rank fusion이 같은 또는 더 좋은 결과를 얻는다면 product가
-> 왜 method인가?
+## R5. Comparator Trade-offs
 
-### Facts
+**Reviewer attack**
 
-- RelCompat3D-MLP는 Open3DSG에서 Linear보다 일부 K의 Recall이 더 높지만
-  Violation도 더 높다.
-- RankAvg/RRF는 일부 large-K Violation을 낮추지만 low-budget Recall loss가 크다.
-- Unrestricted product는 aggregate Recall이 높을 수 있지만 family scope를
-  바꾼다.
-- 하나의 comparator가 모든 source와 K에서 joint objective를 지배하지 않는다.
+> If an MLP or rank fusion has better Recall or Violation at some settings, why
+> is the proposed scoring rule necessary?
 
-### Current defense
+**Verified facts**
 
-- 모든 strong comparator를 같은 family-aware ranking procedure로 평가한다.
-- Main Table 1에 RelCompat3D-Linear와 RelCompat3D-MLP를 두 proposed capacity로
-  직접 포함하고, principal controls와 surface audit를 두 capacity 모두에 적용한다.
-- Product utility를 best formula가 아니라 두 compatibility capacity가 공유하는
-  parameter-free ranking rule로 설명한다.
-- Framework novelty와 fusion choice를 분리한다.
-- 모든 K의 scan-cluster interval을 공개해 일부 budget의 point-estimate 개선을
-  일괄적인 통계적 우월성으로 확대하지 않는다.
+- Linear and MLP occupy different Recall--Violation operating points.
+- RankAvg/RRF can lower Violation at some larger $K$ values but lose more Recall
+  at smaller $K$ values.
+- Product (all families) changes the method's family scope.
+- No ranking rule dominates all predictors and reported $K$ values.
 
-### Blocked wording
+**Current defense**
 
-- state-of-the-art rescorer.
-- formula superiority.
-- consistently dominates rank fusion/nonlinear models.
+- Treat Linear and MLP as equal proposed estimators.
+- Match candidate universe and family-aware ranking procedure across
+  comparators.
+- Claim framework-level behavior rather than formula superiority.
+- Report all five $K$ values and predictor-specific trade-offs.
+
+**Blocked wording**
+
+- consistently dominates;
+- state-of-the-art rescorer;
+- universally superior estimator or fusion.
 
 ## R6. Open3DSG Coverage
 
-### Reviewer attack
+**Reviewer attack**
 
-> Open3DSG public preprocessing이 모든 official context에 candidate를 만들지
-> 못한다면 main 수치는 어떤 target을 평가한 것인가?
+> Public Open3DSG preprocessing does not provide candidates for every official
+> context, so the evaluation target may be ambiguous.
 
-### Facts
+**Verified facts**
 
-- Public candidate lists가 없는 context도 official 548-context target에는
-  포함한다.
-- Main evaluation은 해당 context를 empty candidate list로 처리하고 3,972 GT
-  Recall denominator를 유지한다.
-- Candidate가 제공된 context만 따로 평가한 결과와 추가 preprocessing으로
-  모든 context의 candidate를 구성한 결과는 supplement sensitivity다.
+- The official evaluation universe contains 548 contexts and 3,972 exact-label
+  ground-truth relations.
+- Missing public candidate lists are treated as empty; the GT denominator is
+  retained.
+- Ground-truth availability is not used to include, filter, or rank candidates.
+- Coverage sensitivity is supplemental.
 
-### Current defense
+**Current defense**
 
-- Main은 public predictions를 official 548-context target 전체에서 평가한다.
-- Ground-truth availability는 inclusion/ranking에 사용하지 않는다.
-- Coverage sensitivity의 conclusion direction이 일치한다.
-- 자세한 preprocessing 수치는 main narrative가 아니라 supplement와 공개 산출물에
-  둔다.
+- Describe the full-target empty-list policy in Experimental Setup or the
+  supplement.
+- Keep exact Recall and verifier denominators reproducible.
+- Avoid leaderboard or full-reproduction claims.
 
-### Blocked wording
+**Blocked wording**
 
-- complete standard Open3DSG reproduction.
-- Open3DSG leaderboard/SOTA result.
+- complete standard Open3DSG reproduction;
+- official Open3DSG SOTA or leaderboard result.
 
-## Additional Reporting Risks
+## R7. Selected PDF vs. Consolidated Source
 
-### K selection
+**Reviewer/administrative attack**
 
-- 모든 K={5,10,20,50,100}를 main table과 Figure 2에 남긴다.
-- K=50을 intermediate reported budget으로만 사용하고 outline하지 않는다.
-- 모든 K에서 유의한 Recall improvement를 주장하지 않는다.
+> The submitted source may rebuild to a PDF that exceeds the AAAI limit or
+> differs from the selected review PDF.
 
-### Hard filter
+**Verified facts**
 
-- V=0은 construction이고 K보다 적은 행을 선택할 수 있다.
-- Primary comparator가 아니라 diagnostic으로 유지한다.
+- Selected main: `paper/aaai/main_teaser_aaai27.pdf`, 9 pages, SHA-256
+  `ac0313df7248da518488f0f39ab7d6cce42d1ac2cc6d5f234fc2aee4631e588c`.
+- It contains seven technical pages and references on pages 7--9.
+- The freshly consolidated teaser source currently builds to 10 pages and has
+  one 4.43-pt overfull table row.
+- Pre/post section-consolidation PDF text is identical, so file merging did not
+  create the discrepancy.
+- The user has selected the canonical teaser layout and explicitly deferred
+  page compression and overfull repair to the next pass.
 
-### Uncertainty denominator
+**Required closure before upload**
 
-- all-status V, decidable-only V, uncertainty rate, pessimistic V를 함께
-  sensitivity로 보고한다.
-- uncertain을 satisfied라고 표현하지 않는다.
+1. Restore a compliant selected teaser build without margin changes, type
+   reduction, or negative spacing.
+2. Fix the overfull table row.
+3. Rebuild canonical main/supplement/checklist from the consolidated source.
+4. Refresh hashes and regenerate the anonymous source/release bundle.
+5. Verify extracted-source rebuild, pages, fonts, citations, anonymity, and
+   archive integrity.
+
+**Blocked action**
+
+- Uploading the old canonical PDF with a source archive that rebuilds to the
+  10-page variant.
+
+## Reporting Invariants
+
+- Report every $K\in\{5,10,20,50,100\}$; K=50 is intermediate, not selected.
+- Distinguish point-estimate non-degradation from confidence-interval support.
+- Treat uncertain verifier rows according to the declared denominator and do
+  not call them satisfied.
+- Do not use hard-filter V=0 as primary evidence because it may return fewer
+  than $K$ candidates.
+- Keep Surface/point-mesh values distinct from primary Violation values.
+- Refer to the released SceneGraphFusion model as SGFN after its local
+  definition and citation.
 
 ## Claim Contract
 
 Allowed:
 
-> RelCompat3D reduces verifier-derived Violation with source-dependent Recall
-> trade-offs across three relation predictors on a shared 3DSSG target, while
-> retaining source order for relation families outside its geometric
-> re-ranking scope.
+> Across three relation predictors on one shared 3DSSG target, both RelCompat3D
+> estimators improve or tie the reported Source Recall--Violation point
+> estimates while preserving the source family sequence and support/contact
+> candidate order.
 
 Not allowed:
 
-- independent physical-validity validation.
-- all-relation or support/contact improvement.
-- dataset-level generalization.
-- universal/best fusion.
-- complete open-vocabulary graph-generation improvement.
+- independent physical-validity validation;
+- all-relation or support/contact improvement;
+- dataset-level generalization;
+- universal/best fusion;
+- 3D scene graph generation SOTA.
 
 ## Submission Gate
 
-Scientific gate는 canonical PDF와 anonymous source bundle이 current tables,
-figures, and claim을 재현하면 충족된다. 현재 남은 required task는 author metadata,
-reciprocal reviewer declaration, license/artifact URL, 그리고 사용자가 다시 그린
-figure의 source-lock verification이다.
+Scientific evidence is complete for the scoped claim. Submission readiness is
+blocked only by R7 and external form metadata: author profiles/order,
+affiliations/countries, conflicts, reciprocal-reviewer declaration, final live
+title/abstract/TL;DR/topics, license, and artifact URL.

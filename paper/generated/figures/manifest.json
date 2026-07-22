@@ -5,7 +5,6 @@
     "figure2_tradeoff.png": "paper/generated/figures/figure2_tradeoff.png"
   },
   "created_at": "2026-07-19T23:30:18.165578+00:00",
-  "layout_review": "paper/generated/figures/layout_review.md",
   "outputs": {
     "figure2_tradeoff.svg": "paper/generated/figures/figure2_tradeoff.svg"
   },
@@ -14,6 +13,6 @@
     "experiments/H001_geom_reliability/sources/open3dsg/failure_cases/inspection.json"
   ],
   "source_lock": "paper/figures.md",
-  "status": "draft_figures_generated_verified",
+  "status": "current_main_figures_generated_verified",
   "validation": "paper/generated/figures/validation.json"
 }

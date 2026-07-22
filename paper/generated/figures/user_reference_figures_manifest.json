@@ -9,6 +9,7 @@
       "sha256": "7dcab0b2906d064e83a26b83a037c9153442a9d874a80bb0f9d7631a23389b25"
     }
   },
+  "case_manifest": "paper/generated/figures/main_case_manifest.json",
   "content": {
     "figure1": "locked desk-higher-than-ceiling demotion, ranks 6 to 425",
     "figure2": "locked heater-close-by-trash-can example, ranks 19 to 178, C^tr notation"

@@ -18,8 +18,36 @@ interfaces for open-vocabulary language-based applications and embodied systems
 
 \ifdefined\withteaser
 Figure~\ref{fig:teaser} illustrates this failure.
-\input{sec/teaser}
-\input{sec/framework_figure}
+\begin{figure*}[t]
+    \centering
+    \figmaybe[width=0.98\linewidth]{../generated/figures/teaser_demotion_reference.pdf}
+    \caption{Open3DSG~\cite{koch2024open3dsg} example. Measured elevation
+    contradicts \texttt{desk higher than ceiling}; family-aware re-ranking moves
+    it from rank 6 to 425, outside the Top-50.}
+    \label{fig:teaser}
+\end{figure*}
+
+\begin{figure*}[t]
+    \centering
+    \figmaybe[width=0.98\linewidth]{../generated/figures/framework_user_reference.pdf}
+\ifdefined\withteaser
+    \caption{\method{} overview. (a) Pair Geometry and Relation shows a
+    high-scoring \texttt{heater close by trash can} prediction despite 4.33-m
+    separation. (b) Compatibility and Re-Ranking computes $\ctr(T,G)$ from
+    predicate semantics $T$ and pair measurements $G$ without predictor score
+    $Z$, then combines $Z$ only in the within-family score, moving the relation
+    from rank 19 to 178.}
+\else
+    \caption{\method{} overview. (a) Pair Geometry and Relation shows a
+    high-scoring \texttt{heater close by trash can} prediction despite 4.33-m
+    separation. (b) Compatibility and Re-Ranking computes $\ctr(T,G)$ from
+    predicate semantics $T$ and pair measurements $G$ without predictor score
+    $Z$, then combines $Z$ only in the within-family score, moving the relation
+    from rank 19 to 178.}
+\fi
+    \label{fig:framework}
+\end{figure*}
+
 \fi
 
 The failure is not simply that 3DSSG methods~\cite{wald2020learning3dssg}
@@ -62,7 +90,27 @@ consistency.
 Figure~\ref{fig:framework} summarizes the framework.
 
 \ifdefined\withteaser\else
-\input{sec/framework_figure}
+\begin{figure*}[t]
+    \centering
+    \figmaybe[width=0.98\linewidth]{../generated/figures/framework_user_reference.pdf}
+\ifdefined\withteaser
+    \caption{\method{} overview. (a) Pair Geometry and Relation shows a
+    high-scoring \texttt{heater close by trash can} prediction despite 4.33-m
+    separation. (b) Compatibility and Re-Ranking computes $\ctr(T,G)$ from
+    predicate semantics $T$ and pair measurements $G$ without predictor score
+    $Z$, then combines $Z$ only in the within-family score, moving the relation
+    from rank 19 to 178.}
+\else
+    \caption{\method{} overview. (a) Pair Geometry and Relation shows a
+    high-scoring \texttt{heater close by trash can} prediction despite 4.33-m
+    separation. (b) Compatibility and Re-Ranking computes $\ctr(T,G)$ from
+    predicate semantics $T$ and pair measurements $G$ without predictor score
+    $Z$, then combines $Z$ only in the within-family score, moving the relation
+    from rank 19 to 178.}
+\fi
+    \label{fig:framework}
+\end{figure*}
+
 \fi
 
 We evaluate support/contact, proximity, and vertical-order relations because

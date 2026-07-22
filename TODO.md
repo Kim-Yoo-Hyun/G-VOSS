@@ -1,10 +1,10 @@
 # TODO
 
-Last updated: 2026-07-20 KST
+Last updated: 2026-07-22 KST
 
 이 파일은 에이전트가 다음 작업 계획과 진행 상태를 관리하는 루트 작업판이다. 자세한 문헌 조사 내용은 `literature/`에 기록하고, 자세한 hypothesis 근거는 `archive/hypothesis_records/hypothesis/`에 기록한다.
 
-## Current Snapshot, 2026-07-20 KST
+## Current Snapshot, 2026-07-22 KST
 
 - Paper-facing name is now `Beyond Semantic Confidence: Relation-Consistent Geometric Re-ranking for 3D Scene Graphs`; keep `H001` as an internal hypothesis/experiment identifier only.
 - The active manuscript now uses `RelCompat3D` as its method name and six
@@ -49,16 +49,17 @@ Last updated: 2026-07-20 KST
   `archive/paper/aaai_snapshots/20260625_reference_expansion.pdf`
   remains preserved. It is provenance only and must not be used as the active
   manuscript or upload package.
-- Latest H001 submission manuscript is `paper/aaai/main_aaai27.pdf`, SHA256
-  `5b9d917a61fc9045f46aa477750590f40c621157068ae74dec1ccc5e8e7f113b`; the
-  selected two-figure teaser version is `paper/aaai/main_teaser_aaai27.pdf`,
-  SHA256 `ac0313df7248da518488f0f39ab7d6cce42d1ac2cc6d5f234fc2aee4631e588c`.
-  The current default/teaser/supplement/checklist outputs are 9/9/10/2
-  US-Letter pages. Both main variants end technical content on page 7; the
-  default begins references in the remaining page-7 column and the teaser
-  begins references on page 8. Type 3 fonts, unresolved
-  citations/references, LaTeX errors, and overfull boxes are zero. Superseded
-  framework-first, factorized, and Replica-disclosure builds remain archived.
+- The selected H001 main submission layout is now
+  `paper/aaai/main_teaser_aaai27.pdf`, SHA256
+  `ac0313df7248da518488f0f39ab7d6cce42d1ac2cc6d5f234fc2aee4631e588c`.
+  `paper/aaai/main_aaai27.pdf` is retained only as a non-selected comparison.
+  The selected canonical teaser is 9 US-Letter pages with technical content
+  ending on page 7. After section-source consolidation, a fresh teaser smoke
+  build is 10 pages and retains one 4.43-pt overfull table row; pre/post merge
+  PDF text is identical, so this is pre-existing layout debt. The user has
+  deferred compression and overfull repair to the next release pass. Do not
+  upload until the consolidated source reproduces a compliant selected teaser
+  and the anonymous release bundle is regenerated.
 - The teaser canonical now uses the user-supplied composition as a native-vector
   full-width demotion Figure 1 and full-width method Figure 2. Both retain the
   supplied scene/layout through vector tracing, contain no raster images, meet the final
@@ -386,6 +387,13 @@ CAND-003 is the literature-survey track. Its next step remains user judgment on 
 ## Now
 
 ### CAND-001 / H001 reviewer extension
+
+- [x] Select `paper/aaai/main_teaser_aaai27.pdf` as the sole main submission
+      layout and synchronize `paper/{outline,preview,progress,review,risk}.md`.
+      Keep the default PDF only for comparison. The next required release pass
+      must reconcile the consolidated teaser source with the selected 9-page
+      canonical layout, fix the 4.43-pt overfull table row, and regenerate the
+      canonical PDFs and anonymous bundle before upload.
 
 - [x] Promote the supervision-matched nonlinear head as `RelCompat3D-MLP`
       beside `RelCompat3D-Linear`: run the frozen Docker-only MLP corruption/

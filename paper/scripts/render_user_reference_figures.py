@@ -31,7 +31,7 @@ import render_figure3_geometry_panels as geom
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE_DIR = ROOT / "paper" / "reference_AAAI"
 OUTPUT_DIR = ROOT / "paper" / "generated" / "figures"
-LOCKED_MANIFEST = OUTPUT_DIR / "figure3_geometry_manifest.json"
+LOCKED_MANIFEST = OUTPUT_DIR / "main_case_manifest.json"
 
 FIG1_STEM = "teaser_demotion_reference"
 FIG2_STEM = "framework_user_reference"

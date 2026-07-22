@@ -1,122 +1,138 @@
 # RelCompat3D Paper Progress
 
-Last updated: 2026-07-20 KST
+Last updated: 2026-07-22 KST
 
-이 문서는 현재 paper-facing work의 완료 상태와 남은 작업만 기록한다. Smoke
-test, historical split, checkpoint recovery, method-selection chronology는
-`archive/`, `experiments/`, `TODO.md`가 소유하며 여기서 반복하지 않는다.
+이 문서는 paper-facing completion state, selected submission artifact, and
+remaining work만 기록한다. Experiment chronology와 runtime artifact는
+`experiments/`, 복구 명령은 `docs/reproducibility.md`, reviewer 판단과 위험은
+`paper/review.md`와 `paper/risk.md`가 소유한다.
 
 ## Current Phase
 
-Status: `submission_package_scientifically_complete_author_metadata_pending`
+Status: `teaser_main_selected_release_regeneration_pending`
 
-현재 scientific claim에 필요한 method, main comparisons, controls, statistics,
-figures, supplement, Docker source package가 준비되었다. 추가 실험은 새로운
-claim을 열거나 특정 reviewer risk를 닫을 때만 수행한다.
+`paper/aaai/main_teaser_aaai27.pdf`를 main submission layout으로 선택했다.
+Scientific claim, main comparisons, controls, audit, supplement, and
+reproducibility checklist are complete. The immediate remaining work is source
+layout reconciliation, canonical rebuild, and submission metadata rather than
+new experiments.
 
 ## Completed Scientific Components
 
 | component | status | paper role |
 | --- | --- | --- |
-| fixed-candidate reliability problem | complete | Introduction / Method |
-| source relation score and compatibility separation | complete | Method |
+| fixed-candidate geometric-compatibility task | complete | Introduction / Method |
+| ordered-pair and exact relation identity contract | complete | Method / Metrics |
+| source-score-excluded compatibility estimation | complete | Method |
+| Linear and shared compact MLP estimators | complete | Method / Table 1 |
 | linked positive--counterfactual training | complete | Method / supplement |
-| proximity symmetry and joint endpoint-swap/inverse-predicate consistency | complete | Method / proof |
-| constrained family-aware re-ranking | complete | family-sequence preservation and prefix-utility optimality |
+| proximity and vertical transformation averaging | complete | Method / proof |
+| family-aware re-ranking | complete | Method / main comparisons |
 | strict train/development/evaluation split | complete | Experimental Setup |
-| VL-SAT/Open3DSG/SGFN evaluation | complete | Table 1 / Figure 2 |
-| RelCompat3D-MLP capacity, RankAvg, RRF | complete | second proposed capacity and matched fusion baselines |
-| wrong predicate/pair/shuffle/swap controls | complete | main K=50 / supplemental K=100 tables |
-| distance-only and compatibility-only controls | complete | main K=50 / supplemental K=100 tables |
-| uncertainty and family decomposition | complete | supplement / limitations |
-| scan-cluster confidence intervals at every reported K | complete | Results / supplement |
-| bounded CPU runtime and parameter count | complete | supplement |
-| threshold sensitivity | complete | supplement |
-| feature-removal refits | complete | supplement |
-| point/mesh surface-based geometry audit | complete | exact main prose / full supplement |
-| relative-size secondary extension | complete | artifact only; excluded from submission |
-| cross-dataset stress test | complete | supplement limitation evidence |
+| VL-SAT/Open3DSG/SGFN shared-target evaluation | complete | Table 1 / Figure 3 |
+| RankAvg, RRF, Product (all families) | complete | Table 1 |
+| matched wrong-predicate/pair/shuffle/swap controls | complete | Table 2 / supplement |
+| distance-only and compatibility-only controls | complete | Table 2 / supplement |
+| scan-level paired intervals | complete | Results / supplement |
+| feature-removal and counterfactual sensitivity | complete | supplement |
+| point- and mesh-based consistency audit | complete | Table 3 / supplement |
+| uncertainty and family decomposition | complete | supplement |
+| bounded re-ranking runtime and parameter count | complete | supplement |
+| external ReplicaSSG/FROSS stress test | complete | supplement limitation evidence |
+
+Relative-size and support/contact extensions remain completed research artifacts
+but are not active main-paper evidence.
 
 ## Completed Manuscript Components
 
-- Six-section AAAI structure.
-- Exact-number-free Abstract.
-- Percentage-scale Table 1 and Table 2.
-- Figure 1 method overview and Figure 2 Source/Linear/MLP all-K trajectory use
-  Helvetica-compatible source typography, high-resolution PNG
-  manuscript assets, white backgrounds, thin neutral rules, and restrained
-  colorblind-safe accents.
-- Separate first-page-teaser manuscript variant sharing the transcript, adding
-  a pair-level Top-50 demotion, and retaining the later full-width framework
-  figure. The qualitative grid is supplemental in both main variants to
-  preserve the seven-page technical limit.
-- One-column K=50 matched-control table in the main paper; complete K=100
-  controls and full point/mesh/consensus audit in the supplement.
-- Counterfactual rules and relation-transformation proofs in supplement.
-- GEODE, RelWitness, RelGraphOV, TAD, and PUF boundaries in Related Work.
-- Discussion that consolidates shared-target, construct-overlap, and
-  support/contact limits.
-- Separate reported-evaluation and re-ranking family scopes, exact preservation
-  of the support/contact source subsequence, and explicit disclosure of the
-  OBB-measurement overlap between counterfactual construction and the primary
-  verifier.
-- Standalone reproducibility checklist.
-- Anonymous code/data supplement with outer/inner checksum validation.
+- Abstract and six-section AAAI manuscript structure.
+- Main source consolidated into seven numbered files:
+  `0_abstract`, `1_introduction`, `2_related_work`, `3_method`,
+  `4_experiments`, `5_discussion_limitations`, and `6_conclusion`.
+- Active supplement consolidated into `paper/aaai/sec/supplement.tex`.
+- Inactive relative-size manuscript text retained in `paper/aaai/sec/old.tex`.
+- Reviewer feedback converted from `paper/user_feedback.tex` to
+  `paper/user_feedback.md`.
+- Generated figure directory reduced to current Figure 1--3 assets and their
+  locked data/manifests; the active supplemental qualitative image moved to
+  `paper/aaai/supplement_figures/`.
+- Figure 1 demotion case, Figure 2 method overview, and Figure 3 all-K
+  Recall--Violation trajectories finalized for the selected teaser.
+- Table 1 all-K comparison, Table 2 K=50 matched controls, and Table 3 K=50
+  alternative audit finalized.
+- Discussion consolidates construct, shared-target, and support/contact limits.
+- Anonymous supplement and standalone reproducibility checklist are available.
 
-## Current Canonical Build
+## Selected Canonical Build
 
-- main: `paper/aaai/main_aaai27.pdf`, 9 pages.
-- teaser comparison: `paper/aaai/main_teaser_aaai27.pdf`, 9 pages.
-- supplement: `paper/aaai/supplement_aaai27.pdf`, 10 pages.
-- checklist: `paper/aaai/reproducibility_checklist_aaai27.pdf`, 2 pages.
-- release: `release/h001_aaai27_openreview_20260720_084307/` is the verified
-  active-method bundle and selects the teaser main PDF.
+| artifact | status | pages | SHA-256 |
+| --- | --- | ---: | --- |
+| `paper/aaai/main_teaser_aaai27.pdf` | **selected main** | 9 | `ac0313df7248da518488f0f39ab7d6cce42d1ac2cc6d5f234fc2aee4631e588c` |
+| `paper/aaai/main_aaai27.pdf` | retained comparison | 9 | `5b9d917a61fc9045f46aa477750590f40c621157068ae74dec1ccc5e8e7f113b` |
+| `paper/aaai/supplement_aaai27.pdf` | active supplement | 10 | `b9dc44ce09bb12d805472ead80bb72ca174cb844658929325917f59a7103226e` |
+| `paper/aaai/reproducibility_checklist_aaai27.pdf` | active checklist | 2 | `cd12a07ab1f9067a73f7aec128d43721c00c71bc17130acc32f6d34b99079e59` |
 
-## Decisions Already Made
+The selected canonical main has seven technical pages. A fresh build from the
+consolidated source currently has 10 total pages and one 4.43-pt overfull table
+row. This mismatch existed before the section-file consolidation; pre/post
+merge PDF text is identical. The user has explicitly deferred both layout
+issues until the next release pass.
 
-- The strict train-only `no_family_indicator_v1` refit is the active method;
-  family selects the head/procedure but is not a constant feature. The former
-  69-parameter model is historical provenance.
-- Main claim은 shared-target cross-predictor reliability다.
-- 모든 K=`{5,10,20,50,100}`를 공개한다.
-- K=50은 intermediate reported budget이며 별도 표시하지 않는다.
-- Primary rule은 proximity/vertical family-aware product re-ranking이다.
-- Support/contact는 source order를 유지한다.
-- RelCompat3D-MLP는 Linear와 동등한 proposed capacity로 main에 포함한다.
-- Pooled compatibility, hard filter, external transfer는 supplement 또는
-  diagnostic이다.
-- Relative size는 core learned-method evidence가 아니다.
-- 독립 human reference가 없는 상태에서 Human V를 주장하지 않는다.
+The latest verified bundle is
+`release/h001_aaai27_openreview_20260720_084307/`. It already chooses the teaser
+layout but must be regenerated from the consolidated source before upload.
+
+## Decisions Locked
+
+- `main_teaser_aaai27.pdf` is the main submission layout; the default PDF is no
+  longer an upload candidate.
+- Main claim is shared-target, cross-predictor relation reliability.
+- All $K\in\{5,10,20,50,100\}$ remain visible.
+- K=50 is an intermediate reported setting, not a selected endpoint.
+- RelCompat3D-Linear and RelCompat3D-MLP are equal proposed estimators within
+  one framework; neither is universally superior.
+- Proximity and vertical-order candidates are re-ranked.
+- Support/contact candidates retain source order.
+- Product (all families) is a scope comparison, not the primary method.
+- Violation is verifier-derived; the point/mesh audit is an alternative
+  construct check rather than independent ground truth.
+- Dataset-level generalization and support/contact improvement remain outside
+  the claim.
 
 ## Deferred or Non-Main Tracks
 
-| track | 현재 상태 | main claim에 넣지 않는 이유 |
+| track | status | reason outside main claim |
 | --- | --- | --- |
-| relative size | artifact only | fixed geometric rule이 learned score와 동등하게 강하고 core claim 밖임 |
-| support/contact learned re-ranking | deferred | local contact/pose evidence와 valid transform 부족 |
-| attachment subtype | development only | multiple-source joint gate 미충족 |
-| relative horizontal | blocked | global reference-frame semantics 불명확 |
-| Qwen-VL | extension only | main three-source contract 밖의 별도 inference pipeline |
-| ReplicaSSG/FROSS | stress test | target-dependent transfer와 K=100 saturation |
+| relative size | artifact only | fixed geometric rule is equally strong; stored in `old.tex` |
+| support/contact learned re-ranking | deferred | insufficient local contact/pose evidence and no family-wide transform |
+| attachment subtype | development only | multi-source gate not met |
+| relative horizontal | blocked | reference-frame semantics unresolved |
+| Qwen-VL | extension only | outside the frozen three-predictor contract |
+| ReplicaSSG/FROSS | supplement stress test | target-dependent transfer and candidate-coverage limits |
+| independent human reference | optional | would strengthen construct validity but is not required for the scoped claim |
 
 ## Remaining Work
 
 ### Required before submission
 
-- current canonical source/PDF를 사용한 anonymous release bundle 재생성.
-- default main과 first-page teaser main 중 upload layout 선택.
-- OpenReview author metadata.
-- reciprocal-reviewer declaration.
-- live form의 title, abstract, TL;DR, topics 확인.
-- public license와 post-acceptance artifact URL 결정.
-- Optional only: verify source locks if Figure 1--3 are later redrawn manually
-  in an external vector editor.
+1. Compress the fresh selected teaser build back to the AAAI page limit without
+   changing margins, type size, or using negative spacing.
+2. Resolve the 4.43-pt overfull table row.
+3. Rebuild `main_teaser_aaai27.pdf`, supplement, and checklist from the
+   consolidated source and refresh hashes.
+4. Regenerate and verify the anonymous release bundle; confirm its `main.pdf`
+   is the selected teaser.
+5. Run final citation/reference, font, page-size, anonymity, and source-archive
+   checks.
+6. Complete OpenReview author metadata, conflicts, reciprocal-reviewer
+   declaration, topics, title, abstract, and TL;DR fields.
+7. Decide the public license and post-acceptance artifact URL.
 
 ### Optional scientific strengthening
 
-- independent human physical-validity reference.
-- untouched external dataset with adequate candidate coverage.
-- richer contact/pose observation for support/contact.
+- independent reference labels or human alignment;
+- additional dataset evaluation with adequate exact-label candidate coverage;
+- richer contact and pose measurements for support/contact.
 
-이 optional work는 현재 scoped submission을 빌드하는 데 필요한 blocking task가
-아니다. 수행한다면 `paper/risk.md`의 해당 risk와 claim boundary를 먼저 갱신한다.
+Optional work must not broaden the current claim unless its protocol and
+evidence are frozen first.

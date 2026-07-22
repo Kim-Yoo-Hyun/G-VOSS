@@ -1,10 +1,11 @@
 # RelCompat3D Current Paper Preview
 
-Last updated: 2026-07-20 KST
+Last updated: 2026-07-22 KST
 
-이 문서는 H001 manuscript의 현재 handoff snapshot만 소유한다. Method와
-experiment의 상세 설명은 각각 `paper/method.md`와 `paper/experiment.md`를
-사용하고, 과거 연구 chronology는 experiment reports와 archive에서 확인한다.
+이 문서는 현재 submission handoff snapshot만 소유한다. 상세 method와
+experiment contract는 `paper/method.md`와 `paper/experiment.md`, section 논리는
+`paper/outline.md`, reviewer 판단과 남은 위험은 `paper/review.md`와
+`paper/risk.md`를 따른다.
 
 ## Current Identity
 
@@ -12,62 +13,74 @@ experiment의 상세 설명은 각각 `paper/method.md`와 `paper/experiment.md`
   for 3D Scene Graphs**
 - Method: **RelCompat3D**
 - Venue source: `paper/aaai/`
-- Main scope: proximity와 relative vertical re-ranking; support/contact는
-  평가하지만 source order를 유지한다.
-- Predictors: VL-SAT, Open3DSG, SceneGraphFusion.
-- Target: shared 3DSSG/3RScan final-validation geometry and ontology.
-- Active model: `no_family_indicator_v1`; `T_i=p_i`, while the family label
-  selects the head/procedure without entering the feature vector. The three
-  heads store 66 parameters and the primary path evaluates 43.
+- Selected main artifact: `paper/aaai/main_teaser_aaai27.pdf`
+- Predictors: VL-SAT, Open3DSG, and the released SceneGraphFusion benchmark
+  model (SGFN).
+- Target: one shared 3DSSG/3RScan evaluation geometry and ontology.
+- Re-ranking scope: proximity and vertical-order candidates.
+- Preserved scope: support/contact candidates retain source order.
+- Active protocol: strict train-only `no_family_indicator_v1` for the Linear
+  heads, plus a compact shared nonlinear estimator.
 
 ## Current Claim
 
-> RelCompat3D separates the predictor score from predicate–geometry
-> compatibility, imposes the applicable proximity/vertical transformation
-> consistency, and re-ranks only proximity/vertical relations. On a
-> shared 3DSSG target, the resulting reliability layer shows
-> Violation reductions and source-dependent Recall trade-offs across three
-> relation predictors.
+> RelCompat3D estimates predicate--geometry compatibility without using the
+> source relation score or predictor identity, combines compatibility with the
+> score only during family-aware re-ranking, and improves or ties the reported
+> Recall--Violation point-estimate trade-off across three predictors on one
+> shared 3DSSG target.
 
-이 claim은 다음을 포함하지 않는다.
+This is a scoped reliability claim. It does not claim:
 
-- 새로운 relation generator 또는 open-vocabulary SOTA.
-- best/universal fusion formula.
-- independent human physical-validity metric.
-- cross-dataset generalization.
-- support/contact improvement.
+- a new relation generator or open-vocabulary SOTA;
+- a calibrated probability of physical validity;
+- a universal/best fusion rule;
+- support/contact correction;
+- established cross-dataset generalization.
 
 ## Manuscript Structure
 
-1. Introduction
-2. Related Work
-3. Method, including Problem Setup
-4. Experiments, including setup and results
-5. Discussion and Limitations
-6. Conclusion
+The active main source is consolidated into:
 
-Narrative는 observed failure → structural cause → factor separation → method →
-evidence → limitations 순서다.
+1. `sec/0_abstract.tex`
+2. `sec/1_introduction.tex`
+3. `sec/2_related_work.tex`
+4. `sec/3_method.tex`
+5. `sec/4_experiments.tex`
+6. `sec/5_discussion_limitations.tex`
+7. `sec/6_conclusion.tex`
+
+The active technical supplement is `sec/supplement.tex`. Inactive relative-size
+material is retained only in `sec/old.tex`.
+
+Narrative order:
+
+```text
+observed ordered-pair failure
+→ source-score / compatibility separation
+→ linked counterfactual learning and transformation averaging
+→ family-aware re-ranking
+→ Recall–Violation evidence and controls
+→ construct and scope limits
+```
 
 ## Current Evidence
 
-- 1,061 training / 117 development / 157 final-evaluation scans.
-- 548 evaluation contexts and 3,972 exact-match GT relations.
-- K=`{5,10,20,50,100}`를 모두 Table 1과 Figure 2에 공개.
-- Source, RelCompat3D-Linear, RelCompat3D-MLP, RankAvg, RRF, product applied to
-  all relation families를 동일 candidate universe에서 비교.
-- Wrong predicate, wrong pair, shuffled geometry, fixed-predicate endpoint swap,
-  distance-only, compatibility-only controls를 K=50/100에서 비교.
-- 모든 K의 paired 1,000-resample intervals from a cluster bootstrap over scans와
-  uncertainty/family sensitivity.
-- Exact verifier scalar 및 관련 measurement family를 제거한 train-only refit.
-- Counterfactual thresholds와 negative cap/pair-loss weight sensitivity.
-- OBB inputs와 primary verifier labels를 읽지 않는 point/mesh surface audit,
-  strict consensus, intervals from a cluster bootstrap over scans, coverage, synthetic interventions.
-- Preloaded rows와 pair geometry 이후의 compatibility/re-ranking만 재는
-  single-process CPU benchmark와 parameter count.
+- 1,061 training, 117 development, and 157 evaluation scans.
+- 548 evaluation contexts and 3,972 exact-match ground-truth relations.
+- $K\in\{5,10,20,50,100\}$ reported for all three predictors.
+- Source, RelCompat3D-Linear, RelCompat3D-MLP, RankAvg, RRF, and Product (all
+  families) evaluated on the same candidate universe.
+- K=50 matched controls for wrong predicate/pair, shuffled geometry,
+  fixed-label endpoint swap, distance only, and compatibility only.
+- Complete K=100 controls, feature-removal refits, counterfactual sensitivity,
+  transformation checks, uncertainty, and family decomposition in the
+  supplement.
+- Paired scan-level bootstrap intervals with contexts retained within scans.
+- Point- and mesh-based alternative audit that excludes OBB inputs and primary
+  verifier labels, while still sharing reconstructed geometry and ontology.
 
-K=50 percentage point summary:
+K=50 point-estimate summary (%):
 
 | predictor | Source R / V | Linear R / V | MLP R / V |
 | --- | ---: | ---: | ---: |
@@ -75,76 +88,77 @@ K=50 percentage point summary:
 | Open3DSG | 40.43 / 13.87 | 44.18 / 3.42 | 46.70 / 4.13 |
 | SGFN | 74.02 / 3.85 | 74.50 / 2.63 | 74.57 / 2.58 |
 
-VL-SAT Recall interval은 0을 포함하므로 유의한 Recall gain으로 표현하지 않는다.
-Open3DSG와 SGFN은 K=50에서 Recall 증가와 Violation 감소가 intervals from a
-cluster bootstrap over scans로 지지된다.
+At K=50, paired intervals support Recall increase and Violation decrease for
+Open3DSG and SGFN. VL-SAT's Recall interval contains zero, while its Violation
+interval is below zero. Across all 15 predictor--K cells, both proposed
+variants have Recall point estimates no lower and Violation point estimates no
+higher than Source; this statement is about point estimates, not universal
+statistical dominance.
 
-## Current Figures and Tables
+## Selected Figures and Tables
 
-- Figure 1: measured high-confidence Open3DSG failure에서 compatibility와
-  family-aware re-ranking으로 이어지는 overview.
-- Figure 2: Source, RelCompat3D-Linear, RelCompat3D-MLP의 세-predictor
-  percentage Recall--Violation trajectory.
-- Selected teaser variant: full-width first-page pair-level Top-50 exchange
-  (desk--ceiling leaves, desk--chair enters), followed by the teaser-specific
-  full-width method overview. The three-case qualitative grid is in the
-  supplement for both main variants to keep the body at seven pages.
-- Table 1: 모든 K의 Recall/Violation percentage와 main/strong comparisons.
-- Table 2: Linear/MLP의 K=50 wrong-predicate, wrong-pair, shuffled-geometry,
-  fixed-label swap, distance-only, compatibility-only matched controls.
-- Table 3: K=50 point--mesh-consensus Surface-V의 Source와 Linear 결과,
-  paired scan-cluster 95% CI, measured/decidable coverage. MLP surface audit은
-  supplement에 유지한다. 선택된 teaser에서는
-  Table 2와 page 7 상단에 좌우 one-column 형태로 배치한다.
-- Supplement: all-K point/mesh/consensus audit, coverage, thresholds, and
-  interventions. Surface-V는 primary Violation과 절대값을 직접 비교하지 않는다.
-- Supplement tables: complete Linear/MLP K=100 controls.
+| item | selected content | canonical page |
+| --- | --- | ---: |
+| Figure 1 | Open3DSG `desk higher than ceiling`, rank 6 → 425 | 2 |
+| Figure 2 | pair geometry and relation → compatibility → within-family score → family-aware re-ranking | 3 |
+| Table 1 | all-K main comparisons for three predictors | 6 |
+| Table 2 | K=50 matched Linear/MLP controls | 7 |
+| Table 3 | K=50 point/mesh agreement audit for Linear | 7 |
+| Figure 3 | Source/Linear/MLP Recall--Violation trajectories | 7 |
 
-재작업 명세는 `paper/figures.md`가 소유한다.
+Figure 1 supplies motivation/outcome, Figure 2 explains mechanism, and Figure
+3 reports aggregate behavior. The three-case qualitative grid, complete
+controls, and all-K audit remain supplemental.
 
-## Main Scientific Limits
+## Selected Main and Build State
 
-1. Compatibility target과 primary Violation verifier가 일부 OBB geometry
-   primitive를 공유한다. Point/mesh surface audit가 exact-rule overlap을
-   줄이지만 동일 reconstructed surface와 ontology는 공유한다.
-2. 세 predictor가 하나의 dataset target을 공유한다.
-3. Support/contact는 현재 evidence로 reliable하게 re-rank하지 않는다.
-4. Nonlinear/rank fusion이 일부 operating point에서 강하므로 formula
-   superiority를 주장하지 않는다.
+| artifact | role | pages | SHA-256 |
+| --- | --- | ---: | --- |
+| `paper/aaai/main_teaser_aaai27.pdf` | **selected main submission PDF** | 9 | `ac0313df7248da518488f0f39ab7d6cce42d1ac2cc6d5f234fc2aee4631e588c` |
+| `paper/aaai/main_aaai27.pdf` | non-selected comparison build | 9 | `5b9d917a61fc9045f46aa477750590f40c621157068ae74dec1ccc5e8e7f113b` |
+| `paper/aaai/supplement_aaai27.pdf` | technical supplement | 10 | `b9dc44ce09bb12d805472ead80bb72ca174cb844658929325917f59a7103226e` |
+| `paper/aaai/reproducibility_checklist_aaai27.pdf` | standalone checklist | 2 | `cd12a07ab1f9067a73f7aec128d43721c00c71bc17130acc32f6d34b99079e59` |
 
-상세 attack/defense map은 `paper/risk.md`를 따른다.
+The selected canonical teaser has seven technical pages and references on
+pages 7--9. The freshly consolidated source currently smoke-builds to 10 pages
+and retains one 4.43-pt overfull table row. Pre/post-consolidation PDF text is
+identical, so consolidation did not introduce this layout debt. Per the current
+decision, page compression and the overfull row are deferred until the next
+canonical release build.
 
-## Canonical Outputs
+The existing verified release bundle
+`release/h001_aaai27_openreview_20260720_084307/` already selects the teaser
+layout but predates the latest source organization and must be regenerated
+before upload.
 
-| artifact | path | SHA-256 |
-| --- | --- | --- |
-| main paper | `paper/aaai/main_aaai27.pdf` | `5b9d917a61fc9045f46aa477750590f40c621157068ae74dec1ccc5e8e7f113b` |
-| teaser comparison | `paper/aaai/main_teaser_aaai27.pdf` | `ac0313df7248da518488f0f39ab7d6cce42d1ac2cc6d5f234fc2aee4631e588c` |
-| supplement | `paper/aaai/supplement_aaai27.pdf` | `b9dc44ce09bb12d805472ead80bb72ca174cb844658929325917f59a7103226e` |
-| checklist | `paper/aaai/reproducibility_checklist_aaai27.pdf` | `cd12a07ab1f9067a73f7aec128d43721c00c71bc17130acc32f6d34b99079e59` |
+## Current Scientific Limits
 
-- Layout: default main 9, teaser main 9, supplement 10, checklist 2 US-Letter
-  pages. Both main variants end technical content on page 7. The default begins
-  references in the remaining page-7 column; the teaser begins them on page 8.
-- `release/h001_aaai27_openreview_20260720_084307/` is the latest verified
-  pre-table-layout bundle. Regenerate it before upload so its teaser `main.pdf`
-  matches the canonical table-layout revision above.
+1. Compatibility construction and primary Violation share some OBB-derived
+   geometric measurements.
+2. The point/mesh audit is an alternative construct check, not independent
+   physical-validity ground truth.
+3. All three predictors use one shared dataset target.
+4. Support/contact candidates are not re-ranked.
+5. Linear, MLP, and rank-fusion methods occupy different operating points;
+   formula superiority is not established.
 
-## Remaining User-Controlled Tasks
+Detailed attacks, defenses, and blocked wording are owned only by
+`paper/risk.md`.
 
-- OpenReview author order, profiles, affiliations/countries, conflicts.
-- upload layout은 first-page teaser main으로 선택됨; current caption revision을
-  반영한 release regeneration이 필요함.
-- reciprocal reviewer nomination/eligibility declaration.
-- final public code license and post-acceptance artifact URL.
-- optional independent human alignment study.
+## Remaining Work
 
-## Reading Map
+Required before submission:
 
-1. `paper/outline.md`: section logic and placement.
-2. `paper/method.md`: method tutorial and equations.
-3. `paper/experiment.md`: comparisons, metrics, statistics.
-4. `paper/figures.md`: complete redraw specification.
-5. `paper/risk.md`: scientific attack/defense register.
-6. `paper/review.md`: three orthogonal reviewer assessments.
-7. `docs/reproducibility.md`: exact recovery/build/release commands.
+- resolve the 10-page fresh teaser build and 4.43-pt overfull table row;
+- regenerate the selected canonical teaser PDF and anonymous release bundle
+  from the consolidated source;
+- verify live-form title, abstract, TL;DR, topics, and anonymity;
+- complete OpenReview author metadata, conflicts, and reciprocal-reviewer
+  declaration;
+- decide the public license and post-acceptance artifact URL.
+
+Optional scientific strengthening:
+
+- independent reference labels or human alignment;
+- an untouched external dataset with adequate candidate coverage;
+- richer contact/pose evidence for support/contact.

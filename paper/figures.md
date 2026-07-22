@@ -328,10 +328,10 @@ Supplement에는 다음 세 역할을 분리한 qualitative grid를 유지할 �
 
 | Figure | numeric/case source | manuscript asset role |
 | --- | --- | --- |
-| Figure 1 | `paper/generated/figures/figure3_geometry_manifest.json`의 demoted vertical case | motivation/failure |
-| Figure 2 | `paper/generated/figures/figure3_geometry_cases.json`의 `open3dsg_case_001` | method overview |
+| Figure 1 | `paper/generated/figures/main_case_manifest.json`의 demoted vertical case | motivation/failure |
+| Figure 2 | locked `open3dsg_case_001` source row | method overview |
 | Figure 3 | active `metrics.csv`와 `figure2_data.json` | aggregate all-K result |
-| supplementary qualitative grid | `figure3_geometry_cases.json` | success/failure scope |
+| supplementary qualitative grid | `paper/aaai/supplement_figures/qualitative_geometry_panels.png` | success/failure scope |
 
 최종 검증 체크리스트:
 

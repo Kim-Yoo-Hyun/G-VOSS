@@ -6,7 +6,7 @@ Last updated: 2026-07-21 KST
 독자가 3D Scene Graph를 처음 보더라도 입력, 학습 target, loss,
 endpoint/predicate transformation, score 결합, re-ranking과 각 구성요소를 확인하는
 control을 순서대로 이해할 수 있도록 작성했다. 제출용 수식의 authoritative source는
-`paper/aaai/sec/3_problem.tex` 및 `paper/aaai/sec/4_method.tex`이다.
+`paper/aaai/sec/3_method.tex`이다.
 
 ### Research task
 

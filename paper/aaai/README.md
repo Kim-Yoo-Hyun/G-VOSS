@@ -1,6 +1,6 @@
 # RelCompat3D AAAI-27 Manuscript
 
-Last updated: 2026-07-20 KST
+Last updated: 2026-07-22 KST
 
 This directory contains the active AAAI-27 source, an optional two-figure teaser
 variant, and the canonical review PDFs. Superseded manuscript snapshots, the
@@ -11,9 +11,10 @@ AAAI-26 style, and historical inspection notes live under
 
 | Path | Role |
 | --- | --- |
-| `main.tex`, `preamble.tex`, `sec/` | active anonymous main-paper source |
+| `main.tex`, `preamble.tex`, `sec/{0_abstract,1_introduction,2_related_work,3_method,4_experiments,5_discussion_limitations,6_conclusion}.tex` | active anonymous main-paper source in manuscript order |
 | `main_teaser.tex` | optional variant that shares `main.tex` and adds the source-backed demotion before the method overview |
-| `supplement.tex` | active method, matched-capacity controls, surface-audit, sensitivity, uncertainty, and provenance supplement source |
+| `supplement.tex`, `sec/supplement.tex` | active method, matched-capacity controls, surface-audit, sensitivity, uncertainty, and provenance supplement source |
+| `sec/old.tex` | inactive material retained outside the main and supplement builds |
 | `reproducibility_checklist_main.tex`, `reproducibility_checklist.tex` | standalone checklist source |
 | `aaai2027.sty`, `aaai2027.bst` | active AAAI-27 style |
 | `official/` | preserved official anonymous and checklist templates |
@@ -58,8 +59,19 @@ are consolidated in Discussion and Limitations.
 - `reproducibility_checklist_aaai27.pdf`: 2 US-Letter pages; SHA256
   `cd12a07ab1f9067a73f7aec128d43721c00c71bc17130acc32f6d34b99079e59`.
 
-All four have zero Type 3 and CID/Identity-H fonts; the rebuilt manuscript PDFs
-have no unresolved citations/references or blocking LaTeX/overfull errors.
+The canonical PDFs and hashes above were not overwritten during the 2026-07-22
+source consolidation. A fresh smoke build of the consolidated source produces
+9-page `main.pdf`, 10-page `main_teaser.pdf`, and 10-page `supplement.pdf`.
+The current teaser source already produced 10 pages before consolidation, and
+pre/post-consolidation PDF text is identical; the extra page is therefore a
+pre-existing transcript/layout issue rather than a consequence of merging the
+section files. The fresh main and teaser logs also retain one pre-existing
+4.43-pt overfull table row. Reconcile those two layout differences before the
+next canonical release regeneration.
+
+All four canonical files have zero Type 3 and CID/Identity-H fonts; at their
+recorded release build they had no unresolved citations/references or blocking
+LaTeX/overfull errors.
 The Introduction grounds its geometric-mismatch motivation in direct witness
 and constraint-refinement work and cites the foundational 3D Scene Graph paper.
 Related Work uses three thematic subsections; every prose paragraph ends by
@@ -161,13 +173,11 @@ From the repository root:
 docker build -f paper/aaai/Dockerfile.tex -t h001-aaai27-tex:20260712 paper/aaai
 docker run --rm --entrypoint bash --user "$(id -u):$(id -g)" \
   -v "$PWD":/workspace -w /workspace h001-geom-reliability:latest -lc \
-  'python paper/scripts/render_figure3_geometry_panels.py &&
-   python paper/scripts/render_teaser_hybrid.py &&
-   python paper/scripts/render_user_reference_figures.py &&
+  'python paper/scripts/render_user_reference_figures.py &&
    python paper/scripts/generate_draft_figures.py'
 docker run --rm --entrypoint bash --user "$(id -u):$(id -g)" \
   -v "$PWD":/workspace -w /workspace h001-aaai27-tex:20260712 -lc \
-  'for stem in figure1_framework figure2_tradeoff figure3_geometry_panels teaser_overview; do
+  'for stem in figure2_tradeoff; do
      rsvg-convert --width 2400 --keep-aspect-ratio \
        --output paper/generated/figures/${stem}.png \
        paper/generated/figures/${stem}.svg;
