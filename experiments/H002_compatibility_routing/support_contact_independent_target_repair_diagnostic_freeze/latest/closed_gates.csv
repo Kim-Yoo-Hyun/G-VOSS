@@ -1,8 +1,0 @@
-gate,status,reason
-metric_rerun,closed,target-quality and shortcut blockers remain
-training,closed,target is non-identifiable and labels are Codex-proxy
-calibration,closed,no validated reliability target to calibrate
-H003_execution,closed,current target cannot validate H003
-support_contact_solved_claim,closed,hard route remains diagnostic
-learned_Ge_final_score,closed,learned G_e remains evidence-token/diagnostic only
-paper_claim_change,closed,current scoped H002 claim remains unchanged

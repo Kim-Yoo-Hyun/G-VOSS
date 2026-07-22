@@ -1,7 +1,0 @@
-family,rows,role,include_in_success_aggregation,balanced_primary_family_rows
-proximity,63574,geometry_only_control,False,
-relative_horizontal,254296,caveated_separate_table,False,
-relative_vertical,127148,primary_success,True,
-size_relative,127148,primary_success,True,
-support_contact,190722,diagnostic_excluded,False,
-PRIMARY_MACRO,254296,macro_average_over_primary_success_families,True,True

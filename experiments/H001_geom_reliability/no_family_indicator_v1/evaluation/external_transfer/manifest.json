@@ -1,0 +1,42 @@
+{
+  "created_at_utc": "2026-07-19T21:42:22.264830+00:00",
+  "docker_command": "env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.structured.yaml run --rm external_dataset_transfer",
+  "outputs": {
+    "metrics.csv": {
+      "path": "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/external_transfer/metrics.csv",
+      "sha256": "43ecaccb3c1408ada1d5a8aadf2c5d953f9b3a7a183781f4b77ebf5d549b1d39"
+    },
+    "summary.json": {
+      "path": "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/external_transfer/summary.json",
+      "sha256": "ca3ded7b65bbe8b730cccb28fd58fdd29af32fb76ed56e0ca2bf1069239b6b36"
+    },
+    "summary.md": {
+      "path": "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/external_transfer/summary.md",
+      "sha256": "7b6d9d4902e4f8d54a3b994b8ba40567c4f2988d886d0a4f96fa3fbebc6ab057"
+    }
+  },
+  "schema_version": "h001_external_dataset_transfer_manifest_v1",
+  "status": "blocked_external_dataset_evaluation",
+  "validations": {
+    "all_input_hashes_match": true,
+    "all_methods_reported": true,
+    "all_metrics_finite": true,
+    "bootstrap_frozen": true,
+    "candidate_coverage_computed": true,
+    "candidate_rows_exact": true,
+    "classification_discloses_prior_target_observation": true,
+    "compose_hash_matches": true,
+    "contexts_exact": true,
+    "evaluator_hash_matches": true,
+    "families_exact": true,
+    "gt_denominator_exact": true,
+    "locked_model_hash_matches": true,
+    "model_excludes_predictor_identity": true,
+    "model_excludes_source_score": true,
+    "no_target_tuning": true,
+    "predicates_exact": true,
+    "primary_route_family_composition_exact": true,
+    "protocol_frozen_before_this_evaluation": false,
+    "relation_algebra_exact": true
+  }
+}

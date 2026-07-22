@@ -1,3 +1,0 @@
- Container h001_geom_reliability-relative_lateral_dev_failure_diagnosis-run-165c9ad815f1 Creating 
- Container h001_geom_reliability-relative_lateral_dev_failure_diagnosis-run-165c9ad815f1 Created 
-{"out": "experiments/H001_geom_reliability/sources/relative_lateral/dev_failure_diagnosis", "positive_strict_contradiction_physical_pairs": 36, "positive_strict_contradiction_rows": 72, "positive_uncertain_physical_pairs": 70, "positive_uncertain_rows": 140, "status": "relative_lateral_dev_failure_diagnosis_ready_no_policy_change_no_source_metrics"}

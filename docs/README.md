@@ -1,24 +1,28 @@
-# Docs
+# Documentation
 
-`docs/` owns repository-wide workflow rules, navigation, and reproducibility
-runbooks. It is not the live research dashboard.
+`docs/` contains the repository-wide workflow rules and the H001 recovery
+runbook. All existing documents are retained in the submission snapshot; this
+folder is not used as a live progress log.
 
-## Main Files
+## Documents
 
-- `index.md`: documentation table of contents and file ownership pointers.
-- `reproducibility.md`: H001 recovery, artifact bundle, dataset/checkpoint, Docker, and cleanup runbook.
-- `paper.md`: novelty, claim boundary, and reviewer-defense rules.
-- `experiments.md`: Docker experiment workflow and result-promotion rules.
-- `literature.md`: literature workflow.
-- `hypothesis.md`: hypothesis workflow.
+- `index.md`: navigation and file ownership.
+- `reproducibility.md`: H001 data, artifact, Docker, recovery, and cleanup
+  runbook.
+- `paper.md`: paper framing, claim boundaries, and reviewer-defense rules.
+- `experiments.md`: Docker experiment and result-promotion rules.
+- `literature.md`: literature-review workflow retained for future use.
+- `hypothesis.md`: hypothesis workflow retained for future use.
 
-Preserved hypothesis records now live under `archive/hypothesis_records/`.
+## Submission Snapshot
 
-## Rule
+The public snapshot is centered on RelCompat3D/H001. The former literature,
+hypothesis, H002, superseded experiment, and historical release payloads are
+preserved locally under
+`archive/local/pre_submission_20260722/` and are excluded from Git. Their
+workflow documents remain here so that the research process can be restored
+without making those payloads part of the submission repository.
 
-Use `docs/` the way documentation systems use a docs root: `index.md` and
-`README.md` are entry points; other files are durable rulebooks or runbooks.
-Current status, row counts, metric tables, long artifact inventories, and
-completion logs belong in `TODO.md`, `summary.md`, folder `README.md` files, or
-the closest experiment/report artifact. Link to those owners instead of copying
-their content here.
+Current status belongs in `TODO.md` and `summary.md`; compact evidence belongs
+in `results/` and `experiments/H001_geom_reliability/`; exact recovery details
+belong in `docs/reproducibility.md`.

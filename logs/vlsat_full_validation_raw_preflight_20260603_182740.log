@@ -1,3 +1,0 @@
- Container h001_geom_reliability-vlsat_full_validation_raw_preflight-run-15d9e237ec43 Creating 
- Container h001_geom_reliability-vlsat_full_validation_raw_preflight-run-15d9e237ec43 Created 
-{"directed_pairs": 0, "dumped_subgraphs": 0, "errors": 0, "output_dir": "experiments/H001_geom_reliability/sources/vlsat/full_validation/raw_preflight", "raw_dump_file": "experiments/H001_geom_reliability/sources/vlsat/full_validation/raw_preflight/raw.jsonl", "status": "ready_to_run", "warnings": 1}

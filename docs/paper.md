@@ -1,9 +1,15 @@
 # Paper Workflow
 
-Last updated: 2026-07-18 KST
+Last updated: 2026-07-22 KST
 
-This document manages paper-level framing for RelCompat3D/H001 and the separate
-H002 compatibility-routing paper: novelty, contribution boundary,
+> **Submission snapshot.** RelCompat3D/H001 is the only active manuscript in
+> the compact public repository, with `paper/aaai/main_teaser_aaai27.pdf`
+> selected as the submission candidate. Historical H002 material is locally
+> archived under `archive/local/pre_submission_20260722/` and is not an active
+> paper claim. The H002 rules retained below are archival guidance only.
+
+This document manages paper-level framing for RelCompat3D/H001 and retains
+archival guidance for the former H002 compatibility-routing paper: novelty, contribution boundary,
 reviewer-defense logic, and the minimum experiment evidence needed before paper
 writing. It does not replace `docs/hypothesis.md` or Docker experiment artifacts.
 
@@ -13,7 +19,7 @@ writing. It does not replace `docs/hypothesis.md` or Docker experiment artifacts
 - `AGENTS.md` keeps only stable top-level claim guardrails and points here for detailed paper rules.
 - `paper/README.md` owns the paper workspace map and file-role guide.
 - Manuscript prose, figures, tables, venue-specific LaTeX source, and draft history live under `paper/`.
-- Preserved hypothesis validation details live under `archive/hypothesis_records/hypothesis/`; executable code lives under `src/geocalib/`; Docker entry points live under `configs/`; source-specific experiment records live under `experiments/`; compact paper-facing summaries live under `results/`; reproducibility and artifact transfer details live in `docs/reproducibility.md`.
+- Preserved hypothesis validation details are in the ignored local archive described by `archive/README.md`; executable code lives under `src/geocalib/`; Docker entry points live under `configs/`; source-specific experiment records live under `experiments/`; compact paper-facing summaries live under `results/`; reproducibility and artifact transfer details live in `docs/reproducibility.md`.
 - Treat this file as a reviewer-facing writing rulebook. Live PDF build status,
   task status, long metric tables, row counts, and completion logs belong in
   `paper/README.md`, `paper/preview.md`, `TODO.md`,
@@ -221,12 +227,13 @@ Reviewer-defense rules after the independent-validity/family review:
   of the completed Codex reference is reviewer-verified LLM annotation, not a
   substitute for independent first-pass human labels.
 
-## H002 Compatibility Routing Claim Contract
+## Archived H002 Compatibility Routing Claim Contract
 
-H002 is a standalone paper route under
-`paper/h002_compatibility_routing/aaai2027/`. H002 work must not edit the
-H001 manuscript under `paper/aaai/` unless the user explicitly requests
-integration.
+This contract is retained only to interpret locally archived H002 artifacts.
+The former paper, hypothesis, experiment, and result paths are stored under
+`archive/local/pre_submission_20260722/`; they are not part of the active
+public repository and must not modify the H001 manuscript unless the workflow
+is explicitly reactivated.
 
 Preferred claim:
 
@@ -287,9 +294,9 @@ Required reviewer defense:
   limitation/failure taxonomy.
 - distinguish the proposed route map from routes that are quantitatively solved.
 
-Current metrics and progress do not belong in this rulebook. They are owned by
-`hypothesis/CAND-001/H002_factorized-relation-confidence/paper_claim_core.md`,
-`report/report_0706.md`, and the H002 experiment README.
+Historical metrics and progress remain in the local archive. Current H001 state
+belongs to `summary.md`, `TODO.md`, and the active H001 experiment/results
+READMEs.
 
 
 Current paper-facing evaluation direction:

@@ -1,9 +1,0 @@
-step,condition,requirement,current,status,required_before_reopen
-1,independent_label_source,labels assigned from directly inspected visual/mesh/point evidence without scalar-rule target generation,Codex proxy derived from the same 43 geometry features,not_met,True
-2,reviewer_provenance,human-reviewed or separately audited labels with explicit provenance and agreement check,human_confirmed=false for 480/480 rows,not_met,True
-3,positive_capacity,>=80 binary positives without threshold relaxation or oversampling,35 positives,not_met,True
-4,majority_baseline,<=0.75,0.908377,not_met,True
-5,mixed_predicate_class_pairs,>=16 accept/reject-mixed predicate-class groups,13 groups,not_met,True
-6,construction_independence,fixed geometry-rule probe must not reconstruct target,binary accuracy/macro recall=1.0/1.0,not_met,True
-7,supported_by_boundary,keep supported by decomposition/relabel/abstain diagnostic,2 binary accepts; 12 relabels,locked_diagnostic,True
-8,fresh_user_decision,explicitly reopen support/contact target repair or H003 after current diagnostic freeze,not requested in this stage,not_met,True

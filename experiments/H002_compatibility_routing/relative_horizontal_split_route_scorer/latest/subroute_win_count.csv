@@ -1,3 +1,0 @@
-subroute,source_baseline_cells,metric_cells,recall_win_cells,violation_win_cells,total_win_cells,win_fraction,max_recall_loss_abs,mean_violation_reduction_abs,violation_regression_cells,recall_loss_gt_0p05_cells,recall_loss_gt_0p10_cells,axis_sign_control_failure_cells,selected_path
-lateral_left_right,10,20,5,10,15,0.75,0.045242265032107376,0.24985111697229184,0,0,0,0,include_as_caveated_lateral_main_route
-depth_front_behind,10,20,1,10,11,0.55,0.203125,0.3156931200168022,0,8,6,0,classify_as_depth_reference_frame_failure_case

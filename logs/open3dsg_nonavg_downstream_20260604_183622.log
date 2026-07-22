@@ -1,7 +1,0 @@
-launched_at=2026-06-04T18:36:22+09:00
-workdir=/home/yoohyun/research
-waiting_for_raw_exit=logs/open3dsg_eval_h001_gt_objects_nonavg_stream_20260604_182423.exit
-exit_file=logs/open3dsg_nonavg_downstream_20260604_183622.exit
-compose_file=experiments/H001_geom_reliability/compose.yaml
-raw_exit_code=137n
-experiments/H001_geom_reliability/scripts/run_open3dsg_nonavg_downstream_after_raw.sh: line 41: exit: 137n: numeric argument required

@@ -1,7 +1,0 @@
-file,line_count,expected,match
-source_candidates.jsonl,762888,762888,True
-model_safe_ce_view.jsonl,762888,762888,True
-model_safe_geometry_only_view.jsonl,762888,762888,True
-source_rank_view.jsonl,762888,762888,True
-hidden_metric_manifest.jsonl,762888,762888,True
-validation_errors.jsonl,0,0,True

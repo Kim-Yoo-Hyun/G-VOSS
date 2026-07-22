@@ -1,12 +1,16 @@
-# Scripts
+# Submission Script
 
-`scripts/` contains lightweight shell wrappers for reproducible long-running jobs.
+The submission-facing script directory contains one lightweight Docker wrapper:
 
-## Current Contents
+- `run_no_family_indicator_v1.sh`: runs the active RelCompat3D evaluation in
+  `initial` or `downstream` phases, skips completed manifests, and refuses to
+  overwrite nonempty incomplete outputs.
 
-- Open3DSG payload/downstream loop wrappers.
-- Qwen-VL full-source shard loop wrapper.
+Core fitting, evaluation, audit, and figure logic remains in `src/geocalib/`;
+Docker services and pinned environment definitions remain in `configs/h001/`.
+Exact runs require the external row-level inputs documented in
+`docs/reproducibility.md`.
 
-## Rule
-
-Scripts should call Docker/compose entry points from `configs/` and write detailed runtime logs under ignored `logs/`. Do not place core metric, preprocessing, adapter, or model logic here; that belongs in `src/geocalib/`.
+Source-specific and superseded workflow wrappers were moved to the ignored
+local snapshot under
+`archive/local/pre_submission_20260722/previous_archive/scripts/`.

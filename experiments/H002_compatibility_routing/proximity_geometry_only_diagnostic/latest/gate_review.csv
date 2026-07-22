@@ -1,6 +1,0 @@
-gate,passed,evidence
-source_wide_proximity_supported,True,"pass_cells=4, violation_nonpositive_cells=4, status=supported"
-source_wide_delta_cells_pass,True,"delta_rows=4, expected=4"
-archived_close_by_geometry_only_decision,True,freeze_close_by_as_geometry_only_route_evidence_move_to_supported_by_decomposition
-geometry_controls_pass,True,"norm_xy_auroc=1.0, source_rank_auroc=0.552103125, class_pair_acc=0.50375, shuffled_acc=0.5, wrong_pair_acc=0.5"
-paper_draft_expansion_allowed,False,experiment-stage diagnostic only; no paper draft expansion in this TODO

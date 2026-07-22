@@ -1,39 +1,31 @@
-# GeoCalib Code
+# RelCompat3D Python Entry Points
 
-This folder contains direct Python entry points used by Docker compose.
+These scripts are executed directly by the focused H001 Docker Compose file.
+They use file-relative imports and require only the pinned packages in
+configs/h001/Dockerfile.
 
-## Current Claim Path
+## Functional Groups
 
-The current paper-facing claim uses the `support_contact`, `proximity`, and
-`relative_vertical` families with VL-SAT and Open3DSG source rows. Core
-entry points are:
+- fit_no_family_indicator.py and fit_strict_train_only_calibrators.py:
+  train-only Linear fitting and locks;
+- run_supervision_matched_nonlinear.py: matched compact MLP estimator;
+- run_structured_main_evaluation.py, run_routed_comparator_evaluation.py, and
+  run_routed_ablation_evaluation.py: main rankings, baselines, and controls;
+- run_support_contact_routing.py and run_support_routing_scan_cluster.py:
+  family-sequence and support/contact preservation;
+- run_relcompat3d_mlp_ablation.py and
+  run_relcompat3d_mlp_surface_audit.py: matched MLP controls and audit;
+- run_orthogonal_geometry_audit.py and
+  run_held_out_primitive_evaluation.py: point/mesh alternative-construct and
+  feature-removal checks;
+- run_counterfactual_threshold_sensitivity.py: train-only construction
+  sensitivity; `export_calibration.py` supplies its frozen counterfactual row
+  construction;
+- benchmark_relcompat3d_runtime.py: bounded post-load CPU timing;
+- run_external_dataset_transfer.py: ReplicaSSG/FROSS transfer stress test;
+- build_no_family_indicator_candidate.py and
+  render_no_family_indicator_candidate_figures.py: candidate paper artifacts.
 
-- `build_tables.py`
-- `bootstrap_metrics.py`
-- `evaluate_predictions.py`
-- `evaluate_gt_verifier.py`
-- `export_predictions.py`
-- `export_open3dsg_predictions.py`
-- `join_predictions.py`
-- `stage_vlsat.py`
-- `prepare_vlsat_full_validation_runtime.py`
-- `run_vlsat_dump.py`
-- Open3DSG staging, adapter, metric-scope, raw-identity, failure-analysis, and
-  caveat-report scripts.
-
-Shared repository paths live in `paths.py`. Use those constants for durable
-H001 roots instead of repeating `archive/hypothesis_records/...` literals.
-
-## Extension Code
-
-Qwen-VL, `attachment_deferred`, `relative_horizontal`, and `relative_lateral`
-scripts are retained because they are runnable Docker entry points or preserved
-extension/audit routes. They do not extend the current main claim unless the
-paper claim boundary is explicitly promoted and the matching evidence gates are
-rerun.
-
-## Boundary
-
-Do not put generated row-level outputs, caches, checkpoints, or source-specific
-run artifacts here. Keep those under `experiments/`, `results/`, ignored local
-roots, or `archive/` according to the repository runbooks.
+Additional shared scoring and feature logic is contained in the remaining
+allowlisted modules. Generated rows, caches, checkpoints, and model payloads do
+not belong under src/.

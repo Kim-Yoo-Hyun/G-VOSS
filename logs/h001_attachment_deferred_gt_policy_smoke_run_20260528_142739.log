@@ -1,3 +1,0 @@
- Container h001_geom_reliability-attachment_deferred_gt_policy_smoke-run-60124f1345ea Creating 
- Container h001_geom_reliability-attachment_deferred_gt_policy_smoke-run-60124f1345ea Created 
-{"counterfactual_nonsatisfied_rate": 0.827354, "gt_rows": 761, "out": "experiments/H001_geom_reliability/sources/attachment_deferred/gt_policy_smoke", "positive_nonviolated_rate": 0.904762, "smoke_rows": 36, "status": "attachment_deferred_gt_policy_smoke_ready_no_source_metrics"}

@@ -1,6 +1,0 @@
-family,pair_family_groups,complete_groups,expected_predicates_per_group,wrong_T_control_ready,wrong_T_note,shuffled_G_control_ready,within_family_shuffle_ready,success_metric_role
-proximity,63574,63574,1,False,not_applicable_single_predicate_geometry_only_control,True,True,excluded
-relative_horizontal,63574,63574,4,True,ready,True,True,excluded
-relative_vertical,63574,63574,2,True,ready,True,True,primary
-size_relative,63574,63574,2,True,ready,True,True,primary
-support_contact,63574,63574,3,True,ready,True,True,excluded

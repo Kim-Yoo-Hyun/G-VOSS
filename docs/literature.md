@@ -1,6 +1,13 @@
 # Literature Workflow
 
-Last updated: 2026-05-27
+Last updated: 2026-07-22 KST
+
+> **Submission snapshot.** This workflow document is retained, but the former
+> `literature/` payload is locally archived at
+> `archive/local/pre_submission_20260722/repository_roots/literature/` and is
+> excluded from Git. The paths below describe the layout to restore if the
+> literature workflow is reactivated; they are not present in the compact H001
+> submission checkout.
 
 이 문서는 3D Scene Graph 문헌 조사를 수행하는 에이전트의 workflow와 규칙을 정의한다. 실제 조사 결과는 이 파일에 저장하지 않는다.
 
@@ -13,7 +20,7 @@ Last updated: 2026-05-27
 
 ## Storage Rule
 
-문헌 조사 결과는 루트의 `literature/` 폴더에 저장한다.
+문헌 조사 workflow를 다시 활성화할 때 조사 결과는 루트의 `literature/` 폴더에 저장한다.
 
 - 전체 문헌 조사 인덱스와 synthesis: `literature/README.md`
 - paper registry와 reading queue: `literature/PAPER.md`

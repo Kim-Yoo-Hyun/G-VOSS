@@ -1,3 +1,0 @@
- Container h001_geom_reliability-attachment_deferred_calibration_fit-run-f548fca7fbf1 Creating 
- Container h001_geom_reliability-attachment_deferred_calibration_fit-run-f548fca7fbf1 Created 
-{"dev_auroc": 1.0, "dev_brier": 0.0010268071750410028, "dev_nll": 0.0077383149722480785, "dev_rows": 83, "out": "experiments/H001_geom_reliability/sources/attachment_deferred/calibration_fit", "status": "attachment_deferred_calibration_fit_ready_no_source_metrics", "train_rows": 242, "warnings": ["connected_to_dev_absent_use_pooled_or_train_only_caveat", "strict_subset_nearly_separable_not_source_metric_evidence"]}

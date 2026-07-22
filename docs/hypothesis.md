@@ -1,27 +1,34 @@
 # Hypothesis Workflow
 
-Last updated: 2026-06-14 KST
+Last updated: 2026-07-22 KST
 
-이 문서는 연구 후보를 검증 가능한 hypothesis로 바꾸는 에이전트 workflow와 작성 규칙을 정의한다. 현재 보존된 H001 hypothesis 기록은 `archive/hypothesis_records/hypothesis/`에 저장한다.
+> **Submission snapshot.** This workflow document is retained, but hypothesis
+> payloads are excluded from the compact H001 Git snapshot. Preserved H001
+> records are under
+> `archive/local/pre_submission_20260722/previous_archive/hypothesis_records/hypothesis/`,
+> and the former root hypothesis tree is under
+> `archive/local/pre_submission_20260722/repository_roots/hypothesis/`.
+
+이 문서는 연구 후보를 검증 가능한 hypothesis로 바꾸는 에이전트 workflow와 작성 규칙을 정의한다. 아래 폴더 규칙은 workflow를 다시 활성화할 때 적용한다.
 
 ## Ownership
 
 - `docs/hypothesis.md`는 hypothesis workflow rulebook이다.
-- 실제 candidate/hypothesis 상태와 active gate는 `archive/hypothesis_records/hypothesis/README.md`가 소유한다.
-- CAND-001처럼 active hypothesis가 하나인 candidate는 별도 candidate README를 만들지 않는다. Candidate-level summary는 `archive/hypothesis_records/hypothesis/README.md`에 병합하고, 세부 내용은 H-folder canonical files에 둔다.
-- Candidate 안에 여러 active hypotheses가 생기거나 candidate-level assumption/risk가 `archive/hypothesis_records/hypothesis/README.md`를 과도하게 키울 때만 candidate-level README를 만든다.
+- workflow를 재활성화한 뒤에는 hypothesis root README가 candidate/hypothesis 상태와 active gate를 소유한다.
+- CAND-001처럼 active hypothesis가 하나인 candidate는 별도 candidate README를 만들지 않는다. Candidate-level summary는 root README에 병합하고, 세부 내용은 H-folder canonical files에 둔다.
+- 여러 active hypotheses가 생기거나 candidate-level assumption/risk가 root README를 과도하게 키울 때만 candidate-level README를 만든다.
 
 ## Storage Rule
 
-Hypothesis 관련 기록은 현재 `archive/hypothesis_records/hypothesis/` 아래에 보존한다. 새 active hypothesis workflow를 다시 열 때만 별도 루트를 만들고, 먼저 `docs/index.md`와 README ownership을 갱신한다.
+Hypothesis 관련 기록은 현재 상단의 ignored local archive에 보존한다. 새 active hypothesis workflow를 다시 열 때만 durable root를 복원하고, 먼저 `docs/index.md`와 README ownership을 갱신한다.
 
 - workflow와 작성 규칙: `docs/hypothesis.md`
-- hypothesis/candidate index: `archive/hypothesis_records/hypothesis/README.md`
-- candidate별 hypothesis 묶음: `archive/hypothesis_records/hypothesis/CAND-<number>/`
-- 개별 hypothesis: `archive/hypothesis_records/hypothesis/CAND-<number>/H<number>_<short-title>/`
+- hypothesis/candidate index: restored hypothesis root `README.md`
+- candidate별 hypothesis 묶음: restored root `CAND-<number>/`
+- 개별 hypothesis: restored root `CAND-<number>/H<number>_<short-title>/`
 - 작업 계획과 진행 상태: `TODO.md`
 
-`docs/hypothesis.md`는 절차와 기준만 관리한다. 문제 정의, hypothesis, feasibility gate, method, data/baseline, result, audit, second-source boundary, experiment spec은 `archive/hypothesis_records/hypothesis/` 아래의 canonical files에 기록한다.
+`docs/hypothesis.md`는 절차와 기준만 관리한다. 문제 정의, hypothesis, feasibility gate, method, data/baseline, result, audit, second-source boundary, experiment spec은 restored hypothesis root의 canonical files에 기록한다.
 
 ## Entry Context
 
@@ -33,13 +40,13 @@ Hypothesis 작업을 시작하는 에이전트는 아래 순서로 읽는다.
 4. `docs/literature.md`
 5. `docs/hypothesis.md`
 6. `literature/CAND-001.md`
-7. `archive/hypothesis_records/hypothesis/README.md`
+7. restored hypothesis root `README.md`
 8. 대상 hypothesis folder의 canonical files
 
 ## Folder Convention
 
 ```text
-archive/hypothesis_records/hypothesis/
+<restored-hypothesis-root>/
   README.md
   CAND-001/
     H001_geometry-grounded-verification/
@@ -64,7 +71,7 @@ archive/hypothesis_records/hypothesis/
 
 ## File Roles
 
-### `archive/hypothesis_records/hypothesis/README.md`
+### Restored hypothesis root `README.md`
 
 전체 hypothesis index와 active candidate summary를 관리한다.
 
@@ -111,7 +118,7 @@ Scoped main experiment implementation spec과 Docker 기반 experiment transitio
 
 ## Artifact Rules
 
-Hypothesis smoke-test artifact는 `archive/hypothesis_records/hypothesis/`의 해당 H-folder 내부에 보존한다. 재현 가능한 실행 코드는 `src/geocalib/`, Docker/compose entry point는 `configs/`, shell wrapper는 `scripts/`가 소유한다.
+Hypothesis smoke-test artifact는 restored hypothesis root의 해당 H-folder 내부에 보존한다. 재현 가능한 실행 코드는 `src/geocalib/`, Docker/compose entry point는 `configs/`, shell wrapper는 `scripts/`가 소유한다.
 
 - one-scan artifact root: `artifacts/one_scan/<scan-id>/`
 - baseline layout checker artifact root: `artifacts/layout/<baseline-name>/`
@@ -188,8 +195,8 @@ Hypothesis 문서를 갱신한 에이전트는 아래를 함께 확인한다.
 
 - `TODO.md`: 현재 작업과 다음 작업 상태 갱신
 - `docs/index.md`: active workflow와 current working file 갱신
-- `archive/hypothesis_records/hypothesis/README.md`: active hypothesis와 gate 상태 갱신
-- optional `archive/hypothesis_records/hypothesis/CAND-<number>/README.md`: 여러 active hypotheses가 있는 경우에만 candidate-level 상태 갱신
+- restored hypothesis root `README.md`: active hypothesis와 gate 상태 갱신
+- optional restored root `CAND-<number>/README.md`: 여러 active hypotheses가 있는 경우에만 candidate-level 상태 갱신
 - 필요 시 `literature/CAND-<number>.md`: literature-derived feasibility 판단만 갱신
 
 ## Experiment Transition Rule
@@ -216,10 +223,9 @@ Hypothesis 문서를 갱신한 에이전트는 아래를 함께 확인한다.
 ## Archived H001 Transition Note
 
 This note is a stable transition pointer, not the live hypothesis dashboard.
-Current task state belongs to `TODO.md`, active H002 state belongs to
-`hypothesis/CAND-001/H002_factorized-relation-confidence/README.md`, and
-preserved H001 hypothesis evidence belongs to
-`archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/`.
+Current task state belongs to `TODO.md`. H001 hypothesis evidence and the former
+H002 branch are preserved only in the ignored local archive paths listed at the
+top of this document.
 
 - Candidate: `CAND-001`
 - Preserved hypothesis: `H001 Geometry-grounded verification of open-vocabulary 3DSSG relations`

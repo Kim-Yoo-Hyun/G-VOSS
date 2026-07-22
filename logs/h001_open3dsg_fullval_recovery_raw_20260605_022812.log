@@ -1,635 +1,0 @@
- Container open3dsg-open3dsg_base-run-c387f3f1dc20 Creating 
- Container open3dsg-open3dsg_base-run-c387f3f1dc20 Created 
-
-==========
-== CUDA ==
-==========
-
-CUDA Version 12.8.1
-
-Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
-
-This container image and its contents are governed by the NVIDIA Deep Learning Container License.
-By pulling and using the container, you accept the terms and conditions of this license:
-https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
-
-A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
-
-{"blockers": [], "out": "experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/eval_preflight", "status": "ready"}
-{"blockers": [], "status": "ready"}
-Defaulting to user installation because normal site-packages is not writeable
-Obtaining file:///workspace/local_dataset/Open3DSG_staged/h001_runtime/source/open3dsg_source
-  Installing build dependencies: started
-  Installing build dependencies: finished with status 'done'
-  Checking if build backend supports build_editable: started
-  Checking if build backend supports build_editable: finished with status 'done'
-  Getting requirements to build editable: started
-  Getting requirements to build editable: finished with status 'done'
-  Preparing editable metadata (pyproject.toml): started
-  Preparing editable metadata (pyproject.toml): finished with status 'done'
-Building wheels for collected packages: open3dsg
-  Building editable for open3dsg (pyproject.toml): started
-  Building editable for open3dsg (pyproject.toml): finished with status 'done'
-  Created wheel for open3dsg: filename=open3dsg-0.0.1-0.editable-py3-none-any.whl size=18321 sha256=2c03056f81ac6d6371853441b2889083f5c34dad03bdbaea2e62fec45cddf5d5
-  Stored in directory: /tmp/pip-ephem-wheel-cache-s82v2ri7/wheels/f6/f4/48/e79d972da195275afaf83301f54818e0ba9b351c2e72890e90
-Successfully built open3dsg
-Installing collected packages: open3dsg
-  Attempting uninstall: open3dsg
-    Found existing installation: open3dsg 0.0.1
-    Uninstalling open3dsg-0.0.1:
-      Successfully uninstalled open3dsg-0.0.1
-Successfully installed open3dsg-0.0.1
-/opt/conda/envs/open3dsg/lib/python3.9/site-packages/lightning_fabric/__init__.py:40: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
-/opt/conda/envs/open3dsg/lib/python3.9/site-packages/transformers/utils/hub.py:128: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-2026-06-04 17:28:16.799226: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
-2026-06-04 17:28:16.800514: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2026-06-04 17:28:16.821891: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
-To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2026-06-04 17:28:17.364548: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
-Experimental: No LLava model present in your system
-2026-06-04 17:28:18.446442: I tensorflow/compiler/xla/stream_executor/cuda/cuda_gpu_executor.cc:996] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero. See more at https://github.com/torvalds/linux/blob/v6.0/Documentation/ABI/testing/sysfs-bus-pci#L344-L355
-2026-06-04 17:28:18.448361: W tensorflow/core/common_runtime/gpu/gpu_device.cc:1956] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.
-Skipping registering GPU devices...
-CUDA device name: NVIDIA GeForce RTX 5090
-Seed set to 42
-checkpoint: /workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt
-Args: Namespace(gpus=1, workers=0, seed=42, run_name='', mixed_precision=False, accumulate_grad_batches=1, epochs=50, batch_size=1, lr=0.0001, lr_scheduler='reduce', wd=0.01, bn_momentum=0.9, bn_decay=0.5, decay_step=100000.0, w_obj=1.0, w_rel=1.0, use_rgb=False, gnn_layers=4, graph_backbone='message', gconv_dim=512, hidden_dim=1024, max_nodes=9, max_edges=72, dataset='3rscan', mini_dataset=False, augment=False, top_k_frames=5, scales=3, dump_features=False, load_features='/workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/features/clip_features_h001_full_validation_recovery_relaxed_views_min2', clip_model='OpenSeg', node_model='ViT-L/14@336px', edge_model=None, blip=True, avg_blip_emb=False, blip_proj_layers=3, llava=False, avg_llava_emb=False, pointnet2=False, clean_pointnet=False, supervised_edges=False, test=True, checkpoint='/workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt', weight_2d=0.5, n_beams=5, gt_objects=True, vis_graphs=False, predict_materials=False, test_scans_3rscan=False, predict_from_2d=False, quick_eval=False, object_context=False, update_hparams=False, manual_mapping=False)
-HParams: {'gpus': 1, 'workers': 0, 'seed': 42, 'run_name': '', 'mixed_precision': False, 'accumulate_grad_batches': 1, 'epochs': 50, 'batch_size': 1, 'lr': 0.0001, 'lr_scheduler': 'reduce', 'wd': 0.01, 'bn_momentum': 0.9, 'bn_decay': 0.5, 'decay_step': 100000.0, 'w_obj': 1.0, 'w_rel': 1.0, 'use_rgb': False, 'gnn_layers': 4, 'graph_backbone': 'message', 'gconv_dim': 512, 'hidden_dim': 1024, 'max_nodes': 9, 'max_edges': 72, 'dataset': '3rscan', 'mini_dataset': False, 'augment': False, 'top_k_frames': 5, 'scales': 3, 'dump_features': False, 'load_features': '/workspace/local_dataset/Open3DSG_staged/h001_full_validation_runtime/output/features/clip_features_h001_full_validation_recovery_relaxed_views_min2', 'clip_model': 'OpenSeg', 'node_model': 'ViT-L/14@336px', 'edge_model': None, 'blip': True, 'avg_blip_emb': False, 'blip_proj_layers': 3, 'llava': False, 'avg_llava_emb': False, 'pointnet2': False, 'clean_pointnet': False, 'supervised_edges': False, 'test': True, 'checkpoint': '/workspace/local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt', 'weight_2d': 0.5, 'n_beams': 5, 'gt_objects': True, 'vis_graphs': False, 'predict_materials': False, 'test_scans_3rscan': False, 'predict_from_2d': False, 'quick_eval': False, 'object_context': False, 'update_hparams': False, 'manual_mapping': False}
-GPU available: True (cuda), used: True
-TPU available: False, using: 0 TPU cores
-IPU available: False, using: 0 IPUs
-HPU available: False, using: 0 HPUs
-[rank: 0] Seed set to 42
-Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/1
-----------------------------------------------------------------------------------------------------
-distributed_backend=nccl
-All distributed processes registered. Starting with 1 processes
-----------------------------------------------------------------------------------------------------
-
-You are using a CUDA device ('NVIDIA GeForce RTX 5090') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
-A new version of the following files was downloaded from https://huggingface.co/jinaai/jina-bert-implementation:
-- configuration_bert.py
-. Make sure to double-check they do not contain any added malicious code. To avoid downloading new versions of the code file, you can pin a revision.
-A new version of the following files was downloaded from https://huggingface.co/jinaai/jina-bert-implementation:
-- modeling_bert.py
-. Make sure to double-check they do not contain any added malicious code. To avoid downloading new versions of the code file, you can pin a revision.
-/opt/conda/envs/open3dsg/lib/python3.9/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user. 
-  warnings.warn(  # warn only once
-Downloading shards:   0%|          | 0/4 [00:00<?, ?it/s]Downloading shards: 100%|██████████| 4/4 [00:00<00:00, 30066.70it/s]
-Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:03<00:10,  3.46s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:06<00:05,  2.95s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:09<00:02,  3.00s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:09<00:00,  2.06s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:09<00:00,  2.43s/it]
-LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
-/opt/conda/envs/open3dsg/lib/python3.9/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:441: The 'test_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=19` in the `DataLoader` to improve performance.
-Testing: |          | 0/? [00:00<?, ?it/s]Testing:   0%|          | 0/548 [00:00<?, ?it/s]Testing DataLoader 0:   0%|          | 0/548 [00:00<?, ?it/s]H001 raw dump stream initialized new output /workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/raw_dump/raw.jsonl
-H001 raw dump stream wrote batch raw_scan_id=ab835faa-54c6-29a1-9b55-1a5217fcba19-1 rows=56 total_rows=56 completed_batches=1
-Testing DataLoader 0:   0%|          | 1/548 [00:05<53:37,  0.17it/s]H001 raw dump stream wrote batch raw_scan_id=ab835faa-54c6-29a1-9b55-1a5217fcba19-2 rows=30 total_rows=86 completed_batches=2
-Testing DataLoader 0:   0%|          | 2/548 [00:08<39:30,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=ab835faa-54c6-29a1-9b55-1a5217fcba19-3 rows=56 total_rows=142 completed_batches=3
-Testing DataLoader 0:   1%|          | 3/548 [00:13<41:50,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=6e67e550-1209-2cd0-8294-7cc2564cf82c-1 rows=72 total_rows=214 completed_batches=4
-Testing DataLoader 0:   1%|          | 4/548 [00:20<45:25,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=6e67e550-1209-2cd0-8294-7cc2564cf82c-2 rows=72 total_rows=286 completed_batches=5
-Testing DataLoader 0:   1%|          | 5/548 [00:26<48:10,  0.19it/s]H001 raw dump stream wrote batch raw_scan_id=6e67e550-1209-2cd0-8294-7cc2564cf82c-3 rows=20 total_rows=306 completed_batches=6
-Testing DataLoader 0:   1%|          | 6/548 [00:28<43:07,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f78-339c-2d13-82bb-cc990cbbc90f-1 rows=72 total_rows=378 completed_batches=7
-Testing DataLoader 0:   1%|▏         | 7/548 [00:36<46:27,  0.19it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f78-339c-2d13-82bb-cc990cbbc90f-2 rows=56 total_rows=434 completed_batches=8
-Testing DataLoader 0:   1%|▏         | 8/548 [00:41<46:48,  0.19it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f78-339c-2d13-82bb-cc990cbbc90f-3 rows=30 total_rows=464 completed_batches=9
-Testing DataLoader 0:   2%|▏         | 9/548 [00:45<44:55,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8-1 rows=12 total_rows=476 completed_batches=10
-Testing DataLoader 0:   2%|▏         | 10/548 [00:46<41:38,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8-2 rows=12 total_rows=488 completed_batches=11
-Testing DataLoader 0:   2%|▏         | 11/548 [00:47<38:52,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8-3 rows=56 total_rows=544 completed_batches=12
-Testing DataLoader 0:   2%|▏         | 12/548 [00:52<39:12,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=bcb0fe06-4f39-2c70-9c24-a8dd7496c2f8-4 rows=20 total_rows=564 completed_batches=13
-Testing DataLoader 0:   2%|▏         | 13/548 [00:55<37:45,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=c2d99345-1947-2fbf-818d-90ea82acef29-1 rows=56 total_rows=620 completed_batches=14
-Testing DataLoader 0:   3%|▎         | 14/548 [01:00<38:12,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=c2d99345-1947-2fbf-818d-90ea82acef29-2 rows=72 total_rows=692 completed_batches=15
-Testing DataLoader 0:   3%|▎         | 15/548 [01:06<39:24,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=742e8f17-be0a-294e-9dd3-52492d308e2b-1 rows=56 total_rows=748 completed_batches=16
-Testing DataLoader 0:   3%|▎         | 16/548 [01:11<39:42,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=742e8f17-be0a-294e-9dd3-52492d308e2b-2 rows=56 total_rows=804 completed_batches=17
-Testing DataLoader 0:   3%|▎         | 17/548 [01:17<40:06,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=742e8f17-be0a-294e-9dd3-52492d308e2b-3 rows=30 total_rows=834 completed_batches=18
-Testing DataLoader 0:   3%|▎         | 18/548 [01:19<39:08,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=75c25989-9ca2-2844-97b4-31b81f7554b8-1 rows=72 total_rows=906 completed_batches=19
-Testing DataLoader 0:   3%|▎         | 19/548 [01:26<40:11,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=75c25989-9ca2-2844-97b4-31b81f7554b8-2 rows=72 total_rows=978 completed_batches=20
-Testing DataLoader 0:   4%|▎         | 20/548 [01:33<40:56,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f2b-339c-2d13-8248-b0507e050314-1 rows=20 total_rows=998 completed_batches=21
-Testing DataLoader 0:   4%|▍         | 21/548 [01:35<39:48,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f2b-339c-2d13-8248-b0507e050314-2 rows=42 total_rows=1040 completed_batches=22
-Testing DataLoader 0:   4%|▍         | 22/548 [01:39<39:47,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f2b-339c-2d13-8248-b0507e050314-3 rows=12 total_rows=1052 completed_batches=23
-Testing DataLoader 0:   4%|▍         | 23/548 [01:41<38:30,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=20c993b3-698f-29c5-859c-dca8ddecf220-1 rows=56 total_rows=1108 completed_batches=24
-Testing DataLoader 0:   4%|▍         | 24/548 [01:46<38:45,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=20c993b3-698f-29c5-859c-dca8ddecf220-2 rows=12 total_rows=1120 completed_batches=25
-Testing DataLoader 0:   5%|▍         | 25/548 [01:48<37:40,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=10b17963-3938-2467-8a48-0d4af350ce92-1 rows=42 total_rows=1162 completed_batches=26
-Testing DataLoader 0:   5%|▍         | 26/548 [01:52<37:32,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=10b17963-3938-2467-8a48-0d4af350ce92-2 rows=30 total_rows=1192 completed_batches=27
-Testing DataLoader 0:   5%|▍         | 27/548 [01:55<37:02,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=1d233fe8-e280-2b1a-8fac-c3646a1cd64a-1 rows=30 total_rows=1222 completed_batches=28
-Testing DataLoader 0:   5%|▌         | 28/548 [01:58<36:32,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=1d233fe8-e280-2b1a-8fac-c3646a1cd64a-2 rows=72 total_rows=1294 completed_batches=29
-Testing DataLoader 0:   5%|▌         | 29/548 [02:04<37:10,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=ddc73799-765b-241a-9c30-f75dcb7627d4-1 rows=42 total_rows=1336 completed_batches=30
-Testing DataLoader 0:   5%|▌         | 30/548 [02:08<37:00,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=ddc73799-765b-241a-9c30-f75dcb7627d4-2 rows=56 total_rows=1392 completed_batches=31
-Testing DataLoader 0:   6%|▌         | 31/548 [02:13<37:08,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f29-339c-2d13-83e9-90dbe61fa8be-1 rows=56 total_rows=1448 completed_batches=32
-Testing DataLoader 0:   6%|▌         | 32/548 [02:18<37:20,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f29-339c-2d13-83e9-90dbe61fa8be-2 rows=42 total_rows=1490 completed_batches=33
-Testing DataLoader 0:   6%|▌         | 33/548 [02:23<37:14,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f29-339c-2d13-83e9-90dbe61fa8be-3 rows=56 total_rows=1546 completed_batches=34
-Testing DataLoader 0:   6%|▌         | 34/548 [02:28<37:28,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f29-339c-2d13-83e9-90dbe61fa8be-4 rows=42 total_rows=1588 completed_batches=35
-Testing DataLoader 0:   6%|▋         | 35/548 [02:33<37:25,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f29-339c-2d13-83e9-90dbe61fa8be-5 rows=2 total_rows=1590 completed_batches=36
-Testing DataLoader 0:   7%|▋         | 36/548 [02:33<36:28,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f63-339c-2d13-81a3-0b07b1eb23b4-1 rows=20 total_rows=1610 completed_batches=37
-Testing DataLoader 0:   7%|▋         | 37/548 [02:36<35:58,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f63-339c-2d13-81a3-0b07b1eb23b4-2 rows=6 total_rows=1616 completed_batches=38
-Testing DataLoader 0:   7%|▋         | 38/548 [02:37<35:11,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f63-339c-2d13-81a3-0b07b1eb23b4-3 rows=30 total_rows=1646 completed_batches=39
-Testing DataLoader 0:   7%|▋         | 39/548 [02:40<34:55,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=43b8cadf-6678-2e38-9920-064144c99406-1 rows=72 total_rows=1718 completed_batches=40
-Testing DataLoader 0:   7%|▋         | 40/548 [02:47<35:24,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=43b8cadf-6678-2e38-9920-064144c99406-2 rows=42 total_rows=1760 completed_batches=41
-Testing DataLoader 0:   7%|▋         | 41/548 [02:51<35:25,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=43b8cadf-6678-2e38-9920-064144c99406-3 rows=42 total_rows=1802 completed_batches=42
-Testing DataLoader 0:   8%|▊         | 42/548 [02:55<35:18,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7676-8d6f-2d13-8f3a-d7bf7f03e721-1 rows=20 total_rows=1822 completed_batches=43
-Testing DataLoader 0:   8%|▊         | 43/548 [02:57<34:49,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7676-8d6f-2d13-8f3a-d7bf7f03e721-2 rows=42 total_rows=1864 completed_batches=44
-Testing DataLoader 0:   8%|▊         | 44/548 [03:01<34:43,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7676-8d6f-2d13-8f3a-d7bf7f03e721-3 rows=42 total_rows=1906 completed_batches=45
-Testing DataLoader 0:   8%|▊         | 45/548 [03:05<34:36,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7676-8d6f-2d13-8f3a-d7bf7f03e721-4 rows=72 total_rows=1978 completed_batches=46
-Testing DataLoader 0:   8%|▊         | 46/548 [03:12<34:57,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7676-8d6f-2d13-8f3a-d7bf7f03e721-5 rows=72 total_rows=2050 completed_batches=47
-Testing DataLoader 0:   9%|▊         | 47/548 [03:18<35:20,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=1d234022-e280-2b1a-8cec-e9787bb0d7b2-1 rows=42 total_rows=2092 completed_batches=48
-Testing DataLoader 0:   9%|▉         | 48/548 [03:23<35:15,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=1d234022-e280-2b1a-8cec-e9787bb0d7b2-2 rows=42 total_rows=2134 completed_batches=49
-Testing DataLoader 0:   9%|▉         | 49/548 [03:27<35:09,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=1d234022-e280-2b1a-8cec-e9787bb0d7b2-3 rows=72 total_rows=2206 completed_batches=50
-Testing DataLoader 0:   9%|▉         | 50/548 [03:33<35:28,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=5341b7b3-8a66-2cdd-856d-9d70e194568b-1 rows=42 total_rows=2248 completed_batches=51
-Testing DataLoader 0:   9%|▉         | 51/548 [03:37<35:20,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=5341b7b3-8a66-2cdd-856d-9d70e194568b-2 rows=72 total_rows=2320 completed_batches=52
-Testing DataLoader 0:   9%|▉         | 52/548 [03:44<35:38,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=5341b7b3-8a66-2cdd-856d-9d70e194568b-3 rows=12 total_rows=2332 completed_batches=53
-Testing DataLoader 0:  10%|▉         | 53/548 [03:45<35:07,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=1d234024-e280-2b1a-8c28-2743fefed020-1 rows=30 total_rows=2362 completed_batches=54
-Testing DataLoader 0:  10%|▉         | 54/548 [03:48<34:52,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=1d234024-e280-2b1a-8c28-2743fefed020-2 rows=42 total_rows=2404 completed_batches=55
-Testing DataLoader 0:  10%|█         | 55/548 [03:52<34:46,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=1d234024-e280-2b1a-8c28-2743fefed020-3 rows=30 total_rows=2434 completed_batches=56
-Testing DataLoader 0:  10%|█         | 56/548 [03:55<34:33,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=095821f7-e2c2-2de1-9568-b9ce59920e29-1 rows=72 total_rows=2506 completed_batches=57
-Testing DataLoader 0:  10%|█         | 57/548 [04:02<34:52,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=0cac761b-8d6f-2d13-8f16-23a7d73c54fe-1 rows=72 total_rows=2578 completed_batches=58
-Testing DataLoader 0:  11%|█         | 58/548 [04:09<35:08,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=0cac761b-8d6f-2d13-8f16-23a7d73c54fe-2 rows=30 total_rows=2608 completed_batches=59
-Testing DataLoader 0:  11%|█         | 59/548 [04:12<34:54,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=7272e17c-a01b-20f6-8b2f-e659331ae41a-1 rows=56 total_rows=2664 completed_batches=60
-Testing DataLoader 0:  11%|█         | 60/548 [04:17<34:57,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=7272e17c-a01b-20f6-8b2f-e659331ae41a-2 rows=56 total_rows=2720 completed_batches=61
-Testing DataLoader 0:  11%|█         | 61/548 [04:22<34:59,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=7272e17c-a01b-20f6-8b2f-e659331ae41a-3 rows=72 total_rows=2792 completed_batches=62
-Testing DataLoader 0:  11%|█▏        | 62/548 [04:29<35:15,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7584-8d6f-2d13-8df8-c05e4307b418-1 rows=12 total_rows=2804 completed_batches=63
-Testing DataLoader 0:  11%|█▏        | 63/548 [04:31<34:49,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7584-8d6f-2d13-8df8-c05e4307b418-2 rows=56 total_rows=2860 completed_batches=64
-Testing DataLoader 0:  12%|█▏        | 64/548 [04:36<34:50,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7584-8d6f-2d13-8df8-c05e4307b418-3 rows=56 total_rows=2916 completed_batches=65
-Testing DataLoader 0:  12%|█▏        | 65/548 [04:41<34:51,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7584-8d6f-2d13-8df8-c05e4307b418-4 rows=20 total_rows=2936 completed_batches=66
-Testing DataLoader 0:  12%|█▏        | 66/548 [04:43<34:31,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7584-8d6f-2d13-8df8-c05e4307b418-5 rows=2 total_rows=2938 completed_batches=67
-Testing DataLoader 0:  12%|█▏        | 67/548 [04:44<34:00,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=5341b79f-8a66-2cdd-84d5-6dba6525dd75-1 rows=42 total_rows=2980 completed_batches=68
-Testing DataLoader 0:  12%|█▏        | 68/548 [04:48<33:56,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=5341b79f-8a66-2cdd-84d5-6dba6525dd75-2 rows=30 total_rows=3010 completed_batches=69
-Testing DataLoader 0:  13%|█▎        | 69/548 [04:51<33:42,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=5341b79f-8a66-2cdd-84d5-6dba6525dd75-3 rows=12 total_rows=3022 completed_batches=70
-Testing DataLoader 0:  13%|█▎        | 70/548 [04:53<33:21,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=68bae75f-3567-2f7c-829d-7422117729f3-1 rows=42 total_rows=3064 completed_batches=71
-Testing DataLoader 0:  13%|█▎        | 71/548 [04:57<33:16,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=68bae75f-3567-2f7c-829d-7422117729f3-2 rows=72 total_rows=3136 completed_batches=72
-Testing DataLoader 0:  13%|█▎        | 72/548 [05:03<33:28,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=68bae75f-3567-2f7c-829d-7422117729f3-3 rows=30 total_rows=3166 completed_batches=73
-Testing DataLoader 0:  13%|█▎        | 73/548 [05:06<33:14,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=0988ea72-eb32-2e61-8344-99e2283c2728-1 rows=72 total_rows=3238 completed_batches=74
-Testing DataLoader 0:  14%|█▎        | 74/548 [05:13<33:25,  0.24it/s]H001 raw dump stream wrote batch raw_scan_id=0988ea72-eb32-2e61-8344-99e2283c2728-2 rows=72 total_rows=3310 completed_batches=75
-Testing DataLoader 0:  14%|█▎        | 75/548 [05:20<33:44,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=0988ea72-eb32-2e61-8344-99e2283c2728-3 rows=72 total_rows=3382 completed_batches=76
-Testing DataLoader 0:  14%|█▍        | 76/548 [05:27<33:52,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=0988ea72-eb32-2e61-8344-99e2283c2728-4 rows=42 total_rows=3424 completed_batches=77
-Testing DataLoader 0:  14%|█▍        | 77/548 [05:31<33:46,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=b05fdd96-fca0-2d4f-88c3-d9dfda85c00e-1 rows=30 total_rows=3454 completed_batches=78
-Testing DataLoader 0:  14%|█▍        | 78/548 [05:34<33:34,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=b05fdd96-fca0-2d4f-88c3-d9dfda85c00e-2 rows=42 total_rows=3496 completed_batches=79
-Testing DataLoader 0:  14%|█▍        | 79/548 [05:38<33:28,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75ea-8d6f-2d13-8e50-c5faf0159e32-1 rows=72 total_rows=3568 completed_batches=80
-Testing DataLoader 0:  15%|█▍        | 80/548 [05:44<33:35,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75ea-8d6f-2d13-8e50-c5faf0159e32-2 rows=56 total_rows=3624 completed_batches=81
-Testing DataLoader 0:  15%|█▍        | 81/548 [05:50<33:43,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=10b1792a-3938-2467-8b4e-a93da27a0985-1 rows=56 total_rows=3680 completed_batches=82
-Testing DataLoader 0:  15%|█▍        | 82/548 [05:55<33:42,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=10b1792a-3938-2467-8b4e-a93da27a0985-2 rows=42 total_rows=3722 completed_batches=83
-Testing DataLoader 0:  15%|█▌        | 83/548 [05:59<33:36,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=10b1792a-3938-2467-8b4e-a93da27a0985-3 rows=42 total_rows=3764 completed_batches=84
-Testing DataLoader 0:  15%|█▌        | 84/548 [06:03<33:29,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=10b1792a-3938-2467-8b4e-a93da27a0985-4 rows=56 total_rows=3820 completed_batches=85
-Testing DataLoader 0:  16%|█▌        | 85/548 [06:09<33:30,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=10b1792a-3938-2467-8b4e-a93da27a0985-5 rows=72 total_rows=3892 completed_batches=86
-Testing DataLoader 0:  16%|█▌        | 86/548 [06:15<33:38,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=9766cbe5-6321-2e2f-8040-4e5b7a5d8ba1-1 rows=72 total_rows=3964 completed_batches=87
-Testing DataLoader 0:  16%|█▌        | 87/548 [06:22<33:48,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=9766cbe5-6321-2e2f-8040-4e5b7a5d8ba1-2 rows=72 total_rows=4036 completed_batches=88
-Testing DataLoader 0:  16%|█▌        | 88/548 [06:29<33:57,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=9766cbe5-6321-2e2f-8040-4e5b7a5d8ba1-3 rows=72 total_rows=4108 completed_batches=89
-Testing DataLoader 0:  16%|█▌        | 89/548 [06:36<34:03,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=9766cbe5-6321-2e2f-8040-4e5b7a5d8ba1-4 rows=72 total_rows=4180 completed_batches=90
-Testing DataLoader 0:  16%|█▋        | 90/548 [06:43<34:12,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=9766cbe5-6321-2e2f-8040-4e5b7a5d8ba1-5 rows=42 total_rows=4222 completed_batches=91
-Testing DataLoader 0:  17%|█▋        | 91/548 [06:47<34:07,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=6bde60cd-9162-246f-8fad-fca80b4d6ad8-1 rows=20 total_rows=4242 completed_batches=92
-Testing DataLoader 0:  17%|█▋        | 92/548 [06:50<33:52,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=c2d99343-1947-2fbf-808f-92dbb7d47aa5-1 rows=72 total_rows=4314 completed_batches=93
-Testing DataLoader 0:  17%|█▋        | 93/548 [06:56<33:59,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=4138582f-a238-2435-8332-6902542c2823-1 rows=72 total_rows=4386 completed_batches=94
-Testing DataLoader 0:  17%|█▋        | 94/548 [07:03<34:06,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=4138582f-a238-2435-8332-6902542c2823-2 rows=56 total_rows=4442 completed_batches=95
-Testing DataLoader 0:  17%|█▋        | 95/548 [07:09<34:06,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=4138582f-a238-2435-8332-6902542c2823-3 rows=12 total_rows=4454 completed_batches=96
-Testing DataLoader 0:  18%|█▊        | 96/548 [07:10<33:47,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=7272e16c-a01b-20f6-8961-a0927b4a7629-1 rows=56 total_rows=4510 completed_batches=97
-Testing DataLoader 0:  18%|█▊        | 97/548 [07:16<33:48,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=7272e16c-a01b-20f6-8961-a0927b4a7629-2 rows=20 total_rows=4530 completed_batches=98
-Testing DataLoader 0:  18%|█▊        | 98/548 [07:18<33:32,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=6e67e55f-1209-2cd0-8194-8c6278434c80-1 rows=56 total_rows=4586 completed_batches=99
-Testing DataLoader 0:  18%|█▊        | 99/548 [07:23<33:33,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=6e67e55f-1209-2cd0-8194-8c6278434c80-2 rows=12 total_rows=4598 completed_batches=100
-Testing DataLoader 0:  18%|█▊        | 100/548 [07:25<33:15,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=f2c76ff1-2239-29d0-87f5-8a0346584384-1 rows=42 total_rows=4640 completed_batches=101
-Testing DataLoader 0:  18%|█▊        | 101/548 [07:29<33:08,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=f2c76ff1-2239-29d0-87f5-8a0346584384-2 rows=56 total_rows=4696 completed_batches=102
-Testing DataLoader 0:  19%|█▊        | 102/548 [07:34<33:07,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=f2c76ff1-2239-29d0-87f5-8a0346584384-3 rows=12 total_rows=4708 completed_batches=103
-Testing DataLoader 0:  19%|█▉        | 103/548 [07:36<32:50,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=f2c76ff1-2239-29d0-87f5-8a0346584384-4 rows=30 total_rows=4738 completed_batches=104
-Testing DataLoader 0:  19%|█▉        | 104/548 [07:38<32:38,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=6bde607b-9162-246f-8e65-76e3ef265504-1 rows=56 total_rows=4794 completed_batches=105
-Testing DataLoader 0:  19%|█▉        | 105/548 [07:44<32:39,  0.23it/s]H001 raw dump stream wrote batch raw_scan_id=6bde607b-9162-246f-8e65-76e3ef265504-2 rows=72 total_rows=4866 completed_batches=106
-Testing DataLoader 0:  19%|█▉        | 106/548 [07:51<32:46,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=7747a510-9431-24e8-8705-907ee78be2a2-1 rows=72 total_rows=4938 completed_batches=107
-Testing DataLoader 0:  20%|█▉        | 107/548 [07:57<32:49,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=7747a510-9431-24e8-8705-907ee78be2a2-2 rows=72 total_rows=5010 completed_batches=108
-Testing DataLoader 0:  20%|█▉        | 108/548 [08:04<32:52,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=7747a510-9431-24e8-8705-907ee78be2a2-3 rows=72 total_rows=5082 completed_batches=109
-Testing DataLoader 0:  20%|█▉        | 109/548 [08:10<32:56,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=7747a510-9431-24e8-8705-907ee78be2a2-4 rows=72 total_rows=5154 completed_batches=110
-Testing DataLoader 0:  20%|██        | 110/548 [08:17<33:01,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=7747a510-9431-24e8-8705-907ee78be2a2-5 rows=72 total_rows=5226 completed_batches=111
-Testing DataLoader 0:  20%|██        | 111/548 [08:24<33:07,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=7747a510-9431-24e8-8705-907ee78be2a2-6 rows=72 total_rows=5298 completed_batches=112
-Testing DataLoader 0:  20%|██        | 112/548 [08:31<33:11,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=7747a510-9431-24e8-8705-907ee78be2a2-7 rows=72 total_rows=5370 completed_batches=113
-Testing DataLoader 0:  21%|██        | 113/548 [08:38<33:14,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=43b8cae1-6678-2e38-9865-c19c07c25015-1 rows=56 total_rows=5426 completed_batches=114
-Testing DataLoader 0:  21%|██        | 114/548 [08:43<33:11,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=43b8cae1-6678-2e38-9865-c19c07c25015-2 rows=72 total_rows=5498 completed_batches=115
-Testing DataLoader 0:  21%|██        | 115/548 [08:50<33:16,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=43b8cae1-6678-2e38-9865-c19c07c25015-3 rows=72 total_rows=5570 completed_batches=116
-Testing DataLoader 0:  21%|██        | 116/548 [08:56<33:18,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=4d3d82b0-8cf4-2e04-80a8-c955ea964c2f-1 rows=72 total_rows=5642 completed_batches=117
-Testing DataLoader 0:  21%|██▏       | 117/548 [09:03<33:22,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=4d3d82b0-8cf4-2e04-80a8-c955ea964c2f-2 rows=42 total_rows=5684 completed_batches=118
-Testing DataLoader 0:  22%|██▏       | 118/548 [09:08<33:17,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=4d3d82b0-8cf4-2e04-80a8-c955ea964c2f-3 rows=12 total_rows=5696 completed_batches=119
-Testing DataLoader 0:  22%|██▏       | 119/548 [09:09<33:01,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=c92fb5b7-f771-2064-87a9-31c819832405-1 rows=72 total_rows=5768 completed_batches=120
-Testing DataLoader 0:  22%|██▏       | 120/548 [09:16<33:03,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=c92fb5b7-f771-2064-87a9-31c819832405-2 rows=72 total_rows=5840 completed_batches=121
-Testing DataLoader 0:  22%|██▏       | 121/548 [09:22<33:04,  0.22it/s]H001 raw dump stream wrote batch raw_scan_id=c92fb5b7-f771-2064-87a9-31c819832405-3 rows=72 total_rows=5912 completed_batches=122
-Testing DataLoader 0:  22%|██▏       | 122/548 [09:28<33:05,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c92fb5b7-f771-2064-87a9-31c819832405-4 rows=42 total_rows=5954 completed_batches=123
-Testing DataLoader 0:  22%|██▏       | 123/548 [09:32<32:59,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=9766cbf7-6321-2e2f-81e1-2b46533c64dd-1 rows=72 total_rows=6026 completed_batches=124
-Testing DataLoader 0:  23%|██▎       | 124/548 [09:40<33:03,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=9766cbf7-6321-2e2f-81e1-2b46533c64dd-2 rows=72 total_rows=6098 completed_batches=125
-Testing DataLoader 0:  23%|██▎       | 125/548 [09:47<33:07,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=9766cbf7-6321-2e2f-81e1-2b46533c64dd-3 rows=72 total_rows=6170 completed_batches=126
-Testing DataLoader 0:  23%|██▎       | 126/548 [09:54<33:11,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=9766cbf7-6321-2e2f-81e1-2b46533c64dd-4 rows=56 total_rows=6226 completed_batches=127
-Testing DataLoader 0:  23%|██▎       | 127/548 [09:59<33:08,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4d3d82ae-8cf4-2e04-80de-20f96c814d9c-1 rows=72 total_rows=6298 completed_batches=128
-Testing DataLoader 0:  23%|██▎       | 128/548 [10:06<33:11,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4d3d82ae-8cf4-2e04-80de-20f96c814d9c-2 rows=30 total_rows=6328 completed_batches=129
-Testing DataLoader 0:  24%|██▎       | 129/548 [10:09<33:01,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=fcf66d7b-622d-291c-86b8-7db96aebcee3-1 rows=56 total_rows=6384 completed_batches=130
-Testing DataLoader 0:  24%|██▎       | 130/548 [10:14<32:57,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=fcf66d7b-622d-291c-86b8-7db96aebcee3-2 rows=72 total_rows=6456 completed_batches=131
-Testing DataLoader 0:  24%|██▍       | 131/548 [10:23<33:03,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=fcf66d7b-622d-291c-86b8-7db96aebcee3-3 rows=6 total_rows=6462 completed_batches=132
-Testing DataLoader 0:  24%|██▍       | 132/548 [10:24<32:46,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=20c993bf-698f-29c5-8549-a69fd169c1e1-1 rows=42 total_rows=6504 completed_batches=133
-Testing DataLoader 0:  24%|██▍       | 133/548 [10:28<32:41,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ba6fdaaa-a4c1-2dca-8163-a52b18bf6b64-1 rows=72 total_rows=6576 completed_batches=134
-Testing DataLoader 0:  24%|██▍       | 134/548 [10:35<32:41,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ba6fdaaa-a4c1-2dca-8163-a52b18bf6b64-2 rows=30 total_rows=6606 completed_batches=135
-Testing DataLoader 0:  25%|██▍       | 135/548 [10:38<32:32,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ba6fdaaa-a4c1-2dca-8163-a52b18bf6b64-3 rows=72 total_rows=6678 completed_batches=136
-Testing DataLoader 0:  25%|██▍       | 136/548 [10:45<32:34,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ba6fdaaa-a4c1-2dca-8163-a52b18bf6b64-4 rows=72 total_rows=6750 completed_batches=137
-Testing DataLoader 0:  25%|██▌       | 137/548 [10:53<32:40,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ba6fdaaa-a4c1-2dca-8163-a52b18bf6b64-5 rows=72 total_rows=6822 completed_batches=138
-Testing DataLoader 0:  25%|██▌       | 138/548 [11:00<32:41,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=8eabc445-5af7-2f32-85ae-90deb8eb1b0b-1 rows=72 total_rows=6894 completed_batches=139
-Testing DataLoader 0:  25%|██▌       | 139/548 [11:06<32:41,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=8eabc445-5af7-2f32-85ae-90deb8eb1b0b-2 rows=42 total_rows=6936 completed_batches=140
-Testing DataLoader 0:  26%|██▌       | 140/548 [11:10<32:35,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=8eabc445-5af7-2f32-85ae-90deb8eb1b0b-3 rows=12 total_rows=6948 completed_batches=141
-Testing DataLoader 0:  26%|██▌       | 141/548 [11:12<32:21,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4a9a43d4-7736-2874-87a6-0c3089281af8-1 rows=72 total_rows=7020 completed_batches=142
-Testing DataLoader 0:  26%|██▌       | 142/548 [11:19<32:21,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4a9a43d4-7736-2874-87a6-0c3089281af8-2 rows=72 total_rows=7092 completed_batches=143
-Testing DataLoader 0:  26%|██▌       | 143/548 [11:25<32:21,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4a9a43d4-7736-2874-87a6-0c3089281af8-3 rows=72 total_rows=7164 completed_batches=144
-Testing DataLoader 0:  26%|██▋       | 144/548 [11:32<32:22,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4a9a43d4-7736-2874-87a6-0c3089281af8-4 rows=72 total_rows=7236 completed_batches=145
-Testing DataLoader 0:  26%|██▋       | 145/548 [11:38<32:21,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4a9a43d4-7736-2874-87a6-0c3089281af8-5 rows=56 total_rows=7292 completed_batches=146
-Testing DataLoader 0:  27%|██▋       | 146/548 [11:45<32:21,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4a9a43d4-7736-2874-87a6-0c3089281af8-6 rows=72 total_rows=7364 completed_batches=147
-Testing DataLoader 0:  27%|██▋       | 147/548 [11:51<32:21,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4a9a43d4-7736-2874-87a6-0c3089281af8-7 rows=72 total_rows=7436 completed_batches=148
-Testing DataLoader 0:  27%|██▋       | 148/548 [11:58<32:22,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4a9a43d4-7736-2874-87a6-0c3089281af8-8 rows=20 total_rows=7456 completed_batches=149
-Testing DataLoader 0:  27%|██▋       | 149/548 [12:00<32:09,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4fbad331-465b-2a5d-8488-852fcda9513c-1 rows=56 total_rows=7512 completed_batches=150
-Testing DataLoader 0:  27%|██▋       | 150/548 [12:05<32:06,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4fbad331-465b-2a5d-8488-852fcda9513c-2 rows=72 total_rows=7584 completed_batches=151
-Testing DataLoader 0:  28%|██▊       | 151/548 [12:12<32:06,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4fbad331-465b-2a5d-8488-852fcda9513c-3 rows=56 total_rows=7640 completed_batches=152
-Testing DataLoader 0:  28%|██▊       | 152/548 [12:17<32:01,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4fbad331-465b-2a5d-8488-852fcda9513c-4 rows=72 total_rows=7712 completed_batches=153
-Testing DataLoader 0:  28%|██▊       | 153/548 [12:24<32:02,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4fbad331-465b-2a5d-8488-852fcda9513c-5 rows=72 total_rows=7784 completed_batches=154
-Testing DataLoader 0:  28%|██▊       | 154/548 [12:31<32:01,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=095821fb-e2c2-2de1-94df-20f2cb423bcb-1 rows=72 total_rows=7856 completed_batches=155
-Testing DataLoader 0:  28%|██▊       | 155/548 [12:38<32:02,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f27-339c-2d13-836b-c12dca280261-1 rows=30 total_rows=7886 completed_batches=156
-Testing DataLoader 0:  28%|██▊       | 156/548 [12:41<31:52,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f27-339c-2d13-836b-c12dca280261-2 rows=42 total_rows=7928 completed_batches=157
-Testing DataLoader 0:  29%|██▊       | 157/548 [12:45<31:46,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f27-339c-2d13-836b-c12dca280261-3 rows=30 total_rows=7958 completed_batches=158
-Testing DataLoader 0:  29%|██▉       | 158/548 [12:48<31:36,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f27-339c-2d13-836b-c12dca280261-4 rows=12 total_rows=7970 completed_batches=159
-Testing DataLoader 0:  29%|██▉       | 159/548 [12:49<31:23,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f27-339c-2d13-836b-c12dca280261-5 rows=56 total_rows=8026 completed_batches=160
-Testing DataLoader 0:  29%|██▉       | 160/548 [12:55<31:20,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f27-339c-2d13-836b-c12dca280261-6 rows=20 total_rows=8046 completed_batches=161
-Testing DataLoader 0:  29%|██▉       | 161/548 [12:57<31:09,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=20c993bd-698f-29c5-8494-5556ba7d3fe9-1 rows=42 total_rows=8088 completed_batches=162
-Testing DataLoader 0:  30%|██▉       | 162/548 [13:01<31:02,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=137a8158-1db5-2cc0-8003-31c12610471e-1 rows=56 total_rows=8144 completed_batches=163
-Testing DataLoader 0:  30%|██▉       | 163/548 [13:06<30:58,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=137a8158-1db5-2cc0-8003-31c12610471e-2 rows=72 total_rows=8216 completed_batches=164
-Testing DataLoader 0:  30%|██▉       | 164/548 [13:13<30:58,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=137a8158-1db5-2cc0-8003-31c12610471e-3 rows=72 total_rows=8288 completed_batches=165
-Testing DataLoader 0:  30%|███       | 165/548 [13:19<30:56,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=137a8158-1db5-2cc0-8003-31c12610471e-4 rows=72 total_rows=8360 completed_batches=166
-Testing DataLoader 0:  30%|███       | 166/548 [13:26<30:55,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=137a8158-1db5-2cc0-8003-31c12610471e-5 rows=72 total_rows=8432 completed_batches=167
-Testing DataLoader 0:  30%|███       | 167/548 [13:33<30:55,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=137a8158-1db5-2cc0-8003-31c12610471e-6 rows=30 total_rows=8462 completed_batches=168
-Testing DataLoader 0:  31%|███       | 168/548 [13:36<30:46,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=280d8ebb-6cc6-2788-9153-98959a2da801-1 rows=72 total_rows=8534 completed_batches=169
-Testing DataLoader 0:  31%|███       | 169/548 [13:42<30:45,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=280d8ebb-6cc6-2788-9153-98959a2da801-2 rows=72 total_rows=8606 completed_batches=170
-Testing DataLoader 0:  31%|███       | 170/548 [13:49<30:45,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=280d8ebb-6cc6-2788-9153-98959a2da801-3 rows=72 total_rows=8678 completed_batches=171
-Testing DataLoader 0:  31%|███       | 171/548 [13:57<30:45,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=280d8ebb-6cc6-2788-9153-98959a2da801-4 rows=72 total_rows=8750 completed_batches=172
-Testing DataLoader 0:  31%|███▏      | 172/548 [14:03<30:43,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=280d8ebb-6cc6-2788-9153-98959a2da801-5 rows=30 total_rows=8780 completed_batches=173
-Testing DataLoader 0:  32%|███▏      | 173/548 [14:06<30:34,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=280d8ebb-6cc6-2788-9153-98959a2da801-6 rows=42 total_rows=8822 completed_batches=174
-Testing DataLoader 0:  32%|███▏      | 174/548 [14:10<30:27,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=280d8ebb-6cc6-2788-9153-98959a2da801-7 rows=56 total_rows=8878 completed_batches=175
-Testing DataLoader 0:  32%|███▏      | 175/548 [14:15<30:23,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=280d8ebb-6cc6-2788-9153-98959a2da801-8 rows=42 total_rows=8920 completed_batches=176
-Testing DataLoader 0:  32%|███▏      | 176/548 [14:20<30:18,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=cdcaf5bd-ddd8-2ed6-97c3-489e105e4dde-1 rows=30 total_rows=8950 completed_batches=177
-Testing DataLoader 0:  32%|███▏      | 177/548 [14:23<30:09,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=cdcaf5bd-ddd8-2ed6-97c3-489e105e4dde-2 rows=72 total_rows=9022 completed_batches=178
-Testing DataLoader 0:  32%|███▏      | 178/548 [14:29<30:07,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=cdcaf5bd-ddd8-2ed6-97c3-489e105e4dde-3 rows=56 total_rows=9078 completed_batches=179
-Testing DataLoader 0:  33%|███▎      | 179/548 [14:35<30:04,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=5630cfe7-12bf-2860-8710-52729dc36cc6-1 rows=72 total_rows=9150 completed_batches=180
-Testing DataLoader 0:  33%|███▎      | 180/548 [14:41<30:02,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=5630cfe7-12bf-2860-8710-52729dc36cc6-2 rows=30 total_rows=9180 completed_batches=181
-Testing DataLoader 0:  33%|███▎      | 181/548 [14:44<29:53,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=9af05c68-5794-2e19-8c5a-979f448da545-1 rows=72 total_rows=9252 completed_batches=182
-Testing DataLoader 0:  33%|███▎      | 182/548 [14:51<29:52,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=9af05c68-5794-2e19-8c5a-979f448da545-2 rows=72 total_rows=9324 completed_batches=183
-Testing DataLoader 0:  33%|███▎      | 183/548 [14:57<29:50,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=9af05c68-5794-2e19-8c5a-979f448da545-3 rows=56 total_rows=9380 completed_batches=184
-Testing DataLoader 0:  34%|███▎      | 184/548 [15:02<29:45,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=9af05c68-5794-2e19-8c5a-979f448da545-4 rows=72 total_rows=9452 completed_batches=185
-Testing DataLoader 0:  34%|███▍      | 185/548 [15:09<29:43,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=9af05c68-5794-2e19-8c5a-979f448da545-5 rows=56 total_rows=9508 completed_batches=186
-Testing DataLoader 0:  34%|███▍      | 186/548 [15:14<29:39,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=d7d40d4c-7a5d-2b36-95c1-5f6c9147caf0-1 rows=72 total_rows=9580 completed_batches=187
-Testing DataLoader 0:  34%|███▍      | 187/548 [15:21<29:39,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=d7d40d4c-7a5d-2b36-95c1-5f6c9147caf0-2 rows=72 total_rows=9652 completed_batches=188
-Testing DataLoader 0:  34%|███▍      | 188/548 [15:28<29:38,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f07-339c-2d13-8176-7418b6e8d7ce-1 rows=56 total_rows=9708 completed_batches=189
-Testing DataLoader 0:  34%|███▍      | 189/548 [15:33<29:33,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f07-339c-2d13-8176-7418b6e8d7ce-2 rows=56 total_rows=9764 completed_batches=190
-Testing DataLoader 0:  35%|███▍      | 190/548 [15:38<29:29,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f07-339c-2d13-8176-7418b6e8d7ce-3 rows=56 total_rows=9820 completed_batches=191
-Testing DataLoader 0:  35%|███▍      | 191/548 [15:44<29:25,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f07-339c-2d13-8176-7418b6e8d7ce-4 rows=56 total_rows=9876 completed_batches=192
-Testing DataLoader 0:  35%|███▌      | 192/548 [15:50<29:21,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f07-339c-2d13-8176-7418b6e8d7ce-5 rows=12 total_rows=9888 completed_batches=193
-Testing DataLoader 0:  35%|███▌      | 193/548 [15:51<29:10,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f07-339c-2d13-8176-7418b6e8d7ce-6 rows=72 total_rows=9960 completed_batches=194
-Testing DataLoader 0:  35%|███▌      | 194/548 [15:58<29:08,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f07-339c-2d13-8176-7418b6e8d7ce-7 rows=12 total_rows=9972 completed_batches=195
-Testing DataLoader 0:  36%|███▌      | 195/548 [15:59<28:57,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=ea318260-0a4c-2749-9389-4c16c782c4b1-1 rows=72 total_rows=10044 completed_batches=196
-Testing DataLoader 0:  36%|███▌      | 196/548 [16:06<28:54,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=ea318260-0a4c-2749-9389-4c16c782c4b1-2 rows=56 total_rows=10100 completed_batches=197
-Testing DataLoader 0:  36%|███▌      | 197/548 [16:11<28:51,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=ea318260-0a4c-2749-9389-4c16c782c4b1-3 rows=72 total_rows=10172 completed_batches=198
-Testing DataLoader 0:  36%|███▌      | 198/548 [16:18<28:48,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=ea318260-0a4c-2749-9389-4c16c782c4b1-4 rows=56 total_rows=10228 completed_batches=199
-Testing DataLoader 0:  36%|███▋      | 199/548 [16:23<28:44,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=ea318260-0a4c-2749-9389-4c16c782c4b1-5 rows=20 total_rows=10248 completed_batches=200
-Testing DataLoader 0:  36%|███▋      | 200/548 [16:25<28:34,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=ea318260-0a4c-2749-9389-4c16c782c4b1-6 rows=30 total_rows=10278 completed_batches=201
-Testing DataLoader 0:  37%|███▋      | 201/548 [16:28<28:26,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=5630cfcf-12bf-2860-8784-83d28a611a83-1 rows=72 total_rows=10350 completed_batches=202
-Testing DataLoader 0:  37%|███▋      | 202/548 [16:35<28:24,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=5630cfcf-12bf-2860-8784-83d28a611a83-2 rows=56 total_rows=10406 completed_batches=203
-Testing DataLoader 0:  37%|███▋      | 203/548 [16:40<28:19,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=5630cfcf-12bf-2860-8784-83d28a611a83-3 rows=42 total_rows=10448 completed_batches=204
-Testing DataLoader 0:  37%|███▋      | 204/548 [16:44<28:13,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=6bde6081-9162-246f-8c4e-ffaf709d17b1-1 rows=42 total_rows=10490 completed_batches=205
-Testing DataLoader 0:  37%|███▋      | 205/548 [16:48<28:07,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=6bde6081-9162-246f-8c4e-ffaf709d17b1-2 rows=30 total_rows=10520 completed_batches=206
-Testing DataLoader 0:  38%|███▊      | 206/548 [16:51<27:59,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7582-8d6f-2d13-8d4b-e4041cb166c4-1 rows=6 total_rows=10526 completed_batches=207
-Testing DataLoader 0:  38%|███▊      | 207/548 [16:52<27:48,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7582-8d6f-2d13-8d4b-e4041cb166c4-2 rows=42 total_rows=10568 completed_batches=208
-Testing DataLoader 0:  38%|███▊      | 208/548 [16:56<27:41,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7582-8d6f-2d13-8d4b-e4041cb166c4-3 rows=30 total_rows=10598 completed_batches=209
-Testing DataLoader 0:  38%|███▊      | 209/548 [16:59<27:34,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7582-8d6f-2d13-8d4b-e4041cb166c4-4 rows=12 total_rows=10610 completed_batches=210
-Testing DataLoader 0:  38%|███▊      | 210/548 [17:01<27:23,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=f2c76fe7-2239-29d0-84f5-144c30fd7451-1 rows=72 total_rows=10682 completed_batches=211
-Testing DataLoader 0:  39%|███▊      | 211/548 [17:07<27:21,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=f2c76fe7-2239-29d0-84f5-144c30fd7451-2 rows=56 total_rows=10738 completed_batches=212
-Testing DataLoader 0:  39%|███▊      | 212/548 [17:12<27:16,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=f2c76fe7-2239-29d0-84f5-144c30fd7451-3 rows=20 total_rows=10758 completed_batches=213
-Testing DataLoader 0:  39%|███▉      | 213/548 [17:15<27:07,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75b7-8d6f-2d13-8cb2-0b4e06913140-1 rows=72 total_rows=10830 completed_batches=214
-Testing DataLoader 0:  39%|███▉      | 214/548 [17:22<27:06,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75b7-8d6f-2d13-8cb2-0b4e06913140-2 rows=56 total_rows=10886 completed_batches=215
-Testing DataLoader 0:  39%|███▉      | 215/548 [17:27<27:01,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75b7-8d6f-2d13-8cb2-0b4e06913140-3 rows=42 total_rows=10928 completed_batches=216
-Testing DataLoader 0:  39%|███▉      | 216/548 [17:31<26:56,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75b7-8d6f-2d13-8cb2-0b4e06913140-4 rows=42 total_rows=10970 completed_batches=217
-Testing DataLoader 0:  40%|███▉      | 217/548 [17:35<26:49,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75b7-8d6f-2d13-8cb2-0b4e06913140-5 rows=56 total_rows=11026 completed_batches=218
-Testing DataLoader 0:  40%|███▉      | 218/548 [17:41<26:46,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75b7-8d6f-2d13-8cb2-0b4e06913140-6 rows=20 total_rows=11046 completed_batches=219
-Testing DataLoader 0:  40%|███▉      | 219/548 [17:43<26:37,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=a0905fdb-66f7-2272-9fc5-7c0008d5e87b-1 rows=30 total_rows=11076 completed_batches=220
-Testing DataLoader 0:  40%|████      | 220/548 [17:46<26:29,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=a0905fdb-66f7-2272-9fc5-7c0008d5e87b-2 rows=20 total_rows=11096 completed_batches=221
-Testing DataLoader 0:  40%|████      | 221/548 [17:48<26:21,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=a0905fdb-66f7-2272-9fc5-7c0008d5e87b-3 rows=30 total_rows=11126 completed_batches=222
-Testing DataLoader 0:  41%|████      | 222/548 [17:51<26:13,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=a0905fdb-66f7-2272-9fc5-7c0008d5e87b-4 rows=30 total_rows=11156 completed_batches=223
-Testing DataLoader 0:  41%|████      | 223/548 [17:54<26:06,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=d7d40d50-7a5d-2b36-9446-7d636174329f-1 rows=72 total_rows=11228 completed_batches=224
-Testing DataLoader 0:  41%|████      | 224/548 [18:02<26:05,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=d7d40d50-7a5d-2b36-9446-7d636174329f-2 rows=56 total_rows=11284 completed_batches=225
-Testing DataLoader 0:  41%|████      | 225/548 [18:07<26:01,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7532-8d6f-2d13-8cea-1e70d5ae4856-1 rows=56 total_rows=11340 completed_batches=226
-Testing DataLoader 0:  41%|████      | 226/548 [18:13<25:57,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7532-8d6f-2d13-8cea-1e70d5ae4856-2 rows=20 total_rows=11360 completed_batches=227
-Testing DataLoader 0:  41%|████▏     | 227/548 [18:15<25:48,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=5630cfd3-12bf-2860-8749-9dacb499fb14-1 rows=30 total_rows=11390 completed_batches=228
-Testing DataLoader 0:  42%|████▏     | 228/548 [18:17<25:40,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=5630cfd3-12bf-2860-8749-9dacb499fb14-2 rows=72 total_rows=11462 completed_batches=229
-Testing DataLoader 0:  42%|████▏     | 229/548 [18:24<25:38,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4a9a43d2-7736-2874-874d-d0fad0570e19-1 rows=72 total_rows=11534 completed_batches=230
-Testing DataLoader 0:  42%|████▏     | 230/548 [18:31<25:36,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4a9a43d2-7736-2874-874d-d0fad0570e19-2 rows=72 total_rows=11606 completed_batches=231
-Testing DataLoader 0:  42%|████▏     | 231/548 [18:38<25:34,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4a9a43d2-7736-2874-874d-d0fad0570e19-3 rows=72 total_rows=11678 completed_batches=232
-Testing DataLoader 0:  42%|████▏     | 232/548 [18:45<25:32,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4a9a43d2-7736-2874-874d-d0fad0570e19-4 rows=72 total_rows=11750 completed_batches=233
-Testing DataLoader 0:  43%|████▎     | 233/548 [18:52<25:30,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4a9a43d2-7736-2874-874d-d0fad0570e19-5 rows=72 total_rows=11822 completed_batches=234
-Testing DataLoader 0:  43%|████▎     | 234/548 [18:59<25:28,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4a9a43d2-7736-2874-874d-d0fad0570e19-6 rows=72 total_rows=11894 completed_batches=235
-Testing DataLoader 0:  43%|████▎     | 235/548 [19:05<25:25,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4a9a43d2-7736-2874-874d-d0fad0570e19-7 rows=72 total_rows=11966 completed_batches=236
-Testing DataLoader 0:  43%|████▎     | 236/548 [19:11<25:22,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=4a9a43d2-7736-2874-874d-d0fad0570e19-8 rows=72 total_rows=12038 completed_batches=237
-Testing DataLoader 0:  43%|████▎     | 237/548 [19:17<25:19,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=8eabc455-5af7-2f32-8606-a0bdbe6c537d-1 rows=42 total_rows=12080 completed_batches=238
-Testing DataLoader 0:  43%|████▎     | 238/548 [19:22<25:13,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=8eabc455-5af7-2f32-8606-a0bdbe6c537d-2 rows=42 total_rows=12122 completed_batches=239
-Testing DataLoader 0:  44%|████▎     | 239/548 [19:26<25:08,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=8eabc455-5af7-2f32-8606-a0bdbe6c537d-3 rows=42 total_rows=12164 completed_batches=240
-Testing DataLoader 0:  44%|████▍     | 240/548 [19:30<25:02,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=8eabc455-5af7-2f32-8606-a0bdbe6c537d-4 rows=20 total_rows=12184 completed_batches=241
-Testing DataLoader 0:  44%|████▍     | 241/548 [19:33<24:54,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=321c8680-a5a8-2a84-85c2-816a26d59516-1 rows=72 total_rows=12256 completed_batches=242
-Testing DataLoader 0:  44%|████▍     | 242/548 [19:40<24:52,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=321c8680-a5a8-2a84-85c2-816a26d59516-2 rows=56 total_rows=12312 completed_batches=243
-Testing DataLoader 0:  44%|████▍     | 243/548 [19:47<24:50,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=321c8680-a5a8-2a84-85c2-816a26d59516-3 rows=30 total_rows=12342 completed_batches=244
-Testing DataLoader 0:  45%|████▍     | 244/548 [19:50<24:43,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=5630cfde-12bf-2860-8563-d68bdd98fab0-1 rows=42 total_rows=12384 completed_batches=245
-Testing DataLoader 0:  45%|████▍     | 245/548 [19:54<24:37,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=5630cfde-12bf-2860-8563-d68bdd98fab0-2 rows=56 total_rows=12440 completed_batches=246
-Testing DataLoader 0:  45%|████▍     | 246/548 [20:00<24:33,  0.20it/s]H001 raw dump stream wrote batch raw_scan_id=bcb0fe04-4f39-2c70-9f03-d0eec592de24-1 rows=30 total_rows=12470 completed_batches=247
-Testing DataLoader 0:  45%|████▌     | 247/548 [20:02<24:25,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=bcb0fe04-4f39-2c70-9f03-d0eec592de24-2 rows=20 total_rows=12490 completed_batches=248
-Testing DataLoader 0:  45%|████▌     | 248/548 [20:04<24:17,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=bcb0fe04-4f39-2c70-9f03-d0eec592de24-3 rows=12 total_rows=12502 completed_batches=249
-Testing DataLoader 0:  45%|████▌     | 249/548 [20:06<24:08,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c2d99341-1947-2fbf-817a-5aa9b44f724f-1 rows=42 total_rows=12544 completed_batches=250
-Testing DataLoader 0:  46%|████▌     | 250/548 [20:10<24:02,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c2d99341-1947-2fbf-817a-5aa9b44f724f-2 rows=30 total_rows=12574 completed_batches=251
-Testing DataLoader 0:  46%|████▌     | 251/548 [20:13<23:55,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=787ed58c-9d98-2c97-83b9-b48a609ace15-1 rows=42 total_rows=12616 completed_batches=252
-Testing DataLoader 0:  46%|████▌     | 252/548 [20:17<23:49,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=787ed58c-9d98-2c97-83b9-b48a609ace15-2 rows=72 total_rows=12688 completed_batches=253
-Testing DataLoader 0:  46%|████▌     | 253/548 [20:25<23:48,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=787ed58c-9d98-2c97-83b9-b48a609ace15-3 rows=20 total_rows=12708 completed_batches=254
-Testing DataLoader 0:  46%|████▋     | 254/548 [20:27<23:40,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=742e8f19-be0a-294e-9eb6-50dc474b110e-1 rows=20 total_rows=12728 completed_batches=255
-Testing DataLoader 0:  47%|████▋     | 255/548 [20:29<23:32,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=742e8f19-be0a-294e-9eb6-50dc474b110e-2 rows=56 total_rows=12784 completed_batches=256
-Testing DataLoader 0:  47%|████▋     | 256/548 [20:34<23:28,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=742e8f19-be0a-294e-9eb6-50dc474b110e-3 rows=30 total_rows=12814 completed_batches=257
-Testing DataLoader 0:  47%|████▋     | 257/548 [20:37<23:21,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=10b1794e-3938-2467-89a7-ebc89e84cf88-1 rows=30 total_rows=12844 completed_batches=258
-Testing DataLoader 0:  47%|████▋     | 258/548 [20:40<23:14,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=10b1794e-3938-2467-89a7-ebc89e84cf88-2 rows=30 total_rows=12874 completed_batches=259
-Testing DataLoader 0:  47%|████▋     | 259/548 [20:43<23:07,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=10b1794e-3938-2467-89a7-ebc89e84cf88-3 rows=6 total_rows=12880 completed_batches=260
-Testing DataLoader 0:  47%|████▋     | 260/548 [20:44<22:58,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=10b17940-3938-2467-8a7a-958300ba83d3-1 rows=42 total_rows=12922 completed_batches=261
-Testing DataLoader 0:  48%|████▊     | 261/548 [20:48<22:52,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=10b17940-3938-2467-8a7a-958300ba83d3-2 rows=72 total_rows=12994 completed_batches=262
-Testing DataLoader 0:  48%|████▊     | 262/548 [20:55<22:49,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=10b17940-3938-2467-8a7a-958300ba83d3-3 rows=56 total_rows=13050 completed_batches=263
-Testing DataLoader 0:  48%|████▊     | 263/548 [21:00<22:45,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ddc73797-765b-241a-9e2c-097c5989baf6-1 rows=42 total_rows=13092 completed_batches=264
-Testing DataLoader 0:  48%|████▊     | 264/548 [21:04<22:39,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ddc73797-765b-241a-9e2c-097c5989baf6-2 rows=56 total_rows=13148 completed_batches=265
-Testing DataLoader 0:  48%|████▊     | 265/548 [21:09<22:35,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ddc73797-765b-241a-9e2c-097c5989baf6-3 rows=72 total_rows=13220 completed_batches=266
-Testing DataLoader 0:  49%|████▊     | 266/548 [21:16<22:33,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ddc73797-765b-241a-9e2c-097c5989baf6-4 rows=72 total_rows=13292 completed_batches=267
-Testing DataLoader 0:  49%|████▊     | 267/548 [21:23<22:31,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ddc73797-765b-241a-9e2c-097c5989baf6-5 rows=20 total_rows=13312 completed_batches=268
-Testing DataLoader 0:  49%|████▉     | 268/548 [21:26<22:23,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ddc73797-765b-241a-9e2c-097c5989baf6-6 rows=56 total_rows=13368 completed_batches=269
-Testing DataLoader 0:  49%|████▉     | 269/548 [21:31<22:19,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ddc73797-765b-241a-9e2c-097c5989baf6-7 rows=72 total_rows=13440 completed_batches=270
-Testing DataLoader 0:  49%|████▉     | 270/548 [21:37<22:16,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c2d99347-1947-2fbf-834b-f95790c125dd-1 rows=56 total_rows=13496 completed_batches=271
-Testing DataLoader 0:  49%|████▉     | 271/548 [21:42<22:11,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c2d99347-1947-2fbf-834b-f95790c125dd-2 rows=20 total_rows=13516 completed_batches=272
-Testing DataLoader 0:  50%|████▉     | 272/548 [21:44<22:04,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=a0905fd9-66f7-2272-9dfb-0483fdcc54c7-1 rows=72 total_rows=13588 completed_batches=273
-Testing DataLoader 0:  50%|████▉     | 273/548 [21:51<22:01,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=a0905fd9-66f7-2272-9dfb-0483fdcc54c7-2 rows=56 total_rows=13644 completed_batches=274
-Testing DataLoader 0:  50%|█████     | 274/548 [21:57<21:57,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=a0905fd9-66f7-2272-9dfb-0483fdcc54c7-3 rows=30 total_rows=13674 completed_batches=275
-Testing DataLoader 0:  50%|█████     | 275/548 [22:00<21:50,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=a0905fd9-66f7-2272-9dfb-0483fdcc54c7-4 rows=56 total_rows=13730 completed_batches=276
-Testing DataLoader 0:  50%|█████     | 276/548 [22:05<21:46,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=a0905fd9-66f7-2272-9dfb-0483fdcc54c7-5 rows=56 total_rows=13786 completed_batches=277
-Testing DataLoader 0:  51%|█████     | 277/548 [22:10<21:41,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=a0905fd9-66f7-2272-9dfb-0483fdcc54c7-6 rows=20 total_rows=13806 completed_batches=278
-Testing DataLoader 0:  51%|█████     | 278/548 [22:13<21:34,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=a0905fd9-66f7-2272-9dfb-0483fdcc54c7-7 rows=42 total_rows=13848 completed_batches=279
-Testing DataLoader 0:  51%|█████     | 279/548 [22:17<21:29,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=a0905fd9-66f7-2272-9dfb-0483fdcc54c7-8 rows=42 total_rows=13890 completed_batches=280
-Testing DataLoader 0:  51%|█████     | 280/548 [22:21<21:23,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=a0905fd9-66f7-2272-9dfb-0483fdcc54c7-9 rows=30 total_rows=13920 completed_batches=281
-Testing DataLoader 0:  51%|█████▏    | 281/548 [22:24<21:17,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4fbad31e-465b-2a5d-84b7-c0ddea978db4-1 rows=56 total_rows=13976 completed_batches=282
-Testing DataLoader 0:  51%|█████▏    | 282/548 [22:28<21:12,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4fbad31e-465b-2a5d-84b7-c0ddea978db4-2 rows=72 total_rows=14048 completed_batches=283
-Testing DataLoader 0:  52%|█████▏    | 283/548 [22:35<21:09,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4fbad31e-465b-2a5d-84b7-c0ddea978db4-3 rows=72 total_rows=14120 completed_batches=284
-Testing DataLoader 0:  52%|█████▏    | 284/548 [22:41<21:05,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4fbad31e-465b-2a5d-84b7-c0ddea978db4-4 rows=72 total_rows=14192 completed_batches=285
-Testing DataLoader 0:  52%|█████▏    | 285/548 [22:48<21:02,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4fbad31e-465b-2a5d-84b7-c0ddea978db4-5 rows=72 total_rows=14264 completed_batches=286
-Testing DataLoader 0:  52%|█████▏    | 286/548 [22:54<20:59,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4fbad31e-465b-2a5d-84b7-c0ddea978db4-6 rows=56 total_rows=14320 completed_batches=287
-Testing DataLoader 0:  52%|█████▏    | 287/548 [23:00<20:55,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=5341b7a5-8a66-2cdd-8751-70b98263cb8d-1 rows=72 total_rows=14392 completed_batches=288
-Testing DataLoader 0:  53%|█████▎    | 288/548 [23:07<20:52,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4138585b-a238-2435-810b-9728fc989b2f-1 rows=42 total_rows=14434 completed_batches=289
-Testing DataLoader 0:  53%|█████▎    | 289/548 [23:11<20:47,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4138585b-a238-2435-810b-9728fc989b2f-2 rows=72 total_rows=14506 completed_batches=290
-Testing DataLoader 0:  53%|█████▎    | 290/548 [23:17<20:43,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4138585b-a238-2435-810b-9728fc989b2f-3 rows=42 total_rows=14548 completed_batches=291
-Testing DataLoader 0:  53%|█████▎    | 291/548 [23:21<20:37,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c2d99349-1947-2fbf-837e-a0bd5e027c52-1 rows=56 total_rows=14604 completed_batches=292
-Testing DataLoader 0:  53%|█████▎    | 292/548 [23:27<20:33,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c2d99349-1947-2fbf-837e-a0bd5e027c52-2 rows=72 total_rows=14676 completed_batches=293
-Testing DataLoader 0:  53%|█████▎    | 293/548 [23:33<20:30,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c2d99349-1947-2fbf-837e-a0bd5e027c52-3 rows=30 total_rows=14706 completed_batches=294
-Testing DataLoader 0:  54%|█████▎    | 294/548 [23:36<20:23,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=1d233fe6-e280-2b1a-8caf-eb0d13a59ad6-1 rows=56 total_rows=14762 completed_batches=295
-Testing DataLoader 0:  54%|█████▍    | 295/548 [23:41<20:19,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=1d233fe6-e280-2b1a-8caf-eb0d13a59ad6-2 rows=72 total_rows=14834 completed_batches=296
-Testing DataLoader 0:  54%|█████▍    | 296/548 [23:48<20:16,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=77361fd4-d054-2a22-88c4-b5b404f904ca-1 rows=20 total_rows=14854 completed_batches=297
-Testing DataLoader 0:  54%|█████▍    | 297/548 [23:50<20:08,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75e8-8d6f-2d13-8fc4-acdbf00437c8-1 rows=72 total_rows=14926 completed_batches=298
-Testing DataLoader 0:  54%|█████▍    | 298/548 [23:57<20:06,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75e8-8d6f-2d13-8fc4-acdbf00437c8-2 rows=30 total_rows=14956 completed_batches=299
-Testing DataLoader 0:  55%|█████▍    | 299/548 [24:01<20:00,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75e8-8d6f-2d13-8fc4-acdbf00437c8-3 rows=12 total_rows=14968 completed_batches=300
-Testing DataLoader 0:  55%|█████▍    | 300/548 [24:02<19:52,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7534-8d6f-2d13-8de7-8a915ed90050-1 rows=30 total_rows=14998 completed_batches=301
-Testing DataLoader 0:  55%|█████▍    | 301/548 [24:05<19:46,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7534-8d6f-2d13-8de7-8a915ed90050-2 rows=20 total_rows=15018 completed_batches=302
-Testing DataLoader 0:  55%|█████▌    | 302/548 [24:07<19:39,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7534-8d6f-2d13-8de7-8a915ed90050-3 rows=6 total_rows=15024 completed_batches=303
-Testing DataLoader 0:  55%|█████▌    | 303/548 [24:08<19:31,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75dc-8d6f-2d13-8d08-9c497bd6acdc-1 rows=20 total_rows=15044 completed_batches=304
-Testing DataLoader 0:  55%|█████▌    | 304/548 [24:10<19:24,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75dc-8d6f-2d13-8d08-9c497bd6acdc-2 rows=56 total_rows=15100 completed_batches=305
-Testing DataLoader 0:  56%|█████▌    | 305/548 [24:16<19:20,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75dc-8d6f-2d13-8d08-9c497bd6acdc-3 rows=20 total_rows=15120 completed_batches=306
-Testing DataLoader 0:  56%|█████▌    | 306/548 [24:18<19:13,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75dc-8d6f-2d13-8d08-9c497bd6acdc-4 rows=42 total_rows=15162 completed_batches=307
-Testing DataLoader 0:  56%|█████▌    | 307/548 [24:22<19:07,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75dc-8d6f-2d13-8d08-9c497bd6acdc-5 rows=20 total_rows=15182 completed_batches=308
-Testing DataLoader 0:  56%|█████▌    | 308/548 [24:24<19:01,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4731976c-f9f7-2a1a-95cc-31c4d1751d0b-1 rows=56 total_rows=15238 completed_batches=309
-Testing DataLoader 0:  56%|█████▋    | 309/548 [24:30<18:56,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4731976c-f9f7-2a1a-95cc-31c4d1751d0b-2 rows=72 total_rows=15310 completed_batches=310
-Testing DataLoader 0:  57%|█████▋    | 310/548 [24:36<18:53,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4731976c-f9f7-2a1a-95cc-31c4d1751d0b-3 rows=56 total_rows=15366 completed_batches=311
-Testing DataLoader 0:  57%|█████▋    | 311/548 [24:41<18:49,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4731976c-f9f7-2a1a-95cc-31c4d1751d0b-4 rows=72 total_rows=15438 completed_batches=312
-Testing DataLoader 0:  57%|█████▋    | 312/548 [24:48<18:45,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4731976c-f9f7-2a1a-95cc-31c4d1751d0b-5 rows=20 total_rows=15458 completed_batches=313
-Testing DataLoader 0:  57%|█████▋    | 313/548 [24:50<18:38,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=6bde60cf-9162-246f-8f98-6355d75494c2-1 rows=56 total_rows=15514 completed_batches=314
-Testing DataLoader 0:  57%|█████▋    | 314/548 [24:55<18:34,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4238490c-60a7-271e-9f38-3c651e3b3912-1 rows=56 total_rows=15570 completed_batches=315
-Testing DataLoader 0:  57%|█████▋    | 315/548 [25:01<18:30,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4238490c-60a7-271e-9f38-3c651e3b3912-2 rows=56 total_rows=15626 completed_batches=316
-Testing DataLoader 0:  58%|█████▊    | 316/548 [25:06<18:25,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c2d9933f-1947-2fbf-807f-c44bc1aed269-1 rows=72 total_rows=15698 completed_batches=317
-Testing DataLoader 0:  58%|█████▊    | 317/548 [25:12<18:22,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c2d9933f-1947-2fbf-807f-c44bc1aed269-2 rows=72 total_rows=15770 completed_batches=318
-Testing DataLoader 0:  58%|█████▊    | 318/548 [25:19<18:18,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=742e8f15-be0a-294e-9ebb-6c72dbcb9662-1 rows=72 total_rows=15842 completed_batches=319
-Testing DataLoader 0:  58%|█████▊    | 319/548 [25:26<18:15,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=742e8f15-be0a-294e-9ebb-6c72dbcb9662-2 rows=20 total_rows=15862 completed_batches=320
-Testing DataLoader 0:  58%|█████▊    | 320/548 [25:28<18:08,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=742e8f15-be0a-294e-9ebb-6c72dbcb9662-3 rows=30 total_rows=15892 completed_batches=321
-Testing DataLoader 0:  59%|█████▊    | 321/548 [25:31<18:02,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=bf9a3de9-45a5-2e80-8022-277108d67404-1 rows=42 total_rows=15934 completed_batches=322
-Testing DataLoader 0:  59%|█████▉    | 322/548 [25:35<17:57,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=bf9a3de9-45a5-2e80-8022-277108d67404-2 rows=30 total_rows=15964 completed_batches=323
-Testing DataLoader 0:  59%|█████▉    | 323/548 [25:38<17:51,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=bf9a3de9-45a5-2e80-8022-277108d67404-3 rows=56 total_rows=16020 completed_batches=324
-Testing DataLoader 0:  59%|█████▉    | 324/548 [25:43<17:47,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=bf9a3de9-45a5-2e80-8022-277108d67404-4 rows=56 total_rows=16076 completed_batches=325
-Testing DataLoader 0:  59%|█████▉    | 325/548 [25:48<17:42,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=5341b7e3-8a66-2cdd-8709-66a2159f0017-1 rows=42 total_rows=16118 completed_batches=326
-Testing DataLoader 0:  59%|█████▉    | 326/548 [25:53<17:37,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=5341b7e3-8a66-2cdd-8709-66a2159f0017-2 rows=42 total_rows=16160 completed_batches=327
-Testing DataLoader 0:  60%|█████▉    | 327/548 [25:57<17:32,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=5341b7e3-8a66-2cdd-8709-66a2159f0017-3 rows=72 total_rows=16232 completed_batches=328
-Testing DataLoader 0:  60%|█████▉    | 328/548 [26:03<17:28,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca1-86d7-27b8-8619-ab66f67d9adf-1 rows=72 total_rows=16304 completed_batches=329
-Testing DataLoader 0:  60%|██████    | 329/548 [26:10<17:25,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca1-86d7-27b8-8619-ab66f67d9adf-2 rows=72 total_rows=16376 completed_batches=330
-Testing DataLoader 0:  60%|██████    | 330/548 [26:17<17:22,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca1-86d7-27b8-8619-ab66f67d9adf-3 rows=72 total_rows=16448 completed_batches=331
-Testing DataLoader 0:  60%|██████    | 331/548 [26:24<17:19,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca1-86d7-27b8-8619-ab66f67d9adf-4 rows=30 total_rows=16478 completed_batches=332
-Testing DataLoader 0:  61%|██████    | 332/548 [26:27<17:13,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca1-86d7-27b8-8619-ab66f67d9adf-5 rows=72 total_rows=16550 completed_batches=333
-Testing DataLoader 0:  61%|██████    | 333/548 [26:34<17:09,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca1-86d7-27b8-8619-ab66f67d9adf-6 rows=72 total_rows=16622 completed_batches=334
-Testing DataLoader 0:  61%|██████    | 334/548 [26:40<17:05,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca1-86d7-27b8-8619-ab66f67d9adf-7 rows=72 total_rows=16694 completed_batches=335
-Testing DataLoader 0:  61%|██████    | 335/548 [26:47<17:01,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca1-86d7-27b8-8619-ab66f67d9adf-8 rows=72 total_rows=16766 completed_batches=336
-Testing DataLoader 0:  61%|██████▏   | 336/548 [26:54<16:58,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca1-86d7-27b8-8619-ab66f67d9adf-9 rows=72 total_rows=16838 completed_batches=337
-Testing DataLoader 0:  61%|██████▏   | 337/548 [27:01<16:55,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca1-86d7-27b8-8619-ab66f67d9adf-a rows=72 total_rows=16910 completed_batches=338
-Testing DataLoader 0:  62%|██████▏   | 338/548 [27:07<16:51,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=6bde6083-9162-246f-8c9c-e170212059b2-1 rows=72 total_rows=16982 completed_batches=339
-Testing DataLoader 0:  62%|██████▏   | 339/548 [27:14<16:47,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=6bde6083-9162-246f-8c9c-e170212059b2-2 rows=30 total_rows=17012 completed_batches=340
-Testing DataLoader 0:  62%|██████▏   | 340/548 [27:18<16:42,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=f2c76fe5-2239-29d0-8593-1a2555125595-1 rows=42 total_rows=17054 completed_batches=341
-Testing DataLoader 0:  62%|██████▏   | 341/548 [27:22<16:36,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=f2c76fe5-2239-29d0-8593-1a2555125595-2 rows=72 total_rows=17126 completed_batches=342
-Testing DataLoader 0:  62%|██████▏   | 342/548 [27:28<16:33,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=f2c76fe5-2239-29d0-8593-1a2555125595-3 rows=42 total_rows=17168 completed_batches=343
-Testing DataLoader 0:  63%|██████▎   | 343/548 [27:32<16:27,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=5630cfd1-12bf-2860-86b2-e7a96bc32c19-1 rows=20 total_rows=17188 completed_batches=344
-Testing DataLoader 0:  63%|██████▎   | 344/548 [27:35<16:21,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=5630cfd1-12bf-2860-86b2-e7a96bc32c19-2 rows=42 total_rows=17230 completed_batches=345
-Testing DataLoader 0:  63%|██████▎   | 345/548 [27:39<16:16,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=5630cfd1-12bf-2860-86b2-e7a96bc32c19-3 rows=20 total_rows=17250 completed_batches=346
-Testing DataLoader 0:  63%|██████▎   | 346/548 [27:41<16:09,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=42384908-60a7-271e-9c46-01e562c8974c-1 rows=56 total_rows=17306 completed_batches=347
-Testing DataLoader 0:  63%|██████▎   | 347/548 [27:46<16:05,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=42384908-60a7-271e-9c46-01e562c8974c-2 rows=30 total_rows=17336 completed_batches=348
-Testing DataLoader 0:  64%|██████▎   | 348/548 [27:49<15:59,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=2451c048-fae8-24f6-9043-f1604dbada2c-1 rows=30 total_rows=17366 completed_batches=349
-Testing DataLoader 0:  64%|██████▎   | 349/548 [27:52<15:53,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=2451c048-fae8-24f6-9043-f1604dbada2c-2 rows=56 total_rows=17422 completed_batches=350
-Testing DataLoader 0:  64%|██████▍   | 350/548 [27:58<15:49,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=2451c048-fae8-24f6-9043-f1604dbada2c-3 rows=72 total_rows=17494 completed_batches=351
-Testing DataLoader 0:  64%|██████▍   | 351/548 [28:06<15:46,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=6bde60cb-9162-246f-8cf5-d04f7426e56f-1 rows=72 total_rows=17566 completed_batches=352
-Testing DataLoader 0:  64%|██████▍   | 352/548 [28:12<15:42,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4fbad32f-465b-2a5d-8408-146ab1d72808-1 rows=56 total_rows=17622 completed_batches=353
-Testing DataLoader 0:  64%|██████▍   | 353/548 [28:17<15:37,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4fbad32f-465b-2a5d-8408-146ab1d72808-2 rows=72 total_rows=17694 completed_batches=354
-Testing DataLoader 0:  65%|██████▍   | 354/548 [28:24<15:34,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4fbad32f-465b-2a5d-8408-146ab1d72808-3 rows=56 total_rows=17750 completed_batches=355
-Testing DataLoader 0:  65%|██████▍   | 355/548 [28:29<15:29,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4fbad32f-465b-2a5d-8408-146ab1d72808-4 rows=72 total_rows=17822 completed_batches=356
-Testing DataLoader 0:  65%|██████▍   | 356/548 [28:36<15:25,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4fbad32f-465b-2a5d-8408-146ab1d72808-5 rows=56 total_rows=17878 completed_batches=357
-Testing DataLoader 0:  65%|██████▌   | 357/548 [28:41<15:20,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=422885c5-192d-25fc-85e6-12a3d65c8e7b-1 rows=42 total_rows=17920 completed_batches=358
-Testing DataLoader 0:  65%|██████▌   | 358/548 [28:45<15:15,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=422885c5-192d-25fc-85e6-12a3d65c8e7b-2 rows=6 total_rows=17926 completed_batches=359
-Testing DataLoader 0:  66%|██████▌   | 359/548 [28:46<15:09,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=10b1793e-3938-2467-8b92-f56541e7ef9e-1 rows=20 total_rows=17946 completed_batches=360
-Testing DataLoader 0:  66%|██████▌   | 360/548 [28:48<15:02,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=10b1793e-3938-2467-8b92-f56541e7ef9e-2 rows=42 total_rows=17988 completed_batches=361
-Testing DataLoader 0:  66%|██████▌   | 361/548 [28:53<14:58,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=7747a4ec-9431-24e8-848f-897279a1e9fe-1 rows=56 total_rows=18044 completed_batches=362
-Testing DataLoader 0:  66%|██████▌   | 362/548 [28:58<14:53,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=7747a4ec-9431-24e8-848f-897279a1e9fe-2 rows=72 total_rows=18116 completed_batches=363
-Testing DataLoader 0:  66%|██████▌   | 363/548 [29:05<14:49,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=7747a4ec-9431-24e8-848f-897279a1e9fe-3 rows=56 total_rows=18172 completed_batches=364
-Testing DataLoader 0:  66%|██████▋   | 364/548 [29:11<14:45,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=7747a4ec-9431-24e8-848f-897279a1e9fe-4 rows=72 total_rows=18244 completed_batches=365
-Testing DataLoader 0:  67%|██████▋   | 365/548 [29:18<14:41,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=7747a4ec-9431-24e8-848f-897279a1e9fe-5 rows=72 total_rows=18316 completed_batches=366
-Testing DataLoader 0:  67%|██████▋   | 366/548 [29:24<14:37,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=7747a4ec-9431-24e8-848f-897279a1e9fe-6 rows=72 total_rows=18388 completed_batches=367
-Testing DataLoader 0:  67%|██████▋   | 367/548 [29:30<14:33,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=7747a4ec-9431-24e8-848f-897279a1e9fe-7 rows=72 total_rows=18460 completed_batches=368
-Testing DataLoader 0:  67%|██████▋   | 368/548 [29:37<14:29,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=8eabc45f-5af7-2f32-8528-640861d2a135-1 rows=42 total_rows=18502 completed_batches=369
-Testing DataLoader 0:  67%|██████▋   | 369/548 [29:41<14:23,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=8eabc45f-5af7-2f32-8528-640861d2a135-2 rows=20 total_rows=18522 completed_batches=370
-Testing DataLoader 0:  68%|██████▊   | 370/548 [29:43<14:17,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=8eabc45f-5af7-2f32-8528-640861d2a135-3 rows=42 total_rows=18564 completed_batches=371
-Testing DataLoader 0:  68%|██████▊   | 371/548 [29:47<14:12,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=8eabc45f-5af7-2f32-8528-640861d2a135-4 rows=56 total_rows=18620 completed_batches=372
-Testing DataLoader 0:  68%|██████▊   | 372/548 [29:52<14:08,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=8eabc45f-5af7-2f32-8528-640861d2a135-5 rows=42 total_rows=18662 completed_batches=373
-Testing DataLoader 0:  68%|██████▊   | 373/548 [29:56<14:02,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=8eabc45f-5af7-2f32-8528-640861d2a135-6 rows=42 total_rows=18704 completed_batches=374
-Testing DataLoader 0:  68%|██████▊   | 374/548 [30:00<13:57,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=8eabc45f-5af7-2f32-8528-640861d2a135-7 rows=42 total_rows=18746 completed_batches=375
-Testing DataLoader 0:  68%|██████▊   | 375/548 [30:05<13:52,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ab835fae-54c6-29a1-995e-b06cfc555786-1 rows=72 total_rows=18818 completed_batches=376
-Testing DataLoader 0:  69%|██████▊   | 376/548 [30:12<13:49,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ab835fae-54c6-29a1-995e-b06cfc555786-2 rows=72 total_rows=18890 completed_batches=377
-Testing DataLoader 0:  69%|██████▉   | 377/548 [30:20<13:45,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ab835fae-54c6-29a1-995e-b06cfc555786-3 rows=56 total_rows=18946 completed_batches=378
-Testing DataLoader 0:  69%|██████▉   | 378/548 [30:25<13:40,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ab835fae-54c6-29a1-995e-b06cfc555786-4 rows=20 total_rows=18966 completed_batches=379
-Testing DataLoader 0:  69%|██████▉   | 379/548 [30:27<13:34,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=a0905fdd-66f7-2272-9cdb-89360888ea67-1 rows=56 total_rows=19022 completed_batches=380
-Testing DataLoader 0:  69%|██████▉   | 380/548 [30:32<13:30,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=a0905fdd-66f7-2272-9cdb-89360888ea67-2 rows=56 total_rows=19078 completed_batches=381
-Testing DataLoader 0:  70%|██████▉   | 381/548 [30:37<13:25,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=d04eb40f-1d53-27ea-8a41-47892bde7017-1 rows=30 total_rows=19108 completed_batches=382
-Testing DataLoader 0:  70%|██████▉   | 382/548 [30:40<13:19,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=d04eb40f-1d53-27ea-8a41-47892bde7017-2 rows=30 total_rows=19138 completed_batches=383
-Testing DataLoader 0:  70%|██████▉   | 383/548 [30:43<13:14,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=321c867e-a5a8-2a84-851a-818df115be05-1 rows=56 total_rows=19194 completed_batches=384
-Testing DataLoader 0:  70%|███████   | 384/548 [30:49<13:09,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=321c867e-a5a8-2a84-851a-818df115be05-2 rows=72 total_rows=19266 completed_batches=385
-Testing DataLoader 0:  70%|███████   | 385/548 [30:57<13:06,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ddc7379b-765b-241a-9f45-c37e41608726-1 rows=56 total_rows=19322 completed_batches=386
-Testing DataLoader 0:  70%|███████   | 386/548 [31:02<13:01,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ddc7379b-765b-241a-9f45-c37e41608726-2 rows=56 total_rows=19378 completed_batches=387
-Testing DataLoader 0:  71%|███████   | 387/548 [31:07<12:56,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ddc7379b-765b-241a-9f45-c37e41608726-3 rows=56 total_rows=19434 completed_batches=388
-Testing DataLoader 0:  71%|███████   | 388/548 [31:13<12:52,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ddc7379b-765b-241a-9f45-c37e41608726-4 rows=20 total_rows=19454 completed_batches=389
-Testing DataLoader 0:  71%|███████   | 389/548 [31:15<12:46,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=d7dc987e-a34a-2794-85c8-f75389b27532-1 rows=56 total_rows=19510 completed_batches=390
-Testing DataLoader 0:  71%|███████   | 390/548 [31:20<12:42,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=d7dc987e-a34a-2794-85c8-f75389b27532-2 rows=56 total_rows=19566 completed_batches=391
-Testing DataLoader 0:  71%|███████▏  | 391/548 [31:26<12:37,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=d7dc987e-a34a-2794-85c8-f75389b27532-3 rows=72 total_rows=19638 completed_batches=392
-Testing DataLoader 0:  72%|███████▏  | 392/548 [31:33<12:33,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=6bde607d-9162-246f-8f84-98cf7ac2374c-1 rows=72 total_rows=19710 completed_batches=393
-Testing DataLoader 0:  72%|███████▏  | 393/548 [31:40<12:29,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=6bde607d-9162-246f-8f84-98cf7ac2374c-2 rows=30 total_rows=19740 completed_batches=394
-Testing DataLoader 0:  72%|███████▏  | 394/548 [31:43<12:23,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=bf9a3da2-45a5-2e80-8219-1f0a216399fe-1 rows=42 total_rows=19782 completed_batches=395
-Testing DataLoader 0:  72%|███████▏  | 395/548 [31:47<12:18,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=bf9a3da2-45a5-2e80-8219-1f0a216399fe-2 rows=20 total_rows=19802 completed_batches=396
-Testing DataLoader 0:  72%|███████▏  | 396/548 [31:49<12:12,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=bf9a3da2-45a5-2e80-8219-1f0a216399fe-3 rows=20 total_rows=19822 completed_batches=397
-Testing DataLoader 0:  72%|███████▏  | 397/548 [31:51<12:07,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=bf9a3ddf-45a5-2e80-8007-8e9e7f323e52-1 rows=72 total_rows=19894 completed_batches=398
-Testing DataLoader 0:  73%|███████▎  | 398/548 [31:58<12:03,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=bf9a3ddf-45a5-2e80-8007-8e9e7f323e52-2 rows=6 total_rows=19900 completed_batches=399
-Testing DataLoader 0:  73%|███████▎  | 399/548 [31:59<11:56,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7540-8d6f-2d13-8eee-36ba2a428e3f-1 rows=12 total_rows=19912 completed_batches=400
-Testing DataLoader 0:  73%|███████▎  | 400/548 [32:01<11:50,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7540-8d6f-2d13-8eee-36ba2a428e3f-2 rows=42 total_rows=19954 completed_batches=401
-Testing DataLoader 0:  73%|███████▎  | 401/548 [32:05<11:45,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7540-8d6f-2d13-8eee-36ba2a428e3f-3 rows=20 total_rows=19974 completed_batches=402
-Testing DataLoader 0:  73%|███████▎  | 402/548 [32:07<11:40,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=75c25975-9ca2-2844-9769-84677f46d4cf-1 rows=30 total_rows=20004 completed_batches=403
-Testing DataLoader 0:  74%|███████▎  | 403/548 [32:10<11:34,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=75c25975-9ca2-2844-9769-84677f46d4cf-2 rows=72 total_rows=20076 completed_batches=404
-Testing DataLoader 0:  74%|███████▎  | 404/548 [32:17<11:30,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=75c25975-9ca2-2844-9769-84677f46d4cf-3 rows=72 total_rows=20148 completed_batches=405
-Testing DataLoader 0:  74%|███████▍  | 405/548 [32:23<11:26,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=75c25975-9ca2-2844-9769-84677f46d4cf-4 rows=12 total_rows=20160 completed_batches=406
-Testing DataLoader 0:  74%|███████▍  | 406/548 [32:25<11:20,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=75c25975-9ca2-2844-9769-84677f46d4cf-5 rows=30 total_rows=20190 completed_batches=407
-Testing DataLoader 0:  74%|███████▍  | 407/548 [32:28<11:14,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=f2c76feb-2239-29d0-8418-72b6051fc144-1 rows=56 total_rows=20246 completed_batches=408
-Testing DataLoader 0:  74%|███████▍  | 408/548 [32:33<11:10,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=f2c76feb-2239-29d0-8418-72b6051fc144-2 rows=42 total_rows=20288 completed_batches=409
-Testing DataLoader 0:  75%|███████▍  | 409/548 [32:37<11:05,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=f2c76feb-2239-29d0-8418-72b6051fc144-3 rows=20 total_rows=20308 completed_batches=410
-Testing DataLoader 0:  75%|███████▍  | 410/548 [32:39<10:59,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=f2c76feb-2239-29d0-8418-72b6051fc144-4 rows=72 total_rows=20380 completed_batches=411
-Testing DataLoader 0:  75%|███████▌  | 411/548 [32:45<10:55,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=f2c76feb-2239-29d0-8418-72b6051fc144-5 rows=30 total_rows=20410 completed_batches=412
-Testing DataLoader 0:  75%|███████▌  | 412/548 [32:48<10:49,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=bf9a3ddd-45a5-2e80-80bc-647365c7ca08-1 rows=20 total_rows=20430 completed_batches=413
-Testing DataLoader 0:  75%|███████▌  | 413/548 [32:50<10:44,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=bf9a3ddd-45a5-2e80-80bc-647365c7ca08-2 rows=12 total_rows=20442 completed_batches=414
-Testing DataLoader 0:  76%|███████▌  | 414/548 [32:52<10:38,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=bf9a3ddd-45a5-2e80-80bc-647365c7ca08-3 rows=30 total_rows=20472 completed_batches=415
-Testing DataLoader 0:  76%|███████▌  | 415/548 [32:55<10:33,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=bf9a3dd9-45a5-2e80-817c-f918e193231b-1 rows=42 total_rows=20514 completed_batches=416
-Testing DataLoader 0:  76%|███████▌  | 416/548 [32:59<10:28,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=bf9a3dd9-45a5-2e80-817c-f918e193231b-2 rows=72 total_rows=20586 completed_batches=417
-Testing DataLoader 0:  76%|███████▌  | 417/548 [33:07<10:24,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=bf9a3dd9-45a5-2e80-817c-f918e193231b-3 rows=42 total_rows=20628 completed_batches=418
-Testing DataLoader 0:  76%|███████▋  | 418/548 [33:10<10:19,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=bf9a3dd9-45a5-2e80-817c-f918e193231b-4 rows=42 total_rows=20670 completed_batches=419
-Testing DataLoader 0:  76%|███████▋  | 419/548 [33:14<10:14,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=10b17957-3938-2467-88a5-9e9254930dad-1 rows=42 total_rows=20712 completed_batches=420
-Testing DataLoader 0:  77%|███████▋  | 420/548 [33:19<10:09,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=10b17957-3938-2467-88a5-9e9254930dad-2 rows=72 total_rows=20784 completed_batches=421
-Testing DataLoader 0:  77%|███████▋  | 421/548 [33:25<10:04,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=10b17957-3938-2467-88a5-9e9254930dad-3 rows=42 total_rows=20826 completed_batches=422
-Testing DataLoader 0:  77%|███████▋  | 422/548 [33:29<10:00,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=10b17957-3938-2467-88a5-9e9254930dad-4 rows=56 total_rows=20882 completed_batches=423
-Testing DataLoader 0:  77%|███████▋  | 423/548 [33:35<09:55,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=10b17957-3938-2467-88a5-9e9254930dad-5 rows=42 total_rows=20924 completed_batches=424
-Testing DataLoader 0:  77%|███████▋  | 424/548 [33:39<09:50,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=10b17957-3938-2467-88a5-9e9254930dad-6 rows=20 total_rows=20944 completed_batches=425
-Testing DataLoader 0:  78%|███████▊  | 425/548 [33:41<09:44,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=10b17957-3938-2467-88a5-9e9254930dad-7 rows=12 total_rows=20956 completed_batches=426
-Testing DataLoader 0:  78%|███████▊  | 426/548 [33:42<09:39,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=10b17957-3938-2467-88a5-9e9254930dad-8 rows=6 total_rows=20962 completed_batches=427
-Testing DataLoader 0:  78%|███████▊  | 427/548 [33:43<09:33,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=10b17957-3938-2467-88a5-9e9254930dad-9 rows=6 total_rows=20968 completed_batches=428
-Testing DataLoader 0:  78%|███████▊  | 428/548 [33:44<09:27,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=7747a50c-9431-24e8-877d-e60c3a341cc2-1 rows=72 total_rows=21040 completed_batches=429
-Testing DataLoader 0:  78%|███████▊  | 429/548 [33:50<09:23,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=7747a50c-9431-24e8-877d-e60c3a341cc2-2 rows=72 total_rows=21112 completed_batches=430
-Testing DataLoader 0:  78%|███████▊  | 430/548 [33:57<09:19,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=7747a50c-9431-24e8-877d-e60c3a341cc2-3 rows=56 total_rows=21168 completed_batches=431
-Testing DataLoader 0:  79%|███████▊  | 431/548 [34:02<09:14,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=7747a50c-9431-24e8-877d-e60c3a341cc2-4 rows=72 total_rows=21240 completed_batches=432
-Testing DataLoader 0:  79%|███████▉  | 432/548 [34:09<09:10,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=7747a50c-9431-24e8-877d-e60c3a341cc2-5 rows=56 total_rows=21296 completed_batches=433
-Testing DataLoader 0:  79%|███████▉  | 433/548 [34:14<09:05,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=7747a50c-9431-24e8-877d-e60c3a341cc2-6 rows=56 total_rows=21352 completed_batches=434
-Testing DataLoader 0:  79%|███████▉  | 434/548 [34:19<09:01,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=7747a50c-9431-24e8-877d-e60c3a341cc2-7 rows=72 total_rows=21424 completed_batches=435
-Testing DataLoader 0:  79%|███████▉  | 435/548 [34:26<08:56,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=7747a50c-9431-24e8-877d-e60c3a341cc2-8 rows=30 total_rows=21454 completed_batches=436
-Testing DataLoader 0:  80%|███████▉  | 436/548 [34:29<08:51,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=e61b0e04-bada-2f31-82d6-72831a602ba7-1 rows=56 total_rows=21510 completed_batches=437
-Testing DataLoader 0:  80%|███████▉  | 437/548 [34:33<08:46,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=e61b0e04-bada-2f31-82d6-72831a602ba7-2 rows=42 total_rows=21552 completed_batches=438
-Testing DataLoader 0:  80%|███████▉  | 438/548 [34:37<08:41,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=e61b0e04-bada-2f31-82d6-72831a602ba7-3 rows=72 total_rows=21624 completed_batches=439
-Testing DataLoader 0:  80%|████████  | 439/548 [34:45<08:37,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=e61b0e04-bada-2f31-82d6-72831a602ba7-4 rows=72 total_rows=21696 completed_batches=440
-Testing DataLoader 0:  80%|████████  | 440/548 [34:53<08:33,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=e61b0e04-bada-2f31-82d6-72831a602ba7-5 rows=56 total_rows=21752 completed_batches=441
-Testing DataLoader 0:  80%|████████  | 441/548 [34:58<08:29,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=e61b0e04-bada-2f31-82d6-72831a602ba7-6 rows=56 total_rows=21808 completed_batches=442
-Testing DataLoader 0:  81%|████████  | 442/548 [35:04<08:24,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=e61b0e04-bada-2f31-82d6-72831a602ba7-7 rows=72 total_rows=21880 completed_batches=443
-Testing DataLoader 0:  81%|████████  | 443/548 [35:11<08:20,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=d7d40d4e-7a5d-2b36-97e7-34324c52ac42-1 rows=72 total_rows=21952 completed_batches=444
-Testing DataLoader 0:  81%|████████  | 444/548 [35:18<08:16,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=d7d40d4e-7a5d-2b36-97e7-34324c52ac42-2 rows=42 total_rows=21994 completed_batches=445
-Testing DataLoader 0:  81%|████████  | 445/548 [35:23<08:11,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=bf9a3d9e-45a5-2e80-83c6-4e427c5586a2-1 rows=72 total_rows=22066 completed_batches=446
-Testing DataLoader 0:  81%|████████▏ | 446/548 [35:30<08:07,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=bf9a3d9e-45a5-2e80-83c6-4e427c5586a2-2 rows=72 total_rows=22138 completed_batches=447
-Testing DataLoader 0:  82%|████████▏ | 447/548 [35:36<08:02,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=bf9a3d9e-45a5-2e80-83c6-4e427c5586a2-3 rows=30 total_rows=22168 completed_batches=448
-Testing DataLoader 0:  82%|████████▏ | 448/548 [35:39<07:57,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=b05fdd8a-fca0-2d4f-8ac5-f6ae697787f5-1 rows=56 total_rows=22224 completed_batches=449
-Testing DataLoader 0:  82%|████████▏ | 449/548 [35:44<07:52,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=b05fdd8a-fca0-2d4f-8ac5-f6ae697787f5-2 rows=42 total_rows=22266 completed_batches=450
-Testing DataLoader 0:  82%|████████▏ | 450/548 [35:49<07:48,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=b05fdd8a-fca0-2d4f-8ac5-f6ae697787f5-3 rows=56 total_rows=22322 completed_batches=451
-Testing DataLoader 0:  82%|████████▏ | 451/548 [35:55<07:43,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=41385849-a238-2435-81d0-ceb0eba4541a-1 rows=30 total_rows=22352 completed_batches=452
-Testing DataLoader 0:  82%|████████▏ | 452/548 [35:58<07:38,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=41385849-a238-2435-81d0-ceb0eba4541a-2 rows=72 total_rows=22424 completed_batches=453
-Testing DataLoader 0:  83%|████████▎ | 453/548 [36:04<07:33,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=41385849-a238-2435-81d0-ceb0eba4541a-3 rows=30 total_rows=22454 completed_batches=454
-Testing DataLoader 0:  83%|████████▎ | 454/548 [36:07<07:28,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=41385849-a238-2435-81d0-ceb0eba4541a-4 rows=72 total_rows=22526 completed_batches=455
-Testing DataLoader 0:  83%|████████▎ | 455/548 [36:14<07:24,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=41385849-a238-2435-81d0-ceb0eba4541a-5 rows=42 total_rows=22568 completed_batches=456
-Testing DataLoader 0:  83%|████████▎ | 456/548 [36:18<07:19,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=20c993b7-698f-29c5-847d-c8cb8a685f5a-1 rows=42 total_rows=22610 completed_batches=457
-Testing DataLoader 0:  83%|████████▎ | 457/548 [36:22<07:14,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=20c993b7-698f-29c5-847d-c8cb8a685f5a-2 rows=20 total_rows=22630 completed_batches=458
-Testing DataLoader 0:  84%|████████▎ | 458/548 [36:25<07:09,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=1d2f850c-d757-207c-8fba-60b90a7d4691-1 rows=56 total_rows=22686 completed_batches=459
-Testing DataLoader 0:  84%|████████▍ | 459/548 [36:30<07:04,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=1d2f850c-d757-207c-8fba-60b90a7d4691-2 rows=20 total_rows=22706 completed_batches=460
-Testing DataLoader 0:  84%|████████▍ | 460/548 [36:32<06:59,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=1d2f850c-d757-207c-8fba-60b90a7d4691-3 rows=56 total_rows=22762 completed_batches=461
-Testing DataLoader 0:  84%|████████▍ | 461/548 [36:38<06:54,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=1d2f850c-d757-207c-8fba-60b90a7d4691-4 rows=30 total_rows=22792 completed_batches=462
-Testing DataLoader 0:  84%|████████▍ | 462/548 [36:41<06:49,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=1d2f850c-d757-207c-8fba-60b90a7d4691-5 rows=42 total_rows=22834 completed_batches=463
-Testing DataLoader 0:  84%|████████▍ | 463/548 [36:45<06:44,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=1d2f850c-d757-207c-8fba-60b90a7d4691-6 rows=20 total_rows=22854 completed_batches=464
-Testing DataLoader 0:  85%|████████▍ | 464/548 [36:47<06:39,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=2e369567-e133-204c-909a-c5da44bb58df-1 rows=72 total_rows=22926 completed_batches=465
-Testing DataLoader 0:  85%|████████▍ | 465/548 [36:54<06:35,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=10b1792e-3938-2467-8bb3-172148ae5a67-1 rows=56 total_rows=22982 completed_batches=466
-Testing DataLoader 0:  85%|████████▌ | 466/548 [36:59<06:30,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=10b1792e-3938-2467-8bb3-172148ae5a67-2 rows=56 total_rows=23038 completed_batches=467
-Testing DataLoader 0:  85%|████████▌ | 467/548 [37:05<06:25,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=10b1792e-3938-2467-8bb3-172148ae5a67-3 rows=20 total_rows=23058 completed_batches=468
-Testing DataLoader 0:  85%|████████▌ | 468/548 [37:07<06:20,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca3-86d7-27b8-85a7-7d840ffdec6a-1 rows=72 total_rows=23130 completed_batches=469
-Testing DataLoader 0:  86%|████████▌ | 469/548 [37:13<06:16,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca3-86d7-27b8-85a7-7d840ffdec6a-2 rows=56 total_rows=23186 completed_batches=470
-Testing DataLoader 0:  86%|████████▌ | 470/548 [37:18<06:11,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca3-86d7-27b8-85a7-7d840ffdec6a-3 rows=72 total_rows=23258 completed_batches=471
-Testing DataLoader 0:  86%|████████▌ | 471/548 [37:25<06:07,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca3-86d7-27b8-85a7-7d840ffdec6a-4 rows=56 total_rows=23314 completed_batches=472
-Testing DataLoader 0:  86%|████████▌ | 472/548 [37:30<06:02,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca3-86d7-27b8-85a7-7d840ffdec6a-5 rows=56 total_rows=23370 completed_batches=473
-Testing DataLoader 0:  86%|████████▋ | 473/548 [37:35<05:57,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca3-86d7-27b8-85a7-7d840ffdec6a-6 rows=72 total_rows=23442 completed_batches=474
-Testing DataLoader 0:  86%|████████▋ | 474/548 [37:42<05:53,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca3-86d7-27b8-85a7-7d840ffdec6a-7 rows=72 total_rows=23514 completed_batches=475
-Testing DataLoader 0:  87%|████████▋ | 475/548 [37:49<05:48,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca3-86d7-27b8-85a7-7d840ffdec6a-8 rows=72 total_rows=23586 completed_batches=476
-Testing DataLoader 0:  87%|████████▋ | 476/548 [37:56<05:44,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca3-86d7-27b8-85a7-7d840ffdec6a-9 rows=56 total_rows=23642 completed_batches=477
-Testing DataLoader 0:  87%|████████▋ | 477/548 [38:01<05:39,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=e61b0e02-bada-2f31-82d0-80fc5c70bd6f-1 rows=72 total_rows=23714 completed_batches=478
-Testing DataLoader 0:  87%|████████▋ | 478/548 [38:07<05:35,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=e61b0e02-bada-2f31-82d0-80fc5c70bd6f-2 rows=72 total_rows=23786 completed_batches=479
-Testing DataLoader 0:  87%|████████▋ | 479/548 [38:14<05:30,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=e61b0e02-bada-2f31-82d0-80fc5c70bd6f-3 rows=56 total_rows=23842 completed_batches=480
-Testing DataLoader 0:  88%|████████▊ | 480/548 [38:19<05:25,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=e61b0e02-bada-2f31-82d0-80fc5c70bd6f-4 rows=72 total_rows=23914 completed_batches=481
-Testing DataLoader 0:  88%|████████▊ | 481/548 [38:26<05:21,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=e61b0e02-bada-2f31-82d0-80fc5c70bd6f-5 rows=42 total_rows=23956 completed_batches=482
-Testing DataLoader 0:  88%|████████▊ | 482/548 [38:30<05:16,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=e61b0e02-bada-2f31-82d0-80fc5c70bd6f-6 rows=72 total_rows=24028 completed_batches=483
-Testing DataLoader 0:  88%|████████▊ | 483/548 [38:38<05:11,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=e61b0e02-bada-2f31-82d0-80fc5c70bd6f-7 rows=56 total_rows=24084 completed_batches=484
-Testing DataLoader 0:  88%|████████▊ | 484/548 [38:43<05:07,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=b1f23308-d255-2761-94da-981d962c6bf8-1 rows=56 total_rows=24140 completed_batches=485
-Testing DataLoader 0:  89%|████████▊ | 485/548 [38:48<05:02,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=10b17944-3938-2467-8bac-5552375e4467-1 rows=20 total_rows=24160 completed_batches=486
-Testing DataLoader 0:  89%|████████▊ | 486/548 [38:50<04:57,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=10b17944-3938-2467-8bac-5552375e4467-2 rows=72 total_rows=24232 completed_batches=487
-Testing DataLoader 0:  89%|████████▉ | 487/548 [38:56<04:52,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=10b17944-3938-2467-8bac-5552375e4467-3 rows=20 total_rows=24252 completed_batches=488
-Testing DataLoader 0:  89%|████████▉ | 488/548 [38:59<04:47,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c2d9933d-1947-2fbf-81fa-c8a7f9625eea-1 rows=56 total_rows=24308 completed_batches=489
-Testing DataLoader 0:  89%|████████▉ | 489/548 [39:04<04:42,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c2d9933d-1947-2fbf-81fa-c8a7f9625eea-2 rows=42 total_rows=24350 completed_batches=490
-Testing DataLoader 0:  89%|████████▉ | 490/548 [39:08<04:37,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca5-86d7-27b8-871c-57fdbfe87905-1 rows=72 total_rows=24422 completed_batches=491
-Testing DataLoader 0:  90%|████████▉ | 491/548 [39:14<04:33,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca5-86d7-27b8-871c-57fdbfe87905-2 rows=72 total_rows=24494 completed_batches=492
-Testing DataLoader 0:  90%|████████▉ | 492/548 [39:21<04:28,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca5-86d7-27b8-871c-57fdbfe87905-3 rows=72 total_rows=24566 completed_batches=493
-Testing DataLoader 0:  90%|████████▉ | 493/548 [39:27<04:24,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca5-86d7-27b8-871c-57fdbfe87905-4 rows=56 total_rows=24622 completed_batches=494
-Testing DataLoader 0:  90%|█████████ | 494/548 [39:32<04:19,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca5-86d7-27b8-871c-57fdbfe87905-5 rows=42 total_rows=24664 completed_batches=495
-Testing DataLoader 0:  90%|█████████ | 495/548 [39:37<04:14,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca5-86d7-27b8-871c-57fdbfe87905-6 rows=72 total_rows=24736 completed_batches=496
-Testing DataLoader 0:  91%|█████████ | 496/548 [39:44<04:09,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca5-86d7-27b8-871c-57fdbfe87905-7 rows=72 total_rows=24808 completed_batches=497
-Testing DataLoader 0:  91%|█████████ | 497/548 [39:51<04:05,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=38770ca5-86d7-27b8-871c-57fdbfe87905-8 rows=72 total_rows=24880 completed_batches=498
-Testing DataLoader 0:  91%|█████████ | 498/548 [39:58<04:00,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c92fb5b5-f771-2064-8570-dbe16cb33764-1 rows=56 total_rows=24936 completed_batches=499
-Testing DataLoader 0:  91%|█████████ | 499/548 [40:03<03:56,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c92fb5b5-f771-2064-8570-dbe16cb33764-2 rows=42 total_rows=24978 completed_batches=500
-Testing DataLoader 0:  91%|█████████ | 500/548 [40:08<03:51,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c92fb5b5-f771-2064-8570-dbe16cb33764-3 rows=56 total_rows=25034 completed_batches=501
-Testing DataLoader 0:  91%|█████████▏| 501/548 [40:13<03:46,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=f2c76fed-2239-29d0-8598-9ed42cec9dc5-1 rows=30 total_rows=25064 completed_batches=502
-Testing DataLoader 0:  92%|█████████▏| 502/548 [40:16<03:41,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=f2c76fed-2239-29d0-8598-9ed42cec9dc5-2 rows=12 total_rows=25076 completed_batches=503
-Testing DataLoader 0:  92%|█████████▏| 503/548 [40:18<03:36,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f7a-339c-2d13-82ac-09ef1c9001ba-1 rows=30 total_rows=25106 completed_batches=504
-Testing DataLoader 0:  92%|█████████▏| 504/548 [40:21<03:31,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f7a-339c-2d13-82ac-09ef1c9001ba-2 rows=56 total_rows=25162 completed_batches=505
-Testing DataLoader 0:  92%|█████████▏| 505/548 [40:26<03:26,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f7a-339c-2d13-82ac-09ef1c9001ba-3 rows=42 total_rows=25204 completed_batches=506
-Testing DataLoader 0:  92%|█████████▏| 506/548 [40:31<03:21,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f7a-339c-2d13-82ac-09ef1c9001ba-4 rows=20 total_rows=25224 completed_batches=507
-Testing DataLoader 0:  93%|█████████▎| 507/548 [40:33<03:16,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=8eabc461-5af7-2f32-8663-ce5a10fd97b3-1 rows=12 total_rows=25236 completed_batches=508
-Testing DataLoader 0:  93%|█████████▎| 508/548 [40:34<03:11,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=8eabc461-5af7-2f32-8663-ce5a10fd97b3-2 rows=42 total_rows=25278 completed_batches=509
-Testing DataLoader 0:  93%|█████████▎| 509/548 [40:38<03:06,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=8eabc461-5af7-2f32-8663-ce5a10fd97b3-3 rows=42 total_rows=25320 completed_batches=510
-Testing DataLoader 0:  93%|█████████▎| 510/548 [40:42<03:02,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=8eabc461-5af7-2f32-8663-ce5a10fd97b3-4 rows=42 total_rows=25362 completed_batches=511
-Testing DataLoader 0:  93%|█████████▎| 511/548 [40:47<02:57,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=422885b3-192d-25fc-84c9-9b80eea1752d-1 rows=6 total_rows=25368 completed_batches=512
-Testing DataLoader 0:  93%|█████████▎| 512/548 [40:48<02:52,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=422885b3-192d-25fc-84c9-9b80eea1752d-2 rows=6 total_rows=25374 completed_batches=513
-Testing DataLoader 0:  94%|█████████▎| 513/548 [40:49<02:47,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=43b8cae3-6678-2e38-9b67-5905de29f6d7-1 rows=56 total_rows=25430 completed_batches=514
-Testing DataLoader 0:  94%|█████████▍| 514/548 [40:54<02:42,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=43b8cae3-6678-2e38-9b67-5905de29f6d7-2 rows=42 total_rows=25472 completed_batches=515
-Testing DataLoader 0:  94%|█████████▍| 515/548 [40:58<02:37,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=43b8cae3-6678-2e38-9b67-5905de29f6d7-3 rows=42 total_rows=25514 completed_batches=516
-Testing DataLoader 0:  94%|█████████▍| 516/548 [41:02<02:32,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f7c-339c-2d13-819f-3bb0b26c91f6-1 rows=30 total_rows=25544 completed_batches=517
-Testing DataLoader 0:  94%|█████████▍| 517/548 [41:06<02:27,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f7c-339c-2d13-819f-3bb0b26c91f6-2 rows=72 total_rows=25616 completed_batches=518
-Testing DataLoader 0:  95%|█████████▍| 518/548 [41:13<02:23,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f7c-339c-2d13-819f-3bb0b26c91f6-3 rows=56 total_rows=25672 completed_batches=519
-Testing DataLoader 0:  95%|█████████▍| 519/548 [41:18<02:18,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=c7895f7c-339c-2d13-819f-3bb0b26c91f6-4 rows=6 total_rows=25678 completed_batches=520
-Testing DataLoader 0:  95%|█████████▍| 520/548 [41:19<02:13,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ba6fdaac-a4c1-2dca-8380-f16765679fd7-1 rows=72 total_rows=25750 completed_batches=521
-Testing DataLoader 0:  95%|█████████▌| 521/548 [41:26<02:08,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ba6fdaac-a4c1-2dca-8380-f16765679fd7-2 rows=72 total_rows=25822 completed_batches=522
-Testing DataLoader 0:  95%|█████████▌| 522/548 [41:33<02:04,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ba6fdaac-a4c1-2dca-8380-f16765679fd7-3 rows=12 total_rows=25834 completed_batches=523
-Testing DataLoader 0:  95%|█████████▌| 523/548 [41:34<01:59,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ba6fdaac-a4c1-2dca-8380-f16765679fd7-4 rows=56 total_rows=25890 completed_batches=524
-Testing DataLoader 0:  96%|█████████▌| 524/548 [41:40<01:54,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=ba6fdaac-a4c1-2dca-8380-f16765679fd7-5 rows=42 total_rows=25932 completed_batches=525
-Testing DataLoader 0:  96%|█████████▌| 525/548 [41:45<01:49,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7619-8d6f-2d13-8f36-ac562ec9a4de-1 rows=56 total_rows=25988 completed_batches=526
-Testing DataLoader 0:  96%|█████████▌| 526/548 [41:50<01:44,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac7619-8d6f-2d13-8f36-ac562ec9a4de-2 rows=12 total_rows=26000 completed_batches=527
-Testing DataLoader 0:  96%|█████████▌| 527/548 [41:51<01:40,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=9766cbf5-6321-2e2f-8131-78c4e204635d-1 rows=72 total_rows=26072 completed_batches=528
-Testing DataLoader 0:  96%|█████████▋| 528/548 [41:59<01:35,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=9766cbf5-6321-2e2f-8131-78c4e204635d-2 rows=56 total_rows=26128 completed_batches=529
-Testing DataLoader 0:  97%|█████████▋| 529/548 [42:04<01:30,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=9766cbf5-6321-2e2f-8131-78c4e204635d-3 rows=72 total_rows=26200 completed_batches=530
-Testing DataLoader 0:  97%|█████████▋| 530/548 [42:11<01:25,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=9766cbf5-6321-2e2f-8131-78c4e204635d-4 rows=72 total_rows=26272 completed_batches=531
-Testing DataLoader 0:  97%|█████████▋| 531/548 [42:18<01:21,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=9766cbf5-6321-2e2f-8131-78c4e204635d-5 rows=20 total_rows=26292 completed_batches=532
-Testing DataLoader 0:  97%|█████████▋| 532/548 [42:20<01:16,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4238490a-60a7-271e-9c04-3846221dc354-1 rows=56 total_rows=26348 completed_batches=533
-Testing DataLoader 0:  97%|█████████▋| 533/548 [42:25<01:11,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=4238490a-60a7-271e-9c04-3846221dc354-2 rows=42 total_rows=26390 completed_batches=534
-Testing DataLoader 0:  97%|█████████▋| 534/548 [42:30<01:06,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=8e0f1c28-9e28-2339-8584-ff06ff93c341-1 rows=42 total_rows=26432 completed_batches=535
-Testing DataLoader 0:  98%|█████████▊| 535/548 [42:34<01:02,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=8e0f1c28-9e28-2339-8584-ff06ff93c341-2 rows=20 total_rows=26452 completed_batches=536
-Testing DataLoader 0:  98%|█████████▊| 536/548 [42:36<00:57,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75de-8d6f-2d13-8e1a-b574569c3885-1 rows=30 total_rows=26482 completed_batches=537
-Testing DataLoader 0:  98%|█████████▊| 537/548 [42:39<00:52,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75de-8d6f-2d13-8e1a-b574569c3885-2 rows=20 total_rows=26502 completed_batches=538
-Testing DataLoader 0:  98%|█████████▊| 538/548 [42:41<00:47,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75de-8d6f-2d13-8e1a-b574569c3885-3 rows=20 total_rows=26522 completed_batches=539
-Testing DataLoader 0:  98%|█████████▊| 539/548 [42:43<00:42,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75de-8d6f-2d13-8e1a-b574569c3885-4 rows=42 total_rows=26564 completed_batches=540
-Testing DataLoader 0:  99%|█████████▊| 540/548 [42:47<00:38,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=0cac75de-8d6f-2d13-8e1a-b574569c3885-5 rows=12 total_rows=26576 completed_batches=541
-Testing DataLoader 0:  99%|█████████▊| 541/548 [42:49<00:33,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=f2c76fe9-2239-29d0-87ec-f2c7ced812c1-1 rows=72 total_rows=26648 completed_batches=542
-Testing DataLoader 0:  99%|█████████▉| 542/548 [42:55<00:28,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=f2c76fe9-2239-29d0-87ec-f2c7ced812c1-2 rows=56 total_rows=26704 completed_batches=543
-Testing DataLoader 0:  99%|█████████▉| 543/548 [43:01<00:23,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=f2c76fe9-2239-29d0-87ec-f2c7ced812c1-3 rows=20 total_rows=26724 completed_batches=544
-Testing DataLoader 0:  99%|█████████▉| 544/548 [43:03<00:18,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=095821f9-e2c2-2de1-9707-8f735cd1c148-1 rows=72 total_rows=26796 completed_batches=545
-Testing DataLoader 0:  99%|█████████▉| 545/548 [43:10<00:14,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=1d234026-e280-2b1a-8fe1-713e28269f4d-1 rows=56 total_rows=26852 completed_batches=546
-Testing DataLoader 0: 100%|█████████▉| 546/548 [43:15<00:09,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=1d234026-e280-2b1a-8fe1-713e28269f4d-2 rows=56 total_rows=26908 completed_batches=547
-Testing DataLoader 0: 100%|█████████▉| 547/548 [43:20<00:04,  0.21it/s]H001 raw dump stream wrote batch raw_scan_id=1d234026-e280-2b1a-8fe1-713e28269f4d-3 rows=30 total_rows=26938 completed_batches=548
-Testing DataLoader 0: 100%|██████████| 548/548 [43:23<00:00,  0.21it/s]H001 raw dump stream finalized raw_dump=/workspace/experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/raw_dump/raw.jsonl rows=26938 completed_batches=548
-H001 raw dump stream exit-after-write requested
-Testing DataLoader 0: 100%|██████████| 548/548 [43:31<00:00,  0.21it/s]
-[rank0]:[W604 18:12:20.326554729 ProcessGroupNCCL.cpp:1538] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())

@@ -58,8 +58,9 @@
     "upload_manifest": "release/h001_aaai27_openreview_20260720_084307/UPLOAD_MANIFEST.sha256"
   },
   "historical_predecessor": {
-    "root": "experiments/H001_geom_reliability/relation_algebra_v1",
+    "root": "archive/local/pre_submission_20260722/previous_archive/experiments/H001_geom_reliability/pre_submission_20260722/relation_algebra_v1",
     "status": "historical_pre_promotion_model",
-    "note": "The predecessor is retained for provenance and is not the active paper model."
+    "tracked_in_submission": false,
+    "note": "The predecessor is retained only in the ignored local pre-submission snapshot and is not the active paper model."
   }
 }

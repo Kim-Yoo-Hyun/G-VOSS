@@ -1,3 +1,0 @@
- Container qwen_vl-qwen_vl_full_source_infer_dry_run-run-6b3ba64e9859 Creating 
- Container qwen_vl-qwen_vl_full_source_infer_dry_run-run-6b3ba64e9859 Created 
-{"out": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/dry_runs/qwen_full_source_shard_0000.json", "shard_id": "qwen_full_source_shard_0000", "status": "full_source_inference_shard_dry_run_ready"}

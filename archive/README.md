@@ -1,16 +1,29 @@
-# Archive
+# Local Archive Boundary
 
-`archive/` preserves material that should not sit on the main execution path but is not safe to delete.
+The public repository tracks only this index. All other archive contents are
+ignored and are not submission artifacts.
 
-## Contents
+## Current Local Snapshot
 
-- `experiments/`: optional/future-work relation expansion outputs and superseded experiment material.
-- `hypothesis_records/`: preserved H001/H002 pre-paper hypothesis records moved out of active `docs/`.
-- `code/`: old feasibility or non-active code kept for reference.
-- `paper/`: superseded venue files and LaTeX build byproducts.
-- `notes/`: old notes not part of the current paper-facing route.
-- `cache/`: moved runtime caches such as `__pycache__`.
+The 2026-07-22 cleanup snapshot is stored at:
 
-## Rule
+archive/local/pre_submission_20260722/
 
-Archive contents are not the primary reproduction path. If archived material is promoted again, move only the necessary files back into the owning active folder and update README, configs, and reproducibility docs in the same change.
+It preserves:
+
+- the full pre-cleanup H001 experiment workspace;
+- H002 experiments and hypothesis material;
+- literature notes and downloaded papers;
+- superseded source scripts and optional Docker configs;
+- historical result mirrors, logs, caches, and venue snapshots;
+- prior archive contents moved under previous_archive/.
+
+The snapshot is approximately 23GB and is intended only for local recovery. It
+must not be added to the anonymous submission repository or upload bundle.
+
+## Recovery Rule
+
+Restore only the smallest required subtree, document the reason in
+docs/reproducibility.md and TODO.md, and rerun the relevant integrity checks.
+Moving a file back into the active tree does not automatically promote its
+scientific claim or result.

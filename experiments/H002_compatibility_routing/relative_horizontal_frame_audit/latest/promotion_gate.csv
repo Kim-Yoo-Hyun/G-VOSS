@@ -1,8 +1,0 @@
-gate,passed,decision,reason
-1_route_redefined,True,frame_aware_directional_compatibility,left/right/front/behind are treated as one frame-aware directional route
-2_frame_protocol_frozen,True,dataset_world_xy_reference_frame_from_3rscan_obb_centroids,uses existing materialization policy before metric review
-3_residuals_defined,True,signed_dx_for_left_right_signed_dy_for_front_behind,subject-minus-object world XY residuals are explicit
-4_source_wide_s2_no_regression,False,fail,"violation_regressions=4, recall_large_losses=3"
-4_controls_degrade,False,fail,control_failures=20
-5_per_predicate_slices_stable,False,fail,predicate_failures=10
-6_axis_controls_stable,True,pass,axis_control_failures=0

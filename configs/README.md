@@ -1,17 +1,16 @@
-# Configs
+# Docker Configuration
 
-`configs/` owns Docker and runtime configuration entry points.
+The public submission config tree contains only the focused H001 runtime:
 
-## Layout
+- h001/Dockerfile: pinned lightweight Python image;
+- h001/compose.structured.yaml: active RelCompat3D fitting, evaluation,
+  ablation, audit, runtime, and transfer services;
+- h001/README.md: command and service boundary.
 
-- `h001/`: GeoCalib core Dockerfile and compose services for table generation,
-  metrics, bootstrap CI, analysis, and lightweight prospective-target freezes.
-- `h002/`: skeleton Docker configuration root for future H002 compatibility-routing promotion. No active compose service exists yet.
-- `open3dsg/`: Open3DSG reproduction/runtime Dockerfile and compose services.
-- `qwen_vl/`: Qwen-VL extension runtime Dockerfile and compose services.
-- `fross/`: isolated ReplicaSSG rendering and official FROSS CUDA/TensorRT
-  runtime for H001's untouched dataset/source confirmation.
+Open3DSG source reproduction, Qwen-VL, FROSS/ReplicaSSG, SGFN full inference,
+and the historical all-service compose registry are preserved only in the
+ignored local archive. They are not required to inspect the compact submission
+evidence.
 
-## Rule
-
-Use these configs for paper-facing reproduction. If a path changes in `src/`, `experiments/`, or `results/`, update the corresponding compose service and `docs/reproducibility.md` together.
+Use Docker for paper-facing experiment execution. Raw datasets and row-level
+inputs are mounted externally and are never copied into the image.

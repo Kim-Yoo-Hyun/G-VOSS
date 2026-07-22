@@ -1,6 +1,0 @@
-launched_at=2026-06-04T18:35:38+09:00
-session=h001_open3dsg_nonavg_downstream_20260604_183538
-workdir=/home/yoohyun/research
-waiting_for_raw_exit=
-bash: -c: line 8: syntax error near unexpected token `2'
-bash: -c: line 8: `2'

@@ -1,5 +1,0 @@
-claim_area,allowed,statement
-geometry_only_route_control,True,proximity/close by supports relation-aware routing because G_e distance can be sufficient for this family
-predicate_geometry_interaction,False,proximity must not be used as T_e x G_e interaction success
-calibrated_pobs_prel,False,proximity diagnostic does not solve p_obs/p_rel calibration
-general_framework_solved,False,this adds one control route but does not solve all relation families

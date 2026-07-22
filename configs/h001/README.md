@@ -1,99 +1,61 @@
-# H001 Containers
+# H001 Docker Entry Point
 
-Last updated: 2026-07-20 KST
+Last updated: 2026-07-22 KST.
 
-`compose.structured.yaml` is the compact paper-facing entry point for the
-active strict train-only RelCompat3D model and its synchronized evaluation. It avoids
-the historical source-preparation and optional extension services retained in
-the full `compose.yaml`.
+compose.structured.yaml is the only public experiment compose file. It exposes
+the active no_family_indicator_v1 fitting and evaluation services and mounts
+the repository at /workspace.
 
-From the repository root:
+## Validate
 
-```bash
+~~~bash
+docker compose -f configs/h001/compose.structured.yaml config --quiet
+~~~
+
+## Main Route
+
+~~~bash
 env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/h001/compose.structured.yaml run --rm no_family_indicator_fit
+
 env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/h001/compose.structured.yaml run --rm no_family_indicator_freeze_initial
-scripts/run_no_family_indicator_v1.sh initial
+
 scripts/run_no_family_indicator_v1.sh downstream
-env UID=$(id -u) GID=$(id -g) docker compose \
-  -f configs/h001/compose.structured.yaml run --rm no_family_indicator_candidate_figures
-env UID=$(id -u) GID=$(id -g) docker compose \
-  -f configs/h001/compose.structured.yaml run --rm no_family_indicator_candidate_build
-env UID=$(id -u) GID=$(id -g) docker compose \
-  -f configs/h001/compose.structured.yaml run --rm no_family_indicator_runtime
-env UID=$(id -u) GID=$(id -g) docker compose \
-  -f configs/h001/compose.structured.yaml run --rm relation_algebra_development
-env UID=$(id -u) GID=$(id -g) docker compose \
-  -f configs/h001/compose.structured.yaml run --rm structured_main_evaluation
-env UID=$(id -u) GID=$(id -g) docker compose \
-  -f configs/h001/compose.structured.yaml run --rm relcompat3d_mlp_ablation
-env UID=$(id -u) GID=$(id -g) docker compose \
-  -f configs/h001/compose.structured.yaml run --rm relcompat3d_mlp_surface_audit
-```
+~~~
 
-The `no_family_indicator_*` services form the active model route. They
-remove the constant family one-hot from each family-specific head while
-preserving every other training setting, write the model/score lock before
-official-validation access, and regenerate the full evaluation. Outputs remain
-under `no_family_indicator_v1/`; the paper tables, figures, and runtime report
-read from this root. The services with `candidate` in their names preserve the
-pre-promotion comparison bundle and are not the submission-release builder.
+## Included Services
 
-Both services mount the repository at `/workspace`. Their protocols enumerate
-the required strict split, compatibility model, verification rows, and exact
-input hashes. Existing nonempty output directories are rejected so a previous
-result cannot be silently overwritten.
+- no_family_indicator_fit
+- no_family_indicator_freeze_initial
+- no_family_indicator_structured_main
+- no_family_indicator_support_routing
+- no_family_indicator_open3dsg_route
+- no_family_indicator_nonlinear
+- no_family_indicator_freeze_downstream
+- no_family_indicator_routed_comparators
+- no_family_indicator_routed_ablation
+- relcompat3d_mlp_ablation
+- no_family_indicator_scan_cluster
+- no_family_indicator_structured_scan_cluster
+- no_family_indicator_surface_audit
+- relcompat3d_mlp_surface_audit
+- no_family_indicator_held_out_primitive
+- no_family_indicator_counterfactual_sensitivity
+- no_family_indicator_candidate_build
+- no_family_indicator_candidate_figures
+- no_family_indicator_runtime
+- no_family_indicator_external_transfer
 
-The `scan_cluster_sensitivity` service leaves scores and rankings unchanged and
-resamples the 157 scan identifiers, carrying all relation contexts from each
-sampled scan together.
+The corresponding protocols and compact outputs live under
+experiments/H001_geom_reliability/no_family_indicator_v1/.
 
-The `routed_comparator_evaluation` service applies `RelCompat3D-Linear`,
-`RelCompat3D-MLP`, rank-average, and RRF under the identical family-aware
-ranking rule. It uses all 548 official contexts, treats absent Open3DSG
-candidate lists as empty, and verifies exact family composition and
-support/contact selection before writing scan-cluster intervals.
+## Data Boundary
 
-`relcompat3d_mlp_ablation` evaluates the principal predicate, pair, geometry,
-endpoint, distance-only, and compatibility-only controls for the nonlinear
-capacity at K=50/100. `relcompat3d_mlp_surface_audit` applies the frozen
-point/mesh/consensus construct audit to the same MLP selections. Their outputs
-are `no_family_indicator_v1/evaluation/mlp_ablation/` and
-`no_family_indicator_v1/evaluation/mlp_surface_audit/`.
+The repository contains compact outputs, not the row-level source inputs.
+Fitting and numerical regeneration require the external artifacts listed in
+docs/reproducibility.md. A GitHub-only checkout can validate code, configs,
+locks, JSON, and the stored summaries but cannot reproduce source inference or
+point/mesh measurements without those external inputs.
 
-The `counterfactual_threshold_sensitivity` service regenerates train and
-internal-development targets and refits nine one-factor variants of the
-proximity/vertical heads. It varies only the frozen proximity threshold,
-vertical margin, negative cap, or pairwise-loss weight; final-validation data
-remain excluded from construction, normalization, and fitting. Outputs are
-owned by
-`experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/counterfactual_sensitivity/`.
-
-The `routed_public_ablation_evaluation` service keeps the promoted Linear model fixed and
-evaluates the frozen K=50/100 wrong-predicate, wrong-pair, shuffled-geometry,
-endpoint-corruption, distance-only, and no-source-score controls. Its protocol
-and output owner is
-`experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/routed_ablation/`.
-
-`compose.yaml` remains the full recovery/service registry for historical source
-generation and optional analyses. The paper experiment image is defined by
-`Dockerfile`; the manuscript image is separately defined by
-`paper/aaai/Dockerfile.tex`.
-
-## Image Roles
-
-| Image | Current role | Retention rule |
-| --- | --- | --- |
-| `h001-geom-reliability:latest` | focused structured method, metrics, controls, and sensitivity | keep for the active experiment route |
-| `h001-sgfn-confirmatory:cu128` | SGFN/SGPN source inference and exact full-source recovery | keep when full inference reproduction is required |
-| `h001-aaai27-tex:20260712` | canonical AAAI-27 main/supplement/checklist build | keep for the active manuscript route |
-| `h001-aaai-tex:20260526` | superseded AAAI-26 build | removable |
-| `h001-fross-replicassg:cu128-trt108`, `h001-replicassg-render:habitat022` | de-scoped ReplicaSSG/FROSS development only | removable for active-submission preservation; retain only to rerun that diagnostic |
-| `h001-real-proposals:ovdet-v0` | non-main proposal prototype with no active compose reference | removable |
-
-`h001-fross-replicassg:cu121` and
-`h001-fross-replicassg:cu128-trt108` currently point to the same image ID; the
-former is a redundant tag and removing only that tag does not reclaim image
-layers. The authoritative cleanup matrix and pre-removal checks are in
-`docs/reproducibility.md`.
+The manuscript image is independently defined by paper/aaai/Dockerfile.tex.

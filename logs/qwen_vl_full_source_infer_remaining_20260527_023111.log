@@ -1,203 +1,0 @@
-started_at=2026-05-27T02:31:11+09:00 shard=qwen_full_source_shard_0001
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-d32375fcb2ef Creating 
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-d32375fcb2ef Created 
-/opt/conda/envs/open3dsg/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-2026-05-26 17:31:14.586099: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
-2026-05-26 17:31:14.587246: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2026-05-26 17:31:14.607291: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
-To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2026-05-26 17:31:15.106469: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
-`torch_dtype` is deprecated! Use `dtype` instead!
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  1.73it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.92it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.89it/s]
-The following generation flags are not valid and may be ignored: ['top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-{"out": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/manifests/qwen_full_source_shard_0001.json", "shard_id": "qwen_full_source_shard_0001", "status": "full_source_inference_shard_complete"}
-finished_at=2026-05-27T02:34:53+09:00 shard=qwen_full_source_shard_0001 exit=0
-started_at=2026-05-27T02:34:53+09:00 shard=qwen_full_source_shard_0002
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-5bee266b4e57 Creating 
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-5bee266b4e57 Created 
-/opt/conda/envs/open3dsg/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-2026-05-26 17:34:56.154368: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
-2026-05-26 17:34:56.155534: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2026-05-26 17:34:56.176072: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
-To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2026-05-26 17:34:56.552370: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
-`torch_dtype` is deprecated! Use `dtype` instead!
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  1.81it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.95it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.93it/s]
-The following generation flags are not valid and may be ignored: ['top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-{"out": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/manifests/qwen_full_source_shard_0002.json", "shard_id": "qwen_full_source_shard_0002", "status": "full_source_inference_shard_complete"}
-finished_at=2026-05-27T02:38:15+09:00 shard=qwen_full_source_shard_0002 exit=0
-started_at=2026-05-27T02:38:15+09:00 shard=qwen_full_source_shard_0003
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-929703d671e3 Creating 
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-929703d671e3 Created 
-/opt/conda/envs/open3dsg/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-2026-05-26 17:38:18.124168: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
-2026-05-26 17:38:18.125303: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2026-05-26 17:38:18.145338: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
-To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2026-05-26 17:38:18.514997: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
-`torch_dtype` is deprecated! Use `dtype` instead!
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  1.73it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.92it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.89it/s]
-The following generation flags are not valid and may be ignored: ['top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-{"out": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/manifests/qwen_full_source_shard_0003.json", "shard_id": "qwen_full_source_shard_0003", "status": "full_source_inference_shard_complete"}
-finished_at=2026-05-27T02:41:57+09:00 shard=qwen_full_source_shard_0003 exit=0
-started_at=2026-05-27T02:41:57+09:00 shard=qwen_full_source_shard_0004
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-6703619c4ba1 Creating 
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-6703619c4ba1 Created 
-/opt/conda/envs/open3dsg/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-2026-05-26 17:41:59.537648: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
-2026-05-26 17:41:59.538810: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2026-05-26 17:41:59.558543: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
-To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2026-05-26 17:41:59.928866: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
-`torch_dtype` is deprecated! Use `dtype` instead!
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  1.79it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.98it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.95it/s]
-The following generation flags are not valid and may be ignored: ['top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-{"out": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/manifests/qwen_full_source_shard_0004.json", "shard_id": "qwen_full_source_shard_0004", "status": "full_source_inference_shard_complete"}
-finished_at=2026-05-27T02:45:25+09:00 shard=qwen_full_source_shard_0004 exit=0
-started_at=2026-05-27T02:45:25+09:00 shard=qwen_full_source_shard_0005
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-5a46543fd0b7 Creating 
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-5a46543fd0b7 Created 
-/opt/conda/envs/open3dsg/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-2026-05-26 17:45:27.798267: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
-2026-05-26 17:45:27.799397: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2026-05-26 17:45:27.818788: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
-To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2026-05-26 17:45:28.195462: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
-`torch_dtype` is deprecated! Use `dtype` instead!
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  1.79it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.95it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.92it/s]
-The following generation flags are not valid and may be ignored: ['top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-{"out": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/manifests/qwen_full_source_shard_0005.json", "shard_id": "qwen_full_source_shard_0005", "status": "full_source_inference_shard_complete"}
-finished_at=2026-05-27T02:49:07+09:00 shard=qwen_full_source_shard_0005 exit=0
-started_at=2026-05-27T02:49:07+09:00 shard=qwen_full_source_shard_0006
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-bd972181cd91 Creating 
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-bd972181cd91 Created 
-/opt/conda/envs/open3dsg/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-2026-05-26 17:49:10.513095: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
-2026-05-26 17:49:10.514228: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2026-05-26 17:49:10.533601: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
-To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2026-05-26 17:49:10.917403: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
-`torch_dtype` is deprecated! Use `dtype` instead!
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  1.26it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.64it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.57it/s]
-The following generation flags are not valid and may be ignored: ['top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-{"out": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/manifests/qwen_full_source_shard_0006.json", "shard_id": "qwen_full_source_shard_0006", "status": "full_source_inference_shard_complete"}
-finished_at=2026-05-27T02:52:50+09:00 shard=qwen_full_source_shard_0006 exit=0
-started_at=2026-05-27T02:52:50+09:00 shard=qwen_full_source_shard_0007
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-799dade82bed Creating 
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-799dade82bed Created 
-/opt/conda/envs/open3dsg/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-2026-05-26 17:52:52.624892: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
-2026-05-26 17:52:52.626028: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2026-05-26 17:52:52.646418: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
-To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2026-05-26 17:52:53.019648: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
-`torch_dtype` is deprecated! Use `dtype` instead!
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  1.77it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.94it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.91it/s]
-The following generation flags are not valid and may be ignored: ['top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-{"out": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/manifests/qwen_full_source_shard_0007.json", "shard_id": "qwen_full_source_shard_0007", "status": "full_source_inference_shard_complete"}
-finished_at=2026-05-27T02:56:32+09:00 shard=qwen_full_source_shard_0007 exit=0
-started_at=2026-05-27T02:56:32+09:00 shard=qwen_full_source_shard_0008
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-7a159c4a966e Creating 
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-7a159c4a966e Created 
-/opt/conda/envs/open3dsg/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-2026-05-26 17:56:34.645892: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
-2026-05-26 17:56:34.647062: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2026-05-26 17:56:34.667552: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
-To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2026-05-26 17:56:35.040745: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
-`torch_dtype` is deprecated! Use `dtype` instead!
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  1.78it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.96it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.93it/s]
-The following generation flags are not valid and may be ignored: ['top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-{"out": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/manifests/qwen_full_source_shard_0008.json", "shard_id": "qwen_full_source_shard_0008", "status": "full_source_inference_shard_complete"}
-finished_at=2026-05-27T03:00:19+09:00 shard=qwen_full_source_shard_0008 exit=0
-started_at=2026-05-27T03:00:19+09:00 shard=qwen_full_source_shard_0009
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-d5e57875ab6a Creating 
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-d5e57875ab6a Created 
-/opt/conda/envs/open3dsg/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-2026-05-26 18:00:22.109176: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
-2026-05-26 18:00:22.110322: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2026-05-26 18:00:22.129628: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
-To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2026-05-26 18:00:22.496987: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
-`torch_dtype` is deprecated! Use `dtype` instead!
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  1.79it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.95it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.92it/s]
-The following generation flags are not valid and may be ignored: ['top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-{"out": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/manifests/qwen_full_source_shard_0009.json", "shard_id": "qwen_full_source_shard_0009", "status": "full_source_inference_shard_complete"}
-finished_at=2026-05-27T03:03:45+09:00 shard=qwen_full_source_shard_0009 exit=0
-started_at=2026-05-27T03:03:45+09:00 shard=qwen_full_source_shard_0010
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-6a4f61ad2190 Creating 
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-6a4f61ad2190 Created 
-/opt/conda/envs/open3dsg/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-2026-05-26 18:03:48.120729: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
-2026-05-26 18:03:48.121994: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2026-05-26 18:03:48.141705: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
-To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2026-05-26 18:03:48.515558: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
-`torch_dtype` is deprecated! Use `dtype` instead!
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  1.77it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.96it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.93it/s]
-The following generation flags are not valid and may be ignored: ['top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-{"out": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/manifests/qwen_full_source_shard_0010.json", "shard_id": "qwen_full_source_shard_0010", "status": "full_source_inference_shard_complete"}
-finished_at=2026-05-27T03:07:23+09:00 shard=qwen_full_source_shard_0010 exit=0
-started_at=2026-05-27T03:07:23+09:00 shard=qwen_full_source_shard_0011
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-ef75216caebf Creating 
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-ef75216caebf Created 
-/opt/conda/envs/open3dsg/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-2026-05-26 18:07:25.966388: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
-2026-05-26 18:07:25.967513: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2026-05-26 18:07:25.987917: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
-To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2026-05-26 18:07:26.364298: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
-`torch_dtype` is deprecated! Use `dtype` instead!
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  1.77it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.95it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.92it/s]
-The following generation flags are not valid and may be ignored: ['top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-{"out": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/manifests/qwen_full_source_shard_0011.json", "shard_id": "qwen_full_source_shard_0011", "status": "full_source_inference_shard_complete"}
-finished_at=2026-05-27T03:11:05+09:00 shard=qwen_full_source_shard_0011 exit=0
-started_at=2026-05-27T03:11:05+09:00 shard=qwen_full_source_shard_0012
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-79797016685c Creating 
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-79797016685c Created 
-/opt/conda/envs/open3dsg/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-2026-05-26 18:11:07.599047: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
-2026-05-26 18:11:07.600174: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2026-05-26 18:11:07.620276: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
-To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2026-05-26 18:11:08.000608: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
-`torch_dtype` is deprecated! Use `dtype` instead!
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  1.77it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.94it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.91it/s]
-The following generation flags are not valid and may be ignored: ['top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-{"out": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/manifests/qwen_full_source_shard_0012.json", "shard_id": "qwen_full_source_shard_0012", "status": "full_source_inference_shard_complete"}
-finished_at=2026-05-27T03:14:52+09:00 shard=qwen_full_source_shard_0012 exit=0
-started_at=2026-05-27T03:14:52+09:00 shard=qwen_full_source_shard_0013
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-5561a26a3d5d Creating 
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-5561a26a3d5d Created 
-/opt/conda/envs/open3dsg/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-2026-05-26 18:14:54.734382: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
-2026-05-26 18:14:54.735561: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
-2026-05-26 18:14:54.756158: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
-To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
-2026-05-26 18:14:55.133940: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
-`torch_dtype` is deprecated! Use `dtype` instead!
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  1.76it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.94it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:01<00:00,  1.91it/s]
-The following generation flags are not valid and may be ignored: ['top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
-{"out": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/manifests/qwen_full_source_shard_0013.json", "shard_id": "qwen_full_source_shard_0013", "status": "full_source_inference_shard_complete"}
-finished_at=2026-05-27T03:18:33+09:00 shard=qwen_full_source_shard_0013 exit=0
-started_at=2026-05-27T03:18:33+09:00 shard=qwen_full_source_shard_0014
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-a81880161392 Creating 
- Container qwen_vl-qwen_vl_full_source_infer_shard-run-a81880161392 Created 
-/opt/conda/envs/open3dsg/lib/python3.9/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
-  warnings.warn(
-{"out": "experiments/H001_geom_reliability/sources/qwen_vl/full_source_runtime/manifests/qwen_full_source_shard_0014.json", "shard_id": "qwen_full_source_shard_0014", "status": "blocked_full_source_inference_shard"}
-
-finished_at=2026-05-27T03:18:36+09:00 shard=qwen_full_source_shard_0014 exit=1

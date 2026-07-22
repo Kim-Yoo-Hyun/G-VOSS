@@ -1,6 +1,0 @@
-{
-  "docker_command": "env UID=$(id -u) GID=$(id -g) docker compose -f configs/h001/compose.yaml run --rm relative_size_freeze",
-  "protocol_sha256": "dea7bf1a42dece19cb0202bcfb5deb025b60fbd61b85786c315805f2a9fba128",
-  "schema_version": "h001_relative_size_extension_v1",
-  "status": "relative_size_protocol_frozen_pre_fit"
-}

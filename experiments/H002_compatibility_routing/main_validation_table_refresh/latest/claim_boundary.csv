@@ -1,8 +1,0 @@
-claim,status,wording
-relation-aware evidence routing framework,allowed_with_scope,Framework proposed; predicate-geometry comparison and caveated lateral routes validated on official validation.
-predicate-geometry compatibility route,allowed,Validated for relative_vertical and size_relative; left/right is caveated lateral.
-relative_horizontal solved,blocked,Do not claim; split left/right from front/behind.
-front/behind solved,blocked,Use as reference-frame/depth ambiguity failure case.
-support/contact solved,blocked,Use as hard contact/pose failure taxonomy.
-calibrated p_obs/p_rel solved,blocked,Optional/future diagnostic only.
-official test / SOTA / leaderboard,blocked,Validation-level custom evaluation only.

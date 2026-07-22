@@ -1,44 +1,27 @@
 {
-  "schema_version": "h001_geom_reliability_manifest_v1",
-  "created_at": "2026-07-20",
-  "status": "active_linear_and_mlp_capacity_variants_promoted",
-  "method_framing": "relation-consistent geometric re-ranking framework",
-  "experiment_root": "experiments/H001_geom_reliability",
-  "docker": {
-    "compose_file": "configs/h001/compose.structured.yaml",
-    "dockerfile": "configs/h001/Dockerfile",
-    "image": "h001-geom-reliability:latest"
+  "schema_version": "h001_submission_result_index_v1",
+  "updated_at_kst": "2026-07-22",
+  "status": "submission_compact_active",
+  "method_pointer": "experiments/H001_geom_reliability/active_method.json",
+  "paper": "paper/aaai/main_teaser_aaai27.pdf",
+  "supplement": "paper/aaai/supplement_aaai27.pdf",
+  "canonical_artifacts": {
+    "main_and_matched_comparators": "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/routed_comparators",
+    "all_family_comparison": "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/structured_main",
+    "linear_controls": "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/routed_ablation",
+    "mlp_controls": "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/mlp_ablation",
+    "paired_scan_intervals": "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/scan_cluster",
+    "linear_point_mesh_audit": "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/surface_audit",
+    "mlp_point_mesh_audit": "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/mlp_surface_audit",
+    "feature_removal": "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/held_out_primitive",
+    "counterfactual_sensitivity": "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/counterfactual_sensitivity",
+    "runtime": "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/runtime",
+    "external_transfer_stress_test": "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/external_transfer"
   },
-  "inputs": {
-    "active_method": "experiments/H001_geom_reliability/active_method.json",
-    "model_root": "experiments/H001_geom_reliability/no_family_indicator_v1/fit",
-    "evaluation_root": "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation"
-  },
-  "outputs_after_run": [
-    "experiments/H001_geom_reliability/active_method.json",
-    "experiments/H001_geom_reliability/no_family_indicator_v1/fit/final_lock.json",
-    "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/routed_comparators/manifest.json",
-    "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/routed_ablation/manifest.json",
-    "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/mlp_ablation/manifest.json",
-    "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/scan_cluster/manifest.json",
-    "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/surface_audit/manifest.json",
-    "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/mlp_surface_audit/manifest.json",
-    "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/runtime/manifest.json",
-    "experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/external_transfer/manifest.json",
-    "release/h001_aaai27_openreview_20260720_084307/UPLOAD_MANIFEST.sha256",
-    "manifest.lock.json",
-    "report.md",
-    "tables/",
-    "figures/",
-    "sources/vlsat/locked_inputs.json",
-    "sources/open3dsg/status.json",
-    "sources/open3dsg/metrics/metrics.json",
-    "sources/open3dsg/failure_rows/summary.json",
-    "sources/open3dsg/failure_cases/queue.jsonl"
-  ],
-  "source_status": {
-    "vlsat": "active_full_validation",
-    "open3dsg": "active_public_predictions_on_full_target",
-    "sgfn": "active_full_validation"
-  }
+  "excluded_from_git": [
+    "row-level predictions and verifier outputs",
+    "raw point/mesh audit measurements",
+    "datasets, checkpoints, and feature caches",
+    "historical and pre-promotion result mirrors"
+  ]
 }

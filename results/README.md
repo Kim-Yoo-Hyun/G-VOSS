@@ -1,16 +1,16 @@
-# Results
+# Submission Results
 
-`results/` contains lightweight paper-facing outputs that are suitable for repository sharing.
+`results/h001_geom_reliability/` contains the compact paper-facing H001 result
+index:
 
-## Current Contents
+- `manifest.json`: current artifact map and submission boundary;
+- `report.md`: concise current-result interpretation and claim boundary;
+- `README.md`: ownership and reproduction pointers.
 
-- `h001_geom_reliability/report.md`: compact GeoCalib result summary.
-- `h001_geom_reliability/tables/`: compact paper table CSV/JSON/Markdown outputs.
-- `h001_geom_reliability/bootstrap_ci/`: bootstrap CI summaries.
-- `h001_geom_reliability/figures/`: figure specifications.
-- `h001_geom_reliability/manifest*.json`: compact locked manifests.
-- `h002_compatibility_routing/README.md`: skeleton compact-result root for future H002 promotion; no paper-level H002 metrics exist yet.
-
-## Boundary
-
-Do not store large raw dumps, checkpoints, model caches, feature caches, or full row-level JSONL outputs here. Those belong in ignored local roots or external release bundles.
+Canonical metrics, intervals, controls, and audit tables remain under
+`experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/` rather
+than being duplicated here. Row-level predictions and geometry payloads are
+intentionally excluded from Git. Superseded transitions, the pre-promotion
+compact mirror, prospective transfer planning, and the H002 result root are in
+the ignored local snapshot under
+`archive/local/pre_submission_20260722/previous_archive/results/`.

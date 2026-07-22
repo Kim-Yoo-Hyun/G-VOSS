@@ -1,3 +1,0 @@
- Container h001_geom_reliability-relative_lateral_train_dev_policy_lock-run-93e83092d378 Creating 
- Container h001_geom_reliability-relative_lateral_train_dev_policy_lock-run-93e83092d378 Created 
-{"decision_rows": 3832, "dev_calibration_auroc": 0.740068867052994, "dev_counterfactual_negative_strict_purity": 0.6974789915966386, "dev_positive_rows": 378, "dev_positive_strict_purity": 0.6974789915966386, "gate_passed": false, "out": "experiments/H001_geom_reliability/sources/relative_lateral/train_dev_policy_lock", "status": "relative_lateral_train_dev_policy_lock_ready_with_caveats_no_source_metrics", "train_positive_rows": 1538}

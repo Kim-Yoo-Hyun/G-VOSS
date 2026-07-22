@@ -9,4 +9,5 @@ RUN pip install --no-cache-dir numpy==1.26.4 pillow==10.4.0
 
 COPY src/geocalib/ /workspace/src/geocalib/
 
-ENTRYPOINT ["python", "/workspace/src/geocalib/build_tables.py"]
+ENTRYPOINT ["python"]
+CMD ["--version"]

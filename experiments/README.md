@@ -1,18 +1,15 @@
 # Experiments
 
-`experiments/` stores source-specific experiment records, ablations, analysis outputs, and row-level runtime result locations.
+The public submission tree contains one active experiment root:
 
-## Current Active Root
+- H001_geom_reliability/: RelCompat3D protocols, model locks, compact
+  evaluations, and reproduction commands.
 
-- `H001_geom_reliability/`: active GeoCalib experiment workspace.
-- `H002_compatibility_routing/`: skeleton for future H002 Docker promotion. It currently has no paper-level metrics, no grouped-holdout run, and no official validation/test usage.
+H002 and all superseded or optional experiment branches are preserved in the
+ignored local archive. They are not part of the H001 paper claim or public
+submission artifact.
 
-## Role Boundary
-
-Keep compact paper-facing tables, reports, figure specs, and locked manifests in `results/`. Keep executable Python in `src/geocalib/`, shell wrappers in `scripts/`, and Docker/compose files in `configs/`. Old or optional expansion tracks that should not be part of the main release path are preserved under `archive/`.
-
-## Reproduction
-
-Before launching or cleaning any experiment, read `docs/reproducibility.md` and the local experiment README.
-
-H002 must pass its local Docker preflight before materialization, grouped-holdout metrics, or calibration outputs are treated as paper-result candidates.
+Executable code belongs in src/geocalib/, Docker services in configs/h001/,
+shell orchestration in scripts/, and compact result navigation in results/.
+Before rerunning or deleting H001 artifacts, read docs/reproducibility.md and
+experiments/H001_geom_reliability/README.md.

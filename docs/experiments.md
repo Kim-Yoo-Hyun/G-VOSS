@@ -1,6 +1,11 @@
 # Experiment Workflow
 
-Last updated: 2026-07-14 KST
+Last updated: 2026-07-22 KST
+
+> **Submission snapshot.** `experiments/H001_geom_reliability/` is the only
+> active public experiment root. H002, optional source expansions, superseded
+> evaluations, and row-level runtime outputs are preserved locally under
+> `archive/local/pre_submission_20260722/` and are not part of GitHub.
 
 This document is the workflow rulebook for Docker-based paper experiments. It
 does not replace `docs/reproducibility.md`, which owns recovery commands,
@@ -106,49 +111,18 @@ guards that prevent metric-dependent threshold tuning.
 
 ## Active H001 Experiment
 
-Current active experiment root:
+The active root is `experiments/H001_geom_reliability/`. Its promoted method is
+`no_family_indicator_v1`, with RelCompat3D-Linear and RelCompat3D-MLP evaluated
+on the shared 3DSSG target for VL-SAT, Open3DSG, and SGFN. Public evidence is
+limited to compact protocols, model locks, result summaries, intervals,
+controls, and point/mesh audit summaries.
 
-- `experiments/H001_geom_reliability/`
-- relation expansion summary:
-  `archive/experiments/H001_geom_reliability/sources/relation_expansion_status.md`
+Raw prediction rows, verifier rows, reconstructed geometry, checkpoints,
+caches, and superseded expansion tracks are external or locally archived. The
+exact public/external boundary, active hashes, Docker services, and restore
+paths are owned by `docs/reproducibility.md` and the experiment README.
 
-Current H001 paper-result path is scoped to measured `support_contact`,
-`proximity`, and `relative_vertical` families across VL-SAT, Open3DSG, and
-SGFN on the shared target. `relative_size` is promoted only as a secondary
-scope/supplement extension. `relative_horizontal`, `relative_lateral`,
-`attachment_deferred`, and Qwen-VL remain non-main tracks unless a new frozen
-promotion decision is made.
-
-Current `relative_lateral` extension status is
-`relative_lateral_policy_threshold_provenance_frozen_no_source_metrics`:
-`left/right` are frozen as a candidate family with 2,264 GT rows, while
-`front/behind` are deferred as `relative_depth_deferred`. The artifact records
-geometry policy and threshold provenance only; it does not run source metrics or
-update the AAAI main claim.
-
-The subsequent Docker train/dev gate is complete with status
-`relative_lateral_train_dev_policy_lock_ready_with_caveats_no_source_metrics`.
-It uses 1,916 GT positives and 1,916 left/right label-flip counterfactuals from
-the frozen train/dev split. The train side is strong, but the dev strict gate
-does not pass, so paper-facing lateral source metrics are blocked unless this is
-kept as explicitly caveated appendix evidence or a dev failure diagnosis resolves
-the issue without validation tuning.
-
-The dev diagnosis is complete with status
-`relative_lateral_dev_failure_diagnosis_ready_no_policy_change_no_source_metrics`.
-It shows that strict contradictions are pair-symmetric and concentrated in two
-dev scans, while uncertain rows are mostly orthogonal-axis dominance cases.
-Final current-path decision: stop `relative_lateral` as appendix/future-work
-boundary evidence. Do not run paper-facing lateral source metrics from the
-current strict policy unless a separate predeclared frame/annotation study is
-opened later.
-
-Current `attachment_deferred` extension status is
-`attachment_deferred_g5d_full_source_metrics_ready`: the Docker G5c protocol
-freezes sharding, output schema, source-specific exact-label denominators,
-metric conditions, and control order, and Docker G5d full-source
-scoring/metrics/controls/bootstrap completed with exit 0. Log:
-`logs/h001_attachment_g5d_full_20260606_113803.log`; output:
-`archive/experiments/H001_geom_reliability/sources/attachment_deferred/full_source_g5d/`.
-Counts: 69/69 shards, 135,048 scored rows, validation errors 0. This does not
-update the AAAI main claim.
+New relation families or predictors may enter the main claim only after a new
+protocol freeze and the promotion gates above. Archived H002, Qwen-VL,
+attachment, lateral, and other optional tracks do not update the current H001
+claim.
