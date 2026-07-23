@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate draft H001 paper figures from locked source artifacts.
+"""Generate draft RelCompat3D paper figures from locked source artifacts.
 
 The figures are draft SVGs for manuscript planning. They are intentionally
 simple, traceable, and source-backed rather than camera-ready artwork.
@@ -20,25 +20,25 @@ ROOT = Path(__file__).resolve().parents[2]
 OUT_DIR = ROOT / "paper" / "generated" / "figures"
 
 STRUCTURED_MAIN_METRICS = (
-    ROOT / "experiments" / "H001_geom_reliability" / "no_family_indicator_v1" /
+    ROOT / "experiments" / "RelCompat3D_geom_reliability" / "no_family_indicator_v1" /
     "evaluation" / "structured_main" / "summary.json"
 )
 ROUTING_METRICS = (
-    ROOT / "experiments" / "H001_geom_reliability" / "no_family_indicator_v1" /
+    ROOT / "experiments" / "RelCompat3D_geom_reliability" / "no_family_indicator_v1" /
     "evaluation" / "support_routing" / "summary.json"
 )
 ROUTED_COMPARATOR_METRICS = (
-    ROOT / "experiments" / "H001_geom_reliability" / "no_family_indicator_v1" /
+    ROOT / "experiments" / "RelCompat3D_geom_reliability" / "no_family_indicator_v1" /
     "evaluation" / "routed_comparators" / "summary.json"
 )
 OPEN3DSG_OFFICIAL_METRICS = (
-    ROOT / "experiments" / "H001_geom_reliability" / "no_family_indicator_v1" /
+    ROOT / "experiments" / "RelCompat3D_geom_reliability" / "no_family_indicator_v1" /
     "evaluation" / "open3dsg_route" / "summary.json"
 )
 INSPECTION_JSON = (
     ROOT
     / "experiments"
-    / "H001_geom_reliability"
+    / "RelCompat3D_geom_reliability"
     / "sources"
     / "open3dsg"
     / "failure_cases"

@@ -2,13 +2,13 @@
 
 Last updated: 2026-07-22 KST
 
-> **Submission snapshot.** RelCompat3D/H001 is the only active manuscript in
+> **Submission snapshot.** RelCompat3D/RelCompat3D is the only active manuscript in
 > the compact public repository, with `paper/aaai/main_teaser_aaai27.pdf`
 > selected as the submission candidate. Historical H002 material is locally
 > archived under `archive/local/pre_submission_20260722/` and is not an active
 > paper claim. The H002 rules retained below are archival guidance only.
 
-This document manages paper-level framing for RelCompat3D/H001 and retains
+This document manages paper-level framing for RelCompat3D/RelCompat3D and retains
 archival guidance for the former H002 compatibility-routing paper: novelty, contribution boundary,
 reviewer-defense logic, and the minimum experiment evidence needed before paper
 writing. It does not replace `docs/hypothesis.md` or Docker experiment artifacts.
@@ -19,7 +19,7 @@ writing. It does not replace `docs/hypothesis.md` or Docker experiment artifacts
 - `AGENTS.md` keeps only stable top-level claim guardrails and points here for detailed paper rules.
 - `paper/README.md` owns the paper workspace map and file-role guide.
 - Manuscript prose, figures, tables, venue-specific LaTeX source, and draft history live under `paper/`.
-- Preserved hypothesis validation details are in the ignored local archive described by `archive/README.md`; executable code lives under `src/geocalib/`; Docker entry points live under `configs/`; source-specific experiment records live under `experiments/`; compact paper-facing summaries live under `results/`; reproducibility and artifact transfer details live in `docs/reproducibility.md`.
+- Preserved hypothesis validation details are in the ignored local archive described by `archive/README.md`; executable code lives under `src/relcompat3d/`; Docker entry points live under `configs/`; source-specific experiment records live under `experiments/`; compact paper-facing summaries live under `results/`; reproducibility and artifact transfer details live in `docs/reproducibility.md`.
 - Treat this file as a reviewer-facing writing rulebook. Live PDF build status,
   task status, long metric tables, row counts, and completion logs belong in
   `paper/README.md`, `paper/preview.md`, `TODO.md`,
@@ -51,7 +51,7 @@ Fact from the reference:
 - A top-tier pattern is: define a concrete failure mode, explain the underlying cause, derive the method from that cause, then verify the design through ablation, controls, generality checks, and failure analysis.
 - Strong novelty is not merely a new component, combination, dataset use, or larger experiment. It is the insight that turns an observed failure into a necessary method design.
 
-H001 rule:
+RelCompat3D rule:
 
 - Do not claim novelty as "we add geometry", "we combine semantic and geometry", "we use a VLM", or "we implement a verifier".
 - Claim novelty as a relation-consistent geometric re-ranking framework with
@@ -110,18 +110,18 @@ Reviewer-side checklist to simulate before submission:
 
 ## RelCompat3D Claim Contract
 
-Paper-facing title: `Beyond Semantic Confidence: Relation-Consistent Geometric Re-ranking for 3D Scene Graphs`. Use `RelCompat3D` as the method name in the abstract and main prose; keep `H001` for internal paths, provenance, and runbooks.
-
-The former paper-facing name `GeoCalib` is retired because it collides with the
-ECCV 2024 single-image camera-calibration method of that name. The existing
-`src/geocalib/` Python namespace and frozen artifact strings remain unchanged
-where renaming would break code or provenance identity.
+Selected paper-facing title: `RelCompat3D: Predicate–Geometry Compatibility for
+Re-ranking 3D Scene Graph Relations`. Use `RelCompat3D` consistently as the
+method name and `relcompat3d` for lowercase machine identifiers. The active
+Python namespace is `src/relcompat3d/`; ignored recovery snapshots retain their
+frozen legacy layouts. The consolidated TeX title is synchronized during the
+pending layout and release-regeneration pass.
 
 Draft:
 
 > Semantic relation predictors can rank plausible 3D Scene Graph relations without matching relation-level geometry; source-score-excluded geometric compatibility exposes this failure and re-ranks predictions while making recall--violation trade-offs measurable.
 
-This is the preferred direction because it contains both cause diagnosis and method principle. Open3DSG second-source metrics are now available, so the paper wording should stay scoped to measured H001 families rather than broaden to full open-vocabulary 3DSSG generation.
+This is the preferred direction because it contains both cause diagnosis and method principle. Open3DSG second-source metrics are now available, so the paper wording should stay scoped to measured RelCompat3D families rather than broaden to full open-vocabulary 3DSSG generation.
 
 Reviewer-defense rules after the independent-validity/family review:
 
@@ -195,7 +195,7 @@ Reviewer-defense rules after the independent-validity/family review:
 - Distinguish calibrator provenance from operating-point selection provenance.
   A calibrator fit before evaluation does not make a main-score choice
   confirmatory when that score was promoted after results were observed.
-- Existing H001 VL-SAT/Open3DSG source metrics are retrospective evidence.
+- Existing RelCompat3D VL-SAT/Open3DSG source metrics are retrospective evidence.
   Independent human labels collected under the frozen blinded protocol may be
   called prospective confirmation of physical validity only; a fresh
   exact-label confirmatory claim needs a genuinely untouched target.
@@ -232,7 +232,7 @@ Reviewer-defense rules after the independent-validity/family review:
 This contract is retained only to interpret locally archived H002 artifacts.
 The former paper, hypothesis, experiment, and result paths are stored under
 `archive/local/pre_submission_20260722/`; they are not part of the active
-public repository and must not modify the H001 manuscript unless the workflow
+public repository and must not modify the RelCompat3D manuscript unless the workflow
 is explicitly reactivated.
 
 Preferred claim:
@@ -294,8 +294,8 @@ Required reviewer defense:
   limitation/failure taxonomy.
 - distinguish the proposed route map from routes that are quantitatively solved.
 
-Historical metrics and progress remain in the local archive. Current H001 state
-belongs to `summary.md`, `TODO.md`, and the active H001 experiment/results
+Historical metrics and progress remain in the local archive. Current RelCompat3D state
+belongs to `summary.md`, `TODO.md`, and the active RelCompat3D experiment/results
 READMEs.
 
 
@@ -313,7 +313,7 @@ Current paper-facing evaluation direction:
 - The method provenance must be stated as train/train-dev-derived: final family
   mapping, hard-rule policies, counterfactual construction, and `p_geom_valid`
   calibration are frozen before validation source-result reporting.
-- H001-Mini is hypothesis/feasibility evidence, not a paper metric split and
+- RelCompat3D-Mini is hypothesis/feasibility evidence, not a paper metric split and
   not a calibrator/threshold fitting split.
 - Source-result tables use the public/full-target route. The 533 eligible and
   recovered 548 variants show that the conclusion is not created by denominator
@@ -348,18 +348,18 @@ Current paper-facing evaluation direction:
   content ending on page 7), `paper/aaai/supplement_aaai27.pdf` (10 pages), and
   `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Final main log:
   `logs/20260718_figure_refine_final_main.log`. The current verified
-  OpenReview bundle is `release/h001_aaai27_openreview_20260720_084307/`; it
+  OpenReview bundle is `release/relcompat3d_aaai27_openreview_20260720_084307/`; it
   selects the teaser main PDF and contains the promoted active-method source,
   locks, and compact results. Earlier
   source-validation PDFs, the 2026-07-12 field bundle, and compact tarballs are
   historical snapshots.
 
-2026-06-25 H001_v2 decision, superseded in scoring role by the 2026-07-10
+2026-06-25 RelCompat3D_v2 decision, superseded in scoring role by the 2026-07-10
 framework-first decision:
 
-- H001_v2 fixed-`tau*` risk-controlled reranking and pooled lambda-soft
+- RelCompat3D_v2 fixed-`tau*` risk-controlled reranking and pooled lambda-soft
   reranking are diagnostic candidate evidence only. Neither should replace the
-  current H001/RelCompat3D main result route or be added to the main table.
+  current RelCompat3D/RelCompat3D main result route or be added to the main table.
 - The family-conditional calibrated product remains a soft RelCompat3D
   instantiation: `semantic_score * p_geom_valid_family`, where each relation
   family has its own calibrated geometry-risk surface. It is not the unique
@@ -392,19 +392,19 @@ Paper workspace ownership:
   into `main.tex` plus `sec/*.tex`, points bibliography to
   `paper/references.bib`, and builds the reproducibility checklist as a
   separate OpenReview PDF. Docker PDF build is verified with
-  `h001-aaai27-tex:20260712`; the final main/supplement/checklist build log is
-  `logs/h001_structured_main_final_20260713.log`.
+  `relcompat3d-aaai27-tex:20260712`; the final main/supplement/checklist build log is
+  `logs/relcompat3d_structured_main_final_20260713.log`.
 - `archive/paper/iccv/` remains a historical/alternate ICCV-style source route.
 - `paper/figures.md` is the authoritative redraw specification for Figure 1--3, including composition, flow, exact plot values and coordinates, case sources, captions, and non-claims; generated assets remain under `paper/generated/figures/`.
 
-## H001 Fit To Top-Tier Pattern
+## RelCompat3D Fit To Top-Tier Pattern
 
 Facts:
 
-- H001 already has a concrete failure target: geometry-checkable relation families such as `support_contact`, `proximity`, and `relative_vertical`.
+- RelCompat3D already has a concrete failure target: geometry-checkable relation families such as `support_contact`, `proximity`, and `relative_vertical`.
 - Hypothesis-stage `VL-SAT` evidence includes semantic-only vs calibrated geometry variants, family-conditional risk evidence, evidence lock, GT-based verifier evaluation, and a reduced visual sanity check.
 - The Open3DSG path is now second-source evidence: Docker checkpoint reproduction, raw-dump identity, adapter export, geometry join, metric eval, Table 6, real failure rows, qualitative case queue, and deterministic qualitative inspection are ready.
-- Docker subgraph bootstrap CI is ready under `results/h001_geom_reliability/bootstrap_ci/`; it is used as evaluation-context uncertainty, not repeated-training variance.
+- Docker subgraph bootstrap CI is ready under `results/relcompat3d_geom_reliability/bootstrap_ci/`; it is used as evaluation-context uncertainty, not repeated-training variance.
 - Open3DSG qualitative inspection shows both support and limits: 23/36 sampled cases are demoted by geometry-aware reranking, while 10/36 are rule-violated but still have `p_geom_valid > 0.9`. This must be framed as residual calibration risk, not hidden.
 - The historical 127-scan Open3DSG branch has two roles. The old 377/388
   avg-BLIP branch has clean raw-dump source-process provenance via v14
@@ -442,7 +442,7 @@ Facts:
   not to run expanded-family metrics. Future promotion would require resolving
   this coordinate-frame/label-semantics gap plus verifier policy, calibration,
   controls, source metrics, bootstrap CI, and failure/audit evidence at the
-  current H001 evidence standard. Reviewer-facing use should be threshold-free
+  current RelCompat3D evidence standard. Reviewer-facing use should be threshold-free
   evidence first, with the predeclared gate treated only as a conservative
   non-promotion rule.
 - `relative_lateral` was tested as a narrower left/right-only split after
@@ -454,7 +454,7 @@ Facts:
   in two scans, 140 uncertain rows / 70 physical pairs, about half same-label
   object pairs, and mostly orthogonal-axis dominance. Treat this as
   appendix/future-work boundary evidence, not source-metric evidence.
-- `attachment_deferred` is the preferred future relation-family upgrade if H001
+- `attachment_deferred` is the preferred future relation-family upgrade if RelCompat3D
   is expanded beyond the current AAAI claim. Its metrics are retrospective
   development diagnostics, not current main-claim evidence.
   Docker G0 scope/schema audit, G1 extractor contract, G1b evidence-only dry
@@ -480,7 +480,7 @@ Facts:
   counterfactuals 77, false-violated positives 30, and uncertain rows 329. G4c
   freezes 325 strict calibration rows, including 121 strict positives and 204
   strict negatives, and excludes 436 non-strict rows. G5a fits pooled model
-  `h001-attachment-deferred-p-geom-valid-strict-v1`; dev Brier/NLL/ECE are
+  `relcompat3d-attachment-deferred-p-geom-valid-strict-v1`; dev Brier/NLL/ECE are
   0.0010/0.0077/0.0071 and dev AUROC/AUPRC are 1.0/1.0 on 83 strict rows.
   These numbers are calibration-readiness evidence only, because the strict
   subset is policy-selected and nearly separable. G5b scores 120 bounded,
@@ -493,7 +493,7 @@ Facts:
   `connected to` has no legacy dev strict rows, so pooled calibration or an
   explicit caveat is required. This
   direction is better aligned with
-  the H001
+  the RelCompat3D
   physical-consistency thesis than `relative_horizontal`, because attachment,
   hanging, and connection imply physical support/adjacency, near-surface
   contact, gravity, and object-affordance constraints. Its risk is rule
@@ -515,7 +515,7 @@ Facts:
   but fails Open3DSG K=100 and VL-SAT K=50. Keep both as transparent
   development diagnostics; neither is a validated extension or paper result.
 - Qwen-VL is currently a third semantic source / modern VLM extension, not a VL-SAT or Open3DSG replacement.
-- The 2026-05-23 RelWitness full-PDF skim identified a stronger direct novelty threat: RelWitness uses visual-geometric relation witnesses, calibrated witness quality, witness-guided positive-unlabeled learning, and witness-consistent decoding. Its v2 numerical tables are simulated planning values, so it should sharpen H001 wording rather than replace H001's reproduced evidence.
+- The 2026-05-23 RelWitness full-PDF skim identified a stronger direct novelty threat: RelWitness uses visual-geometric relation witnesses, calibrated witness quality, witness-guided positive-unlabeled learning, and witness-consistent decoding. Its v2 numerical tables are simulated planning values, so it should sharpen RelCompat3D wording rather than replace RelCompat3D's reproduced evidence.
 
 Inference:
 
@@ -541,7 +541,7 @@ Likely reviewer questions:
 - Does the method preserve useful recall, or does it trade recall for fewer violations?
 - Does the result generalize beyond `VL-SAT` and one closed-set prediction source?
 - Are the geometry rules calibrated, or manually chosen after looking at the test set?
-- Are skipped Open3DSG train/eval samples changing the denominator in a way that favors H001?
+- Are skipped Open3DSG train/eval samples changing the denominator in a way that favors RelCompat3D?
 - Does Qwen-VL add scientific evidence, or only a modern engineering option?
 - Can the framework expand beyond the current three relation families without
   turning into an ad hoc relation-specific verifier?
@@ -583,7 +583,7 @@ Required defense:
   new promotion attempt.
   Function-reasoning examples may be useful as a secondary case study only
   after relation reliability is established.
-- Treat RelWitness-style "relation witness" and "calibrated witness quality" wording as prior-art-adjacent. H001 should claim reproduced calibrated reliability evaluation/re-ranking, source-adapter protocol, recall/violation operating points, and controls, not the mere existence of visual-geometric evidence or calibration.
+- Treat RelWitness-style "relation witness" and "calibrated witness quality" wording as prior-art-adjacent. RelCompat3D should claim reproduced calibrated reliability evaluation/re-ranking, source-adapter protocol, recall/violation operating points, and controls, not the mere existence of visual-geometric evidence or calibration.
 
 ## Main Paper Evidence Checklist
 
@@ -612,7 +612,7 @@ Do not claim these until evidence exists:
 - Baseline-agnostic improvement across arbitrary relation predictors.
 - Qwen-VL as a replacement main baseline.
 - Geometry rules as universally correct relation semantics.
-- Full open-vocabulary 3DSSG improvement beyond measured H001 families.
+- Full open-vocabulary 3DSSG improvement beyond measured RelCompat3D families.
 - `relative_horizontal` coverage as part of the main claim before its separate
   validation track passes coordinate-frame, calibration, metric, control,
   bootstrap, and audit gates.
@@ -648,7 +648,7 @@ Do not claim these until evidence exists:
   Work, Method, Experiments, Discussion and Limitations, and Conclusion.
   Problem Setup is the first Method subsection; Experimental Setup and all
   quantitative/qualitative results are subsections of Experiments.
-- Section-title rule: use standard paper headings such as `Experiments`, `Experimental Setup`, `Evaluation Setup`, `Datasets`, `Evaluation Metrics`, and `Implementation Details`. Do not put `Scope` in the heading unless the target venue/template makes it necessary; H001's scope and denominator discipline should be stated in the first paragraph and tables.
+- Section-title rule: use standard paper headings such as `Experiments`, `Experimental Setup`, `Evaluation Setup`, `Datasets`, `Evaluation Metrics`, and `Implementation Details`. Do not put `Scope` in the heading unless the target venue/template makes it necessary; RelCompat3D's scope and denominator discipline should be stated in the first paragraph and tables.
 - The section-title reference check supports `Experiments` as the top-level
   heading and `Experimental Setup` as its first subsection, with scope and
   denominator details stated in prose and tables rather than in a defensive
@@ -668,7 +668,7 @@ Do not claim these until evidence exists:
   PNGs to avoid CID/Identity-H font dependencies. Figures 2 and 3 use full width so
   their K labels, ordered-pair geometry, and residual case remain legible.
 
-## H001 Current Claim Lock, 2026-07-15
+## RelCompat3D Current Claim Lock, 2026-07-15
 
 - Narrative order is failure -> structural cause -> factor-isolation
   necessity -> method -> evidence -> scope/limitations. Repeated defensive
@@ -739,7 +739,7 @@ Do not claim these until evidence exists:
   intervals. Describe it as an orthogonal raw-surface audit, not an independent
   physical-validity ground truth, because both estimators share the reconstructed
   3RScan surface and ontology.
-- Docker verification is complete with `h001-aaai27-tex:20260712`: BibTeX
+- Docker verification is complete with `relcompat3d-aaai27-tex:20260712`: BibTeX
   uses 34 entries and targeted checks find no missing citations, undefined
   references, overfull boxes, LaTeX errors, Type 3 fonts, or AAAI package
   errors. The checklist is built separately from
@@ -748,7 +748,7 @@ Do not claim these until evidence exists:
 - AAAI reviewer-defense main-text pass uses the public/full-target Open3DSG
   route. Recovery details and the 533/548 sensitivity are kept in the
   supplement rather than presented as the primary pipeline.
-- The 2026-05-27 appendix/caveat pass is complete: `paper/appendix.md` records the calibrator/threshold provenance table and caveat consistency pass; experiment Table 6 includes `caveat_note`; Docker PDF rebuild `logs/h001_aaai_pdf_build_appendix_caveat_20260527_202734.log` exits 0 with 9 total pages and no blocking warnings.
+- The 2026-05-27 appendix/caveat pass is complete: `paper/appendix.md` records the calibrator/threshold provenance table and caveat consistency pass; experiment Table 6 includes `caveat_note`; Docker PDF rebuild `logs/relcompat3d_aaai_pdf_build_appendix_caveat_20260527_202734.log` exits 0 with 9 total pages and no blocking warnings.
 - Draft bibliography scaffold is complete in `paper/references.bib`; citation keys used by `paper/aaai/sec/*.tex` match the bibliography entries.
 - Use `paper/generated/figures/figure3_geometry_panels.svg` as the Figure 3
   source. Keep its white background, unboxed three-column evidence layout,
@@ -771,7 +771,7 @@ Do not claim these until evidence exists:
   evidence for the current AAAI path. The no-training/no-inference denominator
   audit, Docker coordinate audit, and Docker bucket inspection are complete, but
   the track is blocked for promotion; do not change the current main claim
-  unless a later expansion reaches the current H001 evidence standard.
+  unless a later expansion reaches the current RelCompat3D evidence standard.
 - `relative_size` is promoted only as a secondary framework-scope extension:
   one main-text scope sentence and full supplement analysis. Its learned
   product passes the frozen K=100 joint

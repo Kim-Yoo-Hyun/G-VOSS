@@ -1,0 +1,27 @@
+{
+  "schema_version": "relcompat3d_submission_result_index_v1",
+  "updated_at_kst": "2026-07-22",
+  "status": "submission_compact_active",
+  "method_pointer": "experiments/RelCompat3D_geom_reliability/active_method.json",
+  "paper": "paper/aaai/main_teaser_aaai27.pdf",
+  "supplement": "paper/aaai/supplement_aaai27.pdf",
+  "canonical_artifacts": {
+    "main_and_matched_comparators": "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/routed_comparators",
+    "all_family_comparison": "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/structured_main",
+    "linear_controls": "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/routed_ablation",
+    "mlp_controls": "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/mlp_ablation",
+    "paired_scan_intervals": "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/scan_cluster",
+    "linear_point_mesh_audit": "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/surface_audit",
+    "mlp_point_mesh_audit": "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/mlp_surface_audit",
+    "feature_removal": "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/held_out_primitive",
+    "counterfactual_sensitivity": "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/counterfactual_sensitivity",
+    "runtime": "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/runtime",
+    "external_transfer_stress_test": "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/external_transfer"
+  },
+  "excluded_from_git": [
+    "row-level predictions and verifier outputs",
+    "raw point/mesh audit measurements",
+    "datasets, checkpoints, and feature caches",
+    "historical and pre-promotion result mirrors"
+  ]
+}

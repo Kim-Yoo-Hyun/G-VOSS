@@ -9,8 +9,10 @@ figure/table 역할만 소유한다. Method의 상세 정의는 `paper/method.md
 
 ## 1. Paper Identity
 
-- Title: **Beyond Semantic Confidence: Relation-Consistent Geometric Re-ranking
-  for 3D Scene Graphs**
+- Selected title: **RelCompat3D: Predicate–Geometry Compatibility for Re-ranking
+  3D Scene Graph Relations**
+- Source status: synchronize the consolidated TeX title during the pending
+  layout and release-regeneration pass.
 - Method: **RelCompat3D**
 - Selected main PDF: `paper/aaai/main_teaser_aaai27.pdf`
 - Task: fixed 3D scene graph relation predictions에 대한

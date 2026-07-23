@@ -1,15 +1,15 @@
 # RelCompat3D Source
 
-`src/geocalib/` contains the Python entry points included in the verified H001
-code-and-data supplement plus the point/mesh audit entry point required by the
-current manuscript and its minimal calibration-export dependency. The active
-tree is intentionally limited to fitting,
-family-aware evaluation, matched comparators, controls, scan-level intervals,
-point/mesh audits, runtime measurement, transfer evaluation, and candidate
-artifact rendering.
+`src/relcompat3d/` contains the Python entry points included in the verified
+RelCompat3D code-and-data supplement. It also includes the point/mesh audit
+entry point and the minimal training-row dependency required by the current
+manuscript. The active tree is limited to fitting, family-aware evaluation,
+matched comparators, controls, scan-level intervals, point/mesh audits, runtime
+measurement, transfer evaluation, and paper-artifact rendering.
 
-Paper-facing executions must use configs/h001/compose.structured.yaml. Do not
-install host-only dependencies to establish a paper result.
+Paper-facing executions must use
+`configs/relcompat3d/compose.structured.yaml`. Do not install host-only
+dependencies to establish a paper result.
 
 Superseded source adapters, dataset-preparation utilities, Qwen/FROSS/H002
 extensions, and development-only review scripts are preserved in the ignored

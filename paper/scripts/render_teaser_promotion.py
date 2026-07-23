@@ -74,7 +74,7 @@ def main() -> None:
     svg_path.write_text(svg, encoding="utf-8")
 
     manifest = {
-        "schema_version": "h001_teaser_promotion_trial_v1",
+        "schema_version": "relcompat3d_teaser_promotion_trial_v1",
         "status": "one_column_trial_asset_generated_case_lock_verified",
         "source": str(SOURCE.relative_to(ROOT)),
         "source_sha256": sha256(SOURCE),

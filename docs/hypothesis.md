@@ -3,7 +3,7 @@
 Last updated: 2026-07-22 KST
 
 > **Submission snapshot.** This workflow document is retained, but hypothesis
-> payloads are excluded from the compact H001 Git snapshot. Preserved H001
+> payloads are excluded from the compact RelCompat3D Git snapshot. Preserved RelCompat3D
 > records are under
 > `archive/local/pre_submission_20260722/previous_archive/hypothesis_records/hypothesis/`,
 > and the former root hypothesis tree is under
@@ -49,7 +49,7 @@ Hypothesis 작업을 시작하는 에이전트는 아래 순서로 읽는다.
 <restored-hypothesis-root>/
   README.md
   CAND-001/
-    H001_geometry-grounded-verification/
+    RelCompat3D_geometry-grounded-verification/
       01_overview.md
       02_method.md
       03_data_baseline.md
@@ -86,7 +86,7 @@ Hypothesis 작업을 시작하는 에이전트는 아래 순서로 읽는다.
 
 ### Optional Candidate README
 
-candidate 안에 여러 active hypotheses가 생기거나 candidate-level 상태가 root index를 과도하게 키울 때만 만든다. 단일 active H001처럼 root index에서 충분히 관리되는 경우 만들지 않는다.
+candidate 안에 여러 active hypotheses가 생기거나 candidate-level 상태가 root index를 과도하게 키울 때만 만든다. 단일 active RelCompat3D처럼 root index에서 충분히 관리되는 경우 만들지 않는다.
 
 ### `01_overview.md` / Overview
 
@@ -102,7 +102,7 @@ Geometry evidence schema, deterministic verifier, subtype-aware support/contact 
 
 ### `04_results.md` / Results
 
-H001-Mini result, hardened `VL-SAT` result, G3 controls, final scoped evidence lock, GT-positive/counterfactual verifier evaluation을 관리한다.
+RelCompat3D-Mini result, hardened `VL-SAT` result, G3 controls, final scoped evidence lock, GT-positive/counterfactual verifier evaluation을 관리한다.
 
 ### `05_audit.md` / Audit
 
@@ -118,7 +118,7 @@ Scoped main experiment implementation spec과 Docker 기반 experiment transitio
 
 ## Artifact Rules
 
-Hypothesis smoke-test artifact는 restored hypothesis root의 해당 H-folder 내부에 보존한다. 재현 가능한 실행 코드는 `src/geocalib/`, Docker/compose entry point는 `configs/`, shell wrapper는 `scripts/`가 소유한다.
+Hypothesis smoke-test artifact는 restored hypothesis root의 해당 H-folder 내부에 보존한다. 재현 가능한 실행 코드는 `src/relcompat3d/`, Docker/compose entry point는 `configs/`, shell wrapper는 `scripts/`가 소유한다.
 
 - one-scan artifact root: `artifacts/one_scan/<scan-id>/`
 - baseline layout checker artifact root: `artifacts/layout/<baseline-name>/`
@@ -151,12 +151,12 @@ Hypothesis 작업은 현재 아래 단계로 수행한다. 단계 수는 고정�
 4. Method Contract
    - geometry evidence, verifier status, subtype policy, calibration target, prediction JSONL schema를 고정한다.
    - semantic score, geometry score, calibrated probability는 서로 다른 필드로 보존한다.
-   - scan/subgraph/object-pair identity를 잃는 aggregate metric 파일만으로는 H001 prediction evaluation을 진행하지 않는다.
+   - scan/subgraph/object-pair identity를 잃는 aggregate metric 파일만으로는 RelCompat3D prediction evaluation을 진행하지 않는다.
 
 5. Dataset And Baseline Prep
    - baseline reproduction 전에 local dataset layout이 baseline code의 expected layout과 맞는지 확인한다.
    - source dataset 파일을 조용히 바꾸지 않는다.
-   - large/runtime 파일은 ignored staged root에 두고, 작은 generated annotation과 manifest만 H001 artifact로 추적한다.
+   - large/runtime 파일은 ignored staged root에 두고, 작은 generated annotation과 manifest만 RelCompat3D artifact로 추적한다.
    - validation scan payload selection 전에는 full prediction-level run을 시작하지 않는다.
 
 6. Calibration And Evaluation
@@ -214,21 +214,21 @@ Hypothesis 문서를 갱신한 에이전트는 아래를 함께 확인한다.
 
 - `experiments/` 폴더는 active hypothesis spec이 명시하고 사용자가 experiment phase 진입을 요청한 뒤 만든다.
 - `experiments/` 폴더를 만들 때는 Docker 재현성 구조를 같이 만든다.
-- `paper/`는 현재 H001 manuscript workspace로 존재한다. 새 paper/venue subtree는 실제 필요가 생길 때만 만든다.
+- `paper/`는 현재 RelCompat3D manuscript workspace로 존재한다. 새 paper/venue subtree는 실제 필요가 생길 때만 만든다.
 - `decisions/` 같은 새 top-level workflow root는 아직 만들지 않는다.
 - 하나의 candidate에 여러 hypothesis를 미리 만들지 않는다.
 - evaluation protocol과 subset strategy 전에는 full baseline reproduction plan을 확정하지 않는다.
 - hypothesis 문서는 연구 방향을 좁히는 도구이지 최종 논문 초안이 아니다.
 
-## Archived H001 Transition Note
+## Archived RelCompat3D Transition Note
 
 This note is a stable transition pointer, not the live hypothesis dashboard.
-Current task state belongs to `TODO.md`. H001 hypothesis evidence and the former
+Current task state belongs to `TODO.md`. RelCompat3D hypothesis evidence and the former
 H002 branch are preserved only in the ignored local archive paths listed at the
 top of this document.
 
 - Candidate: `CAND-001`
-- Preserved hypothesis: `H001 Geometry-grounded verification of open-vocabulary 3DSSG relations`
-- Transition: H001 hypothesis-stage evidence was promoted into the Docker
-  experiment route under `experiments/H001_geom_reliability/` and the
-  GeoCalib manuscript route under `paper/aaai/`.
+- Preserved hypothesis: `RelCompat3D Geometry-grounded verification of open-vocabulary 3DSSG relations`
+- Transition: RelCompat3D hypothesis-stage evidence was promoted into the Docker
+  experiment route under `experiments/RelCompat3D_geom_reliability/` and the
+  RelCompat3D manuscript route under `paper/aaai/`.

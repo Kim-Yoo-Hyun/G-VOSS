@@ -17,6 +17,11 @@ reproducibility checklist are complete. The immediate remaining work is source
 layout reconciliation, canonical rebuild, and submission metadata rather than
 new experiments.
 
+The selected title is **RelCompat3D: Predicate–Geometry Compatibility for
+Re-ranking 3D Scene Graph Relations**. The consolidated TeX files and stored
+PDFs still use the preceding working title, so title synchronization belongs to
+the required rebuild rather than a documentation-only edit.
+
 ## Completed Scientific Components
 
 | component | status | paper role |
@@ -53,6 +58,9 @@ but are not active main-paper evidence.
 - Inactive relative-size manuscript text retained in `paper/aaai/sec/old.tex`.
 - Reviewer feedback converted from `paper/user_feedback.tex` to
   `paper/user_feedback.md`.
+- Active Python modules use the `src/relcompat3d/` namespace and concise
+  role-based filenames; Docker, manifests, and documentation use the same
+  paths.
 - Generated figure directory reduced to current Figure 1--3 assets and their
   locked data/manifests; the active supplemental qualitative image moved to
   `paper/aaai/supplement_figures/`.
@@ -79,7 +87,7 @@ merge PDF text is identical. The user has explicitly deferred both layout
 issues until the next release pass.
 
 The latest verified bundle is
-`release/h001_aaai27_openreview_20260720_084307/`. It already chooses the teaser
+`release/relcompat3d_aaai27_openreview_20260720_084307/`. It already chooses the teaser
 layout but must be regenerated from the consolidated source before upload.
 
 ## Decisions Locked
@@ -118,15 +126,17 @@ layout but must be regenerated from the consolidated source before upload.
 1. Compress the fresh selected teaser build back to the AAAI page limit without
    changing margins, type size, or using negative spacing.
 2. Resolve the 4.43-pt overfull table row.
-3. Rebuild `main_teaser_aaai27.pdf`, supplement, and checklist from the
+3. Apply the selected title to the consolidated main, supplement, and checklist
+   sources.
+4. Rebuild `main_teaser_aaai27.pdf`, supplement, and checklist from the
    consolidated source and refresh hashes.
-4. Regenerate and verify the anonymous release bundle; confirm its `main.pdf`
+5. Regenerate and verify the anonymous release bundle; confirm its `main.pdf`
    is the selected teaser.
-5. Run final citation/reference, font, page-size, anonymity, and source-archive
+6. Run final citation/reference, font, page-size, anonymity, and source-archive
    checks.
-6. Complete OpenReview author metadata, conflicts, reciprocal-reviewer
+7. Complete OpenReview author metadata, conflicts, reciprocal-reviewer
    declaration, topics, title, abstract, and TL;DR fields.
-7. Decide the public license and post-acceptance artifact URL.
+8. Decide the public license and post-acceptance artifact URL.
 
 ### Optional scientific strengthening
 

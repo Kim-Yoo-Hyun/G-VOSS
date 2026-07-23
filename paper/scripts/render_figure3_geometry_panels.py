@@ -37,7 +37,7 @@ OUT_DIR = ROOT / "paper" / "generated" / "figures"
 QUEUE_JSONL = (
     ROOT
     / "experiments"
-    / "H001_geom_reliability"
+    / "RelCompat3D_geom_reliability"
     / "sources"
     / "open3dsg"
     / "failure_cases"
@@ -47,7 +47,7 @@ PREPROCESSED_ROOT = (
     ROOT
     / "local_dataset"
     / "Open3DSG_staged"
-    / "h001_full_validation_runtime"
+    / "relcompat3d_full_validation_runtime"
     / "output"
     / "datasets"
     / "OpenSG_3RScan"
@@ -61,27 +61,27 @@ EXPECTED_CASES = [
 ]
 
 PREDICTIONS_JSONL = (
-    ROOT / "experiments" / "H001_geom_reliability" / "sources" / "open3dsg" /
+    ROOT / "experiments" / "RelCompat3D_geom_reliability" / "sources" / "open3dsg" /
     "full_validation" / "adapter" / "predictions.jsonl"
 )
 VERIFICATION_JSONL = (
-    ROOT / "experiments" / "H001_geom_reliability" / "sources" / "open3dsg" /
+    ROOT / "experiments" / "RelCompat3D_geom_reliability" / "sources" / "open3dsg" /
     "full_validation" / "geometry" / "verification.jsonl"
 )
 GROUND_TRUTH_JSONL = (
-    ROOT / "experiments" / "H001_geom_reliability" / "sources" / "vlsat" /
+    ROOT / "experiments" / "RelCompat3D_geom_reliability" / "sources" / "vlsat" /
     "full_validation" / "adapter" / "ground_truth.jsonl"
 )
 STRUCTURED_MODEL_JSON = (
-    ROOT / "experiments" / "H001_geom_reliability" / "no_family_indicator_v1" /
+    ROOT / "experiments" / "RelCompat3D_geom_reliability" / "no_family_indicator_v1" /
     "fit" / "structured_models.json"
 )
 PRIMARY_SCAN_CI_JSON = (
-    ROOT / "experiments" / "H001_geom_reliability" /
+    ROOT / "experiments" / "RelCompat3D_geom_reliability" /
     "no_family_indicator_v1" / "evaluation" / "scan_cluster" / "summary.json"
 )
 SURFACE_AUDIT_JSON = (
-    ROOT / "experiments" / "H001_geom_reliability" /
+    ROOT / "experiments" / "RelCompat3D_geom_reliability" /
     "no_family_indicator_v1" / "evaluation" / "surface_audit" / "summary.json"
 )
 
@@ -228,9 +228,9 @@ def load_queue_cases() -> dict[str, dict[str, Any]]:
 
 
 def load_eval_module() -> Any:
-    path = ROOT / "src" / "geocalib" / "evaluate_predictions.py"
+    path = ROOT / "src" / "relcompat3d" / "evaluate_metrics.py"
     sys.path.insert(0, str(path.parent))
-    spec = importlib.util.spec_from_file_location("h001_figure3_eval", path)
+    spec = importlib.util.spec_from_file_location("relcompat3d_figure3_eval", path)
     if spec is None or spec.loader is None:
         raise RuntimeError(f"cannot_import:{path}")
     module = importlib.util.module_from_spec(spec)
@@ -241,8 +241,8 @@ def load_eval_module() -> Any:
 def attach_structured_product_ranks(cases: dict[str, dict[str, Any]]) -> dict[str, Any]:
     """Attach ranks and return the fixed, source-backed teaser context."""
     evalmod = load_eval_module()
-    sys.path.insert(0, str(ROOT / "src" / "geocalib"))
-    import run_structured_main_evaluation as main_eval
+    sys.path.insert(0, str(ROOT / "src" / "relcompat3d"))
+    import evaluate_main as main_eval
 
     model = json.loads(STRUCTURED_MODEL_JSON.read_text(encoding="utf-8"))
     scorer = main_eval.make_structured_scorer(model)
@@ -1426,7 +1426,7 @@ def write_report(manifest: dict[str, Any]) -> None:
     command = (
         'docker run --rm --entrypoint bash --user "$(id -u):$(id -g)" '
         '-v "$PWD":/workspace -w /workspace '
-        "h001-geom-reliability:latest -lc 'python paper/scripts/render_figure3_geometry_panels.py'"
+        "relcompat3d-geom-reliability:latest -lc 'python paper/scripts/render_figure3_geometry_panels.py'"
     )
     lines = [
         "# Geometry-Backed Figure Generation",
@@ -1494,7 +1494,7 @@ def main() -> None:
 
     rendered_case_ids = [record["case_id"] for record in records]
     manifest = {
-        "schema_version": "h001_geometry_figures_v6",
+        "schema_version": "relcompat3d_geometry_figures_v6",
         "created_at": now_iso(),
         "status": "figure3_geometry_panels_generated_verified",
         "source_queue_jsonl": str(QUEUE_JSONL.relative_to(ROOT)),

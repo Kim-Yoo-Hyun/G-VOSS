@@ -85,8 +85,8 @@ row-level predictions, verifier outputs, meshes, and raw point/mesh audit rows
 are intentionally excluded from Git.
 
 The active integrity hashes are stored in
-experiments/H001_geom_reliability/active_method.json. The compact result map is
-results/h001_geom_reliability/manifest.json.
+experiments/RelCompat3D_geom_reliability/active_method.json. The compact result map is
+results/relcompat3d_geom_reliability/manifest.json.
 
 ## Manuscript State
 
@@ -96,7 +96,7 @@ and retains one 4.43 pt overfull box. Page compression and the final anonymous
 release regeneration remain pending.
 
 The last verified release baseline is
-release/h001_aaai27_openreview_20260720_084307/. It passed archive integrity,
+release/relcompat3d_aaai27_openreview_20260720_084307/. It passed archive integrity,
 inner checksums, anonymous path checks, JSON/compose validation, and extracted
 source builds before the later manuscript consolidation.
 

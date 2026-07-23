@@ -11,7 +11,7 @@ archive/local/pre_submission_20260722/
 
 It preserves:
 
-- the full pre-cleanup H001 experiment workspace;
+- the full pre-cleanup RelCompat3D experiment workspace;
 - H002 experiments and hypothesis material;
 - literature notes and downloaded papers;
 - superseded source scripts and optional Docker configs;
@@ -20,6 +20,8 @@ It preserves:
 
 The snapshot is approximately 23GB and is intended only for local recovery. It
 must not be added to the anonymous submission repository or upload bundle.
+Its internal names and checksums remain frozen even when the active public tree
+adopts a newer canonical namespace.
 
 ## Recovery Rule
 

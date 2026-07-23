@@ -1,17 +1,17 @@
-# H001 Reproducibility and Recovery
+# RelCompat3D Reproducibility and Recovery
 
 Last updated: 2026-07-22 KST.
 
-This document is the authoritative entry point for H001 reruns, artifact
+This document is the authoritative entry point for RelCompat3D reruns, artifact
 handoff, cleanup, and recovery. Read it before moving, deleting, uploading, or
-restoring any H001 artifact.
+restoring any RelCompat3D artifact.
 
 ## 1. Current Submission Snapshot
 
 The public repository is a compact evidence-and-code package. It contains:
 
 - the manuscript, supplement, checklist, bibliography, and figure sources;
-- the focused H001 Dockerfile and Compose configuration;
+- the focused RelCompat3D Dockerfile and Compose configuration;
 - the Python allowlist shipped in the last verified code-and-data supplement,
   plus the point/mesh audit entry point and its active calibration dependency;
 - active protocols, model locks, compact metrics, intervals, controls, and
@@ -32,6 +32,11 @@ A GitHub-only checkout can inspect and validate the compact evidence. It cannot
 rerun source inference, fitting, or raw geometry audits without the external
 inputs described below.
 
+The active public namespace is `RelCompat3D` for names and
+`relcompat3d` for lowercase machine identifiers. Ignored recovery snapshots
+retain their frozen legacy layouts; restore data into the canonical public
+paths below instead of rewriting a preserved snapshot in place.
+
 ## 2. Canonical Public Paths
 
 | Role | Path |
@@ -40,16 +45,16 @@ inputs described below.
 | selected manuscript source | paper/aaai/main_teaser.tex |
 | supplement source | paper/aaai/supplement.tex |
 | checklist source | paper/aaai/reproducibility_checklist_main.tex |
-| active method pointer | experiments/H001_geom_reliability/active_method.json |
-| active protocol/model root | experiments/H001_geom_reliability/no_family_indicator_v1/ |
-| factor-isolation lock | experiments/H001_geom_reliability/factor_isolation_protocol/ |
-| split firewall | experiments/H001_geom_reliability/train_only_reestablishment_v1/ |
-| result index | results/h001_geom_reliability/manifest.json |
-| result summary | results/h001_geom_reliability/report.md |
-| Dockerfile | configs/h001/Dockerfile |
-| Compose file | configs/h001/compose.structured.yaml |
+| active method pointer | experiments/RelCompat3D_geom_reliability/active_method.json |
+| active protocol/model root | experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/ |
+| factor-isolation lock | experiments/RelCompat3D_geom_reliability/factor_isolation_protocol/ |
+| split firewall | experiments/RelCompat3D_geom_reliability/train_only_reestablishment_v1/ |
+| result index | results/relcompat3d_geom_reliability/manifest.json |
+| result summary | results/relcompat3d_geom_reliability/report.md |
+| Dockerfile | configs/relcompat3d/Dockerfile |
+| Compose file | configs/relcompat3d/compose.structured.yaml |
 | wrapper | scripts/run_no_family_indicator_v1.sh |
-| full command map | experiments/H001_geom_reliability/commands.md |
+| full command map | experiments/RelCompat3D_geom_reliability/commands.md |
 
 The selected stored PDF is nine US-Letter pages. A fresh build from the current
 consolidated manuscript source is ten pages and reports one 4.43 pt overfull
@@ -59,24 +64,24 @@ box. Do not regenerate a final upload bundle until that layout debt is fixed.
 
 The promoted root is:
 
-experiments/H001_geom_reliability/no_family_indicator_v1/
+experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/
 
-experiments/H001_geom_reliability/active_method.json records these hashes:
+experiments/RelCompat3D_geom_reliability/active_method.json records these hashes:
 
 | Lock | SHA256 |
 | --- | --- |
-| protocol | f75918d4257468c794f4d9f55dc0ba18b8177f5b01f1811fecf12f0b3d426cd6 |
-| structured Linear model | 08cd309bbacead29dd9f76cd3845e3625de72423e45c242e33114ca686e2c01c |
-| strict model | 5b6423d0825395990b00663fc0004799268d87c9480493895d01d1c3ef9c3218 |
-| source-score contract | 8da781cb793717c6ef6b69de2a737ee8a5dc96b7b52d9d08e73d831177bbbd89 |
+| protocol | 011b460c0a5706559d3a5bd6da5f94719417f81bb4d68a9a5b9447fcbd0c41c6 |
+| structured Linear model | f53a8bdcf1d8dc37d3935fccfbaf9d3c435ddd057848b0ee5e343ddca3ea0194 |
+| strict model | 0dcdfd137214ca35074f9215227694c0a72fd4f450905ab39b8b18d66fd5c2f2 |
+| source-score contract | a92e3fb99c897bc2ad791b6004c47560da5b603f21f6056c50f156f10373f9f0 |
 | MLP model | ccf4107c06d95161df8ecb1948b37f781025407d7b3596ddd6886394a2976c3e |
-| MLP control summary | 83e85bbb9c940644ece4d0322db6ea2f7c98dccfbd11a62ff1efbf47295484ce |
-| MLP point/mesh summary | c77c94024fe9de09afbe9ad418f97945a114087cb0199a00079b77df83c3bd55 |
+| MLP control summary | 6eb64771c9483102b47b167ff0bde6e81425daa6fbaca885a1eb9d02f870951d |
+| MLP point/mesh summary | 3fc9e42b7554b4df4be620ad8d89ca22d99e652d835f141755cd662b1c90fa01 |
 
 Verify them with:
 
 ~~~bash
-root=experiments/H001_geom_reliability/no_family_indicator_v1
+root=experiments/RelCompat3D_geom_reliability/no_family_indicator_v1
 sha256sum \
   "$root/protocol.json" \
   "$root/fit/structured_models.json" \
@@ -105,7 +110,7 @@ sha256sum \
 | CPU timing | no_family_indicator_v1/evaluation/runtime/ |
 | transfer stress test | no_family_indicator_v1/evaluation/external_transfer/ |
 
-All paths above are relative to experiments/H001_geom_reliability/.
+All paths above are relative to experiments/RelCompat3D_geom_reliability/.
 
 ## 5. Reproduction Tiers
 
@@ -150,7 +155,7 @@ Important external roots include:
 - ReplicaSSG/FROSS rows for the transfer stress test.
 
 The primary active protocols also reference row-level files formerly under
-experiments/H001_geom_reliability/sources/. Those rows are preserved only in
+experiments/RelCompat3D_geom_reliability/sources/. Those rows are preserved only in
 the ignored local snapshot and verified external release history. They must be
 restored to the declared paths or the protocol paths must be remapped in a new,
 explicitly frozen reproduction contract.
@@ -162,21 +167,21 @@ Never commit datasets, source checkpoints, feature caches, or row-level JSONL.
 Validate the public Compose file:
 
 ~~~bash
-docker compose -f configs/h001/compose.structured.yaml config --quiet
-docker compose -f configs/h001/compose.structured.yaml config --services
+docker compose -f configs/relcompat3d/compose.structured.yaml config --quiet
+docker compose -f configs/relcompat3d/compose.structured.yaml config --services
 ~~~
 
 Build and fit:
 
 ~~~bash
 env UID=$(id -u) GID=$(id -g) docker compose \
-  -f configs/h001/compose.structured.yaml build no_family_indicator_fit
+  -f configs/relcompat3d/compose.structured.yaml build no_family_indicator_fit
 
 env UID=$(id -u) GID=$(id -g) docker compose \
-  -f configs/h001/compose.structured.yaml run --rm no_family_indicator_fit
+  -f configs/relcompat3d/compose.structured.yaml run --rm no_family_indicator_fit
 
 env UID=$(id -u) GID=$(id -g) docker compose \
-  -f configs/h001/compose.structured.yaml run --rm no_family_indicator_freeze_initial
+  -f configs/relcompat3d/compose.structured.yaml run --rm no_family_indicator_freeze_initial
 ~~~
 
 Run the coordinated phases:
@@ -186,28 +191,28 @@ scripts/run_no_family_indicator_v1.sh initial
 scripts/run_no_family_indicator_v1.sh downstream
 ~~~
 
-Additional services are documented in configs/h001/README.md and
-experiments/H001_geom_reliability/commands.md.
+Additional services are documented in configs/relcompat3d/README.md and
+experiments/RelCompat3D_geom_reliability/commands.md.
 
 The wrapper skips complete outputs and refuses to overwrite a nonempty,
 incomplete output directory.
 
 ## 8. Paper Build
 
-The protected manuscript image is h001-aaai27-tex:20260712.
+The protected manuscript image is relcompat3d-aaai27-tex:20260712.
 
 ~~~bash
 docker build -f paper/aaai/Dockerfile.tex \
-  -t h001-aaai27-tex:20260712 paper/aaai
+  -t relcompat3d-aaai27-tex:20260712 paper/aaai
 
 docker run --rm -u "$(id -u):$(id -g)" \
   -v "$PWD:/workspace" -w /workspace/paper/aaai \
-  h001-aaai27-tex:20260712 \
+  relcompat3d-aaai27-tex:20260712 \
   latexmk -pdf -interaction=nonstopmode -halt-on-error main_teaser.tex
 
 docker run --rm -u "$(id -u):$(id -g)" \
   -v "$PWD:/workspace" -w /workspace/paper/aaai \
-  h001-aaai27-tex:20260712 \
+  relcompat3d-aaai27-tex:20260712 \
   latexmk -pdf -interaction=nonstopmode -halt-on-error supplement.tex
 ~~~
 
@@ -218,7 +223,7 @@ anonymous metadata, and overfull warnings.
 
 The ignored local bundle is:
 
-release/h001_aaai27_openreview_20260720_084307/
+release/relcompat3d_aaai27_openreview_20260720_084307/
 
 Its code_and_data_supplement.zip supplied the active src/config/script/experiment
 allowlist used for this cleanup. Before later manuscript consolidation it
@@ -243,7 +248,7 @@ archive/local/pre_submission_20260722/
 
 The directory is ignored by Git. It contains approximately 23GB, including:
 
-- previous_archive/: the earlier H001 archive, historical results/scripts,
+- previous_archive/: the earlier RelCompat3D archive, historical results/scripts,
   hypothesis records, cached files, and superseded venue material;
 - repository_roots/: moved literature, hypothesis, and H002 experiment trees;
 - src/: source files excluded from the verified submission allowlist;
@@ -251,10 +256,10 @@ The directory is ignored by Git. It contains approximately 23GB, including:
 
 Only archive/README.md belongs to the public repository.
 
-The former active H001 pre-cleanup snapshot is nested under:
+The former active RelCompat3D pre-cleanup snapshot is nested under:
 
 archive/local/pre_submission_20260722/previous_archive/experiments/
-H001_geom_reliability/pre_submission_20260722/
+RelCompat3D_geom_reliability/pre_submission_20260722/
 
 ## 11. Cleanup and Restore Safety
 

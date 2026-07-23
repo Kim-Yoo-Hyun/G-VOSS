@@ -1,12 +1,12 @@
-# H001 Appendix And Supplement Plan
+# RelCompat3D Appendix And Supplement Plan
 
 Last updated: 2026-07-18 KST
 
 This file owns appendix/supplement material that is too detailed for the AAAI
 main text but important for reviewer defense. It is not a new experiment-result
 root. Source metrics and row artifacts remain under
-`experiments/H001_geom_reliability/` and hypothesis-stage calibration artifacts
-remain under `archive/hypothesis_records/hypothesis/CAND-001/H001_geometry-grounded-verification/`.
+`experiments/RelCompat3D_geom_reliability/` and hypothesis-stage calibration artifacts
+remain under `archive/hypothesis_records/hypothesis/CAND-001/RelCompat3D_geometry-grounded-verification/`.
 
 ## Current Appendix Role
 
@@ -20,7 +20,7 @@ reporting, counterfactual-policy sensitivity, and external transfer remain
 supplemental. The nine-condition train-only
 sensitivity varies proximity threshold, vertical margin, negative cap, and
 pairwise-loss weight one factor at a time; its compact owner is
-`experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/counterfactual_sensitivity/`.
+`experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/counterfactual_sensitivity/`.
 
 ## ReplicaSSG/FROSS Negative-Transfer Appendix
 
@@ -49,9 +49,9 @@ Use this appendix only for:
   unless explicitly promoted.
 - low-K K = `{5,10,20,50,100}` provenance/details for the main table; K=1
   remains sanity-check only. Current point-metric roots are
-  `experiments/H001_geom_reliability/sources/vlsat/full_validation/metrics_k_sweep/`
+  `experiments/RelCompat3D_geom_reliability/sources/vlsat/full_validation/metrics_k_sweep/`
   and
-  `experiments/H001_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/`.
+  `experiments/RelCompat3D_geom_reliability/sources/open3dsg/full_validation/recovery_relaxed_views_min2/metrics_k_sweep/`.
 
 Do not use it to hide caveats that must remain visible in the main text.
 
@@ -59,19 +59,19 @@ Do not use it to hide caveats that must remain visible in the main text.
 
 | Component | Frozen source | Key values / scope | Held-out use | Reviewer defense |
 | --- | --- | --- | --- | --- |
-| Predicate-family map | `experiments/H001_geom_reliability/sources/open3dsg/metric_scope/predicate_mapping.json`; H001 tools `select_scope.py`, `export_calibration.py`, `prepare_open3dsg_adapter.py` | `support_contact`: `standing on`, `lying on`, `supported by`; `proximity`: `close by`; `relative_vertical`: `higher than`, `lower than` | Defines the H001 geometry-checkable denominator before source-result reporting; exact predicate-label recall is still used | Prevents post-hoc family selection and avoids relaxing recall labels into family matches |
-| H001 denominator policy | `results/h001_geom_reliability/full_validation_transition/scope_contract/{scope_contract.json,report.md}` | 11,254 GT rows; 3,972 in-scope measured-family GT rows; support/contact 1,816, proximity 1,766, relative vertical 390 | Used for VL-SAT full-validation and Open3DSG full-validation source-result metrics | Makes excluded families and denominator accounting explicit |
-| Initial OBB rule thresholds | `artifacts/one_scan/f62fd5fd-9a3f-2f44-883a-1e5cf819608e/thresholds.json` | `h001-rules-v0`; `near_distance_norm_max=1.5`; `z_order_margin_m=0.02`; `z_gap_abs_max_m=0.1`; `geometry_score_pass_min=0.6` | Historical smoke-test rule source, not final held-out tuning | Shows rule development started before held-out source metrics; final claim uses later point/subtype policy |
-| Proximity hard status policy | `src/geocalib/join_predictions.py` | Satisfied if projected overlap exists or `normalized_distance_xy <= 2.5`; violated if `normalized_distance_xy >= 3.5`; otherwise uncertain | Applied during row-preserving geometry join for prediction rows | Defends the distance-family rule as fixed and identity-preserving, not tuned per source result |
-| Relative-vertical hard status policy | `src/geocalib/join_predictions.py` | Predicate-aligned vertical relation satisfied when aligned delta is at least `0.25m` and normalized aligned delta at least `0.15`; violated when both are at most `-0.25m` and `-0.15` | Applied during geometry join for `higher than` / `lower than` rows | Makes the vertical-order rule auditable and separate from semantic score |
-| Support/contact OBB fallback | `src/geocalib/join_predictions.py` | Satisfied by projected overlap plus vertical gap `<=0.30m`; violated by no overlap, normalized XY distance `>=2.0`, and vertical gap `>=0.30m`; otherwise uncertain | Used as fallback/variant; primary support/contact policy uses point/subtype evidence when available | Prevents support/contact from becoming an unqualified OBB-only heuristic |
-| Point support thresholds | `src/geocalib/export_point_support.py` | `ply_points_v1`; local vertical gap max `0.10m`; relaxed gap `0.15m`; min support points `10`; primary XY expansion `0.10m`; expansion steps `0.00/0.05/0.10/0.20m` | Supplies point/local evidence for support/contact verification and audit | Shows support/contact decisions use local point evidence, not only box overlap |
-| Support/contact subtype thresholds | `src/geocalib/apply_verifier_v2.py` | `h001-verifier-v2`; satisfied score `0.70`; uncertain score `0.40`; low-gap pass/fail `0.08/0.18m`; robust-gap pass `0.10m`; soft penetration pass/max `0.15/0.45m`; plane gap pass/fail `0.08/0.22m` | Used for subtype-aware support/contact status variants and final `point_subtype` policy | Defends family-specific rules as declared operating points with uncertain handling |
-| Calibration export | `artifacts/calibration/train_dev_calib/{manifest.json,table.jsonl,negatives.jsonl}` | 32 scans, 225 subgraphs, 2,565 positives, 3,244 counterfactual negatives; negative strategies include proximity far pair, support replacement, and vertical inversion | Fit source for `p_geom_valid`; does not use H001 held-out prediction failures | Separates calibrator fitting from held-out source-result reporting |
+| Predicate-family map | `experiments/RelCompat3D_geom_reliability/sources/open3dsg/metric_scope/predicate_mapping.json`; RelCompat3D tools `select_scope.py`, `build_training_rows.py`, `prepare_open3dsg_adapter.py` | `support_contact`: `standing on`, `lying on`, `supported by`; `proximity`: `close by`; `relative_vertical`: `higher than`, `lower than` | Defines the RelCompat3D geometry-checkable denominator before source-result reporting; exact predicate-label recall is still used | Prevents post-hoc family selection and avoids relaxing recall labels into family matches |
+| RelCompat3D denominator policy | `results/relcompat3d_geom_reliability/full_validation_transition/scope_contract/{scope_contract.json,report.md}` | 11,254 GT rows; 3,972 in-scope measured-family GT rows; support/contact 1,816, proximity 1,766, relative vertical 390 | Used for VL-SAT full-validation and Open3DSG full-validation source-result metrics | Makes excluded families and denominator accounting explicit |
+| Initial OBB rule thresholds | `artifacts/one_scan/f62fd5fd-9a3f-2f44-883a-1e5cf819608e/thresholds.json` | `relcompat3d-rules-v0`; `near_distance_norm_max=1.5`; `z_order_margin_m=0.02`; `z_gap_abs_max_m=0.1`; `geometry_score_pass_min=0.6` | Historical smoke-test rule source, not final held-out tuning | Shows rule development started before held-out source metrics; final claim uses later point/subtype policy |
+| Proximity hard status policy | `src/relcompat3d/join_predictions.py` | Satisfied if projected overlap exists or `normalized_distance_xy <= 2.5`; violated if `normalized_distance_xy >= 3.5`; otherwise uncertain | Applied during row-preserving geometry join for prediction rows | Defends the distance-family rule as fixed and identity-preserving, not tuned per source result |
+| Relative-vertical hard status policy | `src/relcompat3d/join_predictions.py` | Predicate-aligned vertical relation satisfied when aligned delta is at least `0.25m` and normalized aligned delta at least `0.15`; violated when both are at most `-0.25m` and `-0.15` | Applied during geometry join for `higher than` / `lower than` rows | Makes the vertical-order rule auditable and separate from semantic score |
+| Support/contact OBB fallback | `src/relcompat3d/join_predictions.py` | Satisfied by projected overlap plus vertical gap `<=0.30m`; violated by no overlap, normalized XY distance `>=2.0`, and vertical gap `>=0.30m`; otherwise uncertain | Used as fallback/variant; primary support/contact policy uses point/subtype evidence when available | Prevents support/contact from becoming an unqualified OBB-only heuristic |
+| Point support thresholds | `src/relcompat3d/export_point_support.py` | `ply_points_v1`; local vertical gap max `0.10m`; relaxed gap `0.15m`; min support points `10`; primary XY expansion `0.10m`; expansion steps `0.00/0.05/0.10/0.20m` | Supplies point/local evidence for support/contact verification and audit | Shows support/contact decisions use local point evidence, not only box overlap |
+| Support/contact subtype thresholds | `src/relcompat3d/apply_verifier_v2.py` | `relcompat3d-verifier-v2`; satisfied score `0.70`; uncertain score `0.40`; low-gap pass/fail `0.08/0.18m`; robust-gap pass `0.10m`; soft penetration pass/max `0.15/0.45m`; plane gap pass/fail `0.08/0.22m` | Used for subtype-aware support/contact status variants and final `point_subtype` policy | Defends family-specific rules as declared operating points with uncertain handling |
+| Calibration export | `artifacts/calibration/train_dev_calib/{manifest.json,table.jsonl,negatives.jsonl}` | 32 scans, 225 subgraphs, 2,565 positives, 3,244 counterfactual negatives; negative strategies include proximity far pair, support replacement, and vertical inversion | Fit source for `p_geom_valid`; does not use RelCompat3D held-out prediction failures | Separates calibrator fitting from held-out source-result reporting |
 | Pooled calibrator | `artifacts/calibration/p_geom_valid_smoke/model.json`; `metrics.json` | Logistic model over geometry numeric features plus family/predicate indicators; train rows 4,616; dev rows 1,193; dev Brier 0.0495, AUROC 0.9822, AUPRC 0.9735 | Produces `probabilistic_recalibrated` score `semantic_score * p_geom_valid` | Establishes `p_geom_valid` as a learned reliability score, not a binary rule label |
 | Family-specific calibrator | `artifacts/calibration/p_geom_valid_family/model.json`; `metrics.json` | Separate logistic model per family; dev AUROC support/contact 0.9831, proximity 1.0000, relative vertical 0.9982 | Produces the `family_conditional_risk` operating point | Tests whether geometry risk should be pooled or calibrated by relation family |
-| GT verifier evaluation | `experiments/H001_geom_reliability/sources/vlsat/full_validation/gt_eval/{metrics.json,report.md}` | 3,972 GT positives and 3,972 GT-derived negatives; positive nonviolated 0.9965; negative nonsatisfied 0.9673; AUROC/AUPRC 0.9772/0.9729; Brier 0.0543 | Held-out verifier check; not used to fit thresholds or calibrators | Defends the geometry signal against the "hand-coded verifier" objection |
-| Open3DSG caveat wording | `experiments/H001_geom_reliability/open3dsg_official_route_v1/evaluation/`; recovery details in `sources/open3dsg/full_validation/recovery_relaxed_views_min2/` | Main route: public predictions from 533 contexts evaluated on the official 548-context/3,972-GT target, with no predictions in 15 missing contexts. Eligible-533 and recovered-548 are sensitivities. | Required wording for setup and supplement | Prevents broad Open3DSG/SOTA overclaiming and avoids presenting recovery as the unmodified route |
+| GT verifier evaluation | `experiments/RelCompat3D_geom_reliability/sources/vlsat/full_validation/gt_eval/{metrics.json,report.md}` | 3,972 GT positives and 3,972 GT-derived negatives; positive nonviolated 0.9965; negative nonsatisfied 0.9673; AUROC/AUPRC 0.9772/0.9729; Brier 0.0543 | Held-out verifier check; not used to fit thresholds or calibrators | Defends the geometry signal against the "hand-coded verifier" objection |
+| Open3DSG caveat wording | `experiments/RelCompat3D_geom_reliability/open3dsg_official_route_v1/evaluation/`; recovery details in `sources/open3dsg/full_validation/recovery_relaxed_views_min2/` | Main route: public predictions from 533 contexts evaluated on the official 548-context/3,972-GT target, with no predictions in 15 missing contexts. Eligible-533 and recovered-548 are sensitivities. | Required wording for setup and supplement | Prevents broad Open3DSG/SOTA overclaiming and avoids presenting recovery as the unmodified route |
 
 ## Full Official Validation Transition
 
@@ -89,7 +89,7 @@ prediction rows, 11,254 GT rows, and 3,972 in-scope measured-family GT rows.
 Scope contract:
 
 ```text
-results/h001_geom_reliability/full_validation_transition/scope_contract/
+results/relcompat3d_geom_reliability/full_validation_transition/scope_contract/
 ```
 
 This artifact freezes the denominator, selected scans, context list, local
@@ -101,7 +101,7 @@ Reviewer-defense wording:
 ```text
 Final family mapping, verifier policies, counterfactual construction, and
 p_geom_valid calibration are fixed from train/train-dev artifacts before
-validation source-result reporting. H001-Mini is hypothesis/feasibility
+validation source-result reporting. RelCompat3D-Mini is hypothesis/feasibility
 evidence and is not used as a paper metric or calibrator-fitting split.
 ```
 
@@ -146,7 +146,7 @@ history only and should not be used for main result claims.
 | AAAI Table 3 / Main Source Results Table | Open3DSG-first source role, full-validation 548/548 recovery branch, exact-label denominator 3,972, recovery-policy caveat, residual calibration risk; no historical 127-scan rows in main table | updated in `paper/aaai/sec/4_experiments.tex` |
 | AAAI Results prose | within-source reliability, no Open3DSG leaderboard/SOTA claim, same checkpoint/row contract/full-validation denominator, recovery-policy disclosure | updated in `paper/aaai/sec/4_experiments.tex` |
 | AAAI Limitations | selected non-avg checkpoint, filtered train/dev provenance, recovery-policy branch, scoped relation-reliability interpretation, no broad SOTA claim | updated in `paper/aaai/sec/5_discussion_limitations.tex` |
-| Experiment artifact Table 6 | Open3DSG row must carry selected non-avg checkpoint, filtered train/dev, full-validation exact-label denominator, 548/548 recovery policy, residual calibration-risk note, 533/548 full-validation sensitivity, and appendix-only historical 377/388 vs R2 388/388 sensitivity | updated in `results/h001_geom_reliability/tables/table6_cross_source_status.*` |
+| Experiment artifact Table 6 | Open3DSG row must carry selected non-avg checkpoint, filtered train/dev, full-validation exact-label denominator, 548/548 recovery policy, residual calibration-risk note, 533/548 full-validation sensitivity, and appendix-only historical 377/388 vs R2 388/388 sensitivity | updated in `results/relcompat3d_geom_reliability/tables/table6_cross_source_status.*` |
 | Paper risk register | P2 provenance and Open3DSG caveat visibility risk | updated in `paper/risk.md` |
 | R1 exact non-avg BLIP retry | Supplies the selected full-validation checkpoint provenance; historical 127-scan avg-BLIP remains sensitivity evidence | completed and selected official non-avg checkpoint; downstream non-avg and full-validation recovery artifacts are recorded under `sources/open3dsg/non_avg/` and `sources/open3dsg/full_validation/recovery_relaxed_views_min2/` |
 
@@ -189,7 +189,7 @@ strict policy.
 
 ## Attachment Deferred Upgrade Boundary
 
-`attachment_deferred` is the preferred future relation-family upgrade if H001
+`attachment_deferred` is the preferred future relation-family upgrade if RelCompat3D
 is extended beyond the current AAAI scope. It is not current main-claim
 evidence.
 Docker G0 scope/schema audit, G1 extractor contract, G1b evidence-only dry run,
@@ -217,7 +217,7 @@ counterfactual strict violated 0.4574, and uncertain rate 0.4323. G4b freezes
 false-violated positives, and 329 uncertain rows. G4c freezes 325 strict
 calibration rows and excludes 436 non-strict rows; `connected to` has no dev
 strict rows. G5a fits pooled model
-`h001-attachment-deferred-p-geom-valid-strict-v1` with dev Brier/NLL/ECE
+`relcompat3d-attachment-deferred-p-geom-valid-strict-v1` with dev Brier/NLL/ECE
 0.0010/0.0077/0.0071 and dev AUROC/AUPRC 1.0/1.0 on 83 strict rows. These
 metrics are calibration-readiness only because the strict subset is
 policy-selected and nearly separable. G5b scores 120 scan-diverse bounded
@@ -256,7 +256,7 @@ the active manuscript.
 submitted main paper, technical supplement, and release ZIP. Its fixed
 robust-point rule matches or improves the learned score's Violation, so the
 extension does not strengthen the core learned-method claim. The full analysis
-remains under `experiments/H001_geom_reliability/relative_size_v1/` and
+remains under `experiments/RelCompat3D_geom_reliability/relative_size_v1/` and
 `paper/aaai/sec/old.tex` for later use.
 
 ## Qwen-VL Boundary
@@ -280,11 +280,11 @@ unless the user explicitly promotes it into the main claim.
   and residual calibration-risk wording. Historical `open3dsg_paper_caveats`
   remains local to the 127-scan averaged-BLIP branch.
 - Docker `table_builder` image rebuild:
-  `logs/h001_geom_image_rebuild_table6_caveat_20260527_202425.log`, exit 0.
+  `logs/relcompat3d_geom_image_rebuild_table6_caveat_20260527_202425.log`, exit 0.
 - Docker `table_builder` rerun:
-  `logs/h001_table_builder_caveat_consistency_20260527_202425.log`, exit 0.
+  `logs/relcompat3d_table_builder_caveat_consistency_20260527_202425.log`, exit 0.
 - AAAI PDF rebuild:
-  `logs/h001_aaai_pdf_build_family_main_20260625_084157.log`, exit 0.
+  `logs/relcompat3d_aaai_pdf_build_family_main_20260625_084157.log`, exit 0.
 - Historical PDF status: the transient family-main `main.pdf` had 10 pages,
   US Letter, technical content pages 1-7, references pages 8-9, checklist page
   10; Type 1 fonts only; no

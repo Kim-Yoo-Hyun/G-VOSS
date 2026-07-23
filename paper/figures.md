@@ -263,7 +263,7 @@ Table 1이 정확한 수치를 제공한다면, Figure 3는 그 수치를 다시
 
 Authoritative numeric source:
 
-- `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/routed_comparators/metrics.csv`
+- `experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/routed_comparators/metrics.csv`
 - `paper/generated/figures/figure2_data.json`
 
 수동 redraw나 외부 Google Slides asset은 위 좌표와 대조해야 한다. 과거

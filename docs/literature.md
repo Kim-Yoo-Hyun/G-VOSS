@@ -6,7 +6,7 @@ Last updated: 2026-07-22 KST
 > `literature/` payload is locally archived at
 > `archive/local/pre_submission_20260722/repository_roots/literature/` and is
 > excluded from Git. The paths below describe the layout to restore if the
-> literature workflow is reactivated; they are not present in the compact H001
+> literature workflow is reactivated; they are not present in the compact RelCompat3D
 > submission checkout.
 
 이 문서는 3D Scene Graph 문헌 조사를 수행하는 에이전트의 workflow와 규칙을 정의한다. 실제 조사 결과는 이 파일에 저장하지 않는다.

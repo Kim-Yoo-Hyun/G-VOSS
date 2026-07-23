@@ -228,16 +228,16 @@ flexibility다.
 
 MLP 구현과 검증 결과의 기준 파일은 다음과 같다.
 
-- model: `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/nonlinear/models.json`
+- model: `experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/nonlinear/models.json`
   (SHA256 `ccf4107c06d95161df8ecb1948b37f781025407d7b3596ddd6886394a2976c3e`).
 - matched structural controls:
-  `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/mlp_ablation/`
+  `experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/mlp_ablation/`
   (summary SHA256
-  `83e85bbb9c940644ece4d0322db6ea2f7c98dccfbd11a62ff1efbf47295484ce`).
+  `6eb64771c9483102b47b167ff0bde6e81425daa6fbaca885a1eb9d02f870951d`).
 - point/mesh agreement audit:
-  `experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/mlp_surface_audit/`
+  `experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/mlp_surface_audit/`
   (summary SHA256
-  `c77c94024fe9de09afbe9ad418f97945a114087cb0199a00079b77df83c3bd55`).
+  `3fc9e42b7554b4df4be620ad8d89ca22d99e652d835f141755cd662b1c90fa01`).
 
 이 경로들은 MLP가 기존 baseline의 명칭만 바꾼 것이 아니라, Linear와 같은 method
 definition 아래에서 별도로 검증된 nonlinear compatibility instantiation임을
@@ -369,11 +369,11 @@ Positive와 그 positive에서 만든 negative를 직접 연결한다. 원하는
 구현 수치는 main Figure에는 넣지 않는다.
 
 Frozen training-only Linear model files는
-`experiments/H001_geom_reliability/no_family_indicator_v1/fit/`에 있다.
+`experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/fit/`에 있다.
 Structured model SHA256은
-`08cd309bbacead29dd9f76cd3845e3625de72423e45c242e33114ca686e2c01c`,
+`f53a8bdcf1d8dc37d3935fccfbaf9d3c435ddd057848b0ee5e343ddca3ea0194`,
 strict model SHA256은
-`5b6423d0825395990b00663fc0004799268d87c9480493895d01d1c3ef9c3218`이다.
+`0dcdfd137214ca35074f9215227694c0a72fd4f450905ab39b8b18d66fd5c2f2`이다.
 MLP model artifact SHA256은
 `ccf4107c06d95161df8ecb1948b37f781025407d7b3596ddd6886394a2976c3e`다.
 

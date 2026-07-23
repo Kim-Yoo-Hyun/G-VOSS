@@ -170,13 +170,13 @@ overlap but is not independent physical-validity ground truth.
 From the repository root:
 
 ```bash
-docker build -f paper/aaai/Dockerfile.tex -t h001-aaai27-tex:20260712 paper/aaai
+docker build -f paper/aaai/Dockerfile.tex -t relcompat3d-aaai27-tex:20260712 paper/aaai
 docker run --rm --entrypoint bash --user "$(id -u):$(id -g)" \
-  -v "$PWD":/workspace -w /workspace h001-geom-reliability:latest -lc \
+  -v "$PWD":/workspace -w /workspace relcompat3d-geom-reliability:latest -lc \
   'python paper/scripts/render_user_reference_figures.py &&
    python paper/scripts/generate_draft_figures.py'
 docker run --rm --entrypoint bash --user "$(id -u):$(id -g)" \
-  -v "$PWD":/workspace -w /workspace h001-aaai27-tex:20260712 -lc \
+  -v "$PWD":/workspace -w /workspace relcompat3d-aaai27-tex:20260712 -lc \
   'for stem in figure2_tradeoff; do
      rsvg-convert --width 2400 --keep-aspect-ratio \
        --output paper/generated/figures/${stem}.png \
@@ -184,7 +184,7 @@ docker run --rm --entrypoint bash --user "$(id -u):$(id -g)" \
    done'
 # Convert the two native-vector user-composition redraws to outlined PDF 1.5.
 docker run --rm --user "$(id -u):$(id -g)" \
-  -v "$PWD":/workspace -w /workspace h001-aaai27-tex:20260712 sh -lc \
+  -v "$PWD":/workspace -w /workspace relcompat3d-aaai27-tex:20260712 sh -lc \
   'for stem in teaser_demotion_reference framework_user_reference; do
      rsvg-convert --format pdf \
        --output paper/generated/figures/${stem}.raw.pdf \
@@ -198,16 +198,16 @@ for stem in teaser_demotion_reference framework_user_reference; do
   rm paper/generated/figures/${stem}.raw.pdf
 done
 docker run --rm -v "$PWD/paper:/work" -w /work/aaai \
-  h001-aaai27-tex:20260712 \
+  relcompat3d-aaai27-tex:20260712 \
   latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 docker run --rm -v "$PWD/paper:/work" -w /work/aaai \
-  h001-aaai27-tex:20260712 \
+  relcompat3d-aaai27-tex:20260712 \
   latexmk -pdf -interaction=nonstopmode -halt-on-error main_teaser.tex
 docker run --rm -v "$PWD/paper:/work" -w /work/aaai \
-  h001-aaai27-tex:20260712 \
+  relcompat3d-aaai27-tex:20260712 \
   latexmk -pdf -interaction=nonstopmode -halt-on-error supplement.tex
 docker run --rm -v "$PWD/paper:/work" -w /work/aaai \
-  h001-aaai27-tex:20260712 \
+  relcompat3d-aaai27-tex:20260712 \
   latexmk -pdf -interaction=nonstopmode -halt-on-error \
   reproducibility_checklist_main.tex
 ```
@@ -226,7 +226,7 @@ ReplicaSSG protocol/evaluation summary, the feature-removal analysis,
 active figure sources, and current manuscript source. Historical Codex-proxy, ReplicaSSG development branches,
 Qwen-VL, and superseded manuscript material are excluded from this bundle.
 The latest verified pre-table-layout upload bundle is
-`release/h001_aaai27_openreview_20260720_084307/`. It selects the teaser layout
+`release/relcompat3d_aaai27_openreview_20260720_084307/`. It selects the teaser layout
 and includes the promoted `no_family_indicator_v1` source, locks, and compact
 results, but it must be regenerated before upload to include the current
 table-layout PDF revision. The default PDF remains a layout comparison.

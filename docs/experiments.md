@@ -2,7 +2,7 @@
 
 Last updated: 2026-07-22 KST
 
-> **Submission snapshot.** `experiments/H001_geom_reliability/` is the only
+> **Submission snapshot.** `experiments/RelCompat3D_geom_reliability/` is the only
 > active public experiment root. H002, optional source expansions, superseded
 > evaluations, and row-level runtime outputs are preserved locally under
 > `archive/local/pre_submission_20260722/` and are not part of GitHub.
@@ -13,11 +13,11 @@ artifact transfer, model/data locations, and cleanup safety. It also does not
 replace `experiments/**/README.md`, which owns experiment-local status,
 outputs, and run records.
 
-Current active experiment root remains `experiments/H001_geom_reliability/`.
-Paper-facing method name is `RelCompat3D`; the experiment directory keeps the
-internal `H001` identifier and the legacy `src/geocalib/` namespace only for
-executable compatibility. Main paper-result evidence is the synchronized
-strict train-only evaluation of VL-SAT, Open3DSG
+Current active experiment root remains `experiments/RelCompat3D_geom_reliability/`.
+Paper-facing and internal method names use `RelCompat3D`, lowercase machine
+identifiers use `relcompat3d`, and executable code lives under
+`src/relcompat3d/`. Main paper-result evidence is the synchronized strict
+train-only evaluation of VL-SAT, Open3DSG
 `recovery_relaxed_views_min2/`, and SGFN on one shared official 3DSSG target.
 Qwen-VL remains extension evidence. `relative_size` is a secondary scope
 sentence plus supplement result, not headline learned-method evidence. Main
@@ -33,7 +33,7 @@ reporting uses K = `{5,10,20,50,100}`; K=1 is sanity-check only.
 - `configs/<scope>/compose*.yaml`: Docker services that produce or regenerate
   paper-facing artifacts.
 - `configs/<scope>/Dockerfile*`: pinned Docker image definitions.
-- `src/geocalib/`: executable Python experiment logic.
+- `src/relcompat3d/`: executable Python experiment logic.
 - `scripts/`: shell wrappers for long-running Docker jobs.
 - `results/<experiment>/`: compact paper-facing summaries, tables, figure
   specs, bootstrap summaries, and locked manifests.
@@ -109,9 +109,9 @@ artifact that specifies:
 Metric freeze artifacts are not themselves metric evidence. They are promotion
 guards that prevent metric-dependent threshold tuning.
 
-## Active H001 Experiment
+## Active RelCompat3D Experiment
 
-The active root is `experiments/H001_geom_reliability/`. Its promoted method is
+The active root is `experiments/RelCompat3D_geom_reliability/`. Its promoted method is
 `no_family_indicator_v1`, with RelCompat3D-Linear and RelCompat3D-MLP evaluated
 on the shared 3DSSG target for VL-SAT, Open3DSG, and SGFN. Public evidence is
 limited to compact protocols, model locks, result summaries, intervals,
@@ -124,5 +124,5 @@ paths are owned by `docs/reproducibility.md` and the experiment README.
 
 New relation families or predictors may enter the main claim only after a new
 protocol freeze and the promotion gates above. Archived H002, Qwen-VL,
-attachment, lateral, and other optional tracks do not update the current H001
+attachment, lateral, and other optional tracks do not update the current RelCompat3D
 claim.

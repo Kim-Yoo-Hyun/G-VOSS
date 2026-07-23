@@ -749,7 +749,7 @@ def main() -> None:
         raise ValueError(f"contrast minimum failed: {palette_contrast}")
 
     manifest = {
-        "schema_version": "h001_user_reference_vector_v2",
+        "schema_version": "relcompat3d_user_reference_vector_v2",
         "status": "native_vector_layouts_generated_case_lock_verified",
         "composition_references": {
             "figure1": {

@@ -9,8 +9,10 @@ experiment contract는 `paper/method.md`와 `paper/experiment.md`, section 논�
 
 ## Current Identity
 
-- Title: **Beyond Semantic Confidence: Relation-Consistent Geometric Re-ranking
-  for 3D Scene Graphs**
+- Selected title: **RelCompat3D: Predicate–Geometry Compatibility for Re-ranking
+  3D Scene Graph Relations**
+- Source status: the consolidated TeX title still uses the preceding working
+  title and will be synchronized during the pending layout pass.
 - Method: **RelCompat3D**
 - Venue source: `paper/aaai/`
 - Selected main artifact: `paper/aaai/main_teaser_aaai27.pdf`
@@ -127,7 +129,7 @@ decision, page compression and the overfull row are deferred until the next
 canonical release build.
 
 The existing verified release bundle
-`release/h001_aaai27_openreview_20260720_084307/` already selects the teaser
+`release/relcompat3d_aaai27_openreview_20260720_084307/` already selects the teaser
 layout but predates the latest source organization and must be regenerated
 before upload.
 

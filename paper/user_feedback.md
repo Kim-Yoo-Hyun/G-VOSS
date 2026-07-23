@@ -1,1195 +1,650 @@
-# RelCompat3D 사용자 원고 검토
+# RelCompat3D `user_v2.tex` 재검토
 
-> Reviewer-style transcript review · 2026-07-21 · PDF로 빌드하지 않은 검토 문서
+검토일: 2026-07-23 KST
+대상: `paper/user_v2.tex`
+범위: Abstract부터 Conclusion까지 338행
+인용 검토: 각 섹션에서 처음 등장하는 연구명과 줄임말에 인용이 존재하는지만 확인
+인용 표기법과 문헌의 적절성: 검토 제외
+PDF 빌드: 수행하지 않음
 
-# 검토 범위와 총평
+## 상태 표기
 
-검토 대상은 `paper/user.tex`에 조립한 사용자의 Abstract부터
-Conclusion까지의 원고, Figure 1--3, Table 1--3이다. 실제 제출 원고인
-`paper/aaai/` 아래 파일은 변경하지 않았다. PDF도 빌드하지 않았다.
+- `[x] 해결`: 현재 원고에서 해결됨
+- `[~] 부분 해결`: 핵심은 반영됐으나 작은 수정이 남음
+- `[ ] 미해결`: 제출 전에 수정 필요하거나 사용자 선택이 남음
+- `[>] 마무리 단계`: final pass에서 처리하기로 확정
 
-현재 원고의 중심 논리는 대체로 정합하다.
+심각도는 다음처럼 구분한다.
 
-1. 고득점 relation score가 같은 ordered pair의 predicate--geometry
-    compatibility를 직접 나타내지는 않는다는 failure를 정의한다.
-2. predictor score를 compatibility input에서 분리하고, pair identity와
-    relation-preserving transformation을 보존하는 compatibility estimator를
-    학습한다.
-3. proximity와 vertical-order만 family 내부에서 다시 정렬하고,
-    support/contact는 source order로 유지한다.
-4. exact-match Recall과 verifier-derived Violation을 함께 보고하고,
-    point/mesh audit와 controls로 construct dependence를 점검한다.
+- **치명적**: 사실관계, claim, 수학 전제, 표 설명, reference 무결성에 영향을 주는 문제
+- **사소**: 문법, 용어, 문장 길이, 중복, caption 완결성 문제
 
-따라서 task, method, main evidence의 큰 방향은 서로 맞는다. 다만 제출 전에 반드시
-고쳐야 할 문제가 있다. 가장 큰 문제는 (i) Abstract의 사실관계 오류, (ii) SGFN
-$K=5$ tie를 ``lower'' 또는 ``decreases''로 쓴 결과 과장, (iii) Figure caption과
-실제 Figure의 불일치, (iv) Table 3 coverage의 모호성, (v) AAAI caption/figure
-형식 위반이다. 독자가 이해하기 어려운 부분은 주로 Method의 첫 문단, counterfactual
-설명, MLP 설명, family-aware re-ranking 절차, 그리고 Point/mesh audit에 집중되어
-있다.
+## 총평
 
-## 심각도 기준
+`user_v2.tex`는 연구 task, method, experiment, claim boundary가 전반적으로 정합하다.
+두 compatibility estimator 모두 fixed candidates를 사용하고, source relation score를
+compatibility estimation에서 제외하며, family-aware re-ranking 단계에서만 결합한다.
+Table 1의 모든 predictor와 $K$ 설정에서도 두 variant의 point estimate가 Source보다
+낮은 Recall 또는 높은 Violation을 보이지 않는다는 원고의 범위가 수치와 맞는다.
 
-- **[치명적]** 사실관계, claim, method scope, metric 해석, 또는 AAAI 형식 준수에
-    직접 영향을 주어 제출 전 수정이 필요한 항목이다.
-- **[사소]** 핵심 결론을 바꾸지는 않지만 문법, collocation, 가독성, 용어
-    통일성을 떨어뜨리는 항목이다.
+과장된 SOTA, dataset-level generalization, 모든 relation family의 개선 주장은 없다.
+Transformation averaging도 독립 novelty로 부풀리지 않고 framework의 consistency
+mechanism으로 사용한다. 이 부분은 원리적으로 자연스럽다.
 
-# 최우선 수정 목록
+현재 제출 전 우선 수정할 항목은 다음과 같다.
 
-| 심각도 | 위치 | 문제와 조치  |
+1. Introduction 27행의 문법 오류를 고친다.
+2. Related Work 51행의 관사를 보완한다.
+3. Table 3의 `Change`와 `Coverage` header를 metric 의미가 드러나게 바꾼다.
+4. Main Table 3에서 제외한 CI를 Results가 언급할 때 supplement 결과임을 밝힌다.
+5. `ordered object pair`, `ordered pair`, `ordered-pair`의 용어 계약을 통일한다.
+6. Table 1과 Table 2 caption에 percentage와 shared-target scope를 보완한다.
+7. Conclusion에서 섹션 첫 3DSSG 등장에 인용이 존재하도록 한다.
+
+Figure 1, Figure 2, Figure 3, Table 1, Table 2, Table 3은 모두 본문에서 최소 한 번
+명시적으로 참조된다. `user_v1.tex`에서 누락됐던 Figure 3 definition도 복원됐다.
+
+# 기존 번호별 수정 TODO 갱신
+
+## P0: 사실관계와 reference 무결성
+
+1. [x] **Abstract, 2--3행**
+   Ordered-pair identity와 source-score exclusion이 정확히 표현됐다.
+
+2. [x] **Abstract, 2--3행**
+   `predicate--geometry`와 `predictor--$K$ settings` 표기가 통일됐다.
+
+3. [x] **Abstract, 3행**
+   `SceneGraphFusion (SGFN)`이 첫 등장에 풀어 쓰였다.
+
+4. [x] **Abstract, 3행**
+   모든 공개 predictor와 $K$ 설정에 대한 point-estimate claim은 Table 1과 맞는다.
+
+5. [x] **Introduction, Figure 1 caption, 17--18행**
+   Point-cloud evidence와 RelCompat3D-Linear의 rank 6에서 425 변화가 명시됐다.
+
+6. [x] **Introduction, Evaluation paragraph, 31행**
+   중복 all-$K$ 문장이 삭제됐고, 한 번의 범위 한정된 결과 문장만 남았다.
+
+7. [x] **Introduction, Contribution 2, 36행**
+   Ordered-pair identity, source-score exclusion, linked counterfactual ordering,
+   transformation consistency가 하나의 method design으로 묶였다.
+
+8. [x] **Related Work, 44, 46, 49, 51, 54--56행**
+   각 subsection은 관련 연구와 RelCompat3D의 공통점과 차이를 설명한다.
+
+9. [ ] **Related Work, Geometry-aware Relation Evidence, 51행, 사소**
+   다음 원문에는 관사가 빠졌다.
+
+   > For fixed predictions from 2D scene graph generator, Neau et al. ...
+
+   다음처럼 수정한다.
+
+   > For fixed predictions from a 2D scene graph generator, Neau et al. ...
+
+10. [x] **Related Work, Reliability Evaluation and Calibration, 53--56행**
+    Calibration, uncertainty, selective prediction과 compatibility assessment의
+    차이가 명확하다.
+
+11. [x] **Figure 2 caption, 66--69행**
+    Transformation averaging의 상세 설명은 Method에 두고 caption은 panel의 역할과
+    score flow만 설명한다. Rank 19에서 178의 변화가 RelCompat3D-Linear 결과라는
+    attribution도 들어갔다.
+
+12. [x] **Figure 2 caption과 Method, 66--69, 85--87, 155--166행**
+    Caption에 support/contact boundary를 반복하지 않는다. Scope는 Method에 충분히
+    설명돼 있다.
+
+13. [x] **Method와 Experimental Setup, 85--87, 176행**
+    Evaluation scope와 re-ranking scope가 분리됐다.
+
+14. [>] **Method, Problem Formulation과 Relation-Consistent Compatibility, 94, 98,
+    130--131, 143, 153, 167, 170행**
+    Supplement pointer와 주석은 final pass에서 복원하거나 정리한다. 현재는 사용자
+    결정에 따라 상태를 유지한다.
+
+15. [x] **Method와 Experimental Setup, 85--87, 179행**
+    Support/contact head는 `Product (all families)` comparison에서 사용된다는 점이
+    Experimental Setup에 나온다. Method에서 다시 길게 설명할 필요는 없다.
+
+16. [x] **Method, Relation-Consistent Compatibility, 102행**
+    OBB-derived model input과 point-level support/contact verifier evidence가 분리됐다.
+
+17. [x] **Method, Relation-Consistent Compatibility, 127--152행**
+    Transformation relation은 transformation-averaged score에 대해 정의된다.
+
+18. [x] **Method, Relation-Consistent Compatibility, 133--152행**
+    Pairwise objective는 보장이 아니라 linked positive가 더 높은 score를 갖도록
+    유도하는 항으로 한정됐다.
+
+19. [x] **Method, Family-Aware Re-ranking, 155--162행**
+    양수 source score를 전제하던 log-score 해석이 삭제됐다. Piecewise ranking score만
+    남아 모든 predictor score type과 정합하다.
+
+20. [x] **Method, Family-Aware Re-ranking, 165--166행**
+    Source position, family list, next unused candidate, support/contact subsequence가
+    순서대로 설명된다. 본문에 있던 prefix maximization claim도 제거됐다.
+
+21. [x] **Results, Figure 3, 241, 247--256행**
+    `fig:tradeoff` environment와 label이 복원됐고 본문에서 참조된다.
+
+22. [ ] **Discussion and Limitations, 334행, 사용자 선택**
+    다음 문장은 optional future-work 항목이다.
+
+    > Broader claims require independently defined reference labels, richer
+    > contact and pose evidence, and evaluation on additional datasets.
+
+    유지해도 claim boundary와 자연스럽게 연결되고, 삭제해도 현재 limitation의 사실성이
+    훼손되지 않는다. 사용자의 요청에 따라 미해결 상태로 둔다.
+
+23. [x] **Conclusion, 338행**
+    `vertical-order candidates`와 shared 3DSSG validation target이 정확히 쓰였다.
+
+24. [~] **Table 3, 304--320행, 사소**
+    Main table의 CI는 교수 피드백에 따라 제외됐고 caption에서도 CI 설명이 삭제됐다.
+    이 부분은 해결됐다. CI는 임의의 데이터 range가 아니라 반복 표본추출에 따른
+    불확실성 구간이다. 다만 표에서는 lower와 upper bound로 보이기 때문에 넓은 의미의
+    구간형 범위로 읽힐 수 있다. 현재 결정대로 main table에 복원하지 않는다.
+
+    남은 문제는 header의 자립성이다.
+
+    > Predictor & Source & Ours & Change & Coverage
+
+    `Change`는 이해 가능하지만 어떤 metric의 변화인지 header만으로 알 수 없다.
+    `Coverage` 셀은 measured와 decidable의 두 값을 `/`로 묶는데, header에 그 순서가
+    나타나지 않는다. 가장 권장하는 header는 다음과 같다.
+
+    > Predictor & Source & Linear & $\Delta$V (pp) & Coverage (M/D)
+
+    공간이 허용되면 `Coverage`를 `Measured`와 `Decidable` 두 열로 나누는 구성이 더
+    명확하다. `Ours`보다 `Linear`가 실제 variant를 직접 나타낸다.
+
+## P1: 독자 이해, 재현성, caption 완결성
+
+25. [x] **Introduction과 Method, 27, 93--97행**
+    Counterfactual negative와 relation-preserving transformation의 역할이 구분된다.
+
+26. [x] **Method, Problem Formulation, 78--87행**
+    Candidate fields, identity, semantics와 family scope가 여러 문단으로 분리됐다.
+
+27. [x] **Method, Nonlinear Estimator, 117--125행**
+    Skip connection이 predicate indicator에서 output logit으로 가는 직접 linear path임을
+    설명한다.
+
+28. [x] **Method와 Metrics, 89--162, 183--195행**
+    Core method equation과 두 metric equation은 각각 별도 정의 역할이 있다. 불필요했던
+    log interpretation과 prefix optimization claim은 삭제됐다.
+
+29. [x] **Point- and Mesh-Based Consistency Audit, 322--327행**
+    Vertex-based measurement, triangle-sample measurement, agreement rule, primary
+    metric과의 차이가 설명된다.
+
+30. [x] **Experimental Setup, Metrics, 183--195행**
+    Recall, Violation, uncertain denominator가 main text에 남고 secondary metrics가
+    supplement로 이동했다.
+
+31. [x] **Results, Figure 3, 241, 247--256행**
+    Figure 3 caption은 Source, Linear, MLP, 다섯 $K$ 값, 선호 방향, predictor별 axis
+    range를 설명한다.
+
+32. [~] **Table 1 caption, 235행, 사소**
+    Shared 3DSSG target, metric, Source, ranking rule이 정의돼 있다. 수치 단위를 더
+    명확히 하려면 다음 문장을 추가한다.
+
+    > All entries are percentages.
+
+33. [~] **Table 2 caption, 295행, 사소**
+    Linear control rows와 MLP full variant의 범위는 명확하다. Caption이 독립적으로
+    읽히게 하려면 첫 문장에 dataset scope와 단위를 보완한다.
+
+    > Ablations and counterfactual controls on the shared 3DSSG validation target.
+    > All entries are percentages.
+
+34. [~] **Table 3 caption과 본문, 318, 325--327행, 사소**
+    Metric construction과 Linear variant는 설명된다. Caption에 shared-target scope를
+    추가하고, header는 24번 권장처럼 구체화한다. Primary Violation과 직접 비교할 수
+    없다는 설명은 본문에 있으므로 caption에서 다시 길게 반복하지 않아도 된다.
+
+35. [ ] **Introduction, Related Work, Method, Results, 22, 24, 27, 29, 46, 51,
+    81, 83, 87, 300행, 사소**
+    `ordered subject--object pair`, `ordered object pair`, `ordered pair`,
+    `ordered-pair`가 혼용된다. 다음 계약으로 통일한다.
+
+    - 처음 정의할 때: `ordered subject--object pair`
+    - 이후 명사형: `ordered pair`
+    - 복합 수식형: `ordered-pair identity`, `ordered-pair geometry`
+
+    `ordered object pair`는 모두 `ordered pair`로 바꾸는 것이 가장 자연스럽다.
+
+36. [x] **Figure 2 caption과 Method, 68--69, 75행**
+    `source relation score`로 통일됐다.
+
+37. [x] **전체 원고**
+    산문에서는 `Recall@$K$`, `Violation@$K$`를 쓰고 equation operator는
+    `Recall@K`, `Violation@K`를 쓴다. 역할에 따른 차이로 일관적이다.
+
+38. [x] **Method와 Experiments**
+    `vertical-order`는 수식형, `vertical order`는 명사형으로 구분된다.
+
+39. [x] **전체 원고**
+    영어 소유격 형태는 검출되지 않았다.
+
+40. [x] **전체 원고**
+    산문에 em dash와 semicolon이 검출되지 않았다. Equation 구분자와 주석은 산문
+    punctuation 검토에서 제외했다.
+
+41. [x] **Method, Linear Estimator, 114행**
+    `a constant input`의 중복 공백이 제거됐다.
+
+42. [x] **Method, Problem Formulation, 95행**
+    Vertical augmentation이 endpoint를 바꾸고 predicate를 inverse로 교체한다고
+    명확히 표현됐다.
+
+43. [ ] **Introduction, Method overview, 27행, 치명적 문법 오류**
+    다음 원문은 주어가 중복되어 문법적으로 성립하지 않는다.
+
+    > This preserves ordered-pair identity prevents geometry from another object
+    > pair from being substituted for the candidate evidence.
+
+    다음처럼 고친다.
+
+    > Preserving ordered-pair identity ensures that compatibility is computed
+    > from the geometry of the corresponding pair.
+
+44. [x] **Related Work, Geometry-aware Relation Evidence, 51행**
+    Continuous compatibility와 transformation-aware evaluation의 차이가 두 문장으로
+    나뉘었다. 관사 문제는 9번에만 남는다.
+
+45. [x] **Method, Problem Formulation과 Family-Aware Re-ranking, 87, 165--166행**
+    Support/contact scope와 ranking procedure가 짧은 문장으로 나뉘었다.
+
+46. [~] **Results, Recall--Violation Results와 Ablations, 241, 245, 300행, 사소**
+    Results의 문장 구조는 이전보다 좋아졌다. 다음 두 범위 설명은 caption 또는 Method와
+    반복된다.
+
+    > Both proposed variants, RankAvg, and RRF use the same family-aware ranking
+    > procedure and therefore preserve the source relation-family sequence.
+
+    > Table~\ref{tab:ablations} shows structural controls for
+    > RelCompat3D-Linear and includes the RelCompat3D-MLP operating point at
+    > $K=50$ and $K=100$.
+
+    첫 문장은 Table 1 caption이 이미 같은 내용을 설명하므로 삭제할 수 있다. 두 번째
+    문장은 Table 2 caption과 겹치므로 다음처럼 결과 해석으로 바로 시작할 수 있다.
+
+    > For RelCompat3D-Linear, wrong-pair and shuffled geometry reduce Recall and
+    > increase Violation for every predictor at both reported $K$ values.
+
+47. [>] **Figure와 layout format**
+    Figure asset path, `trim`, `clip`, bold caption lead-in, page count, overflow,
+    float placement는 아직 해결하지 않은 상태로 유지한다. Final layout pass에서 검증한다.
+
+# 추가 검토 TODO
+
+## 48. [ ] Section-first acronym citation 존재 여부
+
+**심각도: 사소**
+
+- **Introduction, 31행**: SceneGraphFusion benchmark model과 SGFN의 첫 등장 문장에
+  인용이 존재한다.
+- **Related Work, 44, 46, 54행**: 3DSSG, VLM, SCR-SSG, PUF의 첫 등장 문장에 인용이
+  존재한다.
+- **Method, 79행**: VL-SAT, SGFN, Open3DSG의 첫 등장 문장에 인용이 존재한다.
+- **Experiments, 176, 179행**: Open3DSG, VL-SAT, SGFN, 3DSSG, 3RScan, RRF의 첫
+  등장 문장에 인용이 존재한다.
+- **Discussion and Limitations, 332행**: 3DSSG의 첫 등장 문장에 인용이 존재한다.
+- **Conclusion, 338행**: 3DSSG가 이 섹션에서 처음 등장하지만 인용이 없다.
+
+사용자가 정한 섹션별 first-use 규칙을 적용하려면 Conclusion을 다음처럼 고친다.
+
+> Across three predictors on one shared 3DSSG validation
+> target~\cite{wald2020learning}, ...
+
+`OBB`, `ReLU`, `BCE`는 dataset 또는 연구명 줄임말이 아니라 일반 기술 용어다. 별도
+인용보다 첫 등장에 full term을 적는 것이 중요하다. Method 102행과 Audit 323행의
+`OBB`는 `oriented bounding box (OBB)`로 한 번씩 풀어 쓰는 것을 권장한다.
+
+## 49. [ ] Good English와 독자 친화성
+
+**심각도: 사소, 43번 문법 오류만 높은 우선순위**
+
+### Abstract, 2--3행
+
+다음 두 문장은 지나치게 끊겨 보인다.
+
+> We formulate predicate--geometry compatibility for fixed relation predictions
+> and introduce RelCompat3D, a re-ranking framework.
+> RelCompat3D preserves ...
+
+다음처럼 한 문장으로 연결해도 길지 않다.
+
+> We formulate predicate--geometry compatibility for fixed relation predictions
+> and introduce RelCompat3D, a re-ranking framework that preserves the
+> ordered-pair identity of each candidate.
+
+### Introduction, 24행
+
+다음 표현은 의미는 맞지만 collocation이 다소 무겁다.
+
+> This makes the problem a reliability issue, not only a 3DSSG implementation
+> detail ...
+
+다음처럼 바꾸면 더 직접적이다.
+
+> The resulting mismatch is a reliability problem rather than only an
+> implementation issue in 3D scene graph prediction.
+
+### Method, Relation-Consistent Compatibility, 102행
+
+한 문단에서 geometry features, contact evidence, standardization, two estimators를
+연속 설명한다. 다음 위치에서 문단을 나누면 읽기 쉽다.
+
+1. Geometry vector와 point-level evidence를 설명한 뒤 문단을 끝낸다.
+2. Standardization과 two estimator setup을 새 문단으로 시작한다.
+
+### Results, Recall--Violation Results, 241행
+
+다음 표현은 `better trade-off`가 무엇을 뜻하는지 독자가 다시 Table 1에서 확인해야 한다.
+
+> yields a better $K=50$ point estimate Recall--Violation trade-off
+
+다음처럼 관찰값을 직접 쓴다.
+
+> At $K=50$, both variants preserve or raise Recall and reduce Violation relative
+> to Source for all three predictors.
+
+같은 문단의 다음 표현에는 관사가 필요하다.
+
+> Source baseline ranks geometrically inconsistent relation candidates ...
+
+다음처럼 수정한다.
+
+> The Source baseline ranks geometrically inconsistent relation candidates ...
+
+### Point- and Mesh-Based Consistency Audit, 326--327행
+
+다음 구조는 길고 어색하다.
+
+> with the point- and mesh-based changes having the same direction throughout
+> except for SGFN at $K=5$, which is the only tie
+
+다음처럼 두 문장으로 나눈다.
+
+> Both measurements show the same direction of change at every reported $K$.
+> The only exception is a tie for SGFN at $K=5$.
+
+## 50. [~] 문장 길이
+
+**심각도: 사소**
+
+원고 전체가 한 문장을 과도하게 길게 이어 쓰는 형태는 아니다. 대부분 15--30 words
+범위다. 우선 분할할 문장은 다음 세 곳이다.
+
+1. **Introduction, 27행**: design rationale가 여러 문장으로 나뉘었지만 문법 오류가
+   남았다. 43번 문장으로 수정한다.
+2. **Method, Relation-Consistent Compatibility, 102행**: feature, evidence,
+   standardization, estimator setup을 두 문단으로 나눈다.
+3. **Results, Point- and Mesh-Based Consistency Audit, 326--327행**: supplement 범위와
+   all-$K$ observation을 두 문장으로 나눈다.
+
+## 51. [~] 중복 표현
+
+**심각도: 사소**
+
+- Support/contact source order는 Abstract, Introduction, Method에 반복되지만 method
+  scope의 핵심 경계이므로 유지할 수 있다.
+- Figure 2 caption과 Method의 source-score separation 반복은 figure가 독립적으로
+  읽히기 위해 필요하다.
+- Results 245행의 ranking procedure 설명은 Table 1 caption과 중복되므로 삭제할 수 있다.
+- Ablation 300행의 첫 문장은 Table 2 caption과 중복된다. 46번처럼 바로 control 결과로
+  시작하면 된다.
+- Table 3 caption과 Audit 본문의 agreement rule 반복은 caption 자립성을 위해 허용할
+  수 있다.
+
+## 52. [x] Claim의 명확성과 과장 여부
+
+**심각도: 문제 없음**
+
+- Abstract와 Conclusion은 point estimates에 한정한다.
+- Shared 3DSSG target에서 세 predictor를 비교했다고 쓰며 dataset-level generalization을
+  주장하지 않는다.
+- Source보다 낮지 않은 Recall과 높지 않은 Violation이라는 표현은 Table 1의 모든 공개
+  predictor와 $K$ 설정에 맞는다.
+- Linear와 MLP 중 하나가 보편적으로 우수하다고 쓰지 않는다.
+- Point- and mesh-based audit은 independent ground truth가 아니라 alternative geometric
+  measurement로 한정한다.
+- Product all families의 aggregate 결과를 primary method의 우월성으로 사용하지 않는다.
+
+`better trade-off`만 49번처럼 직접 관찰값으로 바꾸면 claim이 더 명확해진다.
+
+## 53. [~] 공개하지 않아도 되는 내용
+
+**심각도: 사소**
+
+다음 내용은 숨기면 reviewer가 더 크게 문제 삼을 수 있으므로 유지한다.
+
+- Single-target scope
+- OBB-derived inputs와 primary verifier의 partial overlap
+- Point/mesh audit이 independent ground truth가 아니라는 경계
+- Support/contact를 primary method가 re-rank하지 않는 범위
+- Predictor-specific refitting과 normalization을 하지 않았다는 protocol
+
+Discussion 332행의 다음 절은 fixed-prediction framing과 겹친다.
+
+> it does not generate complete graphs
+
+공간이 부족하면 삭제할 수 있다. 다음 절은 실제 method scope이므로 유지하되 표현을
+정확히 바꾼다.
+
+> it does not re-rank contact-dependent relations
+
+22번 future-work 문장은 선택 사항으로 미해결 상태를 유지한다.
+
+## 54. [x] 원리적 타당성
+
+**심각도: 문제 없음**
+
+- Source-score exclusion은 source score를 compatibility target으로 다시 복제하는 경로를
+  막는다.
+- Ordered-pair identity는 다른 pair의 geometry가 candidate evidence로 섞이는 것을
+  막는다.
+- Transformation averaging은 정의된 finite transformation set에서 exact invariance를
+  만든다.
+- Family-aware re-ranking은 family composition과 support/contact subsequence를 보존하는
+  constrained ranking으로 설명된다.
+- Linear와 MLP의 서로 다른 operating point는 특정 estimator form 하나에만 효과가
+  의존하지 않는다는 framework-level evidence로 사용된다.
+
+억지로 claim에 맞춘 별도 proposition이나 자명한 성질의 과도한 novelty 주장은 없다.
+
+## 55. [x] Figure와 Table 본문 참조
+
+**심각도: 문제 없음**
+
+| 항목 | Label | 본문 최초 참조 |
 | --- | --- | --- |
-| **[치명적]** | Abstract | ``preserves ordered-pair measurements and the relation score''는 실제 factor separation을 잘못 설명한다. ordered-pair *identity*를 보존하고, $T/G$로 compatibility를 추정하며, $Z$는 re-ranking에서만 결합한다고 고쳐야 한다.  |
-| **[치명적]** | Introduction/Conclusion | ``improve'' 및 ``lower ... at every $K$''는 SGFN $K=5$ tie와 모순된다. ``improve or tie'', 또는 ``no worse point estimates''로 고쳐야 한다.  |
-| **[치명적]** | Results | ``SGFN is tied at $K=$''는 미완성 표기이며 $K=5$로 고쳐야 한다. 같은 문장의 ``Violation ... decreases for every predictor''도 ``decreases or ties''가 정확하다.  |
-| **[치명적]** | Figure 1 | 실제 그림은 strict elevation projection이 아니라 reconstructed point-cloud view이며, 6에서 425로의 이동은 Linear variant 결과다. caption과 그림 내부의 ``Relcompat3D'' 표기를 수정해야 한다.  |
-| **[치명적]** | Figure 2 | 그림 내부에는 transformation averaging이 나타나지 않는데 caption은 transformation-consistent compatibility를 말한다. 최소한 caption에서 averaging과 Linear rank example을 명시하고, primary re-ranking scope도 한 문장으로 한정해야 한다.  |
-| **[치명적]** | Experiments | support/contact까지 포함한 scope를 ``can be re-ranked''로 설명한다. 실제로는 ``can be assessed''이며, re-ranking은 proximity/vertical-order에 한정된다.  |
-| **[치명적]** | Table 3 | ``Ours''와 ``Cov.''가 모호하다. Ours를 Linear로 바꾸고, coverage가 Linear의 measured/decidable coverage임을 명시해야 한다. Table 1의 Violation과 직접 비교할 수 없는 별도 construct라는 문장도 caption에 필요하다.  |
-| **[치명적]** | AAAI format | Figure/Table caption의 bold lead-in, Figure 3의 `trim`/`clip`, 그리고 현재 root Figure PDF의 Identity-H fonts는 AAAI-27 규정과 충돌한다.  |
-| **[치명적]** | Contribution 2 | transformation averaging 자체는 표준적인 group averaging 성질이다. 독립 novelty처럼 쓰지 말고 source-score exclusion, identity-preserving linked counterfactual supervision, exact transformation consistency의 결합으로 claim해야 한다.  |
+| Figure 1 | `fig:teaser` | Introduction 22행 |
+| Figure 2 | `fig:overall_framework` | Method 75행 |
+| Figure 3 | `fig:tradeoff` | Results 241행 |
+| Table 1 | `tab:main-results` | Results 241행 |
+| Table 2 | `tab:ablations` | Ablations 300행 |
+| Table 3 | `tab:surface-audit` | Audit 325행 |
 
-# 받은 피드백에 대한 판단
+모든 Figure와 Table이 본문에서 최소 한 번 호출된다.
 
-## 처음 읽는 독자에게 불친절한 부분
+## 56. [~] Figure와 Table caption checklist
 
-이 피드백은 맞다. 특히 다음 다섯 부분에서 독자가 정의를 뒤늦게 조합해야 한다.
+**심각도: 사소**
 
-1. Introduction에서 ``linked positive--counterfactual pairs''가 처음
-    나오지만, counterfactual이 wrong pair인지 inverse predicate인지 설명되지 않는다.
-    
-2. Problem Formulation의 첫 문단은 $r_i$, 두 identity tuple, $T_i$, $a_i$,
-    $G_i$, score type을 한 번에 정의한다. 세 문단으로 분리하는 편이 낫다.
+### Figure 1, Introduction 10--20행
 
-3. ``family-aware re-ranking''이 왜 family label sequence를 보존하는지
-    formal list 정의 전에는 직관적으로 설명되지 않는다. 작은 toy sequence 또는
-    한 문장짜리 procedural description이 필요하다.
+목적, source predictor, geometric contradiction, rank 변화가 모두 설명된다. Caption만
+읽어도 failure case의 역할을 이해할 수 있다.
 
-4. ``predicate-linear skip connection''과 ``two-hidden-unit ReLU''는
-    architecture에 익숙하지 않은 독자에게 역할이 보이지 않는다. predicate indicator가
-    output으로 직접 가는 linear path라는 설명을 붙여야 한다.
+### Figure 2, 59--71행
 
-5. Point/mesh audit에서 ``robust vertex distances''와 ``area-weighted
-    triangle samples''가 왜 OBB와 다른 construct인지 한 문장으로 풀어야 한다.
+Panel (a)는 pair geometry와 source prediction을 설명한다. Panel (b)는 compatibility
+estimation, source-score combination, within-family re-ranking의 흐름을 설명한다.
+Transformation averaging과 support/contact boundary는 Method에 맡기는 현재 구성이
+적절하다.
 
-원고를 장황하게 만들 필요는 없다. 각 지점에 한 문장씩만 보충하면 충분하다. 예를
-들어 counterfactual은 다음처럼 처음 정의할 수 있다.
+### Figure 3, 247--256행
 
-> Linked counterfactuals pair each training positive with a deliberately
-> incompatible predicate or ordered pair constructed from the same training
-> context.
+Metric, method, $K$ grid, 선호 방향, axis 차이가 설명된다. 실험 setting을 caption만으로
+알 수 있게 첫 문장에 다음 구를 추가할 수 있다.
 
-family-aware re-ranking은 다음 한 문장으로 먼저 풀 수 있다.
+> on the shared 3DSSG validation target
 
-> At each source position, the method selects the next candidate from the same
-> relation family, but proximity and vertical-order candidates are reordered by
-> the combined score.
+### Table 1, 197--237행
 
-## 먼저 공개하지 않아도 되는 약점
+Predictor row, ranking-rule row, $K$ column, R/V metric, Source가 명시된다. `All entries
+are percentages.`만 추가하면 충분하다.
 
-``약점을 숨긴다''와 ``main text에서 불필요한 future-work 목록을 줄인다''는 구분해야
-한다. 다음 세 boundary는 결과 해석에 직접 영향을 주므로 숨기면 안 된다.
+### Table 2, 258--297행
 
-- 세 predictor가 하나의 3DSSG/3RScan validation target에서 평가된다는 점.
-- primary Violation이 verifier-derived이며 point/mesh audit도 독립적인
-    physical-validity ground truth가 아니라는 점.
-- support/contact는 평가하지만 primary method가 re-rank하지 않는다는 점.
+Predictor와 condition row, R/V와 $K$ column, Linear control scope, MLP comparison scope가
+명시된다. Shared target와 percentage 단위를 첫 문장에 보완한다.
 
-반면 다음 내용은 main text에서 줄이거나 supplement로 옮겨도 된다.
+### Table 3, 304--320행
 
-- ReplicaSSG/FROSS의 negative transfer를 구체적으로 먼저 말하는 문장. Main
-    Discussion에는 single-target scope만 남기고 stress-test 결과는 supplement에서
-    설명할 수 있다.
-- ``Broader claims require ...''로 시작하는 reference labels/contact/pose/
-    datasets의 긴 future-work 목록. 현재 audit이 independent ground truth가 아니라는
-    한 문장만 남기면 충분하다.
-- Metrics 문단의 pessimistic Violation, uncertainty rate, 두 종류 coverage
-    수식 전체. Primary denominator는 본문에 유지하고 나머지는 supplement pointer로
-    압축할 수 있다.
-- Support/contact counterfactual 생성 세부 규칙. Primary variants가 이
-    family를 re-rank하지 않으므로, all-family comparison에만 쓰인다는 설명 없이
-    main Method에 두면 혼란스럽다.
-- Re-ranking의 summed-utility maximization과 exchange-proof 설명. 보존
-    property만 본문에 두고 formal claim은 supplement로 보낼 수 있다.
+Predictor row와 Source/Linear comparison은 이해할 수 있다. `Change`와 `Coverage`는
+24번처럼 metric-specific header로 바꾸는 것이 좋다.
 
-## Table 3에서 CI와 coverage를 뺄 것인가
+## 57. [x] Contribution 2의 적합성
 
-**판단: 95% CI는 유지하는 것이 좋고, coverage도 원칙적으로 필요하다.**
+**심각도: 문제 없음**
 
-95% CI는 임의의 ``range''가 아니라 paired change의 sampling uncertainty를 보여준다.
-NeurIPS 2024의 *Verifiably Robust Conformal Prediction*은 main table에서
-coverage와 95% confidence interval을 함께 보고한다. CVPR 계열 논문도 metric
-mean과 95% CI lower/upper를 table에 두는 사례가 있다. 따라서 top-tier 관행을
-이유로 CI를 제거할 근거는 없다.
+Contribution 2는 단순히 compatibility head 하나를 학습했다는 주장이 아니다. 다음
+요소를 하나의 design으로 묶는다.
 
-- NeurIPS example:
-    <https://proceedings.neurips.cc/paper_files/paper/2024/file/0814a342597d65e0832fc7ec9b42c317-Paper-Conference.pdf>
-- CVPR example:
-    <https://openaccess.thecvf.com/content/CVPR2026F/supplemental/Li_Counterfactual_Segmentation_Reasoning_CVPRF_2026_supplemental.pdf>
+1. Ordered-pair identity 보존
+2. Source relation score 제외
+3. Linked positive--counterfactual ordering
+4. Applicable endpoint/predicate transformation consistency
 
-coverage는 이 논문에서 더 직접적인 역할이 있다. Point/mesh disagreement가 uncertain이
-되고, uncertain은 Violation numerator에는 들어가지 않기 때문에, Violation 감소가
-decidable coverage 감소로 생긴 것이 아닌지 확인해야 한다. Selective-prediction
-연구가 risk와 coverage를 함께 보고하는 이유와 같다.
+각 요소는 failure cause와 직접 연결되고 ablation 또는 control로 검증된다. 따라서
+method contribution으로 유지할 수 있다. 다만 `exact consistency`는 정의된
+transformation에만 해당하므로 현재처럼 `applicable` 범위를 함께 써야 한다.
 
-- NeurIPS selective-prediction example:
-    <https://proceedings.neurips.cc/paper_files/paper/2023/file/a8526465a91166fbb90aaa8452b21eda-Paper-Conference.pdf>
+## 58. [~] `Change`와 `Coverage`의 top-tier 사용 관례
 
-다만 현재 표의 coverage는 불친절하다. `surface_audit/summary.json`을
-확인하면 95.5/71.0, 98.2/83.7, 95.8/79.9는 Linear ranking의 measured/decidable
-coverage다. Source coverage와의 차이는 measured coverage에서 0.5 percentage
-point 이내, decidable coverage에서 1.3 points 이내다. 이를 caption 또는 본문에서
-명시하면 coverage-collapse 공격을 더 직접적으로 막을 수 있다.
+**심각도: 사소**
 
-권장 header는 다음과 같다.
+확인 결과는 다음과 같다.
 
-```text
-Predictor & Source V & Linear V & Delta V [95% CI] & Linear Cov. (M/D)
-```
+- `Coverage`와 축약형 `Cov`는 selective prediction과 conformal prediction에서 널리
+  쓰이는 metric header다. CVPR 2025의 conformal scene graph 논문은 `Cov`, `CovGap`,
+  `AvgSize`를 별도 열로 사용한다.
+- CVPR 2024의 continual change captioning 논문도 `Coverage`를 metric header로
+  사용한다.
+- 상대 변화는 top-tier table에서 괄호 안 improvement, arrow, 또는 $\Delta$로 자주
+  표시된다. Bare `Change`도 이해는 되지만 어떤 metric의 변화인지 header만으로
+  결정하기 어렵다.
 
-지면 때문에 반드시 한 열을 줄여야 한다면, CI보다 coverage를 supplement로 옮기되
-본문에 Source/Linear coverage가 크게 변하지 않았다는 수치를 한 문장으로 남기는 것이
-낫다. 아무 설명 없이 coverage만 삭제하는 것은 권하지 않는다.
+따라서 현재 Table 3에는 `Change`보다 `$\Delta$V (pp)`가 더 정확하다. `Coverage`는
+사용해도 되지만 두 종류를 한 cell에 넣으므로 `Coverage (M/D)`로 쓰거나 두 열로
+분리한다.
 
-## Figure caption의 `\texttt`
+확인한 accepted-paper 예시:
 
-`\texttt` 자체가 학술 caption에서 금지된 명령은 아니다.
-공식 ACL style example도 Figure caption 안에서 package 이름
-`mwe`를 monospace로 표시한다.
+- [CVPR 2025, Conformal Prediction and MLLM aided Uncertainty Quantification in
+  Scene Graph Generation](https://openaccess.thecvf.com/content/CVPR2025/papers/Nag_Conformal_Prediction_and_MLLM_aided_Uncertainty_Quantification_in_Scene_Graph_CVPR_2025_paper.pdf)
+- [CVPR 2024, The STVchrono Dataset](https://openaccess.thecvf.com/content/CVPR2024/papers/Sun_The_STVchrono_Dataset_Towards_Continuous_Change_Recognition_in_Time_CVPR_2024_paper.pdf)
+- [ICCV 2025, Adversarial Robust Memory-Based Continual Learner](https://www.openaccess.thecvf.com/content/ICCV2025/papers/Mi_Adversarial_Robust_Memory-Based_Continual_Learner_ICCV_2025_paper.pdf)
 
-- Official ACL template:
-    <https://github.com/acl-org/acl-style-files/blob/master/acl_latex.tex>
+## 59. [~] Main table에서 제외한 CI와 본문 claim
 
-하지만 그 용도는 code, filename, command, literal token과 같이 monospace가 의미를
-가질 때다. `heater close by trash can`은 code가 아니라 자연어 relation
-triplet이므로 현재 caption에서는 이질적이다. 더구나 AAAI-27 Author Kit은 figure
-caption을 10-point roman으로 두라고 명시한다
-(`paper/aaai/official/AnonymousSubmission2027.tex:581`). 따라서 이
-caption에서는 다음 중 하나를 권장한다.
+**심각도: 사소**
 
-```text
-Open3DSG ranks ``heater close by trash can'' at 19, ...
-```
-
-또는 predicate만 italicize한다.
-
-```text
-Open3DSG ranks the relation heater -- close by -- trash can at 19, ...
-```
-
-## Contribution 2 재판단
-
-현재 Contribution 2는 그대로 두면 독립 contribution으로 약하게 읽힐 수 있다.
-
-```text
-We learn predicate--geometry compatibility from the corresponding ordered
-subject--object pair without using the predictor score, and enforce invariance
-under applicable relation-preserving endpoint and predicate transformations.
-```
-
-문제는 transformation averaging의 invariance 자체가 표준적인 group averaging
-성질이라는 점이다. ``averaging을 사용했다''만으로는 novelty가 아니다. 그러나
-다음 세 요소를 failure cause에서 유도된 하나의 method design으로 묶으면 contribution
-수준이 된다.
-
-1. source relation score와 predictor identity를 compatibility input에서
-    배제한다.
-2. candidate의 ordered-pair identity를 보존한 linked positive--counterfactual
-    supervision을 사용한다.
-3. proximity/vertical-order의 의미 보존 변환에 대해 exact consistency를
-    inference에서 보장한다.
-
-권장 Contribution 2는 다음과 같다.
-
-> We introduce source-score-excluded compatibility learning for fixed relation
-> candidates, using linked positive--counterfactual supervision and
-> relation-preserving transformation averaging to assign the same compatibility
-> to equivalent endpoint/predicate representations.
-
-이 표현은 transformation averaging만을 새롭다고 주장하지 않으면서도 factor
-separation과 training supervision을 하나의 재현 가능한 method contribution으로
-만든다. Contribution 3은 family composition과 unsupported family를 보존하는 constrained
-re-ranking으로 별도 유지할 수 있다.
-
-# 섹션별 상세 검토
-
-## Title
-
-### **[사소]** ``Semantic Confidence''의 정밀도.
+Table 3에서 CI를 제외한 결정은 유지한다. Supplement에는 Linear와 MLP의 paired
+scan-level intervals가 실제로 존재하므로 Audit 326행의 통계적 문장을 삭제할 필요는
+없다. 다만 현재 문장은 Table 3이 interval을 보여 주는 것처럼 읽힐 수 있다.
 
 원문:
-```text
-Beyond Semantic Confidence: Relation-Consistent Geometric Re-ranking for
-3D Scene Graphs
-```
 
-제목의 후반부는 method 및 scope와 잘 맞는다. 다만 $Z$는 calibrated confidence가
-아니라 sigmoid relation score 또는 cosine similarity이므로 ``Semantic Confidence''는
-조금 넓다. 현재 제목은 rhetorical framing으로 유지 가능하지만, 최대한 엄밀하게 하려면
-``Beyond Relation Scores''가 대안이다. 제목 변경은 필수는 아니다.
-
-## Abstract
-
-### **[치명적]** 보존 대상과 factor separation의 사실관계 오류.
-
-원문:
-```text
-RelCompat3D, a re-ranking framework that preserves ordered-pair measurements
-and the relation score produced by the predictor.
-```
-
-Method가 보존하는 핵심은 ordered-pair identity다. Measurements와 score를 하나로
-``preserves''한다고 쓰면 둘을 model input으로 함께 유지하는 것처럼 읽힌다. 실제로
-compatibility는 $T,G$로 계산하고 $Z$는 마지막 ranking에서만 결합한다.
-
-수정 제안:
-> RelCompat3D preserves ordered-pair identity and estimates compatibility from
-> predicate semantics and predicate-independent ordered-pair measurements without
-> using predictor identity or score.
-
-### **[사소]** evaluation target 표현.
-
-원문:
-```text
-on a shared 3DSSG
-```
-
-3DSSG가 dataset, ontology, validation target 중 무엇인지 불명확하다.
-
-수정 제안:
-> on one shared 3DSSG validation target
-
-### **[사소]** predictor--$K$ values collocation.
-
-원문:
-```text
-Across all reported predictor--K values
-```
-
-predictor는 value가 아니므로 ``settings''가 자연스럽다.
-
-수정 제안:
-> Across all reported predictor--$K$ settings
-
-### **[사소]** alternative measure의 수 불일치.
-
-원문:
-```text
-under an alternative geometric measure
-```
-
-point와 mesh 두 representation을 결합한 audit이므로 ``using alternative geometric
-measurements''가 더 정확하다.
-
-## Introduction
-
-### **[치명적]** 빈 citation과 caption 형식.
-
-원문:
-```text
-Open3DSG (source)~\cite{} predicts ...
-```
-
-빈 citation은 제거하거나 실제 Open3DSG key를 넣어야 한다. 또한 모든 figure/table
-caption의 bold lead-in은 AAAI-27의 10-point roman caption 규정과 맞지 않는다.
-\texttt{\ textbf\{RelCompat3D.\}}를 삭제한다.
-
-### **[치명적]** Figure 1의 view와 estimator가 부정확하다.
-
-원문:
-```text
-although the elevation view places the desk below the ceiling.
-...
-RelCompat3D demotes the inconsistent relation to rank 425
-```
-
-현재 Figure 1은 axis-aligned elevation plot이 아니라 reconstructed point-cloud view다.
-또한 rank 425는 RelCompat3D-Linear 결과다.
-
-수정 제안:
-> Open3DSG ranks ``desk higher than ceiling'' at 6, although the reconstructed
-> point-cloud view places the desk below the ceiling. RelCompat3D-Linear demotes
-> the same candidate to rank 425, outside the top 50.
-
-### **[치명적]** ``plausible'' motivation과 teaser example의 불일치.
-
-원문:
-```text
-relation predictors rank plausible labels ... Figure 1 shows this failure.
-```
-
-``desk higher than ceiling''은 category level에서도 자연스럽게 plausible한 relation은
-아니다. Figure 1은 high-scoring geometric contradiction을 잘 보여주지만 category-level
-plausibility를 직접 보여주지는 않는다. 첫 문장을 ``high-scoring labels''로 바꾸면
-teaser와 claim이 정렬된다. Category-plausible failure는 Figure 2의 heater--trash-can
-case로 설명할 수 있다.
-
-### **[사소]** 핵심 method paragraph의 정보 밀도.
-
-원문:
-```text
-Both estimators are trained with linked positive--counterfactual pairs ...
-We then average compatibility over known relation-preserving transformations ...
-```
-
-처음 읽는 독자는 counterfactual과 transformation이 각각 negative construction과
-equivalence augmentation이라는 점을 구분하기 어렵다. 두 문장 사이에 다음 문장을
-넣는 것이 좋다.
-
-> Counterfactuals create incompatible training pairs, whereas the transformations
-> encode alternative representations of the same relation semantics.
-
-### **[치명적]** all-$K$ result 문장의 overclaim.
-
-원문:
-```text
-Across all reported K values, both variants improve the Recall--Violation
-point-estimate trade-off over the source ranking
-```
-
-SGFN $K=5$는 두 metric 모두 Source와 tie다. ``improve''를 strict improvement로
-읽을 수 있으므로 다음이 정확하다.
-
-> Across all reported $K$ values, both variants yield no worse Recall--Violation
-> point estimates than the source rankings, with the largest changes on Open3DSG.
-
-### **[사소]** Contribution 1의 ``joint''가 combined metric처럼 읽힘.
-
-원문:
-```text
-joint Recall@K--Violation@K reporting
-```
-
-두 metric을 하나로 합친 objective가 아니므로 ``reporting Recall@$K$ and
-Violation@$K$ together'' 또는 ``paired reporting''가 더 직접적이다.
-
-### **[치명적]** Contribution 2 scope.
-
-원문:
-```text
-enforce invariance under applicable relation-preserving endpoint and predicate
-transformations
-```
-
-``applicable''만으로는 support/contact까지 변환하는 것으로 읽힐 수 있다.
-``the defined proximity and vertical-order transformations''로 범위를 명시한다.
-Contribution-level 판단은 앞 절의 composite formulation을 따른다.
-
-## Related Work
-
-### **[사소]** typo와 잘못된 collocation.
-
-원문:
-```text
-absentation decisions
-```
-
-``abstention decisions''가 맞다. 더 자연스럽게는 ``selective abstention''이다.
-
-### **[사소]** Recall@$K$ 정의가 부정확함.
-
-원문:
-```text
-Recall@K measures retrieval rank rather than compatibility ...
-```
-
-Recall@$K$는 rank 자체가 아니라 cutoff에서의 exact-label retrieval을 측정한다.
-
-수정 제안:
-> Recall@$K$ measures exact-label retrieval at a ranking cutoff rather than
-> compatibility with reconstructed ordered-pair geometry.
-
-### **[사소]** 2D prior-work 문장.
-
-원문:
-```text
-For fixed 2D scene graph generation predictions, Neau et al. ...
-```
-
-수식어 연결이 어색하다.
-
-수정 제안:
-> For fixed predictions from 2D scene graph generators, Neau et al. ...
-
-### 잘 된 점.
-
-각 prose paragraph는 related methods와 RelCompat3D의 공통점 또는 차이로 끝난다.
-3D generation, geometry-aware evidence, transformation methods, calibration/uncertainty와의
-novelty boundary도 분리되어 있다. Related Work의 구조는 유지하는 것이 좋다.
-
-## Method
-
-### **[사소]** Problem Formulation 첫 문단이 지나치게 조밀함.
-
-원문은 $r_i$, score contracts, context, 두 identity, $T_i$, $a_i$, $G_i$를 한
-문단에서 정의한다. 다음 세 단위로 나누는 것이 좋다.
-
-1. candidate tuple, native source score, context;
-2. ordered-pair identity와 exact relation identity;
-3. $T_i$, $a_i$, $G_i$의 역할.
-
-### **[사소]** family label 설명의 문법과 의미.
-
-원문:
-```text
-The family label a_i always selects the transformation set and re-ranking
-relation families.
-```
-
-하나의 $a_i$가 ``relation families''를 선택한다는 표현은 어색하다.
-
-수정 제안:
-> The family label $a_i$ selects the applicable transformation set and determines
-> whether the candidate's family is re-ranked.
-
-### **[치명적]** support/contact training head의 목적이 빠짐.
-
-원문:
-```text
-Support/contact negatives replace one endpoint under separation margins.
-```
-
-primary variants는 support/contact를 re-rank하지 않는데 이 family의 negative
-construction이 갑자기 등장한다. 이 detail을 supplement로 옮기거나, all-family
-comparison의 linear head에만 쓰인다고 명시해야 한다.
-
-### **[치명적]** exact construction rule pointer가 없음.
-
-원문:
-```text
-Evaluation rows, predictor scores, and verifier-status labels are not used to
-construct training examples.
-```
-
-boundary는 좋지만 threshold, cap, balancing이 어디에 있는지 rendered text에서 알 수
-없다. 다음 한 문장을 유지해야 한다.
-
-> The supplement specifies the family-specific thresholds, negative cap, and
-> balancing rules.
-
-이는 불필요한 약점 공개가 아니라 재현성 pointer다.
-
-### **[사소]** nonlinear architecture 설명의 난이도.
-
-원문:
-```text
-one shared two-hidden-unit ReLU network
-...
-With a predicate-linear skip connection
-```
-
-``two-hidden-unit''는 hidden layer가 두 개인지 unit이 두 개인지 잠깐 모호하다.
-
-수정 제안:
-> one shared single-hidden-layer ReLU network with two hidden units
-
-그리고 skip connection은 ``a direct linear path from predicate indicators to
-the output logit''로 한 번 풀어 쓴다.
-
-### **[사소]** outputs collocation.
-
-원문:
-```text
-Transformation averaging therefore outputs ...
-```
-
-수학적 relation에는 ``yields'' 또는 ``guarantees''가 자연스럽다.
-
-### **[치명적]** loss가 실제 ordering을 보장하는 것처럼 씀.
-
-원문:
-```text
-the pairwise objective still orders each linked positive above its
-counterfactual
-```
-
-loss는 ordering을 장려하지만 모든 sample에 대해 보장하지 않는다.
-
-수정 제안:
-> the pairwise objective encourages each linked positive to score above its
-> counterfactual
-
-### **[치명적]** log-score 설명의 전제가 불명확함.
-
-원문:
-```text
-For positive factors ... log u_i = log Z_i + log C_i ...
-```
-
-Open3DSG의 native score는 cosine similarity이므로 score positivity가 일반 정의에서
-자동으로 보장되지 않는다. 이 identity는 method에 필요하지 않으므로 삭제하는 것이
-가장 안전하다. 유지하려면 $Z_i>0$ 및 $C_i^{\rm tr,q}>0$ 조건과 실제 observed score
-contract를 명시해야 한다.
-
-### **[사소]** optimization property가 main flow를 방해함.
-
-원문:
-```text
-maximizes their sum of ranking scores subject to the preserved family counts
-and support/contact subsequence
-```
-
-construction property는 맞을 수 있지만 핵심 이해에는 필요하지 않다. 본문은 family
-sequence와 support/contact subsequence 보존만 설명하고 exchange proof와 utility
-maximization은 supplement로 옮기는 것이 읽기 쉽다.
-
-### **[사소]** source score 명칭 통일.
-
-원고는 ``predictor score'', ``source score'', ``source relation score'', ``relation
-score produced by the predictor''를 혼용한다. $Z$의 통일 표현은 ``source relation
-score''가 가장 정확하다. probability 또는 calibrated confidence로 부르지 않는다.
-
-## Experimental Setup
-
-### **[치명적]** evaluation scope와 re-ranking scope의 혼동.
-
-원문:
-```text
-restricted to relations whose consistency can be re-ranked from reconstructed
-ordered-pair geometry
-```
-
-support/contact는 평가 scope에는 있지만 re-ranking scope에는 없다.
-
-수정 제안:
-> restricted to relation families whose consistency can be assessed from
-> reconstructed ordered-pair geometry
-
-### **[사소]** family 이름 통일.
-
-원문:
-```text
-relative vertical families
-```
-
-Method와 맞춰 ``vertical-order family''로 통일한다.
-
-### **[사소]** pooled model의 위치가 불명확함.
-
-원문:
-```text
-a pooled linear model tests whether family-specific fitting is necessary
-```
-
-Table 1에는 pooled model이 없다. ``reported in the supplement''를 바로 붙여야 독자가
-누락된 baseline으로 오해하지 않는다.
-
-### **[사소]** Metrics 문단의 과밀함.
-
-Primary Recall/Violation 수식과 uncertain denominator는 본문에 필요하다. 반면
-uncertainty rate, decidable-only violation, status coverage, decidable coverage,
-pessimistic variant를 한 문장에 모두 나열하면 main setup이 audit checklist처럼 읽힌다.
-
-수정 제안:
-> The supplement reports uncertainty, coverage, decidable-only Violation, and a
-> pessimistic variant that counts uncertain candidates as violations.
-
-### bootstrap 표현에 대한 판단.
-
-원문:
-```text
-Paired 95% confidence intervals use 1,000 bootstrap resamples of the 157 scans,
-keeping all contexts from each scan together ...
-```
-
-이 문장은 필요하고 자연스럽다. ``bootstrap''은 top-tier empirical papers에서 흔히
-쓰는 표준 통계 용어다. 같은 scan의 context가 독립 sample이 아니므로 scan-level
-resampling을 밝히는 것이 오히려 rigor를 높인다. ``cluster bootstrap''이라는 말을
-반드시 쓸 필요는 없고, 현재처럼 procedural definition을 쓰면 충분하다.
-
-## Results
-
-### **[치명적]** tie를 decrease로 서술함.
-
-원문:
-```text
-the Violation point estimate decreases for every predictor. SGFN is tied at
-K= and changes only marginally at K=10
-```
-
-SGFN $K=5$는 Source, Linear, MLP가 Recall 31.17, Violation 2.37로 모두 tie다.
-
-수정 제안:
-> Across $K\in\{5,10,20,50,100\}$, neither variant has a lower Recall point
-> estimate or a higher Violation point estimate than Source. SGFN is tied at
-> $K=5$ and changes only marginally at $K=10$.
-
-### **[사소]** ``reported ranges'' collocation.
-
-원문:
-```text
-the largest gains across the reported ranges
-```
-
-``reported $K$ values''가 정확하다.
-
-### **[사소]** ``better''의 정의.
-
-원문:
-```text
-yields a better K=50 point estimate Recall-Violation trade-off
-```
-
-두 metric이 모두 weakly 개선된다는 뜻을 바로 밝히면 좋다.
-
-수정 제안:
-> at $K=50$, each variant has a Recall point estimate no lower and a Violation
-> point estimate lower than Source for all three predictors
-
-### 잘 된 점.
-
-Linear와 MLP 중 하나를 universal winner로 만들지 않고 Open3DSG의 Recall--Violation
-operating-point 차이를 설명한 점은 엄밀하다. RankAvg/RRF의 low-$K$ Recall loss와
-all-family product의 support/contact selection change도 comparator 역할과 맞게
-해석했다.
-
-## Discussion and Limitations
-
-### **[사소]** main text에서 줄일 수 있는 stress-test 문장.
-
-원문:
-```text
-The supplementary ReplicaSSG evaluation using FROSS predictions shows that
-performance changes under ontology and geometry shifts.
-```
-
-정직하지만 main claim을 방어하는 데 필수는 아니다. single-target scope를 바로
-말한 뒤 이 문장은 supplement에 두는 편이 submission narrative에는 더 유리하다.
-삭제하더라도 cross-dataset generalization을 주장해서는 안 된다.
-
-### **[치명적]** 반드시 남겨야 하는 construct boundary.
-
-원문:
-```text
-The point- and mesh-based audit still uses the same reconstructed instance
-geometry and relation ontology, so it does not provide an independent reference
-for geometric validity.
-```
-
-이 문장은 핵심 construct validity boundary이므로 유지해야 한다. 숨기면 reviewer가
-audit을 independent ground truth로 오해하거나 circularity를 지적했을 때 더 큰 문제가
-된다. 다만 다음 future-work 문장은 줄일 수 있다.
-
-```text
-Broader claims require independently defined reference labels, richer contact
-and pose evidence, and evaluation on additional datasets.
-```
-
-권장 압축:
-> Because the point- and mesh-based audit uses the same reconstructed scenes and
-> ontology, it is an alternative geometric measurement rather than independent
-> validity ground truth.
-
-### **[사소]** outside-scope 목록 압축.
-
-support/contact는 main boundary이므로 유지한다. Reference-frame relations와 complete
-graph generation은 한 문장으로 줄일 수 있다.
-
-> RelCompat3D assumes known instances and reconstructed ordered-pair geometry; it
-> does not generate complete graphs or correct contact-dependent relations.
-
-## Conclusion
-
-### **[치명적]** strict lower claim이 Table 1과 모순됨.
-
-원문:
-```text
-both variants yield lower verifier-derived Violation point estimates while
-preserving or improving Recall point estimates at every reported K
-```
-
-SGFN $K=5$는 Violation도 tie다.
-
-수정 제안:
-> Across three predictors on one shared 3DSSG validation target, both variants
-> yield lower or tied verifier-derived Violation point estimates while preserving
-> or improving Recall point estimates at every reported $K$.
-
-# Figure 검토
-
-## Figure 1: failure case
-
-### 내용 적합성.
-
-Figure 1은 failure case의 목적을 대체로 잘 수행한다. 같은 candidate가 Source rank
-6에서 Linear rank 425로 이동하고, desk가 ceiling 아래에 있는 reconstructed point-cloud
-evidence가 함께 보인다. 따라서 ``high source score does not ensure same-pair geometric
-compatibility''라는 task motivation은 전달된다.
-
-다만 다음 수정이 필요하다.
-
-- 그림 내부 ``Relcompat3D''를 ``RelCompat3D-Linear''로 수정한다.
-- caption의 ``elevation view''를 ``reconstructed point-cloud view''로
-    수정한다.
-- rank change가 Linear 결과임을 caption에 명시한다.
-- 이 사례는 category-plausible error라기보다 obvious vertical contradiction이다.
-    Introduction의 ``plausible'' failure와 동일 사례라고 단정하지 않는다.
-
-## Figure 2: method overview
-
-현재 Figure 2가 보여주는 핵심 흐름은 맞다.
-
-1. predicate semantics와 pair measurements만 compatibility block으로 들어간다.
-2. source relation score는 compatibility를 우회한다.
-3. 두 signal은 within-family score에서 결합된다.
-4. family-aware re-ranking 후 rank가 19에서 178로 이동한다.
-
-따라서 Linear/MLP architecture, BCE, margin loss를 그림 안에 추가할 필요는 없다.
-그림을 과밀하게 만들지 않으려는 판단은 타당하다. 그러나 다음 두 정보는 caption에
-필요하다.
-
-- compatibility는 relation-preserving transformations에 대해 averaging된
-    score라는 점;
-- illustrated 19--178 rank change는 RelCompat3D-Linear 결과라는 점.
-
-가능하면 그림 내부 ``T/G Compatibility''는 ``Predicate--geometry compatibility''로
-바꾼다. Slash 표기는 $T$와 $G$의 단순 ratio처럼 보일 수 있다. Primary scope를 그림에
-더 넣기 어렵다면 caption 끝에 다음 한 문장을 추가한다.
-
-> The method re-ranks proximity and vertical-order candidates; support/contact
-> candidates retain source order. The illustrated 19-to-178 change is produced by
-> RelCompat3D-Linear.
-
-## Figure 3: quantitative trajectory
-
-Figure 3의 plot type은 적합하다. Table 1이 exact values를, Figure 3이 right/down
-movement와 $K$에 따른 trajectory를 담당하므로 bar chart보다 현재 line trajectory가
-더 많은 정보를 보존한다. 세 predictor의 scale이 달라 axis range가 다른 점도 caption에
-명시되어 있다.
-
-수정할 부분은 다음과 같다.
-
-- legend의 ``Ours (Linear)/(MLP)''를 가능하면 Table과 같은
-    ``RelCompat3D-Linear/MLP''로 통일한다.
-- ``same budget order''를 ``same increasing-$K$ order''로 바꾼다.
-- 현재 45 coordinates는 active
-    `evaluation/routed_comparators/metrics.csv`의 수치와 일치한다.
-
-## Figure source의 AAAI 형식 문제
-
-**[치명적]** `paper/user.tex`이 직접 참조하는
-`paper/Figure1.pdf`, `Figure2.pdf`, `Figure3.pdf`를
-`pdffonts`로 확인하면 모두 CID TrueType/Identity-H font를 포함한다. AAAI-27
-Author Kit은 CID/Identity-H를 제거하거나 outline으로 변환하도록 요구한다
-(`AnonymousSubmission2027.tex:232`). 또한 Figure 3 inclusion은 다음을
-사용한다.
-
-```text
-trim={0bp 43bp 0bp 45bp}, clip
-```
-
-Author Kit은 LaTeX의 trim/clip에 의존한 crop을 금지하고 figure file 자체를 외부에서
-crop하라고 명시한다
-(`AnonymousSubmission2027.tex:575--579`). 따라서 최종 제출에서는
-outlined-font PDF를 만들고 crop을 asset에 적용한 뒤 단순
-`\includegraphics[width=...]`로 삽입해야 한다.
-
-# Table 및 수치 검토
-
-## Table 1
-
-### 수치.
-
-Table 1의 Source, Linear, MLP, RankAvg, RRF values는 active routed-comparator
-artifact와 일치한다. Abstract의 ``no lower Recall/no higher Violation point
-estimates''도 모든 30 proposed-variant predictor--$K$ pair에 대해 point-estimate
-수준에서 맞다. 단, tie를 strict decrease로 바꾸면 안 된다.
-
-### **[사소]** caption 문법.
-
-원문:
-```text
-Source denoted each predictor's original ranking.
-```
-
-``Source denotes''가 맞다. ``All entries are percentages''도 넣어야 한다. Caption의
-bold lead-in은 제거한다.
-
-권장 caption:
-> Shared 3DSSG validation results. Exact-match Recall (R, higher is better) and
-> verifier-derived Violation (V, lower is better) are percentages. Source denotes
-> each predictor's original ranking. Both RelCompat3D variants, RankAvg, and RRF
-> use the same family-aware ranking procedure; Product (all families) applies
-> compatibility to every evaluated family.
-
-## Table 2: Ablations
-
-### 수치.
-
-제시한 Linear control 값과 full MLP rows는 locked K=50/100 artifacts와 정합하다.
-각 predictor block의 row count도 8로 맞다.
-
-### **[치명적]** caption의 scope가 완전히 명시되지 않음.
-
-원문:
-```text
-For compactness, control rows are shown for RelCompat3D-Linear.
-```
-
-표 안의 MLP row가 full method인지 MLP control인지 caption만으로는 모호하다. 또한
-모든 값이 percentage라는 설명이 빠졌다.
-
-권장 caption:
-> Ablations and counterfactual controls at $K\in\{50,100\}$. Control rows use
-> RelCompat3D-Linear; the RelCompat3D-MLP rows report the full nonlinear variant
-> for comparison, with matched MLP controls in the supplement. All entries are
-> percentages; R is Recall (higher is better) and V is verifier-derived Violation
-> (lower is better). Every condition uses the same candidates and family-aware
-> ranking procedure as Table 1.
-
-## Table 3: Point/mesh audit
-
-### 수치.
-
-Source, Linear, paired change, and Linear measured/decidable coverage는 frozen
-surface-audit artifact와 일치한다. Change는 percentage-point 차이다.
-
-### **[치명적]** ``Ours''와 coverage provenance.
-
-원문:
-```text
-Predictor & Source & Ours & Change (95% CI) & Cov.
-...
-Ours denotes RelCompat3D-Linear; ... Cov. is measured/decidable coverage.
-```
-
-두 proposed variant가 있으므로 ``Ours''는 모호하다. ``Linear''로 바꾼다. Coverage가
-Source인지 Linear인지도 header에서 드러나지 않는다. ``Linear Cov. (M/D)''로
-바꾸고 caption에서 M/D를 푼다.
-
-### **[치명적]** primary metric과 다른 construct라는 설명 누락.
-
-현재 body에는 설명이 있지만 caption만 읽으면 Table 1 Violation을 다른 방법으로
-재측정한 것으로 오해할 수 있다. ``These values are not directly comparable to the
-primary Violation in Table 1''를 caption에 넣는다.
-
-권장 compact caption:
-> Point-/mesh-based Violation at $K=50$ (%, lower is better). Satisfied or
-> violated status requires agreement between the two measurements; disagreement
-> is uncertain. $\Delta V$ is Linear minus Source in percentage points with a
-> paired 95% interval from scan-level resampling; M/D is Linear
-> measured/decidable coverage. These values are not directly comparable to the
-> primary Violation in Table 1.
-
-이 caption이 너무 길면 agreement rule을 바로 앞 본문에 두되, alternative metric과
-coverage provenance는 caption에 남긴다.
-
-# 표현 통일 계약
-
-다음 표현으로 통일하는 것이 좋다.
-
-| 개념 | 통일 표현  |
-| --- | --- |
-| generic field | 3D scene graph (고유명/제목이 아니면 lowercase)  |
-| $Z$ | source relation score  |
-| $G$ | predicate-independent ordered-pair measurements  |
-| $C$ | predicate--geometry compatibility  |
-| pair | 첫 등장 ordered subject--object pair, 이후 ordered pair  |
-| vertical family | vertical-order relations/candidates  |
-| metric | exact-match Recall@$K$; verifier-derived Violation@$K$  |
-| ranking | family-aware re-ranking  |
-| support/contact | candidates retain source order  |
-| audit | point- and mesh-based consistency audit / alternative geometric measure  |
-
-다음 혼용은 정리한다.
-
-- predictor score / source score / source relation score
-- predicate-geometry / predicate--geometry
-- vertical / relative vertical / vertical order
-- ordered pair geometry / ordered-pair geometry
-- Recall@K / Recall@$K$
-
-# 권장 수정 순서
-
-1. Abstract의 factor-separation 문장, Results의 SGFN tie, Conclusion의 strict
-    lower claim을 먼저 수정한다.
-2. Figure 1/2 caption을 실제 view와 Linear rank change에 맞추고 caption의
-    bold/monospace를 제거한다.
-3. Method의 support/contact negative 목적, counterfactual rule pointer,
-    pairwise-loss 보장 표현, log-score 문장을 정리한다.
-4. Experiments의 assessed/re-ranked scope를 분리하고 Table 2/3 caption을
-    self-contained하게 만든다.
-5. Discussion은 single-target와 non-independent-audit boundary만 남기고
-    FROSS 상세 및 future-work 목록을 supplement로 축소한다.
-6. 최종 Figure PDF의 Identity-H fonts와 Figure 3 trim/clip을 제거한다.
-
-# 최종 판단
-
-현재 원고는 ``geometry를 추가했다''는 단순 claim보다 강한 구조를 갖는다. Failure의
-원인을 source relation score와 same-pair compatibility의 차이로 정의하고, 그 원인에
-맞춰 score-excluded compatibility, identity preservation, transformation consistency,
-family-constrained re-ranking을 설계했기 때문이다. Wrong-pair/shuffled-geometry,
-wrong-predicate/swap, distance-only, compatibility-only controls도 이 논리를 검증한다.
-
-그러나 Contribution 2를 transformation averaging 자체로 내세우면 novelty ceiling이
-낮아진다. 반드시 source-score exclusion과 linked counterfactual supervision을 포함한
-composite design으로 써야 한다. 또한 verifier-derived result를 strict physical-validity
-claim으로 넓히지 않고, point/mesh audit을 alternative construct check로 한정해야 한다.
-이 두 조건과 위의 사실/형식 오류를 수정하면, transcript는 reviewer가 task, method,
-evidence, boundary를 일관되게 요약할 수 있는 수준에 도달한다.
-
-# 추가 문체 감사: possessive, 용어, 문장부호, 문장 길이
-
-이 절은 `paper/user.tex`만을 다시 검사한 결과이다. LaTeX 수식 안의 구분자와
-일반 산문을 구분했고, 단순 문자열 탐지 뒤 각 용례를 문맥에서 확인했다.
-
-## 요약
-
-- 영어 possessive 형태인 `A's B`는 3건뿐이며 남발되지 않았다. 세 표현 모두
-  문법적으로 허용되지만, formal prose와 용어 통일을 위해 `the B of A` 또는
-  전치사구로 바꾸는 편이 더 명확하다.
-- Unicode em dash (`—`)와 LaTeX em dash (`---`)는 모두 0건이다. 따라서 em dash
-  남발 문제는 없다. 원고의 `--`는 em dash가 아니라 LaTeX en dash이다.
-- semicolon은 총 14건이다. 이 중 3건은 feature vector의 수학적 구분자이고,
-  11건은 산문이다. 전체 분량 대비 남발은 아니지만 Metrics, Results, Table 3
-  caption, audit 문단에 몰려 있어 일부는 마침표로 나누는 것이 좋다.
-- 가장 중요한 문체 문제는 긴 문장이다. 특히 세 가지 이상의 주장이나 조건을 한
-  문장에 넣은 Introduction, Related Work, Method, Results 문장은 분리해야 한다.
-  실무 기준으로 35단어를 넘는 문장은 우선 분리하고, 28--35단어 문장은 절이 세 개
-  이상이거나 목록을 포함할 때 분리하는 것을 권장한다. 이는 venue 규정이 아니라
-  reviewer 가독성을 위한 기준이다.
-
-## `A's B` 형태
-
-### **[사소]** possessive는 적지만 모두 더 명시적으로 바꿀 수 있음.
-
-`user.tex`에서 확인된 possessive는 다음 세 곳이다.
-
-| 위치 | 원문 | 권장 표현 |
-| --- | --- | --- |
-| line 50 | `each candidate's ordered subject--object identity` | `the ordered-pair identity of each candidate` |
-| line 167 | `that family's candidates` | `the candidates in family $a$` |
-| line 209 | `each predictor's original ranking` | `the original ranking of each predictor` |
-
-영어 논문에서 무생물 possessive를 쓰는 것 자체는 오류가 아니다. 따라서 이를
-기계적으로 전부 금지할 필요는 없다. 다만 위 세 용례는 각각 이미 정의된 technical
-object를 가리키므로 전치사구가 더 정확하다. 특히 line 209는 possessive와 별개로
-`Source denoted`를 `Source denotes`로 고쳐야 한다.
-
-## 용어 및 표기 통일
-
-### **[사소]** 같은 개념의 dash와 철자 표기가 섞여 있음.
-
-핵심 용어가 다음 세 형태로 혼용된다.
-
-```text
-predicate–geometry compatibility   % Unicode en dash, line 32
-predicate--geometry compatibility  % LaTeX en dash, 다수
-predicate-geometry compatibility   % single hyphen, lines 76 and 90
-```
-
-LaTeX 원고에서는 `predicate--geometry compatibility`로 통일하는 것이 가장
-안전하다. 같은 이유로 line 137의 `linked positive-counterfactual`은
-`linked positive--counterfactual`, line 235의 `Recall-Violation trade-off`는
-`Recall--Violation trade-off`로 고친다. Abstract의 Unicode
-`predictor–$K$`도 `predictor--$K$`로 바꾸면 source-level 표기가 일관된다.
-
-### **[치명적]** metric 명칭이 같은 construct에 여러 표현을 사용함.
-
-현재 `exact-match Recall`, `exact-label Recall`, `Recall with exact predicate
-matching`이 같은 metric을 가리킨다. 또한 `rule-based Violation`과
-`verifier-derived Violation`이 섞여 있다. 독자가 서로 다른 metric으로 오해하지
-않도록 다음 계약이 좋다.
-
-- 첫 정의와 주요 claim: `exact-match Recall@$K$`와
-  `verifier-derived Violation@$K$`
-- 이후 문맥상 분명할 때: `Recall@$K$`와 `Violation@$K$`
-- 수식 내부: 현재처럼 `\mathrm{Recall@K}`와 `\mathrm{Violation@K}` 유지
-- Table header: `R@50`, `V@50`처럼 caption에서 정의된 약어 유지 가능
-
-따라서 line 78의 `exact-label Recall@K with rule-based Violation@K`는
-`exact-match Recall@$K$ with verifier-derived Violation@$K$`로 통일한다.
-
-### **[사소]** relation-family 명칭이 혼용됨.
-
-`vertical relations`, `vertical order`, `vertical-order`, `relative vertical
-families`가 같은 family를 가리킨다. 산문에서는 `vertical-order relations`,
-`vertical-order candidates`, `vertical-order family`로 통일한다. 수학적 집합
-이름 `\mathrm{vertical\ order}`는 그대로 두어도 된다. 이에 따라 line 52의
-`proximity and vertical relations`와 line 216의 `relative vertical families`를
-각각 `proximity and vertical-order relations`, `proximity and vertical-order
-families`로 고친다.
-
-### **[사소]** $Z$의 이름을 하나로 고정할 필요가 있음.
-
-동일한 $Z$를 `predictor score`, `source score`, `source relation score`로
-부른다. 첫 정의에서 `$Z_i$ is the source relation score produced by the
-predictor`라고 쓴 뒤, 산문에서는 `source relation score`로 통일하는 것이 가장
-정확하다. `source ranking`은 score가 아니라 순서를 뜻하므로 별도 용어로 유지한다.
-Figure 내부 label을 `Predictor Score ($Z$)`로 남겨야 한다면 caption에서 한 번
-`the source relation score $Z$`와 연결하면 충분하다.
-
-### **[사소]** ordered-pair 표현의 명사형과 수식형을 구분해야 함.
-
-첫 등장에서는 `ordered subject--object pair`, 이후 명사형은 `ordered pair`, 다른
-명사를 수식할 때는 `ordered-pair identity`, `ordered-pair geometry`,
-`ordered-pair measurements`가 자연스럽다. Figure 1 caption의 `ordered object
-pair`는 방향성을 흐리므로 `ordered subject--object pair`로 바꾼다. `ordered pair
-geometry`도 attributive form인 `ordered-pair geometry`로 통일한다.
-
-### **[사소]** estimator, head, variant의 층위를 유지해야 함.
-
-두 제안 방법은 `RelCompat3D-Linear`와 `RelCompat3D-MLP` variants이고, 일반 명칭은
-`compatibility estimators`이다. `linear head`는 Linear estimator 내부의
-family-specific module을 가리킬 때만 사용한다. 이 구분을 유지하면 `Linear head`,
-`Linear estimator`, `Linear variant`가 서로 다른 방법처럼 읽히지 않는다.
-
-## Em dash와 semicolon
-
-### Em dash: 문제 없음.
-
-원고에는 Unicode em dash `—`도, LaTeX em dash `---`도 없다. 확인된 26개의
-double hyphen `--`는 `subject--object`, `predicate--geometry`,
-`positive--counterfactual`, `Recall--Violation` 같은 relational compound를
-표기하는 LaTeX en dash이다. 이를 em dash 남발로 집계하면 안 된다. 다만 Unicode
-en dash와 LaTeX `--`를 섞지 말고 후자로 통일해야 한다.
-
-### **[사소]** 산문 semicolon은 수 자체보다 배치가 조밀함.
-
-수식 line 114의 semicolon 3개는 feature-vector 요소를 구분하므로 유지한다. 산문의
-11개는 전체적으로 과도하지 않지만, 아래처럼 독립 문장을 연결한 곳은 마침표가 더
-읽기 쉽다.
-
-- line 220:
-  `Normalization, imputation, and model parameters use only 1,061 training
-  scans. Model design and the applicable relation families were selected on the
-  117-scan development split.`
-- line 223:
-  `Both sets use exact relation identity $(s_i,p_i,o_i)$ within $c$. Family
-  mapping is used only for re-ranking and never for label matching.`
-- line 231:
-  secondary metric 목록 뒤 문장을 끝내고, `A pessimistic variant counts
-  uncertain candidates as violations.`를 별도 문장으로 둔다.
-- line 237:
-  Linear/MLP 수치 비교 뒤 문장을 끝내고, `The two variants are nearly tied on
-  VL-SAT and SGFN.`을 분리한다.
-- line 297:
-  `Both are proposed compatibility estimators. The corresponding MLP controls
-  are reported in the supplement.`
-- lines 315--316:
-  Table 3 caption의 `Ours denotes ...; Change is ...; Cov. is ...`를 세 문장으로
-  나눈다. 가능하면 모호한 `Ours`와 `Cov.` 자체도 앞 절의 권장안대로 header에서
-  명시한다.
-- lines 324--325:
-  agreement rule과 supplement 결과를 각각 짧은 독립 문장으로 쓴다.
-
-Figure 3 caption line 250의 semicolon은 문법적으로 허용되지만,
-`Numbers label ... . All curves follow the same increasing-$K$ order.`가 더 빠르게
-읽힌다.
-
-## 긴 문장 점검
-
-### **[사소 · 높은 수정 우선순위]** 세 개의 design rationale가 한 문장에 몰림.
-
-line 50 원문:
-
-> Excluding $Z$ prevents direct copying of the predictor score, preserving
-> ordered-pair identity prevents geometry from another object pair from being
-> substituted for the candidate evidence, and transformation averaging assigns
-> equal compatibility to equivalent endpoint/predicate representations.
-
-36단어이고 세 독립 주장으로 구성되어 있다. 다음처럼 분리하는 것이 가장 명확하다.
-
-> Excluding $Z$ prevents direct copying of the source relation score.
-> Preserving ordered-pair identity prevents geometry from another pair from
-> replacing the candidate evidence. Transformation averaging assigns equal
-> compatibility to equivalent endpoint/predicate representations.
-
-### **[사소 · 높은 수정 우선순위]** Related Work의 비교와 차이를 한 문장에 결합함.
-
-line 73 원문:
-
-> These methods and RelCompat3D all use structured relation evidence, but
-> RelCompat3D estimates continuous compatibility from the reconstructed ordered
-> subject--object pair and enforces applicable endpoint/predicate transformations
-> before joint Recall@K--Violation@K evaluation.
-
-다음처럼 commonality와 difference를 분리한다.
-
-> These methods and RelCompat3D all use structured relation evidence.
-> RelCompat3D instead estimates continuous compatibility for a fixed candidate
-> from its reconstructed ordered pair. It then enforces the applicable
-> endpoint/predicate transformations before evaluation.
-
-### **[사소 · 높은 수정 우선순위]** candidate tuple 정의가 한 호흡에 너무 많은
-기호를 설명함.
-
-lines 93--94의 `where $s_i$ and $o_i$ ...` 문장은 30단어를 넘고, 이어지는 한
-문단에서 score type, context, 두 identity, $T_i$, $a_i$, $G_i$까지 모두 정의한다.
-다음처럼 세 단위로 나눈다.
-
-> Here, $s_i$ and $o_i$ are the ordered subject and object instance identifiers,
-> and $p_i$ is the predicate. The family label $a_i$ selects the family-specific
-> procedure. The source relation score is denoted by $Z_i$.
-
-이후 `score contract`, `candidate identity`, `compatibility inputs`를 각각 별도
-문단으로 두면 그림 없이 읽어도 정의 순서가 보인다.
-
-### **[사소 · 높은 수정 우선순위]** support/contact scope와 이유가 한 문장에
-겹침.
-
-line 98 원문:
-
-> Support/contact is evaluated but kept in source order because this family
-> requires richer local contact and pose evidence, and no single endpoint
-> transformation preserves the semantics for every predicate in the family.
+> It decreases for all three predictors, with paired 95\% intervals below zero.
 
 권장:
 
-> Support/contact candidates are evaluated but remain in source order. Their
-> assessment requires richer local contact and pose evidence, and no single
-> endpoint transformation preserves every predicate in this family.
+> It decreases for all three predictors. The paired intervals reported in the
+> supplement are below zero.
 
-### **[사소 · 높은 수정 우선순위]** re-ranking의 선택 성질과 최적화 성질이 한
-문장에 있음.
+이렇게 하면 main table은 point difference만 보여 주고, interval evidence는 supplement가
+소유한다는 경계가 명확해진다.
 
-line 167 원문:
+# 섹션별 최종 판단
 
-> For each prefix, the rule also selects the highest-scoring candidates within
-> each re-ranked family and maximizes their sum of ranking scores subject to the
-> preserved family counts and support/contact subsequence.
+## Abstract, 1--4행
 
-권장:
+문제, task, identity, score separation, two estimators, transformation averaging,
+re-ranking scope, evaluation, point-estimate result, alternative audit이 모두 들어 있다.
+Claim은 정확하다. 2--3행의 짧게 끊긴 두 문장만 49번처럼 연결하면 더 자연스럽다.
 
-> For each prefix, the rule selects the highest-utility candidates within each
-> re-ranked family. Subject to the preserved family counts and support/contact
-> subsequence, this selection maximizes the sum of within-family ranking scores.
+## Introduction, 7--38행
 
-### **[사소 · 높은 수정 우선순위]** Results의 관찰과 해석을 나누어야 함.
+Problem, prior gap, design necessity, evaluation, contributions의 흐름은 자연스럽다.
+Contribution 2도 method contribution으로 충분하다. 27행의 문법 오류와 ordered-pair
+terminology를 우선 고쳐야 한다.
 
-line 235 원문:
+## Related Work, 41--56행
 
-> Open3DSG exposes the mismatch most strongly: Source baseline ranks
-> geometrically inconsistent relation candidates near the top, whereas both
-> RelCompat3D variants raise Recall and lower Violation without applying a hard
-> filter.
+각 subsection은 선행연구의 공통점과 차이를 설명한다. Reliability와 calibration의
+task boundary도 정확하다. 51행의 article만 필수 수정이다.
 
-권장:
+## Method, 73--170행
 
-> Open3DSG exposes the mismatch most strongly. Its Source baseline ranks many
-> geometrically inconsistent candidates near the top. Both RelCompat3D variants
-> raise Recall and lower Violation without applying a hard filter.
+Candidate identity, source-score separation, Linear와 MLP, counterfactual construction,
+transformation averaging, ranking score, family-sequence preservation이 구현과 맞게
+정의된다. 핵심 알고리즘은 그림 없이도 재구성할 수 있다. OBB full term, 102행 문단
+분리, final supplement pointer만 남는다.
 
-line 237의 Linear/MLP 수치 비교도 semicolon에서 문장을 끝내야 한다. 두 variant의
-trade-off 설명은 다음 문장으로 분리한다. 이 수정은 수치 관찰과 해석의 경계를
-분명하게 만든다.
+## Experimental Setup, 173--195행
 
-## 길지만 유지 가능한 문장
+Predictor, shared target, split, baseline, fitting boundary, metric denominator가 충분히
+설명된다. Pair bootstrap도 방법과 목적이 명시돼 재현 가능하다. 인용 존재 여부도
+사용자 규칙을 만족한다.
 
-다음 문장은 26--29단어 수준이지만 논리 구조가 하나이므로 반드시 나눌 필요는 없다.
+## Table 1과 Recall--Violation Results, 197--256행
 
-- line 48의 source relation score와 same-pair predicate satisfaction의 차이
-- line 231의 paired scan-resampling 절차
-- line 331의 point/mesh audit independence 한계
-- line 334의 Conclusion 요약
+Table 1 수치, Figure 3 trajectory, point-estimate claim이 정합하다. K=50 interval
+interpretation은 supplement 결과와도 맞는다. `better trade-off`를 직접 관찰값으로
+바꾸고 Table 1에 percentage 단위를 추가하면 더 명확하다.
 
-단, line 334는 길이와 별개로 SGFN $K=5$ tie 때문에 `lower`를 `lower or tied`로
-고쳐야 한다. 이 claim 오류는 앞의 Conclusion 검토 절에서 이미 지적했다.
+## Table 2와 Ablations, 258--302행
 
-## 이 문체 감사의 수정 우선순위
+Linear controls와 MLP full operating point의 범위가 명확하다. Wrong pair, shuffled
+geometry, signed vertical controls, distance-only, compatibility-only 해석은 수치와
+맞는다. Caption과 본문 첫 문장의 scope 반복만 줄일 수 있다.
 
-1. line 50, lines 93--94, line 167, lines 235--237의 긴 문장을 먼저 나눈다.
-2. metric 명칭과 `$Z$` 명칭을 통일한다.
-3. Unicode/single-hyphen 표기를 LaTeX en dash 형태로 통일한다.
-4. Table 1/3 caption과 Metrics/Audit 문단의 semicolon을 마침표로 바꾼다.
-5. 세 possessive는 마지막 language pass에서 전치사구로 정리한다.
+## Table 3과 Point- and Mesh-Based Consistency Audit, 304--327행
+
+Main table에서 CI를 제외한 결정은 적용됐다. Alternative measurement의 구성과 primary
+Violation과의 차이도 설명된다. 남은 개선은 `$\Delta$V (pp)`, `Coverage (M/D)` header,
+supplement interval attribution, 327행 문장 분리다.
+
+## Discussion and Limitations, 330--334행
+
+Single-target scope와 alternative audit이 independent ground truth가 아니라는 경계는
+필요하다. Complete-graph 문구는 fixed-prediction task와 중복되어 삭제할 수 있다.
+22번 future-work 문장은 사용자 선택을 위해 미해결로 둔다.
+
+## Conclusion, 337--338행
+
+Method scope, shared target, point-estimate claim이 정확하고 간결하다. 사용자 규칙을
+엄격히 적용하면 3DSSG 첫 등장에 인용을 추가한다.
+
+# 최종 수정 우선순위
+
+1. **Introduction, 27행**의 문법 오류를 고친다.
+2. **Related Work, 51행**에 article을 추가한다.
+3. **Table 3, 310행**을 `$\Delta$V (pp)`와 `Coverage (M/D)`로 바꾼다.
+4. **Audit, 326행**에서 interval이 supplement 결과임을 밝힌다.
+5. **전체 원고**의 ordered-pair terminology를 통일한다.
+6. **Table 1과 Table 2 caption**에 percentage와 shared-target scope를 보완한다.
+7. **Results, 241행**의 vague trade-off 표현을 직접 관찰값으로 바꾼다.
+8. **Conclusion, 338행**의 3DSSG 첫 등장에 인용을 추가한다.
+9. **Discussion, 334행**의 future-work 문장은 사용자 선택 상태로 유지한다.
+10. Figure path, caption style, page layout, overflow는 final pass에서 처리한다.
+
+현재 원고에는 scientific claim을 무너뜨리는 새 문제는 없다. 남은 핵심 수정은 문법,
+Table 3 header, supplement interval attribution, 용어 통일, caption 자립성이다.

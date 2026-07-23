@@ -5,7 +5,7 @@ phase="${1:-}"
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$root"
 
-compose=(docker compose -f configs/h001/compose.structured.yaml)
+compose=(docker compose -f configs/relcompat3d/compose.structured.yaml)
 
 run_service() {
   env UID="$(id -u)" GID="$(id -g)" "${compose[@]}" run --rm "$1"
@@ -28,22 +28,22 @@ run_if_missing() {
 
 case "$phase" in
   initial)
-    run_if_missing no_family_indicator_structured_main experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/structured_main
-    run_if_missing no_family_indicator_support_routing experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/support_routing
-    run_if_missing no_family_indicator_open3dsg_route experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/open3dsg_route
-    run_if_missing no_family_indicator_nonlinear experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/nonlinear
+    run_if_missing no_family_indicator_structured_main experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/structured_main
+    run_if_missing no_family_indicator_support_routing experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/support_routing
+    run_if_missing no_family_indicator_open3dsg_route experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/open3dsg_route
+    run_if_missing no_family_indicator_nonlinear experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/nonlinear
     ;;
   downstream)
-    if [[ ! -f experiments/H001_geom_reliability/no_family_indicator_v1/protocols/downstream_freeze.json ]]; then
+    if [[ ! -f experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/protocols/downstream_freeze.json ]]; then
       run_service no_family_indicator_freeze_downstream
     fi
-    run_if_missing no_family_indicator_routed_comparators experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/routed_comparators
-    run_if_missing no_family_indicator_routed_ablation experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/routed_ablation
-    run_if_missing no_family_indicator_scan_cluster experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/scan_cluster
-    run_if_missing no_family_indicator_structured_scan_cluster experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/structured_scan_cluster
-    run_if_missing no_family_indicator_surface_audit experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/surface_audit
-    run_if_missing no_family_indicator_held_out_primitive experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/held_out_primitive
-    run_if_missing no_family_indicator_counterfactual_sensitivity experiments/H001_geom_reliability/no_family_indicator_v1/evaluation/counterfactual_sensitivity
+    run_if_missing no_family_indicator_routed_comparators experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/routed_comparators
+    run_if_missing no_family_indicator_routed_ablation experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/routed_ablation
+    run_if_missing no_family_indicator_scan_cluster experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/scan_cluster
+    run_if_missing no_family_indicator_structured_scan_cluster experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/structured_scan_cluster
+    run_if_missing no_family_indicator_surface_audit experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/surface_audit
+    run_if_missing no_family_indicator_held_out_primitive experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/held_out_primitive
+    run_if_missing no_family_indicator_counterfactual_sensitivity experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/counterfactual_sensitivity
     ;;
   *)
     echo "usage: $0 {initial|downstream}" >&2

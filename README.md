@@ -1,9 +1,10 @@
 # RelCompat3D
 
 This repository contains the anonymous submission source, compact experiment
-evidence, and Docker entry points for RelCompat3D. The current manuscript title
-is “Beyond Semantic Confidence: Relation-Consistent Geometric Re-ranking for
-3D Scene Graphs.”
+evidence, and Docker entry points for RelCompat3D. The selected submission title
+is “RelCompat3D: Predicate–Geometry Compatibility for Re-ranking 3D Scene Graph
+Relations.” The consolidated TeX source still carries the preceding working
+title and must be synchronized during the pending layout pass.
 
 RelCompat3D estimates predicate–geometry compatibility without using predictor
 identity or the source relation score. It combines compatibility with the fixed
@@ -18,14 +19,14 @@ Last updated: 2026-07-22 KST.
 The public tree is intentionally limited to:
 
 - paper/: manuscript, supplement, checklist, bibliography, and figure sources;
-- src/geocalib/: the verified code-and-data supplement allowlist plus the
+- src/relcompat3d/: the verified code-and-data supplement allowlist plus the
   point/mesh audit entry point and one transitive calibration dependency needed
   by active Compose services;
-- configs/h001/: the focused Docker image and active compose services;
+- configs/relcompat3d/: the focused Docker image and active compose services;
 - scripts/: the active no-family-indicator execution wrapper;
-- experiments/H001_geom_reliability/: frozen protocols, model locks, and compact
+- experiments/RelCompat3D_geom_reliability/: frozen protocols, model locks, and compact
   paper/supplement evidence;
-- results/h001_geom_reliability/: the compact result index and claim summary;
+- results/relcompat3d_geom_reliability/: the compact result index and claim summary;
 - docs/: workflow rules and the current reproducibility runbook.
 
 Historical experiments, H002 development, literature PDFs and notes, superseded
@@ -49,7 +50,7 @@ The repository does not claim:
 - independent physical-validity ground truth;
 - solved support/contact compatibility.
 
-See results/h001_geom_reliability/report.md for the compact result summary and
+See results/relcompat3d_geom_reliability/report.md for the compact result summary and
 paper/risk.md for manuscript-facing risks.
 
 ## Canonical Paths
@@ -59,11 +60,11 @@ paper/risk.md for manuscript-facing risks.
 | Selected manuscript | paper/aaai/main_teaser_aaai27.pdf |
 | Manuscript source | paper/aaai/main_teaser.tex |
 | Supplement source | paper/aaai/supplement.tex |
-| Active method lock | experiments/H001_geom_reliability/active_method.json |
-| Active experiment | experiments/H001_geom_reliability/no_family_indicator_v1/ |
-| Compact result index | results/h001_geom_reliability/manifest.json |
-| Compact result report | results/h001_geom_reliability/report.md |
-| Docker compose | configs/h001/compose.structured.yaml |
+| Active method lock | experiments/RelCompat3D_geom_reliability/active_method.json |
+| Active experiment | experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/ |
+| Compact result index | results/relcompat3d_geom_reliability/manifest.json |
+| Compact result report | results/relcompat3d_geom_reliability/report.md |
+| Docker compose | configs/relcompat3d/compose.structured.yaml |
 | Main wrapper | scripts/run_no_family_indicator_v1.sh |
 | Recovery runbook | docs/reproducibility.md |
 
@@ -72,10 +73,10 @@ paper/risk.md for manuscript-facing risks.
 Run from the repository root:
 
 ~~~bash
-docker compose -f configs/h001/compose.structured.yaml config --quiet
-python -m compileall -q src/geocalib
-jq empty experiments/H001_geom_reliability/active_method.json
-jq empty results/h001_geom_reliability/manifest.json
+docker compose -f configs/relcompat3d/compose.structured.yaml config --quiet
+python -m compileall -q src/relcompat3d
+jq empty experiments/RelCompat3D_geom_reliability/active_method.json
+jq empty results/relcompat3d_geom_reliability/manifest.json
 ~~~
 
 The active compact outputs can be inspected without the raw datasets. Rerunning
@@ -88,25 +89,25 @@ Build or run the active route through Docker:
 
 ~~~bash
 env UID=$(id -u) GID=$(id -g) docker compose \
-  -f configs/h001/compose.structured.yaml build no_family_indicator_fit
+  -f configs/relcompat3d/compose.structured.yaml build no_family_indicator_fit
 
 env UID=$(id -u) GID=$(id -g) docker compose \
-  -f configs/h001/compose.structured.yaml run --rm no_family_indicator_fit
+  -f configs/relcompat3d/compose.structured.yaml run --rm no_family_indicator_fit
 
 scripts/run_no_family_indicator_v1.sh downstream
 ~~~
 
 The complete active command map is in
-experiments/H001_geom_reliability/commands.md.
+experiments/RelCompat3D_geom_reliability/commands.md.
 
 ## Paper Build
 
 ~~~bash
 docker build -f paper/aaai/Dockerfile.tex \
-  -t h001-aaai27-tex:20260712 paper/aaai
+  -t relcompat3d-aaai27-tex:20260712 paper/aaai
 
 docker run --rm -v "$PWD/paper:/work" -w /work/aaai \
-  h001-aaai27-tex:20260712 \
+  relcompat3d-aaai27-tex:20260712 \
   latexmk -pdf -interaction=nonstopmode -halt-on-error main_teaser.tex
 ~~~
 
@@ -123,5 +124,5 @@ ignored. Restoring or deleting those materials must follow
 docs/reproducibility.md.
 
 The last fully verified release bundle is staged locally at
-release/h001_aaai27_openreview_20260720_084307/. It is a verification baseline,
+release/relcompat3d_aaai27_openreview_20260720_084307/. It is a verification baseline,
 not a replacement for regenerating the release after the pending layout fix.

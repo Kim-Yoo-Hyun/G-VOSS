@@ -308,7 +308,7 @@ def main() -> None:
     svg_path.write_text(render_svg(left_scene, right_scene), encoding="utf-8")
 
     manifest = {
-        "schema_version": "h001_teaser_hybrid_v1",
+        "schema_version": "relcompat3d_teaser_hybrid_v1",
         "status": "hybrid_svg_generated_case_lock_verified",
         "source_png": str(SOURCE_PNG.relative_to(ROOT)),
         "source_png_sha256": sha256(SOURCE_PNG),

@@ -10,10 +10,10 @@ authoritative owner below instead of copying live state into `docs/`.
 | Information | Owner |
 | --- | --- |
 | Immediate tasks and recent completion history | `TODO.md` |
-| H001 problem, method, evidence, and claim boundary | `summary.md` |
+| RelCompat3D problem, method, evidence, and claim boundary | `summary.md` |
 | Human-facing repository overview | `README.md` |
-| H001 experiment entry point | `experiments/H001_geom_reliability/README.md` |
-| Compact paper-facing results | `results/h001_geom_reliability/README.md` |
+| RelCompat3D experiment entry point | `experiments/RelCompat3D_geom_reliability/README.md` |
+| Compact paper-facing results | `results/relcompat3d_geom_reliability/README.md` |
 | Manuscript workspace | `paper/README.md` |
 | Recovery, external inputs, Docker, and cleanup | `docs/reproducibility.md` |
 
@@ -30,11 +30,11 @@ authoritative owner below instead of copying live state into `docs/`.
 
 | Area | Entry point |
 | --- | --- |
-| Python implementation | `src/README.md`, `src/geocalib/README.md` |
-| Docker configuration | `configs/README.md`, `configs/h001/README.md` |
+| Python implementation | `src/README.md`, `src/relcompat3d/README.md` |
+| Docker configuration | `configs/README.md`, `configs/relcompat3d/README.md` |
 | Shell wrappers | `scripts/README.md` |
-| Active H001 evidence | `experiments/README.md`, `experiments/H001_geom_reliability/README.md` |
-| Compact results | `results/README.md`, `results/h001_geom_reliability/README.md` |
+| Active RelCompat3D evidence | `experiments/README.md`, `experiments/RelCompat3D_geom_reliability/README.md` |
+| Compact results | `results/README.md`, `results/relcompat3d_geom_reliability/README.md` |
 | Manuscript | `paper/README.md`, `paper/aaai/README.md` |
 
 ## Local-Only Archive

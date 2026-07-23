@@ -2,7 +2,7 @@
   "composition_references": {
     "figure1": {
       "path": "paper/reference_AAAI/Figure1.png",
-      "sha256": "c0ec122affb2909cff335d10bd95fd57be2290b24e128789917ec934f7e8818b"
+      "sha256": "13c2ad35391ebf5a8b15b9b35b5a123effe4b44a5c9896c59edca4a54edc5cab"
     },
     "figure2": {
       "path": "paper/reference_AAAI/Figure2_0719.png",
@@ -53,6 +53,6 @@
     "subject": 6.816,
     "warn": 7.325
   },
-  "schema_version": "h001_user_reference_vector_v2",
+  "schema_version": "relcompat3d_user_reference_vector_v2",
   "status": "native_vector_layouts_generated_case_lock_verified"
 }

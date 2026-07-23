@@ -6,8 +6,8 @@ The submission-facing script directory contains one lightweight Docker wrapper:
   `initial` or `downstream` phases, skips completed manifests, and refuses to
   overwrite nonempty incomplete outputs.
 
-Core fitting, evaluation, audit, and figure logic remains in `src/geocalib/`;
-Docker services and pinned environment definitions remain in `configs/h001/`.
+Core fitting, evaluation, audit, and figure logic remains in `src/relcompat3d/`;
+Docker services and pinned environment definitions remain in `configs/relcompat3d/`.
 Exact runs require the external row-level inputs documented in
 `docs/reproducibility.md`.
 

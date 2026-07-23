@@ -5,7 +5,7 @@ Last updated: 2026-07-21 KST
 이 문서는 현재 논문의 experiment가 **무엇을, 어떤 predictor와 dataset에서,
 어떤 조건과 metric으로 검증하는지** 설명한다. 실행 명령, Docker image, model hash,
 row-level artifact는 `docs/reproducibility.md`와
-`experiments/H001_geom_reliability/README.md`가 소유한다.
+`experiments/RelCompat3D_geom_reliability/README.md`가 소유한다.
 
 ## 1. Evaluation task
 
