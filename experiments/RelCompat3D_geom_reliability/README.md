@@ -1,6 +1,6 @@
 # RelCompat3D Geometry Reliability Submission Artifacts
 
-Last updated: 2026-07-22 KST
+Last updated: 2026-07-23 KST
 
 This directory is the compact experiment subset used by the RelCompat3D
 manuscript and technical supplement. The canonical method pointer is
@@ -30,6 +30,8 @@ The active evaluation directories are:
   coverage sensitivities;
 - `held_out_primitive` and `counterfactual_sensitivity`: construct and policy
   sensitivity analyses;
+- `component_removals`: direct Linear removals of the linked pairwise loss and
+  inference-time transformation averaging;
 - `runtime`: CPU re-ranking benchmark;
 - `external_transfer`: ReplicaSSG/FROSS transfer stress test.
 

@@ -1,6 +1,6 @@
 # RelCompat3D Research Summary
 
-Last updated: 2026-07-22 KST.
+Last updated: 2026-07-23 KST.
 
 ## Research Task
 
@@ -71,6 +71,9 @@ support varies by predictor and K.
   changes under an alternative geometric construct.
 - Feature-removal and counterfactual-policy analyses probe partial dependence
   between the compatibility targets and the primary OBB-derived verifier.
+- Direct Linear removals show a small aggregate effect from the linked
+  pairwise term. Removing transformation averaging changes aggregate metrics
+  little but removes the exact endpoint/predicate-consistency guarantee.
 - The ReplicaSSG/FROSS result is retained only as a transfer stress test, not
   dataset-level generalization evidence.
 - A bounded CPU benchmark measures re-ranking after rows and pair geometry are

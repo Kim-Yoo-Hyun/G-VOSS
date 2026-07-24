@@ -1,6 +1,6 @@
 # RelCompat3D Appendix And Supplement Plan
 
-Last updated: 2026-07-18 KST
+Last updated: 2026-07-24 KST
 
 This file owns appendix/supplement material that is too detailed for the AAAI
 main text but important for reviewer defense. It is not a new experiment-result
@@ -17,7 +17,9 @@ at all five K values, surface-audit
 coverage and thresholds, synthetic interventions, all-K scan-cluster confidence
 intervals, family-specific metrics, method diagnostics, bounded CPU cost/parameter
 reporting, counterfactual-policy sensitivity, and external transfer remain
-supplemental. The nine-condition train-only
+supplemental. A notation table at the beginning of the technical supplement
+defines the candidate, compatibility, transformation, ranking, and evaluation
+symbols used in the main paper. The nine-condition train-only
 sensitivity varies proximity threshold, vertical margin, negative cap, and
 pairwise-loss weight one factor at a time; its compact owner is
 `experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/counterfactual_sensitivity/`.

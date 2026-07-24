@@ -1,6 +1,6 @@
 # RelCompat3D Submission Result Summary
 
-Last updated: 2026-07-22 KST
+Last updated: 2026-07-23 KST
 
 This summary covers the active `no_family_indicator_v1` method only. Exact
 all-K values, paired intervals, controls, and audits are stored in the paths
@@ -37,6 +37,9 @@ are reported separately in the canonical evaluation artifacts and manuscript.
 - Wrong-predicate, wrong-pair, shuffled-geometry, fixed-predicate swap,
   distance-only, and compatibility-only controls test the method factors for
   both compatibility estimators.
+- Direct Linear removals show that the linked pairwise term has a small
+  aggregate effect, while transformation averaging supplies exact
+  endpoint/predicate consistency even when aggregate metrics change little.
 - Point- and mesh-based measurements reproduce the direction of the reported
   changes under an alternative geometric construct; they are not an
   independent physical-validity ground truth.

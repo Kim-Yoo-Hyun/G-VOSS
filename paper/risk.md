@@ -1,6 +1,6 @@
 # RelCompat3D Reviewer-Risk Register
 
-Last updated: 2026-07-22 KST
+Last updated: 2026-07-23 KST
 
 이 문서는 current submission claim에 영향을 주는 reviewer attack, verified
 facts, defense, residual action, and blocked wording만 소유한다. Reviewer score와
@@ -133,6 +133,11 @@ future method extension.
 - Linear features and product scoring are simple.
 - Finite transformation averaging is a standard invariance construction.
 - The method does not introduce a new geometry encoder or relation generator.
+- Direct Linear removal shows only a small aggregate effect from the linked
+  pairwise term.
+- Removing transformation averaging changes aggregate metrics little but
+  produces nonzero discrepancies between transformed representations, while
+  the full method makes those discrepancies exactly zero.
 
 **Current defense**
 

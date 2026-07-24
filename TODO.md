@@ -1,6 +1,6 @@
 # TODO
 
-Last updated: 2026-07-22 KST.
+Last updated: 2026-07-24 KST.
 
 This file is the current task board. Detailed commands and artifact recovery
 belong in docs/reproducibility.md; exact result paths belong in the RelCompat3D
@@ -13,8 +13,8 @@ experiment README and result manifest.
   vertical spacing.
 - [ ] Remove the remaining 4.43 pt overfull table row.
 - [ ] Apply the selected `RelCompat3D: Predicate–Geometry Compatibility for
-  Re-ranking 3D Scene Graph Relations` title to the consolidated main,
-  supplement, and checklist sources.
+  Re-ranking 3D Scene Graph Relations` title to the consolidated main and
+  checklist sources. The supplement source is synchronized.
 - [ ] Rebuild the selected manuscript, supplement, and reproducibility
   checklist in Docker.
 - [ ] Regenerate and verify the anonymous release bundle after the layout fix.
@@ -31,6 +31,9 @@ experiment README and result manifest.
 
 ## Recently Completed
 
+- [x] Completed the Docker-based direct component-removal evaluation for the
+  linked pairwise loss and transformation averaging, with all input, routing,
+  reference-match, and transformation-consistency validations passing.
 - [x] Migrated the active Python namespace from the retired project namespace
   to `src/relcompat3d/` and updated public documentation, Docker paths,
   manifests, and checksums.

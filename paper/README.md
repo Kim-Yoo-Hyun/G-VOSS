@@ -19,9 +19,9 @@ paper-writing rules under `docs/paper.md`.
 - Main scope: re-rank proximity and vertical-order candidates while retaining
   support/contact candidates in source order.
 
-The consolidated TeX source still uses the preceding working title. Apply the
-selected title to the main, supplement, and checklist during the pending layout
-pass so the stored PDFs and source change together.
+The supplement source uses the selected title. Apply the same title to the
+consolidated main and checklist during the pending layout pass so the stored
+upload PDFs and all source entry points change together.
 
 ## Active Sources and Artifacts
 

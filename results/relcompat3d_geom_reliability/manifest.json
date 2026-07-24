@@ -1,6 +1,6 @@
 {
   "schema_version": "relcompat3d_submission_result_index_v1",
-  "updated_at_kst": "2026-07-22",
+  "updated_at_kst": "2026-07-23",
   "status": "submission_compact_active",
   "method_pointer": "experiments/RelCompat3D_geom_reliability/active_method.json",
   "paper": "paper/aaai/main_teaser_aaai27.pdf",
@@ -15,6 +15,7 @@
     "mlp_point_mesh_audit": "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/mlp_surface_audit",
     "feature_removal": "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/held_out_primitive",
     "counterfactual_sensitivity": "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/counterfactual_sensitivity",
+    "direct_component_removals": "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/component_removals",
     "runtime": "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/runtime",
     "external_transfer_stress_test": "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/external_transfer"
   },

@@ -1,6 +1,6 @@
 # Paper Workflow
 
-Last updated: 2026-07-22 KST
+Last updated: 2026-07-23 KST
 
 > **Submission snapshot.** RelCompat3D/RelCompat3D is the only active manuscript in
 > the compact public repository, with `paper/aaai/main_teaser_aaai27.pdf`
@@ -169,6 +169,11 @@ Reviewer-defense rules after the independent-validity/family review:
   variants, apply the principal predicate/pair/geometry controls and the
   surface-based audit to both; compact results may remain supplemental when the
   seven-page technical limit prevents a readable main table.
+- Direct Linear component removals show that the linked pairwise term has a
+  small aggregate effect. Transformation averaging primarily provides exact
+  endpoint/predicate consistency rather than a large aggregate metric gain.
+  Keep both results in the supplement and do not frame either component as an
+  independently dominant performance source.
 - Keeping support/contact in source order removes the operational regression without
   establishing support/contact compatibility. Never convert exact preservation
   into a support/contact-improvement claim.

@@ -1,6 +1,6 @@
 # RelCompat3D Docker Entry Point
 
-Last updated: 2026-07-22 KST.
+Last updated: 2026-07-23 KST.
 
 compose.structured.yaml is the only public experiment compose file. It exposes
 the active no_family_indicator_v1 fitting and evaluation services and mounts
@@ -42,6 +42,7 @@ scripts/run_no_family_indicator_v1.sh downstream
 - relcompat3d_mlp_surface_audit
 - no_family_indicator_held_out_primitive
 - no_family_indicator_counterfactual_sensitivity
+- relcompat3d_component_removals
 - no_family_indicator_candidate_build
 - no_family_indicator_candidate_figures
 - no_family_indicator_runtime

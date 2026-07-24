@@ -1,6 +1,6 @@
 # RelCompat3D Submission Commands
 
-Last updated: 2026-07-22 KST
+Last updated: 2026-07-23 KST
 
 Run commands from the repository root. Paper experiments use Docker; the
 compact tracked artifacts may be inspected without external data.
@@ -48,6 +48,18 @@ env UID=$(id -u) GID=$(id -g) docker compose \
 
 The transfer command reproduces a previously observed ReplicaSSG/FROSS stress
 test. It is not an independent cross-dataset confirmation.
+
+## Direct Component Removals
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/relcompat3d/compose.structured.yaml run --rm \
+  relcompat3d_component_removals
+```
+
+This evaluates RelCompat3D-Linear after removing either the linked pairwise
+term or inference-time transformation averaging while retaining the same
+candidate set and family-aware route.
 
 ## Inspect Paper-Facing Outputs
 

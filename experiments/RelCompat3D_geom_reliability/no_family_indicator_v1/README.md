@@ -54,7 +54,9 @@ The complete old-to-new all-K comparison is preserved in
 `candidate_paper/comparison.md`; matched
 MLP, rank-average, RRF, all-family product, controls, uncertainty, surface
 audit, feature-removal analysis, counterfactual sensitivity, and shared
-scan-cluster intervals are in `candidate_paper/` and `evaluation/`.
+scan-cluster intervals are in `candidate_paper/` and `evaluation/`. Direct
+Linear removals of the linked pairwise term and transformation averaging are
+in `evaluation/component_removals/`.
 
 ## Locks and Release
 
@@ -107,6 +109,8 @@ env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/relcompat3d/compose.structured.yaml run --rm no_family_indicator_candidate_build
 env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/relcompat3d/compose.structured.yaml run --rm no_family_indicator_runtime
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/relcompat3d/compose.structured.yaml run --rm relcompat3d_component_removals
 env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/relcompat3d/compose.structured.yaml run --rm no_family_indicator_external_transfer
 ```

@@ -1,6 +1,6 @@
 # RelCompat3D Reproducibility and Recovery
 
-Last updated: 2026-07-22 KST.
+Last updated: 2026-07-23 KST.
 
 This document is the authoritative entry point for RelCompat3D reruns, artifact
 handoff, cleanup, and recovery. Read it before moving, deleting, uploading, or
@@ -105,6 +105,7 @@ sha256sum \
 | MLP point/mesh audit | no_family_indicator_v1/evaluation/mlp_surface_audit/ |
 | feature-removal analysis | no_family_indicator_v1/evaluation/held_out_primitive/ |
 | counterfactual sensitivity | no_family_indicator_v1/evaluation/counterfactual_sensitivity/ |
+| direct component removals | no_family_indicator_v1/evaluation/component_removals/ |
 | Open3DSG route sensitivity | no_family_indicator_v1/evaluation/open3dsg_route/ |
 | support/contact preservation | no_family_indicator_v1/evaluation/support_routing/ |
 | CPU timing | no_family_indicator_v1/evaluation/runtime/ |

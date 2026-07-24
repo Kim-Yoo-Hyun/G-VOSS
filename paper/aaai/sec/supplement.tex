@@ -1,3 +1,36 @@
+\section{Notation}
+
+Table~\ref{tab:notation} summarizes the notation used in the main paper and
+the supplement.
+
+\begin{center}
+{\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabularx}{\columnwidth}{@{}lX@{}}
+\toprule
+Symbol & Meaning \\
+\midrule
+$r_i$ & Relation candidate $i$ \\
+$(s_i,o_i)$ & Ordered subject and object instance identifiers \\
+$p_i,\ a_i$ & Predicate label and relation-family label \\
+$k_i^{\rm pair},\ k_i^{\rm rel}$ & Ordered-pair identity and exact relation-candidate identity \\
+$T_i,\ G_i,\ Z_i$ & Predicate semantics, ordered-pair measurements, and source relation score \\
+$q,\ f_q,\ C_i^q$ & Estimator, compatibility logit, and bounded compatibility score \\
+$H_{a_i},\ \mathcal O_i$ & Applicable transformation group and transformation orbit \\
+$C_i^{\rm tr,q},\ u_i^q$ & Transformation-averaged compatibility and within-family ranking score \\
+$\mathcal A_{\rm eval},\ \mathcal A_{\rm rank}$ & Evaluated and re-ranked relation-family sets \\
+$\pi^Z,\ \pi_a^q$ & Source ranking and ordered list for family $a$ \\
+$L_K(c),\ Y_c$ & Selected top-$K$ candidates and exact ground-truth relations in context $c$ \\
+$D_K,\ N_s,N_u,N_v$ & Status-assigned candidates and satisfied, uncertain, and violated counts \\
+$\mathcal P,\ \ell_i^q$ & Linked training pairs and compatibility logit used by the pairwise loss \\
+\bottomrule
+\end{tabularx}
+}
+\captionof{table}{Notation used in the RelCompat3D method and evaluation.}
+\label{tab:notation}
+\end{center}
+
 \section{Model and Preprocessing Details}
 
 \paragraph{Open3DSG.}
@@ -14,6 +47,34 @@ scans.
 We use the released \texttt{SGFN\_full\_l160} model from the SceneGraphFusion
 3DSSG implementation, with its 160-object, 26-relation checkpoint on the same
 evaluation scans and denominator.
+
+\paragraph{Observed source-score ranges.}
+Table~\ref{tab:source-score-ranges} reports the scores observed among the
+proximity and vertical-order candidates evaluated by the primary re-ranking
+route. All scores are nonnegative, so multiplication by compatibility does not
+reverse the source-score order through a sign change. These are observed
+evaluation ranges rather than calibrated probability intervals. Open3DSG also
+has nonnegative scores before family routing, with an all-candidate range of
+$[0.5772,0.9707]$.
+
+\begin{table}[t]
+\centering
+{\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lrrr}
+\toprule
+Predictor & Candidates & Minimum & Maximum \\
+\midrule
+VL-SAT & 110,424 & $5.30{\times}10^{-22}$ & 0.9954 \\
+Open3DSG & 79,722 & 0.6394 & 0.9281 \\
+SGFN & 110,424 & $4.61{\times}10^{-20}$ & 0.5846 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Observed source-score ranges for candidates in the re-ranked
+proximity and vertical-order families. No score is negative or exactly zero.}
+\label{tab:source-score-ranges}
+\end{table}
 
 \section{Guarantees and Compatibility Analyses}
 
@@ -191,6 +252,56 @@ The shared nonlinear estimator obtains development
 AUROC/AUPRC/Brier of .9904/.9926/.0225. Its transformation-averaged
 compatibility also changes monotonically in all 512 proximity and 512 vertical
 intervention cases used by the surface audit.
+
+\paragraph{Direct component removals.}
+Table~\ref{tab:component-removals} isolates two components of
+\methodlinear{} while retaining the same candidates and family-aware ranking
+route. The no-pairwise condition refits the Linear estimator without the linked
+pairwise term while retaining relation-preserving augmentation and
+transformation averaging. The no-averaging condition uses the fitted full
+Linear estimator but scores compatibility without inference-time transformation
+averaging.
+
+\begin{table}[t]
+\centering
+{\small
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{llrr}
+\toprule
+Predictor & Condition & $K=50$ & $K=100$ \\
+\midrule
+\multirow{3}{*}{VL-SAT}
+ & Full Linear & .9277/.0197 & .9658/.0295 \\
+ & No pairwise & .9277/.0198 & .9658/.0297 \\
+ & No averaging & .9277/.0197 & .9660/.0295 \\
+\midrule
+\multirow{3}{*}{Open3DSG}
+ & Full Linear & .4418/.0342 & .5685/.0324 \\
+ & No pairwise & .4418/.0342 & .5692/.0324 \\
+ & No averaging & .4413/.0342 & .5692/.0324 \\
+\midrule
+\multirow{3}{*}{SGFN}
+ & Full Linear & .7450/.0263 & .9303/.0350 \\
+ & No pairwise & .7450/.0264 & .9303/.0353 \\
+ & No averaging & .7450/.0263 & .9303/.0350 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Direct component removals for \methodlinear{}. Cells are exact-match
+Recall / verifier-derived Violation reported as proportions. No pairwise
+refits without the linked pairwise term. No averaging removes inference-time
+transformation averaging from the fitted full model.}
+\label{tab:component-removals}
+\end{table}
+
+Removing the linked pairwise term changes the reported point estimates only
+marginally, so the term is best interpreted as a training regularizer.
+Removing transformation averaging also has a small aggregate effect but breaks
+the exact endpoint and predicate identities. Across the three predictors, its
+maximum absolute compatibility error reaches 0.4532 for proximity and 0.0192
+for vertical order. The full and no-pairwise conditions retain zero error.
+Transformation averaging therefore supplies an exact consistency guarantee
+rather than the main aggregate metric gain.
 
 The factor ablation uses the same split and estimator class in a separate
 pooled analysis; because one head spans all families there, its semantic input

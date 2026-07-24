@@ -13,7 +13,8 @@ modules use file-relative imports and the packages pinned in
 - Core logic: `compatibility_features.py`, `relation_consistency.py`,
   `control_utils.py`, `evaluate_metrics.py`, and `paths.py`.
 - Main evaluation: `evaluate_main.py`, `evaluate_comparators.py`,
-  `evaluate_linear_controls.py`, and `evaluate_mlp_controls.py`.
+  `evaluate_linear_controls.py`, `evaluate_mlp_controls.py`, and
+  `evaluate_component_removals.py`.
 - Family and uncertainty checks: `evaluate_support_order.py`,
   `evaluate_support_intervals.py`, and `evaluate_scan_intervals.py`.
 - Construct checks: `audit_point_mesh.py`, `audit_mlp_point_mesh.py`,
