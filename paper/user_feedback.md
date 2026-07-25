@@ -1,486 +1,526 @@
-# RelCompat3D `user_v4.tex` 통합 재검토
+# RelCompat3D `user_v6.tex` 통합 재검토
 
-- 검토일: 2026-07-24
-- 대상: `paper/user_v4.tex`
-- 기준 제목: **RelCompat3D: Predicate–Geometry Compatibility for Re-ranking 3D Scene Graph Relations**
-- 범위: transcript의 논리, 영어, claim, notation, figure와 table 참조, caption, 실험 근거, section별 역할
-- 인용: 표기 방식은 검토하지 않았다. 선행연구나 section별 첫 약어에 인용이 존재하는지만 확인했다.
-- 형식: `user_v4.tex`의 PDF와 페이지 배치는 이번 검토에서 확정하지 않았다.
+- 검토일: 2026-07-25
+- transcript 대상: `paper/user_v6.tex`
+- release 점검 대상: `paper/aaai/main.tex`, `paper/aaai/main_teaser.pdf`, `paper/aaai/main_teaser_aaai27.pdf`, supplement, reproducibility checklist
+- 기준 제목: **RelCompat3D: Predicate–Geometry Compatibility for Re-Ranking 3D Scene Graph Relations**
+- 범위: 논리, 영어, claim, notation, section 구성, Figure와 Table, 기존 이슈, AAAI-27 submission 규정
+- 인용: citation 표기 방식은 판단하지 않았다. 선행연구와 section별 첫 약어에 citation이 존재하는지만 확인했다.
+- 이번 검토에서는 PDF를 새로 빌드하지 않았다. 기존 PDF, build log, figure asset을 진단했다.
 
 상태 표시는 다음과 같다.
 
-- `[x]` 해결 완료
-- `[~]` 내용은 타당하지만 문장이나 배치 보완 필요
+- `[x]` 해결 완료 또는 규정 충족
+- `[~]` 핵심 내용은 맞지만 제출 전 짧은 수정 필요
 - `[ ]` 제출 전 수정 필요
+- `[차단]` 현재 상태로 제출하면 안 되는 규정 또는 release 문제
 - `[제외]` 사용자 판단에 따라 검토 대상에서 제외
 
 ## 전체 판단
 
-`user_v4.tex`의 핵심 흐름은 accept 관점에서 정합하다.
+`user_v6.tex`에는 main claim을 무너뜨리는 과학적 모순이 없다. 문제, 설계 선택, 실험 근거, claim boundary가 다음과 같이 연결된다.
 
-1. Introduction은 high-scoring relation과 ordered-pair geometry의 불일치를 문제로 제기한다.
-2. Method는 ordered-pair identity, source-score-excluded compatibility, transformation averaging, family-aware re-ranking으로 이 문제에 답한다.
-3. Experiments는 Source 비교, matched fusion, ordered-pair controls, transformation controls, point- and mesh-based audit로 핵심 설계를 검증한다.
-4. Discussion and Limitations는 shared-target 범위를 넘는 일반화를 주장하지 않는다.
-5. Conclusion은 새로운 주장 없이 main result를 범위 안에서 요약한다.
+1. Introduction은 source relation score와 reconstructed ordered-pair geometry의 불일치를 제기한다.
+2. Method는 ordered-pair identity, source-score-excluded compatibility, transformation averaging, family-aware re-ranking으로 문제에 답한다.
+3. Experiments는 Source 비교, matched fusion, ordered-pair controls, transformation controls, point- and mesh-based audit로 설계를 검증한다.
+4. Discussion and Limitations는 세 predictor를 하나의 shared target에서 평가한 범위를 dataset-level generalization으로 확대하지 않는다.
+5. Conclusion은 본문에 없는 새 주장 없이 reported point estimates를 요약한다.
 
-치명적인 과학적 모순은 발견되지 않았다. 제출 전에 우선 고칠 사항은 다음 다섯 가지다.
+현재 transcript에서 반드시 고칠 substantive issue는 두 개다.
 
-1. Abstract의 `on a same ... validation set`을 고친다.
-2. Table 3 헤더의 `$\Delta$V//`와 audit 본문의 `$K=50V$`를 고친다.
-3. loss equation의 고정 숫자를 일반화된 hyperparameter 기호로 바꾼다.
-4. $\sigma$, $\Delta z_i$, $\Delta z_i^{\rm norm}$, $\theta_q$를 정의한다.
-5. Introduction에 연속해서 들어간 동일한 gap 문단 중 하나를 삭제한다.
+1. normalized-height notation이 `\rm norm`과 `norm`으로 다르다.
+2. Ablations and Controls의 `largest Violation increases` 해석이 모든 predictor와 두 \(K\) 값에서 성립하지 않는다.
 
-영어와 압축 문제는 그다음 우선순위다.
+그 외 transcript 수정은 약어 정의, subsection 이름, 모호한 지시어, source 정리 수준이다.
 
-## 기존 이슈 번호 재매핑
+현재 release는 아직 submission-ready가 아니다. `user_v6.tex`의 `trim`과 `clip`, bold caption lead-in, fresh teaser PDF의 10-page 결과, page 8의 technical content, 4.4306 pt overfull, 생성형 AI 사용 역할의 미공개가 제출 전 차단 항목이다. 기존 9-page canonical PDF는 이 조건을 충족하던 이전 산출물이지만 `user_v6.tex`과 현재 선택 제목보다 오래된 파일이다.
 
-중복된 지적은 아래 통합 이슈에서 한 번만 설명한다.
+## 기존 이슈 재확인
 
-| 기존 번호 | 현재 상태 | 처리 |
+중복되는 설명은 현재 V6 이슈와 AAAI 이슈에 한 번만 남겼다.
+
+| 기존 번호 | 상태 | `user_v6.tex` 기준 처리 |
 |---|---|---|
-| 1--59 | `[x]` | `user_v4.tex`에서 재확인 완료 |
-| 14 | `[x]` | Method 끝의 한 문장으로 supplement 범위를 안내하여 해결 |
-| 60 | `[x]` | 재확인 완료 |
-| 61 | `[x]` | 이전 collocation과 ordered-pair 표현을 재확인하여 해결 완료 |
-| 62--75 | `[x]` | 재확인 완료 |
-| 76 | `[x]` | shuffled-geometry control이 marginal geometry 대비 pair association을 직접 검사하므로 현재 해석은 충분 |
-| 77--78 | `[x]` | 재확인 완료 |
-| 79 | `[~]` | 통합 이슈 D에 병합 |
-| 80--86 | `[x]` | 재확인 완료. 86번 score range 검증 결과는 아래에 보존 |
+| 1--59 | `[x]` | 문법, 용어, metric, caption 내용, family-aware ranking 관련 기존 수정 유지 |
+| 14 | `[x]` | Method 끝의 supplement 안내 문장 유지 |
+| 60--78 | `[x]` | 기존 수정 유지 |
+| 79 | `[x]` | Table 3 헤더가 `$\Delta V$`로 유지 |
+| 80--86 | `[x]` | 기존 수정 유지, source-score range는 supplement에 존재 |
 | 87 | `[제외]` | 사용자 요청에 따라 제외 |
-| 88 | `[x]` | 533/548 상세와 sensitivity를 supplement에 두는 기존 paper policy를 재확인 |
-| 89 | `[x]` | direct component removal 완료 |
-| 90 | `[x]` | supplement의 $K=100$ family table과 all-$K$ artifacts가 contribution 범위를 충분히 뒷받침 |
-| 91--92 | `[x]` | Figure와 Table의 역할 및 본문 참조 재확인 완료 |
+| 88 | `[x]` | coverage 상세는 supplement에 유지 |
+| 89 | `[x]` | pairwise-loss removal과 transformation-averaging removal이 supplement에 존재하고 main pointer도 유지 |
+| 90--92 | `[x]` | family evidence, artifact 역할, 본문 참조 유지 |
 | 93 | `[제외]` | 추가 limitation 제안에서 제외 |
-| 94--97 | `[x]` | 재확인 완료 |
-| 98 | `[ ]` | Table 3과 audit 본문의 남은 오탈자를 통합 이슈 D에서 처리 |
-| 99--100 | `[x]` | contribution 압축과 story 연결 재확인 완료 |
-| 101 | `[~]` | 통합 이슈 E |
-| 102 | `[~]` | 통합 이슈 E와 주석 정리 항목에 병합 |
-| 103--104 | `[x]` | notation table과 supplement 제목 반영 완료 |
-| 105 | `[~]` | 문법 오탈자는 통합 이슈 A, 수식 기호는 통합 이슈 F에서 처리 |
+| 94--105 | `[x]` | contribution 압축, story 연결, notation table, loss 일반화 유지 |
 
-### 기존 1--59번 이슈 재확인 `[x]`
+### `user_v5.tex`에서 남았던 이슈
 
-기존 문법, 용어, caption, metric, family-aware ranking, source-order preservation 관련 수정은 `user_v4.tex`에 유지되어 있다. 기존 14번은 Method 끝의 다음 문장으로 해결되었다.
+| 이전 이슈 | 상태 | `user_v6.tex` 판단 |
+|---|---|---|
+| V5-1 normalized-height notation | `[ ]` | V6-1로 유지 |
+| V5-2 `same separated inputs` | `[x]` | line 99에서 의미가 분명한 문장으로 수정됨 |
+| V5-3 verifier 범위 | `[x]` | line 288에서 `candidates labeled as violated by the geometry verifier`로 수정됨 |
+| V5-4 Table 3 caption | `[x]` | agreement rule과 M/D 의미가 caption에 직접 설명됨 |
+| V5-5 `source scores` | `[x]` | line 23에서 `source relation scores`로 통일됨 |
+| F-1 loss equation 일반화 | `[x]` | symbolic hyperparameter와 실제 설정값이 분리됨 |
+| F-2 기호 정의 | `[~]` | `\sigma`와 `\theta_q`는 정의됨. V6-1 표기만 남음 |
+| F-3 compact MLP 설정 | `[x]` | two hidden units가 main에 있고 parameter count는 supplement에 있음 |
 
-> The supplement provides the complete counterfactual rules, optimization details, proofs, and matched controls.
+## 현재 transcript 수정 이슈
 
-이 문장은 main Method에서 생략한 재현 세부사항의 위치를 한 번만 안내한다. 같은 목록을 다른 문단에서 다시 쓸 필요는 없다.
+### V6-1. normalized-height notation 불일치 `[ ]`
 
-### 기존 86번 score range 검증 `[x]`
+- 심각도: 중간
+- Section: Method, Linear Estimator
+- 위치: `paper/user_v6.tex:106`, `paper/user_v6.tex:109`
 
-평가에 사용한 proximity와 vertical-order candidates에서 source relation score는 모두 음수가 아니었다.
+수식:
+
+> `\Delta z_i^{\rm norm}`
+
+정의 문장:
+
+> `\Delta z_i^{norm}`
+
+같은 feature이므로 표기를 일치시켜야 한다.
+
+권장:
+
+```tex
+We define $\Delta z_i=z_{s_i}-z_{o_i}$ and
+$\Delta z_i^{\rm norm}=2\Delta z_i/(h_{s_i}+h_{o_i})$.
+```
+
+### V6-2. ablation의 `largest` 해석이 수치 전체와 일치하지 않음 `[ ]`
+
+- 심각도: 중간
+- Section: Experiments, Ablations and Controls
+- 위치: `paper/user_v6.tex:311`
+
+원문:
+
+> A wrong predicate and an endpoint swap that keeps the predicate fixed produce the largest Violation increases.
+
+Open3DSG에서는 이 해석이 맞다. 그러나 VL-SAT의 두 \(K\) 값과 SGFN의 \(K=50\)에서는 Distance only의 Violation이 더 높다. 따라서 모든 predictor와 두 \(K\)에 대한 문장으로는 과하다.
+
+권장:
+
+> A wrong predicate and an endpoint swap that keeps the predicate fixed sharply increase Violation. Their nearly identical aggregate values are consistent with both controls reversing the signed interpretation of vertical-order geometry.
+
+이 수정은 control의 의미를 유지하면서 표 수치와 정확히 맞춘다.
+
+### V6-3. MLP 약어가 처음 등장할 때 풀리지 않음 `[~]`
+
+- 심각도: 낮음
+- Section: Method, Problem Formulation과 Nonlinear Estimator
+- 위치: `paper/user_v6.tex:83`, `paper/user_v6.tex:113`
+
+`MLP`는 line 83에서 처음 등장하지만 transcript 안에서 multilayer perceptron으로 풀리지 않는다. Abstract와 Introduction은 `shared nonlinear estimator`만 사용한다.
+
+line 83에서는 `shared nonlinear estimator`를 유지하고, line 113에서 처음 정의하는 구성이 가장 자연스럽다.
+
+권장:
+
+> RelCompat3D-MLP uses one shared multilayer perceptron (MLP) with a single two-unit ReLU hidden layer.
+
+### V6-4. Method subsection 이름이 정의된 용어와 다름 `[~]`
+
+- 심각도: 낮음
+- Section: Method
+- 위치: `paper/user_v6.tex:95`
+
+현재 제목:
+
+> Relation-Consistent Compatibility
+
+본문에서 정의하는 용어는 `predicate--geometry compatibility`와 `transformation-consistent compatibility`다. `relation-consistent compatibility`는 이 subsection 제목에서만 사용되어 세 번째 유사 용어가 된다.
+
+권장 제목:
+
+```tex
+\subsection{Compatibility Estimation and Transformation Averaging}
+```
+
+이 제목은 Linear와 MLP estimator, transformation definition, averaging equation을 모두 직접 설명한다.
+
+### V6-5. `corresponding results`의 지시 대상이 모호함 `[~]`
+
+- 심각도: 낮음
+- Section: Experiments, Metrics
+- 위치: `paper/user_v6.tex:190`
+
+원문:
+
+> The released artifacts provide the corresponding results for all five \(K\) values.
+
+바로 앞에는 per-family metrics와 family composition이 나오고, 그 앞에는 uncertainty와 coverage가 나온다. `corresponding results`가 어느 결과를 뜻하는지 한 번에 알기 어렵다.
+
+의도가 uncertainty, coverage, decidable-only Violation, family metrics를 묶는 것이라면 다음이 더 명확하다.
+
+> The released artifacts provide these additional metrics for all five \(K\) values.
+
+### V6-6. 최종 source에 obsolete 주석과 inline heading이 남음 `[~]`
+
+- 심각도: 낮음
+- Section: Related Work와 Method
+- 위치:
+  - `paper/user_v6.tex:44--45`
+  - `paper/user_v6.tex:99`
+  - `paper/user_v6.tex:127--135`
+
+삭제 권장:
+
+1. 압축 전 open-vocabulary 문장 두 줄
+2. symbolic loss로 대체된 이전 fixed-number loss equation
+
+line 99의 `\subsubsection{Linear Estimator}`는 앞 문장과 같은 source line에 있다. 별도 줄과 빈 줄로 분리하면 source 구조와 diff 검토가 쉬워진다. 출력 의미는 바뀌지 않는다.
+
+## 기존 86번 source-score range `[x]`
+
+평가에 사용한 proximity와 vertical-order candidates의 source relation score는 모두 음수가 아니다.
 
 | Predictor | 관찰 범위 | Candidates | Negative | Exact zero |
 |---|---:|---:|---:|---:|
-| VL-SAT | $[5.30\times10^{-22},\,0.9954]$ | 110,424 | 0 | 0 |
-| Open3DSG | $[0.6394,\,0.9281]$ | 79,722 | 0 | 0 |
-| SGFN | $[4.61\times10^{-20},\,0.5846]$ | 110,424 | 0 | 0 |
+| VL-SAT | \([5.30\times10^{-22},\,0.9954]\) | 110,424 | 0 | 0 |
+| Open3DSG | \([0.6394,\,0.9281]\) | 79,722 | 0 | 0 |
+| SGFN | \([4.61\times10^{-20},\,0.5846]\) | 110,424 | 0 | 0 |
 
-Open3DSG의 전체 candidate 범위도 $[0.5772,\,0.9707]$로 음수가 없다. 따라서 현재 product ranking에서 음수 score로 순서가 역전되는 문제는 없다.
+Open3DSG의 전체 candidate 범위도 \([0.5772,\,0.9707]\)이며 음수가 없다. 따라서 현재 product utility에서 음수 score가 순서를 뒤집는 문제는 없다.
 
-이 결과는 `paper/aaai/sec/supplement.tex`의 `Model and Preprocessing Details`에 Table~`\ref{tab:source-score-ranges}`로 반영했다. 표는 re-ranked proximity와 vertical-order candidates의 predictor별 count, minimum, maximum을 보고한다. 본문은 observed ranges가 calibrated probability intervals가 아니며 모든 score가 nonnegative임을 명시한다.
+이 결과는 `paper/aaai/sec/supplement.tex`의 source-score range 표에 존재한다. Main은 predictor별 score 종류와 predictor 사이에서 score를 비교하지 않는다는 점을 이미 설명한다. 페이지가 제한된 main에 범위 수치를 다시 넣을 필요는 없다.
 
-#### Main paper 반영 판단
+## 기존 89번 direct component removal `[x]`
 
-Main에 범위 수치를 다시 넣을 필요는 없다. Problem Formulation의 `paper/user_v4.tex:79`는 predictor별 score의 종류를 설명하고, predictor 사이에서 score를 직접 비교하지 않는다고 이미 명시한다. Supplement 표가 product utility의 sign assumption과 재현성을 충분히 보완한다.
+동일한 frozen rows와 family-aware route에서 다음 실험이 supplement에 존재한다.
 
-Main에서 이 사실을 꼭 연결해야 한다면 `paper/user_v4.tex:79`의 다음 문장 뒤에 넣는다.
+- linked pairwise loss 제거
+- transformation averaging 제거
+- transformation identity check
+- matched Linear와 MLP controls
 
-> Candidates are ranked separately for each predictor, so existing scores are never compared across predictors.
+해석도 현재 main claim과 맞는다.
 
-선택적 추가 문장:
+1. Pairwise loss는 training regularizer다. 제거 시 aggregate metric 변화는 작다.
+2. Transformation averaging은 aggregate gain의 유일한 원인이 아니다.
+3. Transformation averaging 제거 시 exact endpoint and predicate consistency가 깨진다.
+4. 따라서 transformation averaging의 핵심 역할은 exact implementation guarantee다.
 
-> All source scores observed in the re-ranked families are nonnegative, with predictor-specific ranges reported in the supplement.
-
-이 문장은 정확하지만 main claim에 직접 필요한 결과는 아니다. 페이지가 제한되어 있다면 추가하지 않는 편을 권장한다.
-
-### 기존 89번 direct component removal `[x]`
-
-동일한 frozen rows와 family-aware route에서 linked pairwise loss와 transformation averaging을 각각 제거한 실험이 완료되었다.
-
-- Pairwise loss 제거는 aggregate Recall과 Violation을 매우 작게 바꾼다.
-- Transformation averaging 제거도 aggregate metric에는 작은 영향을 주지만 endpoint와 predicate의 exact consistency를 깨뜨린다.
-- 따라서 pairwise loss는 training regularizer로 설명하는 것이 정확하다.
-- Transformation averaging은 주요 metric gain의 원인보다 exact consistency guarantee로 설명하는 것이 정확하다.
-
-이 결과는 `paper/aaai/sec/supplement.tex`의 `Guarantees and Compatibility Analyses`에 Table~`\ref{tab:component-removals}`와 해석 문단으로 반영했다. 표는 세 predictor의 $K=50$과 $K=100$에서 Full Linear, No pairwise loss, No transformation averaging을 비교한다. 본문은 no-pairwise condition이 refit 결과이고 no-averaging condition이 fitted full model에서 inference-time averaging만 제거한 결과임을 구분한다.
-
-Supplement 해석은 다음 범위를 유지한다.
-
-> Removing the linked pairwise term changes aggregate metrics only marginally. Removing transformation averaging has similarly small aggregate effects but breaks exact endpoint and predicate consistency. The averaging step therefore provides an exact consistency guarantee rather than the main source of the aggregate gains.
-
-#### Main paper 반영 판단
-
-Main paper에 별도 table이나 수치를 추가할 필요는 없다. Main contribution은 transformation averaging을 aggregate gain의 유일한 원인으로 주장하지 않고 exact consistency guarantee로 설명한다. Method의 group-averaging 식과 supplement의 direct removal이 이 claim을 충분히 뒷받침한다.
-
-다만 reviewer가 main ablation과 supplement evidence의 연결을 바로 찾을 수 있도록 한 문장 pointer는 복원하는 편이 좋다. `paper/user_v4.tex:290`의 Compatibility-only 해석 문장 바로 다음, 현재 주석 처리된 line 291 위치에 넣는다.
-
-권장:
+Main pointer는 `paper/user_v6.tex:314`에 있다.
 
 > The supplement reports feature-removal analyses, direct component removals, transformation checks, and matched controls for both estimators.
 
-Main에서 `pairwise loss removal changes little`을 별도로 강조할 필요는 없다. 이는 pairwise term을 main gain으로 과장하지 않게 해 주지만, 상세 효과는 supplement에서 확인하는 편이 본문 흐름과 페이지 효율에 더 적합하다.
+Main에 removal 수치를 추가할 필요는 없다.
 
-### 기존 88번 Open3DSG coverage 위치 `[x]`
+## AAAI-27 submission 규정 점검
 
-Repository의 paper policy를 다시 확인했다. Main result는 public-pipeline predictions와 full 548-context denominator를 사용한다. Public-eligible 533-context route와 recovered 548-context route는 sensitivity evidence다. 상세 533/548 수치와 15 empty contexts는 supplement에 유지하기로 이미 결정되어 있다.
+검토 근거:
 
-`paper/aaai/sec/supplement.tex`은 다음을 모두 제공한다.
+- [AAAI-27 Main Technical Track Call](https://aaai.org/conference/aaai/aaai-27/main-technical-track-call/)
+- [AAAI-27 Submission Instructions](https://aaai.org/conference/aaai/aaai-27/submission-instructions/)
+- [AAAI-27 Supplementary Material](https://aaai.org/conference/aaai/aaai-27/supplementary-material/)
+- [AAAI Publication Policies and Guidelines](https://aaai.org/aaai-publications/aaai-publication-policies-guidelines/)
+- local official Author Kit: `paper/aaai/official/AnonymousSubmission2027.tex`
 
-- public preprocessing의 533/548 coverage
-- 누락된 15 contexts를 empty candidate sets로 처리하는 main denominator
-- public eligible, public full target, recovered full coverage의 sensitivity table
+### AAAI-1. `trim`과 `clip` 사용 `[차단]`
 
-따라서 `user_v4.tex`의 다음 문장만으로 main evaluation scope는 충분하다.
+- 심각도: 치명적 형식 위반
+- 위치:
+  - Figure 1: `paper/user_v6.tex:11--15`
+  - Figure 2: `paper/user_v6.tex:61--65`
+  - Figure 3: `paper/user_v6.tex:236--240`
 
-> All evaluations use the same scope: 157 scans, 548 relation contexts, and 3,972 exact-match ground-truth relations ...
+AAAI-27 Author Kit은 figure를 LaTeX 밖에서 crop하도록 요구하며 `trim`과 `clip` option을 명시적으로 금지한다.
 
-Main에 533/548 상세 문장을 추가하라는 이전 통합 이슈 B는 삭제한다.
+필수 조치:
 
-## 현재 미해결 통합 이슈
+1. 세 PDF의 media box를 최종 보이는 범위로 외부에서 고정한다.
+2. `\includegraphics`에는 `width`와 file path만 남긴다.
 
-### 통합 이슈 A. 남은 문법 오류 `[ ]`
-
-- 연결 번호: 105
-- 심각도: 높음
-- 위치: Abstract, `paper/user_v4.tex:3`
-
-원문:
-
-> ... on a same 3D Semantic Scene Graph (3DSSG) validation set.
-
-`a same`은 문법적으로 맞지 않다. Abstract 안에서 약어를 풀어 쓰면서 shared evaluation scope를 유지하려면 다음처럼 고친다.
-
-권장:
-
-> ... on a shared 3D Semantic Scene Graph (3DSSG) validation set.
-
-이전 검토에서 지적한 `assign high scores`, `corresponding ordered pair`, `reconstructed ordered-pair geometry`, `\tau_a` 정의 순서는 현재 `user_v4.tex:21`, `user_v4.tex:23`, `user_v4.tex:87`, `user_v4.tex:123--125`에서 해결되어 있다. 같은 의미가 이미 충분히 구현됐으므로 이슈로 남기지 않는다.
-
-### 기존 90번 relation-family evidence `[x]`
-
-Contribution 3의 predictor-dependent behavior는 Table 1과 Figure 3이 뒷받침한다. Relation-family-dependent behavior는 support/contact preservation, Product (all families), supplement의 $K=100$ family table이 뒷받침한다. Released artifacts에는 나머지 $K$ 값도 있다.
-
-Main의 다음 문장은 특정한 모든 $K$ 값을 PDF table로 제공한다고 주장하지 않는다.
-
-> The supplement reports per-family metrics and the family composition of the selected top-$K$ predictions.
-
-$K=100$ family table도 selected top-$K$ predictions에 해당하므로 의미상 충분하다. 권장 버전과 정확히 같지 않다는 이유만으로 이슈를 유지하지 않는다.
-
-### 통합 이슈 D. Table 3과 audit 본문의 오탈자 `[ ]`
-
-- 연결 번호: 79, 98
-- 심각도: 높음
-- 위치: Experiments, Table 3 `paper/user_v4.tex:299--300`, Point- and Mesh-Based Consistency Audit `paper/user_v4.tex:315`
-
-#### D-1. Table 3 헤더 오류
-
-원문:
+권장 형태:
 
 ```tex
-Predictor & Source & Linear & $\Delta$V//
-& Coverage (M/D) \\
+\includegraphics[width=\columnwidth]{AuthorKit27/Figures/Figure1.pdf}
 ```
-
-권장:
 
 ```tex
-Predictor & Source & Linear & $\Delta V$ & Coverage (M/D) \\
+\includegraphics[width=\textwidth]{AuthorKit27/Figures/Figure2.pdf}
 ```
 
-현재 caption은 Source, Linear, $\Delta V$, coverage를 모두 설명하므로 헤더 수정 후에는 row와 column 의미가 충분하다. CI range를 main table에 다시 넣을 필요는 없다. Paired intervals는 supplement에 유지하면 된다.
+```tex
+\includegraphics[width=\textwidth]{AuthorKit27/Figures/Figure3.pdf}
+```
 
-#### D-2. audit 본문의 metric 오탈자
+### AAAI-2. bold caption lead-in `[차단]`
 
-원문:
+- 심각도: 높은 형식 위반
+- 위치:
+  - Figure 1: `paper/user_v6.tex:16`
+  - Figure 2: `paper/user_v6.tex:66`
+  - Table 1: `paper/user_v6.tex:230`
+  - Table 2: `paper/user_v6.tex:282`
 
-> Table~\ref{tab:surface-audit} reports the $K=50V$ audit for RelCompat3D-Linear.
+AAAI-27은 figure와 table caption을 10 pt roman으로 요구하고 caption을 bold 또는 italic으로 만들지 말라고 명시한다.
 
-`$K=50V$`는 정의되지 않은 표기다.
+현재의 `\textbf{RelCompat3D.}`, `\textbf{RelCompat3D overview.}`, `\textbf{Shared 3DSSG validation results.}`, `\textbf{Ablations and counterfactual controls.}`를 일반 roman text로 바꿔야 한다.
 
-권장:
+Caption 내용은 충분하다. 정보 추가가 아니라 bold command만 제거하면 된다.
 
-> Table~\ref{tab:surface-audit} reports the $K=50$ audit for RelCompat3D-Linear.
+### AAAI-3. 현재 fresh teaser build가 페이지 제한을 위반함 `[차단]`
 
-이후의 `All changes are reductions except the SGFN tie at $K=5$`는 이전의 모호한 `same direction`을 이미 정확하게 대체한다. 따라서 결과 해석 문장은 추가 이슈로 남기지 않는다.
+- 심각도: 치명적
+- 대상: `paper/aaai/main_teaser.pdf`
 
-### 통합 이슈 E. Introduction과 Related Work 압축 `[~]`
+AAAI-27 main paper는 최대 9페이지이고 page 8과 page 9는 references만 허용된다.
 
-- 연결 번호: 101
+확인 결과:
+
+- `main_teaser.pdf`는 10페이지다.
+- technical Table 2가 page 8에 남아 있다.
+- references가 page 10까지 이어진다.
+- 따라서 현재 fresh teaser build는 제출할 수 없다.
+
+`main_teaser_aaai27.pdf`는 9페이지이고 page 8과 page 9가 references다. 그러나 생성 시각이 2026-07-21이며 `user_v6.tex`과 현재 선택 제목보다 이전 상태다. 이 파일을 최신 원고의 규정 통과 근거로 사용하면 안 된다.
+
+필수 조치:
+
+1. `user_v6.tex`의 확정 내용을 active `paper/aaai/sec/` source와 동기화한다.
+2. 선택 제목을 main, supplement, OpenReview metadata에 동일하게 반영한다.
+3. teaser version을 다시 빌드한다.
+4. page 1--7에 모든 technical content가 끝나는지 확인한다.
+5. page 8--9에 references만 있는지 확인한다.
+
+### AAAI-4. 4.4306 pt overfull이 남음 `[차단]`
+
+- 심각도: 높은 형식 위반
+- 근거: `paper/aaai/main.log`
+- 위치: active source의 main result table에 대응하는 log lines 199--235
+
+AAAI-27 Author Kit은 margin이나 gutter intrusion을 허용하지 않으며 overfull box를 모두 고치도록 요구한다.
+
+현재 log:
+
+> Overfull \hbox (4.4306pt too wide)
+
+Table 1은 이미 two-column table이므로 다음 순서로 해결하는 것이 안전하다.
+
+1. column heading 또는 `Product (all families)` label을 짧게 한다.
+2. decimal precision을 필요한 수준으로 유지한다.
+3. `\tabcolsep`를 소폭 줄인다.
+
+`\setlength{\tabcolsep}{...}`는 Author Kit이 명시적으로 허용한 예외다. `\resizebox`, `\scalebox`, 전체 font 축소는 사용하지 않는다.
+
+### AAAI-5. 생성형 AI 사용 역할이 manuscript에 기록되지 않음 `[차단]`
+
+- 심각도: 정책 준수
+- 위치: Conclusion 뒤, References 앞의 7-page content 안
+
+AAAI는 manuscript 준비에 생성형 AI 사용을 허용하지만 역할을 manuscript에 기록하도록 요구한다. 현재 main과 supplement에서 해당 disclosure를 찾지 못했다.
+
+익명성을 해치지 않는 최소 문장:
+
+```tex
+\paragraph{Use of AI systems.}
+AI-assisted tools were used for language editing and manuscript organization.
+The authors verified all scientific claims, experiments, figures, and references.
+```
+
+실제 사용 범위가 더 넓다면 사실에 맞게 조정해야 한다. AI system을 저자나 citation source로 표기하면 안 된다.
+
+### AAAI-6. title casing과 release 간 제목 불일치 `[~]`
+
 - 심각도: 중간
-- 위치: Introduction `paper/user_v4.tex:23--26`, Related Work `paper/user_v4.tex:45--47`
+- 위치:
+  - `paper/aaai/main.tex:21`
+  - `paper/aaai/supplement.tex:19`
+  - OpenReview title field
 
-#### E-1. Introduction에 같은 gap 문단이 연속으로 두 번 존재
+선택한 제목은 현재 supplement와 가깝지만 active main은 이전 제목을 사용한다. 또한 AAAI Author Kit은 Chicago Title Case를 요구하고 hyphenated term의 양쪽 핵심 단어를 대문자로 쓰도록 안내한다.
 
-`paper/user_v4.tex:23--24`와 `paper/user_v4.tex:26`은 모두 다음 논리를 반복한다.
+최종 권장:
 
-- 기존 predictor도 geometry를 사용한다.
-- source relation score는 ordered-pair compatibility를 직접 추정하지 않는다.
-- 따라서 $T$, $G$, $Z$를 분리한다.
+> RelCompat3D: Predicate–Geometry Compatibility for Re-Ranking 3D Scene Graph Relations
 
-두 문단을 모두 둘 필요가 없다. 짧은 `paper/user_v4.tex:26`을 남기고 `paper/user_v4.tex:23--24`를 삭제한다. 26번 줄만으로도 기존 연구가 geometry를 무시한다는 잘못된 framing을 피하고, gap과 설계 동기를 연결한다.
+본문의 일반 동사나 명사로 쓰는 `re-ranking`은 소문자를 유지해도 된다. 제목에서만 `Re-Ranking`으로 맞춘다.
 
-#### E-2. Related Work의 downstream-use 열거
+### AAAI-7. reproducibility checklist의 theoretical contribution 응답 재판단 `[~]`
 
-원문:
+- 심각도: 중간
+- 위치: `paper/aaai/reproducibility_checklist.tex:112--139`
 
-> Open-vocabulary 3D perception provides queryable object and region features, and graph systems connect features to compact scene representations for querying, planning, navigation, online mapping, and language interaction.
+Checklist는 별도 파일로 존재하며 실제 질문에 빈 placeholder는 없다. 이는 규정을 충족한다.
 
-`querying, planning, navigation, online mapping, and language interaction`은 논문의 reliability gap을 설명하는 데 모두 필요하지 않다. `querying`과 embodied interaction만 남겨도 downstream importance가 유지된다.
+다만 현재 다음 질문에 `yes`로 답한다.
 
-권장:
+> Does this paper make theoretical contributions?
 
-> Open-vocabulary 3D perception provides queryable object and region features, and graph systems use them for querying and embodied interaction.
+Paper framing은 group averaging의 standard invariance와 family-sequence preservation을 novelty theorem이 아니라 implementation guarantee로 다룬다. AGENTS.md의 claim boundary도 이를 theoretical novelty로 강조하지 않도록 한다.
 
-다음 문장의 열거도 의미를 유지하면서 묶을 수 있다.
+별도의 이론 기여를 주장하지 않는다면 답을 `no`로 바꾸는 편이 manuscript framing과 일치한다. 그러면 하위 theorem 관련 응답도 적용 대상이 아니다. 이 변경은 main claim을 약화하지 않고 오히려 과장된 novelty 인상을 줄인다.
 
-원문:
+Checklist는 main PDF에 붙이지 않고 OpenReview의 지정 field에 별도로 제출해야 한다.
 
-> Recent 3D scene graph methods extend this direction to open-vocabulary objects, open-set relations, vision-language model (VLM) features, online graph generation, and functional relations.
+## AAAI-27 규정 충족 항목
 
-권장:
+| 항목 | 상태 | 확인 결과 |
+|---|---|---|
+| US Letter | `[x]` | 기존 main PDF가 612 × 792 pt |
+| submission style | `[x]` | `\usepackage[submission]{aaai2027}` 사용 |
+| 익명화 | `[x]` | active main과 supplement가 Anonymous Submission이며 author identity와 affiliation이 없음 |
+| acknowledgments 제거 | `[x]` | review manuscript에서 발견되지 않음 |
+| Abstract citation 금지 | `[x]` | Abstract에 citation 없음 |
+| Type 1 또는 TrueType font | `[x]` | 기존 canonical PDF는 embedded Type 1 font만 포함하며 Type 3 없음 |
+| Figure 해상도 | `[x]` | canonical Figure 3 raster가 약 350 ppi, Figure 1과 Figure 2는 vector 중심 |
+| Figure label과 stroke | `[x]` | current generated asset specification은 final placement 기준 9 pt 이상과 0.5 pt 이상을 목표로 생성됨 |
+| color-only 구분 회피 | `[x]` | Figure 3은 line style과 marker shape를 함께 사용 |
+| Figure와 Table caption 위치 | `[x]` | 모두 artifact 아래에 위치 |
+| Table font | `[x]` | `\small`은 9 pt table 허용 범위 |
+| `\tabcolsep` 조정 | `[x]` | Author Kit이 허용한 exception |
+| Figure와 Table 본문 참조 | `[x]` | Figure 1--3과 Table 1--3 모두 최소 한 번 참조됨 |
+| web supplement pointer 금지 | `[x]` | main과 supplement에서 외부 supplement URL을 찾지 못함 |
+| supplement 익명화 | `[x]` | author identity와 외부 repository pointer 없음 |
+| separate checklist | `[x]` | 별도 checklist PDF와 source 존재 |
+| review-stage source 제출 | `[x]` | review 시 main은 PDF만 요구됨. single-source archive는 acceptance 이후 문제 |
 
-> Recent 3D scene graph methods extend this direction to open-vocabulary objects and relations, online generation, and functional reasoning.
-
-#### E-3. 같은 subsection의 fixed-generator 대비 반복
-
-`3D Scene Graph Prediction` subsection의 첫 문단은 이미 다음 차이를 설명한다.
-
-> These methods and RelCompat3D both use reconstructed scene evidence, but they optimize relation generation, whereas RelCompat3D re-ranks fixed relation candidates after prediction.
-
-둘째 문단의 다음 두 문장은 같은 대비를 반복한다.
-
-> These methods broaden the candidate vocabulary and downstream uses. RelCompat3D keeps each predictor fixed and tests whether its selected predicate is compatible with the reconstructed geometry of the corresponding ordered pair.
-
-첫 문장은 앞의 method 열거를 요약할 뿐 새 정보를 거의 추가하지 않는다. 삭제해도 된다. 둘째 문장은 fixed predictor 대비를 반복하므로 reliability question에 초점을 맞춘 다음 문장으로 바꾼다.
-
-권장:
-
-> RelCompat3D instead asks whether an already predicted predicate is supported by the reconstructed geometry of its ordered pair.
-
-이렇게 하면 첫 문단은 `generation versus re-ranking`, 둘째 문단은 `vocabulary expansion versus geometric support`를 각각 담당한다.
-
-현재 `user_v4.tex`의 Method에는 이전의 중복 control 목록이 더 이상 없다. Experiments의 `paper/user_v4.tex:167`만 실제 perturbation 범위를 설명하므로 유지한다.
-
-Introduction과 Related Work 합계에서 약 120--160 words를 줄일 수 있다. 가장 큰 삭제는 중복 Introduction 문단이다. 그다음으로 downstream-use 열거와 fixed-generator 대비를 압축한다.
-
-### 통합 이슈 F. Loss equation 일반화와 기호 정의 `[ ]`
-
-- 연결 항목: F14, F16
-- 심각도: 높음
-- 위치: Method, Linear Estimator `paper/user_v4.tex:101--110`, Nonlinear Estimator `paper/user_v4.tex:112--121`, training objective `paper/user_v4.tex:127--136`
-
-#### F-1. Loss equation의 고정 숫자
-
-현재 loss equation은 margin weight `0.25`, margin `1`, regularization coefficient `10^{-4}`를 수식에 직접 넣는다. 이는 implementation choice가 method definition처럼 보이게 한다.
-
-현재:
-
-```tex
-\mathcal L_q=\mathcal L_{\rm BCE}
-+0.25\,\mathbb E_{\mathcal P}
-\left[\log\left(1+e^{1-(\ell^q_{i^+}-\ell^q_{i^-})}\right)\right]
-+10^{-4}\mathcal R(\theta_q).
-```
-
-현재 `user_v4.tex:134--143`에는 일반화된 수식이 이미 들어갔지만, 수식 뒤의 설명은 이전 숫자 중심 표현을 유지한다. Lines 125--143을 다음 문단 전체로 정리한다.
-
-권장 본문:
-
-```tex
-Training combines this augmentation with a linked positive--counterfactual
-ranking loss. For every linked positive--counterfactual pair
-$(i^+,i^-)\in\mathcal P$, the logits
-$\ell_i^q=f_q(T_i,a_i,G_i)$ receive a margin penalty:
-\begin{equation}
-\begin{aligned}
-\mathcal L_q={}&\mathcal L_{\rm BCE}
-+\lambda_{\rm pair}\,\mathbb E_{\mathcal P}
-\left[\operatorname{softplus}
-\left(m-(\ell^q_{i^+}-\ell^q_{i^-})\right)\right]\\
-&+\lambda_{\rm reg}\mathcal R(\theta_q).
-\end{aligned}
-\end{equation}
-Here $\mathcal L_{\rm BCE}$ is binary cross-entropy over positive and
-counterfactual examples. The second term is a softplus margin-ranking loss
-with margin $m$. We set $m=1$, $\lambda_{\rm pair}=0.25$, and
-$\lambda_{\rm reg}=10^{-4}$ in all experiments. These values are shared
-across estimators and predictors without predictor-specific search.
-$\mathcal R$ is an $\ell_2$ penalty on the non-bias parameters in
-$\theta_q$, where $\theta_q$ denotes the trainable parameters of estimator
-$q$. Both estimators are fitted exclusively on the training split.
-```
-
-이 구성은 method definition의 $m$, $\lambda_{\rm pair}$,
-$\lambda_{\rm reg}$과 실제 설정값을 분리한다. 기존 설명의 다음 두 부분은 삭제한다.
-
-- `with margin $m=1$ and weight 0.25`
-- `The pairwise weight and the $\ell_2$ coefficient $10^{-4}$ are shared ...`
-
-`user_v4.tex:126--133`의 이전 loss equation 주석도 최종 수식을 남긴 뒤 삭제한다.
-
-#### F-2. 수식 기호 정의
-
-Equation 순서는 compatibility, Linear features, MLP, loss, transformation averaging, ranking, Recall, Violation으로 자연스럽다. 재정의나 순서 충돌도 없다. 다만 다음 기호는 최초 사용 시 정의가 부족하다.
-
-- $\sigma$: logistic sigmoid임을 명시한다.
-- $\theta_q$: estimator $q$의 trainable parameters임을 명시한다.
-- $\Delta z_i$: subject center height minus object center height임을 명시한다.
-- $\Delta z_i^{\rm norm}$: $\Delta z_i$를 두 OBB height의 평균으로 나눈 값임을 명시한다.
-
-세 위치에 나누어 넣는 것이 가장 자연스럽다.
-
-##### F-2-1. $\sigma$
-
-`paper/user_v4.tex:90`의 compatibility equation 바로 뒤, 현재 `then average over ...` 문장 앞에 넣는다.
-
-추가:
-
-> Here $\sigma$ denotes the logistic sigmoid.
-
-그다음 현재 line 91의 `then average`를 `We then average`로 바꾼다. 완성된 연결은 다음과 같다.
-
-> Here $\sigma$ denotes the logistic sigmoid. We then average over the valid family-specific endpoint/predicate transformations to obtain the transformation-consistent score $C_i^{\mathrm{tr},q}$.
-
-##### F-2-2. $\Delta z_i$와 $\Delta z_i^{\rm norm}$
-
-`paper/user_v4.tex:107`의 Linear feature equation 바로 뒤, 현재 `Here $\phi_T$ contains predicate indicators ...` 문장 앞에 넣는다.
-
-추가:
-
-> Let $z_{s_i}$ and $z_{o_i}$ denote the vertical coordinates of the subject and object OBB centers, and let $h_{s_i}$ and $h_{o_i}$ denote their OBB heights. We define $\Delta z_i=z_{s_i}-z_{o_i}$ and $\Delta z_i^{\rm norm}=2\Delta z_i/(h_{s_i}+h_{o_i})$.
-
-이후 현재 `Here $\phi_T$ ...` 문장을 그대로 유지한다.
-
-##### F-2-3. $\theta_q$
-
-$\theta_q$는 compatibility equation이 아니라 loss의 regularization term에서 처음 필요하다. 따라서 별도 앞 문단에 넣지 않고 F-1의 loss 설명 안에서 정의한다.
-
-> $\mathcal R$ is an $\ell_2$ penalty on the non-bias parameters in $\theta_q$, where $\theta_q$ denotes the trainable parameters of estimator $q$.
-
-이 세 정의를 반영하면 현재 정의된 `\tau_a`와 함께 F16의 notation 검사가 완료된다.
-
-#### F-3. Compact MLP configuration의 근거
-
-Supplement는 두 hidden units, 69 parameters, optimization steps, learning rates를 보고한다. Counterfactual threshold와 pair-weight sensitivity도 제공한다. 다만 two-hidden-unit width를 선택한 이유는 문장으로 설명하지 않는다.
-
-Main에 근거를 넣는다면 `paper/user_v4.tex:111`의 다음 문장 바로 뒤에 둔다.
-
-> RelCompat3D-MLP uses one shared single-hidden-layer ReLU network with two hidden units.
-
-추가:
-
-> The two-unit design has 69 parameters, compared with 66 across the three Linear heads, and tests a nonlinear compatibility function without substantially increasing model size.
-
-그 뒤에 현재 문장을 이어 쓴다.
-
-> Its input $\Psi_i$ contains family and predicate indicators, ...
-
-이 문장은 configuration의 선택 이유를 parameter count와 직접 연결한다. 별도의 width sweep을 main에 추가할 필요는 없다. 같은 수치는 supplement의 architecture details에도 이미 존재한다.
-
-## 현재 주석 처리된 문장 정리
-
-`user_v4.tex`에는 manuscript prose와 관련된 주석이 다섯 개 있다.
-
-| 위치 | 주석 내용 | 판단 | 권장 처리 |
-|---|---|---|---|
-| Experiments, Baselines and Training, line 168 | `, with exact transformations in the supplement` | 불완전한 문장 조각이며 Method의 supplement pointer와 겹침 | 삭제 |
-| Experiments, Metrics, line 182 | uncertainty, decidable-only Violation, coverage 수식 전체 | line 181의 active sentence가 같은 내용을 짧게 안내함 | 삭제 |
-| Results, comparator discussion, line 232 | family-specific results가 support/contact regression과 함께 나타날 수 있다는 문장 | line 231의 `changes support/contact selections`만으로 현재 scope 설명이 충분함 | 삭제 |
-| Results, comparator discussion, line 233 | pooled family-conditioning ablation 안내 | pooled model이 `user_v4.tex` main setup에서 더 이상 소개되지 않음 | 삭제 |
-| Ablations and Controls, line 291 | feature removal, linked ordering, transformation checks, matched controls 안내 | main control table 밖의 중요한 검증 위치를 알려줌 | 짧게 복원 |
-
-마지막 주석은 다음처럼 복원하는 것이 좋다.
-
-> The supplement reports feature-removal analyses, direct component removals, transformation checks, and matched controls for both estimators.
-
-중복을 피하려면 Method 끝의 pointer는 다음처럼 줄인다.
-
-> The supplement provides the complete counterfactual rules, optimization details, and proofs.
-
-이렇게 하면 Method pointer는 재현 세부사항을 담당하고 Results pointer는 추가 검증을 담당한다. 역할이 겹치지 않는다. 삭제 대상으로 분류한 주석은 version control에 남으므로 source에 계속 보존할 필요가 없다.
+Figure label 크기, stroke, contrast는 최종 rebuilt PDF에서도 다시 측정해야 한다. 현재 통과 판단은 기존 canonical PDF와 generated asset을 기준으로 한다.
 
 ## F4--F20 처리 여부
 
-| 항목 | 상태 | `user_v4.tex` 기준 판단 |
+| 항목 | 상태 | `user_v6.tex` 기준 판단 |
 |---|---|---|
-| F4 Figure와 Table 본문 참조 | `[x]` | Figure 1--3과 Table 1--3이 모두 본문에서 최소 한 번 호출된다. |
-| F5 caption 명확성 | `[~]` | Figure 1--3과 Table 1--2는 목적, metric, 비교 대상을 충분히 설명한다. Table 3도 caption은 충분하며 헤더의 `//`만 수정하면 된다. |
-| F6 section별 첫 줄임말 인용 존재 | `[x]` | Introduction, Related Work, Method, Experiments, Discussion, Conclusion에서 첫 predictor, dataset, benchmark 약어의 문장에 인용이 존재한다. 인용 표기 방식은 판단하지 않았다. |
-| F7 `A's B` 자제 | `[x]` | prose에서 해당 영어 소유격을 발견하지 않았다. `of` 또는 명사 수식 구조를 사용한다. |
-| F9 용어 통일 | `[x]` | source relation score, ordered pair, ordered-pair geometry, exact-match Recall, verifier-derived Violation, vertical-order가 문법적 역할에 맞게 통일되어 있다. |
-| F11 em dash 자제 | `[x]` | em dash를 사용하지 않는다. LaTeX의 `--`는 compound 또는 range 표기다. |
-| F12 긴 문장 | `[x]` | 긴 문장은 candidate identity와 feature definition 같은 수학적 정의에 집중되어 있다. 일반 prose의 호흡은 충분히 짧다. 권장 버전과 다르다는 이유만으로 추가 분할 이슈를 만들지 않는다. |
-| F14 수식의 숫자 일반화 | `[ ]` | loss equation의 `0.25`, `1`, `10^{-4}`를 통합 이슈 F처럼 일반화해야 한다. Feature intercept `1`과 $d(p)$의 sign mapping은 hyperparameter가 아니므로 유지한다. |
-| F15 hyperparameter 근거 | `[~]` | train/dev split 역할과 counterfactual-policy sensitivity는 충분하다. Two-hidden-unit width의 선택 이유만 통합 이슈 F처럼 한 문장으로 보완한다. |
-| F16 수식과 기호 점검 | `[~]` | equation 순서와 수학적 연결은 맞고 `\tau_a`도 정의되어 있다. 통합 이슈 F의 $\sigma$, $\theta_q$, $\Delta z_i$, $\Delta z_i^{\rm norm}$ 정의가 남았다. |
-| F17 contribution bullet 간결성 | `[x]` | 세 bullet이 각각 한 문장이고 problem, method, evaluation role을 핵심 위주로 전달한다. |
-| F18 story 일관성 | `[x]` | failure, factor separation, pair identity, transformations, family-aware ranking, audit가 Method와 Experiments의 직접 근거에 연결된다. |
-| F19 Introduction과 Related Work 중복 | `[~]` | Introduction lines 23--26의 동일 gap 문단을 하나 삭제하고, 통합 이슈 E의 downstream-use와 fixed-generator 대비를 압축하면 해결된다. |
-| F20 Intro와 Related Work 압축 | `[~]` | 통합 이슈 E의 구체적 삭제와 교체를 적용하면 약 120--160 words를 줄일 수 있다. 현재 Method의 control 목록 중복은 이미 해결되어 있다. 직접 manuscript를 수정하지는 않았다. |
+| F4 Figure와 Table 본문 참조 | `[x]` | Figure 1--3과 Table 1--3이 모두 본문에서 호출됨 |
+| F5 caption 명확성 | `[~]` | 내용은 자기완결적이다. AAAI-2의 bold formatting만 고쳐야 함 |
+| F6 section별 첫 약어의 citation 존재 | `[x]` | Introduction, Related Work, Method, Experiments, Discussion, Conclusion에서 확인됨 |
+| F7 영어 소유격 형태 자제 | `[x]` | prose에서 해당 형태를 발견하지 않음 |
+| F9 용어 통일 | `[~]` | source relation score, ordered pair, exact-match Recall, verifier-derived Violation은 통일됨. V6-1과 V6-4가 남음 |
+| F11 em dash와 prose semicolon 자제 | `[x]` | em dash 없음. semicolon은 feature vector의 수학 구분자에만 사용 |
+| F12 긴 문장 | `[x]` | 분할이 반드시 필요한 과도한 prose sentence를 발견하지 않음 |
+| F14 수식 숫자 일반화 | `[x]` | loss equation은 symbolic hyperparameter를 사용하고 실제 값은 뒤에서 설정 |
+| F15 hyperparameter 근거 | `[x]` | train/development 분리와 supplement sensitivity가 존재 |
+| F16 수식과 기호 점검 | `[~]` | equation 전개는 자연스럽다. V6-1 notation만 수정 필요 |
+| F17 contribution bullet 간결성 | `[x]` | 세 bullet이 problem, method, evaluation role을 각각 한 문장으로 전달 |
+| F18 story 일관성 | `[x]` | failure, pair identity, score separation, transformations, re-ranking, audit가 Method와 Experiments에 연결 |
+| F19 Introduction과 Related Work 중복 | `[x]` | gap 설명과 fixed-predictor 대비가 역할별로 분리됨 |
+| F20 Introduction과 Related Work 압축 | `[x]` | transcript는 충분히 압축됨. 실제 페이지 제한 문제는 AAAI-3에서 별도 처리 |
 
-## Section별 최종 체크
+## Section별 검토
 
-| Section | 상태 | 판단 |
-|---|---|---|
-| Abstract | `[~]` | 문제, 방법, 결과, audit가 모두 있고 정의되지 않은 수학 기호나 citation이 없다. `on a same` 문법 오류만 고치면 된다. |
-| Introduction | `[~]` | problem, gap, method, evaluation, contributions의 흐름이 좋다. 연속된 동일 gap 문단과 Related Work 중복을 줄여야 한다. |
-| Related Work | `[~]` | subsection별 연구와 차이는 명시된다. downstream-use와 fixed-generator 대비를 압축할 수 있다. |
-| Method | `[~]` | 수식 흐름, estimator 구분, transformation 정의는 정합하다. loss hyperparameter 일반화와 일부 기호 정의가 남았다. |
-| Experiments | `[~]` | main result, controls, audit가 claim과 대응한다. Table 3 헤더와 `$K=50V$` 오탈자를 고쳐야 한다. |
-| Discussion and Limitations | `[x]` | shared-target 범위를 명시하고 과도한 일반화를 피한다. 추가 limitation 확대는 권장하지 않는다. |
-| Conclusion | `[x]` | 새 주장 없이 motivating problem과 reported point estimates를 연결한다. |
+### Abstract `[x]`
+
+- 문제, 방법, 결과, alternative audit가 모두 포함된다.
+- Introduction의 contribution 세 개와 대응한다.
+- citation이나 정의되지 않은 수학 기호가 없다.
+- `point estimates`와 `reported predictor--K settings`가 statistical scope를 제한한다.
+- support/contact boundary는 한 번만 설명되며 과도하지 않다.
+
+### Introduction `[x]`
+
+- 문제 정의, 기존 score의 한계, method design, evaluation, contribution 순서가 자연스럽다.
+- counterfactual과 transformation의 역할을 구분해 처음 읽는 독자의 혼동을 줄였다.
+- contribution bullet은 간결하다.
+- Introduction에서 강조한 claim은 Method와 Experiments에 근거가 있다.
+
+### Related Work `[x]`
+
+- 세 subsection의 제목과 내용이 정합하다.
+- 각 연구군 뒤에 RelCompat3D와의 차이가 설명된다.
+- 3D scene graph generation, geometry-aware evidence, calibration의 역할이 겹치지 않는다.
+- 단순 논문 나열로 끝나는 paragraph가 없다.
+- obsolete 주석은 V6-6에 따라 삭제하면 된다.
+
+### Method `[~]`
+
+- ordered-pair identity, score separation, compatibility estimators, transformation averaging, family-aware re-ranking 순서가 논리적이다.
+- source relation score \(Z\)는 compatibility estimator에서 제외되고 re-ranking에서만 사용된다.
+- Linear와 MLP의 입력 차이가 사실대로 설명된다.
+- V6-1 notation, V6-3 acronym, V6-4 subsection title을 수정해야 한다.
+- Figure 2 caption은 compatibility 입력과 score 결합 시점을 정확히 설명한다.
+
+### Experiments `[~]`
+
+- 세 predictor는 같은 target, candidate scope, metric에서 비교된다.
+- Table 1과 Figure 3은 overall Recall--Violation behavior를 검증한다.
+- Table 2는 pair identity, predicate, geometry, source score 역할을 검증한다.
+- Table 3은 OBB input과 다른 point- and mesh-based measurements로 방향을 재검토한다.
+- 모든 \(K\) 값과 main table 수치는 서로 일치한다.
+- V6-2의 `largest` 해석을 수정해야 한다.
+- V6-5의 artifact 문장을 명확히 하면 auxiliary results의 위치가 더 친절해진다.
+
+### Discussion and Limitations `[x]`
+
+- cross-predictor evidence와 dataset-level generalization을 구분한다.
+- known instances와 support/contact boundary가 현재 method scope와 맞는다.
+- point- and mesh-based audit를 independent ground truth로 부르지 않는다.
+- 새로운 수치나 근거 없는 failure claim이 없다.
+- 별도 Broader Impact 또는 Ethics section이 필수인 human-subject intervention은 발견되지 않았다.
+
+### Conclusion `[x]`
+
+- Introduction의 motivating problem으로 돌아간다.
+- Method와 Experiments에 없는 새 claim을 추가하지 않는다.
+- `lower or tied`와 `preserving or improving`이 실제 point estimates와 일치한다.
+- SOTA, broad generalization, physical ground truth claim이 없다.
 
 ## Introduction claim과 evidence 연결
 
 | Introduction의 claim 또는 design | Method 대응 | Experiment 대응 | 판단 |
 |---|---|---|---|
 | high score와 ordered-pair geometry의 불일치 | compatibility formulation | Figure 1, Table 1, Figure 3 | 충분 |
-| source relation score와 compatibility 분리 | $C_i^q$에서 $Z_i$ 제외 | Compatibility only, RankAvg, RRF | 충분 |
+| source relation score와 compatibility 분리 | \(C_i^q\)에서 \(Z_i\) 제외 | Compatibility only, RankAvg, RRF | 충분 |
 | ordered-pair identity 보존 | pair identity와 relation identity 정의 | Wrong pair, Shuffled geometry | 충분 |
-| relation-preserving transformations | transformation orbit와 averaging | Fixed-predicate swap, exact checks, component removal | 충분 |
-| family-aware re-ranking | $u_i^q$와 family list | Table 1, Product (all families), family slices | 충분 |
-| alternative geometric measure | main verifier와 분리된 audit | Table 3와 supplement all-$K$ audit | 충분 |
+| relation-preserving transformations | transformation orbit와 averaging | Fixed-predicate swap, exact checks, direct removal | 충분 |
+| family-aware re-ranking | \(u_i^q\)와 family subsequence | Table 1, Product (all families), family metrics | 충분 |
+| alternative geometric measurement | point- and mesh-based audit | Table 3와 supplement all-\(K\) audit | 충분 |
 
-Introduction에서 강조했지만 근거가 없는 main claim은 발견되지 않았다. 반대로 main experiment 중 Introduction에 전혀 예고되지 않은 핵심 결과도 없다.
+Introduction에서 강조하지만 실험 근거가 없는 main claim은 발견되지 않았다. Introduction에서 전혀 예고되지 않은 핵심 experiment도 없다.
 
-## Figure와 Table 참조 및 caption
+## Figure와 Table 점검
 
-모든 Figure와 Table은 본문에서 최소 한 번 참조된다.
+| Artifact | 본문 참조 | 내용과 caption 판단 | 형식 판단 |
+|---|---|---|---|
+| Figure 1 | Introduction line 21 | failure case, source, ordered pair, Linear rank change를 설명 | trim과 clip 제거, bold lead-in 제거 필요 |
+| Figure 2 | Method line 75 | pair geometry, compatibility input, source score 결합 시점, Linear outcome을 설명 | trim과 clip 제거, bold lead-in 제거 필요 |
+| Figure 3 | Results line 288 | metric 방향, 다섯 \(K\), 세 predictor, axis 차이를 설명 | trim과 clip 제거 필요 |
+| Table 1 | Results line 288 | target, metrics, Source, ranking rules를 설명 | bold lead-in 제거, overfull 해결 필요 |
+| Table 2 | Ablations line 311 | Linear controls와 MLP full rows의 역할을 설명 | bold lead-in 제거 필요 |
+| Table 3 | Audit line 319 | alternative labels, delta, measured and decidable coverage를 설명 | 내용상 충분 |
 
-| Artifact | 본문 참조 | Caption 판단 |
-|---|---|---|
-| Figure 1 | Introduction | failure case, source, relation, rank change를 설명한다. |
-| Figure 2 | Method overview | input separation, source score 사용 시점, rank change를 설명한다. |
-| Figure 3 | Recall--Violation Results | metric 방향, $K$ 순서, predictor별 axis 차이를 설명한다. |
-| Table 1 | Recall--Violation Results | target, metrics, Source, ranking rules를 설명한다. |
-| Table 2 | Ablations and Controls | Linear controls와 MLP full row의 역할을 설명한다. |
-| Table 3 | Audit subsection | 헤더 오류를 고치면 row와 column 의미가 충분하다. |
+Figure 3와 Table 2 caption에 shared-target 문장을 반복해서 넣을 필요는 없다. Experimental Setup과 Table 1이 공통 평가 범위를 정의하며 두 artifact는 같은 Results 흐름에서 해석된다.
 
-Figure 3와 Table 2 caption에 shared target 설명을 반복해서 추가할 필요는 없다. Experimental Setup과 Table 1이 공통 평가 범위를 정의하고, 해당 artifact가 본문에서 바로 연결된다.
+## 제출 전 우선순위
 
-## 제출 전 수정 우선순위
+### P0: submission blocker
 
-### P0
+1. `user_v6.tex`의 확정 내용을 active AAAI source에 동기화한다.
+2. main, supplement, OpenReview의 제목을 `Re-Ranking` 표기까지 동일하게 맞춘다.
+3. 생성형 AI 사용 역할을 7-page content 안에 기록한다.
+4. Figure 1--3의 crop을 asset에 반영하고 모든 `trim`과 `clip`을 제거한다.
+5. Figure 1, Figure 2, Table 1, Table 2 caption의 manual bold를 제거한다.
+6. Table 1의 4.4306 pt overfull을 해결한다.
+7. teaser PDF를 다시 빌드해 technical content를 page 7 안에 끝낸다.
+8. page 8과 page 9에 references만 남는지 확인한다.
 
-1. 통합 이슈 A의 Abstract 문법 오류를 고친다.
-2. 통합 이슈 D의 Table 3 헤더와 `$K=50V$`를 고친다.
-3. 통합 이슈 F처럼 loss equation의 고정 숫자를 일반화한다.
-4. 통합 이슈 F의 누락된 기호를 정의한다.
+### P1: transcript correctness
 
-### P1
+1. V6-1의 `\Delta z_i^{\rm norm}` 표기를 통일한다.
+2. V6-2의 `largest Violation increases`를 수치에 맞게 낮춘다.
 
-5. Introduction의 중복 gap 문단을 하나 삭제한다.
-6. Related Work의 downstream 열거와 fixed-generator 대비를 압축한다.
-7. Compact MLP width의 선택 이유를 supplement에 한 문장으로 설명한다.
+### P2: readability와 source hygiene
 
-### P2
+1. V6-3에서 MLP를 처음 풀어 쓴다.
+2. V6-4의 subsection 제목을 정의된 용어에 맞춘다.
+3. V6-5의 `corresponding results`를 구체화한다.
+4. V6-6의 obsolete comments와 inline heading을 정리한다.
+5. Reproducibility checklist의 theoretical contribution 응답을 main framing과 맞춘다.
 
-8. 주석 네 개를 삭제하고 Results의 추가-evidence pointer 하나를 짧게 복원한다.
+### 최종 release 검증
 
-이 수정 후에는 transcript의 scientific scope를 더 넓히기보다 페이지 배치, overfull, final title, anonymous release consistency를 확인하는 단계로 넘어가는 것이 적절하다.
+1. `pdfinfo`로 9 pages와 US Letter를 확인한다.
+2. page 8--9가 references only인지 page별 text extraction으로 확인한다.
+3. `pdffonts`로 embedded Type 1 또는 TrueType만 있는지 확인한다.
+4. build log에서 overfull, undefined reference, undefined citation이 없는지 확인한다.
+5. Figure labels 9 pt 이상, stroke 0.5 pt 이상, raster 300 ppi 이상을 최종 placement 기준으로 확인한다.
+6. grayscale과 color-blind 조건에서도 Figure 1--3을 읽을 수 있는지 확인한다.
+7. author identity, affiliation, acknowledgments, repository URL이 main과 supplement에 없는지 확인한다.
+8. reproducibility checklist를 main과 별도 field에 업로드한다.
+
+AAAI-27 공식 일정은 full paper가 2026-07-28, supplementary material과 code가 2026-07-31 마감이다. 두 마감 모두 Anywhere on Earth 기준이다.
