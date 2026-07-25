@@ -1,9 +1,4 @@
 \section{Conclusion}
 
-\method{} learns predicate--geometry compatibility separately from the source
-relation score, enforces relation-preserving transformations, and re-ranks
-proximity and vertical candidates within their families. Across three
-predictors on a shared 3DSSG target, both variants yield lower or tied
-verifier-derived Violation point estimates while preserving or improving Recall
-point estimates at every reported $K$. A point- and mesh-based audit supports
-the direction of these changes under an alternative geometric measure.
+RelCompat3D addresses high-scoring predicates that conflict with reconstructed ordered-pair geometry by learning predicate--geometry compatibility separately from the source relation score and re-ranking candidates within applicable relation families.
+Across three predictors on one shared 3DSSG validation target~\cite{wald2020learning}, both variants yield lower or tied verifier-derived Violation point estimates while preserving or improving Recall point estimates at every reported $K$.

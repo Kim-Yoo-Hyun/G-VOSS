@@ -1,6 +1,6 @@
 # RelCompat3D AAAI-27 Manuscript
 
-Last updated: 2026-07-22 KST
+Last updated: 2026-07-25 KST
 
 This directory contains the active AAAI-27 source, an optional two-figure teaser
 variant, and the canonical review PDFs. Superseded manuscript snapshots, the
@@ -13,7 +13,7 @@ AAAI-26 style, and historical inspection notes live under
 | --- | --- |
 | `main.tex`, `preamble.tex`, `sec/{0_abstract,1_introduction,2_related_work,3_method,4_experiments,5_discussion_limitations,6_conclusion}.tex` | active anonymous main-paper source in manuscript order |
 | `main_teaser.tex` | optional variant that shares `main.tex` and adds the source-backed demotion before the method overview |
-| `supplement.tex`, `sec/supplement.tex` | active method, matched-capacity controls, surface-audit, sensitivity, uncertainty, and provenance supplement source |
+| `supplement.tex`, `sec/supplement.tex` | active method, matched-estimator controls, point- and mesh-based audit, sensitivity, uncertainty, and provenance supplement source |
 | `sec/old.tex` | inactive material retained outside the main and supplement builds |
 | `reproducibility_checklist_main.tex`, `reproducibility_checklist.tex` | standalone checklist source |
 | `aaai2027.sty`, `aaai2027.bst` | active AAAI-27 style |
@@ -34,7 +34,7 @@ The active manuscript uses six top-level sections:
 
 1. Introduction
 2. Related Work
-3. Method, with Problem Setup, Relation-Consistent Compatibility, and Family-Aware Re-ranking
+3. Method, with Problem Formulation, Compatibility Estimation, and Family-Aware Re-Ranking
 4. Experiments, with Data and Splits, Baselines and Training, Results, Ablations, and Qualitative Analysis
 5. Discussion and Limitations
 6. Conclusion
@@ -85,7 +85,8 @@ The active manuscript uses the promoted `no_family_indicator_v1` framework.
 procedure without entering the head feature vector, and its stored/primary
 parameter counts are 66/43. `RelCompat3D-MLP` is a shared 69-parameter compact
 nonlinear estimator whose family indicator is not constant. Both exclude the
-predictor score and identity and share the training/ranking contract.
+source relation score and predictor identity and share the training/ranking
+contract.
 The ordered-pair and exact relation-candidate identities are distinguished in
 Method, while the exact Recall, verifier-derived Violation, uncertainty, and
 coverage definitions are consolidated under Experimental Setup.
@@ -113,21 +114,23 @@ least 6.53:1 contrast on white. Figure 2
 uses the final transformation-consistent notation $C^{\mathrm{tr}}(T,G)$.
 
 The current main paper excludes Codex-derived validity results. Its narrative
-is failure-first; Figure 1 uses module boxes only where they denote actual
-computational components, and Figure 2 is a percentage-scale three-source K
-trajectory for Source, `RelCompat3D-Linear`, and `RelCompat3D-MLP` without a
-selected-point marker. The three-case pair--evidence--outcome grid is
+is failure-first. Figure 1 presents a qualitative demotion, Figure 2 presents
+the compatibility and family-aware re-ranking pipeline, and Figure 3 presents
+the percentage-scale three-predictor \(K\) trajectories for Source,
+`RelCompat3D-Linear`, and `RelCompat3D-MLP`. The three-case
+pair--evidence--outcome grid is
 supplemental. Figures use Helvetica-compatible TeX Gyre Heros source text,
 white backgrounds, and restrained colorblind-safe accents. Table 1 appears
 before its quantitative interpretation and jointly reports percentage
-Recall/Violation at all five budgets. In the selected teaser layout, the
-one-column K=50 matched-control Table 2 and compact K=50 surface-audit Table 3
+Recall/Violation at all five \(K\) values. In the selected teaser layout, the
+one-column matched-control Table 2 and compact \(K=50\) point- and mesh-based
+audit Table 3
 appear side by side at the top of page 7. Table 3 reports Source,
 RelCompat3D-Linear, paired change, and measured/decidable coverage; MLP and
-all-K point/mesh/consensus audits are in the supplement. Complete K=100
-controls are also supplemental. Product (all families) is retained in Table 1 as a scope comparison, and
+all-\(K\) point/mesh/agreement audits are in the supplement. Product (all
+families) is retained in Table 1 as a scope comparison, and
 Open3DSG uses the public/full-target route. K=50 is an intermediate reported
-budget in the prose, not a separately registered or visually selected
+value in the prose, not a separately registered or visually selected
 endpoint; K=5 and K=100 remain visible in
 the complete curve. The supplement reports the
 ReplicaSSG/FROSS stress test across all five K values. The completed Codex proxy reference,
@@ -135,33 +138,33 @@ mandatory adjudication, and verifier comparison exist
 only in `paper/paper_nonsub/` and must not enter the submission bundle unless a
 later explicit reporting decision follows external verification.
 
-The selected teaser manuscript places a full-width, source-backed demotion on
-page 2: the violated `desk higher than ceiling` relation moves from rank 6 to
-425. The full-width method overview is Figure 2 on page 3; aggregate results
-remain in Table 1. To keep the seven-page body limit without reducing fonts,
-both main variants place the three-case qualitative grid in the supplement.
-Standard float placement removes the former
-first-page vertical overflow without negative spacing or template changes. A
-one-column placement is not used because it cannot preserve the supplied 2:1
-composition and keep every internal label at 9 pt.
+The selected teaser manuscript places the one-column, source-backed demotion on
+the first page: the violated `desk higher than ceiling` relation moves from
+rank 6 to 425. The full-width method overview is Figure 2, and aggregate
+results remain in Table 1 and Figure 3. To keep the seven-page body limit
+without reducing fonts, both main variants place the three-case qualitative
+grid in the supplement. The current source retains the first-page vertical
+overfull for the final layout pass, following the user's explicit decision to
+keep Figure 1 on the first page.
 
 Main Table 1 includes `RelCompat3D-Linear` and `RelCompat3D-MLP` as two proposed
-compatibility capacities under the same framework. RankAvg and RRF are matched
+compatibility estimators under the same framework. RankAvg and RRF are matched
 fusion baselines; pooled product is a supplemental family-conditioning
 ablation. Main Table 2 reports their matched K=50 controls, while the supplement
 reports the complete K=100 controls and nine
 train-only counterfactual-policy refits. Their default reproduces the main
-model, and maximum absolute changes are `.0023/.0011` R/V at K=50 and
-`.0040/.0020` at K=100. Paired scan-level cluster intervals are given for every
+model, and maximum absolute changes are `.0020/.0011` R/V at K=50 and
+`.0035/.0020` at K=100. Paired scan-level cluster intervals are given for every
 reported K. A separate CPU table reports the compatibility/re-ranking layer
 from preloaded rows and explicitly excludes source inference, reconstruction,
 geometry joining, file parsing, metrics, and bootstrap.
 
-The Surface-Based Geometry Audit remeasures proximity and vertical relations
-from point vertices and area-weighted mesh samples without OBB inputs or the
-primary verifier labels. Its distinct metric is surface-based Violation and is not directly
-comparable to primary Violation. Its compact K=50 Linear consensus table is in the main paper;
-the MLP audit, all budgets, separate point/mesh estimates, coverage, thresholds, intervals,
+The Point- and Mesh-Based Consistency Audit remeasures proximity and
+vertical-order relations from point vertices and area-weighted mesh samples
+without OBB inputs or primary verifier labels. Its alternative Violation
+measure is not directly comparable to primary Violation. Its compact \(K=50\)
+Linear agreement table is in the main paper. The MLP audit, all \(K\) values,
+separate point/mesh estimates, coverage, thresholds, intervals,
 and synthetic interventions are in the supplement. This reduces exact-rule
 overlap but is not independent physical-validity ground truth.
 

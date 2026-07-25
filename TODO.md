@@ -1,6 +1,6 @@
 # TODO
 
-Last updated: 2026-07-24 KST.
+Last updated: 2026-07-25 KST.
 
 This file is the current task board. Detailed commands and artifact recovery
 belong in docs/reproducibility.md; exact result paths belong in the RelCompat3D
@@ -8,15 +8,12 @@ experiment README and result manifest.
 
 ## Now
 
-- [ ] Reduce the current main-teaser source build from ten pages to the
-  submission limit without changing margins, font size, or using negative
-  vertical spacing.
+- [ ] Resolve the 36.78 pt first-page vertical overfull without changing
+  margins, font size, or using negative vertical spacing.
 - [ ] Remove the remaining 4.43 pt overfull table row.
-- [ ] Apply the selected `RelCompat3D: Predicate–Geometry Compatibility for
-  Re-ranking 3D Scene Graph Relations` title to the consolidated main and
-  checklist sources. The supplement source is synchronized.
-- [ ] Rebuild the selected manuscript, supplement, and reproducibility
-  checklist in Docker.
+- [ ] Synchronize the selected title capitalization in the supplement and
+  reproducibility checklist sources.
+- [ ] Rebuild the supplement and reproducibility checklist in Docker.
 - [ ] Regenerate and verify the anonymous release bundle after the layout fix.
 - [ ] Review the large deletion set and create a clean submission commit.
 
@@ -31,6 +28,9 @@ experiment README and result manifest.
 
 ## Recently Completed
 
+- [x] Synchronized `user_v6.tex` into the seven active AAAI section files,
+  activated the supplied Figure 1--3 assets with outlined figure text, and
+  rebuilt the selected nine-page main PDF in Docker.
 - [x] Completed the Docker-based direct component-removal evaluation for the
   linked pairwise loss and transformation averaging, with all input, routing,
   reference-match, and transformation-consistency validations passing.

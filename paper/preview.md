@@ -9,10 +9,10 @@ experiment contract는 `paper/method.md`와 `paper/experiment.md`, section 논�
 
 ## Current Identity
 
-- Selected title: **RelCompat3D: Predicate–Geometry Compatibility for Re-ranking
+- Selected title: **RelCompat3D: Predicate–Geometry Compatibility for Re-Ranking
   3D Scene Graph Relations**
-- Source status: the consolidated TeX title still uses the preceding working
-  title and will be synchronized during the pending layout pass.
+- Source status: the consolidated main and supplementary TeX titles use the
+  selected `Re-Ranking` title.
 - Method: **RelCompat3D**
 - Venue source: `paper/aaai/`
 - Selected main artifact: `paper/aaai/main_teaser_aaai27.pdf`
@@ -74,7 +74,7 @@ observed ordered-pair failure
 - Source, RelCompat3D-Linear, RelCompat3D-MLP, RankAvg, RRF, and Product (all
   families) evaluated on the same candidate universe.
 - K=50 matched controls for wrong predicate/pair, shuffled geometry,
-  fixed-label endpoint swap, distance only, and compatibility only.
+  fixed-predicate endpoint swap, distance only, and compatibility only.
 - Complete K=100 controls, feature-removal refits, counterfactual sensitivity,
   transformation checks, uncertainty, and family decomposition in the
   supplement.
@@ -101,12 +101,12 @@ statistical dominance.
 
 | item | selected content | canonical page |
 | --- | --- | ---: |
-| Figure 1 | Open3DSG `desk higher than ceiling`, rank 6 → 425 | 2 |
-| Figure 2 | pair geometry and relation → compatibility → within-family score → family-aware re-ranking | 3 |
+| Figure 1 | Open3DSG `desk higher than ceiling`, rank 6 → 425 | 1 |
+| Figure 2 | pair geometry and relation → compatibility → within-family score → family-aware re-ranking | 4 |
 | Table 1 | all-K main comparisons for three predictors | 6 |
 | Table 2 | K=50 matched Linear/MLP controls | 7 |
 | Table 3 | K=50 point/mesh agreement audit for Linear | 7 |
-| Figure 3 | Source/Linear/MLP Recall--Violation trajectories | 7 |
+| Figure 3 | Source/Linear/MLP Recall--Violation trajectories | 6 |
 
 Figure 1 supplies motivation/outcome, Figure 2 explains mechanism, and Figure
 3 reports aggregate behavior. The three-case qualitative grid, complete
@@ -116,17 +116,16 @@ controls, and all-K audit remain supplemental.
 
 | artifact | role | pages | SHA-256 |
 | --- | --- | ---: | --- |
-| `paper/aaai/main_teaser_aaai27.pdf` | **selected main submission PDF** | 9 | `ac0313df7248da518488f0f39ab7d6cce42d1ac2cc6d5f234fc2aee4631e588c` |
+| `paper/aaai/main_teaser_aaai27.pdf` | **selected main submission PDF** | 9 | `b2219ed69acc1969d28b275c638f9328d096f7e62e0beb9a2d515530648cba15` |
 | `paper/aaai/main_aaai27.pdf` | non-selected comparison build | 9 | `5b9d917a61fc9045f46aa477750590f40c621157068ae74dec1ccc5e8e7f113b` |
 | `paper/aaai/supplement_aaai27.pdf` | technical supplement | 10 | `b9dc44ce09bb12d805472ead80bb72ca174cb844658929325917f59a7103226e` |
 | `paper/aaai/reproducibility_checklist_aaai27.pdf` | standalone checklist | 2 | `cd12a07ab1f9067a73f7aec128d43721c00c71bc17130acc32f6d34b99079e59` |
 
-The selected canonical teaser has seven technical pages and references on
-pages 7--9. The freshly consolidated source currently smoke-builds to 10 pages
-and retains one 4.43-pt overfull table row. Pre/post-consolidation PDF text is
-identical, so consolidation did not introduce this layout debt. Per the current
-decision, page compression and the overfull row are deferred until the next
-canonical release build.
+The selected canonical teaser now builds from the consolidated
+`user_v6`-aligned source as nine pages, with seven technical pages and
+references on pages 7--9. It retains a 36.78-pt first-page vertical overfull and
+one 4.43-pt overfull table row. Per the current decision, both warnings are
+deferred until the final layout pass.
 
 The existing verified release bundle
 `release/relcompat3d_aaai27_openreview_20260720_084307/` already selects the teaser
@@ -151,9 +150,8 @@ Detailed attacks, defenses, and blocked wording are owned only by
 
 Required before submission:
 
-- resolve the 10-page fresh teaser build and 4.43-pt overfull table row;
-- regenerate the selected canonical teaser PDF and anonymous release bundle
-  from the consolidated source;
+- resolve the first-page vertical overfull and 4.43-pt overfull table row;
+- regenerate the anonymous release bundle from the selected canonical source;
 - verify live-form title, abstract, TL;DR, topics, and anonymity;
 - complete OpenReview author metadata, conflicts, and reciprocal-reviewer
   declaration;

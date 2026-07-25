@@ -1,146 +1,31 @@
 \section{Introduction}
+3D scene graphs represent reconstructed scenes as structured objects and relations, supporting spatial reasoning, embodied AI, scene alignment, visual grounding, and downstream decision making \cite{armeni20193d,wald2020learning,sarkar2023sgaligner,xie2024sg,liu2026view}. A predicted relation must describe the corresponding ordered subject--object pair in 3D, not merely appear plausible at the category or language level.
 
-3D scene graphs represent reconstructed scenes as object--relation structures
-for spatial reasoning and embodied AI
-\cite{armeni20193dscenegraph,wald2020learning3dssg,sarkar2023sgaligner,liu2026viewongraph}.
-Their predicted relations must describe the corresponding ordered
-subject--object pair in 3D, not merely sound plausible at the category or
-language level.
-
-We study high-scoring plausible predicates that conflict with measured
-ordered-pair geometry~\cite{nguyen2026relwitness,neau2026commonsense}.
-Category-level plausibility can coexist with inconsistent distance, projected
-overlap, or vertical arrangement; contact-dependent relations are assessed
-separately by the verifier. This mismatch
-becomes consequential as 3D scene graphs become
-interfaces for open-vocabulary language-based applications and embodied systems
-\cite{koch2024open3dsg,hou2025fross,zhang2025openfungraph,wang2025octreegraph,saxena2025zing3d,yu2025openworld3dsg,madhavaram2026vizor}.
-
-\ifdefined\withteaser
-Figure~\ref{fig:teaser} illustrates this failure.
-\begin{figure*}[t]
+\begin{figure}[t]
     \centering
-    \figmaybe[width=0.98\linewidth]{../generated/figures/teaser_demotion_reference.pdf}
-    \caption{Open3DSG~\cite{koch2024open3dsg} example. Measured elevation
-    contradicts \texttt{desk higher than ceiling}; family-aware re-ranking moves
-    it from rank 6 to 425, outside the Top-50.}
+    \includegraphics[
+        width=\columnwidth,
+        trim={0bp 7bp 0bp 12bp},
+        clip
+    ]{AuthorKit27/Figures/Figure1.pdf}
+    \caption{\textbf{RelCompat3D.}
+    We show that a highly ranked relation from an open-vocabulary 3D scene graph predictor is not necessarily supported by the reconstructed geometry of the corresponding ordered subject--object pair. Open3DSG (source)~\cite{koch2024open3dsg} predicts desk higher than ceiling at rank 6, although the reconstructed point-cloud view places the desk below the ceiling. RelCompat3D-Linear demotes the same candidate to rank 425, outside the top-50.}
     \label{fig:teaser}
-\end{figure*}
+\end{figure}
 
-\begin{figure*}[t]
-    \centering
-    \figmaybe[width=0.98\linewidth]{../generated/figures/framework_user_reference.pdf}
-\ifdefined\withteaser
-    \caption{\method{} overview. (a) Pair Geometry and Relation shows a
-    high-scoring \texttt{heater close by trash can} prediction despite 4.33-m
-    separation. (b) Compatibility and Re-Ranking computes $\ctr(T,G)$ from
-    predicate semantics $T$ and pair measurements $G$ without predictor score
-    $Z$, then combines $Z$ only in the within-family score, moving the relation
-    from rank 19 to 178.}
-\else
-    \caption{\method{} overview. (a) Pair Geometry and Relation shows a
-    high-scoring \texttt{heater close by trash can} prediction despite 4.33-m
-    separation. (b) Compatibility and Re-Ranking computes $\ctr(T,G)$ from
-    predicate semantics $T$ and pair measurements $G$ without predictor score
-    $Z$, then combines $Z$ only in the within-family score, moving the relation
-    from rank 19 to 178.}
-\fi
-    \label{fig:framework}
-\end{figure*}
+We study a failure mode in which relation predictors assign high scores to predicates that are inconsistent with the measured geometry of the ordered pair \cite{nguyen2026relwitness,neau2026visual}. A relation can be plausible for an object-category pair while contradicting measured distance, projected overlap, or vertical arrangement. This mismatch becomes consequential as 3D scene graphs become interfaces for open-vocabulary applications and embodied systems \cite{koch2024open3dsg,hou2025fross,zhang2025open,wang2025open,saxena2025zing,fei2026open,madhavaram2026vizor}. Figure~\ref{fig:teaser} shows this failure.
 
-\fi
+Existing 3D scene graph predictors already use geometric and multimodal evidence, but their source relation scores need not estimate predicate compatibility for the corresponding ordered pair \cite{wald2020learning,zhang2021exploiting,feng20233d,wang2023vl,koch2024sgrec3d,chen2024clip}. A downstream system can therefore inherit a high-scoring relation that conflicts with reconstructed scene evidence. This motivates separating predicate semantics $T$, ordered-pair measurements $G$, and the source relation score $Z$.
 
-The failure is not simply that 3DSSG methods~\cite{wald2020learning3dssg}
-ignore geometry. Prior
-work already uses edge features, point-cloud structure, spatial knowledge,
-multimodal semantics, and geometric fusion
-\cite{zhang2021sggpoint,feng2023smka,wang2023vlsat,koch2024sgrec3d,chen2024ccl3dsgg}.
-The gap is more specific: a predictor score---even when its predictor
-already uses geometry---is not necessarily an explicit estimate of whether the
-same subject-object pair satisfies the predicate in 3D. This makes the
-problem an AI reliability issue, not only a 3DSSG implementation detail:
-language-based and embodied systems can inherit a high-scoring symbolic relation
-that contradicts the reconstructed scene evidence.
+We propose RelCompat3D, which preserves the ordered-pair identity of each candidate and learns predicate--geometry compatibility from $T$ and $G$ without using $Z$ or predictor identity. We formulate this separation with family-specific linear heads and a compact shared nonlinear estimator. Both estimators are trained with linked positive--counterfactual pairs so that geometry-consistent candidates outrank their incompatible counterparts. Counterfactuals create incompatible training pairs, whereas the transformations encode alternative representations of the same relation semantics. We then average compatibility over known relation-preserving transformations, including endpoint symmetry for proximity and joint endpoint swap with inverse-predicate transformation for vertical-order. These choices address distinct failure modes. Excluding $Z$ prevents direct copying of the source relation score. Preserving ordered-pair identity ensures that compatibility is computed from the geometry of the corresponding pair. Transformation averaging assigns equal compatibility to equivalent endpoint/predicate representations.
 
-This failure suggests separating predicate semantics $T$, predicate-independent
-geometric measurements of the ordered pair $G$, and the predictor score $Z$.
-\method{}
-preserves each candidate's subject--object identity and learns
-predicate--geometry compatibility from $T$ and $G$ without using $Z$ or
-predictor identity. We study a family-specific linear estimator and a compact
-shared nonlinear estimator under the same separation. Linked
-positive--counterfactual pairs optimize the ordering of geometrically
-compatible and incompatible candidates;
-averaging over known endpoint/predicate transformations enforces proximity
-symmetry and invariance under joint endpoint swap and inverse-predicate
-transformation.
-These choices address distinct failure modes: excluding $Z$ precludes direct
-copying of the predictor score, preserving ordered-pair identity prevents
-scene-level measurements from substituting for instance evidence, and
-transformation averaging assigns equal compatibility to equivalent
-endpoint/predicate representations.
+The source relation score is used only during re-ranking. Within proximity and vertical-order relations, RelCompat3D combines it with compatibility and changes the order within each relation family. It preserves the sequence of relation-family labels in the source ranking and the source order of support/contact candidates. Matched fusion baselines and controls examine the roles of the source relation score, ordered-pair identity, and transformation consistency.
 
-The predictor score enters only during re-ranking. Within proximity and
-vertical relations, \method{} combines it with compatibility and changes the
-order within each relation family. It preserves the sequence of relation-family
-labels in the source ranking and the source order of support/contact candidates.
-Matched fusion baselines and ablations test the effects of excluding the source
-predictor score, preserving ordered-pair identity, and enforcing transformation
-consistency.
-Figure~\ref{fig:framework} summarizes the framework.
+We evaluate fixed predictions from Open3DSG, VL-SAT, and a released SceneGraphFusion benchmark model (SGFN) on the official 3DSSG validation split \cite{wang2023vl,koch2024open3dsg,wu2021scenegraphfusion}. These predictors provide complementary open-vocabulary and closed-set relation predictions. We report exact-match Recall@$K$ and verifier-derived Violation@$K$ on a shared 3DSSG target. Across all reported $K$ values, both variants match or improve source-ranking Recall point estimates and match or reduce source-ranking Violation point estimates. A separate point- and mesh-based audit evaluates the same rankings under an alternative geometric measure.
 
-\ifdefined\withteaser\else
-\begin{figure*}[t]
-    \centering
-    \figmaybe[width=0.98\linewidth]{../generated/figures/framework_user_reference.pdf}
-\ifdefined\withteaser
-    \caption{\method{} overview. (a) Pair Geometry and Relation shows a
-    high-scoring \texttt{heater close by trash can} prediction despite 4.33-m
-    separation. (b) Compatibility and Re-Ranking computes $\ctr(T,G)$ from
-    predicate semantics $T$ and pair measurements $G$ without predictor score
-    $Z$, then combines $Z$ only in the within-family score, moving the relation
-    from rank 19 to 178.}
-\else
-    \caption{\method{} overview. (a) Pair Geometry and Relation shows a
-    high-scoring \texttt{heater close by trash can} prediction despite 4.33-m
-    separation. (b) Compatibility and Re-Ranking computes $\ctr(T,G)$ from
-    predicate semantics $T$ and pair measurements $G$ without predictor score
-    $Z$, then combines $Z$ only in the within-family score, moving the relation
-    from rank 19 to 178.}
-\fi
-    \label{fig:framework}
-\end{figure*}
-
-\fi
-
-We evaluate support/contact, proximity, and vertical-order relations because
-their consistency can be assessed from the geometry of reconstructed ordered
-object pairs.
-Open3DSG, VL-SAT, and the released SceneGraphFusion benchmark model (SGFN)
-provide complementary open-vocabulary and closed-set predictors
-\cite{koch2024open3dsg,wang2023vlsat,wu2021scenegraphfusion}. We jointly report
-Recall@$K$ with exact predicate matching and Violation@$K$ computed by a
-rule-based geometry verifier across the three predictors on a shared 3DSSG
-target.
-
-Our contributions are threefold:
+In summary, our contributions are threefold:
 \begin{enumerate}
-    \item We define and measure a mismatch between relation scores and
-    instance-level geometric consistency that exact-match Recall alone does not
-    capture, using identity-preserving evaluation and joint Recall@$K$--Violation@$K$
-    reporting.
-    \item We learn predicate--geometry compatibility from the corresponding
-    ordered pair without using the predictor score, and enforce exact
-    endpoint/predicate transformations through transformation averaging.
-    \item We introduce a constrained re-ranking rule that preserves the source
-    relation-family sequence and support/contact candidates in source order,
-    and show that linear and nonlinear compatibility estimators exhibit the
-    same Source-level improvement pattern across three predictors while
-    occupying different Recall--Violation operating points.
+    \item We define and measure a mismatch between source relation scores and ordered-pair geometric compatibility using exact-match Recall@$K$ and verifier-derived Violation@$K$.
+    \item We estimate predicate--geometry compatibility without the source relation score and enforce exact consistency under applicable endpoint and predicate transformations.
+    \item We introduce family-aware re-ranking and characterize its predictor- and relation-family-dependent behavior across three fixed predictors.
 \end{enumerate}
-
-Across all reported predictor--budget settings, each compatibility estimator
-weakly improves the Source point-estimate Recall--Violation trade-off. At
-$K=50$, paired intervals from a cluster bootstrap over scans support lower
-Violation without a detectable Recall loss. \method{} operates on fixed
-relation predictions rather than replacing the relation generator.

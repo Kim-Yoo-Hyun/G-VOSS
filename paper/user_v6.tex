@@ -1,6 +1,5 @@
 \begin{abstract}
-    3D scene graph predictors can assign high scores to predicates that are inconsistent with the reconstructed geometry of the corresponding ordered subject--object pair. We formulate predicate--geometry compatibility for fixed relation predictions and introduce RelCompat3D, 
-    a re-ranking framework. RelCompat3D preserves the ordered-pair identity of each candidate and estimates compatibility from predicate semantics and predicate-independent pair measurements without using the source relation score. Family-specific linear heads and a shared nonlinear estimator are trained on linked ground-truth positives and constructed counterfactuals. Transformation averaging assigns the same compatibility to equivalent endpoint and predicate representations. RelCompat3D combines compatibility with the source relation score to re-rank proximity and vertical-order candidates while retaining support/contact candidates in source order. We evaluate exact-match Recall@$K$ and verifier-derived Violation@$K$ for VL-SAT, Open3DSG, and SceneGraphFusion (SGFN) on a shared 3D Semantic Scene Graph (3DSSG) validation set. Across all reported predictor--$K$ settings, both variants yield Recall point estimates no lower and Violation point estimates no higher than the corresponding source rankings. The largest changes occur on Open3DSG. Matched fusion baselines and controls show predictor- and family-dependent trade-offs. A point- and mesh-based audit supports the direction of the changes using alternative geometric measurements.
+    3D scene graph predictors can assign high scores to predicates that are inconsistent with the reconstructed geometry of the corresponding ordered subject--object pair. We formulate predicate--geometry compatibility for fixed relation predictions and introduce RelCompat3D, a re-ranking framework. RelCompat3D preserves the ordered-pair identity of each candidate and estimates compatibility from predicate semantics and predicate-independent pair measurements without using the source relation score. Family-specific linear heads and a shared nonlinear estimator are trained on linked ground-truth positives and constructed counterfactuals. Transformation averaging assigns the same compatibility to equivalent endpoint and predicate representations. RelCompat3D combines compatibility with the source relation score to re-rank proximity and vertical-order candidates while retaining support/contact candidates in source order. We evaluate exact-match Recall@$K$ and verifier-derived Violation@$K$ for VL-SAT, Open3DSG, and SceneGraphFusion (SGFN) on a shared 3D Semantic Scene Graph (3DSSG) validation set. Across all reported predictor--$K$ settings, both variants yield Recall point estimates no lower and Violation point estimates no higher than the corresponding source rankings. The largest changes occur on Open3DSG. Matched fusion baselines and controls show predictor- and family-dependent trade-offs. A point- and mesh-based audit supports the direction of the changes using alternative geometric measurements.
 \end{abstract}
 
 \section{Introduction}
@@ -14,7 +13,7 @@
         clip
     ]{AuthorKit27/Figures/Figure1.pdf}
     \caption{\textbf{RelCompat3D.}
-    We show that a highly ranked relation from an open-vocabulary 3D scene graph predictor is not necessarily supported by the reconstructed geometry of the corresponding ordered subject--object pair. Open3DSG (source)~\cite{koch2024open3dsg} predicts desk higher than ceiling at rank 6, although the reconstructed point cloud view places the desk below the ceiling. RelCompat3D-Linear demotes the same candidate to rank 425, outside the top 50.}
+    We show that a highly ranked relation from an open-vocabulary 3D scene graph predictor is not necessarily supported by the reconstructed geometry of the corresponding ordered subject--object pair. Open3DSG (source)~\cite{koch2024open3dsg} predicts "desk higher than ceiling" at rank 6, although the reconstructed point cloud view places the desk below the ceiling. RelCompat3D-Linear demotes the same candidate to rank 425, outside the top 50.}
     \label{fig:teaser}
 \end{figure}
 
@@ -41,8 +40,6 @@ In summary, our contributions are threefold:
 3RScan provides repeated indoor reconstructions, and 3DSSG adds object-relation annotations and a relation-prediction benchmark \cite{wald2019rio,wald2020learning}. Incremental and online systems study persistent graph construction from RGB-D streams and spatial perception pipelines \cite{wu2021scenegraphfusion,hughes2022hydra}. Recent methods improve closed-set relation prediction using edge reasoning, point-cloud features, multimodal cues, spatial knowledge, self-supervised pretraining, object-centric features, and edge-centric representations \cite{zhang2021exploiting,feng20233d,wang2023vl,koch2024sgrec3d,heo2026object,ma2026edge}. These methods and RelCompat3D both use reconstructed scene evidence, but they optimize relation generation, whereas RelCompat3D re-ranks fixed relation candidates after prediction.
 
 Open-vocabulary 3D perception provides queryable object and region features, and graph systems use them for querying and embodied interaction \cite{peng2023openscene,takmaz2023openmask3d,gu2024conceptgraphs,werby2024hierarchical,maggio2024clio}.
-% Open-vocabulary 3D perception provides queryable object and region features \cite{peng2023openscene,takmaz2023openmask3d}, and graph systems connect features to compact scene representations for querying, planning, navigation, online mapping, and language interaction \cite{gu2024conceptgraphs,werby2024hierarchical,maggio2024clio}. 
-% Recent 3D scene graph methods extend this direction to open-vocabulary objects, open-set relations, vision-language model (VLM) features, online graph generation, and functional relations 
 Recent 3D scene graph methods extend this direction to open-vocabulary objects and relations, online generation, and functional reasoning
 \cite{koch2024open3dsg,chen2024clip,hou2025fross,zhang2025open,wang2025open}. RelCompat3D asks whether an already predicted predicate is supported by the reconstructed geometry of its ordered pair. 
 
@@ -58,13 +55,9 @@ Recall@$K$ measures exact-match retrieval rank rather than compatibility with re
 
 \begin{figure*}[!t]
     \centering
-    \includegraphics[
-        width=\textwidth,
-        trim={0bp 20bp 0bp 0bp},
-        clip
-    ]{AuthorKit27/Figures/Figure2.pdf}
+    \includegraphics[width=\textwidth]{AuthorKit27/Figures/Figure2.pdf}
     \caption{\textbf{RelCompat3D overview.}
-    (a) Open3DSG ranks heater close by trash can at 19, although the reconstructed ordered pair has an XY center distance of $4.33\,\mathrm{m}$.
+    (a) Open3DSG ranks "heater close by trash can" at 19, although the reconstructed ordered pair has an XY center distance of $4.33\,\mathrm{m}$.
     (b) RelCompat3D estimates transformation-consistent
     predicate--geometry compatibility from predicate semantics and ordered-pair measurements, without using the source relation score. The source relation score is combined with compatibility only during within-family scoring, after which RelCompat3D-Linear moves the relation from rank 19 to 178.}
     \label{fig:overall_framework}
@@ -92,7 +85,7 @@ C_i^q=\sigma\!\left(f_q(T_i,a_i,G_i)\right)\in[0,1].
 \end{equation}
 Here $\sigma$ denotes the logistic sigmoid. We then average over the valid family-specific endpoint/predicate transformations to obtain the transformation-consistent score $C_i^{\mathrm{tr},q}$. The source relation score is introduced only in the within-family ranking score defined below. $C_i^q$ is a compatibility score used for ranking, not a posterior probability of geometric validity. Training-split ground truth provides positives. Proximity negatives use distant, non-overlapping same-context pairs. Vertical-order negatives keep the endpoints fixed and replace the predicate with its inverse. Separately, relation-preserving augmentation swaps proximity endpoints without changing the predicate and jointly swaps vertical endpoints with the inverse predicate. Evaluation rows, source relation scores, and verifier-status labels are not used to construct training examples.
 
-\subsection{Relation-Consistent Compatibility}
+\subsection{Compatibility Estimation}
 \label{sec:Compatibility}
 For each candidate relation $r_i$, the associated geometry vector $G_i$ contains oriented bounding box (OBB)-derived 3D/XY distances, relative height, projected overlap, and vertical-gap features. Point-level contact evidence is used only by the support/contact verifier, not by the compatibility model. 
 
@@ -106,11 +99,11 @@ The feature map for RelCompat3D-Linear is
 [d(p_i)\Delta z_i,\ d(p_i)\Delta z_i^{\rm norm}].
 \end{aligned}
 \end{equation}
-Let $z_{s_i}$ and $z_{o_i}$ denote the vertical coordinates of the subject and object OBB centers, and let $h_{s_i}$ and $h_{o_i}$ denote their OBB heights. We define $\Delta z_i=z_{s_i}-z_{o_i}$ and $\Delta z_i^{norm}=2\Delta z_i / (h_{s_i}+h_{o_i})$.
+Let $z_{s_i}$ and $z_{o_i}$ denote the vertical coordinates of the subject and object OBB centers, and let $h_{s_i}$ and $h_{o_i}$ denote their OBB heights. We define $\Delta z_i=z_{s_i}-z_{o_i}$ and $\Delta z_i^{\rm norm}=2\Delta z_i / (h_{s_i}+h_{o_i})$.
 Here $\phi_T$ contains predicate indicators, and $d(p_i)$ is $1$ for \texttt{higher than}, $-1$ for \texttt{lower than}, and $0$ otherwise. The family label $a_i$ selects the linear head and training-split normalization statistics but is not included as a constant input: $f_{\rm lin}(T_i,a_i,G_i)=w_{a_i}^\top\Phi_{\rm lin}(T_i,G_i)$.
 
 \subsubsection{Nonlinear Estimator}
-RelCompat3D-MLP uses one shared single-hidden-layer ReLU network with two hidden units. Its input $\Psi_i$ contains family and predicate indicators, the same underlying geometric measurements, the two signed-height interactions above, and the sum of the two directional overlap ratios. With a predicate-linear skip connection, its logit is
+RelCompat3D-MLP uses one shared multilayer perceptron (MLP) with a single two-unit ReLU hidden layer. Its input $\Psi_i$ contains family and predicate indicators, the same underlying geometric measurements, the two signed-height interactions above, and the sum of the two directional overlap ratios. With a predicate-linear skip connection, its logit is
 \begin{equation}
 \begin{aligned}
 h_i&=\operatorname{ReLU}(W\Psi_i+b),\\
@@ -124,15 +117,6 @@ For proximity and vertical order, $H_a$ contains the identity and the family-spe
 $C^{\rm tr,q}_{\rm close}(s,o)=C^{\rm tr,q}_{\rm close}(o,s)$ and
 $C^{\rm tr,q}_{\rm higher}(s,o)=C^{\rm tr,q}_{\rm lower}(o,s)$.
 
-% Training combines this augmentation with a linked positive--counterfactual ranking loss. For every linked positive--counterfactual pair $(i^+,i^-)\in\mathcal P$, the logits $\ell_i^q=f_q(T_i,a_i,G_i)$ receive a fixed margin penalty:
-% \begin{equation}
-% \begin{aligned}
-% \mathcal L_q={}&\mathcal L_{\rm BCE}
-% +0.25\,\mathbb E_{\mathcal P}\!
-%  \left[\log\!\left(1+e^{1-(\ell^q_{i^+}-\ell^q_{i^-})}\right)\right]\\
-% &+10^{-4}\mathcal R(\theta_q).
-% \end{aligned}
-% \end{equation}
 Training combines this augmentation with a linked positive--counterfactual ranking loss. For every linked positive--counterfactual pair $(i^+,i^-)\in\mathcal P$, the logits $\ell_i^q=f_q(T_i,a_i,G_i)$ receive a margin penalty:
 \begin{equation}
 \begin{aligned}
@@ -187,7 +171,7 @@ Let $D_K\subseteq\bigcup_c L_K(c)$ contain selected candidates for which the rul
 \end{equation}
 Thus uncertain candidates enter the denominator but not the numerator. 
 The supplement reports uncertainty, coverage, decidable-only Violation, and a variant that counts uncertain candidates as violations.
-We report Recall@$K$ and Violation@$K$ metrics over $K \in \{5, 10, 20, 50, 100\}$. Paired 95\% confidence intervals use 1,000 bootstrap resamples of the 157 scans, keeping all contexts from each scan together and using the same resamples across conditions. The supplement reports per-family metrics and family composition at $K=100$. The released artifacts provide the corresponding results for all five $K$ values.
+We report Recall@$K$ and Violation@$K$ metrics over $K \in \{5, 10, 20, 50, 100\}$. Paired 95\% confidence intervals use 1,000 bootstrap resamples of the 157 scans, keeping all contexts from each scan together and using the same resamples across conditions. The supplement reports per-family metrics and family composition at $K=100$. The released artifacts provide these additional metrics for all five \(K\) values.
 
 \begin{table*}[!t]
     \centering
@@ -308,7 +292,7 @@ SGFN     & 11.56 & 8.13  & $-3.43$ & 95.8 / 79.9 \\
 \end{table}
 
 \subsubsection{Ablations and Controls}
-Table~\ref{tab:ablations} tests whether the ranking gains depend on the predicate, the corresponding ordered pair, and the geometry measurements. For RelCompat3D-Linear, wrong-pair and shuffled geometry reduce Recall and increase Violation for every predictor at both reported $K$ values. These controls show that the compatibility estimate is sensitive to the association between a candidate and the geometry of its corresponding ordered pair. A wrong predicate and an endpoint swap that keeps the predicate fixed produce the largest Violation increases. Their nearly identical aggregate values are consistent with both controls reversing the signed interpretation of vertical-order geometry. 
+Table~\ref{tab:ablations} tests whether the ranking gains depend on the predicate, the corresponding ordered pair, and the geometry measurements. For RelCompat3D-Linear, wrong-pair and shuffled geometry reduce Recall and increase Violation for every predictor at both reported $K$ values. These controls show that the compatibility estimate is sensitive to the association between a candidate and the geometry of its corresponding ordered pair. A wrong predicate and an endpoint swap that keeps the predicate fixed increase Violation. Their nearly identical aggregate values are consistent with both controls reversing the signed interpretation of vertical-order geometry.
 
 For RelCompat3D-Linear, distance-only ordering raises Open3DSG Recall but substantially increases its Violation, while degrading both metrics on VL-SAT and SGFN. Compatibility-only ordering preserves or lowers Violation but loses Recall on VL-SAT and SGFN, showing that compatibility does not replace the source relation score.
 The supplement reports feature-removal analyses, direct component removals, transformation checks, and matched controls for both estimators.

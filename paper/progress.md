@@ -1,6 +1,6 @@
 # RelCompat3D Paper Progress
 
-Last updated: 2026-07-22 KST
+Last updated: 2026-07-25 KST
 
 이 문서는 paper-facing completion state, selected submission artifact, and
 remaining work만 기록한다. Experiment chronology와 runtime artifact는
@@ -9,7 +9,7 @@ remaining work만 기록한다. Experiment chronology와 runtime artifact는
 
 ## Current Phase
 
-Status: `teaser_main_selected_release_regeneration_pending`
+Status: `user_v6_main_built_release_regeneration_pending`
 
 `paper/aaai/main_teaser_aaai27.pdf`를 main submission layout으로 선택했다.
 Scientific claim, main comparisons, controls, audit, supplement, and
@@ -18,9 +18,9 @@ layout reconciliation, canonical rebuild, and submission metadata rather than
 new experiments.
 
 The selected title is **RelCompat3D: Predicate–Geometry Compatibility for
-Re-ranking 3D Scene Graph Relations**. The supplement source now uses this
-title. The consolidated main, checklist, and stored upload PDFs still require
-title synchronization during the final rebuild.
+Re-Ranking 3D Scene Graph Relations**. The consolidated main and selected
+stored PDF use this title. Supplement/checklist capitalization synchronization
+remains part of the final release pass.
 
 ## Completed Scientific Components
 
@@ -75,16 +75,15 @@ but are not active main-paper evidence.
 
 | artifact | status | pages | SHA-256 |
 | --- | --- | ---: | --- |
-| `paper/aaai/main_teaser_aaai27.pdf` | **selected main** | 9 | `ac0313df7248da518488f0f39ab7d6cce42d1ac2cc6d5f234fc2aee4631e588c` |
+| `paper/aaai/main_teaser_aaai27.pdf` | **selected main** | 9 | `b2219ed69acc1969d28b275c638f9328d096f7e62e0beb9a2d515530648cba15` |
 | `paper/aaai/main_aaai27.pdf` | retained comparison | 9 | `5b9d917a61fc9045f46aa477750590f40c621157068ae74dec1ccc5e8e7f113b` |
 | `paper/aaai/supplement_aaai27.pdf` | active supplement | 10 | `b9dc44ce09bb12d805472ead80bb72ca174cb844658929325917f59a7103226e` |
 | `paper/aaai/reproducibility_checklist_aaai27.pdf` | active checklist | 2 | `cd12a07ab1f9067a73f7aec128d43721c00c71bc17130acc32f6d34b99079e59` |
 
-The selected canonical main has seven technical pages. A fresh build from the
-consolidated source currently has 10 total pages and one 4.43-pt overfull table
-row. This mismatch existed before the section-file consolidation; pre/post
-merge PDF text is identical. The user has explicitly deferred both layout
-issues until the next release pass.
+The selected canonical main now builds from the consolidated
+`user_v6`-aligned source as nine pages with seven technical pages. It retains a
+36.78-pt first-page vertical overfull and one 4.43-pt overfull table row. The
+user has explicitly deferred both warnings until the final layout pass.
 
 The latest verified bundle is
 `release/relcompat3d_aaai27_openreview_20260720_084307/`. It already chooses the teaser
@@ -123,13 +122,11 @@ layout but must be regenerated from the consolidated source before upload.
 
 ### Required before submission
 
-1. Compress the fresh selected teaser build back to the AAAI page limit without
-   changing margins, type size, or using negative spacing.
+1. Resolve the first-page vertical overfull without changing margins, type
+   size, or using negative spacing.
 2. Resolve the 4.43-pt overfull table row.
-3. Apply the selected title to the consolidated main and checklist sources.
-   The supplement source is already synchronized.
-4. Rebuild `main_teaser_aaai27.pdf`, supplement, and checklist from the
-   consolidated source and refresh hashes.
+3. Synchronize title capitalization in the supplement and checklist sources.
+4. Rebuild the supplement and checklist and refresh their hashes.
 5. Regenerate and verify the anonymous release bundle; confirm its `main.pdf`
    is the selected teaser.
 6. Run final citation/reference, font, page-size, anonymity, and source-archive

@@ -1,81 +1,28 @@
 \section{Related Work}
-
 \subsection{3D Scene Graph Prediction}
+3D scene graphs organize reconstructed environments as object nodes connected by semantic and spatial relation edges \cite{armeni20193d}.
+3RScan provides repeated indoor reconstructions, and 3DSSG adds object-relation annotations and a relation-prediction benchmark \cite{wald2019rio,wald2020learning}. Incremental and online systems study persistent graph construction from RGB-D streams and spatial perception pipelines \cite{wu2021scenegraphfusion,hughes2022hydra}. Recent methods improve closed-set relation prediction using edge reasoning, point-cloud features, multimodal cues, spatial knowledge, self-supervised pretraining, object-centric features, and edge-centric representations \cite{zhang2021exploiting,feng20233d,wang2023vl,koch2024sgrec3d,heo2026object,ma2026edge}. These methods and RelCompat3D both use reconstructed scene evidence, but they optimize relation generation, whereas RelCompat3D re-ranks fixed relation candidates after prediction.
 
-3D scene graphs organize reconstructed environments as object nodes connected
-by semantic and spatial relation edges \cite{armeni20193dscenegraph}. 3RScan
-provides recurring indoor reconstructions, and 3DSSG adds object--relation
-annotations and a relation-prediction benchmark
-\cite{wald2019rio,wald2020learning3dssg}. Incremental and online systems study
-persistent graph construction from RGB-D streams and spatial perception
-pipelines \cite{wu2021scenegraphfusion,hughes2022hydra}. Recent predictors
-improve closed-set relations through edge reasoning, point-cloud features,
-multimodal cues, spatial knowledge, self-supervised pretraining, and
-object- or edge-centric representations
-\cite{zhang2021sggpoint,feng2023smka,wang2023vlsat,koch2024sgrec3d,heo2025ocrl3dssg,ma2026leo}.
-These methods and \method{} both use reconstructed scene evidence, but they
-optimize relation generation, whereas \method{} assesses and re-ranks fixed
-relation candidates after prediction.
+Open-vocabulary 3D perception provides queryable object and region features, and graph systems use them for querying and embodied interaction \cite{peng2023openscene,takmaz2023openmask3d,gu2024conceptgraphs,werby2024hierarchical,maggio2024clio}.
+Recent 3D scene graph methods extend this direction to open-vocabulary objects and relations, online generation, and functional reasoning
+\cite{koch2024open3dsg,chen2024clip,hou2025fross,zhang2025open,wang2025open}. RelCompat3D asks whether an already predicted predicate is supported by the reconstructed geometry of its ordered pair.
 
-Open-vocabulary 3D perception provides queryable object and region features
-\cite{peng2023openscene,takmaz2023openmask3d}, and graph systems connect such
-features to scene representations for querying, planning, navigation, online
-mapping, and language interaction
-\cite{gu2024conceptgraphs,werby2024hovsg,maggio2024clio}. Recent 3D scene graph
-methods extend this direction to open-vocabulary objects, open-set relations,
-vision--language model (VLM) features, online graph generation, and functional
-relations
-\cite{koch2024open3dsg,chen2024ccl3dsgg,hou2025fross,zhang2025openfungraph,wang2025octreegraph}.
-These methods broaden the candidate vocabulary and downstream uses; \method{}
-instead keeps each predictor fixed and tests whether its selected predicate is
-compatible with the reconstructed geometry of the corresponding ordered pair.
+\subsection{Geometry-aware Relation Evidence}
+3D relation prediction and graph reuse already rely on edge features, metric distance, topology, support/contact patterns, and semantic-geometric fusion \cite{zhang2021exploiting,feng20233d,xie2024sg,huang2025fireplace,shao2025great,sarkar2023sgaligner}. Scene graph alignment methods further show that graph structure and geometric consistency matter when predicted graphs are reused for matching, alignment, and downstream geometric tasks \cite{sarkar2023sgaligner, xie2024sg}. A recent preprint, RelWitness, learns open-vocabulary relations from visual-geometric witnesses under incomplete relation supervision \cite{nguyen2026relwitness}. These approaches and RelCompat3D share the goal of grounding semantic relations in geometric evidence. RelCompat3D differs by excluding predictor identity and the source relation score from compatibility and applying the resulting signal to fixed candidates within each relation family.
 
-\subsection{Geometry-Aware Relation Evidence}
-
-3D relation prediction and graph reuse already exploit edge features, metric
-distance, topology, support/contact patterns, and semantic--geometric fusion
-\cite{zhang2021sggpoint,feng2023smka,xie2024sgpgm,
-huang2025fireplace,shao2025great,sarkar2023sgaligner}. RelWitness learns
-open-vocabulary relations from visual--geometric witnesses under incomplete
-relation supervision \cite{nguyen2026relwitness}. These approaches and
-\method{} share the goal of grounding semantic relations in geometric evidence;
-\method{} differs by excluding predictor identity and score from compatibility
-and applying the resulting signal to fixed candidates within each relation
-family.
-
-Several systems incorporate geometry or transformation structure inside the
-relation generator. GEODE jointly denoises object geometry and predicates
-\cite{feng2026geode}, RelGraphOV uses relation-aware graph construction and
-geometric pruning \cite{chen2026relgraphov}, and Transformation-Aware
-Decoupling improves generator robustness to yaw-viewpoint changes
-\cite{sun2026tad}. For fixed 2D scene-graph-generation predictions, Neau et al.
-mine spatial, functional, and relation-algebra constraints and report a
-Constraint Violation Rate after declarative refinement
-\cite{neau2026commonsense}. These methods and \method{} all impose structured
-relation evidence, but \method{} estimates continuous compatibility from the
-reconstructed ordered pair and enforces applicable endpoint/predicate
-transformations before joint Recall@$K$--Violation@$K$ evaluation.
+Several systems incorporate geometry or transformation structure directly into relation generation. GEODE jointly denoises object geometry and relation predicates inside an open-vocabulary graph generator \cite{feng2026geode}. RelGraphOV uses relation-aware graph construction and geometric pruning to improve open-vocabulary 3D scene representations \cite{chen2026beyond}. Transformation-Aware Decoupling modifies the relation generator to improve viewpoint robustness \cite{sun2026not}. For fixed predictions from a 2D scene graph generator, Neau et al. mine spatial, functional, and relational constraints and report a Constraint Violation Rate after declarative refinement \cite{neau2026visual}. These methods and RelCompat3D all use structured relation evidence. However, RelCompat3D estimates a continuous compatibility score from the reconstructed ordered pair and enforces applicable endpoint/predicate transformations before joint Recall@$K$--Violation@$K$ evaluation.
 
 \subsection{Reliability Evaluation and Calibration}
+Confidence calibration asks whether model scores reflect empirical accuracy. Neural network confidence scores often diverge from empirical accuracy, and temperature scaling corrects this divergence without changing the predicted class order \cite{guo2017calibration}. Deep ensembles estimate predictive uncertainty, while evaluations under distribution shift test whether that uncertainty remains reliable \cite{lakshminarayanan2017simple,ovadia2019can}. Selective prediction instead trades conditional risk for coverage \cite{geifman2017selective}. Scene-graph work models semantic ambiguity, calibrates long-tailed predictions, and constructs conformal prediction sets \cite{yang2021probabilistic,zhu2024calibration,nag2025conformal}. In 3D, SCR-SSG refines relation scores from masks, neighboring relations, and statistical priors, while PUF propagates uncertainty during online fusion \cite{yeo2025statistical,yang2026puf}. These methods and RelCompat3D both address reliability beyond task accuracy, but RelCompat3D measures predicate--geometry compatibility rather than calibrated correctness, predictive uncertainty, or selective abstention.
 
-Confidence calibration asks whether model scores reflect empirical accuracy.
-Temperature scaling adjusts neural confidence without changing the predicted
-class order \cite{guo2017calibration}; deep ensembles estimate predictive
-uncertainty, evaluation under distribution shift tests its robustness, and
-selective prediction trades conditional risk for coverage
-\cite{lakshminarayanan2017deepensembles,ovadia2019uncertaintyshift,geifman2017selective}.
-Scene-graph work models semantic ambiguity, calibrates long-tailed predictions,
-and constructs conformal prediction sets
-\cite{yang2021probabilistic,zhu2024longtailcalibration,nag2025conformalsgg}. In
-3D, SCR-SSG refines relation scores from masks, neighboring relations, and
-statistical priors, while PUF propagates uncertainty during online fusion
-\cite{yeo2025scrssg,yang2026puf}. These methods and \method{} both address
-reliability beyond task accuracy, but $C^{\rm tr}$ measures
-predicate--geometry compatibility rather than calibrated correctness,
-predictive uncertainty, or abstention confidence.
+Recall@$K$ measures exact-match retrieval at a rank cutoff rather than compatibility with reconstructed ordered-pair geometry. RelCompat3D therefore reports exact-match Recall@$K$ with verifier-derived Violation@$K$ and uses compatibility for within-family re-ranking. This joint evaluation complements conventional retrieval and calibration analyses. The two metrics are not calibrated probabilities.
 
-Recall@$K$ measures retrieval rank rather than compatibility with reconstructed
-ordered-pair geometry. \method{} therefore reports exact-label Recall@$K$
-alongside verifier-derived Violation@$K$ and uses compatibility for
-within-family re-ranking. This joint evaluation complements conventional
-retrieval and calibration analyses; neither metric is a probability guarantee.
+\begin{figure*}[!t]
+    \centering
+    \includegraphics[width=\textwidth]{AuthorKit27/Figures/Figure2.pdf}
+    \caption{\textbf{RelCompat3D overview.}
+    (a) Open3DSG ranks heater close by trash can at 19, although the reconstructed ordered pair has an XY center distance of $4.33\,\mathrm{m}$.
+    (b) RelCompat3D estimates transformation-consistent
+    predicate--geometry compatibility from predicate semantics and ordered-pair measurements, without using the source relation score. The source relation score is combined with compatibility only during within-family scoring, after which RelCompat3D-Linear moves the relation from rank 19 to 178.}
+    \label{fig:overall_framework}
+\end{figure*}

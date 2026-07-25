@@ -1,19 +1,5 @@
 \section{Discussion and Limitations}
 
-All three predictors are evaluated on the same 3DSSG
-target~\cite{wald2020learning3dssg}. The results therefore characterize behavior
-across predictors on shared data rather than dataset-level generalization. The
-supplementary ReplicaSSG evaluation using FROSS predictions~\cite{hou2025fross}
-shows that performance changes under ontology and geometry shifts. \method{}
-assumes known object instances and reconstructed geometry for each ordered
-subject--object pair. Correcting support/contact errors, handling relations that
-require an explicit reference frame, and generating complete scene graphs remain
-outside scope.
+All three predictors are evaluated on the same 3DSSG target~\cite{wald2020learning}. The results therefore characterize behavior across predictors on shared data rather than dataset-level generalization. RelCompat3D assumes known instances and reconstructed ordered-pair geometry, and it retains support/contact candidates in source order.
 
-The constructed compatibility targets and primary verifier share some
-OBB-derived measurements. The point- and mesh-based audit excludes these inputs
-and the primary verifier labels, but it uses the same reconstructed instance
-geometry and relation ontology. It is therefore an alternative construct check,
-not independent ground truth for geometric validity. Broader claims require
-independently defined reference labels, richer contact and pose evidence, and
-evaluation on additional datasets.
+Broader claims require independently defined reference labels, richer contact and pose evidence, and evaluation on additional datasets. Because the point- and mesh-based audit uses the same reconstructed scenes and ontology, it is an alternative geometric measurement rather than independent ground truth for geometric validity.

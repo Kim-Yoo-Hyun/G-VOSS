@@ -1,6 +1,6 @@
 # RelCompat3D Paper Workspace
 
-Last updated: 2026-07-22 KST
+Last updated: 2026-07-25 KST
 
 This directory owns the active RelCompat3D manuscript, supplement, checklist,
 figures, bibliography, and paper-facing planning documents. Experiment runtime
@@ -9,7 +9,7 @@ paper-writing rules under `docs/paper.md`.
 
 ## Current Identity
 
-- Selected title: **RelCompat3D: Predicate–Geometry Compatibility for Re-ranking
+- Selected title: **RelCompat3D: Predicate–Geometry Compatibility for Re-Ranking
   3D Scene Graph Relations**.
 - Method: **RelCompat3D**, with Linear and MLP compatibility estimators.
 - Venue source: `paper/aaai/`.
@@ -19,9 +19,9 @@ paper-writing rules under `docs/paper.md`.
 - Main scope: re-rank proximity and vertical-order candidates while retaining
   support/contact candidates in source order.
 
-The supplement source uses the selected title. Apply the same title to the
-consolidated main and checklist during the pending layout pass so the stored
-upload PDFs and all source entry points change together.
+The selected title is synchronized across the consolidated main source,
+supplement source, and paper-facing planning documents. The stored PDFs will be
+regenerated during the final release pass.
 
 ## Active Sources and Artifacts
 
@@ -38,10 +38,10 @@ upload PDFs and all source entry points change together.
 | User-assembled transcript | `user.tex` |
 | Reviewer checklist | `user_feedback.md` |
 
-The selected stored main PDF has nine total pages with technical content ending
-on page 7. A fresh build from the consolidated source currently produces ten
-pages and one 4.43-pt overfull table row. These layout issues must be resolved
-before the final PDFs and anonymous release bundle are regenerated.
+The selected stored main PDF now builds directly from the consolidated
+`user_v6`-aligned source. It has nine total pages with technical content ending
+on page 7. The build retains a 36.78-pt first-page vertical overfull and a
+4.43-pt overfull table row; both remain for the final layout pass.
 
 ## Manuscript Structure
 
@@ -97,8 +97,8 @@ docker run --rm -v "$PWD/paper:/work" -w /work/aaai \
   latexmk -pdf -interaction=nonstopmode -halt-on-error main_teaser.tex
 ```
 
-Do not regenerate the final upload bundle until the page-count, overfull-row,
-and title synchronization tasks are complete.
+Do not regenerate the final upload bundle until the remaining overfull warnings
+and cross-artifact title synchronization are resolved.
 
 ## Archive Boundary
 

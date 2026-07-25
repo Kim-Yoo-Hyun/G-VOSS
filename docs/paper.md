@@ -111,7 +111,7 @@ Reviewer-side checklist to simulate before submission:
 ## RelCompat3D Claim Contract
 
 Selected paper-facing title: `RelCompat3D: Predicate–Geometry Compatibility for
-Re-ranking 3D Scene Graph Relations`. Use `RelCompat3D` consistently as the
+Re-Ranking 3D Scene Graph Relations`. Use `RelCompat3D` consistently as the
 method name and `relcompat3d` for lowercase machine identifiers. The active
 Python namespace is `src/relcompat3d/`; ignored recovery snapshots retain their
 frozen legacy layouts. The consolidated TeX title is synchronized during the
@@ -153,21 +153,22 @@ Reviewer-defense rules after the independent-validity/family review:
   mechanism diagnostics, not part of the original prospective SGFN gate.
 
 - RelCompat3D is a compatibility-based reliability framework, not a claim that
-  one head capacity or fusion formula is uniquely optimal. Report
+  one compatibility estimator or fusion formula is uniquely optimal. Report
   `RelCompat3D-Linear` and `RelCompat3D-MLP` as two proposed compatibility
   estimators under the same factor separation, constructed targets, linked-pair
-  objective, transformation averaging, product utility, and family-aware
+  objective, transformation averaging, multiplicative within-family ranking
+  score, and family-aware
   ranking rule. Their different Open3DSG Recall--Violation operating points are
-  a capacity trade-off, not evidence that either universally dominates. The inference rule preserves
+  an estimator trade-off, not evidence that either universally dominates. The inference rule preserves
   the source family sequence, applies product ordering only among
   proximity/vertical candidates within the corresponding family positions, and
-  preserves support/contact ordering. Treat the all-family product as an
-  scope ablation; use rank-average and RRF as matched fusion baselines under the
-  same family-aware ranking procedure;
-  treat pooled product as a family-conditioning ablation and hard filtering as
-  a construction comparison. If both compatibility capacities are main
+  preserves support/contact ordering. Treat the all-family product as a
+  scope ablation. Use rank-average and RRF as matched fusion baselines under the
+  same family-aware ranking procedure.
+  Treat pooled product as a family-conditioning ablation and hard filtering as
+  a construction comparison. If both compatibility estimators are main
   variants, apply the principal predicate/pair/geometry controls and the
-  surface-based audit to both; compact results may remain supplemental when the
+  point- and mesh-based audit to both. Compact results may remain supplemental when the
   seven-page technical limit prevents a readable main table.
 - Direct Linear component removals show that the linked pairwise term has a
   small aggregate effect. Transformation averaging primarily provides exact
@@ -181,7 +182,7 @@ Reviewer-defense rules after the independent-validity/family review:
   evaluation of the final method without target-specific refitting. The latter must be
   described as a benchmark evaluation on a previously observed target, not an
   unbiased or prospective estimate. Its routed product has paired joint gains
-  at K=10 and K=50 but saturates at K=100; report the full five-budget curve in
+  at K=10 and K=50 but saturates at K=100. Report the full five-\(K\)-value curve in
   the supplement. A family-sequence-preserving rank analysis explains score
   scale sensitivity, but must not replace the main rule based on this target.
   Keep bounded-fusion development outside the main Method and contribution
@@ -325,10 +326,10 @@ Current paper-facing evaluation direction:
   restriction or recovery policy.
 - Table policy is fixed: one joint Recall/Violation table uses VL-SAT,
   Open3DSG public/full target, and SGFN at K=`{5,10,20,50,100}`. Its rows are
-  Source score, RelCompat3D-Linear, RelCompat3D-MLP, matched rank-average,
+  Source, RelCompat3D-Linear, RelCompat3D-MLP, matched rank-average,
   matched RRF, and Product (all families). Pooled product is supplemental.
   Full K=50/100 Linear/MLP six-control tables are supplemental because a matched
-  two-capacity grid is not readable within the seven-page body; hard filtering
+  two-estimator grid is not readable within the seven-page body; hard filtering
   remains a construction comparison outside the primary table.
   Historical
   127-scan Open3DSG numbers are appendix/sensitivity evidence only, where the
@@ -661,10 +662,10 @@ Do not claim these until evidence exists:
 - Target venue direction is AAAI-style main conference writing. Content stability and AAAI page/checklist compliance come before final camera-ready polish.
 - `paper/draft.md` Title/Abstract/Introduction quick review is complete; front matter is about 701 words excluding title, with a 201-word abstract and 500-word Introduction before final compression.
 - Paper-body gap review patch is complete: Figure 1-3 callouts, Table 4 audit/sanity prose, and Conclusion are now in `paper/draft.md`.
-- Paper-body budget review is complete. The current AAAI manuscript uses two
-  main tables: the five-budget cross-predictor comparison and the compact K=50
-  matched-control table. The surface-based audit is quantified in Results and
-  tabulated fully in the supplement; complete K=100 controls also remain there.
+- Paper-body layout review is complete. The current AAAI manuscript uses two
+  main tables: the five-\(K\)-value cross-predictor comparison and the compact
+  matched-control table. The point- and mesh-based audit is quantified in
+  Results and tabulated fully in the supplement.
 - AAAI-style source conversion is complete under `paper/aaai/` using the
   official AAAI-27 Author Kit preserved in the repository. The active source
   uses `aaai2027.sty`/`aaai2027.bst` and template version 2027.1.
@@ -695,7 +696,7 @@ Do not claim these until evidence exists:
   generalization claim.
 - The main compatibility is linked-counterfactual margin fitting followed
   by exact proximity-swap / vertical-inverse transformation averaging. Paper prose
-  calls it **relation-consistent compatibility**; the internal
+  calls it **predicate--geometry compatibility**. The internal
   `orbit_pairwise_projected_product` name appears only in provenance artifacts.
   The active family-aware ranking procedure, matched comparators, controls, and
   interval analyses come from the synchronized
@@ -710,9 +711,10 @@ Do not claim these until evidence exists:
   violation metric. The defensible distinction is continuous source-excluded
   3D same-pair compatibility with identity controls, linked counterfactuals,
   exact algebra projection, and recall/violation/uncertainty accounting.
-- `RelCompat3D-MLP` excludes the source score and predictor identity and uses
+- `RelCompat3D-MLP` excludes the source relation score and predictor identity and uses
   the same constructed training rows, targets, objective, transformation
-  averaging, product utility, and family-aware ranking as `RelCompat3D-Linear`.
+  averaging, multiplicative within-family ranking score, and family-aware
+  re-ranking as `RelCompat3D-Linear`.
   Its different parameterization yields a distinct operating point rather than
   joint dominance. A separate
   SGFN exact-label nonlinear rescorer uses stronger source-specific supervision;
@@ -720,7 +722,7 @@ Do not claim these until evidence exists:
 - Report K=`{5,10,20,50,100}` together. Use K=50 descriptively as a mid-curve
   reference, not as a separately registered endpoint, and describe K=10--50
   behavior without an unsupported operational-use claim;
-  retain K=5 and K=100 in the table and trajectory as low-/high-budget
+  retain K=5 and K=100 in the table and trajectory as low-/high-\(K\)
   boundaries. At K=50, Violation decreases on all three predictors, Recall
   improves on Open3DSG and SGFN, and near-ceiling VL-SAT has no detectable
   Recall change. Never convert pointwise trends into an all-K universal
@@ -740,8 +742,9 @@ Do not claim these until evidence exists:
 - The frozen `orthogonal_geometry_audit_v1` is admissible non-human
   construct-validity evidence: it uses raw instance vertices and area-weighted
   mesh triangles, excludes OBB/model/verifier inputs from label assignment, and
-  reports point, mesh, strict consensus, coverage, all K, and paired scan-cluster
-  intervals. Describe it as an orthogonal raw-surface audit, not an independent
+  reports point, mesh, agreement-based labels, coverage, all K, and paired
+  scan-cluster intervals. Describe it as a point- and mesh-based consistency
+  audit, not an independent
   physical-validity ground truth, because both estimators share the reconstructed
   3RScan surface and ontology.
 - Docker verification is complete with `relcompat3d-aaai27-tex:20260712`: BibTeX

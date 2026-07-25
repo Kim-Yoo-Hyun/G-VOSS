@@ -90,7 +90,7 @@ then average over the valid family-specific endpoint/predicate transformations t
 Separately, relation-preserving augmentation swaps proximity endpoints without changing the predicate and jointly swaps vertical endpoints and the inverse predicate. Evaluation rows, source relation scores, and verifier-status labels are not used to construct training examples. 
 % The supplement specifies the family-specific thresholds, negative cap, and balancing rules.
 
-\subsection{Relation-Consistent Compatibility}
+\subsection{Compatibility Estimation}
 \label{sec:Compatibility}
 For each candidate relation $r_i$, the associated geometry vector $G_i$ contains OBB-derived 3D/XY distances, relative height, projected overlap, and vertical-gap features. Point-level contact evidence is used only by the support/contact verifier, not by the compatibility model. Let $\operatorname{std}_{\rm tr}$ standardize each numeric feature with training-split statistics and replace a missing value by the corresponding training mean. We evaluate two compact compatibility estimators under the same input separation, training targets, loss, and transformation averaging. 
 

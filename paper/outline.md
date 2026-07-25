@@ -9,7 +9,7 @@ figure/table 역할만 소유한다. Method의 상세 정의는 `paper/method.md
 
 ## 1. Paper Identity
 
-- Selected title: **RelCompat3D: Predicate–Geometry Compatibility for Re-ranking
+- Selected title: **RelCompat3D: Predicate–Geometry Compatibility for Re-Ranking
   3D Scene Graph Relations**
 - Source status: synchronize the consolidated TeX title during the pending
   layout and release-regeneration pass.
@@ -37,13 +37,13 @@ release regeneration 단계에서 해결하고, 지금은 scientific transcript�
 
 ```text
 High-scoring relation failure on a reconstructed ordered pair
-→ the predictor score is not an explicit estimate of predicate–geometry compatibility
-→ predicate semantics and ordered-pair measurements are separated from the predictor score
+→ the source relation score is not an explicit estimate of predicate–geometry compatibility
+→ predicate semantics and ordered-pair measurements are separated from the source relation score
 → linear and nonlinear compatibility estimators learn from linked counterfactuals
 → transformation averaging enforces the applicable endpoint/predicate consistency
-→ compatibility and predictor score are combined only for within-family ranking
+→ compatibility and the source relation score are combined only for within-family ranking
 → exact-match Recall and verifier-derived Violation are evaluated together
-→ matched controls and an alternative point/mesh audit delimit the claim
+→ matched controls and an alternative point- and mesh-based audit delimit the claim
 ```
 
 Introduction은 이 원인과 설계 필요성을 설명하고, Method는 구현 계약을,
@@ -58,7 +58,7 @@ Introduction의 contribution은 세 개로 유지한다.
    않는 source relation score와 instance-level geometric compatibility의
    mismatch를 ordered-pair identity를 보존한 Recall@$K$--Violation@$K$
    평가로 정의한다.
-2. **Factor-separated compatibility estimation.** Predictor score와 identity를
+2. **Factor-separated compatibility estimation.** Source relation score와 predictor identity를
    compatibility input에서 제외하고, linked positive--counterfactual training과
    applicable endpoint/predicate transformation averaging을 결합한다. Linear와
    MLP는 이 framework의 두 estimator이며 transformation averaging 자체만을
@@ -68,7 +68,7 @@ Introduction의 contribution은 세 개로 유지한다.
    re-rank하고, 세 predictor·matched controls·alternative geometric audit로
    predictor- and family-dependent behavior를 분석한다.
 
-세 predictor의 수치, qualitative case, surface audit는 위 contribution을
+세 predictor의 수치, qualitative case, point- and mesh-based audit는 위 contribution을
 검증하는 evidence이며 별도 contribution으로 늘리지 않는다.
 
 ## 4. Manuscript Structure
@@ -90,7 +90,7 @@ relative-size extension은 `paper/aaai/sec/old.tex`가 소유한다.
 
 ### Abstract
 
-- 문제: high predictor score와 reconstructed ordered-pair geometry의 mismatch.
+- 문제: high source relation score와 reconstructed ordered-pair geometry의 mismatch.
 - 방법: ordered-pair identity를 유지하고 source relation score 없이
   compatibility를 추정한 뒤 re-ranking에서만 결합.
 - mechanism: Linear/MLP estimators, linked counterfactuals, transformation
@@ -135,7 +135,7 @@ Introduction에 두지 않는다.
 
 #### 3.1 Problem Setup
 
-- candidate tuple, native predictor score, context 정의.
+- candidate tuple, native source relation score, context 정의.
 - ordered-pair identity와 exact relation-candidate identity 구분.
 - $T$: predicate semantics; $G$: predicate-independent ordered-pair
   measurements; $a$: estimator/transformation/ranking family selector;
@@ -147,7 +147,7 @@ Introduction에 두지 않는다.
 - compatibility는 constructed-target ranking score이지 physical-validity
   posterior가 아니다.
 
-#### 3.2 Relation-Consistent Compatibility
+#### 3.2 Compatibility Estimation
 
 - OBB-derived distance, height, overlap, gap measurements; point contact는
   primary compatibility input이 아니다.
@@ -159,14 +159,14 @@ Introduction에 두지 않는다.
   consistency를 transformation averaging으로 보장.
 - formal proof와 full construction rules는 supplement.
 
-#### 3.3 Family-Aware Re-ranking
+#### 3.3 Family-Aware Re-Ranking
 
 - proximity/vertical-order: $u_i=Z_iC_i^{\rm tr}$.
 - support/contact: source-ranking family subsequence를 그대로 사용.
 - source position의 family label에 맞는 ordered list에서 다음 candidate를
   선택해 source family sequence를 보존.
-- Product는 posterior나 universal optimum이 아니라 parameter-free ranking
-  utility다.
+- Product score는 posterior나 universal optimum이 아니며 fitted fusion
+  parameter를 추가하지 않는 within-family ranking score다.
 - RankAvg/RRF/Product (all families)는 같은 candidate universe에서 비교한다.
 
 ### 4. Experiments
@@ -196,7 +196,7 @@ Introduction에 두지 않는다.
 #### 4.3 Ablations and Controls
 
 - Main Table 2: K=50 matched controls for Linear and MLP.
-- wrong predicate, wrong pair, shuffled geometry, fixed-label swap,
+- wrong predicate, wrong pair, shuffled geometry, fixed-predicate swap,
   distance-only, compatibility-only.
 - complete K=100 controls, feature removal, transformation and linked-pair
   checks는 supplement.
@@ -207,7 +207,8 @@ Introduction에 두지 않는다.
 - satisfied/violated label은 point and mesh measurements가 일치할 때만
   부여하고 disagreement는 uncertain으로 둔다.
 - primary Violation과 직접 비교하지 않는다.
-- MLP, all-$K$, separate point/mesh, coverage, threshold, intervention 결과는
+- MLP와 all-$K$ results, separate point- and mesh-based results, coverage,
+  thresholds, interventions는
   supplement.
 - independent physical-validity ground truth라고 부르지 않는다.
 
@@ -241,7 +242,7 @@ baseline, future-work 목록을 추가하지 않는다.
 | Figure 2 | 3 | pair geometry → compatibility → within-family score → re-ranking |
 | Table 1 | 6 | all-$K$ main comparison |
 | Table 2 | 7, left | K=50 matched controls for Linear/MLP |
-| Table 3 | 7, right | K=50 point/mesh agreement audit for Linear |
+| Table 3 | 7, right | K=50 point- and mesh-based agreement audit for Linear |
 | Figure 3 | 7 | Source/Linear/MLP Recall--Violation trajectories |
 | Discussion / Conclusion | 6--7 | scope and takeaway |
 | References | 7--9 | references only after technical content |
@@ -270,9 +271,9 @@ complete controls는 supplement에 둔다.
 
 ### Table 3
 
-- K=50 alternative Violation from point/mesh agreement.
-- `Ours` denotes RelCompat3D-Linear.
-- Change is Linear minus Source with paired 95% interval.
+- K=50 alternative Violation from point- and mesh-based agreement.
+- `Linear` denotes RelCompat3D-Linear.
+- $\Delta V$ is Linear minus Source in percentage points.
 - Coverage is measured/decidable coverage.
 - Values are not directly comparable to primary Violation in Table 1.
 
@@ -280,7 +281,7 @@ complete controls는 supplement에 둔다.
 
 | concept | canonical expression |
 | --- | --- |
-| $Z$ | `source relation score` or `predictor score` after local definition |
+| $Z$ | `source relation score` |
 | $G$ | `predicate-independent measurements of the ordered pair` |
 | $C$ | `predicate--geometry compatibility` |
 | $C^{\rm tr}$ | `transformation-consistent compatibility` |
