@@ -1,10 +1,13 @@
-# Submission Script
+# Submission Scripts
 
-The submission-facing script directory contains one lightweight Docker wrapper:
+The submission-facing script directory contains:
 
 - `run_no_family_indicator_v1.sh`: runs the active RelCompat3D evaluation in
   `initial` or `downstream` phases, skips completed manifests, and refuses to
   overwrite nonempty incomplete outputs.
+- `build_release_bundle.py`: packages fresh Docker-built main, supplement, and
+  checklist PDFs with an anonymous allowlisted code-and-compact-data ZIP and
+  SHA-256 manifests.
 
 Core fitting, evaluation, audit, and figure logic remains in `src/relcompat3d/`;
 Docker services and pinned environment definitions remain in `configs/relcompat3d/`.

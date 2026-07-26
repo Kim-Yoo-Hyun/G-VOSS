@@ -111,9 +111,10 @@ docker run --rm -v "$PWD/paper:/work" -w /work/aaai \
   latexmk -pdf -interaction=nonstopmode -halt-on-error main_teaser.tex
 ~~~
 
-The stored selected PDF is nine US-Letter pages. A fresh build from the current
-consolidated source is presently ten pages and reports one 4.43 pt overfull box.
-This known layout issue must be repaired before regenerating the final release.
+The current source builds to nine US-Letter pages. Technical content ends and
+the references begin on page 7; the references continue on pages 8--9. The
+prior horizontal overflow is resolved. One 36.77646 pt first-page vertical
+overfull remains before final upload.
 
 ## Artifact Policy
 
@@ -123,6 +124,6 @@ caches, point clouds, meshes, logs, release bundles, and local archives remain
 ignored. Restoring or deleting those materials must follow
 docs/reproducibility.md.
 
-The last fully verified release bundle is staged locally at
-release/relcompat3d_aaai27_openreview_20260720_084307/. It is a verification baseline,
-not a replacement for regenerating the release after the pending layout fix.
+The latest synchronized candidate bundle is staged locally at
+release/relcompat3d_aaai27_openreview_20260726_214500/. It is a verification
+candidate, not an upload-ready replacement for the final layout-fixed release.

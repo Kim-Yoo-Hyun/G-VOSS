@@ -1,6 +1,6 @@
 # RelCompat3D Reproducibility and Recovery
 
-Last updated: 2026-07-23 KST.
+Last updated: 2026-07-26 KST.
 
 This document is the authoritative entry point for RelCompat3D reruns, artifact
 handoff, cleanup, and recovery. Read it before moving, deleting, uploading, or
@@ -56,9 +56,12 @@ paths below instead of rewriting a preserved snapshot in place.
 | wrapper | scripts/run_no_family_indicator_v1.sh |
 | full command map | experiments/RelCompat3D_geom_reliability/commands.md |
 
-The selected stored PDF is nine US-Letter pages. A fresh build from the current
-consolidated manuscript source is ten pages and reports one 4.43 pt overfull
-box. Do not regenerate a final upload bundle until that layout debt is fixed.
+The current source builds to nine US-Letter pages. Technical content ends and
+the references begin on page 7; the references continue on pages 8--9. The
+prior Table 2 horizontal overflow is resolved. One 36.77646 pt first-page
+vertical overfull remains. A current candidate release may be generated for
+verification, but it is not upload-ready until that warning and the
+submission-system disclosure checks are resolved.
 
 ## 3. Active Method Integrity
 
@@ -220,26 +223,34 @@ docker run --rm -u "$(id -u):$(id -g)" \
 After building, verify page size, page count, fonts, unresolved references,
 anonymous metadata, and overfull warnings.
 
-## 9. Last Verified Release Baseline
+## 9. Current Release Candidate
 
-The ignored local bundle is:
+The current ignored local candidate bundle is:
 
-release/relcompat3d_aaai27_openreview_20260720_084307/
+release/relcompat3d_aaai27_openreview_20260726_214500/
 
-Its code_and_data_supplement.zip supplied the active src/config/script/experiment
-allowlist used for this cleanup. Before later manuscript consolidation it
-passed:
+It is regenerated from the current main, supplement, checklist, active figure
+assets, method locks, source allowlist, and compact results. Build it after
+fresh Docker compilation with:
+
+~~~bash
+python scripts/build_release_bundle.py \
+  --build-root /tmp/relcompat3d_release_build \
+  --timestamp 20260726_214500
+~~~
+
+The release verification covers:
 
 - ZIP integrity;
 - internal MANIFEST.sha256 verification;
 - anonymous path and metadata checks;
 - JSON and Compose parsing;
-- extracted-source Docker builds;
-- canonical PDF and font checks.
+- extracted-source Python and manuscript builds;
+- exact outer-file hashes;
+- PDF page size, page allocation, fonts, links, and LaTeX warnings.
 
-It is a recovery and comparison baseline. Because the current manuscript source
-has changed, it must not be uploaded as though it were a newly regenerated
-release.
+The release is the latest synchronized candidate, not a final upload artifact:
+the main PDF still has the first-page vertical overfull recorded above.
 
 ## 10. Local Archive
 

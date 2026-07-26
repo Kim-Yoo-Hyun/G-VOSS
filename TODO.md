@@ -10,11 +10,9 @@ experiment README and result manifest.
 
 - [ ] Resolve the 36.78 pt first-page vertical overfull without changing
   margins, font size, or using negative vertical spacing.
-- [ ] Remove the remaining 4.43 pt overfull table row.
-- [ ] Synchronize the selected title capitalization in the supplement and
-  reproducibility checklist sources.
-- [ ] Rebuild the supplement and reproducibility checklist in Docker.
-- [ ] Regenerate and verify the anonymous release bundle after the layout fix.
+- [ ] Complete the required generative-AI role disclosure in the manuscript or
+  submission system according to the actual use.
+- [ ] Promote a final upload bundle after the first-page layout fix.
 - [ ] Review the large deletion set and create a clean submission commit.
 
 ## Next
@@ -28,6 +26,16 @@ experiment README and result manifest.
 
 ## Recently Completed
 
+- [x] Removed all superseded local release bundles and retained only
+  `release/relcompat3d_aaai27_openreview_20260726_214500/`.
+- [x] Regenerated a synchronized anonymous candidate release and lean
+  code-and-compact-data ZIP from the current main, supplement, checklist,
+  figures, method locks, source, and compact result summaries.
+- [x] Resolved the prior 4.43-pt Table 2 horizontal overflow.
+- [x] Synchronized the selected title across the main, supplement, checklist
+  documentation, and release metadata.
+- [x] Rebuilt the main, supplement, and reproducibility checklist from the
+  current source in the pinned Docker image.
 - [x] Synchronized `user_v6.tex` into the seven active AAAI section files,
   activated the supplied Figure 1--3 assets with outlined figure text, and
   rebuilt the selected nine-page main PDF in Docker.

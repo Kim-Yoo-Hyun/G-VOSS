@@ -38,10 +38,9 @@ regenerated during the final release pass.
 | User-assembled transcript | `user.tex` |
 | Reviewer checklist | `user_feedback.md` |
 
-The selected stored main PDF now builds directly from the consolidated
-`user_v6`-aligned source. It has nine total pages with technical content ending
-on page 7. The build retains a 36.78-pt first-page vertical overfull and a
-4.43-pt overfull table row; both remain for the final layout pass.
+The current main source has nine total pages with technical content ending on
+page 7. The prior Table 2 horizontal overflow is resolved. The build retains
+one 36.78-pt first-page vertical overfull for the final layout pass.
 
 ## Manuscript Structure
 
@@ -100,8 +99,9 @@ docker run --rm -v "$PWD/paper:/work" -w /work/aaai \
   latexmk -pdf -interaction=nonstopmode -halt-on-error main_teaser.tex
 ```
 
-Do not regenerate the final upload bundle until the remaining overfull warnings
-and cross-artifact title synchronization are resolved.
+The synchronized candidate release can be regenerated for verification. Do not
+treat it as upload-ready until the first-page overfull and final
+submission-system disclosure checks are resolved.
 
 ## Archive Boundary
 

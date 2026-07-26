@@ -93,15 +93,16 @@ results/relcompat3d_geom_reliability/manifest.json.
 
 ## Manuscript State
 
-The selected artifact is paper/aaai/main_teaser_aaai27.pdf. The stored PDF is
-nine pages, but a fresh build from the current consolidated source is ten pages
-and retains one 4.43 pt overfull box. Page compression and the final anonymous
-release regeneration remain pending.
+The selected source is paper/aaai/main_teaser.tex. A fresh Docker build is nine
+pages. Technical content ends and the references begin on page 7; references
+continue on pages 8--9. The prior horizontal overflow is resolved. One
+36.77646 pt first-page vertical overfull remains.
 
-The last verified release baseline is
-release/relcompat3d_aaai27_openreview_20260720_084307/. It passed archive integrity,
-inner checksums, anonymous path checks, JSON/compose validation, and extracted
-source builds before the later manuscript consolidation.
+The latest synchronized candidate release is
+release/relcompat3d_aaai27_openreview_20260726_214500/. It is regenerated from
+the current manuscript, supplement, checklist, figures, method locks, source,
+and compact evidence and is held as a candidate until the remaining layout and
+submission-system disclosure checks are resolved.
 
 ## Claim Boundary
 
