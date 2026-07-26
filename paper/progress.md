@@ -1,6 +1,6 @@
 # RelCompat3D Paper Progress
 
-Last updated: 2026-07-25 KST
+Last updated: 2026-07-27 KST
 
 이 문서는 paper-facing completion state, selected submission artifact, and
 remaining work만 기록한다. Experiment chronology와 runtime artifact는
@@ -40,6 +40,8 @@ remains part of the final release pass.
 | distance-only and compatibility-only controls | complete | Table 2 / supplement |
 | scan-level paired intervals | complete | Results / supplement |
 | feature-removal and counterfactual sensitivity | complete | supplement |
+| matched component diagnostics | complete | supplement |
+| five-seed fitting robustness | complete | supplement |
 | point- and mesh-based consistency audit | complete | Table 3 / supplement |
 | uncertainty and family decomposition | complete | supplement |
 | bounded re-ranking runtime and parameter count | complete | supplement |
@@ -77,7 +79,7 @@ but are not active main-paper evidence.
 | --- | --- | ---: | --- |
 | `paper/aaai/main_teaser_aaai27.pdf` | **selected main** | 9 | `b2219ed69acc1969d28b275c638f9328d096f7e62e0beb9a2d515530648cba15` |
 | `paper/aaai/main_aaai27.pdf` | retained comparison | 9 | `5b9d917a61fc9045f46aa477750590f40c621157068ae74dec1ccc5e8e7f113b` |
-| `paper/aaai/supplement_aaai27.pdf` | active supplement | 10 | `b9dc44ce09bb12d805472ead80bb72ca174cb844658929325917f59a7103226e` |
+| `paper/aaai/supplement_aaai27.pdf` | active supplement | 18 | `c56ee4b1a9c335e5d41ac88e9543a9ef4fa65f70fc0e4c6b3026b4b3d31da3fe` |
 | `paper/aaai/reproducibility_checklist_aaai27.pdf` | active checklist | 2 | `cd12a07ab1f9067a73f7aec128d43721c00c71bc17130acc32f6d34b99079e59` |
 
 The selected canonical main now builds from the consolidated

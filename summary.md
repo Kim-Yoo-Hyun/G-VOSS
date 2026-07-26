@@ -1,6 +1,6 @@
 # RelCompat3D Research Summary
 
-Last updated: 2026-07-23 KST.
+Last updated: 2026-07-27 KST.
 
 ## Research Task
 
@@ -71,9 +71,38 @@ support varies by predictor and K.
   changes under an alternative geometric construct.
 - Feature-removal and counterfactual-policy analyses probe partial dependence
   between the compatibility targets and the primary OBB-derived verifier.
-- Direct Linear removals show a small aggregate effect from the linked
-  pairwise term. Removing transformation averaging changes aggregate metrics
-  little but removes the exact endpoint/predicate-consistency guarantee.
+- Matched Linear/MLP diagnostics show a small, estimator-dependent effect from
+  the linked pairwise term. Transformation averaging changes aggregate metrics
+  little but makes transformed compatibility and top-\(K\) membership exactly
+  consistent.
+- A frozen post-hoc score-mapping analysis retains the favorable
+  Recall--Violation direction in all 75 Linear and 74/75 MLP conditions across
+  five smooth non-identity mappings. A percentile condition produces small
+  Recall losses, so the evidence supports bounded robustness rather than
+  score-scale invariance.
+- At \(K=50\), both learned variants Pareto-dominate a non-learned
+  training-positive robust-density baseline for all three predictors.
+  Evaluation-verifier Hard-tail and Hard-drop routes are retained only as
+  non-deployable diagnostics.
+- A matched routing control keeps support/contact positions and identities
+  fixed while merging proximity and vertical order into one queue. Its mixed
+  estimator- and \(K\)-dependent effects show that family slots are a
+  composition-preserving constraint, not an aggregate-optimal route.
+- A hash-verified construct-dependence package records which information is
+  shared by target construction, the primary verifier, and the point/mesh
+  audit. Point/mesh Violation is lower in 14 of 15 cells and tied once for each
+  estimator, while three uncertainty policies are non-increasing in all 30
+  estimator--predictor--\(K\) cells.
+- Five predeclared fitting executions reproduce Linear exactly. MLP variation
+  is small overall, with one VL-SAT \(K=50\) seed trading one exact-label
+  relation for lower Violation; seed-uniform Pareto improvement is not
+  claimed.
+- A pseudonymized row-level regeneration check reproduces 291 canonical cells
+  from Tables 1--3 and Figure 3 data with maximum absolute error zero.
+- Candidate-pool exact-label coverage is 99.72% for VL-SAT and SGFN and 79.68%
+  for Open3DSG. At \(K=50\), the active-route oracle Recall is 96.73%, 86.05%,
+  and 63.72%, respectively, quantifying both remaining ranking headroom and
+  missing-candidate limits without treating the oracle as model performance.
 - The ReplicaSSG/FROSS result is retained only as a transfer stress test, not
   dataset-level generalization evidence.
 - A bounded CPU benchmark measures re-ranking after rows and pair geometry are
@@ -82,10 +111,12 @@ support varies by predictor and K.
 ## Reproducibility Boundary
 
 The public submission tree includes the active code, protocols, fitted model
-locks, compact summaries, and Docker configuration. Full numerical reruns need
+locks, compact summaries, Docker configuration, regenerated paper tables and
+figure data, and candidate-pool oracle summaries. Full numerical reruns need
 external source rows and public datasets. Source checkpoints, feature caches,
-row-level predictions, verifier outputs, meshes, and raw point/mesh audit rows
-are intentionally excluded from Git.
+raw verifier outputs, meshes, and raw point/mesh audit rows are intentionally
+excluded from Git. A pseudonymized derived-row bundle is generated locally,
+but public redistribution is held until the dataset terms are confirmed.
 
 The active integrity hashes are stored in
 experiments/RelCompat3D_geom_reliability/active_method.json. The compact result map is

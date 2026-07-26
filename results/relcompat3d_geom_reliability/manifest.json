@@ -1,10 +1,19 @@
 {
   "schema_version": "relcompat3d_submission_result_index_v1",
-  "updated_at_kst": "2026-07-23",
+  "updated_at_kst": "2026-07-27",
   "status": "submission_compact_active",
   "method_pointer": "experiments/RelCompat3D_geom_reliability/active_method.json",
   "paper": "paper/aaai/main_teaser_aaai27.pdf",
   "supplement": "paper/aaai/supplement_aaai27.pdf",
+  "posthoc_integrity": {
+    "score_robustness_manifest_sha256": "57780a58173759b03f784549c2ea0213c9cfdbd5c633863ff7dbd977f8dd3548",
+    "routing_controls_manifest_sha256": "f3e3e5dbda813d60a2a47307a876ab2bd1bfdf693085d0e7689bfe64c43a7bca",
+    "construct_dependence_manifest_sha256": "caf38e8ab74e0ae76c1f23ffaa6e53c10de4b4fbcf7db6bc6f15dc6da600d426",
+    "component_diagnostics_manifest_sha256": "107c83993359b0681d77cc4c808696bb23e97c8f9c708a6feec140815bfaa917",
+    "seed_robustness_manifest_sha256": "2bcc816f3307ab22fe93002d2db0db930b7a0088aacda54315b5aba1c78d09fe",
+    "row_reproduction_manifest_sha256": "21ead0d178af66109c2f90707b0560f4e4f1d6f4308486b08955eb6b687f7104",
+    "candidate_oracle_manifest_sha256": "a7aee28622c84a21aa61c92a6e288f08b58a3e33d69b42118c296cfa2d20a563"
+  },
   "canonical_artifacts": {
     "main_and_matched_comparators": "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/routed_comparators",
     "all_family_comparison": "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/structured_main",
@@ -17,10 +26,18 @@
     "counterfactual_sensitivity": "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/counterfactual_sensitivity",
     "direct_component_removals": "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/component_removals",
     "runtime": "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/runtime",
-    "external_transfer_stress_test": "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/external_transfer"
+    "external_transfer_stress_test": "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/external_transfer",
+    "score_mapping_and_simple_baselines": "experiments/RelCompat3D_geom_reliability/score_robustness_v1/evaluation",
+    "routing_constraint_controls": "experiments/RelCompat3D_geom_reliability/routing_controls_v1/evaluation",
+    "construct_dependence_package": "experiments/RelCompat3D_geom_reliability/construct_dependence_v1/evaluation",
+    "component_diagnostics": "experiments/RelCompat3D_geom_reliability/component_diagnostics_v1/evaluation",
+    "five_seed_robustness": "experiments/RelCompat3D_geom_reliability/seed_robustness_v1/evaluation",
+    "row_level_paper_reproduction": "experiments/RelCompat3D_geom_reliability/row_reproduction_v1/evaluation",
+    "candidate_pool_oracles": "experiments/RelCompat3D_geom_reliability/candidate_oracle_v1/evaluation"
   },
   "excluded_from_git": [
-    "row-level predictions and verifier outputs",
+    "source prediction and verifier rows",
+    "pseudonymized derived-row bundle pending confirmation of dataset terms",
     "raw point/mesh audit measurements",
     "datasets, checkpoints, and feature caches",
     "historical and pre-promotion result mirrors"

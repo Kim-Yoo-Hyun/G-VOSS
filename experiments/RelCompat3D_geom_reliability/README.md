@@ -1,6 +1,6 @@
 # RelCompat3D Geometry Reliability Submission Artifacts
 
-Last updated: 2026-07-23 KST
+Last updated: 2026-07-27 KST
 
 This directory is the compact experiment subset used by the RelCompat3D
 manuscript and technical supplement. The canonical method pointer is
@@ -19,6 +19,20 @@ manuscript and technical supplement. The canonical method pointer is
   fitted-model evidence for factor separation.
 - `train_only_reestablishment_v1/`: split firewall, train-only fit lock,
   calibration model, and provenance records.
+- `score_robustness_v1/`: frozen P0-1 source-score mapping sensitivity and
+  P0-2 closest-simple-baseline protocol, Docker command, and compact outputs.
+- `routing_controls_v1/`: P0-3 matched family-slot routing controls on the
+  canonical candidate pool.
+- `construct_dependence_v1/`: P0-4 dependency matrix and hash-verified index
+  of feature-removal, uncertainty-policy, component, and point/mesh evidence.
+- `component_diagnostics_v1/`: matched Linear/MLP pairwise-loss and
+  transformation-averaging diagnostics.
+- `seed_robustness_v1/`: five predeclared fitting-seed executions and
+  predictor-by-\(K\) variation summaries.
+- `row_reproduction_v1/`: pseudonymized row schema, licensed-input exporter,
+  one-command paper-table/figure reproducer, and exact canonical-cell checks.
+- `candidate_oracle_v1/`: fixed-candidate coverage and unconstrained,
+  family-slot, and active-route Recall upper bounds.
 
 The active evaluation directories are:
 
@@ -35,11 +49,19 @@ The active evaluation directories are:
 - `runtime`: CPU re-ranking benchmark;
 - `external_transfer`: ReplicaSSG/FROSS transfer stress test.
 
-Large row-level predictions, geometry/verifier JSONL files, point/mesh
-measurements, feature caches, checkpoints, and raw datasets are intentionally
-not part of the submission repository. Compact outputs can be inspected
-without them. Exact metric or source-inference reruns require the external
-payloads documented in `docs/reproducibility.md`.
+The post-hoc P0 and robustness directories are separate from the promoted
+method root. Score robustness, routing controls, component diagnostics, and
+the active-seed checks must reproduce the active Source, Linear, and MLP
+points exactly. None changes `active_method.json`.
+
+Large source prediction, geometry/verifier JSONL, point/mesh measurements,
+feature caches, checkpoints, and raw datasets are intentionally not part of
+the submission repository. The row-reproduction exporter derives a
+pseudonymized bundle that excludes original identifiers and raw geometry, but
+public redistribution of that bundle remains held until the 3RScan/3DSSG data
+terms are confirmed. Compact regenerated tables, figure data, validation
+reports, and oracle summaries are included. Exact reruns from the licensed
+inputs follow `docs/reproducibility.md`.
 
 ## Active Locks
 
@@ -71,6 +93,22 @@ bash scripts/run_no_family_indicator_v1.sh downstream
 Additional MLP, runtime, and transfer commands are listed in `commands.md`.
 The wrapper refuses to overwrite a nonempty incomplete output and skips an
 output whose manifest is already marked complete.
+
+The paper-facing row reproduction and candidate-pool oracle use:
+
+```bash
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/relcompat3d/compose.structured.yaml run --rm relcompat3d_export_rows
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/relcompat3d/compose.structured.yaml run --rm relcompat3d_reproduce_rows
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/relcompat3d/compose.structured.yaml run --rm relcompat3d_candidate_oracle
+```
+
+The reproducer checks 291 canonical cells from Tables 1--3 with tolerance
+\(10^{-12}\); the completed run has maximum absolute error zero. The
+candidate-pool oracle is a diagnostic upper bound and does not modify the
+active models or ranking rule.
 
 ## Archive Boundary
 

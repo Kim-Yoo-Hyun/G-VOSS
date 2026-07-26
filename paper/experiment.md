@@ -1,6 +1,6 @@
 # RelCompat3D Experiment Guide
 
-Last updated: 2026-07-21 KST
+Last updated: 2026-07-27 KST
 
 이 문서는 현재 논문의 experiment가 **무엇을, 어떤 predictor와 dataset에서,
 어떤 조건과 metric으로 검증하는지** 설명한다. 실행 명령, Docker image, model hash,
@@ -69,6 +69,23 @@ Primary method는 support/contact candidates를 source order로 유지한다.
 Feature-removal analyses와 point- and mesh-based audit을 사용한다. Alternative audit은
 OBB inputs와 primary verifier labels를 사용하지 않지만, 같은 reconstructed geometry와
 ontology를 사용하므로 independent physical-validity ground truth로 해석하지 않는다.
+Dependency matrix와 uncertainty-policy checks는 각 evidence route가 공유하는
+information과 metric-definition sensitivity를 함께 기록한다.
+
+### Q8. Product utility가 source-score mapping이나 단순 geometry score에만 의존하는가?
+
+Frozen monotonic mappings로 source ranking을 유지한 채 product utility의
+sensitivity를 측정한다. Training-positive robust-density는 evaluation-verifier
+labels를 읽지 않는 closest non-learned continuous baseline이다. Hard-tail과
+Hard-drop은 verifier labels를 직접 사용하는 non-deployable diagnostics로
+분리한다.
+
+### Q9. Family slots가 필요한가?
+
+Matched `pv_global` control은 support/contact positions와 identities를 고정하고
+proximity와 vertical-order만 하나의 queue로 합친다. Aggregate, family-specific,
+membership, paired-interval 결과를 함께 보고해 family slots를
+aggregate-optimality가 아니라 family-composition preservation 관점에서 평가한다.
 
 ## 3. Data splits and information boundary
 

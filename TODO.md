@@ -1,6 +1,6 @@
 # TODO
 
-Last updated: 2026-07-25 KST.
+Last updated: 2026-07-27 KST.
 
 This file is the current task board. Detailed commands and artifact recovery
 belong in docs/reproducibility.md; exact result paths belong in the RelCompat3D
@@ -26,6 +26,29 @@ experiment README and result manifest.
 
 ## Recently Completed
 
+- [x] Exported a pseudonymized 601,140-candidate row bundle from hash-locked
+  licensed inputs and reproduced all 291 canonical cells in Tables 1--3 and
+  Figure 3 data with maximum absolute error zero.
+- [x] Completed candidate-pool coverage and active-route, family-slot, and
+  unconstrained Recall oracles for all three predictors and five K values.
+  Public redistribution of the derived rows remains gated on confirmation of
+  the 3RScan/3DSSG terms.
+- [x] Completed matched Linear/MLP component diagnostics for pairwise-loss
+  removal and transformation-averaging removal, including linked-pair margin
+  distributions and transformed-view top-K membership checks.
+- [x] Completed five predeclared fitting executions. Linear is exactly
+  repeatable; MLP has one bounded VL-SAT K=50 Recall trade-off and the active
+  seed was not reselected.
+- [x] Completed the hash-locked Docker P0-3 routing-constraint controls on the
+  canonical candidate pool. The matched route keeps support/contact fixed and
+  shows estimator- and K-dependent effects when proximity and vertical-order
+  candidates share a queue.
+- [x] Completed the Docker P0-4 construct-dependence package, including an
+  explicit dependency matrix and verified links to feature-removal,
+  uncertainty-policy, component-removal, and Linear/MLP point-mesh audits.
+- [x] Completed the hash-locked Docker P0-1 source-score mapping sensitivity
+  and P0-2 closest-simple-baseline analysis on the canonical candidate pool,
+  with all validations and exact canonical rerun checks passing.
 - [x] Removed all superseded local release bundles and retained only
   `release/relcompat3d_aaai27_openreview_20260726_214500/`.
 - [x] Regenerated a synchronized anonymous candidate release and lean

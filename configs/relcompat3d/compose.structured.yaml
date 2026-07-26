@@ -1,4 +1,187 @@
 services:
+  relcompat3d_export_rows:
+    build:
+      context: ../..
+      dockerfile: configs/relcompat3d/Dockerfile
+    image: relcompat3d-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    environment:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/relcompat3d/build_reproduction_rows.py]
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/RelCompat3D_geom_reliability/row_reproduction_v1/protocol.json
+      - --out
+      - /workspace/experiments/RelCompat3D_geom_reliability/row_reproduction_v1/artifacts/derived_rows
+
+  relcompat3d_reproduce_rows:
+    build:
+      context: ../..
+      dockerfile: configs/relcompat3d/Dockerfile
+    image: relcompat3d-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    environment:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/relcompat3d/reproduce_from_rows.py]
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/RelCompat3D_geom_reliability/row_reproduction_v1/protocol.json
+      - --rows
+      - /workspace/experiments/RelCompat3D_geom_reliability/row_reproduction_v1/artifacts/derived_rows
+      - --out
+      - /workspace/experiments/RelCompat3D_geom_reliability/row_reproduction_v1/evaluation
+
+  relcompat3d_candidate_oracle:
+    build:
+      context: ../..
+      dockerfile: configs/relcompat3d/Dockerfile
+    image: relcompat3d-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    environment:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/relcompat3d/evaluate_candidate_oracle.py]
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/RelCompat3D_geom_reliability/candidate_oracle_v1/protocol.json
+      - --rows
+      - /workspace/experiments/RelCompat3D_geom_reliability/row_reproduction_v1/artifacts/derived_rows
+      - --out
+      - /workspace/experiments/RelCompat3D_geom_reliability/candidate_oracle_v1/evaluation
+
+  relcompat3d_component_diagnostics:
+    build:
+      context: ../..
+      dockerfile: configs/relcompat3d/Dockerfile
+    image: relcompat3d-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    environment:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/relcompat3d/evaluate_components.py]
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/RelCompat3D_geom_reliability/component_diagnostics_v1/protocol.json
+      - --out
+      - /workspace/experiments/RelCompat3D_geom_reliability/component_diagnostics_v1/evaluation
+
+  relcompat3d_seed_robustness:
+    build:
+      context: ../..
+      dockerfile: configs/relcompat3d/Dockerfile
+    image: relcompat3d-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    environment:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/relcompat3d/evaluate_seeds.py]
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/RelCompat3D_geom_reliability/seed_robustness_v1/protocol.json
+      - --out
+      - /workspace/experiments/RelCompat3D_geom_reliability/seed_robustness_v1/evaluation
+
+  relcompat3d_construct_dependence:
+    build:
+      context: ../..
+      dockerfile: configs/relcompat3d/Dockerfile
+    image: relcompat3d-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/relcompat3d/build_construct_package.py]
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/RelCompat3D_geom_reliability/construct_dependence_v1/protocol.json
+      - --out
+      - /workspace/experiments/RelCompat3D_geom_reliability/construct_dependence_v1/evaluation
+
+  relcompat3d_routing_constraints:
+    build:
+      context: ../..
+      dockerfile: configs/relcompat3d/Dockerfile
+    image: relcompat3d-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    environment:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/relcompat3d/evaluate_routing_constraints.py]
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/RelCompat3D_geom_reliability/routing_controls_v1/protocol.json
+      - --out
+      - /workspace/experiments/RelCompat3D_geom_reliability/routing_controls_v1/evaluation
+
+  relcompat3d_score_robustness:
+    build:
+      context: ../..
+      dockerfile: configs/relcompat3d/Dockerfile
+    image: relcompat3d-geom-reliability:latest
+    working_dir: /workspace
+    user: "${UID:-1000}:${GID:-1000}"
+    environment:
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    volumes:
+      - ../..:/workspace
+    entrypoint: [python, /workspace/src/relcompat3d/evaluate_score_robustness.py]
+    command:
+      - --repo-root
+      - /workspace
+      - --protocol
+      - /workspace/experiments/RelCompat3D_geom_reliability/score_robustness_v1/protocol.json
+      - --out
+      - /workspace/experiments/RelCompat3D_geom_reliability/score_robustness_v1/evaluation
+
   no_family_indicator_fit:
     build:
       context: ../..

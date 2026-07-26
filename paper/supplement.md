@@ -1,6 +1,6 @@
 # RelCompat3D Supplement Guide
 
-Last updated: 2026-07-26 KST
+Last updated: 2026-07-27 KST
 
 이 문서는 현재 AAAI supplement
 [`aaai/sec/supplement.tex`](aaai/sec/supplement.tex)의 내용을 reviewer-facing
@@ -27,11 +27,13 @@ Main paper가 직접 주장하는 내용은 다음과 같다.
 Supplement는 위 claim을 다음 네 방향에서 방어한다.
 
 - **재현성:** notation, score range, counterfactual construction, model,
-  preprocessing, runtime을 구체화한다.
+  preprocessing, runtime, row-level paper regeneration을 구체화한다.
 - **설계 검증:** component removals, feature removal, matched Linear/MLP
-  controls, transformation checks를 보고한다.
+  controls, transformation checks, simple baseline, routing-constraint
+  controls를 보고한다.
 - **통계·construct validity:** scan-level intervals, point- and mesh-based audit,
-  uncertainty sensitivity를 보고한다.
+  uncertainty sensitivity, source-score mapping sensitivity,
+  construct-dependence matrix를 보고한다.
 - **scope discipline:** Open3DSG coverage, family composition, qualitative
   boundary, external-transfer 범위를 구분한다.
 
@@ -51,160 +53,103 @@ exploratory result는 새로운 claim을 만들지 않는다면 굳이 제출본
 
 ## 3. 현재 Section 구성
 
-### 3.1 Notation
+Supplement는 main paper의 `Method → Experiments` 전개를 그대로 따른다.
+추가 결과를 독립적인 top-level section으로 나열하지 않고, 해당 claim을 소유하는
+subsection 아래에 둔다.
 
-Main과 supplement에서 사용하는 candidate, compatibility, transformation,
-ranking, metric notation을 한 표에 모은다.
+### 3.1 Supplementary Method Details
 
-- Reviewer 질문: “\(T,G,Z,C^{\rm tr},u\), pair identity와 relation identity가
-  정확히 무엇인가?”
-- Main support: Method의 수식과 supplement의 분석을 빠르게 연결한다.
-- 우선순위: **P1**
+#### 3.1.1 Notation
 
-### 3.2 Model and Preprocessing Details
+Candidate identity, compatibility, transformation, ranking, metric notation을
+한 표에 모은다. 우선순위는 **P1**이다.
 
-Open3DSG checkpoint와 missing-context 처리, released SGFN model, observed source
-relation score range, Linear/MLP training details, parameter count, runtime을
-보고한다.
+#### 3.1.2 Model and Preprocessing Details
 
-- Reviewer 질문: “세 source relation score를 그대로 곱해도 sign reversal이
-  생기지 않는가?”
-- Reviewer 질문: “어떤 checkpoint와 preprocessing route를 사용했는가?”
-- Reviewer 질문: “Compatibility layer의 추가 비용은 어느 정도인가?”
-- 우선순위: score range와 source route는 **P0**, training details는 **P1**,
-  runtime은 **P2**
+Open3DSG/SGFN source route, observed source relation score ranges, missing-context
+처리를 기록한다. Score ranges와 source route는 **P0**이다.
 
-### 3.3 Guarantees and Compatibility Analyses
+#### 3.1.3 Compatibility Estimation and Family-Aware Re-Ranking
 
 Transformation consistency, family-sequence preservation, prefix utility,
-counterfactual construction, direct component removal, factor use,
-feature-removal analysis를 다룬다.
+counterfactual construction, construct-dependence matrix, estimator inputs와
+optimization details를 기록한다. Counterfactual rules와 dependency matrix는
+**P0**, proofs와 optimizer details는 **P1**이다.
 
-- Reviewer 질문: “Transformation averaging이 실제로 무엇을 보장하는가?”
-- Reviewer 질문: “Pairwise loss와 averaging이 없어도 같은 결과 아닌가?”
-- Reviewer 질문: “Verifier와 같은 scalar를 학습한 결과를 다시 verifier로 평가한
-  것은 아닌가?”
-- 우선순위: construction과 feature removal은 **P0**, direct removal은 main
-  pointer 때문에 **P0**, proofs는 **P1**
+### 3.2 Supplementary Experiments
 
-### 3.4 Point- and Mesh-Based Consistency Audit
+#### 3.2.1 Experimental Setup
 
-OBB inputs와 primary verifier labels를 사용하지 않는 point- and mesh-based
-measurements로 동일 rankings를 다시 평가한다. Point, mesh, agreement-based labels,
-coverage, paired intervals, synthetic intervention monotonicity를 보고한다.
+Runtime, development diagnostics, row-level paper regeneration을 보고한다.
+Runtime은 **P2**, exact training counts와 parameterization은 **P1**이다.
+291 canonical cells를 검사하는 one-command regeneration은 **P1**이다.
 
-- Reviewer 질문: “Primary Violation 감소가 shared OBB rules를 학습한 결과일
-  뿐인가?”
-- Main support: Abstract, Introduction, Results, Discussion의 alternative audit
-  claim을 직접 뒷받침한다.
-- 우선순위: **P0**
+#### 3.2.2 Results
 
-### 3.5 Qualitative Pair Analysis
-
-Proximity correction, vertical-order correction, support/contact scope
-boundary를 ordered-pair projection과 measured evidence로 보여준다. Main Results가
-언급하는 `desk close by chair` promotion case도 prose로 기록한다.
-
-- Reviewer 질문: “실제 candidate가 왜 이동했으며, 바꾸지 않는 family는 무엇인가?”
-- Main support: aggregate 수치가 어떤 pair-level outcome을 만드는지 보여준다.
-- 우선순위: **P1**
-
-### 3.6 Counterfactual-Policy Sensitivity
-
-Proximity threshold, vertical margin, negative cap, pairwise-loss weight를
-한 번에 하나씩 바꾸고 train-only refit 결과를 비교한다.
-
-- Reviewer 질문: “한 threshold 또는 negative count에 과도하게 맞춘 결과인가?”
-- Main support: reported trend가 작은 construction 변화에 안정적임을 보여준다.
-- 우선순위: **P1**
-
-### 3.7 Estimator, Fusion, and Open3DSG Sensitivities
-
-Linear/MLP와 RankAvg/RRF, matched controls, pooled compatibility, Open3DSG
-coverage route를 비교한다.
-
-- Reviewer 질문: “결과가 Linear form 하나에만 의존하는가?”
-- Reviewer 질문: “Family-specific fitting이 필요한가?”
-- Reviewer 질문: “Open3DSG의 15 missing contexts가 결과를 만들었는가?”
-- 우선순위: matched controls와 coverage는 **P0**, pooled fitting은 **P1**,
-  main Table 1과 중복되는 compact estimator/fusion table은 **P2**
-
-### 3.8 Scan-Level Cluster Bootstrap
-
-157 scans를 cluster 단위로 1,000회 resample한 paired intervals를 Linear와 MLP에
-대해 모든 reported \(K\) values에서 제시한다.
-
-- Reviewer 질문: “Point-estimate 변화가 scan variation 아래에서도 유지되는가?”
-- Main support: Results의 interval 해석을 직접 검증한다.
-- 우선순위: **P0**
-
-### 3.9 External Transfer Stress Test
-
-3DSSG-trained Linear estimator를 ReplicaSSG/FROSS에 unchanged 적용한다. 일부
-\(K\)에서는 joint improvement가 나타나지만 \(K=100\)에서는 score quantization과
-candidate ceiling 때문에 변화가 거의 없다.
-
-- 장점: single-dataset criticism에 제한적인 추가 evidence를 제공한다.
-- 위험: target이 완전히 untouched가 아니고, support/contact mapping이 없으며,
-  \(K=100\)에서 saturation이 나타난다.
-- Main paper는 dataset-level generalization을 주장하지 않으며 현재 이 결과를 직접
-  참조하지 않는다.
-- 우선순위: **P2**
-- 권장: single-dataset scope를 보완하는 유일한 evidence라는 가치는 있다. 다만
-  별도 generalization claim을 추가하지 않고 반드시 `stress test`로만 부른다.
-  Page pressure가 크거나 previously observed target에 대한 공격 가능성을 최소화해야
-  한다면 P0/P1 evidence를 보존한 뒤 제외를 검토한다.
-
-### 3.10 Family Composition within the Selected Top-100 Predictions
-
-Support/contact, proximity, vertical order의 global top-100 slice 안에서
-Linear-minus-Source Recall/Violation 변화를 보고한다.
-
-- Reviewer 질문: “Aggregate improvement가 relation-family composition
-  변화로 만들어진 것인가?”
-- Main support: support/contact가 정확히 unchanged이고, vertical order가 감소의
-  큰 부분을 담당함을 보인다.
-- 우선순위: **P0**
-
-### 3.11 Verifier-Uncertainty Sensitivity
-
-Primary \(V_{\rm all}\), decidable-only \(V_{\rm dec}\), uncertainty rate,
-uncertain-as-violation \(V_{u\to v}\)를 비교한다.
-
-- Reviewer 질문: “Uncertain candidates를 denominator에 넣어 Violation을
-  인위적으로 낮춘 것인가?”
-- Main support: denominator convention을 바꿔도 Linear의 Violation 감소 방향이
-  유지됨을 보인다.
-- 우선순위: **P0**
+- **Component and Feature-Removal Analyses:** pairwise-loss와 transformation
+  averaging removal, held-out linked-pair margin, transformed-view top-\(K\)
+  consistency, verifier scalar/primitive removals. **P0**
+- **Training-Seed Robustness:** 사전 고정 5회 fit의 predictor별 all-\(K\)
+  mean/standard deviation과 Source 방향 점검. **P1**
+- **Point- and Mesh-Based Consistency Audit:** OBB-free alternative
+  measurements, coverage, paired intervals, mechanism check. **P0**
+- **Qualitative Pair Analysis:** proximity/vertical-order demotion과
+  support/contact scope boundary. **P1**
+- **Counterfactual-Policy Sensitivity:** thresholds, negative cap,
+  pairwise-loss weight의 train-only refits. **P1**
+- **Estimator, Fusion, and Routing Sensitivities:** source-score mappings,
+  Positive-density, direct-verifier diagnostics, Linear/MLP and RankAvg/RRF,
+  structural controls, pooled fitting, matched routing controls, Open3DSG
+  coverage. Score mapping, simple baseline, structural and routing controls,
+  coverage는 **P0**이다.
+- **Candidate-Pool Oracle Recall:** fixed-pool exact-label coverage와
+  active-route, family-slot, unconstrained upper bounds. Missing-candidate
+  ceiling과 remaining ranking headroom을 분리한다. **P1**
+- **Paired Scan-Level Intervals:** 157 scans의 1,000 paired resamples. **P0**
+- **External Transfer Stress Test:** ReplicaSSG/FROSS의 scoped stress test.
+  **P2**
+- **Family Composition:** selected top-100의 family-specific changes. **P0**
+- **Verifier-Uncertainty Sensitivity:** primary, decidable-only,
+  uncertain-as-violation definitions의 방향 비교. **P0**
 
 ## 4. 현재 Table 목록과 의미
 
-아래 번호는 현재 LaTeX source 순서에 따른 intended supplementary numbering이다.
-Float placement에 따라 PDF의 실제 위치는 달라질 수 있다.
+아래 번호는 현재 LaTeX source 순서 기준이다. 실제 PDF float 위치가 달라도
+`label`이 authoritative identifier다.
 
 | Table | Label | 무엇을 보여주는가 | Main claim과의 관계 | 우선순위 |
 | --- | --- | --- | --- | --- |
-| **S1** | `tab:notation` | Candidate, identity, compatibility, transformation, ranking, metric notation의 정의 | Method를 자기완결적으로 읽게 함 | P1 |
-| **S2** | `tab:source-score-ranges` | Re-ranked families의 candidate 수와 source relation score minimum/maximum. 모든 score가 non-negative임 | \(u=ZC^{\rm tr}\)에서 sign reversal이 없음을 검증 | **P0** |
-| **S3** | `tab:counterfactual-rules` | Family별 negative intervention, acceptance threshold, primary verifier와 공유하는 primitive/threshold | Training target 재현성과 construct-dependence boundary를 동시에 공개 | **P0** |
-| **S4** | `tab:runtime` | Linear CPU re-ranking time, contexts, scored candidates | Method overhead가 작음을 보이지만 end-to-end latency는 아님 | P2 |
-| **S5** | `tab:family-discrimination` | Family별 train/dev rows, parameter count, linked pairs, AUROC, Brier | Constructed target을 학습할 수 있음을 확인 | P3 |
-| **S6** | `tab:component-removals` | Full Linear, no pairwise loss, no transformation averaging의 R/V | Pairwise loss는 regularizer이고 averaging은 aggregate gain보다 exact consistency guarantee를 제공함 | **P0** |
-| **S7** | `tab:primitive-holdout` | Exact verifier scalar, related measurement family를 제거하거나 alternative evidence만 사용해 refit | Primary result가 단일 verifier scalar 복사만으로 생기지 않았음을 보임 | **P0** |
-| **S8** | `tab:surface-audit-full` | Point, mesh, agreement-based Violation을 Source/Linear/MLP와 모든 \(K\)에서 비교 | Alternative geometric measurements에서도 방향이 유지됨 | **P0** |
-| **S9** | `tab:surface-audit-ci` | Linear-minus-Source point/mesh/agreement \(\Delta V\)와 paired 95% intervals | Main Table 3의 Linear audit를 all-\(K\)로 확장 | **P0** |
-| **S10** | `tab:surface-audit-ci-mlp` | MLP-minus-Source point/mesh/agreement \(\Delta V\)와 paired 95% intervals | MLP도 alternative audit에서 같은 방향임을 확인 | **P0** |
-| **S11** | `tab:counterfactual-sensitivity` | Nine one-factor train-only refits의 linked ordering과 R/V | Threshold, negative cap, pair weight 민감도 방어 | P1 |
-| **S12** | `tab:nonlinear-comparison` | Linear, MLP, RankAvg, RRF의 \(K=50,100\) R/V | 두 estimator와 fusion trade-off를 요약하지만 main Table 1과 중복 | P2 |
-| **S13** | `tab:ablations-k50` | Linear/MLP full matched structural controls at \(K=50\) | Main Table 2가 생략한 complete MLP controls 제공 | **P0** |
-| **S14** | `tab:ablations-k100` | 같은 controls at \(K=100\) | Control direction이 다른 cutoff에서도 유지됨 | **P0** |
-| **S15** | `tab:pooled-ablation` | Family-specific product와 pooled all-family product 비교 | Family conditioning과 support/contact scope의 필요성 설명 | P1 |
-| **S16** | `tab:open3dsg-routes` | Eligible 533, conservative full-target 548, recovered 548 route의 R/V | Missing contexts와 denominator 선택이 conclusion을 만들지 않았음을 보임 | **P0** |
-| **S17** | `tab:scan-cluster` | Linear-minus-Source \(\Delta\)Recall/\(\Delta\)Violation와 scan-level intervals | Main Results의 Linear statistical statement 근거 | **P0** |
-| **S18** | `tab:scan-cluster-mlp` | MLP-minus-Source의 같은 intervals | Main Results의 MLP statistical statement 근거 | **P0** |
-| **S19** | `tab:replica-transfer` | ReplicaSSG/FROSS에서 all-\(K\) Source/Linear R/V | Single-dataset scope를 일부 보완하지만 saturation과 mapping caveat가 큼 | P2 |
-| **S20** | `tab:family-slices` | Top-100 안에서 family별 Linear-minus-Source 변화 | Aggregate gain과 family composition을 분리하고 support/contact preservation 확인 | **P0** |
-| **S21** | `tab:uncertainty-sensitivity` | \(V_{\rm all},V_{\rm dec},U,V_{u\to v}\) 비교 | Uncertain denominator에 의한 인위적 improvement 공격 방어 | **P0** |
+| **S1** | `tab:notation` | Candidate, identity, compatibility, transformation, ranking, metric notation | Method를 자기완결적으로 읽게 함 | P1 |
+| **S2** | `tab:source-score-ranges` | Source relation score 범위와 non-negative 여부 | Product sign reversal 가능성을 배제 | **P0** |
+| **S3** | `tab:counterfactual-rules` | Family별 counterfactual intervention과 acceptance rule | Training target 재현성과 verifier overlap 공개 | **P0** |
+| **S4** | `tab:construct-dependence` | Construction, verifier, point/mesh audit의 information access | Construct-dependence boundary를 명시 | **P0** |
+| **S5** | `tab:runtime` | Linear CPU re-ranking cost | 추가 비용 설명. End-to-end latency는 아님 | P2 |
+| **S6** | `tab:family-discrimination` | Family별 rows, parameters, AUROC, Brier | Constructed target learnability diagnostic | P3 |
+| **S7** | `tab:component-removals` | Linear/MLP Full, no pairwise, no averaging aggregate results | Component의 aggregate 범위를 숨기지 않음 | **P0** |
+| **S8** | `tab:pairwise-diagnostics` | Held-out linked-pair win rate와 margin distribution | Pairwise regularizer의 estimator-dependent 직접 효과 | **P0** |
+| **S9** | `tab:transformation-diagnostics` | Transformation error mean/P95/max와 top-\(K\) consistency | Averaging의 exact guarantee를 직접 검증 | **P0** |
+| **S10** | `tab:seed-robustness` | 5회 fit의 all-\(K\) R/V mean과 SD | MLP initialization 의존성과 Linear repeatability를 분리 | P1 |
+| **S11** | `tab:primitive-holdout` | Exact scalar, related primitives, alternative evidence removals | Single-scalar copying 설명을 반박 | **P0** |
+| **S12** | `tab:surface-audit-full` | Point, mesh, agreement-based all-\(K\) Violation | Alternative geometric measure의 방향 확인 | **P0** |
+| **S13** | `tab:surface-audit-ci` | Linear audit changes와 paired intervals | Main Table 3을 all-\(K\)로 확장 | **P0** |
+| **S14** | `tab:surface-audit-ci-mlp` | MLP audit changes와 paired intervals | 두 estimator에서 방향 확인 | **P0** |
+| **S15** | `tab:counterfactual-sensitivity` | Train-only counterfactual-policy refits | Threshold와 pair-weight sensitivity 방어 | P1 |
+| **S16** | `tab:score-mapping-sensitivity` | Frozen source-score mappings의 favorable counts와 worst changes | Product score의 bounded scale sensitivity 검증 | **P0** |
+| **S17** | `tab:simple-baseline` | Source, Positive-density, Linear, MLP all-\(K\) 비교 | Closest simple continuous baseline 방어 | **P0** |
+| **S18** | `tab:direct-verifier-diagnostics` | Hard-tail/drop의 R/V, uncertainty, selected count | Label-consuming diagnostic을 baseline과 분리 | **P0** |
+| **S19** | `tab:nonlinear-comparison` | Linear, MLP, RankAvg, RRF at \(K=50,100\) | Estimator/fusion trade-off 요약 | P2 |
+| **S20** | `tab:ablations-k50` | 두 estimator의 matched controls at \(K=50\) | Main Table 2가 생략한 MLP controls | **P0** |
+| **S21** | `tab:ablations-k100` | 같은 controls at \(K=100\) | Control direction의 cutoff robustness | **P0** |
+| **S22** | `tab:pooled-ablation` | Family-specific와 pooled all-family product | Family conditioning과 scope 해석 | P1 |
+| **S23** | `tab:routing-constraint` | Family slots와 P/V global all-\(K\) 비교 | Family-aware route의 direct matched ablation | **P0** |
+| **S24** | `tab:routing-relaxations` | Support-order only와 all-families scope relaxations | Matched route test와 broader scope 분리 | **P0** |
+| **S25** | `tab:open3dsg-routes` | Eligible, conservative, recovered Open3DSG routes | Missing contexts sensitivity | **P0** |
+| **S26** | `tab:candidate-oracle` | Pool coverage와 three fixed-candidate Recall upper bounds | Missing-candidate ceiling과 ranking headroom 정량화 | P1 |
+| **S27** | `tab:scan-cluster` | Linear scan-level paired intervals | Main Linear statistical statement 근거 | **P0** |
+| **S28** | `tab:scan-cluster-mlp` | MLP scan-level paired intervals | Main MLP statistical statement 근거 | **P0** |
+| **S29** | `tab:replica-transfer` | ReplicaSSG/FROSS stress test | Scoped transfer evidence | P2 |
+| **S30** | `tab:family-slices` | Selected top-100 family-specific changes | Aggregate와 family composition 분리 | **P0** |
+| **S31** | `tab:uncertainty-sensitivity` | Primary, decidable-only, uncertainty-aware variants | Denominator convention 공격 방어 | **P0** |
 
 ## 5. 현재 Figure 목록과 의미
 
@@ -245,28 +190,34 @@ Reviewer가 main claim의 근거를 빠르게 찾도록 다음 순서를 권장�
    - Open3DSG/SGFN route
    - S2 score ranges
    - S3 counterfactual construction
-   - S16 Open3DSG coverage sensitivity
+   - S4 construct-dependence matrix
+   - S25 Open3DSG coverage sensitivity
    - Linear/MLP optimization details
+   - Row-level regeneration check
 2. **Matched method evidence**
-   - S13--S14 complete Linear/MLP controls
-   - S6 direct component removals
-   - S7 feature removal
+   - S16 score-mapping sensitivity
+   - S17 closest simple baseline와 S18 direct-verifier diagnostics
+   - S20--S21 complete Linear/MLP controls
+   - S23--S24 routing controls
+   - S26 candidate-pool oracle
+   - S7 direct component removals
+   - S11 feature removal
 3. **Alternative geometric audit**
-   - S8--S10 full point- and mesh-based results and intervals
+   - S12--S14 full point- and mesh-based results and intervals
    - Coverage and synthetic intervention test
 4. **Statistical and metric robustness**
-   - S17--S18 scan-level intervals
-   - S21 uncertainty sensitivity
-   - S20 family composition
+   - S27--S28 scan-level intervals
+   - S31 uncertainty sensitivity
+   - S30 family composition
 5. **Qualitative and hyperparameter support**
    - Figure S1 and promotion prose
-   - S11 counterfactual-policy sensitivity
-   - S15 pooled family comparison
+   - S15 counterfactual-policy sensitivity
+   - S22 pooled family comparison
 6. **Optional tail**
-   - S4 runtime
-   - S5 training/development discrimination
-   - S12 compact estimator/fusion duplication
-   - S19 external transfer stress test
+   - S5 runtime
+   - S6 training/development discrimination
+   - S19 compact estimator/fusion duplication
+   - S29 external transfer stress test
 
 ## 7. 반드시 유지할 내용
 
@@ -274,26 +225,34 @@ Reviewer가 main claim의 근거를 빠르게 찾도록 다음 순서를 권장�
 약해진다.
 
 1. **Counterfactual construction and training details**
-   - S3와 exact split/optimizer/example-count 설명.
+   - S3--S4와 exact split/optimizer/example-count 설명.
 2. **Complete controls for both estimators**
-   - S13과 S14.
+   - S20과 S21.
 3. **Direct component removals**
-   - S6. Pairwise loss의 효과가 작더라도 main paper가 component removal을
+   - S7. Pairwise loss의 효과가 작더라도 main paper가 component removal을
      직접 가리키므로 유지해야 한다.
 4. **Feature-removal analysis**
-   - S7. Primary verifier와 shared primitives에 대한 핵심 방어다.
+   - S11. Primary verifier와 shared primitives에 대한 핵심 방어다.
 5. **Full point- and mesh-based audit**
-   - S8--S10, coverage, intervention monotonicity.
+   - S12--S14, coverage, intervention monotonicity.
 6. **Paired scan-level intervals**
-   - S17--S18. Main Results의 statistical wording을 뒷받침한다.
+   - S27--S28. Main Results의 statistical wording을 뒷받침한다.
 7. **Family and uncertainty analyses**
-   - S20--S21. Aggregate change와 uncertain-denominator 공격을 방어한다.
+   - S30--S31. Aggregate change와 uncertain-denominator 공격을 방어한다.
 8. **Open3DSG denominator/coverage route**
-   - S16과 source preprocessing prose.
+   - S25와 source preprocessing prose.
 9. **Observed source relation score ranges**
    - S2. Raw score product의 sign behavior를 결정한다.
-10. **Qualitative promotion prose**
+10. **Score mapping, simple baseline, and routing controls**
+    - S16--S18와 S23--S24. Product scale, closest-simple-baseline,
+      family-slot necessity에 대한 P0 방어다.
+11. **Qualitative promotion prose**
     - Main Results가 supplement의 promotion case를 명시적으로 가리킨다.
+12. **Row-level regeneration check**
+    - Tables 1--3와 Figure 3 data의 one-command numeric reproduction을
+      검증한다.
+13. **Candidate-pool oracle**
+    - S26. Fixed-candidate ceiling과 remaining route headroom을 정량화한다.
 
 ## 8. 낮은 우선순위 또는 축소 후보
 
@@ -315,7 +274,7 @@ central claim의 필수 evidence는 아니다. 유지하면 `stress test`라는 
 
 ### 8.2 Training/development discrimination — P3
 
-S5의 매우 높은 AUROC는 constructed target을 잘 학습했다는 sanity check다.
+S6의 매우 높은 AUROC는 constructed target을 잘 학습했다는 sanity check다.
 Physical validity나 independent evidence가 아니며, reviewer가 circularity로
 오해할 수 있다.
 
@@ -325,7 +284,7 @@ Physical validity나 independent evidence가 아니며, reviewer가 circularity�
 
 ### 8.3 Compact estimator/fusion comparison — P2
 
-S12는 main Table 1의 \(K=50,100\) 일부를 다시 보여준다. Complete controls와
+S16은 main Table 1의 \(K=50,100\) 일부를 다시 보여준다. Complete controls와
 all-\(K\) main table이 이미 있으므로 독립 정보량이 작다.
 
 - 권장: RankAvg/RRF 공식은 유지한다.
@@ -335,32 +294,40 @@ all-\(K\) main table이 이미 있으므로 독립 정보량이 작다.
 
 ### 8.4 Runtime — P2
 
-S4는 efficiency 질문에는 유용하지만 end-to-end latency가 아니며 main contribution도
+S5는 efficiency 질문에는 유용하지만 end-to-end latency가 아니며 main contribution도
 아니다. 페이지 압박이 있으면 parameter count와 ms/context 범위만 prose로 남길 수
 있다.
 
-### 8.5 Direct component removals는 낮추지 않음
+### 8.5 Matched component diagnostics는 낮추지 않음
 
-S6은 pairwise-loss removal과 no-averaging의 aggregate 차이가 작아 보일 수 있다.
-그러나 이를 빼는 것은 권장하지 않는다.
+S7--S9는 pairwise-loss removal과 no-averaging의 aggregate 차이가 작다는 사실과
+각 component의 직접 diagnostic을 함께 보여준다. 이를 빼는 것은 권장하지 않는다.
 
 - Pairwise term은 dominant performance source가 아니라 training regularizer라고
-  정확히 해석한다.
+  정확히 해석한다. Linear direct diagnostic은 개선되지만 MLP margin 결과는
+  mixed라는 범위를 유지한다.
 - Transformation averaging의 기여는 aggregate gain보다 exact endpoint/predicate
-  consistency guarantee다.
+  consistency guarantee이며, no-averaging의 transformed-view membership
+  변화가 이를 직접 뒷받침한다.
 - 이 구분은 오히려 method claim을 원리적으로 더 정확하게 만든다.
+
+S10의 5-seed 결과는 MLP의 fitting variation을 공개한다. 30 estimator--predictor--
+\(K\) cells 중 Linear 15개는 모두 exact repeat이고, MLP는 15개 중 14개에서
+모든 seed가 Source 대비 두 방향을 유지한다. VL-SAT \(K=50\) 한 seed는 Recall
+한 relation을 잃으면서 Violation을 낮추므로, seed-uniform Pareto claim은 하지
+않는다.
 
 ## 9. 최종 권장안
 
-현재 11-page supplement를 유지할 수 있다면 P0와 P1은 보존하는 것이 가장 안전하다.
+현재 19-page supplement를 유지할 수 있다면 P0와 P1은 보존하는 것이 가장 안전하다.
 분량을 줄여야 한다면 다음 순서로 축소한다.
 
-1. S5 training/development discrimination을 prose로 축약.
-2. S12 estimator/fusion duplicate table 삭제하고 공식과 main pointer만 유지.
-3. S4 runtime table을 prose로 축약.
-4. S19 External Transfer Stress Test를 유지할지 single-dataset defense와
+1. S6 training/development discrimination을 prose로 축약.
+2. S19 estimator/fusion duplicate table 삭제하고 공식과 main pointer만 유지.
+3. S5 runtime table을 prose로 축약.
+4. S28 External Transfer Stress Test를 유지할지 single-dataset defense와
    previously observed target caveat를 비교해 결정.
-5. S15 pooled comparison을 compact prose 또는 artifact pointer로 축약.
+5. S22 pooled comparison을 compact prose 또는 artifact pointer로 축약.
 
 P0 evidence를 줄여 supplement 길이를 맞추는 것은 권장하지 않는다. 특히
 point- and mesh-based audit, matched MLP controls, scan-level intervals,

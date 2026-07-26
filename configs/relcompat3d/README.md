@@ -1,6 +1,6 @@
 # RelCompat3D Docker Entry Point
 
-Last updated: 2026-07-23 KST.
+Last updated: 2026-07-27 KST.
 
 compose.structured.yaml is the only public experiment compose file. It exposes
 the active no_family_indicator_v1 fitting and evaluation services and mounts
@@ -43,13 +43,31 @@ scripts/run_no_family_indicator_v1.sh downstream
 - no_family_indicator_held_out_primitive
 - no_family_indicator_counterfactual_sensitivity
 - relcompat3d_component_removals
+- relcompat3d_score_robustness
+- relcompat3d_routing_constraints
+- relcompat3d_construct_dependence
+- relcompat3d_component_diagnostics
+- relcompat3d_seed_robustness
+- relcompat3d_export_rows
+- relcompat3d_reproduce_rows
+- relcompat3d_candidate_oracle
 - no_family_indicator_candidate_build
 - no_family_indicator_candidate_figures
 - no_family_indicator_runtime
 - no_family_indicator_external_transfer
 
-The corresponding protocols and compact outputs live under
-experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/.
+The active method protocols and compact outputs live under
+`experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/`. The
+post-hoc score-robustness, routing-control, construct-dependence,
+component-diagnostic, and seed-robustness protocols and outputs live under
+sibling versioned directories and do not alter the active method.
+
+The row export separates gated preprocessing from public-style metric
+regeneration. `relcompat3d_export_rows` removes original identifiers and raw
+geometry. `relcompat3d_reproduce_rows` regenerates Tables 1--3, Figure 3, and
+canonical tolerance checks from the derived bundle. The bundle remains ignored
+until its redistribution status is confirmed. `relcompat3d_candidate_oracle`
+uses the same rows to quantify fixed-candidate Recall ceilings.
 
 ## Data Boundary
 

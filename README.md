@@ -62,6 +62,9 @@ paper/risk.md for manuscript-facing risks.
 | Supplement source | paper/aaai/supplement.tex |
 | Active method lock | experiments/RelCompat3D_geom_reliability/active_method.json |
 | Active experiment | experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/ |
+| Post-hoc score robustness | experiments/RelCompat3D_geom_reliability/score_robustness_v1/ |
+| Routing constraint controls | experiments/RelCompat3D_geom_reliability/routing_controls_v1/ |
+| Construct-dependence package | experiments/RelCompat3D_geom_reliability/construct_dependence_v1/ |
 | Compact result index | results/relcompat3d_geom_reliability/manifest.json |
 | Compact result report | results/relcompat3d_geom_reliability/report.md |
 | Docker compose | configs/relcompat3d/compose.structured.yaml |

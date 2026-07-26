@@ -1,6 +1,6 @@
 # RelCompat3D Reproducibility and Recovery
 
-Last updated: 2026-07-26 KST.
+Last updated: 2026-07-27 KST.
 
 This document is the authoritative entry point for RelCompat3D reruns, artifact
 handoff, cleanup, and recovery. Read it before moving, deleting, uploading, or
@@ -49,6 +49,13 @@ paths below instead of rewriting a preserved snapshot in place.
 | active protocol/model root | experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/ |
 | factor-isolation lock | experiments/RelCompat3D_geom_reliability/factor_isolation_protocol/ |
 | split firewall | experiments/RelCompat3D_geom_reliability/train_only_reestablishment_v1/ |
+| score robustness and simple baselines | experiments/RelCompat3D_geom_reliability/score_robustness_v1/ |
+| routing constraint controls | experiments/RelCompat3D_geom_reliability/routing_controls_v1/ |
+| construct-dependence package | experiments/RelCompat3D_geom_reliability/construct_dependence_v1/ |
+| component diagnostics | experiments/RelCompat3D_geom_reliability/component_diagnostics_v1/ |
+| five-seed robustness | experiments/RelCompat3D_geom_reliability/seed_robustness_v1/ |
+| row-level paper reproduction | experiments/RelCompat3D_geom_reliability/row_reproduction_v1/ |
+| candidate-pool Recall oracles | experiments/RelCompat3D_geom_reliability/candidate_oracle_v1/ |
 | result index | results/relcompat3d_geom_reliability/manifest.json |
 | result summary | results/relcompat3d_geom_reliability/report.md |
 | Dockerfile | configs/relcompat3d/Dockerfile |
@@ -62,6 +69,10 @@ prior Table 2 horizontal overflow is resolved. One 36.77646 pt first-page
 vertical overfull remains. A current candidate release may be generated for
 verification, but it is not upload-ready until that warning and the
 submission-system disclosure checks are resolved.
+
+The current supplement builds to 19 US-Letter pages. Its canonical SHA-256 is
+`505361303b01c46a3cba01f7ae9e7e7c708a39ac1fa8d5e7e1ea6698b095ff5f`;
+the final log has no unresolved reference or overfull-box warning.
 
 ## 3. Active Method Integrity
 
@@ -113,6 +124,13 @@ sha256sum \
 | support/contact preservation | no_family_indicator_v1/evaluation/support_routing/ |
 | CPU timing | no_family_indicator_v1/evaluation/runtime/ |
 | transfer stress test | no_family_indicator_v1/evaluation/external_transfer/ |
+| score mapping and closest simple baselines | score_robustness_v1/evaluation/ |
+| matched routing constraint controls | routing_controls_v1/evaluation/ |
+| construct-dependence evidence package | construct_dependence_v1/evaluation/ |
+| matched component diagnostics | component_diagnostics_v1/evaluation/ |
+| five-seed fitting robustness | seed_robustness_v1/evaluation/ |
+| regenerated Tables 1--3 and Figure 3 data | row_reproduction_v1/evaluation/ |
+| candidate-pool coverage and Recall upper bounds | candidate_oracle_v1/evaluation/ |
 
 All paths above are relative to experiments/RelCompat3D_geom_reliability/.
 
@@ -126,6 +144,8 @@ Available without external data:
 - validate the Docker Compose file;
 - compile the Python source;
 - inspect stored metrics, controls, intervals, and audit summaries;
+- inspect regenerated Tables 1--3, Figure 3 data, and the 291-cell comparison;
+- inspect candidate-pool coverage and three Recall-oracle summaries;
 - verify model and protocol hashes;
 - build the paper if the TeX image is available.
 
@@ -135,8 +155,17 @@ Requires the frozen row-level prediction, geometry, ground-truth, and verifier
 inputs referenced by the protocol files. These rows are excluded from Git
 because they are large and source-derived.
 
-Tier B can regenerate ranking metrics, paired intervals, controls, and runtime
-summaries without rerunning the original relation predictors.
+Tier B can regenerate ranking metrics, paired intervals, controls, runtime
+summaries, the paper tables and trade-off figure data, and candidate-pool
+oracles without rerunning the original relation predictors.
+
+The row exporter creates a smaller pseudonymized bundle containing only the
+fields needed for paper-level regeneration. Original scan, context, and
+instance identifiers are replaced by keyed hashes; raw geometry and object
+categories are omitted. Public redistribution of this derived bundle is held
+until the authors confirm the 3RScan/3DSSG terms or obtain data-owner
+permission. The exporter and deterministic join remain the fallback from
+licensed Tier-B inputs.
 
 ### Tier C: Full source reproduction
 
@@ -197,6 +226,90 @@ scripts/run_no_family_indicator_v1.sh downstream
 
 Additional services are documented in configs/relcompat3d/README.md and
 experiments/RelCompat3D_geom_reliability/commands.md.
+
+The P0 score-robustness and closest-simple-baseline analysis uses the same
+hash-locked Tier-B rows as the active routed comparator:
+
+~~~bash
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/relcompat3d/compose.structured.yaml run --rm \
+  relcompat3d_score_robustness
+~~~
+
+Its local protocol references the ignored pre-submission archive in place to
+avoid duplicating roughly 10 GB. For another machine, restore files with the
+same hashes to the protocol paths or freeze an explicit path-remapping
+protocol. The compact outputs are inspectable without those row files.
+The completed evaluation manifest has SHA-256
+`57780a58173759b03f784549c2ea0213c9cfdbd5c633863ff7dbd977f8dd3548`;
+its own output-hash map verifies every compact CSV, JSON, and Markdown result.
+
+The P0 routing-constraint control and construct-dependence package use the same
+hash-locked evidence boundary:
+
+~~~bash
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/relcompat3d/compose.structured.yaml run --rm \
+  relcompat3d_routing_constraints
+
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/relcompat3d/compose.structured.yaml run --rm \
+  relcompat3d_construct_dependence
+~~~
+
+The routing manifest SHA-256 is
+`f3e3e5dbda813d60a2a47307a876ab2bd1bfdf693085d0e7689bfe64c43a7bca`.
+The construct-dependence manifest SHA-256 is
+`caf38e8ab74e0ae76c1f23ffaa6e53c10de4b4fbcf7db6bc6f15dc6da600d426`.
+These analyses do not update `active_method.json` or select a replacement
+method from final-validation results.
+
+The matched component and training-seed diagnostics use the same locked rows,
+active model contract, and official evaluation universe:
+
+~~~bash
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/relcompat3d/compose.structured.yaml run --rm \
+  relcompat3d_component_diagnostics
+
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/relcompat3d/compose.structured.yaml run --rm \
+  relcompat3d_seed_robustness
+~~~
+
+The component manifest SHA-256 is
+`107c83993359b0681d77cc4c808696bb23e97c8f9c708a6feec140815bfaa917`.
+The five-seed manifest SHA-256 is
+`2bcc816f3307ab22fe93002d2db0db930b7a0088aacda54315b5aba1c78d09fe`.
+Both manifests verify the 1,061/117/157 split, 60,208 training rows, 6,246
+development rows, 3,972 evaluation ground-truth relations, family-sequence
+preservation, support/contact preservation, and exact reproduction of the
+active models and main point estimates. The active MLP seed was fixed before
+the five-seed analysis and was not reselected.
+
+The pseudonymized row export, paper regeneration, and candidate-pool oracle
+use the same frozen candidate universe:
+
+~~~bash
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/relcompat3d/compose.structured.yaml run --rm \
+  relcompat3d_export_rows
+
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/relcompat3d/compose.structured.yaml run --rm \
+  relcompat3d_reproduce_rows
+
+env UID=$(id -u) GID=$(id -g) docker compose \
+  -f configs/relcompat3d/compose.structured.yaml run --rm \
+  relcompat3d_candidate_oracle
+~~~
+
+The completed exporter contains 601,140 candidates and 3,972 ground-truth
+rows. The reproducer checks 291 canonical paper cells with maximum absolute
+error zero at tolerance \(10^{-12}\). Its manifest SHA-256 is
+`21ead0d178af66109c2f90707b0560f4e4f1d6f4308486b08955eb6b687f7104`.
+The candidate-oracle manifest SHA-256 is
+`a7aee28622c84a21aa61c92a6e288f08b58a3e33d69b42118c296cfa2d20a563`.
 
 The wrapper skips complete outputs and refuses to overwrite a nonempty,
 incomplete output directory.

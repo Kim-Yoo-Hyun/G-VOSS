@@ -46,6 +46,12 @@ artifacts/
 **/evaluation/
 !experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/
 !experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/**
+!experiments/RelCompat3D_geom_reliability/score_robustness_v1/evaluation/
+!experiments/RelCompat3D_geom_reliability/score_robustness_v1/evaluation/**
+!experiments/RelCompat3D_geom_reliability/row_reproduction_v1/evaluation/
+!experiments/RelCompat3D_geom_reliability/row_reproduction_v1/evaluation/**
+!experiments/RelCompat3D_geom_reliability/candidate_oracle_v1/evaluation/
+!experiments/RelCompat3D_geom_reliability/candidate_oracle_v1/evaluation/**
 **/predictions.jsonl
 **/verification.jsonl
 **/raw.jsonl

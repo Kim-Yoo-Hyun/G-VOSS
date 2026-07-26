@@ -170,11 +170,16 @@ Reviewer-defense rules after the independent-validity/family review:
   variants, apply the principal predicate/pair/geometry controls and the
   point- and mesh-based audit to both. Compact results may remain supplemental when the
   seven-page technical limit prevents a readable main table.
-- Direct Linear component removals show that the linked pairwise term has a
-  small aggregate effect. Transformation averaging primarily provides exact
-  endpoint/predicate consistency rather than a large aggregate metric gain.
-  Keep both results in the supplement and do not frame either component as an
-  independently dominant performance source.
+- Matched Linear/MLP component diagnostics show that the linked pairwise term
+  has a small, estimator-dependent direct effect. Transformation averaging
+  primarily provides exact endpoint/predicate consistency rather than a large
+  aggregate metric gain. Keep the aggregate and direct diagnostics in the
+  supplement and do not frame either component as an independently dominant
+  performance source.
+- Five predeclared fits reproduce Linear exactly and show small MLP variation,
+  with one VL-SAT \(K=50\) seed trading one exact-label relation for lower
+  Violation. Keep this separate from scan-resampling uncertainty and do not
+  claim seed-uniform Pareto improvement.
 - Keeping support/contact in source order removes the operational regression without
   establishing support/contact compatibility. Never convert exact preservation
   into a support/contact-improvement claim.
@@ -687,6 +692,12 @@ Do not claim these until evidence exists:
   fusion formula. The ranking construction may be described as prefix-utility
   optimal only under fixed source family counts and a fixed support/contact
   subsequence; this is not global metric or fusion optimality.
+- The matched routing-control result is mixed across estimator and \(K\).
+  Describe family slots as a composition-preserving constraint that prevents
+  cross-family replacement, not as an aggregate-optimal route.
+- The construct-dependence package strengthens the scoped verifier-derived
+  claim by indexing shared information and orthogonalized checks. It does not
+  supply independent physical-validity ground truth.
 - The finalized main-claim scope is multiple semantic predictors on one shared
   3DSSG/3RScan target for relations testable from reconstructed pair geometry.
   ReplicaSSG/FROSS provides

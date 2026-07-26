@@ -247,6 +247,21 @@ def build(args: argparse.Namespace) -> Path:
             "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1",
             excluded_names={"README.md", "active_paper_lock.json"},
         )
+        copy_tree(
+            repo,
+            staging,
+            "experiments/RelCompat3D_geom_reliability/score_robustness_v1",
+        )
+        copy_tree(
+            repo,
+            staging,
+            "experiments/RelCompat3D_geom_reliability/routing_controls_v1",
+        )
+        copy_tree(
+            repo,
+            staging,
+            "experiments/RelCompat3D_geom_reliability/construct_dependence_v1",
+        )
         copy_tree(repo, staging, "results/relcompat3d_geom_reliability")
 
         active_method_path = (

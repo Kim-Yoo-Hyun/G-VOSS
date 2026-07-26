@@ -1,6 +1,6 @@
 # RelCompat3D AAAI-27 Manuscript
 
-Last updated: 2026-07-26 KST
+Last updated: 2026-07-27 KST
 
 This directory contains the active AAAI-27 source, an optional two-figure teaser
 variant, and the canonical review PDFs. Superseded manuscript snapshots, the
@@ -13,7 +13,7 @@ AAAI-26 style, and historical inspection notes live under
 | --- | --- |
 | `main.tex`, `preamble.tex`, `sec/{0_abstract,1_introduction,2_related_work,3_method,4_experiments,5_discussion_limitations,6_conclusion}.tex` | active anonymous main-paper source in manuscript order |
 | `main_teaser.tex` | optional variant that shares `main.tex` and adds the source-backed demotion before the method overview |
-| `supplement.tex`, `sec/supplement.tex` | active method, matched-estimator controls, point- and mesh-based audit, sensitivity, uncertainty, and provenance supplement source |
+| `supplement.tex`, `sec/supplement.tex` | active method details and supplementary experiments, including matched-estimator, score-mapping, simple-baseline, routing, construct-dependence, point/mesh, uncertainty, and provenance evidence |
 | `sec/old.tex` | inactive material retained outside the main and supplement builds |
 | `reproducibility_checklist_main.tex`, `reproducibility_checklist.tex` | standalone checklist source |
 | `aaai2027.sty`, `aaai2027.bst` | active AAAI-27 style |
@@ -54,15 +54,19 @@ are consolidated in Discussion and Limitations.
   page 7 and pages 8--9 contain references
   only; SHA256
   `ac0313df7248da518488f0f39ab7d6cce42d1ac2cc6d5f234fc2aee4631e588c`.
-- `supplement_aaai27.pdf`: 10 US-Letter pages; SHA256
-  `b9dc44ce09bb12d805472ead80bb72ca174cb844658929325917f59a7103226e`.
+- `supplement_aaai27.pdf`: 18 US-Letter pages; SHA256
+  `c56ee4b1a9c335e5d41ac88e9543a9ef4fa65f70fc0e4c6b3026b4b3d31da3fe`.
 - `reproducibility_checklist_aaai27.pdf`: 2 US-Letter pages; SHA256
   `a346d55325dc63f7e9324cd0dc34dbcc0e72abc6ad3836f730d39c370477e212`.
 
-The main and supplement canonical PDFs above were not overwritten during this
-checklist revision. The checklist canonical PDF was regenerated from the
-official AAAI-27 questions with compact status-only answers. A fresh smoke build of the consolidated source produces
-9-page `main.pdf`, 10-page `main_teaser.pdf`, and 11-page `supplement.pdf`.
+The main canonical PDFs were not changed during the 2026-07-27 supplement
+revision. The supplement canonical PDF was regenerated after reorganizing the
+source into main-aligned Method and Experiments sections and adding the frozen
+P0 score-mapping, simple-baseline, routing, and construct-dependence evidence.
+The checklist canonical PDF was regenerated from the official AAAI-27
+questions with compact status-only answers. Earlier smoke builds of the
+consolidated source produced
+9-page `main.pdf` and 10-page `main_teaser.pdf`.
 The current teaser source already produced 10 pages before consolidation, and
 pre/post-consolidation PDF text is identical; the extra page is therefore a
 pre-existing transcript/layout issue rather than a consequence of merging the
@@ -70,9 +74,10 @@ section files. The fresh main and teaser logs also retain one pre-existing
 4.43-pt overfull table row. Reconcile those two layout differences before the
 next canonical release regeneration.
 
-All four canonical files have zero Type 3 and CID/Identity-H fonts; at their
-recorded release build they had no unresolved citations/references or blocking
-LaTeX/overfull errors.
+All four canonical files have zero Type 3 and CID/Identity-H fonts. The current
+18-page supplement has no unresolved references or LaTeX/overfull warnings.
+It includes matched Linear/MLP component diagnostics and five predeclared
+fitting executions without changing the active method.
 The Introduction grounds its geometric-mismatch motivation in direct witness
 and constraint-refinement work and cites the foundational 3D Scene Graph paper.
 Related Work uses three thematic subsections; every prose paragraph ends by

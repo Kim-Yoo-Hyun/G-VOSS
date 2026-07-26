@@ -1,6 +1,6 @@
 # RelCompat3D Reviewer-Risk Register
 
-Last updated: 2026-07-23 KST
+Last updated: 2026-07-27 KST
 
 이 문서는 current submission claim에 영향을 주는 reviewer attack, verified
 facts, defense, residual action, and blocked wording만 소유한다. Reviewer score와
@@ -43,6 +43,9 @@ overall assessment는 `paper/review.md`, experiment 계산법은
 - Call the main metric `verifier-derived Violation@$K$`.
 - Report feature-removal refits, threshold/counterfactual sensitivity, and
   point-/mesh-based alternative measurements.
+- Provide one dependency matrix that distinguishes evaluation rows, source
+  scores, verifier labels, OBB measurements, point/mesh measurements, scene
+  identities, and ontology across the three evidence routes.
 - Keep exact-match Recall visible with Violation to expose task trade-offs.
 
 **Residual action**
@@ -133,11 +136,15 @@ future method extension.
 - Linear features and product scoring are simple.
 - Finite transformation averaging is a standard invariance construction.
 - The method does not introduce a new geometry encoder or relation generator.
-- Direct Linear removal shows only a small aggregate effect from the linked
-  pairwise term.
+- Matched Linear/MLP removals show only a small, estimator-dependent direct
+  effect from the linked pairwise term.
 - Removing transformation averaging changes aggregate metrics little but
   produces nonzero discrepancies between transformed representations, while
-  the full method makes those discrepancies exactly zero.
+  the full method makes those discrepancies and transformed top-\(K\)
+  membership differences exactly zero.
+- Five predeclared fits reproduce Linear exactly. One MLP VL-SAT \(K=50\)
+  seed loses one exact-label relation while lowering Violation, so
+  seed-uniform Pareto improvement is not supported.
 
 **Current defense**
 
@@ -174,6 +181,8 @@ future method extension.
 - RankAvg/RRF can lower Violation at some larger $K$ values but lose more Recall
   at smaller $K$ values.
 - Product (all families) changes the method's family scope.
+- A matched control that keeps support/contact fixed and merges only proximity
+  and vertical order has estimator- and $K$-dependent effects.
 - No ranking rule dominates all predictors and reported $K$ values.
 
 **Current defense**
@@ -182,6 +191,8 @@ future method extension.
 - Match candidate universe and family-aware ranking procedure across
   comparators.
 - Claim framework-level behavior rather than formula superiority.
+- Describe family slots as a composition-preserving constraint rather than an
+  aggregate-optimal route.
 - Report all five $K$ values and predictor-specific trade-offs.
 
 **Blocked wording**
