@@ -4,16 +4,15 @@ RelCompat3D re-ranks fixed relation predictions rather than replacing a 3D scene
 
 \subsection{Problem Formulation}
 Let a relation predictor produce a set of relation candidates for a 3D scene. Each candidate is written as $r_i=(\mathrm{scan}_i,\mathrm{context}_i,s_i,o_i,p_i,a_i,Z_i)$.
-$s_i$ and $o_i$ are ordered subject and object instance identifiers, $p_i$ is the predicate label, $a_i$ is the mapped relation family, and $Z_i$ is the relation score produced by the predictor. We use sigmoid relation scores for VL-SAT/SGFN and cosine similarity between normalized text embeddings for Open3DSG \cite{wang2023vl,wu2021scenegraphfusion,koch2024open3dsg}, without predictor-specific normalization or refitting. Candidates are ranked separately for each predictor, so existing scores are never compared across predictors.
+$s_i$ and $o_i$ are ordered subject and object instance identifiers, $p_i$ is the predicate label, $a_i$ is the mapped relation family, and $Z_i$ is the relation score produced by the predictor. We use sigmoid relation scores for VL-SAT/SGFN and cosine similarity between normalized text embeddings for Open3DSG \cite{wang2023vl,wu2021scenegraphfusion,koch2024open3dsg}, without predictor-specific normalization or refitting. Candidates are ranked separately for each predictor, so existing scores are never compared across predictors. 
 
-A context is a scene subgraph over which top-K selection is performed independently. We distinguish the ordered-pair identity $k^{\rm pair}_i = (\mathrm{scan}_i, \mathrm{context}_i, s_i, o_i)$ from the exact relation-candidate identity $k^{\rm rel}_i = (\mathrm{scan}_i, \mathrm{context}_i, s_i, p_i, o_i)$ used for evaluation. The ordered pair is retained when associating each prediction with geometry and ground truth.
+A context is a scene subgraph over which top-K selection is performed independently. We distinguish the ordered-pair identity $k^{\rm pair}_i = (\mathrm{scan}_i, \mathrm{context}_i, s_i, o_i)$ from the exact relation-candidate identity $k^{\rm rel}_i = (\mathrm{scan}_i, \mathrm{context}_i, s_i, p_i, o_i)$ used for evaluation. The ordered pair is retained when associating each prediction with geometry and ground truth. 
 
-We represent predicate semantics as $T_i=p_i$. The family label $a_i$ selects the applicable transformations and determines whether the candidate is re-ranked. For the Linear estimator, it also selects the compatibility head and training-split normalization statistics. The shared nonlinear estimator instead encodes the family as an input
-indicator. We then associate predicate-independent geometric measurements of the ordered pair $G_i=G(\mathrm{scan}_i,\mathrm{context}_i,s_i,o_i)$.
+We represent predicate semantics as $T_i=p_i$. The family label $a_i$ selects the applicable transformations and determines whether the candidate is re-ranked. For the Linear estimator, it also selects the compatibility head and training-split normalization statistics. The shared nonlinear estimator instead encodes the family as an input indicator. We then associate predicate-independent geometric measurements of the ordered pair $G_i=G(\mathrm{scan}_i,\mathrm{context}_i,s_i,o_i)$.
 
-The reported relation families are
-$\mathcal{A}_{\rm eval}=\{\mathrm{support/contact},\ \mathrm{proximity},\ \mathrm{vertical\ order}\}$,
-whose consistency can be evaluated from reconstructed ordered-pair geometry. Candidates outside these families are excluded from the reported Recall and Violation evaluation. The re-ranking relation families are narrower: $\mathcal A_{\rm rank}=\{\mathrm{proximity},\mathrm{vertical\ order}\}$, for which the defined endpoint/predicate transformations are available. Support/contact is evaluated but kept in source order because this family requires richer local contact and pose evidence. No single endpoint transformation preserves the semantics for every predicate in the family.
+The reported relation families are 
+$\mathcal{A}_{\rm eval}=\{\mathrm{support/contact},\ \mathrm{proximity},\ \mathrm{vertical\ order}\}$, 
+whose consistency can be evaluated from reconstructed ordered-pair geometry. Candidates outside these families are excluded from the reported Recall and Violation evaluation. The re-ranking relation families are narrower: $\mathcal A_{\rm rank}=\{\mathrm{proximity},\mathrm{vertical\ order}\}$, for which the defined endpoint/predicate transformations are available. Support/contact is evaluated but kept in source order because this family requires richer local contact and pose evidence. No single endpoint transformation preserves the semantics for every predicate in the family. 
 
 For estimator $q\in\{\mathrm{lin},\mathrm{mlp}\}$, our objective is to estimate a bounded compatibility score
 \begin{equation}
@@ -23,12 +22,10 @@ Here $\sigma$ denotes the logistic sigmoid. We then average over the valid famil
 
 \subsection{Compatibility Estimation}
 \label{sec:Compatibility}
-For each candidate relation $r_i$, the associated geometry vector $G_i$ contains oriented bounding box (OBB)-derived 3D/XY distances, relative height, projected overlap, and vertical-gap features. Point-level contact evidence is used only by the support/contact verifier, not by the compatibility model.
+For each candidate relation $r_i$, the associated geometry vector $G_i$ contains oriented bounding box (OBB)-derived 3D/XY distances, relative height, projected overlap, and vertical-gap features. Point-level contact evidence is used only by the support/contact verifier, not by the compatibility model. 
 
-Let $\operatorname{std}_{\rm tr}$ standardize each numeric feature with training-split statistics and replace a missing value by the corresponding training mean. Both estimators preserve the same separation between compatibility inputs and the source relation score and use the same training targets, loss, and transformation averaging.
-
-\subsubsection{Linear Estimator}
-The feature map for RelCompat3D-Linear is
+Let $\operatorname{std}_{\rm tr}$ standardize each numeric feature with training-split statistics and replace a missing value by the corresponding training mean. Both estimators preserve the same separation between compatibility inputs and the source relation score and use the same training targets, loss, and transformation averaging. \subsubsection{Linear Estimator.}
+The feature map for RelCompat3D-Linear is 
 \begin{equation}
 \begin{aligned}
 \Phi_{\rm lin}(T_i,G_i)&=[1;\phi_T(T_i);\operatorname{std}_{\rm tr}(G_i);
@@ -40,7 +37,7 @@ The feature map for RelCompat3D-Linear is
 Let $z_{s_i}$ and $z_{o_i}$ denote the vertical coordinates of the subject and object OBB centers, and let $h_{s_i}$ and $h_{o_i}$ denote their OBB heights. We define $\Delta z_i=z_{s_i}-z_{o_i}$ and $\Delta z_i^{\rm norm}=2\Delta z_i / (h_{s_i}+h_{o_i})$.
 Here $\phi_T$ contains predicate indicators, and $d(p_i)$ is $1$ for \texttt{higher than}, $-1$ for \texttt{lower than}, and $0$ otherwise. The family label $a_i$ selects the linear head and training-split normalization statistics but is not included as a constant input: $f_{\rm lin}(T_i,a_i,G_i)=w_{a_i}^\top\Phi_{\rm lin}(T_i,G_i)$.
 
-\subsubsection{Nonlinear Estimator}
+\subsubsection{Nonlinear Estimator.}
 RelCompat3D-MLP uses one shared multilayer perceptron (MLP) with a single two-unit ReLU hidden layer. Its input $\Psi_i$ contains family and predicate indicators, the same underlying geometric measurements, the two signed-height interactions above, and the sum of the two directional overlap ratios. With a predicate-linear skip connection, its logit is
 \begin{equation}
 \begin{aligned}
@@ -49,12 +46,15 @@ f_{\rm mlp}(T_i,a_i,G_i)&=v^\top h_i+b_o+
 \beta^\top\phi_T(T_i).
 \end{aligned}
 \end{equation}
-The skip connection provides a direct linear path from predicate indicators to the output logit. The nonlinear estimator is shared across families, so its family indicator is not a constant feature. Both estimators exclude the source relation score, rank, predictor identity, and object-class features.
+Here \(W\) and \(v\) are learned weights, \(b\) and \(b_o\) are biases,
+and \(\beta\) weights the predicate-indicator skip path. The skip connection provides a direct linear path from predicate indicators to the output logit. The nonlinear estimator is shared across families, so its family indicator is not a constant feature. Both estimators exclude the source relation score, rank, predictor identity, and object-class features.
 
-For proximity and vertical order, $H_a$ contains the identity and the family-specific transformation $\tau_a$, defined as follows. For proximity, $\tau_a$ swaps the ordered endpoints and leaves \texttt{close by} unchanged. For vertical order, $\tau_a$ swaps the endpoints and maps \texttt{higher than} $\leftrightarrow$ \texttt{lower than}. Transformation averaging therefore yields
+For proximity and vertical order, $H_a$ contains the identity and the family-specific transformation $\tau_a$, defined as follows. For proximity, $\tau_a$ swaps the ordered endpoints and leaves \texttt{close by} unchanged. For vertical order, $\tau_a$ swaps the endpoints and maps \texttt{higher than} $\leftrightarrow$ \texttt{lower than}. Transformation averaging therefore yields 
 $C^{\rm tr,q}_{\rm close}(s,o)=C^{\rm tr,q}_{\rm close}(o,s)$ and
-$C^{\rm tr,q}_{\rm higher}(s,o)=C^{\rm tr,q}_{\rm lower}(o,s)$. For support/contact, \(H_a=\{e\}\), where \(e\) is the identity transformation. Its compatibility head is used only for the Product (all families) comparison.
-
+$C^{\rm tr,q}_{\rm higher}(s,o)=C^{\rm tr,q}_{\rm lower}(o,s)$.
+For support/contact \(H_a=\{e\}\), where \(e\) is the identity
+transformation. Its compatibility head is used only for the
+Product (all families) comparison.
 Training combines this augmentation with a linked positive--counterfactual ranking loss. For every linked positive--counterfactual pair $(i^+,i^-)\in\mathcal P$, the logits $\ell_i^q=f_q(T_i,a_i,G_i)$ receive a margin penalty:
 \begin{equation}
 \begin{aligned}

@@ -1,6 +1,6 @@
 # RelCompat3D Active-Section 통합 재검토
 
-- 검토일: 2026-07-25 KST
+- 검토일: 2026-07-26 KST
 - transcript 대상:
   - `paper/aaai/sec/0_abstract.tex`
   - `paper/aaai/sec/1_introduction.tex`
@@ -13,8 +13,11 @@
   section 역할, 용어와 notation 일관성
 - citation은 표기 방식이나 인용 내용의 적절성을 판단하지 않았다. 선행연구 언급과
   section별 첫 약어에 citation이 존재하는지만 확인했다.
-- Main PDF는 다시 빌드하지 않았다. Supplement는 용어 동기화 후 Docker에서
-  smoke build를 통과했다.
+- Main teaser source는 Docker에서 다시 빌드했다. 최신 disposable
+  `main_teaser.pdf`는 9-page US Letter이며 undefined reference/citation은 없다.
+  Technical artifacts는 pages 1--7, references는 pages 8--9에 있다.
+  Canonical `main_teaser_aaai27.pdf`는 덮어쓰지 않았다. Supplement는 용어 동기화
+  후 Docker smoke build를 통과한 상태다.
 
 상태 표시는 다음과 같다.
 
@@ -54,10 +57,10 @@
 | I-003 | `[제외]` | 기존 93번의 추가 limitation 제안은 제외 유지 |
 | I-004 | `[x]` | normalized-height notation은 `\Delta z_i^{\rm norm}`으로 통일됨 |
 | I-005 | `[x]` | `largest Violation increases`를 `increase Violation`으로 낮춰 Table 2 수치와 일치함 |
-| I-006 | `[x]` | MLP 첫 정의는 line 11의 `shared nonlinear estimator`와 line 44의 `multilayer perceptron (MLP)`으로 정리됨 |
+| I-006 | `[x]` | MLP 첫 정의는 Introduction의 `shared nonlinear estimator`와 Method line 41의 `multilayer perceptron (MLP)`으로 정리됨 |
 | I-007 | `[x]` | Method subsection 명칭은 `Compatibility Estimation`으로 수정됨 |
 | I-008 | `[x]` | `corresponding results`는 `these additional metrics`로 구체화됨 |
-| I-009 | `[x]` | qualitative paragraph의 obsolete 주석 버전이 삭제됨 |
+| I-009 | `[x]` | Introduction과 Related Work에 중복돼 있던 이전 원고 주석 및 qualitative paragraph의 obsolete 주석 버전이 삭제됨 |
 | I-010 | `[x]` | Main Results에 demotion과 promotion을 함께 설명하고 supplement에는 promotion 근거를 prose로 기록함 |
 | I-011 | `[x]` | Table 3 caption이 \(K\), agreement rule, \(\Delta V\), M/D의 명칭과 단위를 설명함. `\textbf` 형식은 이번 내용 검토에서 제외 |
 | I-012 | `[x]` | support/contact에 \(H_a=\{e\}\)를 정의하고 all-family comparison의 역할을 명시함 |
@@ -76,7 +79,7 @@
 |---|---|---|
 | I-015 | `[x]` | 평가된 re-ranking candidate의 score가 모두 non-negative라는 사실, predictor별 minimum과 maximum, sign-change 해석이 supplement의 `Observed ranges of source relation scores`에 명시돼 있다. Main claim은 이 세 evaluated predictor로 한정되므로 main에 같은 문장을 반복하는 것은 선택 사항이다. |
 | I-016 | `[x]` | Table 3 caption이 agreement가 있을 때 label을 부여한다고 설명하고 M/D를 measured/decidable coverage로 푼다. Supplement는 disagreement를 uncertain으로 처리하고 denominator에 포함하는 규칙과 coverage 값을 명시한다. Main table의 비교 방향을 이해하는 데 필요한 정보는 이미 충분하다. |
-| I-017 | `[x]` | `pair measurements`는 바로 뒤의 ordered-pair identity에 묶이고, `alternative geometric measure`는 두 representation을 결합한 하나의 audit measure를 가리킨다. Slash 표기와 `and` 표기는 의미 차이를 만들지 않는다. `exact consistency`도 applicable transformations로 범위가 제한돼 수식의 exact invariance와 맞는다. |
+| I-017 | `[x]` | `pair measurements`는 ordered-pair identity에 묶여 있고 Introduction은 `using alternative geometric measurements`로 문법과 audit 표현을 통일했다. `exact consistency`도 applicable transformations로 범위가 제한돼 수식의 exact invariance와 맞는다. |
 | I-018 | `[x]` | Related Work가 Recall@$K$를 `exact-match retrieval at a rank cutoff`으로 설명해 metric의 역할과 일치한다. |
 | I-019 | `[x]` | Main prose의 interval claim은 supplement의 paired interval table과 일치하고, 바로 다음 문장에서 supplement가 두 variant와 다섯 \(K\) 값을 보고한다고 연결한다. 별도의 반복 pointer는 필요하지 않다. |
 | I-020 | `[x]` | 현재 plain-roman relation phrase도 predicate와 rank를 명확히 전달한다. Quotation mark나 `\texttt`는 선택적 typography이며 과학적 명확성 문제는 아니다. |
@@ -305,11 +308,11 @@ experiment 중 Introduction에서 전혀 예고되지 않은 central evidence도
 
 | Artifact | 본문 참조 | 내용과 caption | 남은 조치 |
 |---|---|---|---|
-| Figure 1 | Introduction과 Results | failure, measured evidence, Source와 Linear rank change를 설명 | Author Kit-1 |
-| Figure 2 | Method | compatibility input, score 결합 시점, within-family outcome을 설명 | 없음 |
+| Figure 1 | Introduction과 Results | failure, measured evidence, Source와 Linear rank change를 설명 | Author Kit-1, Author Kit-3 |
+| Figure 2 | Method | compatibility input, score 결합 시점, within-family outcome을 설명 | Author Kit-1 |
 | Figure 3 | Results | metrics, five \(K\), three ranking rules, preferred direction, axis 차이를 설명 | Author Kit-1 |
-| Table 1 | Results | target, metrics, Source, methods, family scope를 설명 | deferred overfull |
-| Table 2 | Ablations | Linear controls, MLP full row, metrics, \(K\), shared route를 설명 | deferred overfull |
+| Table 1 | Results | target, metrics, Source, methods, family scope를 설명 | 없음 |
+| Table 2 | Ablations | Linear controls, MLP full row, metrics, \(K\), shared route를 설명 | horizontal overfull 해결 |
 | Table 3 | Audit | alternative labels, delta, measured/decidable coverage를 설명 | 없음 |
 
 Figure 3와 Table 2에 shared-target 문장을 다시 넣을 필요는 없다. Experimental
@@ -324,31 +327,47 @@ Setup과 Table 1이 공통 평가 범위를 정의하고 두 artifact는 같은 
 [AAAI Publication Policies and Guidelines](https://aaai.org/aaai-publications/aaai-publication-policies-guidelines/)
 를 기준으로 했다.
 
-### Author Kit-1. `trim`과 `clip` `[ ]`
+### Author Kit-1. External crop과 `trim`/`clip` `[x]`
 
-Current active source에서 다음 두 Figure만 해당한다.
+Active source는 `paper/reference_AAAI/figure/`의 Figure 1--3 PDF를 직접 사용한다.
+세 `\includegraphics`에는 `width`만 있고 `trim`, `clip`, `viewport`는 없다.
+각 PDF의 MediaBox와 CropBox가 일치하고, rendered content는 각 edge에서 약
+2--3 pt 이내에 시작한다. 따라서 Author Kit이 금지하는 LaTeX-side crop 문제는
+해결됐다.
 
-- Figure 1: `paper/aaai/sec/1_introduction.tex:6--10`
-- Figure 3: `paper/aaai/sec/4_experiments.tex:67--71`
+별도 font 검사는 세 PDF에 `Identity-H` CID TrueType font가 포함됐음을 보였다.
+Author Kit은 graphics 안의 CID/Identity-H font도 outline으로 바꾸거나 제거하도록
+요구한다. Crop은 해결됐지만 최종 제출 전 동일 visual의 outline-font PDF로 다시
+export해야 한다.
 
-AAAI-27 Author Kit은 crop을 LaTeX 밖에서 수행하고 `trim`과 `clip`을 사용하지
-말라고 명시한다. Figure 2에는 해당 option이 없으므로 이전 feedback의 Figure 2
-지적은 해결됐다.
+### Author Kit-2. Caption manual bold `[보류]`
 
-### Author Kit-2. Caption manual bold `[제외]`
+Official Author Kit은 Figure와 Table caption을 10-point roman으로 두고 bold 또는
+italic caption으로 만들지 말라고 명시한다. 현재 Figure 1--3 caption에는 manual
+`\textbf`가 없다. Main caption 중 남은 manual bold는 Table 1의 lead-in
+`\textbf{Shared 3DSSG validation results.}` 한 곳이다.
 
-사용자 요청에 따라 `\textbf` 형식 문제는 이번 section별 내용 검토와 우선순위에서
-제외했다. Caption이 전달하는 정보와 본문 연결만 검토했다.
+Caption 내용과 길이를 변경하지 않는다는 사용자 결정을 반영해 현재 source는
+유지한다. 다만 규정의 literal reading에서는 이 lead-in도 제거하는 편이 안전하므로
+final format pass에서 다시 결정한다.
 
-### Author Kit-3. Page와 overflow `[보류]`
+### Author Kit-3. First-page vertical overfull `[보류]`
 
-- 2026-07-25 19:44 KST의 selected PDF는 9 pages다.
-- 해당 PDF에서 technical content는 page 7에 끝나고 pages 8--9는 references다.
-- 이후 qualitative paragraph가 source에 추가됐으므로 final rebuild 검증이 필요하다.
-- 최신 확인 log에는 first-page vertical overfull \(36.77646\) pt와 Table 2
-  horizontal overfull \(4.4306\) pt가 남아 있다.
-- 사용자가 현재 layout을 유지하고 마지막 단계에서 처리하기로 했으므로 보류한다.
-  최종 submission 전에 margin과 gutter intrusion 여부를 다시 확인해야 한다.
+- `user_v6.tex`의 float 선언 순서와 Figure 3의 `[!t]` 배치를 복원한 fresh Docker
+  build는 9 pages다. Table 1과 Figure 3은 page 6, Table 2와 Table 3은 page 7,
+  references는 pages 8--9에 있다.
+- 따라서 Figure/Table 내부 글자 크기, line width, caption을 줄이지 않는다.
+- Table 2의 기존 horizontal overfull은 해소됐다.
+- 남은 page-layout 문제는 첫 페이지의
+  `Overfull \vbox (36.77646pt too high)`다.
+- Figure 1을 축소하거나 caption을 한 줄로 줄여도 같은 수치가 발생하고 Figure 1을
+  제거하면 사라진다. 일반적인 figure-height 문제가 아니라 첫 페이지 one-column
+  float와 anonymous copyright output routine의 상호작용으로 판단한다.
+- Style/layout 우회 명령, negative spacing, caption 축소는 사용하지 않는다.
+
+다음 단계는 pristine official `aaai2027.sty`로 minimal example을 재현한 뒤 동일하면
+AAAI publication support에 문의하는 것이다. 첫 페이지 Figure 1을 유지하는 조건
+아래에서는 warning을 숨기거나 무시하지 않는다.
 
 ### Author Kit-4. AI-system role disclosure `[ ]`
 
@@ -359,9 +378,9 @@ AAAI publication policy는 publication 개발에 사용한 AI system의 역할�
 ### Author Kit-5. Main과 supplement title casing `[x]`
 
 Main과 supplement 제목을 모두 `Re-Ranking`으로 통일했다. Paper-facing planning
-documents에도 같은 title casing을 반영했다. Supplement smoke build는 11-page
-US Letter PDF를 생성했으며 undefined reference, undefined citation, overfull
-warning은 없었다.
+documents와 Method subsection의 `Family-Aware Re-Ranking`에도 같은 title casing을
+반영했다. Supplement smoke build는 11-page US Letter PDF를 생성했으며 undefined
+reference, undefined citation, overfull warning은 없었다.
 
 ### Author Kit-6. Reproducibility checklist의 theoretical contribution `[~]`
 
@@ -369,6 +388,20 @@ Checklist는 exact transformation consistency와 family-sequence preservation을
 근거로 theoretical contribution에 `yes`라고 답한다. Main paper는 이를 standard
 implementation guarantee로 사용하고 theorem novelty로 전면화하지 않는다.
 별도 이론 기여를 주장하지 않는 최종 framing이라면 `no`가 더 일관된다.
+
+### Build-1. BibTeX metadata warning `[x]`
+
+사용자의 판단에 동의한다. AAAI OJS의 공식 metadata가 journal-style인 것은
+사실이지만, 제출 manuscript의 bibliography 형식은 AAAI Author Kit과
+`aaai2027.bst`의 proceedings convention을 우선하는 편이 안전하다.
+
+따라서 `fei2026open`, `liu2026view`, `ma2026edge`는 `@inproceedings`로 유지하고
+`booktitle`, `volume`, `pages`, `year`를 사용하며 `number`는 제외한다. 이는
+Author Kit의 “Proceedings paper published by a society, press or publisher”
+예시와 bibliography 전체의 형식을 일치시킨다.
+
+현재 `paper/references.bib`가 이미 이 형식이며, fresh main build의 `.blg`에는
+세 entry에 대한 `volume`/`number` warning이나 다른 BibTeX warning이 없다.
 
 ## 제출 전 우선순위
 
@@ -382,11 +415,17 @@ implementation guarantee로 사용하고 theorem novelty로 전면화하지 않�
 
 ### P2: final submission format
 
-1. Figure 1과 Figure 3의 `trim`과 `clip`을 asset-side crop으로 바꾼다.
-2. AI-system role disclosure를 실제 사용 범위에 맞게 추가한다.
-3. user decision에 따라 보류한 overflow를 최종 점검한다.
-4. 최종 rebuild에서 9 pages, pages 8--9 references only, no undefined
-   references/citations를 확인한다.
+1. Figure 1--3을 동일 visual의 outline-font PDF로 다시 export해
+   CID/Identity-H font를 제거한다.
+2. Pristine Author Kit과 minimal example로 first-page vertical overfull을 재현하고
+   필요하면 AAAI publication support에 문의한다.
+3. Table 1 caption lead-in의 manual bold를 final format pass에서 제거할지 확정한다.
+4. AI-system role disclosure를 실제 사용 범위에 맞게 추가한다.
+5. Reproducibility checklist에서 theoretical-contribution 응답을 최종 framing과
+   맞춘다.
+6. 최종 rebuild에서 US Letter, 7 technical pages, references-only 이후 페이지,
+   no overfull, no undefined references/citations를 확인한 뒤 canonical PDF를
+   갱신한다.
 
 ## 최종 reviewer 관점
 
@@ -400,3 +439,6 @@ point-estimate 변화를 보인다는 점도 framework-level claim을 지지한�
 현재 manuscript는 이를 dataset-level generalization이나 independent physical
 validity로 확대하지 않으므로 claim은 방어 가능하다. I-015--I-021 재판정에서
 scientific correctness 또는 reproducibility를 막는 새 이슈는 확인되지 않았다.
+
+## TL;DR
+RelCompat3D re-ranks fixed 3D scene graph predictions using predicate–geometry compatibility, yielding non-decreasing Recall and non-increasing verifier-derived Violation point estimates across three predictors.

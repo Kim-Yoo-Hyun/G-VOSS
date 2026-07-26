@@ -187,19 +187,21 @@ transformation-consistent augmentation produces 86,032 optimization rows for
 both estimators. Linear uses 800 deterministic full-batch steps at learning rate
 0.2; MLP uses 120 steps at learning rate 0.02. Both use the same pairwise
 weight, margin, $\ell_2$ coefficient, and fixed seed policy. The three linear
-family models contain 21--23 parameters. The support/contact head is retained
-for the Product (all families) comparison, while neither proposed ranking uses
-support/contact compatibility and both preserve the source order of that
-family.
+family models contain 21--23 parameters. Each reported condition uses one fit
+with a frozen seed; the paired intervals quantify scan resampling rather than
+retraining variation.
 
 \paragraph{Computational cost.}
-We benchmark the fixed \methodlinear{} CPU implementation with one process and one thread on
-an Intel Core Ultra 7 265KF. Timing begins from preloaded relation candidates with
-precomputed geometric measurements of the ordered pair and includes proximity/vertical-order compatibility,
-transformation averaging, family-specific list sorting, and output assembly. It excludes
-inference by the source predictor, reconstruction and geometry association, file parsing, metrics,
-and bootstrap, so it is not end-to-end pipeline latency. Table~\ref{tab:runtime}
-reports medians over five runs after one warm-up.
+We benchmark the fixed \methodlinear{} CPU implementation with one process and
+one thread on an Intel Core Ultra 7 265KF with 62 GiB RAM, Linux 6.17, and
+Docker 29.6.1. The Debian Bookworm container pins Python 3.11.9, NumPy 1.26.4,
+and Pillow 10.4.0; source inference used an NVIDIA GeForce RTX 5090 with 32 GiB
+memory. Timing starts from preloaded candidates and includes compatibility,
+transformation averaging, sorting, and assembly, but excludes source inference,
+reconstruction, geometry association, file parsing, metrics, and bootstrap.
+Table~\ref{tab:runtime} reports medians over five runs after one warm-up.
+Exact seeds, commands, and model/protocol hashes are in the anonymous code
+artifact.
 
 \begin{table}[t]
 \centering

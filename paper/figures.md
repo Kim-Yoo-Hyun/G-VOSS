@@ -1,6 +1,6 @@
 # RelCompat3D Figure Guide
 
-Last updated: 2026-07-21 KST
+Last updated: 2026-07-26 KST
 
 이 문서는 현재 원고의 Figure 1--3이 각각 어떤 질문에 답하고, 어떤 정보만
 보여주어야 하는지를 정의한다. 정확한 수치와 case identity는 experiment artifact에
@@ -8,7 +8,7 @@ Last updated: 2026-07-21 KST
 
 1. **Figure 1:** high-scoring relation이 reconstructed ordered-pair geometry와
    충돌하는 failure를 한 사례로 보여준다.
-2. **Figure 2:** RelCompat3D가 predicate/geometry와 predictor score를 어떻게
+2. **Figure 2:** RelCompat3D가 predicate/geometry와 source relation score를 어떻게
    분리하고 re-ranking에서 다시 결합하는지 보여준다.
 3. **Figure 3:** Source, RelCompat3D-Linear, RelCompat3D-MLP의
    Recall--Violation operating point가 \(K\)에 따라 어떻게 변하는지 보여준다.
@@ -28,7 +28,7 @@ method illustration이다. Aggregate evidence는 Figure 3과 Table 1이 담당�
 - gradient, shadow, glow, 장식 icon, reviewer-response 문구, protocol chronology는
   넣지 않는다.
 - generic metric 표기는 `Recall@K (%)`와 `Violation@K (%)`로 통일한다.
-- `predictor score`는 calibrated probability로 표현하지 않는다.
+- `source relation score`는 calibrated probability로 표현하지 않는다.
 - `compatibility`는 physical-validity probability가 아니라 ranking에 사용하는
   learned score다.
 - Figure 안에 모든 수식, loss, estimator architecture를 넣지 않는다. 그림은
@@ -81,7 +81,7 @@ label을 명확히 둔다.
 | scan/context | `c2d99345-1947-2fbf-818d-90ea82acef29` / suffix `_2` |
 | relation | `desk → higher than → ceiling` |
 | subject/object | desk instance 16 / ceiling instance 6 |
-| predictor score | 0.8709 |
+| source relation score | 0.8709 |
 | Source rank | 6 |
 | RelCompat3D-Linear rank | 425 |
 | measured evidence | subject--object center Δz = −2.00 m |
@@ -113,7 +113,7 @@ estimator가 동일 rank를 냈다고 읽힐 수 있으므로 caption에서는 L
 
 Figure 2는 다음 질문에 답한다.
 
-> RelCompat3D는 predictor score를 compatibility input에서 어떻게 분리하고,
+> RelCompat3D는 source relation score를 compatibility input에서 어떻게 분리하고,
 > learned compatibility를 언제 ranking에 다시 결합하는가?
 
 Figure 2는 Figure 1의 failure를 반복하는 것이 아니라 method의 factor separation과
@@ -135,7 +135,7 @@ Figure 2는 Figure 1의 failure를 반복하는 것이 아니라 method의 facto
 | scan/subgraph | `4fbad32f-465b-2a5d-8408-146ab1d72808` / suffix `_2` |
 | relation | `heater → close by → trash can` |
 | subject/object | heater instance 14 / trash can instance 24 |
-| predictor score | 0.853 |
+| source relation score | 0.853 |
 | Source rank | 19 |
 | XY center distance | 4.33 m |
 | RelCompat3D-Linear compatibility | 약 0.003 |
@@ -150,7 +150,7 @@ Predicate semantics T ─┐
                        ├─> Predicate–geometry compatibility
 Pair measurements G ───┘
 
-Predictor score Z ───────────────┐
+Source relation score Z ─────────┐
 Compatibility ───────────────────┼─> within-family score
                                  └─> family-aware re-ranking
 ```
@@ -186,8 +186,8 @@ caption이 아니라 Method에서 설명한다.
 > **RelCompat3D overview.** (a) Open3DSG ranks `heater close by trash can`
 > at 19, although the reconstructed ordered pair has an XY center distance of
 > 4.33 m. (b) RelCompat3D estimates compatibility from predicate semantics and
-> ordered-pair measurements without using the predictor score. The predictor
-> score is introduced only during within-family re-ranking. The illustrated
+> ordered-pair measurements without using the source relation score. The
+> source relation score is introduced only during within-family re-ranking. The illustrated
 > rank change from 19 to 178 is produced by RelCompat3D-Linear.
 
 ## 4. Figure 3 — Recall–Violation Trajectories
@@ -308,21 +308,92 @@ Main Figure 3는 두 metric의 joint operating point를 보여주는 trajectory�
 > \(K\) along the Source trajectory; all curves follow the same order. Axis
 > ranges differ by predictor.
 
-## 5. Supplementary Qualitative Evidence
+## 5. Supplementary Figure S1 — Pair--Evidence--Outcome Analysis
 
-Main Figure 1이 vertical demotion을, Figure 2가 proximity demotion과 method
-flow를 이미 보여주므로 full three-case grid를 main에 추가하면 중복이 크다.
-Supplement에는 다음 세 역할을 분리한 qualitative grid를 유지할 수 있다.
+### Figure의 목적
 
-| 역할 | relation | rank change | evidence |
-| --- | --- | ---: | --- |
-| proximity correction | `heater → close by → trash can` | 19 → 178 | XY distance 4.33 m |
-| vertical correction | `floor → higher than → curtain` | 1 → 430 | center Δz = −1.02 m |
-| support/contact residual | `door → lying on → floor` | 21 → 21 | contact evidence unresolved |
+Main Figure 1이 vertical-order demotion을, Figure 2가 proximity demotion과 method
+flow를 보여준다. Supplementary Figure S1은 이를 반복하는 단순 사례 모음이 아니라
+다음 질문에 답한다.
 
-각 column은 `ordered-pair view → measured evidence → rank/outcome` 순서로 읽혀야
-한다. Residual case는 geometry-only로 옳거나 틀렸다고 단정하지 않고, source order로
-유지되는 범위를 보여준다.
+> 실제 ordered-pair measurements가 rank outcome과 어떻게 연결되며,
+> RelCompat3D가 의도적으로 순서를 바꾸지 않는 family는 무엇인가?
+
+두 geometry-checkable families의 demotion과 support/contact scope boundary를 같은
+형식으로 보여주어 method behavior와 non-claim을 함께 확인한다.
+
+Asset:
+
+- `paper/aaai/supplement_figures/qualitative_geometry_panels.png`
+- LaTeX label: `fig:supp-qualitative`
+
+### Panel별 내용
+
+| Panel | 역할 | relation | measured evidence | source relation score | rank outcome |
+| --- | --- | --- | --- | ---: | ---: |
+| (a) | proximity demotion | `heater → close by → trash can` | XY center distance 4.33 m | 0.853 | 19 → 178 |
+| (b) | vertical-order demotion | `floor → higher than → curtain` | subject--object center \(\Delta z=-1.02\) m | 0.871 | 1 → 430 |
+| (c) | support/contact scope boundary | `door → lying on → floor` | vertical bottom--top gap \(-0.06\) m, contact unresolved | 0.843 | 21 → 21 |
+
+Panel (a)는 large separation과 맞지 않는 `close by` candidate가 낮아지는 것을
+보여준다. Panel (b)는 subject가 object 아래에 있어 predicate와 vertical geometry가
+반대인 candidate가 낮아지는 것을 보여준다. Panel (c)는 gap 하나만으로 contact를
+결정하지 않고 support/contact candidate를 source order로 유지하는 method boundary를
+보여준다.
+
+### 읽는 순서
+
+각 column은 다음 순서로 읽힌다.
+
+```text
+ordered-pair projection
+→ measured evidence
+→ Source rank and RelCompat3D-Linear rank
+→ demoted or kept-in-source-order outcome
+```
+
+Orange circle/solid box는 subject, blue square/dashed box는 object다. Rank change와
+compatibility 값은 RelCompat3D-Linear에 해당한다.
+
+### Main qualitative evidence와의 관계
+
+- Main Figure 1: `desk higher than ceiling`, rank 6 → 425.
+- Main Figure 2: `heater close by trash can`, rank 19 → 178.
+- Supplement prose promotion: exact-match, verifier-satisfied
+  `desk close by chair`, rank 81 → 30.
+- Supplementary Figure S1: proximity/vertical demotion과 support/contact scope를
+  동일한 pair--evidence--outcome layout으로 비교.
+
+Promotion case는 현재 Supplementary Figure S1의 panel이 아니다. Main Results가
+supplement의 promotion prose를 가리키므로 Figure caption이 promotion까지
+보여주는 것처럼 작성하면 안 된다.
+
+### Figure가 주장하지 않는 것
+
+- 세 사례가 aggregate improvement를 증명한다.
+- `door lying on floor`가 반드시 satisfied 또는 violated다.
+- RelCompat3D가 support/contact compatibility를 해결했다.
+- Rank change가 calibrated physical-validity probability를 의미한다.
+- proximity와 vertical-order candidate가 서로 직접 교환되었다.
+
+### 우선순위와 향후 redraw
+
+- Supplement 유지 우선순위: **P1**
+- Professor feedback의 qualitative evidence 요구와 family scope 설명을 동시에
+  만족하므로 유지 가치가 높다.
+- Panel (c)는 새로운 약점을 공개하는 것이 아니라 main Method와 Discussion에서
+  이미 선언한 support/contact boundary를 시각화한다.
+- 향후 redraw 시 panel title `Contact residual`은
+  `Support/contact scope boundary`로 바꾸는 편이 main terminology와 더 정확하다.
+
+### 권장 caption
+
+> **Pair--evidence--outcome analysis.** The first two panels connect
+> reconstructed ordered-pair measurements to proximity and vertical-order
+> candidates demoted by RelCompat3D-Linear. The third panel shows a
+> support/contact candidate retained in source order because the available
+> evidence does not resolve contact. Orange circles and solid boxes indicate
+> subjects. Blue squares and dashed boxes indicate objects.
 
 ## 6. Figure source and verification
 
@@ -331,14 +402,17 @@ Supplement에는 다음 세 역할을 분리한 qualitative grid를 유지할 �
 | Figure 1 | `paper/generated/figures/main_case_manifest.json`의 demoted vertical case | motivation/failure |
 | Figure 2 | locked `open3dsg_case_001` source row | method overview |
 | Figure 3 | active `metrics.csv`와 `figure2_data.json` | aggregate all-K result |
-| supplementary qualitative grid | `paper/aaai/supplement_figures/qualitative_geometry_panels.png` | success/failure scope |
+| Supplementary Figure S1 | `paper/aaai/supplement_figures/qualitative_geometry_panels.png` | pair-level demotions and support/contact scope boundary |
 
 최종 검증 체크리스트:
 
 1. Figure 1의 pair, predicate, rank 6→425가 동일 artifact에 연결되는가.
 2. Figure 2의 distance 4.33 m와 rank 19→178이 Linear result와 일치하는가.
-3. Figure 2 compatibility block에 predictor score \(Z\)가 입력되지 않는가.
+3. Figure 2 compatibility block에 source relation score \(Z\)가 입력되지 않는가.
 4. Figure 3의 45개 point가 위 표와 active CSV에 일치하는가.
 5. support/contact를 method가 corrected한 것처럼 표시하지 않는가.
 6. 모든 figure text와 stroke가 최종 PDF 배치에서 읽을 수 있는가.
 7. caption이 single-case illustration과 aggregate evidence를 구분하는가.
+8. Supplementary Figure S1이 promotion case를 포함한 것처럼 설명하지 않는가.
+9. Supplementary Figure S1의 support/contact panel을 correction result로
+   해석하지 않는가.

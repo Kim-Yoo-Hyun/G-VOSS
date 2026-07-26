@@ -110,36 +110,31 @@ yes
 \begin{itemize}
 
 \question{Does this paper make theoretical contributions?}{(yes/no)}
-yes. The contribution includes one exact transformation-consistency guarantee;
-the family-sequence preservation property follows directly from the ranking
-construction. Neither is a statistical generalization bound.
+no
 
 	\ifyespoints{\vspace{1.2em}If yes, please address the following points:}
         \begin{itemize}
 	
 \question{All assumptions and restrictions are stated clearly and formally}{(yes/partial/no)}
-yes
+NA
 
 \question{All novel claims are stated formally (e.g., in theorem statements)}{(yes/partial/no)}
-yes
+NA
 
 \question{Proofs of all novel claims are included}{(yes/partial/no)}
-yes. The proposition proof and the direct family-sequence verification are
-included in the supplement.
+NA
 
 \question{Proof sketches or intuitions are given for complex and/or novel results}{(yes/partial/no)}
-yes
+NA
 
 \question{Appropriate citations to theoretical tools used are given}{(yes/partial/no)}
-NA. The proof uses only finite-group re-indexing; the family-sequence property
-follows directly from the ordered-list construction.
+NA
 
 \question{All theoretical claims are demonstrated empirically to hold}{(yes/partial/no/NA)}
-yes. Transformation-consistency errors, family composition, and support/contact
-selection preservation are checked on every evaluation candidate and reported.
+NA
 
 \question{All experimental code used to eliminate or disprove claims is included}{(yes/no/NA)}
-yes
+NA
 	
 	\end{itemize}
 \end{itemize}
@@ -166,10 +161,10 @@ yes
 	yes
 
 	\question{All datasets drawn from the existing literature (potentially including authors' own previously published work) are publicly available}{(yes/partial/no/NA)}
-	partial. 3DSSG/3RScan-derived assets are available through their dataset terms; large scans and source checkpoints are not redistributed by this paper.
+	partial
 
 	\question{All datasets that are not publicly available are described in detail, with explanation why publicly available alternatives are not scientifically satisficing}{(yes/partial/no/NA)}
-	partial. The paper describes the official validation split, source prediction dependency, and closed-vocabulary evaluation mapping; licensed raw data must be obtained from the original providers.
+	partial
 
 \end{itemize}
 \end{itemize}
@@ -184,39 +179,25 @@ yes
 \begin{itemize}
 
 	\question{This paper states the number and range of values tried per (hyper-) parameter during development of the paper, along with the criterion used for selecting the final parameter setting}{(yes/partial/no/NA)}
-	partial. The paper and supplement identify the fixed operating points, score
-	definitions, and selection criteria; no exhaustive
-	hyperparameter search is claimed.
+	partial
 
 	\question{Any code required for pre-processing data is included in the appendix}{(yes/partial/no)}
-	partial. The Code and Data Supplement includes RelCompat3D preprocessing,
-	geometry-join, adapter, and metric code. Licensed scans, third-party source
-	checkpoints, and large regenerable caches are excluded and documented as
-	external dependencies.
+	partial
 
 	\question{All source code required for conducting and analyzing the experiments is included in a code appendix}{(yes/partial/no)}
-	partial. The anonymized Code and Data Supplement includes the new method,
-	evaluation, bootstrap, audit, Docker/config, and compact-evidence paths.
-	Third-party source repositories, licensed datasets, checkpoints, and large
-	row-level outputs remain external dependencies.
+	partial
 
 	\question{All source code required for conducting and analyzing the experiments will be made publicly available upon publication of the paper with a license that allows free usage for research purposes}{(yes/partial/no)}
-	partial. The submission includes an anonymized code package; the final public
-	repository URL and release license will be fixed before publication.
+	partial
         
 	\question{All source code implementing new methods have comments detailing the implementation, with references to the paper where each step comes from}{(yes/partial/no)}
-	partial. Core compatibility scoring, metrics, and protocol scripts carry
-	implementation comments and artifact manifests; some source-specific adapters
-	use compact runbook documentation rather than line-level paper references.
+	partial
 
 	\question{If an algorithm depends on randomness, then the method used for setting seeds is described in a way sufficient to allow replication of results}{(yes/partial/no/NA)}
 	yes
 
 	\question{This paper specifies the computing infrastructure used for running experiments (hardware and software), including GPU/CPU models; amount of memory; operating system; names and versions of relevant software libraries and frameworks}{(yes/partial/no)}
-	yes. Experiments used an Intel Core Ultra 7 265KF CPU, 62 GiB RAM, an
-	NVIDIA GeForce RTX 5090 with 32,607 MiB memory and driver 580.159.03,
-	Linux 6.17, and Docker 29.6.1. Dockerfiles pin the main Python, NumPy,
-	PyTorch/CUDA, PyG, and source-runtime versions.
+	yes
 
 	\question{This paper formally describes evaluation metrics used and explains the motivation for choosing these metrics}{(yes/partial/no)}
 	yes
@@ -231,9 +212,7 @@ yes
 	yes
 
 	\question{This paper lists all final (hyper-)parameters used for each model/algorithm in the paper’s experiments}{(yes/partial/no/NA)}
-	partial. Final RelCompat3D scores, K grid, thresholds, bootstrap seed/count,
-	denominators, and checkpoint hashes are included. Third-party source defaults
-	are referenced through their fixed Docker/config manifests.
+	partial
 
 
 \end{itemize}

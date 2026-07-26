@@ -1,6 +1,6 @@
 # RelCompat3D Paper Workspace
 
-Last updated: 2026-07-25 KST
+Last updated: 2026-07-26 KST
 
 This directory owns the active RelCompat3D manuscript, supplement, checklist,
 figures, bibliography, and paper-facing planning documents. Experiment runtime
@@ -82,6 +82,9 @@ contracts belong in `method.md` and `experiment.md`.
 - `risk.md`: active reviewer risks and claim boundaries.
 - `review.md`: consolidated reviewer-style assessment.
 - `appendix.md`: supplement content and provenance details.
+- `supplement.md`: active supplement의 section, table, figure 역할과
+  reviewer-facing 유지 우선순위.
+- `reproducibility.md`: checklist 응답 근거와 제출 artifact의 공개 범위.
 - `user_feedback.md`: numbered revision TODO followed by detailed rationale.
 
 ## Build

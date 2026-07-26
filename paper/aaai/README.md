@@ -1,6 +1,6 @@
 # RelCompat3D AAAI-27 Manuscript
 
-Last updated: 2026-07-25 KST
+Last updated: 2026-07-26 KST
 
 This directory contains the active AAAI-27 source, an optional two-figure teaser
 variant, and the canonical review PDFs. Superseded manuscript snapshots, the
@@ -57,11 +57,12 @@ are consolidated in Discussion and Limitations.
 - `supplement_aaai27.pdf`: 10 US-Letter pages; SHA256
   `b9dc44ce09bb12d805472ead80bb72ca174cb844658929325917f59a7103226e`.
 - `reproducibility_checklist_aaai27.pdf`: 2 US-Letter pages; SHA256
-  `cd12a07ab1f9067a73f7aec128d43721c00c71bc17130acc32f6d34b99079e59`.
+  `a346d55325dc63f7e9324cd0dc34dbcc0e72abc6ad3836f730d39c370477e212`.
 
-The canonical PDFs and hashes above were not overwritten during the 2026-07-22
-source consolidation. A fresh smoke build of the consolidated source produces
-9-page `main.pdf`, 10-page `main_teaser.pdf`, and 10-page `supplement.pdf`.
+The main and supplement canonical PDFs above were not overwritten during this
+checklist revision. The checklist canonical PDF was regenerated from the
+official AAAI-27 questions with compact status-only answers. A fresh smoke build of the consolidated source produces
+9-page `main.pdf`, 10-page `main_teaser.pdf`, and 11-page `supplement.pdf`.
 The current teaser source already produced 10 pages before consolidation, and
 pre/post-consolidation PDF text is identical; the extra page is therefore a
 pre-existing transcript/layout issue rather than a consequence of merging the
