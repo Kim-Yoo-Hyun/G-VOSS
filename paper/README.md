@@ -1,6 +1,6 @@
 # RelCompat3D Paper Workspace
 
-Last updated: 2026-07-26 KST
+Last updated: 2026-07-28 KST
 
 This directory owns the active RelCompat3D manuscript, supplement, checklist,
 figures, bibliography, and paper-facing planning documents. Experiment runtime
@@ -20,8 +20,7 @@ paper-writing rules under `docs/paper.md`.
   support/contact candidates in source order.
 
 The selected title is synchronized across the consolidated main source,
-supplement source, and paper-facing planning documents. The stored PDFs will be
-regenerated during the final release pass.
+supplement source, paper-facing planning documents, and rebuilt canonical PDFs.
 
 ## Active Sources and Artifacts
 
@@ -99,9 +98,11 @@ docker run --rm -v "$PWD/paper:/work" -w /work/aaai \
   latexmk -pdf -interaction=nonstopmode -halt-on-error main_teaser.tex
 ```
 
-The synchronized candidate release can be regenerated for verification. Do not
-treat it as upload-ready until the first-page overfull and final
-submission-system disclosure checks are resolved.
+The synchronized release is
+`../release/relcompat3d_aaai27_openreview_20260728_022521/`. Its PDFs,
+code/data ZIP, manifests, and extracted-source rebuild have been verified. The
+first-page overfull and final submission-system disclosure remain explicit
+author decisions.
 
 ## Archive Boundary
 

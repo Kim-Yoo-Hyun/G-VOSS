@@ -1,11 +1,12 @@
 \section{Experiments}
+
 \subsection{Experimental Setup}
 \subsubsection{Datasets and Evaluation.}
-Predictions come from Open3DSG, VL-SAT, and SGFN \cite{wang2023vl,koch2024open3dsg,wu2021scenegraphfusion}. We evaluate all three on the 3DSSG/3RScan target \cite{wald2019rio,wald2020learning}, restricted to relation families whose consistency can be assessed from reconstructed ordered-pair geometry. All evaluations use the same scope: 157 scans, 548 relation contexts, and 3,972 exact-match ground-truth relations from support/contact, proximity, and vertical-order families. Ground-truth relations are used only when computing Recall@$K$, never to filter or rank candidate relations. 
+
+Predictions come from Open3DSG~\cite{koch2024open3dsg}, VL-SAT~\cite{wang2023vl}, and SGFN~\cite{wu2021scenegraphfusion}. We evaluate all three on the 3DSSG/3RScan target \cite{wald2019rio,wald2020learning}, restricted to relation families whose consistency can be assessed from reconstructed ordered-pair geometry. All evaluations use the same scope: 157 scans, 548 relation contexts, and 3,972 exact-match ground-truth relations from support/contact, proximity, and vertical-order families. Ground-truth relations are used only when computing Recall@$K$, never to filter or rank candidate relations. 
 
 \subsubsection{Baselines and Training.}
-We evaluate the two compatibility estimators defined in Section~\ref{sec:Compatibility} with identical training rows, constructed targets, split, objective, and family-aware ranking procedure. Their fitted parameters are applied to all three predictors without predictor-specific refitting. Matched rank-average fusion (RankAvg) and reciprocal rank fusion (RRF) combine predictor and linear-compatibility ranks \cite{10.1145/1571941.1572114}. Product (all families) additionally applies the linear support/contact head. Controls perturb the predicate, pair identity, geometric measurements of the ordered pair, endpoint order, source relation score, or distance measurements. We apply the principal controls to both proposed estimators.
-Normalization, imputation, and model parameters use only 1,061 training scans. Model design and the applicable relation families were selected on the 117-scan development split. The 157-scan evaluation split is never used for fitting. All comparisons across predictors use this shared target.
+We evaluate the two compatibility estimators defined in Section~\ref{sec:Compatibility} with identical training rows, constructed targets, split, objective, and family-aware ranking procedure. Their fitted parameters are applied to all three predictors without predictor-specific refitting. Matched rank-average fusion (RankAvg) averages the predictor and linear-compatibility ranks. Reciprocal rank fusion (RRF)~\cite{cormack2009reciprocal} combines the same rankings using reciprocal ranks. Product (all families) additionally applies the linear support/contact head. Controls perturb the predicate, pair identity, geometric measurements of the ordered pair, endpoint order, source relation score, or distance measurements. We apply the principal controls to both proposed estimators. Normalization, imputation, and model parameters use only 1,061 training scans. Model design and the applicable relation families were selected on the 117-scan development split. The 157-scan evaluation split is never used for fitting. All comparisons across predictors use this shared target.
 
 \subsubsection{Metrics.}
 Let $L_K(c)$ be the selected top-$K$ candidates in context $c$ and $Y_c$ its ground-truth relations. Both sets use exact relation identity $(s_i,p_i,o_i)$ within $c$. Family mapping is used only for re-ranking and never for label matching. We report
@@ -18,7 +19,8 @@ Let $D_K\subseteq\bigcup_c L_K(c)$ contain selected candidates for which the rul
 \end{equation}
 Thus uncertain candidates enter the denominator but not the numerator. 
 The supplement reports uncertainty, coverage, decidable-only Violation, and a variant that counts uncertain candidates as violations.
-We report Recall@$K$ and Violation@$K$ metrics over $K \in \{5, 10, 20, 50, 100\}$. Paired 95\% confidence intervals use 1,000 bootstrap resamples of the 157 scans, keeping all contexts from each scan together and using the same resamples across conditions. The supplement reports per-family metrics and family composition at $K=100$. The released artifacts provide these additional metrics for all five \(K\) values.
+We report Recall@$K$ and Violation@$K$ metrics over $K \in \{5, 10, 20, 50, 100\}$. Paired 95\% confidence intervals use 1,000 bootstrap resamples of the 157 scans, keeping all contexts from each scan together and using the same resamples across conditions. The supplement reports per-family metrics and family composition at $K=100$.
+% The released artifacts provide these additional metrics for all five \(K\) values.
 
 \begin{table*}[!t]
     \centering
@@ -114,12 +116,16 @@ We report Recall@$K$ and Violation@$K$ metrics over $K \in \{5, 10, 20, 50, 100\
 
 \subsection{Results}
 \subsubsection{Recall–Violation Results.}
-Table~\ref{tab:main-results} and Figure~\ref{fig:tradeoff} show that both RelCompat3D variants preserve or raise Recall and reduce Violation relative to Source for all three predictors at $K=50$. For both compatibility estimators, the paired 95\% bootstrap intervals exclude zero in the favorable direction for both Recall and Violation on Open3DSG and SGFN. On VL-SAT, whose Source Recall is already high, the Recall intervals contain zero while the Violation intervals remain negative, supporting lower verifier-derived Violation without a detectable Recall loss. Open3DSG exposes the mismatch most strongly. The Source baseline ranks candidates labeled as violated by the geometry verifier near the top, whereas both RelCompat3D variants raise Recall and lower Violation without applying a hard filter. Across $K\in\{5,10,20,50,100\}$, both variants have a Recall point estimate at least as high as Source and a Violation point estimate no higher than Source. For SGFN, both metrics are tied with Source at $K=5$ and change only marginally at $K=10$. Open3DSG shows the largest gains across the reported $K$ values. 
+Table~\ref{tab:main-results} and Figure~\ref{fig:tradeoff} show that, across $K\in\{5,10,20,50,100\}$, both RelCompat3D variants have Recall point estimates no lower and Violation point estimates no higher than Source for all three predictors. At $K=50$, the paired 95\% bootstrap intervals are positive for Recall and negative for Violation on Open3DSG and SGFN. On VL-SAT, whose Source Recall is already high, the Recall intervals contain zero while the Violation intervals remain negative, supporting lower verifier-derived  Violation without a detectable Recall loss. SGFN is tied with Source at $K=5$ and changes only marginally at $K=10$. Open3DSG shows the largest changes, indicating that its Source ranking places more verifier-violated candidates near the top.
 
-No single ranking rule dominates across all predictors and reported $K$ values. At $K=50$, RelCompat3D-MLP raises Open3DSG Recall more than RelCompat3D-Linear (46.70\% versus 44.18\%) but also has higher Violation (4.13\% versus 3.42\%). The two variants are nearly tied on VL-SAT and SGFN. RankAvg and RRF attain lower Violation at some reported $K$ values but show larger low-$K$ Recall losses on VL-SAT and SGFN. Product (all families) can raise aggregate Recall and lower aggregate Violation, but it changes support/contact selections. 
+No single ranking rule dominates across all predictors and reported $K$
+values. At $K=50$, RelCompat3D-MLP achieves higher Open3DSG Recall than
+RelCompat3D-Linear (46.70\% versus 44.18\%) but also higher Violation
+(4.13\% versus 3.42\%). The variants are nearly tied on VL-SAT and SGFN. RankAvg and RRF attain lower Violation in some settings but show larger low-$K$ Recall losses on VL-SAT and SGFN. Product (all families) can improve the aggregate metrics but changes support/contact selections.
 
-A qualitative vertical-order example in Figure~\ref{fig:teaser} shows
-RelCompat3D-Linear moving the verifier-violated ``desk higher than ceiling'' candidate from rank 6 to 425. A complementary promotion case in the supplement reports that the exact-match, verifier-satisfied ``desk close by chair'' candidate moves from rank 81 to 30 in the same Open3DSG context. Together, these cases illustrate two types of top-50 membership change under family-aware re-ranking.
+The Source-relative conclusion remains unchanged for RelCompat3D-Linear under all five pre-specified monotonic score transformations and for RelCompat3D-MLP in all but one comparison. At $K=50$, both variants also achieve higher Recall and lower Violation than the non-learned robust-density baseline for all three predictors. Matched routing controls produce estimator- and $K$-dependent results when proximity and vertical-order candidates are re-ranked together. We therefore treat family-aware re-ranking as a composition-preserving constraint rather than an aggregate-optimal rule.
+
+A qualitative vertical-order example in Figure~\ref{fig:teaser} shows RelCompat3D-Linear moving the verifier-violated ``desk higher than ceiling'' candidate from rank 6 to 425. Figure~\ref{fig:overall_framework} shows a proximity case in which RelCompat3D-Linear demotes the ``heater close by trash can'' candidate from rank 19 to 178 for an ordered pair whose XY centers are \(4.33\,\mathrm{m}\) apart. The supplement provides a complementary promotion case in which the exact-match, verifier-satisfied ``desk close by chair'' candidate moves from rank 81 to 30 in the same Open3DSG context.
 
 \begin{table}[t]
     \centering
@@ -143,11 +149,11 @@ RelCompat3D-Linear moving the verifier-violated ``desk higher than ceiling'' can
     
 \subsubsection{Ablations and Controls.}
 Table~\ref{tab:ablations} tests whether the ranking gains depend on the predicate, the corresponding ordered pair, and the geometry measurements. For RelCompat3D-Linear, wrong-pair and shuffled geometry reduce Recall and increase Violation for every predictor at both reported $K$ values. These controls show that the compatibility estimate is sensitive to the association between a candidate and the geometry of its corresponding ordered pair. A wrong predicate and an endpoint swap that keeps the predicate fixed increase Violation. Their nearly identical aggregate values are consistent with both controls reversing the signed interpretation of vertical-order geometry. 
-    
+
 For RelCompat3D-Linear, distance-only ordering raises Open3DSG Recall but substantially increases its Violation, while degrading both metrics on VL-SAT and SGFN. Compatibility-only ordering preserves or lowers Violation but loses Recall on VL-SAT and SGFN, showing that compatibility does not replace the source relation score.
 The supplement reports feature-removal analyses, direct component removals, transformation checks, and matched controls for both estimators.
-    
+
 \subsubsection{Point- and Mesh-Based Consistency Audit.}
 The compatibility estimators and primary verifier share some oriented bounding box (OBB)-derived measurements. We therefore remeasure proximity and vertical-order violations directly from reconstructed instance geometry using two representations. One estimate uses robust point-cloud vertex distances and heights and the other uses area-weighted samples from reconstructed mesh triangles. Thresholds are fixed from training-split positive relations. The audit labels do not use OBB measurements, predictor identity, the source relation score, learned compatibility, or primary verifier status labels.
-    
+
 Table~\ref{tab:surface-audit} reports the $K=50$ audit for RelCompat3D-Linear. At $K=50$, RelCompat3D-Linear lowers the alternative Violation rate for all three predictors with paired intervals below zero. The supplement reports both variants at all five $K$ values. All changes are reductions except the SGFN tie at $K=5$. The audit changes only the evaluation labels, so Recall remains as reported in Table~\ref{tab:main-results}.

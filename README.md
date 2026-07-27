@@ -2,9 +2,8 @@
 
 This repository contains the anonymous submission source, compact experiment
 evidence, and Docker entry points for RelCompat3D. The selected submission title
-is “RelCompat3D: Predicate–Geometry Compatibility for Re-ranking 3D Scene Graph
-Relations.” The consolidated TeX source still carries the preceding working
-title and must be synchronized during the pending layout pass.
+is “RelCompat3D: Predicate–Geometry Compatibility for Re-Ranking 3D Scene Graph
+Relations.”
 
 RelCompat3D estimates predicate–geometry compatibility without using predictor
 identity or the source relation score. It combines compatibility with the fixed
@@ -14,7 +13,7 @@ shared 3DSSG validation target.
 
 ## Submission Snapshot
 
-Last updated: 2026-07-22 KST.
+Last updated: 2026-07-27 KST.
 
 The public tree is intentionally limited to:
 
@@ -128,5 +127,7 @@ ignored. Restoring or deleting those materials must follow
 docs/reproducibility.md.
 
 The latest synchronized candidate bundle is staged locally at
-release/relcompat3d_aaai27_openreview_20260726_214500/. It is a verification
-candidate, not an upload-ready replacement for the final layout-fixed release.
+`release/relcompat3d_aaai27_openreview_20260728_022521/`. Its main,
+supplement, checklist, code/data ZIP, and manifests have passed the release
+verification described in `docs/reproducibility.md`. The first-page vertical
+overfull remains a known deferred layout warning.

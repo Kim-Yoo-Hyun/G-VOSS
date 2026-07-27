@@ -1,6 +1,6 @@
 # RelCompat3D Reproducibility and Recovery
 
-Last updated: 2026-07-27 KST.
+Last updated: 2026-07-28 KST.
 
 This document is the authoritative entry point for RelCompat3D reruns, artifact
 handoff, cleanup, and recovery. Read it before moving, deleting, uploading, or
@@ -66,13 +66,20 @@ paths below instead of rewriting a preserved snapshot in place.
 The current source builds to nine US-Letter pages. Technical content ends and
 the references begin on page 7; the references continue on pages 8--9. The
 prior Table 2 horizontal overflow is resolved. One 36.77646 pt first-page
-vertical overfull remains. A current candidate release may be generated for
-verification, but it is not upload-ready until that warning and the
-submission-system disclosure checks are resolved.
+vertical overfull remains as a user-accepted known warning. The synchronized
+release below is technically verified. Submission-system disclosure checks
+remain author-owned.
 
-The current supplement builds to 19 US-Letter pages. Its canonical SHA-256 is
-`505361303b01c46a3cba01f7ae9e7e7c708a39ac1fa8d5e7e1ea6698b095ff5f`;
-the final log has no unresolved reference or overfull-box warning.
+The selected main, supplement, and checklist build to 9, 10, and 2 US-Letter
+pages, respectively. Their canonical SHA-256 values are:
+
+- main: `ddaa71272112dfd231745bf8125b9daf22c7a4c65e245583e4f0630b53919d70`
+- supplement: `8c718bb50eea9d8665f0e198661e1fc41213e4323ee3205b7272c9524bf2b5a5`
+- checklist: `d929e8b5dc38e32bc1e92c498ae7d41a7699d37f4aaf80027152117e8f6bb270`
+
+The final logs have no unresolved citations or references, BibTeX warnings,
+graphics inclusion warnings, or horizontal overfull boxes. The supplement and
+checklist have no overfull-box warning.
 
 ## 3. Active Method Integrity
 
@@ -340,7 +347,7 @@ anonymous metadata, and overfull warnings.
 
 The current ignored local candidate bundle is:
 
-release/relcompat3d_aaai27_openreview_20260726_214500/
+release/relcompat3d_aaai27_openreview_20260728_022521/
 
 It is regenerated from the current main, supplement, checklist, active figure
 assets, method locks, source allowlist, and compact results. Build it after
@@ -349,7 +356,7 @@ fresh Docker compilation with:
 ~~~bash
 python scripts/build_release_bundle.py \
   --build-root /tmp/relcompat3d_release_build \
-  --timestamp 20260726_214500
+  --timestamp 20260728_022521
 ~~~
 
 The release verification covers:
@@ -362,8 +369,11 @@ The release verification covers:
 - exact outer-file hashes;
 - PDF page size, page allocation, fonts, links, and LaTeX warnings.
 
-The release is the latest synchronized candidate, not a final upload artifact:
-the main PDF still has the first-page vertical overfull recorded above.
+The release is the latest synchronized upload candidate. The code/data ZIP
+contains 221 files. Its exact SHA-256 is recorded by the adjacent
+`UPLOAD_MANIFEST.sha256`, which is the authoritative release checksum.
+The main PDF still has the user-accepted first-page vertical overfull recorded
+above.
 
 ## 10. Local Archive
 

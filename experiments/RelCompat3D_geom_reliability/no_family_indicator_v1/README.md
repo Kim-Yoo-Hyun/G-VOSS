@@ -72,7 +72,7 @@ in `evaluation/component_removals/`.
 - deterministic release archive: `release_candidate.tar.zst`, SHA256
   `9156745e154c5d39d6c6c19d323f3fe3961c8d51f5d02709850465b161823f14`
 - promoted anonymous OpenReview bundle:
-  `release/relcompat3d_aaai27_openreview_20260720_064712/`; the selected `main.pdf`
+  `release/relcompat3d_aaai27_openreview_20260727_073328/`; the selected `main.pdf`
   is the teaser layout and its outer/inner checksum checks pass.
 
 All 12 official-validation evaluation manifests are complete. The active paper

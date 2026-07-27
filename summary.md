@@ -130,7 +130,7 @@ continue on pages 8--9. The prior horizontal overflow is resolved. One
 36.77646 pt first-page vertical overfull remains.
 
 The latest synchronized candidate release is
-release/relcompat3d_aaai27_openreview_20260726_214500/. It is regenerated from
+release/relcompat3d_aaai27_openreview_20260727_104527/. It is regenerated from
 the current manuscript, supplement, checklist, figures, method locks, source,
 and compact evidence and is held as a candidate until the remaining layout and
 submission-system disclosure checks are resolved.

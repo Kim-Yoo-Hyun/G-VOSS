@@ -1,6 +1,6 @@
 # RelCompat3D Current Paper Preview
 
-Last updated: 2026-07-22 KST
+Last updated: 2026-07-27 KST
 
 이 문서는 현재 submission handoff snapshot만 소유한다. 상세 method와
 experiment contract는 `paper/method.md`와 `paper/experiment.md`, section 논리는
@@ -116,21 +116,21 @@ controls, and all-K audit remain supplemental.
 
 | artifact | role | pages | SHA-256 |
 | --- | --- | ---: | --- |
-| `paper/aaai/main_teaser_aaai27.pdf` | **selected main submission PDF** | 9 | `b2219ed69acc1969d28b275c638f9328d096f7e62e0beb9a2d515530648cba15` |
-| `paper/aaai/main_aaai27.pdf` | non-selected comparison build | 9 | `5b9d917a61fc9045f46aa477750590f40c621157068ae74dec1ccc5e8e7f113b` |
-| `paper/aaai/supplement_aaai27.pdf` | technical supplement | 10 | `b9dc44ce09bb12d805472ead80bb72ca174cb844658929325917f59a7103226e` |
-| `paper/aaai/reproducibility_checklist_aaai27.pdf` | standalone checklist | 2 | `cd12a07ab1f9067a73f7aec128d43721c00c71bc17130acc32f6d34b99079e59` |
+| `paper/aaai/main_teaser_aaai27.pdf` | **selected main submission PDF** | 9 | `ddaa71272112dfd231745bf8125b9daf22c7a4c65e245583e4f0630b53919d70` |
+| `paper/aaai/main_aaai27.pdf` | non-selected comparison build | 9 | `e6b56666e2e76cad11bcde2c725704283e70fa625fc1560fc9ad4bc9149944b6` |
+| `paper/aaai/supplement_aaai27.pdf` | technical supplement | 10 | `8c718bb50eea9d8665f0e198661e1fc41213e4323ee3205b7272c9524bf2b5a5` |
+| `paper/aaai/reproducibility_checklist_aaai27.pdf` | standalone checklist | 2 | `d929e8b5dc38e32bc1e92c498ae7d41a7699d37f4aaf80027152117e8f6bb270` |
 
 The selected canonical teaser now builds from the consolidated
 `user_v6`-aligned source as nine pages, with seven technical pages and
-references on pages 7--9. It retains a 36.78-pt first-page vertical overfull and
-one 4.43-pt overfull table row. Per the current decision, both warnings are
-deferred until the final layout pass.
+references on pages 7--9. It retains a 36.78-pt first-page vertical overfull.
+The prior 4.43-pt horizontal overfull is resolved. Per the current decision,
+the remaining warning is deferred.
 
-The existing verified release bundle
-`release/relcompat3d_aaai27_openreview_20260720_084307/` already selects the teaser
-layout but predates the latest source organization and must be regenerated
-before upload.
+The synchronized release candidate
+`release/relcompat3d_aaai27_openreview_20260728_022521/` selects the teaser
+layout and includes the current source organization. Its PDFs, ZIP, and
+manifests pass release and extracted-source verification.
 
 ## Current Scientific Limits
 
@@ -150,8 +150,7 @@ Detailed attacks, defenses, and blocked wording are owned only by
 
 Required before submission:
 
-- resolve the first-page vertical overfull and 4.43-pt overfull table row;
-- regenerate the anonymous release bundle from the selected canonical source;
+- resolve or explicitly accept the known first-page vertical overfull;
 - verify live-form title, abstract, TL;DR, topics, and anonymity;
 - complete OpenReview author metadata, conflicts, and reciprocal-reviewer
   declaration;

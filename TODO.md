@@ -1,6 +1,6 @@
 # TODO
 
-Last updated: 2026-07-27 KST.
+Last updated: 2026-07-28 KST.
 
 This file is the current task board. Detailed commands and artifact recovery
 belong in docs/reproducibility.md; exact result paths belong in the RelCompat3D
@@ -12,7 +12,6 @@ experiment README and result manifest.
   margins, font size, or using negative vertical spacing.
 - [ ] Complete the required generative-AI role disclosure in the manuscript or
   submission system according to the actual use.
-- [ ] Promote a final upload bundle after the first-page layout fix.
 - [ ] Review the large deletion set and create a clean submission commit.
 
 ## Next
@@ -26,6 +25,16 @@ experiment README and result manifest.
 
 ## Recently Completed
 
+- [x] Corrected the supplement optimizer contract and score-mapping notation,
+  added body references for every supplementary table, and fixed the Open3DSG
+  bibliography title.
+- [x] Clean-built the main, supplement, and checklist from the pinned Docker
+  image, refreshed all canonical PDFs, and independently rebuilt the LaTeX
+  sources extracted from the code/data ZIP.
+- [x] Regenerated and verified the synchronized release at
+  `release/relcompat3d_aaai27_openreview_20260728_022521/`. The outer manifest,
+  internal ZIP manifest, JSON, Python, Compose, anonymity, page-count, font, and
+  filename checks pass.
 - [x] Exported a pseudonymized 601,140-candidate row bundle from hash-locked
   licensed inputs and reproduced all 291 canonical cells in Tables 1--3 and
   Figure 3 data with maximum absolute error zero.
@@ -49,8 +58,8 @@ experiment README and result manifest.
 - [x] Completed the hash-locked Docker P0-1 source-score mapping sensitivity
   and P0-2 closest-simple-baseline analysis on the canonical candidate pool,
   with all validations and exact canonical rerun checks passing.
-- [x] Removed all superseded local release bundles and retained only
-  `release/relcompat3d_aaai27_openreview_20260726_214500/`.
+- [x] Removed all superseded local release bundles and retained only the
+  current synchronized release.
 - [x] Regenerated a synchronized anonymous candidate release and lean
   code-and-compact-data ZIP from the current main, supplement, checklist,
   figures, method locks, source, and compact result summaries.

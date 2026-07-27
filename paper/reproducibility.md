@@ -1,12 +1,28 @@
 # RelCompat3D Reproducibility Checklist Plan
 
-Last updated: 2026-07-26 KST
+Last updated: 2026-07-27 KST
 
 ## 1. Venue Format
 
 The submission uses the official AAAI-27 reproducibility checklist without
-changing its questions or answer choices. Each response in the checklist PDF is
-limited to `yes`, `partial`, `no`, or `NA`.
+changing its questions or answer choices. Each completed response in the
+checklist PDF is limited to `yes`, `partial`, `no`, or `NA`.
+
+Section 2 is conditional. The official wording says to address its subquestions
+only if the paper makes theoretical contributions. Because the parent answer is
+`no`, the seven subquestion response fields are left blank. This is stricter
+than writing `NA`: Questions 2.2--2.6 do not list `NA` as an allowed response,
+while the template instructs authors to use only an option listed for an
+applicable question. The template does not separately prescribe how an inactive
+response field must be rendered. Leaving it blank follows the conditional
+wording without inserting an unlisted answer.
+
+The `Instructions for Authors` block is retained. The official AAAI-27 source
+renders that block in standalone mode and explicitly tells authors to replace
+only the response placeholders without modifying other lines. The AAAI-27 call
+requires a completed checklist but does not instruct authors to remove the
+front instructions. Deleting the block would therefore be a template change
+without an official basis.
 
 This follows the AAAI format more closely than the longer NeurIPS checklist
 style. NeurIPS checklists commonly place an answer and a short justification
@@ -15,10 +31,12 @@ additional explanation in the technical supplement or code/data documentation.
 
 Authoritative sources:
 
-- AAAI-27 Author Kit and the preserved template at
+- AAAI-27 Author Kit:
+  <https://aaai.org/authorkit27/>, with its preserved template at
   `paper/aaai/official/ReproducibilityChecklist.tex`
-- AAAI Reproducibility Checklist:
-  <https://aaai.org/conference/aaai/aaai-23/reproducibility-checklist/>
+- AAAI-26 Reproducibility Checklist, whose public wording uses the same
+  conditional theory section:
+  <https://aaai.org/conference/aaai/aaai-26/reproducibility-checklist/>
 - AAAI-27 Main Technical Track call:
   <https://aaai.org/conference/aaai/aaai-27/main-technical-track-call/>
 - NeurIPS 2025 checklist policy:
@@ -32,7 +50,8 @@ Authoritative sources:
 The checklist PDF should contain:
 
 1. The official questions and section order.
-2. One allowed status answer for every question.
+2. One allowed status answer for every applicable question. Conditional
+   subquestions remain unanswered when their parent condition is false.
 3. No manuscript summary, result table, artifact inventory, or local runbook.
 4. No claim that licensed third-party data or checkpoints are redistributed.
 5. `partial` wherever the paper provides the new RelCompat3D code but relies on
@@ -44,13 +63,15 @@ Current status pattern:
 | Area | Status summary |
 | --- | --- |
 | General structure | `yes` |
-| Theoretical contribution | `no`; the supplement still proves implementation guarantees |
+| Theoretical contribution | `no`; conditional theory subquestions are left unanswered rather than assigned an unlisted `NA` |
 | Dataset use and citation | `yes` |
 | Unrestricted public availability of all data | `partial` |
-| RelCompat3D preprocessing and experiment code in the anonymous archive | `partial` because licensed data and third-party predictors remain external |
+| RelCompat3D preprocessing code in the anonymous archive | `yes`; all paper-specific preprocessing entry points are included |
+| Complete experiment code in the anonymous archive | `partial` because third-party predictor repositories and licensed inputs remain external |
 | Public post-publication code release | `partial` until the license and permanent URL are fixed |
 | Randomness, metrics, run counts, intervals, and infrastructure | `yes` |
-| Exhaustive hyperparameter search and every third-party default | `partial` |
+| Hyperparameter ranges and development search | `partial`; focused sensitivities are reported rather than an exhaustive search |
+| Final settings used by the reported methods and controls | `yes`; main, supplement, and frozen protocols agree |
 
 ## 3. Public Reproducibility Information
 
@@ -130,35 +151,137 @@ CPU/GPU model names, approximate memory, operating-system version, container
 versions, and deterministic seeds are normal reproducibility information and
 are not treated as private identifiers.
 
-## 6. Answer Rationale
+## 6. Question-by-Question Answer Rationale
 
-The checklist itself stays compact. The reason for each non-`yes` answer is:
+The submitted checklist remains limited to the official status choices. This
+section records the evidence behind every answer without adding prose to the
+checklist PDF.
 
-- **Theoretical contribution: `no`.** RelCompat3D is an empirical method
-  contribution. The supplement proves exact transformation and ranking
-  properties as implementation guarantees, not as theoretical novelty; the
-  conditional theory questions are therefore `NA`.
-- **Existing datasets publicly available: `partial`.** The underlying
-  3DSSG/3RScan and ReplicaSSG assets are accessed under the terms of the
-  original providers, and this paper does not redistribute licensed scans or
-  third-party checkpoints.
-- **Unavailable datasets described: `partial`.** The manuscript and supplement
-  describe the split, relation scope, source dependencies, evaluation mapping,
-  and Open3DSG coverage policy, while raw licensed inputs remain external.
-- **Hyperparameter ranges: `partial`.** Final settings and focused sensitivity
-  analyses are reported, but no exhaustive search over every design choice is
-  claimed.
-- **Preprocessing and complete experiment code: `partial`.** The new
-  RelCompat3D pipeline is included, but third-party source repositories,
-  licensed inputs, checkpoints, and large regenerable caches are external.
-- **Post-publication public code: `partial`.** The anonymous code archive is
-  prepared, but the permanent public URL and license are not yet frozen.
-- **Implementation comments: `partial`.** Core scripts and runbooks document
-  the implementation, but not every adapter line contains a paper-section
-  reference.
-- **All final hyperparameters: `partial`.** RelCompat3D parameters, ranking
-  constants, audit rules, and seeds are frozen; all historical or
-  third-party predictor defaults are not duplicated in the paper.
+### 6.1 General Paper Structure
+
+1. **Conceptual outline of the introduced method: `yes`.** Figure 2 and the
+   Method section present the full sequence from predicate semantics and
+   ordered-pair geometry to compatibility estimation, within-family scoring,
+   and family-aware re-ranking. The equations define the compatibility and
+   ranking scores used by both variants.
+2. **Separation of facts, hypotheses, and speculation: `yes`.** The Results
+   section distinguishes point estimates from paired confidence intervals.
+   It consistently calls Violation a verifier-derived metric. The
+   point-and-mesh audit is described as an alternative measure, and the
+   Discussion states that it is not independent ground truth.
+3. **Pedagogical references: `yes`.** The Introduction and Related Work cite
+   the 3D scene graph task, 3RScan/3DSSG, the evaluated predictors, and relevant
+   reliability literature. Dataset names, metrics, relation families, and
+   method-specific terms are defined before they are used operationally.
+
+### 6.2 Theoretical Contributions
+
+4. **Theoretical contribution: `no`.** RelCompat3D is an empirical method and
+   evaluation contribution. The supplement proves transformation and ranking
+   properties as implementation guarantees, not as a separate theoretical
+   contribution.
+5. **Formal assumptions and restrictions: not answered.** This question
+   applies only when Question 4 is `yes`. Its listed choices do not include
+   `NA`.
+6. **Formal statements of novel theoretical claims: not answered.** The paper
+   does not claim new theorems, and the conditional theory list is inactive.
+7. **Proofs of novel theoretical claims: not answered.** There are no claimed
+   theoretical contributions requiring complete proofs.
+8. **Proof sketches or intuitions for theoretical results: not answered.** The
+   supplement nevertheless explains and proves the exact properties used by
+   the implementation.
+9. **Citations to theoretical tools: not answered.** No external theoretical
+   result is presented as the basis of a novel theorem.
+10. **Empirical demonstrations of theoretical claims: not answered.** Although
+    this question offers `NA`, the full conditional list is left unanswered
+    consistently after the parent `no`.
+11. **Code used to eliminate or disprove theoretical claims: not answered.**
+    This question also offers `NA`, but the paper does not conduct
+    theory-elimination experiments and the parent condition is false.
+
+### 6.3 Dataset Usage
+
+12. **Reliance on datasets: `yes`.** The main evaluation uses 3RScan/3DSSG.
+    The supplement also reports a ReplicaSSG/FROSS stress test.
+13. **Motivation for the selected datasets: `yes`.** The shared 3DSSG target
+    provides one ontology, geometry source, and evaluation scope for comparing
+    three fixed predictors. The supplementary transfer test examines a change
+    in ontology and geometry.
+14. **Novel datasets included in a data appendix: `NA`.** The paper introduces
+    no new dataset.
+15. **Public release of novel datasets: `NA`.** No new dataset is claimed or
+    collected.
+16. **Citations for existing datasets: `yes`.** 3RScan, 3DSSG, ReplicaSSG, and
+    the prediction sources are cited where their roles are introduced.
+17. **Public availability of all existing datasets: `partial`.** The datasets
+    and source models are obtainable through their providers, but some require
+    provider-controlled access or acceptance of external terms. The submission
+    does not redistribute licensed scans, meshes, or third-party checkpoints.
+18. **Description of data that are not freely redistributable: `partial`.**
+    The main paper and supplement report the split roles and sizes, relation
+    scope, source dependencies, evaluation mapping, and Open3DSG coverage
+    policy. These descriptions and deterministic preparation commands do not
+    replace the licensed source assets, and publicly available alternatives
+    would not reproduce the same benchmark target.
+
+### 6.4 Computational Experiments
+
+19. **Computational experiments: `yes`.** The reported claims are supported by
+    model fitting, re-ranking, controls, sensitivity analyses, and geometric
+    audits.
+20. **Development ranges and selection criteria: `partial`.** The supplement
+    reports the final settings and focused, pre-specified sensitivity values.
+    It does not claim an exhaustive search over every architecture,
+    construction rule, and threshold.
+21. **Preprocessing code: `yes`.** The anonymous code/data archive includes the
+    paper-specific geometry joins, feature construction, and candidate
+    preparation needed to form the estimator inputs.
+22. **All experiment and analysis source code: `partial`.** The archive
+    contains compatibility fitting, re-ranking, controls, metrics, audits, and
+    table/figure regeneration for the full RelCompat3D pipeline. Full
+    source-predictor regeneration additionally requires external predictor
+    repositories, licensed inputs, checkpoints, and large regenerable caches
+    that are not redistributed.
+23. **Post-publication public code release: `partial`.** An anonymous archive
+    is prepared for review, but the permanent public URL and release license
+    have not yet been frozen. Third-party assets will remain subject to their
+    original licenses.
+24. **Implementation comments with paper references: `partial`.** Core source
+    modules, command entry points, schemas, and runbooks document the
+    implementation and paper-facing outputs. Not every adapter statement has
+    an inline reference to a paper section.
+25. **Random-seed policy: `yes`.** Each reported condition uses a fixed seed
+    and one fit. The supplement also evaluates five seeds chosen before
+    training and states that the active model was not reselected from those
+    results.
+26. **Computing infrastructure: `yes`.** The supplement states that all jobs
+    use the submitted Docker environment. The archive records the Linux and
+    Python versions, relevant library versions, CPU model, execution device,
+    and measured peak memory. The recorded environment uses an Intel Core
+    Ultra 7 265KF, Linux 6.17, Python 3.11.9, NumPy 1.26.4, and approximately
+    366.5 MiB peak RSS for the paper-facing runtime measurement.
+27. **Metric definitions and motivation: `yes`.** The main paper formally
+    defines exact-match Recall@\(K\) and verifier-derived Violation@\(K\).
+    Their joint use separates retrieval coverage from compatibility with the
+    reconstructed ordered-pair geometry.
+28. **Number of algorithm runs: `yes`.** The supplement states one fit for
+    each reported condition, 1,000 paired scan-level bootstrap resamples, five
+    pre-specified training seeds for the seed analysis, and five repetitions
+    for the runtime measurement.
+29. **Variation and confidence information: `yes`.** The paper reports paired
+    95% bootstrap intervals, seed means and standard deviations, coverage and
+    uncertainty variants, and point-and-mesh audit results.
+30. **Statistical assessment of changes: `yes`.** Recall and Violation changes
+    use paired scan-level bootstrap intervals. All contexts from a sampled scan
+    are resampled together, and the same resamples are shared across compared
+    conditions. Claims of detectable change are based on whether the paired
+    interval excludes zero in the stated direction.
+31. **Final hyperparameters: `yes`.** The main paper and supplement specify the
+    loss constants, estimator architectures, optimizer, step counts, learning
+    rates, transformation sets, ranking rule, evaluated \(K\) values,
+    bootstrap count, audit thresholds, and seed policy. The three source
+    predictors provide frozen relation scores and are not refitted for
+    RelCompat3D.
 
 ## 7. Release Files
 
@@ -169,8 +292,15 @@ The checklist itself stays compact. The reason for each non-`yes` answer is:
 - Canonical submission PDF:
   `paper/aaai/reproducibility_checklist_aaai27.pdf`
 - Canonical PDF SHA256:
-  `a346d55325dc63f7e9324cd0dc34dbcc0e72abc6ad3836f730d39c370477e212`
+  `d929e8b5dc38e32bc1e92c498ae7d41a7699d37f4aaf80027152117e8f6bb270`
+- Current release:
+  `release/relcompat3d_aaai27_openreview_20260728_022521/`
+- Current code/data ZIP SHA256:
+  `a8044cba4fbe7a74a1b897a68050873f753ff65455068cadb04c74403a4da2a6`
 
-Before submission, verify that the PDF uses US Letter pages, has no unresolved
-references, contains no Type 3 or Identity-H fonts, and matches the current
-main paper, supplement, and anonymous code archive.
+The clean Docker build was verified on 2026-07-28 KST. The checklist is a
+two-page US Letter PDF using PDF 1.5. It has no unresolved references,
+overfull boxes, Type 3 fonts, Identity-H fonts, or unembedded fonts. Its source
+inside the anonymous archive matches the working source. A fresh build from
+the extracted archive has identical text and page geometry. Its byte stream
+differs because the rebuild receives new PDF metadata and trailer identifiers.

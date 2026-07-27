@@ -9,13 +9,13 @@ remaining work만 기록한다. Experiment chronology와 runtime artifact는
 
 ## Current Phase
 
-Status: `user_v6_main_built_release_regeneration_pending`
+Status: `source_and_release_synchronized`
 
 `paper/aaai/main_teaser_aaai27.pdf`를 main submission layout으로 선택했다.
-Scientific claim, main comparisons, controls, audit, supplement, and
-reproducibility checklist are complete. The immediate remaining work is source
-layout reconciliation, canonical rebuild, and submission metadata rather than
-new experiments.
+Scientific claim, main comparisons, controls, audit, supplement,
+reproducibility checklist, canonical PDFs, and the anonymous release bundle are
+synchronized. The remaining work is the deferred first-page layout warning and
+submission-system metadata rather than new experiments.
 
 The selected title is **RelCompat3D: Predicate–Geometry Compatibility for
 Re-Ranking 3D Scene Graph Relations**. The consolidated main and selected
@@ -77,19 +77,21 @@ but are not active main-paper evidence.
 
 | artifact | status | pages | SHA-256 |
 | --- | --- | ---: | --- |
-| `paper/aaai/main_teaser_aaai27.pdf` | **selected main** | 9 | `b2219ed69acc1969d28b275c638f9328d096f7e62e0beb9a2d515530648cba15` |
-| `paper/aaai/main_aaai27.pdf` | retained comparison | 9 | `5b9d917a61fc9045f46aa477750590f40c621157068ae74dec1ccc5e8e7f113b` |
-| `paper/aaai/supplement_aaai27.pdf` | active supplement | 18 | `c56ee4b1a9c335e5d41ac88e9543a9ef4fa65f70fc0e4c6b3026b4b3d31da3fe` |
-| `paper/aaai/reproducibility_checklist_aaai27.pdf` | active checklist | 2 | `cd12a07ab1f9067a73f7aec128d43721c00c71bc17130acc32f6d34b99079e59` |
+| `paper/aaai/main_teaser_aaai27.pdf` | **selected main** | 9 | `ddaa71272112dfd231745bf8125b9daf22c7a4c65e245583e4f0630b53919d70` |
+| `paper/aaai/main_aaai27.pdf` | retained comparison | 9 | `e6b56666e2e76cad11bcde2c725704283e70fa625fc1560fc9ad4bc9149944b6` |
+| `paper/aaai/supplement_aaai27.pdf` | active supplement | 10 | `8c718bb50eea9d8665f0e198661e1fc41213e4323ee3205b7272c9524bf2b5a5` |
+| `paper/aaai/reproducibility_checklist_aaai27.pdf` | active checklist | 2 | `d929e8b5dc38e32bc1e92c498ae7d41a7699d37f4aaf80027152117e8f6bb270` |
 
 The selected canonical main now builds from the consolidated
 `user_v6`-aligned source as nine pages with seven technical pages. It retains a
-36.78-pt first-page vertical overfull and one 4.43-pt overfull table row. The
-user has explicitly deferred both warnings until the final layout pass.
+36.78-pt first-page vertical overfull. The prior 4.43-pt horizontal overfull is
+resolved. The user has explicitly deferred the remaining warning.
 
-The latest verified bundle is
-`release/relcompat3d_aaai27_openreview_20260720_084307/`. It already chooses the teaser
-layout but must be regenerated from the consolidated source before upload.
+The latest synchronized bundle is
+`release/relcompat3d_aaai27_openreview_20260728_022521/`. It chooses the teaser
+layout and was regenerated from the consolidated source. Its PDFs, ZIP, and
+manifests pass independent verification. The remaining layout issue is the
+first-page vertical overfull.
 
 ## Decisions Locked
 
@@ -126,16 +128,11 @@ layout but must be regenerated from the consolidated source before upload.
 
 1. Resolve the first-page vertical overfull without changing margins, type
    size, or using negative spacing.
-2. Resolve the 4.43-pt overfull table row.
-3. Synchronize title capitalization in the supplement and checklist sources.
-4. Rebuild the supplement and checklist and refresh their hashes.
-5. Regenerate and verify the anonymous release bundle; confirm its `main.pdf`
-   is the selected teaser.
-6. Run final citation/reference, font, page-size, anonymity, and source-archive
-   checks.
-7. Complete OpenReview author metadata, conflicts, reciprocal-reviewer
+2. Complete OpenReview author metadata, conflicts, reciprocal-reviewer
    declaration, topics, title, abstract, and TL;DR fields.
-8. Decide the public license and post-acceptance artifact URL.
+3. Complete the generative-AI role disclosure in the required venue location.
+4. Confirm the derived-row redistribution boundary and public license.
+5. Decide the post-acceptance artifact URL.
 
 ### Optional scientific strengthening
 

@@ -46,36 +46,24 @@ are consolidated in Discussion and Limitations.
 
 ## Verified Outputs
 
-- `main_aaai27.pdf`: 9 US-Letter pages; technical content ends on page 7 and
-  references begin in the remaining page-7 column; SHA256
-  `5b9d917a61fc9045f46aa477750590f40c621157068ae74dec1ccc5e8e7f113b`.
-- `main_teaser_aaai27.pdf`: 9 US-Letter pages with the source-backed full-width
-  demotion on page 2 and method overview on page 3; technical content ends on
-  page 7 and pages 8--9 contain references
-  only; SHA256
-  `ac0313df7248da518488f0f39ab7d6cce42d1ac2cc6d5f234fc2aee4631e588c`.
-- `supplement_aaai27.pdf`: 18 US-Letter pages; SHA256
-  `c56ee4b1a9c335e5d41ac88e9543a9ef4fa65f70fc0e4c6b3026b4b3d31da3fe`.
+- `main_aaai27.pdf`: 9 US-Letter pages in the alternate main layout; SHA256
+  `26a5f14a0eafffd1900784a041235d06c84c0aa5851502c2eb3ecb0716977d88`.
+- `main_teaser_aaai27.pdf`: 9 US-Letter pages with the one-column demotion
+  figure on page 1; technical content and all main figures/tables end on page 7,
+  and references continue on pages 8--9; SHA256
+  `ddaa71272112dfd231745bf8125b9daf22c7a4c65e245583e4f0630b53919d70`.
+- `supplement_aaai27.pdf`: 10 US-Letter pages; SHA256
+  `8c718bb50eea9d8665f0e198661e1fc41213e4323ee3205b7272c9524bf2b5a5`.
 - `reproducibility_checklist_aaai27.pdf`: 2 US-Letter pages; SHA256
-  `a346d55325dc63f7e9324cd0dc34dbcc0e72abc6ad3836f730d39c370477e212`.
+  `d929e8b5dc38e32bc1e92c498ae7d41a7699d37f4aaf80027152117e8f6bb270`.
 
-The main canonical PDFs were not changed during the 2026-07-27 supplement
-revision. The supplement canonical PDF was regenerated after reorganizing the
-source into main-aligned Method and Experiments sections and adding the frozen
-P0 score-mapping, simple-baseline, routing, and construct-dependence evidence.
-The checklist canonical PDF was regenerated from the official AAAI-27
-questions with compact status-only answers. Earlier smoke builds of the
-consolidated source produced
-9-page `main.pdf` and 10-page `main_teaser.pdf`.
-The current teaser source already produced 10 pages before consolidation, and
-pre/post-consolidation PDF text is identical; the extra page is therefore a
-pre-existing transcript/layout issue rather than a consequence of merging the
-section files. The fresh main and teaser logs also retain one pre-existing
-4.43-pt overfull table row. Reconcile those two layout differences before the
-next canonical release regeneration.
+All four canonical PDFs were rebuilt from current source in the pinned Docker
+image on 2026-07-28 KST. The main log has no undefined citation/reference,
+BibTeX warning, graphics inclusion warning, or horizontal overfull. It retains
+one first-page vertical overfull of 36.77646 pt.
 
 All four canonical files have zero Type 3 and CID/Identity-H fonts. The current
-18-page supplement has no unresolved references or LaTeX/overfull warnings.
+10-page supplement has no unresolved references or LaTeX/overfull warnings.
 It includes matched Linear/MLP component diagnostics and five predeclared
 fitting executions without changing the active method.
 The Introduction grounds its geometric-mismatch motivation in direct witness
@@ -234,11 +222,13 @@ its strict split/model/score locks, the compact final
 ReplicaSSG protocol/evaluation summary, the feature-removal analysis,
 active figure sources, and current manuscript source. Historical Codex-proxy, ReplicaSSG development branches,
 Qwen-VL, and superseded manuscript material are excluded from this bundle.
-The latest verified pre-table-layout upload bundle is
-`release/relcompat3d_aaai27_openreview_20260720_084307/`. It selects the teaser layout
-and includes the promoted `no_family_indicator_v1` source, locks, and compact
-results, but it must be regenerated before upload to include the current
-table-layout PDF revision. The default PDF remains a layout comparison.
+The latest synchronized upload candidate is
+`release/relcompat3d_aaai27_openreview_20260728_022521/`. It selects the teaser
+layout and includes the promoted `no_family_indicator_v1` source, locks, compact
+results, current 10-page supplement, and current checklist. The outer and inner
+manifests, ZIP integrity, extracted-source build, page counts, fonts, anonymity,
+and canonical PDF hashes pass. Its main PDF retains the known first-page
+vertical overfull.
 
 AAAI-27 policy lock: at most 7 technical pages and 9 total pages; content after
 the technical limit is references only. The checklist is uploaded separately. Supplementary
