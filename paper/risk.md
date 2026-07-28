@@ -1,300 +1,189 @@
 # RelCompat3D Reviewer-Risk Register
 
-Last updated: 2026-07-27 KST
-
-이 문서는 current submission claim에 영향을 주는 reviewer attack, verified
-facts, defense, residual action, and blocked wording만 소유한다. Reviewer score와
-overall assessment는 `paper/review.md`, experiment 계산법은
-`paper/experiment.md`, 진행 상태는 `paper/progress.md`가 소유한다.
+Last updated: 2026-07-28 KST
 
 ## Risk Summary
 
-| ID | risk | severity | current status |
-| --- | --- | --- | --- |
-| R1 | compatibility construction and primary verifier overlap | critical | substantially mitigated; residual |
-| R2 | one shared dataset target | high | disclosed; unresolved |
-| R3 | support/contact outside re-ranking scope | high | operationally contained |
-| R4 | novelty reduced to engineered rescoring | high | framing-dependent |
-| R5 | strong nonlinear and rank-fusion alternatives | medium | matched comparisons complete |
-| R6 | Open3DSG candidate coverage and reproduction | medium | full-target policy documented |
-| R7 | selected canonical PDF and consolidated source diverge in layout | high | deferred; must close before upload |
+| Risk | Severity | Current treatment |
+| --- | --- | --- |
+| Construct dependence | High | Scoped claim, dependency matrix, feature removals, point/mesh audit |
+| Single validation split | High | Explicit limitation and transfer stress test |
+| Incremental/simple-method perception | High | Mechanism framing and matched baselines/controls |
+| Support/contact not re-ranked | Medium | Explicit scope and preserved-order guarantee |
+| Candidate-pool ceiling | Medium | Candidate coverage and Recall oracle |
+| Source-score scale sensitivity | Medium | Pre-specified mapping stress test |
+| Dense supplement | Low | Main self-contained, full rows moved to artifacts |
+| Source/PDF synchronization | Closed | Final 9/10/2-page build and release are synchronized |
+| Generative-AI documentation | Submission-critical | Author action required |
 
 ## R1. Construct Dependence
 
-**Reviewer attack**
+### Risk
 
-> The model may be learning geometric rules that are also used by the primary
-> Violation verifier, making the evaluation partly circular.
+Compatibility construction and the primary verifier share some OBB-derived
+measurements. A reviewer may argue that lower Violation is partly aligned with
+the evaluation construct.
 
-**Verified facts**
+### Current Defense
 
-- Counterfactual construction and the primary verifier share some OBB-derived
-  distance, overlap, height, and threshold families.
-- Evaluation rows and verifier-status labels are not training examples.
-- Wrong-pair/predicate/shuffle controls test whether the estimator ignores the
-  candidate identity or predicate, but do not create independent ground truth.
-- The point/mesh audit excludes OBB inputs and primary verifier labels but uses
-  the same reconstructed geometry and ontology.
+- Evaluation rows and verifier labels do not enter training construction.
+- Source score and predictor identity are excluded from compatibility.
+- Feature-removal analyses separate exact, related, and alternative evidence.
+- Point/mesh audit excludes OBB inputs and primary labels.
+- Uncertainty-policy variants preserve the source-relative direction.
+- Discussion states that the audit is not independent ground truth.
 
-**Current defense**
+### Remaining Boundary
 
-- Define compatibility as a constructed-target ranking score, not a posterior
-  probability of validity.
-- Call the main metric `verifier-derived Violation@$K$`.
-- Report feature-removal refits, threshold/counterfactual sensitivity, and
-  point-/mesh-based alternative measurements.
-- Provide one dependency matrix that distinguishes evaluation rows, source
-  scores, verifier labels, OBB measurements, point/mesh measurements, scene
-  identities, and ontology across the three evidence routes.
-- Keep exact-match Recall visible with Violation to expose task trade-offs.
+Only an independently defined human or external reference label would support
+a broader physical-validity claim. The paper does not make that claim.
 
-**Residual action**
+## R2. Single 3DSSG Validation Split
 
-No additional experiment is required for the scoped submission. Independent
-reference labels or human alignment would strengthen the claim but would open a
-new evidence protocol.
+### Risk
 
-**Blocked wording**
+Three predictors on the same split provide cross-predictor evidence but not
+dataset-level generalization.
 
-- human-validated or independently verified physical correctness;
-- independent physical-validity ground truth;
-- calibrated probability of validity.
+### Current Defense
 
-## R2. Shared Dataset Target
+- Introduction identifies the official 3DSSG validation split.
+- Discussion explicitly limits the interpretation.
+- ReplicaSSG/FROSS is reported only as a transfer stress test.
 
-**Reviewer attack**
+### Required Wording
 
-> VL-SAT, Open3DSG, and SGFN differ as predictors but share the same 3DSSG
-> geometry and relation ontology, so this is not cross-dataset evidence.
-
-**Verified facts**
-
-- Candidate distributions and native score contracts differ across predictors.
-- Dataset, reconstruction, and evaluation ontology are shared.
-- ReplicaSSG/FROSS is a supplemental stress test with target-dependent behavior
-  and limited candidate coverage.
-
-**Current defense**
-
-- State `three predictors on one shared 3DSSG target` in Abstract, Results,
-  Discussion, and Conclusion.
-- Use the external result only as a transfer stress test.
-- Separate cross-predictor robustness from dataset generalization.
-
-**Residual action**
-
-An untouched external dataset with adequate exact-label candidate coverage is
-optional strengthening, not a requirement for the frozen claim.
-
-**Blocked wording**
-
-- cross-dataset generalization established;
-- arbitrary-source or arbitrary-dataset robustness.
+Use **validation split** for the partition and **validation scenes** for the
+evaluated scenes. Avoid treating `shared` as evidence of cross-dataset
+generality.
 
 ## R3. Support/Contact Scope
 
-**Reviewer attack**
+### Risk
 
-> Why evaluate support/contact if the proposed method does not re-rank it?
+The method evaluates support/contact but leaves it in source order.
 
-**Verified facts**
+### Current Defense
 
-- Current measurements do not fully observe local contact, articulation, and
-  pose.
-- No single endpoint transformation preserves every support/contact predicate.
-- Applying compatibility to all families can change selections and mask a
-  support/contact regression.
+- richer contact and pose evidence is required;
+- no single endpoint swap preserves every predicate in the family;
+- the ranking rule exactly preserves the support/contact subsequence;
+- Product (all families) demonstrates the effect of changing this scope.
 
-**Current defense**
-
-- Define evaluation and re-ranking scopes separately.
-- Use the exact source-ranking support/contact subsequence in the primary rule.
-- Report Product (all families) as a scope comparison rather than the method.
-- Preserve family-specific metrics and a residual qualitative case in the
-  supplement.
-
-**Residual action**
-
-Richer contact/pose evidence and predicate-specific transformations belong to a
-future method extension.
-
-**Blocked wording**
-
-- support/contact solved;
-- all-family or family-uniform improvement;
-- universal relation re-ranking.
+This is a stated design boundary, not a hidden failure.
 
 ## R4. Novelty Ceiling
 
-**Reviewer attack**
+### Risk
 
-> RelCompat3D is an engineered geometry classifier followed by score
-> multiplication and sorting.
+Product scoring and re-ranking may appear incremental.
 
-**Verified facts**
+### Current Defense
 
-- Linear features and product scoring are simple.
-- Finite transformation averaging is a standard invariance construction.
-- The method does not introduce a new geometry encoder or relation generator.
-- Matched Linear/MLP removals show only a small, estimator-dependent direct
-  effect from the linked pairwise term.
-- Removing transformation averaging changes aggregate metrics little but
-  produces nonzero discrepancies between transformed representations, while
-  the full method makes those discrepancies and transformed top-\(K\)
-  membership differences exactly zero.
-- Five predeclared fits reproduce Linear exactly. One MLP VL-SAT \(K=50\)
-  seed loses one exact-label relation while lowering Violation, so
-  seed-uniform Pareto improvement is not supported.
+The contribution is the relation-consistent reliability framework:
 
-**Current defense**
+- explicit same-pair compatibility task;
+- source-score exclusion;
+- ordered-pair identity;
+- counterfactual construction;
+- exact transformation averaging;
+- family-composition preservation;
+- joint Recall--Violation evaluation.
 
-- Tie the method form directly to the diagnosed score/compatibility mismatch.
-- Present the contribution as one contract combining:
-  source-score exclusion, ordered-pair identity, linked counterfactual learning,
-  exact applicable transformations, and family-aware output preservation.
-- Use Linear and MLP as two estimators within the same framework.
-- Distinguish fixed-output reliability assessment from generator-internal
-  geometry conditioning and declarative constraint refinement.
-
-**Allowed novelty statement**
-
-> RelCompat3D is a factor-separated reliability framework for fixed relation
-> predictions that couples linked counterfactual compatibility learning,
-> exact relation-transformation consistency, and family-scoped re-ranking.
-
-**Blocked wording**
-
-- novel multiplication/fusion rule;
-- novel group-averaging theorem;
-- universal geometry encoder or best rescorer.
+Simple robust-density, rank-fusion, component-removal, and routing controls
+show that the contribution is not only one fusion formula.
 
 ## R5. Comparator Trade-offs
 
-**Reviewer attack**
+### Risk
 
-> If an MLP or rank fusion has better Recall or Violation at some settings, why
-> is the proposed scoring rule necessary?
+No method dominates every metric, predictor, and cutoff.
 
-**Verified facts**
+### Current Defense
 
-- Linear and MLP occupy different Recall--Violation operating points.
-- RankAvg/RRF can lower Violation at some larger $K$ values but lose more Recall
-  at smaller $K$ values.
-- Product (all families) changes the method's family scope.
-- A matched control that keeps support/contact fixed and merges only proximity
-  and vertical order has estimator- and $K$-dependent effects.
-- No ranking rule dominates all predictors and reported $K$ values.
-
-**Current defense**
-
-- Treat Linear and MLP as equal proposed estimators.
-- Match candidate universe and family-aware ranking procedure across
-  comparators.
-- Claim framework-level behavior rather than formula superiority.
-- Describe family slots as a composition-preserving constraint rather than an
-  aggregate-optimal route.
-- Report all five $K$ values and predictor-specific trade-offs.
-
-**Blocked wording**
-
-- consistently dominates;
-- state-of-the-art rescorer;
-- universally superior estimator or fusion.
+The paper reports the trade-offs rather than claiming SOTA. Product is a scope
+comparison. Bold values in Table 1 are restricted to comparable
+composition-preserving methods.
 
 ## R6. Open3DSG Coverage
 
-**Reviewer attack**
+### Risk
 
-> Public Open3DSG preprocessing does not provide candidates for every official
-> context, so the evaluation target may be ambiguous.
+Open3DSG candidate-pool coverage is 79.68%, below the 99.72% of VL-SAT and
+SGFN.
 
-**Verified facts**
+### Current Defense
 
-- The official evaluation universe contains 548 contexts and 3,972 exact-label
-  ground-truth relations.
-- Missing public candidate lists are treated as empty; the GT denominator is
-  retained.
-- Ground-truth availability is not used to include, filter, or rank candidates.
-- Coverage sensitivity is supplemental.
+The supplement reports family-aware, family-count, and unconstrained Recall
+oracles. The paper claims re-ranking of fixed candidates and never claims to
+recover missing relations.
 
-**Current defense**
+## R7. Source-Score Scale
 
-- Describe the full-target empty-list policy in Experimental Setup or the
-  supplement.
-- Keep exact Recall and verifier denominators reproducible.
-- Avoid leaderboard or full-reproduction claims.
+### Risk
 
-**Blocked wording**
+The product utility is not invariant to arbitrary monotonic rescaling.
 
-- complete standard Open3DSG reproduction;
-- official Open3DSG SOTA or leaderboard result.
+### Current Defense
 
-## R7. Selected PDF vs. Consolidated Source
+Five fixed smooth non-identity mappings preserve the source-relative conclusion
+for all Linear cases and all but one MLP comparison. Percentile stress reveals
+small Recall sensitivity without increased Violation. The manuscript avoids
+the term `scale-invariant`.
 
-**Reviewer/administrative attack**
+## R8. Reproducibility and Licensing
 
-> The submitted source may rebuild to a PDF that exceeds the AAAI limit or
-> differs from the selected review PDF.
+### Risk
 
-**Verified facts**
+Full regeneration needs licensed data, third-party predictors, checkpoints,
+and row-level inputs.
 
-- Selected main: `paper/aaai/main_teaser_aaai27.pdf`, 9 pages, SHA-256
-  `ac0313df7248da518488f0f39ab7d6cce42d1ac2cc6d5f234fc2aee4631e588c`.
-- It contains seven technical pages and references on pages 7--9.
-- The freshly consolidated teaser source currently builds to 10 pages and has
-  one 4.43-pt overfull table row.
-- Pre/post section-consolidation PDF text is identical, so file merging did not
-  create the discrepancy.
-- The user has selected the canonical teaser layout and explicitly deferred
-  page compression and overfull repair to the next pass.
+### Current Defense
 
-**Required closure before upload**
+The archive includes executable RelCompat3D code, Docker configuration, frozen
+protocols, model locks, compact outputs, schemas, exporters, and manifests.
+Licensed raw data, stable source identifiers, and source-derived row bundles
+are conservatively excluded.
 
-1. Restore a compliant selected teaser build without margin changes, type
-   reduction, or negative spacing.
-2. Fix the overfull table row.
-3. Rebuild canonical main/supplement/checklist from the consolidated source.
-4. Refresh hashes and regenerate the anonymous source/release bundle.
-5. Verify extracted-source rebuild, pages, fonts, citations, anonymity, and
-   archive integrity.
+Checklist answers remain `partial` where this boundary prevents an
+unrestricted all-in-one release.
 
-**Blocked action**
+## R9. Submission Synchronization
 
-- Uploading the old canonical PDF with a source archive that rebuilds to the
-  10-page variant.
+### Risk
+
+Uploading PDFs or ZIPs built before the latest section edits would create a
+source/artifact mismatch.
+
+### Current State
+
+Closed. The latest Introduction, Discussion, and Conclusion wording is present
+in the 9/10/2-page canonical PDFs and current release. Outer and inner
+manifests, extracted-source builds, text hashes, fonts, anonymity, and page
+boundaries pass.
+
+## R10. Policy and Metadata
+
+### Remaining Author Actions
+
+- document the actual generative-AI role according to AAAI policy;
+- enter and verify author list, order, affiliations, profiles, and conflicts;
+- confirm title, abstract, TL;DR, topics, and reciprocal-review requirements;
+- upload before the deadline and verify every file in OpenReview.
 
 ## Reporting Invariants
 
-- Report every $K\in\{5,10,20,50,100\}$; K=50 is intermediate, not selected.
-- Distinguish point-estimate non-degradation from confidence-interval support.
-- Treat uncertain verifier rows according to the declared denominator and do
-  not call them satisfied.
-- Do not use hard-filter V=0 as primary evidence because it may return fewer
-  than $K$ candidates.
-- Keep Surface/point-mesh values distinct from primary Violation values.
-- Refer to the released SceneGraphFusion model as SGFN after its local
-  definition and citation.
+Always preserve:
 
-## Claim Contract
+- `point estimates` for the all-\(K\) claim;
+- `verifier-derived Violation`;
+- `same 3DSSG validation split`;
+- `shared 3DSSG validation scenes`;
+- `fixed relation predictions`;
+- `support/contact candidates retain source order`;
+- `alternative geometric measurement`, not independent ground truth.
 
-Allowed:
+## Current Recommendation
 
-> Across three relation predictors on one shared 3DSSG target, both RelCompat3D
-> estimators improve or tie the reported Source Recall--Violation point
-> estimates while preserving the source family sequence and support/contact
-> candidate order.
-
-Not allowed:
-
-- independent physical-validity validation;
-- all-relation or support/contact improvement;
-- dataset-level generalization;
-- universal/best fusion;
-- 3D scene graph generation SOTA.
-
-## Submission Gate
-
-Scientific evidence is complete for the scoped claim. Submission readiness is
-blocked only by R7 and external form metadata: author profiles/order,
-affiliations/countries, conflicts, reciprocal-reviewer declaration, final live
-title/abstract/TL;DR/topics, license, and artifact URL.
+Freeze scientific content. Do not add new experiments or broaden claims at
+submission time. Only the policy and submission-metadata gates remain.

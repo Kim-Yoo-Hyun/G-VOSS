@@ -2,44 +2,38 @@
 
 Last updated: 2026-07-28 KST
 
-This directory owns the active RelCompat3D manuscript, supplement, checklist,
-figures, bibliography, and paper-facing planning documents. Experiment runtime
-records belong under `experiments/`, compact evidence under `results/`, and
-paper-writing rules under `docs/paper.md`.
+This directory owns the active RelCompat3D manuscript, technical supplement,
+reproducibility checklist, figures, bibliography, release-facing paper source,
+and paper-planning documents.
 
 ## Current Identity
 
-- Selected title: **RelCompat3D: Predicate–Geometry Compatibility for Re-Ranking
-  3D Scene Graph Relations**.
-- Method: **RelCompat3D**, with Linear and MLP compatibility estimators.
-- Venue source: `paper/aaai/`.
-- Selected main artifact: `paper/aaai/main_teaser_aaai27.pdf`.
-- Main task: predicate–geometry compatibility assessment and family-aware
-  re-ranking of fixed 3D scene graph relation predictions.
-- Main scope: re-rank proximity and vertical-order candidates while retaining
-  support/contact candidates in source order.
+- Title: **RelCompat3D: Re-Ranking 3D Scene Graph Relations with Geometric
+  Evidence**
+- Venue: AAAI-27 Main Technical Track
+- Main method: predicate--geometry compatibility for family-aware re-ranking
+  of fixed 3D scene graph relation predictions
+- Variants: RelCompat3D-Linear and RelCompat3D-MLP
+- Main scope: re-rank proximity and vertical order while retaining
+  support/contact in source order
 
-The selected title is synchronized across the consolidated main source,
-supplement source, paper-facing planning documents, and rebuilt canonical PDFs.
-
-## Active Sources and Artifacts
+## Active Sources
 
 | Role | Path |
 | --- | --- |
-| Selected manuscript source | `aaai/main_teaser.tex` |
-| Alternate layout source | `aaai/main.tex` |
-| Consolidated manuscript sections | `aaai/sec/0_abstract.tex` through `aaai/sec/6_conclusion.tex` |
-| Supplement source | `aaai/supplement.tex` and `aaai/sec/supplement.tex` |
-| Reproducibility checklist | `aaai/reproducibility_checklist_main.tex` |
+| Official main source | `aaai/main.tex` |
+| Main sections | `aaai/sec/0_abstract.tex` through `aaai/sec/6_conclusion.tex` |
+| Technical supplement wrapper | `aaai/supplement.tex` |
+| Technical supplement content | `aaai/sec/supplement.tex` |
+| Checklist wrapper | `aaai/reproducibility_checklist_main.tex` |
+| Checklist content | `aaai/reproducibility_checklist.tex` |
 | Bibliography | `references.bib` |
-| Main figure assets | `aaai/AuthorKit27/Figures/` and `generated/figures/` |
-| Supplement figures | `aaai/supplement_figures/` |
-| User-assembled transcript | `user.tex` |
-| Reviewer checklist | `user_feedback.md` |
+| Main figures | `reference_AAAI/figure/Figure{1,2,3}.pdf` |
+| Supplement figure | `aaai/supplement_figures/qualitative_geometry_panels.png` |
+| Integrated review | `user_feedback.md` |
 
-The current main source has nine total pages with technical content ending on
-page 7. The prior Table 2 horizontal overflow is resolved. The build retains
-one 36.78-pt first-page vertical overfull for the final layout pass.
+`aaai/main_teaser.tex` is a compatibility wrapper and is not the official
+submission entry point.
 
 ## Manuscript Structure
 
@@ -51,43 +45,49 @@ one 36.78-pt first-page vertical overfull for the final layout pass.
 6. Discussion and Limitations
 7. Conclusion
 
-`aaai/sec/old.tex` retains manuscript text that is not part of the active main
-paper. The technical supplement is consolidated in
-`aaai/sec/supplement.tex`.
+The main paper is self-contained. Supplement-only material provides method
+details, diagnostics, sensitivities, intervals, oracles, and reproducibility
+support.
+
+## Terminology
+
+- Use **3DSSG validation split** for the dataset partition.
+- Use **3DSSG validation scenes** for the evaluated reconstructed scenes.
+- Use **shared** only to state that the predictors use the same split,
+  contexts, relation scope, metrics, and \(K\) values.
+- Use **verifier-derived Violation**, not physical-validity accuracy.
 
 ## Figures and Tables
 
-- Figure 1: Open3DSG vertical-order failure and demotion case.
-- Figure 2: predicate/pair-measurement compatibility and family-aware
-  re-ranking overview.
-- Figure 3: Recall–Violation trajectories for Source, RelCompat3D-Linear, and
-  RelCompat3D-MLP over all reported $K$ values.
-- Table 1: shared-target main results.
-- Table 2: Linear controls plus the MLP full-method operating point.
-- Table 3: point- and mesh-based alternative geometric audit.
+- Figure 1: vertical-order failure and demotion.
+- Figure 2: compatibility/re-ranking flow and proximity demotion.
+- Figure 3: Recall--Violation trajectories.
+- Table 1: main comparisons over all \(K\).
+- Table 2: ablations and controls.
+- Table 3: point/mesh consistency audit.
 
-Detailed visual specifications belong in `figures.md`; method and evaluation
-contracts belong in `method.md` and `experiment.md`.
+See `figures.md` for fixed visual values and `experiment.md` for metric and
+comparison contracts.
 
-## Planning File Roles
+## Planning Document Roles
 
-- `preview.md`: current handoff snapshot and selected artifact.
-- `outline.md`: section logic, contributions, and figure/table placement.
-- `method.md`: implementation-faithful method contract.
-- `experiment.md`: datasets, comparison methods, metrics, and evidence scope.
-- `figures.md`: figure intent, source values, coordinates, and caption rules.
-- `progress.md`: completion state and remaining submission work.
-- `risk.md`: active reviewer risks and claim boundaries.
-- `review.md`: consolidated reviewer-style assessment.
-- `appendix.md`: supplement content and provenance details.
-- `supplement.md`: active supplement의 section, table, figure 역할과
-  reviewer-facing 유지 우선순위.
-- `reproducibility.md`: checklist 응답 근거와 제출 artifact의 공개 범위.
-- `user_feedback.md`: numbered revision TODO followed by detailed rationale.
+| File | Owner role |
+| --- | --- |
+| `preview.md` | Current handoff snapshot |
+| `outline.md` | Final story and section map |
+| `method.md` | Implementation-faithful method contract |
+| `experiment.md` | Evaluation contract and evidence map |
+| `figures.md` | Figure intent, values, and caption contract |
+| `appendix.md` | Technical supplement map and provenance boundary |
+| `supplement.md` | Detailed supplement table/figure guide |
+| `reproducibility.md` | Checklist answers and release boundary |
+| `progress.md` | Submission completion state |
+| `review.md` | Final reviewer-style assessment |
+| `risk.md` | Residual scientific and submission risks |
 
 ## Build
 
-Build with the pinned TeX image from the repository root:
+From the repository root:
 
 ```bash
 docker build -f paper/aaai/Dockerfile.tex \
@@ -95,18 +95,21 @@ docker build -f paper/aaai/Dockerfile.tex \
 
 docker run --rm -v "$PWD/paper:/work" -w /work/aaai \
   relcompat3d-aaai27-tex:20260712 \
-  latexmk -pdf -interaction=nonstopmode -halt-on-error main_teaser.tex
+  latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 ```
 
-The synchronized release is
-`../release/relcompat3d_aaai27_openreview_20260728_022521/`. Its PDFs,
-code/data ZIP, manifests, and extracted-source rebuild have been verified. The
-first-page overfull and final submission-system disclosure remain explicit
-author decisions.
+Build `supplement.tex` and `reproducibility_checklist_main.tex` in the same
+image.
+
+## Current Synchronization State
+
+The final canonical set builds to 9/10/2 pages and passes warning, font,
+manifest, anonymity, ZIP, and extracted-source checks. It is synchronized with
+the latest main, supplement, and checklist sources. The current release is
+`../release/relcompat3d_aaai27_openreview_20260728_214915/`.
 
 ## Archive Boundary
 
-Superseded venue routes, non-submission analyses, historical experiments, and
-inactive paper workspaces are preserved in the ignored local archive described
-by `archive/README.md`. They are not part of the active anonymous submission
-tree.
+Historical venue routes, superseded drafts, inactive experiments, raw datasets,
+source-derived rows, model caches, and checkpoints are not part of the active
+anonymous submission tree.

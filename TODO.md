@@ -8,10 +8,8 @@ experiment README and result manifest.
 
 ## Now
 
-- [ ] Resolve the 36.78 pt first-page vertical overfull without changing
-  margins, font size, or using negative vertical spacing.
 - [ ] Complete the required generative-AI role disclosure in the manuscript or
-  submission system according to the actual use.
+  other venue-designated location according to the actual use.
 - [ ] Review the large deletion set and create a clean submission commit.
 
 ## Next
@@ -25,6 +23,12 @@ experiment README and result manifest.
 
 ## Recently Completed
 
+- [x] Switched the submission path to `paper/aaai/main.tex`, restored the
+  official anonymous-author block, removed unused template packages, and
+  resolved the first-page vertical overfull without changing margins or fonts.
+- [x] Removed manual-bold supplementary captions and 7-point interval text,
+  clarified the combined train/development row counts, and clean-built the
+  9/10/2-page main, supplement, and checklist.
 - [x] Corrected the supplement optimizer contract and score-mapping notation,
   added body references for every supplementary table, and fixed the Open3DSG
   bibliography title.
@@ -32,9 +36,10 @@ experiment README and result manifest.
   image, refreshed all canonical PDFs, and independently rebuilt the LaTeX
   sources extracted from the code/data ZIP.
 - [x] Regenerated and verified the synchronized release at
-  `release/relcompat3d_aaai27_openreview_20260728_022521/`. The outer manifest,
+  `release/relcompat3d_aaai27_openreview_20260728_214915/`. The outer manifest,
   internal ZIP manifest, JSON, Python, Compose, anonymity, page-count, font, and
-  filename checks pass.
+  filename checks pass. The bundle conservatively excludes stable source
+  identifiers and source-derived row bundles.
 - [x] Exported a pseudonymized 601,140-candidate row bundle from hash-locked
   licensed inputs and reproduced all 291 canonical cells in Tables 1--3 and
   Figure 3 data with maximum absolute error zero.
@@ -85,7 +90,7 @@ experiment README and result manifest.
 - [x] Standardized the active repository identifier and paths on
   `RelCompat3D`/`relcompat3d`, then refreshed dependent checksum locks and
   validated the renamed public tree.
-- [x] Selected paper/aaai/main_teaser_aaai27.pdf as the main manuscript
+- [x] Selected paper/aaai/main_aaai27.pdf as the main manuscript
   artifact.
 - [x] Consolidated the manuscript section sources and current paper planning
   documents.

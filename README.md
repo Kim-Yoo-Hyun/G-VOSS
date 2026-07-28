@@ -2,8 +2,7 @@
 
 This repository contains the anonymous submission source, compact experiment
 evidence, and Docker entry points for RelCompat3D. The selected submission title
-is “RelCompat3D: Predicate–Geometry Compatibility for Re-Ranking 3D Scene Graph
-Relations.”
+is “RelCompat3D: Re-Ranking 3D Scene Graph Relations with Geometric Evidence.”
 
 RelCompat3D estimates predicate–geometry compatibility without using predictor
 identity or the source relation score. It combines compatibility with the fixed
@@ -56,8 +55,8 @@ paper/risk.md for manuscript-facing risks.
 
 | Role | Path |
 | --- | --- |
-| Selected manuscript | paper/aaai/main_teaser_aaai27.pdf |
-| Manuscript source | paper/aaai/main_teaser.tex |
+| Selected manuscript | paper/aaai/main_aaai27.pdf |
+| Manuscript source | paper/aaai/main.tex |
 | Supplement source | paper/aaai/supplement.tex |
 | Active method lock | experiments/RelCompat3D_geom_reliability/active_method.json |
 | Active experiment | experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/ |
@@ -110,13 +109,12 @@ docker build -f paper/aaai/Dockerfile.tex \
 
 docker run --rm -v "$PWD/paper:/work" -w /work/aaai \
   relcompat3d-aaai27-tex:20260712 \
-  latexmk -pdf -interaction=nonstopmode -halt-on-error main_teaser.tex
+  latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 ~~~
 
 The current source builds to nine US-Letter pages. Technical content ends and
 the references begin on page 7; the references continue on pages 8--9. The
-prior horizontal overflow is resolved. One 36.77646 pt first-page vertical
-overfull remains before final upload.
+prior horizontal overflow and first-page vertical overfull are resolved.
 
 ## Artifact Policy
 
@@ -127,7 +125,6 @@ ignored. Restoring or deleting those materials must follow
 docs/reproducibility.md.
 
 The latest synchronized candidate bundle is staged locally at
-`release/relcompat3d_aaai27_openreview_20260728_022521/`. Its main,
+`release/relcompat3d_aaai27_openreview_20260728_214915/`. Its main,
 supplement, checklist, code/data ZIP, and manifests have passed the release
-verification described in `docs/reproducibility.md`. The first-page vertical
-overfull remains a known deferred layout warning.
+verification described in `docs/reproducibility.md`.

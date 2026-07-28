@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import shutil
 import tempfile
 import zipfile
@@ -13,17 +14,34 @@ from datetime import datetime
 from pathlib import Path
 
 
-TITLE = (
-    "RelCompat3D: Predicate--Geometry Compatibility for Re-Ranking "
-    "3D Scene Graph Relations"
-)
+TITLE = "RelCompat3D: Re-Ranking 3D Scene Graph Relations with Geometric Evidence"
 TLDR = (
-    "RelCompat3D learns predicate--geometry compatibility for family-aware "
-    "re-ranking of fixed 3D scene graph predictions, yielding point estimates "
-    "with non-decreasing Recall and non-increasing verifier-derived Violation "
-    "across three predictors."
+    "RelCompat3D uses geometric compatibility to re-rank fixed 3D scene graph "
+    "relations, improving their Recall--Violation trade-off across three "
+    "predictors."
 )
 ARCHIVE_ROOT = "relcompat3d_code_data"
+SOURCE_DERIVED_ID_FILES = (
+    "experiments/RelCompat3D_geom_reliability/"
+    "factor_isolation_protocol/frozen_v1/manifest.json",
+    "experiments/RelCompat3D_geom_reliability/"
+    "no_family_indicator_v1/evaluation/counterfactual_sensitivity/summary.json",
+    "experiments/RelCompat3D_geom_reliability/"
+    "no_family_indicator_v1/evaluation/mlp_surface_audit/mechanism_rows.csv",
+    "experiments/RelCompat3D_geom_reliability/"
+    "no_family_indicator_v1/evaluation/surface_audit/mechanism_rows.csv",
+    "experiments/RelCompat3D_geom_reliability/"
+    "train_only_reestablishment_v1/splits/final_validation_scans.txt",
+    "experiments/RelCompat3D_geom_reliability/"
+    "train_only_reestablishment_v1/splits/internal_dev_scans.txt",
+    "experiments/RelCompat3D_geom_reliability/"
+    "train_only_reestablishment_v1/splits/method_development_scans.txt",
+    "experiments/RelCompat3D_geom_reliability/"
+    "train_only_reestablishment_v1/splits/train_scans.txt",
+)
+STABLE_ID_PATTERN = re.compile(
+    r"\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b"
+)
 
 
 def sha256(path: Path) -> str:
@@ -79,7 +97,7 @@ def generated_readme() -> str:
 
 This anonymous archive accompanies the AAAI-27 submission:
 
-`RelCompat3D: Predicate--Geometry Compatibility for Re-Ranking 3D Scene Graph Relations`
+`RelCompat3D: Re-Ranking 3D Scene Graph Relations with Geometric Evidence`
 
 It contains the current executable method code, Docker configuration, frozen
 protocols and model locks, compact evaluation summaries, and the exact LaTeX
@@ -105,10 +123,11 @@ sources and figures used for the main paper and technical supplement.
 
 The archive supports source inspection, JSON/CSV validation, model-lock
 verification, Python compilation, Docker configuration validation, and paper
-rebuilding. Raw 3RScan/3DSSG data, source-predictor checkpoints, feature caches,
-and row-level prediction/geometry payloads are not redistributed. Those
-external inputs are required for full source inference and raw metric
-regeneration, as documented in `REPRODUCIBILITY.md`.
+rebuilding. Raw 3RScan/3DSSG data, stable source identifiers, source-derived
+row bundles, source-predictor checkpoints, feature caches, and row-level
+prediction/geometry payloads are not redistributed. Those external inputs are
+required for full source inference and raw metric regeneration, as documented
+in `REPRODUCIBILITY.md`.
 
 No author identities, private repository links, or historical development
 artifacts are included.
@@ -139,7 +158,7 @@ Generated from the current anonymous source on {timestamp} KST.
 ## Claim Boundary
 
 The paper reports scoped reliability evidence across three fixed predictors on
-one shared 3DSSG validation target. It does not claim dataset-level
+the shared 3DSSG validation scenes. It does not claim dataset-level
 generalization, universal fusion optimality, or independent physical-validity
 ground truth. The point- and mesh-based audit is an alternative geometric
 measurement, not an independently annotated validity benchmark.
@@ -149,7 +168,7 @@ measurement, not an independently annotated validity benchmark.
 - Enter and verify the complete author list, order, profiles, affiliations, and
   conflicts in the submission system.
 - Verify the live title, abstract, TL;DR, topics, reciprocal reviewer, and
-  generative-AI disclosure fields.
+  generative-AI disclosure and any required manuscript statement.
 - Confirm that no concurrent submission violates the AAAI multiple-submission
   policy.
 """
@@ -172,9 +191,8 @@ Upload each file to its matching field:
 `MANIFEST.sha256`.
 
 Pre-flight status: the documents build without undefined citations,
-references, or fatal LaTeX errors. The current main paper retains a known
-first-page vertical overfull of 36.77646 pt. The author must also complete any
-required generative-AI disclosure in the submission system before upload.
+references, or fatal LaTeX errors. The author must complete the required
+generative-AI role documentation before upload.
 """
 
 
@@ -209,7 +227,7 @@ def build(args: argparse.Namespace) -> Path:
     release.mkdir(parents=True)
 
     pdf_inputs = {
-        "main.pdf": build_root / "main/main_teaser.pdf",
+        "main.pdf": build_root / "main/main.pdf",
         "technical_supplement.pdf": build_root / "supplement/supplement.pdf",
         "reproducibility_checklist.pdf": (
             build_root / "reproducibility/reproducibility_checklist_main.pdf"
@@ -264,6 +282,33 @@ def build(args: argparse.Namespace) -> Path:
         )
         copy_tree(repo, staging, "results/relcompat3d_geom_reliability")
 
+        # The upstream dataset terms do not explicitly authorize redistribution
+        # of source-derived rows or stable scan/object identifiers. Keep the
+        # anonymous archive on the conservative side of that boundary.
+        for relative in SOURCE_DERIVED_ID_FILES:
+            path = staging / relative
+            if path.is_file():
+                path.unlink()
+
+        for root_name in ("experiments", "results"):
+            root = staging / root_name
+            for path in root.rglob("*"):
+                if not path.is_file() or path.suffix not in {
+                    ".csv",
+                    ".json",
+                    ".jsonl",
+                    ".md",
+                    ".txt",
+                    ".yaml",
+                    ".yml",
+                }:
+                    continue
+                text = path.read_text(encoding="utf-8", errors="ignore")
+                if STABLE_ID_PATTERN.search(text):
+                    raise RuntimeError(
+                        f"stable source identifier remains in release: {path}"
+                    )
+
         active_method_path = (
             repo / "experiments/RelCompat3D_geom_reliability/active_method.json"
         )
@@ -291,7 +336,6 @@ def build(args: argparse.Namespace) -> Path:
             "paper/aaai/aaai2027.bst",
             "paper/aaai/aaai2027.sty",
             "paper/aaai/main.tex",
-            "paper/aaai/main_teaser.tex",
             "paper/aaai/preamble.tex",
             "paper/aaai/supplement.tex",
             "paper/aaai/reproducibility_checklist.tex",
@@ -305,9 +349,9 @@ def build(args: argparse.Namespace) -> Path:
             "paper/aaai/sec/6_conclusion.tex",
             "paper/aaai/sec/supplement.tex",
             "paper/aaai/supplement_figures/qualitative_geometry_panels.png",
-            "paper/reference_AAAI/figure/Figure1_outlined_v15.pdf",
-            "paper/reference_AAAI/figure/Figure2_outlined_v15.pdf",
-            "paper/reference_AAAI/figure/Figure3_outlined_v15.pdf",
+            "paper/reference_AAAI/figure/Figure1.pdf",
+            "paper/reference_AAAI/figure/Figure2.pdf",
+            "paper/reference_AAAI/figure/Figure3.pdf",
         ]
         for relative in paper_files:
             copy_file(repo, staging, relative)

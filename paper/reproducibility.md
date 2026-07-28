@@ -1,6 +1,6 @@
 # RelCompat3D Reproducibility Checklist Plan
 
-Last updated: 2026-07-27 KST
+Last updated: 2026-07-28 KST
 
 ## 1. Venue Format
 
@@ -216,7 +216,11 @@ checklist PDF.
 17. **Public availability of all existing datasets: `partial`.** The datasets
     and source models are obtainable through their providers, but some require
     provider-controlled access or acceptance of external terms. The submission
-    does not redistribute licensed scans, meshes, or third-party checkpoints.
+    does not redistribute licensed scans, meshes, RGB-D data, stable source
+    identifiers, source-derived row bundles, or third-party checkpoints. It
+    provides code, schemas, aggregate outputs, expected manifests, and
+    deterministic exporters for use after obtaining the original datasets
+    under their terms.
 18. **Description of data that are not freely redistributable: `partial`.**
     The main paper and supplement report the split roles and sizes, relation
     scope, source dependencies, evaluation mapping, and Open3DSG coverage
@@ -292,11 +296,13 @@ checklist PDF.
 - Canonical submission PDF:
   `paper/aaai/reproducibility_checklist_aaai27.pdf`
 - Canonical PDF SHA256:
-  `d929e8b5dc38e32bc1e92c498ae7d41a7699d37f4aaf80027152117e8f6bb270`
+  `73aff98a0f1f876031fabf9352e86618c9fed085e3832fd1d9a6213c6ba07068`
 - Current release:
-  `release/relcompat3d_aaai27_openreview_20260728_022521/`
+  `release/relcompat3d_aaai27_openreview_20260728_214915/`
+- Current code/data ZIP:
+  `release/relcompat3d_aaai27_openreview_20260728_214915/code_and_data_supplement.zip`
 - Current code/data ZIP SHA256:
-  `a8044cba4fbe7a74a1b897a68050873f753ff65455068cadb04c74403a4da2a6`
+  `d136ea9e63abe5608458dba79c9b4f9f9f4cdc98be288589f9708f16c097e15b`
 
 The clean Docker build was verified on 2026-07-28 KST. The checklist is a
 two-page US Letter PDF using PDF 1.5. It has no unresolved references,

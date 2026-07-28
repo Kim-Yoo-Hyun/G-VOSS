@@ -53,9 +53,9 @@
     "claim": "budget-dependent transfer stress test; not evidence of established dataset-level generalization"
   },
   "paper_release": {
-    "selected_main": "paper/aaai/main_teaser_aaai27.pdf",
-    "bundle": "release/relcompat3d_aaai27_openreview_20260728_022521",
-    "upload_manifest": "release/relcompat3d_aaai27_openreview_20260728_022521/UPLOAD_MANIFEST.sha256"
+    "selected_main": "paper/aaai/main_aaai27.pdf",
+    "bundle": "release/relcompat3d_aaai27_openreview_20260728_214915",
+    "upload_manifest": "release/relcompat3d_aaai27_openreview_20260728_214915/UPLOAD_MANIFEST.sha256"
   },
   "historical_predecessor": {
     "root": "archive/local/pre_submission_20260722",

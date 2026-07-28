@@ -2,8 +2,8 @@
 
 Last updated: 2026-07-27 KST
 
-This directory contains the active AAAI-27 source, an optional two-figure teaser
-variant, and the canonical review PDFs. Superseded manuscript snapshots, the
+This directory contains the active AAAI-27 source and canonical review PDFs.
+Superseded manuscript snapshots, the
 AAAI-26 style, and historical inspection notes live under
 `archive/paper/aaai_snapshots/`.
 
@@ -12,7 +12,7 @@ AAAI-26 style, and historical inspection notes live under
 | Path | Role |
 | --- | --- |
 | `main.tex`, `preamble.tex`, `sec/{0_abstract,1_introduction,2_related_work,3_method,4_experiments,5_discussion_limitations,6_conclusion}.tex` | active anonymous main-paper source in manuscript order |
-| `main_teaser.tex` | optional variant that shares `main.tex` and adds the source-backed demotion before the method overview |
+| `main_teaser.tex` | compatibility wrapper retained outside the current upload path |
 | `supplement.tex`, `sec/supplement.tex` | active method details and supplementary experiments, including matched-estimator, score-mapping, simple-baseline, routing, construct-dependence, point/mesh, uncertainty, and provenance evidence |
 | `sec/old.tex` | inactive material retained outside the main and supplement builds |
 | `reproducibility_checklist_main.tex`, `reproducibility_checklist.tex` | standalone checklist source |
@@ -20,7 +20,6 @@ AAAI-26 style, and historical inspection notes live under
 | `official/` | preserved official anonymous and checklist templates |
 | `Dockerfile.tex` | pinned paper-build environment |
 | `main_aaai27.pdf` | canonical main-paper review PDF |
-| `main_teaser_aaai27.pdf` | selected two-figure teaser upload layout; canonical review PDF |
 | `supplement_aaai27.pdf` | canonical technical-supplement PDF |
 | `reproducibility_checklist_aaai27.pdf` | canonical checklist PDF |
 
@@ -46,23 +45,18 @@ are consolidated in Discussion and Limitations.
 
 ## Verified Outputs
 
-- `main_aaai27.pdf`: 9 US-Letter pages in the alternate main layout; SHA256
-  `26a5f14a0eafffd1900784a041235d06c84c0aa5851502c2eb3ecb0716977d88`.
-- `main_teaser_aaai27.pdf`: 9 US-Letter pages with the one-column demotion
-  figure on page 1; technical content and all main figures/tables end on page 7,
-  and references continue on pages 8--9; SHA256
-  `ddaa71272112dfd231745bf8125b9daf22c7a4c65e245583e4f0630b53919d70`.
+- `main_aaai27.pdf`: 9 US-Letter pages; SHA256
+  `f0a3c6ab9810e58eb7e1cab6f61989eac6f4fcedca7b00ae68e2a6e001cc8cdf`.
 - `supplement_aaai27.pdf`: 10 US-Letter pages; SHA256
-  `8c718bb50eea9d8665f0e198661e1fc41213e4323ee3205b7272c9524bf2b5a5`.
+  `2785ba776d587fb9d38fba2cc652dfe6a99359470a2824c436229da5c687d760`.
 - `reproducibility_checklist_aaai27.pdf`: 2 US-Letter pages; SHA256
-  `d929e8b5dc38e32bc1e92c498ae7d41a7699d37f4aaf80027152117e8f6bb270`.
+  `f712082e0709572f82be637bd962bf438580d3145ce60d7c7650bb38a5611939`.
 
-All four canonical PDFs were rebuilt from current source in the pinned Docker
+All three submission PDFs were rebuilt from current source in the pinned Docker
 image on 2026-07-28 KST. The main log has no undefined citation/reference,
-BibTeX warning, graphics inclusion warning, or horizontal overfull. It retains
-one first-page vertical overfull of 36.77646 pt.
+BibTeX warning, graphics inclusion warning, or overfull box.
 
-All four canonical files have zero Type 3 and CID/Identity-H fonts. The current
+All three canonical files have zero Type 3 and CID/Identity-H fonts. The current
 10-page supplement has no unresolved references or LaTeX/overfull warnings.
 It includes matched Linear/MLP component diagnostics and five predeclared
 fitting executions without changing the active method.
@@ -116,7 +110,7 @@ pair--evidence--outcome grid is
 supplemental. Figures use Helvetica-compatible TeX Gyre Heros source text,
 white backgrounds, and restrained colorblind-safe accents. Table 1 appears
 before its quantitative interpretation and jointly reports percentage
-Recall/Violation at all five \(K\) values. In the selected teaser layout, the
+Recall/Violation at all five \(K\) values. In the selected main layout, the
 one-column matched-control Table 2 and compact \(K=50\) point- and mesh-based
 audit Table 3
 appear side by side at the top of page 7. Table 3 reports Source,
@@ -132,14 +126,13 @@ mandatory adjudication, and verifier comparison exist
 only in `paper/paper_nonsub/` and must not enter the submission bundle unless a
 later explicit reporting decision follows external verification.
 
-The selected teaser manuscript places the one-column, source-backed demotion on
+The selected main manuscript places the one-column, source-backed demotion on
 the first page: the violated `desk higher than ceiling` relation moves from
 rank 6 to 425. The full-width method overview is Figure 2, and aggregate
 results remain in Table 1 and Figure 3. To keep the seven-page body limit
-without reducing fonts, both main variants place the three-case qualitative
-grid in the supplement. The current source retains the first-page vertical
-overfull for the final layout pass, following the user's explicit decision to
-keep Figure 1 on the first page.
+without reducing fonts, the three-case qualitative grid remains in the
+supplement. Figure 1 stays on the first page and the current build has no
+overfull boxes.
 
 Main Table 1 includes `RelCompat3D-Linear` and `RelCompat3D-MLP` as two proposed
 compatibility estimators under the same framework. RankAvg and RRF are matched
@@ -199,9 +192,6 @@ docker run --rm -v "$PWD/paper:/work" -w /work/aaai \
   latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 docker run --rm -v "$PWD/paper:/work" -w /work/aaai \
   relcompat3d-aaai27-tex:20260712 \
-  latexmk -pdf -interaction=nonstopmode -halt-on-error main_teaser.tex
-docker run --rm -v "$PWD/paper:/work" -w /work/aaai \
-  relcompat3d-aaai27-tex:20260712 \
   latexmk -pdf -interaction=nonstopmode -halt-on-error supplement.tex
 docker run --rm -v "$PWD/paper:/work" -w /work/aaai \
   relcompat3d-aaai27-tex:20260712 \
@@ -215,7 +205,7 @@ with identical hashes in this directory.
 
 ## Submission Bundle
 
-The upload bundle must contain one selected main-paper PDF (default or teaser),
+The upload bundle must contain the selected main-paper PDF,
 the supplement, the checklist, and a
 focused anonymous code/data ZIP generated from `no_family_indicator_v1/`,
 its strict split/model/score locks, the compact final
@@ -223,12 +213,11 @@ ReplicaSSG protocol/evaluation summary, the feature-removal analysis,
 active figure sources, and current manuscript source. Historical Codex-proxy, ReplicaSSG development branches,
 Qwen-VL, and superseded manuscript material are excluded from this bundle.
 The latest synchronized upload candidate is
-`release/relcompat3d_aaai27_openreview_20260728_022521/`. It selects the teaser
-layout and includes the promoted `no_family_indicator_v1` source, locks, compact
+`release/relcompat3d_aaai27_openreview_20260728_214915/`. It selects
+`main.tex` and includes the promoted `no_family_indicator_v1` source, locks, compact
 results, current 10-page supplement, and current checklist. The outer and inner
 manifests, ZIP integrity, extracted-source build, page counts, fonts, anonymity,
-and canonical PDF hashes pass. Its main PDF retains the known first-page
-vertical overfull.
+and canonical PDF hashes pass.
 
 AAAI-27 policy lock: at most 7 technical pages and 9 total pages; content after
 the technical limit is references only. The checklist is uploaded separately. Supplementary

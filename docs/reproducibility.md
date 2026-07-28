@@ -41,8 +41,8 @@ paths below instead of rewriting a preserved snapshot in place.
 
 | Role | Path |
 | --- | --- |
-| selected manuscript PDF | paper/aaai/main_teaser_aaai27.pdf |
-| selected manuscript source | paper/aaai/main_teaser.tex |
+| selected manuscript PDF | paper/aaai/main_aaai27.pdf |
+| selected manuscript source | paper/aaai/main.tex |
 | supplement source | paper/aaai/supplement.tex |
 | checklist source | paper/aaai/reproducibility_checklist_main.tex |
 | active method pointer | experiments/RelCompat3D_geom_reliability/active_method.json |
@@ -65,17 +65,16 @@ paths below instead of rewriting a preserved snapshot in place.
 
 The current source builds to nine US-Letter pages. Technical content ends and
 the references begin on page 7; the references continue on pages 8--9. The
-prior Table 2 horizontal overflow is resolved. One 36.77646 pt first-page
-vertical overfull remains as a user-accepted known warning. The synchronized
-release below is technically verified. Submission-system disclosure checks
-remain author-owned.
+prior Table 2 horizontal overflow and first-page vertical overfull are
+resolved. The synchronized release below is technically verified. The
+generative-AI role disclosure remains author-owned.
 
 The selected main, supplement, and checklist build to 9, 10, and 2 US-Letter
 pages, respectively. Their canonical SHA-256 values are:
 
-- main: `ddaa71272112dfd231745bf8125b9daf22c7a4c65e245583e4f0630b53919d70`
-- supplement: `8c718bb50eea9d8665f0e198661e1fc41213e4323ee3205b7272c9524bf2b5a5`
-- checklist: `d929e8b5dc38e32bc1e92c498ae7d41a7699d37f4aaf80027152117e8f6bb270`
+- main: `f0a3c6ab9810e58eb7e1cab6f61989eac6f4fcedca7b00ae68e2a6e001cc8cdf`
+- supplement: `2785ba776d587fb9d38fba2cc652dfe6a99359470a2824c436229da5c687d760`
+- checklist: `f712082e0709572f82be637bd962bf438580d3145ce60d7c7650bb38a5611939`
 
 The final logs have no unresolved citations or references, BibTeX warnings,
 graphics inclusion warnings, or horizontal overfull boxes. The supplement and
@@ -332,7 +331,7 @@ docker build -f paper/aaai/Dockerfile.tex \
 docker run --rm -u "$(id -u):$(id -g)" \
   -v "$PWD:/workspace" -w /workspace/paper/aaai \
   relcompat3d-aaai27-tex:20260712 \
-  latexmk -pdf -interaction=nonstopmode -halt-on-error main_teaser.tex
+  latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 
 docker run --rm -u "$(id -u):$(id -g)" \
   -v "$PWD:/workspace" -w /workspace/paper/aaai \
@@ -347,7 +346,7 @@ anonymous metadata, and overfull warnings.
 
 The current ignored local candidate bundle is:
 
-release/relcompat3d_aaai27_openreview_20260728_022521/
+release/relcompat3d_aaai27_openreview_20260728_214915/
 
 It is regenerated from the current main, supplement, checklist, active figure
 assets, method locks, source allowlist, and compact results. Build it after
@@ -356,7 +355,7 @@ fresh Docker compilation with:
 ~~~bash
 python scripts/build_release_bundle.py \
   --build-root /tmp/relcompat3d_release_build \
-  --timestamp 20260728_022521
+  --timestamp 20260728_214915
 ~~~
 
 The release verification covers:
@@ -370,10 +369,10 @@ The release verification covers:
 - PDF page size, page allocation, fonts, links, and LaTeX warnings.
 
 The release is the latest synchronized upload candidate. The code/data ZIP
-contains 221 files. Its exact SHA-256 is recorded by the adjacent
+contains 212 files. Its exact SHA-256 is recorded by the adjacent
 `UPLOAD_MANIFEST.sha256`, which is the authoritative release checksum.
-The main PDF still has the user-accepted first-page vertical overfull recorded
-above.
+Stable source identifiers and source-derived row bundles are excluded because
+the upstream terms do not explicitly authorize their redistribution.
 
 ## 10. Local Archive
 

@@ -3,7 +3,7 @@
 Last updated: 2026-07-23 KST
 
 > **Submission snapshot.** RelCompat3D/RelCompat3D is the only active manuscript in
-> the compact public repository, with `paper/aaai/main_teaser_aaai27.pdf`
+> the compact public repository, with `paper/aaai/main_aaai27.pdf`
 > selected as the submission candidate. Historical H002 material is locally
 > archived under `archive/local/pre_submission_20260722/` and is not an active
 > paper claim. The H002 rules retained below are archival guidance only.
@@ -355,7 +355,7 @@ Current paper-facing evaluation direction:
   explicitly promoted.
 - Active target-year build uses official `aaai2027` source. Outputs are
   `paper/aaai/main_aaai27.pdf` and the optional
-  `paper/aaai/main_teaser_aaai27.pdf` comparison (both 9 pages with technical
+  `paper/aaai/main_aaai27.pdf` comparison (both 9 pages with technical
   content ending on page 7), `paper/aaai/supplement_aaai27.pdf` (19 pages), and
   `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Final main log:
   `logs/20260718_figure_refine_final_main.log`. The current verified

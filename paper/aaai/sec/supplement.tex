@@ -50,7 +50,7 @@ Open3DSG uses the official non-averaged BLIP checkpoint
 losses.
 Public preprocessing produces candidates for 533 of the 548 contexts. The main
 evaluation retains all 548 contexts and treats the 15 contexts without
-candidates as empty sets. An eligible-context sensitivity analysis contains
+candidates as empty sets. An eligible-context sensitivity analysis uses
 3,899 relations. A separate recovery covers all 548 contexts by lowering the
 minimum number of visible objects to two and regenerating views for two scans.
 
@@ -198,11 +198,12 @@ physical-validity ground truth.}
 \label{tab:construct-dependence}
 \end{table*}
 
-At most two negatives are generated per positive, 200 per context--family, and
-three times the number of positives per family. These caps limit repeated easy
-negatives but do not equalize family counts. The training set contains 28,977
-positives and 37,477 negatives. Total rows by family are 23,008 proximity,
-5,488 vertical, and 37,958 support/contact. The explicit overlap above is why
+We cap negatives at two per positive, 200 per context--family, and three times
+the number of positives per family. These caps limit repeated easy
+negatives but do not equalize family counts. The constructed training and
+internal-development sets together contain 28,977 positives and 37,477
+negatives. Their combined family totals are 23,008 proximity, 5,488 vertical,
+and 37,958 support/contact rows. The explicit overlap above is why
 Violation computed by the rule-based geometry verifier is reported as a
 verifier-derived measure rather than independent physical-validity ground
 truth. The feature-removal analysis tests this dependence but does not
@@ -266,8 +267,8 @@ point- and mesh-based verifier statuses. Original scan and instance identifiers,
 categories, and raw geometric measurements are excluded. From these rows, one
 Docker command regenerates Tables~1--3 and the data for Figure~3. It also
 creates a verification rendering and compares every cell with the reported paper
-values. The completed run checks 291 cells with zero maximum absolute error at
-tolerance \(10^{-12}\). The anonymous code package includes the exporter,
+values. The completed run checks 291 cells. The maximum absolute error is zero
+under the \(10^{-12}\) tolerance. The anonymous code package includes the exporter,
 reproduction script, schema, compact outputs, and hash manifests. Distribution
 of the derived rows depends on the dataset terms. The same rows can instead be
 regenerated from licensed external inputs.
@@ -487,7 +488,7 @@ Predictor & Ranking & \(K=5\) & \(K=10\) & \(K=20\) & \(K=50\) & \(K=100\) \\
 \bottomrule
 \end{tabular}
 }
-\caption{\textbf{Point- and mesh-based consistency audit.}
+\caption{Point- and mesh-based consistency audit.
 Agreement-based Violation (\%, $\downarrow$) on the shared 3DSSG validation
 target. A satisfied or violated label requires agreement between the point- and
 mesh-based measurements.}
@@ -519,7 +520,7 @@ direct exchange with the vertical-order candidate, because the two candidates
 belong to different relation families.
 
 Figure~\ref{fig:supp-qualitative} links each ordered-pair projection to the
-measured evidence and ranking outcome. The proximity and vertical examples are
+measured evidence and ranking outcome. The proximity and vertical-order examples are
 demoted by both compatibility estimators. The support/contact example is retained in
 source order because that family is outside the re-ranking scope.
 
@@ -730,7 +731,7 @@ Predictor & Condition & R@50 & V@50 & R@100 & V@100 \\
 \bottomrule
 \end{tabular}
 }
-\caption{\textbf{Matched controls for RelCompat3D-MLP.}
+\caption{Matched controls for RelCompat3D-MLP.
 Recall (R, \(\uparrow\)) and verifier-derived Violation (V, \(\downarrow\)) on
 the shared 3DSSG validation target. All values are percentages. Main Table~2
 reports the corresponding Linear controls.}
@@ -851,7 +852,7 @@ SGFN     & 99.72 & 74.02 & 74.57 & 86.05 & 88.07 & 99.72 & 98.49 \\
 \bottomrule
 \end{tabular}
 }
-\caption{\textbf{Candidate-pool Recall upper bounds.}
+\caption{Candidate-pool Recall upper bounds.
 Exact-match Recall (\%) on the shared 3DSSG validation target. Pool cov. is the
 fraction of ground-truth relations present in the fixed candidate pool. Best is
 the better active RelCompat3D variant at \(K=50\).}
@@ -881,24 +882,24 @@ main-paper interval interpretation.
 Estimator & Predictor & $\Delta$R@50 & $\Delta$V@50 \\
 \midrule
 \multirow{3}{*}{Linear}
-& VL-SAT   & \shortstack{$+0.05$\\{\scriptsize [$-0.05,+0.18$]}} &
-              \shortstack{$-0.70$\\{\scriptsize [$-0.88,-0.55$]}} \\
-& Open3DSG & \shortstack{$+3.75$\\{\scriptsize [$+2.96,+4.50$]}} &
-              \shortstack{$-10.45$\\{\scriptsize [$-11.06,-9.86$]}} \\
-& SGFN     & \shortstack{$+0.48$\\{\scriptsize [$+0.29,+0.69$]}} &
-              \shortstack{$-1.22$\\{\scriptsize [$-1.44,-1.01$]}} \\
+& VL-SAT   & \shortstack{$+0.05$\\{[$-0.05,+0.18$]}} &
+              \shortstack{$-0.70$\\{[$-0.88,-0.55$]}} \\
+& Open3DSG & \shortstack{$+3.75$\\{[$+2.96,+4.50$]}} &
+              \shortstack{$-10.45$\\{[$-11.06,-9.86$]}} \\
+& SGFN     & \shortstack{$+0.48$\\{[$+0.29,+0.69$]}} &
+              \shortstack{$-1.22$\\{[$-1.44,-1.01$]}} \\
 \midrule
 \multirow{3}{*}{MLP}
-& VL-SAT   & \shortstack{$0.00$\\{\scriptsize [$-0.10,+0.10$]}} &
-              \shortstack{$-0.79$\\{\scriptsize [$-0.98,-0.62$]}} \\
-& Open3DSG & \shortstack{$+6.27$\\{\scriptsize [$+5.02,+7.49$]}} &
-              \shortstack{$-9.74$\\{\scriptsize [$-10.31,-9.13$]}} \\
-& SGFN     & \shortstack{$+0.55$\\{\scriptsize [$+0.32,+0.81$]}} &
-              \shortstack{$-1.27$\\{\scriptsize [$-1.51,-1.06$]}} \\
+& VL-SAT   & \shortstack{$0.00$\\{[$-0.10,+0.10$]}} &
+              \shortstack{$-0.79$\\{[$-0.98,-0.62$]}} \\
+& Open3DSG & \shortstack{$+6.27$\\{[$+5.02,+7.49$]}} &
+              \shortstack{$-9.74$\\{[$-10.31,-9.13$]}} \\
+& SGFN     & \shortstack{$+0.55$\\{[$+0.32,+0.81$]}} &
+              \shortstack{$-1.27$\\{[$-1.51,-1.06$]}} \\
 \bottomrule
 \end{tabular}
 }
-\caption{\textbf{Paired scan-level changes at \(K=50\).}
+\caption{Paired scan-level changes at \(K=50\).
 Each cell reports the RelCompat3D-minus-Source change and its paired 95\%
 interval in percentage points. Positive Recall and negative Violation changes
 are favorable.}
@@ -987,8 +988,8 @@ Positive $\Delta V$ is a regression. \(V\) is verifier-derived Violation.}
 \label{tab:family-slices}
 \end{table}
 
-Support/contact is exactly unchanged because the ranking procedure preserves both its
-selection and the source family sequence at every $K$. Vertical
+Support/contact is exactly unchanged because the ranking procedure preserves its
+selected subsequence and the source family-label sequence at every $K$. Vertical
 order drives most of the aggregate reduction. The result is consequently a
 scoped improvement, not a uniform family claim. The same
 direction holds across the reported \(K\) values. Full machine-readable family

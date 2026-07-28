@@ -124,20 +124,20 @@ results/relcompat3d_geom_reliability/manifest.json.
 
 ## Manuscript State
 
-The selected source is paper/aaai/main_teaser.tex. A fresh Docker build is nine
+The selected source is paper/aaai/main.tex. A fresh Docker build is nine
 pages. Technical content ends and the references begin on page 7; references
-continue on pages 8--9. The prior horizontal overflow is resolved. One
-36.77646 pt first-page vertical overfull remains.
+continue on pages 8--9. The prior horizontal overflow and first-page vertical
+overfull are resolved.
 
 The latest synchronized candidate release is
-release/relcompat3d_aaai27_openreview_20260727_104527/. It is regenerated from
+release/relcompat3d_aaai27_openreview_20260728_214915/. It is regenerated from
 the current manuscript, supplement, checklist, figures, method locks, source,
 and compact evidence and is held as a candidate until the remaining layout and
 submission-system disclosure checks are resolved.
 
 ## Claim Boundary
 
-The evidence supports a scoped reliability layer for fixed predictions on one
-shared 3DSSG target. It does not establish broad SOTA, dataset-level
+The evidence supports a scoped reliability layer for fixed predictions on the
+shared 3DSSG validation scenes. It does not establish broad SOTA, dataset-level
 generalization, calibrated physical-validity probabilities, or solved
 support/contact relations.
