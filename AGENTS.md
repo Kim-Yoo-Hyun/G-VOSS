@@ -51,7 +51,9 @@
 5. Literature tasks: `docs/literature.md`; restore the local archive only when explicitly reactivating the workflow
 6. Hypothesis tasks: `docs/hypothesis.md`; restore the local archive only when explicitly reactivating the workflow
 7. Experiment tasks: `docs/experiments.md`, relevant `experiments/**/README.md`, `commands.md`, `configs/**/compose*.yaml`, and reports
-8. Paper-writing tasks: `paper/README.md`, `paper/preview.md`, `paper/risk.md`, `paper/appendix.md`, `paper/outline.md`, `paper/draft.md`, `paper/figures.md`, and venue folder README
+8. Paper-writing tasks: `paper/README.md`, `paper/outline.md`,
+   `paper/review.md`, `paper/supplement.md`, `paper/method.md`,
+   `paper/experiment.md`, `paper/figures.md`, and venue folder README
 
 RelCompat3D resume, upload, deletion, or other-computer recovery work must start from `docs/reproducibility.md`. That file owns the exact artifact lists, transfer paths, verification commands, and recovery order.
 

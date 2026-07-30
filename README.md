@@ -7,12 +7,12 @@ is “RelCompat3D: Re-Ranking 3D Scene Graph Relations with Geometric Evidence.�
 RelCompat3D estimates predicate–geometry compatibility without using predictor
 identity or the source relation score. It combines compatibility with the fixed
 source score only during family-aware re-ranking. The paper evaluates
-RelCompat3D-Linear and RelCompat3D-MLP on VL-SAT, Open3DSG, and SGFN over one
-shared 3DSSG validation target.
+RelCompat3D-Linear and RelCompat3D-MLP on VL-SAT, Open3DSG, and SGFN over
+shared 3DSSG validation scenes.
 
 ## Submission Snapshot
 
-Last updated: 2026-07-27 KST.
+Last updated: 2026-07-29 KST.
 
 The public tree is intentionally limited to:
 
@@ -48,8 +48,8 @@ The repository does not claim:
 - independent physical-validity ground truth;
 - solved support/contact compatibility.
 
-See results/relcompat3d_geom_reliability/report.md for the compact result summary and
-paper/risk.md for manuscript-facing risks.
+See results/relcompat3d_geom_reliability/report.md for the compact result
+summary and paper/review.md for the integrated reviewer-risk assessment.
 
 ## Canonical Paths
 
@@ -112,8 +112,8 @@ docker run --rm -v "$PWD/paper:/work" -w /work/aaai \
   latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 ~~~
 
-The current source builds to nine US-Letter pages. Technical content ends and
-the references begin on page 7; the references continue on pages 8--9. The
+The current source builds to nine US-Letter pages. Technical content ends on
+page 7, and the references occupy pages 8--9. The
 prior horizontal overflow and first-page vertical overfull are resolved.
 
 ## Artifact Policy
@@ -124,7 +124,8 @@ caches, point clouds, meshes, logs, release bundles, and local archives remain
 ignored. Restoring or deleting those materials must follow
 docs/reproducibility.md.
 
-The latest synchronized candidate bundle is staged locally at
-`release/relcompat3d_aaai27_openreview_20260728_214915/`. Its main,
+The latest synchronized post-acceptance candidate bundle is staged locally at
+`release/relcompat3d_aaai27_openreview_20260729_223000/`. Its main,
 supplement, checklist, code/data ZIP, and manifests have passed the release
-verification described in `docs/reproducibility.md`.
+verification described in `docs/reproducibility.md`. The review submission
+does not upload this Code and Data Supplement or a Media Supplement.

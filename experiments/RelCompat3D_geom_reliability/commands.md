@@ -161,7 +161,7 @@ docker build -f paper/aaai/Dockerfile.tex -t relcompat3d-aaai27-tex:20260712 pap
 docker run --rm -u "$(id -u):$(id -g)" \
   -v "$PWD:/workspace" -w /workspace/paper/aaai \
   relcompat3d-aaai27-tex:20260712 \
-  latexmk -pdf -interaction=nonstopmode -halt-on-error main_teaser.tex
+  latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 docker run --rm -u "$(id -u):$(id -g)" \
   -v "$PWD:/workspace" -w /workspace/paper/aaai \
   relcompat3d-aaai27-tex:20260712 \

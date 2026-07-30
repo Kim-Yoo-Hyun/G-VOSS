@@ -1,218 +1,126 @@
-# RelCompat3D Supplement Guide
+# RelCompat3D Technical Supplement Guide
 
-Last updated: 2026-07-28 KST
+Last updated: 2026-07-29 KST
 
-## 1. Purpose
+This document is the authoritative map for the Technical Supplement. The
+active wrapper is `aaai/supplement.tex`, the content source is
+`aaai/sec/supplement.tex`, and the canonical upload artifact is
+`aaai/supplement_aaai27.pdf`.
 
-The technical supplement makes the main RelCompat3D claims auditable without
-repeating the main narrative. It provides:
+The current clean build is 10 US-Letter pages and 539,657 bytes. Its SHA-256 is
+`31db6813374650b7001794be9da8ac64955561723e4cb2964d7415317443a6da`.
 
-- complete method and optimization details;
-- formal implementation guarantees;
-- matched diagnostics and sensitivities;
-- full uncertainty and family-level analyses;
-- provenance and reproduction boundaries.
+## 1. Role and Claim Boundary
 
-Reviewers are not required to read supplementary material. Therefore the
-problem, method, main metrics, primary comparisons, central controls, and
-limitations remain in the main paper.
+The supplement supports the main paper with method details, reproducibility
+information, controls, sensitivities, and extended results. The main paper
+remains self-contained, and reviewers are not required to read this document.
 
-## 2. Active Source and Build
+The supplement does not broaden the claim to dataset-level generalization,
+independently annotated physical validity, universal routing or fusion
+optimality, support/contact correction, or generation of missing relation
+candidates.
 
-- Wrapper: `aaai/supplement.tex`
-- Content: `aaai/sec/supplement.tex`
-- Canonical PDF: `aaai/supplement_aaai27.pdf`
-- Canonical length: 10 pages
-- Canonical SHA-256:
-  `85104c2c66938e4c9f011c65ddae476d5c19599ff8d77bcf7957924d2a1b32c5`
+## 2. Current A--D Structure
 
-## 3. Section Structure
+### A. Supplementary Method Details
 
-### 3.1 Supplementary Method and Reproducibility Details
+- notation;
+- counterfactual target construction and information-use boundary;
+- all 17 ordered-pair measurements;
+- Linear and MLP architecture, optimization, and parameter counts;
+- transformation consistency, family-sequence preservation, and prefix
+  utility properties.
 
-#### Notation
+### B. Reproducibility and Experimental Setup
 
-One table defines candidate identities, \(T_i,G_i,Z_i,a_i\), estimator index
-\(q\), compatibility, transformed compatibility, and ranking utility.
+- 1,061/117/157 train/development/evaluation scans;
+- 548 contexts and 3,972 exact-match ground-truth relations;
+- VL-SAT, Open3DSG, and SGFN preprocessing;
+- observed source-score ranges;
+- software, hardware, runtime, and deterministic row-level regeneration
+  checks.
 
-#### Model and Preprocessing Details
-
-- Open3DSG score and coverage handling;
-- SGFN extraction;
-- observed source-score ranges.
-
-#### Compatibility Estimation and Family-Aware Re-Ranking
-
-- transformation identities;
-- family-sequence preservation;
-- prefix utility property;
-- counterfactual-negative construction;
-- information-use boundary;
-- Linear and MLP parameter and optimization details.
-
-### 3.2 Additional Experiments
-
-#### Experimental Setup
-
-- Docker execution and runtime;
-- development diagnostics;
-- row-level regeneration check.
-
-#### Results
+### C. Additional Results Supporting Main Claims
 
 - component and feature removals;
-- seed robustness;
-- point/mesh audit;
-- qualitative pair analysis;
-- counterfactual-policy sensitivity;
-- score mapping and simple baseline;
-- fusion and routing controls;
-- Open3DSG coverage;
-- candidate-pool oracle;
-- paired intervals;
-- transfer stress test;
-- family composition;
-- uncertainty sensitivity.
+- point- and mesh-based audit for both estimators and all \(K\);
+- qualitative proximity, vertical-order, and support/contact cases;
+- source-score mappings, robust-density baseline, matched MLP controls, and
+  routing constraints;
+- paired scan-level intervals;
+- \(K=100\) family composition;
+- verifier-uncertainty sensitivity.
 
-## 4. Table Inventory
+### D. Secondary Diagnostics
 
-| Table | Purpose | Priority |
+- five-seed and construction-parameter robustness;
+- pooled-family estimation and Open3DSG context recovery.
+
+Section D is explicitly secondary and does not introduce additional main
+comparisons. The previous exploratory ReplicaSSG/FROSS table, direct-verifier
+diagnostics, and candidate-oracle results are not included in the review PDF.
+Compact scope conclusions are retained only where they clarify the main claim
+boundary.
+
+## 3. Figure and Table Inventory
+
+The PDF contains 15 tables and one figure.
+
+| Evidence group | Contents | Priority |
 | --- | --- | --- |
-| Notation | Prevent symbol ambiguity | Essential |
-| Source-score ranges | Verify nonnegative evaluated scores | High |
-| Counterfactual construction | Reproduce training targets | Essential |
-| Information-use boundary | Address construct dependence | Essential |
-| Component removals | Test pairwise loss and averaging | Essential |
-| Transformation diagnostics | Verify exact transformation behavior | High |
-| Feature removals | Test dependence on geometry primitives | Essential |
-| Full point/mesh audit | Extend main Table 3 to both variants and all \(K\) | Essential |
-| Score mapping | Bound product-scale sensitivity | High |
-| Robust-density baseline | Compare with a simple non-learned method | Essential |
-| Matched MLP controls | Complete main Table 2 | Essential |
-| Routing constraint | Test the family-aware design | Essential |
-| Candidate oracle | Quantify fixed-pool ceiling | High |
-| Paired intervals | Support main statistical statements | Essential |
-| Transfer stress test | Show non-uniform transfer | Medium |
-| Family slices | Explain composition and preserved support/contact | High |
-| Uncertainty sensitivity | Test denominator policy | High |
+| Method specification | Notation, counterfactual rules, information-use boundary, 17 features | Essential |
+| Design evidence | Component removal, transformation diagnostics, feature removal | Essential |
+| Main extensions | Full point/mesh audit, matched MLP controls, paired intervals | Essential |
+| Baseline and routing | Score mappings, robust density, matched route | High |
+| Scope and reporting | Family composition, uncertainty policies | High |
+| Qualitative evidence | Proximity and vertical changes plus support/contact preservation | High |
 
-No table uses manual bold in its caption. Paired-interval cells inherit
-`\small` 9-point text.
+The figure is illustrative rather than a systematic or independently
+annotated validity audit.
 
-## 5. Supplementary Figure
+## 4. Numbering and Navigation
 
-The pair--evidence--outcome figure contains:
+- `\appendix` and `\setcounter{secnumdepth}{2}` produce A/A.1 numbering.
+- Tables, figures, and equations use S1, S2, ... numbering to avoid confusion
+  with the main paper.
+- No table of contents is added because the AAAI style suppresses it and the
+  opening overview already maps Sections A--D.
+- Nonfloating Tables S1 and S2 preserve the intended first-page reading order.
 
-1. proximity demotion;
-2. vertical-order promotion;
-3. support/contact source-order preservation.
+## 5. Review and Release Boundary
 
-Its role is qualitative scope illustration. It does not replace a systematic
-independent annotation audit.
+Only `aaai/supplement_aaai27.pdf` is uploaded as the Technical Supplement.
+No Media Supplement or Code and Data Supplement is uploaded during review.
+The PDF contains no author-owned web link and no promise about the timing of
+artifact release.
 
-## 6. Key Evidence
+The planned public release of the RelCompat3D implementation and
+machine-readable results is an internal post-acceptance task and a
+post-publication reproducibility-checklist commitment. Licensed 3RScan/3DSSG
+assets and third-party checkpoints will not be redistributed.
 
-### Component diagnostics
+## 6. Writing and Formatting Contract
 
-Both Linear and MLP are evaluated under:
-
-- Full;
-- no pairwise loss;
-- no transformation averaging.
-
-Linked-pair ordering and transformed-score errors explain why the components
-are retained even when aggregate changes can be small.
-
-### Seed robustness
-
-Five seeds are fixed before training. The active model is not reselected from
-those results.
-
-### Score mapping
-
-Five pre-specified smooth monotonic transformations are evaluated. Linear
-retains the source-relative conclusion in all 75 predictor--\(K\) settings and
-MLP in 74 of 75. Percentile stress is reported separately and is not described
-as scale invariance.
-
-### Simple baseline
-
-Robust density is fit from training-positive geometry without evaluation
-verifier labels. Hard-tail and Hard-drop remain separate non-deployable
-direct-verifier diagnostics.
-
-### Routing
-
-The matched joint proximity/vertical queue changes results by estimator and
-\(K\). Family-aware routing is interpreted as preserving composition rather
-than maximizing aggregate performance.
-
-### Point/mesh audit
-
-Both estimators reduce or tie agreement-based Violation in all 15
-predictor--\(K\) settings. The audit excludes OBB inputs and primary verifier
-labels but shares scenes and ontology.
-
-### Candidate oracle
-
-Candidate-pool exact-label coverage is:
-
-- VL-SAT: 99.72%;
-- Open3DSG: 79.68%;
-- SGFN: 99.72%.
-
-The oracle quantifies candidate-generation ceilings and does not represent an
-attainable comparator.
-
-## 7. Reproducibility Boundary
-
-The code/data package includes:
-
-- RelCompat3D source;
-- Dockerfile and Compose services;
-- frozen protocols and model locks;
-- compact metrics and summaries;
-- row exporter and reproduction code;
-- schema and expected manifests;
-- LaTeX sources and figures.
-
-It excludes:
-
-- scans, meshes, RGB-D frames, and point clouds;
-- stable scan/context/instance identifiers;
-- source-derived row bundles;
-- source-predictor repositories and checkpoints;
-- large caches and raw logs.
-
-This conservative boundary keeps dataset and third-party licenses under their
-original providers.
-
-## 8. Writing and Formatting Contract
-
-- Use main-paper terminology without introducing new internal names.
-- Keep each paragraph focused on one reviewer question.
-- Report full numeric grids in tables or machine-readable artifacts rather
-  than dense prose.
-- Use `validation split` for the dataset partition.
-- Use `validation scenes` for the evaluated scenes.
-- `validation target` may describe the complete shared evaluation setting in
-  a caption, but it must not imply a second dataset.
+- Use the terminology of the main paper.
+- Use `validation split` for the dataset partition and `validation scenes` for
+  the evaluated scenes.
+- Use `source relation score`, `ordered-pair measurements`, `family-aware
+  re-ranking`, and `verifier-derived Violation`.
+- Do not present compatibility as a calibrated probability.
+- Explain the changed condition before each result and report only the pattern
+  needed to support or bound the claim.
 - Use roman captions without manually bolded lead phrases.
 - Use at least 9-point table text.
 
-## 9. Claim Boundary
+## 7. Final Verification
 
-The supplement strengthens, but does not broaden, the main claim. It does not
-establish dataset-level generalization, independent geometric-validity ground
-truth, support/contact correction, full graph generation, or universal fusion
-optimality.
+After each source change:
 
-## 10. Final Verification
-
-After the latest source rebuild:
-
-1. confirm all 17 tables and the supplementary figure are referenced;
-2. confirm undefined citations/references and overfull boxes are zero;
-3. confirm US Letter, PDF 1.5, and embedded non-Type-3 fonts;
-4. update canonical hash and release manifest;
-5. rebuild the supplement from the extracted code/data ZIP.
+1. build `supplement.tex` in the pinned Docker image;
+2. verify A--D and S-numbering in the rendered PDF;
+3. check that every table and figure is referenced;
+4. check undefined citations/references and overfull boxes;
+5. verify US Letter, PDF 1.5, embedded non-Type-3 fonts, and anonymity;
+6. verify that the PDF is below the 10 MB Technical Supplement limit;
+7. update the canonical supplement PDF and its recorded hash.

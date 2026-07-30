@@ -336,7 +336,6 @@ def build(args: argparse.Namespace) -> Path:
             "paper/aaai/aaai2027.bst",
             "paper/aaai/aaai2027.sty",
             "paper/aaai/main.tex",
-            "paper/aaai/preamble.tex",
             "paper/aaai/supplement.tex",
             "paper/aaai/reproducibility_checklist.tex",
             "paper/aaai/reproducibility_checklist_main.tex",

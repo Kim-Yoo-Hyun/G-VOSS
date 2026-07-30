@@ -1,6 +1,6 @@
 # RelCompat3D Experiment Guide
 
-Last updated: 2026-07-28 KST
+Last updated: 2026-07-29 KST
 
 This document summarizes the final experiment contract. Exact executable
 protocols and compact results live under
@@ -156,6 +156,10 @@ At \(K=50\), paired intervals favor both metrics for Open3DSG and SGFN. For
 VL-SAT, the Recall interval contains zero while the Violation interval remains
 negative. Open3DSG shows the largest changes.
 
+The controls reveal predictor-dependent use of the source relation score.
+Compatibility-only ordering remains close to RelCompat3D-Linear on Open3DSG
+but loses substantial Recall on VL-SAT and SGFN.
+
 The result is not framed as universal method dominance:
 
 - Linear and MLP occupy different Recall--Violation operating points;
@@ -191,10 +195,10 @@ predictors evaluated on the same 3DSSG validation split. They do not establish:
 ## 11. Canonical Artifacts
 
 - Main PDF: `aaai/main_aaai27.pdf`, 9 pages.
-- Supplement PDF: `aaai/supplement_aaai27.pdf`, 10 pages.
+- Supplement PDF: `aaai/supplement_aaai27.pdf`, 12 pages.
 - Checklist PDF: `aaai/reproducibility_checklist_aaai27.pdf`, 2 pages.
 - Current release:
-  `../release/relcompat3d_aaai27_openreview_20260728_214915/`.
+  `../release/relcompat3d_aaai27_openreview_20260729_223000/`.
 
-The PDFs and release are synchronized with the final wording in Introduction,
-Discussion, and Conclusion.
+The canonical paths above are regenerated after every change to the main,
+supplement, or checklist source.

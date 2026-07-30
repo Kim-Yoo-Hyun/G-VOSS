@@ -1,6 +1,9 @@
-# RelCompat3D Paper Outline
+# RelCompat3D Paper Outline and Submission Snapshot
 
-Last updated: 2026-07-28 KST
+Last updated: 2026-07-29 KST
+
+This document combines the manuscript outline with the current handoff
+snapshot. Mutable task status belongs in the root `TODO.md`.
 
 ## 1. Paper Identity
 
@@ -8,59 +11,51 @@ Last updated: 2026-07-28 KST
   Evidence**
 - Venue: AAAI-27 Main Technical Track
 - Main source: `aaai/main.tex`
-- Method variants: RelCompat3D-Linear and RelCompat3D-MLP
+- Variants: RelCompat3D-Linear and RelCompat3D-MLP
 - Task: post-hoc predicate--geometry compatibility estimation and
   family-aware re-ranking of fixed relation predictions
 
-## 2. Core Story
+## 2. Core Question and Message
 
-1. A high relation score does not necessarily measure whether the corresponding
-   ordered pair satisfies the predicate geometrically.
-2. RelCompat3D estimates compatibility from predicate semantics and same-pair
-   geometry without using source score or predictor identity.
-3. Transformation averaging gives equal compatibility to equivalent
-   endpoint/predicate representations.
-4. Compatibility and source score are combined only during family-aware
-   re-ranking.
-5. Exact-match Recall and verifier-derived Violation jointly measure retrieval
-   and geometric reliability.
+A high relation score does not necessarily measure whether the corresponding
+ordered subject--object pair satisfies the predicate geometrically.
+RelCompat3D estimates that compatibility from predicate semantics and
+predicate-independent ordered-pair measurements, without the source score or
+predictor identity. It combines compatibility with the source score only
+during family-aware re-ranking.
+
+The memorable message is that predicate--geometry compatibility can serve as a
+predictor-agnostic reliability signal, while its interaction with source
+relation scores remains predictor dependent.
 
 ## 3. Contributions
 
-1. Define and measure the mismatch between relation score and instance-level
-   geometric compatibility.
-2. Learn source-score-excluded compatibility with ordered-pair identity and
-   relation-preserving transformations.
-3. Introduce family-aware re-ranking and characterize it across three fixed
-   predictors.
+1. Define and measure the mismatch between source relation scores and
+   ordered-pair geometric compatibility using exact-match Recall@\(K\) and
+   verifier-derived Violation@\(K\).
+2. Estimate source-score-excluded predicate--geometry compatibility and enforce
+   exact consistency under applicable endpoint/predicate transformations.
+3. Introduce family-aware re-ranking and characterize its predictor- and
+   relation-family-dependent behavior across three fixed predictors.
 
-The contributions are method and evaluation contributions. Cross-predictor
-results, controls, and audits are evidence rather than extra contributions.
+Cross-predictor results, controls, and audits are evidence for these
+contributions rather than additional contributions.
 
 ## 4. Main Manuscript
 
 ### Abstract
 
-Problem, post-hoc method, training and transformation design, ranking scope,
-three-predictor evaluation, point-estimate result, controls, alternative audit,
-and scoped conclusion.
+States the geometric mismatch, the post-hoc framework, estimator and
+transformation design, ranking scope, three-predictor evaluation,
+source-relative point-estimate result, controls, alternative audit, and scoped
+predictor-agnostic conclusion.
 
 ### Introduction
 
-- downstream need for geometrically supported relations;
-- motivating vertical-order failure in Figure 1;
-- distinction between geometry-aware generation and explicit same-pair
-  compatibility;
-- \(T,G,Z\) separation;
-- two estimators, counterfactual training, transformations;
-- family-aware ranking and support/contact preservation;
-- evaluation on the official 3DSSG validation split;
-- three concise contributions.
-
-Selected wording:
-
-- use `official 3DSSG validation split` for the partition;
-- use `shared 3DSSG validation scenes` for the evaluated scenes.
+Moves from downstream need to the observed failure, explains why semantic
+similarity does not explicitly estimate ordered-pair compatibility, separates
+\(T,G,Z\), introduces the estimators and constrained ranking, summarizes the
+cross-predictor result, and ends with three contributions.
 
 ### Related Work
 
@@ -68,8 +63,8 @@ Selected wording:
 2. Geometry-aware Relation Evidence
 3. Reliability Evaluation and Calibration
 
-Each subsection ends by locating RelCompat3D relative to generation,
-geometric evidence, or probabilistic reliability.
+Each subsection distinguishes RelCompat3D from relation generation,
+geometric-evidence methods, or probabilistic calibration.
 
 ### Method
 
@@ -77,80 +72,84 @@ geometric evidence, or probabilistic reliability.
 2. Compatibility Estimation
 3. Family-Aware Re-Ranking
 
-Figure 2 follows the same order.
+Figure 2 follows the same input, compatibility, score-combination, and ranking
+order.
 
 ### Experiments
 
-#### Experimental Setup
-
 - official 3DSSG validation split;
-- 157 scans, 548 contexts, 3,972 relations;
-- Open3DSG, VL-SAT, SGFN;
-- exact-match Recall@\(K\);
-- verifier-derived Violation@\(K\);
+- 157 scans, 548 contexts, and 3,972 exact-match relations;
+- Open3DSG, VL-SAT, and SGFN;
 - \(K\in\{5,10,20,50,100\}\);
-- 1,000 paired scan bootstrap resamples.
+- exact-match Recall@\(K\) and verifier-derived Violation@\(K\);
+- 1,000 paired scan-level bootstrap resamples.
 
-#### Recall--Violation Results
-
-- Table 1 and Figure 3;
-- all-\(K\) source-relative point-estimate claim;
-- \(K=50\) paired interval claim;
-- fusion and scope trade-offs;
-- score-mapping, simple-baseline, and routing summary;
-- three qualitative rank changes.
-
-#### Ablations and Controls
-
-- Table 2;
-- dependence on predicate, correct pair, geometry, transformation, and source
-  score.
-
-#### Point- and Mesh-Based Consistency Audit
-
-- Table 3;
-- OBB-free alternative measurement;
-- not independent ground truth.
+Results use Table 1 and Figure 3 for the main trajectories, Table 2 for
+counterfactual and structural controls, and Table 3 for the alternative
+point/mesh audit. The text emphasizes that compatibility-only behavior differs
+across predictors.
 
 ### Discussion and Limitations
 
-- same 3DSSG validation split, not dataset-level generalization;
-- known instances and reconstructed geometry;
-- support/contact remains in source order;
-- alternative audit uses the same scenes and ontology;
-- broader claims require independent labels, richer contact/pose evidence,
-  and additional datasets.
+Explains why compatibility can complement semantic or task-specific source
+scores, then limits the evidence to one validation split, known instances,
+reconstructed geometry, unchanged support/contact order, and an alternative
+rather than independent audit.
 
 ### Conclusion
 
-Return to the motivating failure and summarize the scoped result over the
-shared 3DSSG validation scenes. No citation is needed because 3DSSG has already
-been defined and cited earlier.
+Restates the scoped source-relative result and the predictor-dependent role of
+source relation scores. It closes on predicate--geometry compatibility as a
+predictor-agnostic reliability signal.
 
-## 5. Main Figures and Tables
+## 5. Figures and Tables
 
 | Item | Role |
 | --- | --- |
 | Figure 1 | Vertical-order failure and demotion |
-| Figure 2 | Compatibility and re-ranking flow plus proximity demotion |
-| Figure 3 | Recall--Violation trajectories |
+| Figure 2 | Compatibility and family-aware re-ranking flow with proximity demotion |
+| Figure 3 | Predictor-specific Recall--Violation trajectories |
 | Table 1 | Main comparisons over all five \(K\) values |
 | Table 2 | Ablations and counterfactual controls |
-| Table 3 | Point/mesh alternative audit |
+| Table 3 | Point/mesh alternative consistency audit |
 
-All six items are referenced in the main text and occur within the seven
-technical pages in the last clean build.
+All items are referenced in the main text. Detailed visual values and caption
+contracts are in `figures.md`.
 
-## 6. Supplement Contract
+## 6. Current Evidence Snapshot
 
-The supplement owns complete rules, proofs, optimization, sensitivities,
-matched controls, intervals, family slices, oracles, transfer stress test, and
-reproducibility details. Critical method definitions and main evidence remain
-in the main paper.
+- At every reported predictor--\(K\) setting, both variants have Recall point
+  estimates no lower and Violation point estimates no higher than Source.
+- At \(K=50\), paired intervals are favorable for Recall and Violation on
+  Open3DSG and SGFN. VL-SAT lowers Violation without a detectable Recall loss.
+- Compatibility-only ordering stays close to the full Linear estimator on
+  Open3DSG but loses substantial Recall on VL-SAT and SGFN.
+- The point/mesh audit supports the direction of the Violation changes under
+  alternative geometric measurements.
+- Supplementary controls bound score scaling, routing, component, seed,
+  candidate-pool, and construct-dependence risks.
 
-## 7. Current Build Boundary
+This is a shared-scene reliability result, not a dataset-generalization or SOTA
+claim.
 
-The synchronized final build is 9/10/2 pages for main, supplement, and
-checklist. Main technical content and all main figures/tables remain within
-pages 1--7. The current release is
-`../release/relcompat3d_aaai27_openreview_20260728_214915/`.
+## 7. Supplement and Reproducibility Contract
+
+The supplement owns complete target rules, proofs, optimization details,
+sensitivities, matched controls, intervals, family slices, oracles, transfer
+stress tests, and the row-level regeneration check. The checklist records only
+the official status answers. Detailed answer rationales and the public release
+boundary are in `reproducibility.md`.
+
+## 8. Build and Upload Boundary
+
+The only official main entry point is `aaai/main.tex`; legacy teaser wrappers
+are not part of the submission. Canonical PDFs are:
+
+- `aaai/main_aaai27.pdf`;
+- `aaai/supplement_aaai27.pdf`;
+- `aaai/reproducibility_checklist_aaai27.pdf`.
+
+Current page counts and hashes are recorded after each clean build in
+`paper/README.md` and `reproducibility.md`. The code/data archive excludes
+licensed raw data, stable source identifiers, source-derived row bundles, and
+third-party checkpoints.

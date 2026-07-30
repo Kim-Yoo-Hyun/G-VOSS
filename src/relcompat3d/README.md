@@ -25,7 +25,6 @@ modules use file-relative imports and the packages pinned in
   `evaluate_seeds.py`, `benchmark_runtime.py`, `evaluate_open3dsg.py`, and
   `evaluate_transfer.py`. Shared training-control helpers are in
   `training_control_utils.py`.
-- Paper artifacts: `build_paper_artifacts.py` and `render_paper_figures.py`.
 - Row-level verification: `build_reproduction_rows.py`,
   `reproduce_from_rows.py`, and `evaluate_candidate_oracle.py`.
 

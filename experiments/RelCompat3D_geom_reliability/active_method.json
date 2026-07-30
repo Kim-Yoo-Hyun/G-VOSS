@@ -54,8 +54,8 @@
   },
   "paper_release": {
     "selected_main": "paper/aaai/main_aaai27.pdf",
-    "bundle": "release/relcompat3d_aaai27_openreview_20260728_214915",
-    "upload_manifest": "release/relcompat3d_aaai27_openreview_20260728_214915/UPLOAD_MANIFEST.sha256"
+    "bundle": "release/relcompat3d_aaai27_openreview_20260729_223000",
+    "upload_manifest": "release/relcompat3d_aaai27_openreview_20260729_223000/UPLOAD_MANIFEST.sha256"
   },
   "historical_predecessor": {
     "root": "archive/local/pre_submission_20260722",

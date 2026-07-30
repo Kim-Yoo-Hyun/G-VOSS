@@ -22,7 +22,7 @@ writing. It does not replace `docs/hypothesis.md` or Docker experiment artifacts
 - Preserved hypothesis validation details are in the ignored local archive described by `archive/README.md`; executable code lives under `src/relcompat3d/`; Docker entry points live under `configs/`; source-specific experiment records live under `experiments/`; compact paper-facing summaries live under `results/`; reproducibility and artifact transfer details live in `docs/reproducibility.md`.
 - Treat this file as a reviewer-facing writing rulebook. Live PDF build status,
   task status, long metric tables, row counts, and completion logs belong in
-  `paper/README.md`, `paper/preview.md`, `TODO.md`,
+  `paper/README.md`, `paper/outline.md`, `TODO.md`,
   `docs/reproducibility.md`, or the closest experiment/report artifact.
   Durable claim decisions may be summarized here only when they change how the
   manuscript should be written.
@@ -388,16 +388,18 @@ framework-first decision:
 Paper workspace ownership:
 
 - `paper/README.md` is the folder-local entry point and records the roles of the paper files, reading order, and update ownership.
-- `paper/preview.md` is the current handoff snapshot for the paper claim, evidence, canonical build/release pointers, and remaining user tasks.
-- `paper/progress.md` records only current completion, fixed decisions, deferred tracks, and remaining work; historical run chronology belongs in experiment reports and repository history.
-- `paper/outline.md` owns the current six-section causal narrative, three contribution statements, section responsibilities, and figure/table placement. Cross-predictor results and failure analysis are empirical validation, not a separate fourth contribution.
+- `paper/outline.md` owns the handoff snapshot, causal narrative, contribution
+  statements, section responsibilities, figure/table placement, and build
+  boundary. Mutable progress belongs in root `TODO.md`.
 - `paper/method.md` explains the implemented factorization, constructed supervision, objectives, relation-algebra consistency, score combination, and family-aware ranking without research-log terminology.
 - `paper/experiment.md` explains the comparison contract, exact-label Recall, verifier-derived Violation, uncertainty accounting, family analysis, and paired scan-cluster inference in accessible mathematical form.
 - `paper/draft.md` is a secondary prose workspace; the canonical submission text
   is the active LaTeX source under `paper/aaai/`.
-- `paper/risk.md` tracks reviewer-risk attacks, mitigation status, and priority for logic/evidence/novelty/reproducibility defenses.
-- `paper/review.md` consolidates the current novelty/method, experimental-validity, and writing/presentation reviews.
-- `paper/appendix.md` owns appendix/supplement provenance tables, detailed Open3DSG caveat consistency checks, optional Figure 3 decisions, and Qwen-VL extension boundary notes.
+- `paper/review.md` consolidates reviewer assessment, residual risks,
+  mitigations, reporting invariants, and expected rating.
+- `paper/supplement.md` owns the technical-supplement structure, table and
+  figure roles, evidence priorities, provenance boundary, and formatting
+  contract.
 - `paper/aaai/` is the current target-venue LaTeX source. It uses the official
   AAAI-27 style (`aaai2027.sty`, template version 2027.1), splits the draft
   into `main.tex` plus `sec/*.tex`, points bibliography to
@@ -406,7 +408,9 @@ Paper workspace ownership:
   `relcompat3d-aaai27-tex:20260712`; the final main/supplement/checklist build log is
   `logs/relcompat3d_structured_main_final_20260713.log`.
 - `archive/paper/iccv/` remains a historical/alternate ICCV-style source route.
-- `paper/figures.md` is the authoritative redraw specification for Figure 1--3, including composition, flow, exact plot values and coordinates, case sources, captions, and non-claims; generated assets remain under `paper/generated/figures/`.
+- `paper/figures.md` is the authoritative specification for Figure 1--3 and
+  the supplementary qualitative figure. Active submission assets live under
+  `paper/reference_AAAI/figure/` and `paper/aaai/supplement_figures/`.
 
 ## RelCompat3D Fit To Top-Tier Pattern
 
@@ -653,7 +657,9 @@ Do not claim these until evidence exists:
   Recall--Violation trajectories at K=`{5,10,20,50,100}` across VL-SAT,
   Open3DSG, and SGFN, and Figure 3 shows two geometry-backed corrections plus
   one residual support/contact case.
-- Draft Figure 1-3 generation, top-tier novelty/layout review, and Figure 3 geometry-backed panel upgrade are complete under `paper/generated/figures/`; validation passed for locked values, case IDs, geometry case IDs, and SVG XML parsing.
+- Figure 1--3 use the finalized assets under
+  `paper/reference_AAAI/figure/`. Their values, cases, captions, and non-claims
+  are locked in `paper/figures.md`.
 - Recent 2025-2026 Related Work roles are decided: RelWitness is a required direct novelty-threat citation, VIZOR is a required spatial-relation/viewpoint-boundary citation, ZING-3D is a VLM/incremental 3DSG trend citation, Open-World 3DSG-RAG is a broad open-world/RAG boundary citation, and View-on-Graph is a downstream grounding-motivation citation.
 - Section structure is locked to six top-level sections: Introduction, Related
   Work, Method, Experiments, Discussion and Limitations, and Conclusion.
@@ -767,13 +773,12 @@ Do not claim these until evidence exists:
 - AAAI reviewer-defense main-text pass uses the public/full-target Open3DSG
   route. Recovery details and the 533/548 sensitivity are kept in the
   supplement rather than presented as the primary pipeline.
-- The 2026-05-27 appendix/caveat pass is complete: `paper/appendix.md` records the calibrator/threshold provenance table and caveat consistency pass; experiment Table 6 includes `caveat_note`; Docker PDF rebuild `logs/relcompat3d_aaai_pdf_build_appendix_caveat_20260527_202734.log` exits 0 with 9 total pages and no blocking warnings.
+- The technical-supplement map and current caveat contract are maintained in
+  `paper/supplement.md`.
 - Draft bibliography scaffold is complete in `paper/references.bib`; citation keys used by `paper/aaai/sec/*.tex` match the bibliography entries.
-- Use `paper/generated/figures/figure3_geometry_panels.svg` as the Figure 3
-  source. Keep its white background, unboxed three-column evidence layout,
-  embedded manuscript-compatible sans-serif font, restrained semantic colors,
-  and redundant subject/object shape encodings. A rendered scene-crop upgrade
-  is optional only if a deterministic crop/render path is added.
+- Use `paper/reference_AAAI/figure/Figure3.pdf` as the Figure 3 source.
+  Preserve its white background, three-column layout, restrained semantic
+  colors, and redundant marker encodings.
 - Keep Open3DSG caveats explicit in manuscript Table 2 and experiment artifact
   Table 6; later compression must retain selected official non-avg checkpoint
   provenance, filtered-train/dev provenance, exact-label denominator, residual

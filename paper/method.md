@@ -1,6 +1,6 @@
 # RelCompat3D Method Guide
 
-Last updated: 2026-07-28 KST
+Last updated: 2026-07-29 KST
 
 ## 1. Research Task
 
@@ -45,7 +45,7 @@ for exact-match evaluation.
 - \(T_i=p_i\): predicate semantics.
 - \(a_i\): relation family and transformation/routing selector.
 - \(G_i\): predicate-independent measurements of the ordered pair.
-- \(Z_i\): source score, excluded from compatibility estimation.
+- \(Z_i\): source relation score, excluded from compatibility estimation.
 
 \(G_i\) contains OBB-derived 3D and XY distances, relative height, projected
 overlap, and vertical-gap features. Point-level contact evidence is used only
@@ -183,7 +183,7 @@ Z_i, & a_i=\text{support/contact}.
 \end{cases}
 \]
 
-The source score is introduced only here.
+The source relation score is introduced only here.
 
 ## 9. Family-Aware Re-Ranking
 

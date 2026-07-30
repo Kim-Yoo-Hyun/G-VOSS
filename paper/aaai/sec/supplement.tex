@@ -1,14 +1,11 @@
-\section{Supplementary Method and Reproducibility Details}
+\section{Supplementary Method Details}
 
 \paragraph{Overview.}
-This supplement is organized around the evidence needed to assess and reproduce
-the main claims. We first give notation, target-construction rules, formal
-properties, estimator details, and the row-level regeneration check. We then
-report additional ablations, alternative-geometry audits, score and routing
-sensitivities, statistical intervals, transfer results, family-level analyses,
-and qualitative examples. Compact tables retain the comparisons that change the
-interpretation of the method. Full per-condition rows used to generate these
-summaries are included in the accompanying code and data package.
+Section~A gives the notation, compatibility inputs, target construction,
+estimators, and formal properties. Section~B records the data, preprocessing,
+primary-verifier specification, training environment, and internal regeneration
+check. Section~C provides the additional results referenced by the main paper.
+Section~D collects secondary diagnostics that bound robustness and scope.
 \subsection{Notation}
 
 Table~\ref{tab:notation} summarizes the notation used in the main paper and
@@ -42,53 +39,181 @@ $\mathcal P,\ \ell_i^q$ & Linked training pairs and compatibility logit used by 
 \label{tab:notation}
 \end{center}
 
-\subsection{Model and Preprocessing Details}
+\subsection{Target Construction and Information Boundary}
 
-\paragraph{Open3DSG.}
-Open3DSG uses the official non-averaged BLIP checkpoint
-\texttt{epoch=13-step=13104.ckpt}, selected using training and development
-losses.
-Public preprocessing produces candidates for 533 of the 548 contexts. The main
-evaluation retains all 548 contexts and treats the 15 contexts without
-candidates as empty sets. An eligible-context sensitivity analysis uses
-3,899 relations. A separate recovery covers all 548 contexts by lowering the
-minimum number of visible objects to two and regenerating views for two scans.
+Ground-truth relations in the evaluated families provide positives. Negatives
+are generated within the same scene context and linked to their source
+positive. The construction does not use source relation scores, predictor
+identities, or evaluation candidates.
+Table~\ref{tab:counterfactual-rules} gives the complete construction policy.
 
-\paragraph{SGFN.}
-We use the released \texttt{SGFN\_full\_l160} model from the SceneGraphFusion
-3DSSG implementation, with its 160-object, 26-relation checkpoint on the same
-evaluation scans and denominator.
+\begin{table*}[t]
+\centering
+{\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabularx}{\textwidth}{@{}p{.14\textwidth}X>{\raggedright\arraybackslash}p{.31\textwidth}@{}}
+\toprule
+Family & Construction rule & Relation to verifier \\
+\midrule
+Proximity & Choose directed same-context pairs in descending normalized XY
+distance. Require distance $\geq2.5$ and zero projected overlap. & Shares
+distance/overlap primitives and the 2.5 satisfied boundary. The verifier
+declares violation only at $\geq3.5$. \\
+Vertical & On the same directed pair, replace \texttt{higher than} with
+\texttt{lower than} or conversely. Require the positive direction to have
+$|\Delta z|\geq0.25$ m and normalized $|\Delta z|\geq0.15$. & Shares both
+signed primitives and thresholds. \\
+Support/\allowbreak contact & Replace the subject or object within the context.
+Reject known support/contact pairs in either direction and floor subjects. Require any two
+of normalized XY distance $\geq2.0$, zero overlap, and vertical gap
+$\geq0.30$ m. & Shares these OBB primitives and thresholds. Point-subtype
+evidence used by the reported verifier is not used to generate negatives. \\
+\bottomrule
+\end{tabularx}
+}
+\caption{Counterfactual-negative construction. Normalized XY distance uses the
+mean ordered-pair XY diagonal. Zero overlap requires both directed
+projected-overlap ratios to be at most $10^{-9}$.}
+\label{tab:counterfactual-rules}
+\end{table*}
 
-\paragraph{Observed ranges of source relation scores.}
-Table~\ref{tab:source-score-ranges} reports the source relation scores observed among the
-proximity and vertical-order candidates evaluated by the primary re-ranking
-procedure. All scores are nonnegative, so multiplication by compatibility does not
-reverse the source-score ordering through a sign change. These are observed
-evaluation ranges rather than calibrated probability intervals. Scores are
-also nonnegative before family-aware re-ranking for Open3DSG. Its range over all
-candidates is $[0.5772,0.9707]$.
+\paragraph{Information-use boundary.}
+Table~\ref{tab:construct-dependence} makes the information boundary explicit.
+Training examples come only from the training split, so evaluation candidate
+rows, source relation scores, and primary verifier-status labels do not enter
+target construction. The counterfactual rules and primary verifier
+nevertheless share some OBB-derived measurements and family thresholds. The
+point- and mesh-based audit removes that OBB overlap but retains the
+reconstructed evaluation scenes and relation ontology.
 
 \begin{table}[t]
 \centering
 {\small
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{lrrr}
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabularx}{\columnwidth}{@{}>{\raggedright\arraybackslash}Xccc@{}}
 \toprule
-Predictor & Candidates & Minimum & Maximum \\
+Information & Train & Verifier & Audit \\
 \midrule
-VL-SAT & 110,424 & $5.30{\times}10^{-22}$ & 0.9954 \\
-Open3DSG & 79,722 & 0.6394 & 0.9281 \\
-SGFN & 110,424 & $4.61{\times}10^{-20}$ & 0.5846 \\
+Evaluation candidates & No & Yes & Yes \\
+Source score & No & No & No \\
+Verifier labels & No & Output & No \\
+OBB measurements & Some & Yes & No \\
+Point/mesh measurements & No & No & Yes \\
+Evaluation scene identities & No & Yes & Yes \\
+Relation ontology & Yes & Yes & Yes \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 }
-\caption{Observed ranges of source relation scores for candidates in the re-ranked
-proximity and vertical-order families. No score is negative or exactly zero.}
-\label{tab:source-score-ranges}
+\caption{Information used by counterfactual training construction (Train), the
+primary verifier (Verifier), and the point/mesh audit (Audit). ``Some'' denotes
+the OBB primitives and family thresholds shared by training construction and
+the primary verifier. The audit uses alternative measurements, not independent
+physical-validity ground truth.}
+\label{tab:construct-dependence}
 \end{table}
 
-\subsection{Compatibility Estimation and Family-Aware Re-Ranking}
-\subsubsection{Guarantees and Target Construction.}
+We cap negatives at two per positive, 200 per context--family, and three times
+the number of positives per family. These caps limit repeated easy
+negatives but do not equalize family counts. The constructed training and
+internal-development sets together contain 28,977 positives and 37,477
+negatives. Their combined family totals are 23,008 proximity, 5,488 vertical,
+and 37,958 support/contact rows. The explicit overlap above is why
+Violation computed by the rule-based geometry verifier is reported as a
+verifier-derived measure rather than independent physical-validity ground
+truth. The feature-removal analysis tests this dependence but does not
+eliminate it.
+
+\subsection{Estimator Architecture and Optimization}
+\methodlinear{} fits one logistic model per evaluated relation family. Numeric
+features use means and standard deviations estimated from the training split.
+Missing values use the corresponding training mean. Inputs are predicate
+indicators $T$, predicate-independent geometric measurements of the ordered pair $G$, and the
+two predicate-signed height interactions defined in the main paper. The
+family label selects the head and is not repeated as an input. The source
+relation score, source rank, predictor identity, and object class are excluded.
+Transformation-consistent augmentation preserves the proximity predicate
+under endpoint swap. Vertical order swaps endpoints and applies the inverse
+predicate. Linked counterfactuals receive the fixed margin loss in the main
+paper. Support/contact receives the pairwise loss but no blanket endpoint
+transform.
+
+\paragraph{Geometric feature specification.}
+Table~\ref{tab:geometry-features} defines the 17 measurements in \(G\). For
+endpoint \(j\in\{s,o\}\), let \(c_j=(x_j,y_j,z_j)\) be the OBB center, \(b_j\)
+and \(t_j\) its lower and upper scene-coordinate bounds, \(h_j=t_j-b_j\), and
+\(d_j^{3D}\) and \(d_j^{XY}\) the diagonals of its 3D and projected XY bounds.
+Let \(A_j\) be the area of the projected bounds and \(I_{XY}\) their
+intersection area. All distance and height measurements are in meters, and
+normalized and overlap measurements are dimensionless.
+
+\begin{table*}[t]
+\centering
+{\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.05}
+\begin{tabularx}{\textwidth}{@{}p{.38\textwidth}X@{}}
+\toprule
+Feature & Definition \\
+\midrule
+\texttt{distance\_3d} &
+\(\lVert c_s-c_o\rVert_2\) \\
+\texttt{distance\_xy} &
+\(\sqrt{(x_s-x_o)^2+(y_s-y_o)^2}\) \\
+\texttt{normalized\_distance\_3d} &
+\(2\,\texttt{distance\_3d}/(d_s^{3D}+d_o^{3D})\) \\
+\texttt{normalized\_distance\_xy} &
+\(2\,\texttt{distance\_xy}/(d_s^{XY}+d_o^{XY})\) \\
+\texttt{center\_delta\_z} &
+\(z_s-z_o\) \\
+\texttt{normalized\_center\_delta\_z} &
+\(2(z_s-z_o)/(h_s+h_o)\) \\
+\texttt{projected\_iou\_xy} &
+\(I_{XY}/(A_s+A_o-I_{XY})\) \\
+\texttt{projected\_subject\_overlap\_ratio} &
+\(I_{XY}/A_s\) \\
+\texttt{projected\_object\_overlap\_ratio} &
+\(I_{XY}/A_o\) \\
+\texttt{vertical\_gap\_subject\_on\_object} &
+\(b_s-t_o\) \\
+\texttt{subject\_bottom\_z}, \texttt{subject\_top\_z} &
+\(b_s,\ t_s\) \\
+\texttt{object\_bottom\_z}, \texttt{object\_top\_z} &
+\(b_o,\ t_o\) \\
+\texttt{abs\_center\_delta\_z} &
+\(\lvert z_s-z_o\rvert\) \\
+\texttt{abs\_normalized\_center\_delta\_z} &
+\(\lvert2(z_s-z_o)/(h_s+h_o)\rvert\) \\
+\texttt{abs\_vertical\_gap\_subject\_on\_object} &
+\(\lvert b_s-t_o\rvert\) \\
+\bottomrule
+\end{tabularx}
+}
+\caption{The 17 predicate-independent geometric measurements in \(G\).
+Projected areas use scene-coordinate XY bounds recovered from the annotation
+OBBs. A missing numeric value is replaced by its training-split mean before
+standardization.}
+\label{tab:geometry-features}
+\end{table*}
+
+\methodmlp{} fits one shared multilayer perceptron (MLP) with a single
+two-unit ReLU hidden layer and a predicate-linear skip connection. Its 29
+inputs comprise family and predicate
+indicators, the same 17 geometric measurements, the two signed-height
+interactions, and the sum of the directional overlap ratios. The family
+indicator is nonconstant because this estimator shares parameters across
+families. It has 69 parameters and excludes the source relation score and
+predictor identity.
+
+The 60,208 training rows yield 33,961 linked pairs, and
+transformation-consistent augmentation produces 86,032 optimization rows for
+both estimators. Linear uses 800 deterministic full-batch gradient-descent
+steps at learning rate 0.2. MLP uses 120 full-batch Adam steps at learning rate
+0.02. Both use the same pairwise weight, margin, $\ell_2$ coefficient, and fixed
+seed policy. The three linear family models contain 21--23 parameters. Each
+reported condition uses one fit with a fixed seed. The paired intervals quantify
+scan resampling rather than variation across training runs.
+
+\subsection{Formal Properties}
 
 \begin{proposition}[Exact transformation consistency]
 Let a finite transformation group $H_a$ act jointly on the predicate and
@@ -123,143 +248,175 @@ family counts must select $n_a(K)$ candidates from each family. Because each
 re-ranked $\pi_a$ is sorted by $u_i$, each estimator selects the $n_a(K)$
 highest-scoring candidates in that family. Replacing one of these candidates
 with a lower-scoring candidate from the same family would reduce the summed
-score of the prefix.
-The support/contact subsequence is fixed, so it does not affect this comparison.
+score of the prefix. The support/contact subsequence is fixed, so it does not
+affect this comparison.
 
-\paragraph{Counterfactual target construction.}
-Ground-truth relations in the evaluated families provide positives. Negatives
-are generated within the same scene context and linked to their source
-positive. The construction does not use source relation scores, predictor
-identities, or evaluation candidates.
-Table~\ref{tab:counterfactual-rules} gives the complete construction policy.
+\section{Reproducibility and Experimental Setup}
 
-\begin{table}[t]
-\centering
-{\small
-\setlength{\tabcolsep}{2.5pt}
-\begin{tabular}{p{.20\linewidth}p{.45\linewidth}p{.27\linewidth}}
-\toprule
-Family & Intervention and acceptance rule & Relation to verifier \\
-\midrule
-Proximity & Choose directed same-context pairs in descending normalized XY
-distance. Require distance $\geq2.5$ and zero projected overlap. & Shares
-distance/overlap primitives and the 2.5 satisfied boundary. The verifier
-declares violation only at $\geq3.5$. \\
-Vertical & On the same directed pair, replace \texttt{higher than} with
-\texttt{lower than} or conversely. Require the positive direction to have
-$|\Delta z|\geq0.25$ m and normalized $|\Delta z|\geq0.15$. & Shares both
-signed primitives and thresholds. \\
-Support/\allowbreak contact & Replace the subject or object within the context.
-Reject known support/contact pairs in either direction and floor subjects. Require any two
-of normalized XY distance $\geq2.0$, zero overlap, and vertical gap
-$\geq0.30$ m. & Shares these OBB primitives and thresholds. Point-subtype
-evidence used by the reported verifier is not used to generate negatives. \\
-\bottomrule
-\end{tabular}
-}
-\caption{Counterfactual-negative construction. Normalized XY distance uses the
-mean ordered-pair XY diagonal. Zero overlap requires both directed
-projected-overlap ratios to be at most $10^{-9}$.}
-\label{tab:counterfactual-rules}
-\end{table}
+\subsection{Data, Predictors, and Evaluation Universe}
 
-\paragraph{Information-use boundary.}
-Table~\ref{tab:construct-dependence} makes the information boundary explicit.
-Training examples come only from the training split, so evaluation candidate
-rows, source relation scores, and primary verifier-status labels do not enter
-target construction. The counterfactual rules and primary verifier
-nevertheless share some OBB-derived measurements and family thresholds. The
-point- and mesh-based audit removes that OBB overlap but retains the
-reconstructed evaluation scenes and relation ontology.
+Compatibility fitting uses 1,061 training scans. Model design and
+relation-family choices use a disjoint 117-scan development split. The shared
+evaluation universe contains 157 official 3DSSG validation scans, 548 relation
+contexts, and 3,972 exact-match ground-truth relations in the support/contact,
+proximity, and vertical-order families. Evaluation candidates, source relation
+scores, and verifier-status labels are not used for fitting. The same fitted
+estimators are applied to all three predictors without predictor-specific
+refitting.
+
+\paragraph{VL-SAT.}
+We rerun the released VL-SAT Mmgnet checkpoint on the official validation
+scenes with its 160-object and 26-relation ontology. Evaluation disables data
+augmentation and uses 128 sampled points per object and 256 per union. The
+adapter applies a sigmoid to each relation logit and exports all 26 non-none
+predicate scores for every ordered pair. This produces 957,008 candidates over
+36,808 ordered pairs and 548 contexts. We retain the six predicates in the
+three evaluated families and join each candidate to geometry by its scan,
+context, subject, and object identifiers.
+
+\paragraph{Open3DSG.}
+We train Open3DSG using the official implementation and non-averaged BLIP
+configuration, and select the checkpoint using training and development losses
+only. Public preprocessing produces candidates for 533 of the 548 contexts.
+The main evaluation retains all 548 contexts and treats the 15 contexts without
+candidates as empty sets. An eligible-context sensitivity analysis uses 3,899
+relations. A separate recovery covers all 548 contexts by lowering the minimum
+number of visible objects to two and regenerating views for two scans.
+
+\paragraph{SGFN.}
+We evaluate the released SGFN checkpoint with its 160-object and 26-relation
+configuration on the same validation scenes and denominator.
+
+\paragraph{Source relation scores.}
+The observed proximity and vertical-order score ranges are
+\([5.30{\times}10^{-22},0.9954]\) for VL-SAT,
+\([0.6394,0.9281]\) for Open3DSG, and
+\([4.61{\times}10^{-20},0.5846]\) for SGFN. All evaluated scores are positive,
+so multiplication by compatibility cannot reverse their order through a sign
+change. These ranges are observations, not calibrated probability intervals.
+The Open3DSG range over all relation families is \([0.5772,0.9707]\).
+
+\subsection{Primary Verifier Specification}
+
+The reported verifier-derived Violation uses one frozen rule-based policy for
+all three predictors. Proximity and vertical-order candidates use
+OBB-derived measurements. Support/contact candidates use reconstructed
+instance points and a subtype-specific local-support score. Let
+\(\widetilde d_{xy}\) denote normalized XY center distance, and let
+\(O_{xy}\) indicate that either directed projected-overlap ratio is positive.
+For vertical order, \((\delta_z^p,\widetilde\delta_z^p)\) equals
+\((\Delta z,\Delta z^{\rm norm})\) for \texttt{higher than} and its negation
+for \texttt{lower than}. Table~\ref{tab:primary-verifier} gives the complete
+status boundaries.
 
 \begin{table*}[t]
 \centering
 {\small
-\setlength{\tabcolsep}{4pt}
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}Xccc@{}}
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\textwidth}{@{}p{.12\textwidth}p{.21\textwidth}XXX@{}}
 \toprule
-Information & Training construction & Primary verifier & Point/mesh audit \\
+Family & Measurements & Satisfied & Uncertain & Violated \\
 \midrule
-Evaluation candidate rows & No & Yes & Yes \\
-Source relation score & No & No & No \\
-Primary verifier-status labels & No & Output & No \\
-OBB-derived measurements & Some & Yes & No \\
-Point/mesh measurements & No & No & Yes \\
-Evaluation scene identities & No & Yes & Yes \\
-Relation ontology & Yes & Yes & Yes \\
+Proximity &
+\(\widetilde d_{xy}\) and directed projected overlap &
+\(O_{xy}\), or \(\widetilde d_{xy}\leq2.5\) &
+No overlap and \(2.5<\widetilde d_{xy}<3.5\), or missing distance &
+No overlap and \(\widetilde d_{xy}\geq3.5\) \\
+\addlinespace
+Vertical order &
+\(\delta_z^p\) and \(\widetilde\delta_z^p\) &
+\(\delta_z^p\geq0.25\,\mathrm m\) and
+\(\widetilde\delta_z^p\geq0.15\) &
+Neither directional condition holds, or either measurement is missing &
+\(\delta_z^p\leq-0.25\,\mathrm m\) and
+\(\widetilde\delta_z^p\leq-0.15\) \\
+\addlinespace
+Support/\allowbreak contact &
+Subtype-specific point and local-surface score \(s_{\rm sc}\) &
+\(s_{\rm sc}\geq0.70\) with the required point evidence &
+\(0.40\leq s_{\rm sc}<0.70\), missing point evidence, or unavailable rigid
+support plane &
+\(s_{\rm sc}<0.40\) with sufficient point evidence \\
 \bottomrule
 \end{tabularx}
 }
-\caption{Information used by target construction and the two evaluation
-methods. ``Some'' denotes the OBB primitives and family thresholds shared by
-counterfactual construction and the primary verifier. The point- and
-mesh-based audit uses alternative measurements, not independent
-physical-validity ground truth.}
-\label{tab:construct-dependence}
+\caption{Primary geometry-verifier specification. These fixed rules assign the
+satisfied, uncertain, and violated statuses used by verifier-derived
+Violation. They are evaluation rules, not training targets or learned
+compatibility estimates.}
+\label{tab:primary-verifier}
 \end{table*}
 
-We cap negatives at two per positive, 200 per context--family, and three times
-the number of positives per family. These caps limit repeated easy
-negatives but do not equalize family counts. The constructed training and
-internal-development sets together contain 28,977 positives and 37,477
-negatives. Their combined family totals are 23,008 proximity, 5,488 vertical,
-and 37,958 support/contact rows. The explicit overlap above is why
-Violation computed by the rule-based geometry verifier is reported as a
-verifier-derived measure rather than independent physical-validity ground
-truth. The feature-removal analysis tests this dependence but does not
-eliminate it.
+\paragraph{Support/contact score.}
+For a signed gap \(g\), define
+\(\rho(g;a,b)=\operatorname{clip}(1-(|g|-a)/(b-a),0,1)\), and define
+\(\eta(n;c)=\min(n/c,1)\) for a point count \(n\).
+The \texttt{lying on} predicate or a pillow, cushion, blanket, clothes, or
+towel endpoint selects the soft-support subtype. An object labeled floor
+otherwise selects legged floor support, and the remaining cases use rigid
+support.
+The local point record uses the first XY-footprint expansion in
+\(\{0,0.05,0.10,0.20\}\,\mathrm m\) containing at least 10 support points.
+Here \(g_{05/95}\) is the subject 5th-percentile height minus the local-support
+95th percentile, and \(g_{01/99}\) is defined analogously.
+Legged floor support uses
+\[
+s_{\rm sc}=0.70\,\rho(g_{01/99};0.08,0.18)+0.30\,\eta(n;50),
+\]
+with the score clipped below at 0.40 because low-percentile evidence alone
+does not declare a violation. Soft support/contact uses
+\(s_{\rm sc}=0.55s_{\rm gap}+0.30\eta(n;50)+0.15\).
+For a positive gap, \(s_{\rm gap}=\rho(g_{05/95};0.08,0.20)\).
+For penetration, it is 1.0 through \(0.15\,\mathrm m\), decreases linearly to
+0.55 at \(0.45\,\mathrm m\), and remains 0.55 beyond that value.
+Rigid support uses
+\[
+s_{\rm sc}=0.55\,\rho(g_{\rm plane};0.08,0.22)
++0.35c_{\rm plane}+0.10\,\eta(n;50).
+\]
+The local plane is the densest \(0.04\,\mathrm m\) height bin within
+\([-0.25,0.12]\,\mathrm m\) of the subject bottom and within its
+5th--95th-percentile XY footprint expanded by \(0.20\,\mathrm m\). It is
+available with at least 10 inliers, and \(g_{\rm plane}\) is the subject
+5th-percentile height minus the plane height. Its confidence is
+\[
+\begin{aligned}
+c_{\rm plane}={}&0.40\,\eta(n_{\rm in};10)
++0.30\min(r_{\rm in}/0.15,1)\\
+&+0.30\,\rho(e_{\rm plane};0.015,0.060),
+\end{aligned}
+\]
+where \(r_{\rm in}\) and \(e_{\rm plane}\) are the inlier ratio and mean
+absolute residual. Missing endpoint geometry is uncertain. Predicates outside
+the three evaluated families are unsupported and excluded from the reported
+Recall and Violation evaluation.
 
-\subsubsection{Estimator and Optimization Details.}
-\methodlinear{} fits one logistic model per evaluated relation family. Numeric
-features use means and standard deviations estimated from the training split.
-Missing values use the corresponding training mean. Inputs are predicate
-indicators $T$, predicate-independent geometric measurements of the ordered pair $G$, and the
-two predicate-signed height interactions defined in the main paper. The
-family label selects the head and is not repeated as an input. The source
-relation score, source rank, predictor identity, and object class are excluded.
-Transformation-consistent augmentation preserves the proximity predicate
-under endpoint swap. Vertical order swaps endpoints and applies the inverse
-predicate. Linked counterfactuals receive the fixed margin loss in the main
-paper. Support/contact receives the pairwise loss but no blanket endpoint
-transform.
+\paragraph{Separation from training construction.}
+Table~\ref{tab:counterfactual-rules} defines how training counterfactuals are
+constructed, whereas Table~\ref{tab:primary-verifier} defines evaluation
+statuses. The two procedures share some measurements and thresholds, as made
+explicit in Table~\ref{tab:construct-dependence}, but evaluation candidates and
+verifier-status labels are not used for fitting.
 
-\methodmlp{} fits one shared multilayer perceptron (MLP) with a single
-two-unit ReLU hidden layer and a predicate-linear skip connection. Its 29
-inputs comprise family and predicate
-indicators, the same 17 geometric measurements, the two signed-height
-interactions, and the sum of the directional overlap ratios. The family
-indicator is nonconstant because this estimator shares parameters across
-families. It has 69 parameters and excludes the source relation score and
-predictor identity.
+\subsection{Environment and Internal Validation}
 
-The 60,208 training rows yield 33,961 linked pairs, and
-transformation-consistent augmentation produces 86,032 optimization rows for
-both estimators. Linear uses 800 deterministic full-batch gradient-descent
-steps at learning rate 0.2. MLP uses 120 full-batch Adam steps at learning rate
-0.02. Both use the same pairwise weight, margin, $\ell_2$ coefficient, and fixed
-seed policy. The three linear family models contain 21--23 parameters. Each
-reported condition uses one fit with a fixed seed. The paired intervals quantify
-scan resampling rather than variation across training runs.
+\paragraph{Implementation and development diagnostics.}
+All RelCompat3D preprocessing, fitting, and evaluation jobs use a pinned
+Docker image based on Python 3.11.9 with NumPy 1.26.4. Re-ranking requires no
+GPU. Source-predictor inference runs in separate source-specific containers and
+is excluded from the timing below. Compatibility is computed once per candidate
+and cached before re-ranking. Across five timed runs, compatibility scoring,
+transformation averaging, and family-aware sorting took 1.81--2.45 seconds per
+predictor on an Intel Core Ultra 7 265KF CPU.
 
-\section{Additional Experiments}
-\subsection{Experimental Setup}
-\subsubsection{Implementation and Development Diagnostics.}
-All preprocessing, fitting, and evaluation jobs ran in the Docker environment
-described in the code package. Compatibility is computed once for each candidate
-and cached before re-ranking. Across five timed runs over all 548 contexts,
-end-to-end re-ranking took 1.81--2.45 seconds per predictor, or at most 4.48 ms
-per context.
+Development-split checks did not select predictor-specific models. Both
+estimators satisfied the proximity and vertical-order transformation identities
+to numerical precision. The MLP ordered 99.23\% of linked
+positive--counterfactual development pairs correctly. The paper claims are
+based on the fixed validation protocol.
 
-Development-split checks were diagnostic and did not select predictor-specific
-models. The Linear and MLP estimators obtained overall AUROC/Brier values of
-0.9973/0.0157 and 0.9904/0.0225, respectively. Both satisfied the proximity and
-vertical-order transformation identities to numerical precision. The MLP
-ordered 99.23\% of linked positive--counterfactual development pairs correctly.
-These checks support optimization and implementation validity. The paper claims
-are based on the fixed validation protocol.
-
-\subsubsection{Row-Level Regeneration Check.}
-We create a deterministic set of derived rows for the 548-context evaluation
+\paragraph{Internal row-level regeneration check.}
+We created a deterministic set of derived rows for the 548-context evaluation
 universe. It contains pseudonymized candidate and context identities,
 predictor, predicate and family labels, source relation score, Linear and MLP
 compatibility, paper ranking positions, exact-match membership, and primary and
@@ -268,13 +425,13 @@ categories, and raw geometric measurements are excluded. From these rows, one
 Docker command regenerates Tables~1--3 and the data for Figure~3. It also
 creates a verification rendering and compares every cell with the reported paper
 values. The completed run checks 291 cells. The maximum absolute error is zero
-under the \(10^{-12}\) tolerance. The anonymous code package includes the exporter,
-reproduction script, schema, compact outputs, and hash manifests. Distribution
-of the derived rows depends on the dataset terms. The same rows can instead be
-regenerated from licensed external inputs.
+under the \(10^{-12}\) tolerance. The row schema excludes licensed scene data
+and direct source identifiers. The rows can be regenerated from licensed
+external inputs.
 
-\subsection{Results}
-\subsubsection{Component and Feature-Removal Analyses.}
+\section{Additional Results Supporting Main Claims}
+
+\subsection{Estimator Components and Feature Removal}
 \paragraph{Matched component diagnostics.}
 Tables~\ref{tab:component-removals}--\ref{tab:transformation-diagnostics}
 isolate the linked pairwise loss and transformation averaging for both
@@ -285,7 +442,7 @@ retains relation-preserving augmentation and transformation averaging. The No
 averaging condition uses the fitted full estimator without inference-time
 transformation averaging.
 
-\begin{table}[t]
+\begin{center}
 \centering
 {\small
 \setlength{\tabcolsep}{1.7pt}
@@ -319,11 +476,11 @@ Predictor & Condition & $K=50$ & $K=100$ \\
 \bottomrule
 \end{tabular}
 }
-\caption{Matched component removals. Cells are exact-match Recall /
+\captionof{table}{Matched component removals. Cells are exact-match Recall /
 verifier-derived Violation reported as proportions. Full, no-pairwise, and
 no-averaging conditions are matched separately within each estimator.}
 \label{tab:component-removals}
-\end{table}
+\end{center}
 
 The pairwise term raises the held-out positive-win rate by 0.085 percentage
 points for Linear and 0.057 points for MLP. It also increases the mean Linear
@@ -339,7 +496,7 @@ Recall--Violation changes.
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{lllrrrcc}
 \toprule
-Estimator & Condition & Family & Mean & P95 & Max & Min Jaccard & Min exact-context \\
+Estimator & Condition & Family & Mean & P95 & Max & Min Jaccard & Min. exact-context rate \\
 \midrule
 Linear & Full & Both & .0000 & .0000 & .0000 & 1.0000 & 1.0000 \\
 Linear & No pairwise & Both & .0000 & .0000 & .0000 & 1.0000 & 1.0000 \\
@@ -369,28 +526,6 @@ estimators and their no-pairwise refits. Without averaging, the minimum
 top-\(K\) Jaccard is .9635 for Linear and .6975 for MLP. Thus averaging
 supplies the claimed exact consistency guarantee even though its aggregate
 effect in Table~\ref{tab:component-removals} is small.
-
-\paragraph{Training-seed robustness.}
-Five model seeds were fixed before training while the constructed rows and
-linked-pair identities were held constant. The reported MLP fit was included
-but not selected from this analysis. Linear is deterministic and produces the
-same model hash in all five runs. MLP variation is small. All predictor--\(K\)
-cells retain Recall no lower and Violation no higher than Source except one
-VL-SAT run at \(K=50\). That run selects one fewer exact relation than Source
-(92.699\% versus 92.724\% Recall) while retaining lower Violation (1.821\%
-versus 2.675\%). Complete per-seed means and standard deviations are included
-in the machine-readable results.
-
-The factor ablation uses the same split and estimator class in a separate
-pooled analysis. Because one head spans all families, its semantic input
-includes predicate and family indicators. On the development split,
-semantic-only, predicate-independent \(G\)-only, additive semantics+\(G\), and
-interaction \(T\times G\) obtain AUROC
-.6124/.8809/.9193/.9822 and Brier .2370/.1363/.1061/.0495. Shuffled and
-wrong-pair geometry reduce the compatibility signal. These results confirm
-that the estimator uses both factors and satisfies the implemented
-transformation identities. They do not turn the constructed target into
-independent physical-validity ground truth.
 
 Table~\ref{tab:primitive-holdout} reports the feature-removal results under the
 same family-aware re-ranking procedure.
@@ -438,11 +573,7 @@ proximity and horizontal-distance/overlap context for vertical order.}
 Every feature-removal model is refitted on the 1,061 training scans with the same
 linked positive--counterfactual objective, exclusion of the source relation score,
 and exact transformation averaging.
-The exact-scalar condition retains development AUROC of .99999 for proximity
-and .99794 for vertical order. Removing all related distance or vertical
-measurements lowers these values to .9512 and .7089. Alternative evidence yields
-.8763 and .5531. At $K=50$,
-the strict conditions retain a clear Open3DSG improvement but not the full
+At $K=50$, the strict conditions retain a clear Open3DSG improvement but not the full
 Violation reduction on VL-SAT or SGFN. At $K=100$, all feature-removal
 conditions improve both reported metrics across all three predictors. These
 results show that performance does not depend on one verifier input alone.
@@ -450,7 +581,7 @@ They do not eliminate the broader dependence on correlated geometry. The main
 paper reports matched controls under family-aware re-ranking. The pooled
 family-conditioning result is summarized below.
 
-\subsubsection{Point- and Mesh-Based Consistency Audit.}
+\subsection{Alternative-Geometry Audit}
 The primary verifier and compatibility estimators share some OBB-derived
 measurements. We therefore construct an alternative audit from reconstructed
 instance points and meshes. Vertex-based distances and heights provide the point
@@ -469,7 +600,7 @@ for both estimators at all five \(K\) values.
 \setlength{\tabcolsep}{5pt}
 \begin{tabular}{llrrrrr}
 \toprule
-Predictor & Ranking & \(K=5\) & \(K=10\) & \(K=20\) & \(K=50\) & \(K=100\) \\
+Predictor & Ranking rule & \(K=5\) & \(K=10\) & \(K=20\) & \(K=50\) & \(K=100\) \\
 \midrule
 \multirow{3}{*}{VL-SAT}
 & Source & 0.93 & 3.61 & 7.27 & 16.43 & 26.00 \\
@@ -500,8 +631,7 @@ in all 15 predictor--\(K\) settings. The only tie is SGFN at \(K=5\). The paired
 95\% interval is below zero in every non-tied setting. Point-only and mesh-only
 point estimates have the same non-increasing direction. At \(K=50\), measured
 coverage ranges from 95.5\% to 98.3\%, and decidable coverage ranges from 71.0\%
-to 85.7\% across predictors and estimators. Full point-only, mesh-only, coverage,
-and interval rows are included in the machine-readable results.
+to 85.7\% across predictors and estimators.
 
 Synthetic point and mesh interventions further check the audit implementation.
 Translating one object laterally changes proximity labels as expected, and
@@ -509,7 +639,7 @@ reversing the relative heights changes vertical-order labels. These checks are
 implementation diagnostics rather than additional evidence of physical
 validity.
 
-\subsubsection{Qualitative Pair Analysis.}
+\subsection{Qualitative Pair Analysis}
 
 The Open3DSG context used for the main-paper teaser also contains a
 complementary promotion case. The exact-label relation ``desk close by chair''
@@ -534,20 +664,7 @@ source order because that family is outside the re-ranking scope.
     \label{fig:supp-qualitative}
 \end{figure*}
 
-\subsubsection{Counterfactual-Policy Sensitivity.}
-We refit the Linear estimator after varying one construction or objective
-parameter at a time. The tested values are 2.0 and 3.0 m for the proximity
-threshold (default 2.5 m), 0.20 and 0.30 for the vertical margin (default 0.25),
-1 and 4 for the negative cap (default 2), and 0.125 and 0.5 for the
-pairwise-loss weight (default 0.25). Across these eight
-perturbations, linked positive--counterfactual ordering remains perfect. At
-\(K=50\), the maximum absolute change from the active Linear model is 0.20
-percentage points in Recall and 0.11 points in Violation. At \(K=100\), the
-corresponding maxima are 0.35 and 0.20 points. Every condition retains Recall no
-lower and Violation no higher than Source. Full rows are provided with the
-experiment artifacts.
-
-\subsubsection{Estimator, Fusion, and Routing Sensitivities.}
+\subsection{Score, Baseline, and Routing Sensitivities}
 
 \paragraph{Source-score mapping sensitivity.}
 The source ranking is invariant to a strictly monotonic score mapping, whereas
@@ -593,8 +710,8 @@ sensitivity over the tested mappings, not score-scale invariance.
 & & \multicolumn{3}{c}{Five smooth mappings} &
 \multicolumn{3}{c}{Percentile mapping} \\
 \cmidrule(lr){3-5}\cmidrule(lr){6-8}
-Predictor & Estimator & Both & Min.\ \(\Delta R\) & Max.\ \(\Delta V\) &
-Both & Min.\ \(\Delta R\) & Max.\ \(\Delta V\) \\
+Predictor & Estimator & Pass & Min.\ \(\Delta R\) & Max.\ \(\Delta V\) &
+Pass & Min.\ \(\Delta R\) & Max.\ \(\Delta V\) \\
 \midrule
 \multirow{2}{*}{VL-SAT}
  & Linear & 25/25 & 0.000 & $-0.036$ & 5/5 & +0.025 & $-0.146$ \\
@@ -611,7 +728,7 @@ Both & Min.\ \(\Delta R\) & Max.\ \(\Delta V\) \\
 \end{tabular}
 }
 \caption{Source-score mapping sensitivity over
-\(K\in\{5,10,20,50,100\}\). Both counts settings with
+\(K\in\{5,10,20,50,100\}\). Pass counts settings with
 \(\Delta R\geq0\) and \(\Delta V\leq0\) relative to Source. Minimum Recall and
 maximum Violation changes are percentage points. Negative \(\Delta V\) is
 preferred. The smooth block pools three power and two logit-temperature
@@ -663,20 +780,11 @@ Predictor & Ranking rule & \(K=5\) & \(K=10\) & \(K=20\) & \(K=50\) & \(K=100\) 
 \end{tabular}
 }
 \caption{Comparison with the non-learned robust-density baseline on the shared
-3DSSG validation target. Cells are exact-match Recall / verifier-derived
+3DSSG validation scenes. Cells are exact-match Recall / verifier-derived
 Violation percentages. Linear and MLP denote the two proposed RelCompat3D
 estimators under the same family-aware re-ranking rule.}
 \label{tab:simple-baseline}
 \end{table*}
-
-\paragraph{Direct-verifier diagnostics.}
-Hard-tail and Hard-drop read primary-verifier labels at evaluation time and are
-therefore non-deployable diagnostics, not comparable learned baselines.
-Hard-tail often lowers Violation further but trades Recall against the learned
-estimators. Hard-drop guarantees zero primary Violation by construction, but it
-returns fewer than \(K\) rows for Open3DSG at \(K\in\{50,100\}\) and for VL-SAT
-and SGFN at \(K=100\). The complete selected-count and uncertainty rows are
-provided in the machine-readable results.
 
 \paragraph{Compatibility estimators and matched fusion.}
 The MLP is a matched nonlinear estimator rather than a separate method. RankAvg
@@ -733,23 +841,17 @@ Predictor & Condition & R@50 & V@50 & R@100 & V@100 \\
 }
 \caption{Matched controls for RelCompat3D-MLP.
 Recall (R, \(\uparrow\)) and verifier-derived Violation (V, \(\downarrow\)) on
-the shared 3DSSG validation target. All values are percentages. Main Table~2
+the shared 3DSSG validation scenes. All values are percentages. Main Table~2
 reports the corresponding Linear controls.}
 \label{tab:ablations-k50}
 \end{table*}
 
-Across both reported $K$ values and both compatibility estimators, corrupted predicates and pair
-geometry increase verifier-derived Violation, while compatibility-only
-ordering loses substantial Recall on VL-SAT and SGFN. Open3DSG remains more
-sensitive to source-score scale.
-
-\paragraph{Pooled compatibility ablation.}
-A single pooled Linear head tests whether family-specific estimation matters.
-At \(K=50\), pooling changes Recall by \(+0.07\), \(+0.33\), and \(+2.21\)
-percentage points for VL-SAT, Open3DSG, and SGFN, respectively, but increases
-Violation by \(0.16\), \(2.38\), and \(0.34\) points. The result is a
-predictor-dependent trade-off rather than a uniformly stronger estimator. Full
-\(K=100\) rows are provided in the machine-readable results.
+Across both reported \(K\) values and both compatibility estimators, corrupted
+predicates and ordered-pair measurements increase verifier-derived Violation.
+Compatibility-only ordering remains close to the full estimator on Open3DSG
+but loses substantial Recall on VL-SAT and SGFN. These controls support the
+predictor-dependent role of the source relation score described in the main
+paper.
 
 \paragraph{Routing-constraint controls.}
 The \emph{family-aware} rule preserves the source family label at every rank
@@ -790,7 +892,7 @@ Predictor & Estimator & Re-ranking & \(K=5\) & \(K=10\) & \(K=20\) &
 \end{tabular}
 }
 \caption{Matched routing-constraint comparison on the shared 3DSSG
-validation target. Cells are exact-match Recall / verifier-derived Violation
+validation scenes. Cells are exact-match Recall / verifier-derived Violation
 percentages. Joint P/V changes only the competition between proximity and
 vertical-order candidates. Support/contact positions and identities remain
 fixed.}
@@ -812,60 +914,9 @@ Two broader relaxations are retained as scope comparisons.
 support/contact candidates but permits competition across families.
 \emph{All-family product} also applies learned compatibility to
 support/contact. These conditions change support/contact positions or selected
-membership and are not matched tests of the family-aware constraint. Complete
-rows are included in the machine-readable results.
+membership and are not matched tests of the family-aware constraint.
 
-\paragraph{Open3DSG coverage sensitivity.}
-The public preprocessing drops a context when fewer than four annotated
-objects retain view metadata. This accounts for all 15 missing contexts.
-The main evaluation retains all 548 contexts and the 3,972-relation
-denominator, assigning no predictions to the missing contexts. At \(K=100\),
-Source and Linear obtain 51.11/12.42 and 56.85/3.24 Recall/Violation
-percentages. Recovering predictions for the missing contexts changes these
-values only to 51.61/12.42 and 57.35/3.32. The direction of the result is
-therefore stable, while the main paper retains the conservative public route.
-
-\subsubsection{Candidate-Pool Oracle Recall.}
-RelCompat3D re-ranks a fixed candidate pool and cannot recover a ground-truth
-relation that the source did not generate. We quantify this boundary using three
-post-hoc upper bounds. The family-aware oracle preserves the source top-\(K\)
-family counts and support/contact subsequence. The family-count oracle preserves
-only family counts. The unconstrained oracle selects up to \(K\) exact-match
-candidates without family constraints. None of these oracles is a deployable
-comparator or a model-selection criterion.
-
-Table~\ref{tab:candidate-oracle} summarizes candidate-pool coverage and the
-three Recall upper bounds.
-
-\begin{table*}[t]
-\centering
-{\small
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{lrrrrrrr}
-\toprule
-Predictor & Pool cov. & Source@50 & Best@50 & Fam.-aware@50 &
-Fam.-count@50 & Unconstr.@50 & Fam.-aware@100 \\
-\midrule
-VL-SAT   & 99.72 & 92.72 & 92.77 & 96.73 & 99.52 & 99.72 & 98.79 \\
-Open3DSG & 79.68 & 40.43 & 46.70 & 63.72 & 73.46 & 79.68 & 71.88 \\
-SGFN     & 99.72 & 74.02 & 74.57 & 86.05 & 88.07 & 99.72 & 98.49 \\
-\bottomrule
-\end{tabular}
-}
-\caption{Candidate-pool Recall upper bounds.
-Exact-match Recall (\%) on the shared 3DSSG validation target. Pool cov. is the
-fraction of ground-truth relations present in the fixed candidate pool. Best is
-the better active RelCompat3D variant at \(K=50\).}
-\label{tab:candidate-oracle}
-\end{table*}
-
-Open3DSG has a substantially lower candidate-pool coverage (79.68\%) than the
-two closed-set sources (99.72\%). Even the family-aware oracle remains above the
-best active variant for every predictor, so the current method does not saturate
-the attainable re-ranking ceiling. Full results for all five \(K\) values are
-provided in the machine-readable results.
-
-\subsubsection{Paired Scan-Level Intervals.}
+\subsection{Paired Scan-Level Intervals}
 Paired 95\% intervals use 1,000 scan-level bootstrap resamples. All contexts from
 a sampled scan are resampled together, and the same resample indices are used
 for Source and each RelCompat3D variant.
@@ -873,7 +924,7 @@ for Source and each RelCompat3D variant.
 Table~\ref{tab:scan-cluster} reports the paired \(K=50\) changes used in the
 main-paper interval interpretation.
 
-\begin{table}[t]
+\begin{center}
 \centering
 {\small
 \setlength{\tabcolsep}{1.8pt}
@@ -899,103 +950,60 @@ Estimator & Predictor & $\Delta$R@50 & $\Delta$V@50 \\
 \bottomrule
 \end{tabular}
 }
-\caption{Paired scan-level changes at \(K=50\).
+\captionof{table}{Paired scan-level changes at \(K=50\).
 Each cell reports the RelCompat3D-minus-Source change and its paired 95\%
 interval in percentage points. Positive Recall and negative Violation changes
 are favorable.}
 \label{tab:scan-cluster}
-\end{table}
+\end{center}
 
 For Open3DSG and SGFN, both intervals exclude zero in the favorable direction
 for both metrics. For VL-SAT, the Recall intervals contain zero while the
-Violation intervals remain below zero. Complete intervals for all five \(K\)
-values are provided in the machine-readable results.
+Violation intervals remain below zero.
 
-\subsubsection{External Transfer Stress Test.}
-
-We apply the 3DSSG-trained compatibility model and family-aware re-ranking rule to
-the official ReplicaSSG test scenes using FROSS predictions. No target-specific
-parameter fitting, normalization, or imputation is performed in this evaluation.
-The exact mapping covers \texttt{near}, \texttt{above}, and \texttt{under}.
-Support/contact is excluded because the ontologies do not provide an exact
-mapping. We report this as a transfer stress test rather than evidence of
-dataset-level generalization.
-
-Table~\ref{tab:replica-transfer} reports this stress test at all five \(K\)
-values.
-
-\begin{table}[t]
-\centering
-{\small
-\setlength{\tabcolsep}{3.6pt}
-\begin{tabular}{rccc}
-\toprule
-$K$ & Source R/V & \methodlinear{} R/V & $\Delta$R/$\Delta$V \\
-\midrule
-5   & .0465/.0545 & .0698/.0182 & +.0233/$-.0364$ \\
-10  & .0756/.0818 & .1453/.0273 & +.0698/$-.0545$ \\
-20  & .1453/.1273 & .2209/.0364 & +.0756/$-.0909$ \\
-50  & .2616/.1328 & .3140/.0904 & +.0523/$-.0424$ \\
-100 & .3547/.1967 & .3547/.1958 & +.0000/$-.0010$ \\
-\bottomrule
-\end{tabular}
-}
-\caption{ReplicaSSG/FROSS transfer across all reported \(K\) values. R is
-exact-match Recall over 172 relations. V is verifier-derived Violation. The
-Linear estimator and family-aware re-ranking procedure match the main experiment.}
-\label{tab:replica-transfer}
-\end{table}
-
-Paired scene-bootstrap intervals support joint improvement at $K=10$
-($\Delta$R [.0048,.1467], $\Delta$V [$-.1000$,$-.0091$]) and $K=50$
-($\Delta$R [.0179,.0811], $\Delta$V [$-.0683$,$-.0185$]). The $K=20$
-Recall interval touches zero, while $K=5$ is inconclusive. At $K=100$, heavy
-quantization of the source relation score leaves little room for multiplicative
-re-ranking. Candidate coverage also limits exact-match Recall to 44.19\%. The
-stress test therefore supports \(K\)-dependent transfer, not dataset-level
-generalization.
-
-\subsubsection{Family Composition.}
+\subsection{Relation-Family Composition}
 
 Table~\ref{tab:family-slices} reports the slice for each family inside the
 actual global top-100 ranking. Deltas compare \methodlinear{} with Source
 using shared paired context-bootstrap indices.
 
-\begin{table}[t]
+\begin{center}
 \centering
 {\small
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{llrr}
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{llrrrr}
 \toprule
-Predictor & Family & $\Delta$R & $\Delta$V \\
+Predictor & Family & Selected & Share & $\Delta$R & $\Delta$V \\
 \midrule
-VL-SAT & Support/contact & .0000 & .0000 \\
-VL-SAT & Proximity & +.0040 & $-.0076$ \\
-VL-SAT & Vertical order & +.0051 & $-.0609$ \\
+VL-SAT & Support/contact & 24,021 & 43.8\% & .0000 & .0000 \\
+VL-SAT & Proximity & 16,513 & 30.1\% & +.0040 & $-.0076$ \\
+VL-SAT & Vertical order & 14,266 & 26.0\% & +.0051 & $-.0609$ \\
 \midrule
-Open3DSG & Support/contact & .0000 & .0000 \\
-Open3DSG & Proximity & +.0968 & $-.0443$ \\
-Open3DSG & Vertical order & +.1538 & $-.3014$ \\
+Open3DSG & Support/contact & 27,162 & 51.8\% & .0000 & .0000 \\
+Open3DSG & Proximity & 10,929 & 20.8\% & +.0968 & $-.0443$ \\
+Open3DSG & Vertical order & 14,361 & 27.4\% & +.1538 & $-.3014$ \\
 \midrule
-SGFN & Support/contact & .0000 & .0000 \\
-SGFN & Proximity & +.0142 & $-.0150$ \\
-SGFN & Vertical order & +.0051 & $-.0643$ \\
+SGFN & Support/contact & 23,616 & 43.1\% & .0000 & .0000 \\
+SGFN & Proximity & 9,562 & 17.4\% & +.0142 & $-.0150$ \\
+SGFN & Vertical order & 21,622 & 39.5\% & +.0051 & $-.0643$ \\
 \bottomrule
 \end{tabular}
 }
-\caption{Family-specific metrics within the selected top-100 predictions.
-Positive $\Delta V$ is a regression. \(V\) is verifier-derived Violation.}
+\captionof{table}{Family composition and family-specific metrics within the selected
+top-100 predictions. Counts and shares are identical for Source,
+\methodlinear{}, and \methodmlp{} because family-aware re-ranking preserves
+the source family-label sequence. Deltas are \methodlinear{} minus Source, and
+positive $\Delta V$ is a regression.}
 \label{tab:family-slices}
-\end{table}
+\end{center}
 
 Support/contact is exactly unchanged because the ranking procedure preserves its
 selected subsequence and the source family-label sequence at every $K$. Vertical
 order drives most of the aggregate reduction. The result is consequently a
 scoped improvement, not a uniform family claim. The same
-direction holds across the reported \(K\) values. Full machine-readable family
-slices and simultaneous intervals accompany the code package.
+direction holds across the reported \(K\) values.
 
-\subsubsection{Verifier-Uncertainty Sensitivity.}
+\subsection{Verifier-Uncertainty Sensitivity}
 
 The reported $\mathrm{V@K}_{all}$ includes uncertain candidates in its denominator but
 does not label them satisfied. We therefore recompute each ranking with
@@ -1005,29 +1013,36 @@ uncertain candidate as a violation. Table~\ref{tab:uncertainty-sensitivity}
 gives the $K=100$
 comparison.
 
-\begin{table}[t]
+\begin{center}
 \centering
 {\small
-\setlength{\tabcolsep}{3.5pt}
-\begin{tabular}{llrrrr}
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}{llrrrrr}
 \toprule
-Predictor & Condition & $V_{all}$ & $V_{dec}$ & $U$ & $V_{u\to v}$ \\
+Predictor & Ranking rule & Dec. cov. & $V_{all}$ & $V_{dec}$ & $U$ & $V_{u\to v}$ \\
 \midrule
-VL-SAT & Source & .0476 & .0729 & .3464 & .3941 \\
-VL-SAT & Linear & .0295 & .0452 & .3473 & .3768 \\
+VL-SAT & Source & .6536 & .0476 & .0729 & .3464 & .3941 \\
+VL-SAT & Linear & .6527 & .0295 & .0452 & .3473 & .3768 \\
+VL-SAT & MLP & .6542 & .0296 & .0453 & .3458 & .3755 \\
 \midrule
-Open3DSG & Source & .1242 & .2126 & .4161 & .5402 \\
-Open3DSG & Linear & .0324 & .0548 & .4085 & .4409 \\
+Open3DSG & Source & .5839 & .1242 & .2126 & .4161 & .5402 \\
+Open3DSG & Linear & .5915 & .0324 & .0548 & .4085 & .4409 \\
+Open3DSG & MLP & .5735 & .0371 & .0648 & .4265 & .4637 \\
 \midrule
-SGFN & Source & .0630 & .1005 & .3732 & .4362 \\
-SGFN & Linear & .0350 & .0565 & .3803 & .4153 \\
+SGFN & Source & .6268 & .0630 & .1005 & .3732 & .4362 \\
+SGFN & Linear & .6197 & .0350 & .0565 & .3803 & .4153 \\
+SGFN & MLP & .6219 & .0350 & .0563 & .3781 & .4131 \\
 \bottomrule
 \end{tabular}
 }
-\caption{Uncertainty sensitivity at $K=100$. Lower is better for all four
-reported quantities.}
+\captionof{table}{Primary-verifier status coverage and uncertainty sensitivity at
+$K=100$. Status coverage is 1.0000 for every row. Decidable coverage is the
+satisfied or violated fraction among status-assigned candidates. \(U\) is the
+uncertain fraction, and \(V_{u\to v}\) counts uncertain candidates as
+violations. Lower is better for \(V\) and \(U\), while higher is better for
+coverage.}
 \label{tab:uncertainty-sensitivity}
-\end{table}
+\end{center}
 
 \methodlinear{}-minus-Source changes in $V_{dec}$ are $-.0277$ for VL-SAT, $-.1578$
 for Open3DSG, and $-.0440$ for SGFN. Their paired 95\% intervals all exclude
@@ -1037,14 +1052,23 @@ decidable-only and uncertain-as-violation \(V\) are lower for all three
 predictors, although uncertainty does not decrease uniformly. Across both
 estimators, primary, decidable-only, and uncertain-as-violation \(V\) are
 non-increasing relative to Source in all 30 predictor--\(K\) settings.
-The Hard-drop diagnostic has zero Violation when the denominator includes all
-verifier statuses, but it retains uncertain candidates and therefore has
-uncertain-as-violation \(V\) of .3712/.4722/.4042. Thus zero measured Violation
-does not imply reliable or complete selection.
+These denominator checks show that the Violation reduction is not specific to
+one treatment of uncertain candidates.
 
+\FloatBarrier
+\section{Secondary Diagnostics}
 
-\paragraph{Machine-readable result rows.}
-The accompanying code and data package contains the full per-\(K\), per-seed,
-per-mapping, interval, selected-count, and coverage rows summarized in this
-document, together with manifests and tolerance checks for the reported paper
-cells.
+These diagnostics bound sensitivity and scope. They are not additional main
+comparisons and do not broaden the claim beyond the shared 3DSSG validation
+scenes.
+
+Across five fixed seeds, Linear is identical and MLP is stable. All
+predictor--\(K\) cells retain the source-relative direction except one VL-SAT
+run at \(K=50\), which selects one fewer exact relation and retains lower
+Violation. Eight one-at-a-time construction and objective perturbations change
+Linear by at most 0.35 Recall and 0.20 Violation percentage points and never
+reverse that direction.
+
+A pooled Linear head produces predictor-dependent Recall--Violation trade-offs.
+Restoring the 15 omitted Open3DSG contexts changes \(K=100\) Linear
+Recall/Violation from 56.85/3.24 to 57.35/3.32.

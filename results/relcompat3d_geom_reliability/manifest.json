@@ -1,9 +1,9 @@
 {
   "schema_version": "relcompat3d_submission_result_index_v1",
-  "updated_at_kst": "2026-07-27",
+  "updated_at_kst": "2026-07-29",
   "status": "submission_compact_active",
   "method_pointer": "experiments/RelCompat3D_geom_reliability/active_method.json",
-  "paper": "paper/aaai/main_teaser_aaai27.pdf",
+  "paper": "paper/aaai/main_aaai27.pdf",
   "supplement": "paper/aaai/supplement_aaai27.pdf",
   "posthoc_integrity": {
     "score_robustness_manifest_sha256": "57780a58173759b03f784549c2ea0213c9cfdbd5c633863ff7dbd977f8dd3548",

@@ -1,6 +1,6 @@
 # RelCompat3D Figure Guide
 
-Last updated: 2026-07-28 KST
+Last updated: 2026-07-29 KST
 
 This file records the intent, fixed values, and claim boundary of every figure
 in the final main paper and technical supplement.
@@ -10,7 +10,7 @@ in the final main paper and technical supplement.
 - Orange marks the subject instance.
 - Blue marks the object instance.
 - Relation text is shown in quotation marks in captions and prose.
-- Main figures use the outlined-v15 PDF assets to avoid font-substitution
+- Main figures use the current outlined PDF assets to avoid font-substitution
   warnings.
 - Qualitative ranks are candidate ranks in the corresponding source context.
 - A rank change illustrates re-ranking, not correction of the underlying scene
@@ -83,6 +83,125 @@ Family-aware re-ranking then preserves the source family sequence.
 The asset, caption, Method description, and Results prose agree on the distance,
 variant, and ranks.
 
+### Source material and regeneration
+
+The case is traceable to the following evaluation record:
+
+- Scan: `4fbad32f-465b-2a5d-8408-146ab1d72808`.
+- Context: subgraph 2.
+- Subject: heater instance 14.
+- Object: trash-can instance 24.
+- View: top-down XY.
+
+The locally preserved
+`archive/local/pre_submission_20260722/previous_archive/experiments/H001_geom_reliability/pre_submission_20260722/no_family_indicator_v1/candidate_figures/qualitative_cases.json`
+contains the subject and object centers, bounding-box extents, plot bounds,
+\(4.329476\,\mathrm{m}\) XY distance, ranks, scores, and verifier status.
+The same folder contains `figure3_qualitative.svg`, whose panel (a) is an
+already rendered top-down XY plot for this pair. PDF and PNG renderings are
+preserved in the adjacent `candidate_paper/` folder.
+
+An RGB or full point-cloud view can be regenerated after restoring the licensed
+3RScan/Open3DSG runtime data. The archived records point to
+`data_dict_2.pkl` under the scan's Open3DSG `preprocessed/` directory and to
+`4fbad32f-465b-2a5d-8408-146ab1d72808_object2image.pkl` under `views/`.
+These large runtime files are not present in the compact local snapshot. A
+3RScan point-cloud rendering can instead be reconstructed from
+`labels.instances.annotated.v2.ply` after the licensed scan is restored.
+
+### Label-free XY panel regeneration
+
+The preferred replacement for the left side of Figure 2 is a data-backed XY
+plot without the strings `heater`, `trash can`, or the instance identifiers.
+The plot should retain only the preserved endpoint projections, their center
+markers, the center-to-center segment, and the \(x/y\) axes. Both XY envelopes
+are omitted because the heater record contains a room-scale extent that is not
+a reliable depiction of its visible object size. The distance annotation is
+also omitted from the panel, while the renderer still validates the
+\(4.329476\,\mathrm{m}\) value. The relation phrase and measured distance
+remain available in the framework caption and prose.
+
+Use the `open3dsg_case_001` record in `qualitative_cases.json` as the source of
+the plot geometry:
+
+- subject center: \((3.339991,-1.557010)\);
+- object center: \((0.064108,1.273705)\);
+- subject XY envelope: \(x\in[0,3.89]\), \(y\in[-3.15582,0.342309]\);
+- object XY envelope: \(x\in[-0.095635,0.29]\), \(y\in[0,1.48598]\);
+- plot limits: \(x\in[-0.494198,4.288563]\),
+  \(y\in[-3.62,1.95016]\).
+
+The first validation is
+
+\[
+\left\|(3.339991,-1.557010)-(0.064108,1.273705)\right\|_2
+=4.329475\ldots\,\mathrm{m},
+\]
+
+which rounds to the reported \(4.33\,\mathrm{m}\). Do not move the two centers
+independently for layout. If the view is rotated or reflected, apply the same
+rigid transformation to the scene points, both envelopes, and both centers.
+
+The rendering procedure is:
+
+1. Load the scan or subgraph points in the same coordinate frame as the case
+   record. Prefer the Open3DSG `data_dict_2.pkl` after restoring it. A restored
+   `labels.instances.annotated.v2.ply` is also usable after applying the same
+   preprocessing transform.
+2. Project the endpoint points to \((x,y)\), optionally using a fixed
+   deterministic subsample. Draw the subject points in orange and the object
+   points in blue.
+3. Mark the corresponding centers using the same endpoint colors. Do not draw
+   either XY envelope.
+4. Connect the centers with a dashed line. Do not add a distance label, object
+   names, or instance numbers inside the plot.
+5. Apply the recorded plot limits and an equal data aspect ratio. Retain only
+   the \(x/y\) axes and necessary ticks. Typeset the axis letters and tick
+   numbers in Times New Roman at no less than 9.5 pt, then export as SVG or PDF.
+
+A minimal implementation has the following structure:
+
+```python
+subject_xy = np.array([3.339991, -1.557010])
+object_xy = np.array([0.064108, 1.273705])
+distance = np.linalg.norm(subject_xy - object_xy)
+assert np.isclose(distance, 4.329476, atol=1e-6)
+
+ax.scatter(subject_points[:, 0], subject_points[:, 1],
+           s=2.8, c="#D55E00", alpha=0.42, linewidths=0)
+ax.scatter(object_points[:, 0], object_points[:, 1],
+           s=2.8, c="#0057B8", alpha=0.42, linewidths=0)
+ax.plot(*subject_xy, "o", color="#D55E00")
+ax.plot(*object_xy, "o", color="#0072B2")
+ax.plot([subject_xy[0], object_xy[0]],
+        [subject_xy[1], object_xy[1]], "--", color="#1f4e9e")
+ax.set_xlim(-0.494198, 4.288563)
+ax.set_ylim(-3.62, 1.95016)
+ax.set_aspect("equal", adjustable="box")
+```
+
+The case JSON does not contain per-vertex scene points. It can therefore
+reproduce a clean center-and-envelope schematic by itself, but not the gray
+scene backdrop. If the licensed runtime data cannot be restored, the existing
+`figure3_qualitative.svg` may be cropped to its first geometry plot as a
+label-free fallback. That fallback contains the pair geometry but not the full
+gray scan projection used in the current Figure 2.
+
+A source-backed draft has been generated under `paper/generated/`:
+
+- `generate_figure2_xy.py`: deterministic renderer;
+- `Figure2_xy.svg`: editable vector output;
+- `Figure2_xy.pdf`: vector PDF with embedded text;
+- `Figure2_xy_outlined.pdf`: font-outlined PDF for paper inclusion;
+- `Figure2_xy.png`: 300-dpi preview.
+
+The renderer recovers 260 preserved XY samples for each endpoint from the
+archived qualitative SVG and validates the reported distance against the case
+record before writing any output. It deliberately does not synthesize the
+missing full-scan background. The draft is therefore a faithful pair-geometry
+panel, not yet a pixel-equivalent replacement for the current room-level
+projection.
+
 ## 4. Figure 3: Recall--Violation Trajectories
 
 ### Purpose
@@ -146,17 +265,17 @@ outcome across the three evaluated families.
 | Panel | Family | Outcome |
 | --- | --- | --- |
 | (a) | Proximity | A geometrically inconsistent candidate is demoted |
-| (b) | Vertical order | An exact-match, verifier-satisfied candidate is promoted |
+| (b) | Vertical order | A geometrically inconsistent candidate is demoted |
 | (c) | Support/contact | Source order is retained because richer contact evidence is outside the re-ranking scope |
 
-The promotion case reports “desk close by chair” moving from rank 81 to 30 in
-the same Open3DSG context as Figure 1.
+The separate promotion case reported in the supplementary prose moves “desk
+close by chair” from rank 81 to 30 in the same Open3DSG context as Figure 1.
 
 ## 6. Verification
 
 Before upload:
 
-1. include only the outlined-v15 main assets;
+1. include only the current outlined main assets;
 2. confirm Figure 1--3 and Table 1--3 occur within the seven technical pages;
 3. confirm no Type 3, CID/Identity, or unembedded fonts;
 4. compare Figure 3 coordinates against Table 1;

@@ -104,10 +104,6 @@ env UID=$(id -u) GID=$(id -g) docker compose \
 scripts/run_no_family_indicator_v1.sh initial
 scripts/run_no_family_indicator_v1.sh downstream
 env UID=$(id -u) GID=$(id -g) docker compose \
-  -f configs/relcompat3d/compose.structured.yaml run --rm no_family_indicator_candidate_figures
-env UID=$(id -u) GID=$(id -g) docker compose \
-  -f configs/relcompat3d/compose.structured.yaml run --rm no_family_indicator_candidate_build
-env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/relcompat3d/compose.structured.yaml run --rm no_family_indicator_runtime
 env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/relcompat3d/compose.structured.yaml run --rm relcompat3d_component_removals

@@ -1,6 +1,6 @@
 # RelCompat3D Reproducibility Checklist Plan
 
-Last updated: 2026-07-28 KST
+Last updated: 2026-07-29 KST
 
 ## 1. Venue Format
 
@@ -27,7 +27,8 @@ without an official basis.
 This follows the AAAI format more closely than the longer NeurIPS checklist
 style. NeurIPS checklists commonly place an answer and a short justification
 under each question. AAAI instead uses a compact status checklist and places
-additional explanation in the technical supplement or code/data documentation.
+additional explanation in the Technical Supplement or post-acceptance release
+documentation.
 
 Authoritative sources:
 
@@ -54,9 +55,8 @@ The checklist PDF should contain:
    subquestions remain unanswered when their parent condition is false.
 3. No manuscript summary, result table, artifact inventory, or local runbook.
 4. No claim that licensed third-party data or checkpoints are redistributed.
-5. `partial` wherever the paper provides the new RelCompat3D code but relies on
-   external datasets, source predictors, checkpoints, or an undecided public
-   license.
+5. `no` for code-in-appendix questions because no Code and Data Supplement is
+   uploaded during review, and `yes` for the planned post-acceptance release.
 
 Current status pattern:
 
@@ -66,9 +66,9 @@ Current status pattern:
 | Theoretical contribution | `no`; conditional theory subquestions are left unanswered rather than assigned an unlisted `NA` |
 | Dataset use and citation | `yes` |
 | Unrestricted public availability of all data | `partial` |
-| RelCompat3D preprocessing code in the anonymous archive | `yes`; all paper-specific preprocessing entry points are included |
-| Complete experiment code in the anonymous archive | `partial` because third-party predictor repositories and licensed inputs remain external |
-| Public post-publication code release | `partial` until the license and permanent URL are fixed |
+| RelCompat3D preprocessing code in a review appendix | `no`; no Code and Data Supplement is uploaded |
+| Complete experiment code in a review appendix | `no`; no Code and Data Supplement is uploaded |
+| Public post-publication code release | `yes`; internal preparation begins after acceptance, with public release no later than paper publication |
 | Randomness, metrics, run counts, intervals, and infrastructure | `yes` |
 | Hyperparameter ranges and development search | `partial`; focused sensitivities are reported rather than an exhaustive search |
 | Final settings used by the reported methods and controls | `yes`; main, supplement, and frozen protocols agree |
@@ -76,7 +76,7 @@ Current status pattern:
 ## 3. Public Reproducibility Information
 
 The following information helps reviewers verify the claims and should remain
-public in the main paper, technical supplement, anonymous code archive, or its
+public in the main paper, technical supplement, post-acceptance code release, or its
 README.
 
 ### Main paper
@@ -105,7 +105,7 @@ README.
   measurements, coverage, uncertainty, and per-family results.
 - Open3DSG coverage handling and the ReplicaSSG/FROSS stress-test scope.
 
-### Anonymous code and data archive
+### Post-acceptance code and data release
 
 - Dockerfile, Compose entry points, and exact execution commands.
 - RelCompat3D source, preprocessing, adapters, metrics, controls, audits, and
@@ -118,7 +118,7 @@ README.
 
 ## 4. Information That Does Not Need to Appear in the Checklist PDF
 
-The following information may be public in the code archive or technical
+The following information may be public in the post-acceptance code release or technical
 supplement when useful, but repeating it in the checklist PDF adds length
 without improving the checklist answers:
 
@@ -237,18 +237,15 @@ checklist PDF.
     reports the final settings and focused, pre-specified sensitivity values.
     It does not claim an exhaustive search over every architecture,
     construction rule, and threshold.
-21. **Preprocessing code: `yes`.** The anonymous code/data archive includes the
-    paper-specific geometry joins, feature construction, and candidate
-    preparation needed to form the estimator inputs.
-22. **All experiment and analysis source code: `partial`.** The archive
-    contains compatibility fitting, re-ranking, controls, metrics, audits, and
-    table/figure regeneration for the full RelCompat3D pipeline. Full
-    source-predictor regeneration additionally requires external predictor
-    repositories, licensed inputs, checkpoints, and large regenerable caches
-    that are not redistributed.
-23. **Post-publication public code release: `partial`.** An anonymous archive
-    is prepared for review, but the permanent public URL and release license
-    have not yet been frozen. Third-party assets will remain subject to their
+21. **Preprocessing code: `no`.** No Code and Data Supplement is uploaded
+    during review. Preprocessing inputs and operations are instead described
+    in the Technical Supplement.
+22. **All experiment and analysis source code: `no`.** No code appendix is
+    included in the review submission.
+23. **Post-publication public code release: `yes`.** This answer commits to
+    public release by paper publication. Internally, the RelCompat3D
+    implementation, evaluation scripts, and machine-readable results are
+    prepared after acceptance. Third-party assets remain subject to their
     original licenses.
 24. **Implementation comments with paper references: `partial`.** Core source
     modules, command entry points, schemas, and runbooks document the
@@ -258,12 +255,11 @@ checklist PDF.
     and one fit. The supplement also evaluates five seeds chosen before
     training and states that the active model was not reselected from those
     results.
-26. **Computing infrastructure: `yes`.** The supplement states that all jobs
-    use the submitted Docker environment. The archive records the Linux and
-    Python versions, relevant library versions, CPU model, execution device,
-    and measured peak memory. The recorded environment uses an Intel Core
-    Ultra 7 265KF, Linux 6.17, Python 3.11.9, NumPy 1.26.4, and approximately
-    366.5 MiB peak RSS for the paper-facing runtime measurement.
+26. **Computing infrastructure: `yes`.** The supplement explicitly reports
+    the pinned Python 3.11.9, NumPy 1.26.4, and Pillow 10.4.0 Docker stack,
+    Linux 6.17, an Intel Core Ultra 7 265KF CPU, CPU-only re-ranking, and
+    366.5 MiB peak RSS. Source-predictor inference is identified as a separate
+    source-specific stage.
 27. **Metric definitions and motivation: `yes`.** The main paper formally
     defines exact-match Recall@\(K\) and verifier-derived Violation@\(K\).
     Their joint use separates retrieval coverage from compatibility with the
@@ -296,17 +292,13 @@ checklist PDF.
 - Canonical submission PDF:
   `paper/aaai/reproducibility_checklist_aaai27.pdf`
 - Canonical PDF SHA256:
-  `73aff98a0f1f876031fabf9352e86618c9fed085e3832fd1d9a6213c6ba07068`
-- Current release:
-  `release/relcompat3d_aaai27_openreview_20260728_214915/`
-- Current code/data ZIP:
-  `release/relcompat3d_aaai27_openreview_20260728_214915/code_and_data_supplement.zip`
-- Current code/data ZIP SHA256:
-  `d136ea9e63abe5608458dba79c9b4f9f9f4cdc98be288589f9708f16c097e15b`
+  `eafbba13031b1e6ecd6acc3afaaa64576a0dbda1b581c383a782ba177741c5ad`
+- Review upload boundary: main paper, reproducibility checklist, and Technical
+  Supplement only. No Media or Code and Data Supplement is uploaded.
+- Local post-acceptance code/data staging remains under `release/` and is not a
+  review artifact.
 
-The clean Docker build was verified on 2026-07-28 KST. The checklist is a
+The clean Docker build was verified on 2026-07-29 KST. The checklist is a
 two-page US Letter PDF using PDF 1.5. It has no unresolved references,
 overfull boxes, Type 3 fonts, Identity-H fonts, or unembedded fonts. Its source
-inside the anonymous archive matches the working source. A fresh build from
-the extracted archive has identical text and page geometry. Its byte stream
-differs because the rebuild receives new PDF metadata and trailer identifiers.
+matches the current checklist answers and Technical Supplement boundary.

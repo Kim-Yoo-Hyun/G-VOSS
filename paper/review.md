@@ -1,139 +1,124 @@
-# RelCompat3D Final Reviewer Assessment
+# RelCompat3D Reviewer Assessment and Risk Register
 
-Last updated: 2026-07-28 KST
+Last updated: 2026-07-29 KST
 
-## Review Target
+This document combines the reviewer-style assessment and the remaining
+scientific, reproducibility, and submission risks. Detailed manuscript editing
+history remains in `user_feedback.md`.
 
-The assessment covers the final main source, 10-page technical supplement,
-2-page reproducibility checklist, and conservative anonymous code/data
-archive.
-
-## Summary
+## 1. Reviewer Summary
 
 RelCompat3D addresses fixed 3D scene graph relations whose source scores do not
-explicitly measure whether the corresponding ordered pair satisfies the
+explicitly estimate whether the corresponding ordered pair satisfies the
 predicate geometrically. It learns Linear and MLP compatibility estimators
-without source score or predictor identity, enforces applicable
+without the source relation score or predictor identity, enforces applicable
 endpoint/predicate identities through transformation averaging, and combines
 compatibility with the source score during family-aware re-ranking. Across
 Open3DSG, VL-SAT, and SGFN on the same 3DSSG validation split, both variants
-have source-relative Recall point estimates no lower and verifier-derived
-Violation point estimates no higher at all five reported cutoffs.
+have Recall point estimates no lower and verifier-derived Violation point
+estimates no higher than Source at all five reported cutoffs.
 
-## Strengths
+## 2. Strengths
 
-1. **Clear failure mechanism.** The paper distinguishes geometry-aware
-   generation from an explicit estimate of same-pair predicate--geometry
-   compatibility.
-2. **Method/evidence alignment.** Ordered-pair identity, source-score
-   exclusion, transformations, and family routing each have direct controls.
-3. **Scoped statistical reporting.** Point estimates and paired intervals are
-   clearly separated.
-4. **Strong defensive supplement.** Simple baselines, score mappings, routing,
-   component removals, seeds, oracles, and alternative audit measurements
+1. **Clear failure mechanism:** geometry-aware prediction is distinguished
+   from an explicit estimate of same-pair predicate--geometry compatibility.
+2. **Method/evidence alignment:** source-score exclusion, ordered-pair
+   association, transformation averaging, and family routing have direct
+   controls.
+3. **Scoped statistical reporting:** all-\(K\) point estimates and paired
+   interval claims are kept distinct.
+4. **Defensive evidence:** simple baselines, score mappings, routing controls,
+   component removals, seed analysis, oracles, and alternative measurements
    address likely reviewer questions.
-5. **Reproducibility discipline.** Docker configuration, frozen protocols,
-   compact evidence, manifests, and paper regeneration are provided within a
+5. **Reproducibility discipline:** Docker configuration, frozen protocols,
+   compact evidence, manifests, and paper regeneration are available within a
    conservative licensing boundary.
 
-## Residual Major Concerns
+## 3. Consolidated Risks and Defenses
 
-### 1. Independent validity evidence
+| Risk | Severity | Current defense and boundary |
+| --- | --- | --- |
+| Construct dependence | High | Evaluation labels do not enter training, feature removals separate shared primitives, and the point/mesh audit excludes OBB inputs and primary labels. The audit still uses the same scenes and ontology, so the paper does not claim independent physical-validity ground truth. |
+| One validation split | High | Three predictors provide cross-predictor evidence and ReplicaSSG/FROSS is a transfer stress test. The paper explicitly does not claim dataset-level generalization. |
+| Incremental-method perception | High | The contribution is framed as the full reliability framework: same-pair compatibility, input separation, counterfactual learning, exact transformation averaging, family-composition preservation, and joint Recall--Violation evaluation. |
+| Support/contact scope | Medium | Support/contact is evaluated but retains source order because richer contact and pose evidence is required and no single endpoint transformation preserves all predicates. Product (all families) is a scope comparison. |
+| Comparator trade-offs | Medium | No universal SOTA claim is made. Table 1 reports Recall--Violation trade-offs and restricts bold values to comparable composition-preserving rows. |
+| Open3DSG candidate ceiling | Medium | Candidate-pool coverage and three Recall oracles quantify missing candidates. RelCompat3D is presented only as fixed-pool re-ranking. |
+| Source-score scaling | Medium | A fixed smooth mapping grid is stable in all Linear and all but one MLP setting. Percentile stress exposes small Recall sensitivity, so the paper avoids `scale-invariant`. |
+| Reproducibility and licensing | Medium | The archive contains RelCompat3D code, Docker files, protocols, compact outputs, schemas, exporters, and manifests. Licensed data, stable identifiers, row bundles, and third-party checkpoints are excluded. Checklist answers remain `partial` where required. |
+| Dense supplement | Low | The main paper is self-contained and each supplementary table addresses a distinct reviewer question. Full grids are kept machine-readable. |
+| Source/PDF synchronization | Procedural | Closed after every clean build by page, font, warning, hash, manifest, anonymity, and extracted-source checks. |
+| Generative-AI documentation | Submission-critical | The authors must document the actual role of generative AI according to AAAI policy. |
 
-The primary verifier and compatibility construction share some OBB-derived
-measurements. The point/mesh audit removes those inputs but still uses the same
-reconstructed scenes and ontology. The manuscript correctly limits the claim
-to verifier-derived reliability and does not present the audit as independent
-ground truth.
+## 4. Soundness
 
-### 2. Dataset generalization
-
-The main result uses one 3DSSG validation split. Three predictors improve
-cross-model evidence but do not establish cross-dataset generalization. The
-ReplicaSSG/FROSS result is appropriately presented as a transfer stress test,
-not a universal claim.
-
-### 3. Incremental-method perception
-
-A reviewer may view product scoring and post-hoc re-ranking as simple. The
-paper’s novelty therefore depends on the full framework: explicit same-pair
-compatibility, information separation, transformation identities,
-family-composition preservation, and joint Recall--Violation evaluation.
-
-## Residual Minor Concerns
-
-- Support/contact is evaluated but not corrected.
-- Open3DSG has a lower candidate-pool coverage ceiling than VL-SAT and SGFN.
-- Product score is not mathematically invariant to arbitrary monotonic source
-  mappings, although the fixed stress grid is stable.
-- The supplement is dense, but its tables are organized around distinct
-  reviewer questions.
-
-## Soundness
-
-The current claims are supported:
+The scoped claims are supported:
 
 - all-\(K\) point-estimate statements match Table 1;
-- \(K=50\) interval claims match paired scan-resampling results;
-- controls support ordered-pair and predicate dependence;
-- transformation and family-preservation properties are both proved and
-  checked empirically;
-- limitations prevent the audit from being overinterpreted.
+- \(K=50\) interval statements match paired scan-resampling results;
+- controls support dependence on the predicate and corresponding ordered-pair
+  measurements;
+- transformation and family-preservation properties are proved and checked;
+- limitations prevent the primary verifier and point/mesh audit from being
+  overinterpreted.
 
-## Significance and Novelty
+## 5. Significance and Novelty
 
-The addressed failure matters when predicted scene graphs are reused for
-reasoning, planning, grounding, or alignment. The strongest novelty framing is
-not “adding geometry” but exposing and addressing the mismatch between source
-relation score and explicit same-pair predicate--geometry compatibility.
+The failure matters when relation rankings are reused for reasoning, planning,
+grounding, or alignment. The strongest framing is not “adding geometry.” It is
+the mismatch between a source relation score and an explicit estimate of
+same-pair predicate--geometry compatibility, together with a constrained
+reliability layer that can be applied to fixed predictors.
 
-## Clarity
+The main reject risk is that a reviewer may still view product scoring and
+post-hoc re-ranking as incremental. The complete control package and the
+predictor-dependent source-score analysis are therefore central to the novelty
+argument.
 
-The story is readable and consistent. The final terminology should remain:
+## 6. Clarity and Reporting Invariants
 
-- validation split for the dataset partition;
-- validation scenes for the evaluated scenes;
-- source relation score;
-- ordered-pair measurements;
-- verifier-derived Violation.
+Use consistently:
 
-## Experimental Rigor
+- `validation split` for the dataset partition;
+- `validation scenes` for the evaluated scenes;
+- `source relation score`;
+- `ordered-pair measurements`;
+- `fixed relation predictions`;
+- `family-aware re-ranking`;
+- `verifier-derived Violation`;
+- `point estimates` for the all-\(K\) source-relative result;
+- `alternative geometric measurements`, not independent ground truth.
 
-The main and supplement jointly cover:
+## 7. Experimental Rigor
 
-- three source predictors;
-- two estimators;
-- matched fusion and routing comparisons;
-- structural and component controls;
-- paired confidence intervals;
-- seed robustness;
-- alternative geometry measurements;
-- candidate-pool ceilings;
-- transfer sensitivity.
+The main and supplement jointly cover three source predictors, two estimators,
+matched fusion and routing comparisons, structural and component controls,
+paired intervals, seed robustness, alternative geometry measurements,
+candidate-pool ceilings, uncertainty policies, and transfer sensitivity. This
+is sufficient for the scoped claim. Independently annotated validity labels
+and additional datasets would be the strongest future extensions.
 
-This is sufficient for the scoped claim. An independent annotation audit would
-be the most valuable future strengthening.
+## 8. Reproducibility
 
-## Reproducibility
-
-Checklist answers are internally consistent. `partial` is correctly retained
-for unrestricted dataset availability, exhaustive development search,
-third-party experiment code, permanent public code release, and inline
+Checklist answers are internally consistent. `partial` is retained for
+unrestricted dataset availability, exhaustive development search, complete
+third-party experiment code, permanent public release, and inline
 implementation comments.
 
-## Expected Rating
+## 9. Expected Rating
 
-**Weak Accept**, with meaningful Weak Reject risk from novelty and
+**Weak Accept**, with meaningful Weak Reject risk from novelty and the
 single-dataset/construct-dependence concerns.
 
-The evidence package is stronger than the initial method description alone
-would suggest. Acceptance depends on reviewers accepting the scoped reliability
-problem as substantive rather than viewing the method as a narrow re-ranking
-heuristic.
+The evidence package is stronger than the method description alone. Acceptance
+depends on reviewers recognizing scoped geometric reliability as a substantive
+problem rather than treating RelCompat3D as only a narrow re-ranking heuristic.
 
-## Submission Gate
+## 10. Remaining Author Actions
 
-Scientific content is ready to freeze. Remaining work is procedural:
-
-1. generative-AI role documentation;
-2. author metadata and OpenReview field verification.
+1. document the actual generative-AI role;
+2. verify author order, affiliations, profiles, conflicts, topics, title,
+   abstract, and TL;DR in the submission system;
+3. upload the canonical main, supplement, checklist, and code/data archive;
+4. reopen every uploaded artifact and verify filenames, anonymity, and page
+   boundaries.

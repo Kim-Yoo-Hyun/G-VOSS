@@ -443,34 +443,6 @@ services:
       - --out
       - /workspace/experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/evaluation/component_removals
 
-  no_family_indicator_candidate_build:
-    image: relcompat3d-aaai27-tex:20260712
-    working_dir: /workspace
-    user: "${UID:-1000}:${GID:-1000}"
-    volumes:
-      - ../..:/workspace
-    entrypoint: [python3, /workspace/src/relcompat3d/build_paper_artifacts.py]
-    command:
-      - --repo-root
-      - /workspace
-      - --out
-      - /workspace/experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/candidate_paper
-      - --release-out
-      - /workspace/experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/release_candidate
-
-  no_family_indicator_candidate_figures:
-    image: relcompat3d-geom-reliability:latest
-    working_dir: /workspace
-    user: "${UID:-1000}:${GID:-1000}"
-    volumes:
-      - ../..:/workspace
-    entrypoint: [python, /workspace/src/relcompat3d/render_paper_figures.py]
-    command:
-      - --repo-root
-      - /workspace
-      - --out
-      - /workspace/experiments/RelCompat3D_geom_reliability/no_family_indicator_v1/candidate_figures
-
   no_family_indicator_runtime:
     image: relcompat3d-geom-reliability:latest
     working_dir: /workspace

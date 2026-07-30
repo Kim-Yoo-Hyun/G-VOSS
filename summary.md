@@ -1,6 +1,6 @@
 # RelCompat3D Research Summary
 
-Last updated: 2026-07-27 KST.
+Last updated: 2026-07-29 KST.
 
 ## Research Task
 
@@ -36,7 +36,7 @@ candidates retain their source order.
 ## Evaluation Contract
 
 - Predictors: VL-SAT, Open3DSG, and SGFN.
-- Target: 157 3DSSG validation scans, 548 contexts, and 3,972 exact-label
+- Evaluation: 157 3DSSG validation scans, 548 contexts, and 3,972 exact-label
   ground-truth relations.
 - Metrics: exact-label Recall@K and verifier-derived Violation@K.
 - K values: 5, 10, 20, 50, and 100.
@@ -125,15 +125,16 @@ results/relcompat3d_geom_reliability/manifest.json.
 ## Manuscript State
 
 The selected source is paper/aaai/main.tex. A fresh Docker build is nine
-pages. Technical content ends and the references begin on page 7; references
-continue on pages 8--9. The prior horizontal overflow and first-page vertical
+pages. Technical content ends on page 7, and references occupy pages 8--9.
+The prior horizontal overflow and first-page vertical
 overfull are resolved.
 
-The latest synchronized candidate release is
-release/relcompat3d_aaai27_openreview_20260728_214915/. It is regenerated from
+The latest synchronized local post-acceptance release is
+release/relcompat3d_aaai27_openreview_20260729_223000/. It is regenerated from
 the current manuscript, supplement, checklist, figures, method locks, source,
-and compact evidence and is held as a candidate until the remaining layout and
-submission-system disclosure checks are resolved.
+and compact evidence. Its layout and artifact-integrity gates pass. It is not
+uploaded during review. The submission-system author and disclosure fields
+remain author-owned.
 
 ## Claim Boundary
 

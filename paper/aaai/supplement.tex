@@ -10,7 +10,26 @@
 \usepackage{caption}
 \frenchspacing
 
-\input{preamble}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{tabularx}
+
+\newtheorem{proposition}{Proposition}
+
+\newcommand{\methodlinear}{RelCompat3D-Linear}
+\newcommand{\methodmlp}{RelCompat3D-MLP}
+
+% Keep the supplement buildable if the qualitative image has not yet been
+% restored from the submission bundle.
+\newcommand{\figmaybe}[2][]{%
+  \IfFileExists{#2}{%
+    \includegraphics[#1]{#2}%
+  }{%
+    \fbox{\parbox[c][0.75in][c]{0.92\linewidth}{\centering Missing figure}}%
+  }%
+}
 
 \pdfinfo{
 /TemplateVersion (2027.1)
@@ -23,5 +42,9 @@
 \begin{document}
 \maketitle
 \appendix
+\setcounter{secnumdepth}{2}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\theequation}{S\arabic{equation}}
 \input{sec/supplement}
 \end{document}

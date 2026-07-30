@@ -1,14 +1,17 @@
 # RelCompat3D Reproducibility and Recovery
 
-Last updated: 2026-07-28 KST.
+Last updated: 2026-07-29 KST.
 
 This document is the authoritative entry point for RelCompat3D reruns, artifact
 handoff, cleanup, and recovery. Read it before moving, deleting, uploading, or
 restoring any RelCompat3D artifact.
 
-## 1. Current Submission Snapshot
+## 1. Current Submission and Release Snapshot
 
-The public repository is a compact evidence-and-code package. It contains:
+The review submission uploads the main paper, reproducibility checklist, and
+Technical Supplement only. It does not upload a Media Supplement or Code and
+Data Supplement. The local repository remains the post-acceptance
+evidence-and-code staging area. It contains:
 
 - the manuscript, supplement, checklist, bibliography, and figure sources;
 - the focused RelCompat3D Dockerfile and Compose configuration;
@@ -63,18 +66,19 @@ paths below instead of rewriting a preserved snapshot in place.
 | wrapper | scripts/run_no_family_indicator_v1.sh |
 | full command map | experiments/RelCompat3D_geom_reliability/commands.md |
 
-The current source builds to nine US-Letter pages. Technical content ends and
-the references begin on page 7; the references continue on pages 8--9. The
+The current source builds to nine US-Letter pages. Technical content ends on
+page 7, and the references occupy pages 8--9. The
 prior Table 2 horizontal overflow and first-page vertical overfull are
-resolved. The synchronized release below is technically verified. The
-generative-AI role disclosure remains author-owned.
+resolved. The main paper is frozen, and the current Technical Supplement is
+uploaded from its canonical PDF rather than from the earlier Code and Data
+release bundle. The generative-AI role disclosure remains author-owned.
 
 The selected main, supplement, and checklist build to 9, 10, and 2 US-Letter
 pages, respectively. Their canonical SHA-256 values are:
 
-- main: `f0a3c6ab9810e58eb7e1cab6f61989eac6f4fcedca7b00ae68e2a6e001cc8cdf`
-- supplement: `2785ba776d587fb9d38fba2cc652dfe6a99359470a2824c436229da5c687d760`
-- checklist: `f712082e0709572f82be637bd962bf438580d3145ce60d7c7650bb38a5611939`
+- main: `877f99480ba6acd7d35ed666eb8aef4b6901de4c67957bc55d8ed99d8e3fe099`
+- supplement: `31db6813374650b7001794be9da8ac64955561723e4cb2964d7415317443a6da`
+- checklist: `0cd50dfab62336c9f76648d0e2914d5111da873bfb09dd02b615f9358b70f5d7`
 
 The final logs have no unresolved citations or references, BibTeX warnings,
 graphics inclusion warnings, or horizontal overfull boxes. The supplement and
@@ -342,11 +346,11 @@ docker run --rm -u "$(id -u):$(id -g)" \
 After building, verify page size, page count, fonts, unresolved references,
 anonymous metadata, and overfull warnings.
 
-## 9. Current Release Candidate
+## 9. Local Post-Acceptance Release Candidate
 
-The current ignored local candidate bundle is:
+The current ignored local staging bundle is:
 
-release/relcompat3d_aaai27_openreview_20260728_214915/
+release/relcompat3d_aaai27_openreview_20260729_223000/
 
 It is regenerated from the current main, supplement, checklist, active figure
 assets, method locks, source allowlist, and compact results. Build it after
@@ -354,8 +358,8 @@ fresh Docker compilation with:
 
 ~~~bash
 python scripts/build_release_bundle.py \
-  --build-root /tmp/relcompat3d_release_build \
-  --timestamp 20260728_214915
+  --build-root /tmp/relcompat3d_release_build_final \
+  --timestamp 20260729_223000
 ~~~
 
 The release verification covers:
@@ -368,8 +372,9 @@ The release verification covers:
 - exact outer-file hashes;
 - PDF page size, page allocation, fonts, links, and LaTeX warnings.
 
-The release is the latest synchronized upload candidate. The code/data ZIP
-contains 212 files. Its exact SHA-256 is recorded by the adjacent
+The release is retained for post-acceptance publication and is not uploaded
+during review. Its internal manifest
+tracks 208 files. The exact ZIP SHA-256 is recorded by the adjacent
 `UPLOAD_MANIFEST.sha256`, which is the authoritative release checksum.
 Stable source identifiers and source-derived row bundles are excluded because
 the upstream terms do not explicitly authorize their redistribution.

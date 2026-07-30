@@ -1,6 +1,6 @@
 # TODO
 
-Last updated: 2026-07-28 KST.
+Last updated: 2026-07-29 KST.
 
 This file is the current task board. Detailed commands and artifact recovery
 belong in docs/reproducibility.md; exact result paths belong in the RelCompat3D
@@ -11,6 +11,8 @@ experiment README and result manifest.
 - [ ] Complete the required generative-AI role disclosure in the manuscript or
   other venue-designated location according to the actual use.
 - [ ] Review the large deletion set and create a clean submission commit.
+- [ ] Verify the final author list, order, affiliations, conflicts, topics,
+  title, abstract, and TL;DR in the submission system.
 
 ## Next
 
@@ -18,28 +20,49 @@ experiment README and result manifest.
   deleted large files are not exposed through prior Git history.
 - [ ] Verify all public paths, anonymous metadata, licenses, and README commands
   from a clean checkout with the required external artifact bundle.
-- [ ] Run final font, page-size, page-count, citation, reference, figure, and
-  checksum checks on the exact upload PDFs.
+- [ ] Upload the Technical Supplement and updated reproducibility checklist,
+  then reopen both files in the submission system. Do not upload Media or Code
+  and Data Supplements during review.
 
 ## Recently Completed
 
+- [x] Reorganized the Technical Supplement into A--D sections with A/A.1 and
+  S-table/S-figure/equation numbering, separated secondary diagnostics, reduced
+  the review PDF from 18 to 15 tables and from 11 to 10 pages, and removed the
+  post-acceptance release promise from the reviewer-facing PDF.
+- [x] Finalized the review-time upload boundary around the Technical
+  Supplement, removed dependencies on an attached code/data archive, and
+  rebuilt the supplement and 2-page checklist without rebuilding the
+  frozen main paper.
+- [x] Reconstructed a label-free Figure 2 XY panel from the preserved
+  qualitative case record and endpoint samples, with an exact \(4.329475\) m
+  distance check and SVG, PDF, outlined-PDF, and PNG outputs under
+  `paper/generated/`.
+- [x] Merged the appendix/supplement, review/risk, and outline/preview document
+  pairs into `paper/supplement.md`, `paper/review.md`, and
+  `paper/outline.md`; removed the redundant progress document.
+- [x] Removed legacy teaser/debug/build directories, unused paper renderers,
+  the unused shared preamble, and `paper/generated/figures`; retained only the
+  active main entry point and canonical PDFs.
+- [x] Inlined the supplement preamble, synchronized supplement terminology and
+  predictor-dependent control interpretation with the main paper, and rebuilt
+  the 9/12/2-page canonical PDFs.
+- [x] Generated and verified the synchronized release at
+  `release/relcompat3d_aaai27_openreview_20260729_223000/`. The outer and inner
+  manifests, 208-file ZIP, Compose config, Python compilation, extracted-source
+  builds, page sizes, fonts, anonymity, and LaTeX warning checks pass.
 - [x] Switched the submission path to `paper/aaai/main.tex`, restored the
   official anonymous-author block, removed unused template packages, and
   resolved the first-page vertical overfull without changing margins or fonts.
 - [x] Removed manual-bold supplementary captions and 7-point interval text,
   clarified the combined train/development row counts, and clean-built the
-  9/10/2-page main, supplement, and checklist.
+  9/12/2-page main, supplement, and checklist.
 - [x] Corrected the supplement optimizer contract and score-mapping notation,
   added body references for every supplementary table, and fixed the Open3DSG
   bibliography title.
 - [x] Clean-built the main, supplement, and checklist from the pinned Docker
   image, refreshed all canonical PDFs, and independently rebuilt the LaTeX
   sources extracted from the code/data ZIP.
-- [x] Regenerated and verified the synchronized release at
-  `release/relcompat3d_aaai27_openreview_20260728_214915/`. The outer manifest,
-  internal ZIP manifest, JSON, Python, Compose, anonymity, page-count, font, and
-  filename checks pass. The bundle conservatively excludes stable source
-  identifiers and source-derived row bundles.
 - [x] Exported a pseudonymized 601,140-candidate row bundle from hash-locked
   licensed inputs and reproduced all 291 canonical cells in Tables 1--3 and
   Figure 3 data with maximum absolute error zero.
