@@ -496,7 +496,8 @@ Recall--Violation changes.
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{lllrrrcc}
 \toprule
-Estimator & Condition & Family & Mean & P95 & Max & Min Jaccard & Min. exact-context rate \\
+Estimator & Condition & Family & Mean & P95 & Max &
+Min. micro-Jaccard & Min. exact agreement \\
 \midrule
 Linear & Full & Both & .0000 & .0000 & .0000 & 1.0000 & 1.0000 \\
 Linear & No pairwise & Both & .0000 & .0000 & .0000 & 1.0000 & 1.0000 \\
@@ -514,18 +515,18 @@ MLP & No averaging & Vertical & .0402 & .2896 & .9157 & & \\
 }
 \caption{Transformation diagnostics. Mean, P95, and Max are the worst
 source-specific summaries of the absolute compatibility difference under the
-applicable endpoint/predicate transformation. The last columns give the
-minimum transformed-view top-\(K\) membership consistency over all predictors
-and reported \(K\).}
+applicable endpoint/predicate transformation. Micro-Jaccard pools top-\(K\)
+set intersections and unions across contexts. Exact agreement is the fraction
+of contexts whose transformed-view top-\(K\) sets are identical. The last two
+columns report the minimum over predictors and reported \(K\).}
 \label{tab:transformation-diagnostics}
 \end{table*}
 
-Transformation averaging gives zero compatibility error and identical
+Transformation averaging yields zero compatibility error and identical
 top-\(K\) membership under transformed representations for both full
-estimators and their no-pairwise refits. Without averaging, the minimum
-top-\(K\) Jaccard is .9635 for Linear and .6975 for MLP. Thus averaging
-supplies the claimed exact consistency guarantee even though its aggregate
-effect in Table~\ref{tab:component-removals} is small.
+estimators and their no-pairwise refits. Thus transformation averaging enforces
+exact consistency, although its aggregate effect in
+Table~\ref{tab:component-removals} is small.
 
 Table~\ref{tab:primitive-holdout} reports the feature-removal results under the
 same family-aware re-ranking procedure.
@@ -540,33 +541,33 @@ Predictor & Condition & $K=50$ & $K=100$ \\
 \midrule
 \multirow{5}{*}{VL-SAT}
  & Source & .9272/.0268 & .9635/.0476 \\
- & Full model & .9277/.0197 & .9658/.0295 \\
- & Exact verifier scalar removed & .9280/.0199 & .9660/.0300 \\
- & Related measurements removed & .9275/.0268 & .9653/.0468 \\
- & Alternative evidence only & .9280/.0268 & .9642/.0471 \\
+ & Full & .9277/.0197 & .9658/.0295 \\
+ & No verifier scalar & .9280/.0199 & .9660/.0300 \\
+ & No related measurements & .9275/.0268 & .9653/.0468 \\
+ & Alternative evidence & .9280/.0268 & .9642/.0471 \\
 \midrule
 \multirow{5}{*}{Open3DSG}
  & Source & .4043/.1387 & .5111/.1242 \\
- & Full model & .4418/.0342 & .5685/.0324 \\
- & Exact verifier scalar removed & .4381/.0342 & .5687/.0325 \\
- & Related measurements removed & .4119/.0954 & .5264/.0955 \\
- & Alternative evidence only & .4104/.1194 & .5327/.1188 \\
+ & Full & .4418/.0342 & .5685/.0324 \\
+ & No verifier scalar & .4381/.0342 & .5687/.0325 \\
+ & No related measurements & .4119/.0954 & .5264/.0955 \\
+ & Alternative evidence & .4104/.1194 & .5327/.1188 \\
 \midrule
 \multirow{5}{*}{SGFN}
  & Source & .7402/.0385 & .9235/.0630 \\
- & Full model & .7450/.0263 & .9303/.0350 \\
- & Exact verifier scalar removed & .7465/.0268 & .9300/.0358 \\
- & Related measurements removed & .7467/.0388 & .9298/.0616 \\
- & Alternative evidence only & .7462/.0386 & .9277/.0625 \\
+ & Full & .7450/.0263 & .9303/.0350 \\
+ & No verifier scalar & .7465/.0268 & .9300/.0358 \\
+ & No related measurements & .7467/.0388 & .9298/.0616 \\
+ & Alternative evidence & .7462/.0386 & .9277/.0625 \\
 \bottomrule
 \end{tabularx}
 }
 \caption{Feature-removal analysis. Cells are exact-match Recall /
 verifier-derived Violation under the same family-aware re-ranking procedure.
-Exact verifier scalar removed omits the normalized scalar consumed by the
-verifier. Related measurements removed omits all directly related distance or
-vertical measurements. Alternative evidence only retains projected overlap for
-proximity and horizontal-distance/overlap context for vertical order.}
+No verifier scalar omits the normalized scalar consumed by the verifier. No
+related measurements omits all directly related distance or vertical
+measurements. Alternative evidence retains projected overlap for proximity
+and horizontal-distance/overlap context for vertical order.}
 \label{tab:primitive-holdout}
 \end{table}
 
@@ -689,17 +690,15 @@ zero within each context and family.
 
 Table~\ref{tab:score-mapping-sensitivity} summarizes all five reported
 \(K\) values. A setting meets both criteria when Recall is no lower and
-verifier-derived Violation is no higher than Source. All 75 Linear settings
-and 74 of the 75 MLP settings meet both criteria under the smooth mappings.
-The only exception is
-VL-SAT MLP at \(K=50\) under \(Z^4\), where Recall changes by \(-0.025\)
-percentage points, its paired interval includes zero, and Violation decreases.
-The percentile stress produces two Linear and four MLP Recall losses, none
-larger than 0.227 percentage points, without increasing Violation. Across the
+verifier-derived Violation is no higher than Source. Every Linear setting and
+all but one MLP setting meet both criteria under the smooth mappings. In the
+MLP exception, VL-SAT at \(K=50\) under \(Z^4\), the paired Recall interval
+includes zero and Violation decreases. The percentile mapping produces small
+Recall losses in some settings without increasing Violation. Across the
 complete grid, including percentile mappings, the minimum pair-weighted
 Kendall correlation with identity-product ranking is 0.810 and the minimum
-\(K=50\) micro-Jaccard overlap is 0.815. These results show limited
-sensitivity over the tested mappings, not score-scale invariance.
+\(K=50\) micro-Jaccard overlap is 0.815. These results show limited sensitivity
+over the tested mappings, not score-scale invariance.
 
 \begin{table*}[t]
 \centering
@@ -901,8 +900,8 @@ fixed.}
 
 No rule is best in every setting. For Open3DSG, Joint P/V raises
 Linear Recall at all five \(K\) values. For the MLP, it raises Recall at
-\(K=5,10\) but lowers Recall by 2.92 and 3.80 percentage points at
-\(K=50,100\), with both paired intervals below zero. At Open3DSG \(K=50\),
+\(K=5,10\) but lowers Recall at \(K=50,100\), with both paired intervals below
+zero. At Open3DSG \(K=50\),
 the MLP control changes the selected proximity/vertical-order counts from
 6,295/6,508 to 3,423/9,380 while leaving all 13,833 support/contact selections
 unchanged. We therefore interpret family-aware re-ranking as a constraint that
@@ -952,8 +951,8 @@ Estimator & Predictor & $\Delta$R@50 & $\Delta$V@50 \\
 }
 \captionof{table}{Paired scan-level changes at \(K=50\).
 Each cell reports the RelCompat3D-minus-Source change and its paired 95\%
-interval in percentage points. Positive Recall and negative Violation changes
-are favorable.}
+bootstrap confidence interval in percentage points. Positive Recall and
+negative Violation changes are favorable.}
 \label{tab:scan-cluster}
 \end{center}
 
@@ -1044,16 +1043,13 @@ coverage.}
 \label{tab:uncertainty-sensitivity}
 \end{center}
 
-\methodlinear{}-minus-Source changes in $V_{dec}$ are $-.0277$ for VL-SAT, $-.1578$
-for Open3DSG, and $-.0440$ for SGFN. Their paired 95\% intervals all exclude
-zero. Uncertainty-rate changes are +.0009, $-.0076$, and +.0071.
-Uncertain-as-violation changes are $-.0173$, $-.0993$, and $-.0209$. Both
-decidable-only and uncertain-as-violation \(V\) are lower for all three
-predictors, although uncertainty does not decrease uniformly. Across both
-estimators, primary, decidable-only, and uncertain-as-violation \(V\) are
-non-increasing relative to Source in all 30 predictor--\(K\) settings.
-These denominator checks show that the Violation reduction is not specific to
-one treatment of uncertain candidates.
+For \methodlinear{}, decidable-only and uncertain-as-violation \(V\) are lower
+than Source for all three predictors, and the paired decidable-only intervals
+exclude zero. Uncertainty does not decrease uniformly. Across both estimators,
+primary, decidable-only, and uncertain-as-violation \(V\) are non-increasing
+relative to Source in all 30 predictor--\(K\) settings. These denominator
+checks show that the Violation reduction is not specific to one treatment of
+uncertain candidates.
 
 \FloatBarrier
 \section{Secondary Diagnostics}

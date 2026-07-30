@@ -1,6 +1,6 @@
 # RelCompat3D Docker Entry Point
 
-Last updated: 2026-07-29 KST.
+Last updated: 2026-07-30 KST.
 
 compose.structured.yaml is the only public experiment compose file. It exposes
 the active no_family_indicator_v1 fitting and evaluation services and mounts
@@ -63,9 +63,11 @@ sibling versioned directories and do not alter the active method.
 The row export separates gated preprocessing from public-style metric
 regeneration. `relcompat3d_export_rows` removes original identifiers and raw
 geometry. `relcompat3d_reproduce_rows` regenerates Tables 1--3, Figure 3, and
-canonical tolerance checks from the derived bundle. The bundle remains ignored
-until its redistribution status is confirmed. `relcompat3d_candidate_oracle`
-uses the same rows to quantify fixed-candidate Recall ceilings.
+canonical tolerance checks from the derived bundle. Public reruns write to
+`row_reproduction_v1/regenerated/` so the frozen canonical references under
+`evaluation/` remain unchanged. The bundle remains ignored until its
+redistribution status is confirmed. `relcompat3d_candidate_oracle` uses the
+same rows and writes to `candidate_oracle_v1/regenerated/`.
 
 ## Data Boundary
 

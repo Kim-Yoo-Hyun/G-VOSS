@@ -57,6 +57,11 @@ artifacts/
 **/raw.jsonl
 *.jsonl
 
+# Trained RelCompat3D parameter payloads are restored from the private
+# Google Drive model archive. Git retains protocols, hashes, and metrics.
+/experiments/RelCompat3D_geom_reliability/**/*models.json
+**/regenerated/
+
 # Local pre-submission snapshots and historical research material. Only the
 # archive index belongs to the public submission repository.
 /archive/*

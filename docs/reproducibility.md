@@ -1,6 +1,6 @@
 # RelCompat3D Reproducibility and Recovery
 
-Last updated: 2026-07-29 KST.
+Last updated: 2026-07-30 KST.
 
 This document is the authoritative entry point for RelCompat3D reruns, artifact
 handoff, cleanup, and recovery. Read it before moving, deleting, uploading, or
@@ -17,7 +17,7 @@ evidence-and-code staging area. It contains:
 - the focused RelCompat3D Dockerfile and Compose configuration;
 - the Python allowlist shipped in the last verified code-and-data supplement,
   plus the point/mesh audit entry point and its active calibration dependency;
-- active protocols, model locks, compact metrics, intervals, controls, and
+- active protocols, model hashes, compact metrics, intervals, controls, and
   audit summaries;
 - a compact result index and execution runbooks.
 
@@ -77,7 +77,7 @@ The selected main, supplement, and checklist build to 9, 10, and 2 US-Letter
 pages, respectively. Their canonical SHA-256 values are:
 
 - main: `877f99480ba6acd7d35ed666eb8aef4b6901de4c67957bc55d8ed99d8e3fe099`
-- supplement: `31db6813374650b7001794be9da8ac64955561723e4cb2964d7415317443a6da`
+- supplement: `222c93f29d2da1a28e526483cdfb629402ae1e15846c71418195ea0de3da5201`
 - checklist: `0cd50dfab62336c9f76648d0e2914d5111da873bfb09dd02b615f9358b70f5d7`
 
 The final logs have no unresolved citations or references, BibTeX warnings,
@@ -105,6 +105,11 @@ experiments/RelCompat3D_geom_reliability/active_method.json records these hashes
 Verify them with:
 
 ~~~bash
+artifact_root=external/RelCompat3D_AAAI27_release_20260730
+tar --zstd -xf \
+  "$artifact_root/checkpoints/relcompat3d/relcompat3d_models_3dssg_v1.tar.zst" \
+  -C .
+
 root=experiments/RelCompat3D_geom_reliability/no_family_indicator_v1
 sha256sum \
   "$root/protocol.json" \
@@ -114,7 +119,15 @@ sha256sum \
   "$root/evaluation/nonlinear/models.json" \
   "$root/evaluation/mlp_ablation/summary.json" \
   "$root/evaluation/mlp_surface_audit/summary.json"
+
+sha256sum -c \
+  "$artifact_root/checkpoints/relcompat3d/MODEL_FILES.sha256"
 ~~~
+
+The fitted parameter JSON files are intentionally ignored by Git. The
+canonical-path archive restores the active Linear and MLP estimators together
+with the strict, calibration, factor, counterfactual, feature-removal, and
+component-diagnostic models.
 
 ## 4. Compact Evidence Map
 
@@ -139,8 +152,8 @@ sha256sum \
 | construct-dependence evidence package | construct_dependence_v1/evaluation/ |
 | matched component diagnostics | component_diagnostics_v1/evaluation/ |
 | five-seed fitting robustness | seed_robustness_v1/evaluation/ |
-| regenerated Tables 1--3 and Figure 3 data | row_reproduction_v1/evaluation/ |
-| candidate-pool coverage and Recall upper bounds | candidate_oracle_v1/evaluation/ |
+| canonical Tables 1--3 and Figure 3 data | row_reproduction_v1/evaluation/ |
+| canonical candidate-pool coverage and Recall upper bounds | candidate_oracle_v1/evaluation/ |
 
 All paths above are relative to experiments/RelCompat3D_geom_reliability/.
 
@@ -379,7 +392,104 @@ tracks 208 files. The exact ZIP SHA-256 is recorded by the adjacent
 Stable source identifiers and source-derived row bundles are excluded because
 the upstream terms do not explicitly authorize their redistribution.
 
-## 10. Local Archive
+## 10. Private Google Drive Recovery Bundle
+
+The private recovery bundle created on 2026-07-30 is:
+
+- local staging:
+  `release/RelCompat3D_AAAI27_release_20260730/`
+- Google Drive:
+  `https://drive.google.com/drive/folders/1-g-ehj76OJvUTsL5VE10OXvnfNHK4MP5`
+- parent folder ID:
+  `10Llk89UQspDhbmbQekvhifLwtom82_dr`
+- manifest SHA-256:
+  `acd1d6f1c3a767d23acac277ab4e397590304bacb7d8cb381fbd719fcab8d206`
+
+The bundle contains the frozen RelCompat3D model parameters, fitting inputs,
+pseudonymized paper-table rows, point/mesh audit measurements, compact results,
+current execution logs, figure-generation sources, and qualitative case
+records. It contains 21 files totaling 100,760,138 bytes. `rclone check`
+reported 21 matching files and zero differences after upload.
+
+The recovery folder is owner-only. Its public folder permission was removed
+after verification so the pseudonymized evaluation rows and training inputs
+are not redistributed. Only the fitted RelCompat3D model archive is shared:
+
+`https://drive.google.com/file/d/1DaZoibKFyPS681e728Tzs613qscMgv4u/view?usp=drive_link`
+
+Source-predictor checkpoints are deliberately not duplicated. VL-SAT and SGFN
+are recovered from their official repositories, while the existing Open3DSG
+checkpoint remains in the sibling Drive folder `open3dsg_h001/`:
+
+`https://drive.google.com/file/d/1PJNduscoRAB6cQcggBOo-ErzkiBs_QDG/view?usp=drive_link`
+
+Restore that checkpoint to:
+
+`local_dataset/Open3DSG_staged/training_repro/mlops/opensg/mlflow/363094050435167554/25da9c4c00214f3b880cedbb2a124177/checkpoints/epoch=13-step=13104.ckpt`
+
+Its expected SHA-256 is
+`ca86d429b19e846aec2bfff014256bf36f6f90da07e566b90c461d6eca8d76bb`.
+The full Tier-B evaluation rows are omitted because the author already
+transferred them to macOS. Raw 3RScan/3DSSG data and third-party model caches
+remain external.
+
+Verify the local staging bundle with:
+
+~~~bash
+cd release/RelCompat3D_AAAI27_release_20260730
+sha256sum -c MANIFEST.sha256
+~~~
+
+From a fresh checkout, restore the fitted parameter files and paper-level rows
+with:
+
+~~~bash
+artifact_root=external/RelCompat3D_AAAI27_release_20260730
+
+tar --zstd -xf \
+  "$artifact_root/checkpoints/relcompat3d/relcompat3d_models_3dssg_v1.tar.zst" \
+  -C .
+sha256sum -c \
+  "$artifact_root/checkpoints/relcompat3d/MODEL_FILES.sha256"
+
+tar --zstd -xf \
+  "$artifact_root/artifacts/relcompat3d_paper_table_rows_3dssg_v1.tar.zst" \
+  -C experiments/RelCompat3D_geom_reliability \
+  row_reproduction_v1/artifacts/derived_rows
+~~~
+
+Running the `relcompat3d_reproduce_rows` Compose service then writes a fresh,
+untracked copy of Tables 1--3 and Figure 3 to
+`experiments/RelCompat3D_geom_reliability/row_reproduction_v1/regenerated/`.
+The validated fresh-checkout run reproduced all 291 canonical cells with
+maximum absolute error zero.
+
+Verify the private Drive copy with:
+
+~~~bash
+rclone check \
+  release/RelCompat3D_AAAI27_release_20260730 \
+  gdrive:RelCompat3D_AAAI27_release_20260730 \
+  --drive-root-folder-id 10Llk89UQspDhbmbQekvhifLwtom82_dr \
+  --exclude '/.build/**' --one-way
+~~~
+
+The upload log and exit status are:
+
+- `logs/relcompat3d_drive_refresh_20260730_234829.log`
+- `logs/relcompat3d_drive_refresh_20260730_234829.exit`
+
+Before public access was removed, an isolated download verified the same 21
+files and 100,760,138 bytes against the internal manifest. Current recovery
+verification uses authenticated owner access. An anonymous download check
+confirms that the model archive remains accessible while the row and training
+archives require authorization.
+
+This Drive bundle is a private recovery backup. Public release still requires
+the license and redistribution checks described in the Tier B and GitHub
+sections.
+
+## 11. Local Archive
 
 All non-submission material is physically preserved under:
 
@@ -400,7 +510,7 @@ The former active RelCompat3D pre-cleanup snapshot is nested under:
 archive/local/pre_submission_20260722/previous_archive/experiments/
 RelCompat3D_geom_reliability/pre_submission_20260722/
 
-## 11. Cleanup and Restore Safety
+## 12. Cleanup and Restore Safety
 
 Before deleting or moving any external payload:
 
@@ -416,7 +526,7 @@ delete H002, literature, hypothesis, historical code/configs/results, or prior
 archives. Unnecessary historical tracked logs were deleted as requested.
 Twelve selected verification logs remain locally under ignored logs/.
 
-## 12. GitHub Publication
+## 13. GitHub Publication
 
 The current worktree is organized for a compact public snapshot, but deletion
 from the current tree does not remove old blobs from Git history. To avoid

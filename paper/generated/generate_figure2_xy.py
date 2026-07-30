@@ -15,13 +15,21 @@ from matplotlib import font_manager
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = Path(__file__).resolve().parent
-CASE_ROOT = (
-    ROOT
-    / "archive/local/pre_submission_20260722/previous_archive/experiments"
-    / "H001_geom_reliability/pre_submission_20260722/no_family_indicator_v1"
-)
-CASE_JSON = CASE_ROOT / "candidate_figures/qualitative_cases.json"
-SOURCE_SVG = CASE_ROOT / "candidate_figures/figure3_qualitative.svg"
+SOURCE_SVG = OUT / "Figure2_xy.svg"
+
+# Anonymized geometry needed to invert the screen coordinates stored in the
+# tracked source-backed SVG. Source scan and instance identifiers are omitted.
+CASE = {
+    "measurements": {"xy_center_distance": 4.329476},
+    "subject_geometry": {"center": [3.339991, -1.55701, -1.113221]},
+    "object_geometry": {"center": [0.064108, 1.273705, -1.215692]},
+    "plot_bounds": {
+        "x_max": 4.288563,
+        "x_min": -0.494198,
+        "y_max": 1.95016,
+        "y_min": -3.62,
+    },
+}
 
 ORANGE = "#D55E00"
 BLUE = "#0057B8"
@@ -47,71 +55,31 @@ def configure_fonts() -> None:
     )
 
 
-def load_case() -> dict:
-    cases = json.loads(CASE_JSON.read_text(encoding="utf-8"))
-    return next(case for case in cases if case["case_id"] == "open3dsg_case_001")
-
-
 def source_points(case: dict) -> tuple[np.ndarray, np.ndarray]:
-    """Recover source-backed object XY samples from the preserved SVG panel."""
+    """Recover source-backed object XY samples from the tracked SVG asset."""
     root = ET.parse(SOURCE_SVG).getroot()
     namespace = {"svg": "http://www.w3.org/2000/svg"}
 
-    subject_screen: list[tuple[float, float]] = []
-    object_screen: list[tuple[float, float]] = []
-    subject_marker: tuple[float, float] | None = None
-    object_marker: tuple[float, float] | None = None
+    def uses(group_id: str) -> list[tuple[float, float]]:
+        group = root.find(f".//svg:g[@id='{group_id}']", namespace)
+        if group is None:
+            raise RuntimeError(f"Missing {group_id} in {SOURCE_SVG}.")
+        return [
+            (float(element.attrib["x"]), float(element.attrib["y"]))
+            for element in group.findall(".//svg:use", namespace)
+        ]
 
-    for circle in root.findall("svg:circle", namespace):
-        fill = circle.attrib.get("fill", "").lower()
-        opacity = circle.attrib.get("opacity")
-        if (
-            fill == "#d55e00"
-            and opacity == "0.62"
-            and float(circle.attrib["cx"]) < 480
-        ):
-            subject_screen.append(
-                (float(circle.attrib["cx"]), float(circle.attrib["cy"]))
-            )
-        if (
-            fill == "#d55e00"
-            and circle.attrib.get("stroke", "").lower() == "#ffffff"
-            and circle.attrib.get("r") == "4.2"
-            and float(circle.attrib["cx"]) < 480
-        ):
-            subject_marker = (
-                float(circle.attrib["cx"]),
-                float(circle.attrib["cy"]),
-            )
-
-    for rect in root.findall("svg:rect", namespace):
-        fill = rect.attrib.get("fill", "").lower()
-        opacity = rect.attrib.get("opacity")
-        if fill == "#0072b2" and opacity == "0.32" and float(rect.attrib["x"]) < 480:
-            object_screen.append(
-                (
-                    float(rect.attrib["x"]) + float(rect.attrib["width"]) / 2,
-                    float(rect.attrib["y"]) + float(rect.attrib["height"]) / 2,
-                )
-            )
-        if (
-            fill == "#0072b2"
-            and rect.attrib.get("stroke", "").lower() == "#ffffff"
-            and rect.attrib.get("width") == "8"
-            and float(rect.attrib["x"]) < 480
-        ):
-            object_marker = (
-                float(rect.attrib["x"]) + 4,
-                float(rect.attrib["y"]) + 4,
-            )
-
-    if subject_marker is None or object_marker is None:
-        raise RuntimeError("Could not recover the center markers from the source SVG.")
+    subject_screen = uses("PathCollection_1")
+    object_screen = uses("PathCollection_2")
+    subject_markers = uses("PathCollection_3")
+    object_markers = uses("PathCollection_4")
+    if len(subject_markers) != 1 or len(object_markers) != 1:
+        raise RuntimeError("Could not recover the endpoint center markers.")
 
     subject_xy = np.asarray(case["subject_geometry"]["center"][:2], dtype=float)
     object_xy = np.asarray(case["object_geometry"]["center"][:2], dtype=float)
-    subject_marker = np.asarray(subject_marker, dtype=float)
-    object_marker = np.asarray(object_marker, dtype=float)
+    subject_marker = np.asarray(subject_markers[0], dtype=float)
+    object_marker = np.asarray(object_markers[0], dtype=float)
 
     # The preserved SVG uses an affine screen mapping with an inverted y axis.
     scale_x = (subject_marker[0] - object_marker[0]) / (
@@ -137,7 +105,7 @@ def source_points(case: dict) -> tuple[np.ndarray, np.ndarray]:
 
 def main() -> None:
     configure_fonts()
-    case = load_case()
+    case = CASE
     subject_points, object_points = source_points(case)
     subject_xy = np.asarray(case["subject_geometry"]["center"][:2], dtype=float)
     object_xy = np.asarray(case["object_geometry"]["center"][:2], dtype=float)
@@ -205,7 +173,6 @@ def main() -> None:
     ax.set_yticks([-3, -2, -1, 0, 1])
     ax.tick_params(axis="both", labelsize=10, width=0.8, length=3)
     for label in (*ax.get_xticklabels(), *ax.get_yticklabels()):
-        label.set_fontname("Times New Roman")
         label.set_fontsize(10)
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
@@ -237,7 +204,6 @@ def main() -> None:
         ha="right",
         va="bottom",
         fontsize=12,
-        fontname="Times New Roman",
         fontstyle="italic",
         color=DARK,
     )
@@ -249,7 +215,6 @@ def main() -> None:
         ha="left",
         va="top",
         fontsize=12,
-        fontname="Times New Roman",
         fontstyle="italic",
         color=DARK,
     )

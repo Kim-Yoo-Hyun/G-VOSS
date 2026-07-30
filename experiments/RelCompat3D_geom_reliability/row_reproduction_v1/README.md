@@ -40,6 +40,10 @@ env UID=$(id -u) GID=$(id -g) docker compose \
   relcompat3d_reproduce_rows
 ```
 
+The public rerun writes to `regenerated/`. The tracked `evaluation/` directory
+contains the frozen canonical outputs used for the cell-by-cell comparison and
+is not overwritten.
+
 ## User action
 
 Before putting `artifacts/derived_rows/` in a public code/data ZIP, confirm

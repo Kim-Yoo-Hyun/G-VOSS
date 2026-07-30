@@ -11,6 +11,7 @@ services:
       OPENBLAS_NUM_THREADS: "1"
       MKL_NUM_THREADS: "1"
       NUMEXPR_NUM_THREADS: "1"
+      MPLCONFIGDIR: /tmp/matplotlib
     volumes:
       - ../..:/workspace
     entrypoint: [python, /workspace/src/relcompat3d/build_reproduction_rows.py]
@@ -34,6 +35,7 @@ services:
       OPENBLAS_NUM_THREADS: "1"
       MKL_NUM_THREADS: "1"
       NUMEXPR_NUM_THREADS: "1"
+      MPLCONFIGDIR: /tmp/matplotlib
     volumes:
       - ../..:/workspace
     entrypoint: [python, /workspace/src/relcompat3d/reproduce_from_rows.py]
@@ -45,7 +47,7 @@ services:
       - --rows
       - /workspace/experiments/RelCompat3D_geom_reliability/row_reproduction_v1/artifacts/derived_rows
       - --out
-      - /workspace/experiments/RelCompat3D_geom_reliability/row_reproduction_v1/evaluation
+      - /workspace/experiments/RelCompat3D_geom_reliability/row_reproduction_v1/regenerated
 
   relcompat3d_candidate_oracle:
     build:
@@ -70,7 +72,7 @@ services:
       - --rows
       - /workspace/experiments/RelCompat3D_geom_reliability/row_reproduction_v1/artifacts/derived_rows
       - --out
-      - /workspace/experiments/RelCompat3D_geom_reliability/candidate_oracle_v1/evaluation
+      - /workspace/experiments/RelCompat3D_geom_reliability/candidate_oracle_v1/regenerated
 
   relcompat3d_component_diagnostics:
     build:

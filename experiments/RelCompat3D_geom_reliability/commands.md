@@ -1,6 +1,6 @@
 # RelCompat3D Submission Commands
 
-Last updated: 2026-07-27 KST
+Last updated: 2026-07-30 KST
 
 Run commands from the repository root. Paper experiments use Docker; the
 compact tracked artifacts may be inspected without external data.
@@ -24,6 +24,10 @@ env UID=$(id -u) GID=$(id -g) docker compose \
   relcompat3d_reproduce_rows
 ```
 
+The command writes new outputs under
+`row_reproduction_v1/regenerated/`. The tracked `evaluation/` directory is the
+frozen canonical reference and is not overwritten.
+
 Compute candidate-pool coverage and constrained oracle Recall:
 
 ```bash
@@ -31,6 +35,8 @@ env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/relcompat3d/compose.structured.yaml run --rm \
   relcompat3d_candidate_oracle
 ```
+
+The candidate-oracle rerun writes to `candidate_oracle_v1/regenerated/`.
 
 The row bundle remains excluded from the public ZIP until derived-row
 redistribution is confirmed under the dataset terms.

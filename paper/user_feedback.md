@@ -37,7 +37,7 @@ risk는 evaluator와 training construction의 construct dependence, single-targe
 boundary와 evidence는 Section 3에서 관리한다.
 
 현재 Technical Supplement는 10-page US-Letter PDF이며 A--D sections,
-15 tables, Figure S1을 포함한다. Table S2/S3 배치, checkpoint provenance,
+16 tables, Figure S1을 포함한다. Table S2/S3 배치, checkpoint provenance,
 implementation diagnostic의 정보량과 table heading을 정리했다. Figure S1의
 proximity panel은 검증된 대체 record가 없어 유지하되 outcome을
 `Proximity demotion`으로 명확히 했다.
@@ -711,6 +711,23 @@ MLP linked-pair ordering과 fixed evaluation protocol만 남겼다. Development-
 AUROC/Brier 수치도 삭제했으며, re-ranking 결과를 직접 보여주는 component와
 feature-removal evidence는 유지했다.
 
+#### S-08. Primary verifier specification `[x]`
+
+**판단.** Main은 Violation의 denominator와 uncertainty 처리를 정의하지만,
+Technical Supplement에는 frozen primary verifier의 family별 전체 status
+boundary가 없었다. Code and Data Supplement를 제출하지 않는 현재 review
+설정에서는 compact specification을 두는 것이 reproducibility와 metric
+transparency에 도움이 된다.
+
+**반영 결과.** `Reproducibility and Experimental Setup`에 Table S5와
+support/contact score definition을 추가했다. Proximity와 vertical order의
+OBB measurements, support/contact의 instance-point subtype score,
+`satisfied / uncertain / violated` threshold, missing-evidence 처리와
+out-of-scope exclusion을 명시했다. Table S2는 training counterfactual
+construction, Table S5는 evaluation status rule이라는 차이도 분명히 했다.
+Compatibility estimator나 training target으로 오해하지 않도록 caption과 prose에
+claim boundary를 유지했다.
+
 ### 6.5 전체 Table terminology와 width
 
 Accepted papers에 특정 column vocabulary를 강제하는 규정은 없다. `Method`,
@@ -732,17 +749,17 @@ terminology와 일치하고 caption만으로 의미를 복원할 수 있는지�
 | Table | 현재 | 권장 | 이유 |
 |---|---|---|---|
 | S3 | `Training construction / Primary verifier / Point/mesh audit` | `Train / Verifier / Audit` | One-column 전환 |
-| S6 | `Min exact-context` | `Min. exact-context rate` | 현재 명사구가 불완전함 |
-| S8, S15 | `Ranking` | `Ranking rule` | Main terminology와 통일 |
-| S9 | `Both` | `Pass` | 무엇을 둘 다 만족하는지 caption 없이는 모호함 |
-| S15 | `Dec. cov.` | 유지 가능 또는 `Decidable cov.` | Caption이 정의하므로 오류는 아님 |
+| S7 | `Min Jaccard / Min. exact-context rate` | `Min. micro-Jaccard / Min. exact agreement` | 구현의 aggregate 방식과 두 diagnostic의 차이를 명시 |
+| S8 | 긴 removal condition | `No verifier scalar / No related measurements / Alternative evidence` | One-column 줄바꿈 축소 |
+| S10 | `Both` | `Pass` | 두 방향 조건을 함께 만족하는 count임을 caption에서 정의 |
+| S16 | `Dec. cov.` | 유지 | Caption에서 decidable coverage를 정의함 |
 
 #### One-column layout 원칙
 
 - Definition table에서 설명이 여러 줄이 되는 것은 자연스럽다. 모든 row를
   억지로 한 줄로 만들기 위해 font를 줄이면 안 된다.
 - Result table의 method/condition label은 가능하면 한 줄로 둔다.
-- Table S7의 긴 labels는 `No exact scalar`, `No related measurements`,
+- Table S8의 긴 labels는 `No verifier scalar`, `No related measurements`,
   `Alternative evidence`로 줄이고 caption에서 정의하면 one-column을 유지할 수
   있다. 그래도 wrap되면 `table*` 전환이 낫다.
 - Table S15처럼 수치 열이 많은 one-column table은 abbreviation을 caption에서
@@ -865,6 +882,7 @@ post-acceptance material이 소유한다.
 | Split와 preprocessing | `[x]` | 1,061/117/157 scans, 548 contexts, 3,972 GT와 source preprocessing이 있음 |
 | Checkpoint provenance | `[x]` | Open3DSG 직접 학습 protocol과 released SGFN configuration을 구분 |
 | Environment | `[x]` | 핵심 software, CPU runtime scope와 direct validation check만 유지 |
+| Primary verifier | `[x]` | Family별 measurement, status threshold, missing-evidence 처리와 training-construction 분리를 Table S5에 명시 |
 | Statistical procedure | `[x]` | 1,000 paired scan-level bootstrap이 명시됨 |
 | Code/data boundary | `[x]` | Review에는 Technical Supplement만 제출하고 licensed assets는 재배포하지 않음 |
 
@@ -874,16 +892,49 @@ post-acceptance material이 소유한다.
 |---|---|---|
 | Main claim과 수치 | `[x]` | Main compact statements, controls, audit와 일치 |
 | Ablation definitions | `[x]` | Changed component와 fixed protocol을 구분 |
-| Table terminology | `[x]` | `Min. exact-context rate`, `Pass`, `Ranking rule`로 국소 교정 |
+| Table terminology | `[x]` | `Min. micro-Jaccard`, `Min. exact agreement`, `Pass`, `Ranking rule`로 국소 교정 |
 | One-column readability | `[x]` | S2/S3 폭을 교환했고 최신 PDF에서 collision과 overfull이 없음 |
 | Figure S1 역할 | `[x]` | Verified panel을 유지하고 `Proximity demotion`으로 outcome과 보충 역할을 명시 |
 | Supplement standalone readability | `[x]` | Notation, method, split, metrics와 experiment scope를 복원 가능 |
 
 ### 6.10 1차 판정
 
-다섯 건의사항을 모두 반영했다. Table S2/S3의 폭 교환과 checkpoint provenance
+초기 다섯 건의사항과 primary-verifier specification을 모두 반영했다. Table S2/S3의 폭 교환과 checkpoint provenance
 교정이 가장 큰 가독성·정확성 개선이었다. Environment와 development diagnostics는
 core claim에 필요한 범위로 줄였고 table terminology를 국소 교정했다. Figure S1은
 검증된 record만 사용한다는 원칙을 우선해 existing proximity panel을
 `Proximity demotion`으로 명명했다. 최신 supplement는 10-page US Letter이며
 overfull box, undefined reference와 undefined citation이 없다.
+
+### 6.11 2차 가독성 개선 반영
+
+Accepted supplement의 equation/table 관행과 current PDF를 대조한 뒤 다음을
+반영했다.
+
+1. Table S7의 두 membership diagnostic을 `Min. micro-Jaccard`와
+   `Min. exact agreement`로 명명했다. Caption은 micro-Jaccard가 context별
+   intersection/union count를 합산하고, exact agreement가 transformed-view
+   top-\(K\) set이 완전히 같은 context의 비율임을 정의한다.
+2. Table S8의 condition을 `Full`, `No verifier scalar`,
+   `No related measurements`, `Alternative evidence`로 줄였다. 제거되는
+   measurement의 범위는 caption에 유지했다.
+3. Table S14는 각 bracket을 paired 95\% `bootstrap confidence interval`로
+   명시했다. 비대칭 interval이므로 lower/upper bracket 표기를 유지했다.
+4. Table S7 아래에서 `.9635`와 `.6975`를 반복하던 문장을 삭제했다.
+   Transformation averaging이 exact consistency를 만든다는 해석과 aggregate
+   effect boundary만 남겼다.
+5. 다른 result table 주변 prose도 점검했다. Score-mapping paragraph에서는
+   Table S10의 pass count와 worst change를 그대로 반복하지 않고 exception의
+   위치와 해석만 남겼다. Routing paragraph에서는 Table S13에서 계산되는
+   Recall 차이를 삭제하고 방향과 composition mechanism만 유지했다.
+   Uncertainty paragraph에서는 Table S16의 predictor별 delta를 삭제하고
+   interval 방향과 all-\(K\) conclusion만 유지했다. Table에 없는
+   linked-pair diagnostic, rank-stability, coverage, qualitative geometry와
+   selected-family count는 재현성과 mechanism 설명에 필요하므로 유지했다.
+6. Primary-verifier score와 stress-test grid의 수치는 frozen evaluation
+   protocol을 정확히 정의하므로 유지했다. General method objective는 main과
+   동일하게 symbolic form과 별도 implementation values를 사용한다.
+7. Docker clean build 결과는 10-page US-Letter PDF다. Undefined
+   reference/citation, overfull box, inclusion warning은 없으며 모든 font가
+   embedded되어 있다. Canonical Technical Supplement의 SHA-256은
+   `397d13b650080bb626d433c8de0c868f571d1b721735af5a7d9a31c4e7b601ba`다.

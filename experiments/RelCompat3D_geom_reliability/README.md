@@ -9,16 +9,17 @@ manuscript and technical supplement. The canonical method pointer is
 
 ## Included Scope
 
-- `no_family_indicator_v1/fit/`: frozen Linear and MLP model artifacts, score
-  contract, diagnostics, and hashes.
+- `no_family_indicator_v1/fit/`: score contract, diagnostics, and model hashes.
+  Fitted parameter files are restored from the Drive model archive and remain
+  ignored by Git.
 - `no_family_indicator_v1/protocols/`: frozen protocols for the reported main
   results, controls, intervals, audits, runtime, and transfer stress test.
 - `no_family_indicator_v1/evaluation/`: compact manifests, tables, summaries,
-  model files, and mechanism rows used by the paper and supplement.
-- `factor_isolation_protocol/{frozen_v1,fitted_v1}/`: compact protocol and
-  fitted-model evidence for factor separation.
+  model hashes, and mechanism rows used by the paper and supplement.
+- `factor_isolation_protocol/{frozen_v1,fitted_v1}/`: compact protocol,
+  fitted-model hashes, and evidence for factor separation.
 - `train_only_reestablishment_v1/`: split firewall, train-only fit lock,
-  calibration model, and provenance records.
+  calibration-model hash, and provenance records.
 - `score_robustness_v1/`: frozen P0-1 source-score mapping sensitivity and
   P0-2 closest-simple-baseline protocol, Docker command, and compact outputs.
 - `routing_controls_v1/`: P0-3 matched family-slot routing controls on the
@@ -104,6 +105,10 @@ env UID=$(id -u) GID=$(id -g) docker compose \
 env UID=$(id -u) GID=$(id -g) docker compose \
   -f configs/relcompat3d/compose.structured.yaml run --rm relcompat3d_candidate_oracle
 ```
+
+Fresh reruns write to `row_reproduction_v1/regenerated/` and
+`candidate_oracle_v1/regenerated/`. The tracked `evaluation/` directories
+remain the frozen paper references.
 
 The reproducer checks 291 canonical cells from Tables 1--3 with tolerance
 \(10^{-12}\); the completed run has maximum absolute error zero. The

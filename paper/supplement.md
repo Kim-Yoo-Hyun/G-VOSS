@@ -1,14 +1,14 @@
 # RelCompat3D Technical Supplement Guide
 
-Last updated: 2026-07-29 KST
+Last updated: 2026-07-30 KST
 
 This document is the authoritative map for the Technical Supplement. The
 active wrapper is `aaai/supplement.tex`, the content source is
 `aaai/sec/supplement.tex`, and the canonical upload artifact is
 `aaai/supplement_aaai27.pdf`.
 
-The current clean build is 10 US-Letter pages and 539,657 bytes. Its SHA-256 is
-`31db6813374650b7001794be9da8ac64955561723e4cb2964d7415317443a6da`.
+The current clean build is 10 US-Letter pages and 547,068 bytes. Its SHA-256 is
+`397d13b650080bb626d433c8de0c868f571d1b721735af5a7d9a31c4e7b601ba`.
 
 ## 1. Role and Claim Boundary
 
@@ -38,6 +38,8 @@ candidates.
 - 548 contexts and 3,972 exact-match ground-truth relations;
 - VL-SAT, Open3DSG, and SGFN preprocessing;
 - observed source-score ranges;
+- the frozen primary-verifier measurements, status boundaries, and
+  support/contact subtype score;
 - software, hardware, runtime, and deterministic row-level regeneration
   checks.
 
@@ -65,11 +67,12 @@ boundary.
 
 ## 3. Figure and Table Inventory
 
-The PDF contains 15 tables and one figure.
+The PDF contains 16 tables and one figure.
 
 | Evidence group | Contents | Priority |
 | --- | --- | --- |
 | Method specification | Notation, counterfactual rules, information-use boundary, 17 features | Essential |
+| Evaluation specification | Primary-verifier measurements, thresholds, and nondecidable handling | Essential |
 | Design evidence | Component removal, transformation diagnostics, feature removal | Essential |
 | Main extensions | Full point/mesh audit, matched MLP controls, paired intervals | Essential |
 | Baseline and routing | Score mappings, robust density, matched route | High |
@@ -86,7 +89,8 @@ annotated validity audit.
   with the main paper.
 - No table of contents is added because the AAAI style suppresses it and the
   opening overview already maps Sections A--D.
-- Nonfloating Tables S1 and S2 preserve the intended first-page reading order.
+- Table S2 is a full-width table at the top of page 2, Table S3 is
+  one-column, and the primary-verifier specification is Table S5.
 
 ## 5. Review and Release Boundary
 

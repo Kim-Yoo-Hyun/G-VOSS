@@ -100,7 +100,7 @@ This anonymous archive accompanies the AAAI-27 submission:
 `RelCompat3D: Re-Ranking 3D Scene Graph Relations with Geometric Evidence`
 
 It contains the current executable method code, Docker configuration, frozen
-protocols and model locks, compact evaluation summaries, and the exact LaTeX
+  protocols and model hashes, compact evaluation summaries, and the exact LaTeX
 sources and figures used for the main paper and technical supplement.
 
 ## Archive Map
@@ -253,17 +253,25 @@ def build(args: argparse.Namespace) -> Path:
             repo,
             staging,
             "experiments/RelCompat3D_geom_reliability/factor_isolation_protocol",
+            excluded_names={"models.json"},
         )
         copy_tree(
             repo,
             staging,
             "experiments/RelCompat3D_geom_reliability/train_only_reestablishment_v1",
+            excluded_names={"models.json"},
         )
         copy_tree(
             repo,
             staging,
             "experiments/RelCompat3D_geom_reliability/no_family_indicator_v1",
-            excluded_names={"README.md", "active_paper_lock.json"},
+            excluded_names={
+                "README.md",
+                "active_paper_lock.json",
+                "models.json",
+                "strict_models.json",
+                "structured_models.json",
+            },
         )
         copy_tree(
             repo,

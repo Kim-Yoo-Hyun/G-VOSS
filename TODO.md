@@ -1,6 +1,6 @@
 # TODO
 
-Last updated: 2026-07-29 KST.
+Last updated: 2026-07-30 KST.
 
 This file is the current task board. Detailed commands and artifact recovery
 belong in docs/reproducibility.md; exact result paths belong in the RelCompat3D
@@ -26,6 +26,27 @@ experiment README and result manifest.
 
 ## Recently Completed
 
+- [x] Moved all active and diagnostic RelCompat3D fitted-model JSON files out
+  of Git tracking, archived eight canonical-path model files in the private
+  Drive bundle, and added fresh-server restore, checksum, table-regeneration,
+  output-location, and source-checkpoint instructions to the root README.
+- [x] Removed public access from the full Drive recovery folder and retained
+  a public link only for the fitted RelCompat3D model archive. Dataset-derived
+  training and evaluation rows now require owner authorization.
+- [x] Verified a fresh-checkout paper-level rerun in Docker. Tables 1--3 and
+  Figure 3 reproduced all 291 canonical cells with maximum absolute error
+  zero, and the Figure 2 XY renderer ran without the local archive.
+- [x] Created and uploaded the private
+  `RelCompat3D_AAAI27_release_20260730` recovery bundle to Google Drive. The
+  bundle contains 21 files (100,760,138 bytes), and the final `rclone check`
+  reported zero differences. Source-predictor checkpoints and the full Tier-B
+  rows were deliberately not duplicated.
+- [x] Clarified the two Table S7 transformation diagnostics, shortened the
+  Table S8 removal labels, identified Table S14 intervals as paired bootstrap
+  confidence intervals, and removed result prose that duplicated table cells.
+- [x] Added the frozen primary-verifier specification to the Technical
+  Supplement, separating evaluation status rules from counterfactual training
+  construction; the updated PDF remains 10 pages with 16 tables.
 - [x] Reorganized the Technical Supplement into A--D sections with A/A.1 and
   S-table/S-figure/equation numbering, separated secondary diagnostics, reduced
   the review PDF from 18 to 15 tables and from 11 to 10 pages, and removed the
