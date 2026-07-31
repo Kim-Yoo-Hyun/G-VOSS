@@ -1,6 +1,6 @@
 # RelCompat3D Reproducibility and Recovery
 
-Last updated: 2026-07-30 KST.
+Last updated: 2026-07-31 KST.
 
 This document is the authoritative entry point for RelCompat3D reruns, artifact
 handoff, cleanup, and recovery. Read it before moving, deleting, uploading, or
@@ -77,7 +77,7 @@ The selected main, supplement, and checklist build to 9, 10, and 2 US-Letter
 pages, respectively. Their canonical SHA-256 values are:
 
 - main: `877f99480ba6acd7d35ed666eb8aef4b6901de4c67957bc55d8ed99d8e3fe099`
-- supplement: `222c93f29d2da1a28e526483cdfb629402ae1e15846c71418195ea0de3da5201`
+- supplement: `397d13b650080bb626d433c8de0c868f571d1b721735af5a7d9a31c4e7b601ba`
 - checklist: `0cd50dfab62336c9f76648d0e2914d5111da873bfb09dd02b615f9358b70f5d7`
 
 The final logs have no unresolved citations or references, BibTeX warnings,

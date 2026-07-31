@@ -12,7 +12,7 @@ shared 3DSSG validation scenes.
 
 ## Submission Snapshot
 
-Last updated: 2026-07-30 KST.
+Last updated: 2026-07-31 KST.
 
 The public tree is intentionally limited to:
 
@@ -75,7 +75,7 @@ summary and paper/review.md for the integrated reviewer-risk assessment.
 Clone the public release branch and validate the Docker configuration:
 
 ~~~bash
-git clone --branch release https://github.com/Kim-Yoo-Hyun/3DSG.git RelCompat3D
+git clone --branch release https://github.com/Kim-Yoo-Hyun/G-VOSS.git RelCompat3D
 cd RelCompat3D
 docker compose -f configs/relcompat3d/compose.structured.yaml config --quiet
 ~~~
