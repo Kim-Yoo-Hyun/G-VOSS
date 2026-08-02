@@ -1,6 +1,6 @@
 # TODO
 
-Last updated: 2026-07-30 KST.
+Last updated: 2026-08-01 KST.
 
 This file is the current task board. Detailed commands and artifact recovery
 belong in docs/reproducibility.md; exact result paths belong in the RelCompat3D
@@ -26,6 +26,32 @@ experiment README and result manifest.
 
 ## Recently Completed
 
+- [x] Added compact section guides to the Technical Supplement. Section B now
+  previews the evaluation scope, source predictions, verifier, and implementation,
+  while Section C maps predicate, ordered-pair, and source-score controls to
+  (T), (G), and (Z). The canonical build remains 9 US-Letter pages.
+- [x] Centered the Table S14 Recall and Violation columns, applied the final
+  Supplement sentence-length and terminology edits, and rebuilt the canonical
+  9-page US-Letter Technical Supplement without overfull, undefined-reference,
+  or graphics-inclusion warnings.
+- [x] Added metric-wise bold emphasis to directly comparable Technical
+  Supplement results, including all tied best values. Simplified uncommon and
+  internal wording, aligned relation-family terminology with the main paper,
+  retained only protocol-critical numerical details, and rebuilt the
+  canonical 9-page US-Letter PDF without overfull, undefined-reference, or
+  graphics-inclusion warnings.
+- [x] Replaced Supplementary Figure S1 with
+  `paper/aaai/supplement_figures/Figure4.pdf` and fixed the requested full-width
+  layout: page 6 contains Table S9, Figure S1, and Table S10, while page 7
+  contains Tables S11--S13. Existing audit, qualitative, and score-mapping
+  prose now fills the former page-5 gap, and Table S14 moves onto page 8 to
+  remove stretched paragraph spacing. The resulting 9-page US-Letter PDF has
+  embedded fonts and no overfull, undefined-reference, or graphics-inclusion
+  warning.
+- [x] Replaced the repeated proximity example in Supplementary Figure S1 with
+  the exact-label `desk close by chair` promotion. Its pair-local XY panel uses
+  the recorded 0.436 m center distance without synthesizing point samples;
+  the other panels retain their preserved elevation projections.
 - [x] Moved all active and diagnostic RelCompat3D fitted-model JSON files out
   of Git tracking, archived eight canonical-path model files in the private
   Drive bundle, and added fresh-server restore, checksum, table-regeneration,
@@ -46,11 +72,10 @@ experiment README and result manifest.
   confidence intervals, and removed result prose that duplicated table cells.
 - [x] Added the frozen primary-verifier specification to the Technical
   Supplement, separating evaluation status rules from counterfactual training
-  construction; the updated PDF remains 10 pages with 16 tables.
-- [x] Reorganized the Technical Supplement into A--D sections with A/A.1 and
-  S-table/S-figure/equation numbering, separated secondary diagnostics, reduced
-  the review PDF from 18 to 15 tables and from 11 to 10 pages, and removed the
-  post-acceptance release promise from the reviewer-facing PDF.
+  construction; the current PDF retains all 16 tables.
+- [x] Reorganized the Technical Supplement into A--C sections with A/A.1 and
+  S-table/S-figure/equation numbering, retained 16 claim-supporting tables,
+  and removed the post-acceptance release promise from the reviewer-facing PDF.
 - [x] Finalized the review-time upload boundary around the Technical
   Supplement, removed dependencies on an attached code/data archive, and
   rebuilt the supplement and 2-page checklist without rebuilding the

@@ -99,11 +99,11 @@ README.
   rates.
 - One-fit run policy and the distinction between scan-resampling intervals and
   retraining variance.
-- Hardware, operating system, Docker, Python, and relevant library versions.
+- Docker, Python, and relevant library versions.
 - Exact transformation and ranking guarantees with proofs.
 - Sensitivity analyses, component removals, matched controls, point/mesh
   measurements, coverage, uncertainty, and per-family results.
-- Open3DSG coverage handling and the ReplicaSSG/FROSS stress-test scope.
+- Open3DSG coverage handling and recovery sensitivity.
 
 ### Post-acceptance code and data release
 
@@ -201,18 +201,17 @@ checklist PDF.
 
 ### 6.3 Dataset Usage
 
-12. **Reliance on datasets: `yes`.** The main evaluation uses 3RScan/3DSSG.
-    The supplement also reports a ReplicaSSG/FROSS stress test.
-13. **Motivation for the selected datasets: `yes`.** The shared 3DSSG target
-    provides one ontology, geometry source, and evaluation scope for comparing
-    three fixed predictors. The supplementary transfer test examines a change
-    in ontology and geometry.
+12. **Reliance on datasets: `yes`.** The main evaluation and supplementary
+    analyses use 3RScan/3DSSG.
+13. **Motivation for the selected datasets: `yes`.** The shared 3DSSG
+    validation scenes provide one ontology, geometry source, and evaluation
+    scope for comparing three fixed predictors.
 14. **Novel datasets included in a data appendix: `NA`.** The paper introduces
     no new dataset.
 15. **Public release of novel datasets: `NA`.** No new dataset is claimed or
     collected.
-16. **Citations for existing datasets: `yes`.** 3RScan, 3DSSG, ReplicaSSG, and
-    the prediction sources are cited where their roles are introduced.
+16. **Citations for existing datasets: `yes`.** 3RScan, 3DSSG, and the
+    prediction sources are cited where their roles are introduced.
 17. **Public availability of all existing datasets: `partial`.** The datasets
     and source models are obtainable through their providers, but some require
     provider-controlled access or acceptance of external terms. The submission

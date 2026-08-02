@@ -1,14 +1,14 @@
 # RelCompat3D Technical Supplement Guide
 
-Last updated: 2026-07-30 KST
+Last updated: 2026-08-01 KST
 
 This document is the authoritative map for the Technical Supplement. The
 active wrapper is `aaai/supplement.tex`, the content source is
 `aaai/sec/supplement.tex`, and the canonical upload artifact is
 `aaai/supplement_aaai27.pdf`.
 
-The current clean build is 10 US-Letter pages and 547,068 bytes. Its SHA-256 is
-`397d13b650080bb626d433c8de0c868f571d1b721735af5a7d9a31c4e7b601ba`.
+The current clean build is 9 US-Letter pages and 567,090 bytes. Its SHA-256 is
+`2f7ca7f7c7cadd2dff763b23c76a2d1d20a26033706ff990aacd1908cba121c5`.
 
 ## 1. Role and Claim Boundary
 
@@ -17,16 +17,16 @@ information, controls, sensitivities, and extended results. The main paper
 remains self-contained, and reviewers are not required to read this document.
 
 The supplement does not broaden the claim to dataset-level generalization,
-independently annotated physical validity, universal routing or fusion
+independent ground truth for geometric validity, universal routing or fusion
 optimality, support/contact correction, or generation of missing relation
 candidates.
 
-## 2. Current A--D Structure
+## 2. Current A--C Structure
 
 ### A. Supplementary Method Details
 
 - notation;
-- counterfactual target construction and information-use boundary;
+- counterfactual construction and information use;
 - all 17 ordered-pair measurements;
 - Linear and MLP architecture, optimization, and parameter counts;
 - transformation consistency, family-sequence preservation, and prefix
@@ -38,13 +38,13 @@ candidates.
 - 548 contexts and 3,972 exact-match ground-truth relations;
 - VL-SAT, Open3DSG, and SGFN preprocessing;
 - observed source-score ranges;
-- the frozen primary-verifier measurements, status boundaries, and
-  support/contact subtype score;
-- software, hardware, runtime, and deterministic row-level regeneration
-  checks.
+- the primary-verifier measurements, status boundaries, and support/contact
+  score;
+- fixed software environment and separate predictor execution.
 
 ### C. Additional Results Supporting Main Claims
 
+- the control mapping for the separated (T), (G), and (Z) factors;
 - component and feature removals;
 - point- and mesh-based audit for both estimators and all \(K\);
 - qualitative proximity, vertical-order, and support/contact cases;
@@ -52,18 +52,18 @@ candidates.
   routing constraints;
 - paired scan-level intervals;
 - \(K=100\) family composition;
-- verifier-uncertainty sensitivity.
+- verifier-uncertainty sensitivity;
+- five-seed and construction-parameter robustness.
 
-### D. Secondary Diagnostics
+The robustness and scope checks close Section C rather than forming a separate
+low-priority section. They do not introduce additional main comparisons. The
+previous exploratory ReplicaSSG/FROSS table, direct-verifier diagnostics, and
+candidate-oracle results are not included in the review PDF. Compact scope
+conclusions are retained only where they clarify the main claim boundary.
 
-- five-seed and construction-parameter robustness;
-- pooled-family estimation and Open3DSG context recovery.
-
-Section D is explicitly secondary and does not introduce additional main
-comparisons. The previous exploratory ReplicaSSG/FROSS table, direct-verifier
-diagnostics, and candidate-oracle results are not included in the review PDF.
-Compact scope conclusions are retained only where they clarify the main claim
-boundary.
+Sections A--C each begin with a compact scope sentence. The Section C opening
+connects predicate, ordered-pair, and source-score controls to (T), (G),
+and (Z) before presenting the detailed results.
 
 ## 3. Figure and Table Inventory
 
@@ -88,9 +88,12 @@ annotated validity audit.
 - Tables, figures, and equations use S1, S2, ... numbering to avoid confusion
   with the main paper.
 - No table of contents is added because the AAAI style suppresses it and the
-  opening overview already maps Sections A--D.
+  opening overview already maps Sections A--C.
 - Table S2 is a full-width table at the top of page 2, Table S3 is
   one-column, and the primary-verifier specification is Table S5.
+- Page 6 contains Table S9, Figure S1, and Table S10. Page 7 is a table-only
+  page containing Tables S11--S13. Their analysis begins on page 8, and Tables
+  S14--S16 remain adjacent to their corresponding text.
 
 ## 5. Review and Release Boundary
 
@@ -116,13 +119,16 @@ assets and third-party checkpoints will not be redistributed.
   needed to support or bound the claim.
 - Use roman captions without manually bolded lead phrases.
 - Use at least 9-point table text.
+- In performance tables, bold the preferred value within each predictor and
+  matched comparison. Bold all ties and do not compare unrelated families or
+  diagnostic quantities.
 
 ## 7. Final Verification
 
 After each source change:
 
 1. build `supplement.tex` in the pinned Docker image;
-2. verify A--D and S-numbering in the rendered PDF;
+2. verify A--C and S-numbering in the rendered PDF;
 3. check that every table and figure is referenced;
 4. check undefined citations/references and overfull boxes;
 5. verify US Letter, PDF 1.5, embedded non-Type-3 fonts, and anonymity;

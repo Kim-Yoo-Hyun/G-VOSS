@@ -187,7 +187,7 @@ The experiments support a scoped reliability claim across three fixed
 predictors evaluated on the same 3DSSG validation split. They do not establish:
 
 - dataset-level generalization;
-- independent physical-validity ground truth;
+- independent ground truth for geometric validity;
 - generation of missing relations;
 - support/contact correction;
 - a universally optimal fusion or routing rule.
@@ -195,7 +195,7 @@ predictors evaluated on the same 3DSSG validation split. They do not establish:
 ## 11. Canonical Artifacts
 
 - Main PDF: `aaai/main_aaai27.pdf`, 9 pages.
-- Supplement PDF: `aaai/supplement_aaai27.pdf`, 12 pages.
+- Supplement PDF: `aaai/supplement_aaai27.pdf`, 9 pages.
 - Checklist PDF: `aaai/reproducibility_checklist_aaai27.pdf`, 2 pages.
 - Current release:
   `../release/relcompat3d_aaai27_openreview_20260729_223000/`.

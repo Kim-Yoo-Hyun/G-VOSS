@@ -1,6 +1,6 @@
 # RelCompat3D 제출용 통합 검토
 
-- 최종 갱신: 2026-07-30 KST
+- 최종 갱신: 2026-07-31 KST
 - Main source: `paper/aaai/main.tex`
 - Main sections: `paper/aaai/sec/0_abstract.tex`--`6_conclusion.tex`
 - Technical Supplement: `paper/aaai/supplement.tex`,
@@ -31,16 +31,15 @@ re-ranking으로 답한다. 세 contribution은 Method와 Experiment evidence에
 대응한다.
 
 Main은 broad SOTA, full-ontology 3DSSG improvement, dataset-level
-generalization, independent physical validity를 주장하지 않는다. 남는 scientific
-risk는 evaluator와 training construction의 construct dependence, single-target
-범위, post-hoc re-ranking으로 보일 novelty risk다. 이 세 항목의 rebuttal
-boundary와 evidence는 Section 3에서 관리한다.
+generalization, independent ground truth for geometric validity를 주장하지
+않는다. 남는 scientific risk는 evaluator와 training construction의 construct
+dependence, single-target 범위, post-hoc re-ranking으로 보일 novelty risk다.
+이 세 항목의 rebuttal boundary와 evidence는 Section 3에서 관리한다.
 
-현재 Technical Supplement는 10-page US-Letter PDF이며 A--D sections,
+현재 Technical Supplement는 9-page US-Letter PDF이며 A--C sections,
 16 tables, Figure S1을 포함한다. Table S2/S3 배치, checkpoint provenance,
-implementation diagnostic의 정보량과 table heading을 정리했다. Figure S1의
-proximity panel은 검증된 대체 record가 없어 유지하되 outcome을
-`Proximity demotion`으로 명확히 했다.
+implementation diagnostic의 정보량과 table heading을 정리했다. Figure S1은
+검증된 `desk close by chair` promotion을 proximity case로 사용한다.
 Section 6이 supplement 관련 authoritative review다.
 
 ## 2. Section별 검토
@@ -749,7 +748,7 @@ terminology와 일치하고 caption만으로 의미를 복원할 수 있는지�
 | Table | 현재 | 권장 | 이유 |
 |---|---|---|---|
 | S3 | `Training construction / Primary verifier / Point/mesh audit` | `Train / Verifier / Audit` | One-column 전환 |
-| S7 | `Min Jaccard / Min. exact-context rate` | `Min. micro-Jaccard / Min. exact agreement` | 구현의 aggregate 방식과 두 diagnostic의 차이를 명시 |
+| S7 | `Min Jaccard / Min. exact-context rate` | `Min. top-\(K\) overlap / Min. exact agreement` | Jaccard score와 exact set agreement를 caption에서 직접 정의 |
 | S8 | 긴 removal condition | `No verifier scalar / No related measurements / Alternative evidence` | One-column 줄바꿈 축소 |
 | S10 | `Both` | `Pass` | 두 방향 조건을 함께 만족하는 count임을 caption에서 정의 |
 | S16 | `Dec. cov.` | 유지 | Caption에서 decidable coverage를 정의함 |
@@ -815,22 +814,21 @@ evidence를 늘리는 그림이 아니라, measured evidence와 rank outcome을 
 
 ### 6.7 정보 밀도와 권장 최종 구조
 
-Current A--D order는 유지한다.
+Current A--C order를 유지한다.
 
 #### A. Supplementary Method Details
 
 1. Notation
-2. Target construction
-3. Information-use boundary
+2. Counterfactual construction
+3. Separation of training and evaluation information
 4. Estimator and feature specification
 5. Formal properties
 
 #### B. Reproducibility and Experimental Setup
 
-1. Split, predictors, evaluation universe
+1. Split, predictors, evaluation scope
 2. Concise preprocessing and checkpoint provenance
-3. Compact environment and internal validation
-4. Row-level regeneration boundary
+3. Compact implementation environment
 
 #### C. Additional Results Supporting Main Claims
 
@@ -839,12 +837,7 @@ Current A--D order는 유지한다.
 3. Qualitative pair analysis
 4. Score, baseline, routing sensitivities
 5. Paired intervals, family composition, uncertainty sensitivity
-
-#### D. Secondary Diagnostics
-
-1. Seed robustness
-2. Construction sensitivity
-3. Pooled-head and coverage sensitivity
+6. Seed and construction robustness
 
 Reviewer가 읽을 우선순위가 분명하도록 C의 각 subsection은 setup 1--2문장,
 핵심 pattern 1개, claim boundary 1문장만 남긴다. Table의 모든 cell을 prose로
@@ -867,7 +860,7 @@ post-acceptance material이 소유한다.
 
 | 항목 | 상태 | 판정 |
 |---|---|---|
-| Main 참조 순서 | `[x]` | A Method, B setup, C main-supporting results, D secondary diagnostics 순서 |
+| Main 참조 순서 | `[x]` | A Method, B setup, C main-supporting results와 secondary checks 순서 |
 | Numbering | `[x]` | TOC override 없이 A/A.1와 S-table/S-figure numbering 사용 |
 | Table S2/S3 실제 배치 | `[x]` | S2는 page 2 상단의 two-column, S3는 같은 page의 one-column 표로 확인 |
 | Main--supplement cross-reference | `[x]` | Main pointers의 evidence가 supplement에 존재 |
@@ -881,7 +874,7 @@ post-acceptance material이 소유한다.
 | Feature specification | `[x]` | 17 measurements와 missing-value rule이 있음 |
 | Split와 preprocessing | `[x]` | 1,061/117/157 scans, 548 contexts, 3,972 GT와 source preprocessing이 있음 |
 | Checkpoint provenance | `[x]` | Open3DSG 직접 학습 protocol과 released SGFN configuration을 구분 |
-| Environment | `[x]` | 핵심 software, CPU runtime scope와 direct validation check만 유지 |
+| Environment | `[x]` | Pinned Docker, Python, NumPy와 source-predictor execution boundary만 유지 |
 | Primary verifier | `[x]` | Family별 measurement, status threshold, missing-evidence 처리와 training-construction 분리를 Table S5에 명시 |
 | Statistical procedure | `[x]` | 1,000 paired scan-level bootstrap이 명시됨 |
 | Code/data boundary | `[x]` | Review에는 Technical Supplement만 제출하고 licensed assets는 재배포하지 않음 |
@@ -892,9 +885,9 @@ post-acceptance material이 소유한다.
 |---|---|---|
 | Main claim과 수치 | `[x]` | Main compact statements, controls, audit와 일치 |
 | Ablation definitions | `[x]` | Changed component와 fixed protocol을 구분 |
-| Table terminology | `[x]` | `Min. micro-Jaccard`, `Min. exact agreement`, `Pass`, `Ranking rule`로 국소 교정 |
+| Table terminology | `[x]` | `Min. top-\(K\) overlap`, `Min. exact agreement`, `Pass`, `Ranking rule`로 국소 교정 |
 | One-column readability | `[x]` | S2/S3 폭을 교환했고 최신 PDF에서 collision과 overfull이 없음 |
-| Figure S1 역할 | `[x]` | Verified panel을 유지하고 `Proximity demotion`으로 outcome과 보충 역할을 명시 |
+| Figure S1 역할 | `[x]` | Verified `desk close by chair` promotion과 vertical demotion, support/contact preservation을 함께 제시 |
 | Supplement standalone readability | `[x]` | Notation, method, split, metrics와 experiment scope를 복원 가능 |
 
 ### 6.10 1차 판정
@@ -902,8 +895,8 @@ post-acceptance material이 소유한다.
 초기 다섯 건의사항과 primary-verifier specification을 모두 반영했다. Table S2/S3의 폭 교환과 checkpoint provenance
 교정이 가장 큰 가독성·정확성 개선이었다. Environment와 development diagnostics는
 core claim에 필요한 범위로 줄였고 table terminology를 국소 교정했다. Figure S1은
-검증된 record만 사용한다는 원칙을 우선해 existing proximity panel을
-`Proximity demotion`으로 명명했다. 최신 supplement는 10-page US Letter이며
+검증된 record만 사용한다는 원칙을 우선해 proximity promotion case를
+반영했다. 최신 supplement는 9-page US Letter이며
 overfull box, undefined reference와 undefined citation이 없다.
 
 ### 6.11 2차 가독성 개선 반영
@@ -911,10 +904,10 @@ overfull box, undefined reference와 undefined citation이 없다.
 Accepted supplement의 equation/table 관행과 current PDF를 대조한 뒤 다음을
 반영했다.
 
-1. Table S7의 두 membership diagnostic을 `Min. micro-Jaccard`와
-   `Min. exact agreement`로 명명했다. Caption은 micro-Jaccard가 context별
-   intersection/union count를 합산하고, exact agreement가 transformed-view
-   top-\(K\) set이 완전히 같은 context의 비율임을 정의한다.
+1. Table S7의 두 set diagnostic을 `Min. top-\(K\) overlap`과
+   `Min. exact agreement`로 명명했다. Caption은 top-\(K\) overlap을 Jaccard
+   score로 정의하고, exact agreement를 두 selected set이 완전히 같은
+   context의 비율로 정의한다.
 2. Table S8의 condition을 `Full`, `No verifier scalar`,
    `No related measurements`, `Alternative evidence`로 줄였다. 제거되는
    measurement의 범위는 caption에 유지했다.
@@ -934,7 +927,260 @@ Accepted supplement의 equation/table 관행과 current PDF를 대조한 뒤 다
 6. Primary-verifier score와 stress-test grid의 수치는 frozen evaluation
    protocol을 정확히 정의하므로 유지했다. General method objective는 main과
    동일하게 symbolic form과 별도 implementation values를 사용한다.
-7. Docker clean build 결과는 10-page US-Letter PDF다. Undefined
+7. Docker clean build 결과는 9-page US-Letter PDF다. Undefined
    reference/citation, overfull box, inclusion warning은 없으며 모든 font가
    embedded되어 있다. Canonical Technical Supplement의 SHA-256은
-   `397d13b650080bb626d433c8de0c868f571d1b721735af5a7d9a31c4e7b601ba`다.
+   `2f7ca7f7c7cadd2dff763b23c76a2d1d20a26033706ff990aacd1908cba121c5`다.
+
+### 6.12 Supplement transcript 통일 및 가독성 `[x]`
+
+`paper/aaai/sec/supplement.tex` 전체를 두 차례 검토하고 권장 사항을 모두
+반영했다. 해결된 세부 권장문장은 삭제하고 최종 판정만 유지한다.
+
+- `[x]` **Claim boundary:** 독립적인 물리적 정답을 암시하던 표현을
+  `ground truth for geometric validity`와 `evidence of geometric validity`로
+  제한해 main의 claim 범위와 맞췄다.
+- `[x]` **Main 용어 통일:** `ordered pair`, `measurements`,
+  `relation-preserving augmentation`, `signed-height interactions`,
+  `Point- and Mesh-Based Consistency Audit`, `robust-density baseline`,
+  `matched MLP controls`, `Product (all families)`를 main과 동일하게
+  사용한다.
+- `[x]` **직접적이고 쉬운 영어:** 추상적인 진단 표현과 인위적인 문구를
+  condition, metric, protocol을 직접 설명하는 문장으로 교체했다. 불필요한
+  `cap`, `blanket`, `comprise`, `nonconstant`, `eligible`,
+  `subtype`, `pseudonymized`, `membership`, `non-tied`,
+  `corrupted`, `permits`, `bijection`, `singleton` 표현도
+  쉬운 문장으로 정리했다.
+- `[x]` **수학적 정확성:** finite transformation group, orbit,
+  re-indexing proof, prefix utility, sigmoid, logit, softplus,
+  interquartile range, Kendall correlation, top-\(K\) set overlap, bootstrap,
+  monotonic mapping, percentile mapping 등 정의나 검증에 필요한 용어는
+  유지했다.
+- `[x]` **Protocol 정확성:** Table S15는 point estimate만 보고하도록
+  설명을 바로잡았고, 사용하지 않은 context-level bootstrap 표현을 삭제했다.
+  Counterfactual construction과 verifier 규칙은 threshold와 uncertain 처리를
+  직접 설명한다.
+- `[x]` **정보 밀도:** 표와 중복되는 수치 재진술, 비핵심 runtime 범위,
+  내부 artifact 용어를 제거했다. Score range와 verifier threshold처럼
+  재현성과 scoring-rule 해석에 필요한 수치는 유지했다.
+- `[x]` **표 강조 규칙:** 직접 비교 가능한 predictor와 matched condition
+  안에서 metric별 최선 값을 bold 처리하고 동률도 모두 표시했다. Recall,
+  Violation, coverage, uncertainty와 change metric의 방향은 caption 또는
+  Section C의 공통 규칙으로 명시했다. Relation family나 성격이 다른
+  diagnostic을 억지로 비교하지 않았다.
+- `[x]` **추가 문체 정리:** `Pair--evidence--outcome analysis`,
+  `routing-constraint controls`, `no-pairwise refits`처럼 인위적이거나
+  내부적인 표현을 각각 `Qualitative ordered-pair examples`, `matched routing
+  controls`, `models trained without the pairwise loss`로 바꿨다.
+  `relation-family label` 표현도 main과 통일했다.
+- `[x]` **내부 기록 제거:** Exact seed IDs, timed-run 범위와 CPU 모델,
+  development-only diagnostic 수치, derived-row regeneration 기록, 표 없이
+  남아 있던 pooled/recovery 수치를 Technical Supplement에서 삭제했다.
+- `[x]` **Build 검증:** Technical Supplement는 9-page US-Letter PDF이며
+  undefined citation/reference, overfull box, graphics inclusion warning이 없다.
+  Canonical SHA-256은
+  `2f7ca7f7c7cadd2dff763b23c76a2d1d20a26033706ff990aacd1908cba121c5`이다.
+- `[x]` **수정 범위:** Main source와 main PDF는 변경하지 않았다.
+
+### 6.13 최종 권장 사항 1--5 반영 `[x]`
+
+1. `[x]` **Table 순서와 배치:** 최신 PDF의 column-wise reading order에서
+   Table S1--S16이 번호 순서대로 나타난다. Page 6에는 Table S9,
+   Figure S1, Table S10이 배치되고, page 7에는 Tables S11--S13만 배치된다.
+   Point/mesh audit, qualitative analysis, score-mapping protocol을 page 5로
+   앞당겨 강제 page break 앞의 큰 공백을 제거했다. Table S14도 page 8로
+   당겨져 paragraph 간격이 자연스러워졌고, 나머지 결과는 page 9에서 이어진다.
+2. `[x]` **Main 용어 정합성:** `source relation score`,
+   `point- and mesh-based audit`, `counterfactual construction`, `validation
+   scenes`로 통일했다.
+3. `[x]` **Robustness protocol:** 다섯 pre-specified seeds와 negatives per
+   positive, pairwise weight, proximity-negative threshold, vertical absolute
+   margin의 여덟 one-factor conditions를 명시했다. 내부 seed ID는 삭제했다.
+4. `[x]` **Metric 단위:** Recall, Violation, coverage는 percentage로,
+   Source 대비 변화는 percentage points로 명시했다. Compatibility와 set
+   agreement diagnostic은 단위 없는 score로 유지했다.
+5. `[x]` **마지막 페이지:** 별도 Section D를 제거하고 secondary robustness와
+   scope checks를 Section C의 마지막 paragraph로 병합했다. AAAI가
+   `balance` package를 금지하므로 허용된 two-column flow를 유지했다.
+
+## 7. 장문과 비일반 용어 최종 점검
+
+### 7.1 전체 판정
+
+- `[x]` **치명적인 장문 없음:** Main의 일반 prose는 대부분 30단어 미만이다.
+  32--37단어 문장은 주로 notation이나 metric을 정의하며, 수식과 바로 연결되어
+  있어 길이만으로 문제가 되지 않는다.
+- `[~]` **Main의 선택적 개선:** Method의 notation 문장 두 개는 정확하지만 한
+  문장에 기호 정의와 역할 설명이 함께 들어간다. Main은 제출 후 동결되었으므로
+  현재 PDF를 다시 열 정도의 오류는 아니다.
+- `[x]` **Supplement의 경미한 개선:** robustness setting, routing count,
+  robust-density comparison, uncertainty caption을 짧은 문장으로 나눴다.
+  수치와 claim boundary는 유지했다.
+- `[x]` **Table S14 정렬:** `R@50`과 `V@50` 열을 오른쪽 정렬에서 중앙 정렬로
+  바꿨다. Header, point estimate, confidence interval이 각 metric 열의 중앙을
+  공유한다.
+- `[x]` **숫자 정보의 필요성:** verifier threshold, 학습 hyperparameter,
+  source-score range, split size, bootstrap 횟수와 routing selected count는
+  evaluation 재현 또는 claim 해석에 직접 필요하다. 내부 날짜, seed ID,
+  runtime log와 중복 table 수치는 남아 있지 않다.
+
+### 7.2 Main의 긴 문장
+
+#### L-M1. Method / Problem Formulation, line 8 `[선택]`
+
+원문:
+
+> We distinguish the ordered-pair identity
+> \(k^{\rm pair}_i=(\mathrm{scan}_i,\mathrm{context}_i,s_i,o_i)\) from the exact
+> relation-candidate identity
+> \(k^{\rm rel}_i=(\mathrm{scan}_i,\mathrm{context}_i,s_i,p_i,o_i)\) used for
+> evaluation.
+
+판정: 약 37단어이며 두 identity와 evaluation 역할을 한 번에 정의한다. 수학적으로
+정확하지만 처음 읽는 독자는 두 tuple의 차이를 다시 확인할 수 있다.
+
+권장안:
+
+> The ordered-pair identity is
+> \(k^{\rm pair}_i=(\mathrm{scan}_i,\mathrm{context}_i,s_i,o_i)\). The exact
+> relation-candidate identity used for evaluation is
+> \(k^{\rm rel}_i=(\mathrm{scan}_i,\mathrm{context}_i,s_i,p_i,o_i)\).
+
+#### L-M2. Method / Linear Estimator, line 77 `[선택]`
+
+원문:
+
+> The family label \(a_i\) selects the linear head and training-split
+> normalization statistics but is not included as a constant input:
+> \(f_{\rm lin}(T_i,a_i,G_i)=w_{a_i}^\top\Phi_{\rm lin}(T_i,G_i)\).
+
+판정: 약 37단어이며 selection 역할과 input exclusion, 수식을 한 문장에 넣는다.
+의미는 명확하므로 필수 수정은 아니다.
+
+권장안:
+
+> The family label \(a_i\) selects the linear head and training-split
+> normalization statistics. It is not included as a constant input, so
+> \(f_{\rm lin}(T_i,a_i,G_i)=w_{a_i}^\top\Phi_{\rm lin}(T_i,G_i)\).
+
+#### 유지해도 되는 긴 문장 `[x]`
+
+- Method line 6의 candidate-field 정의는 하나의 tuple을 순서대로 설명하므로
+  현재 구성이 더 간결하다.
+- Experiments line 24의 \(D_K,N_s,N_u,N_v\) 정의는 바로 뒤의 Violation 수식과
+  연결되므로 분할 이득이 작다.
+- Results line 34의 33단어 문장은 Table 1과 Figure 3의 핵심 결론을 한 번에
+  요약한다. 절 구조가 단순하고 claim boundary도 정확하다.
+- Abstract의 가장 긴 문장들은 약 29단어이며 문제, inference, 결과를 각각 한
+  문장씩 담당한다. 현재 호흡을 유지해도 된다.
+
+### 7.3 Supplement의 긴 문장
+
+#### L-S1. Additional Robustness Checks, line 704 `[x]`
+
+원문:
+
+> We also vary one setting at a time relative to the reported configuration:
+> negatives per positive in \(\{1,4\}\) instead of 2, pairwise weight in
+> \(\{0.125,0.5\}\) instead of 0.25, proximity-negative threshold in
+> \(\{2.0,3.0\}\) instead of 2.5, and vertical absolute margin in
+> \(\{0.20,0.30\}\,\mathrm m\) instead of \(0.25\,\mathrm m\).
+
+판정: 네 parameter와 각 기준값을 한 문장에 넣어 현재 supplement에서 가장
+호흡이 긴 일반 prose다. 수치는 필요하지만 문장 구조는 나눌 수 있다.
+
+권장안:
+
+> We vary four settings one at a time. For negatives per positive and the
+> pairwise weight, we test \(\{1,4\}\) and \(\{0.125,0.5\}\), compared with
+> 2 and 0.25. For the proximity-negative threshold and vertical absolute
+> margin, we test \(\{2.0,3.0\}\) and
+> \(\{0.20,0.30\}\,\mathrm m\), compared with 2.5 and
+> \(0.25\,\mathrm m\).
+
+반영 완료. 네 setting을 세 문장으로 나눠 기준값과 비교값을 구분했다.
+
+#### L-S2. Routing Controls, line 596 `[x]`
+
+원문:
+
+> At Open3DSG \(K=50\), the MLP control changes the selected
+> proximity/vertical-order counts from 6,295/6,508 to 3,423/9,380 while
+> leaving all 13,833 support/contact selections unchanged.
+
+권장안:
+
+> At Open3DSG \(K=50\), the MLP control changes the selected
+> proximity/vertical-order counts from 6,295/6,508 to 3,423/9,380. All 13,833
+> support/contact selections remain unchanged.
+
+반영 완료. 선택 수 변화와 support/contact 보존을 별도 문장으로 분리했다.
+
+#### L-S3. Robust-Density Baseline, line 575 `[x]`
+
+원문:
+
+> The baseline improves both metrics over a learned estimator only for MLP on
+> Open3DSG at \(K=5\); the other comparisons favor a learned estimator on both
+> metrics or show a trade-off.
+
+권장안:
+
+> The baseline improves both metrics over a learned estimator only for MLP on
+> Open3DSG at \(K=5\). The remaining comparisons favor a learned estimator on
+> both metrics or show a trade-off.
+
+반영 완료. 유일한 예외와 나머지 비교를 별도 문장으로 분리했다.
+
+#### L-S4. Table S16 Caption, line 694 `[x]`
+
+원문:
+
+> \(V_{\rm all}\) is the reported Violation, \(V_{\rm dec}\) is decidable-only
+> Violation, \(U\) is the uncertain fraction, and \(V_{u\to v}\) counts
+> uncertain candidates as violations.
+
+권장안:
+
+> \(V_{\rm all}\) is the reported Violation, and \(V_{\rm dec}\) is
+> decidable-only Violation. \(U\) is the uncertain fraction.
+> \(V_{u\to v}\) counts uncertain candidates as violations.
+
+반영 완료. 네 metric 정의를 세 문장으로 나눴다.
+
+### 7.4 비일반적이거나 내부적으로 보일 수 있는 표현
+
+| 위치 | 현재 표현 | 판정 | 권장 표현 또는 처리 |
+|---|---|---|---|
+| Main Results line 40 | `Source-relative conclusion` | 의미는 알 수 있지만 일반적인 collocation은 아님 | `The comparison with Source remains unchanged ...` |
+| Main Results line 40 | `composition-preserving constraint`, `aggregate-optimal rule` | claim은 정확하지만 두 compound가 연속되어 인위적으로 보일 수 있음 | `We therefore treat family-aware re-ranking as preserving relation-family composition rather than maximizing aggregate performance.` |
+| Main Discussion line 3 | `grounded relation ranking` | 별도 task로 정의되지 않아 다소 추상적임 | `ranking relations linked to scene geometry` |
+| Supplement Formal Properties line 165 | `Prefix utility optimality` | 내부 theorem 이름처럼 들림 | `[x]` `Optimality for each prefix`로 수정 |
+| Supplement Architecture line 147 | `full-batch gradient-descent steps` | `gradient descent`는 보통 하이픈 없이 씀 | `[x]` `full-batch gradient descent steps`로 수정 |
+| Supplement routing table/prose | `Joint P/V` | 표 너비에는 적합하지만 첫 독자에게 즉시 명확하지 않을 수 있음 | `[x]` 첫 prose 언급에서 `joint proximity/vertical control (Joint P/V)`로 정의하고 표에서는 유지 |
+
+### 7.5 유지해야 하는 전문 용어 `[x]`
+
+다음 표현은 일반 독자에게 전문적으로 보일 수 있지만 방법이나 평가를 정확히
+정의하므로 쉬운 일반어로 바꾸지 않는다.
+
+- `predicate--geometry compatibility`, `ordered-pair identity`,
+  `family-aware re-ranking`, `verifier-derived Violation`은 논문의 핵심 용어다.
+- `counterfactual`, `transformation averaging`, `transformation group`,
+  `transformation orbit`, `sigmoid`, `softplus`, `ReLU`는 Method에서 정의된다.
+- `bootstrap confidence interval`, `interquartile range`, `Kendall rank
+  correlation`, `Jaccard score`, `percentile mapping`은 표준 통계 또는 ranking
+  용어이며 Supplement에서 역할을 설명한다.
+- `decidable-only Violation`과 `uncertain-as-violation`은 일반 benchmark
+  명칭은 아니지만 정의가 바로 제공되므로 현재 표현이 가장 직접적이다.
+- `robust-density baseline`은 새 comparator의 이름이지만, 계산 방식이 첫
+  문장에서 정의되어 있어 내부 코드명으로 보이지 않는다.
+
+### 7.6 우선순위
+
+1. `[x]` L-S1--L-S4, `full-batch gradient descent`, formal-property 제목,
+   Joint P/V 최초 정의를 모두 반영했다.
+2. `[x]` Table S14의 두 metric 열을 중앙 정렬하고 최종 PDF에서 header와 값의
+   정렬을 확인했다.
+3. Main 관련 표현은 이미 제출된 source를 다시 열 정도의 오류가 아니다.
+   향후 camera-ready에서만 반영하면 충분하다.

@@ -1,6 +1,6 @@
 # RelCompat3D Figure Guide
 
-Last updated: 2026-07-29 KST
+Last updated: 2026-08-01 KST
 
 This file records the intent, fixed values, and claim boundary of every figure
 in the final main paper and technical supplement.
@@ -21,7 +21,7 @@ Active assets:
 - `reference_AAAI/figure/Figure1.pdf`;
 - `reference_AAAI/figure/Figure2.pdf`;
 - `reference_AAAI/figure/Figure3.pdf`;
-- `aaai/supplement_figures/qualitative_geometry_panels.png`.
+- `aaai/supplement_figures/Figure4.pdf`.
 
 ## 2. Figure 1: High-Scoring Geometric Failure
 
@@ -257,19 +257,81 @@ Axis ranges differ by predictor and the caption states this explicitly.
 
 ### Purpose
 
-The three-panel figure connects pair geometry, verifier evidence, and ranking
-outcome across the three evaluated families.
+The three-panel figure connects ordered-pair geometry, measured evidence, and
+ranking outcome across the three evaluated families. Panel (a) uses the exact
+OBB-center distance in a pair-local XY frame. Panels (b) and (c) use preserved
+source-backed endpoint samples. The renderer does not synthesize point samples
+that are absent from the archived record.
 
 ### Panels
 
-| Panel | Family | Outcome |
-| --- | --- | --- |
-| (a) | Proximity | A geometrically inconsistent candidate is demoted |
-| (b) | Vertical order | A geometrically inconsistent candidate is demoted |
-| (c) | Support/contact | Source order is retained because richer contact evidence is outside the re-ranking scope |
+| Panel | Ordered relation | Projection and evidence | Ranking outcome |
+| --- | --- | --- | --- |
+| (a) | desk / close by / chair | Pair-local (x)-(y); XY center distance (0.436\,\mathrm m) | Rank (81\rightarrow30); exact-label proximity candidate promoted |
+| (b) | floor / higher than / curtain | Elevation (x)-(z); subject--object center \(\Delta z=-1.02\,\mathrm m\) | Rank (1\rightarrow430); vertical-order candidate demoted |
+| (c) | door / lying on / floor | Elevation (x)-(z); vertical bottom--top gap \(-0.06\,\mathrm m\) | Rank (21\rightarrow21); support/contact candidate kept in source order |
 
-The separate promotion case reported in the supplementary prose moves “desk
-close by chair” from rank 81 to 30 in the same Open3DSG context as Figure 1.
+The proximity panel uses a pair-local (x)-(y) frame because only the preserved
+center distance is shown. A rigid translation and rotation place the midpoint
+at the origin and align the two centers with the local x-axis without changing
+their distance. The other two panels retain (x)-(z) projections because an XY
+view would hide the vertical evidence used in their interpretation.
+
+### Visual contract
+
+- Orange marks denote the ordered subject, and blue marks denote the ordered
+  object. Panel (a) shows centers only; panels (b) and (c) also show projected
+  endpoint samples.
+- A blue dashed segment connects the two centers.
+- Each panel reports the ordered relation, geometric measurement, rank change,
+  and re-ranking outcome. The plots omit instance IDs and bounding-box
+  envelopes.
+- Axes use arrowheads and only the ticks needed to read the projection. Panel
+  (a) labels (x/y); panels (b) and (c) label (x/z).
+- All plot text uses Times New Roman. Tick labels use 20 pt and axis labels use
+  24 pt in the 14.4-inch-wide source asset, giving approximately 9.5 pt and
+  11.4 pt, respectively, at the final supplement width.
+- Orange `#D55E00` and blue `#0072B2` are used consistently with the main
+  qualitative figures.
+
+### Regeneration and validation
+
+The paper-facing asset used by `sec/supplement.tex` is
+`aaai/supplement_figures/Figure4.pdf`. The preserved source projection is
+`generated/qualitative_geometry_source.svg`. It contains 260 projected samples
+for each endpoint in panels (b) and (c). The deterministic renderer
+`generated/generate_supplement_qualitative.py` recovers those samples,
+converts screen coordinates back to the recorded scene coordinates, constructs
+the pair-local center plot for panel (a), and validates the proximity distance
+and vertical center difference. Its SVG and PNG outputs remain regeneration
+sources rather than the included paper asset.
+
+The renderer also writes three graph-only assets for independent placement or
+recomposition. These files contain only the projected endpoint samples, center
+markers, dashed center connection, axes, and tick labels. They omit panel
+titles, relation text, measurements, ranks, and interpretation text.
+
+| Case | Projection | Raster asset | Vector asset |
+| --- | --- | --- | --- |
+| Proximity promotion | (x)-(y) | `aaai/supplement_figures/proximity_xy.png` | `aaai/supplement_figures/proximity_xy.svg` |
+| Vertical-order demotion | (x)-(z) | `aaai/supplement_figures/vertical_order_xz.png` | `aaai/supplement_figures/vertical_order_xz.svg` |
+| Support/contact unchanged | (x)-(z) | `aaai/supplement_figures/support_contact_xz.png` | `aaai/supplement_figures/support_contact_xz.svg` |
+
+Each raster asset is 1380 by 1140 pixels at 300 dpi. The proximity case uses
+the XY projection, while the vertical-order and support/contact cases use XZ
+to preserve their vertical evidence.
+
+Run from the repository root:
+
+```bash
+paper/generated/.venv/bin/python \
+  paper/generated/generate_supplement_qualitative.py
+```
+
+After regeneration, rebuild only the supplement and inspect the figure at its
+final two-column size. The main paper is frozen and does not use this asset.
+
+Panel (a) visualizes the promotion case reported in the supplementary prose.
 
 ## 6. Verification
 

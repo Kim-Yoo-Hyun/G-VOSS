@@ -356,7 +356,7 @@ Current paper-facing evaluation direction:
 - Active target-year build uses official `aaai2027` source. Outputs are
   `paper/aaai/main_aaai27.pdf` and the optional
   `paper/aaai/main_aaai27.pdf` comparison (both 9 pages with technical
-  content ending on page 7), `paper/aaai/supplement_aaai27.pdf` (19 pages), and
+  content ending on page 7), `paper/aaai/supplement_aaai27.pdf` (9 pages), and
   `paper/aaai/reproducibility_checklist_aaai27.pdf` (2 pages). Final main log:
   `logs/20260718_figure_refine_final_main.log`. The current verified
   OpenReview bundle is `release/relcompat3d_aaai27_openreview_20260727_073328/`; it

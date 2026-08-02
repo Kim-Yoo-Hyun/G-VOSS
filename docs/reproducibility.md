@@ -73,11 +73,11 @@ resolved. The main paper is frozen, and the current Technical Supplement is
 uploaded from its canonical PDF rather than from the earlier Code and Data
 release bundle. The generative-AI role disclosure remains author-owned.
 
-The selected main, supplement, and checklist build to 9, 10, and 2 US-Letter
+The selected main, supplement, and checklist build to 9, 9, and 2 US-Letter
 pages, respectively. Their canonical SHA-256 values are:
 
 - main: `877f99480ba6acd7d35ed666eb8aef4b6901de4c67957bc55d8ed99d8e3fe099`
-- supplement: `397d13b650080bb626d433c8de0c868f571d1b721735af5a7d9a31c4e7b601ba`
+- supplement: `2f7ca7f7c7cadd2dff763b23c76a2d1d20a26033706ff990aacd1908cba121c5`
 - checklist: `0cd50dfab62336c9f76648d0e2914d5111da873bfb09dd02b615f9358b70f5d7`
 
 The final logs have no unresolved citations or references, BibTeX warnings,

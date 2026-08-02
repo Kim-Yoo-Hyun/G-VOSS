@@ -1,6 +1,6 @@
 # RelCompat3D Paper Workspace
 
-Last updated: 2026-07-29 KST
+Last updated: 2026-07-31 KST
 
 This directory owns the active RelCompat3D manuscript, technical supplement,
 reproducibility checklist, figures, bibliography, reviewer assessment, and
@@ -27,7 +27,7 @@ release-facing paper documentation.
 | Reproducibility checklist | `aaai/reproducibility_checklist_main.tex`, `aaai/reproducibility_checklist.tex` |
 | Bibliography | `references.bib` |
 | Main figures | `reference_AAAI/figure/Figure{1,2,3}.pdf` |
-| Supplementary figure | `aaai/supplement_figures/qualitative_geometry_panels.png` |
+| Supplementary figure | `aaai/supplement_figures/Figure4.pdf` |
 | Integrated review | `user_feedback.md` |
 
 `aaai/main.tex` is the only main-paper entry point. Legacy teaser wrappers and
@@ -55,7 +55,7 @@ Mutable work status belongs in the repository-root `TODO.md`.
 - **shared**: the predictors use the same split, contexts, relation scope,
   metrics, and \(K\) values;
 - **verifier-derived Violation**: the rule-based evaluation metric, not
-  independently annotated physical validity.
+  independent ground truth for geometric validity.
 
 ## Build
 
@@ -77,7 +77,7 @@ Canonical outputs are `aaai/main_aaai27.pdf`,
 `aaai/reproducibility_checklist_aaai27.pdf`. Page counts and hashes are updated
 after the clean build in `reproducibility.md`.
 
-Current page counts are 9/10/2. The main technical content ends on page 7 and
+Current page counts are 9/9/2. The main technical content ends on page 7 and
 pages 8--9 contain references only. The current review upload uses the
 canonical Technical Supplement PDF directly rather than a Code and Data
 release bundle.
